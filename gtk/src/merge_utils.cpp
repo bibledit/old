@@ -239,16 +239,16 @@ void merge_editor_and_file (vector <ustring> merge_base,
     gw_message ("Install package php5-cli.");
     return;
   }
-  ustring basefile = gw_build_filename (directories_get_temp(), "mergebase.txt");
+  ustring basefile = gw_build_filename (Directories->get_temp(), "mergebase.txt");
   write_lines (basefile, merge_base);
-  ustring userfile = gw_build_filename (directories_get_temp(), "mergeuser.txt");
+  ustring userfile = gw_build_filename (Directories->get_temp(), "mergeuser.txt");
   write_lines (userfile, editor_lines);
   vector <ustring> server_lines = project_retrieve_chapter (project, book, chapter);
-  ustring serverfile = gw_build_filename (directories_get_temp(), "mergeserver.txt");
+  ustring serverfile = gw_build_filename (Directories->get_temp(), "mergeserver.txt");
   write_lines (serverfile, server_lines);
-  ustring outputfile = gw_build_filename (directories_get_temp(), "mergeoutput.txt");
+  ustring outputfile = gw_build_filename (Directories->get_temp(), "mergeoutput.txt");
   GwSpawn spawn ("php");
-  spawn.arg (gw_build_filename (directories_get_package_data (), "mergecli.php"));
+  spawn.arg (gw_build_filename (Directories->get_package_data (), "mergecli.php"));
   spawn.arg (basefile);
   spawn.arg (userfile);
   spawn.arg (serverfile);

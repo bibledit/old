@@ -50,7 +50,7 @@ default_always: Set the dialog so that the answer the user now chooses is rememb
 YesNoAlwaysDialog::YesNoAlwaysDialog(const ustring& message, bool default_yes)
 {
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.yesnoalwaysdialog.xml").c_str(), NULL);
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.yesnoalwaysdialog.xml").c_str(), NULL);
 
   dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
 

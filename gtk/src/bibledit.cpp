@@ -45,6 +45,7 @@
 #include "vcs.h"
 
 
+directories *Directories;
 Settings *settings;
 BookLocalizations *booklocalizations;
 Versifications *versifications;
@@ -74,8 +75,11 @@ int main(int argc, char *argv[])
     return 0;
   }
 
+  // Create a new directories 'factory' and initialize it with argv[0]
+  Directories = new directories(argv[0]);
+
   // Check on required directory structure.
-  directories_check_structure();
+  Directories->check_structure();
 
   // Move logfile for shutdown program.
   move_log_file (lftShutdown);
@@ -151,7 +155,7 @@ int main(int argc, char *argv[])
   // Upgrade data.
   upgrade();
   // Window icon fallback.
-  gtk_window_set_default_icon_from_file(gw_build_filename(directories_get_package_data(), "bibledit.xpm").c_str(), NULL);
+  gtk_window_set_default_icon_from_file(gw_build_filename(Directories->get_package_data(), "bibledit.xpm").c_str(), NULL);
   // Start the gui.
   MainWindow mainwindow(xembed, accelerator_group);
   gtk_main();
@@ -163,6 +167,8 @@ int main(int argc, char *argv[])
   xmlNanoHTTPCleanup();
   // Destroy URL transporter.
   delete urltransport;
+  // Destroy directory factory.
+  delete Directories;
   // Quit.
   return 0;
 }

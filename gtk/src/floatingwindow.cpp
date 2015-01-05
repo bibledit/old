@@ -51,7 +51,7 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
   delete_signal_button = gtk_button_new();
 
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.floatingwindow.xml").c_str(), NULL);
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.floatingwindow.xml").c_str(), NULL);
 
   vbox_window = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "vbox_window"));
 

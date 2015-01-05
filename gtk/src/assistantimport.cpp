@@ -606,7 +606,7 @@ void ImportAssistant::on_button_files ()
   // Optionally uncompress the archive and let the user select files from within it.
   if (files_messages.empty()) {
     if (compressed_files.size() == 1) {
-      ustring unpack_directory = gw_build_filename (directories_get_temp (), "uncompress");
+      ustring unpack_directory = gw_build_filename (Directories->get_temp (), "uncompress");
       unix_rmdir (unpack_directory);
       uncompress (compressed_files[0], unpack_directory);
       gtkw_dialog_info (assistant, "You will now be asked to select files from within the compressed archive");

@@ -44,7 +44,7 @@ OTQuotations::OTQuotations(int dummy)
 void OTQuotations::read()
 {
   // Get contents of the data file. Bail out if not there.
-  ustring xmlfilename = gw_build_filename(directories_get_package_data(), "ot-quotations-in-nt.xml");
+  ustring xmlfilename = gw_build_filename(Directories->get_package_data(), "ot-quotations-in-nt.xml");
   if (!g_file_test(xmlfilename.c_str(), G_FILE_TEST_IS_REGULAR))
     return;
   gchar *contents;

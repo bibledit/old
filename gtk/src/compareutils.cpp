@@ -371,16 +371,16 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
 {
   // Store the original to disk.
   ustring original_line = disassemble_usfm_text_for_comparison (original);
-  ustring originalfile = gw_build_filename (directories_get_temp(), "compare-original");
+  ustring originalfile = gw_build_filename (Directories->get_temp(), "compare-original");
   g_file_set_contents (originalfile.c_str(), original_line.c_str(), -1, NULL);
   
   // Store the edit to disk.
   ustring edit_line = disassemble_usfm_text_for_comparison (edit);
-  ustring editfile = gw_build_filename (directories_get_temp(), "compare-edit");
+  ustring editfile = gw_build_filename (Directories->get_temp(), "compare-edit");
   g_file_set_contents (editfile.c_str(), edit_line.c_str(), -1, NULL);
   
   // The output file.
-  ustring outputfile = gw_build_filename (directories_get_temp(), "compare-output");
+  ustring outputfile = gw_build_filename (Directories->get_temp(), "compare-output");
 
   // Clear output.
   output.clear ();

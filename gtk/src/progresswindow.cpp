@@ -26,7 +26,7 @@ ProgressWindow::ProgressWindow(const ustring & info, bool showcancel)
   // The window is set modal to turn off any responses to the parent window.
   // That means that clicking "Cancel" will get handled properly.
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.progressdialog.xml").c_str(), NULL);
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.progressdialog.xml").c_str(), NULL);
   progresswindow = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "progressdialog"));
   label = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label"));
   progressbar = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "progressbar"));

@@ -130,7 +130,7 @@ void mechon_mamre_action_page (HtmlWriter2& htmlwriter)
   // Unpack the zipped file.
   ustring directory;
   if (keep_going) {
-    directory = gw_build_filename (directories_get_temp (), "uncompress");
+    directory = gw_build_filename (Directories->get_temp (), "uncompress");
     unix_rmdir (directory);
     gw_mkdir_with_parents (directory);
     if (!uncompress (ct005zipfilename, directory)) {

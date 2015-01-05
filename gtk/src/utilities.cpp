@@ -104,7 +104,7 @@ void write_lines(const ustring & file, vector < ustring > &lines)
 
 ustring temporary_file(const ustring & filename)
 {
-  return gw_build_filename(directories_get_temp(), filename);
+  return gw_build_filename(Directories->get_temp(), filename);
 }
 
 

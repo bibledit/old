@@ -300,37 +300,37 @@ bool scripture_checks_usfm_spacing(WindowReferences * references_window, Collect
 
 ustring checks_abbreviations_get_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "abbreviations");
+  return gw_build_filename(Directories->get_projects(), project, "abbreviations");
 }
 
 ustring checks_uncapitalized_prefixes_get_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "uncapitalized-prefixes");
+  return gw_build_filename(Directories->get_projects(), project, "uncapitalized-prefixes");
 }
 
 ustring checks_capitalized_suffixes_get_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "capitalized_suffixes");
+  return gw_build_filename(Directories->get_projects(), project, "capitalized_suffixes");
 }
 
 ustring checks_repetition_show_only_get_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "repetitions_show_only");
+  return gw_build_filename(Directories->get_projects(), project, "repetitions_show_only");
 }
 
 ustring checks_repetition_ignore_get_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "repetitions_ignore");
+  return gw_build_filename(Directories->get_projects(), project, "repetitions_ignore");
 }
 
 ustring checks_unwanted_patterns_get_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "unwanted_patterns");
+  return gw_build_filename(Directories->get_projects(), project, "unwanted_patterns");
 }
 
 ustring checks_unwanted_words_get_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "unwanted_words");
+  return gw_build_filename(Directories->get_projects(), project, "unwanted_words");
 }
 
 

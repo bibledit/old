@@ -1564,11 +1564,11 @@ void Usfm2Text::output_picture(ustring & line, Usfm2XslFoStyle * stylepointer, U
   // in the package data directory.
   if (file.substr(0, 1) != G_DIR_SEPARATOR_S) {
     ustring file2;
-    file2 = gw_build_filename(directories_get_pictures(), file);
+    file2 = gw_build_filename(Directories->get_pictures(), file);
     if (g_file_test(file2.c_str(), G_FILE_TEST_IS_REGULAR))
       file = file2;
     else {
-      file2 = gw_build_filename(directories_get_package_data(), file);
+      file2 = gw_build_filename(Directories->get_package_data(), file);
       if (g_file_test(file2.c_str(), G_FILE_TEST_IS_REGULAR))
         file = file2;
     }

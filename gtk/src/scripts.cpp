@@ -72,7 +72,7 @@ vector < ustring > scripts_get_all()
 // Gets a list of available scripts.
 {
   // Read available scripts and clean them up.
-  ReadFiles rf(directories_get_scripts(), script_prefix(stEnd), "");
+  ReadFiles rf(Directories->get_scripts(), script_prefix(stEnd), "");
   for (unsigned int i = 0; i < rf.files.size(); i++) {
     for (int scripttype = stSed; scripttype < stEnd; scripttype++) {
       ustring prefix = script_prefix((ScriptType) scripttype);
@@ -278,7 +278,7 @@ ustring script_get_path(const ustring & script, ScriptType * scripttype, bool bi
   // Try the various types of scripts.
   for (unsigned int i = 0; i < stEnd; i++) {
     ScriptType script_type = ScriptType(i);
-    ustring path = gw_build_filename(directories_get_scripts(), script_prefix(script_type) + script + script_suffix(script_type, binary));
+    ustring path = gw_build_filename(Directories->get_scripts(), script_prefix(script_type) + script + script_suffix(script_type, binary));
     if (g_file_test(path.c_str(), G_FILE_TEST_IS_REGULAR)) {
       if (scripttype)
         *scripttype = script_type;
@@ -294,27 +294,27 @@ ustring script_get_path(const ustring & script, ScriptType * scripttype, bool bi
 ustring script_get_path(const ustring & script, ScriptType scripttype, bool binary)
 // Gets the full path to a new or existing "script" of "scripttype".
 {
-  return gw_build_filename(directories_get_scripts(), script_prefix(scripttype) + script + script_suffix(scripttype, binary));
+  return gw_build_filename(Directories->get_scripts(), script_prefix(scripttype) + script + script_suffix(scripttype, binary));
 }
 
 ustring script_temporal_script_file()
 {
-  return gw_build_filename(directories_get_temp(), "script_filter_script");
+  return gw_build_filename(Directories->get_temp(), "script_filter_script");
 }
 
 ustring script_temporal_input_file()
 {
-  return gw_build_filename(directories_get_temp(), "script_filter_input");
+  return gw_build_filename(Directories->get_temp(), "script_filter_input");
 }
 
 ustring script_temporal_output_file()
 {
-  return gw_build_filename(directories_get_temp(), "script_filter_output");
+  return gw_build_filename(Directories->get_temp(), "script_filter_output");
 }
 
 ustring script_temporal_error_file()
 {
-  return gw_build_filename(directories_get_temp(), "script_filter_error");
+  return gw_build_filename(Directories->get_temp(), "script_filter_error");
 }
 
 ustring script_get_named_type(ScriptType scripttype)

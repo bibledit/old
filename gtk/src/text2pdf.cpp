@@ -1253,7 +1253,7 @@ void Text2Pdf::display_picture(const ustring & filename)
   /*
      cairo_surface_t *surface;
 
-     ustring pdffile = gw_build_filename(directories_get_temp(), "pdf.pdf");
+     ustring pdffile = gw_build_filename(Directories->get_temp(), "pdf.pdf");
      surface = cairo_pdf_surface_create(pdffile.c_str(), 504, 648);
 
      cairo_t *cairo;

@@ -30,7 +30,7 @@
 
 ustring project_configuration_filename(const ustring & project)
 {
-  return gw_build_filename(directories_get_projects(), project, "configuration.1.xml");
+  return gw_build_filename(Directories->get_projects(), project, "configuration.1.xml");
 }
 
 void upgrade_project_configuration(const ustring & project)

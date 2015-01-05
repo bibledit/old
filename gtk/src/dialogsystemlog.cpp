@@ -46,7 +46,7 @@ ustring log_file_name(LogFileType type, bool previous)
   if (previous) {
     filename.append (".old");
   }
-  return gw_build_filename(directories_get_temp(), filename);
+  return gw_build_filename(Directories->get_temp(), filename);
 }
 
 
@@ -62,7 +62,7 @@ void move_log_file (LogFileType type)
 SystemlogDialog::SystemlogDialog(int dummy)
 {
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.systemlogdialog.xml").c_str(), NULL);
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.systemlogdialog.xml").c_str(), NULL);
 
   Shortcuts shortcuts(0);
 
@@ -245,7 +245,7 @@ void SystemlogDialog::on_button_diagnostics()
     }
   }
   // Add the diagnostics info to the logfile.
-  ustring diagnosticsfile = gw_build_filename(directories_get_temp(), "diagnostics");
+  ustring diagnosticsfile = gw_build_filename(Directories->get_temp(), "diagnostics");
   write_lines(diagnosticsfile, lines);
   shell_pipe_file_append(diagnosticsfile, logfilename());
   unlink(diagnosticsfile.c_str());

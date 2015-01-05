@@ -394,7 +394,7 @@ void FiltersDialog::on_rulesbuffer_changed_execute()
   if (scripttype == stTECkit) {
     compile_errors.clear();
     GwSpawn spawn("teckit_compile");
-    spawn.workingdirectory(directories_get_scripts());
+    spawn.workingdirectory(Directories->get_scripts());
     spawn.arg(scriptfile);
     // To compile UTF-8 source that lacks an encoding signature, the –u flag must be specified on the compiler command line.
     spawn.arg("-u");

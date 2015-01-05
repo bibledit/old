@@ -40,7 +40,7 @@ class StatisticsRecord {
 ustring statistics_database(const ustring & project, const gchar * suffix)
 {
   ustring filename;
-  filename = gw_build_filename(directories_get_projects(), project, "statistics.");
+  filename = gw_build_filename(Directories->get_projects(), project, "statistics.");
   if (suffix)
     filename.append(suffix);
   // Current suffix.

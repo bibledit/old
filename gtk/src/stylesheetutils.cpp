@@ -46,21 +46,21 @@ const char *RECOGNIZED_SUFFIXES[] = { ".xml1", ".xml2" };
 ustring stylesheet_recent_filename()
 // This returns the name of the database that contains data for recently used styles.
 {
-  return gw_build_filename(directories_get_stylesheets(), "recent.sql");
+  return gw_build_filename(Directories->get_stylesheets(), "recent.sql");
 }
 
 
 ustring stylesheet_xml_filename(const ustring & name)
 // This returns the xml file's name for a named stylesheet.
 {
-  return gw_build_filename(directories_get_stylesheets(), name + STYLESHEET_XML_SUFFIX);
+  return gw_build_filename(Directories->get_stylesheets(), name + STYLESHEET_XML_SUFFIX);
 }
 
 
 ustring stylesheet_xml_template_filename()
 // This returns the database's filename of the template.
 {
-  return gw_build_filename(directories_get_package_data(), "stylesheet.xml");
+  return gw_build_filename(Directories->get_package_data(), "stylesheet.xml");
 }
 
 
@@ -68,7 +68,7 @@ void stylesheet_get_ones_available(vector <ustring>& names)
 // Gets the names of the stylesheets that are there.
 {
   names.clear();
-  ReadFiles rf(directories_get_stylesheets(), "", STYLESHEET_XML_SUFFIX);
+  ReadFiles rf(Directories->get_stylesheets(), "", STYLESHEET_XML_SUFFIX);
   for (unsigned int i = 0; i < rf.files.size(); i++) {
     ustring name = rf.files[i];
     name.erase(name.length() - strlen(STYLESHEET_XML_SUFFIX), strlen(STYLESHEET_XML_SUFFIX));
@@ -341,9 +341,9 @@ void stylesheets_upgrade()
 {
   // Make the \r marker a section heading instead of a normal paragraph.
   {
-    ReadFiles rf(directories_get_stylesheets(), "", ".xml1");
+    ReadFiles rf(Directories->get_stylesheets(), "", ".xml1");
     for (unsigned int i = 0; i < rf.files.size(); i++) {
-      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
+      ustring filename = gw_build_filename(Directories->get_stylesheets(), rf.files[i]);
       gw_message("Updating stylesheet " + filename);
       ReadText rt (filename, true, false);
       stylesheet_upgrade_value (rt.lines, "r", "subtype", "2");

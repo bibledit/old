@@ -214,7 +214,7 @@ void Httpd::handle_request(int fd)
       }
       {
         // No intrusions: take filename, strip path off, Bibledit's data path.
-        filename = gw_build_filename(directories_get_package_data(), gw_path_get_basename(filename));
+        filename = gw_build_filename(Directories->get_package_data(), gw_path_get_basename(filename));
         // Decide what action to take.
         if ((gw_path_get_basename(filename) == "search.html") && (!command.empty())) {
           send_search(fd, filename, command);
@@ -495,9 +495,9 @@ void Httpd::send_search_results(int fd, ustring searchword)
   // Variable whether anything turned up.
   bool succesful = false;
   // Go through all documentation.
-  ReadFiles rf (directories_get_package_data(), "", ".html");
+  ReadFiles rf (Directories->get_package_data(), "", ".html");
   for (unsigned int i = 0; i < rf.files.size(); i++) {
-    ustring filename = gw_build_filename (directories_get_package_data(), rf.files[i]);
+    ustring filename = gw_build_filename (Directories->get_package_data(), rf.files[i]);
     ReadText rt (filename, true, false);
     // Search for the text.
     bool hit = false;

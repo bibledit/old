@@ -54,7 +54,7 @@ void XeTeX::initialize_variables ()
 
 void XeTeX::create_work_area ()
 {
-  working_directory = gw_build_filename (directories_get_temp (), "xetex");
+  working_directory = gw_build_filename (Directories->get_temp (), "xetex");
   unix_rmdir (working_directory);
   gw_mkdir_with_parents (working_directory);
 }
@@ -65,7 +65,7 @@ void XeTeX::place_ptx2pdf_macros ()
   GwSpawn spawn ("tar");
   spawn.workingdirectory (working_directory);
   spawn.arg ("zxf");
-  spawn.arg (gw_build_filename (directories_get_package_data (), "ptx2pdf.tar.gz"));
+  spawn.arg (gw_build_filename (Directories->get_package_data (), "ptx2pdf.tar.gz"));
   spawn.run ();
   ustring ptx2pdf_directory = "ptx2pdf";
   ReadFiles rf (gw_build_filename (working_directory, ptx2pdf_directory), "", "");

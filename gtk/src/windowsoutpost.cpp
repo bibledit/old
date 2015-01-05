@@ -586,7 +586,7 @@ ustring windowsoutpost_path ()
 // Gives the full path to the bwoutpost.exe
 {
   ustring path;
-  path = gw_build_filename (directories_get_package_data (), BIBLEDIT_WINDOWS_OUTPOST_EXE);
+  path = gw_build_filename (Directories->get_package_data (), BIBLEDIT_WINDOWS_OUTPOST_EXE);
   return path;
 }
 

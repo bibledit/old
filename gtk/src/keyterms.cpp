@@ -38,14 +38,14 @@
 ustring keyterms_get_user_filename()
 // Gives the filename for the user-created keyterms database.
 {
-  return gw_build_filename(directories_get_templates_user(), "keyterms.sql");
+  return gw_build_filename(Directories->get_templates_user(), "keyterms.sql");
 }
 
 
 ustring keyterms_get_package_filename()
 // Gives the filename for the keyterms database that comes with bibledit.
 {
-  return gw_build_filename(directories_get_package_data(), "keyterms.sql");
+  return gw_build_filename(Directories->get_package_data(), "keyterms.sql");
 }
 
 
@@ -999,7 +999,7 @@ ustring keyterms_renderings_filename(const ustring & project)
 // Returns the filename for the database to store user data.
 // If the database is not there, it will be created on the fly.
 {
-  ustring filename = gw_build_filename(directories_get_projects(), project,
+  ustring filename = gw_build_filename(Directories->get_projects(), project,
                                        "keyterms-renderings.sql");
   if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
     sqlite3 *db;

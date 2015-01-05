@@ -58,7 +58,7 @@
 void export_to_usfm (const ustring& project, ustring location, bool zip)
 {
   // (Temporal) output directory.
-  ustring tempdir = gw_build_filename(directories_get_temp(), "usfm-export");
+  ustring tempdir = gw_build_filename(Directories->get_temp(), "usfm-export");
   unix_rmdir(tempdir);
   gw_mkdir_with_parents(tempdir);
   if (!zip)
@@ -549,7 +549,7 @@ directory: Where to put the module.
   ProgressWindow *progresswindow = new ProgressWindow("Exporting project", true);
 
   // The temporal directories for the data.
-  ustring base_directory = gw_build_filename(directories_get_temp(), "sword");
+  ustring base_directory = gw_build_filename(Directories->get_temp(), "sword");
   unix_rmdir(base_directory);
   gw_mkdir_with_parents(base_directory);
   ustring absolute_conf_directory = gw_build_filename(base_directory, "mods.d");
@@ -587,7 +587,7 @@ directory: Where to put the module.
   lines.clear();
 
   // Osis file name.
-  ustring osisfile = gw_build_filename(directories_get_temp(), "osis-from-usfm.xml");
+  ustring osisfile = gw_build_filename(Directories->get_temp(), "osis-from-usfm.xml");
   unlink(osisfile.c_str());
   
   // OSIS to USFM converter.
@@ -721,7 +721,7 @@ void export_to_opendocument(const ustring& project, const ustring& filename)
 void export_to_usfm_changes (const ustring& project, int time_from, ustring comment)
 {
   // Working directory and zipped filename.
-  ustring workingdirectory = gw_build_filename(directories_get_temp(), "bible_backup");
+  ustring workingdirectory = gw_build_filename(Directories->get_temp(), "bible_backup");
   gw_mkdir_with_parents(workingdirectory);
   int currentseconds = date_time_seconds_get_current();
   int currentdays = date_time_julian_day_get_current();
@@ -810,7 +810,7 @@ void export_to_usfm_changes (const ustring& project, int time_from, ustring comm
 
   // Open web page with information: backup_is_ready.html.
   ustring filesize = convert_to_string(file_get_size(filename));
-  ReadText rt(gw_build_filename(directories_get_package_data(), "backup_is_ready.html"), true, false);
+  ReadText rt(gw_build_filename(Directories->get_package_data(), "backup_is_ready.html"), true, false);
   for (unsigned int i = 0; i < rt.lines.size(); i++) {
     replace_text(rt.lines[i], "100", filesize);
     replace_text(rt.lines[i], "location", filename);
@@ -818,7 +818,7 @@ void export_to_usfm_changes (const ustring& project, int time_from, ustring comm
   }
   ustring htmlfile = gw_build_filename(workingdirectory, "backup.html");
   write_lines(htmlfile, rt.lines);
-  unix_cp(gw_build_filename(directories_get_package_data(), "bibledit.css"), gw_build_filename(workingdirectory, "bibledit.css"));
+  unix_cp(gw_build_filename(Directories->get_package_data(), "bibledit.css"), gw_build_filename(workingdirectory, "bibledit.css"));
   gtkw_show_uri (htmlfile, false);
 }
 
@@ -827,7 +827,7 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
 // Export the project to a full GoBible.
 {
   // Working area directory.
-  ustring workingdirectory = gw_build_filename (directories_get_temp(), "gobible");
+  ustring workingdirectory = gw_build_filename (Directories->get_temp(), "gobible");
   unix_rmdir (workingdirectory);
   gw_mkdir_with_parents (workingdirectory);
   

@@ -34,14 +34,14 @@ ustring numeral_localization_filename (const ustring& language)
   ustring full_filename;
 
   // Try the templates that come with Bibledit.
-  full_filename = gw_build_filename (directories_get_package_data(), base_name);
+  full_filename = gw_build_filename (Directories->get_package_data(), base_name);
   if (!g_file_test(full_filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
     full_filename.clear();
   }
   
   // Try the templates provided by the user.
   if (full_filename.empty()) {
-    full_filename = gw_build_filename (directories_get_templates_user(), base_name);
+    full_filename = gw_build_filename (Directories->get_templates_user(), base_name);
     if (!g_file_test(full_filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
       full_filename.clear();
     }

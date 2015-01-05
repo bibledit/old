@@ -599,7 +599,7 @@ void ResourceConverterDialog::on_view_file_button_clicked(GtkButton * button, gp
 
 void ResourceConverterDialog::on_view_file_button()
 {
-  ustring tempfile = gw_build_filename(directories_get_temp(), "resource-converter-view-file");
+  ustring tempfile = gw_build_filename(Directories->get_temp(), "resource-converter-view-file");
   write_lines(tempfile, lines);
   gtkw_show_uri (tempfile, false);
 }

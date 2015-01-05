@@ -569,7 +569,7 @@ bool RemoteRepositoryAssistant::check_git_version ()
 ustring RemoteRepositoryAssistant::git_testing_directory (const ustring& name)
 // Get the directory of the repository for testing git.
 {
-  ustring directory = gw_build_filename (directories_get_temp(), "git-test", name);
+  ustring directory = gw_build_filename (Directories->get_temp(), "git-test", name);
   return directory;
 }
 

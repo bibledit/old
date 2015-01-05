@@ -426,7 +426,7 @@ These calls allow one to hide the console window.
   // If there is standard input, create the file to be piped.
   // Write the text into that file. Add the file to the arguments.
   if (!mywrite.empty()) {
-    ustring pipe_in = gw_build_filename(directories_get_temp(), "stdin" + pipe_suffix);
+    ustring pipe_in = gw_build_filename(Directories->get_temp(), "stdin" + pipe_suffix);
     WriteText wt(pipe_in);
     wt.text(mywrite);
     strcat(Args, " <");
@@ -436,8 +436,8 @@ These calls allow one to hide the console window.
   ustring pipe_out;
   ustring pipe_err;
   if (!mydevnull) {
-    pipe_out = gw_build_filename(directories_get_temp(), "stdout" + pipe_suffix);
-    pipe_err = gw_build_filename(directories_get_temp(), "stderr" + pipe_suffix);
+    pipe_out = gw_build_filename(Directories->get_temp(), "stdout" + pipe_suffix);
+    pipe_err = gw_build_filename(Directories->get_temp(), "stderr" + pipe_suffix);
     ustring pout = shell_quote_space(pipe_out);
     ustring perr = shell_quote_space(pipe_err);
     strcat(Args, " >");

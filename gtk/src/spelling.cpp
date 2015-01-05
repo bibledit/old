@@ -83,7 +83,7 @@ bool spelling_dictionary_editable(const ustring & dictionary)
 ustring spelling_dictionary_filename(ustring dictionary)
 {
   if (dictionary == spelling_global_dictionary()) {
-    return gw_build_filename(directories_get_configuration(), "global_dictionary");
+    return gw_build_filename(Directories->get_configuration(), "global_dictionary");
   }
   if (g_str_has_prefix(dictionary.c_str(), spelling_project_dictionary_prefix())) {
     dictionary.erase(0, strlen(spelling_project_dictionary_prefix()));

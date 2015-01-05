@@ -39,7 +39,7 @@
 BulkSpellingDialog::BulkSpellingDialog(const vector <ustring> words)
 {
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.bulkspellingdialog.xml").c_str(), NULL);
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.bulkspellingdialog.xml").c_str(), NULL);
 
   Shortcuts shortcuts(0);
 

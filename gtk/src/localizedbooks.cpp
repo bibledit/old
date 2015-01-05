@@ -127,15 +127,15 @@ vector < ustring > BookLocalizations::localizations_get()
 {
   if (available_localizations.empty()) {
     // Get the localizations from the templates that come with Bibledit.
-    ReadFiles rf1(directories_get_package_data(), "language_", ".xml");
+    ReadFiles rf1(Directories->get_package_data(), "language_", ".xml");
     for (unsigned int i = 0; i < rf1.files.size(); i++) {
-      available_filenames.push_back(gw_build_filename(directories_get_package_data(), rf1.files[i]));
+      available_filenames.push_back(gw_build_filename(Directories->get_package_data(), rf1.files[i]));
       available_localizations.push_back(filename_get_localization(rf1.files[i]));
     }
     // Get the localizations from the templates provided by the user.
-    ReadFiles rf2(directories_get_templates_user(), "language_", ".xml");
+    ReadFiles rf2(Directories->get_templates_user(), "language_", ".xml");
     for (unsigned int i = 0; i < rf2.files.size(); i++) {
-      available_filenames.push_back(gw_build_filename(directories_get_templates_user(), rf2.files[i]));
+      available_filenames.push_back(gw_build_filename(Directories->get_templates_user(), rf2.files[i]));
       available_localizations.push_back(filename_get_localization(rf2.files[i]));
     }
     // Sort everything on name.
@@ -258,7 +258,7 @@ ustring general_adapted_booknames_filename ()
 // Returns the name of the file that contains the general adapted book names.
 {
   ustring filename;
-  filename = gw_build_filename (directories_get_configuration(), "adapted_booknames");
+  filename = gw_build_filename (Directories->get_configuration(), "adapted_booknames");
   return filename;
 }
 

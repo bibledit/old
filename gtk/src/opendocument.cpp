@@ -71,7 +71,7 @@ OpenDocument::OpenDocument(const ustring & project, const ustring & filename, se
   odtxref = new OdtXref(*usfm);
 
   // Retrieve and process template: page layout, font.
-  workingdirectory = gw_build_filename(directories_get_temp(), "opendocument");
+  workingdirectory = gw_build_filename(Directories->get_temp(), "opendocument");
   unpack_template();
   odt_set_font(workingdirectory, fontname);
 
@@ -162,14 +162,14 @@ void OpenDocument::unpack_template()
   // Note: To create the template use zip -r template.odt *
 #ifdef WIN32
   ustring command = "unzip -o ";
-  command.append(gw_build_filename(directories_get_package_data(), "template.odt"));
+  command.append(gw_build_filename(Directories->get_package_data(), "template.odt"));
   command.append(" -d ");
   command.append(shell_quote_space(workingdirectory));
 #else
   ustring command = "cd";
   command.append(shell_quote_space(workingdirectory));
   command.append("; cp ");
-  command.append(gw_build_filename(directories_get_package_data(), "template.odt"));
+  command.append(gw_build_filename(Directories->get_package_data(), "template.odt"));
   command.append(" .; unzip *; rm *.odt");
 #endif
   if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.

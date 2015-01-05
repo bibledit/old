@@ -29,7 +29,7 @@ ExportParatextStylesheet::ExportParatextStylesheet (int dummy)
 {
   // Load the standard Paratext stylesheet.
   {
-    ReadText rt (gw_build_filename (directories_get_package_data(), "usfm.sty"), true, false);
+    ReadText rt (gw_build_filename (Directories->get_package_data(), "usfm.sty"), true, false);
     stylesheet_lines = rt.lines;
   }
   // Indicate it was exported from bibledit.

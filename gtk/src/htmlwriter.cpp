@@ -117,7 +117,7 @@ HtmlWriter::~HtmlWriter()
 {
   xmlTextWriterEndDocument(writer);
   xmlTextWriterFlush(writer);
-  ustring filename = gw_build_filename(directories_get_temp(), "document.html");
+  ustring filename = gw_build_filename(Directories->get_temp(), "document.html");
   g_file_set_contents(filename.c_str(), (const gchar *)buffer->content, -1, NULL);
   gtkw_show_uri (filename, false);
   if (writer)

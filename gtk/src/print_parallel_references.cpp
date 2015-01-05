@@ -74,7 +74,7 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
   Mapping mapping(projectconfig->versification_get(), 0);
 
   // The converter.
-  Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "document.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
+  Text2Pdf text2pdf(gw_build_filename(Directories->get_temp(), "document.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
 
   // Page.
   text2pdf.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());

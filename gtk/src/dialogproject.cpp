@@ -546,7 +546,7 @@ void ProjectDialog::on_book_add()
         ustring englishbook = books_id_to_english (ids[i]);
         ustring templatefile = englishbook.casefold() + ".usfm";
         replace_text(templatefile, " ", "_");
-        templatefile = gw_build_filename(directories_get_package_data(), templatefile);
+        templatefile = gw_build_filename(Directories->get_package_data(), templatefile);
         if (g_file_test(templatefile.c_str(), G_FILE_TEST_IS_REGULAR)) {
           ReadText rt(templatefile, true, false);
           booktemplate.assign(rt.lines.begin(), rt.lines.end());

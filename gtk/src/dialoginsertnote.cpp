@@ -700,7 +700,7 @@ ustring InsertNoteDialog::template_filename_get(const ustring & template_name)
 void InsertNoteDialog::templates_load(const ustring & template_name, bool update_gui)
 {
   updategui = update_gui;
-  ReadFiles rd(directories_get_configuration(), template_filename_get(""), "");
+  ReadFiles rd(Directories->get_configuration(), template_filename_get(""), "");
   for (unsigned int i = 0; i < rd.files.size(); i++)
     rd.files[i].erase(0, template_filename_get("").length());
   if (rd.files.size() == 0)
@@ -729,7 +729,7 @@ void InsertNoteDialog::on_combobox_templates()
     return;
   // Load the template.
   ustring template_name = combobox_get_active_string(combobox_templates);
-  NoteTemplate notetemplate(gw_build_filename(directories_get_configuration(), template_filename_get(template_name)), mydialogtype, false);
+  NoteTemplate notetemplate(gw_build_filename(Directories->get_configuration(), template_filename_get(template_name)), mydialogtype, false);
   // Set values in the fixed gui.
   gtk_entry_set_text(GTK_ENTRY(entry_numbering), notetemplate.anchor.c_str());
   gtk_entry_set_text(GTK_ENTRY(entry_reference_separator), notetemplate.reference_division.c_str());
@@ -773,7 +773,7 @@ void InsertNoteDialog::on_button_template_new()
   EntryDialog dialog("Template", "Enter a name for a new template", "");
   dialog.run();
   GwSpawn spawn("touch");
-  spawn.arg(gw_build_filename(directories_get_configuration(), template_filename_get(dialog.entered_value)));
+  spawn.arg(gw_build_filename(Directories->get_configuration(), template_filename_get(dialog.entered_value)));
   spawn.run();
   templates_load(dialog.entered_value, false);
 }
@@ -787,7 +787,7 @@ void InsertNoteDialog::on_button_template_delete_clicked(GtkButton * button, gpo
 
 void InsertNoteDialog::on_button_template_delete()
 {
-  ustring filename = gw_build_filename(directories_get_configuration(), template_filename_get(combobox_get_active_string(combobox_templates)));
+  ustring filename = gw_build_filename(Directories->get_configuration(), template_filename_get(combobox_get_active_string(combobox_templates)));
   unlink(filename.c_str());
   templates_load("", true);
 }
@@ -895,7 +895,7 @@ void InsertNoteDialog::on_okbutton()
 {
   // Save the current gui.
   extern Settings *settings;
-  NoteTemplate notetemplate(gw_build_filename(directories_get_configuration(), template_filename_get(combobox_get_active_string(combobox_templates))), mydialogtype, true);
+  NoteTemplate notetemplate(gw_build_filename(Directories->get_configuration(), template_filename_get(combobox_get_active_string(combobox_templates))), mydialogtype, true);
   notetemplate.numbering = numbering_get();
   notetemplate.anchor = gtk_entry_get_text(GTK_ENTRY(entry_numbering));
   notetemplate.automatic_reference = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_automatic_reference));

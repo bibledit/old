@@ -189,13 +189,13 @@ void XeTeX2Pdf::run()
   xetex_lines.push_back ("\\bye");
 
   // Save the XeTeX input data to disk.
-  ustring filename_tex = gw_build_filename (directories_get_temp (), "document.tex");
+  ustring filename_tex = gw_build_filename (Directories->get_temp (), "document.tex");
   write_lines (filename_tex, xetex_lines);
 
   // Run xetex.
   if (runtime_check (rtXeTeX)) {
     GwSpawn spawn (runtime_program (rtXeTeX));
-    spawn.workingdirectory (directories_get_temp());
+    spawn.workingdirectory (Directories->get_temp());
     spawn.arg (filename_tex);
     spawn.progress ("Typesetting", true);
     spawn.run ();
@@ -968,7 +968,7 @@ void XeTeX2Pdf::close_intrusion()
 void XeTeX2Pdf::view()
 // View the pdf file.
 {
-  pdfviewer_view(gw_build_filename (directories_get_temp(), "document.pdf"));
+  pdfviewer_view(gw_build_filename (Directories->get_temp(), "document.pdf"));
 }
 
 
@@ -1102,7 +1102,7 @@ void XeTeX2Pdf::display_picture(const ustring & filename)
   /*
      cairo_surface_t *surface;
 
-     ustring pdffile = gw_build_filename(directories_get_temp(), "pdf.pdf");
+     ustring pdffile = gw_build_filename(Directories->get_temp(), "pdf.pdf");
      surface = cairo_pdf_surface_create(pdffile.c_str(), 504, 648);
 
      cairo_t *cairo;

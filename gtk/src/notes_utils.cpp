@@ -52,14 +52,14 @@ ustring notes_shared_storage_base_name ()
 
 ustring notes_shared_storage_folder ()
 {
-  return gw_build_filename (directories_get_notes (), notes_shared_storage_base_name ());
+  return gw_build_filename (Directories->get_notes (), notes_shared_storage_base_name ());
 }
 
 
 ustring notes_index_filename ()
 // Returns the filename of the notes index.
 { 
-  return gw_build_filename(directories_get_notes(), "index.sql");
+  return gw_build_filename(Directories->get_notes(), "index.sql");
 }
 
 
@@ -622,7 +622,7 @@ void notes_get_references_from_editor(GtkTextBuffer * textbuffer, vector < Refer
 ustring notes_categories_filename()
 // Returns the filename of the notes database.
 {
-  return gw_build_filename(directories_get_notes(), "categories");
+  return gw_build_filename(Directories->get_notes(), "categories");
 }
 
 
@@ -862,7 +862,7 @@ unsigned int notes_count ()
 void notes_convert_database_to_plain_files ()
 {
   // Bail out if there's no database to convert.
-  ustring database_filename = gw_build_filename(directories_get_notes(), "notes.sql2");
+  ustring database_filename = gw_build_filename(Directories->get_notes(), "notes.sql2");
   if (!g_file_test(database_filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
     return;
   }

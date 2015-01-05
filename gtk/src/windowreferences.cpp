@@ -671,7 +671,7 @@ void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
 ustring WindowReferences::references_database_filename()
 // Gives the filename of the database to save the references to.
 {
-  return gw_build_filename(directories_get_temp(), "references.sqlite3");
+  return gw_build_filename(Directories->get_temp(), "references.sqlite3");
 }
 
 

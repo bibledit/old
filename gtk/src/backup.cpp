@@ -46,7 +46,7 @@ void backup_notes (const ustring& filename)
   spawn.arg ("-czf");
   spawn.arg (filename);
   spawn.arg (".");
-  spawn.workingdirectory (directories_get_notes ());
+  spawn.workingdirectory (Directories->get_notes ());
   spawn.progress ("Backing up notes", false);
   spawn.run ();
 }
@@ -85,7 +85,7 @@ void backup_all (const ustring& filename)
   spawn.arg ("-czf");
   spawn.arg (filename);
   spawn.arg (".");
-  spawn.workingdirectory (directories_get_root ());
+  spawn.workingdirectory (Directories->get_root ());
   spawn.progress ("Backing up everything", false);
   spawn.run ();
 }

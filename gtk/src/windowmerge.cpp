@@ -699,7 +699,7 @@ void WindowMerge::merge_edited_into_master(bool approve)
     return;
   }
   // Do the merge in a temporal directory.
-  workingdirectory = gw_build_filename(directories_get_temp(), "merge");
+  workingdirectory = gw_build_filename(Directories->get_temp(), "merge");
   unix_rmdir(workingdirectory);
   gw_mkdir_with_parents(workingdirectory);
 

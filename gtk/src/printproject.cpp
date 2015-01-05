@@ -95,7 +95,7 @@ void PrintProject::print()
   ProjectConfiguration *projectconfig = settings->projectconfig(myproject->name);
 
   // Create Text to PDF and Usfm to Text converters.
-  Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "document.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
+  Text2Pdf text2pdf(gw_build_filename(Directories->get_temp(), "document.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
   Usfm2Text usfm2text(&text2pdf, true);
 
   // Styles.

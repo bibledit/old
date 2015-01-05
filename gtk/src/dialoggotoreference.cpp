@@ -52,7 +52,7 @@ GotoReferenceDialog::GotoReferenceDialog(unsigned int currentbook, unsigned int 
   Shortcuts shortcuts(0);
 
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.gotoreferencedialog.xml").c_str(), NULL);
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.gotoreferencedialog.xml").c_str(), NULL);
 
   dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
   g_signal_connect((gpointer) dialog, "key_press_event", G_CALLBACK(on_key_press_event), gpointer(this));

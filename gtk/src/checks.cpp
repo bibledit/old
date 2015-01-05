@@ -97,7 +97,7 @@ void DisplayCheckingResults::word_inventory(const vector < ustring > &words, con
 
   // Write data and display it.
   ustring outputfilename;
-  outputfilename = gw_build_filename(directories_get_temp(), "wordinventory.html");
+  outputfilename = gw_build_filename(Directories->get_temp(), "wordinventory.html");
   write_lines(outputfilename, html);
   gtkw_show_uri (outputfilename);
 }
@@ -132,7 +132,7 @@ void DisplayCheckingResults::usfm_count(const vector < ustring > &usfms, const v
 
   // Write data and display it.
   ustring outputfilename;
-  outputfilename = gw_build_filename(directories_get_temp(), "usfmcount.html");
+  outputfilename = gw_build_filename(Directories->get_temp(), "usfmcount.html");
   write_lines(outputfilename, html);
   gtkw_show_uri (outputfilename);
 }
@@ -170,7 +170,7 @@ void DisplayCheckingResults::character_count(const vector < ustring > &chars, co
 
   // Write data and display it.
   ustring outputfilename;
-  outputfilename = gw_build_filename(directories_get_temp(), "charactercount.html");
+  outputfilename = gw_build_filename(Directories->get_temp(), "charactercount.html");
   write_lines(outputfilename, html);
   gtkw_show_uri (outputfilename);
 }
@@ -202,7 +202,7 @@ void DisplayCheckingResults::references_inventory(const vector < ustring > &vers
 
   // Write data and display it.
   ustring outputfilename;
-  outputfilename = gw_build_filename(directories_get_temp(), "referenceinventory.html");
+  outputfilename = gw_build_filename(Directories->get_temp(), "referenceinventory.html");
   write_lines(outputfilename, html);
   gtkw_show_uri (outputfilename);
 }
@@ -250,7 +250,7 @@ void DisplayCheckingResults::ot_quotations_in_nt(const vector <ustring> nt_refs,
   finalize();
 
   ustring outputfilename;
-  outputfilename = gw_build_filename(directories_get_temp(), "nt-ot-quotations.html");
+  outputfilename = gw_build_filename(Directories->get_temp(), "nt-ot-quotations.html");
   write_lines(outputfilename, html);
   gtkw_show_uri (outputfilename);
 }
@@ -275,7 +275,7 @@ void DisplayCheckingResults::parallel_passages(const vector < OtNtParallelDataSe
   finalize();
 
   ustring outputfilename;
-  outputfilename = gw_build_filename(directories_get_temp(), "parallelpassages.html");
+  outputfilename = gw_build_filename(Directories->get_temp(), "parallelpassages.html");
   write_lines(outputfilename, html);
   gtkw_show_uri (outputfilename);
 }

@@ -17,6 +17,12 @@
 **  
 */
 
+/*
+** January 2015: Matt Postiff changed to a class providing methods to
+** figure out the various directories. The interface is identical to
+** what it was before except you call through Directories->XYZ()
+** instead of directories_XYZ().
+*/
 
 #ifndef INCLUDED_DIRECTORIES_H
 #define INCLUDED_DIRECTORIES_H
@@ -24,21 +30,40 @@
 
 #include "libraries.h"
 
+class directories {
+ private:
+  // Directory bibledit is run from (e.g. /usr/bin or 
+  // C:\Program Files\Bibledit\editor\bin)
+  ustring rundir;
+  // Executable name (e.g. bibledit-gtk)
+  ustring exename;
+  // Package data directory (e.g. /usr/share/bibledit-gtk or 
+  // C:\Program Files\Bibledit\editor\share\bibledit)
+  ustring package_data;
 
-void directories_check_structure ();
-ustring directories_get_root ();
-ustring directories_get_projects ();
-ustring directories_get_notes ();
-ustring directories_get_stylesheets ();
-ustring directories_get_configuration ();
-ustring directories_get_pictures ();
-ustring directories_get_resources ();
-ustring directories_get_scripts ();
-ustring directories_get_temp ();
-ustring directories_get_templates ();
-ustring directories_get_templates_user ();
-ustring directories_get_package_data ();
-ustring directories_get_restore ();
+ public: 
+  // Must initialize this class with argv[0] so it knows where
+  // the program was run from. See bibledit.cpp for this.
+  directories(char *argv0);
+  ~directories();
 
+     void check_structure ();
+  ustring get_root ();
+  ustring get_projects ();
+  ustring get_notes ();
+  ustring get_stylesheets ();
+  ustring get_configuration ();
+  ustring get_pictures ();
+  ustring get_resources ();
+  ustring get_scripts ();
+  ustring get_temp ();
+  ustring get_templates ();
+  ustring get_templates_user ();
+  ustring get_package_data ();
+  ustring get_restore ();
+};
+
+// Declared in bibledit.cpp and bibledit-rdwrt.cpp
+extern directories *Directories;
 
 #endif

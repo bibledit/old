@@ -41,7 +41,7 @@ XeTeXDialog::XeTeXDialog(int dummy)
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
 
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.xetexdialog.xml").c_str(), NULL);
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.xetexdialog.xml").c_str(), NULL);
 
   dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
 

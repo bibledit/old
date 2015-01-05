@@ -129,15 +129,15 @@ vector < ustring > Mappings::systems_get()
 {
   if (available_systems.empty()) {
     // Get the system from the templates that come with Bibledit.
-    ReadFiles rf1(directories_get_package_data(), "mapping", ".xml");
+    ReadFiles rf1(Directories->get_package_data(), "mapping", ".xml");
     for (unsigned int i = 0; i < rf1.files.size(); i++) {
-      available_filenames.push_back(gw_build_filename(directories_get_package_data(), rf1.files[i]));
+      available_filenames.push_back(gw_build_filename(Directories->get_package_data(), rf1.files[i]));
       available_systems.push_back(filename_get_system(rf1.files[i]));
     }
     // Get the system from the templates provided by the user.
-    ReadFiles rf2(directories_get_templates_user(), "mapping", ".xml");
+    ReadFiles rf2(Directories->get_templates_user(), "mapping", ".xml");
     for (unsigned int i = 0; i < rf2.files.size(); i++) {
-      available_filenames.push_back(gw_build_filename(directories_get_templates_user(), rf2.files[i]));
+      available_filenames.push_back(gw_build_filename(Directories->get_templates_user(), rf2.files[i]));
       available_systems.push_back(filename_get_system(rf2.files[i]));
     }
     // Sort everything on name.
