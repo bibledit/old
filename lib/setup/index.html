@@ -19,29 +19,28 @@
     <tr>
       <th scope="row"><label for="user_login">Administrator's username</label></th>
       <td>
+        <input name="admin_username" type="text" id="admin_username" size="25" value="##usernames##" autofocus ##readonly## />
         <!-- #BEGINZONE enteruser -->
-        <input name="admin_username" type="text" id="admin_username" size="25" value="" autofocus />
         <p>The username should be at least five characters long, and can have only alphanumeric characters, underscores, and hyphens.</p>
         <!-- #ENDZONE enteruser -->
-        <p>##usernames##</p>
       </td>
     </tr>
+    <!-- #BEGINZONE enterpass -->
     <tr>
       <th scope="row"><label for="admin_password">Administrator's password</label></th>
       <td>
-        <!-- #BEGINZONE enterpass -->
         <input name="admin_password" type="password" id="admin_password" size="25" value="" />
-        <p>Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).</p>      </td>
-        <!-- #ENDZONE enterpass -->
+        <p>The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).</p>
+      </td>
     </tr>
+    <!-- #ENDZONE enterpass -->
     <tr>
       <th scope="row"><label for="admin_email">Administrator's email</label></th>
       <td>
+        <input name="admin_email" type="email" id="admin_email" size="25" value="##emails##" ##readonly## />
         <!-- #BEGINZONE entermail -->
-        <input name="admin_email" type="email" id="admin_email" size="25" value="" />
         <p>Double-check the email address before continuing.</p>
         <!-- #ENDZONE entermail -->
-        <p>##emails##</p>
       </td>
     </tr>
   </table>
