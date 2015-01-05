@@ -73,12 +73,31 @@ void test_database_config_general ()
 
 void test_database_config_bible ()
 {
-  // Tests for Database_Config_Bible.
-  evaluate (__LINE__, __func__, false, Database_Config_Bible::getViewableByAllUsers ("testbible"));
-  
-  bool ref = true;
-  Database_Config_Bible::setViewableByAllUsers ("testbible", ref);
-  evaluate (__LINE__, __func__, ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
+  // Random basic tests.
+  {
+    evaluate (__LINE__, __func__, false, Database_Config_Bible::getViewableByAllUsers ("testbible"));
+    
+    bool ref = true;
+    Database_Config_Bible::setViewableByAllUsers ("testbible", ref);
+    evaluate (__LINE__, __func__, ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
+  }
+  // Versification / Mapping
+  {
+    string versification = Database_Config_Bible::getVersificationSystem ("phpunit");
+    evaluate (__LINE__, __func__, "English", versification);
+    string mapping = Database_Config_Bible::getVerseMapping ("phpunit");
+    evaluate (__LINE__, __func__, "English", mapping);
+    versification = Database_Config_Bible::getVersificationSystem ("x");
+    evaluate (__LINE__, __func__, "English", versification);
+    mapping = Database_Config_Bible::getVerseMapping ("x");
+    evaluate (__LINE__, __func__, "English", mapping);
+    Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
+    versification = Database_Config_Bible::getVersificationSystem ("phpunit");
+    evaluate (__LINE__, __func__, "VersificatioN", versification);
+    Database_Config_Bible::setVerseMapping ("phpunit", "VersificatioN");
+    mapping = Database_Config_Bible::getVerseMapping ("phpunit");
+    evaluate (__LINE__, __func__, "VersificatioN", mapping);
+  }
 }
 
 
@@ -114,7 +133,7 @@ void test_database_config_user ()
     standard2.push_back ("seven eight nine");
     evaluate (__LINE__, __func__, standard2, request.database_config_user ()->getUpdatedSettings ());
     
-    // Testing the Sprint month and its filter_string_trim () function.
+    // Testing the Sprint month and its trim () function.
     // It should get today's month.
     int month = filter_string_date_numerical_month ();
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());

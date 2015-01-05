@@ -894,9 +894,6 @@
 		CAA4D3CC1A45A648003ABA25 /* usfmTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = usfmTest.php; sourceTree = "<group>"; };
 		CAA4D3CD1A45A648003ABA25 /* versesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versesTest.php; sourceTree = "<group>"; };
 		CAA4D3CE1A45A648003ABA25 /* versificationTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versificationTest.php; sourceTree = "<group>"; };
-		CAA4D3D31A45A648003ABA25 /* bibleTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bibleTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D3D51A45A648003ABA25 /* generalTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = generalTest.php; sourceTree = "<group>"; };
-		CAA4D3D71A45A648003ABA25 /* userTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = userTest.php; sourceTree = "<group>"; };
 		CAA4D3F61A45A648003ABA25 /* exportTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = exportTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3F71A45A648003ABA25 /* importTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = importTest.php; sourceTree = "<group>"; };
 		CAA4D3F81A45A648003ABA25 /* roundtripTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = roundtripTest.php; sourceTree = "<group>"; };
@@ -2851,7 +2848,6 @@
 				CA699A0F1A4EE05800B23E0A /* editor.css */,
 				CA699A101A4EE05800B23E0A /* exports.css */,
 				CAA4D3C91A45A648003ABA25 /* checks */,
-				CAA4D3D21A45A648003ABA25 /* config */,
 				CAA4D3F51A45A648003ABA25 /* editor */,
 				CAA4D3FA1A45A648003ABA25 /* filter */,
 				CAA4D4161A45A648003ABA25 /* flate1.html */,
@@ -2877,16 +2873,6 @@
 				CAA4D3CE1A45A648003ABA25 /* versificationTest.php */,
 			);
 			path = checks;
-			sourceTree = "<group>";
-		};
-		CAA4D3D21A45A648003ABA25 /* config */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D3D31A45A648003ABA25 /* bibleTest.php */,
-				CAA4D3D51A45A648003ABA25 /* generalTest.php */,
-				CAA4D3D71A45A648003ABA25 /* userTest.php */,
-			);
-			path = config;
 			sourceTree = "<group>";
 		};
 		CAA4D3F51A45A648003ABA25 /* editor */ = {
