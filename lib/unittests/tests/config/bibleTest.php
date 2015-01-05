@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
  
-class databaseConfigBibleTest extends PHPUnit_Framework_TestCase
+class databaseConfigBibleTest extends PHPUnit_Framework_TestCase // Todo port it.
 {
 
 

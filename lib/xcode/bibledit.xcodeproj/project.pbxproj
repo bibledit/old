@@ -895,42 +895,11 @@
 		CAA4D3CD1A45A648003ABA25 /* versesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versesTest.php; sourceTree = "<group>"; };
 		CAA4D3CE1A45A648003ABA25 /* versificationTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versificationTest.php; sourceTree = "<group>"; };
 		CAA4D3D31A45A648003ABA25 /* bibleTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bibleTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D3D41A45A648003ABA25 /* configTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = configTest.php; sourceTree = "<group>"; };
 		CAA4D3D51A45A648003ABA25 /* generalTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = generalTest.php; sourceTree = "<group>"; };
-		CAA4D3D61A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D3D71A45A648003ABA25 /* userTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = userTest.php; sourceTree = "<group>"; };
-		CAA4D3D91A45A648003ABA25 /* bibles.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibles.sqlite; sourceTree = "<group>"; };
-		CAA4D3DA1A45A648003ABA25 /* books.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = books.sqlite; sourceTree = "<group>"; };
-		CAA4D3DB1A45A648003ABA25 /* check.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = check.sqlite; sourceTree = "<group>"; };
-		CAA4D3DC1A45A648003ABA25 /* commits.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = commits.sqlite; sourceTree = "<group>"; };
-		CAA4D3DD1A45A648003ABA25 /* config_general.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = config_general.sqlite; sourceTree = "<group>"; };
-		CAA4D3DE1A45A648003ABA25 /* config_user.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = config_user.sqlite; sourceTree = "<group>"; };
-		CAA4D3DF1A45A648003ABA25 /* confirm.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = confirm.sqlite; sourceTree = "<group>"; };
-		CAA4D3E01A45A648003ABA25 /* history.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = history.sqlite; sourceTree = "<group>"; };
-		CAA4D3E11A45A648003ABA25 /* jobs.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = jobs.sqlite; sourceTree = "<group>"; };
-		CAA4D3E21A45A648003ABA25 /* kjv.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = kjv.sqlite; sourceTree = "<group>"; };
-		CAA4D3E31A45A648003ABA25 /* mail.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = mail.sqlite; sourceTree = "<group>"; };
-		CAA4D3E41A45A648003ABA25 /* modifications.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = modifications.sqlite; sourceTree = "<group>"; };
-		CAA4D3E51A45A648003ABA25 /* morphhb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = morphhb.sqlite; sourceTree = "<group>"; };
-		CAA4D3E61A45A648003ABA25 /* navigation.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = navigation.sqlite; sourceTree = "<group>"; };
-		CAA4D3E71A45A648003ABA25 /* noteactions.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = noteactions.sqlite; sourceTree = "<group>"; };
-		CAA4D3E81A45A648003ABA25 /* notes.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = notes.sqlite; sourceTree = "<group>"; };
-		CAA4D3E91A45A648003ABA25 /* notes_checksums.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = notes_checksums.sqlite; sourceTree = "<group>"; };
-		CAA4D3EA1A45A648003ABA25 /* offlineresources.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = offlineresources.sqlite; sourceTree = "<group>"; };
-		CAA4D3EB1A45A648003ABA25 /* sblgnt.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = sblgnt.sqlite; sourceTree = "<group>"; };
-		CAA4D3EC1A45A648003ABA25 /* setup */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = setup; sourceTree = "<group>"; };
-		CAA4D3ED1A45A648003ABA25 /* shell.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = shell.sqlite; sourceTree = "<group>"; };
-		CAA4D3EE1A45A648003ABA25 /* sprint.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = sprint.sqlite; sourceTree = "<group>"; };
-		CAA4D3EF1A45A648003ABA25 /* styles.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = styles.sqlite; sourceTree = "<group>"; };
-		CAA4D3F01A45A648003ABA25 /* teardown */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = teardown; sourceTree = "<group>"; };
-		CAA4D3F11A45A648003ABA25 /* users.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = users.sqlite; sourceTree = "<group>"; };
-		CAA4D3F21A45A648003ABA25 /* usfmresources.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = usfmresources.sqlite; sourceTree = "<group>"; };
-		CAA4D3F31A45A648003ABA25 /* versifications.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = versifications.sqlite; sourceTree = "<group>"; };
-		CAA4D3F41A45A648003ABA25 /* volatile.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = volatile.sqlite; sourceTree = "<group>"; };
 		CAA4D3F61A45A648003ABA25 /* exportTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = exportTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3F71A45A648003ABA25 /* importTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = importTest.php; sourceTree = "<group>"; };
 		CAA4D3F81A45A648003ABA25 /* roundtripTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = roundtripTest.php; sourceTree = "<group>"; };
-		CAA4D3F91A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D3FE1A45A648003ABA25 /* clientTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = clientTest.php; sourceTree = "<group>"; };
 		CAA4D3FF1A45A648003ABA25 /* conflictTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = conflictTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D4011A45A648003ABA25 /* datetimeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = datetimeTest.php; sourceTree = "<group>"; };
@@ -966,13 +935,10 @@
 		CAA4D4231A45A648003ABA25 /* qunit-1.14.0.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "qunit-1.14.0.js"; sourceTree = "<group>"; };
 		CAA4D4241A45A648003ABA25 /* tests.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = tests.js; sourceTree = "<group>"; };
 		CAA4D42C1A45A648003ABA25 /* generalTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = generalTest.php; sourceTree = "<group>"; };
-		CAA4D42D1A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D42F1A45A648003ABA25 /* biblehub-text-john-1-1-tidy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-text-john-1-1-tidy.html"; sourceTree = "<group>"; };
 		CAA4D4301A45A648003ABA25 /* biblehub-text-john-1-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-text-john-1-1.html"; sourceTree = "<group>"; };
 		CAA4D4311A45A648003ABA25 /* htmlTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = htmlTest.php; sourceTree = "<group>"; };
 		CAA4D4321A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
-		CAA4D4341A45A648003ABA25 /* filterUserTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = filterUserTest.php; sourceTree = "<group>"; };
-		CAA4D4351A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D4361A45A648003ABA25 /* unittest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = unittest.cpp; sourceTree = "<group>"; };
 		CAA4D4371A45A648003ABA25 /* unittest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unittest.h; sourceTree = "<group>"; };
 		CAA4D4381A45A648003ABA25 /* utilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utilities.cpp; sourceTree = "<group>"; };
@@ -2886,7 +2852,6 @@
 				CA699A101A4EE05800B23E0A /* exports.css */,
 				CAA4D3C91A45A648003ABA25 /* checks */,
 				CAA4D3D21A45A648003ABA25 /* config */,
-				CAA4D3D81A45A648003ABA25 /* databases */,
 				CAA4D3F51A45A648003ABA25 /* editor */,
 				CAA4D3FA1A45A648003ABA25 /* filter */,
 				CAA4D4161A45A648003ABA25 /* flate1.html */,
@@ -2898,7 +2863,6 @@
 				CAA4D4201A45A648003ABA25 /* qunit */,
 				CAA4D42B1A45A648003ABA25 /* test */,
 				CAA4D42E1A45A648003ABA25 /* tidy */,
-				CAA4D4331A45A648003ABA25 /* users */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -2919,47 +2883,10 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D3D31A45A648003ABA25 /* bibleTest.php */,
-				CAA4D3D41A45A648003ABA25 /* configTest.php */,
 				CAA4D3D51A45A648003ABA25 /* generalTest.php */,
-				CAA4D3D61A45A648003ABA25 /* run */,
 				CAA4D3D71A45A648003ABA25 /* userTest.php */,
 			);
 			path = config;
-			sourceTree = "<group>";
-		};
-		CAA4D3D81A45A648003ABA25 /* databases */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D3D91A45A648003ABA25 /* bibles.sqlite */,
-				CAA4D3DA1A45A648003ABA25 /* books.sqlite */,
-				CAA4D3DB1A45A648003ABA25 /* check.sqlite */,
-				CAA4D3DC1A45A648003ABA25 /* commits.sqlite */,
-				CAA4D3DD1A45A648003ABA25 /* config_general.sqlite */,
-				CAA4D3DE1A45A648003ABA25 /* config_user.sqlite */,
-				CAA4D3DF1A45A648003ABA25 /* confirm.sqlite */,
-				CAA4D3E01A45A648003ABA25 /* history.sqlite */,
-				CAA4D3E11A45A648003ABA25 /* jobs.sqlite */,
-				CAA4D3E21A45A648003ABA25 /* kjv.sqlite */,
-				CAA4D3E31A45A648003ABA25 /* mail.sqlite */,
-				CAA4D3E41A45A648003ABA25 /* modifications.sqlite */,
-				CAA4D3E51A45A648003ABA25 /* morphhb.sqlite */,
-				CAA4D3E61A45A648003ABA25 /* navigation.sqlite */,
-				CAA4D3E71A45A648003ABA25 /* noteactions.sqlite */,
-				CAA4D3E81A45A648003ABA25 /* notes.sqlite */,
-				CAA4D3E91A45A648003ABA25 /* notes_checksums.sqlite */,
-				CAA4D3EA1A45A648003ABA25 /* offlineresources.sqlite */,
-				CAA4D3EB1A45A648003ABA25 /* sblgnt.sqlite */,
-				CAA4D3EC1A45A648003ABA25 /* setup */,
-				CAA4D3ED1A45A648003ABA25 /* shell.sqlite */,
-				CAA4D3EE1A45A648003ABA25 /* sprint.sqlite */,
-				CAA4D3EF1A45A648003ABA25 /* styles.sqlite */,
-				CAA4D3F01A45A648003ABA25 /* teardown */,
-				CAA4D3F11A45A648003ABA25 /* users.sqlite */,
-				CAA4D3F21A45A648003ABA25 /* usfmresources.sqlite */,
-				CAA4D3F31A45A648003ABA25 /* versifications.sqlite */,
-				CAA4D3F41A45A648003ABA25 /* volatile.sqlite */,
-			);
-			path = databases;
 			sourceTree = "<group>";
 		};
 		CAA4D3F51A45A648003ABA25 /* editor */ = {
@@ -2968,7 +2895,6 @@
 				CAA4D3F61A45A648003ABA25 /* exportTest.php */,
 				CAA4D3F71A45A648003ABA25 /* importTest.php */,
 				CAA4D3F81A45A648003ABA25 /* roundtripTest.php */,
-				CAA4D3F91A45A648003ABA25 /* run */,
 			);
 			path = editor;
 			sourceTree = "<group>";
@@ -3043,7 +2969,6 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D42C1A45A648003ABA25 /* generalTest.php */,
-				CAA4D42D1A45A648003ABA25 /* run */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -3057,15 +2982,6 @@
 				CAA4D4321A45A648003ABA25 /* run */,
 			);
 			path = tidy;
-			sourceTree = "<group>";
-		};
-		CAA4D4331A45A648003ABA25 /* users */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D4341A45A648003ABA25 /* filterUserTest.php */,
-				CAA4D4351A45A648003ABA25 /* run */,
-			);
-			path = users;
 			sourceTree = "<group>";
 		};
 		CAA4D43A1A45A648003ABA25 /* user */ = {
