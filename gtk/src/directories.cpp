@@ -30,6 +30,23 @@
 #include "tiny_utilities.h"
 #include "restore.h"
 
+// Change forward slash to backslash on WIN32, else there are major
+// problems with system calls to the file system (unix_rmdir, for instance).
+ustring directories::fix_slashes(ustring &tofix)
+{
+  ustring retval;
+#ifdef WIN32
+  ustring::iterator it;
+  for (it = tofix.begin(); it < tofix.end(); it++) {
+      if (*it == '/') { retval.push_back('\\'); }
+      else { retval.push_back(*it); }
+  }
+#else
+  retval = tofix;
+#endif
+  return retval;
+}
+
 // Constructor
 directories::directories(char *argv0)
 {
@@ -48,7 +65,7 @@ directories::directories(char *argv0)
     // A clever way to take a path like C:\Program
     // Files\Bibledit-Gtk\editor\bin\ and chop the
     // last component to get back to <something>\Bibledit-Gtk\editor...
-    package_data = gw_path_get_dirname(dirname);
+    package_data = gw_path_get_dirname(rundir);
     // ... Then add two more dirs back on, resulting in
     // <something>Bibledit-Gtk\editor\share\bibledit
     package_data = gw_build_filename(package_data, "share", "bibledit");
@@ -57,6 +74,11 @@ directories::directories(char *argv0)
   // For Linux, this is hard-coded to match the variable set in config.h
   package_data = PACKAGE_DATA_DIR;
 #endif
+  package_data = fix_slashes(package_data);
+
+  // The root directory of all data.
+  root = tiny_directories_get_root();
+  root = fix_slashes(root);
 }
 
 directories::~directories()
@@ -66,7 +88,7 @@ directories::~directories()
 void directories::check_structure()
 {
   restore_all_stage_two ();
-  gw_mkdir_with_parents(get_root());
+  gw_mkdir_with_parents(root);
   gw_mkdir_with_parents(get_projects());
   gw_mkdir_with_parents(get_notes());
   gw_mkdir_with_parents(get_stylesheets());
@@ -83,91 +105,106 @@ void directories::check_structure()
 ustring directories::get_root()
 // Returns the root directory of all data.
 {
-  return tiny_directories_get_root();
+  return root;
 }
 
 
 ustring directories::get_projects()
 {
   // This returns the directory with all the projects.
-  return tiny_directories_get_projects();
+  ustring dir = tiny_directories_get_projects();
+  dir = fix_slashes(dir);
+  return dir;
 }
 
 
 ustring directories::get_notes()
 {
   // This returns the directory with the notes
-  return gw_build_filename(get_root(), "notes");
+  ustring dir = gw_build_filename(root, "notes");
+  dir = fix_slashes(dir);
+  return dir;
 }
 
 
 ustring directories::get_stylesheets()
 {
   // This returns the directory with the stylesheets
-  return gw_build_filename(get_root(), "stylesheets");
+  ustring dir = gw_build_filename(root, "stylesheets");
+  dir = fix_slashes(dir);
+  return dir;
 }
 
 
 ustring directories::get_configuration()
 {
   // This returns the directory with the configuration
-  return gw_build_filename(get_root(), "configuration");
+  ustring dir = gw_build_filename(root, "configuration");
+  dir = fix_slashes(dir);
+  return dir;
 }
 
 
 ustring directories::get_pictures()
 {
   // This returns the directory with the pictures
-  return gw_build_filename(get_root(), "pictures");
+  ustring dir = gw_build_filename(root, "pictures");
+  dir = fix_slashes(dir);
+  return dir;
 }
-
 
 ustring directories::get_resources()
 {
   // This returns the directory with the resources.
-  return gw_build_filename(get_root(), "resources");
+  ustring dir = gw_build_filename(root, "resources");
+  dir = fix_slashes(dir);
+  return dir;
 }
-
 
 ustring directories::get_scripts()
 {
   // This returns the directory with the scripts.
-  return gw_build_filename(get_root(), "scripts");
+  ustring dir = gw_build_filename(root, "scripts");
+  dir = fix_slashes(dir);
+  return dir;
 }
 
 
 ustring directories::get_temp()
 {
   // Returns the temporal directory bibledit uses.
-  return gw_build_filename(g_get_tmp_dir(), "bibledit");
+  ustring dir = gw_build_filename(g_get_tmp_dir(), "bibledit");
+  dir = fix_slashes(dir);
+  return dir;
 }
-
 
 ustring directories::get_templates()
 {
   // This returns the directory with the templates
-  return gw_build_filename(get_temp(), "templates");
+  ustring dir = gw_build_filename(get_temp(), "templates");
+  dir = fix_slashes(dir);
+  return dir;
 }
-
 
 ustring directories::get_templates_user()
 {
   // This returns the directory with the User's custom raw templates
-  return gw_build_filename(get_root(), "templates");
+  ustring dir = gw_build_filename(root, "templates");
+  dir = fix_slashes(dir);
+  return dir;
 }
-
 
 ustring directories::get_package_data()
 // Gives the package data directory, cross platform.
 {
-  return package_data;
+  return package_data; // already did fix_slashes
 }
 
 ustring directories::get_restore ()
 // The directory, if found, to restore from.
 {
-  ustring directory;
-  directory = get_root() + ".restored";
-  return directory;
+  ustring dir = root + ".restored";
+  dir = fix_slashes(dir);
+  return dir;
 }
 

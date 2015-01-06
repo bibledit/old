@@ -112,7 +112,11 @@ void export_to_usfm (const ustring& project, ustring location, bool zip)
 #else
     ustring command = "cd" + shell_quote_space(tempdir) + "; zip -r zip.zip *.usfm; mv zip.zip" + shell_quote_space(location);
 #endif
-    if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
+    // This one does not work with GwSpawn because of the wildcards used.
+    if (int ret = system(command.c_str())) {
+      cerr << "System call for zip and move returned " << ret << endl;
+      cerr << "-1 indicates error; return status of the command otherwise" << endl;
+    } 
   }
 }
 

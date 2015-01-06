@@ -40,10 +40,14 @@ class directories {
   // Package data directory (e.g. /usr/share/bibledit-gtk or
   // C:\Program Files\Bibledit\editor\share\bibledit)
   ustring package_data;
+  ustring root;
+  
+  ustring fix_slashes(ustring &tofix);
 
  public: 
-  // Must initialize this class with argv[0] so it knows where
-  // the program was run from. See bibledit.cpp for this.
+  // Must initialize this class with argv[0] so it knows where the
+  // program was run from. See bibledit.cpp and bibledit-rdwrt.cpp for
+  // this.
   directories(char *argv0);
   ~directories();
 
