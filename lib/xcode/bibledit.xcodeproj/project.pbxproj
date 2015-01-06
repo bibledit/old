@@ -910,7 +910,6 @@
 		CAA4D40A1A45A648003ABA25 /* diffTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = diffTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D40B1A45A648003ABA25 /* fileTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = fileTest.php; sourceTree = "<group>"; };
 		CAA4D40C1A45A648003ABA25 /* hexTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hexTest.php; sourceTree = "<group>"; };
-		CAA4D40D1A45A648003ABA25 /* htmlTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = htmlTest.php; sourceTree = "<group>"; };
 		CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hyphenateTest.php; sourceTree = "<group>"; };
 		CAA4D40F1A45A648003ABA25 /* markupTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = markupTest.php; sourceTree = "<group>"; };
 		CAA4D4101A45A648003ABA25 /* mergeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = mergeTest.php; sourceTree = "<group>"; };
@@ -2893,7 +2892,6 @@
 				CAA4D40A1A45A648003ABA25 /* diffTest.php */,
 				CAA4D40B1A45A648003ABA25 /* fileTest.php */,
 				CAA4D40C1A45A648003ABA25 /* hexTest.php */,
-				CAA4D40D1A45A648003ABA25 /* htmlTest.php */,
 				CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */,
 				CAA4D40F1A45A648003ABA25 /* markupTest.php */,
 				CAA4D4101A45A648003ABA25 /* mergeTest.php */,
