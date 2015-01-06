@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 $filter_text_book = new Filter_Text ($bible);
@@ -61,13 +61,13 @@ $filter_text_book->text_text = new Text_Text ();
 
 // Basic USFM.
 if (file_exists ($usfmFilename)) unlink ($usfmFilename);
-$basicUsfm = "\\id " . $database_books->getUsfmFromId ($book) . "\n";
+$basicUsfm = "\\id " . Database_Books::getUsfmFromId ($book) . "\n";
 file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
 unset ($basicUsfm);
 
 
 $chapters = $database_bibles->getChapters ($bible, $book);
-foreach ($chapters as $chapter) {
+for ($chapters as $chapter) {
 
 
   // The text filter for this chapter.
@@ -80,7 +80,7 @@ foreach ($chapters as $chapter) {
 
   // Get the USFM code for the current chapter.
   $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
-  $chapter_data = trim ($chapter_data);
+  $chapter_data = filter_string_trim ($chapter_data);
 
 
   // Add the chapter's USFM code to the Text_* filter for the book, and for the chapter.
@@ -97,9 +97,9 @@ foreach ($chapters as $chapter) {
   if ($chapter > 0) {
     $verses_text = $filter_text_chapter->getVersesText ();
     $basicUsfm = "\\c $chapter\n";
-    $basicUsfm .= "\\p\n";
-    foreach ($verses_text as $verse => $text) {
-      $basicUsfm .= "\\v $verse $text\n";
+    $basicUsfm += "\\p\n";
+    for ($verses_text as $verse => $text) {
+      $basicUsfm += "\\v $verse $text\n";
     }
    filter_url_file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
   }
@@ -116,7 +116,7 @@ $filter_text_book->run ($stylesheet);
 $filter_text_book->text_text->save ($textFilename);
 
 
-$database_logs->log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . gettext("Exported to basic USFM and text"), Filter_Roles::translator ());
+Database_Logs::log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . gettext("Exported to basic USFM and text"), Filter_Roles::translator ());
 
 
 ?>

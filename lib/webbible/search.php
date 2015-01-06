@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,13 +34,13 @@ echo "<body>\n";
 
 
 // Get the URL and the text for the backlink.
-$backlinkUrl = isset($_GET['url']) ? $_GET['url'] : '';
-$backlinkText = isset($_GET['text']) ? $_GET['text'] : '';
+$backlinkUrl = isset(request->query['url']) ? request->query['url'] : '';
+$backlinkText = isset(request->query['text']) ? request->query['text'] : '';
 
 
 // The query: The word or string to search for.
 // Clean input for security.
-$queryString = isset($_GET['q']) ? $_GET['q'] : '';
+$queryString = isset(request->query['q']) ? request->query['q'] : '';
 $queryString = stripslashes ($queryString);
 $queryString = str_replace ("'", "", $queryString);
 
@@ -63,7 +63,7 @@ echo "</table>\n";
 
 
 // Clean the query string up.
-$queryString = trim ($queryString);
+$queryString = filter_string_trim ($queryString);
 
 
 // Generate search words for emphasizing the search hits.
@@ -89,7 +89,7 @@ echo "<p><font size=\"-1\" color=\"grey\">$hitCount " . gettext("chapters") . "<
 
 
 // Go through the search hits.
-foreach ($ids as $id) {
+for ($ids as $id) {
 
 
   // Get the details of this search hit.
@@ -103,7 +103,7 @@ foreach ($ids as $id) {
 
   // The title.
   $title = "$bible" . " | " . filter_passage_display ($book, $chapter, $verse);
-  $title = Filter_Html::sanitize ($title);
+  $title = filter_string_sanitize_html ($title);
 
 
   // The URL.
@@ -119,11 +119,11 @@ foreach ($ids as $id) {
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.
-  foreach ($text as $line) {
+  for ($text as $line) {
     $markedLine = Filter_Markup::words ($queryWords, $line);
     if ($markedLine != $line) {
       // Store this bit of the excerpt.
-      $excerpt .= "<p style=\"margin-top: 0em; margin-bottom: 0em\">$markedLine</p>\n";
+      $excerpt += "<p style=\"margin-top: 0em; margin-bottom: 0em\">$markedLine</p>\n";
     }
   }
   echo "$excerpt\n";

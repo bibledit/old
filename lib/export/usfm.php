@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ if (!file_exists ($usfmDirectoryFull)) mkdir ($usfmDirectoryFull, 0777, true);
 
 
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
 
 
   // The USFM data of the current book.
@@ -68,13 +68,13 @@ foreach ($books as $book) {
 
   // Collect the USFM for all chapters in this book.
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     // Get the USFM code for the current chapter.
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
-    $chapter_data = trim ($chapter_data);
+    $chapter_data = filter_string_trim ($chapter_data);
     // Add the chapter USFM code to the book's USFM code.
-    $bookUsfmDataFull .= $chapter_data;
-    $bookUsfmDataFull .= "\n";
+    $bookUsfmDataFull += $chapter_data;
+    $bookUsfmDataFull += "\n";
   }
 
 
@@ -97,7 +97,7 @@ $archive = Filter_Archive::zip ($usfmDirectoryFull);
 rename ($archive, $zipfile);
 
 
-if ($database_config_bible->getSecureUsfmExport ($bible)) {
+if (Database_Config_Bible::getSecureUsfmExport ($bible)) {
   // Securing the full USFM export means that there will be one zip file secured with a password.
   // This zip file contains all exported USFM data.
   // All other files will be removed.
@@ -106,17 +106,17 @@ if ($database_config_bible->getSecureUsfmExport ($bible)) {
   $files = scandir ($usfmDirectoryFull);
   $files = Filter_Folders::cleanup ($files);
   $basefile = basename ($zipfile);
-  foreach ($files as $file) {
+  for ($files as $file) {
     if ($file != $basefile) unlink ("$usfmDirectoryFull/$file");
   }
   $directory = escapeshellarg ($usfmDirectoryFull);
-  $password = escapeshellarg ($database_config_bible->getExportPassword ($bible));
+  $password = escapeshellarg (Database_Config_Bible::getExportPassword ($bible));
   $command = "cd $directory; zip -P $password bible.zip $basefile; rm $basefile";
   Tasks_Logic::save ($command);
 }
 
 
-$database_logs->log ($bible . ": " . gettext("Exported to USFM"), Filter_Roles::translator ());
+Database_Logs::log ($bible . ": " . gettext("Exported to USFM"), Filter_Roles::translator ());
 
 
 ?>

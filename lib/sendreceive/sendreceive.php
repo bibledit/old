@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,17 +42,17 @@ $send_receive = "send/receive:";
 putenv ("HOME=" . dirname (__FILE__));
 
 
-$database_logs->log ("Send/receive Bible" . " " . $bible, Filter_Roles::translator ());
+Database_Logs::log ("Send/receive Bible" . " " . $bible, Filter_Roles::translator ());
 
 
 // The git directory for this object.
-$directory = Filter_Git::git_directory ($bible);
+$directory = filter_git_git_directory ($bible);
 $shelldirectory = escapeshellarg ($directory);
 
 
 // Check that the repository directory is there.
 if (!is_dir ($directory)) {
-  $database_logs->log ("$send_receive Cannot send and receive because the git repository was not found in the filesystem.");
+  Database_Logs::log ("$send_receive Cannot send and receive because the git repository was not found in the filesystem.");
   die;
 }
 
@@ -67,7 +67,7 @@ $success = Filter_Git::syncBible2Git ($bible, $directory);
 // Through the repository this would then be propagated to other the systems.
 // The best thing to do is to remove the .git directory altogether so that it cannot propagate corrupt data.
 if (!$success) {
-  Filter_Rmdir::rmdir ("$directory/.git");
+  filter_url_rmdir ("$directory/.git");
 }
 
 
@@ -80,11 +80,11 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if ($exit_code != 0) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 0)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -96,11 +96,11 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if ($exit_code != 0) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 4)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -112,11 +112,11 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if (($exit_code != 0) && ($exit_code != 1)) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 4)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -131,18 +131,18 @@ if ($success) {
   $logs [] = "$send_receive $command";
   unset ($result);
   exec ($command, $result, $exit_code);
-  foreach ($result as $line) {
+  for ($result as $line) {
     $logs [] = "$send_receive $line";
     if (strstr ($line, "CONFLICT") !== false) $conflict = true;
     $pull_messages [] = $line;
   }
   if ($conflict) {
-    $message = "Bibledit-Web will merge the conflicts.";
+    $message = "Bibledit will merge the conflicts.";
     $logs [] = "$send_receive $message";
     Filter_Conflict::run ($directory);
   }
   if (!$success || $conflict || (count ($result) > 1)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -155,19 +155,19 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if ($exit_code != 0) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     if (strstr ($line, "/.ssh") != false) continue;
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 1)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
   }
 }
 
 
 // Record the changes from the collaborators into the Bible database.
 if ($success) {
-  foreach ($pull_messages as $pull_message) {
+  for ($pull_messages as $pull_message) {
     $book_chapter = Filter_Git::getPullPassage ($pull_message);
     if ($book_chapter) {
       $book = $book_chapter ['book'];
@@ -180,9 +180,9 @@ if ($success) {
 
 // Done.
 if (!$success) {
-  $database_logs->log ("Failure during sending and receiving", Filter_Roles::translator ());
+  Database_Logs::log ("Failure during sending and receiving", Filter_Roles::translator ());
 }
-$database_logs->log ("Ready sending and receiving Bible" . " " . $bible, Filter_Roles::translator ());
+Database_Logs::log ("Ready sending and receiving Bible" . " " . $bible, Filter_Roles::translator ());
 
 
 ?>

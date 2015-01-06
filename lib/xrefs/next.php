@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,9 +39,9 @@ $currentLocation = filter_passage_to_integer ($currentPassage);
 
 
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     if ($chapter == 0) continue;
     $passage = array ($book, $chapter, 1);
     $location = filter_passage_to_integer ($passage);
@@ -50,7 +50,7 @@ foreach ($books as $book) {
       $xrefs = Filter_Usfm::extractNotes ($usfm, array ("x"));
       if (empty ($xrefs)) {
         $ipc_focus->set ($book, $chapter, 1);
-        Filter_Url::redirect ("index.php");
+        redirect_browser ("index.php");
         die;
       }
     }
@@ -58,7 +58,7 @@ foreach ($books as $book) {
 }
 
 
-Filter_Url::redirect ("index.php");
+redirect_browser ("index.php");
 
 
 ?>

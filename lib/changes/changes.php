@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_modifications = Database_Modifications::getInstance ();
@@ -32,7 +32,7 @@ $username = $session_logic->currentUser ();
 
 
 // Handle AJAX call to remove a change notification.
-@$remove = $_POST['remove'];
+@$remove = request->post['remove'];
 if (isset ($remove)) {
   $trash_handler = Trash_Handler::getInstance ();
   $trash_handler->changeNotification ($remove);
@@ -42,7 +42,7 @@ if (isset ($remove)) {
 
 
 // Handle AJAX call to navigate to the passage belonging to the change notification.
-@$navigate = $_POST['navigate'];
+@$navigate = request->post['navigate'];
 if (isset ($navigate)) {
   $id = $navigate;
   $passage = $database_modifications->getNotificationPassage ($id);
@@ -60,7 +60,7 @@ if (isset ($navigate)) {
 
 
 // Remove personal change proposals and their matching change notifications.
-if (isset ($_GET ['match'])) {
+if (isset (request->query ['match'])) {
   $database_modifications->clearNotificationMatches ($username, "☺", "♺");
 }
 
@@ -75,7 +75,7 @@ $view = new Assets_View (__FILE__);
 
 // Read the identifiers but limit the number of results.
 $ids = array ();
-@$filter = $_GET ['filter'];
+@$filter = request->query ['filter'];
 if ($filter == "personal") {
   $ids = $database_modifications->getNotificationPersonalIdentifiers ($username, "☺", true);
   $view->view->filter = 1;
@@ -92,12 +92,12 @@ $view->view->ids = $ids;
 $links = array ();
 $categories = array ();
 $modifications = array ();
-foreach ($ids as $id) {
+for ($ids as $id) {
   $passage = $database_modifications->getNotificationPassage ($id);
   $link = filter_passage_link_for_opening_editor_at ($passage['book'], $passage['chapter'], $passage['verse']);
   $links [] = $link;
   $category = $database_modifications->getNotificationCategory ($id);
-  $category = Filter_Html::sanitize ($category);
+  $category = filter_string_sanitize_html ($category);
   $categories [] = $category;
   $modification = $database_modifications->getNotificationModification ($id);
   $modifications [] = $modification;

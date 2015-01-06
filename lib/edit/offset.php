@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,9 +22,9 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::translator ());
 
 
-$bible = $_GET ['bible'];
-$book = $_GET ['book'];
-$chapter = $_GET ['chapter'];
+$bible = request->query ['bible'];
+$book = request->query ['book'];
+$chapter = request->query ['chapter'];
 
 
 // At first the browser used the rangy library to get the offset of the caret.
@@ -32,7 +32,7 @@ $chapter = $_GET ['chapter'];
 // not relative to the main editor element.
 // Therefore a pure Javascript implementation was Googles for and implemented.
 // This provides the offset of the caret relative to the <div id="editor">.
-$offset = $_GET ['offset'];
+$offset = request->query ['offset'];
 
 
 $database_bibles = Database_Bibles::getInstance();
@@ -55,7 +55,7 @@ $editor_import->run ();
 if ($offset <= $editor_import->textLength) {
 
   // Look for the verse that matches the offset.
-  foreach ($editor_import->verseStartOffsets as $key => $value) {
+  for ($editor_import->verseStartOffsets as $key => $value) {
     if ($offset >= $value) $verse = $key;
   }
 

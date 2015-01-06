@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
@@ -27,13 +27,13 @@ $notes_logic = Notes_Logic::getInstance();
 $database_users = Database_Users::getInstance();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
-@$severity = $_GET['severity'];
+@$severity = request->query['severity'];
 if (isset ($severity)) {
   $notes_logic->setRawSeverity ($id, $severity);
-  Filter_Url::redirect ("actions.php?id=$id");
+  redirect_browser ("actions.php?id=$id");
   die;
 }
 

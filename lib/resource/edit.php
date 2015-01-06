@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,21 +28,21 @@ $view = new Assets_View (__FILE__);
 $database_resources = Database_Resources::getInstance ();
 
 
-@$name = $_GET['name'];
+@$name = request->query['name'];
 $view->view->name = $name;
 
 
-if (isset($_POST['code'])) {
-  $code = $_POST['code'];
+if (isset(request->post['code'])) {
+  $code = request->post['code'];
   include ("config/open.php");
   if ($open_installation) {
     echo "<h2>Cannot save data in this open installation</h2>";
   } else {
     $database_resources->save ($name, $code);
   }
-  $book = $_POST ['book'];
-  $chapter = $_POST ['chapter'];
-  $verse = $_POST ['verse'];
+  $book = request->post ['book'];
+  $chapter = request->post ['chapter'];
+  $verse = request->post ['verse'];
   $view->view->posted = true;
 }
 
@@ -53,10 +53,10 @@ $view->view->code = $code;
 
 
 $database_books = Database_Books::getInstance ();
-$books = $database_books->getIDs ();
+$books = Database_Books::getIDs ();
 $booknames = array ();
-foreach ($books as $id) {
-  $booknames [] = $database_books->getEnglishFromId ($id);
+for ($books as $id) {
+  $booknames [] = Database_Books::getEnglishFromId ($id);
 }
 $view->view->books = $books;
 $view->view->booknames = $booknames;

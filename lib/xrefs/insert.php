@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,23 +41,23 @@ $chapter = $ipc_focus->getChapter ();
 // Retrieve all abbreviations for the source Bible, sort them, longest first.
 // The replace routines replaces the longer strings first,
 // to be sure that no partial book abbreviations are replaced.
-$sourceAbbreviations = $database_config_bible->getBookAbbreviations ($sourceBible);
-$sourceAbbreviations = Filter_Abbreviations::read ($sourceAbbreviations);
+$sourceAbbreviations = Database_Config_Bible::getBookAbbreviations ($sourceBible);
+$sourceAbbreviations = filter_abbreviations_read ($sourceAbbreviations);
 $sorter = array ();
-foreach ($sourceAbbreviations as $abbrev => $dummy) {
+for ($sourceAbbreviations as $abbrev => $dummy) {
   $sorter [] = mb_strlen ($abbrev);
 }
 array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $sourceAbbreviations);
 
 
-$targetAbbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
-$targetAbbreviations = Filter_Abbreviations::read ($targetAbbreviations);
+$targetAbbreviations = Database_Config_Bible::getBookAbbreviations ($targetBible);
+$targetAbbreviations = filter_abbreviations_read ($targetAbbreviations);
 
 
 // Create array with book abbreviations to find, and one with their matching replacements.
 $find = array ();
 $replace = array ();
-foreach ($sourceAbbreviations as $sourceAbbreviation => $bk) {
+for ($sourceAbbreviations as $sourceAbbreviation => $bk) {
   $find [] = $sourceAbbreviation;
   $key = array_search ($bk, $targetAbbreviations);
   if ($key === false) {
@@ -78,7 +78,7 @@ $allxrefs = unserialize ($allxrefs);
 
 
 // Replace the abbreviations in the cross references.
-foreach ($allxrefs as $key => $xref) {
+for ($allxrefs as $key => $xref) {
   $allxrefs [$key] ['text'] = str_replace ($find, $replace, $allxrefs [$key] ['text']);
 }
 
@@ -88,20 +88,20 @@ $usfmArray = array ();
 $usfmString = $database_bibles->getChapter ($targetBible, $book, $chapter);
 $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
-foreach ($verses as $verse) {
+for ($verses as $verse) {
   $usfmArray [$verse] = usfm_get_verse_text ($usfmString, $verse);
 }
 
 
 // Go through each verse, through each note within that verse,
 // look at source location, define target location, and insert the xref.
-foreach ($verses as $verse) {
+for ($verses as $verse) {
   
   
   // Gather array of cross references for this verse, if any.
   $xrefs = array ();
   reset ($allxrefs);
-  foreach ($allxrefs as $xref) {
+  for ($allxrefs as $xref) {
     if ($xref ['verse'] == $verse) {
       $xrefs [] = array ($xref ['offset'], $xref ['text']);
     }

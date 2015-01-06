@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,30 +18,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <style type="text/css">
-<?php echo $this->custom_css ?>
+$this->custom_css
 </style>
 <div id="editorheader">
   <div id="editorinnerheader">
-    <?php if ($this->write_access) { ?>
-    <input type="button" id="stylebutton" value="<?php echo gettext("Style") ?>" unselectable="on" class="unselectable" tabIndex="-1">
-    <?php } ?>
+    <?php if ($this->write_access) {
+    <input type="button" id="stylebutton" value="gettext("Style")" unselectable="on" class="unselectable" tabIndex="-1">
+    <?php }
     <span id="stylesarea"></span>
     <span id="nostyles">
       <span id="activestyles"></span>
       |
-      <a id="bibleselect" href="index.php?changebible="><?php echo $this->bible ?></a>
+      <a id="bibleselect" href="index.php?changebible=">$this->bible</a>
       |
       <span id="editorstatus"></span>
     </span>
   </span>
 </div>
-<div id="editor" class="<?php echo $this->custom_class ?>" contenteditable="<?php if ($this->write_access) echo "true"; else echo "false"; ?>"></div>
+<div id="editor" class="$this->custom_class" contenteditable="<?php if ($this->write_access) echo "true"; else echo "false";"></div>
 <script>
-<?php echo $this->script; ?>
+$this->script;
 </script>
 <script type="text/javascript" src="../rangy/rangy-core.js"></script>
 <script type="text/javascript" src="../rangy/rangy-textrange.js"></script>
 <script type="text/javascript" src="../rangy/rangy-cssclassapplier.js"></script>
 <script type="text/javascript" src="../checksum/logic.js"></script>
-<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
-<?php echo $this->navigationCode; ?>
+<script type="text/javascript" src="index.js?config_logic_version ()"></script>
+$this->navigationCode;

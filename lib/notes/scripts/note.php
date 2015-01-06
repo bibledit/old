@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,17 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-<a href="index.php"><?php echo gettext("Back to notes list") ?></a>
+<a href="index.php">gettext("Back to notes list")</a>
 |
-<a href="actions.php?id=<?php echo $this->id ?>"><?php echo gettext("Actions") ?></a>
+<a href="actions.php?id=$this->id">gettext("Actions")</a>
 </p>
 <p>
-<?php echo gettext("Summary") ?>: <?php echo $this->summary ?>
-<?php if ($this->level >= 5) { ?>
-  [<a href="summary.php?id=<?php echo $this->id ?>"><?php echo gettext("edit") ?></a>]
-<?php } ?>
+gettext("Summary"): $this->summary
+<?php if ($this->level >= 5) {
+  [<a href="summary.php?id=$this->id">gettext("edit")</a>]
+<?php }
 </p>
-<div><?php echo $this->content ?></div>
+<div>$this->content</div>
 <hr>
-<p><a href="comment.php?id=<?php echo $this->id ?>"><?php echo gettext("Add a comment to this note") ?></a></p>
-<script type="text/javascript" src="poll.js?<?php echo config_logic_version () ?>"></script>
+<p><a href="comment.php?id=$this->id">gettext("Add a comment to this note")</a></p>
+<script type="text/javascript" src="poll.js?config_logic_version ()"></script>

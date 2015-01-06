@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::translator ());
 
 
-@$style = $_GET['style'];
+@$style = request->query['style'];
 if (isset ($style)) {
   Editor_Styles::recordUsage ($style);
   $action = Editor_Styles::getAction ($style);
@@ -32,7 +32,7 @@ if (isset ($style)) {
 }
 
 
-@$all = $_GET ['all'];
+@$all = request->query ['all'];
 if (isset ($all)) {
   echo Editor_Styles::getAll ();
   die;

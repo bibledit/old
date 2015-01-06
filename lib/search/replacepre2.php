@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,11 +31,11 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Get search variables from the query.
-@$searchfor = $_GET ['q'];
-@$replacewith = $_GET ['r'];
-@$casesensitive = ($_GET ['c'] == "true");
-@$id = $_GET ['id'];
-@$searchplain = ($_GET ['p'] == "true");
+@$searchfor = request->query ['q'];
+@$replacewith = request->query ['r'];
+@$casesensitive = (request->query ['c'] == "true");
+@$id = request->query ['id'];
+@$searchplain = (request->query ['p'] == "true");
 
 
 // Get the Bible and passage for this identifier.

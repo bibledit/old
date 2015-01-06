@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ $directory = Filter_Cli::argument (@$argv, 2);
 $escapedDir = escapeshellarg ($directory);
 
 $database_config_bible = Database_Config_Bible::getInstance();
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 
 $command = "cd $escapedDir; git clone $url .";
 echo "$command\n";
@@ -49,7 +49,7 @@ exec ("cd $escapedDir; git config push.default matching");
 // On some machines the mail name and address are not set properly; therefore these are set here.
 $database_config_general = Database_Config_General::getInstance();
 $mail_name = $database_config_general->getSiteMailName();
-if (!$mail_name) $mail_name = "Bibledit-Web";
+if (!$mail_name) $mail_name = "Bibledit";
 exec ("cd $escapedDir; git config user.name \"$mail_name\"");
 $mail_address = $database_config_general->getSiteMailAddress();
 if (!$mail_address) $mail_address = "bibledit-web@bibledit.org";

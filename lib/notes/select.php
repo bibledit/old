@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $header = new Assets_Header (gettext("Select notes"));
@@ -34,34 +34,34 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-@$passage_selector = $_GET['passageselector'];
+@$passage_selector = request->query['passageselector'];
 if (isset ($passage_selector)) {
   if (($passage_selector < 0) || ($passage_selector > 3)) $passage_selector = 0;
   $database_config_user->setConsultationNotesPassageSelector ($passage_selector);
 }
 
 
-@$edit_selector = $_GET['editselector'];
+@$edit_selector = request->query['editselector'];
 if (isset ($edit_selector)) {
   if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
   $database_config_user->setConsultationNotesEditSelector ($edit_selector);
 }
 
 
-@$non_edit_selector = $_GET['noneditselector'];
+@$non_edit_selector = request->query['noneditselector'];
 if (isset ($non_edit_selector)) {
   if (($non_edit_selector < 0) || ($non_edit_selector > 5)) $non_edit_selector = 0;
   $database_config_user->setConsultationNotesNonEditSelector($non_edit_selector);
 }
 
 
-@$status_selector = $_GET['statusselector'];
+@$status_selector = request->query['statusselector'];
 if (isset ($status_selector)) {
   $database_config_user->setConsultationNotesStatusSelector($status_selector);
 }
 
 
-@$bible_selector = $_GET['bibleselector'];
+@$bible_selector = request->query['bibleselector'];
 if (isset ($bible_selector)) {
   $database_config_user->setConsultationNotesBibleSelector ($bible_selector);
   // Also set the active Bible for the user.
@@ -71,29 +71,29 @@ if (isset ($bible_selector)) {
 }
 
 
-@$assignment_selector = $_GET['assignmentselector'];
+@$assignment_selector = request->query['assignmentselector'];
 if (isset ($assignment_selector)) {
   $database_config_user->setConsultationNotesAssignmentSelector($assignment_selector);
 }
 
 
-@$subscription_selector = $_GET['subscriptionselector'];
+@$subscription_selector = request->query['subscriptionselector'];
 if (isset ($subscription_selector)) {
   if ($subscription_selector == 1) $subscription_selector = 1; else $subscription_selector = 0;
   $database_config_user->setConsultationNotesSubscriptionSelector($subscription_selector);
 }
 
 
-@$severity_selector = $_GET['severityselector'];
+@$severity_selector = request->query['severityselector'];
 if (isset ($severity_selector)) {
   $database_config_user->setConsultationNotesSeveritySelector($severity_selector);
 }
 
 
-@$text_selector = $_GET['textselector'];
+@$text_selector = request->query['textselector'];
 if (isset ($text_selector)) {
   $database_config_user->setConsultationNotesTextSelector ($text_selector);
-  @$search_text = $_POST['text'];
+  @$search_text = request->post['text'];
   if (isset ($search_text)) {
     $database_config_user->setConsultationNotesSearchText ($search_text);
     Assets_Page::success (gettext("Search text saved"));
@@ -101,13 +101,13 @@ if (isset ($text_selector)) {
 }
 
 
-@$passage_inclusion_selector = $_GET['passageinclusionyselector'];
+@$passage_inclusion_selector = request->query['passageinclusionyselector'];
 if (isset ($passage_inclusion_selector)) {
   $database_config_user->setConsultationNotesPassageInclusionSelector ($passage_inclusion_selector);
 }
 
 
-@$text_inclusion_selector = $_GET['textinclusionyselector'];
+@$text_inclusion_selector = request->query['textinclusionyselector'];
 if (isset ($text_inclusion_selector)) {
   $database_config_user->setConsultationNotesTextInclusionSelector ($text_inclusion_selector);
 }
@@ -129,7 +129,7 @@ $view->view->noneditselector = $non_edit_selector;
 
 
 $possible_statuses = $database_notes->getPossibleStatuses();
-foreach ($possible_statuses as $possible_status) {
+for ($possible_statuses as $possible_status) {
   $status_ids [] = $possible_status[0];
   $status_localizations [] = $possible_status[1];
 }
@@ -144,7 +144,7 @@ $view->view->statusselector = $status_selector;
 // The information about available Bibles could be gathered from the notes database.
 // But multiple teams can be hosted, the information about available Bibles
 // is gathered from the Bibles the user has access to.
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $view->view->bibles = $bibles;
 
 
@@ -181,7 +181,7 @@ $view->view->textselector = $text_selector;
 
 
 $search_text = $database_config_user->getConsultationNotesSearchText();
-$view->view->searchtext = Filter_Html::sanitize ($search_text);
+$view->view->searchtext = filter_string_sanitize_html ($search_text);
 
 
 $passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/md5.h>
+#include <filter/usfm.h>
 #include <flate/flate.h>
 #include <config/globals.h>
 #include <database/config/general.h>
@@ -31,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <database/users.h>
 #include <database/books.h>
+#include <checksum/logic.h>
 
 
 void test_sqlite ()
@@ -172,8 +174,11 @@ void test_session_logic ()
 void test_empty_folders ()
 {
   // There should be no empty folders in the library, because git does not include them.
-  int result = system ("find . -type d -empty");
+  int result = system ("find . -type d -empty > /tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, 0, result);
+  string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
+  evaluate (__LINE__, __func__, "", contents);
+  filter_url_unlink ("/tmp/bibledittest.txt");
 }
 
 
@@ -241,3 +246,175 @@ void test_flate ()
 }
 
 
+void test_checksum_logic ()
+{
+  // Get1
+  {
+    string data = "\\v Verse 1";
+    string checksum = Checksum_Logic::get (data);
+    evaluate (__LINE__, __func__, "3", checksum);
+  }
+  // Get2
+  {
+    string data = "Line one\\nLine 2\\n";
+    string checksum = Checksum_Logic::get (data);
+    evaluate (__LINE__, __func__, "3", checksum);
+  }
+  // Send1
+  {
+    string data = "\\v Verse 1";
+    string checksum = Checksum_Logic::send (data);
+    string standard = "3\n" + data;
+    evaluate (__LINE__, __func__, standard, checksum);
+  }
+  // Send2
+  {
+    string data = "Line one\\nLine 2\n";
+    string checksum = Checksum_Logic::send (data);
+    string standard = "3\n" + data;
+    evaluate (__LINE__, __func__, standard, checksum);
+  }
+  // Setup some data.
+  refresh_sandbox (true);
+  Webserver_Request request;
+  request.database_search()->create ();
+  request.database_bibles()->storeChapter ("phpunit1", 1, 2, "data1");
+  request.database_bibles()->storeChapter ("phpunit1", 1, 3, "data2");
+  request.database_bibles()->storeChapter ("phpunit1", 1, 4, "data3");
+  request.database_bibles()->storeChapter ("phpunit2", 2, 5, "data4");
+  // GetChapter1
+  {
+    string checksum = Checksum_Logic::getChapter (&request, "phpunit1", 1, 2);
+    evaluate (__LINE__, __func__, md5 ("data1"), checksum);
+  }
+  // GetChapter2
+  {
+    string checksum = Checksum_Logic::getChapter (&request, "phpunit2", 2, 6);
+    evaluate (__LINE__, __func__, md5 (""), checksum);
+  }
+  // GetBook1
+  {
+    string checksum = Checksum_Logic::getBook (&request, "phpunit1", 1);
+    evaluate (__LINE__, __func__, "2ab6425924e6cd38b2474c543c5ea602", checksum);
+  }
+  // GetBook2
+  {
+    string checksum = Checksum_Logic::getBook (&request, "phpunit3", 1);
+    evaluate (__LINE__, __func__, "d41d8cd98f00b204e9800998ecf8427e", checksum);
+  }
+  // GetBible1
+  {
+    string checksum = Checksum_Logic::getBible (&request, "phpunit1");
+    evaluate (__LINE__, __func__, "f9dc679a8712eb6f65b584e9688e9680", checksum);
+  }
+  // GetBible2
+  {
+    string checksum = Checksum_Logic::getBible (&request, "phpunit2");
+    evaluate (__LINE__, __func__, "ee84a85bac14adb35e887c3d89bc80ab", checksum);
+  }
+  // GetBibles1
+  {
+    string checksum = Checksum_Logic::getBibles (&request, {"phpunit1", "phpunit2"});
+    evaluate (__LINE__, __func__, "440b2008993816f0bc8c557b64fbdaf2", checksum);
+  }
+  // GetBibles2
+  {
+    string checksum = Checksum_Logic::getBibles (&request, {"phpunit3", "phpunit4"});
+    evaluate (__LINE__, __func__, "020eb29b524d7ba672d9d48bc72db455", checksum);
+  }
+}
+
+
+void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
+{
+  refresh_sandbox (true);
+  request->database_search()->create ();
+  request->database_bibles()->createBible ("phpunit");
+  request->database_bibles()->storeChapter ("phpunit", 1, 1, usfm);
+}
+
+void test_store_bible_data ()
+{
+  Webserver_Request request;
+  string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 Verse 1.\n"
+  "\\v 2 Verse 2.\n"
+  "\\v 3 Verse 3.\n"
+  "\\v 4 Verse 4.\n"
+  "\\v 5 Verse 5.\n";
+  // SafeStoreChapterSaveOne
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 4 Verse 4.\n"
+    "\\v 5 Verse 5.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, data, result);
+  }
+  // SafeStoreChapterSaveTwo
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 4 Verse 4.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, data, result);
+  }
+  // SafeStoreChapterLength
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // SafeStoreChapterSimilarity
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 4 Verse 4.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // SafeStoreChapterNoChange
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    int currentId = request.database_bibles()->getChapterId ("phpunit", 1, 1);
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, usfm);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    int currentId2 = request.database_bibles()->getChapterId ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, currentId, currentId2);
+  }
+}

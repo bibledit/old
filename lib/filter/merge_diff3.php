@@ -52,7 +52,7 @@ class Text_Diff3 extends Text_Diff {
     function mergedOutput($label1 = false, $label2 = false)
     {
         $lines = array();
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if ($edit->isConflict()) {
                 /* FIXME: this should probably be moved somewhere else. */
                 $lines = array_merge($lines,

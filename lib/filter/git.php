@@ -1,28 +1,9 @@
 <?php
-/*
-Copyright (©) 2003-2014 Teus Benschop.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
-
 class Filter_Git
 {
 
 
-  // This filter takes the Bible data as it is stored in Bibledit-Web's database,
+  // This filter takes the Bible data as it is stored in Bibledit's database,
   // and puts this information into the layout in books and chapters
   // such as is used in Bibledit-Gtk into the $git folder.
   // The $git is a git repository, and may contain other data as well.
@@ -40,16 +21,16 @@ class Filter_Git
     // and check if they occur in the database.
     // If a chapter is not in the database, remove it from the repository.
     $books = $database_bibles->getBooks ($bible);
-    foreach (new DirectoryIterator ($git) as $fileInfo) {
+    for (new DirectoryIterator ($git) as $fileInfo) {
       if ($fileInfo->isDot ()) continue;
       if ($fileInfo->isDir ()) {
         $bookname = $fileInfo->getFilename ();
-        $book = $database_books->getIdFromEnglish ($bookname);
+        $book = Database_Books::getIdFromEnglish ($bookname);
         if ($book) {
           if (in_array ($book, $books)) {
             // Book exists in the database: Check the chapters.
             $chapters = $database_bibles->getChapters ($bible, $book);
-            foreach (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
+            for (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
               if ($fileInfo2->isDot ()) continue;
               if ($fileInfo2->isDir ()) {
                 $chapter = $fileInfo2->getFilename ();
@@ -58,7 +39,7 @@ class Filter_Git
                   if (file_exists ($filename)) {
                     if (!in_array ($chapter, $chapters)) {
                       // Chapter does not exist in the database.
-                      Filter_Rmdir::rmdir ("$git/$bookname/$chapter");
+                      filter_url_rmdir ("$git/$bookname/$chapter");
                     }
                   }
                 }
@@ -66,7 +47,7 @@ class Filter_Git
             }
           } else {
             // Book does not exist in the database: Remove it from $git.
-            Filter_Rmdir::rmdir ("$git/$bookname");
+            filter_url_rmdir ("$git/$bookname");
           }
         }
       }
@@ -77,13 +58,13 @@ class Filter_Git
     // and check if they occur in the repository, and the data matches.
     // If necessary, save the chapter to the repository.
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      $bookname = $database_books->getEnglishFromId ($book);
+    for ($books as $book) {
+      $bookname = Database_Books::getEnglishFromId ($book);
       if ($progress) echo "$bookname ";
       $bookdir = "$git/$bookname";
       if (!file_exists ($bookdir)) mkdir ($bookdir);
       $chapters = $database_bibles->getChapters ($bible, $book);
-      foreach ($chapters as $chapter) {
+      for ($chapters as $chapter) {
         $chapterdir = "$bookdir/$chapter";
         if (!file_exists ($chapterdir)) mkdir ($chapterdir);
         $datafile = "$chapterdir/data";
@@ -114,9 +95,9 @@ class Filter_Git
     // " create mode 100644 Leviticus/2/data"
     $bits = explode ("/", $line);
     if (count ($bits) != 3) return NULL;
-    $book = trim ($bits [0]);
+    $book = filter_string_trim ($bits [0]);
     $database_books = Database_Books::getInstance();
-    $book = $database_books->getIdFromEnglish ($book);
+    $book = Database_Books::getIdFromEnglish ($book);
     if (!$book) return NULL;
     $chapter = $bits [1];
     if (!is_numeric ($chapter)) return NULL;
@@ -127,7 +108,7 @@ class Filter_Git
   
 
   // This filter takes the Bible data as it is stored in the $git folder,
-  // and puts this information into Bibledit-Web's database.
+  // and puts this information into Bibledit's database.
   // The $git is a git repository, and may contain other data as well.
   // The filter focuses on reading the data in the git repository and the database,
   // and only writes to the database if necessary,
@@ -146,15 +127,15 @@ class Filter_Git
     // If any does not occur, add the chapter to the database.
     // This stage does not check the contents of the chapters.
     $books = $database_bibles->getBooks ($bible);
-    foreach (new DirectoryIterator ($git) as $fileInfo) {
+    for (new DirectoryIterator ($git) as $fileInfo) {
       if ($fileInfo->isDot ()) continue;
       if ($fileInfo->isDir ()) {
         $bookname = $fileInfo->getFilename ();
-        $book = $database_books->getIdFromEnglish ($bookname);
+        $book = Database_Books::getIdFromEnglish ($bookname);
         if ($book) {
           // Check the chapters.
           $chapters = $database_bibles->getChapters ($bible, $book);
-          foreach (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
+          for (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
             if ($fileInfo2->isDot ()) continue;
             if ($fileInfo2->isDir ()) {
               $chapter = $fileInfo2->getFilename ();
@@ -165,7 +146,7 @@ class Filter_Git
                     // Chapter does not exist in the database: Add it.
                     $usfm = filter_url_file_get_contents ($filename);
                     Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
-                    $database_logs->log (gettext("A translator added chapter") . " $bible $bookname $chapter");
+                    Database_Logs::log (gettext("A translator added chapter") . " $bible $bookname $chapter");
                   }
                 }
               }
@@ -184,12 +165,12 @@ class Filter_Git
     // folder and the contents in the database match.
     // If necessary, update the data in the database.
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      $bookname = $database_books->getEnglishFromId ($book);
+    for ($books as $book) {
+      $bookname = Database_Books::getEnglishFromId ($book);
       $bookdir = "$git/$bookname";
       if (file_exists ($bookdir)) {
         $chapters = $database_bibles->getChapters ($bible, $book);
-        foreach ($chapters as $chapter) {
+        for ($chapters as $chapter) {
           $chapterdir = "$bookdir/$chapter";
           if (file_exists ($chapterdir)) {
             $datafile = "$chapterdir/data";
@@ -197,23 +178,23 @@ class Filter_Git
             $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
             if ($contents != $usfm) {
               Bible_Logic::storeChapter ($bible, $book, $chapter, $contents);
-              $database_logs->log (gettext("A translator updated chapter") . " $bible $bookname $chapter");
+              Database_Logs::log (gettext("A translator updated chapter") . " $bible $bookname $chapter");
            }
           } else {
             Bible_Logic::deleteChapter ($bible, $book, $chapter);
-            $database_logs->log (gettext("A translator deleted chapter") . " $bible $bookname $chapter");
+            Database_Logs::log (gettext("A translator deleted chapter") . " $bible $bookname $chapter");
          }
         }
       } else {
         Bible_Logic::deleteBook ($bible, $book);
-        $database_logs->log (gettext("A translator deleted book") . " $bible $bookname");
+        Database_Logs::log (gettext("A translator deleted book") . " $bible $bookname");
       }
     }
   }
 
 
   // This filter takes one chapter of the Bible data as it is stored in the $git folder,
-  // and puts this information into Bibledit-Web's database.
+  // and puts this information into Bibledit's database.
   // The $git is a git repository, and may contain other data as well.
   public static function syncGitChapter2Bible ($git, $bible, $book, $chapter)
   {
@@ -223,7 +204,7 @@ class Filter_Git
     $database_logs = Database_Logs::getInstance ();
     
     // Filename for the chapter.
-    $bookname = $database_books->getEnglishFromId ($book);
+    $bookname = Database_Books::getEnglishFromId ($book);
     $filename = "$git/$bookname/$chapter/data";
     
     if (file_exists ($filename)) {
@@ -231,23 +212,15 @@ class Filter_Git
       // Store chapter in database.
       $usfm = filter_url_file_get_contents ($filename);
       Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
-      $database_logs->log (gettext("A collaborator updated") . " $bible $bookname $chapter");
+      Database_Logs::log (gettext("A collaborator updated") . " $bible $bookname $chapter");
 
     } else {
 
       // Delete chapter from database.
       Bible_Logic::deleteChapter ($bible, $book, $chapter);
-      $database_logs->log (gettext("A collaborator deleted chapter") . " $bible $bookname $chapter");
+      Database_Logs::log (gettext("A collaborator deleted chapter") . " $bible $bookname $chapter");
 
     }
-  }
-
-
-  // This function returns the directory of the git repository belonging to $object.
-  public static function git_directory ($object)
-  {
-    $directory = realpath ("../git") . "/$object";
-    return $directory;
   }
 
 
@@ -259,7 +232,7 @@ class Filter_Git
     $command = "cd $directory; git log --all --pretty=format:%H 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       $commit = explode (" ", $line);
       $commit = $commit [0];
       $commits [] = $commit;
@@ -276,14 +249,14 @@ class Filter_Git
     $command = "cd $directory; git diff-tree --no-commit-id --name-only -r $sha1 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       $files [] = $line;
     }
     return $files;
   }
 
 
-  // This function takes a $path as it occurs in the git repository as used in Bibledit-Web,
+  // This function takes a $path as it occurs in the git repository as used in Bibledit,
   // and explodes it into book and chapter.
   // It returns an array of them.
   // If anything is invalid, it returns NULL.
@@ -296,7 +269,7 @@ class Filter_Git
       if (is_numeric ($chapter)) {
         $book = dirname ($path);
         $database_books = Database_Books::getInstance ();
-        $book = $database_books->getIdFromEnglish ($book);
+        $book = Database_Books::getIdFromEnglish ($book);
         if ($book != 0) {
           return array ('book' => $book, 'chapter' => $chapter);
         }
@@ -313,7 +286,7 @@ class Filter_Git
     $command = "cd $directory; git show --pretty=format:'%at' $sha1 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       return $line;
     }
     return time ();
@@ -327,7 +300,7 @@ class Filter_Git
     $command = "cd $directory; git show --pretty=format:'%cn %ce' $sha1 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       return $line;
     }
     return "Unknown";
@@ -347,7 +320,7 @@ class Filter_Git
     unset ($result);
     exec ($command, $result, $exit_code);
     $newtext = filter_url_file_get_contents ($newfile);
-    $newtext = trim ($newtext);
+    $newtext = filter_string_trim ($newtext);
 
     // Get the patch.
     $patchfile = tempnam (sys_get_temp_dir (), "");
@@ -360,7 +333,7 @@ class Filter_Git
     unset ($result);
     exec ($command, $result, $exit_code);
     $oldtext = filter_url_file_get_contents ($newfile);
-    $oldtext = trim ($oldtext);
+    $oldtext = filter_string_trim ($oldtext);
 
     // Clean up.
     unlink ($newfile);

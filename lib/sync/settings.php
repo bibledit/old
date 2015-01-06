@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,11 +29,11 @@ $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$username = Filter_Hex::hex2bin ($_POST ['u']);
+$username = Filter_Hex::hex2bin (request->post ['u']);
 $session_logic->setUsername ($username);
 
 
-$action = $_POST ['a'];
+$action = request->post ['a'];
 
 
 if ($action == "total") {
@@ -67,28 +67,28 @@ if ($action == "total") {
 /*
 
 
-$setting = unserialize ($_POST ['s']);
+$setting = unserialize (request->post ['s']);
 
 
 
 
 
-  $user = Filter_Hex::hex2bin ($_POST ['u']);
+  $user = Filter_Hex::hex2bin (request->post ['u']);
   if (!$database_users->usernameExists ($user)) {
-    $database_logs->log ("A client passes non existing user $user", Filter_Roles::manager ());
+    Database_Logs::log ("A client passes non existing user $user", Filter_Roles::manager ());
     die;
   }
 
-  $md5 = $_POST ['p'];
+  $md5 = request->post ['p'];
   if ($md5 != $database_users->getmd5 ($user)) {
-    $database_logs->log ("A client provides incorrect password for user $user", Filter_Roles::manager ()); // Test it.
+    Database_Logs::log ("A client provides incorrect password for user $user", Filter_Roles::manager ()); // Test it.
     die;
   }
 
-  $bibles = Access_Bible::bibles ($user);
+  $bibles = access_bible_bibles ($user);
 
-  $lowId = $_POST ['l'];
-  $highId = $_POST ['h'];
+  $lowId = request->post ['l'];
+  $highId = request->post ['h'];
 
   $identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId, $bibles);
   $checksum = $database_notes->getMultipleChecksum ($identifiers);
@@ -99,23 +99,23 @@ $setting = unserialize ($_POST ['s']);
 
 } else if ($action == "identifiers") {
 
-  $user = Filter_Hex::hex2bin ($_POST ['u']);
+  $user = Filter_Hex::hex2bin (request->post ['u']);
   if (!$database_users->usernameExists ($user)) {
     die;
   }
-  $md5 = $_POST ['p'];
+  $md5 = request->post ['p'];
   if ($md5 != $database_users->getmd5 ($user)) {
     die;
   }
 
-  $bibles = Access_Bible::bibles ($user);
+  $bibles = access_bible_bibles ($user);
 
-  $lowId = $_POST ['l'];
-  $highId = $_POST ['h'];
+  $lowId = request->post ['l'];
+  $highId = request->post ['h'];
 
   $identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId, $bibles);
   $checksums = array ();
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     $checksum = $database_notes->getChecksum ($identifier);
     $checksums [] = $checksum;
   }
@@ -126,7 +126,7 @@ $setting = unserialize ($_POST ['s']);
 
 } else if ($action == "fetch") {
 
-  $identifier = $_POST ['i'];
+  $identifier = request->post ['i'];
 
   // Update search and checksum.
   $database_notes->updateSearchFields ($identifier);
@@ -142,7 +142,7 @@ $setting = unserialize ($_POST ['s']);
   $summary = $database_notes->getSummary ($identifier);
   $contents = $database_notes->getContents ($identifier);
 
-  $database_logs->log ("Client requested a note from server" . ": " . $summary, Filter_Roles::manager ());
+  Database_Logs::log ("Client requested a note from server" . ": " . $summary, Filter_Roles::manager ());
 
   $response = array (
     'm'  => $modified,
@@ -176,7 +176,7 @@ function die_if_databases_unhealthy_or_busy ()
   if (!$database_notes->available ()) $available = false;
   if (!$available) {
     $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ("Notes databases are unhealthy or unavailable", Filter_Roles::translator ());
+    Database_Logs::log ("Notes databases are unhealthy or unavailable", Filter_Roles::translator ());
     die;
   }
 }

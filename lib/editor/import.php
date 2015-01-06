@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Editor_Import
+class Editor_Import // Todo port it.
 {
 
 
@@ -76,13 +76,13 @@ class Editor_Import
   public function load ($usfm)
   {
     // Clean up.
-    $usfm = trim ($usfm);
-    $usfm .= "\n";
+    $usfm = filter_string_trim ($usfm);
+    $usfm += "\n";
     // Separate it into markers and text.
     $markersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);
     // Load it into the object.
     $this->markersAndText = array ();
-    foreach ($markersAndText as $item) {
+    for ($markersAndText as $item) {
       $this->markersAndText [] = $item;
     }
     // Debug.
@@ -97,7 +97,7 @@ class Editor_Import
     $database_styles = Database_Styles::getInstance ();
     $markers = $database_styles->getMarkers ($stylesheet);
     // Load the style information into the object.
-    foreach ($markers as $marker) {
+    for ($markers as $marker) {
       $style = $database_styles->getMarkerData ($stylesheet, $marker);
       $this->styles [$marker] = $style;
       if ($style['type'] == StyleTypeFootEndNote) {
@@ -501,7 +501,7 @@ EOD;
         // Take character style(s) as specified in this object.
         $spanDomElement->setAttribute ("class", implode (" ", $this->currentTextStyles));
       }
-      $this->currentParagraphContent .= $text;
+      $this->currentParagraphContent += $text;
     }
     $this->textLength += mb_strlen ($text);
   }

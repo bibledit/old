@@ -524,60 +524,60 @@ abstract class graphBase implements iGraph {
 		$phpCode = '<?php';
 
 		//Set config
-		$phpCode .= "\t\n";
-		$phpCode .= "\t//Set content-type header\n";
-		$phpCode .= "\theader(\"Content-type: image/png\");\n\n";
-		$phpCode .= "\t//Include phpMyGraph5.0.php\n";
-		$phpCode .= "\tinclude_once('phpMyGraph5.0.php');\n";
-		$phpCode .= "\t\n";
-		$phpCode .= "\t//Set config directives\n";
-		$phpCode .= "\t\$cfg['title'] = 'Example graph';\n";
-		$phpCode .= "\t\$cfg['width'] = 500;\n";
-		$phpCode .= "\t\$cfg['height'] = 250;\n";
-		$phpCode .= "\t\n";
-		$phpCode .= "\t//Set data\n";
-		$phpCode .= "\t\$data = array(\n";
-		$phpCode .= "\t	'Jan' => 12,\n";
-		$phpCode .= "\t	'Feb' => 25,\n";
-		$phpCode .= "\t	'Mar' => 0,\n";
-		$phpCode .= "\t	'Apr' => 7,\n";
-		$phpCode .= "\t	'May' => 80,\n";
-		$phpCode .= "\t	'Jun' => 67,\n";
-		$phpCode .= "\t	'Jul' => 45,\n";
-		$phpCode .= "\t	'Aug' => 66,\n";
-		$phpCode .= "\t	'Sep' => 23,\n";
-		$phpCode .= "\t	'Oct' => 23,\n";
-		$phpCode .= "\t	'Nov' => 78,\n";
-		$phpCode .= "\t	'Dec' => 23\n";
-		$phpCode .= "\t);\n";
-		$phpCode .= "\t\n"; 
+		$phpCode += "\t\n";
+		$phpCode += "\t//Set content-type header\n";
+		$phpCode += "\theader(\"Content-type: image/png\");\n\n";
+		$phpCode += "\t//Include phpMyGraph5.0.php\n";
+		$phpCode += "\tinclude_once('phpMyGraph5.0.php');\n";
+		$phpCode += "\t\n";
+		$phpCode += "\t//Set config directives\n";
+		$phpCode += "\t\$cfg['title'] = 'Example graph';\n";
+		$phpCode += "\t\$cfg['width'] = 500;\n";
+		$phpCode += "\t\$cfg['height'] = 250;\n";
+		$phpCode += "\t\n";
+		$phpCode += "\t//Set data\n";
+		$phpCode += "\t\$data = array(\n";
+		$phpCode += "\t	'Jan' => 12,\n";
+		$phpCode += "\t	'Feb' => 25,\n";
+		$phpCode += "\t	'Mar' => 0,\n";
+		$phpCode += "\t	'Apr' => 7,\n";
+		$phpCode += "\t	'May' => 80,\n";
+		$phpCode += "\t	'Jun' => 67,\n";
+		$phpCode += "\t	'Jul' => 45,\n";
+		$phpCode += "\t	'Aug' => 66,\n";
+		$phpCode += "\t	'Sep' => 23,\n";
+		$phpCode += "\t	'Oct' => 23,\n";
+		$phpCode += "\t	'Nov' => 78,\n";
+		$phpCode += "\t	'Dec' => 23\n";
+		$phpCode += "\t);\n";
+		$phpCode += "\t\n"; 
 		
 		/*
-		$phpCode .= "//NEW WAY\n";
-		$phpCode .= "	//Create instance\n";
-		$phpCode .= "	\$graph = new ".get_class($this)."();\n";
-		$phpCode .= "\n";
-		$phpCode .= "	//Parse\n";
-		$phpCode .= "	\$graph->parse(\$data, \$cfg);\n";
-		$phpCode .= "\n";
-		$phpCode .= "//FACTORY WAY\n";
-		$phpCode .= "	//Create instance via factory\n";
-		$phpCode .= "	\$graph = phpMyGraph::factory('horizontalLineGraph');\n";
-		$phpCode .= "\n";
-		$phpCode .= "	//Parse\n";
-		$phpCode .= "	\$graph->parse(\$data, \$cfg);\n";
-		$phpCode .= "\n";		
-		$phpCode .= "//BACKWARDS COMPATIBILITY WAY\n";
+		$phpCode += "//NEW WAY\n";
+		$phpCode += "	//Create instance\n";
+		$phpCode += "	\$graph = new ".get_class($this)."();\n";
+		$phpCode += "\n";
+		$phpCode += "	//Parse\n";
+		$phpCode += "	\$graph->parse(\$data, \$cfg);\n";
+		$phpCode += "\n";
+		$phpCode += "//FACTORY WAY\n";
+		$phpCode += "	//Create instance via factory\n";
+		$phpCode += "	\$graph = phpMyGraph::factory('horizontalLineGraph');\n";
+		$phpCode += "\n";
+		$phpCode += "	//Parse\n";
+		$phpCode += "	\$graph->parse(\$data, \$cfg);\n";
+		$phpCode += "\n";		
+		$phpCode += "//BACKWARDS COMPATIBILITY WAY\n";
 		*/
 		
-		$phpCode .= "	//Create phpMyGraph instance\n";
-		$phpCode .= "	\$graph = new phpMyGraph();\n";
-		$phpCode .= "\n";
-		$phpCode .= "	//Parse\n";
-		$phpCode .= "	\$graph->parse".ucfirst(get_class($this))."(\$data, \$cfg);\n";
+		$phpCode += "	//Create phpMyGraph instance\n";
+		$phpCode += "	\$graph = new phpMyGraph();\n";
+		$phpCode += "\n";
+		$phpCode += "	//Parse\n";
+		$phpCode += "	\$graph->parse".ucfirst(get_class($this))."(\$data, \$cfg);\n";
 		
 		
-		$phpCode .= '?>';
+		$phpCode += '?>';
 		
 		return highlight_string($phpCode, true);
 	}
@@ -603,7 +603,7 @@ abstract class graphBase implements iGraph {
 		}
 		
 		//Loop properties
-		foreach($properties as $propertyData) {
+		for($properties as $propertyData) {
 		
 			//Test for key
 			if(!array_key_exists($propertyData['name'], $cfg)) {
@@ -820,7 +820,7 @@ abstract class graphBase implements iGraph {
 		);
 			
 		//Loop
-		foreach($data as $key => $value) {
+		for($data as $key => $value) {
 			//Test
 			if(!is_numeric($value)) {
 				throw new Exception(
@@ -909,7 +909,7 @@ abstract class graphBase implements iGraph {
 			return false;
 		}
 		//Validate
-		foreach($values as $key) {
+		for($values as $key) {
 			if(!array_key_exists($key, $structure)) {
 				return false;
 			}
@@ -957,7 +957,7 @@ abstract class graphBase implements iGraph {
 		$avgArray = array();
 		
 		//Loop
-		foreach($argumentList as $idx => $dataStructure) {
+		for($argumentList as $idx => $dataStructure) {
 		
 			//Test cols
 			if(is_null($structure['cols'])) {
@@ -1024,7 +1024,7 @@ abstract class graphBase implements iGraph {
 		$structure['negativeSectionPercentage'] = $structure['minQuadrantPercentage'];
 		
 		//Override datastructures
-		foreach($argumentList as $idx => $dataStructure) {
+		for($argumentList as $idx => $dataStructure) {
 			
 			//Override
 			$dataStructure['fakeMax'] = $structure['fakeMax'];
@@ -1078,7 +1078,7 @@ abstract class graphBase implements iGraph {
 		$messageWidth = 0;
 		
 		//Loop lines to get max width
-		foreach($lines as $lineMessage) {
+		for($lines as $lineMessage) {
 			$messageWidth = ceil(strlen($lineMessage) * $fontWidth);
 			if($imageWidth < $messageWidth) {
 				$imageWidth = $messageWidth;
@@ -1096,7 +1096,7 @@ abstract class graphBase implements iGraph {
 		imagefilledrectangle($this->ip, 0, 0, $imageWidth, $imageHeight, $backgroundColor);
 		
 		//Parse lines
-		foreach($lines as $lineMessage) {
+		for($lines as $lineMessage) {
 			imagestring($this->ip, 2, $x, $y, $lineMessage, $textColor);
 			$y = $y + $fontHeight;
 		}
@@ -1767,7 +1767,7 @@ abstract class verticalGraphBase extends graphBase {
 		$columns = array();
 		
 		//Loop data items
-		foreach($datastructure['data'] as $key => $value) {
+		for($datastructure['data'] as $key => $value) {
 			
 			//Calc
 			$colWidthOffset = ($points['col']['width'] > 8) ? 3 : 0;
@@ -2395,7 +2395,7 @@ abstract class verticalGraphBase extends graphBase {
 		$columnShadowColor = $this->allocateColor($this->cfg['column-shadow-color'], $this->cfg['column-shadow-alpha']); 
 		
 		//Loop
-		foreach($graphPoints['columns'] as $colPoint) {
+		for($graphPoints['columns'] as $colPoint) {
 
 			
 			//Test for random colors
@@ -2565,7 +2565,7 @@ abstract class verticalGraphBase extends graphBase {
 			$this->drawTitle($graphPoints);
 			$this->drawValueLabels($graphPoints, $firstStructure);
 			$this->drawBoxBackground($graphPoints);
-				foreach($compareStructure['structures'] as $idx =>  $dataStructure) {
+				for($compareStructure['structures'] as $idx =>  $dataStructure) {
 					$graphPoints2 = $this->calculateGraph($dataStructure);
 					$this->drawColumns($graphPoints2, $dataStructure, ($idx!=1));
 				}
@@ -3186,7 +3186,7 @@ abstract class horizontalGraphBase extends graphBase {
 		$columns = array();
 		
 		//Loop data items
-		foreach($datastructure['data'] as $key => $value) {
+		for($datastructure['data'] as $key => $value) {
 			
 			//Calc
 			$colWidthOffset = ($points['col']['height'] > 8) ? 3 : 0;
@@ -3842,7 +3842,7 @@ abstract class horizontalGraphBase extends graphBase {
 		$columnShadowColor = $this->allocateColor($this->cfg['column-shadow-color'], $this->cfg['column-shadow-alpha']); 
 		
 		//Loop
-		foreach($graphPoints['columns'] as $colPoint) {
+		for($graphPoints['columns'] as $colPoint) {
 
 			
 			//Test for random colors
@@ -4017,7 +4017,7 @@ abstract class horizontalGraphBase extends graphBase {
 			$this->drawTitle($graphPoints);
 			$this->drawValueLabels($graphPoints, $firstStructure);
 			$this->drawBoxBackground($graphPoints);
-				foreach($compareStructure['structures'] as $idx =>  $dataStructure) {
+				for($compareStructure['structures'] as $idx =>  $dataStructure) {
 					$graphPoints2 = $this->calculateGraph($dataStructure);
 					$this->drawColumns($graphPoints2, $dataStructure, ($idx!=1));
 				}

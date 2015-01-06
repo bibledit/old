@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,20 +21,20 @@ page_access_level (Filter_Roles::admin ());
 Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
-$object = $_GET ['object'];
+$object = request->query ['object'];
 $view->view->object = $object;
 
 $database_config_bible = Database_Config_Bible::getInstance();
-if (isset($_POST['url'])) {
-  $url = $_POST['urlvalue'];
-  $database_config_bible->setRemoteRepositoryUrl ($object, $url);
+if (isset(request->post['url'])) {
+  $url = request->post['urlvalue'];
+  Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
 }
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $view->view->url = $url;
 
 // Create the git repository directory now since this is the most convenient moment to do it.
-$directory = Filter_Git::git_directory ($object);
-Filter_Rmdir::rmdir ($directory);
+$directory = filter_git_git_directory ($object);
+filter_url_rmdir ($directory);
 mkdir ($directory, 0777, true);
 
 $command = "git ls-remote $url 2>&1";

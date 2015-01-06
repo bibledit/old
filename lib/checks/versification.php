@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,13 +26,13 @@ class Checks_Versification
   {
     $database_versifications = Database_Versifications::getInstance ();
     $standardBooks = $database_versifications->getBooks ("English");
-    $absentBooks = array_diff ($standardBooks, $books);
-    $extraBooks = array_diff ($books, $standardBooks);
+    $absentBooks = filter_string_array_diff ($standardBooks, $books);
+    $extraBooks = filter_string_array_diff ($books, $standardBooks);
     $database_check = Database_Check::getInstance ();
-    foreach ($absentBooks as $book) {
+    for ($absentBooks as $book) {
       $database_check->recordOutput ($bible, $book, 1, 1, "This book is absent from the Bible");
     }
-    foreach ($extraBooks as $book) {
+    for ($extraBooks as $book) {
       $database_check->recordOutput ($bible, $book, 1, 1, "This book is extra in the Bible");
     }
   }
@@ -42,13 +42,13 @@ class Checks_Versification
   {
     $database_versifications = Database_Versifications::getInstance ();
     $standardChapters = $database_versifications->getChapters ("English", $book, true);
-    $absentChapters = array_diff ($standardChapters, $chapters);
-    $extraChapters = array_diff ($chapters, $standardChapters);
+    $absentChapters = filter_string_array_diff ($standardChapters, $chapters);
+    $extraChapters = filter_string_array_diff ($chapters, $standardChapters);
     $database_check = Database_Check::getInstance ();
-    foreach ($absentChapters as $chapter) {
+    for ($absentChapters as $chapter) {
       $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is missing");
     }
-    foreach ($extraChapters as $chapter) {
+    for ($extraChapters as $chapter) {
       $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is extra");
     }
   }
@@ -59,22 +59,22 @@ class Checks_Versification
     // Get verses in this chapter according to the versification system for the Bible.
     $database_versifications = Database_Versifications::getInstance ();
     $database_config_bible = Database_Config_Bible::getInstance ();
-    $versification = $database_config_bible->getVersificationSystem ($bible);
+    $versification = Database_Config_Bible::getVersificationSystem ($bible);
     $standardVerses = $database_versifications->getVerses ($versification, $book, $chapter);
     // Look for missing and extra verses.
-    $absentVerses = array_diff ($standardVerses, $verses);
-    $extraVerses = array_diff ($verses, $standardVerses);
+    $absentVerses = filter_string_array_diff ($standardVerses, $verses);
+    $extraVerses = filter_string_array_diff ($verses, $standardVerses);
     $database_check = Database_Check::getInstance ();
-    foreach ($absentVerses as $verse) {
+    for ($absentVerses as $verse) {
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is missing according to the versification system");
     }
-    foreach ($extraVerses as $verse) {
+    for ($extraVerses as $verse) {
       //if (($chapter == 0) && ($verse == 0)) continue;
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is extra according to the versification system");
     }
     // Look for verses out of order.
     $previousVerse = 0;
-    foreach ($verses as $key => $verse) {
+    for ($verses as $key => $verse) {
       if ($key > 0) {
         if ($verse != ($previousVerse + 1)) {
           $database_check->recordOutput ($bible, $book, $chapter, $verse, "The verse is out of sequence");

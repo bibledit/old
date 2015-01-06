@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,10 +40,10 @@ $allnotes = array ();
 
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 $verses = usfm_get_verse_numbers ($usfm);
-foreach ($verses as $verse) {
+for ($verses as $verse) {
   $verse_usfm = usfm_get_verse_text ($usfm, $verse);
   $xrefs = Filter_Usfm::extractNotes ($verse_usfm, array ("x"));
-  foreach ($xrefs as $xref) {
+  for ($xrefs as $xref) {
     $xref ['verse'] = $verse;
     $xref ['offset'] = $xref [0];
     $xref ['text'] = $xref [1];
@@ -60,13 +60,13 @@ $database_volatile->setValue ($identifier, "sourcexrefs", $value);
 
 
 $empty = true;
-foreach ($allnotes as $items) {
+for ($allnotes as $items) {
   if (!empty ($items)) $empty = false;
 }
 
 
 if (!$empty) {
-  Filter_Url::redirect ("interpret.php");
+  redirect_browser ("interpret.php");
   die;
 }
 

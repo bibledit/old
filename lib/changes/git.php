@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $history = "history:";
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("$history Extracting history from the git repository", Filter_Roles::manager ());
+Database_Logs::log ("$history Extracting history from the git repository", Filter_Roles::manager ());
 
 
 // Newer git versions would read their config from /root and then generate a fatal error.
@@ -42,34 +42,34 @@ $database_config_bible = Database_Config_Bible::getInstance ();
 
 
 $bibles = $database_bibles->getBibles();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
 
-  $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+  $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
   // The git directory for the Bible.
-  $directory = Filter_Git::git_directory ($bible);
+  $directory = filter_git_git_directory ($bible);
   if (!is_dir ($directory)) continue;
-  $database_logs->log ("$history Processing directory" . " " . $directory, Filter_Roles::manager ());
+  Database_Logs::log ("$history Processing directory" . " " . $directory, Filter_Roles::manager ());
   $shelldirectory = escapeshellarg ($directory);
 
   // Retrieve all commits from the git repository.
   // Remove the commits already dealt with.
   $commits = Filter_Git::commits ($directory);
-  $commits = array_diff ($commits, $database_commits->get ($bible));
+  $commits = filter_string_array_diff ($commits, $database_commits->get ($bible));
 
   // Deal with all the remaining commits.
-  foreach ($commits as $sha1) {
+  for ($commits as $sha1) {
 
     // Get author and timestamp.
     $author = Filter_Git::committer ($directory, $sha1);
     $timestamp = Filter_Git::timestamp ($directory, $sha1);
     $datetime = date ('j F Y g:i:s a', $timestamp);
 
-    $database_logs->log ("$history $author $datetime $bible $sha1", Filter_Roles::manager ());
+    Database_Logs::log ("$history $author $datetime $bible $sha1", Filter_Roles::manager ());
 
     $files = Filter_Git::files ($directory, $sha1);
-    foreach ($files as $path) {
-      $database_logs->log ("$history $path", Filter_Roles::manager ());
+    for ($files as $path) {
+      Database_Logs::log ("$history $path", Filter_Roles::manager ());
       $data = Filter_Git::explodePath ($path);
       if ($data) {
         $book = $data ['book'];
@@ -82,7 +82,7 @@ foreach ($bibles as $bible) {
         $verses = array_merge ($oldverses, $newverses);
         $verses = array_unique ($verses);
         sort ($verses, SORT_NUMERIC);
-        foreach ($verses as $verse) {
+        for ($verses as $verse) {
           $old_verse_usfm = usfm_get_verse_text ($oldusfm, $verse);
           $new_verse_usfm = usfm_get_verse_text ($newusfm, $verse);
           if ($old_verse_usfm != $new_verse_usfm) {
@@ -100,7 +100,7 @@ foreach ($bibles as $bible) {
             $new_html = $filter_text_new->html_text_standard->getInnerHtml ();
             $old_text = $filter_text_old->text_text->get ();
             $new_text = $filter_text_new->text_text->get ();
-            $modification = Filter_Diff::diff ($old_text, $new_text);
+            $modification = filter_diff_diff ($old_text, $new_text);
             $database_history->record ($timestamp, $author, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
           }
         }
@@ -115,7 +115,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$database_logs->log ("$history Ready", Filter_Roles::manager ());
+Database_Logs::log ("$history Ready", Filter_Roles::manager ());
 
 
 ?>

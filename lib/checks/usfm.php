@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,10 +46,10 @@ class Checks_Usfm
   {
     $database_config_bible = Database_Config_Bible::getInstance ();
     $database_styles = Database_Styles::getInstance ();
-    $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+    $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
     $this->markersStylesheet = $database_styles->getMarkers ($stylesheet);
     $styles_logic = Styles_Logic::getInstance ();
-    foreach ($this->markersStylesheet as $marker) {
+    for ($this->markersStylesheet as $marker) {
       $style = $database_styles->getMarkerData ($stylesheet, $marker);
       $requiredEndmarker = false;
       $styleType = $style['type'];
@@ -160,7 +160,7 @@ class Checks_Usfm
   private function markerInStylesheet ()
   {
     $marker = substr ($this->usfmItem, 1, 100);
-    $marker = trim ($marker);
+    $marker = filter_string_trim ($marker);
     if (!usfm_is_opening_marker ($marker)) {
       $marker = substr ($marker, 0, -1);
     }
@@ -179,7 +179,7 @@ class Checks_Usfm
       $id = explode (" ", $code);
       $id = $id [0];
       $database_books = Database_Books::getInstance ();
-      $book = $database_books->getIdFromUsfm ($id);
+      $book = Database_Books::getIdFromUsfm ($id);
       if ($book == 0) {
         $this->addResult ("Unknown ID", Checks_Usfm::displayFull);
       } else {
@@ -217,7 +217,7 @@ class Checks_Usfm
   private function widowBackSlash ()
   {
     $marker = $this->usfmItem;
-    $marker = trim ($marker);
+    $marker = filter_string_trim ($marker);
     if (strlen ($marker) == 1) {
       $this->addResult ("Widow backslash", Checks_Usfm::displayCurrent);
     }
@@ -229,7 +229,7 @@ class Checks_Usfm
     $marker = $this->usfmItem;
     // Remove the initial backslash, e.g. '\add' becomes 'add'.
     $marker = substr ($marker, 1);
-    $marker = trim ($marker);
+    $marker = filter_string_trim ($marker);
     $isOpener = usfm_is_opening_marker ($marker);
     if (!$isOpener) $marker = substr ($marker, 0, -1);
     if (!in_array ($marker, $this->markersRequiringEndmarkers)) return;
@@ -241,7 +241,7 @@ class Checks_Usfm
       }
     } else {
       if (in_array ($marker, $this->openMatchingMarkers)) {
-        $this->openMatchingMarkers = array_diff ($this->openMatchingMarkers, array ($marker));
+        $this->openMatchingMarkers = filter_string_array_diff ($this->openMatchingMarkers, array ($marker));
       } else {
         $this->addResult ("Closing marker does not match opening marker" . " " . implode (" ", $this->openMatchingMarkers), Checks_Usfm::displayCurrent);
       }
@@ -265,13 +265,13 @@ class Checks_Usfm
       case Checks_Usfm::displayNothing:
         break;
       case Checks_Usfm::displayCurrent:
-        $text .= ": " . $current;
+        $text += ": " . $current;
         break;
       case Checks_Usfm::displayNext:
-        $text .= ": " . $next;
+        $text += ": " . $next;
         break;
       case Checks_Usfm::displayFull:
-        $text .= ": " . $current . $next;
+        $text += ": " . $current . $next;
         break;
     }
     $this->checkingResults [] = array ((int) ($this->verseNumber) => $text);

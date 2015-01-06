@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,14 +19,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
 $ipc_focus = Ipc_Focus::getInstance();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
 // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
@@ -42,8 +42,8 @@ if (is_array ($passages)) {
 $header = new Assets_Header (gettext("Note"));
 // After adding a comment to a note it returns to the note.
 // When doing nothing for several seconds, the browser then returns to the list of notes.
-if (isset ($_GET ['temporal'])) {
-  $header->addHeadLine ('<META HTTP-EQUIV="refresh" CONTENT="5;URL=index.php">');
+if (isset (request->query ['temporal'])) {
+  $header->addHeadLine ('<META HTTP-EQUIV="refresh" CONTENT="5;URL=index.php">'); // This can use existing function, expanded with the URL: Function refresh.
 }
 $header->run();
 

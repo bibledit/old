@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,17 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo gettext("Notes") ?>
+  gettext("Notes")
   |
-  <a href="select.php">[<?php echo gettext("select") ?>]</a>
-  <?php if ($this->level >= 5) { ?>
+  <a href="select.php">[gettext("select")]</a>
+  <?php if ($this->level >= 5) {
     |
-    [<a href="bulk.php"><?php echo gettext("update") ?></a>]
-  <?php } ?>
+    [<a href="bulk.php">gettext("update")</a>]
+  <?php }
   |
-  <a href="create.php"><?php echo gettext("Create note") ?></a>
+  <a href="create.php">gettext("Create note")</a>
 </p>
 <br>
 <div id="noteslist"><img src="../pix/loading.gif"></div>
-<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
-<script type="text/javascript" src="poll.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="index.js?config_logic_version ()"></script>
+<script type="text/javascript" src="poll.js?config_logic_version ()"></script>

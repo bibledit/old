@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,6 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/send.h>
 #include <search/rebibles.h>
 #include <search/renotes.h>
+#include <styles/sheets.h>
+#include <bible/import_task.h>
+#include <compare/compare.h>
 
 
 mutex mutex_tasks; 
@@ -51,13 +54,26 @@ void tasks_run_one (string filename)
     command = lines [0];
     lines.erase (lines.begin ());
   }
-  vector <string> parameters (lines);
+  string parameter1;
+  if (!lines.empty ()) {
+    parameter1 = lines [0];
+    lines.erase (lines.begin ());
+  }
+  string parameter2;
+  if (!lines.empty ()) {
+    parameter2 = lines [0];
+    lines.erase (lines.begin ());
+  }
+  string parameter3;
+  if (!lines.empty ()) {
+    parameter3 = lines [0];
+    lines.erase (lines.begin ());
+  }
   
   if (command == ROTATEJOURNAL) {
     Database_Logs database_logs = Database_Logs ();
     database_logs.checkup ();
     database_logs.rotate ();
-    Database_Logs::log ("The Journal was checked and rotated");
   } else if (command == RECEIVEEMAIL) {
     email_receive ();
   } else if (command == SENDEMAIL) {
@@ -66,6 +82,12 @@ void tasks_run_one (string filename)
     search_reindex_bibles ();
   } else if (command == REINDEXNOTES) {
     search_reindex_notes ();
+  } else if (command == CREATECSS) {
+    styles_sheets_create_all_run ();
+  } else if (command == IMPORTUSFM) {
+    bible_import_task (parameter1, parameter2);
+  } else if (command == COMPAREUSFM) {
+    compare_compare (parameter1, parameter2, convert_to_int (parameter3));
   } else if (command == "Placerholder") {
   } else {
     Database_Logs::log ("Unknown task: " + command);

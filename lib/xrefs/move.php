@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,11 +29,11 @@ $database_bibles = Database_Bibles::getInstance();
 $bible = $database_config_user->getTargetXrefBible ();
 
 
-$book = intval ($_GET ['book']);
-$chapter = intval ($_GET ['chapter']);
-$verse = $_GET ['verse'];
-$focus = intval ($_GET ['focus']);
-$move = intval ($_GET ['move']);
+$book = intval (request->query ['book']);
+$chapter = intval (request->query ['chapter']);
+$verse = request->query ['verse'];
+$focus = intval (request->query ['focus']);
+$move = intval (request->query ['move']);
 
 
 $usfmArray = array ();
@@ -45,7 +45,7 @@ if ($usfmString == "") die;
 
 $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
-foreach ($verses as $vs) {
+for ($verses as $vs) {
   $usfmArray [$vs] = usfm_get_verse_text ($usfmString, $vs);
 }
 

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 $filter_text = new Filter_Text ($bible);
@@ -66,11 +66,11 @@ $filter_text->odf_text_notes = new Odf_Text ($bible);
 if ($book == 0) {
   // Load entire Bible.
   $books = $database_bibles->getBooks ($bible);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $chapters = $database_bibles->getChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-      $usfm = trim ($usfm);
+      $usfm = filter_string_trim ($usfm);
       // Use small chunks of USFM at a time for much better performance.
       $filter_text->addUsfmCode ($usfm);
     }
@@ -78,9 +78,9 @@ if ($book == 0) {
 } else {
   // Load one book.
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-    $usfm = trim ($usfm);
+    $usfm = filter_string_trim ($usfm);
     // Use small chunks of USFM at a time for much better performance.
     $filter_text->addUsfmCode ($usfm);
   }
@@ -101,8 +101,8 @@ $filter_text->odf_text_notes->save ($notesFilename);
 // Securing the OpenDocument export implies that the exported files are zipped and secured with a password.
 // It uses the external zip binary.
 // PHP 5.6 supports password protected archives: ZipArchive::setPassword ($password).
-$secure = $database_config_bible->getSecureOdtExport ($bible);
-$password = escapeshellarg ($database_config_bible->getExportPassword ($bible));
+$secure = Database_Config_Bible::getSecureOdtExport ($bible);
+$password = escapeshellarg (Database_Config_Bible::getExportPassword ($bible));
 $directory = escapeshellarg ($directory);
 $basefile = escapeshellarg (basename ($standardFilename));
 @unlink ("$standardFilename.zip");
@@ -130,7 +130,7 @@ if ($secure) {
 }
 
 
-$database_logs->log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . gettext("Exported to OpenDocument files"), Filter_Roles::translator ());
+Database_Logs::log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . gettext("Exported to OpenDocument files"), Filter_Roles::translator ());
 
 
 ?>

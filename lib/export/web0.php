@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 // Create stylesheet.
@@ -75,15 +75,15 @@ $html_text_rich_bible_index->addText (" |");
 
 // Go through the Bible books.
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   // Add this book to the main web index.
-  $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement,  Filter_Paths::htmlFileNameBible ("", $book), "", $database_books->getEnglishFromId ($book), "", " " . $database_books->getEnglishFromId ($book) . " ");
+  $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement,  Filter_Paths::htmlFileNameBible ("", $book), "", Database_Books::getEnglishFromId ($book), "", " " . Database_Books::getEnglishFromId ($book) . " ");
   $html_text_rich_bible_index->addText ("|");
 }
 
 
 // Save index file for the interlinked web export.
-$database_logs->log ("exports: Create index file for interlinked Web");
+Database_Logs::log ("exports: Create index file for interlinked Web");
 $html_text_rich_bible_index->save ($indexFile);
 $html_text_rich_bible_index->save ($index00);
 
@@ -92,7 +92,7 @@ $html_text_rich_bible_index->save ($index00);
 copy ("../webbible/lens.png", "$directory/lens.png");
 
 
-$database_logs->log (gettext("Web export index") . " $bible", Filter_Roles::translator ());
+Database_Logs::log (gettext("Web export index") . " $bible", Filter_Roles::translator ());
 
 
 ?>

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -813,7 +813,7 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
     int underline = style.underline;
     int smallcaps = style.smallcaps;
     int superscript = style.superscript;
-    int color = style.color;
+    string color = style.color;
     createdStyles.push_back (marker);
 
     // The style entry looks like this in styles.xml, e.g., for italic:
@@ -860,9 +860,8 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
       //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
     }
 
-    if (color != 0) {
-      string scolor = filter_string_fill (convert_to_string (color), 6, '0');
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:color", BAD_CAST convert_to_string ("#" + scolor).c_str());
+    if (color != "#000000") {
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:color", BAD_CAST color.c_str());
     }
 
   }
@@ -1048,7 +1047,7 @@ void Odf_Text::addNote (string caller, string style, bool endnote)
   xmlNewProp (textNoteDomElement, BAD_CAST "text:note-class", BAD_CAST noteclass.c_str());
 
   // The note citation, the 'caller' is normally in superscript in the OpenDocument.
-  // The default values of the application are used. The Bibledit-Web stylesheet is not consulted.
+  // The default values of the application are used. The Bibledit stylesheet is not consulted.
   xmlNodePtr textNoteCitationDomElement = xmlNewNode (NULL, BAD_CAST "text:note-citation");
   xmlAddChild (textNoteDomElement, textNoteCitationDomElement);
   xmlNewProp (textNoteCitationDomElement, BAD_CAST "text:label", BAD_CAST filter_string_sanitize_html (caller).c_str());

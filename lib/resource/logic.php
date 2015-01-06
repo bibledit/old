@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ class Resource_Logic
     $names = array ();
 
     // Take Bibles the user has read access to.
-    $bibles = Access_Bible::bibles ();
+    $bibles = access_bible_bibles ();
     $names = array_merge ($names, $bibles);
 
     // Take USFM Resources.
@@ -58,15 +58,15 @@ class Resource_Logic
       $database_config_user = Database_Config_User::getInstance ();
       $database_config_bible = Database_Config_Bible::getInstance ();
       $bible = $database_config_user->getBible ();
-      $bible_mapping = $database_config_bible->getVerseMapping ($bible);
+      $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
       $resource_mapping = $database_resources->getMapping ($name);
       $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
       $output = "";
-      foreach ($passages as $passage) {
+      for ($passages as $passage) {
         $object = new Resource_External ();
         $html = $object->get ($name, $passage [0], $passage [1], $passage [2]);
         unset ($object);
-        $output .= $html;
+        $output += $html;
       }
       return $output;
     } else {
@@ -109,12 +109,12 @@ class Resource_Logic
       // Use offline copy if it exists, else fetch it online.
       if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
         $bible = $database_config_user->getBible ();
-        $bible_mapping = $database_config_bible->getVerseMapping ($bible);
+        $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
         $resource_mapping = $database_resources->getMapping ($resource);
         $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
         $html = "";
-        foreach ($passages as $passage) {
-          $html .= $database_offlineresources->get ($resource, $passage [0], $passage [1], $passage [2]);
+        for ($passages as $passage) {
+          $html += $database_offlineresources->get ($resource, $passage [0], $passage [1], $passage [2]);
         }
       } else {
         $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, true);

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,9 +30,9 @@ $stylesheet = $database_config_user->getStylesheet ();
 $bible = $database_config_user->getTargetXrefBible ();
 
 
-$book = $_GET ['book'];
-$chapter = $_GET ['chapter'];
-$verse = $_GET ['verse'];
+$book = request->query ['book'];
+$chapter = request->query ['chapter'];
+$verse = request->query ['verse'];
 
 
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);

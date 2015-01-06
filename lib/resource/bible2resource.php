@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ page_access_level (Filter_Roles::manager ());
 $view = new Assets_View (__FILE__);
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 $view->view->bible = $bible;
 
 
@@ -43,11 +43,11 @@ if (in_array ($bible, $externalResources)) {
 }
 
 
-@$convert = $_GET ['convert'];
+@$convert = request->query ['convert'];
 if (isset ($convert)) {
   if (access_bible_write ($bible)) {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2resource.php", $bible));
-    Filter_Url::redirect ("../journal/index.php");
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2resource.php", $bible));
+    redirect_browser ("../journal/index.php");
     die;
   } else {
     Assets_Page::error (gettext("Insufficient privileges to complete operation."));

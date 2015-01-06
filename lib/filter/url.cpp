@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -240,7 +240,7 @@ void filter_url_file_put_contents (string filename, string contents)
 {
   try {
     ofstream file;  
-    file.open (filename, ios::binary);  
+    file.open (filename, ios::binary | ios::trunc);
     file << contents;
     file.close ();
   } catch (...) {
@@ -280,12 +280,12 @@ vector <string> filter_url_scandir (string folder)
     struct dirent * direntry;
     while ((direntry = readdir (dir)) != NULL) {
       string name = direntry->d_name;
-      if (name != "." && name != ".." && name != "gitflag") {
+      if (name != "." && name != ".." && name != "gitflag" && name != ".deps" && name != ".dirstamp") {
         files.push_back (name);
       }
     }
+    closedir (dir);
   }
-  closedir (dir);
   sort (files.begin(), files.end());
   return files;
 }

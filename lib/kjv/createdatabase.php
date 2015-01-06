@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -83,20 +83,20 @@ while ($xml->read ()) {
 
     if ($name == "w") {
       $lemma = $xml->getAttribute ("lemma");
-      $lemma = trim ($lemma);
+      $lemma = filter_string_trim ($lemma);
     }
 
   }
 
   if ($nodeType == XMLReader::TEXT) {
     $value = $xml->value;
-    $english = trim ($value);
+    $english = filter_string_trim ($value);
   }
 
   if ($nodeType == XMLReader::END_ELEMENT) {
     if ($name == "w") {
       $lemma = explode (" ", $lemma);
-      foreach ($lemma as $strong) {
+      for ($lemma as $strong) {
         if (strpos ($strong, "strong") === false) continue;
         $strong = str_replace ("strong:", "", $strong);
         $strong = str_replace ("'", "''", $strong);

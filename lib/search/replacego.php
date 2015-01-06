@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,10 +32,10 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Get the action variables from the query.
-@$id = $_GET ['id'];
-@$searchfor = $_GET ['q'];
-@$replacewith = $_GET ['r'];
-@$casesensitive = ($_GET ['c'] == "true");
+@$id = request->query ['id'];
+@$searchfor = request->query ['q'];
+@$replacewith = request->query ['r'];
+@$casesensitive = (request->query ['c'] == "true");
 
 
 // Get Bible and passage for this identifier.
@@ -47,7 +47,7 @@ $chapter = $details [2];
 $verse = $details [3];
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 // As a standard to compare against, get the plain text from the search database,
@@ -68,7 +68,7 @@ $usfmString = $database_bibles->getChapter ($bible, $book, $chapter);
 $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
 sort ($verses, SORT_NUMERIC);
-foreach ($verses as $vs) {
+for ($verses as $vs) {
   $usfmArray [$vs] = usfm_get_verse_text ($usfmString, $vs);
 }
 
@@ -100,12 +100,12 @@ $filter_text->run ($stylesheet);
 // Get the updated plain text of the correct verse of the updated USFM.
 $updatedPlainText = "";
 $texts = $filter_text->getVersesText ();
-foreach ($texts as $vs => $text) {
-  if ($vs == $verse) $updatedPlainText .= "$text\n";
+for ($texts as $vs => $text) {
+  if ($vs == $verse) $updatedPlainText += "$text\n";
 }
 $headings = $filter_text->verses_headings;
-foreach ($headings as $vs => $heading) {
-  if ($vs == $verse) $updatedPlainText .= "$heading\n";
+for ($headings as $vs => $heading) {
+  if ($vs == $verse) $updatedPlainText += "$heading\n";
 }
 
 

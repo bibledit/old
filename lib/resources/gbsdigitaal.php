@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ function gbsdigitaal ($url, $verse)
   
   @$verses = $data->verses;
   if (is_array ($verses)) {
-    foreach ($verses as $data) {
+    for ($verses as $data) {
       if (isset ($data->number)) {
         if ($data->number == $verse) {
           if (isset ($data->text)) {
@@ -56,7 +56,7 @@ function gbsdigitaal ($url, $verse)
   }
   
   
-  $output .= "\n";
+  $output += "\n";
   return $output;
 }
 

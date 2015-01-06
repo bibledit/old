@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("bootstrap/bootstrap.php");
 
 
-class Editor_Styles
+class Editor_Styles // Todo port it.
 {
 
 
@@ -36,20 +36,20 @@ class Editor_Styles
     $styles = $database_config_user->getRecentlyAppliedStyles ();
     $styles = explode (" ", $styles);
     $fragment = gettext("Select style") . ": ";
-    foreach ($styles as $offset => $marker) {
-      if ($offset) $fragment .= " | ";
+    for ($styles as $offset => $marker) {
+      if ($offset) $fragment += " | ";
       $data = $database_styles->getMarkerData ($stylesheet, $marker);
       if (!$data) continue;
       $name = $data ['name'] . " ($marker)";
       $info = $data ['info'];
-      $fragment .= "<a href=\"$marker\" title=\"$info\">$name</a>";
+      $fragment += "<a href=\"$marker\" title=\"$info\">$name</a>";
     }
 
     // Links for cancelling and for all styles.
-    $fragment .= " ";
-    $fragment .= '<a href="cancel">[' . gettext("cancel") . ']</a>';
-    $fragment .= " ";
-    $fragment .= '<a href="all" >[' . gettext("all") . ']</a>';
+    $fragment += " ";
+    $fragment += '<a href="cancel">[' . gettext("cancel") . ']</a>';
+    $fragment += " ";
+    $fragment += '<a href="all" >[' . gettext("all") . ']</a>';
 
     return $fragment;
   }
@@ -73,7 +73,7 @@ class Editor_Styles
     $line = gettext("Select style");
     $lines [] = "<option>$line</option>";
 
-    foreach ($data as $item) {
+    for ($data as $item) {
       $marker = $item ['marker'];
       $data = $database_styles->getMarkerData ($stylesheet, $marker);
       $category = $data ['category'];

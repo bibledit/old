@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -85,7 +85,7 @@ while ($xml->read ()) {
   if ($nodeType == XMLReader::TEXT) {
     if ($word) {
       $greek = $xml->value;
-      $greek = trim ($greek);
+      $greek = filter_string_trim ($greek);
       $greek = str_replace ("'", "''", $greek);
       $sql = "INSERT INTO sblgnt (book, chapter, verse, greek) VALUES ($book, $chapter, $verse, '$greek');";
       $db->exec ($sql);

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,8 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Config_Bible
 {
 public:
-  Database_Config_Bible ();
-  ~Database_Config_Bible ();
   static string getRemoteRepositoryUrl (string bible);
   static void setRemoteRepositoryUrl (string bible, string url);
   static bool getViewableByAllUsers (string bible);
@@ -121,8 +119,8 @@ public:
   static void setSecureOdtExport (string bible, string value);
   static string getBookOrder (string bible);
   static void setBookOrder (string bible, string value);
-  static string getTextDirection (string bible);
-  static void setTextDirection (string bible, string value);
+  static int getTextDirection (string bible);
+  static void setTextDirection (string bible, int value);
   static string getTextFont (string bible);
   static void setTextFont (string bible, string value);
 private:
@@ -131,6 +129,8 @@ private:
   static void setValue (string bible, const char * key, string value);
   static bool getBValue (string bible, const char * key, bool default_value);
   static void setBValue (string bible, const char * key, bool value);
+  static int getIValue (string bible, const char * key, int default_value);
+  static void setIValue (string bible, const char * key, int value);
 };
 
 

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,26 +18,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <div>
-  <?php echo gettext("Search for verses with similar Strong's numbers in:") ?>
-  <?php echo $this->bible; ?>
+  gettext("Search for verses with similar Strong's numbers in:")
+  $this->bible;
   |
   <img id="searchloading" src="../pix/loading.gif">
   <progress value="0" max="100"></progress>
   <span id="hitcount">0</span>
   |
-  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="gettext("Menu")">☰</a></span>
 </div>
 <div>
-  <input id="loadbutton" type="button" value="<?php echo gettext("Load") ?>" />
+  <input id="loadbutton" type="button" value="gettext("Load")" />
 </div>
 <div>
-  <input id="searchentry" class="fullwidth" type="text" value="" placeholder="<?php echo gettext("Search for words like this") ?>" />
+  <input id="searchentry" class="fullwidth" type="text" value="" placeholder="gettext("Search for words like this")" />
 </div>
 <div>
-  <input id="searchbutton" disabled="disabled" type="button" value="<?php echo gettext("Search") ?>" />
+  <input id="searchbutton" disabled="disabled" type="button" value="gettext("Search")" />
 </div>
 <div id="searchresults"></div>
-<script><?php echo $this->script; ?></script>
-<script type="text/javascript" src="strongs.js?<?php echo config_logic_version () ?>"></script>
+<script>$this->script;</script>
+<script type="text/javascript" src="strongs.js?config_logic_version ()"></script>
 
 

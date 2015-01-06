@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
-@$bench = $_GET ['bench'];
+@$bench = request->query ['bench'];
 if (isset ($bench)) {
   $database_config_user = Database_Config_User::getInstance ();
   $workbenches = Workbench_Logic::getWorkbenches ();
@@ -41,7 +41,7 @@ $view = new Assets_View (__FILE__);
 
 $urls = Workbench_Logic::getURLs (true);
 $widths = Workbench_Logic::getWidths ();
-foreach ($urls as $key => $url) {
+for ($urls as $key => $url) {
   $row = intval ($key / 5) + 1;
   $column = $key % 5 + 1;
   $variable = "url" . $row . $column;
@@ -52,7 +52,7 @@ foreach ($urls as $key => $url) {
 
 
 $heights = Workbench_Logic::getHeights ();
-foreach ($heights as $key => $height) {
+for ($heights as $key => $height) {
   $row = $key + 1;
   $variable = "height" . $row;
   $view->view->$variable = $height;

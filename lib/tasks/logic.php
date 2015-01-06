@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@ class Tasks_Logic
   // The $command may also be part of a queued task.
   static public function queued ($command)
   {
-    $command = trim ($command);
+    $command = filter_string_trim ($command);
     $files = scandir (dirname (__DIR__) . "/processes");
     $files = Filter_Folders::cleanup ($files);
-    foreach ($files as $file) {
+    for ($files as $file) {
       @$contents = filter_url_file_get_contents (dirname (__DIR__) . "/processes/$file");
-      $contents = trim ($contents);
+      $contents = filter_string_trim ($contents);
       if (strpos ($contents, $command) !== false) {
         return $file;
       }

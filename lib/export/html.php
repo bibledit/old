@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 // Create stylesheet.
@@ -60,7 +60,7 @@ $styles_sheets->create ($stylesheet, $filecss, false, $bible);
 
 
 // Copy font to the output directory.
-$font = $database_config_bible->getTextFont ($bible);
+$font = Database_Config_Bible::getTextFont ($bible);
 if ($font) {
   if (Fonts_Logic::fontExists ($font)) {
     $fontpath = Fonts_Logic::getFontPath ($font);
@@ -76,9 +76,9 @@ $filter_text->html_text_standard->customClass = Filter_CustomCSS::getClass ($bib
 
 // Load one book.
 $chapters = $database_bibles->getChapters ($bible, $book);
-foreach ($chapters as $chapter) {
+for ($chapters as $chapter) {
   $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-  $usfm = trim ($usfm);
+  $usfm = filter_string_trim ($usfm);
   // Use small chunks of USFM at a time for much better performance.
   $filter_text->addUsfmCode ($usfm);
 }
@@ -92,7 +92,7 @@ $filter_text->run ($stylesheet);
 $filter_text->html_text_standard->save ($filename);
 
 
-$database_logs->log (gettext("Exported to html") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
+Database_Logs::log (gettext("Exported to html") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
 
 
 ?>

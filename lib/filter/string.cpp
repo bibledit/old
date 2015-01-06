@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <filter/string.h>
-#include <utf8/String.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
 #include <database/config/general.h>
@@ -184,7 +183,7 @@ vector <string> filter_string_array_unique (vector <string> values)
 }
 
 
-// A C++ equivalent for PHP's array_diff function.
+// A C++ equivalent for PHP's filter_string_array_diff function.
 // Returns items in "from" which are not present in "against".
 vector <string> filter_string_array_diff (vector <string> from, vector <string> against)
 {
@@ -305,7 +304,7 @@ int filter_string_date_local_seconds (int seconds)
 }
 
 
-// A C++ equivalent for PHP's trim function.
+// A C++ equivalent for PHP's filter_string_trim function.
 string filter_string_trim (string s)
 {
   if (s.length () == 0)
@@ -346,15 +345,6 @@ bool filter_string_is_numeric (string s)
 {
   for (char c : s) if (!isdigit (c)) return false;
   return true;
-}
-
-
-void var_dump (map <string, string> var)
-{
-  for (map <string, string>::const_iterator iter = var.begin(); iter != var.end(); ++iter) {
-    cout << "first: " << (*iter).first << ", second: " << (*iter).second << endl;
-  }
-  
 }
 
 
@@ -460,6 +450,13 @@ string unicode_string_casefold (string s)
 }
 
 
+// Returns true if string "s" is valid UTF8 encoded.
+bool unicode_string_is_valid (string s)
+{
+  return utf8::is_valid (s.begin(), s.end());
+}
+
+
 // C++ equivalent for PHP's rand function
 int filter_string_rand (int floor, int ceiling)
 {
@@ -554,7 +551,7 @@ string filter_string_extract_email (string input)
 // It leaves out the bit that was quoted.
 // If year and sender are given, it also removes lines that contain both strings.
 // This is used to remove lines like:
-// On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
+// On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:
 string filter_string_extract_body (string input, string year, string sender)
 {
   vector <string> inputlines = filter_string_explode (input, '\n');
@@ -586,3 +583,327 @@ string get_tick_box (bool enabled)
   return "☐";
 }
 
+
+void quick_swap(string & a, string & b)
+{
+  string t = a;
+  a = b;
+  b = t;
+}
+
+
+void quick_swap(unsigned int &a, unsigned int &b)
+{
+  unsigned int t = a;
+  a = b;
+  b = t;
+}
+
+
+void quick_swap(long unsigned int &a, long unsigned int &b)
+{
+  long unsigned int t = a;
+  a = b;
+  b = t;
+}
+
+
+void quick_swap(int &a, int &b)
+{
+  int t = a;
+  a = b;
+  b = t;
+}
+
+
+void quick_swap(bool & a, bool & b)
+{
+  bool t = a;
+  a = b;
+  b = t;
+}
+
+
+void quick_sort (vector <unsigned int>& one, vector <string> &two, unsigned int beg, unsigned int end)
+/*
+ This function is unusual in the sense that it does not sort one container, as
+ the big majority of sort functions do, but it accepts two containers.
+ It sorts on the first, and reorders the second container at the same time,
+ following the reordering done in the first container.
+ */
+{
+  if (end > beg + 1) {
+    unsigned int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+void quick_sort(vector < string > &one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    string piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    unsigned int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+void quick_sort (vector<unsigned int>& one, vector<bool>& two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    unsigned int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        bool two_l = two[l];
+        bool two_r = two[r];
+        quick_swap(two_l, two_r);
+        two[l] = two_l;
+        two[r] = two_r;
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    bool two_l = two[l];
+    bool two_beg = two[beg];
+    quick_swap(two_l, two_beg);
+    two[l] = two_l;
+    two[beg] = two_beg;
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+void quick_sort(vector < int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+void quick_sort(vector < string > &one, vector < string > &two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    string piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+void quick_sort(vector < string > &one, vector < bool > &two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    string piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        bool two_l = two[l];
+        bool two_r = two[r];
+        quick_swap(two_l, two_r);
+        two[l] = two_l;
+        two[r] = two_r;
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    bool two_l = two[l];
+    bool two_beg = two[beg];
+    quick_swap(two_l, two_beg);
+    two[l] = two_l;
+    two[beg] = two_beg;
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+void quick_sort(vector < string > &one, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    string piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_sort(one, beg, l);
+    quick_sort(one, r, end);
+  }
+}
+
+
+void quick_sort(vector <long unsigned int>& one, vector <long unsigned int>& two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    long unsigned int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
+// It replaces a copy of string delimited by the start and length parameters with the string given in replacement.
+// It is similar to PHP's function with the same name.
+string substr_replace (string original, string replacement, size_t start, size_t length)
+{
+  if (length) original.erase (start, length);
+  original.insert (start, replacement);
+  return original;
+}
+
+
+
+#define MY_NUMBERS "0123456789"
+string number_in_string (const string & str)
+{
+  // Looks for and returns a positive number in a string.
+  string output = str;
+  output.erase (0, output.find_first_of (MY_NUMBERS));
+  size_t end_position = output.find_first_not_of (MY_NUMBERS);
+  if (end_position != string::npos) {
+    output.erase (end_position, output.length());
+  }
+  return output;
+}
+#undef MY_NUMBERS

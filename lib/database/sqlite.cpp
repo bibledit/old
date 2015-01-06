@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,13 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 
 
-using namespace std;
-
-
 /*
 It has been seen on a shared hosting platform that the MySQL server did not have
 sufficient available concurrent connections at times.
-Other processes were using many connections, so that none remained for Bibledit-Web.
+Other processes were using many connections, so that none remained for Bibledit.
 That is a reason against using MySQL on shared hosting.
 
 A reason for using SQLite is that it is easier to set up.

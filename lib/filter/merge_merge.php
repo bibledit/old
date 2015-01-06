@@ -18,7 +18,7 @@
 
 
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,9 +52,9 @@ class ThreeWayMerge
 	 */
 	public function __construct( $ORIG, $NEW, $CUSTOM)
 	{
-		$this->_ORIG   = ( ! is_array( $ORIG ) )   ? explode( "\n", str_replace( "\r\n", "\n",  trim( $ORIG   ) ) ) : $ORIG;
-		$this->_NEW    = ( ! is_array( $NEW ) )    ? explode( "\n", str_replace( "\r\n", "\n" , trim( $NEW    ) ) ) : $NEW;
-		$this->_CUSTOM = ( ! is_array( $CUSTOM ) ) ? explode( "\n", str_replace( "\r\n", "\n" , trim( $CUSTOM ) ) ) : $CUSTOM;
+		$this->_ORIG   = ( ! is_array( $ORIG ) )   ? explode( "\n", str_replace( "\r\n", "\n",  filter_string_trim( $ORIG   ) ) ) : $ORIG;
+		$this->_NEW    = ( ! is_array( $NEW ) )    ? explode( "\n", str_replace( "\r\n", "\n" , filter_string_trim( $NEW    ) ) ) : $NEW;
+		$this->_CUSTOM = ( ! is_array( $CUSTOM ) ) ? explode( "\n", str_replace( "\r\n", "\n" , filter_string_trim( $CUSTOM ) ) ) : $CUSTOM;
 		
     require_once 'merge_diff3.php';
     require_once 'merge_renderer.php';
@@ -90,11 +90,11 @@ class ThreeWayMerge
 		
 		if ( is_array($matches) AND count($matches) )
 		{
-			foreach( $matches[1] as $index => $m )
+			for( $matches[1] as $index => $m )
 			{	
 				$_all	 = $matches[0][$index];
-				$_new    = trim( $matches[1][$index], "\n" );
-				$_custom = trim( $matches[2][$index], "\n" );
+				$_new    = filter_string_trim( $matches[1][$index], "\n" );
+				$_custom = filter_string_trim( $matches[2][$index], "\n" );
 				
 				$_new    = "<be:conflict id=\"{$count}\">\n<be:cblock type=\"original\">\n" . $_custom . "\n</be:cblock>\n<ips:cblock type=\"new\">\n" . $_new . "\n</ips:cblock>\n</ips:conflict>";
 					

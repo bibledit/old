@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,12 +29,12 @@ $session_logic = Session_Logic::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 
 
-@$username = Filter_Hex::hex2bin ($_POST ['u']);
-@$password = $_POST ['p'];
-@$bible = $_POST ['b'];
-@$book = $_POST ['bk'];
-@$chapter = $_POST ['c'];
-$action = $_POST ['a'];
+@$username = Filter_Hex::hex2bin (request->post ['u']);
+@$password = request->post ['p'];
+@$bible = request->post ['b'];
+@$book = request->post ['bk'];
+@$chapter = request->post ['c'];
+$action = request->post ['a'];
 
 
 if ($action == "total") {
@@ -45,16 +45,16 @@ if ($action == "total") {
   // calculate the checksum of all chapters in those Bibles,
   // and returns this checksum to the client.
   $user_ok = $database_users->usernameExists ($username);
-  if (!$user_ok) $database_logs->log ("Non existing user $username", Filter_Roles::manager ());
+  if (!$user_ok) Database_Logs::log ("Non existing user $username", Filter_Roles::manager ());
   $pass_ok = ($password == $database_users->getmd5 ($username));
-  if (!$pass_ok) $database_logs->log ("Incorrect password $password for user $username", Filter_Roles::manager ());
+  if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
   if (!$user_ok || !$pass_ok) {
     // Unauthorized.
-    http_response_code (401);
+    request->response_code = 401);
     die;
   }
 
-  $bibles = Access_Bible::bibles ($username);
+  $bibles = access_bible_bibles ($username);
   $server_checksum = Checksum_Logic::getBibles ($bibles);
   echo $server_checksum;
 
@@ -66,11 +66,11 @@ if ($action == "total") {
   // and responds with a list of Bibles this user has access to.
   if ($password != $database_users->getmd5 ($username)) {
     // Unauthorized.
-    http_response_code (401);
+    request->response_code = 401);
     die;
   }
 
-  $bibles = Access_Bible::bibles ($username);
+  $bibles = access_bible_bibles ($username);
   $bibles = implode ("\n", $bibles);
   $checksum = Checksum_Logic::get ($bibles);
   echo "$checksum\n$bibles";

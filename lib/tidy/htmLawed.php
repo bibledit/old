@@ -28,7 +28,7 @@ else{
  if(isset($x[1])){
   preg_match_all('`(?:^|-|\+)[^\-+]+?(?=-|\+|$)`', $x, $m, PREG_SET_ORDER);
   for($i=count($m); --$i>=0;){$m[$i] = $m[$i][0];}
-  foreach($m as $v){
+  for($m as $v){
    if($v[0] == '+'){$e[substr($v, 1)] = 1;}
    if($v[0] == '-' && isset($e[($v = substr($v, 1))]) && !in_array('+'. $v, $m)){unset($e[$v]);}
   }
@@ -46,7 +46,7 @@ $C['deny_attribute'] = $x;
 // config URL
 $x = (isset($C['schemes'][2]) && strpos($C['schemes'], ':')) ? strtolower($C['schemes']) : 'href: aim, feed, file, ftp, gopher, http, https, irc, mailto, news, nntp, sftp, ssh, telnet; *:file, http, https';
 $C['schemes'] = array();
-foreach(explode(';', str_replace(array(' ', "\t", "\r", "\n"), '', $x)) as $v){
+for(explode(';', str_replace(array(' ', "\t", "\r", "\n"), '', $x)) as $v){
  $x = $x2 = null; list($x, $x2) = explode(':', $v, 2);
  if($x2){$C['schemes'][$x] = array_flip(explode(',', $x2));}
 }
@@ -115,7 +115,7 @@ return $t;
 function hl_attrval($t, $p){
 // check attr val against $S
 $o = 1; $l = strlen($t);
-foreach($p as $k=>$v){
+for($p as $k=>$v){
  switch($k){
   case 'maxlen':if($l > $v){$o = 0;}
   break; case 'minlen': if($l < $v){$o = 0;}
@@ -125,11 +125,11 @@ foreach($p as $k=>$v){
   break; case 'nomatch': if(preg_match($v, $t)){$o = 0;}
   break; case 'oneof':
    $m = 0;
-   foreach(explode('|', $v) as $n){if($t == $n){$m = 1; break;}}
+   for(explode('|', $v) as $n){if($t == $n){$m = 1; break;}}
    $o = $m;
   break; case 'noneof':
    $m = 1;
-   foreach(explode('|', $v) as $n){if($t == $n){$m = 0; break;}}
+   for(explode('|', $v) as $n){if($t == $n){$m = 0; break;}}
    $o = $m;
   break; default:
   break;
@@ -171,7 +171,7 @@ elseif(isset($cI[$in])){$inOk = $eI; $cI['del'] = 1; $cI['ins'] = 1;}
 elseif(isset($cF[$in])){$inOk = $eF; unset($cI['del'], $cI['ins']);}
 elseif(isset($cB[$in])){$inOk = $eB; unset($cI['del'], $cI['ins']);}
 if(isset($cO[$in])){$inOk = $inOk + $cO[$in];}
-if(isset($cN[$in])){$inOk = array_diff_assoc($inOk, $cN[$in]);}
+if(isset($cN[$in])){$inOk = filter_string_array_diff_assoc($inOk, $cN[$in]);}
 
 $t = explode('<', $t);
 $ok = $q = array(); // $q seq list of open non-empty ele
@@ -187,7 +187,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   elseif(isset($cF[$p])){$ok = $eF; unset($cI['del'], $cI['ins']);}
   elseif(isset($cB[$p])){$ok = $eB; unset($cI['del'], $cI['ins']);}
   if(isset($cO[$p])){$ok = $ok + $cO[$p];}
-  if(isset($cN[$p])){$ok = array_diff_assoc($ok, $cN[$p]);}
+  if(isset($cN[$p])){$ok = filter_string_array_diff_assoc($ok, $cN[$p]);}
  }else{$ok = $inOk; unset($cI['del'], $cI['ins']);}
  // bad tags, & ele content
  if(isset($e) && ($do == 1 or (isset($ok['#pcdata']) && ($do == 3 or $do == 5)))){
@@ -199,7 +199,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   }
   elseif($do < 3 or isset($ok['#pcdata'])){echo $x;}
   elseif(strpos($x, "\x02\x04")){
-   foreach(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
+   for(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
     echo (substr($v, 0, 2) == "\x01\x02" ? $v : ($do > 4 ? preg_replace('`\S`', '', $v) : ''));
    }
   }elseif($do > 4){echo preg_replace('`\S`', '', $x);}
@@ -214,7 +214,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   $add = ''; // Nesting - close open tags that need to be
   for($j=-1, $cj=count($q); ++$j<$cj;){  
    if(($d = array_pop($q)) == $e){break;}
-   else{$add .= "</{$d}>";}
+   else{$add += "</{$d}>";}
   }
   echo $add, '</', $e, '>'; unset($e); continue;
  }
@@ -250,7 +250,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   if(isset($cS[$d])){$q2[] = $d; continue;}
   $ok2 = isset($cI[$d]) ? $eI : $eF;
   if(isset($cO[$d])){$ok2 = $ok2 + $cO[$d];}
-  if(isset($cN[$d])){$ok2 = array_diff_assoc($ok2, $cN[$d]);}
+  if(isset($cN[$d])){$ok2 = filter_string_array_diff_assoc($ok2, $cN[$d]);}
   if(!isset($ok2[$e])){
    if(!$k && !isset($inOk[$e])){continue 2;}
    $add = "</{$d}>";
@@ -273,7 +273,7 @@ if($ql = count($q)){
  elseif(isset($cF[$p])){$ok = $eF; unset($cI['del'], $cI['ins']);}
  elseif(isset($cB[$p])){$ok = $eB; unset($cI['del'], $cI['ins']);}
  if(isset($cO[$p])){$ok = $ok + $cO[$p];}
- if(isset($cN[$p])){$ok = array_diff_assoc($ok, $cN[$p]);}
+ if(isset($cN[$p])){$ok = filter_string_array_diff_assoc($ok, $cN[$p]);}
 }else{$ok = $inOk; unset($cI['del'], $cI['ins']);}
 if(isset($e) && ($do == 1 or (isset($ok['#pcdata']) && ($do == 3 or $do == 5)))){
  echo '&lt;', $s, $e, $a, '&gt;';
@@ -284,7 +284,7 @@ if(isset($x[0])){
  }
  elseif($do < 3 or isset($ok['#pcdata'])){echo $x;}
  elseif(strpos($x, "\x02\x04")){
-  foreach(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
+  for(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
    echo (substr($v, 0, 2) == "\x01\x02" ? $v : ($do > 4 ? preg_replace('`\S`', '', $v) : ''));
   }
  }elseif($do > 4){echo preg_replace('`\S`', '', $x);}
@@ -303,7 +303,7 @@ global $C;
 if(!($v = $C[$n = $t[3] == '-' ? 'comment' : 'cdata'])){return $t;}
 if($v == 1){return '';}
 if($n == 'comment'){
- if(substr(($t = preg_replace('`--+`', '-', substr($t, 4, -3))), -1) != ' '){$t .= ' ';}
+ if(substr(($t = preg_replace('`--+`', '-', substr($t, 4, -3))), -1) != ' '){$t += ' ';}
 }
 else{$t = substr($t, 1, -1);}
 $t = $v == 2 ? str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), $t) : $t;
@@ -331,7 +331,7 @@ function hl_prot($p, $c=null){
 // check URL scheme
 global $C;
 $b = $a = '';
-if($c == null){$c = 'style'; $b = $p[1]; $a = $p[3]; $p = trim($p[2]);}
+if($c == null){$c = 'style'; $b = $p[1]; $a = $p[3]; $p = filter_string_trim($p[2]);}
 $c = isset($C['schemes'][$c]) ? $C['schemes'][$c] : $C['schemes']['*'];
 static $d = 'denied:';
 if(isset($c['!']) && substr($p, 0, 7) != $d){$p = "$d$p";}
@@ -379,17 +379,17 @@ return $r;
 function hl_spec($t){
 // final $spec
 $s = array();
-$t = str_replace(array("\t", "\r", "\n", ' '), '', preg_replace_callback('/"(?>(`.|[^"])*)"/sm', create_function('$m', 'return substr(str_replace(array(";", "|", "~", " ", ",", "/", "(", ")", \'`"\'), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\""), $m[0]), 1, -1);'), trim($t))); 
+$t = str_replace(array("\t", "\r", "\n", ' '), '', preg_replace_callback('/"(?>(`.|[^"])*)"/sm', create_function('$m', 'return substr(str_replace(array(";", "|", "~", " ", ",", "/", "(", ")", \'`"\'), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\""), $m[0]), 1, -1);'), filter_string_trim($t))); 
 for($i = count(($t = explode(';', $t))); --$i>=0;){
  $w = $t[$i];
  if(empty($w) or ($e = strpos($w, '=')) === false or !strlen(($a =  substr($w, $e+1)))){continue;}
  $y = $n = array();
- foreach(explode(',', $a) as $v){
+ for(explode(',', $a) as $v){
   if(!preg_match('`^([a-z:\-\*]+)(?:\((.*?)\))?`i', $v, $m)){continue;}
   if(($x = strtolower($m[1])) == '-*'){$n['*'] = 1; continue;}
   if($x[0] == '-'){$n[substr($x, 1)] = 1; continue;}
   if(!isset($m[2])){$y[$x] = 1; continue;}
-  foreach(explode('/', $m[2]) as $m){
+  for(explode('/', $m[2]) as $m){
    if(empty($m) or ($p = strpos($m, '=')) == 0 or $p < 5){$y[$x] = 1; continue;}
    $y[$x][strtolower(substr($m, 0, $p))] = str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08"), array(";", "|", "~", " ", ",", "/", "(", ")"), substr($m, $p+1));
   }
@@ -397,7 +397,7 @@ for($i = count(($t = explode(';', $t))); --$i>=0;){
   if(isset($y[$x]['nomatch']) && !hl_regex($y[$x]['nomatch'])){unset($y[$x]['nomatch']);}
  }
  if(!count($y) && !count($n)){continue;}
- foreach(explode(',', substr($w, 0, $e)) as $v){
+ for(explode(',', substr($w, 0, $e)) as $v){
   if(!strlen(($v = strtolower($v)))){continue;}
   if(count($y)){$s[$v] = $y;}
   if(count($n)){$s[$v]['n'] = $n;}
@@ -420,7 +420,7 @@ if(!preg_match('`^<(/?)([a-zA-Z][a-zA-Z1-6]*)([^>]*?)\s?>$`m', $t, $m)){
  return (($C['keep_bad']%2) ? str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : '');
 }
 // attr string
-$a = str_replace(array("\n", "\r", "\t"), ' ', trim($m[3]));
+$a = str_replace(array("\n", "\r", "\t"), ' ', filter_string_trim($m[3]));
 // tag transform
 static $eD = array('applet'=>1, 'center'=>1, 'dir'=>1, 'embed'=>1, 'font'=>1, 'isindex'=>1, 'menu'=>1, 's'=>1, 'strike'=>1, 'u'=>1); // Deprecated
 if($C['make_tag_strict'] && isset($eD[$e])){
@@ -456,7 +456,7 @@ if($C['no_deprecated_attr']){
 
 // attr name-vals
 if(strpos($a, "\x01") !== false){$a = preg_replace('`\x01[^\x01]*\x01`', '', $a);} // No comment/CDATA sec
-$mode = 0; $a = trim($a, ' /'); $aA = array();
+$mode = 0; $a = filter_string_trim($a, ' /'); $aA = array();
 while(strlen($a)){
  $w = 0;
  switch($mode){
@@ -475,7 +475,7 @@ while(strlen($a)){
   break; case 2: // Val
    if(preg_match('`^((?:"[^"]*")|(?:\'[^\']*\')|(?:\s*[^\s"\']+))(.*)`', $a, $m)){
     $a = ltrim($m[2]); $m = $m[1]; $w = 1; $mode = 0;
-    $aA[$nm] = trim(($m[0] == '"' or $m[0] == '\'') ? substr($m, 1, -1) : $m);
+    $aA[$nm] = filter_string_trim(($m[0] == '"' or $m[0] == '\'') ? substr($m, 1, -1) : $m);
    }
   break;
  }
@@ -490,7 +490,7 @@ if($mode == 1){$aA[$nm] = '';}
 global $S;
 $rl = isset($S[$e]) ? $S[$e] : array();
 $a = array(); $nfr = 0;
-foreach($aA as $k=>$v){
+for($aA as $k=>$v){
   if(((isset($C['deny_attribute']['*']) ? isset($C['deny_attribute'][$k]) : !isset($C['deny_attribute'][$k])) && (isset($aN[$k][$e]) or (isset($aNU[$k]) && !isset($aNU[$k][$e]))) && !isset($rl['n'][$k]) && !isset($rl['n']['*'])) or isset($rl[$k])){
   if(isset($aNE[$k])){$v = $k;}
   elseif(!empty($lcase) && (($e != 'button' or $e != 'input') or $k == 'type')){ // Rather loose but ?not cause issues
@@ -515,7 +515,7 @@ foreach($aA as $k=>$v){
      $r0 = $C['anti_link_spam'][0];
      if(!empty($r0) && preg_match($r0, $v)){
       if(isset($a['rel'])){
-       if(!preg_match('`\bnofollow\b`i', $a['rel'])){$a['rel'] .= ' nofollow';}
+       if(!preg_match('`\bnofollow\b`i', $a['rel'])){$a['rel'] += ' nofollow';}
       }elseif(isset($aA['rel'])){
        if(!preg_match('`\bnofollow\b`i', $aA['rel'])){$nfr = 1;}
       }else{$a['rel'] = 'nofollow';}
@@ -532,7 +532,7 @@ if($nfr){$a['rel'] = isset($a['rel']) ? $a['rel']. ' nofollow' : 'nofollow';}
 // rqd attr
 static $eAR = array('area'=>array('alt'=>'area'), 'bdo'=>array('dir'=>'ltr'), 'form'=>array('action'=>''), 'img'=>array('src'=>'', 'alt'=>'image'), 'map'=>array('name'=>''), 'optgroup'=>array('label'=>''), 'param'=>array('name'=>''), 'script'=>array('type'=>'text/javascript'), 'textarea'=>array('rows'=>'10', 'cols'=>'50'));
 if(isset($eAR[$e])){
- foreach($eAR[$e] as $k=>$v){
+ for($eAR[$e] as $k=>$v){
   if(!isset($a[$k])){$a[$k] = isset($v[0]) ? $v : $k;}
  }
 }
@@ -540,7 +540,7 @@ if(isset($eAR[$e])){
 // depr attrs
 if($depTr){
  $c = array();
- foreach($a as $k=>$v){
+ for($a as $k=>$v){
   if($k == 'style' or !isset($aND[$k][$e])){continue;}
   if($k == 'align'){
    unset($a['align']);
@@ -609,7 +609,7 @@ if(!empty($trt)){
 // return with empty ele /
 if(empty($C['hook_tag'])){
  $aA = '';
- foreach($a as $k=>$v){$aA .= " {$k}=\"{$v}\"";}
+ for($a as $k=>$v){$aA += " {$k}=\"{$v}\"";}
  return "<{$e}{$aA}". (isset($eE[$e]) ? ' /' : ''). '>';
 }
 else{return $C['hook_tag']($e, $a);}
@@ -626,13 +626,13 @@ static $fs = array('0'=>'xx-small', '1'=>'xx-small', '2'=>'small', '3'=>'medium'
 if($e == 'font'){
  $a2 = '';
  if(preg_match('`face\s*=\s*(\'|")([^=]+?)\\1`i', $a, $m) or preg_match('`face\s*=(\s*)(\S+)`i', $a, $m)){
-  $a2 .= ' font-family: '. str_replace('"', '\'', trim($m[2])). ';';
+  $a2 += ' font-family: '. str_replace('"', '\'', filter_string_trim($m[2])). ';';
  }
  if(preg_match('`color\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m)){
-  $a2 .= ' color: '. trim($m[2]). ';';
+  $a2 += ' color: '. filter_string_trim($m[2]). ';';
  }
- if(preg_match('`size\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m) && isset($fs[($m = trim($m[2]))])){
-  $a2 .= ' font-size: '. $fs[$m]. ';';
+ if(preg_match('`size\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m) && isset($fs[($m = filter_string_trim($m[2]))])){
+  $a2 += ' font-size: '. $fs[$m]. ';';
  }
  $e = 'span'; return ltrim($a2);
 }
@@ -704,7 +704,7 @@ return '1.1.17';
 
 function kses($t, $h, $p=array('http', 'https', 'ftp', 'news', 'nntp', 'telnet', 'gopher', 'mailto')){
 // kses compat
-foreach($h as $k=>$v){
+for($h as $k=>$v){
  $h[$k]['n']['*'] = 1;
 }
 $C['cdata'] = $C['comment'] = $C['make_tag_strict'] = $C['no_deprecated_attr'] = $C['unique_ids'] = 0;

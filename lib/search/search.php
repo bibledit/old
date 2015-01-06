@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ page_access_level (Filter_Roles::guest ());
 
 
 // The query: The word or string to search for.
-$queryString = isset($_GET['q']) ? $_GET['q'] : '';
+$queryString = isset(request->query['q']) ? request->query['q'] : '';
 
 
 // Put the query string into the search box.
@@ -34,7 +34,7 @@ $view = new Assets_View (__FILE__);
 
 
 // Clean the query string up.
-$queryString = trim ($queryString);
+$queryString = filter_string_trim ($queryString);
 
 
 // Generate search words for emphasizing the search hits.
@@ -51,7 +51,7 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Search the notes.
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $identifiers = $database_notes->searchNotes ($queryString, $bibles);
 
 
@@ -64,13 +64,13 @@ $noteTitles = array ();
 $noteUrls = array ();
 $noteExcerpts = array ();
 
-foreach ($identifiers as $identifier) {
+for ($identifiers as $identifier) {
 
   // The title.
   $summary = $database_notes->getSummary ($identifier);
   $verses = Filter_Books::filter_passage_display_inline ($database_notes->getPassages ($identifier));
   $title = "$summary | $verses";
-  $title = Filter_Html::sanitize ($title);
+  $title = filter_string_sanitize_html ($title);
   $noteTitles [] = $title;
 
   // The url.
@@ -82,11 +82,11 @@ foreach ($identifiers as $identifier) {
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.
-  foreach ($text as $line) {
+  for ($text as $line) {
     $markedLine =  Filter_Markup::words ($queryWords, $line);
     // If the line is marked up, add it to the excerpts.
     if ($markedLine != $line) {
-      $excerpt .= "<p style=\"margin-top: 0em\">$markedLine</p>\n";
+      $excerpt += "<p style=\"margin-top: 0em\">$markedLine</p>\n";
     }
   }
   $noteExcerpts [] = $excerpt;
@@ -112,7 +112,7 @@ $textLinks = array ();
 $textExcerpts = array ();
 
 
-foreach ($hits as $hit) {
+for ($hits as $hit) {
 
 
   // Get the details of this search hit.
@@ -132,11 +132,11 @@ foreach ($hits as $hit) {
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.
-  foreach ($text as $line) {
+  for ($text as $line) {
     $markedLine =  Filter_Markup::words ($queryWords, $line);
     if ($markedLine != $line) {
       // Store this bit of the excerpt.
-      $excerpt .= "<p style=\"margin-top: 0em\">$markedLine</p>\n";
+      $excerpt += "<p style=\"margin-top: 0em\">$markedLine</p>\n";
     }
   }
   $textExcerpts [] = $excerpt;

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
@@ -36,47 +36,47 @@ $success = "";
 $error = "";
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if ($id == "") {
-  @$id = $_POST ['id'];
+  @$id = request->post ['id'];
 }
 
 
-if (isset ($_GET['unsubscribe'])) {
+if (isset (request->query['unsubscribe'])) {
   $notes_logic->unsubscribe ($id);
 }
 
 
-if (isset ($_GET['subscribe'])) {
+if (isset (request->query['subscribe'])) {
   $notes_logic->subscribe ($id);
 }
 
 
-@$unassign = $_GET['unassign'];
+@$unassign = request->query['unassign'];
 if (isset ($unassign)) {
   $notes_logic->unassignUser ($id, $unassign);
 }
 
 
-if (isset ($_GET['done'])) {
+if (isset (request->query['done'])) {
   $notes_logic->unassignUser ($id, $user);
 }
 
 
-if (isset ($_GET['markdel'])) {
+if (isset (request->query['markdel'])) {
   $notes_logic->markForDeletion ($id);
   $success = gettext("The note will be deleted after a week.") . " " . gettext ("Adding a comment to the note cancels the deletion.");
 }
 
 
-if (isset ($_GET['unmarkdel'])) {
+if (isset (request->query['unmarkdel'])) {
   $notes_logic->unmarkForDeletion ($id);
 }
 
 
-if (isset ($_GET['delete'])) {
+if (isset (request->query['delete'])) {
   $notes_logic->delete ($id);
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
   die;
 }
 

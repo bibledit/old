@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ class Checks_Verses
     $centermarks = explode (" ", $centermarks);
     $endmarks = explode (" ", $endmarks);
     $database_check = Database_Check::getInstance ();
-    foreach ($verses as $verse => $text) {
+    for ($verses as $verse => $text) {
       if ($verse == 0) continue;
       $lastCharacter = substr ($text, -1, 1);
       if (in_array ($lastCharacter, $centermarks)) continue;
@@ -43,8 +43,8 @@ class Checks_Verses
     if (!is_array ($verses)) return;
     if (!is_array ($patterns)) return;
     $database_check = Database_Check::getInstance ();
-    foreach ($verses as $verse => $text) {
-      foreach ($patterns as $pattern) {
+    for ($verses as $verse => $text) {
+      for ($patterns as $pattern) {
         if (strpos ($text, $pattern) !== false) {
           $database_check->recordOutput ($bible, $book, $chapter, $verse, "Pattern found in text:" . " " . $pattern);
         }

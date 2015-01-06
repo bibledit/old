@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,52 +28,52 @@ $database_config_user = Database_Config_User::getInstance();
 $database_config_bible = Database_Config_Bible::getInstance();
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
-if (isset($_POST['capitals'])) {
-  $database_config_bible->setSentenceStructureCapitals ($bible, $_POST['capitals']);
+if (isset(request->post['capitals'])) {
+  Database_Config_Bible::setSentenceStructureCapitals ($bible, request->post['capitals']);
   $view->view->success = gettext("The capitals were stored");
 }
 
 
-if (isset($_POST['smallletters'])) {
-  $database_config_bible->setSentenceStructureSmallLetters ($bible, $_POST['smallletters']);
+if (isset(request->post['smallletters'])) {
+  Database_Config_Bible::setSentenceStructureSmallLetters ($bible, request->post['smallletters']);
   $view->view->success = gettext("The small letters were stored");
 }
 
 
-if (isset($_POST['endpunctuationmarks'])) {
-  $database_config_bible->setSentenceStructureEndPunctuation ($bible, $_POST['endpunctuationmarks']);
+if (isset(request->post['endpunctuationmarks'])) {
+  Database_Config_Bible::setSentenceStructureEndPunctuation ($bible, request->post['endpunctuationmarks']);
   $view->view->success = gettext("The punctuation marks at the ends of sentences were stored");
 }
 
 
-if (isset($_POST['middlepunctuationmarks'])) {
-  $database_config_bible->setSentenceStructureMiddlePunctuation ($bible, $_POST['middlepunctuationmarks']);
+if (isset(request->post['middlepunctuationmarks'])) {
+  Database_Config_Bible::setSentenceStructureMiddlePunctuation ($bible, request->post['middlepunctuationmarks']);
   $view->view->success = gettext("The punctuation marks within the sentences were stored");
 }
 
 
-if (isset($_POST['disregards'])) {
-  $database_config_bible->setSentenceStructureDisregards ($bible, $_POST['disregards']);
+if (isset(request->post['disregards'])) {
+  Database_Config_Bible::setSentenceStructureDisregards ($bible, request->post['disregards']);
   $view->view->success = gettext("The characters that should be disregarded within the sentences were stored");
 }
 
 
-if (isset($_POST['names'])) {
-  $database_config_bible->setSentenceStructureNames ($bible, $_POST['names']);
+if (isset(request->post['names'])) {
+  Database_Config_Bible::setSentenceStructureNames ($bible, request->post['names']);
   $view->view->success = gettext("The names that may occur after mid-sentence punctuation were stored");
 }
 
 
 $view->view->bible = $bible;
-$view->view->capitals = Filter_Html::sanitize ($database_config_bible->getSentenceStructureCapitals ($bible));
-$view->view->smallletters = Filter_Html::sanitize ($database_config_bible->getSentenceStructureSmallLetters ($bible));
-$view->view->endpunctuationmarks = Filter_Html::sanitize ($database_config_bible->getSentenceStructureEndPunctuation ($bible));
-$view->view->middlepunctuationmarks = Filter_Html::sanitize ($database_config_bible->getSentenceStructureMiddlePunctuation ($bible));
-$view->view->disregards = Filter_Html::sanitize ($database_config_bible->getSentenceStructureDisregards ($bible));
-$view->view->names = Filter_Html::sanitize ($database_config_bible->getSentenceStructureNames ($bible));
+$view->view->capitals = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureCapitals ($bible));
+$view->view->smallletters = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureSmallLetters ($bible));
+$view->view->endpunctuationmarks = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureEndPunctuation ($bible));
+$view->view->middlepunctuationmarks = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible));
+$view->view->disregards = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards ($bible));
+$view->view->names = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames ($bible));
 $view->render ("settingssentences.php");
 
 

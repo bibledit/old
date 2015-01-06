@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
 
 
-@$add = $_GET['add'];
+@$add = request->query['add'];
 if (isset ($add)) {
   $resources = $database_config_user->getActiveResources ();
   $resources [] = $add;
@@ -33,7 +33,7 @@ if (isset ($add)) {
 }
 
 
-@$remove = $_GET['remove'];
+@$remove = request->query['remove'];
 if (isset ($remove)) {
   $resources = $database_config_user->getActiveResources ();
   $key = array_search ($remove, $resources);
@@ -42,7 +42,7 @@ if (isset ($remove)) {
 }
 
 
-@$resources = $_POST ['resources'];
+@$resources = request->post ['resources'];
 if (isset ($resources)) {
   $resources = explode (",", $resources);
   $database_config_user->setActiveResources ($resources);
@@ -61,7 +61,7 @@ $view->view->actives = $active_resources;
 
 // The selectable resources are the available ones minus the active ones.
 $available_resources = Resource_Logic::getNames ();
-$selectable_resources = array_diff ($available_resources, $active_resources);
+$selectable_resources = filter_string_array_diff ($available_resources, $active_resources);
 $view->view->selectables = $selectable_resources;
 
 

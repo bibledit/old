@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
 #include <unittests/libraries.h>
-#include <unittests/database_config.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
 #include <database/config/user.h>
@@ -36,6 +35,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/archive.h>
 #include <filter/text.h>
+#include <filter/customcss.h>
+#include <filter/bibleworks.h>
+#include <filter/diff.h>
+#include <filter/abbreviations.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -43,6 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <html/text.h>
 #include <odf/text.h>
 #include <styles/logic.h>
+#include <styles/css.h>
 
 
 void test_filters_test1 ()
@@ -95,7 +99,7 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, reference, output);
   }
   {
-    // Test filter_string_array_diff, a C++ equivalent for PHP's array_diff function.
+    // Test filter_string_array_diff, a C++ equivalent for PHP's filter_string_array_diff function.
     vector <string> reference;
     reference.push_back ("aaa");
     reference.push_back ("zzz");
@@ -180,6 +184,10 @@ void test_filters_test2 ()
     evaluate (__LINE__, __func__, 123, convert_to_int ("123"));
     evaluate (__LINE__, __func__, 123, convert_to_int ("123xx"));
     evaluate (__LINE__, __func__, 0, convert_to_int ("xxx123xx"));
+  }
+  {
+    evaluate (__LINE__, __func__, true, unicode_string_is_valid ("valid"));
+    evaluate (__LINE__, __func__, true, unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
   }
 }
 
@@ -938,7 +946,7 @@ void test_filters_test9 ()
     string tarball = filter_archive_tar_gzip_file (file1);
     evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 155) || (size > 165)) evaluate (__LINE__, __func__, "between 155 and 165", convert_to_string (size));
+    if ((size < 155) || (size > 180)) evaluate (__LINE__, __func__, "between 155 and 180", convert_to_string (size));
     // Clean up tarball from /tmp folder.
     filter_url_unlink (tarball);
     // Test that compressing a non-existing file returns NULL.
@@ -955,7 +963,7 @@ void test_filters_test9 ()
     string tarball = filter_archive_tar_gzip_folder (folder);
     evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 235) || (size > 245)) evaluate (__LINE__, __func__, "between 235 and 245", convert_to_string (size));
+    if ((size < 235) || (size > 260)) evaluate (__LINE__, __func__, "between 235 and 260", convert_to_string (size));
     // Clean up.
     filter_url_unlink (tarball);
     filter_url_rmdir (folder);
@@ -1013,14 +1021,14 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-"Paragraph One\n"
-"\n"
-"Paragraph Two\n"
-"\n"
-"Heading One\n"
-"===========\n"
-"\n"
-"Paragraph Three\n";
+    "  Paragraph One\n"
+    "\n"
+    "  Paragraph Two\n"
+    "\n"
+    "  Heading One\n"
+    "  ===========\n"
+    "\n"
+    "  Paragraph Three\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1054,11 +1062,11 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-"Text†\n"
-"\n"
-"Note\n"
-"\n"
-".\n";
+    "  Text†\n"
+    "\n"
+    "  Note\n"
+    "\n"
+    "  .\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1106,11 +1114,11 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-      "Text𐌰\n"
+      "  Text𐌰\n"
       "\n"
-      "Addnormal\n"
+      "  Addnormal\n"
       "\n"
-      ".\n";
+      "  .\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1125,14 +1133,14 @@ void test_filters_test10 ()
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
-    add.color = 0;
+    add.color = "#000000";
     Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
     nd.smallcaps = ooitOn;
     nd.superscript = false;
-    nd.color = 0;
+    nd.color = "#000000";
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
@@ -1163,14 +1171,14 @@ void test_filters_test10 ()
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
-    add.color = 0;
+    add.color = "#000000";
     Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
     nd.smallcaps = ooitOn;
     nd.superscript = false;
-    nd.color = 0;
+    nd.color = "#000000";
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
@@ -1188,11 +1196,11 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "text𐌰\n"
+    "  text𐌰\n"
     "\n"
-    "addndnormal\n"
+    "  addndnormal\n"
     "\n"
-    ".\n";
+    "  .\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1215,9 +1223,9 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "Paragraph with d style\n"
+    "  Paragraph with d style\n"
     "\n"
-    "Paragraph with d style at first, then Standard\n"
+    "  Paragraph with d style at first, then Standard\n"
     "";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -1359,6 +1367,7 @@ void test_filters_test11 ()
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "\n"
     "Header4 Ⅰ\n"
@@ -1409,6 +1418,7 @@ void test_filters_test11 ()
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "\n"
       "Genesis 1\n"
@@ -1455,6 +1465,7 @@ void test_filters_test11 ()
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "\n"
       "1" + get_en_space () + "Verse One.\n"
@@ -1478,6 +1489,7 @@ void test_filters_test11 ()
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "\n"
       "1" + get_en_space () + "Text 1a\n"
@@ -1790,6 +1802,7 @@ void test_filters_test12 ()
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "Genesis 1\n"
       "=========\n"
@@ -1832,6 +1845,7 @@ void test_filters_test12 ()
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "Genesis 1\n"
       "=========\n"
@@ -1856,6 +1870,7 @@ void test_filters_test12 ()
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "Genesis 1\n"
       "=========\n"
@@ -2302,17 +2317,17 @@ void test_email ()
     "\n"
     "test\n"
     "\n"
-    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
     "\n"
     "> test notes three\n"
     "\n"
     "\n"
     "> test\n"
     "\n"
-    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
     "\n"
     ">    test notes three \n";
-  evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit-Web"));
+  evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit"));
 }
 
 
@@ -2353,6 +2368,14 @@ void test_stat ()
 }
 
 
+void test_replace ()
+{
+  evaluate (__LINE__, __func__, "ABXEFG", substr_replace ("ABCDEFG", "X", 2, 2));
+  evaluate (__LINE__, __func__, "ABX", substr_replace ("ABCDEFG", "X", 2, 5));
+  evaluate (__LINE__, __func__, "ABXG", substr_replace ("ABCDEFG", "X", 2, 4));
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -2383,4 +2406,447 @@ void test_filters ()
   test_filter_string_text2html ();
   test_email ();
   test_stat ();
+  test_replace ();
+}
+
+
+void test_styles_css ()
+{
+  Webserver_Request request;
+  // Basic.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    styles_css.generate ();
+    string css = styles_css.css ();
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "basic.css")));
+    evaluate (__LINE__, __func__, standard, css);
+  }
+  // Export.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    styles_css.exports ();
+    styles_css.generate ();
+    string css = styles_css.css ();
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "exports.css")));
+    evaluate (__LINE__, __func__, standard, css);
+  }
+  // Editor.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    styles_css.editor ();
+    styles_css.generate ();
+    string css = styles_css.css ();
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "editor.css")));
+    evaluate (__LINE__, __func__, standard, css);
+  }
+}
+
+
+void test_filter_custom_css ()
+{
+  // Direction
+  {
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionUnspecified (100));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionUnspecified (101));
+    
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionLeftToRight (101));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionLeftToRight (102));
+    
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionRightToLeft (102));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionRightToLeft (103));
+    
+    evaluate (__LINE__, __func__, 0, Filter_CustomCSS::directionValue (""));
+    evaluate (__LINE__, __func__, 1, Filter_CustomCSS::directionValue ("ltr"));
+    evaluate (__LINE__, __func__, 2, Filter_CustomCSS::directionValue ("rtl"));
+  }
+  // Writing Mode
+  {
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeUnspecified (102));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeUnspecified (112));
+    
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeTopBottomLeftRight (112));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeTopBottomLeftRight (122));
+    
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeTopBottomRightLeft (122));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeTopBottomRightLeft (132));
+    
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeBottomTopLeftRight (132));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeBottomTopLeftRight (142));
+    
+    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeBottomTopRightLeft (142));
+    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeBottomTopRightLeft (152));
+  }
+  // Css
+  {
+    string css = Filter_CustomCSS::getCss ("class", "", 0);
+    
+    string standard =
+    ".class\n"
+    "{\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("class", "", 101);
+    standard =
+    ".class\n"
+    "{\n"
+    "direction: ltr;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("class", "", 102);
+    standard =
+    ".class\n"
+    "{\n"
+    "direction: rtl;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("class", "", 110);
+    standard =
+    ".class\n"
+    "{\n"
+    "writing-mode: tb-lr;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("CLass", "", 130);
+    standard =
+    ".CLass\n"
+    "{\n"
+    "writing-mode: bt-lr;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("CLass", "", 1322);
+    standard =
+    ".CLass\n"
+    "{\n"
+    "direction: rtl;\n"
+    "writing-mode: tb-rl;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("Class", "sherif", 0);
+    standard =
+    ".Class\n"
+    "{\n"
+    "font-family: sherif;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("Class", "sherif", 102);
+    standard =
+    ".Class\n"
+    "{\n"
+    "font-family: sherif;\n"
+    "direction: rtl;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    
+    css = Filter_CustomCSS::getCss ("classs", "../font.ttf", 0);
+    standard =
+    "@font-face\n"
+    "{\n"
+    "font-family: classs;\n"
+    "src: url(../font.ttf);\n"
+    "}\n"
+    ".classs\n"
+    "{\n"
+    "font-family: classs;\n"
+    "}\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+  }
+  // Class.
+  {
+    string clss = Filter_CustomCSS::getClass ("ആഈഘലറ");
+    evaluate (__LINE__, __func__, "customf86528", clss);
+  }
+}
+
+
+void test_filter_bibleworks ()
+{
+  // Import1
+  {
+    string bwdata =
+    "Hab 1:1  La sentència ... profeta <05030> Habacuc <02265>.\n"
+    "Hab 1:2 ¿Fins <05704> quan <0575>, Jahveh ... no [em] salvaràs <03467>(08686)?\n"
+    "Hab 1:3 ¿Per què ... i la controvèrsia <04066>.\n";
+    string usfmdata =
+    "\\id HAB\n"
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 La sentència ... profeta <05030> Habacuc <02265>.\n"
+    "\\v 2 ¿Fins <05704> quan <0575>, Jahveh ... no \\add em\\add* salvaràs <03467>(08686)?\n"
+    "\\v 3 ¿Per què ... i la controvèrsia <04066>.";
+    string data = Filter_Bibleworks::import (bwdata, true);
+    evaluate (__LINE__, __func__, usfmdata, data);
+  }
+  // Import2
+  {
+    string bwdata =
+    "Hab 1:1  La sentència ... profeta <05030> Habacuc <02265>.\n"
+    "Hab 1:2 ¿Fins <05704> quan <0575>, Jahveh ... no [em] salvaràs <03467>(08686)?\n"
+    "Hab 1:3 ¿Per què ... i la controvèrsia <04066>.\n";
+    string usfmdata =
+    "\\id HAB\n"
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 La sentència ... profeta  Habacuc .\n"
+    "\\v 2 ¿Fins  quan , Jahveh ... no \\add em\\add* salvaràs ?\n"
+    "\\v 3 ¿Per què ... i la controvèrsia .";
+    string data = Filter_Bibleworks::import (bwdata, false);
+    evaluate (__LINE__, __func__, usfmdata, data);
+  }
+  // Italics1
+  {
+    string data = Filter_Bibleworks::italics ("Normal text and [italics].");
+    evaluate (__LINE__, __func__, data, "Normal text and \\add italics\\add*.");
+  }
+  // Italics2
+  {
+    string data = Filter_Bibleworks::italics ("Normal text, [italics], and [italics again].");
+    evaluate (__LINE__, __func__, data, "Normal text, \\add italics\\add*, and \\add italics again\\add*.");
+  }
+  // Italics3
+  {
+    string data = Filter_Bibleworks::italics ("[Italics] and [malformed italics.");
+    evaluate (__LINE__, __func__, data, "\\add Italics\\add* and [malformed italics.");
+  }
+  // Italics4
+  {
+    string data = Filter_Bibleworks::italics ("[Italics] and malformed italics].");
+    evaluate (__LINE__, __func__, data, "\\add Italics\\add* and malformed italics].");
+  }
+  // Italics5
+  {
+    string data = Filter_Bibleworks::italics ("Mal]formed [italics].");
+    evaluate (__LINE__, __func__, data, "Mal]formed \\add italics\\add*.");
+  }
+  // Notes1
+  {
+    string data = Filter_Bibleworks::notes ("Normal text and {notes}.");
+    evaluate (__LINE__, __func__, data, "Normal text and \\f + notes\\f*.");
+  }
+  // Notes2
+  {
+    string data = Filter_Bibleworks::notes ("Normal text, {notes}, and {notes again}.");
+    evaluate (__LINE__, __func__, data, "Normal text, \\f + notes\\f*, and \\f + notes again\\f*.");
+  }
+  // Notes3
+  {
+    string data = Filter_Bibleworks::notes ("{notes} and {malformed notes.");
+    evaluate (__LINE__, __func__, data, "\\f + notes\\f* and {malformed notes.");
+  }
+  // Notes4
+  {
+    string data = Filter_Bibleworks::notes ("{notes} and malformed notes}.");
+    evaluate (__LINE__, __func__, data, "\\f + notes\\f* and malformed notes}.");
+  }
+  // Notes5
+  {
+    string data = Filter_Bibleworks::notes ("Mal}formed {notes}.");
+    evaluate (__LINE__, __func__, data, "Mal}formed \\f + notes\\f*.");
+  }
+  // Parenthesis1
+  {
+    vector <string >malformed;
+    string data = Filter_Bibleworks::parenthesis ("Normal text.", malformed);
+    evaluate (__LINE__, __func__, data, "Normal text.");
+  }
+  // Parenthesis2.
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08804).", malformed);
+    evaluate (__LINE__, __func__, data, "Text in parenthesis.");
+  }
+  // Parenthesis3
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08804a).", malformed);
+    evaluate (__LINE__, __func__, data, "Text in parenthesis(08804a).");
+    evaluate (__LINE__, __func__, malformed, {"(08804a)"});
+  }
+  // Parenthesis4
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08(804).", malformed);
+    evaluate (__LINE__, __func__, data, "Text in parenthesis(08.");
+    evaluate (__LINE__, __func__, malformed, {"(08(804)"});
+  }
+  // Chevrons1
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::chevrons ("Normal text.", malformed);
+    evaluate (__LINE__, __func__, data, "Normal text.");
+  }
+  // Chevrons2
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::chevrons ("Text in chevrons<01004>.", malformed);
+    evaluate (__LINE__, __func__, data, "Text in chevrons.");
+  }
+  // Chevrons3
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::chevrons ("Text in chevrons<01004b>.", malformed);
+    evaluate (__LINE__, __func__, data, "Text in chevrons.");
+  }
+  // Chevrons4()
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::chevrons ("Text in chevrons<06030, 06031>.", malformed);
+    evaluate (__LINE__, __func__, data, "Text in chevrons.");
+  }
+  // Chevrons5
+  {
+    vector <string> malformed;
+    string data = Filter_Bibleworks::chevrons ("Text in chevrons<06030; abc>.", malformed);
+    evaluate (__LINE__, __func__, data, "Text in chevrons<06030; abc>.");
+    evaluate (__LINE__, __func__, malformed, {"<06030; abc>"});
+  }
+}
+
+
+void test_filter_diff ()
+{
+  // Diff 1
+  {
+    string output = filter_diff_diff ("Old text", "New text");
+    string standard = "<span style=\"text-decoration: line-through;\">Old</span> <span style=\"font-weight: bold;\">New</span> text";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Diff 2
+  {
+    string output = filter_diff_diff ("this is really old text", "and this is new text");
+    string standard = "<span style=\"font-weight: bold;\">and</span> this is <span style=\"text-decoration: line-through;\">really</span> <span style=\"text-decoration: line-through;\">old</span> <span style=\"font-weight: bold;\">new</span> text";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Similarity 1.
+  {
+    int similarity = filter_diff_similarity ("Old text", "New text");
+    evaluate (__LINE__, __func__, 45, similarity);
+  }
+  // Similarity 2.
+  {
+    int similarity = filter_diff_similarity ("New text", "New text");
+    evaluate (__LINE__, __func__, 100, similarity);
+  }
+  // Similarity 2.
+  {
+    int similarity = filter_diff_similarity ("ABCDEFGH", "IJKLMNOPQRST");
+    evaluate (__LINE__, __func__, 0, similarity);
+  }
+}
+
+
+void test_filter_abbreviations ()
+{
+  // Read ()
+  {
+    string input =
+    "Psalms = Ps.\n"
+    "\n"
+    "Exodus = Exod.\n"
+    "\n"
+    "Exodu = Exod.\n"
+    "\n"
+    "Psalms = Psa.\n"
+    "\n"
+    "Joshua =\n"
+    "\n";
+    map <string, int> output = filter_abbreviations_read (input);
+    map <string, int> standard = { make_pair ("Ps.", 19), make_pair ("Exod.", 2), make_pair ("Psa.", 19) };
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Display ()
+  {
+    string input =
+    "Psalms = Ps.\n"
+    "\n"
+    "Exodus = Exod.\n"
+    "\n";
+    string output = filter_abbreviations_display (input);
+    string standard =
+    "Genesis = \n"
+    "Exodus = Exod.\n"
+    "Leviticus = \n"
+    "Numbers = \n"
+    "Deuteronomy = \n"
+    "Joshua = \n"
+    "Judges = \n"
+    "Ruth = \n"
+    "1 Samuel = \n"
+    "2 Samuel = \n"
+    "1 Kings = \n"
+    "2 Kings = \n"
+    "1 Chronicles = \n"
+    "2 Chronicles = \n"
+    "Ezra = \n"
+    "Nehemiah = \n"
+    "Esther = \n"
+    "Job = \n"
+    "Psalms = Ps.\n"
+    "Proverbs = \n"
+    "Ecclesiastes = \n"
+    "Song of Solomon = \n"
+    "Isaiah = \n"
+    "Jeremiah = \n"
+    "Lamentations = \n"
+    "Ezekiel = \n"
+    "Daniel = \n"
+    "Hosea = \n"
+    "Joel = \n"
+    "Amos = \n"
+    "Obadiah = \n"
+    "Jonah = \n"
+    "Micah = \n"
+    "Nahum = \n"
+    "Habakkuk = \n"
+    "Zephaniah = \n"
+    "Haggai = \n"
+    "Zechariah = \n"
+    "Malachi = \n"
+    "Matthew = \n"
+    "Mark = \n"
+    "Luke = \n"
+    "John = \n"
+    "Acts = \n"
+    "Romans = \n"
+    "1 Corinthians = \n"
+    "2 Corinthians = \n"
+    "Galatians = \n"
+    "Ephesians = \n"
+    "Philippians = \n"
+    "Colossians = \n"
+    "1 Thessalonians = \n"
+    "2 Thessalonians = \n"
+    "1 Timothy = \n"
+    "2 Timothy = \n"
+    "Titus = \n"
+    "Philemon = \n"
+    "Hebrews = \n"
+    "James = \n"
+    "1 Peter = \n"
+    "2 Peter = \n"
+    "1 John = \n"
+    "2 John = \n"
+    "3 John = \n"
+    "Jude = \n"
+    "Revelation = \n"
+    "Front Matter = \n"
+    "Back Matter = \n"
+    "Other Material = ";
+    evaluate (__LINE__, __func__, standard, output);
+  }
 }

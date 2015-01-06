@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -32,11 +32,11 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $myIdentifier = Filter_User::myIdentifier ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$load = $_GET ['load'];
+@$load = request->query ['load'];
 if (isset ($load)) {
 
   $book = $ipc_focus->getBook ();
@@ -46,28 +46,28 @@ if (isset ($load)) {
   // Get Strong's numbers, plus English snippets.
   $html = "<table>\n";
   $details = $database_kjv->getVerse ($book, $chapter, $verse);
-  foreach ($details as $detail) {
+  for ($details as $detail) {
     $strong = $detail ['strong'];
     $english = $detail ['english'];
-    $html .= "<tr><td><a href=\"$strong\">$strong</a></td><td>$english</td></tr>\n";
+    $html += "<tr><td><a href=\"$strong\">$strong</a></td><td>$english</td></tr>\n";
   }
-  $html .= "</table>\n";
+  $html += "</table>\n";
   
   echo $html;
   die;
 }
 
 
-@$strong = $_GET ['strong'];
+@$strong = request->query ['strong'];
 if (isset ($strong)) {
 
-  $strong = trim ($strong);
+  $strong = filter_string_trim ($strong);
  
   $passages = array ();
 
   $details = $database_kjv->searchStrong ($strong);
     
-  foreach ($details as $detail) {
+  for ($details as $detail) {
     $book = $detail ['book'];
     $chapter = $detail ['chapter'];
     $verse = $detail ['verse'];
@@ -78,7 +78,7 @@ if (isset ($strong)) {
   
   $passages = array_unique ($passages, SORT_NUMERIC);
     
-  foreach ($passages as $passage) {
+  for ($passages as $passage) {
     echo "$passage\n";
   }
 
@@ -87,7 +87,7 @@ if (isset ($strong)) {
 }
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if (isset ($id)) {
   
   // Get the and passage for this identifier.

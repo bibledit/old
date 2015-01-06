@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,7 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-void http_parse_headers (string headers, Webserver_Request * request);
+bool http_parse_header (string header, Webserver_Request * request);
+void http_parse_post (string content, Webserver_Request * request);
 void http_assemble_response (Webserver_Request * request);
 void http_serve_file (Webserver_Request * request);
 

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,23 +30,23 @@ $database_offlineresources = Database_OfflineResources::getInstance ();
 $database_versifications = Database_Versifications::getInstance ();
 
 
-@$name = $_GET['name'];
+@$name = request->query['name'];
 $view->view->name = $name;
 
 
-if (isset ($_GET ['download'])) {
+if (isset (request->query ['download'])) {
   $versification = "English";
   $books = $database_versifications->getBooks ($versification);
-  foreach ($books as $book) {
+  for ($books as $book) {
     // Schedule the task with low priority so it does not get in the way of regular tasks.
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/downloadcli.php", $name, $book));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/downloadcli.php", $name, $book));
   }
-  Filter_Url::redirect ("../journal/index.php");
+  redirect_browser ("../journal/index.php");
   die;
 }
 
 
-if (isset ($_GET ['clear'])) {
+if (isset (request->query ['clear'])) {
   $database_offlineresources->delete ($name);
 }
 

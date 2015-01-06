@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,22 +19,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <assets/header.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <config/globals.h>
 #include <menu/main.h>
 #include <menu/user.h>
 #include <locale/translate.h>
 #include <config.h>
-
-
-using namespace std;
+#include <access/bible.h>
+#include <navigation/passage.h>
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
   includeJQueryUI = false;
   displayNavigator = false;
-  includedStylesheet = false;
-  includedEditorStylesheet = false;
   webserver_request = webserver_request_in;
   view = new Assets_View ();
   view->set_variable ("title", title);
@@ -47,29 +45,16 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jQueryUIOn (string subset) // C++Port
+void Assets_Header::jQueryUIOn (string subset)
 {
-  subset = ""; // Temporal.
-  /*
-    $this->includeJQueryUI = true;
-    // Setting a subset makes a big difference in the size of the JavaScript
-    // the page has to load, and therefore it makes a big difference in the
-    // load time of the page.
-    // Subsets can be created on the download builder at http://jqueryui.com.
-    if ($subset != "") {
-      $this->JQueryUISubset = $subset . ".";
-    }
-   */
-}
-
-
-// Adds an extra line in the <head>.
-void Assets_Header::addHeadLine (string line) // C++Port
-{
-  line = ""; // Temporal.
-  /* 
-    $this->headLines [] = $line;
-   */
+  includeJQueryUI = true;
+  // Setting a subset makes a big difference to the size of the JavaScript
+  // the page has to load, and therefore it makes a big difference for the
+  // load time of the page.
+  // Subsets can be created on the download builder at http://jqueryui.com.
+  if (subset != "") {
+    JQueryUISubset = subset + ".";
+  }
 }
 
 
@@ -85,11 +70,9 @@ void Assets_Header::setLogin () // C++Port
 
 
 // Display the passage navigator.
-void Assets_Header::setNavigator () // C++Port
+void Assets_Header::setNavigator ()
 {
-  /* 
-    $this->displayNavigator = true;
-   */
+  displayNavigator = true;
 }
 
 
@@ -105,13 +88,11 @@ void Assets_Header::setStylesheet () // C++Port
 
 
 // Display the user's editor stylesheet.css.
-void Assets_Header::setEditorStylesheet () // C++Port
+void Assets_Header::setEditorStylesheet ()
 {
-  /*
-    $database_config_user = Database_Config_User::getInstance ();
-    $stylesheet = $database_config_user->getStylesheet ();
-    $this->includedEditorStylesheet = $stylesheet;
-   */
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string stylesheet = request->database_config_user()->getStylesheet ();
+  includedEditorStylesheet = stylesheet;
 }
 
 
@@ -129,8 +110,8 @@ bool Assets_Header::displayTopbar () // C++Port
 {
   /*
     // If the topbar is in the query, it means: don't display it.
-    if (isset ($_GET ['topbar'])) {
-      unset ($_GET ['topbar']);
+    if (isset (request->query ['topbar'])) {
+      unset (request->query ['topbar']);
       return false;      
     }
 */
@@ -139,19 +120,35 @@ bool Assets_Header::displayTopbar () // C++Port
 }
 
 
+// Sets the page to refresh after "seconds".
+void Assets_Header::refresh (int seconds)
+{
+  string headline = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"" + convert_to_string (seconds) + "\">";
+  headLines.push_back (headline);
+}
+
+
 // Runs the header.
 string Assets_Header::run ()
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   string page;
   
   // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
   view->set_variable("VERSION", VERSION);
 
-  /*
-    $this->view->view->include_jquery_ui = $this->includeJQueryUI;  // C++Port
-    $this->view->view->include_jquery_ui_subset = $this->JQueryUISubset;
-    $this->view->view->head_lines = $this->headLines;
-  */
+  if (includeJQueryUI) {
+    view->enable_zone ("include_jquery_ui");  // C++Port
+    view->set_variable ("include_jquery_ui_subset", JQueryUISubset);
+  }
+
+  string headlines;
+  for (auto & headline : headLines) {
+    if (!headlines.empty ()) headlines.append ("\n");
+    headlines.append (headline);
+  }
+  view->set_variable ("head_lines", headlines);
 
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
@@ -160,22 +157,22 @@ string Assets_Header::run ()
     view->enable_zone ("user_full");
     Menu_User menu_user = Menu_User (webserver_request);
     view->set_variable ("usermenu", menu_user.create (loginrequest));
-    if (((Webserver_Request *) webserver_request)->session_logic ()->currentLevel () >= 2) {
+    if (request->session_logic ()->currentLevel () >= 2) {
       view->enable_zone ("display_search");
       view->set_variable ("search", gettext ("Search"));
       view->set_variable ("searching", gettext ("Searching"));
     }
-  /*
-    $this->view->view->display_navigator = $this->displayNavigator; // C++Port
-    if ($this->view->view->display_navigator) {
-      $database_config_user = Database_Config_User::getInstance ();
-      $bible = Access_Bible::clamp ($database_config_user->getBible ());
-      $this->view->view->navigationHtml = Navigation_Passage::getContainer ();
-      $this->view->view->navigationCode = Navigation_Passage::code ($bible, true);
+    if (displayNavigator) {
+      view->enable_zone ("display_navigator");
+      string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+      view->set_variable ("navigation_html", Navigation_Passage::getContainer ());
+      view->set_variable ("navigation_code", Navigation_Passage::code (bible, true));
     }
-    $this->view->view->included_stylesheet = $this->includedStylesheet;
-    $this->view->view->included_editor_stylesheet = $this->includedEditorStylesheet;
-  */
+    view->set_variable ("included_stylesheet", includedStylesheet);
+    if (!includedEditorStylesheet.empty ()) {
+      view->enable_zone ("include_editor_stylesheet");
+      view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
+    }
   }
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");

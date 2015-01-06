@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@ Assets_Page::header (gettext("Collaboration"));
 
 $view = new Assets_View (__FILE__);
 
-$object = $_GET ['object'];
+$object = request->query ['object'];
 $view->view->object = $object;
 
-$directory = Filter_Git::git_directory ($object);
+$directory = filter_git_git_directory ($object);
 
 $database_config_bible = Database_Config_Bible::getInstance();
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $view->view->url = $url;
 
 $ready = false;

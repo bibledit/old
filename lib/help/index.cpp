@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,6 +37,8 @@ string help_index_html (const string& url)
 
 bool help_index_url (const string& url)
 {
+  string folder = filter_url_dirname (url);
+  if (folder != "help") return false;
   return filter_url_file_exists (help_index_html (url));
 }
 

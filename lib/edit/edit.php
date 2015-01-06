@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,9 +27,9 @@ $database_ipc = Database_Ipc::getInstance ();
 
 
 // Optionally handle a call to the page to set the passage.
-@$switchbook = $_GET ['switchbook'];
-@$switchchapter = $_GET ['switchchapter'];
-@$switchverse = $_GET ['switchverse'];
+@$switchbook = request->query ['switchbook'];
+@$switchchapter = request->query ['switchchapter'];
+@$switchverse = request->query ['switchverse'];
 if (isset ($switchbook)) {
   $switchbook = Filter_Numeric::integer_in_string ($switchbook);
   if (!isset ($switchchapter)) $switchchapter = 1;
@@ -69,7 +69,7 @@ EOD;
   echo $script;
 } else {
   // If no Bible editor is alive, forward the browser to the Bible editor.
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
 }
 
 

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,30 +17,30 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Checks") ?></h1>
-<p><a href="#help">[<?php echo gettext("help") ?>]</a></p>
+<h1>gettext("Checks")</h1>
+<p><a href="#help">[gettext("help")]</a></p>
 <br>
-<p class="error"><?php echo $this->error ?></p>
-<p class="success"><?php echo $this->success ?></p>
-<?php foreach ($this->ids as $offset => $id) { ?>
+<p class="error">$this->error</p>
+<p class="success">$this->success</p>
+<?php for ($this->ids as $offset => $id) {
   <p>
-    <a href="index.php?approve=<?php echo $id ?>"> ✔ </a>
-    <a href="index.php?delete=<?php echo $id ?>"> ✗ </a>
-    <?php echo $this->bibles[$offset] ?>
-    <?php echo $this->links[$offset] ?>
-    <?php echo $this->information[$offset] ?>
+    <a href="index.php?approve=$id"> ✔ </a>
+    <a href="index.php?delete=$id"> ✗ </a>
+    $this->bibles[$offset]
+    $this->links[$offset]
+    $this->information[$offset]
   </p>
-<?php } ?>
+<?php }
 <br>
 <a id="help"></a>
-<p><?php echo gettext("The page displays a list of results of running the checks.") ?></p>
-<p><?php echo gettext("Click ✔ to approve and suppress the entry.") ?></p>
+<p>gettext("The page displays a list of results of running the checks.")</p>
+<p>gettext("Click ✔ to approve and suppress the entry.")</p>
 <p>
-  <?php echo gettext("Click ✗ to remove the entry for just now.") ?>
-  <?php echo gettext("It will be back next day, unless the text of the Bible is corrected.") ?>
+  gettext("Click ✗ to remove the entry for just now.")
+  gettext("It will be back next day, unless the text of the Bible is corrected.")
 </p>
-<p><?php echo gettext("Click an entry to open the chapter in the text editor.") ?></p>
-<p><?php echo gettext("The Manager should enable the checks.") ?></p>
-<p><a href="suppress.php"><?php echo gettext("Suppressed entries") ?></a></p>
-<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
-<script type="text/javascript" src="../navigation/nav.js?<?php echo config_logic_version () ?>"></script>
+<p>gettext("Click an entry to open the chapter in the text editor.")</p>
+<p>gettext("The Manager should enable the checks.")</p>
+<p><a href="suppress.php">gettext("Suppressed entries")</a></p>
+<script type="text/javascript" src="index.js?config_logic_version ()"></script>
+<script type="text/javascript" src="../navigation/nav.js?config_logic_version ()"></script>

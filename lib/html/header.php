@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,10 +50,10 @@ class Html_Header
     $tableDataElement = $this->htmlText->newTableData ($tableRowElement);
     if (is_array ($breadcrumbs)) {
       $crumbAdded = false;
-      foreach ($breadcrumbs as $breadcrumb) {
+      for ($breadcrumbs as $breadcrumb) {
         if ($crumbAdded) {
           $spanElement = $this->htmlText->newElement ("span");
-          $spanElement->nodeValue = Filter_Html::sanitize ("»");
+          $spanElement->nodeValue = filter_string_sanitize_html ("»");
           $tableDataElement->appendChild ($spanElement);
         }
         $this->htmlText->addLink ($tableDataElement, $breadcrumb [1], "", $breadcrumb [0], "", ' ' . $breadcrumb [0] . ' ');

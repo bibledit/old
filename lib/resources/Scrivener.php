@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -105,11 +105,11 @@ $tidied = explode ("\n", $clean);
 
 $html = "";
 $hit = false;
-foreach ($tidied as $line) {
+for ($tidied as $line) {
   if ($hit) {
     // This is the line we are now at:
     // </span><span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.</span></p>
-    $line = trim ($line);
+    $line = filter_string_trim ($line);
     $line = substr ($line, 7, 1000);
     $pos = strpos ($line, "</p>");
     $line = substr ($line, 0, $pos);
@@ -140,8 +140,8 @@ font-size: large;
 EOD;
 
 $output = $stylesheet;
-$output .= "\n";
-$output .= $html;
+$output += "\n";
+$output += $html;
 
 
 ?>

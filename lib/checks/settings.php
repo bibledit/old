@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_check = Database_Check::getInstance ();
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to manage"));
-    $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    $bibles = access_bible_bibles ();
+    for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&bible=$bible");
     }
     $dialog_list->run();
@@ -47,67 +47,67 @@ if (isset ($bible)) {
     $database_config_user->setBible ($bible);
   }
 }
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
-if (isset($_GET['run'])) {
+if (isset(request->query['run'])) {
   Checks_Logic::start ($bible);
   $view->view->success = gettext("Will run the checks. See the Journal for progress.");
 }
 
 
-if (isset ($_GET['doublespacesusfm'])) {
-  $database_config_bible->setCheckDoubleSpacesUsfm ($bible, !$database_config_bible->getCheckDoubleSpacesUsfm ($bible));
+if (isset (request->query['doublespacesusfm'])) {
+  Database_Config_Bible::setCheckDoubleSpacesUsfm ($bible, !Database_Config_Bible::getCheckDoubleSpacesUsfm ($bible));
 }
-$view->view->double_spaces_usfm = $database_config_bible->getCheckDoubleSpacesUsfm ($bible);
+$view->view->double_spaces_usfm = Database_Config_Bible::getCheckDoubleSpacesUsfm ($bible);
 
 
-if (isset ($_GET['fullstopheadings'])) {
-  $database_config_bible->setCheckFullStopInHeadings ($bible, !$database_config_bible->getCheckFullStopInHeadings ($bible));
+if (isset (request->query['fullstopheadings'])) {
+  Database_Config_Bible::setCheckFullStopInHeadings ($bible, !Database_Config_Bible::getCheckFullStopInHeadings ($bible));
 }
-$view->view->full_stop_headings = $database_config_bible->getCheckFullStopInHeadings ($bible);
+$view->view->full_stop_headings = Database_Config_Bible::getCheckFullStopInHeadings ($bible);
 
 
-if (isset ($_GET['spacebeforepunctuation'])) {
-  $database_config_bible->setCheckSpaceBeforePunctuation ($bible, !$database_config_bible->getCheckSpaceBeforePunctuation ($bible));
+if (isset (request->query['spacebeforepunctuation'])) {
+  Database_Config_Bible::setCheckSpaceBeforePunctuation ($bible, !Database_Config_Bible::getCheckSpaceBeforePunctuation ($bible));
 }
-$view->view->space_before_punctuation = $database_config_bible->getCheckSpaceBeforePunctuation ($bible);
+$view->view->space_before_punctuation = Database_Config_Bible::getCheckSpaceBeforePunctuation ($bible);
 
 
-if (isset ($_GET['sentencestructure'])) {
-  $database_config_bible->setCheckSentenceStructure ($bible, !$database_config_bible->getCheckSentenceStructure ($bible));
+if (isset (request->query['sentencestructure'])) {
+  Database_Config_Bible::setCheckSentenceStructure ($bible, !Database_Config_Bible::getCheckSentenceStructure ($bible));
 }
-$view->view->sentence_structure = $database_config_bible->getCheckSentenceStructure ($bible);
+$view->view->sentence_structure = Database_Config_Bible::getCheckSentenceStructure ($bible);
 
 
-if (isset ($_GET['paragraphstructure'])) {
-  $database_config_bible->setCheckParagraphStructure ($bible, !$database_config_bible->getCheckParagraphStructure ($bible));
+if (isset (request->query['paragraphstructure'])) {
+  Database_Config_Bible::setCheckParagraphStructure ($bible, !Database_Config_Bible::getCheckParagraphStructure ($bible));
 }
-$view->view->paragraph_structure = $database_config_bible->getCheckParagraphStructure ($bible);
+$view->view->paragraph_structure = Database_Config_Bible::getCheckParagraphStructure ($bible);
 
 
-if (isset ($_GET['chaptersversesversification'])) {
-  $database_config_bible->setCheckChaptesVersesVersification ($bible, !$database_config_bible->getCheckChaptesVersesVersification ($bible));
+if (isset (request->query['chaptersversesversification'])) {
+  Database_Config_Bible::setCheckChaptesVersesVersification ($bible, !Database_Config_Bible::getCheckChaptesVersesVersification ($bible));
 }
-$view->view->chapters_verses_versification = $database_config_bible->getCheckChaptesVersesVersification ($bible);
+$view->view->chapters_verses_versification = Database_Config_Bible::getCheckChaptesVersesVersification ($bible);
 
 
-if (isset ($_GET['wellformedusfm'])) {
-  $database_config_bible->setCheckWellFormedUsfm ($bible, !$database_config_bible->getCheckWellFormedUsfm ($bible));
+if (isset (request->query['wellformedusfm'])) {
+  Database_Config_Bible::setCheckWellFormedUsfm ($bible, !Database_Config_Bible::getCheckWellFormedUsfm ($bible));
 }
-$view->view->well_formed_usfm = $database_config_bible->getCheckWellFormedUsfm ($bible);
+$view->view->well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm ($bible);
 
 
-if (isset ($_GET['punctuationatendverse'])) {
-  $database_config_bible->setCheckMissingPunctuationEndVerse ($bible, !$database_config_bible->getCheckMissingPunctuationEndVerse ($bible));
+if (isset (request->query['punctuationatendverse'])) {
+  Database_Config_Bible::setCheckMissingPunctuationEndVerse ($bible, !Database_Config_Bible::getCheckMissingPunctuationEndVerse ($bible));
 }
-$view->view->punctuation_end_verse = $database_config_bible->getCheckMissingPunctuationEndVerse ($bible);
+$view->view->punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse ($bible);
 
 
-if (isset ($_GET['patterns'])) {
-  $database_config_bible->setCheckPatterns ($bible, !$database_config_bible->getCheckPatterns ($bible));
+if (isset (request->query['patterns'])) {
+  Database_Config_Bible::setCheckPatterns ($bible, !Database_Config_Bible::getCheckPatterns ($bible));
 }
-$view->view->check_patterns = $database_config_bible->getCheckPatterns ($bible);
+$view->view->check_patterns = Database_Config_Bible::getCheckPatterns ($bible);
 
 
 $view->view->bible = $bible;

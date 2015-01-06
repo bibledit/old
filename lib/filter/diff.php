@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ class Filter_Diff
     $database_modifications = Database_Modifications::getInstance ();
     $database_books = Database_Books::getInstance ();
     $database_config_bible = Database_Config_Bible::getInstance ();
-    $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+    $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
     $old_vs_usfm = array ();
     $new_vs_usfm = array ();
@@ -50,10 +50,10 @@ class Filter_Diff
     $filter_text_new->text_text = new Text_Text ();
 
     $books = $database_modifications->getTeamDiffBooks ($bible);
-    foreach ($books as $book) {
-      $bookname = $database_books->getEnglishFromId ($book);
+    for ($books as $book) {
+      $bookname = Database_Books::getEnglishFromId ($book);
       $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
-      foreach ($chapters as $chapter) {
+      for ($chapters as $chapter) {
         // Go through the combined verse numbers in the old and new chapter.
         $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
         $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
@@ -62,7 +62,7 @@ class Filter_Diff
         $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
         $verses = array_unique ($verses);
         sort ($verses, SORT_NUMERIC);
-        foreach ($verses as $verse) {
+        for ($verses as $verse) {
           $old_verse_text = usfm_get_verse_text ($old_chapter_usfm, $verse);
           $new_verse_text = usfm_get_verse_text ($new_chapter_usfm, $verse);
           if ($old_verse_text != $new_verse_text) {
@@ -102,37 +102,12 @@ class Filter_Diff
     $differences = self::diff ($oldstring, $newstring);
 
     $differences = explode ("\n", $differences);
-    foreach ($differences as &$line) {
+    for ($differences as &$line) {
       $line = "<p>" . $line . "</p>";
     }
     $differences = implode ("\n", $differences);
 
    filter_url_file_put_contents ($outputfile, $differences);
-  }
-
-
-  /**
-  * This filter returns the diff of two input strngs.
-  * $oldstring: The old string for input.
-  * $newstring: The new string for input.
-  * The function returns the differences marked.
-  */
-  public static function diff ($oldstring, $newstring)
-  {
-    include_once ("finediff.php");
-    // FineDiff::$paragraphGranularity
-    // FineDiff::$sentenceGranularity
-    // FineDiff::$wordGranularity
-    // FineDiff::$characterGranularity
-    $diff = new FineDiff ($oldstring, $newstring, FineDiff::$wordGranularity);
-    $rendering = $diff->renderDiffToHTML ();
-    $search = array ("<ins>", "</ins>", "<del>", "</del>");
-    $replace = array ("<span style=\"font-weight: bold;\">",
-                      "</span>",
-                      "<span style=\"text-decoration: line-through;\">",
-                      "</span>");
-    $html = str_replace ($search, $replace, $rendering);
-    return $html;
   }
 
 

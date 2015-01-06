@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ if (!$client) {
 if (!$client) {
   if (($hour == 0) && ($minute == 30)) {
     $directory = dirname (dirname (__FILE__)) . "/changes";
-    Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/git.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/git.php"));
     unset ($directory);
   }
 }
@@ -85,10 +85,10 @@ if (!$client) {
 }
 
 
-// Database maintenance and trimming.
+// Database maintenance and filter_string_trimming.
 // It takes a few minutes on a production machine.
 if (($hour == 0) && ($minute == 50)) {
-  Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/database.php"));
+  tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/database.php"));
 }
 
 
@@ -102,14 +102,6 @@ if (!$client) {
 }
 
 
-// A flag is set upon installation, so it (re-)generates the stylesheets once.
-$create_css_flag = "../dyncss/create_css.txt";
-if (file_exists ($create_css_flag)) {
-  unlink ($create_css_flag);
-  Styles_Sheets::create_all ();
-}
-
-
 // Export the Bibles to the various output formats.
 // This may take an hour on a production machine.
 if (($hour == 1) && ($minute == 10)) {
@@ -120,22 +112,22 @@ if (($hour == 1) && ($minute == 10)) {
 // Re-index Bible and notes.
 if (($hour == 2) && ($minute == 0)) {
   $directory = dirname (__DIR__) . "/search";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/rebibles.php"));
+  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/rebibles.php"));
   $directory = dirname (__DIR__) . "/search";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/renotes.php"));
+  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/renotes.php"));
 }
 
 
 // Delete temporal files older than a few days.
 if (($hour == 2) && ($minute == 0)) {
-  Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/temp.php"));
+  tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/temp.php"));
 }
 
 
 // Email statistics to the users.
 if (!$client) {
   if (($hour == 3) && ($minute == 0)) {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/statistics.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/statistics.php"));
   }
 }
 
@@ -146,13 +138,13 @@ if (file_exists ($create_databases_flag)) {
   unlink ($create_databases_flag);
   // Strong's numbers and English glosses for Bible.
   $directory = dirname (__DIR__) . "/kjv";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/import.php"));
+  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/import.php"));
   // Hebrew Bible.
   $directory = dirname (__DIR__) . "/morphhb";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/import.php"));
+  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/import.php"));
   // Greek Bible.
   $directory = dirname (__DIR__) . "/sblgnt";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/import.php"));
+  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/import.php"));
 }
 
 
@@ -161,7 +153,7 @@ if ($minute == 10) {
   include ("config/open.php");
   if ($open_installation) {
     $directory = dirname (__DIR__) . "/demo";
-    Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/index.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/index.php"));
   }
 }
 

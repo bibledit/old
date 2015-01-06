@@ -47,7 +47,7 @@ private $temporary_folder;
     config_logic_set (false);
     $database_bibles->deleteBible ("phpunit");
     $database_modifications->truncateTeams ();
-    Filter_Rmdir::rmdir ($this->temporary_folder);
+    filter_url_rmdir ($this->temporary_folder);
   }
 
 
@@ -63,13 +63,5 @@ private $temporary_folder;
   }
 
   
-  public function testDiff ()
-  {
-    $output = Filter_Diff::diff ("Old text", "New text");
-    $standard = '<span style="text-decoration: line-through;">Old </span><span style="font-weight: bold;">New </span>text';
-    $this->assertEquals ($standard, $output);
-  }
-  
-
 }
 ?>

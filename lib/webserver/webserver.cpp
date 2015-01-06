@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,9 +24,153 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <config.h>
 #include <webserver/io.h>
+#include <filter/string.h>
 
 
-void webserver () 
+/**********************************************************************/
+/* Get a line from a socket, whether the line ends in a newline,
+ * carriage return, or a CRLF combination.  Terminates the string read
+ * with a null character.  If no newline indicator is found before the
+ * end of the buffer, the string is terminated with a null.  If any of
+ * the above three line terminators is read, the last character of the
+ * string will be a linefeed and the string will be terminated with a
+ * null character.
+ * Parameters: the socket file descriptor
+ *             the buffer to save the data in
+ *             the size of the buffer
+ * Returns: the number of bytes stored (excluding null) */
+/**********************************************************************/
+int get_line (int sock, char *buf, int size)
+{
+  int i = 0;
+  char c = '\0';
+  int n;
+  
+  while ((i < size - 1) && (c != '\n'))
+  {
+    n = recv (sock, &c, 1, 0);
+    if (n > 0)
+    {
+      if (c == '\r')
+      {
+        n = recv (sock, &c, 1, MSG_PEEK);
+        if ((n > 0) && (c == '\n')) recv (sock, &c, 1, 0);
+        else c = '\n';
+      }
+      buf[i] = c;
+      i++;
+    }
+    else
+    c = '\n';
+  }
+  buf[i] = '\0';
+  
+  return(i);
+}
+
+
+// Processes a single request from a web client.
+void webserver_process_request (int connfd, string clientaddress)
+{
+  // The environment for this request.
+  // It gets passed around from function to function during the entire request.
+  // This provides thread-safety to the request.
+  Webserver_Request request;
+
+  // Store remote client address in the request.
+  request.remote_address = clientaddress;
+  
+  try {
+    if (config_globals_running) {
+      
+      // Connection health flag.
+      bool connection_healthy = true;
+      
+      // Read the client's request.
+      // With the HTTP protocol it is not possible to read the request till EOF,
+      // because EOF does never come, because the browser keeps the connection open
+      // for the response.
+      // The HTTP protocol works per line.
+      // Read one line of data from the client.
+      // An empty line marks the end of the headers.
+#define BUFFERSIZE 2048
+      int bytes_read;
+      bool header_parsed = true;
+      char buffer [BUFFERSIZE];
+      // Fix valgrind unitialized value message.
+      memset (&buffer, 0, BUFFERSIZE);
+      do {
+        bytes_read = get_line (connfd, buffer, BUFFERSIZE);
+        if (bytes_read <= 0) connection_healthy = false;
+        // Parse the browser's request's headers.
+        header_parsed = http_parse_header (buffer, &request);
+      } while (header_parsed);
+      
+      if (connection_healthy) {
+        
+        // In the case of a POST request, more data follows: The POST request itself.
+        // The length of that data is indicated in the header's Content-Length line.
+        // Read that data, and parse it.
+        string postdata;
+        if (request.is_post) {
+          bool done_reading = false;
+          int total_bytes_read = 0;
+          do {
+            bytes_read = read (connfd, buffer, BUFFERSIZE);
+            for (int i = 0; i < bytes_read; i++) {
+              postdata += buffer [i];
+            }
+            // EOF indicates reading is ready.
+            // An error also indicates that reading is ready.
+            if (bytes_read <= 0) done_reading = true;
+            if (bytes_read < 0) connection_healthy = false;
+            // "Content-Length" bytes read: Done.
+            total_bytes_read += bytes_read;
+            if (total_bytes_read >= request.content_length) done_reading = true;
+          } while (!done_reading);
+          if (total_bytes_read < request.content_length) connection_healthy = false;
+        }
+        
+        if (connection_healthy) {
+
+          http_parse_post (postdata, &request);
+          
+          // Assemble response.
+          bootstrap_index (&request);
+          http_assemble_response (&request);
+          
+          // Send response to browser.
+          const char * output = request.reply.c_str();
+          // The C function strlen () fails on null characters in the reply, so take string::size()
+          size_t length = request.reply.size ();
+          int written = write (connfd, output, length);
+          if (written) {};
+          
+        } else {
+          cerr << "Insufficient data received, closing connection" << endl;
+        }
+      } else {
+        // cerr << "Unhealthy connection was closed" << endl;
+      }
+    }
+  } catch (exception & e) {
+    string message ("Internal error: ");
+    message.append (e.what ());
+    Database_Logs::log (message);
+  } catch (exception * e) {
+    string message ("Internal error: ");
+    message.append (e->what ());
+    Database_Logs::log (message);
+  } catch (...) {
+    Database_Logs::log ("A general internal error occurred");
+  }
+  
+  // Done: Close.
+  close (connfd);
+}
+
+
+void webserver ()
 {
   // Setup server behaviour.
   if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
@@ -65,60 +209,29 @@ void webserver ()
   config_globals_running = true;
   while (config_globals_running) {
 
-    // The environment for this request.
-    // It gets passed around from function to function during the entire request.
-    // This provides thread-safety to the request.
-    Webserver_Request * request = new Webserver_Request ();
-
     // Socket and file descriptor for the client connection.
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof(clientaddr);
-    int connfd = accept(listenfd, (SA *)&clientaddr, &clientlen);
+    int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
+    if (connfd > 0) {
 
-    // The client's remote IPv4 address in dotted notation.
-    char remote_address[256];
-    inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
-    request->remote_address = remote_address;
-
-    try {
-      if (config_globals_running) {
-        #define BUFLEN 65535
-        // Read the client's request.
-        char buffer [BUFLEN];
-        memset(&buffer, 0, BUFLEN); // Fix valgrind unitialized value message.
-        size_t bytes_read;
-        bytes_read = read(connfd, buffer, sizeof(buffer));
-        if (bytes_read) {};
-        string input = buffer;
-  
-        // Parse the browser's request's headers.
-        http_parse_headers (input, request);
-    
-        // Assemble response.
-        bootstrap_index (request);
-        http_assemble_response (request);
-    
-        // Send response to browser.    
-        const char * output = request->reply.c_str();
-        // The C function strlen () fails on null characters in the reply, so take string::size()
-        size_t length = request->reply.size ();
-        int written = write(connfd, output, length);
-        if (written) {};
-      }
-
-    } catch (exception & e) {
-      Database_Logs::log (e.what ());
-    } catch (exception * e) {
-      Database_Logs::log (e->what ());
-    } catch (...) {
-      Database_Logs::log ("A general internal error occurred in the web server");
+      // Socket receive timeout.
+      struct timeval tv;
+      tv.tv_sec = 60;
+      tv.tv_usec = 0;
+      setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+      
+      // The client's remote IPv4 address in dotted notation.
+      char remote_address[256];
+      inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
+      string clientaddress = remote_address;
+      
+      // Handle this request in a thread, enabling parallel requests.
+      new thread (webserver_process_request, connfd, clientaddress);
+      
+    } else {
+      cerr << "Error accepting connection on socket" << endl;
     }
-
-    // Clear memory.
-    delete request;
-
-    // Done: Close.
-    close(connfd);
   }
 }
 

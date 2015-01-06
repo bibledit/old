@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Editor_Export
+class Editor_Export // Todo port it.
 {
 
   // DOMDocument holding the html.
@@ -91,7 +91,7 @@ EOD;
     $errors = libxml_get_errors ();
     if (count ($errors)) {
       $database_logs = Database_Logs::getInstance ();
-      foreach ($errors as $error) {
+      for ($errors as $error) {
         $level = "";
         switch ($error->level) {
           case LIBXML_ERR_WARNING:
@@ -104,7 +104,7 @@ EOD;
             $level = "Fatal";
             break;
         }
-        $database_logs->log ("Saving Editor text: $level: " . $error->message);
+        Database_Logs::log ("Saving Editor text: $level: " . $error->message);
       }
       libxml_clear_errors();
     }
@@ -120,7 +120,7 @@ EOD;
     $database_styles = Database_Styles::getInstance ();
     $markers = $database_styles->getMarkers ($stylesheet);
     // Load the style information into the object.
-    foreach ($markers as $marker) {
+    for ($markers as $marker) {
       $style = $database_styles->getMarkerData ($stylesheet, $marker);
       $this->styles [$marker] = $style;
       // Get markers with should not have endmarkers.
@@ -167,7 +167,7 @@ EOD;
   private function process ()
   {
     $DOMNodeList = $this->document->getElementsByTagName ("p");
-    foreach ($DOMNodeList as $DOMNode) {
+    for ($DOMNodeList as $DOMNode) {
       $this->processNode ($DOMNode);
     }
   }
@@ -215,7 +215,7 @@ EOD;
       default:
       {
         $database_logs = Database_Logs::getInstance ();
-        $database_logs->log ("Unknown DOM node $node while saving editor text");
+        Database_Logs::log ("Unknown DOM node $node while saving editor text");
         break;
       }
     }
@@ -245,7 +245,7 @@ EOD;
           // Start the USFM line with a marker with the class name.
           default:
           {
-            $this->currentLine .= Filter_Usfm::getOpeningUsfm ($class);
+            $this->currentLine += Filter_Usfm::getOpeningUsfm ($class);
             break;
           }
         }
@@ -294,7 +294,7 @@ EOD;
   private function processNodeChildren ($node)
   {
     if ($node->hasChildNodes ()) {
-      foreach ($node->childNodes as $childnode) {
+      for ($node->childNodes as $childnode) {
         $this->processNode ($childnode);
       }
     }
@@ -317,7 +317,7 @@ EOD;
 
         if (in_array ($class, $this->noteOpeners)) {
           // Deal with note closers.
-          $this->currentLine .= Filter_Usfm::getClosingUsfm ($class);
+          $this->currentLine += Filter_Usfm::getClosingUsfm ($class);
         } else {
           // Normally a p element closes the USFM line.
           $this->flushLine ();
@@ -338,12 +338,12 @@ EOD;
         if (in_array ($class, $this->suppressEndMarkers)) break;
         // Add closing USFM, optionally closing embedded tags in reverse order.
         $classes = explode (" ", $class);
-        $this->characterStyles = array_diff ($this->characterStyles, $classes);
+        $this->characterStyles = filter_string_array_diff ($this->characterStyles, $classes);
         $classes = array_reverse ($classes);
-        foreach ($classes as $offset => $class) {
+        for ($classes as $offset => $class) {
           $embedded = (count ($classes) > 1) && ($offset == 0);
           if (!empty ($this->characterStyles)) $embedded = true;
-          $this->currentLine .= Filter_Usfm::getClosingUsfm ($class, $embedded);
+          $this->currentLine += Filter_Usfm::getClosingUsfm ($class, $embedded);
         }
         break;
       }
@@ -366,7 +366,7 @@ EOD;
   private function processAttributeNode ($node)
   {
     $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ("Unprocessed XML_ATTRIBUTE_NODE while saving editor text");
+    Database_Logs::log ("Unprocessed XML_ATTRIBUTE_NODE while saving editor text");
   }
 
 
@@ -374,7 +374,7 @@ EOD;
   {
     // Add the text to the current USFM line.
     $text = $node->wholeText;
-    $this->currentLine .= $text;
+    $this->currentLine += $text;
   }
 
 
@@ -382,7 +382,7 @@ EOD;
   {
     if ($this->currentLine) {
       // Trim so that '\p ' becomes '\p', for example.
-      $this->currentLine = trim ($this->currentLine);
+      $this->currentLine = filter_string_trim ($this->currentLine);
       $this->output [] = $this->currentLine;
       $this->currentLine = '';
     }
@@ -396,9 +396,9 @@ EOD;
     //   <span class="nd">Lord God</span> 
     // is calling</span> you</span><span>.</span>
     $classes = explode (" ", $class);
-    foreach ($classes as $offset => $class) {
+    for ($classes as $offset => $class) {
       $embedded = (count ($this->characterStyles) + $offset) > 0;
-      $this->currentLine .= Filter_Usfm::getOpeningUsfm ($class, $embedded);
+      $this->currentLine += Filter_Usfm::getOpeningUsfm ($class, $embedded);
     }
     // Store active character styles in some cases.
     $store = true;
@@ -414,7 +414,7 @@ EOD;
   {
     // The note citation in the text will have the "1" or the "2", and so on, till "9". Remove it.
     if ($node->hasChildNodes ()) {
-      foreach ($node->childNodes as $childnode) {
+      for ($node->childNodes as $childnode) {
         $node->removeChild ($childnode);
       }
     }
@@ -434,7 +434,7 @@ EOD;
     // There should be only one relevant note node.
     if ($nodeList->length != 1) {
       $database_logs = Database_Logs::getInstance ();
-      $database_logs->log ("Discarding note with id $id and href $href");
+      Database_Logs::log ("Discarding note with id $id and href $href");
       return;
     }
 
@@ -481,7 +481,7 @@ EOD;
     // E.g.: \f + ...\f*.
     // Check for missing note caller, and if it's not there, add the default "+".
     // Also replace a double space after a note opener.
-    foreach ($this->noteOpeners as $noteOpener) {
+    for ($this->noteOpeners as $noteOpener) {
       $opener = Filter_Usfm::getOpeningUsfm ($noteOpener);
       $usfm = str_replace ($opener . " ", $opener, $usfm);
       $pos = mb_strpos ($usfm, $opener);
@@ -502,7 +502,7 @@ EOD;
         // Fix the note caller is necessary.
         if (!$isClean) {
           $database_logs = Database_Logs::getInstance ();
-          $database_logs->log ("Fixing note caller in $usfm");
+          Database_Logs::log ("Fixing note caller in $usfm");
           $pos2--;
           $usfm = mb_substr ($usfm, 0, $pos2) . "+" . mb_substr ($usfm, $pos2);
         }

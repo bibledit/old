@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,6 +29,8 @@ void test_sqlite ();
 void test_session_logic ();
 void test_empty_folders ();
 void test_flate ();
+void test_checksum_logic ();
+void test_store_bible_data ();
 
 
 #endif

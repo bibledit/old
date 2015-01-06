@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -198,7 +198,7 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
 
 
 // Returns true if the italic, bold, etc. settings are fully applicable for $type and $subtype. Full means it also has inherit and toggle values.
-bool styles_logic_italic_bold_underLine_smallcaps_are_full (int type, int subtype)
+bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtype)
 {
   switch (type) {
     case StyleTypeInlineText  : return true;

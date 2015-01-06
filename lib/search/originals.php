@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -31,38 +31,38 @@ $database_sblgnt = Database_Sblgnt::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$load = $_GET ['load'];
+@$load = request->query ['load'];
 if (isset ($load)) {
 
   $book = $ipc_focus->getBook ();
   $chapter = $ipc_focus->getChapter ();
   $verse = $ipc_focus->getVerse ();
   
-  $type = $database_books->getType ($book);
+  $type = Database_Books::getType ($book);
   
   // Get Hebrew or Greek words.
   $searchtext = "";
   if ($type == "ot") {
     $details = $database_morphhb->getVerse ($book, $chapter, $verse);
-    foreach ($details as $offset => $detail) {
-      if ($offset) $searchtext .= " ";
-      $searchtext .= $detail ['hebrew'];
+    for ($details as $offset => $detail) {
+      if ($offset) $searchtext += " ";
+      $searchtext += $detail ['hebrew'];
     }
   }
   if ($type == "nt") {
     $details = $database_sblgnt->getVerse ($book, $chapter, $verse);
-    foreach ($details as $offset => $detail) {
-      if ($offset) $searchtext .= " ";
-      $searchtext .= $detail ['greek'];
+    for ($details as $offset => $detail) {
+      if ($offset) $searchtext += " ";
+      $searchtext += $detail ['greek'];
     }
   }
 
   
-  $searchtext = trim ($searchtext);
+  $searchtext = filter_string_trim ($searchtext);
   
   echo $searchtext;
 
@@ -70,14 +70,14 @@ if (isset ($load)) {
 }
 
 
-@$words = $_GET ['words'];
+@$words = request->query ['words'];
 if (isset ($words)) {
 
-  $words = trim ($words);
+  $words = filter_string_trim ($words);
   $words = explode (" " , $words);
 
   $book = $ipc_focus->getBook ();
-  $type = $database_books->getType ($book);
+  $type = Database_Books::getType ($book);
 
   // Include items if there are no more search hits than 30% of the total number of verses in the Hebrew or Greek.
   $maxcount = 0;
@@ -94,7 +94,7 @@ if (isset ($words)) {
   // The values are how often the passages occur in the search results.
   $passages = array ();
 
-  foreach ($words as $word) {
+  for ($words as $word) {
     
      // Find out how often this word occurs in the Hebrew or Greek Bible. Skip if too often.
     if ($type == "ot") {
@@ -108,7 +108,7 @@ if (isset ($words)) {
     if ($count > $maxcount) continue;
     
     // Store the identifiers and their count.
-    foreach ($details as $detail) {
+    for ($details as $detail) {
       $book = $detail ['book'];
       $chapter = $detail ['chapter'];
       $verse = $detail ['verse'];
@@ -125,7 +125,7 @@ if (isset ($words)) {
   
   // Output the passage identifiers to the browser.
   // Skip identifiers that only occur once.
-  foreach ($passages as $key => $value) {
+  for ($passages as $key => $value) {
     if ($value <= 1) continue;
     echo "$key\n";
   }
@@ -135,7 +135,7 @@ if (isset ($words)) {
 }
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if (isset ($id)) {
   
   // Get the and passage for this identifier.

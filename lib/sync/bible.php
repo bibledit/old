@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 
-$username = Filter_Hex::hex2bin ($_POST ['u']);
-$password = $_POST ['p'];
-$bible = $_POST ['bi'];
-$book = $_POST ['bo'];
-$chapter = $_POST ['ch'];
-$oldusfm = $_POST ['o'];
-$newusfm = $_POST ['n'];
-$checksum = $_POST ['s'];
+$username = Filter_Hex::hex2bin (request->post ['u']);
+$password = request->post ['p'];
+$bible = request->post ['bi'];
+$book = request->post ['bo'];
+$chapter = request->post ['ch'];
+$oldusfm = request->post ['o'];
+$newusfm = request->post ['n'];
+$checksum = request->post ['s'];
 
 
 $database_users = Database_Users::getInstance (); 
@@ -40,12 +40,12 @@ $database_mail = Database_Mail::getInstance ();
 
 
 $user_ok = $database_users->usernameExists ($username);
-if (!$user_ok) $database_logs->log ("Non existing user $username", Filter_Roles::manager ());
+if (!$user_ok) Database_Logs::log ("Non existing user $username", Filter_Roles::manager ());
 $pass_ok = ($password == $database_users->getmd5 ($username));
-if (!$pass_ok) $database_logs->log ("Incorrect password $password for user $username", Filter_Roles::manager ());
+if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
 if (!$user_ok || !$pass_ok) {
   // Unauthorized.
-  http_response_code (401); 
+  request->response_code = 401); 
   die;
 }
 
@@ -53,16 +53,16 @@ if (!$user_ok || !$pass_ok) {
 $session_logic->setUsername ($username);
 
 
-$bookname = $database_books->getEnglishFromId ($book);
+$bookname = Database_Books::getEnglishFromId ($book);
 
 
-$database_logs->log ("Client sent Bible data: $bible $bookname $chapter", Filter_Roles::manager ());
+Database_Logs::log ("Client sent Bible data: $bible $bookname $chapter", Filter_Roles::manager ());
 
 
 // Check whether the user has write-access to the Bible.
 if (!access_bible_write ($bible, $username)) {
   $message = "User $username does not have write access to Bible $bible";
-  $database_logs->log ($message, Filter_Roles::manager ());
+  Database_Logs::log ($message, Filter_Roles::manager ());
   echo $message;
   die;
 }
@@ -71,7 +71,7 @@ if (!access_bible_write ($bible, $username)) {
 // Check checksum.
 if ($checksum != Checksum_Logic::get ($oldusfm . $newusfm)) {
   $message = "The received data is corrupted";
-  $database_logs->log ($message, Filter_Roles::manager ());
+  Database_Logs::log ($message, Filter_Roles::manager ());
   echo $message;
   die;
 }
@@ -97,9 +97,9 @@ if ($serverusfm == "") {
     // Email the user with the details, so the user can resolve the conflicts.
     $subject = "Problem sending chapter to server";
     $body = "<p>While sending $bible $bookname $chapter to the server, the server didn't manage to merge it.</p>";
-    $body .= "<p>Please re-enter your changes as you see fit.</p>";
-    $body .= "<p>Here is the chapter you sent to the server:</p>";
-    $body .= "<pre>$newusfm</pre>";
+    $body += "<p>Please re-enter your changes as you see fit.</p>";
+    $body += "<p>Here is the chapter you sent to the server:</p>";
+    $body += "<pre>$newusfm</pre>";
     $database_mail->send ($username, $subject, $body);
   } else {
     // Update the server with the new chapter data.

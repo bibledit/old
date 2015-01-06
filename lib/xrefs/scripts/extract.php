@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,5 +17,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p class="error"><?php echo gettext("This chapter of the source Bible does not contain any cross references that could be extracted.") ?></p>
-<p><a href="index.php">[<?php echo gettext("okay") ?>]</a></p>
+<p class="error">gettext("This chapter of the source Bible does not contain any cross references that could be extracted.")</p>
+<p><a href="index.php">[gettext("okay")]</a></p>

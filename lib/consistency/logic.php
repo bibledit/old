@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,17 +40,17 @@ class Consistency_Logic
 
     // The resources to display in the Consistency tool.
     $resources = array ();
-    $resources [] = Access_Bible::clamp ($database_config_user->getBible ());
+    $resources [] = access_bible_clamp ($database_config_user->getBible ());
     $resources = array_merge ($resources, $database_config_user->getConsistencyResources ());
 
     // The passages entered in the Consistency tool.
     $passages = $database_volatile->getValue ($this->id, "passages");
-    $passages = trim ($passages);
+    $passages = filter_string_trim ($passages);
     $passages = Filter_String::string2array ($passages);
     
     // The translations from the Consistency tool.
     $translations = $database_volatile->getValue ($this->id, "translations");
-    $translations = trim ($translations);
+    $translations = filter_string_trim ($translations);
     $translations = Filter_String::string2array ($translations);
 
     // Contains the response to display.
@@ -58,18 +58,18 @@ class Consistency_Logic
 
     // Go through the passages interpreting them.
     $previousPassage = array (1, 1, 1);
-    foreach ($passages as $line) {
-      $line = trim ($line);
+    for ($passages as $line) {
+      $line = filter_string_trim ($line);
       if ($line == "") continue;
       $range_sequence = filter_passage_handle_sequences_ranges ($line);
-      foreach ($range_sequence as $line) {
+      for ($range_sequence as $line) {
         $passage = filter_passage_interpret_passage ($previousPassage, $line);
         if ($passage[0] != 0) {
           $book = $passage [0];
           $chapter = $passage [1];
           $verse = $passage [2];
           $line = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
-          $line .= " ";
+          $line += " ";
           
           // Check whether the chapter identifier has changed for this reference.
           // If so, set a flag so the data can be re-assembled for this verse.
@@ -84,7 +84,7 @@ class Consistency_Logic
           }
 
           // Go through each resource.
-          foreach ($resources as $resource) {
+          for ($resources as $resource) {
             
             // Produce new verse text if the passage is to be redone, or else fetch the existing text.
             if ($redoPassage) {
@@ -99,9 +99,9 @@ class Consistency_Logic
             
             // Formatting.
             if (count ($resources) > 1) {
-              $line .= "<br>";
+              $line += "<br>";
             }
-            $line .= $text;
+            $line += $text;
           }
           $response [] = $line;
           $previousPassage = $passage;
@@ -112,8 +112,8 @@ class Consistency_Logic
     }
 
     $output = "";
-    foreach ($response as $line) {
-      $output .= "<div>$line</div>\n";
+    for ($response as $line) {
+      $output += "<div>$line</div>\n";
     }
     return $output;
   }

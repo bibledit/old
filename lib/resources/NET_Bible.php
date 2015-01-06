@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -100,7 +100,7 @@ $url = str_replace (" ", "%20", $url);
 
 $output = $text;
 
-$output .= "\n";
+$output += "\n";
 
 $url = "https://net.bible.org/resource/netNotes/$book $chapter:$verse";
 $url = str_replace (" ", "%20", $url);
@@ -112,9 +112,9 @@ $url = str_replace (" ", "%20", $url);
 // Remove this class, and the references will remain visible.
 $notes = str_replace ('class="bibleref"', '', $notes);
 
-if ($notes) $output .= $notes;
+if ($notes) $output += $notes;
 
-$output .= "\n";
+$output += "\n";
 
 
 ?>

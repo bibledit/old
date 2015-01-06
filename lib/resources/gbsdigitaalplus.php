@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@ function gbsdigitaalplus ($url, $chapter, $verse)
     $introduction = str_replace ("\t", "", $introduction);
     $introduction = str_replace ('  ', ' ', $introduction);
     $introduction = str_replace ('<br />', "", $introduction);
-    $introduction = trim ($introduction);
-    $output .= "<p>$introduction</p>";
+    $introduction = filter_string_trim ($introduction);
+    $output += "<p>$introduction</p>";
   }
   
   
@@ -51,14 +51,14 @@ function gbsdigitaalplus ($url, $chapter, $verse)
     $introduction = str_replace (array ("\n", "\r"), " ", $introduction);
     $introduction = str_replace ("\t", "", $introduction);
     $introduction = str_replace ('  ', ' ', $introduction);
-    $introduction = trim ($introduction);
-    $output .= "<p>$introduction</p>";
+    $introduction = filter_string_trim ($introduction);
+    $output += "<p>$introduction</p>";
   }
   
   
   if (isset ($data->verses)) {
     $verses = $data->verses;
-    foreach ($verses as $offset => $data) {
+    for ($verses as $offset => $data) {
       if (isset ($data->number)) {
         // Verse match.
         if ($data->number == $verse) {
@@ -67,29 +67,29 @@ function gbsdigitaalplus ($url, $chapter, $verse)
             $object = $verses [$offset - 1];
             if (isset ($object->isHeader)) {
               $text = $object->text;
-              $output .= "<p><i>$text</i></p>";
+              $output += "<p><i>$text</i></p>";
             }
           }
           // Add verse text.
           if (isset ($data->text)) {
             $text = $data->text;
             $text = str_replace ('<br />', "", $text);
-            $output .= $text;
+            $output += $text;
           }
           // Add notes.
           if (isset ($data->commentaries)) {
-            foreach ($data->commentaries as $offset => $commentary) {
+            for ($data->commentaries as $offset => $commentary) {
               $number = $commentary->number;
               $text = $commentary->originalText;
               $references = $commentary->references;
-              foreach ($references as &$reference) {
+              for ($references as &$reference) {
                 $reference = array ('passage' => $reference->id, 'start' => $reference->startIndex, 'length' => $reference->length, 'title' => $reference->text);
               }
               // Invert the references, so we start replacing from the back of the string,
               // so the lengths and offsets are not affected.
               // Insert link, e.g.: <a class="navigate" href="19.90.2">Ps. 90:2</a>
               $references = array_reverse ($references);
-              foreach ($references as $reference) {
+              for ($references as $reference) {
                 $passage = $reference ['passage'];
                 $start = $reference ['start'];
                 $length = $reference ['length'];
@@ -100,7 +100,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
                       . mb_substr ($text, $start, $length) . "</a>"
                       . mb_substr ($text, $start + $length);
               }
-              $output .= "<p>$number $text</p>";
+              $output += "<p>$number $text</p>";
             }
           }
         }
@@ -109,7 +109,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
   }
  
   
-  $output .= "\n";
+  $output += "\n";
   return $output;
 }
 

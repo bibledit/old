@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ Assets_Page::header (gettext("Suppressed check results"));
 $view = new Assets_View (__FILE__);
 
 
-@$release = $_GET['release'];
+@$release = request->query['release'];
 if (isset($release)) {
   $database_check->release ($release);
   $view->view->success = gettext("The check result will no longer be suppressed.");
@@ -40,7 +40,7 @@ if (isset($release)) {
 // Get the Bibles the user has write-access to.
 $bibleIDs = array ();
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   if (access_bible_write ($bible)) {
     $id = $database_bibles->getID ($bible);
     $bibleIDs [] = $id;
@@ -51,14 +51,14 @@ foreach ($bibles as $bible) {
 $ids = array ();
 $data = array ();
 $suppressions = $database_check->getSuppressions ();
-foreach ($suppressions as $suppression) {
+for ($suppressions as $suppression) {
   $bibleID = $suppression['bible'];
   // Only display entries for Bibles the user has write access to.
   if (in_array ($bibleID, $bibleIDs)) {
     $ids [] = $suppression['rowid'];
-    $bible = Filter_Html::sanitize ($database_bibles->getName ($bibleID));
+    $bible = filter_string_sanitize_html ($database_bibles->getName ($bibleID));
     $passage = Filter_Books::filter_passage_display_inline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
-    $result = Filter_Html::sanitize ($suppression['data']);
+    $result = filter_string_sanitize_html ($suppression['data']);
     $result = "$bible $passage $result";
     $data [] = $result;
   }

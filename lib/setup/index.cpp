@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/volatile.h>
 #include <config/globals.h>
 #include <index/index.h>
+#include <styles/sheets.h>
 
 
 void setup_write_access ()
@@ -56,7 +57,7 @@ void setup_write_access ()
 }
 
 
-void setup_create_databases ()
+void setup_initialize_data ()
 {
   // If the setup is already running, bail out.
   // This situation may happen if a user keeps refreshing the setup page.
@@ -105,6 +106,9 @@ void setup_create_databases ()
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();
   
+  // Create stylesheets.
+  styles_sheets_create_all ();
+  
   // Clear setup flag.
   config_globals_setup_running = false;
 }
@@ -116,7 +120,7 @@ string setup_index (void * webserver_request)
   setup_write_access ();
   
   // Create or upgrade the databases.
-  new thread (setup_create_databases);
+  new thread (setup_initialize_data);
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -168,6 +172,7 @@ string setup_index (void * webserver_request)
     view.set_variable ("usernames", usernames);
     view.set_variable ("emails", emails);
     view.enable_zone ("displayok");
+    view.set_variable ("readonly", "readonly");
     // If the admin's are already there, then the setup has completed.
     // The automatic page refresh will kick in, and navigate to the main screen.
     Database_Config_General::setInstalledVersion (VERSION);

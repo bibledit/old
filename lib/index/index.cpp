@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ string index_index (void * webserver_request)
 {
   string page;
 
-  page = Assets_Page::header ("Bibledit-Web", webserver_request, "");
+  page = Assets_Page::header ("Bibledit", webserver_request, "");
 
   Assets_View view = Assets_View ();
   page += view.render ("index", "index");

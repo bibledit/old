@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ class Export_Logic
   // Schedule all Bibles for exports.
   static public function scheduleAll ()
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/index.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/index.php"));
 
   }
 
@@ -41,8 +41,8 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/textusfm.php", $bible, $book));
+    for ($books as $book) {
+      tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/textusfm.php", $bible, $book));
     }
   }
   
@@ -50,7 +50,7 @@ class Export_Logic
   // Schedule a Bible for export to USFM format.
   static public function scheduleUsfm ($bible)
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/usfm.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/usfm.php", $bible));
   }
   
   
@@ -60,8 +60,8 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/odt.php", $bible, $book));
+    for ($books as $book) {
+      tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/odt.php", $bible, $book));
     }
   }
 
@@ -70,7 +70,7 @@ class Export_Logic
   // $bible: Bible.
   static public function scheduleInfo ($bible)
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/info.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/info.php", $bible));
   }
 
 
@@ -80,8 +80,8 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/html.php", $bible, $book));
+    for ($books as $book) {
+      tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/html.php", $bible, $book));
     }
   }
 
@@ -92,8 +92,8 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/web.php", $bible, $book));
+    for ($books as $book) {
+      tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/web.php", $bible, $book));
     }
   }
 
@@ -102,19 +102,19 @@ class Export_Logic
   // $bible: Bible.
   static public function scheduleWebIndex ($bible)
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/web0.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/web0.php", $bible));
   }
 
 
   static public function scheduleOnlineBible ($bible)
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/onlinebible.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/onlinebible.php", $bible));
   }
   
 
   static public function scheduleESword ($bible)
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/esword.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/esword.php", $bible));
   }
   
 
@@ -140,10 +140,10 @@ class Export_Logic
   static public function USFMdirectory ($bible, $type)
   {
     $directory = self::bibleDirectory ($bible);
-    $directory .= "/usfm";
+    $directory += "/usfm";
     switch ($type) {
-      case 0: $directory .= "/full"; break;
-      case 1: $directory .= "/basic"; break;
+      case 0: $directory += "/full"; break;
+      case 1: $directory += "/basic"; break;
       default: break;
     }
     return $directory;
@@ -153,7 +153,7 @@ class Export_Logic
   static public function webDirectory ($bible)
   {
     $directory = self::bibleDirectory ($bible);
-    $directory .= "/web";
+    $directory += "/web";
     return $directory;
   }
   
@@ -171,7 +171,7 @@ class Export_Logic
   {
     if ($book) {
       $database_books = Database_Books::getInstance ();
-      $filename = sprintf("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book);
+      $filename = sprintf("%0" . 2 . "d", $book) . "_" . Database_Books::getEnglishFromId ($book);
     } else {
       $filename = "00_Bible";
     }
@@ -184,7 +184,7 @@ class Export_Logic
   static public function osisDirectory ($bible)
   {
     $directory = self::bibleDirectory ($bible);
-    $directory .= "/osis";
+    $directory += "/osis";
     return $directory;
   }
   

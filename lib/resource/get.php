@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
-@$resource = $_GET['resource'];
-@$book = $_GET['book'];
-@$chapter = $_GET['chapter'];
-@$verse = $_GET['verse'];
+@$resource = request->query['resource'];
+@$book = request->query['book'];
+@$chapter = request->query['chapter'];
+@$verse = request->query['verse'];
 
 
 if ($resource == "") die;

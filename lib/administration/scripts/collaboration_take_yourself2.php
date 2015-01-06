@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,4 +17,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><?php echo gettext("If there were no errors, then setting up collaboration is now ready, and the Manager can choose menu Send/Receive any time he wants to synchronize Bibles and Consultation Notes with the remote repository.") ?></p>
+<p>gettext("If there were no errors, then setting up collaboration is now ready, and the Manager can choose menu Send/Receive any time he wants to synchronize Bibles and Consultation Notes with the remote repository.")</p>

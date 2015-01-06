@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ $database_logs = Database_Logs::getInstance ();
 $database_offlineresources = Database_OfflineResources::getInstance ();
 
 
-$database_logs->log (gettext("Synchronizing external resources"), Filter_Roles::translator ());
+Database_Logs::log (gettext("Synchronizing external resources"), Filter_Roles::translator ());
 
 
 $address = $database_config_general->getServerAddress ();
@@ -46,12 +46,12 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting checksum for the external resources", Filter_Roles::translator ());
+  Database_Logs::log ("Failure requesting checksum for the external resources", Filter_Roles::translator ());
   die;
 }
 $checksum = Sync_Logic::offline_resources_checksum ();
 if ($response == $checksum) {
-  $database_logs->log ("The external resources are up to date", Filter_Roles::translator ());
+  Database_Logs::log ("The external resources are up to date", Filter_Roles::translator ());
   die;
 }
 
@@ -63,7 +63,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting available external resources", Filter_Roles::translator ());
+  Database_Logs::log ("Failure requesting available external resources", Filter_Roles::translator ());
   die;
 }
 $server_resources = $response;
@@ -71,14 +71,14 @@ $server_resources = $response;
 
 // Delete resources that exist locally but not on the server.
 $client_resources = $database_offlineresources->names ();
-$resources = array_diff ($client_resources, $server_resources);
-foreach ($resources as $resource) {
+$resources = filter_string_array_diff ($client_resources, $server_resources);
+for ($resources as $resource) {
   $database_offlineresources->delete ($resource);
 }
 
 
 // Deal with each offline resource individually.
-foreach ($server_resources as $resource) {
+for ($server_resources as $resource) {
 
 
   // Request the checksum of the resources from the server.
@@ -91,7 +91,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting checksum of external resource", Filter_Roles::translator ());
+    Database_Logs::log ("Failure requesting checksum of external resource", Filter_Roles::translator ());
     continue;
   }
   $checksum = Sync_Logic::offline_resource_checksum ($resource);
@@ -108,7 +108,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting files of external resource", Filter_Roles::translator ());
+    Database_Logs::log ("Failure requesting files of external resource", Filter_Roles::translator ());
     continue;
   }
   $server_files = $response;
@@ -116,14 +116,14 @@ foreach ($server_resources as $resource) {
 
   // Delete files that exist locally but not on the server.
   $client_files = $database_offlineresources->files ($resource);
-  $files = array_diff ($client_files, $server_files);
-  foreach ($files as $file) {
+  $files = filter_string_array_diff ($client_files, $server_files);
+  for ($files as $file) {
     $database_offlineresources->unlink ($resource, $file);
   }
  
   
   // Deal with each file individually.
-  foreach ($server_files as $file) {
+  for ($server_files as $file) {
 
 
     // Request checksum of this file,
@@ -137,7 +137,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure requesting checksum of external resource file", Filter_Roles::translator ());
+      Database_Logs::log ("Failure requesting checksum of external resource file", Filter_Roles::translator ());
       continue;
     }
     $checksum = Sync_Logic::offline_resource_file_checksum ($resource, $file);
@@ -147,7 +147,7 @@ foreach ($server_resources as $resource) {
 
 
     // Download the file from the server, and store it locally on the client.
-    $database_logs->log ("Downloading external resource" . " $resource $file", Filter_Roles::translator ());
+    Database_Logs::log ("Downloading external resource" . " $resource $file", Filter_Roles::translator ());
     $post = array (
       "a" => "download",
       "r" => $resource,
@@ -156,7 +156,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure downloading external resource file", Filter_Roles::translator ());
+      Database_Logs::log ("Failure downloading external resource file", Filter_Roles::translator ());
       continue;
     }
     $database_offlineresources->save ($resource, $file, $response);
@@ -169,7 +169,7 @@ foreach ($server_resources as $resource) {
 
 
 // Done.
-$database_logs->log ("The external resources are now up to date", Filter_Roles::translator ());
+Database_Logs::log ("The external resources are now up to date", Filter_Roles::translator ());
 
 
 ?>

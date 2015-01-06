@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,12 +32,12 @@ $database_usfmresources = Database_UsfmResources::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance();
 
 
-@$add = $_GET ['add'];
+@$add = request->query ['add'];
 if (isset ($add)) {
   if ($add == "") {
     $dialog_list = new Dialog_List2 (gettext("Would you like to add a Resource?"));
     $resources = Resource_Logic::getNames ();
-    foreach ($resources as $resource) {
+    for ($resources as $resource) {
       $dialog_list->add_row ($resource, "&add=$resource");
     }
     $dialog_list->run();
@@ -50,10 +50,10 @@ if (isset ($add)) {
 }
 
 
-@$remove = $_GET ['remove'];
+@$remove = request->query ['remove'];
 if (isset ($remove)) {
   $resources = $database_config_user->getConsistencyResources ();
-  $resources = array_diff ($resources, array ($remove));
+  $resources = filter_string_array_diff ($resources, array ($remove));
   $resources = array_values ($resources);
   $database_config_user->setConsistencyResources ($resources);
 }

@@ -230,7 +230,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
   
     $processed = htmLawed::hl($text);
 
-  *Notes*: (1) If input is from a '$_GET' or '$_POST' value, and 'magic quotes' are enabled on the PHP setup, run 'stripslashes()' on the input before passing to htmLawed. (2) htmLawed does not have support for head-level elements, 'body', and the frame-level elements, 'frameset', 'frame' and 'noframes'.
+  *Notes*: (1) If input is from a 'request->query' or 'request->post' value, and 'magic quotes' are enabled on the PHP setup, run 'stripslashes()' on the input before passing to htmLawed. (2) htmLawed does not have support for head-level elements, 'body', and the frame-level elements, 'frameset', 'frame' and 'noframes'.
 
   By default, htmLawed will process the text allowing all valid HTML elements/tags, secure URL scheme/CSS style properties, etc. It will allow 'CDATA' sections and HTML comments, balance tags, and ensure proper nesting of elements. Such actions can be configured using two other optional arguments -- '$config' and '$spec':
 
@@ -555,8 +555,8 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
     // kses compatibility
     $allowed_html = $spec;
     $allowed_protocols = array();
-    foreach($cf['schemes'] as $v){
-     foreach($v as $k2=>$v2){
+    for($cf['schemes'] as $v){
+     for($v as $k2=>$v2){
       if(!in_array($k2, $allowed_protocols)){
        $allowed_protocols[] = $k2;
       }
@@ -1242,7 +1242,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
       }
 
       $string = '';
-      foreach($attribute_array as $k=>$v){
+      for($attribute_array as $k=>$v){
         $string .= " {$k}=\"{$v}\"";
       }
       

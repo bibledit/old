@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,18 +17,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><a href="index.php"><?php echo gettext("Back to notes list") ?></a></p>
-<p><?php echo gettext("Summary") ?>: <?php echo $this->summary ?></p>
-<div><?php echo $this->content ?></div>
+<p><a href="index.php">gettext("Back to notes list")</a></p>
+<p>gettext("Summary"): $this->summary</p>
+<div>$this->content</div>
 <hr>
 <form style="border:1px #bbb solid;" action="comment.php" name="form"  method="post">
-  <p><?php echo gettext("Add a comment to this note:") ?></p>
+  <p>gettext("Add a comment to this note:")</p>
   <textarea name="comment" id="comment" class="fullwidth"></textarea>
   <p>
-    <input type="submit" name="submit" value=<?php echo gettext("Save") ?> onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" />
-    <input type="submit" name="cancel" value=<?php echo gettext("Cancel") ?> />
+    <input type="submit" name="submit" value=gettext("Save") onClick="this.value = 'gettext ("Please wait")'; return true;" />
+    <input type="submit" name="cancel" value=gettext("Cancel") />
   </p>
-  <input type="hidden" name="id" value=<?php echo $this->id ?> />
+  <input type="hidden" name="id" value=$this->id />
 </form>
 <script src="../nicedit/nicedit.js"></script>
 <script type="text/javascript">

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class Filter_Markup
     // The needles contain the search $words as they occur in the $string
     // in upper case or lower case, or any mixed case.
     $needles = array ();
-    foreach ($words as $word) {
+    for ($words as $word) {
       if ($word == "") continue;
       $needles = array_merge ($needles, Filter_Search::needles ($word, $string));
     }
@@ -38,7 +38,7 @@ class Filter_Markup
     // All the $needles are converted to $markup,
     // which will replace the $needles.
     $markup = array ();
-    foreach ($needles as $needle) {
+    for ($needles as $needle) {
       $markup [] = '<mark>' . $needle . '</mark>';
     }
 

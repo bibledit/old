@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,25 +17,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Settings for Resources") ?></h3>
-<p><a href="index.php">[<?php echo gettext("back") ?></a>]</p>
-<h4><?php echo gettext("Active resources") ?></h4>
+<h3>gettext("Settings for Resources")</h3>
+<p><a href="index.php">[gettext("back")</a>]</p>
+<h4>gettext("Active resources")</h4>
 <div id="sortable">
-<?php foreach ($this->actives as $active) { ?>
-  <p><a href="?remove=<?php echo $active ?>"> ✗ </a><?php echo $active ?></p>
-<?php } ?>
+<?php for ($this->actives as $active) {
+  <p><a href="?remove=$active"> ✗ </a>$active</p>
+<?php }
 </div>
 <br>
 <p>
-  <?php echo gettext("To change the order, drag an item to another location.") ?>
-  <?php echo gettext("Click ✗ to remove.") ?>
+  gettext("To change the order, drag an item to another location.")
+  gettext("Click ✗ to remove.")
 </p>
-<h4><?php echo gettext("Available resources") ?></h4>
+<h4>gettext("Available resources")</h4>
 <p>
-<?php echo gettext("Click to activate:") ?>
-<?php foreach ($this->selectables as $offset => $selectable) { ?>
-  <?php if ($offset) echo " | " ?>
-  <a href="?add=<?php echo $selectable ?>"><?php echo $selectable ?></a>
-<?php } ?>
+gettext("Click to activate:")
+<?php for ($this->selectables as $offset => $selectable) {
+  <?php if ($offset) echo " | "
+  <a href="?add=$selectable">$selectable</a>
+<?php }
 </p>
-<script type="text/javascript" src="organize.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="organize.js?config_logic_version ()"></script>

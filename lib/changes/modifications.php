@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Generating lists of changes in the Bibles", Filter_Roles::translator ());
+Database_Logs::log ("Generating lists of changes in the Bibles", Filter_Roles::translator ());
 
 
 // Recreate modifications database.
@@ -49,23 +49,23 @@ $database_users = Database_Users::getInstance ();
 // It runs before the team changes.
 // This produces the desired order of the notifications in the GUI.
 $users = $database_modifications->getUserUsernames ();
-if (!empty ($users)) $database_logs->log ("Generating lists of changes made per user", Filter_Roles::translator ());
-foreach ($users as $user) {
+if (!empty ($users)) Database_Logs::log ("Generating lists of changes made per user", Filter_Roles::translator ());
+for ($users as $user) {
 
   // Go through the Bibles changed by the current user.
   $bibles = $database_modifications->getUserBibles ($user);
-  foreach ($bibles as $bible) {
+  for ($bibles as $bible) {
 
     // Body of the email to be sent.
     $email = "<p>" . gettext("You have entered the changes below in the online Bible Editor.") ." " . gettext ("You may check if it made its way into the Bible text.") . "</p>";
 
     // Go through the books in that Bible.
     $books = $database_modifications->getUserBooks ($user, $bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
 
       // Go through the chapters in that book.
       $chapters = $database_modifications->getUserChapters ($user, $bible, $book);
-      foreach ($chapters as $chapter) {
+      for ($chapters as $chapter) {
 
         // Get the sets of identifiers for that chapter, and set some variables.
         $IdSets = $database_modifications->getUserIdentifiers ($user, $bible, $book, $chapter);
@@ -75,7 +75,7 @@ foreach ($users as $user) {
         $restart = true;
 
         // Go through the sets of identifiers.
-        foreach ($IdSets as $IdSet) {
+        for ($IdSets as $IdSet) {
 
           $oldId = $IdSet ['oldid'];
           $newId = $IdSet ['newid'];
@@ -127,7 +127,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
     $database_config_bible = Database_Config_Bible::getInstance ();
     $database_bibles = Database_Bibles::getInstance ();
     $database_history = Database_History::getInstance ();
-    $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+    $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
     $old_chapter_usfm = $database_modifications->getUserChapter ($user, $bible, $book, $chapter, $oldId);
     $old_chapter_usfm = $old_chapter_usfm ['oldtext'];
     $new_chapter_usfm = $database_modifications->getUserChapter ($user, $bible, $book, $chapter, $newId);
@@ -138,7 +138,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
     $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
     $verses = array_unique ($verses);
     sort ($verses, SORT_NUMERIC);
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $old_verse_usfm = usfm_get_verse_text ($old_chapter_usfm, $verse);
       $new_verse_usfm = usfm_get_verse_text ($new_chapter_usfm, $verse);
       if ($old_verse_usfm != $new_verse_usfm) {
@@ -157,12 +157,12 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
         $old_text = $filter_text_old->text_text->get ();
         $new_text = $filter_text_new->text_text->get ();
         if ($old_text != $new_text) {
-          $modification = Filter_Diff::diff ($old_text, $new_text);
-          $email .= "<div>";
-          $email .= filter_passage_display ($book, $chapter, $verse);
-          $email .= " ";
-          $email .= $modification;
-          $email .= "</div>";
+          $modification = filter_diff_diff ($old_text, $new_text);
+          $email += "<div>";
+          $email += filter_passage_display ($book, $chapter, $verse);
+          $email += " ";
+          $email += $modification;
+          $email += "</div>";
           if ($database_config_user->getUserUserChangesNotificationsOnline ($user)) {
             $changeNotificationUsers = array ($user);
             $database_modifications->recordNotification ($changeNotificationUsers, "☺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
@@ -178,16 +178,16 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
 // Generate the notifications, online and by email, 
 // for the changes in the Bibles accepted by the team since the previous notifications were generated.
 $bibles = $database_modifications->getTeamDiffBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
 
 
-  $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+  $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
   $changeNotificationUsers = array ();
   $users = $database_users->getUsers ();
-  foreach ($users as $user) {
-    if (Access_Bible::read ($bible, $user)) {
+  for ($users as $user) {
+    if (access_bible_read ($bible, $user)) {
       if ($database_config_user->getUserGenerateChangeNotifications ($user)) {
         $changeNotificationUsers [] = $user;
       }
@@ -219,9 +219,9 @@ foreach ($bibles as $bible) {
   $subject = gettext("Recent changes") . " " . $bible;
   $emailBody = filter_url_file_get_contents ($versesoutputfile);
   $users = $database_users->getUsers ();
-  foreach ($users as $user) {
+  for ($users as $user) {
     if ($database_config_user->getUserBibleChangesNotification ($user)) {
-      if (Access_Bible::read ($bible, $user)) {
+      if (access_bible_read ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }
     }
@@ -230,10 +230,10 @@ foreach ($bibles as $bible) {
 
   // Generate the online change notifications.
   $books = $database_modifications->getTeamDiffBooks ($bible);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
-      $database_logs->log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::translator ());
+    for ($chapters as $chapter) {
+      Database_Logs::log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::translator ());
       $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
       $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
       $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
@@ -241,7 +241,7 @@ foreach ($bibles as $bible) {
       $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
       $verses = array_unique ($verses);
       sort ($verses, SORT_NUMERIC);
-      foreach ($verses as $verse) {
+      for ($verses as $verse) {
         $old_verse_usfm = usfm_get_verse_text ($old_chapter_usfm, $verse);
         $new_verse_usfm = usfm_get_verse_text ($new_chapter_usfm, $verse);
         if ($old_verse_usfm != $new_verse_usfm) {
@@ -269,7 +269,7 @@ foreach ($bibles as $bible) {
             $new_text = $new_verse_usfm;
           }
           if ($old_text != $new_text) {
-            $modification = Filter_Diff::diff ($old_text, $new_text);
+            $modification = filter_diff_diff ($old_text, $new_text);
             $database_modifications->recordNotification ($changeNotificationUsers, "♺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
           }
         }
@@ -287,11 +287,11 @@ foreach ($bibles as $bible) {
 
 
 // Index the data and remove expired notifications.
-$database_logs->log ("Indexing the online change notifications", Filter_Roles::translator ());
+Database_Logs::log ("Indexing the online change notifications", Filter_Roles::translator ());
 $database_modifications->indexTrimAllNotifications ();
 
 
-$database_logs->log ("Ready generating lists of changes in the Bibles", Filter_Roles::translator ());
+Database_Logs::log ("Ready generating lists of changes in the Bibles", Filter_Roles::translator ());
 
 
 ?>

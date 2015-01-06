@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@ $database_users = Database_Users::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-$database_logs->log (gettext("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
+Database_Logs::log (gettext("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
 
 
 $response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  $database_logs->log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
   die;
 }
 
@@ -49,10 +49,10 @@ $address = $database_config_general->getServerAddress ();
 
 // Go through all notes which have actions recorded for them.
 $notes = $database_noteactions->getNotes ();
-foreach ($notes as $note) {
+for ($notes as $note) {
 
   $summary = $database_notes->getSummary ($note);
-  $database_logs->log (gettext("Sending note to server") . ": $summary", Filter_Roles::translator ());
+  Database_Logs::log (gettext("Sending note to server") . ": $summary", Filter_Roles::translator ());
 
 
   // Go through all the actions for the current note.
@@ -71,7 +71,7 @@ foreach ($notes as $note) {
   }
 
   // Deal with the note actions for this note.
-  foreach ($note_actions as $note_action) {
+  for ($note_actions as $note_action) {
 
     $rowid = $note_action ['rowid'];
     $username = $note_action ['username'];
@@ -99,7 +99,7 @@ foreach ($notes as $note) {
     $response = Sync_Logic::post ($post, $url);
 
     if ($response === false) {
-      $database_logs->log ("Failure sending and receiving Consultation Notes", Filter_Roles::translator ());
+      Database_Logs::log ("Failure sending and receiving Consultation Notes", Filter_Roles::translator ());
       die;
     }
 
@@ -108,7 +108,7 @@ foreach ($notes as $note) {
       
       @$response = unserialize ($response);
       if ($response === false) {
-        $database_logs->log ("Failure receiving Consultation Note", Filter_Roles::translator ());
+        Database_Logs::log ("Failure receiving Consultation Note", Filter_Roles::translator ());
         die;
       }
 
@@ -133,14 +133,14 @@ foreach ($notes as $note) {
       // Set modified field last as it is affected by the previous store actions.
       $database_notes->setModified ($note, $modified);
 
-      $database_logs->log ("Updated note received from server" . ": " . $summary, Filter_Roles::manager ());
+      Database_Logs::log ("Updated note received from server" . ": " . $summary, Filter_Roles::manager ());
 
       // Update search and checksum.
       $database_notes->updateSearchFields ($note);
       $database_notes->updateChecksum ($note);
 
     } else {
-      $database_logs->log ($response, Filter_Roles::translator ());
+      Database_Logs::log ($response, Filter_Roles::translator ());
     }
 
     // Delete this note action because it has been dealt with.
@@ -154,7 +154,7 @@ foreach ($notes as $note) {
 // the client will now sync its notes with the server's notes.
 $lowId = Notes_Logic::lowNoteIdentifier;
 $highId = Notes_Logic::highNoteIdentifier;
-Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$lowId", "$highId"));
+tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$lowId", "$highId"));
 
 
 ?>

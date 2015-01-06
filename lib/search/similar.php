@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -32,11 +32,11 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $myIdentifier = Filter_User::myIdentifier ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$load = $_GET ['load'];
+@$load = request->query ['load'];
 if (isset ($load)) {
 
   $book = $ipc_focus->getBook ();
@@ -46,13 +46,13 @@ if (isset ($load)) {
   // Text of the focused verse in the active Bible.
   // Remove all punctuation from it.
   $versetext = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
-  $punctuation = $database_config_bible->getSentenceStructureEndPunctuation ($bible);
+  $punctuation = Database_Config_Bible::getSentenceStructureEndPunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
   $versetext = str_replace ($punctuation, "", $versetext);
-  $punctuation = $database_config_bible->getSentenceStructureMiddlePunctuation ($bible);
+  $punctuation = Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
   $versetext = str_replace ($punctuation, "", $versetext);
-  $versetext = trim ($versetext);
+  $versetext = filter_string_trim ($versetext);
 
   $database_volatile->setValue ($myIdentifier, "searchsimilar", $versetext);
   
@@ -61,10 +61,10 @@ if (isset ($load)) {
 }
 
 
-@$words = $_GET ['words'];
+@$words = request->query ['words'];
 if (isset ($words)) {
 
-  $words = trim ($words);
+  $words = filter_string_trim ($words);
   $database_volatile->setValue ($myIdentifier, "searchsimilar", $words);
   $words = explode (" " , $words);
   
@@ -76,7 +76,7 @@ if (isset ($words)) {
   // The values are how often the identifiers occur in the entire focused verse.
   $identifiers = array ();
 
-  foreach ($words as $word) {
+  for ($words as $word) {
     
     // Find out how often this word occurs in the Bible. Skip if too often.
     $ids = $database_search->searchBibleText ($bible, $word);
@@ -84,7 +84,7 @@ if (isset ($words)) {
     if ($count > $maxcount) continue;
     
     // Store the identifiers and their count.
-    foreach ($ids as $id) {
+    for ($ids as $id) {
       if (isset ($identifiers [$id])) $identifiers [$id]++;
       else $identifiers [$id] = 1;
     }
@@ -96,7 +96,7 @@ if (isset ($words)) {
   
   // Output the passage identifiers to the browser.
   // Skip identifiers that only occur once.
-  foreach ($identifiers as $key => $value) {
+  for ($identifiers as $key => $value) {
     if ($value <= 1) continue;
     echo "$key\n";
   }
@@ -106,7 +106,7 @@ if (isset ($words)) {
 }
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if (isset ($id)) {
   
   // Get the Bible and passage for this identifier.

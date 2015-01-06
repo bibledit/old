@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,10 +31,10 @@ $database_logs = Database_Logs::getInstance ();
 $database_usfmresources = Database_UsfmResources::getInstance ();
 
 
-$action = $_POST ['a'];
-@$resource = $_POST ['r'];
-@$book = $_POST ['b'];
-@$chapter = $_POST ['c'];
+$action = request->post ['a'];
+@$resource = request->post ['r'];
+@$book = request->post ['b'];
+@$chapter = request->post ['c'];
 
 
 if ($action == "total") {

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,15 +17,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Sprint") ?></h3>
-<p class="error"><?php echo $this->error ?></p>
-<p class="success"><?php echo $this->success ?></p>
+<h3>gettext("Sprint")</h3>
+<p class="error">$this->error</p>
+<p class="success">$this->success</p>
 <p>
-  <?php echo gettext("Bible") ?>:
-  <a href="?bible="><?php echo $this->bible ?></a>
+  gettext("Bible"):
+  <a href="?bible=">$this->bible</a>
   |
   <a href="?previoussprint=">«</a>
-  <a href="?currentprint="><?php echo $this->sprint ?></a>
+  <a href="?currentprint=">$this->sprint</a>
   <a href="?nextsprint=">»</a>
 </p>
 <br>
@@ -33,18 +33,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <tr>
     <td></td>
     <td></td>
-    <?php foreach ($this->categories as $offset => $category) { ?>
-      <td style="text-align:center"><?php echo $category ?></td>
-    <?php } ?>
+    <?php for ($this->categories as $offset => $category) {
+      <td style="text-align:center">$category</td>
+    <?php }
   </tr>
-<?php foreach ($this->tasks as $offset => $id) { ?>
+<?php for ($this->tasks as $offset => $id) {
   <tr>
-    <td><a href="?id=<?php echo $id ?>&moveback="> « </a></td>
-    <td><?php echo $this->titles [$offset] ?></td>
+    <td><a href="?id=$id&moveback="> « </a></td>
+    <td>$this->titles [$offset]</td>
     <?php
     $category_count = count ($this->categories);
     $category_percentage = 100 / $category_count;
-    foreach ($this->categories as $offset2 => $category) {
+    for ($this->categories as $offset2 => $category) {
       $low = intval ($offset2 * $category_percentage);
       $high = intval (($offset2 + 1) * $category_percentage);
       $background = "";
@@ -59,35 +59,35 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
       }
       echo "</td>";
     }
-    ?>
-    <td><a href="?id=<?php echo $id ?>&moveforward="> » </a></td>
+   
+    <td><a href="?id=$id&moveforward="> » </a></td>
   </tr>
-<?php } ?>
+<?php }
 </table>
 <br>
-<p><?php echo gettext('Sprint Burndown Chart - Remaining Tasks') ?></p>
-<?php if ($this->chart) { ?>
-  <img src="data:image/png;base64,<?php echo $this->chart ?>" />
-<?php } ?>
-<p><?php echo $this->chart2 ?></p>
+<p>gettext('Sprint Burndown Chart - Remaining Tasks')</p>
+<?php if ($this->chart) {
+  <img src="data:image/png;base64,$this->chart" />
+<?php }
+<p>$this->chart2</p>
 <br>
-<p><a href="?mail="><?php echo gettext("Mail information to subscribers") ?></a></p>
+<p><a href="?mail=">gettext("Mail information to subscribers")</a></p>
 <br>
 <form action="index.php" name="addtask" method="post">
   <p>
-    <?php echo gettext("Add task") ?>
+    gettext("Add task")
     <input type="text" name="add" maxlength="256" />
-    <input type="submit" name="submit" value="<?php echo gettext("Add") ?>" />
+    <input type="submit" name="submit" value="gettext("Add")" />
   </p>
 </form>
 <br>
 <form action="" name="categories" method="post">
   <p>
-    <?php echo gettext("Enter task completion categories.") ?>
-    <?php echo gettext("One per line.") ?>
+    gettext("Enter task completion categories.")
+    gettext("One per line.")
   </p>
-  <p><textarea name="categories" style="width:100px"><?php echo $this->categorytext ?></textarea></p>
-  <p><input type="submit" name="save" value="<?php echo gettext("Save") ?>" /></p>
+  <p><textarea name="categories" style="width:100px">$this->categorytext</textarea></p>
+  <p><input type="submit" name="save" value="gettext("Save")" /></p>
 </form>
 <br>
 <a id="help"></a>

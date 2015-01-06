@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,24 +17,24 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Edit Note Source") ?></h1>
-<p class="error"><?php echo $this->error ?></p>
-<p class="success"><?php echo $this->success ?></p>
-<p><?php echo gettext("You can edit the source of a Consultation Note.") ?></p>
-<p><?php echo gettext("Each Consultation Notes has an identifier.") ?></p>
-<p><?php echo gettext("The identifier of a Consultation Note can be seen through the Actions link of that note.") ?></p>
-<p><?php echo gettext("Example:") ?></p>
-<p><?php echo gettext("Identifier:") ?> 943430030.</p>
+<h1>gettext("Edit Note Source")</h1>
+<p class="error">$this->error</p>
+<p class="success">$this->success</p>
+<p>gettext("You can edit the source of a Consultation Note.")</p>
+<p>gettext("Each Consultation Notes has an identifier.")</p>
+<p>gettext("The identifier of a Consultation Note can be seen through the Actions link of that note.")</p>
+<p>gettext("Example:")</p>
+<p>gettext("Identifier:") 943430030.</p>
 <br>
-<p><?php echo gettext("Enter the identifier of the Consultation Note to be edited and press Submit.") ?></p>
+<p>gettext("Enter the identifier of the Consultation Note to be edited and press Submit.")</p>
 <form action="editsource.php" name="noteid" method="post">
   <p>
-  <input type="text" name="identifier" maxlength="15" class="focus" value="<?php echo $this->identifier ?>" />
-  <input type="submit" name="submit" value=<?php echo gettext("Submit") ?> />
+  <input type="text" name="identifier" maxlength="15" class="focus" value="$this->identifier" />
+  <input type="submit" name="submit" value=gettext("Submit") />
   </p>
 </form>
 <br>
-<form action="editsource.php?identifier=<?php echo $this->identifier ?>" name="notetext" method="post">
-  <p><textarea name="data"><?php echo $this->data ?></textarea></p>
-  <p><input type="submit" name="save" value=<?php echo gettext("Save") ?> /></p>
+<form action="editsource.php?identifier=$this->identifier" name="notetext" method="post">
+  <p><textarea name="data">$this->data</textarea></p>
+  <p><input type="submit" name="save" value=gettext("Save") /></p>
 </form>

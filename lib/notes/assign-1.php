@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,15 +27,15 @@ $notes_logic = Notes_Logic::getInstance();
 $database_users = Database_Users::getInstance();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
-@$assign = $_GET['assign'];
+@$assign = request->query['assign'];
 if (isset ($assign)) {
   if ($database_users->usernameExists ($assign)) {
     $notes_logic->assignUser ($id, $assign);
   }
-  Filter_Url::redirect ("actions.php?id=$id");
+  redirect_browser ("actions.php?id=$id");
   die;
 }
 
@@ -51,11 +51,11 @@ $view->view->id = $id;
 
 
 // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to.
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $users = $database_users->getUsers ();
-foreach ($users as $offset => $user) {
+for ($users as $offset => $user) {
   $access = false;
-  foreach ($bibles as $bible) {
+  for ($bibles as $bible) {
     if (!$access) {
       $access = $database_users->hasAccess2Bible ($user, $bible);
     }

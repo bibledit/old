@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ class Checks_Sentences
     $this->names = array ();
     $names = str_replace ("\n", " ", $names);
     $names = explode (" ", $names);
-    foreach ($names as $name) {
+    for ($names as $name) {
       if ($name != "") {
         // Limit the length to the left of the suffix in the test.
         $name = mb_substr ($name, 0, 11);
@@ -123,13 +123,13 @@ class Checks_Sentences
     $verse_numbers = array ();
     $graphemes = array ();
     $iterations = 0;
-    foreach ($texts as $verse => $text) {
+    for ($texts as $verse => $text) {
       // For the second and subsequent verse_numbers, add a space to the text,
       // because this is what is supposed to happen in USFM.
       if ($iterations > 0) {
         $verse_numbers [] = $verse;
         $graphemes [] = " ";
-        $this->fullText .= " ";
+        $this->fullText += " ";
       }
       // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
       $count = mb_strlen ($text);
@@ -140,7 +140,7 @@ class Checks_Sentences
         // Store verse numbers and graphemes.
         $verse_numbers [] = $verse;
         $graphemes [] = $grapheme;
-        $this->fullText .= $grapheme;
+        $this->fullText += $grapheme;
       }
       // Next iteration.
       $iterations++;
@@ -218,7 +218,7 @@ class Checks_Sentences
     $graphemes = array ();
 
     // Put the UTF-8 text into the arrays of verses and graphemes.
-    foreach ($texts as $verse => $text) {
+    for ($texts as $verse => $text) {
       $count = mb_strlen ($text);
       for ($i = 0; $i < $count; $i++) {
         $grapheme = mb_substr ($text, $i, 1);
@@ -289,16 +289,16 @@ class Checks_Sentences
     // Check whether the result can be skipped due to a name being involved.
     if ($modifier == 3) {
       $haystack = $this->grapheme . $nextFragment;
-      foreach ($this->names as $name) {
+      for ($this->names as $name) {
         if (strpos ($haystack, $name) === 0) return;
       }
     }
     // Assemble text for checking result.
     if ($modifier == 1) {
-      $text .= ": " . $this->grapheme;
+      $text += ": " . $this->grapheme;
     }
     if (($modifier == 2) || ($modifier == 3)) {
-      $text .= ": " . $previousFragment . $this->grapheme . $nextFragment;
+      $text += ": " . $previousFragment . $this->grapheme . $nextFragment;
     }
     // Store checking result.
     $this->checkingResults [] = array ($this->verseNumber => $text);

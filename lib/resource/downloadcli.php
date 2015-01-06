@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,36 +36,36 @@ $resource = Filter_Cli::argument (@$argv, 1);
 $book = Filter_Cli::argument (@$argv, 2);
 
 
-$bookName = $database_books->getEnglishFromId ($book);
+$bookName = Database_Books::getEnglishFromId ($book);
 
 
-$database_logs->log ("$resource $bookName: Download has started", Filter_Roles::manager ());
+Database_Logs::log ("$resource $bookName: Download has started", Filter_Roles::manager ());
 
 
 $versification = $database_resources->getVersification ($resource);
 
 
 $chapters = $database_versifications->getChapters ($versification, $book, true);
-foreach ($chapters as $chapter) {
+for ($chapters as $chapter) {
   $message = "$resource: $bookName chapter $chapter";
   $verses = $database_versifications->getVerses ($versification, $book, $chapter);
-  foreach ($verses as $verse) {
-    $message .= "; verse $verse: ";
+  for ($verses as $verse) {
+    $message += "; verse $verse: ";
     if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
-      $message .= "exists";
+      $message += "exists";
     } else {
       $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, false);
       $database_offlineresources->store ($resource, $book, $chapter, $verse, $html);
       $size = strlen ($html);
-      $message .= "size $size";
+      $message += "size $size";
     }
   }
-  $message .= "; done";
-  $database_logs->log ($message, Filter_Roles::manager ());
+  $message += "; done";
+  Database_Logs::log ($message, Filter_Roles::manager ());
 }
 
 
-$database_logs->log (gettext("Completed") . " $resource $bookName", Filter_Roles::manager ());
+Database_Logs::log (gettext("Completed") . " $resource $bookName", Filter_Roles::manager ());
 
 
 ?>

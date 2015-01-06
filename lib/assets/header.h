@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,13 +31,13 @@ public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
   void jQueryUIOn (string subset = "");
-  void addHeadLine (string line);
   void setLogin ();
   void setNavigator ();
   void setStylesheet ();
   void setEditorStylesheet ();
   void setSearchQuery (string query);
   bool displayTopbar ();
+  void refresh (int seconds);
   string run ();
 private:
   Assets_View * view;
@@ -45,8 +45,8 @@ private:
   string JQueryUISubset;
   vector <string> headLines;
   bool displayNavigator;
-  bool includedStylesheet;
-  bool includedEditorStylesheet;
+  string includedStylesheet;
+  string includedEditorStylesheet;
   void * webserver_request;
   string loginrequest;
 };

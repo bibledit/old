@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Select the new status for the note") ?></h3>
+<h3>gettext("Select the new status for the note")</h3>
 <ul>
-<?php foreach ($this->statuses as $status) { ?>
-  <li><a href="status-1.php?id=<?php echo $this->id ?>&status=<?php echo $status[0] ?>"><?php echo $status[0] ?></a></li>
-<?php } ?>
+<?php for ($this->statuses as $status) {
+  <li><a href="status-1.php?id=$this->id&status=$status[0]">$status[0]</a></li>
+<?php }
 </ul>
-<h4><a href="actions.php?id=<?php echo $this->id ?>"><?php echo gettext("Cancel") ?></a></h4>
+<h4><a href="actions.php?id=$this->id">gettext("Cancel")</a></h4>

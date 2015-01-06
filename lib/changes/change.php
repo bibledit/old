@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_modifications = Database_Modifications::getInstance ();
@@ -30,7 +30,7 @@ $session_logic = Session_Logic::getInstance();
 
 
 // Note unsubscribe handler.
-@$unsubscribe = $_POST['unsubscribe'];
+@$unsubscribe = request->post['unsubscribe'];
 if (isset ($unsubscribe)) {
   $database_notes->unsubscribe (Filter_Numeric::integer_in_string ($unsubscribe));
   die;
@@ -38,7 +38,7 @@ if (isset ($unsubscribe)) {
 
 
 // Note unassign handler.
-@$unassign = $_POST['unassign'];
+@$unassign = request->post['unassign'];
 if (isset ($unassign)) {
   $notes_logic->unassignUser (Filter_Numeric::integer_in_string ($unassign), $session_logic->currentUser ());
   die;
@@ -46,7 +46,7 @@ if (isset ($unassign)) {
 
 
 // Note mark for deletion handler.
-@$delete = $_POST['delete'];
+@$delete = request->post['delete'];
 if (isset ($delete)) {
   $identifier = Filter_Numeric::integer_in_string ($delete);
   $notes_logic->markForDeletion ($identifier);
@@ -63,7 +63,7 @@ $view->view->level = $level;
 
 
 // The identifier of the change notification.
-@$id = $_GET ["get"];
+@$id = request->query ["get"];
 $view->view->id = $id;
 
 
@@ -78,7 +78,7 @@ $view->view->new_text = $new_text;
 
 // Bibles and passage.
 $passage = $database_modifications->getNotificationPassage ($id);
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 
 
 // Get notes for the passage.
@@ -98,7 +98,7 @@ $notes = $database_notes->selectNotes (
   NULL); // Limit.
 
 // Remove the ones marked for deletion.
-foreach ($notes as $offset => $note) {
+for ($notes as $offset => $note) {
   if ($database_notes->isMarkedForDeletion ($note)) {
     unset ($notes [$offset]);
   }
@@ -106,7 +106,7 @@ foreach ($notes as $offset => $note) {
 
 // Sort them, most recent notes first.
 $timestamps = array ();
-foreach ($notes as $note) {
+for ($notes as $note) {
   $timestap = $database_notes->getModified ($note);
   $timestamps [] = $timestap;
 }
@@ -117,9 +117,9 @@ array_multisort ($timestamps, SORT_DESC, $notes);
 $summaries = array ();
 $subscriptions = array ();
 $assignments = array ();
-foreach ($notes as $note) {
+for ($notes as $note) {
   $summary = $database_notes->getSummary ($note);
-  $summary = Filter_Html::sanitize ($summary);
+  $summary = filter_string_sanitize_html ($summary);
   $summaries [] = $summary;
   $subscriptions [] = $database_notes->isSubscribed ($note, $username);
   $assignments [] = $database_notes->isAssigned ($note, $username);

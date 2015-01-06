@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@ page_access_level (Filter_Roles::translator ());
 
 
 // Get search variables from the query.
-@$bible = $_GET ['b'];
-@$searchfor = $_GET ['q'];
-@$casesensitive = ($_GET ['c'] == "true");
-@$searchplain = ($_GET ['p'] == "true");
+@$bible = request->query ['b'];
+@$searchfor = request->query ['q'];
+@$casesensitive = (request->query ['c'] == "true");
+@$searchplain = (request->query ['p'] == "true");
 
 
 $database_search = Database_Search::getInstance ();
@@ -49,7 +49,7 @@ if ($casesensitive) {
 
 
 // Output identifiers of the search results.
-foreach ($hits as $hit) {
+for ($hits as $hit) {
   echo "$hit\n";
 }
 

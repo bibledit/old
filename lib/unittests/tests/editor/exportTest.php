@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
  
-class editorExportTest extends PHPUnit_Framework_TestCase
+class editorExportTest extends PHPUnit_Framework_TestCase //  // Todo port it.
 {
 
 
@@ -54,7 +54,7 @@ $standard = <<<'EOD'
 \p The earth brought forth.
 \f +\f*
 EOD;
-    $this->assertEquals ($standard, trim ($usfm));
+    $this->assertEquals ($standard, filter_string_trim ($usfm));
   }
 
 
@@ -76,7 +76,7 @@ $standard = <<<'EOD'
 \p The earth brought forth.
 \f + \fk brought: \fl Heb. \fq explanation.\f*
 EOD;
-    $this->assertEquals ($standard, trim ($usfm));
+    $this->assertEquals ($standard, filter_string_trim ($usfm));
   }
 
 
@@ -93,7 +93,7 @@ EOD;
 $standard = <<<'EOD'
 \p The earth brought forth.
 EOD;
-    $this->assertEquals ($standard, trim ($usfm));
+    $this->assertEquals ($standard, filter_string_trim ($usfm));
   }
 
 

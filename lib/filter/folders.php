@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ class Filter_Folders
   // It returns the remaining entries.
   public static function cleanup ($files)
   {
-    foreach ($files as $offset => $file) {
+    for ($files as $offset => $file) {
       if ($file == ".") unset ($files [$offset]);
       if ($file == "..") unset ($files [$offset]);
       if ($file == ".htaccess") unset ($files [$offset]);

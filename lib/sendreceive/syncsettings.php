@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,12 +56,12 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure synchronizing Settings while requesting totals", Filter_Roles::translator ());
+  Database_Logs::log ("Failure synchronizing Settings while requesting totals", Filter_Roles::translator ());
   die;
 }
 $checksum = Sync_Logic::settings_checksum ();
 if ($response == $checksum) {
-  $database_logs->log ("The Settings are up to date", Filter_Roles::translator ());
+  Database_Logs::log ("The Settings are up to date", Filter_Roles::translator ());
   die;
 }
 
@@ -75,7 +75,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure receiving Settings", Filter_Roles::translator ());
+  Database_Logs::log ("Failure receiving Settings", Filter_Roles::translator ());
   die;
 }
 $urls = $response ['urls'];
@@ -90,7 +90,7 @@ $database_config_user->setWorkbenchHeights ($heights);
 
 
 // Done.
-$database_logs->log ("The Settings have been updated", Filter_Roles::translator ());
+Database_Logs::log ("The Settings have been updated", Filter_Roles::translator ());
 
 
 ?>

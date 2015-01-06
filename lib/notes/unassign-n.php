@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ $view = new Assets_View (__FILE__);
 
 // Notes can be unassigned from users who have access to the Bibles 
 // the currently logged-in user has access to, and who have notes assigned.
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $users = $database_notes->getAllAssignees ($bibles);
 $view->view->users = $users;
 

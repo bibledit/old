@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ EOD;
   }
 
 
-  public function trim ()
+  public function filter_string_trim ()
   {
     Database_SQLite::exec ($this->db, "DELETE FROM shell;");
   }
@@ -93,7 +93,7 @@ EOD;
     $pid = Database_SQLiteInjection::no ($pid);
     $query = "SELECT output FROM shell WHERE name = '$name' AND pid = '$pid';";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       return $row[0];
     }
     return "";
@@ -109,7 +109,7 @@ EOD;
     $pid = Database_SQLiteInjection::no ($pid);
     $query = "SELECT run FROM shell WHERE name = '$name' AND pid = '$pid';";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       return  (boolean) $row[0];
     }
     return false;
@@ -137,7 +137,7 @@ EOD;
     $pid = Database_SQLiteInjection::no ($pid);
     $query = "SELECT run FROM shell WHERE name = '$name' AND pid = '$pid';";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       return  !(boolean) $row[0];
     }
     return false;
@@ -159,7 +159,7 @@ EOD;
   public function debug ()
   {
     $result = Database_SQLite::query ($this->db, "SELECT * from shell;");
-    foreach ($result as $row) {
+    for ($result as $row) {
       for ($i = 0; $i <= 3; $i++) unset ($row[$i]);
       var_dump ($row);
     }

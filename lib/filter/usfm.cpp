@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,9 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/usfm.h>
 #include <filter/string.h>
+#include <filter/diff.h>
 #include <database/books.h>
 #include <database/styles.h>
+#include <database/logs.h>
 #include <styles/logic.h>
+#include <webserver/request.h>
+#include <bible/logic.h>
 
 
 BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)
@@ -650,4 +654,48 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
   if (punctuation.find (character) != punctuation.end()) position--;
 
   return position;
+}
+
+
+// Function to safely store a chapter.
+// It saves the chapter if the new USFM does not differ too much from the existing USFM.
+// It returns true or false depending on success.
+// This function proves useful in cases that the text in the Bible editor gets corrupted
+// due to human error.
+// It also is useful in cases where the session is deleted from the server, so that the text in the editors get corrupted.
+// It also is useful in view of some unstable connections between browser and server, to prevent data corruption.
+bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Existing chapter contents.
+  string existing = request->database_bibles()->getChapter (bible, book, chapter);
+  
+  // Bail out if the existing chapter equals the USFM to be saved.
+  if (usfm == existing) return true;
+  
+  // The length of the new USFM code should not differ more than 20% from the existing USFM code.
+  float existingLength = existing.length();
+  float newLength = usfm.length ();
+  int percentage = 100 * (newLength - existingLength) / existingLength;
+  percentage = abs (percentage);
+  if (percentage > 20) {
+    Database_Logs::log ("The chapter was not saved for safety reasons. The length differs " + convert_to_string (percentage) + "% from the existing chapter. Make minor changes and save often.");
+    Database_Logs::log (bible + " " + Database_Books::getEnglishFromId (book) + " " + convert_to_string (chapter));
+    Database_Logs::log (usfm);
+    return false;
+  }
+  
+  // The text of the new chapter should be at least 80% similar to the existing text.
+  percentage = filter_diff_similarity (existing, usfm);
+  if (percentage < 80) {
+    Database_Logs::log ("The chapter was not saved for safety reasons. The new is " + convert_to_string (percentage) + "% similar to the existing text. Make minor changes and save often.");
+    Database_Logs::log (bible + " " + Database_Books::getEnglishFromId (book) + " " + convert_to_string (chapter));
+    Database_Logs::log (usfm);
+    return false;
+  }
+  
+  // Safety checks have passed: Save chapter.
+  Bible_Logic::storeChapter (bible, book, chapter, usfm);
+  return true;
 }

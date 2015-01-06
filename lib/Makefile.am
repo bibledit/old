@@ -15,6 +15,11 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
+	filter/customcss.cpp \
+	filter/bibleworks.cpp \
+	filter/git.cpp \
+	filter/diff.cpp \
+	filter/abbreviations.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -69,6 +74,11 @@ libbibledit_a_SOURCES = \
 	journal/index.cpp \
 	styles/logic.cpp \
 	styles/indext.cpp \
+	styles/indexm.cpp \
+	styles/sheetm.cpp \
+	styles/view.cpp \
+	styles/css.cpp \
+	styles/sheets.cpp \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \
@@ -79,6 +89,16 @@ libbibledit_a_SOURCES = \
 	tasks/run.cpp \
 	config/logic.cpp \
 	bible/logic.cpp \
+	bible/manage.cpp \
+	bible/settings.cpp \
+	bible/book.cpp \
+	bible/chapter.cpp \
+	bible/import_usfm.cpp \
+	bible/import_bibleworks.cpp \
+	bible/import_task.cpp \
+	bible/abbreviations.cpp \
+	bible/order.cpp \
+	bible/css.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
@@ -98,7 +118,34 @@ libbibledit_a_SOURCES = \
 	access/user.cpp \
 	access/bible.cpp \
 	dialog/entry.cpp \
-	dialog/list.cpp
+	dialog/list.cpp \
+	dialog/yes.cpp \
+	dialog/color.cpp \
+	dialog/books.cpp \
+	dialog/upload.cpp \
+	fonts/logic.cpp \
+	fonts/index.cpp \
+	versification/index.cpp \
+	versification/system.cpp \
+	book/create.cpp \
+	compare/index.cpp \
+	compare/compare.cpp \
+	jobs/index.cpp \
+	editverse/index.cpp \
+	editverse/id.cpp \
+	editverse/load.cpp \
+	editverse/save.cpp \
+	navigation/passage.cpp \
+	navigation/update.cpp \
+	navigation/poll.cpp \
+	ipc/focus.cpp \
+	checksum/logic.cpp \
+	editusfm/focus.cpp \
+	editusfm/id.cpp \
+	editusfm/index.cpp \
+	editusfm/load.cpp \
+	editusfm/offset.cpp \
+	editusfm/save.cpp
 
 bin_PROGRAMS = server unittest
 
@@ -110,7 +157,6 @@ unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
 	unittests/libraries.cpp \
-	unittests/database_config.cpp \
 	unittests/filters.cpp \
 	unittests/databases.cpp
 

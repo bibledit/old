@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,36 +34,36 @@ $targetBible = $database_config_user->getTargetXrefBible ();
 
 
 // Save book / abbreviation pair.
-if (isset ($_POST ['save'])) {
-  $fullname = $_POST ['fullname'];
-  $abbreviation = $_POST ['abbreviation'];
-  $abbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
-  $abbreviations = Filter_Abbreviations::display ($abbreviations);
-  $abbreviations .= "\n$fullname = $abbreviation";
-  $database_config_bible->setBookAbbreviations ($targetBible, $abbreviations);
+if (isset (request->post ['save'])) {
+  $fullname = request->post ['fullname'];
+  $abbreviation = request->post ['abbreviation'];
+  $abbreviations = Database_Config_Bible::getBookAbbreviations ($targetBible);
+  $abbreviations = filter_abbreviations_display ($abbreviations);
+  $abbreviations += "\n$fullname = $abbreviation";
+  Database_Config_Bible::setBookAbbreviations ($targetBible, $abbreviations);
 }
 
 
-$sourceAbbreviations = $database_config_bible->getBookAbbreviations ($sourceBible);
-$sourceAbbreviations = Filter_Abbreviations::read ($sourceAbbreviations);
+$sourceAbbreviations = Database_Config_Bible::getBookAbbreviations ($sourceBible);
+$sourceAbbreviations = filter_abbreviations_read ($sourceAbbreviations);
 $sourceAbbreviations = array_values ($sourceAbbreviations);
 
 
-$targetAbbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
-$targetAbbreviations = Filter_Abbreviations::read ($targetAbbreviations);
+$targetAbbreviations = Database_Config_Bible::getBookAbbreviations ($targetBible);
+$targetAbbreviations = filter_abbreviations_read ($targetAbbreviations);
 $targetAbbreviations = array_values ($targetAbbreviations);
 
 
-$unknown_abbreviations = array_diff ($sourceAbbreviations, $targetAbbreviations);
+$unknown_abbreviations = filter_string_array_diff ($sourceAbbreviations, $targetAbbreviations);
 $unknown_abbreviations = array_unique ($unknown_abbreviations);
-foreach ($unknown_abbreviations as &$abbreviation) {
-  $abbreviation = $database_books->getEnglishFromId ($abbreviation);
+for ($unknown_abbreviations as &$abbreviation) {
+  $abbreviation = Database_Books::getEnglishFromId ($abbreviation);
 }
 $unknown_abbreviations = array_values ($unknown_abbreviations);
 
 
 if (empty ($unknown_abbreviations)) {
-  Filter_Url::redirect ("clear.php");
+  redirect_browser ("clear.php");
   die;
 }
 

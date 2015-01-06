@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ class Filter_Cli
   {
     $argument = "";
     if (isset ($argv [$key])) $argument = $argv [$key];
-    if (isset ($_GET [$key])) $argument = $_GET [$key];
+    if (isset (request->query [$key])) $argument = request->query [$key];
     return $argument;
   }
   

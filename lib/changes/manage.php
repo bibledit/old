@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ $config_general = Database_Config_General::getInstance ();
 $database_logs = Database_Logs::getInstance ();
 
 
-@$clear = $_GET['clear'];
+@$clear = request->query['clear'];
 if (isset ($clear)) {
   // Just in case there are many change notifications to clear, be sure the script does not time out or abort.
   ignore_user_abort (true);
@@ -41,7 +41,7 @@ if (isset ($clear)) {
 $users = access_user_assignees ();
 $pendingUsers = array ();
 $pendingCount = array ();
-foreach ($users as $user) {
+for ($users as $user) {
   $ids = $database_modifications->getNotificationIdentifiers ($user);
   $count = count ($ids);
   if ($count > 0) {

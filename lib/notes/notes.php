@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance ();
@@ -33,7 +33,7 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible());
+$bible = access_bible_clamp ($database_config_user->getBible());
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 $verse = $ipc_focus->getVerse ();
@@ -57,7 +57,7 @@ $view = new Assets_View (__FILE__);
 
 
 // The Bibles the current user has access to.
-$bibles = Access_Bible::bibles ($session_logic->currentUser ());
+$bibles = access_bible_bibles ($session_logic->currentUser ());
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -75,7 +75,7 @@ $view->view->count = $count;
 $summaries = array ();
 $verse_texts = array ();
 $contents = array ();
-foreach ($identifiers as $identifier) {
+for ($identifiers as $identifier) {
 
   $summary = $database_notes->getSummary ($identifier);
 
@@ -86,11 +86,11 @@ foreach ($identifiers as $identifier) {
   $verse_text = "";
   if ($passage_inclusion_selector) {
     $passages = $database_notes->getPassages ($identifier);
-    foreach ($passages as $passage) {
+    for ($passages as $passage) {
       $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
       $text = usfm_get_verse_text ($usfm, $passage[2]);
-      $verse_text .= $text;
-      $verse_text .= "\n";
+      $verse_text += $text;
+      $verse_text += "\n";
     }
   }
   $verse_texts [] = nl2br ($verse_text);

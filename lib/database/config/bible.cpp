@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,19 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <filter/url.h>
 #include <filter/string.h>
-
-
-using namespace std;
-
-
-Database_Config_Bible::Database_Config_Bible ()
-{
-}
-
-
-Database_Config_Bible::~Database_Config_Bible ()
-{
-}
 
 
 // Functions for getting and setting values or lists of values.
@@ -70,6 +57,18 @@ bool Database_Config_Bible::getBValue (string bible, const char * key, bool defa
 
 
 void Database_Config_Bible::setBValue (string bible, const char * key, bool value)
+{
+  setValue (bible, key, convert_to_string (value));
+}
+
+
+int Database_Config_Bible::getIValue (string bible, const char * key, int default_value)
+{
+  return convert_to_int (getValue (bible, key, convert_to_string (default_value).c_str()));
+}
+
+
+void Database_Config_Bible::setIValue (string bible, const char * key, int value)
 {
   setValue (bible, key, convert_to_string (value));
 }
@@ -538,13 +537,13 @@ void Database_Config_Bible::setBookOrder (string bible, string value)
 }
 
 
-string Database_Config_Bible::getTextDirection (string bible)
+int Database_Config_Bible::getTextDirection (string bible)
 {
-  return getValue (bible, "text-direction", "0");
+  return getIValue (bible, "text-direction", 0);
 }
-void Database_Config_Bible::setTextDirection (string bible, string value) 
+void Database_Config_Bible::setTextDirection (string bible, int value)
 {
-  setValue (bible, "text-direction", value);
+  setIValue (bible, "text-direction", value);
 }
 
 

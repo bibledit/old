@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ $tidied = explode ("\n", $tidy);
 $filtered_lines = array ();
 
 $relevant_line = 0;
-foreach ($tidied as $line) {
+for ($tidied as $line) {
   if (strpos ($line, '<div') !== false) {
     $relevant_line = 0;
   }
@@ -181,8 +181,8 @@ EOD;
 $output = $stylesheet;
 // The following line prevents the Hebrew and Greek from floating around
 // the name of the Resource, which would disturb the order of the words in Hebrew.
-$output .= "<p></p>\n";
-$output .= $html;
+$output += "<p></p>\n";
+$output += $html;
 
 
 ?>

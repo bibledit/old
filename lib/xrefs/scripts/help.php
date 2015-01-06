@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,40 +17,40 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Place cross references") ?></h3>
-<p><a href="index.php">[<?php echo gettext("back") ?></a>]</p>
-<h4><?php echo gettext("Introduction") ?></h4>
+<h3>gettext("Place cross references")</h3>
+<p><a href="index.php">[gettext("back")</a>]</p>
+<h4>gettext("Introduction")</h4>
 <p>
-  <?php echo gettext("The tool to place cross references enables you to easily and quickly place cross references in a Bible.") ?>
-  <?php echo gettext("The tool has two main functions:") ?>
+  gettext("The tool to place cross references enables you to easily and quickly place cross references in a Bible.")
+  gettext("The tool has two main functions:")
 </p>
 <ol>
 <li>
-  <?php echo gettext("Read the cross references from a source Bible, and place them in a target Bible.") ?>
+  gettext("Read the cross references from a source Bible, and place them in a target Bible.")
 </li>
 <li>
-  <?php echo gettext("Move cross references in the target Bible to their proper locations within a verse.") ?>
+  gettext("Move cross references in the target Bible to their proper locations within a verse.")
 </li>
 </ol>
-<h4><?php echo gettext("Placing cross references") ?></h4>
+<h4>gettext("Placing cross references")</h4>
 <p>
-  <?php echo gettext("Click the link to copy the cross references.") ?>
-  <?php echo gettext("Bibledit reads the cross references from the entire focused chapter of the source Bible.") ?>
-  <?php echo gettext("It interprets the book abbreviations.") ?>
-  <?php echo gettext("It then translates those abbreviations to the abbreviations as used in the target Bible.") ?>
-  <?php echo gettext("It then places the cross references in the entire focused chapter of the target Bible.") ?>
+  gettext("Click the link to copy the cross references.")
+  gettext("Bibledit reads the cross references from the entire focused chapter of the source Bible.")
+  gettext("It interprets the book abbreviations.")
+  gettext("It then translates those abbreviations to the abbreviations as used in the target Bible.")
+  gettext("It then places the cross references in the entire focused chapter of the target Bible.")
 </p>
-<h4><?php echo gettext("Moving cross references") ?></h4>
+<h4>gettext("Moving cross references")</h4>
 <p>
-  <?php echo gettext("The page displays one verse a time.") ?>
-  <?php echo gettext("Select the verses one by one, and move the cross references into place.") ?>
-  <?php echo gettext("Everything can be done through the arrow keys on the keyboard.") ?>
+  gettext("The page displays one verse a time.")
+  gettext("Select the verses one by one, and move the cross references into place.")
+  gettext("Everything can be done through the arrow keys on the keyboard.")
 </p>
 <ul>
-<li><?php echo gettext("Left arrow: Move the selected cross reference one word back.") ?></li>
-<li><?php echo gettext("Right arrow: Move the selected cross reference one word forward.") ?></li>
-<li><?php echo gettext("Up arrow: Select the previous cross reference.") ?></li>
-<li><?php echo gettext("Down arrow: Select the next cross reference.") ?></li>
-<li><?php echo gettext("Alt-Up arrow: Go to the next verse.") ?></li>
-<li><?php echo gettext("Alt-Down arrow: Go to the previous verse.") ?></li>
+<li>gettext("Left arrow: Move the selected cross reference one word back.")</li>
+<li>gettext("Right arrow: Move the selected cross reference one word forward.")</li>
+<li>gettext("Up arrow: Select the previous cross reference.")</li>
+<li>gettext("Down arrow: Select the next cross reference.")</li>
+<li>gettext("Alt-Up arrow: Go to the next verse.")</li>
+<li>gettext("Alt-Down arrow: Go to the previous verse.")</li>
 </ul>

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,9 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-
-
-using namespace std;
 
 
 class Database_Styles_Item
@@ -51,7 +48,7 @@ public:
   float rightmargin;
   float firstlineindent;
   bool spancolumns;
-  int color;
+  string color;
   bool print;
   bool userbool1;
   bool userbool2;
@@ -71,6 +68,7 @@ public:
   Database_Styles ();
   ~Database_Styles ();
   void create ();
+  string standard ();
   void createSheet (string sheet);
   vector <string> getSheets ();
   void deleteSheet (string sheet);
@@ -97,7 +95,7 @@ public:
   void updateRightMargin (string sheet, string marker, float rightmargin);
   void updateFirstLineIndent (string sheet, string marker, float firstlineindent);
   void updateSpanColumns (string sheet, string marker, bool spancolumns);
-  void updateColor (string sheet, string marker, int color);
+  void updateColor (string sheet, string marker, string color);
   void updatePrint (string sheet, string marker, bool print);
   void updateUserbool1 (string sheet, string marker, bool userbool1);
   void updateUserbool2 (string sheet, string marker, bool userbool2);

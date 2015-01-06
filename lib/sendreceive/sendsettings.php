@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@ $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$database_logs->log (gettext("Sending and receiving Settings"), Filter_Roles::translator ());
+Database_Logs::log (gettext("Sending and receiving Settings"), Filter_Roles::translator ());
 
 
 $response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  $database_logs->log (gettext("Failure sending and receiving Settings"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Failure sending and receiving Settings"), Filter_Roles::translator ());
   die;
 }
 
@@ -56,9 +56,9 @@ $url = "$address/sync/setting.php";
 // Go through all settings flagged as having been updated on this client.
 $ids = $database_config_user->getUpdatedSettings ();
 if (!empty ($ids)) {
-  $database_logs->log (gettext("Sending settings"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Sending settings"), Filter_Roles::translator ());
 }
-foreach ($ids as $id) {
+for ($ids as $id) {
 
   // Get and serialize the setting.
   $setting = null;
@@ -91,7 +91,7 @@ foreach ($ids as $id) {
 
   // Handle server's response.
   if ($response === false) {
-    $database_logs->log ("Failure sending setting to server", Filter_Roles::translator ());
+    Database_Logs::log ("Failure sending setting to server", Filter_Roles::translator ());
   } else {
     $database_config_user->removeUpdatedSetting ($id);
   }
@@ -101,7 +101,7 @@ foreach ($ids as $id) {
 
 // All changed settings have now been sent to the server.
 // The client will now synchronize its settings with the server's settings.
-Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncsettings.php"));
+tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncsettings.php"));
 
 
 ?>

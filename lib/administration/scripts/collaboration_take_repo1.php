@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Take data in repository") ?></h1>
-<p><?php echo gettext("Bible") ?>: <?php echo $this->object ?></p>
-<p><?php echo gettext("Repository URL") ?>: <?php echo $this->url ?></p>
-<p><?php echo gettext("The data in the remote repository is being copied over into Bibledit-Web's data, overwriting the data that was there before.") ?></p>
-<?php foreach ($this->contents as $line) { ?>
-  <p><code><?php echo $line ?></code></p>
-<?php } ?>
+<h1>gettext("Take data in repository")</h1>
+<p>gettext("Bible"): $this->object</p>
+<p>gettext("Repository URL"): $this->url</p>
+<p>gettext("The data in the remote repository is being copied over into Bibledit's data, overwriting the data that was there before.")</p>
+<?php for ($this->contents as $line) {
+  <p><code>$line</code></p>
+<?php }

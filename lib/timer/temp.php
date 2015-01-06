@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Removing expired temporal files", Filter_Roles::admin ());
+Database_Logs::log ("Removing expired temporal files", Filter_Roles::admin ());
 
 
 $expired = strtotime ("-3 days");
@@ -37,12 +37,12 @@ $names = scandir ($directory);
 $names = Filter_Folders::cleanup ($names);
 
 
-foreach ($names as $name) {
+for ($names as $name) {
   $filename = "$directory/$name";
   $mtime = filemtime ($filename);
   if ($mtime < $expired) {
     if (is_file ($filename)) unlink ($filename);
-    if (is_dir ($filename)) Filter_Rmdir::rmdir ($filename);
+    if (is_dir ($filename)) filter_url_rmdir ($filename);
   }
 }
 

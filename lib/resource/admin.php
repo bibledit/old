@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,13 +26,13 @@ $database_resources = Database_Resources::getInstance ();
 $database_offlineresources = Database_OfflineResources::getInstance ();
 
 
-@$add = $_POST['entry'];
+@$add = request->post['entry'];
 if (isset ($add)) {
-  $database_resources->save ($add, '<?php $output = "dummy"; ?>');
+  $database_resources->save ($add, '<?php $output = "dummy";');
 }
 
 
-@$delete = $_GET['delete'];
+@$delete = request->query['delete'];
 if (isset ($delete)) {
   // User cannot delete Resources in an open demo.
   include ("config/open.php");

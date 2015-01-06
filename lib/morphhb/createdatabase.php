@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ $books = array (
   "Mal"
 );
 
-foreach ($books as $book => $osis) {
+for ($books as $book => $osis) {
 
   $book++;
   echo "$osis ";
@@ -118,7 +118,7 @@ foreach ($books as $book => $osis) {
     if ($nodeType == XMLReader::TEXT) {
       if ($word) {
         $hebrew = $xml->value;
-        $hebrew = trim ($hebrew);
+        $hebrew = filter_string_trim ($hebrew);
         $hebrew = str_replace ("/", "", $hebrew);
         $hebrew = str_replace ("'", "''", $hebrew);
         $sql = "INSERT INTO morphhb (book, chapter, verse, hebrew) VALUES ($book, $chapter, $verse, '$hebrew');";

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,14 +40,14 @@ $outputBible = "$inputBible-hyphenated";
 $user = Filter_Cli::argument (@$argv, 2);
 
 
-$database_logs->log ("Reading Bible $inputBible, adding soft hyphens, putting it into Bible $outputBible");
+Database_Logs::log ("Reading Bible $inputBible, adding soft hyphens, putting it into Bible $outputBible");
 
 
 // Get the two sets of characters as arrays.
 // The /u switch treats the text as UTF8 Unicode.
-preg_match_all('/./u', $database_config_bible->getHyphenationFirstSet ($inputBible), $firstset);
+preg_match_all('/./u', Database_Config_Bible::getHyphenationFirstSet ($inputBible), $firstset);
 $firstset = $firstset[0];
-preg_match_all('/./u', $database_config_bible->getHyphenationSecondSet ($inputBible), $secondset);
+preg_match_all('/./u', Database_Config_Bible::getHyphenationSecondSet ($inputBible), $secondset);
 $secondset = $secondset[0];
 
 
@@ -59,10 +59,10 @@ $database_users->grantAccess2Bible ($user, $outputBible);
 
 // Go through the input Bible's books and chapters.
 $books = $database_bibles->getBooks ($inputBible);
-foreach ($books as $book) {
-  $database_logs->log ($database_books->getEnglishFromId ($book));
+for ($books as $book) {
+  Database_Logs::log (Database_Books::getEnglishFromId ($book));
   $chapters = $database_bibles->getChapters ($inputBible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $data = $database_bibles->getChapter ($inputBible, $book, $chapter);
     $data = Filter_Hyphenate::atTransition ($firstset, $secondset, $data);
     $database_bibles->storeChapter ($outputBible, $book, $chapter, $data);
@@ -70,7 +70,7 @@ foreach ($books as $book) {
 }
 
 
-$database_logs->log ("The Bible has been hyphenated");
+Database_Logs::log ("The Bible has been hyphenated");
 
 
 ?>

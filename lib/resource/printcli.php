@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,19 +59,19 @@ $result = array ();
 
 
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
     $verses = usfm_get_verse_numbers ($usfm);
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $passage = filter_passage_to_integer (array ($book, $chapter, $verse));
       if (($passage >= $from) && ($passage <= $to)) {
         $passageText = filter_passage_display ($book, $chapter, $verse);
         $database_jobs->setProgress ($jobId, $passageText);
         $result [] = '<div class="nextresource">';
         $result [] = "<p>$passageText</p>";
-        foreach ($resources as $resource) {
+        for ($resources as $resource) {
           $result [] = "<p>";
           $result [] = $resource;
           $html = Resource_Logic::getHtml ($resource, $book, $chapter, $verse);

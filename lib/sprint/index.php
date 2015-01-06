@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_sprint = Database_Sprint::getInstance ();
 
 
-if (isset ($_GET ['previoussprint'])) {
+if (isset (request->query ['previoussprint'])) {
   $month = $database_config_user->getSprintMonth ();
   $year = $database_config_user->getSprintYear ();
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
@@ -36,13 +36,13 @@ if (isset ($_GET ['previoussprint'])) {
 }
 
 
-if (isset ($_GET ['currentprint'])) {
+if (isset (request->query ['currentprint'])) {
   $database_config_user->setSprintMonth (date ("n"));
   $database_config_user->setSprintYear (date ("Y"));
 }
 
 
-if (isset ($_GET ['nextsprint'])) {
+if (isset (request->query ['nextsprint'])) {
   $month = $database_config_user->getSprintMonth ();
   $year = $database_config_user->getSprintYear ();
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
@@ -51,7 +51,7 @@ if (isset ($_GET ['nextsprint'])) {
 }
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 $month = $database_config_user->getSprintMonth ();
 $year = $database_config_user->getSprintYear ();
 
@@ -60,7 +60,7 @@ $header = new Assets_Header (gettext("Sprint"));
 $view = new Assets_View (__FILE__);
 
 
-@$title = $_POST ['add'];
+@$title = request->post ['add'];
 if (isset ($title)) {
   $database_sprint->storeTask ($bible, $year, $month, $title);
   $view->view->success = gettext("New task added");
@@ -69,7 +69,7 @@ if (isset ($title)) {
 }
 
 
-@$mail = $_GET ['mail'];
+@$mail = request->query ['mail'];
 if (isset ($mail)) {
   Sprint_Logic::burndown ($bible, true);
   $view->view->success = gettext("The information was mailed to the subscribers");
@@ -82,12 +82,12 @@ if (isset ($mail)) {
 $header->run ();
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to display the Sprint for"));
-    $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    $bibles = access_bible_bibles ();
+    for ($bibles as $bible) {
       // Select from Bibles the user has write access to.
       if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "&bible=$bible");
@@ -100,13 +100,13 @@ if (isset ($bible)) {
 }
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 
 
-@$moveback = $_GET ['moveback'];
+@$moveback = request->query ['moveback'];
 if (isset ($moveback)) {
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
@@ -114,7 +114,7 @@ if (isset ($moveback)) {
 }
 
 
-@$moveforward = $_GET ['moveforward'];
+@$moveforward = request->query ['moveforward'];
 if (isset ($moveforward)) {
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
@@ -122,32 +122,32 @@ if (isset ($moveforward)) {
 }
 
 
-@$complete = $_GET ['complete'];
+@$complete = request->query ['complete'];
 if (isset ($complete)) {
   $complete = Filter_Numeric::integer_in_string ($complete);
   $database_sprint->updateComplete ($id, $complete);
 }
 
 
-@$categories = $_POST ['categories'];
+@$categories = request->post ['categories'];
 if (isset ($categories)) {
   $categories2 = array ();
-  $categories = trim ($categories);
+  $categories = filter_string_trim ($categories);
   $categories = explode ("\n", $categories);
-  foreach ($categories as $category) {
-    $category = trim ($category);
+  for ($categories as $category) {
+    $category = filter_string_trim ($category);
     if ($category != "") $categories2 [] = $category;
   }
   $categories = implode ("\n", $categories2);
-  $database_config_bible->setSprintTaskCompletionCategories ($bible, $categories);
+  Database_Config_Bible::setSprintTaskCompletionCategories ($bible, $categories);
 }
 
 
 $tasks = $database_sprint->getTasks ($bible, $year, $month);
 $titles = array ();
 $percentages = array ();
-foreach ($tasks as &$id) {
-  $titles [] = Filter_Html::sanitize ($database_sprint->getTitle ($id));
+for ($tasks as &$id) {
+  $titles [] = filter_string_sanitize_html ($database_sprint->getTitle ($id));
   $percentages [] = $database_sprint->getComplete ($id);
 }
 
@@ -163,7 +163,7 @@ $view->view->percentages = $percentages;
 $view->view->chart2 = Sprint_Logic::createTextBasedBurndownChart ($bible, $year, $month);
 
 
-$categorytext = $database_config_bible->getSprintTaskCompletionCategories ($bible);
+$categorytext = Database_Config_Bible::getSprintTaskCompletionCategories ($bible);
 $view->view->categorytext = $categorytext;
 $categories = explode ("\n", $categorytext);
 $view->view->categories = $categories;

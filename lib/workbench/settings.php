@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,17 +19,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
 
 
-$name = $_GET ['name'];
+$name = request->query ['name'];
 $database_config_user->setActiveWorkbench ($name);
 
 
-@$preset = $_GET ['preset'];
+@$preset = request->query ['preset'];
 if (isset ($preset)) {
   Workbench_Logic::setURLs (Workbench_Logic::defaultURLs ($preset));
   Workbench_Logic::setWidths (Workbench_Logic::defaultWidths ($preset));
@@ -37,21 +37,21 @@ if (isset ($preset)) {
 }
 
 
-if (isset ($_POST ['save'])) {
+if (isset (request->post ['save'])) {
   $urls = array ();
   $widths = array ();
   $row_heights = array ();
   for ($row = 1; $row <= 3; $row++) {
     for ($column = 1; $column <= 5; $column++) {
-      $urls [] = $_POST ["url$row$column"];
-      $widths [] = $_POST ["width$row$column"];
+      $urls [] = request->post ["url$row$column"];
+      $widths [] = request->post ["width$row$column"];
     }
-    $row_heights [] = $_POST ["height$row"];
+    $row_heights [] = request->post ["height$row"];
   }
   Workbench_Logic::setURLs ($urls);
   Workbench_Logic::setWidths ($widths);
   Workbench_Logic::setHeights ($row_heights);
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
   die;
 }
 
@@ -63,7 +63,7 @@ $view = new Assets_View (__FILE__);
 
 $urls = Workbench_Logic::getURLs (false);
 $widths = Workbench_Logic::getWidths ();
-foreach ($urls as $key => $url) {
+for ($urls as $key => $url) {
   $row = intval ($key / 5) + 1;
   $column = $key % 5 + 1;
   $variable = "url" . $row . $column;
@@ -74,7 +74,7 @@ foreach ($urls as $key => $url) {
 
 
 $row_heights = Workbench_Logic::getHeights ();
-foreach ($row_heights as $key => $height) {
+for ($row_heights as $key => $height) {
   $row = $key + 1;
   $variable = "height" . $row;
   $view->view->$variable = $height;

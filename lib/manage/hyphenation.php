@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 $success = "";
@@ -42,23 +42,23 @@ $error = "";
 
 
 // Character sets submission.
-if (isset($_POST['sets'])) {
-  $firstset = $_POST['firstset'];
-  $database_config_bible->setHyphenationFirstSet ($bible, $firstset);
-  $secondset = $_POST['secondset'];
-  $database_config_bible->setHyphenationSecondSet ($bible, $secondset);
+if (isset(request->post['sets'])) {
+  $firstset = request->post['firstset'];
+  Database_Config_Bible::setHyphenationFirstSet ($bible, $firstset);
+  $secondset = request->post['secondset'];
+  Database_Config_Bible::setHyphenationSecondSet ($bible, $secondset);
   $success = gettext("The two sets of characters were saved");
 }
-$firstset = $database_config_bible->getHyphenationFirstSet ($bible);
-$secondset = $database_config_bible->getHyphenationSecondSet ($bible);
+$firstset = Database_Config_Bible::getHyphenationFirstSet ($bible);
+$secondset = Database_Config_Bible::getHyphenationSecondSet ($bible);
 
 
-@$bible = $_GET ['bible'];
+@$bible = request->query ['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Which Bible would you like to take the data from?"));
-    $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $item) {
+    $bibles = access_bible_bibles ();
+    for ($bibles as $item) {
       $dialog_list->add_row ($item, "bible=$item");
     }
     $dialog_list->run();
@@ -66,10 +66,10 @@ if (isset ($bible)) {
     $database_config_user->setBible ($bible);
   }
 }
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
-if (isset($_GET['run'])) {
+if (isset(request->query['run'])) {
   if ($bible == "") {
     $error = gettext("No Bible given");
   } else if ($firstset == "") {
@@ -78,7 +78,7 @@ if (isset($_GET['run'])) {
     $error = gettext("No second set of characters given");
   } else {
     $workingdirectory = __DIR__;
-    Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate.php", $bible, $session_logic->currentUser ()));
+    tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate.php", $bible, $session_logic->currentUser ()));
     $success = gettext("The Bible is being hyphenated. See the Journal for details.");
   }
 }

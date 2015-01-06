@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
 #include <unittests/libraries.h>
-#include <unittests/database_config.h>
 #include <unittests/filters.h>
 #include <unittests/databases.h>
 #include <config/libraries.h>
@@ -265,7 +264,9 @@ int main (int argc, char **argv)
   
   // Flag for unit tests.
   config_globals_unit_testing = true;
-
+  
+  test_database_config_bible (); exit (0);
+  
   // Run the tests.
   test_database_config_general ();
   test_database_config_bible ();
@@ -305,6 +306,13 @@ int main (int argc, char **argv)
   test_database_modifications_notifications ();
   test_database_notes ();
   test_database_volatile ();
+  test_styles_css ();
+  test_filter_custom_css ();
+  test_filter_bibleworks ();
+  test_filter_diff ();
+  test_filter_abbreviations ();
+  test_checksum_logic ();
+  test_store_bible_data ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

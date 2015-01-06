@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_history = Database_History::getInstance ();
@@ -46,23 +46,23 @@ $view = new Assets_View (__FILE__);
 $state = array ();
 // Where to start displaying items.
 // It displays a limited number of items for performance reasons.
-@$start = $_GET ['start'];
+@$start = request->query ['start'];
 if (!isset ($start)) $start = 0;
 if (!is_numeric ($start)) $start = 0;
 $state ['start'] = $start;
 // Filter on Bible / book / chapter / verse.
-@$passage = $_GET ['passage'];
+@$passage = request->query ['passage'];
 if (!isset ($passage)) $passage = 0;
 if (!is_numeric ($passage)) $passage = 0;
 if (isset ($passage)) $state ['passage'] = $passage;
 // Filter on author.
 // It filters on the offset of the array of authors fetched from the database.
-@$author = $_GET ['author'];
+@$author = request->query ['author'];
 if (isset ($author)) $state ['author'] = $author;
 
 
 // The Bibles the user has read access to.
-$myBibles = Access_Bible::bibles ();
+$myBibles = access_bible_bibles ();
 
 
 // The names of the authors in the history, with 'everybody' on top.
@@ -111,13 +111,13 @@ $oldTexts = array ();
 $modifications = array ();
 $newTexts = array ();
 $data = $database_history->get ($author_filter, $myBibles, $book_filter, $chapter_filter, $verse_filter, $start);
-foreach ($data as $entry) {
+for ($data as $entry) {
   $passageText = Filter_Books::filter_passage_display_inline (array (array ($entry['book'], $entry['chapter'], $entry['verse'])));
-  $passageText = Filter_Html::sanitize ($passageText);
+  $passageText = filter_string_sanitize_html ($passageText);
   $passageTexts [] = $passageText;
-  $authors [] = Filter_Html::sanitize ($entry ['author']);
+  $authors [] = filter_string_sanitize_html ($entry ['author']);
   $dates [] = $timestamp = date ('j F Y g:i:s a', $entry ['timestamp']);
-  $bibles [] = Filter_Html::sanitize ($entry ['bible']);
+  $bibles [] = filter_string_sanitize_html ($entry ['bible']);
   $oldTexts [] = $entry ['oldtext'];
   $modifications [] = $entry ['modification'];
   $newTexts [] = $entry ['newtext'];
@@ -152,7 +152,7 @@ $author_names = $database_history->authors ($myBibles);
 array_unshift ($author_names, gettext("everybody"));
 $view->view->author_names = $author_names;
 $author_queries = array ();
-foreach ($author_names as $offset => $dummy) {
+for ($author_names as $offset => $dummy) {
   $author_queries [] = http_build_query (array_merge ($state, array ('author' => $offset)));
 }
 $view->view->author_queries = $author_queries;

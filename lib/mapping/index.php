@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,15 +34,15 @@ $username = $session_logic->currentUser ();
 $userlevel = $session_logic->currentLevel ();
 
 
-if (isset($_POST['new'])) {
-  $name = $_POST['entry'];
+if (isset(request->post['new'])) {
+  $name = request->post['entry'];
   if (in_array ($name, $database_mappings->names ())) {
     Assets_Page::error (gettext("This verse mapping already exists"));
   } else {
     $database_mappings->create ($name);
   }
 }
-if (isset ($_GET['new'])) {
+if (isset (request->query['new'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Enter a name for the new verse mapping"), "", "new", "");
   die;
 }
@@ -50,7 +50,7 @@ if (isset ($_GET['new'])) {
 
 $mappings = $database_mappings->names ();
 $editable = array ();
-foreach ($mappings as $mapping) {
+for ($mappings as $mapping) {
   //$write = $database_styles->hasWriteAccess ($username, $sheet);
   $write = true;
   if ($userlevel >= Filter_Roles::admin ()) $write = true;

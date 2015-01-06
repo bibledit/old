@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,11 +43,11 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 // Copy font to the output directory.
-$font = $database_config_bible->getTextFont ($bible);
+$font = Database_Config_Bible::getTextFont ($bible);
 if ($font) {
   if (Fonts_Logic::fontExists ($font)) {
     $fontpath = Fonts_Logic::getFontPath ($font);
@@ -59,27 +59,27 @@ if ($font) {
 $backLinkPath = Export_Logic::webBackLinkDirectory ($bible);
 
 
-$bibleBookText = $bible . " " . $database_books->getEnglishFromId ($book);
+$bibleBookText = $bible . " " . Database_Books::getEnglishFromId ($book);
 
 
 // Web index file for the book.
 $html_text_rich_book_index = new Html_Text ($bibleBookText);
 $htmlHeader = new Html_Header ($html_text_rich_book_index);
 $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book), gettext("Go back to") . " " . $bibleBookText);
-$htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
+$htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array (Database_Books::getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
 $html_text_rich_book_index->newParagraph ("navigationbar");
 $html_text_rich_book_index->addText ("|");
 
 
 // Go through the chapters of this book.
 $chapters = $database_bibles->getChapters ($bible, $book);
-foreach ($chapters as $chapter) {
+for ($chapters as $chapter) {
 
   // The text filter for this chapter.
   $filter_text_chapter = new Filter_Text ($bible);
 
   $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-  $usfm = trim ($usfm);
+  $usfm = filter_string_trim ($usfm);
   // Use small chunks of USFM at a time for much better performance.
   $filter_text_chapter->addUsfmCode ($usfm);
 
@@ -91,7 +91,7 @@ foreach ($chapters as $chapter) {
   $htmlHeader = new Html_Header ($filter_text_chapter->html_text_linked);
   $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext("Go back to") . " " . $bibleBookText . " " . $chapter);
   $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
-                              array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
+                              array (Database_Books::getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                               array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
                              ));
 
@@ -110,7 +110,7 @@ $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ($directory, $
 
 
 
-$database_logs->log (gettext("Exported to web") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
+Database_Logs::log (gettext("Exported to web") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
 
 
 ?>

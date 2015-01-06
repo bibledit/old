@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,8 +34,8 @@ $username = $session_logic->currentUser ();
 $userlevel = $session_logic->currentLevel ();
 
 
-$name = $_GET['name'];
-$view->view->name = Filter_Html::sanitize ($name);
+$name = request->query['name'];
+$view->view->name = filter_string_sanitize_html ($name);
 
 
 //$write = $database_styles->hasWriteAccess ($username, $name);
@@ -43,8 +43,8 @@ $write = true;
 if ($userlevel >= Filter_Roles::admin ()) $write = true;
 
 
-if (isset($_POST['submit'])) {
-  $data = $_POST['data'];
+if (isset(request->post['submit'])) {
+  $data = request->post['data'];
   if ($write) {
     $database_mappings->import ($name, $data);
   }

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ void evaluate (int line, string func, bool desired, bool actual);
 void evaluate (int line, string func, vector <string> desired, vector <string> actual);
 void evaluate (int line, string func, vector <int> desired, vector <int> actual);
 void evaluate (int line, string func, map <int, string> desired, map <int, string> actual);
+void evaluate (int line, string func, map <string, int> desired, map <string, int> actual);
 void evaluate (int line, string func, map <string, string> desired, map <string, string> actual);
 
 

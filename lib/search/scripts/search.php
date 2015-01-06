@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,17 +19,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <div style="float:left; width:50%;">
 <font size="-1" color="grey"><hr /></font>
-<p><font size="-1" color="grey"><?php echo $this->noteCount ?> <?php echo gettext("notes") ?></font></p>
-<?php foreach ($this->noteUrls as $offset => $noteUrl) { ?>
-  <p style="margin-top: 0.75em; margin-bottom: 0em"><a href="<?php echo $noteUrl ?>"><?php echo $this->noteTitles[$offset] ?></a></p>
-  <?php echo $this->noteExcerpts[$offset] ?>
-<?php } ?>
+<p><font size="-1" color="grey">$this->noteCount gettext("notes")</font></p>
+<?php for ($this->noteUrls as $offset => $noteUrl) {
+  <p style="margin-top: 0.75em; margin-bottom: 0em"><a href="$noteUrl">$this->noteTitles[$offset]</a></p>
+  $this->noteExcerpts[$offset]
+<?php }
 </div>
 <div style="float:right; width:50%; ">
 <font size="-1" color="grey"><hr /></font>
-<p><font size="-1" color="grey"><?php echo $this->textCount ?> <?php echo gettext("verses") ?></font></p>
-<?php foreach ($this->textLinks as $offset => $textLink) { ?>
-  <p style="margin-top: 0.75em; margin-bottom: 0em"><?php echo $textLink ?></p>
-  <?php echo $this->textExcerpts[$offset] ?>
-<?php } ?>
+<p><font size="-1" color="grey">$this->textCount gettext("verses")</font></p>
+<?php for ($this->textLinks as $offset => $textLink) {
+  <p style="margin-top: 0.75em; margin-bottom: 0em">$textLink</p>
+  $this->textExcerpts[$offset]
+<?php }
 </div>

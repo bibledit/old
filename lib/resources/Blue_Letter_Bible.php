@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -98,20 +98,20 @@ $output = "";
 $url = "http://www.blueletterbible.org/Bible.cfm?b=$book&c=$chapter&t=KJV&ss=1";
 $url = str_replace (" ", "%20", $url);
 
-$output .= "<a href=\"$url\" target=\"_blank\">KJV</a>";
+$output += "<a href=\"$url\" target=\"_blank\">KJV</a>";
 
-$output .= " | ";
+$output += " | ";
 
 $url = "http://www.blueletterbible.org/Bible.cfm?b=$book&c=$chapter&t=WLC";
 $url = str_replace (" ", "%20", $url);
 
-$output .= "<a href=\"$url\" target=\"_blank\">WLC</a>";
+$output += "<a href=\"$url\" target=\"_blank\">WLC</a>";
 
-$output .= " | ";
+$output += " | ";
 
 $url = "http://www.blueletterbible.org/Bible.cfm?b=$book&c=$chapter&t=mGNT";
 $url = str_replace (" ", "%20", $url);
 
-$output .= "<a href=\"$url\" target=\"_blank\">mGNT</a>";
+$output += "<a href=\"$url\" target=\"_blank\">mGNT</a>";
 
 ?>

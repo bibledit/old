@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,9 +32,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <administration/language.h>
 #include <administration/timezone.h>
 #include <styles/indext.h>
-
-
-using namespace std;
+#include <styles/indexm.h>
+#include <fonts/index.h>
+#include <versification/index.h>
+#include <bible/manage.h>
 
 
 /*
@@ -89,7 +90,7 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "search/index",    gettext ("Search"),    NULL                    } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "workbench/index", gettext ("Workbench"), bible_workbench_menu () } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    gettext ("Checks"),    bible_checks_menu ()    } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "bible/manage",    gettext ("Bibles"),    NULL                    } );
+  if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), gettext ("Bibles"), NULL} );
   return menu;
 }
 
@@ -112,7 +113,7 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   /* C++Port
   // Add the available configured Workbenches to the menu. 
   $workbenches = Workbench_Logic::getWorkbenches ();
-  foreach ($workbenches as $offset => $workbench) {
+  for ($workbenches as $offset => $workbench) {
     $menu [] = array ("workbench/index?bench=$offset", $workbench, NULL);
   }
   */
@@ -211,11 +212,11 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (administration_timezone_acl (webserver_request))                                      menu->push_back ( { "", administration_timezone_url (), gettext ("Timezone"), NULL } );
   if (email_index_acl (webserver_request)               && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
   if (styles_indext_acl (webserver_request))                                                menu->push_back ( { "", styles_indext_url (), gettext ("Styles"), stylessubmenu () } );
-  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "versification/index", gettext ("Versifications"), NULL } );
+  if (versification_index_acl (webserver_request))                                          menu->push_back ( { "", versification_index_url (), gettext ("Versifications"), NULL } );
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
   if (level >= Filter_Roles::admin ())                                                      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );
   if (level >= Filter_Roles::consultant ())                                                 menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
-  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "fonts/index", gettext ("Fonts"), NULL } );
+  if (fonts_index_acl (webserver_request))                                                  menu->push_back ( { "", fonts_index_url (), gettext ("Fonts"), NULL } );
 /* C++Port client mode dependent.
     // If the installation is not prepared for Client mode, disable the client menu.
     // But keep the menu item in an open installation.
@@ -237,8 +238,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 vector <Menu_Main_Item> * Menu_Main::stylessubmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::manager ()) menu->push_back ( { "", "styles/indexm", gettext ("Manage"), NULL } );
+  if (styles_indexm_acl (webserver_request)) menu->push_back ( { "", styles_indexm_url (), gettext ("Manage"), NULL } );
   return menu;
 }
 

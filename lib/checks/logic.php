@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class Checks_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $bibles = $database_bibles->getBibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       self::start ($bible);
     }
   }
@@ -37,7 +37,7 @@ class Checks_Logic
 
   static public function start ($bible)
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/checkcli.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/checkcli.php", $bible));
   }
 
 

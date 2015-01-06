@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ if ($exitcode != 0) {
 // If any of the entries are not there yet, add them.
 $timerIncluded = false;
 $tasksIncluded = false;
-foreach ($result as $line) {
+for ($result as $line) {
   if ($line == $timerSignature) $timerIncluded = true;
   if ($line == $tasksSignature) $tasksIncluded = true;
 }
@@ -60,8 +60,8 @@ if (!$timerIncluded || !$tasksIncluded) {
   $result = array ();
   exec ("crontab $filename 2>&1", $result, $exitcode);
   if ($exitcode != 0) {
-    $messages [] = "Crontab ran with an exitcode of $exitcode, while 0 would be expected. Therefore the scheduled task for Bibledit-Web may not have been set properly.";
-    foreach ($result as $line) {
+    $messages [] = "Crontab ran with an exitcode of $exitcode, while 0 would be expected. Therefore the scheduled task for Bibledit may not have been set properly.";
+    for ($result as $line) {
       $messages [] = "Error: " . $line;
     }
   }
@@ -71,7 +71,7 @@ if (!$timerIncluded || !$tasksIncluded) {
 
 if (count ($messages) == 0) {
   include ("../filter/url.php");
-  Filter_Url::redirect ("step.php?referer=crontab");
+  redirect_browser ("step.php?referer=crontab");
   die;
 }
 
@@ -90,24 +90,24 @@ if (function_exists ("posix_getpwuid")) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Bibledit-Web Installation</title>
+<title>Bibledit Installation</title>
 <link rel="stylesheet" href="stylesheet.css" type="text/css" />
 </head>
 <body>
-<h1><img src="../assets/bibledit.png"> <a href="http://bibledit.org/">Bibledit-Web</a></h1>
-<p>Bibledit-Web tried to configure the timer for running scheduled tasks through program <code>crontab</code>, but failed to do so.</p>
+<h1><img src="../assets/bibledit.png"> <a href="http://bibledit.org/">Bibledit</a></h1>
+<p>Bibledit tried to configure the timer for running scheduled tasks through program <code>crontab</code>, but failed to do so.</p>
 <p>More information is below.</p>
 <ul>
 <?php
-foreach ($messages as $message) {
+for ($messages as $message) {
   echo "<li>$message</li>\n";
 }
 ?>
 </ul>
-<p>May you ensure that the following two scheduled tasks are set properly in the <code>cron</code> scheduler for user <code><?php echo $webuser; ?></code>:</p>
-<p><code><?php echo $timerSignature; ?></code></p>
-<p><code><?php echo $tasksSignature; ?></code></p>
-<p>If the <code>cron</code> scheduler does not work for user <code><?php echo $webuser; ?></code>, it is also an option to schedule the tasks as user <code>root</code>. Run <code>crontab -e</code> as user <code>root</code>, and enter the following line given above.</p>
+<p>May you ensure that the following two scheduled tasks are set properly in the <code>cron</code> scheduler for user <code>$webuser;</code>:</p>
+<p><code>$timerSignature;</code></p>
+<p><code>$tasksSignature;</code></p>
+<p>If the <code>cron</code> scheduler does not work for user <code>$webuser;</code>, it is also an option to schedule the tasks as user <code>root</code>. Run <code>crontab -e</code> as user <code>root</code>, and enter the following line given above.</p>
 <p>Your hosting provider will be able to advise also.</p>
 <p><a href="crontab.php" class="button button-large">Retry</a> <a href="step.php?referer=crontab" class="button button-large">Carry on</a></p>
 </body>

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ function studylight ($directory, $book, $chapter, $verse)
   $relevant_lines = array ();
   $relevant_flag = false;
     
-  foreach ($tidied as $line) {
+  for ($tidied as $line) {
     
     if ($relevant_flag) {
       $relevant_lines [] = $line;
@@ -50,7 +50,7 @@ function studylight ($directory, $book, $chapter, $verse)
   }
   
   $html = implode ("\n", $relevant_lines);
-  $html .= "<p><a href=\"$url\" target=\"_blank\">$url</a></p>\n";
+  $html += "<p><a href=\"$url\" target=\"_blank\">$url</a></p>\n";
 
   return $html;
 }

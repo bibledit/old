@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ page_access_level (Filter_Roles::manager ());
 $database_usfmresources = Database_UsfmResources::getInstance ();
 
 
-@$delete = $_GET['delete'];
+@$delete = request->query['delete'];
 if (isset ($delete)) {
   if (access_bible_write ($delete)) {
     $database_usfmresources->deleteResource ($delete);
@@ -35,11 +35,11 @@ if (isset ($delete)) {
 }
 
 
-@$convert = $_GET['convert'];
+@$convert = request->query['convert'];
 if (isset ($convert)) {
   if (access_bible_write ($convert)) {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2bible.php", $convert));
-    Filter_Url::redirect ("../journal/index.php");
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2bible.php", $convert));
+    redirect_browser ("../journal/index.php");
     die;
   } else {
     Assets_Page::error (gettext("Insufficient privileges"));

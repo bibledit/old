@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -32,12 +32,12 @@ $session_logic = Session_Logic::getInstance ();
 $bible = $database_config_user->getBible ();
 
 
-if (isset ($_GET ["generate"])) {
+if (isset (request->query ["generate"])) {
   $jobId = $database_jobs->getNewId ();
-  $database_jobs->setLevel ($jobId, Filter_Roles::CONSULTANT_LEVEL);
+  $database_jobs->setLevel ($jobId, Filter_Roles::consultant ());
   $username = $session_logic->currentUser ();
-  Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/printcli.php", $jobId, $username, $bible));
-  Filter_Url::redirect ("../jobs/index.php?id=$jobId");
+  tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/printcli.php", $jobId, $username, $bible));
+  redirect_browser ("../jobs/index.php?id=$jobId");
   die;
 }
 
@@ -47,14 +47,14 @@ $header->jQueryUIOn ("sortable");
 $header->run ();
 
 
-@$add = $_GET['add'];
+@$add = request->query['add'];
 if (isset ($add)) {
   if ($add == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a resource to add"));
     // The selectable resources are the available ones minus the already selected ones.
     $resources = Resource_Logic::getNames ();
-    $resources = array_diff ($resources, $database_config_user->getPrintResources ());
-    foreach ($resources as $resource) {
+    $resources = filter_string_array_diff ($resources, $database_config_user->getPrintResources ());
+    for ($resources as $resource) {
       $parameter = "&add=$resource";
       $dialog_list->add_row ($resource, $parameter);
     }
@@ -68,7 +68,7 @@ if (isset ($add)) {
 }
 
 
-@$remove = $_GET['remove'];
+@$remove = request->query['remove'];
 if (isset ($remove)) {
   $resources = $database_config_user->getPrintResources ();
   $key = array_search ($remove, $resources);
@@ -77,21 +77,21 @@ if (isset ($remove)) {
 }
 
 
-@$resources = $_POST ['resources'];
+@$resources = request->post ['resources'];
 if (isset ($resources)) {
   $resources = explode (",", $resources);
   $database_config_user->setPrintResources ($resources);
 }
 
 
-@$frombook = $_GET['frombook'];
+@$frombook = request->query['frombook'];
 if (isset ($frombook)) {
   if ($frombook == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a book"));
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       $parameter = "frombook=$book";
-      $book = $database_books->getEnglishFromId ($book);
+      $book = Database_Books::getEnglishFromId ($book);
       $dialog_list->add_row ($book, $parameter);
     }
     $dialog_list->run ();
@@ -117,13 +117,13 @@ if (isset ($frombook)) {
 }
 
 
-@$fromchapter = $_GET['fromchapter'];
+@$fromchapter = request->query['fromchapter'];
 if (isset ($fromchapter)) {
   if ($fromchapter == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
     $passage = explode (".", $database_config_user->getPrintPassageFrom ());
     $chapters = $database_bibles->getChapters ($bible, $passage [0]);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $parameter = "fromchapter=$chapter";
       $dialog_list->add_row ($chapter, $parameter);
     }
@@ -147,14 +147,14 @@ if (isset ($fromchapter)) {
 }
 
 
-@$fromverse = $_GET['fromverse'];
+@$fromverse = request->query['fromverse'];
 if (isset ($fromverse)) {
   if ($fromverse == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a verse"));
     $passage = explode (".", $database_config_user->getPrintPassageFrom ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $parameter = "fromverse=$verse";
       $dialog_list->add_row ($verse, $parameter);
     }
@@ -175,14 +175,14 @@ if (isset ($fromverse)) {
 }
 
 
-@$tobook = $_GET['tobook'];
+@$tobook = request->query['tobook'];
 if (isset ($tobook)) {
   if ($tobook == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a book"));
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       $parameter = "tobook=$book";
-      $book = $database_books->getEnglishFromId ($book);
+      $book = Database_Books::getEnglishFromId ($book);
       $dialog_list->add_row ($book, $parameter);
     }
     $dialog_list->run ();
@@ -206,13 +206,13 @@ if (isset ($tobook)) {
 }
 
 
-@$tochapter = $_GET['tochapter'];
+@$tochapter = request->query['tochapter'];
 if (isset ($tochapter)) {
   if ($tochapter == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
     $passage = explode (".", $database_config_user->getPrintPassageTo ());
     $chapters = $database_bibles->getChapters ($bible, $passage [0]);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $parameter = "tochapter=$chapter";
       $dialog_list->add_row ($chapter, $parameter);
     }
@@ -236,14 +236,14 @@ if (isset ($tochapter)) {
 }
 
 
-@$toverse = $_GET['toverse'];
+@$toverse = request->query['toverse'];
 if (isset ($toverse)) {
   if ($toverse == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a verse"));
     $passage = explode (".", $database_config_user->getPrintPassageTo ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $parameter = "toverse=$verse";
       $dialog_list->add_row ($verse, $parameter);
     }
@@ -274,13 +274,13 @@ $view->view->resources = $resources;
 
 
 $passage = explode (".", $database_config_user->getPrintPassageFrom ());
-$view->view->from_book = $database_books->getEnglishFromId ($passage [0]);
+$view->view->from_book = Database_Books::getEnglishFromId ($passage [0]);
 $view->view->from_chapter = $passage [1];
 $view->view->from_verse = $passage [2];
 
 
 $passage = explode (".", $database_config_user->getPrintPassageTo ());
-$view->view->to_book = $database_books->getEnglishFromId ($passage [0]);
+$view->view->to_book = Database_Books::getEnglishFromId ($passage [0]);
 $view->view->to_chapter = $passage [1];
 $view->view->to_verse = $passage [2];
 

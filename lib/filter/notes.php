@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,21 +45,21 @@ class Filter_Notes
       // Sample: Lev.26.16 Deut.28.22
       // It uses OSIS for book encoding.
       $passages = array ();
-      foreach (explode (" ", trim ($note[2])) as $bibledit_gtk_reference) {
+      for (explode (" ", filter_string_trim ($note[2])) as $bibledit_gtk_reference) {
         $passages [] = filter_passage_explode_passage ($bibledit_gtk_reference);
       }
       // line 3: note category.
-      $category = trim ($note[3]);
+      $category = filter_string_trim ($note[3]);
       // line 4: Bible.
-      $bible = trim ($note[4]);
+      $bible = filter_string_trim ($note[4]);
       // line 5: date modified.
       // This information is list since the note will be modified upon import.
       // line 6 and up: note text, "Logbook:", and logbook entries.
       // Summary will be taken from the first line.
-      $summary = trim ($note[6]);
+      $summary = filter_string_trim ($note[6]);
       $contents = "";
       for ($i = 6; $i < count ($note); $i++) {
-        $contents .= $note[$i] . "\n";
+        $contents += $note[$i] . "\n";
       }
       // Store note.
       // (In client mode, upon sync to the server, these notes will be erased: Import them on the server).

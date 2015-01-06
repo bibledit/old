@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$database_logs->log ("Checking and updating the open demo site");
+Database_Logs::log ("Checking and updating the open demo site");
 
 
 // Set user to 'admin' as this is the user who is always logged in an open demo installation.
@@ -52,13 +52,13 @@ $database_styles->revokeWriteAccess ("", $standard_sheet);
 $database_styles->deleteSheet ("");
 $database_styles->createSheet ($standard_sheet);
 $database_styles->grantWriteAccess ("admin", $standard_sheet);
-Styles_Sheets::create_all ();
+styles_sheets_create_all ();
 
 
 // Set the export stylesheet to "Standard" for all Bibles and the admin.
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
-  $database_config_bible->setExportStylesheet ($bible, $standard_sheet);
+for ($bibles as $bible) {
+  Database_Config_Bible::setExportStylesheet ($bible, $standard_sheet);
 }
 $database_config_user->setStylesheet ($standard_sheet);
 
@@ -71,12 +71,12 @@ $database_config_general->setSiteLanguage (Locale_Logic::filterDefault ("default
 $users = array (
   array ("guest", Filter_Roles::guest ()),
   array ("member", Filter_Roles::member ()),
-  array ("consultant", Filter_Roles::CONSULTANT_LEVEL),
+  array ("consultant", Filter_Roles::consultant ()),
   array ("translator", Filter_Roles::translator ()),
   array ("manager", Filter_Roles::manager ()),
   array ("admin", Filter_Roles::admin ())
 );
-foreach ($users as $user) {
+for ($users as $user) {
   if (!$database_users->usernameExists ($user [0])) {
     $database_users->addNewUser($user [0], $user [0], $user [1], "");
   }
@@ -611,9 +611,9 @@ $usfm = <<<'EOD'
 EOD;
 $data [] = $usfm;
 
-foreach ($data as $usfm) {
+for ($data as $usfm) {
   $book_chapter_text = usfm_import ($usfm, "Standard");
-  foreach ($book_chapter_text as $data) {
+  for ($book_chapter_text as $data) {
     $book_number = $data[0];
     $chapter_number = $data[1];
     $chapter_data = $data[2];
@@ -626,11 +626,11 @@ foreach ($data as $usfm) {
 
 // Clean out nearly empty chapters from the Bibles.
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   $books = $database_bibles->getBooks ($bible);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $chapters = $database_bibles->getChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       // Remove chapters, other than 0, that are rather short, as these chapters likely contain no text, but USFM markers only.
       if ($chapter == 0) continue;
       $usfm = $database_bibles->getChapter ($bible, $book, $chapter);

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -170,7 +170,7 @@ string styles_logic_type_text (int type);
 string styles_logic_subtype_text (int type, int subtype);
 bool styles_logic_fontsize_is_relevant (int type, int subtype);
 bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int subtype);
-bool styles_logic_italic_bold_underLine_smallcaps_are_full (int type, int subtype);
+bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtype);
 string styles_logic_off_on_inherit_toggle_text (int value);
 bool styles_logic_superscript_is_relevant (int type, int subtype);
 bool styles_logic_paragraph_treats_are_relevant (int type, int subtype);

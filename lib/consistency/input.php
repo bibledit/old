@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@ page_access_level (Filter_Roles::translator ());
 $database_volatile = Database_Volatile::getInstance ();
 
 
-$id = $_POST ['id'];
-$passages = $_POST ['passages'];
-$translations = $_POST ['translations'];
+$id = request->post ['id'];
+$passages = request->post ['passages'];
+$translations = request->post ['translations'];
 
 
 $database_volatile->setValue ($id, "passages", $passages);

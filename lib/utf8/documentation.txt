@@ -109,7 +109,7 @@ try {
   std::cout << rep.Replace("err3or", "error") << std::endl;
   
   // Trimming
-  UTF8::String tr(" Need to trim it      ");
+  UTF8::String tr(" Need to filter_string_trim it      ");
   std::cout << tr.Trim() << std::endl;
   
   // Replace substring

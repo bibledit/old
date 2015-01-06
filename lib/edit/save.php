@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,20 +29,20 @@ $database_modifications = Database_Modifications::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = $_POST['bible'];
-$book = $_POST['book'];
-$chapter = $_POST['chapter'];
-$html = $_POST['html'];
-$checksum = $_POST['checksum'];
+$bible = request->post['bible'];
+$book = request->post['book'];
+$chapter = request->post['chapter'];
+$html = request->post['html'];
+$checksum = request->post['checksum'];
 
 
 if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isset ($checksum)) {
 
   if (Checksum_Logic::get ($html) == $checksum) {
 
-    $html = trim ($html);
+    $html = filter_string_trim ($html);
     if ($html != "") {
-      if (Validate_Utf8::valid ($html)) {
+      if (unicode_string_is_valid ($html)) {
   
         $stylesheet = $database_config_user->getStylesheet();
   
@@ -53,7 +53,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
         $usfm = $editor_export->get ();
   
         $book_chapter_text = usfm_import ($usfm, $stylesheet);
-        foreach ($book_chapter_text as $data) {
+        for ($book_chapter_text as $data) {
           $book_number = $data[0];
           $chapter_number = $data[1];
           $chapter_data_to_save = $data[2];
@@ -65,7 +65,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
             $oldText = $database_bibles->getChapter ($bible, $book, $chapter);
   
             // Safely store the chapter.
-            $saved = Filter_Bibles::safeStoreChapter ($bible, $book, $chapter, $chapter_data_to_save);
+            $saved = usfm_safely_store_chapter (request, $bible, $book, $chapter, $chapter_data_to_save);
   
             if ($saved) {
               // Store details for the user's changes.
@@ -78,20 +78,20 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
             }
           } else {
             echo gettext("Save failure");
-            $database_logs->log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
+            Database_Logs::log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
           }
         }
       } else {
         echo gettext("Save failure");
-        $database_logs->log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
+        Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
       }
     } else {
       echo gettext("Nothing to save");
-      $database_logs->log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
+      Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
     }
 
   } else {
-    http_response_code (409);
+    request->response_code = 409);
     echo gettext("Checksum error");
   }
 

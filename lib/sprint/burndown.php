@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ $database_sprint = Database_Sprint::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$database_logs->log ("Updating Sprint information", Filter_Roles::admin ());
+Database_Logs::log ("Updating Sprint information", Filter_Roles::admin ());
 
 
 // Determine year / month / day of the current sprint.
@@ -98,7 +98,7 @@ if ($bible == "") {
 }
 
 
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
 
 
   // Get the total number of tasks for this sprint,
@@ -106,7 +106,7 @@ foreach ($bibles as $bible) {
   // and store this information in the sprint history table.
   $ids = $database_sprint->getTasks ($bible, $year, $month);
   $percentages = array ();
-  foreach ($ids as $id) {
+  for ($ids as $id) {
     $percentages [] = $database_sprint->getComplete ($id);
   }
   $tasks = count ($ids);
@@ -123,26 +123,26 @@ foreach ($bibles as $bible) {
   if ($email) {
     if ($tasks) {
       // Only mail if the current sprint contains tasks.
-      $categories = $database_config_bible->getSprintTaskCompletionCategories ($bible);
+      $categories = Database_Config_Bible::getSprintTaskCompletionCategories ($bible);
       $categories = explode ("\n", $categories);
       $category_count = count ($categories);
       $category_percentage = intval (100 / $category_count);
       $users = $database_users->getUsers ();
-      foreach ($users as $user) {
+      for ($users as $user) {
         if (!access_bible_write ($bible, $user)) continue;
         if ($database_config_user->getUserSprintProgressNotification ($user)) {
     
           $subject = gettext("Team's progress in Sprint");
           if ($sprintstart) $subject = gettext("Sprint has started");
           if ($sprintfinish) $subject = gettext("Sprint has finished");
-          $subject .=  " | " . $bible;
+          $subject +=  " | " . $bible;
     
           $body = array ();
     
           $body [] = "<h3>" . gettext("Sprint Planning and Team's Progress") . " | $bible</h3>";
           $body [] = "<table>";
           $tasks = $database_sprint->getTasks ($bible, $year, $month);
-          foreach ($tasks as $id) {
+          for ($tasks as $id) {
             $body [] = "<tr>";
             $title = $database_sprint->getTitle ($id);
             $body [] = "<td>" . $title . "</td>";
@@ -167,7 +167,7 @@ foreach ($bibles as $bible) {
     } else {
 
       // Since there are no tasks, no mail will be sent: Make a logbook entry.
-      $database_logs->log ("No tasks in this Sprint: No email was sent");
+      Database_Logs::log ("No tasks in this Sprint: No email was sent");
     }
   }
 }

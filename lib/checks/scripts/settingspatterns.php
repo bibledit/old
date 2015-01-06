@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,18 +17,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo gettext("Patterns") ?></h2>
-<p class="error"><?php echo $this->error ?></p>
-<p class="success"><?php echo $this->success ?></p>
+<h2>gettext("Patterns")</h2>
+<p class="error">$this->error</p>
+<p class="success">$this->success</p>
 <p>
-  <?php echo gettext("Bible") ?>: <?php echo $this->bible ?>.
-  <?php echo gettext("Enter the patterns to search for.") ?>
-  <?php echo gettext("One per line.") ?>
+  gettext("Bible"): $this->bible.
+  gettext("Enter the patterns to search for.")
+  gettext("One per line.")
 </p>
 <form action="settingspatterns.php" name="form" method="post">
-  <p><textarea name="patterns" class="fullwidth"><?php echo $this->patterns ?></textarea></p>
-  <p><input type="submit" name="submit" value=<?php echo gettext("Save") ?> /></p>
+  <p><textarea name="patterns" class="fullwidth">$this->patterns</textarea></p>
+  <p><input type="submit" name="submit" value=gettext("Save") /></p>
 </form>
 <br>
-<p><?php echo gettext("It will search the plain text of the Bible, without verse numbers, heading, and other additions.") ?></p>
-<p><a href="settings.php"><?php echo gettext("Go back") ?></a></p>
+<p>gettext("It will search the plain text of the Bible, without verse numbers, heading, and other additions.")</p>
+<p><a href="settings.php">gettext("Go back")</a></p>

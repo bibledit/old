@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ void Database_Mappings::create2 ()
 }
 
 
-// Import the default mappings that come with Bibledit-Web.
+// Import the default mappings that come with Bibledit.
 void Database_Mappings::defaults ()
 {
   string folder = filter_url_create_root_path ("mapping");

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,14 +33,14 @@ Assets_Page::header (gettext("Checks"));
 $view = new Assets_View (__FILE__);
 
 
-@$approve = $_GET['approve'];
+@$approve = request->query['approve'];
 if (isset ($approve)) {
   $database_check->approve ($approve);
   $view->view->success = gettext("The entry was approved and suppressed.");
 }
 
 
-@$delete = $_GET['delete'];
+@$delete = request->query['delete'];
 if (isset ($delete)) {
   $database_check->delete ($delete);
   $view->view->success = gettext("The entry was deleted for just now.");
@@ -50,7 +50,7 @@ if (isset ($delete)) {
 // Get the Bibles the user has write-access to.
 $bibleIDs = array ();
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   if (access_bible_write ($bible)) {
     $id = $database_bibles->getID ($bible);
     $bibleIDs [] = $id;
@@ -67,18 +67,18 @@ $information = array ();
 
 
 $hits = $database_check->getHits ();
-foreach ($hits as $hit) {
+for ($hits as $hit) {
   $bibleID = $hit['bible'];
   if (in_array ($bibleID, $bibleIDs)) {
     $ids [] = $hit['rowid'];
-    $bible = Filter_Html::sanitize ($database_bibles->getName ($bibleID));
+    $bible = filter_string_sanitize_html ($database_bibles->getName ($bibleID));
     $bibles [] = $bible;
     $book = $hit['book'];
     $chapter = $hit['chapter'];
     $verse = $hit['verse'];
     $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
     $links [] = $link;
-    $information [] = Filter_Html::sanitize ($hit['data']);
+    $information [] = filter_string_sanitize_html ($hit['data']);
   }
 }
 

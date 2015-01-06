@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,27 +17,27 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Manage Changes") ?></h3>
+<h3>gettext("Manage Changes")</h3>
 <p>
-  <?php echo gettext("Bibledit-Web tracks the changes in the text of the Bibles.") ?>
-  <?php echo gettext("It generates details about them during the night.") ?>
+  gettext("Bibledit tracks the changes in the text of the Bibles.")
+  gettext("It generates details about them during the night.")
 </p>
 <ul>
-<li><?php echo gettext("Lists with changes can be downloaded.") ?></li>
-<li><?php echo gettext("Bibledit-Web emails lists with the changes to users who have subscribed to them.") ?></li>
+<li>gettext("Lists with changes can be downloaded.")</li>
+<li>gettext("Bibledit emails lists with the changes to users who have subscribed to them.")</li>
 <li>
-  <?php echo gettext("It generates Change Notifications for users who have enabled that option.") ?>
-  <?php echo gettext("Every user makes personal settings.") ?>
-  <a href="../user/notifications.php"><?php echo gettext("Your settings are in the notifications.") ?></a>
+  gettext("It generates Change Notifications for users who have enabled that option.")
+  gettext("Every user makes personal settings.")
+  <a href="../user/notifications.php">gettext("Your settings are in the notifications.")</a>
 </li>
 </ul>
-<p><?php echo gettext("Users who have change notifications awaiting their approval:") ?></p>
+<p>gettext("Users who have change notifications awaiting their approval:")</p>
 <table>
-<?php foreach ($this->users as $offset => $user) { ?>
+<?php for ($this->users as $offset => $user) {
   <tr>
-    <td><?php echo $this->users[$offset] ?>:</td>
-    <td><?php echo $this->count[$offset] ?></td>
-    <td><a href="manage.php?clear=<?php echo $this->users[$offset] ?>">[<?php echo gettext("clear") ?>]</a></td>
+    <td>$this->users[$offset]:</td>
+    <td>$this->count[$offset]</td>
+    <td><a href="manage.php?clear=$this->users[$offset]">[gettext("clear")]</a></td>
   </tr>
-<?php } ?>
+<?php }
 </table>

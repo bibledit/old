@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ class Filter_Conflict
   public static function run ($repository)
   {
     $unmerged_paths = Filter_Conflict::getUnmergedPaths ($repository);
-    foreach ($unmerged_paths as $path) {
+    for ($unmerged_paths as $path) {
       Filter_Conflict::mergeUnmergedPath ($repository, $path);
     }
     if (count ($unmerged_paths)) {
@@ -41,11 +41,11 @@ class Filter_Conflict
     $shellrepo = escapeshellarg ($repository);
     $command = "cd $shellrepo; git status 2>&1";
     exec ($command, $output, $exit_code);
-    foreach ($output as $line) {
+    for ($output as $line) {
       if (strpos ($line, "both modified:") !== false) {
-        $line = trim ($line);
+        $line = filter_string_trim ($line);
         $line = substr ($line, 20);
-        $line = trim ($line);
+        $line = filter_string_trim ($line);
         $unmerged_paths [] = $line;
       }
     }
@@ -78,7 +78,7 @@ class Filter_Conflict
 
     $mergedData = Filter_Merge::run ($mergeBase, $userData, $serverData);
     $mergedData = str_replace ("new__line", "\n", $mergedData);
-    $mergedData = trim ($mergedData);
+    $mergedData = filter_string_trim ($mergedData);
 
    filter_url_file_put_contents ("$repository/$path", $mergedData);
 

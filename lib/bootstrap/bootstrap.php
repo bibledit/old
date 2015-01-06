@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ class Bootstrap
         if ($folder != "setup") {
           if ($page != "topbar.php") {
             if ($page != "client.php") {
-              Filter_Url::redirect ("../administration/client.php");
+              redirect_browser ("../administration/client.php");
               die;
             }
           }

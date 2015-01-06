@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,35 +42,35 @@ if ($bible == "") {
 }
 
 
-$database_logs->log ("Check $bible: Start", Filter_Roles::translator ());
+Database_Logs::log ("Check $bible: Start", Filter_Roles::translator ());
 
 
 $database_check->truncateOutput ($bible);
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
-$check_double_spaces_usfm = $database_config_bible->getCheckDoubleSpacesUsfm ($bible);
-$check_full_stop_in_headings = $database_config_bible->getCheckFullStopInHeadings ($bible);
-$check_space_before_punctuation = $database_config_bible->getCheckSpaceBeforePunctuation ($bible);
-$check_sentence_structure = $database_config_bible->getCheckSentenceStructure ($bible);
-$check_paragraph_structure = $database_config_bible->getCheckParagraphStructure ($bible);
+$check_double_spaces_usfm = Database_Config_Bible::getCheckDoubleSpacesUsfm ($bible);
+$check_full_stop_in_headings = Database_Config_Bible::getCheckFullStopInHeadings ($bible);
+$check_space_before_punctuation = Database_Config_Bible::getCheckSpaceBeforePunctuation ($bible);
+$check_sentence_structure = Database_Config_Bible::getCheckSentenceStructure ($bible);
+$check_paragraph_structure = Database_Config_Bible::getCheckParagraphStructure ($bible);
 $checks_sentences = new Checks_Sentences ();
-$checks_sentences->enterCapitals ($database_config_bible->getSentenceStructureCapitals ($bible));
-$checks_sentences->enterSmallLetters ($database_config_bible->getSentenceStructureSmallLetters ($bible));
-$end_marks = $database_config_bible->getSentenceStructureEndPunctuation ($bible);
+$checks_sentences->enterCapitals (Database_Config_Bible::getSentenceStructureCapitals ($bible));
+$checks_sentences->enterSmallLetters (Database_Config_Bible::getSentenceStructureSmallLetters ($bible));
+$end_marks = Database_Config_Bible::getSentenceStructureEndPunctuation ($bible);
 $checks_sentences->enterEndMarks ($end_marks);
-$center_marks = $database_config_bible->getSentenceStructureMiddlePunctuation ($bible);
+$center_marks = Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible);
 $checks_sentences->enterCenterMarks ($center_marks);
-$checks_sentences->enterDisregards ($database_config_bible->getSentenceStructureDisregards ($bible));
-$checks_sentences->enterNames ($database_config_bible->getSentenceStructureNames ($bible));
-$check_versification = $database_config_bible->getCheckChaptesVersesVersification ($bible);
-$check_well_formed_usfm = $database_config_bible->getCheckWellFormedUsfm ($bible);
+$checks_sentences->enterDisregards (Database_Config_Bible::getSentenceStructureDisregards ($bible));
+$checks_sentences->enterNames (Database_Config_Bible::getSentenceStructureNames ($bible));
+$check_versification = Database_Config_Bible::getCheckChaptesVersesVersification ($bible);
+$check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm ($bible);
 $checks_usfm = new Checks_Usfm ($bible);
-$check_missing_punctuation_end_verse = $database_config_bible->getCheckMissingPunctuationEndVerse ($bible);
-$check_patterns = $database_config_bible->getCheckPatterns ($bible);
-$checking_patterns = $database_config_bible->getCheckingPatterns ($bible);
+$check_missing_punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse ($bible);
+$check_patterns = Database_Config_Bible::getCheckPatterns ($bible);
+$checking_patterns = Database_Config_Bible::getCheckingPatterns ($bible);
 $checking_patterns = Filter_String::string2array ($checking_patterns);
 $checking_patterns = array_filter ($checking_patterns, 'strlen');
 
@@ -79,14 +79,14 @@ $books = $database_bibles->getBooks ($bible);
 if ($check_versification) Checks_Versification::books ($bible, $books);
 
 
-foreach ($books as $book) {
+for ($books as $book) {
 
 
   $chapters = $database_bibles->getChapters ($bible, $book);
   if ($check_versification) Checks_Versification::chapters ($bible, $book, $chapters);
 
 
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
 
 
@@ -94,7 +94,7 @@ foreach ($books as $book) {
     if ($check_versification) Checks_Versification::verses ($bible, $book, $chapter, $verses);
 
 
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $verseUsfm = usfm_get_verse_text ($chapterUsfm, $verse);
       if ($check_double_spaces_usfm) {
         Checks_Space::doubleSpaceUsfm ($bible, $book, $chapter, $verse, $verseUsfm);
@@ -121,7 +121,7 @@ foreach ($books as $book) {
       if ($check_sentence_structure) $checks_sentences->check ($verses_text);
       if ($check_paragraph_structure) $checks_sentences->paragraphs ($verses_text, $filter_text->paragraph_start_positions);
       $results = $checks_sentences->getResults ();
-      foreach ($results as $result) {
+      for ($results as $result) {
         $verse = array_keys ($result);
         $verse = $verse [0];
         $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
@@ -134,7 +134,7 @@ foreach ($books as $book) {
       $checks_usfm->check ($chapterUsfm);
       $checks_usfm->finalize ();
       $results = $checks_usfm->getResults ();
-      foreach ($results as $result) {
+      for ($results as $result) {
         $verse = array_keys ($result);
         $verse = $verse [0];
         $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
@@ -162,10 +162,10 @@ $bibleID = $database_bibles->getID ($bible);
 // Create an email with the checking results for this $bible.
 $emailBody = array ();
 $hits = $database_check->getHits ();
-foreach ($hits as $hit) {
+for ($hits as $hit) {
   if ($hit['bible'] == $bibleID) {
     $passage = Filter_Books::filter_passage_display_inline (array (array ($hit['book'], $hit['chapter'], $hit['verse'])));
-    $data = Filter_Html::sanitize ($hit['data']);
+    $data = filter_string_sanitize_html ($hit['data']);
     $result = "<p>$passage $data</p>";
     $emailBody [] = $result;
   }
@@ -177,7 +177,7 @@ if (count ($emailBody) > 0) {
   $subject = gettext("Bible Checks") . " " . $bible;
   $emailBody = implode ("\n", $emailBody);
   $users = $database_users->getUsers ();
-  foreach ($users as $user) {
+  for ($users as $user) {
     if ($database_config_user->getUserBibleChecksNotification ($user)) {
       if (access_bible_write ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
@@ -187,7 +187,7 @@ if (count ($emailBody) > 0) {
 }
 
 
-$database_logs->log ("Check $bible: Complete", Filter_Roles::translator ());
+Database_Logs::log ("Check $bible: Complete", Filter_Roles::translator ());
 
 
 ?>

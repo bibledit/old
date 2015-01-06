@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ $database_logs = Database_Logs::getInstance ();
 $database_usfmresources = Database_UsfmResources::getInstance ();
 
 
-$database_logs->log (gettext("Synchronizing USFM resources"), Filter_Roles::translator ());
+Database_Logs::log (gettext("Synchronizing USFM resources"), Filter_Roles::translator ());
 
 
 $address = $database_config_general->getServerAddress ();
@@ -46,12 +46,12 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting totals for the USFM resources", Filter_Roles::translator ());
+  Database_Logs::log ("Failure requesting totals for the USFM resources", Filter_Roles::translator ());
   die;
 }
 $checksum = Sync_Logic::usfm_resources_checksum ();
 if ($response == $checksum) {
-  $database_logs->log ("The USFM resources are up to date", Filter_Roles::translator ());
+  Database_Logs::log ("The USFM resources are up to date", Filter_Roles::translator ());
   die;
 }
 
@@ -63,7 +63,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting available USFM resources", Filter_Roles::translator ());
+  Database_Logs::log ("Failure requesting available USFM resources", Filter_Roles::translator ());
   die;
 }
 $server_resources = $response;
@@ -71,14 +71,14 @@ $server_resources = $response;
 
 // Delete any resource on the local client but not on the server.
 $client_resources = $database_usfmresources->getResources ();
-$resources = array_diff ($client_resources, $server_resources);
-foreach ($resources as $resource) {
+$resources = filter_string_array_diff ($client_resources, $server_resources);
+for ($resources as $resource) {
   $database_usfmresources->deleteResource ($resource);
 }
 
 
 // Deal with each USFM resource individually.
-foreach ($server_resources as $resource) {
+for ($server_resources as $resource) {
 
 
   // Request the checksum of the resources from the server.
@@ -91,7 +91,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting checksum of USFM resource", Filter_Roles::translator ());
+    Database_Logs::log ("Failure requesting checksum of USFM resource", Filter_Roles::translator ());
     continue;
   }
   $checksum = Sync_Logic::usfm_resource_checksum ($resource);
@@ -108,7 +108,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting books of USFM resource", Filter_Roles::translator ());
+    Database_Logs::log ("Failure requesting books of USFM resource", Filter_Roles::translator ());
     continue;
   }
   $server_books = $response;
@@ -116,14 +116,14 @@ foreach ($server_resources as $resource) {
   
   // Delete any books from the client that are not on the server.
   $client_books = $database_usfmresources->getBooks ($resource);
-  $books = array_diff ($client_books, $server_books);
-  foreach ($books as $book) {
+  $books = filter_string_array_diff ($client_books, $server_books);
+  for ($books as $book) {
     $database_usfmresources->deleteBook ($resource, $book);
   }
   
   
   // Deal with each book individually.
-  foreach ($server_books as $book) {
+  for ($server_books as $book) {
 
 
     // Request checksum of this book,
@@ -137,7 +137,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure requesting checksum of USFM resource book", Filter_Roles::translator ());
+      Database_Logs::log ("Failure requesting checksum of USFM resource book", Filter_Roles::translator ());
       continue;
     }
     $checksum = Sync_Logic::usfm_resource_book_checksum ($resource, $book);
@@ -146,7 +146,7 @@ foreach ($server_resources as $resource) {
     }
 
 
-    $database_logs->log ("Synchronizing USFM resource" . " $resource $book", Filter_Roles::translator ());
+    Database_Logs::log ("Synchronizing USFM resource" . " $resource $book", Filter_Roles::translator ());
 
 
     // Retrieve a list of chapters in the $book from the server.
@@ -158,7 +158,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure requesting chapters of USFM resource book", Filter_Roles::translator ());
+      Database_Logs::log ("Failure requesting chapters of USFM resource book", Filter_Roles::translator ());
       continue;
     }
     $server_chapters = $response;
@@ -166,14 +166,14 @@ foreach ($server_resources as $resource) {
     
     // Delete local chapters not found on the server.
     $client_chapters = $database_usfmresources->getChapters ($resource, $book);
-    $chapters = array_diff ($client_chapters, $server_chapters);
-    foreach ($chapters as $chapter) {
+    $chapters = filter_string_array_diff ($client_chapters, $server_chapters);
+    for ($chapters as $chapter) {
       $database_usfmresources->deleteChapter ($resource, $book, $chapter);
     }
     
     
     // Go through each chapter individually.
-    foreach ($server_chapters as $chapter) {
+    for ($server_chapters as $chapter) {
       
       
       // Get the checksum of the chapter as it is on the server.
@@ -186,7 +186,7 @@ foreach ($server_resources as $resource) {
       $response = Sync_Logic::post ($post, $url);
       @$response = unserialize ($response);
       if ($response === false) {
-        $database_logs->log ("Failure requesting checksum of USFM resource chapter", Filter_Roles::translator ());
+        Database_Logs::log ("Failure requesting checksum of USFM resource chapter", Filter_Roles::translator ());
         continue;
       }
       $checksum = Sync_Logic::usfm_resource_chapter_checksum ($resource, $book, $chapter);
@@ -205,7 +205,7 @@ foreach ($server_resources as $resource) {
       $response = Sync_Logic::post ($post, $url);
       @$response = unserialize ($response);
       if ($response === false) {
-        $database_logs->log ("Failure downloading chapter of USFM resource", Filter_Roles::translator ());
+        Database_Logs::log ("Failure downloading chapter of USFM resource", Filter_Roles::translator ());
         continue;
       }
       $database_usfmresources->storeChapter ($resource, $book, $chapter, $response);
@@ -217,7 +217,7 @@ foreach ($server_resources as $resource) {
 
 
 // Done.
-$database_logs->log ("The USFM resources are now up to date", Filter_Roles::translator ());
+Database_Logs::log ("The USFM resources are now up to date", Filter_Roles::translator ());
 
 
 ?>

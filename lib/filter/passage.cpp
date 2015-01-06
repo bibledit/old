@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -409,7 +409,6 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
 vector <int> filter_passage_get_ordered_books (const string& bible)
 {
   Database_Bibles database_bibles = Database_Bibles ();
-  //$database_config_bible = Database_Config_Bible::getInstance ();
 
   // The available books from the Bible.
   vector <int> projectbooks = database_bibles.getBooks (bible);

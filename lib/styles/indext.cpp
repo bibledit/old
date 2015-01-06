@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ bool styles_indext_acl (void * webserver_request)
 }
 
 
-string styles_indext (void * webserver_request) // Todo
+string styles_indext (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -61,22 +61,22 @@ string styles_indext (void * webserver_request) // Todo
   if (request->query.count ("sheet")) {
   string sheet = request->query["sheet"];
     
-    /* Todo  if (sheet == "") {
-   $dialog_list = new Dialog_List2 (gettext("Would you like to switch to another stylesheet?"));
-   $database_styles = Database_Styles::getInstance();
-   $sheets = $database_styles->getSheets();
-   foreach ($sheets as $sheet) {
-   $parameter = "&sheet=$sheet";
-   $dialog_list->add_row ($sheet, $parameter);
-   }
-   $dialog_list->run ();
-   } else {
-   $database_config_user->setStylesheet ($sheet);
-   }
-   }*/
+  if (sheet == "") {
+    Dialog_List dialog_list = Dialog_List ("indext", gettext("Would you like to switch to another stylesheet?"), "", "");
+    Database_Styles database_styles = Database_Styles();
+    vector <string> sheets = database_styles.getSheets();
+    for (auto& name : sheets) {
+      dialog_list.add_row (name, "sheet", name);
+    }
+    page += dialog_list.run ();
+    return page;
+  } else {
+    database_config_user.setStylesheet (sheet);
+    }
+  }
    
   string stylesheet = database_config_user.getStylesheet();
-  view.set_variable ("stylesheet",  = Filter_Html::sanitize (stylesheet);
+  view.set_variable ("stylesheet", filter_string_sanitize_html (stylesheet));
   
   page += view.render ("styles", "indext");
 

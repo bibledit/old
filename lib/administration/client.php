@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_general = Database_Config_General::getInstance ();
@@ -31,20 +31,20 @@ $database_bibleactions = Database_BibleActions::getInstance ();
 $view = new Assets_View (__FILE__);
 
 
-if (isset($_GET['disable'])) {
+if (isset(request->query['disable'])) {
   config_logic_set (false);
   remove_all_users ();
   $database_config_general->setRepeatSendReceive (0);
 }
 
 
-if (isset ($_POST ['connect'])) {
+if (isset (request->post ['connect'])) {
 
-  $address = $_POST ['address'];
+  $address = request->post ['address'];
   $database_config_general->setServerAddress ($address);
 
-  $user = $_POST ['user'];
-  $pass = $_POST ['pass'];
+  $user = request->post ['user'];
+  $pass = request->post ['pass'];
 
   $response = config_logic_setup ($user, md5 ($pass));
 
@@ -62,7 +62,7 @@ if (isset ($_POST ['connect'])) {
 }
 
 
-if (isset ($_GET['demo'])) {
+if (isset (request->query['demo'])) {
 
   $address = Filter_Demo::demo_address ();
   $database_config_general->setServerAddress ($address);
@@ -92,7 +92,7 @@ $view->view->address = $address;
 
 
 $users = $database_users->getUsers ();
-foreach ($users as $user) {
+for ($users as $user) {
   $level = $database_users->getUserLevel ($user);
   $view->view->role = Filter_Roles::text ($level);
 }
@@ -114,7 +114,7 @@ function remove_all_users ()
 {
   $database_users = Database_Users::getInstance ();
   $existingusers = $database_users->getUsers ();
-  foreach ($existingusers as $existinguser) {
+  for ($existingusers as $existinguser) {
     $database_users->removeUser ($existinguser);
   }
 }

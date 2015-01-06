@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,27 +17,27 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p class="error"><?php echo $this->errorr ?></p>
-<p class="success"><?php echo $this->success ?></p>
-<p><?php echo gettext("The Bible book below needs a matching abbreviation for the target Bible.") ?></p>
+<p class="error">$this->errorr</p>
+<p class="success">$this->success</p>
+<p>gettext("The Bible book below needs a matching abbreviation for the target Bible.")</p>
 <br>
 <form action="translate.php" name="pair" method="post">
   <table>
     <tr>
-      <td>1. <?php echo gettext("Book name:") ?></td>
-      <td><?php echo $this->bookname ?><input type="hidden" name="fullname" maxlength="50" value="<?php echo $this->bookname ?>" /></td>
+      <td>1. gettext("Book name:")</td>
+      <td>$this->bookname<input type="hidden" name="fullname" maxlength="50" value="$this->bookname" /></td>
     </tr>
     <tr>
-      <td>2. <?php echo gettext("Enter the abbreviation:") ?></td>
+      <td>2. gettext("Enter the abbreviation:")</td>
       <td><input type="text" name="abbreviation" maxlength="50" value="" /></td>
     </tr>
     <tr>
-      <td>3. <?php echo gettext("Save it:") ?></td>
-      <td><input type="submit" name="save" value=<?php echo gettext("Save") ?> /></td>
+      <td>3. gettext("Save it:")</td>
+      <td><input type="submit" name="save" value=gettext("Save") /></td>
     </tr>
   </table>
 </form>
 <br>
-<?php if ($this->remaining) { ?>
-  <p><?php echo gettext("Remaining book names without an abbreviation:") ?> <?php echo $this->remaining ?>.</p>
-<?php } ?>
+<?php if ($this->remaining) {
+  <p>gettext("Remaining book names without an abbreviation:") $this->remaining.</p>
+<?php }

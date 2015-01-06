@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ $healthy = true;
 if (!$database_notes->healthy ()) $healthy = false;
 if (!$database_notes->checksums_healthy ()) $healthy = false;
 if (!$healthy) {
-  $database_logs->log ("Skipping sending and receiving notes just now because of database problems", Filter_Roles::translator ());
+  Database_Logs::log ("Skipping sending and receiving notes just now because of database problems", Filter_Roles::translator ());
   die;
 }
 
@@ -81,7 +81,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure synchronizing Consultation Notes while requesting totals", Filter_Roles::translator ());
+  Database_Logs::log ("Failure synchronizing Consultation Notes while requesting totals", Filter_Roles::translator ());
   die;
 }
 $server_total = $response ["t"];
@@ -91,7 +91,7 @@ $client_total = count ($identifiers);
 $client_checksum = $database_notes->getMultipleChecksum ($identifiers);
 if ($server_total == $client_total) {
   if ($server_checksum == $client_checksum) {
-    if ($main_script) $database_logs->log ("The Consultation Notes are up to date", Filter_Roles::translator ());
+    if ($main_script) Database_Logs::log ("The Consultation Notes are up to date", Filter_Roles::translator ());
     die;
   }
 }
@@ -107,10 +107,10 @@ if ($server_total == $client_total) {
 // and then starts one script for each range.
 if ($server_total > 20) {
   $ranges = Sync_Logic::create_range ($lowId, $highId);
-  foreach ($ranges as $range) {
+  for ($ranges as $range) {
     $low = $range [0];
     $high = $range [1];
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$low", "$high"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$low", "$high"));
   }
   die;
 }
@@ -135,7 +135,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure synchronizing Consultation Notes while identifiers and checksums", Filter_Roles::translator ());
+  Database_Logs::log ("Failure synchronizing Consultation Notes while identifiers and checksums", Filter_Roles::translator ());
   die;
 }
 $server_identifiers = $response ['i'];
@@ -145,16 +145,16 @@ $server_checksums = $response ['c'];
 $client_identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId, NULL);
 
 // Client deletes notes no longer on the server.
-$identifiers = array_diff ($client_identifiers, $server_identifiers);
-foreach ($identifiers as $identifier) {
+$identifiers = filter_string_array_diff ($client_identifiers, $server_identifiers);
+for ($identifiers as $identifier) {
   $summary = $database_notes->getSummary ($identifier);
   $database_notes->delete ($identifier);
-  $database_logs->log ("Deleting note on client while syncing with server" . ": $summary", Filter_Roles::translator ());
+  Database_Logs::log ("Deleting note on client while syncing with server" . ": $summary", Filter_Roles::translator ());
 }
 
 // Check whether the local notes on the client match the ones on the server.
 // If needed download the note from the server.
-foreach ($server_identifiers as $key => $identifier) {
+for ($server_identifiers as $key => $identifier) {
   $server_checksum = $server_checksums [$key];
   $client_checksum = $database_notes->getChecksum ($identifier);
   if ($client_checksum != $server_checksum) {
@@ -171,7 +171,7 @@ foreach ($server_identifiers as $key => $identifier) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure synchronizing Consultation Notes while downloading a note", Filter_Roles::translator ());
+      Database_Logs::log ("Failure synchronizing Consultation Notes while downloading a note", Filter_Roles::translator ());
       die;
     }
 
@@ -200,7 +200,7 @@ foreach ($server_identifiers as $key => $identifier) {
     $database_notes->updateSearchFields ($identifier);
     $database_notes->updateChecksum ($identifier);
 
-    $database_logs->log ("Note received from server" . ": " . $summary, Filter_Roles::manager ());
+    Database_Logs::log ("Note received from server" . ": " . $summary, Filter_Roles::manager ());
 
     $checksum = $database_notes->getChecksum ($identifier);
 

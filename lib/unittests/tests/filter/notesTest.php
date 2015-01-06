@@ -81,7 +81,7 @@ EOD;
   protected function tearDown()
   {
     $database_notes = Database_Notes::getInstance();
-    foreach ($this->note_identifiers as $identifier) {
+    for ($this->note_identifiers as $identifier) {
       $database_notes->delete ($identifier);
     }
   } 

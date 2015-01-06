@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
-@$open = $_GET ['open'];
+@$open = request->query ['open'];
 if (isset ($open)) {
   $open = intval (basename ($open));
   $database_notes = Database_Notes::getInstance ();
@@ -33,7 +33,7 @@ if (isset ($open)) {
 }
 
 
-@$new = $_GET ['new'];
+@$new = request->query ['new'];
 if (isset ($new)) {
   $new = intval (basename ($new));
   $database_modifications = Database_Modifications::getInstance ();
@@ -41,11 +41,11 @@ if (isset ($new)) {
   $bible = $database_modifications->getNotificationBible ($new);
   $summary = gettext("Query about a change in the text");
   $contents = "<p>" . gettext("Old text:") . "</p>";
-  $contents .= $database_modifications->getNotificationOldText ($new);
-  $contents .= "<p>" .  gettext("Change:") . "</p>";
-  $contents .= "<p>" . $database_modifications->getNotificationModification ($new) . "</p>";
-  $contents .= "<p>" . gettext("New text:") . "</p>";
-  $contents .= $database_modifications->getNotificationNewText ($new);
+  $contents += $database_modifications->getNotificationOldText ($new);
+  $contents += "<p>" .  gettext("Change:") . "</p>";
+  $contents += "<p>" . $database_modifications->getNotificationModification ($new) . "</p>";
+  $contents += "<p>" . gettext("New text:") . "</p>";
+  $contents += $database_modifications->getNotificationNewText ($new);
   $passage = $database_modifications->getNotificationPassage ($new);
   $database_notes = Database_Notes::getInstance ();
   $notes_logic = Notes_Logic::getInstance();

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,13 +34,13 @@ $bible = $database_config_user->getSourceXrefBible ();
 
 
 // Save abbreviation / book pair.
-if (isset ($_POST ['save'])) {
-  $abbreviation = $_POST ['abbreviation'];
-  $fullname = $_POST ['fullname'];
-  $abbreviations = $database_config_bible->getBookAbbreviations ($bible);
-  $abbreviations = Filter_Abbreviations::display ($abbreviations);
-  $abbreviations .= "\n$fullname = $abbreviation";
-  $database_config_bible->setBookAbbreviations ($bible, $abbreviations);
+if (isset (request->post ['save'])) {
+  $abbreviation = request->post ['abbreviation'];
+  $fullname = request->post ['fullname'];
+  $abbreviations = Database_Config_Bible::getBookAbbreviations ($bible);
+  $abbreviations = filter_abbreviations_display ($abbreviations);
+  $abbreviations += "\n$fullname = $abbreviation";
+  Database_Config_Bible::setBookAbbreviations ($bible, $abbreviations);
 }
 
 
@@ -56,10 +56,10 @@ $allnotes = unserialize ($allnotes);
 // Retrieve all abbreviations, sort them, longest first.
 // The replace routines replaces the longer strings first,
 // to be sure that no partial book abbreviations are replaced.
-$abbreviations = $database_config_bible->getBookAbbreviations ($bible);
-$abbreviations = Filter_Abbreviations::read ($abbreviations);
+$abbreviations = Database_Config_Bible::getBookAbbreviations ($bible);
+$abbreviations = filter_abbreviations_read ($abbreviations);
 $sorter = array ();
-foreach ($abbreviations as $abbrev => $book) {
+for ($abbreviations as $abbrev => $book) {
   $sorter [] = mb_strlen ($abbrev);
 }
 array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $abbreviations);
@@ -70,13 +70,13 @@ $unknown_abbreviations = array ();
 
 
 // Go through notes, do the replacement, collect unknown abbreviations.
-foreach ($allnotes as $note) {
+for ($allnotes as $note) {
   $note = $note ['text'];
   $note = str_replace ('\x*', "", $note);
   $note = str_replace ('\x', "", $note);
   $note = str_replace ($abbreviations, "", $note);
   $note = explode (" ", $note);
-  foreach ($note as $fragment) {
+  for ($note as $fragment) {
     if (strlen ($fragment) <= 1) continue;
     if (intval ($fragment) > 0) continue;
     $unknown_abbreviations [] = $fragment;
@@ -85,7 +85,7 @@ foreach ($allnotes as $note) {
 
 
 if (empty ($unknown_abbreviations)) {
-  Filter_Url::redirect ("translate.php");
+  redirect_browser ("translate.php");
   die;
 }
 
@@ -104,9 +104,9 @@ $view->view->remaining = count ($unknown_abbreviations) - 1;
 $view->view->abbreviation = $unknown_abbreviations [0];
 
 
-$books = $database_books->getIDs ();
-foreach ($books as &$book) {
-  $book = $database_books->getEnglishFromId ($book);
+$books = Database_Books::getIDs ();
+for ($books as &$book) {
+  $book = Database_Books::getEnglishFromId ($book);
 }
 $view->view->books = $books;
 

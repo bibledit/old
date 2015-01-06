@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ class Filter_Java
     // Assemble the class path.
     $cp = ".";
     if (is_array ($classpath)) {
-      foreach ($classpath as $path) {
+      for ($classpath as $path) {
         $cp = "$cp:$path";
       }
     }
@@ -54,10 +54,10 @@ class Filter_Java
     $cp = escapeshellarg ($cp);
     $javafile = escapeshellarg ("$outputFolder/program.java");
     $command = "cd $workingdirectory && javac -cp $cp $javafile 2>&1";
-    $database_logs->log ($command);
+    Database_Logs::log ($command);
     exec ($command, $output, $return_var);
-    foreach ($output as $line) {
-      $database_logs->log ($line);
+    for ($output as $line) {
+      Database_Logs::log ($line);
     }
 
     // Folder of compiled program.
@@ -77,7 +77,7 @@ class Filter_Java
     // Assemble the class path.
     $cp = ".";
     if (is_array ($classpath)) {
-      foreach ($classpath as $path) {
+      for ($classpath as $path) {
         $cp = "$cp:$path";
       }
     }
@@ -89,10 +89,10 @@ class Filter_Java
     $cp = escapeshellarg ($cp);
     $runclass = escapeshellarg ($runclass);
     $command = "cd $workingdirectory && java -cp $cp $runclass 2>&1";
-    $database_logs->log ($command);
+    Database_Logs::log ($command);
     exec ($command, $output, $return_var);
-    foreach ($output as $line) {
-      $database_logs->log ($line);
+    for ($output as $line) {
+      Database_Logs::log ($line);
     }
     return $return_var;
   }

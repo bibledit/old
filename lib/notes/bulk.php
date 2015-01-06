@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 $verse = $ipc_focus->getVerse ();
@@ -63,7 +63,7 @@ if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 // assemble the list of identifiers of notes to operate on.
 // This is done to remember them as long as this page is active.
 // Thus bulk operations on notes can be rectified somewhat easier.
-if (count ($_GET) == 0) {
+if (count (request->query) == 0) {
   $identifiers = $database_notes->selectNotes ($bibles, $book, $chapter, $verse,
                                                $passage_selector,
                                                $edit_selector,
@@ -85,106 +85,106 @@ $identifiers = unserialize ($database_volatile->getValue ($userid, "identifiers"
 
 
 $identifierlist = "";
-foreach ($identifiers as $identifier) {
-  $identifierlist .= " $identifier";
+for ($identifiers as $identifier) {
+  $identifierlist += " $identifier";
 }
 
 
-if (isset($_GET['subscribe'])) {
-  foreach ($identifiers as $identifier) {
+if (isset(request->query['subscribe'])) {
+  for ($identifiers as $identifier) {
     $notes_logic->subscribe ($identifier);
   }
   Assets_Page::success (gettext("You subscribed to these notes"));
 }
 
 
-if (isset($_GET['unsubscribe'])) {
-  foreach ($identifiers as $identifier) {
+if (isset(request->query['unsubscribe'])) {
+  for ($identifiers as $identifier) {
     $notes_logic->unsubscribe ($identifier);
   }
   Assets_Page::success (gettext("You unsubscribed from these notes"));
 }
 
 
-@$assign = $_GET['assign'];
+@$assign = request->query['assign'];
 if (isset ($assign)) {
   if ($database_users->usernameExists ($assign)) {
-    foreach ($identifiers as $identifier) {
+    for ($identifiers as $identifier) {
       if (!$database_notes->isAssigned ($identifier, $assign)) {
         $notes_logic->assignUser ($identifier, $assign);
       }
     }
   }
   Assets_Page::success (gettext("The notes were assigned to the user"));
-  $database_logs->log ("Notes assigned to user $assign: $identifierlist");
+  Database_Logs::log ("Notes assigned to user $assign: $identifierlist");
 }
 
 
-@$unassign = $_GET['unassign'];
+@$unassign = request->query['unassign'];
 if (isset ($unassign)) {
   if ($database_users->usernameExists ($unassign)) {
-    foreach ($identifiers as $identifier) {
+    for ($identifiers as $identifier) {
       if ($database_notes->isAssigned ($identifier, $unassign)) {
         $notes_logic->unassignUser ($identifier, $unassign);
       }
     }
   }
   Assets_Page::success (gettext("The notes are no longer assigned to the user"));
-  $database_logs->log ("Notes unassigned from user $unassign: $identifierlist", true);
+  Database_Logs::log ("Notes unassigned from user $unassign: $identifierlist", true);
 }
 
 
-@$status = $_GET['status'];
+@$status = request->query['status'];
 if (isset ($status)) {
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     if ($database_notes->getRawStatus ($identifier) != $status) {
       $notes_logic->setStatus ($identifier, $status);
     }
   }
   Assets_Page::success (gettext("The status of the notes was updated"));
-  $database_logs->log ("Status update of notes: $identifierlist", true);
+  Database_Logs::log ("Status update of notes: $identifierlist", true);
 }
 
 
-@$severity = $_GET['severity'];
+@$severity = request->query['severity'];
 if (isset ($severity)) {
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     if ($database_notes->getRawSeverity ($identifier) != $severity) {
       $notes_logic->setRawSeverity ($identifier, $severity);
     }
   }
   Assets_Page::success (gettext("The severity of the notes was updated"));
-  $database_logs->log ("Severity update of notes: $identifierlist", true);
+  Database_Logs::log ("Severity update of notes: $identifierlist", true);
 }
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == Notes_Logic::generalBibleName ()) $bible = "";
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     if ($database_notes->getBible ($identifier) != $bible) {
       $notes_logic->setBible ($identifier, $bible);
     }
   }
   Assets_Page::success (gettext("The Bible of the notes was updated"));
-  $database_logs->log ("Bible update of notes: $identifierlist", true);
+  Database_Logs::log ("Bible update of notes: $identifierlist", true);
 }
 
 
-@$delete = $_GET['delete'];
+@$delete = request->query['delete'];
 if (isset ($delete)) {
-  @$confirm = $_GET['confirm'];
+  @$confirm = request->query['confirm'];
   if ($confirm != "yes") {
     $dialog_yes = new Dialog_Yes2 (gettext("Would you like to delete the notes?"), "&delete=");
   } else {
-    foreach ($identifiers as $identifier) {
+    for ($identifiers as $identifier) {
       $notes_logic->delete ($identifier); // Notifications handling.
       $trash_handler = Trash_Handler::getInstance ();
       $trash_handler->consultationNote ($identifier);
       $database_notes->delete ($identifier);
     }
     Assets_Page::success (gettext("The notes were deleted"));
-    $database_logs->log ("Notes deleted: $identifierlist", true);
+    Database_Logs::log ("Notes deleted: $identifierlist", true);
   }
 }
 

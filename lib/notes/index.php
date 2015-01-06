@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
@@ -30,7 +30,7 @@ $session_logic = Session_Logic::getInstance ();
 
 // Presets for notes selectors.
 // Used by the daily statistics and the workbench.
-@$preset_selector = $_GET ['presetselection'];
+@$preset_selector = request->query ['presetselection'];
 if (isset ($preset_selector)) {
   $database_config_user->setConsultationNotesPassageSelector (3);
   $database_config_user->setConsultationNotesEditSelector (0);

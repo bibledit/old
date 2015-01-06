@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -55,7 +55,6 @@ string filter_string_trim (string s);
 string filter_string_ltrim (string s);
 string filter_string_fill (string s, int width, char fill);
 bool filter_string_is_numeric (string s);
-void var_dump (map <string, string> var);
 string filter_string_sanitize_html (string html);
 string get_soft_hyphen ();
 string get_no_break_space ();
@@ -63,11 +62,24 @@ string get_en_space ();
 size_t unicode_string_length (string s);
 string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 string unicode_string_casefold (string s);
+bool unicode_string_is_valid (string s);
 int filter_string_rand (int floor, int ceiling);
 string filter_string_html2text (string html);
 string filter_string_extract_email (string input);
 string filter_string_extract_body (string input, string year = "", string sender = "");
 string get_tick_box (bool enabled);
+void quick_sort (vector <unsigned int>& one, vector <string>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <unsigned int>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <unsigned int>& one, vector <bool>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <int>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, vector <string>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, vector <bool>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, unsigned int beg, unsigned int end);
+void quick_sort (vector <long unsigned int>& one, vector <long unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsigned int end);
+string substr_replace (string original, string replacement, size_t start, size_t length);
+string number_in_string (const string & str);
 
 
 #endif

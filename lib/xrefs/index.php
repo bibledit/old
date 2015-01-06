@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,12 +41,12 @@ $success = "";
 $error = "";
 
 
-@$source = $_GET['source'];
+@$source = request->query['source'];
 if (isset ($source)) {
   if ($source == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to use as the source where to read the cross references from"));
-    $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    $bibles = access_bible_bibles ();
+    for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&source=$bible");
     }
     $dialog_list->run();
@@ -56,12 +56,12 @@ if (isset ($source)) {
 }
 
 
-@$target = $_GET['target'];
+@$target = request->query['target'];
 if (isset ($target)) {
   if ($target == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to insert the cross references into"));
-    $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    $bibles = access_bible_bibles ();
+    for ($bibles as $bible) {
       if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "&target=$bible");
       }
@@ -74,7 +74,7 @@ if (isset ($target)) {
 
 
 $source = $database_config_user->getSourceXrefBible ();
-if (!Access_Bible::read ($source)) {
+if (!access_bible_read ($source)) {
   $source = "";
   $database_config_user->setSourceXrefBible ($source);
 }

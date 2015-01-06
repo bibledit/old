@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <database/bibles.h>
 #include <database/search.h>
+#include <database/books.h>
 #include <filter/url.h>
 #include <filter/string.h>
 
@@ -164,14 +165,11 @@ vector <int> Database_Bibles::getBooks (string bible)
   }
 
   // Sort the books according to the sequence defined in the books database. C++Port
-  /*
-  $sequence = array ();
-  $database_books = Database_Books::getInstance ();
-  foreach ($books as $book) {
-    $sequence [] = $database_books->getSequenceFromId ($book);
+  vector <int> sequence;
+  for (auto & book : books) {
+    sequence.push_back (Database_Books::getSequenceFromId (book));
   }
-  array_multisort ($sequence, $books);
-  */
+  quick_sort (sequence, books, 0, sequence.size());
 
   // Result.
   return books;

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 $inputData = "";
-if (isset($_POST['submit'])) {
-  $inputData = $_POST['data'];
-  $inputData = trim ($inputData);
+if (isset(request->post['submit'])) {
+  $inputData = request->post['data'];
+  $inputData = filter_string_trim ($inputData);
 }
 $outputData = $inputData;
 
@@ -46,12 +46,12 @@ $outputData = $inputData;
 <h3>Step 1: Supply input text</h3>
 <p>Paste some BibleWorks text into the text box, and then press the Submit button below.</p>
 <form action="bibleworks2esword.php" name="form" method="post">
-  <p><textarea name="data"><?php echo $inputData; ?></textarea></p>
+  <p><textarea name="data">$inputData;</textarea></p>
   <p><input type="submit" name="submit" value="Submit" /></p>
 </form>
 <h3>Step 2: Use output text</h3>
 <p>Select the converted text from the text box below and copy it to the clipboard.</p>
-<p><textarea name="outputdata"><?php echo $outputData; ?></textarea></p>
+<p><textarea name="outputdata">$outputData;</textarea></p>
 
 
 <?php

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ bool manage_users_acl (void * webserver_request)
 }
 
 
-string manage_users (void * webserver_request) // Todo
+string manage_users (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -99,10 +99,10 @@ string manage_users (void * webserver_request) // Todo
     string level = request->query ["level"];
     if (level == "") {
       Dialog_List dialog_list = Dialog_List ("users", gettext("Select a role for") + " " + user, "", "");
+      dialog_list.add_query ("user", user);
       for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
         if (i <= currentLevel) {
-          string parameter = "?user=" + user + "&level=" + convert_to_string (i);
-          dialog_list.add_row (Filter_Roles::text (i), parameter);
+          dialog_list.add_row (Filter_Roles::text (i), "level", convert_to_string (i));
         }
       }
       page += dialog_list.run ();
@@ -151,9 +151,9 @@ string manage_users (void * webserver_request) // Todo
   if (request->query.count ("addbible")) {
     string addbible = request->query["addbible"];
     if (addbible == "") {
-      /* sC++Port
+      /* C++Port
       dialog_list = new Dialog_List (NULL, gettext("Would you like to grant user user access to a Bible?"), "", "");
-      foreach (accessibleBibles as bible) {
+      for (accessibleBibles as bible) {
         parameter = "?user=user&addbible=bible";
         dialog_list.add_row (bible, parameter);
       }

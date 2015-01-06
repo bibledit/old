@@ -1,0 +1,40 @@
+<h1>gettext("Import USFM")</h1>
+<p class="success">##success_message##</p>
+<p class="error">##error_message##</p>
+<p>gettext("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
+<p><a href="/journal/index" target="_blank">gettext("Journal")</a></p>
+<p>
+  gettext("This helps you with importing Unified Standard Format Markers data.")
+  gettext("More information about this format:")
+  <a href="http://paratext.org/about/usfm" target="_blank">gettext("Source 1: Paratext.")</a>
+  <a href="http://ubs-icap.org/chm/usfm/" target="_blank">gettext("Source 2: UBS ICAP.")</a>
+</p>
+<p>
+  gettext("The data to be imported will overwrite similar data already in the Bible.")
+  gettext("If you import for example Genesis chapter 1, it will overwrite Genesis 1 if that chapter already was in the Bible.")
+  gettext("It will not overwrite anything else.")
+  gettext("If Genesis 1 was not yet there, it will be created.")
+  gettext("You can import one chapter, or several chapters, or one book, or several books, all in one go.")
+  gettext("Bibledit will recognize books through the \id markup and chapters through the \c markup.")
+  gettext("The text to be imported should be in Unicode UTF-8 format.")
+</p>
+<br>
+<p>
+  gettext("To import the data, paste the data into the box below, and then press the Submit button.")
+</p>
+<form action="?bible=##bible##" name="form" method="post">
+  <p><textarea name="data"></textarea></p>
+  <p><input type="submit" name="submit" value=gettext("Submit") /></p>
+</form>
+<br>
+<p>gettext("You can also upload a file.")</p>
+<p>gettext("The file to be uploaded can be a USFM file or a compressed archive with USFM files.")</p>
+<form enctype="multipart/form-data" action="?bible=##bible##" method="POST">
+  <input name="data" type="file" />
+  <input type="submit" name="upload" value="gettext("Upload")" />
+</form>
+<p>
+  gettext("Uploading may take some time.")
+  gettext("It depends on the speed of your network and on the size of the file.")
+</p>
+<p>gettext("If uploading fails, it may be because the file is too large, or the network too slow.")</p>

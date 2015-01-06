@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@ $database_bibles = Database_Bibles::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance();
 
 
-@$switchbook = $_GET ['switchbook'];
-@$switchchapter = $_GET ['switchchapter'];
-@$switchverse = $_GET ['switchverse'];
+@$switchbook = request->query ['switchbook'];
+@$switchchapter = request->query ['switchchapter'];
+@$switchverse = request->query ['switchverse'];
 if (isset ($switchbook) && isset ($switchchapter)) {
   $switchbook = Filter_Numeric::integer_in_string ($switchbook);
   $switchchapter = Filter_Numeric::integer_in_string ($switchchapter);
@@ -47,12 +47,12 @@ $header->setEditorStylesheet ();
 $header->run ();
 
 
-@$changebible = $_GET['changebible'];
+@$changebible = request->query['changebible'];
 if (isset ($changebible)) {
   if ($changebible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to open in the editor"));
-    $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    $bibles = access_bible_bibles ();
+    for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&changebible=$bible");
     }
     $dialog_list->run();
@@ -74,7 +74,7 @@ $view = new Assets_View (__FILE__);
 
 
 // Active Bible, and check access.
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 $view->view->bible = $bible;
 
 
@@ -101,8 +101,8 @@ $view->view->script = $script;
 
 
 $class = Filter_CustomCSS::getClass ($bible);
-$font = $database_config_bible->getTextFont ($bible);
-$direction = $database_config_bible->getTextDirection ($bible);
+$font = Database_Config_Bible::getTextFont ($bible);
+$direction = Database_Config_Bible::getTextDirection ($bible);
 $view->view->custom_class = $class;
 $view->view->custom_css = Filter_CustomCSS::getCss ($class, Fonts_Logic::getFontPath ($font), $direction);
 

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,18 +18,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo gettext("Resources") ?>
-  <a href="organize.php">[<?php echo gettext("organize") ?>]</a>
+  gettext("Resources")
+  <a href="organize.php">[gettext("organize")]</a>
 </p>
 <hr>
-<?php foreach ($this->resources as $offset => $resource) { ?>
-  <div id="line<?php echo $offset + 1 ?>" style="clear:both">
-  <span id="name<?php echo $offset + 1 ?>" class="small"><?php echo $resource ?></span>
-  <span id="loading<?php echo $offset + 1 ?>"><img src="../pix/loading.gif"></span>
-  <span id="content<?php echo $offset + 1 ?>"></span>
+<?php for ($this->resources as $offset => $resource) {
+  <div id="line$offset + 1" style="clear:both">
+  <span id="name$offset + 1" class="small">$resource</span>
+  <span id="loading$offset + 1"><img src="../pix/loading.gif"></span>
+  <span id="content$offset + 1"></span>
   <hr style="clear:both">
   </div>
-<?php } ?>
-<script><?php echo $this->script; ?></script>
-<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
-<script type="text/javascript" src="../navigation/nav.js?<?php echo config_logic_version () ?>"></script>
+<?php }
+<script>$this->script;</script>
+<script type="text/javascript" src="index.js?config_logic_version ()"></script>
+<script type="text/javascript" src="../navigation/nav.js?config_logic_version ()"></script>

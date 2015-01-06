@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$database_logs->log (gettext("Sending statistics to users"), Filter_Roles::admin ());
+Database_Logs::log (gettext("Sending statistics to users"), Filter_Roles::admin ());
 
 
 $siteUrl = $database_config_general->getSiteURL ();
@@ -46,7 +46,7 @@ $bibles = $database_bibles->getBibles ();
 
 
 $users = $database_users->getUsers ();
-foreach ($users as $user) {
+for ($users as $user) {
 
 
   $subject = "Bibledit " . gettext("statistics");

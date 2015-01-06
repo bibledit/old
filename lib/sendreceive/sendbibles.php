@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@ $database_users = Database_Users::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$database_logs->log (gettext("Sending and receiving Bibles"), Filter_Roles::translator ());
+Database_Logs::log (gettext("Sending and receiving Bibles"), Filter_Roles::translator ());
 
 
 $response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  $database_logs->log (gettext("Failure initializing sending and receiving Bibles"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Failure initializing sending and receiving Bibles"), Filter_Roles::translator ());
   die;
 }
 
@@ -57,14 +57,14 @@ $communication_errors = false;
 
 // Go through the Bibles / books / chapters that have actions recorded for them.
 $bibles = $database_bibleactions->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   $books = $database_bibleactions->getBooks ($bible);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $chapters = $database_bibleactions->getChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
 
-      $bookname = $database_books->getEnglishFromId ($book);
-      $database_logs->log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::translator ());
+      $bookname = Database_Books::getEnglishFromId ($book);
+      Database_Logs::log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::translator ());
 
       // Get old and new USFM for this chapter.
       $oldusfm = $database_bibleactions->getUsfm ($bible, $book, $chapter);
@@ -105,7 +105,7 @@ foreach ($bibles as $bible) {
 
           // Communication error.
           $communication_errors = true;
-          $database_logs->log ("Failure sending Bibles", Filter_Roles::translator ());
+          Database_Logs::log ("Failure sending Bibles", Filter_Roles::translator ());
           // Restore the Bible action for this chapter.
           $database_bibleactions->delete ($bible, $book, $chapter);
           $database_bibleactions->record ($bible, $book, $chapter, $oldusfm);
@@ -131,11 +131,11 @@ foreach ($bibles as $bible) {
               // Checksum error.
               // The chapter will not be stored on the client.
               // That is fine for just now, because the pending sync action will do it.
-              $database_logs->log ("Checksum error while receiving chapter from server", Filter_Roles::translator ());
+              Database_Logs::log ("Checksum error while receiving chapter from server", Filter_Roles::translator ());
             }
   
           } else {
-            $database_logs->log ("The server says: $checksum_message", Filter_Roles::translator ());
+            Database_Logs::log ("The server says: $checksum_message", Filter_Roles::translator ());
           }
 
         } else {
@@ -169,7 +169,7 @@ foreach ($bibles as $bible) {
 // then the client should not download changes from the server,
 // because downloading them would overwrite the changes on the client.
 // The client only downloads changes from the server after it has sent all local edits successfully.
-if (!$communication_errors) Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncbibles.php"));
+if (!$communication_errors) tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncbibles.php"));
 
 
 ?>

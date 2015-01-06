@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// This script is called on a client device and makes settings for Bibledit-Web.
+// This script is called on a client device and makes settings for Bibledit.
 // It can be called from localhost only for security reasons.
 if ($_SERVER ['SERVER_ADDR'] != $_SERVER ['REMOTE_ADDR']) die;
 
@@ -34,7 +34,7 @@ $database_config_general = Database_Config_General::getInstance ();
 
 // Set the system's time zone.
 // Bibledit for Android calls this function.
-@$timezone = $_GET ['1'];
+@$timezone = request->query ['1'];
 if (isset ($timezone)) {
   $timezones = Filter_Datetime::timezones ();
   if (in_array ($timezone, $timezones)) {
@@ -45,7 +45,7 @@ if (isset ($timezone)) {
 
 // Set the system's time zone from Windows.
 // The UTC offset is given in minutes positive or negative.
-@$utc_offset_minutes = $_GET ['utcoffset'];
+@$utc_offset_minutes = request->query ['utcoffset'];
 if (isset ($utc_offset_minutes)) {
   $timezone = timezone_name_from_abbr ("", $utc_offset_minutes * 60, 0);
   if ($timezone) {

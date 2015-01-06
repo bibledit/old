@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,25 +17,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Suppressed check results") ?></h1>
-<p><a href="index.php">[<?php echo gettext("back") ?>] <a href="#help">[<?php echo gettext ("help") ?>]</a></p>
+<h1>gettext("Suppressed check results")</h1>
+<p><a href="index.php">[gettext("back")] <a href="#help">[gettext ("help")]</a></p>
 <br>
-<p class="error"><?php echo $this->error ?></p>
-<p class="success"><?php echo $this->success ?></p>
-<?php foreach ($this->ids as $offset => $id) { ?>
+<p class="error">$this->error</p>
+<p class="success">$this->success</p>
+<?php for ($this->ids as $offset => $id) {
   <p style="color:grey;">
-  <a href="suppress.php?release=<?php echo $id ?>">
+  <a href="suppress.php?release=$id">
   ✗
   </a>
-  <?php echo $this->data[$offset] ?>
+  $this->data[$offset]
   </p>
-<?php } ?>
+<?php }
 <br>
 <a id="help"></a>
 <p>
-  <?php echo gettext("The page lists the suppressed results of the checks.") ?>
+  gettext("The page lists the suppressed results of the checks.")
 </p>
 <p>
-  <?php echo gettext("Click ✗ to remove the items from the suppressed list.") ?>
-  <?php echo gettext("It will be visible again in the list of check results.") ?>
+  gettext("Click ✗ to remove the items from the suppressed list.")
+  gettext("It will be visible again in the list of check results.")
 </p>

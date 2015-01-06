@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
@@ -30,13 +30,13 @@ $database_volatile = Database_Volatile::getInstance ();
 $siteUrl = $database_config_general->getSiteURL ();
 
 
-@$bible = $_GET ['bible'];
+@$bible = request->query ['bible'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$identifier = $_GET ['i'];
-@$query = $_GET ['q'];
-@$hit = $_GET ['h'];
+@$identifier = request->query ['i'];
+@$query = request->query ['q'];
+@$hit = request->query ['h'];
 
 
 // Get one search hit.
@@ -85,10 +85,10 @@ if (isset ($query)) {
   
 
   // Get extra search parameters and store them all in the volatile database.
-  @$casesensitive = ($_GET ['c'] == "true");
-  @$plaintext = ($_GET ['p'] == "true");
-  @$currentbook = ($_GET ['b'] == "true");
-  @$sharing = $_GET ['s'];
+  @$casesensitive = (request->query ['c'] == "true");
+  @$plaintext = (request->query ['p'] == "true");
+  @$currentbook = (request->query ['b'] == "true");
+  @$sharing = request->query ['s'];
   $database_volatile->setValue ($identifier, "query", $query);
   $database_volatile->setValue ($identifier, "casesensitive", $casesensitive);
   $database_volatile->setValue ($identifier, "plaintext", $plaintext);
@@ -118,7 +118,7 @@ if (isset ($query)) {
     $ipc_focus = Ipc_Focus::getInstance();
     $book = $ipc_focus->getBook ();
     $bookhits = array ();
-    foreach ($hits as $hit) {
+    for ($hits as $hit) {
       $details = $database_search->getBiblePassage ($hit);
       if ($book == $details ['book']) {
         $bookhits [] = $hit;
@@ -136,7 +136,7 @@ if (isset ($query)) {
       $hits = array_merge ($loadedHits, $hits);
     }
     if ($sharing == "remove") {
-      $hits = array_diff ($loadedHits, $hits);
+      $hits = filter_string_array_diff ($loadedHits, $hits);
     }
     if ($sharing == "intersect") {
       $hits = array_intersect ($loadedHits, $hits);
@@ -147,8 +147,8 @@ if (isset ($query)) {
   
   // Generate one string from the hits.
   $output = "";
-  foreach ($hits as $hit) {
-    $output .= "$hit\n";
+  for ($hits as $hit) {
+    $output += "$hit\n";
   }
   
   // Store search hits in the volatile database.

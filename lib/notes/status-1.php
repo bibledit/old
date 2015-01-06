@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,13 +26,13 @@ $database_notes = Database_Notes::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
-@$status = $_GET['status'];
+@$status = request->query['status'];
 if (isset ($status)) {
   $notes_logic->setStatus ($id, $status);
-  Filter_Url::redirect ("actions.php?id=$id");
+  redirect_browser ("actions.php?id=$id");
   die;
 }
 

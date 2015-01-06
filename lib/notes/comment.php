@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,29 +19,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
 $notes_logic = Notes_Logic::getInstance();
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if ($id == "") {
-  @$id = $_POST ['id'];
+  @$id = request->post ['id'];
 }
 
 
-if (isset($_POST['submit'])) {
-  $comment = trim ($_POST['comment']);
+if (isset(request->post['submit'])) {
+  $comment = filter_string_trim (request->post['comment']);
   $notes_logic->addComment ($id, $comment);
-  Filter_Url::redirect ("note.php?id=$id&temporal");
+  redirect_browser ("note.php?id=$id&temporal");
   die;
 }
 
 
-if (isset($_POST['cancel'])) {
-  Filter_Url::redirect ("note.php?id=$id");
+if (isset(request->post['cancel'])) {
+  redirect_browser ("note.php?id=$id");
   die;
 }
 

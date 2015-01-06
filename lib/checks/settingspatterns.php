@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,19 +28,19 @@ $database_config_user = Database_Config_User::getInstance();
 $database_config_bible = Database_Config_Bible::getInstance();
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 
-if (isset($_POST['patterns'])) {
-  $patterns = $_POST ['patterns'];
-  if ($bible) $database_config_bible->setCheckingPatterns ($bible, $patterns);
+if (isset(request->post['patterns'])) {
+  $patterns = request->post ['patterns'];
+  if ($bible) Database_Config_Bible::setCheckingPatterns ($bible, $patterns);
   $view->view->success = gettext("The patterns were saved");
 }
 
 
 $view->view->bible = $bible;
-$view->view->patterns = $database_config_bible->getCheckingPatterns ($bible);
+$view->view->patterns = Database_Config_Bible::getCheckingPatterns ($bible);
 $view->render ("settingspatterns.php");
 Assets_Page::footer ();
 

@@ -123,8 +123,8 @@ EOD;
     $database_bibles = Database_Bibles::getInstance();
     $database_modifications->deleteTeamDiffBible ($this->bible);
     $database_bibles->deleteBible ($this->bible);
-    Filter_Rmdir::rmdir ($this->repository);
-    Filter_Rmdir::rmdir ($this->newrepository);
+    filter_url_rmdir ($this->repository);
+    filter_url_rmdir ($this->newrepository);
   }
 
 
@@ -257,8 +257,8 @@ EOD;
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
     // Remove one book and one chapter from the git repository,
     // and check that after running the filter, the database is updated accordingly.
-    Filter_Rmdir::rmdir ($this->repository . "/Song of Solomon");
-    Filter_Rmdir::rmdir ($this->repository . "/Psalms/0");
+    filter_url_rmdir ($this->repository . "/Song of Solomon");
+    filter_url_rmdir ($this->repository . "/Psalms/0");
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
     $books = $database_bibles->getBooks ($this->bible);
     $this->assertEquals ($books, array (19));
@@ -333,8 +333,8 @@ EOD;
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
 
     // Remove one book and one chapter from the git repository,
-    Filter_Rmdir::rmdir ($this->repository . "/Song of Solomon");
-    Filter_Rmdir::rmdir ($this->repository . "/Psalms/0");
+    filter_url_rmdir ($this->repository . "/Song of Solomon");
+    filter_url_rmdir ($this->repository . "/Psalms/0");
 
     // Run updates on the three chapters.
     Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 0);

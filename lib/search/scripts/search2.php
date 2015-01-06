@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,25 +18,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo gettext("Bible") ?>: 
-  <?php echo $this->bible; ?>
-  <a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a>
+  gettext("Bible"): 
+  $this->bible;
+  <a href="select.php" title="gettext("Menu")">☰</a>
 </p>
 <p>
-  <input id="searchentry" type="text" value="" placeholder="<?php echo gettext("Search for") ?>" />
-  <input id="searchbutton" type="button" value="<?php echo gettext("Search") ?>"  />
+  <input id="searchentry" type="text" value="" placeholder="gettext("Search for")" />
+  <input id="searchbutton" type="button" value="gettext("Search")"  />
   <img id="searchloading" src="../pix/loading.gif">
   <span id="hitcount"></span>
   <progress value="0" max="100"></progress>
 </p>
-<p><input type="checkbox" id="casesensitive"><?php echo gettext("Case sensitive") ?></p>
-<p><?php echo gettext("Search") ?> <input type="radio" id="searchplain" name="where" checked="checked"><?php echo gettext ("main text without notes") ?> <input type="radio" name="where"><?php echo gettext("underlying USFM") ?></p>
-<p><input type="checkbox" id="currentbook"><?php echo gettext("Current book") ?></p>
-<p><?php echo gettext("What to do with the search results") ?>:</p>
-<p><input type="radio" id="load" name="share" checked="checked"><?php echo gettext("Display them on the page") ?></p>
-<p><input type="radio" id="add" name="share"><?php echo gettext("Add them to the ones already on the page") ?></p>
-<p><input type="radio" id="remove" name="share"><?php echo gettext("Remove them from the ones already on the page") ?></p>
-<p><input type="radio" id="intersect" name="share"><?php echo gettext("Display the intersection of them and the ones already on the page") ?></p>
+<p><input type="checkbox" id="casesensitive">gettext("Case sensitive")</p>
+<p>gettext("Search") <input type="radio" id="searchplain" name="where" checked="checked">gettext ("main text without notes") <input type="radio" name="where">gettext("underlying USFM")</p>
+<p><input type="checkbox" id="currentbook">gettext("Current book")</p>
+<p>gettext("What to do with the search results"):</p>
+<p><input type="radio" id="load" name="share" checked="checked">gettext("Display them on the page")</p>
+<p><input type="radio" id="add" name="share">gettext("Add them to the ones already on the page")</p>
+<p><input type="radio" id="remove" name="share">gettext("Remove them from the ones already on the page")</p>
+<p><input type="radio" id="intersect" name="share">gettext("Display the intersection of them and the ones already on the page")</p>
 <div id="searchresults"></div>
-<script><?php echo $this->script; ?></script>
-<script type="text/javascript" src="search2.js?<?php echo config_logic_version () ?>"></script>
+<script>$this->script;</script>
+<script type="text/javascript" src="search2.js?config_logic_version ()"></script>

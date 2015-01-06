@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ $chapter = $ipc_focus->getChapter ();
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 
 
-if (isset ($_GET ['overwrite'])) {
+if (isset (request->query ['overwrite'])) {
   $usfm = Filter_Usfm::removeNotes ($usfm, array ("x"));
   Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
 }
@@ -55,7 +55,7 @@ str_replace ($closer, "", $usfm, $closers);
 
 
 if (empty ($xrefs)) {
-  Filter_Url::redirect ("insert.php");
+  redirect_browser ("insert.php");
   die;
 }
 

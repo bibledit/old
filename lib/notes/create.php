@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (©) 2003-2014 Teus Benschop.
+Copyright (©) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
@@ -31,37 +31,37 @@ $ipc_focus = Ipc_Focus::getInstance();
 // Is is possible to pass a Bible to this script.
 // The note will then be created for this Bible.
 // If no Bible is passed, it takes the user's active Bible.
-@$bible = $_POST ['bible'];
+@$bible = request->post ['bible'];
 if ($bible == "") {
-  $bible = Access_Bible::clamp ($database_config_user->getBible ());
+  $bible = access_bible_clamp ($database_config_user->getBible ());
 }
 
 
-@$book = $_POST ['book'];
+@$book = request->post ['book'];
 if ($book == "") {
   $book = $ipc_focus->getBook ();
 }
-@$chapter = $_POST ['chapter'];
+@$chapter = request->post ['chapter'];
 if ($chapter == "") {
   $chapter = $ipc_focus->getChapter ();
 }
-@$verse = $_POST ['verse'];
+@$verse = request->post ['verse'];
 if ($verse == "") {
   $verse = $ipc_focus->getVerse ();
 }
 
 
-if (isset($_POST['submit'])) {
-  $summary = trim ($_POST['summary']);
-  $contents = trim ($_POST['contents']);
+if (isset(request->post['submit'])) {
+  $summary = filter_string_trim (request->post['summary']);
+  $contents = filter_string_trim (request->post['contents']);
   $notes_logic->createNote ($bible, $book, $chapter, $verse, $summary, $contents, false);
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
   die;
 }
 
 
-if (isset($_POST['cancel'])) {
-  Filter_Url::redirect ("index.php");
+if (isset(request->post['cancel'])) {
+  redirect_browser ("index.php");
   die;
 }
 
@@ -75,18 +75,18 @@ $view = new Assets_View (__FILE__);
 
 // This script can be called from a change notification.
 // It will then create a note based on that change notification.
-@$fromchange = $_GET ['fromchange'];
+@$fromchange = request->query ['fromchange'];
 if (isset ($fromchange)) {
   $database_modifications = Database_Modifications::getInstance ();
   $database_bibles = Database_Bibles::getInstance ();
   $bible = $database_modifications->getNotificationBible ($fromchange);
   $summary = gettext("Query about a change in the text");
   $contents = "<p>" . gettext("Old text:") . "</p>";
-  $contents .= $database_modifications->getNotificationOldText ($fromchange);
-  $contents .= "<p>" .  gettext("Change:") . "</p>";
-  $contents .= "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
-  $contents .= "<p>" . gettext("New text:") . "</p>";
-  $contents .= $database_modifications->getNotificationNewText ($fromchange);
+  $contents += $database_modifications->getNotificationOldText ($fromchange);
+  $contents += "<p>" .  gettext("Change:") . "</p>";
+  $contents += "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
+  $contents += "<p>" . gettext("New text:") . "</p>";
+  $contents += $database_modifications->getNotificationNewText ($fromchange);
   $view->view->summary = $summary;
   $view->view->contents = $contents;
 }
