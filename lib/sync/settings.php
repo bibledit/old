@@ -44,11 +44,11 @@ if ($action == "total") {
   
 } else if ($action == Sync_Logic::WORKBENCH_SETTING) {
 
-  $urls = $database_config_user->getWorkbenchURLs ();
+  $urls = request->database_config_user()->getWorkbenchURLs ();
   $urls = unserialize ($urls);
-  $widths = $database_config_user->getWorkbenchWidths ();
+  $widths = request->database_config_user()->getWorkbenchWidths ();
   $widths = unserialize ($widths);
-  $heights = $database_config_user->getWorkbenchHeights ();
+  $heights = request->database_config_user()->getWorkbenchHeights ();
   $heights = unserialize ($heights);
   $setting = array ();
   $setting ['urls'] = $urls;

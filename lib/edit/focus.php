@@ -31,7 +31,7 @@ $database_bibles = Database_Bibles::getInstance();
 $database_config_user = Database_Config_User::getInstance ();
 
 
-$stylesheet = $database_config_user->getStylesheet ();
+$stylesheet = request->database_config_user()->getStylesheet ();
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 $ipc_focus = Ipc_Focus::getInstance ();
 $verse = $ipc_focus->getVerse ();

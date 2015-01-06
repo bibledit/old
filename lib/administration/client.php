@@ -140,7 +140,7 @@ function enable_client ($username, $password, $level)
   $database_bibleactions->clear ();
   $database_bibleactions->create ();
   $session_logic->setUsername ($username);
-  $database_config_user->setUpdatedSettings (array ());
+  request->database_config_user()->setUpdatedSettings (array ());
   
   // Set it repeats sync every so often.
   $database_config_general = Database_Config_General::getInstance ();

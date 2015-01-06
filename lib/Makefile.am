@@ -145,7 +145,10 @@ libbibledit_a_SOURCES = \
 	editusfm/index.cpp \
 	editusfm/load.cpp \
 	editusfm/offset.cpp \
-	editusfm/save.cpp
+	editusfm/save.cpp \
+	editor/styles.cpp \
+	editor/export.cpp \
+	editor/import.cpp
 
 bin_PROGRAMS = server unittest
 

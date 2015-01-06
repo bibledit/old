@@ -29,8 +29,8 @@ $database_config_bible = Database_Config_Bible::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$sourceBible = $database_config_user->getSourceXrefBible ();
-$targetBible = $database_config_user->getTargetXrefBible ();
+$sourceBible = request->database_config_user()->getSourceXrefBible ();
+$targetBible = request->database_config_user()->getTargetXrefBible ();
 
 
 // Save book / abbreviation pair.

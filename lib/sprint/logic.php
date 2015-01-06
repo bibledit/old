@@ -108,29 +108,29 @@ class Sprint_Logic
     unset ($item);
 
     $lines = array ();
-    $lines [] = '<table style="text-align:center;">';
-    $lines [] = '<tr style="vertical-align: bottom;">';
+    lines.push_back ('<table style="text-align:center;">';
+    lines.push_back ('<tr style="vertical-align: bottom;">';
     for ($data as $day => $tasks) {
       $text = str_repeat ("▓<br>", intval ($tasks));
-      $lines [] = "<td>$text</td>";
+      lines.push_back ("<td>$text</td>";
     }
-    $lines [] = "</tr>";
+    lines.push_back ("</tr>";
 
     // Write number of days along the x-axis.
-    $lines [] = '<tr>';
+    lines.push_back ('<tr>';
     for ($data as $day => $tasks) {
-      $lines [] = "<td style=\"width:1em\">$day</td>";
+      lines.push_back ("<td style=\"width:1em\">$day</td>";
     }
-    $lines [] = "</tr>";
+    lines.push_back ("</tr>";
 
     // Write "days" below the x-axis.
-    $lines [] = '<tr>';
+    lines.push_back ('<tr>';
     $columncount = count ($data);
     $text = gettext("days");
-    $lines [] = "<td colspan=\"$columncount\">$text</td>";
-    $lines [] = "</tr>";
+    lines.push_back ("<td colspan=\"$columncount\">$text</td>";
+    lines.push_back ("</tr>";
 
-    $lines [] = "</table>";
+    lines.push_back ("</table>";
 
     $chart = implode ("\n", $lines);
     return $chart;

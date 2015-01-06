@@ -44,7 +44,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
     if ($html != "") {
       if (unicode_string_is_valid ($html)) {
   
-        $stylesheet = $database_config_user->getStylesheet();
+        $stylesheet = request->database_config_user()->getStylesheet();
   
         $editor_export = Editor_Export::getInstance ();
         $editor_export->load ($html);

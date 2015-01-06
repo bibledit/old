@@ -42,27 +42,27 @@ if (isset ($add)) {
     }
     $dialog_list->run();
   } else {
-    $resources = $database_config_user->getConsistencyResources ();
+    $resources = request->database_config_user()->getConsistencyResources ();
     $resources [] = $add;
     $resources = array_unique ($resources, SORT_STRING);
-    $database_config_user->setConsistencyResources ($resources);
+    request->database_config_user()->setConsistencyResources ($resources);
   }
 }
 
 
 @$remove = request->query ['remove'];
 if (isset ($remove)) {
-  $resources = $database_config_user->getConsistencyResources ();
+  $resources = request->database_config_user()->getConsistencyResources ();
   $resources = filter_string_array_diff ($resources, array ($remove));
   $resources = array_values ($resources);
-  $database_config_user->setConsistencyResources ($resources);
+  request->database_config_user()->setConsistencyResources ($resources);
 }
 
 
 $view = new Assets_View (__FILE__);
 
 
-$view->view->resources = $database_config_user->getConsistencyResources ();
+$view->view->resources = request->database_config_user()->getConsistencyResources ();
 
 
 $view->render ("index.php");

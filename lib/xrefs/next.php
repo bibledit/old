@@ -29,7 +29,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-$bible = $database_config_user->getTargetXrefBible ();
+$bible = request->database_config_user()->getTargetXrefBible ();
 
 
 $currentBook = $ipc_focus->getBook ();

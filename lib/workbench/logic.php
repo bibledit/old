@@ -62,7 +62,7 @@ class Workbench_Logic
     $database_config_user = Database_Config_User::getInstance ();
     $workbench = Workbench_Logic::getActiveWorkbench ();
     
-    $urls = $database_config_user->getWorkbenchURLs ();
+    $urls = request->database_config_user()->getWorkbenchURLs ();
     $urls = unserialize ($urls);
     @$urls = $urls [$workbench];
     if (!is_array ($urls)) $urls = array ();
@@ -106,13 +106,13 @@ class Workbench_Logic
   {
     $database_config_user = Database_Config_User::getInstance ();
     $workbench = Workbench_Logic::getActiveWorkbench ();
-    $urls = $database_config_user->getWorkbenchURLs ();
+    $urls = request->database_config_user()->getWorkbenchURLs ();
     $urls = unserialize ($urls);
     $urls [$workbench] = $values;
     $urls = serialize ($urls);
-    $database_config_user->setWorkbenchURLs ($urls);
+    request->database_config_user()->setWorkbenchURLs ($urls);
     // For a client, store the setting for sending to the server.
-    $database_config_user->addUpdatedSetting (Sync_Logic::WORKBENCH_SETTING);
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::WORKBENCH_SETTING);
   }
 
 
@@ -152,7 +152,7 @@ class Workbench_Logic
   {
     $database_config_user = Database_Config_User::getInstance ();
     $workbench = Workbench_Logic::getActiveWorkbench ();
-    $widths = $database_config_user->getWorkbenchWidths ();
+    $widths = request->database_config_user()->getWorkbenchWidths ();
     $widths = unserialize ($widths);
     @$widths = $widths [$workbench];
     if (!is_array ($widths)) $widths = array ();
@@ -170,11 +170,11 @@ class Workbench_Logic
   {
     $database_config_user = Database_Config_User::getInstance ();
     $workbench = Workbench_Logic::getActiveWorkbench ();
-    $widths = $database_config_user->getWorkbenchWidths ();
+    $widths = request->database_config_user()->getWorkbenchWidths ();
     $widths = unserialize ($widths);
     $widths [$workbench] = $values;
     $widths = serialize ($widths);
-    $database_config_user->setWorkbenchWidths ($widths);
+    request->database_config_user()->setWorkbenchWidths ($widths);
   }
 
 
@@ -203,7 +203,7 @@ class Workbench_Logic
   {
     $database_config_user = Database_Config_User::getInstance ();
     $workbench = Workbench_Logic::getActiveWorkbench ();
-    $heights = $database_config_user->getWorkbenchHeights ();
+    $heights = request->database_config_user()->getWorkbenchHeights ();
     $heights = unserialize ($heights);
     @$heights = $heights [$workbench];
     if (!is_array ($heights)) $heights = array ();
@@ -221,18 +221,18 @@ class Workbench_Logic
   {
     $database_config_user = Database_Config_User::getInstance ();
     $workbench = Workbench_Logic::getActiveWorkbench ();
-    $heights = $database_config_user->getWorkbenchHeights ();
+    $heights = request->database_config_user()->getWorkbenchHeights ();
     $heights = unserialize ($heights);
     $heights [$workbench] = $values;
     $heights = serialize ($heights);
-    $database_config_user->setWorkbenchHeights ($heights);
+    request->database_config_user()->setWorkbenchHeights ($heights);
   }
 
 
   public static function getActiveWorkbench ()
   {
     $database_config_user = Database_Config_User::getInstance ();
-    $workbench = $database_config_user->getActiveWorkbench ();
+    $workbench = request->database_config_user()->getActiveWorkbench ();
     if ($workbench == "") {
       $workbench = "default";
     }
@@ -243,7 +243,7 @@ class Workbench_Logic
   public static function getWorkbenches ()
   {
     $database_config_user = Database_Config_User::getInstance ();
-    $urls = $database_config_user->getWorkbenchURLs ();
+    $urls = request->database_config_user()->getWorkbenchURLs ();
     $urls = unserialize ($urls);
     if (!is_array ($urls)) {
       return array (Workbench_Logic::getActiveWorkbench ());
@@ -263,13 +263,13 @@ class Workbench_Logic
     $database_config_user = Database_Config_User::getInstance ();
 
     // Retrieve the old order of the workbenches, plus their details.
-    $urls = $database_config_user->getWorkbenchURLs ();
+    $urls = request->database_config_user()->getWorkbenchURLs ();
     $urls = unserialize ($urls);
 
-    $widths = $database_config_user->getWorkbenchWidths ();
+    $widths = request->database_config_user()->getWorkbenchWidths ();
     $widths = unserialize ($widths);
 
-    $heights = $database_config_user->getWorkbenchHeights ();
+    $heights = request->database_config_user()->getWorkbenchHeights ();
     $heights = unserialize ($heights);
 
     // Create an new arrays that have the sorted workbench definitions.
@@ -284,11 +284,11 @@ class Workbench_Logic
     
     // Save everything.
     $urls = serialize ($newurls);
-    $database_config_user->setWorkbenchURLs ($urls);
+    request->database_config_user()->setWorkbenchURLs ($urls);
     $widths = serialize ($newwidths);
-    $database_config_user->setWorkbenchWidths ($widths);
+    request->database_config_user()->setWorkbenchWidths ($widths);
     $heights = serialize ($newheights);
-    $database_config_user->setWorkbenchHeights ($heights);
+    request->database_config_user()->setWorkbenchHeights ($heights);
   }
 
 
@@ -298,27 +298,27 @@ class Workbench_Logic
 
     $database_config_user = Database_Config_User::getInstance ();
 
-    $urls = $database_config_user->getWorkbenchURLs ();
+    $urls = request->database_config_user()->getWorkbenchURLs ();
     $urls = unserialize ($urls);
     unset ($urls [$workbench]);
     $urls = serialize ($urls);
-    $database_config_user->setWorkbenchURLs ($urls);
+    request->database_config_user()->setWorkbenchURLs ($urls);
 
-    $widths = $database_config_user->getWorkbenchWidths ();
+    $widths = request->database_config_user()->getWorkbenchWidths ();
     $widths = unserialize ($widths);
     unset ($widths [$workbench]);
     $widths = serialize ($widths);
-    $database_config_user->setWorkbenchWidths ($widths);
+    request->database_config_user()->setWorkbenchWidths ($widths);
 
-    $heights = $database_config_user->getWorkbenchHeights ();
+    $heights = request->database_config_user()->getWorkbenchHeights ();
     $heights = unserialize ($heights);
     unset ($heights [$workbench]);
     $heights = serialize ($heights);
-    $database_config_user->setWorkbenchHeights ($heights);
-    $database_config_user->setActiveWorkbench ("");
+    request->database_config_user()->setWorkbenchHeights ($heights);
+    request->database_config_user()->setActiveWorkbench ("");
     
     // For a client, store the setting for sending to the server.
-    $database_config_user->addUpdatedSetting (Sync_Logic::WORKBENCH_SETTING);
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::WORKBENCH_SETTING);
 
   }
 

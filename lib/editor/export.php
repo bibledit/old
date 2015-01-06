@@ -118,10 +118,10 @@ EOD;
     $this->characterStyles = array ();
     $styles_logic = Styles_Logic::getInstance ();
     $database_styles = Database_Styles::getInstance ();
-    $markers = $database_styles->getMarkers ($stylesheet);
+    $markers = request->database_styles()->getMarkers ($stylesheet);
     // Load the style information into the object.
     for ($markers as $marker) {
-      $style = $database_styles->getMarkerData ($stylesheet, $marker);
+      $style = request->database_styles()->getMarkerData ($stylesheet, $marker);
       $this->styles [$marker] = $style;
       // Get markers with should not have endmarkers.
       $suppress = false;

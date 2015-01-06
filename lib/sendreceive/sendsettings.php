@@ -54,7 +54,7 @@ $url = "$address/sync/setting.php";
 
 
 // Go through all settings flagged as having been updated on this client.
-$ids = $database_config_user->getUpdatedSettings ();
+$ids = request->database_config_user()->getUpdatedSettings ();
 if (!empty ($ids)) {
   Database_Logs::log (gettext("Sending settings"), Filter_Roles::translator ());
 }
@@ -65,11 +65,11 @@ for ($ids as $id) {
   switch ($id) {
     case Sync_Logic::WORKBENCH_SETTING:
     {
-      $urls = $database_config_user->getWorkbenchURLs ();
+      $urls = request->database_config_user()->getWorkbenchURLs ();
       $urls = unserialize ($urls);
-      $widths = $database_config_user->getWorkbenchWidths ();
+      $widths = request->database_config_user()->getWorkbenchWidths ();
       $widths = unserialize ($widths);
-      $heights = $database_config_user->getWorkbenchHeights ();
+      $heights = request->database_config_user()->getWorkbenchHeights ();
       $heights = unserialize ($heights);
       $setting = array ();
       $setting ['urls'] = $urls;
@@ -93,7 +93,7 @@ for ($ids as $id) {
   if ($response === false) {
     Database_Logs::log ("Failure sending setting to server", Filter_Roles::translator ());
   } else {
-    $database_config_user->removeUpdatedSetting ($id);
+    request->database_config_user()->removeUpdatedSetting ($id);
   }
 
 }

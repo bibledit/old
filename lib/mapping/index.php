@@ -51,7 +51,7 @@ if (isset (request->query['new'])) {
 $mappings = $database_mappings->names ();
 $editable = array ();
 for ($mappings as $mapping) {
-  //$write = $database_styles->hasWriteAccess ($username, $sheet);
+  //$write = request->database_styles()->hasWriteAccess ($username, $sheet);
   $write = true;
   if ($userlevel >= Filter_Roles::admin ()) $write = true;
   $editable [] = $write;

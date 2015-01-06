@@ -28,32 +28,32 @@ $database_sprint = Database_Sprint::getInstance ();
 
 
 if (isset (request->query ['previoussprint'])) {
-  $month = $database_config_user->getSprintMonth ();
-  $year = $database_config_user->getSprintYear ();
+  $month = request->database_config_user()->getSprintMonth ();
+  $year = request->database_config_user()->getSprintYear ();
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
-  $database_config_user->setSprintMonth (date ("n", $time));
-  $database_config_user->setSprintYear (date ("Y", $time));
+  request->database_config_user()->setSprintMonth (date ("n", $time));
+  request->database_config_user()->setSprintYear (date ("Y", $time));
 }
 
 
 if (isset (request->query ['currentprint'])) {
-  $database_config_user->setSprintMonth (date ("n"));
-  $database_config_user->setSprintYear (date ("Y"));
+  request->database_config_user()->setSprintMonth (date ("n"));
+  request->database_config_user()->setSprintYear (date ("Y"));
 }
 
 
 if (isset (request->query ['nextsprint'])) {
-  $month = $database_config_user->getSprintMonth ();
-  $year = $database_config_user->getSprintYear ();
+  $month = request->database_config_user()->getSprintMonth ();
+  $year = request->database_config_user()->getSprintYear ();
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
-  $database_config_user->setSprintMonth (date ("n", $time));
-  $database_config_user->setSprintYear (date ("Y", $time));
+  request->database_config_user()->setSprintMonth (date ("n", $time));
+  request->database_config_user()->setSprintYear (date ("Y", $time));
 }
 
 
-$bible = access_bible_clamp ($database_config_user->getBible ());
-$month = $database_config_user->getSprintMonth ();
-$year = $database_config_user->getSprintYear ();
+$bible = access_bible_clamp (request->database_config_user()->getBible ());
+$month = request->database_config_user()->getSprintMonth ();
+$year = request->database_config_user()->getSprintYear ();
 
 
 $header = new Assets_Header (gettext("Sprint"));
@@ -95,12 +95,12 @@ if (isset ($bible)) {
     }
     $dialog_list->run();
   } else {
-    $database_config_user->setBible ($bible);
+    request->database_config_user()->setBible ($bible);
   }
 }
 
 
-$bible = access_bible_clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 
 @$id = request->query ['id'];

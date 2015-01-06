@@ -30,7 +30,7 @@ $database_volatile = Database_Volatile::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-$bible = $database_config_user->getSourceXrefBible ();
+$bible = request->database_config_user()->getSourceXrefBible ();
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 

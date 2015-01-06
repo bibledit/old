@@ -26,7 +26,7 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance();
 
 
-$bible = $database_config_user->getTargetXrefBible ();
+$bible = request->database_config_user()->getTargetXrefBible ();
 
 
 $book = intval (request->query ['book']);

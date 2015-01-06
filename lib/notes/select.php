@@ -37,65 +37,65 @@ $session_logic = Session_Logic::getInstance ();
 @$passage_selector = request->query['passageselector'];
 if (isset ($passage_selector)) {
   if (($passage_selector < 0) || ($passage_selector > 3)) $passage_selector = 0;
-  $database_config_user->setConsultationNotesPassageSelector ($passage_selector);
+  request->database_config_user()->setConsultationNotesPassageSelector ($passage_selector);
 }
 
 
 @$edit_selector = request->query['editselector'];
 if (isset ($edit_selector)) {
   if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
-  $database_config_user->setConsultationNotesEditSelector ($edit_selector);
+  request->database_config_user()->setConsultationNotesEditSelector ($edit_selector);
 }
 
 
 @$non_edit_selector = request->query['noneditselector'];
 if (isset ($non_edit_selector)) {
   if (($non_edit_selector < 0) || ($non_edit_selector > 5)) $non_edit_selector = 0;
-  $database_config_user->setConsultationNotesNonEditSelector($non_edit_selector);
+  request->database_config_user()->setConsultationNotesNonEditSelector($non_edit_selector);
 }
 
 
 @$status_selector = request->query['statusselector'];
 if (isset ($status_selector)) {
-  $database_config_user->setConsultationNotesStatusSelector($status_selector);
+  request->database_config_user()->setConsultationNotesStatusSelector($status_selector);
 }
 
 
 @$bible_selector = request->query['bibleselector'];
 if (isset ($bible_selector)) {
-  $database_config_user->setConsultationNotesBibleSelector ($bible_selector);
+  request->database_config_user()->setConsultationNotesBibleSelector ($bible_selector);
   // Also set the active Bible for the user.
   if ($bible_selector != "") {
-    $database_config_user->setBible ($bible_selector);
+    request->database_config_user()->setBible ($bible_selector);
   }
 }
 
 
 @$assignment_selector = request->query['assignmentselector'];
 if (isset ($assignment_selector)) {
-  $database_config_user->setConsultationNotesAssignmentSelector($assignment_selector);
+  request->database_config_user()->setConsultationNotesAssignmentSelector($assignment_selector);
 }
 
 
 @$subscription_selector = request->query['subscriptionselector'];
 if (isset ($subscription_selector)) {
   if ($subscription_selector == 1) $subscription_selector = 1; else $subscription_selector = 0;
-  $database_config_user->setConsultationNotesSubscriptionSelector($subscription_selector);
+  request->database_config_user()->setConsultationNotesSubscriptionSelector($subscription_selector);
 }
 
 
 @$severity_selector = request->query['severityselector'];
 if (isset ($severity_selector)) {
-  $database_config_user->setConsultationNotesSeveritySelector($severity_selector);
+  request->database_config_user()->setConsultationNotesSeveritySelector($severity_selector);
 }
 
 
 @$text_selector = request->query['textselector'];
 if (isset ($text_selector)) {
-  $database_config_user->setConsultationNotesTextSelector ($text_selector);
+  request->database_config_user()->setConsultationNotesTextSelector ($text_selector);
   @$search_text = request->post['text'];
   if (isset ($search_text)) {
-    $database_config_user->setConsultationNotesSearchText ($search_text);
+    request->database_config_user()->setConsultationNotesSearchText ($search_text);
     Assets_Page::success (gettext("Search text saved"));
   }
 }
@@ -103,28 +103,28 @@ if (isset ($text_selector)) {
 
 @$passage_inclusion_selector = request->query['passageinclusionyselector'];
 if (isset ($passage_inclusion_selector)) {
-  $database_config_user->setConsultationNotesPassageInclusionSelector ($passage_inclusion_selector);
+  request->database_config_user()->setConsultationNotesPassageInclusionSelector ($passage_inclusion_selector);
 }
 
 
 @$text_inclusion_selector = request->query['textinclusionyselector'];
 if (isset ($text_inclusion_selector)) {
-  $database_config_user->setConsultationNotesTextInclusionSelector ($text_inclusion_selector);
+  request->database_config_user()->setConsultationNotesTextInclusionSelector ($text_inclusion_selector);
 }
 
 
 $view = new Assets_View (__FILE__);
 
 
-$passage_selector = $database_config_user->getConsultationNotesPassageSelector();
+$passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
 $view->view->passageselector = $passage_selector;
 
 
-$edit_selector = $database_config_user->getConsultationNotesEditSelector();
+$edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
 $view->view->editselector = $edit_selector;
 
 
-$non_edit_selector = $database_config_user->getConsultationNotesNonEditSelector();
+$non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
 $view->view->noneditselector = $non_edit_selector;
 
 
@@ -137,7 +137,7 @@ $view->view->statusids = $status_ids;
 $view->view->statuslocs = $status_localizations;
 
 
-$status_selector = $database_config_user->getConsultationNotesStatusSelector();
+$status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
 $view->view->statusselector = $status_selector;
 
 
@@ -148,7 +148,7 @@ $bibles = access_bible_bibles ();
 $view->view->bibles = $bibles;
 
 
-$bible_selector = $database_config_user->getConsultationNotesBibleSelector();
+$bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
 $view->view->bibleselector = $bible_selector;
 
 
@@ -161,34 +161,34 @@ if ($assignment_selector != "") {
 }
 
 
-$assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector();
+$assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
 $view->view->assignmentselector = $assignment_selector;
 
 
-$subscription_selector = $database_config_user->getConsultationNotesSubscriptionSelector();
+$subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
 $view->view->subscriptionselector = $subscription_selector;
 
 
 $view->view->severities = $database_notes->getPossibleSeverities();
 
 
-$severity_selector = $database_config_user->getConsultationNotesSeveritySelector();
+$severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector();
 $view->view->severityselector = $severity_selector;
 
 
-$text_selector = $database_config_user->getConsultationNotesTextSelector();
+$text_selector = request->database_config_user()->getConsultationNotesTextSelector();
 $view->view->textselector = $text_selector;
 
 
-$search_text = $database_config_user->getConsultationNotesSearchText();
+$search_text = request->database_config_user()->getConsultationNotesSearchText();
 $view->view->searchtext = filter_string_sanitize_html ($search_text);
 
 
-$passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();
+$passage_inclusion_selector = request->database_config_user()->getConsultationNotesPassageInclusionSelector();
 $view->view->passageinclusionselector = $passage_inclusion_selector;
 
 
-$text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector();
+$text_inclusion_selector = request->database_config_user()->getConsultationNotesTextInclusionSelector();
 $view->view->textinclusionselector = $text_inclusion_selector;
 
 

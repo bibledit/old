@@ -30,7 +30,7 @@ $database_config_bible = Database_Config_Bible::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$bible = $database_config_user->getSourceXrefBible ();
+$bible = request->database_config_user()->getSourceXrefBible ();
 
 
 // Save abbreviation / book pair.

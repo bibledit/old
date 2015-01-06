@@ -54,7 +54,7 @@ if (isset ($navigate)) {
   // Set the correct default Bible for the user.
   $database_config_user = Database_Config_User::getInstance ();
   $bible = $database_modifications->getNotificationBible ($id);
-  if ($bible) $database_config_user->setBible ($bible);
+  if ($bible) request->database_config_user()->setBible ($bible);
   die;
 }
 

@@ -47,10 +47,10 @@ class Checks_Usfm
     $database_config_bible = Database_Config_Bible::getInstance ();
     $database_styles = Database_Styles::getInstance ();
     $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
-    $this->markersStylesheet = $database_styles->getMarkers ($stylesheet);
+    $this->markersStylesheet = request->database_styles()->getMarkers ($stylesheet);
     $styles_logic = Styles_Logic::getInstance ();
     for ($this->markersStylesheet as $marker) {
-      $style = $database_styles->getMarkerData ($stylesheet, $marker);
+      $style = request->database_styles()->getMarkerData ($stylesheet, $marker);
       $requiredEndmarker = false;
       $styleType = $style['type'];
       $styleSubtype = $style['subtype'];

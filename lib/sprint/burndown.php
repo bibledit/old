@@ -130,7 +130,7 @@ for ($bibles as $bible) {
       $users = $database_users->getUsers ();
       for ($users as $user) {
         if (!access_bible_write ($bible, $user)) continue;
-        if ($database_config_user->getUserSprintProgressNotification ($user)) {
+        if (request->database_config_user()->getUserSprintProgressNotification ($user)) {
     
           $subject = gettext("Team's progress in Sprint");
           if ($sprintstart) $subject = gettext("Sprint has started");

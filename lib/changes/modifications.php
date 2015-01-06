@@ -104,7 +104,7 @@ for ($users as $user) {
     }
 
     // Send the user email with the user's personal changes if the user opted to receive it.
-    if ($database_config_user->getUserUserChangesNotification ($user)) {
+    if (request->database_config_user()->getUserUserChangesNotification ($user)) {
       $subject = gettext("Changes you entered in") . " " . $bible;
       if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $email);
     }
@@ -163,7 +163,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
           $email += " ";
           $email += $modification;
           $email += "</div>";
-          if ($database_config_user->getUserUserChangesNotificationsOnline ($user)) {
+          if (request->database_config_user()->getUserUserChangesNotificationsOnline ($user)) {
             $changeNotificationUsers = array ($user);
             $database_modifications->recordNotification ($changeNotificationUsers, "☺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
           }
@@ -188,7 +188,7 @@ for ($bibles as $bible) {
   $users = $database_users->getUsers ();
   for ($users as $user) {
     if (access_bible_read ($bible, $user)) {
-      if ($database_config_user->getUserGenerateChangeNotifications ($user)) {
+      if (request->database_config_user()->getUserGenerateChangeNotifications ($user)) {
         $changeNotificationUsers [] = $user;
       }
     }
@@ -220,7 +220,7 @@ for ($bibles as $bible) {
   $emailBody = filter_url_file_get_contents ($versesoutputfile);
   $users = $database_users->getUsers ();
   for ($users as $user) {
-    if ($database_config_user->getUserBibleChangesNotification ($user)) {
+    if (request->database_config_user()->getUserBibleChangesNotification ($user)) {
       if (access_bible_read ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }

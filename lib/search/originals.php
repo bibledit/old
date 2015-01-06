@@ -32,7 +32,7 @@ $ipc_focus = Ipc_Focus::getInstance ();
 
 
 @$bible = request->query ['b'];
-if (!isset ($bible)) $bible = $database_config_user->getBible ();
+if (!isset ($bible)) $bible = request->database_config_user()->getBible ();
 
 
 @$load = request->query ['load'];

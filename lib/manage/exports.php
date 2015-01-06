@@ -45,12 +45,12 @@ if (isset ($bible)) {
     }
     $dialog_list->run();
   } else {
-    $database_config_user->setBible ($bible);
+    request->database_config_user()->setBible ($bible);
   }
 }
 
 
-$bible = access_bible_clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp (request->database_config_user()->getBible ());
 $view->view->bible = $bible;
 
 
@@ -284,7 +284,7 @@ if (isset (request->query['sheet'])) {
   if ($sheet == "") {
     $dialog_list = new Dialog_List2 (gettext("Would you like to use another stylesheet for the exports?"));
     $database_styles = Database_Styles::getInstance();
-    $sheets = $database_styles->getSheets();
+    $sheets = request->database_styles()->getSheets();
     for ($sheets as $sheet) {
       $parameter = "&sheet=$sheet";
       $dialog_list->add_row ($sheet, $parameter);

@@ -25,7 +25,7 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 $database_config_user = Database_Config_User::getInstance ();
-$resources = $database_config_user->getActiveResources ();
+$resources = request->database_config_user()->getActiveResources ();
 $view->view->resources = $resources;
 
 $resource_count = count ($resources);

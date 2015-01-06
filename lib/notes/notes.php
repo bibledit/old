@@ -33,24 +33,24 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = access_bible_clamp ($database_config_user->getBible());
+$bible = access_bible_clamp (request->database_config_user()->getBible());
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 $verse = $ipc_focus->getVerse ();
 
 
-$passage_selector = $database_config_user->getConsultationNotesPassageSelector();
-$edit_selector = $database_config_user->getConsultationNotesEditSelector();
-$non_edit_selector = $database_config_user->getConsultationNotesNonEditSelector();
-$status_selector = $database_config_user->getConsultationNotesStatusSelector();
-$bible_selector = $database_config_user->getConsultationNotesBibleSelector();
-$assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector();
-$subscription_selector = $database_config_user->getConsultationNotesSubscriptionSelector();
-$severity_selector = $database_config_user->getConsultationNotesSeveritySelector();
-$text_selector = $database_config_user->getConsultationNotesTextSelector();
-$search_text = $database_config_user->getConsultationNotesSearchText();
-$passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();
-$text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector();
+$passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
+$edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
+$non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
+$status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
+$bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
+$assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
+$subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
+$severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector();
+$text_selector = request->database_config_user()->getConsultationNotesTextSelector();
+$search_text = request->database_config_user()->getConsultationNotesSearchText();
+$passage_inclusion_selector = request->database_config_user()->getConsultationNotesPassageInclusionSelector();
+$text_inclusion_selector = request->database_config_user()->getConsultationNotesTextInclusionSelector();
 
 
 $view = new Assets_View (__FILE__);

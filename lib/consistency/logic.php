@@ -40,8 +40,8 @@ class Consistency_Logic
 
     // The resources to display in the Consistency tool.
     $resources = array ();
-    $resources [] = access_bible_clamp ($database_config_user->getBible ());
-    $resources = array_merge ($resources, $database_config_user->getConsistencyResources ());
+    $resources [] = access_bible_clamp (request->database_config_user()->getBible ());
+    $resources = array_merge ($resources, request->database_config_user()->getConsistencyResources ());
 
     // The passages entered in the Consistency tool.
     $passages = $database_volatile->getValue ($this->id, "passages");

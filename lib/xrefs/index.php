@@ -51,7 +51,7 @@ if (isset ($source)) {
     }
     $dialog_list->run();
   } else {
-    $database_config_user->setSourceXrefBible ($source);
+    request->database_config_user()->setSourceXrefBible ($source);
   }
 }
 
@@ -68,20 +68,20 @@ if (isset ($target)) {
     }
     $dialog_list->run();
   } else {
-    $database_config_user->setTargetXrefBible ($target);
+    request->database_config_user()->setTargetXrefBible ($target);
   }
 }
 
 
-$source = $database_config_user->getSourceXrefBible ();
+$source = request->database_config_user()->getSourceXrefBible ();
 if (!access_bible_read ($source)) {
   $source = "";
-  $database_config_user->setSourceXrefBible ($source);
+  request->database_config_user()->setSourceXrefBible ($source);
 }
-$target = $database_config_user->getTargetXrefBible ();
+$target = request->database_config_user()->getTargetXrefBible ();
 if (!access_bible_write ($target)) {
   $target = "";
-  $database_config_user->setTargetXrefBible ($target);
+  request->database_config_user()->setTargetXrefBible ($target);
 }
 if ($source == "") $source = "--";
 if ($target == "") $target = "--";
