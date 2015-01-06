@@ -32,12 +32,12 @@
 
 class directories {
  private:
-  // Directory bibledit is run from (e.g. /usr/bin or 
+  // Directory bibledit is run from (e.g. /usr/bin or
   // C:\Program Files\Bibledit\editor\bin)
   ustring rundir;
   // Executable name (e.g. bibledit-gtk)
   ustring exename;
-  // Package data directory (e.g. /usr/share/bibledit-gtk or 
+  // Package data directory (e.g. /usr/share/bibledit-gtk or
   // C:\Program Files\Bibledit\editor\share\bibledit)
   ustring package_data;
 
