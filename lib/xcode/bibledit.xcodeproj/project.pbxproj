@@ -931,7 +931,6 @@
 		CAA4D4221A45A648003ABA25 /* qunit-1.14.0.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "qunit-1.14.0.css"; sourceTree = "<group>"; };
 		CAA4D4231A45A648003ABA25 /* qunit-1.14.0.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "qunit-1.14.0.js"; sourceTree = "<group>"; };
 		CAA4D4241A45A648003ABA25 /* tests.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = tests.js; sourceTree = "<group>"; };
-		CAA4D42C1A45A648003ABA25 /* generalTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = generalTest.php; sourceTree = "<group>"; };
 		CAA4D42F1A45A648003ABA25 /* biblehub-text-john-1-1-tidy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-text-john-1-1-tidy.html"; sourceTree = "<group>"; };
 		CAA4D4301A45A648003ABA25 /* biblehub-text-john-1-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-text-john-1-1.html"; sourceTree = "<group>"; };
 		CAA4D4311A45A648003ABA25 /* htmlTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = htmlTest.php; sourceTree = "<group>"; };
@@ -2857,7 +2856,6 @@
 				CAA4D41E1A45A648003ABA25 /* onlinebible1.exp */,
 				CAA4D41F1A45A648003ABA25 /* onlinebible2.exp */,
 				CAA4D4201A45A648003ABA25 /* qunit */,
-				CAA4D42B1A45A648003ABA25 /* test */,
 				CAA4D42E1A45A648003ABA25 /* tidy */,
 			);
 			path = tests;
@@ -2949,14 +2947,6 @@
 				CAA4D4241A45A648003ABA25 /* tests.js */,
 			);
 			path = qunit;
-			sourceTree = "<group>";
-		};
-		CAA4D42B1A45A648003ABA25 /* test */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D42C1A45A648003ABA25 /* generalTest.php */,
-			);
-			path = test;
 			sourceTree = "<group>";
 		};
 		CAA4D42E1A45A648003ABA25 /* tidy */ = {
