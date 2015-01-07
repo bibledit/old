@@ -94,7 +94,7 @@ class Checks_Sentences
     for ($names as $name) {
       if ($name != "") {
         // Limit the length to the left of the suffix in the test.
-        $name = mb_substr ($name, 0, 11);
+        $name = unicode_string_substr ($name, 0, 11);
         $this->names [] = $name;
       }
     }
@@ -134,7 +134,7 @@ class Checks_Sentences
       // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
       $count = mb_strlen ($text);
       for ($i = 0; $i < $count; $i++) {
-        $grapheme = mb_substr ($text, $i, 1);
+        $grapheme = unicode_string_substr ($text, $i, 1);
         // Skip graphemes to be disregarded.
         if (in_array ($grapheme, $this->disregards)) continue;
         // Store verse numbers and graphemes.
@@ -221,7 +221,7 @@ class Checks_Sentences
     for ($texts as $verse => $text) {
       $count = mb_strlen ($text);
       for ($i = 0; $i < $count; $i++) {
-        $grapheme = mb_substr ($text, $i, 1);
+        $grapheme = unicode_string_substr ($text, $i, 1);
         $verses [] = $verse;
         $graphemes [] = $grapheme;
       }
@@ -283,8 +283,8 @@ class Checks_Sentences
     // Get previous and next text fragment.
     $start = $this->currentPosition - 10;
     if ($start < 0) $start = 0;
-    $previousFragment = mb_substr ($this->fullText, $start, $this->currentPosition - $start - 1);
-    $nextFragment = mb_substr ($this->fullText, $this->currentPosition, 10);
+    $previousFragment = unicode_string_substr ($this->fullText, $start, $this->currentPosition - $start - 1);
+    $nextFragment = unicode_string_substr ($this->fullText, $this->currentPosition, 10);
     if ($nextFragment === false) $nextFragment = "";
     // Check whether the result can be skipped due to a name being involved.
     if ($modifier == 3) {

@@ -48,9 +48,9 @@ $xrefs = Filter_Usfm::extractNotes ($usfm, array ("x"));
 
 
 // Count the number of xref openers / closers in this chapter.
-$opener = Filter_Usfm::getOpeningUsfm ("x");
+$opener = usfm_get_opening_usfm ("x");
 str_replace ($opener, "", $usfm, $openers);
-$closer = Filter_Usfm::getClosingUsfm ("x");
+$closer = usfm_get_closing_usfm ("x");
 str_replace ($closer, "", $usfm, $closers);
 
 

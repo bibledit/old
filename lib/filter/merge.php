@@ -108,7 +108,7 @@ class Filter_Merge
     $data2 = "";
     $count = mb_strlen ($data);
     for ($i = 0; $i < $count; $i++) {
-      $grapheme = mb_substr ($data, $i, 1);
+      $grapheme = unicode_string_substr ($data, $i, 1);
       $data2 += $grapheme;
       $data2 += "\n";
     }

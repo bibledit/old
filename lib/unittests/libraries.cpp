@@ -33,6 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <database/books.h>
 #include <checksum/logic.h>
+#include <editor/export.h>
+#include <editor/import.h>
 
 
 void test_sqlite ()
@@ -333,6 +335,7 @@ void test_store_bible_data_safely_setup (Webserver_Request * request, string usf
   request->database_bibles()->storeChapter ("phpunit", 1, 1, usfm);
 }
 
+
 void test_store_bible_data ()
 {
   Webserver_Request request;
@@ -418,3 +421,104 @@ void test_store_bible_data ()
     evaluate (__LINE__, __func__, currentId, currentId2);
   }
 }
+
+
+void test_editor_export_import () // Todo
+{
+  // Basic test.
+  {
+    Webserver_Request request;
+    string html = "<p class=\"p\"><span>The earth brought forth.</span></p>";
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    cout << usfm << endl; // Todo
+    refresh_sandbox (true);
+  }
+}
+/* Todo
+
+ 
+ 
+ public function testFootnoteDeletedBody ()
+ {
+ $html = <<<'EOD'
+ <p class="p"><span>The earth brought forth</span><a href="#note1" id="citation1" class="superscript">f</a><span>.</span></p>
+ <div id="notes">
+ <hr>
+ <p class="f"></p>
+ <br>
+ </div>
+ EOD;
+ $editor_export = Editor_Export::getInstance ();
+ $editor_export->load ($html);
+ $editor_export->stylesheet ("Standard");
+ $editor_export->run ();
+ $usfm = $editor_export->get ();
+ $standard = <<<'EOD'
+ \p The earth brought forth.
+ \f +\f*
+ EOD;
+ $this->assertEquals ($standard, filter_string_trim ($usfm));
+ }
+ 
+ 
+ public function testFootnoteDeletedCitation ()
+ {
+ $html = <<<'EOD'
+ <p class="p"><span>The earth brought forth</span><span>.</span></p>
+ <div id="notes">
+ <hr>
+ <p class="f"><a href="#citation1" id="note1">f</a><span> </span><span>+ </span><span class="fk">brought: </span><span class="fl">Heb. </span><span class="fq">explanation.</span></p>
+ </div>
+ EOD;
+ $editor_export = Editor_Export::getInstance ();
+ $editor_export->load ($html);
+ $editor_export->stylesheet ("Standard");
+ $editor_export->run ();
+ $usfm = $editor_export->get ();
+ $standard = <<<'EOD'
+ \p The earth brought forth.
+ \f + \fk brought: \fl Heb. \fq explanation.\f*
+ EOD;
+ $this->assertEquals ($standard, filter_string_trim ($usfm));
+ }
+ 
+ 
+ public function testNonBreakingSpaces ()
+ {
+ $html = <<<'EOD'
+ <p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>
+ EOD;
+ $editor_export = Editor_Export::getInstance ();
+ $editor_export->load ($html);
+ $editor_export->stylesheet ("Standard");
+ $editor_export->run ();
+ $usfm = $editor_export->get ();
+ $standard = <<<'EOD'
+ \p The earth brought forth.
+ EOD;
+ $this->assertEquals ($standard, filter_string_trim ($usfm));
+ }
+ 
+ 
+ public function testEmbeddedTextSpansOne ()
+ {
+ $html = <<<'EOD'
+ <p class="p"><span>The <span class="add"><span class="nd">Lord God</span> is calling</span> you</span><span>.</span></p>
+ EOD;
+ $editor_export = Editor_Export::getInstance ();
+ $editor_export->load ($html);
+ $editor_export->stylesheet ("Standard");
+ $editor_export->run ();
+ $usfm = $editor_export->get ();
+ $standard = <<<'EOD'
+ \p The \add \+nd Lord God\+nd* is calling\add* you.
+ EOD;
+ $this->assertEquals ($standard, $usfm);
+ }
+ 
+
+ */

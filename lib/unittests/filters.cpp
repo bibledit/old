@@ -1890,15 +1890,26 @@ void test_filters_test13 ()
   evaluate (__LINE__, __func__, 4, unicode_string_length ("test"));
   evaluate (__LINE__, __func__, 4, unicode_string_length ("ᨁᨃᨅᨕ"));
 
+  string hebrew = "אָבּגּדּהּ";
   evaluate (__LINE__, __func__, "st1234", unicode_string_substr ("test1234", 2));
-  evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr ("אָבּגּדּהּ", 2));
-  evaluate (__LINE__, __func__, "", unicode_string_substr ("אָבּגּדּהּ", 5));
-  evaluate (__LINE__, __func__, "", unicode_string_substr ("אָבּגּדּהּ", 6));
+  evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2));
+  evaluate (__LINE__, __func__, "", unicode_string_substr (hebrew, 5));
+  evaluate (__LINE__, __func__, "", unicode_string_substr (hebrew, 6));
   evaluate (__LINE__, __func__, "test", unicode_string_substr ("test123456", 0, 4));
   evaluate (__LINE__, __func__, "12", unicode_string_substr ("test123456", 4, 2));
-  evaluate (__LINE__, __func__, "גּדּ", unicode_string_substr ("אָבּגּדּהּ", 2, 2));
-  evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr ("אָבּגּדּהּ", 2, 10));
+  evaluate (__LINE__, __func__, "גּדּ", unicode_string_substr (hebrew, 2, 2));
+  evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2, 10));
 
+  string needle = "דּ";
+  evaluate (__LINE__, __func__, 3, unicode_string_strpos ("012345", "3"));
+  evaluate (__LINE__, __func__, 5, unicode_string_strpos ("012345", "5"));
+  evaluate (__LINE__, __func__, 0, unicode_string_strpos ("012345", "0"));
+  evaluate (__LINE__, __func__, -1, unicode_string_strpos ("012345", "6"));
+  evaluate (__LINE__, __func__, 3, unicode_string_strpos (hebrew, needle));
+  evaluate (__LINE__, __func__, 3, unicode_string_strpos (hebrew, needle, 3));
+  evaluate (__LINE__, __func__, -1, unicode_string_strpos (hebrew, needle, 4));
+  evaluate (__LINE__, __func__, -1, unicode_string_strpos ("", "3"));
+  
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
   

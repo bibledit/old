@@ -42,10 +42,10 @@ function gbsdigitaal ($url, $verse)
             $text = preg_replace('/<sup[^<]+(<\/sup>)/i', '', $text);
     
             // Remove the pilcrow sign / paragraph sign if it's there.
-            $pos = mb_strpos ($text, "¶");
+            $pos = unicode_string_strpos ($text, "¶");
             if ($pos !== false) {
               $pos++;
-              $text = mb_substr ($text, $pos);
+              $text = unicode_string_substr ($text, $pos);
             }
     
             $output = $text;

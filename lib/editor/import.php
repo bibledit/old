@@ -162,7 +162,7 @@ class Editor_Import // Todo port it.
     $this->htmlDom->encoding = 'UTF-8';
 
 $template = <<<'EOD'
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -423,10 +423,10 @@ EOD;
     if ($isOpeningMarker) {
       // Add opening marker as it is.
       $this->newParagraph ("mono");
-      $this->addText (Filter_Usfm::getOpeningUsfm ($marker));
+      $this->addText (usfm_get_opening_usfm ($marker));
     } else {
       // Add closing marker to existing paragraph.
-      $this->addText (Filter_Usfm::getClosingUsfm ($marker));
+      $this->addText (usfm_get_closing_usfm ($marker));
     }
   }
 

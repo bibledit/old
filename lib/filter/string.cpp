@@ -437,6 +437,19 @@ string unicode_string_substr (string s, size_t pos, size_t len)
 }
 
 
+// Equivalent to PHP's mb_strpos function.
+size_t unicode_string_strpos (string haystack, string needle, size_t offset) // Todo write and test.
+{
+  int haystack_length = unicode_string_length (haystack);
+  int needle_length = unicode_string_length (needle);
+  for (int pos = offset; pos <= haystack_length - needle_length; pos++) {
+    string substring = unicode_string_substr (haystack, pos, needle_length);
+    if (substring == needle) return pos;
+  }
+  return string::npos;
+}
+
+
 // Optionally the unicode wrappers can use the ICU library.
 // The wrappers should then have fallback functions for platforms where the ICU library is not available.
 

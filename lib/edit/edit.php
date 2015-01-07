@@ -50,7 +50,7 @@ if ($alive) {
   // If a Bible editor is alive, send javascript to the browser to close this new window.
   $message = gettext("The passage has been opened in the existing Bible editor in another browser tab.");
 $script = <<< EOD
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 </head>
