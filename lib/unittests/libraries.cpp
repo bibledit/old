@@ -434,8 +434,8 @@ void test_editor_export_import () // Todo
     editor_export.stylesheet ("Standard");
     editor_export.run ();
     string usfm = editor_export.get ();
-    cout << usfm << endl; // Todo
-    refresh_sandbox (true);
+    string standard = "\\p The earth brought forth.";
+    evaluate (__LINE__, __func__, standard, usfm);
   }
 }
 /* Todo

@@ -195,39 +195,37 @@ void Editor_Export::openElementNode (xmlNodePtr node)
 {
   // The tag and class names of this element node.
   string tagName ((char *) node->name);
+  string className;
   xmlChar * property = xmlGetProp (node, BAD_CAST "class");
-  string className ((char *) property);
-  if (property) xmlFree (property);
+  if (property) {
+    className = (char *) property;
+    xmlFree (property);
+  }
   
   if (tagName == "p")
   {
     // While editing, it may occur that the p element does not have a class.
     // Use the 'p' class in such cases.
-    if (className == "") className = "p";
+    if (className.empty ()) className = "p";
     if (className == "mono") {
       // Class 'mono': The editor has the full USFM in the text.
       mono = true;
     } else {
       // Start the USFM line with a marker with the class name.
       currentLine += usfm_get_opening_usfm (className);
-      
     }
   }
   
   if (tagName == "span")
   {
-    if (className == "v")
-    {
+    if (className == "v")  {
       // Handle the verse.
       flushLine ();
       openInline (className);
     }
-    else if (className.empty ())
-    {
+    else if (className.empty ()) {
       // Normal text is wrapped in elements without a class attribute.
-    }
-    else
-    {
+    } else {
       // Handle remaining class attributes for inline text.
       openInline (className);
     }
@@ -255,9 +253,12 @@ void Editor_Export::closeElementNode (xmlNodePtr node)
 {
   // The tag and class names of this element node.
   string tagName ((char *) node->name);
+  string className;
   xmlChar * property = xmlGetProp (node, BAD_CAST "class");
-  string className ((char *) property);
-  if (property) xmlFree (property);
+  if (property) {
+    className = (char *) property;
+    xmlFree (property);
+  }
   
   if (tagName == "p")
   {
@@ -314,10 +315,12 @@ void Editor_Export::processAttributeNode (xmlNodePtr node)
 void Editor_Export::processTextNode (xmlNodePtr node)
 {
   // Add the text to the current USFM line.
-  xmlChar * contents = xmlNodeListGetString (document, node->xmlChildrenNode, 1); // Todo check whether children OK
-  string text ((char *) contents);
-  if (contents) xmlFree (contents);
-  currentLine += text;
+  xmlChar * contents = xmlNodeListGetString (document, node, 1);
+  if (contents) {
+    string text ((char *) contents);
+    currentLine += text;
+    xmlFree (contents);
+  }
 }
 
 
