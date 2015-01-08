@@ -481,83 +481,70 @@ void test_editor_export () // Todo
     string standard = "\\p The earth brought forth\\x + 2 Joh. 1.1\\x*.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-  
-  /* Todo enable once footnotes work well.
   // Footnote Deleted Body
   {
     Webserver_Request request;
     string html =
-      "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>\n"
+    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>\n"
+    "<div id=\"notes\">\n"
+    "<hr>\n"
+    "<p class=\"f\"></p>\n"
+    "<br>\n"
+    "</div>";
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    string standard = "\\p The earth brought forth.";
+    evaluate (__LINE__, __func__, standard, usfm);
+    // Clear message from logbook.
+    refresh_sandbox (false);
+  }
+  // Footnote Deleted Citation
+  {
+    Webserver_Request request;
+    string html =
+      "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>\n"
       "<div id=\"notes\">\n"
       "<hr>\n"
-      "<p class=\"f\"></p>\n"
-      "<br>\n"
+      "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">f</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>\n"
       "</div>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
     editor_export.stylesheet ("Standard");
     editor_export.run ();
     string usfm = editor_export.get ();
-    string standard =
-      "\\p The earth brought forth.\n"
-      "\\f +\\f*";
+    string standard = "\\p The earth brought forth.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-   */
-
 }
+
+
+void test_editor_import () // Todo
+{
+  // Text Length One
+  {
+    string usfm =
+      "\\c 2\n"
+      "\\p\n"
+      "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n";
+    Webserver_Request request;
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    evaluate (__LINE__, __func__, 61, editor_import.textLength);
+    /*
+    $this->assertEquals (array (0 => 0, 1 => 2), $editor_import->verseStartOffsets);
+     */
+  }
+  
+}
+
 /* Todo
- Editor export tests.
  
  
- 
- 
- public function testFootnoteDeletedCitation ()
- {
- $html = <<<'EOD'
- <p class="p"><span>The earth brought forth</span><span>.</span></p>
- <div id="notes">
- <hr>
- <p class="f"><a href="#citation1" id="note1">f</a><span> </span><span>+ </span><span class="fk">brought: </span><span class="fl">Heb. </span><span class="fq">explanation.</span></p>
- </div>
- EOD;
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $standard = <<<'EOD'
- \p The earth brought forth.
- \f + \fk brought: \fl Heb. \fq explanation.\f*
- EOD;
- $this->assertEquals ($standard, filter_string_trim ($usfm));
- }
- 
- 
- 
- 
- 
- 
- 
- Editor_Import tests.
- 
- 
- 
- 
- public function testTextLengthOne ()
- {
- $usfm = <<<'EOD'
- \c 2
- \p
- \v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\x + Dute. 4.19. Hlab. 33.6.\x*.
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $this->assertEquals (61, $editor_import->textLength);
- $this->assertEquals (array (0 => 0, 1 => 2), $editor_import->verseStartOffsets);
- }
  
  
  public function testTextLengthMore ()

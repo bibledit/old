@@ -60,7 +60,7 @@ $abbreviations = Database_Config_Bible::getBookAbbreviations ($bible);
 $abbreviations = filter_abbreviations_read ($abbreviations);
 $sorter = array ();
 for ($abbreviations as $abbrev => $book) {
-  $sorter [] = mb_strlen ($abbrev);
+  $sorter [] = unicode_string_length ($abbrev);
 }
 array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $abbreviations);
 $abbreviations = array_keys ($abbreviations);
