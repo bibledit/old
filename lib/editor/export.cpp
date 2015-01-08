@@ -201,6 +201,7 @@ void Editor_Export::openElementNode (xmlNodePtr node)
     className = (char *) property;
     xmlFree (property);
   }
+  cout << "open element " << tagName << " " << className << endl; // Todo
   
   if (tagName == "p")
   {
@@ -241,10 +242,10 @@ void Editor_Export::openElementNode (xmlNodePtr node)
 
 void Editor_Export::processNodeChildren (xmlNodePtr node)
 {
-  xmlNodePtr childNode = node->xmlChildrenNode;
-  while (childNode != NULL) {
-    processNode (childNode);
-    childNode = childNode->next;
+  node = node->xmlChildrenNode;
+  while (node != NULL) {
+    processNode (node);
+    node = node->next;
   }
 }
 
@@ -259,6 +260,7 @@ void Editor_Export::closeElementNode (xmlNodePtr node)
     className = (char *) property;
     xmlFree (property);
   }
+  cout << "close element " << tagName << " " << className << endl; // Todo
   
   if (tagName == "p")
   {
@@ -285,7 +287,7 @@ void Editor_Export::closeElementNode (xmlNodePtr node)
     // Do nothing without a class.
     if (className.empty()) return;
     // Do nothing if no endmarkers are supposed to be produced.
-    if (suppressEndMarkers.find (className) == suppressEndMarkers.end()) return;
+    if (suppressEndMarkers.find (className) != suppressEndMarkers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
     vector <string> classes = filter_string_explode (className, ' ');
     characterStyles = filter_string_array_diff (characterStyles, classes);

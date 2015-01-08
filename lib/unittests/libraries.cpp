@@ -425,6 +425,7 @@ void test_store_bible_data ()
 
 void test_editor_export_import () // Todo
 {
+  /* Todo temporarily switched off.
   // Basic test.
   {
     Webserver_Request request;
@@ -437,10 +438,35 @@ void test_editor_export_import () // Todo
     string standard = "\\p The earth brought forth.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
+  // Non-Breaking Spaces
+  {
+    Webserver_Request request;
+    string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    string standard = "\\p The earth brought forth.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  */
+  // Embedded Text Spans One
+  {
+    Webserver_Request request;
+    string html = "<p class=\"p\"><span>The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you</span><span>.</span></p>";
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
 }
 /* Todo
 
- 
+ Editor export tests.
  
  public function testFootnoteDeletedBody ()
  {
@@ -487,38 +513,6 @@ void test_editor_export_import () // Todo
  }
  
  
- public function testNonBreakingSpaces ()
- {
- $html = <<<'EOD'
- <p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>
- EOD;
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $standard = <<<'EOD'
- \p The earth brought forth.
- EOD;
- $this->assertEquals ($standard, filter_string_trim ($usfm));
- }
- 
- 
- public function testEmbeddedTextSpansOne ()
- {
- $html = <<<'EOD'
- <p class="p"><span>The <span class="add"><span class="nd">Lord God</span> is calling</span> you</span><span>.</span></p>
- EOD;
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $standard = <<<'EOD'
- \p The \add \+nd Lord God\+nd* is calling\add* you.
- EOD;
- $this->assertEquals ($standard, $usfm);
- }
  
 
  */
