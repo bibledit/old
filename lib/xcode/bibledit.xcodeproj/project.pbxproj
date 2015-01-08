@@ -898,8 +898,6 @@
 		CAA4D3CC1A45A648003ABA25 /* usfmTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = usfmTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3CD1A45A648003ABA25 /* versesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versesTest.php; sourceTree = "<group>"; };
 		CAA4D3CE1A45A648003ABA25 /* versificationTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versificationTest.php; sourceTree = "<group>"; };
-		CAA4D3F71A45A648003ABA25 /* importTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = importTest.php; sourceTree = "<group>"; };
-		CAA4D3F81A45A648003ABA25 /* roundtripTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = roundtripTest.php; sourceTree = "<group>"; };
 		CAA4D3FE1A45A648003ABA25 /* clientTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = clientTest.php; sourceTree = "<group>"; };
 		CAA4D3FF1A45A648003ABA25 /* conflictTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = conflictTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D4011A45A648003ABA25 /* datetimeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = datetimeTest.php; sourceTree = "<group>"; };
@@ -2853,7 +2851,6 @@
 				CA699A0F1A4EE05800B23E0A /* editor.css */,
 				CA699A101A4EE05800B23E0A /* exports.css */,
 				CAA4D3C91A45A648003ABA25 /* checks */,
-				CAA4D3F51A45A648003ABA25 /* editor */,
 				CAA4D3FA1A45A648003ABA25 /* filter */,
 				CAA4D4161A45A648003ABA25 /* flate1.html */,
 				CAA4D4171A45A648003ABA25 /* git */,
@@ -2877,15 +2874,6 @@
 				CAA4D3CE1A45A648003ABA25 /* versificationTest.php */,
 			);
 			path = checks;
-			sourceTree = "<group>";
-		};
-		CAA4D3F51A45A648003ABA25 /* editor */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D3F71A45A648003ABA25 /* importTest.php */,
-				CAA4D3F81A45A648003ABA25 /* roundtripTest.php */,
-			);
-			path = editor;
 			sourceTree = "<group>";
 		};
 		CAA4D3FA1A45A648003ABA25 /* filter */ = {

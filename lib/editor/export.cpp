@@ -26,6 +26,8 @@
 #include <styles/logic.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
+#include <libxml/xpath.h>
+#include <libxml/xpathInternals.h>
 #include <database/logs.h>
 
 
@@ -347,57 +349,74 @@ void Editor_Export::openInline (string className)
 
 void Editor_Export::processNoteCitation (xmlNodePtr node)
 {
-  if (node) {};
-  /* Todo
-  // The note citation in the text will have the "1" or the "2", and so on, till "9". Remove it.
-  if ($node->hasChildNodes ()) {
-    for ($node->childNodes as $childnode) {
-      $node->removeChild ($childnode);
-    }
+  // Remove the note citation from the text.
+  xmlNodePtr child = node->xmlChildrenNode;
+  while (child != NULL) {
+    xmlNodePtr cache = child;
+    child = child->next;
+    xmlUnlinkNode (cache);
+    xmlFree (cache);
   }
   
   // Get more information about the footnote to retrieve.
-  $href = $node->getAttribute ("href");
-  $id = substr ($href, 1);
+  string href;
+  string id;
+  xmlChar * property = xmlGetProp (node, BAD_CAST "href");
+  if (property) {
+    href = (char *) property;
+    xmlFree (property);
+    id = href.substr (1);
+  }
   
   // Sample footnote body.
   // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
-  
+
   // XPath to retrieve the note contents.
-  $xpath = new DOMXPath ($this->document);
-  $path = "//a[@id='$id']";
-  $nodeList = $xpath->query ($path);
-  
-  // There should be only one relevant note node.
-  if ($nodeList->length != 1) {
-    $database_logs = Database_Logs::getInstance ();
-    Database_Logs::log ("Discarding note with id $id and href $href");
-    return;
+  xmlXPathContextPtr xpathCtx;
+  xmlXPathObjectPtr xpathObj;
+  xpathCtx = xmlXPathNewContext (document);
+  string xpathExpression = "//a[@id='" + id + "']";
+  xpathObj = xmlXPathEvalExpression (BAD_CAST xpathExpression.c_str(), xpathCtx);
+  if (xpathObj) {
+    xmlNodeSetPtr nodes = xpathObj->nodesetval;
+    if (nodes) {
+
+      // There should be only one relevant note node.
+      if (nodes->nodeNr == 1) {
+        
+        // Get the 'a' element, get its 'p' parent, and then remove that 'a' element.
+        // So we remain with:
+        // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
+        xmlNodePtr aElement = nodes->nodeTab [0];
+        xmlNodePtr pElement = aElement->parent;
+        xmlUnlinkNode (aElement);
+        xmlFree (aElement);
+        
+        // Preserve active character styles in the main text, and reset them for the note.
+        vector <string> preservedCharacterStyles = characterStyles;
+        characterStyles.clear();
+        
+        // Process this 'p' element.
+        processingNote = true;
+        processNode (pElement);
+        processingNote = false;
+        
+        // Restore the active character styles for the main text.
+        characterStyles = preservedCharacterStyles;
+        
+        // Remove this element so it can't be processed again.
+        xmlUnlinkNode (pElement);
+        xmlFree (pElement);
+        
+      } else {
+        Database_Logs::log ("Discarding note with id " + id + " and href " + href);
+      }
+    }
+
+    // Free memory for XPath.
+    xmlXPathFreeObject(xpathObj);
+    xmlXPathFreeContext(xpathCtx);
   }
-  
-  // Get the 'a' element, its 'p' parent, and then remove that 'a' element.
-  // So we remain with:
-  // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-  $aElement = $nodeList->item (0);
-  $pElement = $aElement->parentNode;
-  $pElement->removeChild ($aElement);
-  
-  // Preserve active character styles in the main text, and reset them for the note.
-  $characterStyles = $this->characterStyles;
-  $this->characterStyles = array ();
-  
-  // Process this 'p' element.
-  $this->processingNote = true;
-  $this->processNode ($pElement);
-  $this->processingNote = false;
-  
-  // Restore the active character styles for the main text.
-  $this->characterStyles = $characterStyles;
-  
-  // Remove this element so it can't be processed again.
-  $parentNode = $pElement->parentNode;
-  $parentNode->removeChild ($pElement);
-  */
 }
 
 

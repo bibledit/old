@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_editor_export_import (); exit (0); // Todo
+  test_editor_export (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -313,7 +313,7 @@ int main (int argc, char **argv)
   test_filter_abbreviations ();
   test_checksum_logic ();
   test_store_bible_data ();
-  test_editor_export_import ();
+  test_editor_export ();
 
   // Output possible journal entries.
   refresh_sandbox (true);
