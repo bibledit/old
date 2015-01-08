@@ -201,7 +201,6 @@ void Editor_Export::openElementNode (xmlNodePtr node)
     className = (char *) property;
     xmlFree (property);
   }
-  cout << "open element " << tagName << " " << className << endl; // Todo
   
   if (tagName == "p")
   {
@@ -260,7 +259,6 @@ void Editor_Export::closeElementNode (xmlNodePtr node)
     className = (char *) property;
     xmlFree (property);
   }
-  cout << "close element " << tagName << " " << className << endl; // Todo
   
   if (tagName == "p")
   {
@@ -317,7 +315,7 @@ void Editor_Export::processAttributeNode (xmlNodePtr node)
 void Editor_Export::processTextNode (xmlNodePtr node)
 {
   // Add the text to the current USFM line.
-  xmlChar * contents = xmlNodeListGetString (document, node, 1);
+  xmlChar * contents = xmlNodeGetContent (node);
   if (contents) {
     string text ((char *) contents);
     currentLine += text;
