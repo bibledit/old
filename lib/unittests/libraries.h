@@ -33,6 +33,7 @@ void test_checksum_logic ();
 void test_store_bible_data ();
 void test_editor_export ();
 void test_editor_import ();
+void test_editor_roundtrip1 ();
 
 
 #endif

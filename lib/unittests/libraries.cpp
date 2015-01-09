@@ -425,7 +425,6 @@ void test_store_bible_data ()
 
 void test_editor_export () // Todo
 {
-  /* Todo temporarily switched off.
   // Basic test.
   {
     Webserver_Request request;
@@ -462,7 +461,6 @@ void test_editor_export () // Todo
     string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-   */
   // Basic note
   {
     Webserver_Request request;
@@ -586,200 +584,185 @@ void test_editor_import () // Todo
   }
 }
 
-/* Todo
- 
 
- 
- 
- 
- Round trip tests.
- 
- 
- 
- public function testOneUnknownMarkerOpener ()
- {
- $standard_usfm = <<<'EOD'
- \abc
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span></p>
- EOD;
- 
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testTwoUnknownMarkerOpeners ()
- {
- $standard_usfm = <<<'EOD'
- \abc
- \abc
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span></p>
- <p class="mono"><span>\abc </span></p>
- EOD;
- 
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testOneUnknownMarkersCloser ()
- {
- $standard_usfm = <<<'EOD'
- \abc text\abc*.
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testTwoUnknownMarkersCloser ()
- {
- $standard_usfm = <<<'EOD'
- \abc text\abc*.
- \abc text\abc*.
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>
- <p class="mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testIdentifiers ()
- {
- $standard_usfm = <<<'EOD'
- \id GEN
- \h Header
- \toc1 The Book of Genesis
- \cl Chapter
- \cp ②
- \cp Ⅰ
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\id </span><span>GEN</span></p>
- <p class="mono"><span>\h </span><span>Header</span></p>
- <p class="mono"><span>\toc1 </span><span>The Book of Genesis</span></p>
- <p class="mono"><span>\cl </span><span>Chapter</span></p>
- <p class="mono"><span>\cp </span><span>②</span></p>
- <p class="mono"><span>\cp </span><span>Ⅰ</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testOneParagraph ()
- {
- $standard_usfm = <<<'EOD'
- \p Paragraph text.
- EOD;
- $standard_html = <<<'EOD'
- <p class="p"><span>Paragraph text.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testTwoParagraphs ()
- {
- $standard_usfm = <<<'EOD'
- \p Paragraph text.
- \p Paragraph txt.
- EOD;
- $standard_html = <<<'EOD'
- <p class="p"><span>Paragraph text.</span></p>
- <p class="p"><span>Paragraph txt.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
+void test_editor_roundtrip1 ()
+{
+  // One Unknown Marker Opener
+  {
+    string standard_usfm = "\\abc";
+    string standard_html = "<p class=\"mono\"><span>\\abc </span></p>";
+    
+    Webserver_Request request;
+
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, filter_string_trim (html));
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, filter_string_trim (usfm));
+  }
+  // Two Unknown Marker Openers
+  {
+    string standard_usfm =
+    "\\abc\n"
+    "\\abc";
+    string standard_html =
+    "<p class=\"mono\"><span>\\abc </span></p>"
+    "<p class=\"mono\"><span>\\abc </span></p>";
+    
+    Webserver_Request request;
+
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // One Unknown Markers Closer
+  {
+    string standard_usfm = "\\abc text\\abc*.";
+    string standard_html = "<p class=\"mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // Two Unknown Markers Closer
+  {
+    string standard_usfm =
+    "\\abc text\\abc*.\n"
+    "\\abc text\\abc*.";
+    string standard_html =
+    "<p class=\"mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>"
+    "<p class=\"mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // Identifiers
+  {
+    string standard_usfm =
+    "\\id GEN\n"
+    "\\h Header\n"
+    "\\toc1 The Book of Genesis\n"
+    "\\cl Chapter\n"
+    "\\cp ②\n"
+    "\\cp Ⅰ";
+    string standard_html =
+    "<p class=\"mono\"><span>\\id </span><span>GEN</span></p>"
+    "<p class=\"mono\"><span>\\h </span><span>Header</span></p>"
+    "<p class=\"mono\"><span>\\toc1 </span><span>The Book of Genesis</span></p>"
+    "<p class=\"mono\"><span>\\cl </span><span>Chapter</span></p>"
+    "<p class=\"mono\"><span>\\cp </span><span>②</span></p>"
+    "<p class=\"mono\"><span>\\cp </span><span>Ⅰ</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // One Paragraph
+  {
+    string standard_usfm = "\\p Paragraph text.";
+    string standard_html = "<p class=\"p\"><span>Paragraph text.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // Two Paragraphs
+  {
+    string standard_usfm =
+    "\\p Paragraph text.\n"
+    "\\p Paragraph txt.";
+    string standard_html =
+    "<p class=\"p\"><span>Paragraph text.</span></p>"
+    "<p class=\"p\"><span>Paragraph txt.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  
+}
+
+/* Todo
+Round trip tests.
  
  
  public function testInlineText ()
