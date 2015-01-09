@@ -36,12 +36,12 @@ public:
   void run ();
   string get ();
   size_t textLength;
-  map <int, size_t> verseStartOffsets;
+  map <int, int> verseStartOffsets;
 private:
   void * webserver_request;
 
   vector <string> markersAndText; // Strings alternating between USFM and text.
-  int markersAndTextPointer = 0;
+  unsigned int markersAndTextPointer = 0;
   
   map <string, Database_Styles_Item> styles; // All the style information.
   
@@ -69,10 +69,8 @@ private:
   // Lengths and offsets.
   int paragraphCount = 0;
   
-  // Debug.
-  bool debug = false;
-  
   void preprocess ();
+  void process ();
   void postprocess ();
   void outputAsIs (string marker, bool isOpeningMarker);
   xmlNodePtr newElement (string element);

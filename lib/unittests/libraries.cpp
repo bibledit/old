@@ -535,74 +535,60 @@ void test_editor_import () // Todo
     editor_import.stylesheet ("Standard");
     editor_import.run ();
     evaluate (__LINE__, __func__, 61, editor_import.textLength);
-    /*
-    $this->assertEquals (array (0 => 0, 1 => 2), $editor_import->verseStartOffsets);
-     */
+    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_import.verseStartOffsets);
   }
-  
+  // Text Length More
+  {
+    string usfm =
+    "\\c 2\n"
+    "\\p\n"
+    "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n"
+    "\\v 2 UNkulunkulu wasewuqeda ngosuku lwesikhombisa umsebenzi wakhe abewenza. Waphumula ngosuku lwesikhombisa\\x + Eks. 20.11; 31.17. Dute. 5.14. Heb. 4.4.\\x* emsebenzini wakhe wonke abewenza.\n"
+    "\\v 3 UNkulunkulu wasebusisa usuku lwesikhombisa, walungcwelisa; ngoba ngalo waphumula emsebenzini wakhe wonke, uNkulunkulu awudalayo wawenza\\f + \\fk wawenza: \\fl Heb. \\fq ukuwenza.\\f*.\n"
+    "\\s Isivande seEdeni\n"
+    "\\p\n"
+    "\\v 4 Lezi yizizukulwana zamazulu lezomhlaba ekudalweni kwakho\\x + 1.1.\\x*, mhla iN\\nd kosi\\nd* uNkulunkulu isenza umhlaba lamazulu,\n"
+    "\\v 5 laso sonke isihlahlakazana sensimu, singakabi khona emhlabeni, layo yonke imibhida yeganga\\x + 1.12.\\x*, ingakamili; ngoba iN\\nd kosi\\nd* uNkulunkulu yayinganisanga izulu emhlabeni, njalo kwakungelamuntu wokulima umhlabathi.\n"
+    "\\v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.\n"
+    "\\v 7 IN\\nd kosi\\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\\x*.\n";
+    Webserver_Request request;
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    evaluate (__LINE__, __func__, 913, editor_import.textLength);
+    evaluate (__LINE__, __func__, { make_pair (0, 0),
+                                    make_pair (1, 2),
+                                    make_pair (2, 62),
+                                    make_pair (3, 202),
+                                    make_pair (4, 359),
+                                    make_pair (5, 469),
+                                    make_pair (6, 676),
+                                    make_pair (7, 758) },
+                                    editor_import.verseStartOffsets);
+  }
+  // Space After Starting Marker
+  {
+    string usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 2 Text \\add of the \\add*1st\\add  second verse\\add*.\n";
+    Webserver_Request request;
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    string standard =
+    "<p class=\"c\"><span>1</span></p>"
+    "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>Text </span><span class=\"add\">of the </span><span>1st</span><span class=\"add\"> second verse</span><span>.</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
+  }
 }
 
 /* Todo
  
- 
- 
- 
- public function testTextLengthMore ()
- {
- $usfm = <<<'EOD'
- \c 2
- \p
- \v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\x + Dute. 4.19. Hlab. 33.6.\x*.
- \v 2 UNkulunkulu wasewuqeda ngosuku lwesikhombisa umsebenzi wakhe abewenza. Waphumula ngosuku lwesikhombisa\x + Eks. 20.11; 31.17. Dute. 5.14. Heb. 4.4.\x* emsebenzini wakhe wonke abewenza.
- \v 3 UNkulunkulu wasebusisa usuku lwesikhombisa, walungcwelisa; ngoba ngalo waphumula emsebenzini wakhe wonke, uNkulunkulu awudalayo wawenza\f + \fk wawenza: \fl Heb. \fq ukuwenza.\f*.
- \s Isivande seEdeni
- \p
- \v 4 Lezi yizizukulwana zamazulu lezomhlaba ekudalweni kwakho\x + 1.1.\x*, mhla iN\nd kosi\nd* uNkulunkulu isenza umhlaba lamazulu,
- \v 5 laso sonke isihlahlakazana sensimu, singakabi khona emhlabeni, layo yonke imibhida yeganga\x + 1.12.\x*, ingakamili; ngoba iN\nd kosi\nd* uNkulunkulu yayinganisanga izulu emhlabeni, njalo kwakungelamuntu wokulima umhlabathi.
- \v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.
- \v 7 IN\nd kosi\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\x*.
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $this->assertEquals (913, $editor_import->textLength);
- $this->assertEquals (array (0 => 0,
- 1 => 2,
- 2 => 62,
- 3 => 202,
- 4 => 359,
- 5 => 469,
- 6 => 676,
- 7 => 758), $editor_import->verseStartOffsets);
- }
- 
- 
- public function testSpaceAfterStartingMarker ()
- {
- $usfm = <<<'EOD'
- \c 1
- \p
- \v 2 Text \add of the \add*1st\add  second verse\add*.
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $standard = <<<'EOD'
- <p class="c"><span>1</span></p>
- <p class="p"><span class="v">2</span><span> </span><span>Text </span><span class="add">of the </span><span>1st</span><span class="add"> second verse</span><span>.</span></p>
- EOD;
- $this->assertEquals ($standard, $html);
- }
- 
 
- 
- 
- 
- 
- 
  
  
  

@@ -319,7 +319,7 @@ string filter_string_trim (string s)
 }
 
 
-// A C++ equivalent for PHP's ltrim function.
+// A C++ equivalent for PHP's filter_string_ltrim function.
 string filter_string_ltrim (string s)
 {
   if (s.length () == 0) return s;

@@ -40,10 +40,8 @@ Editor_Import::Editor_Import (void * webserver_request_in)
 
 Editor_Import::~Editor_Import ()
 {
-
-  //xmlDocDump (stdout, document);
+  //xmlDocDump (stdout, htmlDom);
   if (htmlDom) xmlFreeDoc (htmlDom);
-  //htmlFreeParserCtxt (context);
 }
 
 
@@ -85,9 +83,7 @@ void Editor_Import::stylesheet (string stylesheet)
 void Editor_Import::run ()
 {
   preprocess ();
-  /* Todo
   process ();
-   */
   postprocess ();
 }
 
@@ -113,10 +109,10 @@ string Editor_Import::get ()
   // Remain with the stuff within the <body> elements.
   size_t pos = html.find ("<body>");
   if (pos != string::npos) {
-    html = html.substr (pos + 7);
+    html.erase (0, pos + 7);
     pos = html.find ("</body>");
     if (pos != string::npos) {
-      html = html.substr (0, pos - 1);
+      html.erase  (pos);
     }
   }
   
@@ -158,6 +154,8 @@ void Editor_Import::preprocess ()
   bodyDomNode = nodes->nodeTab [0];
   xmlXPathFreeObject(xpathObj);
   xmlXPathFreeContext(xpathCtx);
+  
+  htmlFreeParserCtxt (context);
 
   // Create notes node.
   notesDomNode = newElement ("div");
@@ -166,240 +164,235 @@ void Editor_Import::preprocess ()
   xmlAddChild (notesDomNode, node);
 }
 
-
-/*
-class Editor_Import // Todo port it.
-
  
-  private function process ()
-  {
-    $this->markersAndTextPointer = 0;
-    $markersAndTextCount = count ($this->markersAndText);
-    for ($this->markersAndTextPointer = 0; $this->markersAndTextPointer < $markersAndTextCount; $this->markersAndTextPointer++) {
-      $currentItem = $this->markersAndText[$this->markersAndTextPointer];
-      if (usfm_is_usfm_marker ($currentItem))
+void Editor_Import::process ()
+{
+  markersAndTextPointer = 0;
+  unsigned int markersAndTextCount = markersAndText.size();
+  for (markersAndTextPointer = 0; markersAndTextPointer < markersAndTextCount; markersAndTextPointer++) {
+    string currentItem = markersAndText[markersAndTextPointer];
+    if (usfm_is_usfm_marker (currentItem))
+    {
+      // Store indicator whether the marker is an opening marker.
+      bool isOpeningMarker = usfm_is_opening_marker (currentItem);
+      bool isEmbeddedMarker = usfm_is_embedded_marker (currentItem);
+      // Clean up the marker, so we remain with the basic version, e.g. 'id'.
+      string marker = usfm_get_marker (currentItem);
+      if (styles.count (marker))
       {
-        // Store indicator whether the marker is an opening marker.
-        $isOpeningMarker = usfm_is_opening_marker ($currentItem);
-        $isEmbeddedMarker = usfm_is_embedded_marker ($currentItem);
-        // Clean up the marker, so we remain with the basic version, e.g. 'id'.
-        $marker = usfm_get_marker ($currentItem);
-        if (array_key_exists ($marker, $this->styles))
+        Database_Styles_Item style = styles [marker];
+        switch (style.type)
         {
-          $style = $this->styles[$marker];
-          switch ($style['type'])
+          case StyleTypeIdentifier:
+          case StyleTypeNotUsedComment:
+          case StyleTypeNotUsedRunningHeader:
           {
-            case StyleTypeIdentifier:
-            case StyleTypeNotUsedComment:
-            case StyleTypeNotUsedRunningHeader:
-            {
-              $this->closeTextStyle (false, false);
-              $this->outputAsIs ($marker, $isOpeningMarker);
-              break;
-            }
-            case StyleTypeStartsParagraph:
-            {
-              $this->closeTextStyle (false, false);
-              $this->newParagraph ($marker);
-              break;
-            }
-            case StyleTypeInlineText:
-            {
-              if ($isOpeningMarker) {
-                $this->openTextStyle ($style, false, $isEmbeddedMarker);
-              } else {
-                $this->closeTextStyle (false, $isEmbeddedMarker);
-              }
-              break;
-            }
-            case StyleTypeChapterNumber:
-            {
-              $this->closeTextStyle (false, false);
-              $this->newParagraph ($marker);
-              break;
-            }
-            case StyleTypeVerseNumber:
-            {
-              // Close any existing text style.
-              $this->closeTextStyle (false, false);
-              // Output the space before the verse number in case the paragraph already has some text.
-              if ($this->currentParagraphContent != "") {
-                $this->addText (" ");
-              }
-              // Open verse style, record verse/length, add verse number, close style again, and add a space.
-              $this->openTextStyle ($style, false, false);
-              $textFollowingMarker = usfm_get_text_following_marker ($this->markersAndText, $this->markersAndTextPointer);
-              $number = usfm_peek_verse_number ($textFollowingMarker);
-              $this->verseStartOffsets [intval ($number)] = $this->textLength;
-              $this->addText ($number);
-              $this->closeTextStyle (false, false);
-              $this->addText (" ");
-              // If there was any text following the \v marker, remove the verse number,
-              // put the remainder back into the object, and update the pointer.
-              if ($textFollowingMarker != "") {
-                $pos = strpos ($textFollowingMarker, $number);
-                if ($pos !== false) {
-                  $textFollowingMarker = substr ($textFollowingMarker, $pos + strlen ($number));
-                }
-                $textFollowingMarker = ltrim ($textFollowingMarker);
-                $this->markersAndText [$this->markersAndTextPointer] = $textFollowingMarker;
-                $this->markersAndTextPointer--;
-              }
-              break;
-            }
-            case StyleTypeFootEndNote:
-            {
-              switch ($style['subtype'])
-              {
-                case FootEndNoteSubtypeFootnote:
-                case FootEndNoteSubtypeEndnote:
-                {
-                  $this->closeTextStyle (false, false);
-                  if ($isOpeningMarker) {
-                    $this->noteOpened = true;
-                    $caller = $this->noteCount % 9 + 1;
-                    $this->addNote ($caller, $marker, false);
-                  } else {
-                    $this->closeCurrentNote ();
-                    $this->noteOpened = false;
-                  }
-                  break;
-                }
-                case FootEndNoteSubtypeStandardContent:
-                case FootEndNoteSubtypeContent:
-                case FootEndNoteSubtypeContentWithEndmarker:
-                {
-                  if ($isOpeningMarker) {
-                    $this->openTextStyle ($style, true, $isEmbeddedMarker);
-                  } else {
-                    $this->closeTextStyle (true, $isEmbeddedMarker);
-                  }
-                  break;
-                }
-                case FootEndNoteSubtypeParagraph:
-                default:
-                {
-                  $this->closeTextStyle (false, false);
-                  break;
-                }
-              }
-              break;
-            }
-            case StyleTypeCrossreference:
-            {
-              switch ($style['subtype'])
-              {
-                case CrossreferenceSubtypeCrossreference:
-                {
-                  $this->closeTextStyle (false, false);
-                  if ($isOpeningMarker) {
-                    $this->noteOpened = true;
-                    $caller = ($this->noteCount) % 9 + 1;
-                    $this->addNote ($caller, $marker, false);
-                  } else {
-                    $this->closeCurrentNote ();
-                    $this->noteOpened = false;
-                  }
-                  break;
-                }
-                case CrossreferenceSubtypeContent:
-                case CrossreferenceSubtypeContentWithEndmarker:
-                {
-                  if ($isOpeningMarker) {
-                    $this->openTextStyle ($style, true, $isEmbeddedMarker);
-                  } else {
-                    $this->closeTextStyle (true, $isEmbeddedMarker);
-                  }
-                  break;
-                }
-                case CrossreferenceSubtypeStandardContent:
-                default:
-                {
-                  // The style of the standard content is already used in the note's body.
-                  // Clear the text style to get the correct style for the note paragraph.
-                  $this->closeTextStyle (false, false);
-                  break;
-                }
-              }
-              break;
-            }
-            case StyleTypePeripheral:
-            {
-              $this->closeTextStyle (false, false);
-              $this->outputAsIs ($marker, $isOpeningMarker);
-              break;
-            }
-            case StyleTypePicture:
-            {
-              $this->closeTextStyle (false, false);
-              $this->outputAsIs ($marker, $isOpeningMarker);
-              break;
-            }
-            case StyleTypePageBreak:
-            {
-              $this->closeTextStyle (false, false);
-              $this->outputAsIs ($marker, $isOpeningMarker);
-              break;
-            }
-            case StyleTypeTableElement:
-            {
-              $this->closeTextStyle (false, false);
-              switch ($style['subtype'])
-              {
-                case TableElementSubtypeRow:
-                {
-                  $this->outputAsIs ($marker, $isOpeningMarker);
-                  break;
-                }
-                case TableElementSubtypeHeading:
-                case TableElementSubtypeCell:
-                {
-                  $this->openTextStyle ($style, false, false);
-                  break;
-                }
-                default:
-                {
-                  $this->openTextStyle ($style, false, false);
-                  break;
-                }
-              }
-              break;
-            }
-            case StyleTypeWordlistElement:
-            {
-              if ($isOpeningMarker) {
-                $this->openTextStyle ($style, false, false);
-              } else {
-                $this->closeTextStyle (false, false);
-              }
-              break;
-            }
-            default:
-            {
-              // This marker is known in the stylesheet, but not yet implemented here.
-              $this->closeTextStyle (false, false);
-              $this->outputAsIs ($marker, $isOpeningMarker);
-              break;
-            }
+            closeTextStyle (false, false);
+            outputAsIs (marker, isOpeningMarker);
+            break;
           }
-        } else {
-          // This is a marker unknown in the stylesheet.
-          $this->closeTextStyle (false, false);
-          $this->outputAsIs ($marker, $isOpeningMarker);
+          case StyleTypeStartsParagraph:
+          {
+            closeTextStyle (false, false);
+            newParagraph (marker);
+            break;
+          }
+          case StyleTypeInlineText:
+          {
+            if (isOpeningMarker) {
+              openTextStyle (style, false, isEmbeddedMarker);
+            } else {
+              closeTextStyle (false, isEmbeddedMarker);
+            }
+            break;
+          }
+          case StyleTypeChapterNumber:
+          {
+            closeTextStyle (false, false);
+            newParagraph (marker);
+            break;
+          }
+          case StyleTypeVerseNumber:
+          {
+            // Close any existing text style.
+            closeTextStyle (false, false);
+            // Output the space before the verse number in case the paragraph already has some text.
+            if (currentParagraphContent != "") {
+              addText (" ");
+            }
+            // Open verse style, record verse/length, add verse number, close style again, and add a space.
+            openTextStyle (style, false, false);
+            string textFollowingMarker = usfm_get_text_following_marker (markersAndText, markersAndTextPointer);
+            string number = usfm_peek_verse_number (textFollowingMarker);
+            verseStartOffsets [convert_to_int (number)] = textLength;
+            addText (number);
+            closeTextStyle (false, false);
+            addText (" ");
+            // If there was any text following the \v marker, remove the verse number,
+            // put the remainder back into the object, and update the pointer.
+            if (textFollowingMarker != "") {
+              size_t pos = textFollowingMarker.find (number);
+              if (pos != string::npos) {
+                textFollowingMarker = textFollowingMarker.substr (pos + number.length());
+              }
+              textFollowingMarker = filter_string_ltrim (textFollowingMarker);
+              markersAndText [markersAndTextPointer] = textFollowingMarker;
+              markersAndTextPointer--;
+            }
+            break;
+          }
+          case StyleTypeFootEndNote:
+          {
+            switch (style.subtype)
+            {
+              case FootEndNoteSubtypeFootnote:
+              case FootEndNoteSubtypeEndnote:
+              {
+                closeTextStyle (false, false);
+                if (isOpeningMarker) {
+                  noteOpened = true;
+                  int caller = noteCount % 9 + 1;
+                  addNote (convert_to_string (caller), marker, false);
+                } else {
+                  closeCurrentNote ();
+                  noteOpened = false;
+                }
+                break;
+              }
+              case FootEndNoteSubtypeStandardContent:
+              case FootEndNoteSubtypeContent:
+              case FootEndNoteSubtypeContentWithEndmarker:
+              {
+                if (isOpeningMarker) {
+                  openTextStyle (style, true, isEmbeddedMarker);
+                } else {
+                  closeTextStyle (true, isEmbeddedMarker);
+                }
+                break;
+              }
+              case FootEndNoteSubtypeParagraph:
+              default:
+              {
+                closeTextStyle (false, false);
+                break;
+              }
+            }
+            break;
+          }
+          case StyleTypeCrossreference:
+          {
+            switch (style.subtype)
+            {
+              case CrossreferenceSubtypeCrossreference:
+              {
+                closeTextStyle (false, false);
+                if (isOpeningMarker) {
+                  noteOpened = true;
+                  int caller = (noteCount) % 9 + 1;
+                  addNote (convert_to_string (caller), marker, false);
+                } else {
+                  closeCurrentNote ();
+                  noteOpened = false;
+                }
+                break;
+              }
+              case CrossreferenceSubtypeContent:
+              case CrossreferenceSubtypeContentWithEndmarker:
+              {
+                if (isOpeningMarker) {
+                  openTextStyle (style, true, isEmbeddedMarker);
+                } else {
+                  closeTextStyle (true, isEmbeddedMarker);
+                }
+                break;
+              }
+              case CrossreferenceSubtypeStandardContent:
+              default:
+              {
+                // The style of the standard content is already used in the note's body.
+                // Clear the text style to get the correct style for the note paragraph.
+                closeTextStyle (false, false);
+                break;
+              }
+            }
+            break;
+          }
+          case StyleTypePeripheral:
+          {
+            closeTextStyle (false, false);
+            outputAsIs (marker, isOpeningMarker);
+            break;
+          }
+          case StyleTypePicture:
+          {
+            closeTextStyle (false, false);
+            outputAsIs (marker, isOpeningMarker);
+            break;
+          }
+          case StyleTypePageBreak:
+          {
+            closeTextStyle (false, false);
+            outputAsIs (marker, isOpeningMarker);
+            break;
+          }
+          case StyleTypeTableElement:
+          {
+            closeTextStyle (false, false);
+            switch (style.subtype)
+            {
+              case TableElementSubtypeRow:
+              {
+                outputAsIs (marker, isOpeningMarker);
+                break;
+              }
+              case TableElementSubtypeHeading:
+              case TableElementSubtypeCell:
+              {
+                openTextStyle (style, false, false);
+                break;
+              }
+              default:
+              {
+                openTextStyle (style, false, false);
+                break;
+              }
+            }
+            break;
+          }
+          case StyleTypeWordlistElement:
+          {
+            if (isOpeningMarker) {
+              openTextStyle (style, false, false);
+            } else {
+              closeTextStyle (false, false);
+            }
+            break;
+          }
+          default:
+          {
+            // This marker is known in the stylesheet, but not yet implemented here.
+            closeTextStyle (false, false);
+            outputAsIs (marker, isOpeningMarker);
+            break;
+          }
         }
       } else {
-        // Here is no marker. Treat it as text.
-        if ($this->noteOpened) {
-          $this->addNoteText ($currentItem);
-        } else {
-          $this->addText ($currentItem);
-        }
+        // This is a marker unknown in the stylesheet.
+        closeTextStyle (false, false);
+        outputAsIs (marker, isOpeningMarker);
+      }
+    } else {
+      // Here is no marker. Treat it as text.
+      if (noteOpened) {
+        addNoteText (currentItem);
+      } else {
+        addText (currentItem);
       }
     }
   }
- */
+}
 
-  
+
 void Editor_Import::postprocess ()
 {
 }
@@ -506,6 +499,9 @@ void Editor_Import::addNote (string citation, string style, bool endnote)
   if (!currentPDomElement) {
     newParagraph ();
   }
+  
+  // Not used:
+  if (endnote) {};
   
   noteCount++;
   
