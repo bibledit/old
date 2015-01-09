@@ -93,7 +93,6 @@
 #include "dialogfontcolor.h"
 #include "color.h"
 #include "dialognewstylesheet.h"
-#include "settings.h"
 #include "dialoggui.h"
 #include "password.h"
 #include "gui_features.h"
@@ -144,11 +143,14 @@
  */
 
 
-MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * accelerator_group):
+MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * _accelerator_group, Settings *_settings, URLTransport *_urltransport, VCS *_vcs):
 navigation(0), httpd(0)
 {
-  // Pointer to the settings.
-  extern Settings *settings;
+  // Store pointers to the settings, etc. so we don't have to rely on "extern" declarations of them
+  accelerator_group = _accelerator_group;
+  settings = _settings;
+  urltransport = _urltransport;
+  vcs = _vcs;
 
   // Set some window pointers to NULL.
   // To save memory, we only create the object when actually needed.
@@ -191,7 +193,6 @@ navigation(0), httpd(0)
   references_management_enabled = guifeatures.references_management();
 
   // Accelerators.
-  extern GtkAccelGroup *accelerator_group;
   gtk_accel_group_connect(accelerator_group, GDK_KEY_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_KEY_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_KEY_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
@@ -1918,7 +1919,6 @@ void MainWindow::on_delete1_activate (GtkMenuItem * menuitem, gpointer user_data
 void MainWindow::deleteproject ()
 {
   // Get all projects, leave the current one and the non-editable ones out.
-  extern Settings *settings;
   vector < ustring > all_projects = projects_get_all();
   vector < ustring > projects;
   for (unsigned int i = 0; i < all_projects.size(); i++) {
@@ -2099,7 +2099,6 @@ void MainWindow::menu_replace()
     if (replacedialog.run() == GTK_RESPONSE_OK) {
       results.assign(replacedialog.results.begin(), replacedialog.results.end());
       if (window_references) {
-        extern Settings *settings;
         window_references->set(replacedialog.results, settings->genconfig.project_get(), NULL);
       }
     } else {
@@ -2187,7 +2186,6 @@ void MainWindow::on_copy_project_to()
 // Copy project to another one.
 {
   save_editors();
-  extern Settings *settings;
   EntryDialog dialog("New project name", "Enter a name of a non-existent project\nwhere this project will be copied to.", settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
     // Does the project exist?
@@ -2250,7 +2248,6 @@ void MainWindow::on_prefs_books_activate(GtkMenuItem * menuitem, gpointer user_d
 
 void MainWindow::on_prefs_books()
 {
-  extern Settings *settings;
   BookDialog dialog(settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
     reload_all_editors(false);
@@ -2293,7 +2290,6 @@ void MainWindow::on_navigation_new_reference()
 // This function is called when the navigation object goes to another reference.
 {
   // Store the new reference in the configuration.
-  extern Settings *settings;
   settings->genconfig.book_set(navigation.reference.book);
   settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
   settings->genconfig.verse_set(navigation.reference.verse);
@@ -2386,7 +2382,6 @@ void MainWindow::goto_reference_interactive()
         // This focusing causes the navigation to take the values as they are in the configuration.
         // This would frustrate the desire of the user to go somewhere else.
         // To fix the problem, the settings are updated here.
-        extern Settings *settings;
         settings->genconfig.book_set(dialog.reference.book);
         settings->genconfig.chapter_set(convert_to_string(dialog.reference.chapter));
         settings->genconfig.verse_set(dialog.reference.verse);
@@ -2634,7 +2629,6 @@ void MainWindow::on_view_references ()
 {
   on_window_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_references))) {
-    extern GtkAccelGroup *accelerator_group;
     window_references = new WindowReferences(layout, accelerator_group, windows_startup_pointer != G_MAXINT, references_management_enabled);
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -2795,7 +2789,6 @@ void MainWindow::on_preferences_windows_outpost()
     delete windowsoutpost;
     windowsoutpost = new WindowsOutpost(true);
     // If required, start the Outpost.
-    extern Settings *settings;
     if (settings->genconfig.use_outpost_get()) {
       // Delay a bit so wine debugger doesn't start.
       g_usleep(1000000);
@@ -2813,12 +2806,10 @@ void MainWindow::on_tool_send_reference ()
   payload.append (convert_to_string (navigation.reference.chapter));
   payload.append (".");
   payload.append (navigation.reference.verse);
-  extern Settings * settings;
   ustring url = settings->genconfig.bibledit_web_url_get();
   ustring user = settings->genconfig.bibledit_web_user_get();
   url.append ("/ipc/setmessage.php?user=" + user + "&subject=focus&message=");
   url.append (payload);
-  extern URLTransport * urltransport;
   urltransport->send_message (url);
 }
 
@@ -2846,7 +2837,6 @@ void MainWindow::view_project_notes()
     // If the window is there, focus it for the user.
     window_notes->focus_set();
   } else {
-    extern GtkAccelGroup *accelerator_group;
     // New notes window.
     window_notes = new WindowNotes(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
@@ -2902,9 +2892,7 @@ void MainWindow::on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem
 
 void MainWindow::on_consultant_notes_send_receive ()
 {
-  extern Settings * settings;
   if (settings->genconfig.consultation_notes_git_use_remote_repository_get()) {
-    extern VCS * vcs;
     vcs->schedule(notes_shared_storage_folder ());
     maintenance_register_git_repository (notes_shared_storage_folder ());
   }
@@ -2969,7 +2957,6 @@ void MainWindow::on_get_references_from_note()
 // This one is called through the Edit menu.
 {
   // Clear the searchwords.
-  extern Settings * settings;
   settings->session.highlights.clear();
 
   // Get all references from the editor.
@@ -2999,7 +2986,6 @@ void MainWindow::on_window_notes_references_available_button()
   if (window_notes) {
     vector <Reference> references = window_notes->available_references;
     sort_references(references);
-    extern Settings *settings;
     window_references->set (references, settings->genconfig.project_get(), NULL);
   }
 }
@@ -3209,7 +3195,6 @@ void MainWindow::on_check_httpd()
     // Bibledit presents itself and any detached editors.
     gtk_window_present(GTK_WINDOW(window_main));
     // Bibledit searches for the word.
-    extern Settings *settings;
     settings->session.searchword = httpd.search_whole_word;
     httpd.search_whole_word.clear();
     settings->session.search_case_sensitive = true;
@@ -3350,7 +3335,6 @@ void MainWindow::on_check_spelling_error(bool next, bool extremity)
 
   // If the project has spelling switched off, bail out.
   ustring project = editor_window->project();
-  extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig (project);
   if (!projectconfig->spelling_check_get()) {
     gtkw_dialog_info (window_main, "To make this work, enable spelling checking in the project");
@@ -3471,7 +3455,6 @@ void MainWindow::display_window_styles()
     gtk_widget_show(style_delete);
     gtk_widget_show(menu_stylesheet);
     // Open the window.
-    extern GtkAccelGroup *accelerator_group;
     window_styles = new WindowStyles(layout, accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename);
     g_signal_connect((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK(on_window_styles_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -3521,7 +3504,6 @@ void MainWindow::on_style_button_open()
 {
   if (window_styles) {
     // Save the name of the stylesheet.
-    extern Settings *settings;
     settings->genconfig.stylesheet_set(window_styles->get_sheet());
     // Actually open it.  
     stylesheet_open_named(window_styles->get_sheet());
@@ -3566,7 +3548,6 @@ void MainWindow::on_style_apply (ustring marker)
     return;
 
   // Get the Style object.
-  extern Settings *settings;
   Style style(settings->genconfig.stylesheet_get(), selected_style, false);
 
   // Whether and how the style is used.
@@ -3914,7 +3895,6 @@ void MainWindow::on_insert_special_character()
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-  extern Settings *settings;
   vector < ustring > characters;
   vector < ustring > descriptions;
   characters.push_back("­");
@@ -3977,7 +3957,6 @@ void MainWindow::on_check_key_terms()
 {
   on_window_check_keyterms_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_key_terms))) {
-    extern GtkAccelGroup *accelerator_group;
     window_check_keyterms = new WindowCheckKeyterms(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_check_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -4016,7 +3995,6 @@ void MainWindow::keyterms_check_action()
   } else {
     // Transfer references to the references window.
     show_references_window();
-    extern Settings * settings;
     window_references->set (window_check_keyterms->references, settings->genconfig.project_get(), NULL);
   }
 }
@@ -4032,12 +4010,10 @@ void MainWindow::on_view_related_verses()
 {
   on_window_show_related_verses_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_related_verses))) {
-    extern GtkAccelGroup *accelerator_group;
     window_show_related_verses = new WindowShowRelatedVerses(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_show_related_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_related_verses_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_related_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_related_verses->button_item, "clicked", G_CALLBACK(on_window_show_related_verses_item_button_clicked), gpointer(this));
-    extern Settings *settings;
     window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
@@ -4092,7 +4068,6 @@ void MainWindow::on_window_show_related_verses_item_button()
       }
       // Show results.
       show_references_window();
-      extern Settings * settings;
       window_references->set (references, settings->genconfig.project_get(), NULL);
       break;
     }
@@ -4102,7 +4077,6 @@ void MainWindow::on_window_show_related_verses_item_button()
       vector <ustring> comments;
       parallel_passages_retrieve (navigation.reference, references, comments);
       show_references_window();
-      extern Settings * settings;
       window_references->set (references, settings->genconfig.project_get(), &comments);
       break;
     }
@@ -4243,8 +4217,6 @@ void MainWindow::on_projects_send_receive ()
     editor_windows[i]->chapter_save ();
   }
 
-  extern Settings *settings;
-
   GwSpawn spawn ("bibledit-git");
   spawn.async ();
   
@@ -4304,7 +4276,6 @@ void MainWindow::on_text_font()
 {
   // Get the font and colour settings, either from the project, if it is opened, 
   // or else from genconfig.
-  extern Settings *settings;
   bool defaultfont = settings->genconfig.text_editor_font_default_get();
   ustring fontname = settings->genconfig.text_editor_font_name_get();
   unsigned int linespacing = 100;
@@ -4400,12 +4371,10 @@ void MainWindow::on_view_outline()
 {
   on_window_outline_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_outline))) {
-    extern GtkAccelGroup *accelerator_group;
     window_outline = new WindowOutline(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_outline->delete_signal_button, "clicked", G_CALLBACK(on_window_outline_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->outline->reference_changed_signal, "clicked", G_CALLBACK(on_button_outline_clicked), gpointer(this));
-    extern Settings *settings;
     window_outline->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
@@ -4583,7 +4552,6 @@ void MainWindow::on_file_resources_open(ustring resource, bool startup)
   }
 
   // Display a new resource.
-  extern GtkAccelGroup *accelerator_group;
   WindowResource *resource_window = new WindowResource(resource, layout, accelerator_group, startup);
   g_signal_connect((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK(on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -4734,7 +4702,6 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
   }
 
   // Display a new editor.
-  extern GtkAccelGroup *accelerator_group;
   WindowEditor *editor_window = new WindowEditor(project, layout, accelerator_group, startup);
   g_signal_connect((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK(on_window_editor_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -4771,7 +4738,6 @@ void MainWindow::handle_editor_focus()
   previously_focused_project_name = project;
 
   // Set the focused project in the configuration.
-  extern Settings *settings;
   settings->genconfig.project_set(project);
 
   // Enable or disable widgets depending on whether an editor window is focused.
@@ -4974,7 +4940,6 @@ void MainWindow::on_file_projects_merge()
 {
   on_window_merge_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(file_projects_merge))) {
-    extern GtkAccelGroup *accelerator_group;
     window_merge = new WindowMerge(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK(on_window_merge_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -5108,7 +5073,6 @@ void MainWindow::on_print()
     labels.push_back("Parallel Bible");
     labels.push_back("References");
     //labels.push_back("Test usfm2pdf");
-    extern Settings *settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get(), false);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
@@ -5127,7 +5091,6 @@ void MainWindow::on_print()
         if (dialog.run() != GTK_RESPONSE_OK)
           return;
       }
-      extern Settings *settings;
       ProjectMemory projectmemory(settings->genconfig.project_get(), true);
       PrintProject printproject(&projectmemory);
       printproject.print();
@@ -5140,7 +5103,6 @@ void MainWindow::on_print()
         if (dialog.run() != GTK_RESPONSE_OK)
           return;
       }
-      extern Settings *settings;
       ProjectMemory projectmemory(settings->genconfig.project_get(), true);
       PrintProject2 printproject2(&projectmemory);
       printproject2.print();
@@ -5173,7 +5135,6 @@ void MainWindow::on_print()
         gtkw_dialog_info(window_main, "There are no references to print");
       } else {
         // Run the function for printing the references.
-        extern Settings *settings;
         vector < ustring > extra_projects = settings->genconfig.print_references_projects_get();
         ProjectMemory projectmemory(settings->genconfig.project_get(), true);
         view_parallel_references_pdf(projectmemory, &extra_projects, refs, true, NULL, true);
@@ -5480,8 +5441,9 @@ void MainWindow::initiate_shutdown()
 // Starts the shutdown sequence.
 {
   // Bail out if we are already shutting down.
-  if (shutting_down)
-    return;
+  if (shutting_down) { return; }
+
+  shutting_down = true;
 
   // Shut down after a delay.
   g_timeout_add(10, GSourceFunc(gtk_main_quit), NULL);
@@ -5621,7 +5583,6 @@ void MainWindow::on_check_usfm()
 {
   on_window_check_usfm_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_usfm))) {
-    extern GtkAccelGroup *accelerator_group;
     window_check_usfm = new WindowCheckUSFM(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_check_usfm->delete_signal_button, "clicked", G_CALLBACK(on_window_check_usfm_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_usfm->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -6046,12 +6007,10 @@ bool MainWindow::on_interprocess_communications_initiate_listener_timeout(gpoint
 void MainWindow::interprocess_communications_initiate_listener ()
 {
   interprocess_communications_initiate_listener_event_id = 0;
-  extern Settings * settings;
   ustring url = settings->genconfig.bibledit_web_url_get();
   ustring user = settings->genconfig.bibledit_web_user_get();
   url.append ("/ipc/getmessage.php?user=" + user + "&channel=bibleditgtk&id=");
   url.append (convert_to_string (interprocess_communications_initiate_listener_message_id));
-  extern URLTransport * urltransport;
   GtkWidget * button;
   button = urltransport->send_message_expect_reply (url);
   g_signal_connect((gpointer) button, "clicked", G_CALLBACK(on_interprocess_communications_listener_button_clicked), gpointer(this));
@@ -6066,7 +6025,6 @@ void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButto
 
 void MainWindow::on_interprocess_communications_listener_button(GtkButton *button)
 {
-  extern URLTransport * urltransport;
   // Process the message if it looks good.
   if (urltransport->reply_is_ok) {
 		ParseLine parseline (trim (urltransport->reply_body));
