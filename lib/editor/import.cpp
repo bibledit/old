@@ -459,7 +459,7 @@ void Editor_Import::closeTextStyle (bool note, bool embed)
 {
   if (note) {
     if (!currentNoteTextStyles.empty ()) currentNoteTextStyles.pop_back ();
-    if (embed) currentNoteTextStyles.clear ();
+    if (!embed) currentNoteTextStyles.clear ();
   } else {
     if (!currentTextStyles.empty()) currentTextStyles.pop_back();
     if (!embed) currentTextStyles.clear ();
