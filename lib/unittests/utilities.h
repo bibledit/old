@@ -24,9 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-#define EVALUATE(a,b) (evaluate(__LINE__,__func__,(a),(b)))
-
-
 extern string testing_directory;
 extern int error_count;
 void refresh_sandbox (bool displayjournal);

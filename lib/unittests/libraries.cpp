@@ -1443,7 +1443,7 @@ void test_editor_roundtrip ()
     "\\v 2 text\\f + \\fk fk \\fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Fix For Change \ft to \fk
+  // Fix for change \ft to \fk
   {
     // A bug was discovered in the Bible editor where "... \fk ... \ft ..." was changed to "... \fk ... \fk ...".
     // The bug was fixed.
@@ -1473,7 +1473,6 @@ void test_editor_roundtrip ()
     editor_export.run ();
     output = editor_export.get ();
     evaluate (__LINE__, __func__, usfm, output);
-    EVALUATE (usfm, output);
   }
 }
 
