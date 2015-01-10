@@ -23,6 +23,11 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
+#include <database/modifications.h>
+#include <database/logs.h>
+#include <checksum/logic.h>
+#include <editor/export.h>
+#include <locale/translate.h>
 
 
 string edit_save_url ()
@@ -40,92 +45,74 @@ bool edit_save_acl (void * webserver_request)
 string edit_save (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  return "";
+  Database_Modifications database_modifications = Database_Modifications ();
+  
+  if (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("html") && request->post.count ("checksum")) {
+    
+    string bible = request->post["bible"];
+    int book = convert_to_int (request->post["book"]);
+    int chapter = convert_to_int (request->post["chapter"]);
+    string html = request->post["html"];
+    string checksum = request->post["checksum"];
+
+    if (Checksum_Logic::get (html) == checksum) {
+      
+      html = filter_string_trim (html);
+      if (html != "") {
+        if (unicode_string_is_valid (html)) {
+          
+          string stylesheet = request->database_config_user()->getStylesheet();
+          
+          Editor_Export editor_export = Editor_Export (request);
+          editor_export.load (html);
+          editor_export.stylesheet (stylesheet);
+          editor_export.run ();
+          string usfm = editor_export.get ();
+          
+          vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
+          for (auto & data : book_chapter_text) {
+            int book_number = data.book;
+            int chapter_number = data.chapter;
+            string chapter_data_to_save = data.data;
+            if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
+              
+              // Collect some data about the changes for this user.
+              string username = request->session_logic()->currentUser ();
+              int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+              string oldText = request->database_bibles()->getChapter (bible, book, chapter);
+              
+              // Safely store the chapter.
+              bool saved = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
+              
+              if (saved) {
+                // Store details for the user's changes.
+                int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+                string newText = chapter_data_to_save;
+                database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+                return gettext("Saved");
+              } else {
+                return gettext("Not saved because of too many changes");
+              }
+            } else {
+              Database_Logs::log ("The following data could not be saved and was discarded: " + chapter_data_to_save);
+              return gettext("Save failure");
+            }
+          }
+        } else {
+          Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
+          return gettext("Save failure");
+        }
+      } else {
+        Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
+        return gettext("Nothing to save");
+      }
+    } else {
+      request->response_code = 409;
+      return gettext("Checksum error");
+    }
+  } else {
+    return gettext("Nothing to save");
+  }
+  return gettext ("Bibledit is confused");
 }
 
-/* Todo
- 
- require_once ("../bootstrap/bootstrap.php");
- page_access_level (Filter_Roles::translator ());
- 
- 
- $database_config_user = Database_Config_User::getInstance ();
- $database_logs = Database_Logs::getInstance ();
- $database_bibles = Database_Bibles::getInstance ();
- $database_modifications = Database_Modifications::getInstance ();
- $session_logic = Session_Logic::getInstance ();
- 
- 
- $bible = request->post['bible'];
- $book = request->post['book'];
- $chapter = request->post['chapter'];
- $html = request->post['html'];
- $checksum = request->post['checksum'];
- 
- 
- if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isset ($checksum)) {
- 
- if (Checksum_Logic::get ($html) == $checksum) {
- 
- $html = filter_string_trim ($html);
- if ($html != "") {
- if (unicode_string_is_valid ($html)) {
- 
- $stylesheet = request->database_config_user()->getStylesheet();
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($html);
- $editor_export->stylesheet ($stylesheet);
- $editor_export->run ();
- $usfm = $editor_export->get ();
- 
- $book_chapter_text = usfm_import ($usfm, $stylesheet);
- for ($book_chapter_text as $data) {
- $book_number = $data[0];
- $chapter_number = $data[1];
- $chapter_data_to_save = $data[2];
- if ((($book_number == $book) || ($book_number == 0)) && ($chapter_number == $chapter)) {
- 
- // Collect some data about the changes for this user.
- $username = request->session_logic()->currentUser ();
- $oldID = request->database_bibles()->getChapterId (bible, book, chapter);
- $oldText = request->database_bibles()->getChapter (bible, book, chapter);
- 
- // Safely store the chapter.
- $saved = usfm_safely_store_chapter (request, bible, book, chapter, $chapter_data_to_save);
- 
- if ($saved) {
- // Store details for the user's changes.
- $newID = request->database_bibles()->getChapterId (bible, book, chapter);
- $newText = $chapter_data_to_save;
- $database_modifications->recordUserSave ($username, bible, book, chapter, $oldID, $oldText, $newID, $newText);
- echo gettext("Saved");
- } else {
- echo gettext("Not saved because of too many changes");
- }
- } else {
- echo gettext("Save failure");
- Database_Logs::log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
- }
- }
- } else {
- echo gettext("Save failure");
- Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
- }
- } else {
- echo gettext("Nothing to save");
- Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
- }
- 
- } else {
- request->response_code = 409);
- echo gettext("Checksum error");
- }
- 
- } else {
- echo gettext("Nothing to save");
- }
- 
-
- 
- */

@@ -55,6 +55,3 @@ string edit_id (void * webserver_request)
   int id = request->database_bibles()->getChapterId (bible, book, chapter);
   return convert_to_string (id);
 }
-
-/* Todo
- */

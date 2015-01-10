@@ -61,11 +61,8 @@ string edit_load (void * webserver_request)
   
   
   string html = editor_import.get ();
-  // cout << html << endl; // Todo
   
   
   return Checksum_Logic::send (html);
 }
 
-/* Todo
- */
