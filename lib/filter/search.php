@@ -29,7 +29,7 @@ class Filter_Search
     $needles = array ();
     $position = mb_stripos ($string, $search, 0);
     while ($position !== false) {
-      $needle = mb_substr ($string, $position, mb_strlen ($search));
+      $needle = unicode_string_substr ($string, $position, unicode_string_length ($search));
       $needles [] = $needle;
       $position = mb_stripos ($string, $search, $position + 1);
     }

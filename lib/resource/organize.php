@@ -27,25 +27,25 @@ $database_config_user = Database_Config_User::getInstance ();
 
 @$add = request->query['add'];
 if (isset ($add)) {
-  $resources = $database_config_user->getActiveResources ();
+  $resources = request->database_config_user()->getActiveResources ();
   $resources [] = $add;
-  $database_config_user->setActiveResources ($resources);
+  request->database_config_user()->setActiveResources ($resources);
 }
 
 
 @$remove = request->query['remove'];
 if (isset ($remove)) {
-  $resources = $database_config_user->getActiveResources ();
+  $resources = request->database_config_user()->getActiveResources ();
   $key = array_search ($remove, $resources);
   unset ($resources[$key]);
-  $database_config_user->setActiveResources ($resources);
+  request->database_config_user()->setActiveResources ($resources);
 }
 
 
 @$resources = request->post ['resources'];
 if (isset ($resources)) {
   $resources = explode (",", $resources);
-  $database_config_user->setActiveResources ($resources);
+  request->database_config_user()->setActiveResources ($resources);
 }
 
 
@@ -55,7 +55,7 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
-$active_resources = $database_config_user->getActiveResources ();
+$active_resources = request->database_config_user()->getActiveResources ();
 $view->view->actives = $active_resources;
 
 

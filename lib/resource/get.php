@@ -39,7 +39,7 @@ $resource--;
 
 
 $database_config_user = Database_Config_User::getInstance ();
-$resources = $database_config_user->getActiveResources ();
+$resources = request->database_config_user()->getActiveResources ();
 $resource = $resources [$resource];
 
 

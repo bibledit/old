@@ -32,8 +32,8 @@ $database_bibles = Database_Bibles::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-$sourceBible = $database_config_user->getSourceXrefBible ();
-$targetBible = $database_config_user->getTargetXrefBible ();
+$sourceBible = request->database_config_user()->getSourceXrefBible ();
+$targetBible = request->database_config_user()->getTargetXrefBible ();
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 
@@ -45,7 +45,7 @@ $sourceAbbreviations = Database_Config_Bible::getBookAbbreviations ($sourceBible
 $sourceAbbreviations = filter_abbreviations_read ($sourceAbbreviations);
 $sorter = array ();
 for ($sourceAbbreviations as $abbrev => $dummy) {
-  $sorter [] = mb_strlen ($abbrev);
+  $sorter [] = unicode_string_length ($abbrev);
 }
 array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $sourceAbbreviations);
 
@@ -119,8 +119,8 @@ for ($verses as $verse) {
   $sourceUsfm = $database_bibles->getChapter ($sourceBible, $book, $chapter);
   $sourceUsfm = usfm_get_verse_text ($sourceUsfm, $verse);
   $sourceUsfm = Filter_Usfm::removeNotes ($sourceUsfm, array ("x"));
-  $sourceLength = mb_strlen ($sourceUsfm);
-  $targetLength = mb_strlen ($usfm);
+  $sourceLength = unicode_string_length ($sourceUsfm);
+  $targetLength = unicode_string_length ($usfm);
   $ratio = $targetLength / $sourceLength;
   
   

@@ -106,9 +106,9 @@ class Filter_Merge
   {
     $data = str_replace ("\n", " new__line ", $data);
     $data2 = "";
-    $count = mb_strlen ($data);
+    $count = unicode_string_length ($data);
     for ($i = 0; $i < $count; $i++) {
-      $grapheme = mb_substr ($data, $i, 1);
+      $grapheme = unicode_string_substr ($data, $i, 1);
       $data2 += $grapheme;
       $data2 += "\n";
     }

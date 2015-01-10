@@ -81,7 +81,7 @@ void Assets_Header::setStylesheet () // C++Port
 {
   /* 
     $database_config_user = Database_Config_User::getInstance ();
-    $stylesheet = $database_config_user->getStylesheet ();
+    $stylesheet = request->database_config_user()->getStylesheet ();
     $this->includedStylesheet = $stylesheet;
    */
 }

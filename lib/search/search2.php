@@ -31,7 +31,7 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 @$bible = request->query ['bible'];
-if (!isset ($bible)) $bible = $database_config_user->getBible ();
+if (!isset ($bible)) $bible = request->database_config_user()->getBible ();
 
 
 @$identifier = request->query ['i'];

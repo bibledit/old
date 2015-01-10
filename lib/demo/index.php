@@ -47,11 +47,11 @@ $session_logic->setUsername ("admin");
 // Delete the "Standard" stylesheet and re-create it.
 // Delete empty sheet that may have been there.
 $standard_sheet = "Standard";
-$database_styles->deleteSheet ($standard_sheet);
-$database_styles->revokeWriteAccess ("", $standard_sheet);
-$database_styles->deleteSheet ("");
-$database_styles->createSheet ($standard_sheet);
-$database_styles->grantWriteAccess ("admin", $standard_sheet);
+request->database_styles()->deleteSheet ($standard_sheet);
+request->database_styles()->revokeWriteAccess ("", $standard_sheet);
+request->database_styles()->deleteSheet ("");
+request->database_styles()->createSheet ($standard_sheet);
+request->database_styles()->grantWriteAccess ("admin", $standard_sheet);
 styles_sheets_create_all ();
 
 
@@ -60,7 +60,7 @@ $bibles = $database_bibles->getBibles ();
 for ($bibles as $bible) {
   Database_Config_Bible::setExportStylesheet ($bible, $standard_sheet);
 }
-$database_config_user->setStylesheet ($standard_sheet);
+request->database_config_user()->setStylesheet ($standard_sheet);
 
 
 // Set the site language to "Default"

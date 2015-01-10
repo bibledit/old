@@ -53,13 +53,13 @@ for ($users as $user) {
   $body = array ();
 
 
-  if ($database_config_user->getUserPendingChangesNotification ($user)) {
+  if (request->database_config_user()->getUserPendingChangesNotification ($user)) {
     $ids = $database_modifications->getNotificationIdentifiers ($user);
     $body [] = "<p><a href=\"$siteUrl/changes/changes.php\">" . gettext("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
-  if ($database_config_user->getUserAssignedNotesStatisticsNotification ($user)) {
+  if (request->database_config_user()->getUserAssignedNotesStatisticsNotification ($user)) {
     $ids = $database_notes->selectNotes (
       $bibles, // Bibles.
       0,       // Book
@@ -80,7 +80,7 @@ for ($users as $user) {
   }
 
 
-  if ($database_config_user->getUserSubscribedNotesStatisticsNotification ($user)) {
+  if (request->database_config_user()->getUserSubscribedNotesStatisticsNotification ($user)) {
     $body [] = "<p>" . gettext("Number of consultation notes you are subscribed to") . ":</p>\n";
     $body [] = "<ul>\n";
     $session_logic->setUsername ($user);

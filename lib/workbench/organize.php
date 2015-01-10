@@ -27,7 +27,7 @@ $database_config_user = Database_Config_User::getInstance ();
 
 @$add = request->post['add'];
 if (isset ($add)) {
-  $database_config_user->setActiveWorkbench ($add);
+  request->database_config_user()->setActiveWorkbench ($add);
   Workbench_Logic::setURLs    (Workbench_Logic::defaultURLs (0));
   Workbench_Logic::setWidths  (Workbench_Logic::defaultWidths (0));
   Workbench_Logic::setHeights (Workbench_Logic::defaultHeights (0));

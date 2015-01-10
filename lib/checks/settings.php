@@ -44,10 +44,10 @@ if (isset ($bible)) {
     }
     $dialog_list->run();
   } else {
-    $database_config_user->setBible ($bible);
+    request->database_config_user()->setBible ($bible);
   }
 }
-$bible = access_bible_clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 
 if (isset(request->query['run'])) {

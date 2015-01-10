@@ -29,7 +29,7 @@ $database_jobs = Database_Jobs::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = $database_config_user->getBible ();
+$bible = request->database_config_user()->getBible ();
 
 
 if (isset (request->query ["generate"])) {
@@ -53,16 +53,16 @@ if (isset ($add)) {
     $dialog_list = new Dialog_List2 (gettext("Select a resource to add"));
     // The selectable resources are the available ones minus the already selected ones.
     $resources = Resource_Logic::getNames ();
-    $resources = filter_string_array_diff ($resources, $database_config_user->getPrintResources ());
+    $resources = filter_string_array_diff ($resources, request->database_config_user()->getPrintResources ());
     for ($resources as $resource) {
       $parameter = "&add=$resource";
       $dialog_list->add_row ($resource, $parameter);
     }
     $dialog_list->run ();
   } else {
-    $resources = $database_config_user->getPrintResources ();
+    $resources = request->database_config_user()->getPrintResources ();
     $resources [] = $add;
-    $database_config_user->setPrintResources ($resources);
+    request->database_config_user()->setPrintResources ($resources);
     unset ($resources);
   }
 }
@@ -70,17 +70,17 @@ if (isset ($add)) {
 
 @$remove = request->query['remove'];
 if (isset ($remove)) {
-  $resources = $database_config_user->getPrintResources ();
+  $resources = request->database_config_user()->getPrintResources ();
   $key = array_search ($remove, $resources);
   unset ($resources[$key]);
-  $database_config_user->setPrintResources ($resources);
+  request->database_config_user()->setPrintResources ($resources);
 }
 
 
 @$resources = request->post ['resources'];
 if (isset ($resources)) {
   $resources = explode (",", $resources);
-  $database_config_user->setPrintResources ($resources);
+  request->database_config_user()->setPrintResources ($resources);
 }
 
 
@@ -97,13 +97,13 @@ if (isset ($frombook)) {
     $dialog_list->run ();
   } else {
     // Set where to start from: Set book, chapter 1, verse 0.
-    $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $frompassage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     $frompassage [0] = $frombook;
     $frompassage [1] = 0;
     $frompassage [2] = 0;
-    $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
+    request->database_config_user()->setPrintPassageFrom (implode (".", $frompassage));
     // Check if ending book matches.
-    $topassage = explode (".", $database_config_user->getPrintPassageTo ());
+    $topassage = explode (".", request->database_config_user()->getPrintPassageTo ());
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set ending passage to a sensible value.
       $topassage [0] = $frombook;
@@ -111,7 +111,7 @@ if (isset ($frombook)) {
       $topassage [1] = array_pop ($chapters);
       $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
-      $database_config_user->setPrintPassageTo (implode (".", $topassage));
+      request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     }
   }
 }
@@ -121,7 +121,7 @@ if (isset ($frombook)) {
 if (isset ($fromchapter)) {
   if ($fromchapter == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
-    $passage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $passage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     $chapters = $database_bibles->getChapters ($bible, $passage [0]);
     for ($chapters as $chapter) {
       $parameter = "fromchapter=$chapter";
@@ -130,18 +130,18 @@ if (isset ($fromchapter)) {
     $dialog_list->run ();
   } else {
     // Set which chapter to start from, and the verse also.
-    $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $frompassage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     $frompassage [1] = $fromchapter;
     $frompassage [2] = 0;
-    $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
+    request->database_config_user()->setPrintPassageFrom (implode (".", $frompassage));
     // Check if ending passage is sensible.
-    $topassage = explode (".", $database_config_user->getPrintPassageTo ());
+    $topassage = explode (".", request->database_config_user()->getPrintPassageTo ());
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set ending chapter / verse to sensible values.
       $topassage [1] = $fromchapter;
       $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
-      $database_config_user->setPrintPassageTo (implode (".", $topassage));
+      request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     }
   }
 }
@@ -151,7 +151,7 @@ if (isset ($fromchapter)) {
 if (isset ($fromverse)) {
   if ($fromverse == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a verse"));
-    $passage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $passage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
     for ($verses as $verse) {
@@ -161,15 +161,15 @@ if (isset ($fromverse)) {
     $dialog_list->run ();
   } else {
     // Set verse.
-    $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $frompassage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     $frompassage [2] = $fromverse;
-    $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
+    request->database_config_user()->setPrintPassageFrom (implode (".", $frompassage));
     // Sensible matching ending verse.
-    $topassage = explode (".", $database_config_user->getPrintPassageTo ());
+    $topassage = explode (".", request->database_config_user()->getPrintPassageTo ());
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
-      $database_config_user->setPrintPassageTo (implode (".", $topassage));
+      request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     }
   }
 }
@@ -188,19 +188,19 @@ if (isset ($tobook)) {
     $dialog_list->run ();
   } else {
     // Set ending passage.
-    $topassage = explode (".", $database_config_user->getPrintPassageTo ());
+    $topassage = explode (".", request->database_config_user()->getPrintPassageTo ());
     $topassage [0] = $tobook;
     $topassage [1] = 1;
     $topassage [2] = 0;
-    $database_config_user->setPrintPassageTo (implode (".", $topassage));
+    request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     // Check on matching starting book.
-    $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $frompassage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set starting passage to a sensible value.
       $frompassage [0] = $tobook;
       $frompassage [1] = 0;
       $frompassage [2] = 0;
-      $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
+      request->database_config_user()->setPrintPassageFrom (implode (".", $frompassage));
     }
   }
 }
@@ -210,7 +210,7 @@ if (isset ($tobook)) {
 if (isset ($tochapter)) {
   if ($tochapter == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
-    $passage = explode (".", $database_config_user->getPrintPassageTo ());
+    $passage = explode (".", request->database_config_user()->getPrintPassageTo ());
     $chapters = $database_bibles->getChapters ($bible, $passage [0]);
     for ($chapters as $chapter) {
       $parameter = "tochapter=$chapter";
@@ -219,18 +219,18 @@ if (isset ($tochapter)) {
     $dialog_list->run ();
   } else {
     // Set chapter.
-    $topassage = explode (".", $database_config_user->getPrintPassageTo ());
+    $topassage = explode (".", request->database_config_user()->getPrintPassageTo ());
     $topassage [1] = $tochapter;
     $topassage [2] = 0;
-    $database_config_user->setPrintPassageTo (implode (".", $topassage));
+    request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     // Match starting passage.
-    $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $frompassage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set starting passage to a sensible value.
       $frompassage [0] = $topassage [0];
       $frompassage [1] = 0;
       $frompassage [2] = 0;
-      $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
+      request->database_config_user()->setPrintPassageFrom (implode (".", $frompassage));
     }
   }
 }
@@ -240,7 +240,7 @@ if (isset ($tochapter)) {
 if (isset ($toverse)) {
   if ($toverse == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a verse"));
-    $passage = explode (".", $database_config_user->getPrintPassageTo ());
+    $passage = explode (".", request->database_config_user()->getPrintPassageTo ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
     for ($verses as $verse) {
@@ -250,17 +250,17 @@ if (isset ($toverse)) {
     $dialog_list->run ();
   } else {
     // Set ending verse.
-    $topassage = explode (".", $database_config_user->getPrintPassageTo ());
+    $topassage = explode (".", request->database_config_user()->getPrintPassageTo ());
     $topassage [2] = $toverse;
-    $database_config_user->setPrintPassageTo (implode (".", $topassage));
+    request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     // Match starting verse.
-    $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
+    $frompassage = explode (".", request->database_config_user()->getPrintPassageFrom ());
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set starting passage to a sensible value.
       $frompassage [0] = $topassage [0];
       $frompassage [1] = $topassage [1];
       $frompassage [2] = 0;
-      $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
+      request->database_config_user()->setPrintPassageFrom (implode (".", $frompassage));
     }
   }
 }
@@ -269,17 +269,17 @@ if (isset ($toverse)) {
 $view = new Assets_View (__FILE__);
 
 
-$resources = $database_config_user->getPrintResources ();
+$resources = request->database_config_user()->getPrintResources ();
 $view->view->resources = $resources;
 
 
-$passage = explode (".", $database_config_user->getPrintPassageFrom ());
+$passage = explode (".", request->database_config_user()->getPrintPassageFrom ());
 $view->view->from_book = Database_Books::getEnglishFromId ($passage [0]);
 $view->view->from_chapter = $passage [1];
 $view->view->from_verse = $passage [2];
 
 
-$passage = explode (".", $database_config_user->getPrintPassageTo ());
+$passage = explode (".", request->database_config_user()->getPrintPassageTo ());
 $view->view->to_book = Database_Books::getEnglishFromId ($passage [0]);
 $view->view->to_chapter = $passage [1];
 $view->view->to_verse = $passage [2];

@@ -96,9 +96,9 @@ function gbsdigitaalplus ($url, $chapter, $verse)
                 $title = $reference ['title'];
                 $title = preg_replace('/<sup[^<]+(<\/sup>)/i', '', $title);
                 $title = strip_tags ($title);
-                $text = mb_substr ($text, 0, $start) . '<a class="navigate" title="' . $title . '" href="' . $passage . '">'
-                      . mb_substr ($text, $start, $length) . "</a>"
-                      . mb_substr ($text, $start + $length);
+                $text = unicode_string_substr ($text, 0, $start) . '<a class="navigate" title="' . $title . '" href="' . $passage . '">'
+                      . unicode_string_substr ($text, $start, $length) . "</a>"
+                      . unicode_string_substr ($text, $start + $length);
               }
               $output += "<p>$number $text</p>";
             }

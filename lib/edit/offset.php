@@ -40,7 +40,7 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 
 
-$stylesheet = $database_config_user->getStylesheet ();
+$stylesheet = request->database_config_user()->getStylesheet ();
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 
 

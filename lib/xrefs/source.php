@@ -26,8 +26,8 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance();
 
 
-$stylesheet = $database_config_user->getStylesheet ();
-$bible = $database_config_user->getSourceXrefBible ();
+$stylesheet = request->database_config_user()->getStylesheet ();
+$bible = request->database_config_user()->getSourceXrefBible ();
 
 
 $book = request->query ['book'];

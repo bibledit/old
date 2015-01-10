@@ -62,9 +62,9 @@ if ($id == Sync_Logic::WORKBENCH_SETTING) {
   $widths = serialize ($widths);
   $heights = serialize ($heights);
 
-  $database_config_user->setWorkbenchURLs ($urls);
-  $database_config_user->setWorkbenchWidths ($widths);
-  $database_config_user->setWorkbenchHeights ($heights);
+  request->database_config_user()->setWorkbenchURLs ($urls);
+  request->database_config_user()->setWorkbenchWidths ($widths);
+  request->database_config_user()->setWorkbenchHeights ($heights);
 
 } else if ($id == 0) {
 } else {

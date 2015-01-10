@@ -47,10 +47,10 @@ class Checks_Usfm
     $database_config_bible = Database_Config_Bible::getInstance ();
     $database_styles = Database_Styles::getInstance ();
     $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
-    $this->markersStylesheet = $database_styles->getMarkers ($stylesheet);
+    $this->markersStylesheet = request->database_styles()->getMarkers ($stylesheet);
     $styles_logic = Styles_Logic::getInstance ();
     for ($this->markersStylesheet as $marker) {
-      $style = $database_styles->getMarkerData ($stylesheet, $marker);
+      $style = request->database_styles()->getMarkerData ($stylesheet, $marker);
       $requiredEndmarker = false;
       $styleType = $style['type'];
       $styleSubtype = $style['subtype'];
@@ -97,7 +97,7 @@ class Checks_Usfm
 
     $this->forwardSlash ($usfm);
 
-    $this->usfmMarkersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);
+    $this->usfmMarkersAndText = usfm_get_markers_and_text ($usfm);
     for ($this->usfmMarkersAndTextPointer = 0; $this->usfmMarkersAndTextPointer < count ($this->usfmMarkersAndText); $this->usfmMarkersAndTextPointer++) {
       $this->usfmItem = $this->usfmMarkersAndText [$this->usfmMarkersAndTextPointer];
       if (usfm_is_usfm_marker ($this->usfmItem)) {

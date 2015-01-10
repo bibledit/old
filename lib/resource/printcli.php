@@ -42,15 +42,15 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_jobs->setProgress ($jobId, gettext("The document is being created..."));
 
 
-$resources = $database_config_user->getPrintResourcesForUser ($user);
+$resources = request->database_config_user()->getPrintResourcesForUser ($user);
 
 
-$from = $database_config_user->getPrintPassageFromForUser ($user);
+$from = request->database_config_user()->getPrintPassageFromForUser ($user);
 $passage = explode (".", $from);
 $from = filter_passage_to_integer ($passage);
 
 
-$to = $database_config_user->getPrintPassageToForUser ($user);
+$to = request->database_config_user()->getPrintPassageToForUser ($user);
 $passage = explode (".", $to);
 $to = filter_passage_to_integer ($passage);
 

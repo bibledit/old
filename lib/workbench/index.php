@@ -27,7 +27,7 @@ if (isset ($bench)) {
   $database_config_user = Database_Config_User::getInstance ();
   $workbenches = Workbench_Logic::getWorkbenches ();
   $workbench = $workbenches [$bench];
-  $database_config_user->setActiveWorkbench ($workbench);
+  request->database_config_user()->setActiveWorkbench ($workbench);
 }
 
 

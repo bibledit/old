@@ -29,7 +29,7 @@ class checksUsfmTest extends PHPUnit_Framework_TestCase
   {
     $this->tearDown ();
     $database_styles = Database_Styles::getInstance ();
-    $database_styles->createStandardSheet ();
+    request->database_styles()->createStandardSheet ();
     $this->check = new Checks_Usfm ("phpunit");
     $this->check->initialize ();
   }

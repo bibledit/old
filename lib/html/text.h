@@ -59,7 +59,6 @@ private:
   xmlNodePtr headDomNode;
   xmlNodePtr bodyDomNode;
   xmlNodePtr notesDivDomNode;
-  //string currentPDomElementNameNode; // The DOMAttr of the name of the style of the current p element.
   int noteCount;
   xmlNodePtr notePDomElement; // The text:p DOMElement of the current footnote, if any.
   vector <string> currentNoteTextStyle;

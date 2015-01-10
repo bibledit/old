@@ -38,7 +38,7 @@ $name = request->query['name'];
 $view->view->name = filter_string_sanitize_html ($name);
 
 
-//$write = $database_styles->hasWriteAccess ($username, $name);
+//$write = request->database_styles()->hasWriteAccess ($username, $name);
 $write = true;
 if ($userlevel >= Filter_Roles::admin ()) $write = true;
 

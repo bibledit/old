@@ -26,7 +26,7 @@ $database_config_user = Database_Config_User::getInstance ();
 
 
 $name = request->query ['name'];
-$database_config_user->setActiveWorkbench ($name);
+request->database_config_user()->setActiveWorkbench ($name);
 
 
 @$preset = request->query ['preset'];

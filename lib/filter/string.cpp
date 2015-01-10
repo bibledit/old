@@ -319,7 +319,7 @@ string filter_string_trim (string s)
 }
 
 
-// A C++ equivalent for PHP's ltrim function.
+// A C++ equivalent for PHP's filter_string_ltrim function.
 string filter_string_ltrim (string s)
 {
   if (s.length () == 0) return s;
@@ -434,6 +434,19 @@ string unicode_string_substr (string s, size_t pos, size_t len)
   size_t lenpos = enditer - startiter;
   s = s.substr (startpos, lenpos);
   return s;
+}
+
+
+// Equivalent to PHP's mb_strpos function.
+size_t unicode_string_strpos (string haystack, string needle, size_t offset) // Todo write and test.
+{
+  int haystack_length = unicode_string_length (haystack);
+  int needle_length = unicode_string_length (needle);
+  for (int pos = offset; pos <= haystack_length - needle_length; pos++) {
+    string substring = unicode_string_substr (haystack, pos, needle_length);
+    if (substring == needle) return pos;
+  }
+  return string::npos;
 }
 
 

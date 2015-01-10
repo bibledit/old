@@ -29,7 +29,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-$bible = $database_config_user->getTargetXrefBible ();
+$bible = request->database_config_user()->getTargetXrefBible ();
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 
@@ -48,9 +48,9 @@ $xrefs = Filter_Usfm::extractNotes ($usfm, array ("x"));
 
 
 // Count the number of xref openers / closers in this chapter.
-$opener = Filter_Usfm::getOpeningUsfm ("x");
+$opener = usfm_get_opening_usfm ("x");
 str_replace ($opener, "", $usfm, $openers);
-$closer = Filter_Usfm::getClosingUsfm ("x");
+$closer = usfm_get_closing_usfm ("x");
 str_replace ($closer, "", $usfm, $closers);
 
 

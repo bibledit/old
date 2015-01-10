@@ -178,7 +178,7 @@ if (count ($emailBody) > 0) {
   $emailBody = implode ("\n", $emailBody);
   $users = $database_users->getUsers ();
   for ($users as $user) {
-    if ($database_config_user->getUserBibleChecksNotification ($user)) {
+    if (request->database_config_user()->getUserBibleChecksNotification ($user)) {
       if (access_bible_write ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }

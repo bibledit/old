@@ -57,7 +57,7 @@ if (isset ($changebible)) {
     }
     $dialog_list->run();
   } else {
-    $database_config_user->setBible ($changebible);
+    request->database_config_user()->setBible ($changebible);
     // Going to another Bible, ensure that the focused book exists there.
     $book = $ipc_focus->getBook ();
     $books = $database_bibles->getBooks ($changebible);
@@ -74,7 +74,7 @@ $view = new Assets_View (__FILE__);
 
 
 // Active Bible, and check access.
-$bible = access_bible_clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp (request->database_config_user()->getBible ());
 $view->view->bible = $bible;
 
 

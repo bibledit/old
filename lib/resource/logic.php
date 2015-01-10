@@ -57,7 +57,7 @@ class Resource_Logic
       $database_mappings = Database_Mappings::getInstance ();
       $database_config_user = Database_Config_User::getInstance ();
       $database_config_bible = Database_Config_Bible::getInstance ();
-      $bible = $database_config_user->getBible ();
+      $bible = request->database_config_user()->getBible ();
       $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
       $resource_mapping = $database_resources->getMapping ($name);
       $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
@@ -99,7 +99,7 @@ class Resource_Logic
       if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
       $verse_usfm = usfm_get_verse_text ($chapter_usfm, $verse);
       $database_config_user = Database_Config_User::getInstance ();
-      $stylesheet = $database_config_user->getStylesheet ();
+      $stylesheet = request->database_config_user()->getStylesheet ();
       $filter_text = new Filter_Text ($resource);
       $filter_text->html_text_standard = new Html_Text (gettext("Bible"));
       $filter_text->addUsfmCode ($verse_usfm);
@@ -108,7 +108,7 @@ class Resource_Logic
     } else if (in_array ($resource, $externals)) {
       // Use offline copy if it exists, else fetch it online.
       if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
-        $bible = $database_config_user->getBible ();
+        $bible = request->database_config_user()->getBible ();
         $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
         $resource_mapping = $database_resources->getMapping ($resource);
         $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
@@ -146,7 +146,7 @@ class Resource_Logic
       if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
       $verse_usfm = usfm_get_verse_text ($chapter_usfm, $verse);
       $database_config_user = Database_Config_User::getInstance ();
-      $stylesheet = $database_config_user->getStylesheet ();
+      $stylesheet = request->database_config_user()->getStylesheet ();
       $filter_text = new Filter_Text ($resource);
       $filter_text->text_text = new Text_Text ();
       $filter_text->addUsfmCode ($verse_usfm);

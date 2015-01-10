@@ -53,8 +53,8 @@ string editusfm_offset (void * webserver_request)
   }
   //$startingOffset = usfm_versenumber_to_offset ($usfm, $verse);
   //$endingOffset = usfm_versenumber_to_offset ($usfm, $verse + 1) - 1;
-  //$substring = mb_substr ($usfm, 0, $offset);
-  //$lineNumber = mb_substr_count ($substring, "\n");
+  //$substring = unicode_string_substr ($usfm, 0, $offset);
+  //$lineNumber = unicode_string_substr_count ($substring, "\n");
   //$data = array ("line" => $lineNumber);
   //echo json_encode ($data);
 }

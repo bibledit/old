@@ -23,7 +23,6 @@
 #include "directories.h"
 #include "utilities.h"
 #include "gwrappers.h"
-#include "directories.h"
 #include "dialogsystemlog.h"
 #include "shell.h"
 #include "maintenance.h"
@@ -44,6 +43,7 @@
 #include "runtime.h"
 #include "vcs.h"
 #include "books.h" // TEMP - MAP
+#include <new>
 
 directories *Directories;
 Settings *settings;
@@ -109,25 +109,19 @@ int main(int argc, char *argv[])
   // Maintenance system.
   maintenance_initialize ();
   // Settings object. 
-  Settings mysettings(true);
-  settings = &mysettings;
+  settings = new Settings(true);
   // LocalizedBooks object.
-  BookLocalizations mybooklocalizations(0);
-  booklocalizations = &mybooklocalizations;
+  booklocalizations = new BookLocalizations(0);
   // Versifications object.
-  Versifications myversifications(0);
-  versifications = &myversifications;
+  versifications = new Versifications(0);
   // Verse mappings object.
-  Mappings mymappings(0);
-  mappings = &mymappings;
+  mappings = new Mappings(0);
   // Styles object.
-  Styles mystyles(0);
-  styles = &mystyles;
+  styles = new Styles(0);
   // Version control object.
-  VCS myvcs (0);
-  vcs = &myvcs;
+  vcs = new VCS(0);
   // URLTransport object.
-  urltransport = new URLTransport (0);
+  urltransport = new URLTransport(0);
   /*
   We used a trick to get Bibledit to operate as a true activity on OLPC. 
   The problem is that any regular X11 program that is started, 
@@ -158,18 +152,31 @@ int main(int argc, char *argv[])
   // Window icon fallback.
   gtk_window_set_default_icon_from_file(gw_build_filename(Directories->get_package_data(), "bibledit.xpm").c_str(), NULL);
   // Start the gui.
-  MainWindow mainwindow(xembed, accelerator_group);
+  MainWindow *mainwindow = new MainWindow(xembed, accelerator_group, settings, urltransport, vcs);
   gtk_main();
+  delete mainwindow;
+
   // Destroy the accelerator group.
   g_object_unref(G_OBJECT(accelerator_group));
   // Clean up XML library.
   xmlCleanupParser();
   // Clean up http libraries.
   xmlNanoHTTPCleanup();
-  // Destroy URL transporter.
+  //-------------------------------------------------------
+  // Destroy global objects. For now, this order is
+  // important. It shouldn't be, but it is. MAP 1/9/2015.
+  // TO DO: Have ProjectConfiguration and Settings write out
+  // their status using a method we call, NOT relying on
+  // a destructor to do the work of saving important state.
+  //-------------------------------------------------------
   delete urltransport;
-  // Destroy directory factory.
-  delete Directories;
+  delete vcs;
+  delete styles;
+  delete mappings;
+  delete versifications;
+  delete booklocalizations;
+  delete settings;
+  delete Directories; // must be last, because above rely on it
   // Quit.
   return 0;
 }

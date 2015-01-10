@@ -23,6 +23,9 @@
 
 
 #include <gtk/gtk.h>
+#include "settings.h"
+#include "urltransport.h"
+#include "vcs.h"
 #include "windowsoutpost.h"
 #include "ustring.h"
 #include "usfm.h"
@@ -58,8 +61,14 @@
 
 class MainWindow
 {
+private:
+  GtkAccelGroup *accelerator_group;
+  Settings *settings;
+  URLTransport *urltransport;
+  VCS *vcs;
+
 public:
-  MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group);
+  MainWindow(unsigned long xembed, GtkAccelGroup *_accelerator_group, Settings *_settings, URLTransport *_urltransport, VCS *_vcs);
   ~MainWindow();
   int run();
 protected:
