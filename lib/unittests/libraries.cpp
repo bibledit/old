@@ -423,8 +423,9 @@ void test_store_bible_data ()
 }
 
 
-void test_editor_export () // Todo
+void test_editor_export ()
 {
+  refresh_sandbox (true);
   // Basic test.
   {
     Webserver_Request request;
@@ -516,10 +517,11 @@ void test_editor_export () // Todo
     string standard = "\\p The earth brought forth.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
+  refresh_sandbox (false);
 }
 
 
-void test_editor_import () // Todo
+void test_editor_import ()
 {
   // Text Length One
   {
@@ -587,6 +589,7 @@ void test_editor_import () // Todo
 
 void test_editor_roundtrip ()
 {
+  refresh_sandbox (true);
   // One Unknown Marker Opener
   {
     string standard_usfm = "\\abc";
@@ -1474,6 +1477,7 @@ void test_editor_roundtrip ()
     output = editor_export.get ();
     evaluate (__LINE__, __func__, usfm, output);
   }
+  refresh_sandbox (false);
 }
 
 
