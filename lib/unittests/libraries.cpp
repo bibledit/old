@@ -425,7 +425,6 @@ void test_store_bible_data ()
 
 void test_editor_export () // Todo
 {
-  /* Todo temporarily switched off.
   // Basic test.
   {
     Webserver_Request request;
@@ -462,7 +461,6 @@ void test_editor_export () // Todo
     string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-   */
   // Basic note
   {
     Webserver_Request request;
@@ -481,332 +479,290 @@ void test_editor_export () // Todo
     string standard = "\\p The earth brought forth\\x + 2 Joh. 1.1\\x*.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-  
-  /* Todo enable once footnotes work well.
   // Footnote Deleted Body
   {
     Webserver_Request request;
     string html =
-      "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>\n"
+    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>\n"
+    "<div id=\"notes\">\n"
+    "<hr>\n"
+    "<p class=\"f\"></p>\n"
+    "<br>\n"
+    "</div>";
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    string standard = "\\p The earth brought forth.";
+    evaluate (__LINE__, __func__, standard, usfm);
+    // Clear message from logbook.
+    refresh_sandbox (false);
+  }
+  // Footnote Deleted Citation
+  {
+    Webserver_Request request;
+    string html =
+      "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>\n"
       "<div id=\"notes\">\n"
       "<hr>\n"
-      "<p class=\"f\"></p>\n"
-      "<br>\n"
+      "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">f</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>\n"
       "</div>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
     editor_export.stylesheet ("Standard");
     editor_export.run ();
     string usfm = editor_export.get ();
-    string standard =
-      "\\p The earth brought forth.\n"
-      "\\f +\\f*";
+    string standard = "\\p The earth brought forth.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-   */
-
 }
-/* Todo
- Editor export tests.
- 
- 
- 
- 
- public function testFootnoteDeletedCitation ()
- {
- $html = <<<'EOD'
- <p class="p"><span>The earth brought forth</span><span>.</span></p>
- <div id="notes">
- <hr>
- <p class="f"><a href="#citation1" id="note1">f</a><span> </span><span>+ </span><span class="fk">brought: </span><span class="fl">Heb. </span><span class="fq">explanation.</span></p>
- </div>
- EOD;
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $standard = <<<'EOD'
- \p The earth brought forth.
- \f + \fk brought: \fl Heb. \fq explanation.\f*
- EOD;
- $this->assertEquals ($standard, filter_string_trim ($usfm));
- }
- 
- 
- 
- 
- 
- 
- 
- Editor_Import tests.
- 
- 
- 
- 
- public function testTextLengthOne ()
- {
- $usfm = <<<'EOD'
- \c 2
- \p
- \v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\x + Dute. 4.19. Hlab. 33.6.\x*.
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $this->assertEquals (61, $editor_import->textLength);
- $this->assertEquals (array (0 => 0, 1 => 2), $editor_import->verseStartOffsets);
- }
- 
- 
- public function testTextLengthMore ()
- {
- $usfm = <<<'EOD'
- \c 2
- \p
- \v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\x + Dute. 4.19. Hlab. 33.6.\x*.
- \v 2 UNkulunkulu wasewuqeda ngosuku lwesikhombisa umsebenzi wakhe abewenza. Waphumula ngosuku lwesikhombisa\x + Eks. 20.11; 31.17. Dute. 5.14. Heb. 4.4.\x* emsebenzini wakhe wonke abewenza.
- \v 3 UNkulunkulu wasebusisa usuku lwesikhombisa, walungcwelisa; ngoba ngalo waphumula emsebenzini wakhe wonke, uNkulunkulu awudalayo wawenza\f + \fk wawenza: \fl Heb. \fq ukuwenza.\f*.
- \s Isivande seEdeni
- \p
- \v 4 Lezi yizizukulwana zamazulu lezomhlaba ekudalweni kwakho\x + 1.1.\x*, mhla iN\nd kosi\nd* uNkulunkulu isenza umhlaba lamazulu,
- \v 5 laso sonke isihlahlakazana sensimu, singakabi khona emhlabeni, layo yonke imibhida yeganga\x + 1.12.\x*, ingakamili; ngoba iN\nd kosi\nd* uNkulunkulu yayinganisanga izulu emhlabeni, njalo kwakungelamuntu wokulima umhlabathi.
- \v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.
- \v 7 IN\nd kosi\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\x*.
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $this->assertEquals (913, $editor_import->textLength);
- $this->assertEquals (array (0 => 0,
- 1 => 2,
- 2 => 62,
- 3 => 202,
- 4 => 359,
- 5 => 469,
- 6 => 676,
- 7 => 758), $editor_import->verseStartOffsets);
- }
- 
- 
- public function testSpaceAfterStartingMarker ()
- {
- $usfm = <<<'EOD'
- \c 1
- \p
- \v 2 Text \add of the \add*1st\add  second verse\add*.
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $standard = <<<'EOD'
- <p class="c"><span>1</span></p>
- <p class="p"><span class="v">2</span><span> </span><span>Text </span><span class="add">of the </span><span>1st</span><span class="add"> second verse</span><span>.</span></p>
- EOD;
- $this->assertEquals ($standard, $html);
- }
- 
 
- 
- 
- 
- 
- 
- 
- 
- 
- Round trip tests.
- 
- 
- 
- public function testOneUnknownMarkerOpener ()
- {
- $standard_usfm = <<<'EOD'
- \abc
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span></p>
- EOD;
- 
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testTwoUnknownMarkerOpeners ()
- {
- $standard_usfm = <<<'EOD'
- \abc
- \abc
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span></p>
- <p class="mono"><span>\abc </span></p>
- EOD;
- 
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testOneUnknownMarkersCloser ()
- {
- $standard_usfm = <<<'EOD'
- \abc text\abc*.
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testTwoUnknownMarkersCloser ()
- {
- $standard_usfm = <<<'EOD'
- \abc text\abc*.
- \abc text\abc*.
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>
- <p class="mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testIdentifiers ()
- {
- $standard_usfm = <<<'EOD'
- \id GEN
- \h Header
- \toc1 The Book of Genesis
- \cl Chapter
- \cp ②
- \cp Ⅰ
- EOD;
- $standard_html = <<<'EOD'
- <p class="mono"><span>\id </span><span>GEN</span></p>
- <p class="mono"><span>\h </span><span>Header</span></p>
- <p class="mono"><span>\toc1 </span><span>The Book of Genesis</span></p>
- <p class="mono"><span>\cl </span><span>Chapter</span></p>
- <p class="mono"><span>\cp </span><span>②</span></p>
- <p class="mono"><span>\cp </span><span>Ⅰ</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testOneParagraph ()
- {
- $standard_usfm = <<<'EOD'
- \p Paragraph text.
- EOD;
- $standard_html = <<<'EOD'
- <p class="p"><span>Paragraph text.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
- 
- 
- public function testTwoParagraphs ()
- {
- $standard_usfm = <<<'EOD'
- \p Paragraph text.
- \p Paragraph txt.
- EOD;
- $standard_html = <<<'EOD'
- <p class="p"><span>Paragraph text.</span></p>
- <p class="p"><span>Paragraph txt.</span></p>
- EOD;
- $editor_import = Editor_Import::getInstance ();
- $editor_import->load ($standard_usfm);
- $editor_import->stylesheet ("Standard");
- $editor_import->run ();
- $html = $editor_import->get ();
- $this->assertEquals ($standard_html, filter_string_trim ($html));
- 
- $editor_export = Editor_Export::getInstance ();
- $editor_export->load ($standard_html);
- $editor_export->stylesheet ("Standard");
- $editor_export->run ();
- $usfm = $editor_export->get ();
- $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
- }
+
+void test_editor_import () // Todo
+{
+  // Text Length One
+  {
+    string usfm =
+      "\\c 2\n"
+      "\\p\n"
+      "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n";
+    Webserver_Request request;
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    evaluate (__LINE__, __func__, 61, editor_import.textLength);
+    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_import.verseStartOffsets);
+  }
+  // Text Length More
+  {
+    string usfm =
+    "\\c 2\n"
+    "\\p\n"
+    "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n"
+    "\\v 2 UNkulunkulu wasewuqeda ngosuku lwesikhombisa umsebenzi wakhe abewenza. Waphumula ngosuku lwesikhombisa\\x + Eks. 20.11; 31.17. Dute. 5.14. Heb. 4.4.\\x* emsebenzini wakhe wonke abewenza.\n"
+    "\\v 3 UNkulunkulu wasebusisa usuku lwesikhombisa, walungcwelisa; ngoba ngalo waphumula emsebenzini wakhe wonke, uNkulunkulu awudalayo wawenza\\f + \\fk wawenza: \\fl Heb. \\fq ukuwenza.\\f*.\n"
+    "\\s Isivande seEdeni\n"
+    "\\p\n"
+    "\\v 4 Lezi yizizukulwana zamazulu lezomhlaba ekudalweni kwakho\\x + 1.1.\\x*, mhla iN\\nd kosi\\nd* uNkulunkulu isenza umhlaba lamazulu,\n"
+    "\\v 5 laso sonke isihlahlakazana sensimu, singakabi khona emhlabeni, layo yonke imibhida yeganga\\x + 1.12.\\x*, ingakamili; ngoba iN\\nd kosi\\nd* uNkulunkulu yayinganisanga izulu emhlabeni, njalo kwakungelamuntu wokulima umhlabathi.\n"
+    "\\v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.\n"
+    "\\v 7 IN\\nd kosi\\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\\x*.\n";
+    Webserver_Request request;
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    evaluate (__LINE__, __func__, 913, editor_import.textLength);
+    evaluate (__LINE__, __func__, { make_pair (0, 0),
+                                    make_pair (1, 2),
+                                    make_pair (2, 62),
+                                    make_pair (3, 202),
+                                    make_pair (4, 359),
+                                    make_pair (5, 469),
+                                    make_pair (6, 676),
+                                    make_pair (7, 758) },
+                                    editor_import.verseStartOffsets);
+  }
+  // Space After Starting Marker
+  {
+    string usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 2 Text \\add of the \\add*1st\\add  second verse\\add*.\n";
+    Webserver_Request request;
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    string standard =
+    "<p class=\"c\"><span>1</span></p>"
+    "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>Text </span><span class=\"add\">of the </span><span>1st</span><span class=\"add\"> second verse</span><span>.</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
+  }
+}
+
+
+void test_editor_roundtrip1 ()
+{
+  // One Unknown Marker Opener
+  {
+    string standard_usfm = "\\abc";
+    string standard_html = "<p class=\"mono\"><span>\\abc </span></p>";
+    
+    Webserver_Request request;
+
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, filter_string_trim (html));
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, filter_string_trim (usfm));
+  }
+  // Two Unknown Marker Openers
+  {
+    string standard_usfm =
+    "\\abc\n"
+    "\\abc";
+    string standard_html =
+    "<p class=\"mono\"><span>\\abc </span></p>"
+    "<p class=\"mono\"><span>\\abc </span></p>";
+    
+    Webserver_Request request;
+
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // One Unknown Markers Closer
+  {
+    string standard_usfm = "\\abc text\\abc*.";
+    string standard_html = "<p class=\"mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // Two Unknown Markers Closer
+  {
+    string standard_usfm =
+    "\\abc text\\abc*.\n"
+    "\\abc text\\abc*.";
+    string standard_html =
+    "<p class=\"mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>"
+    "<p class=\"mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // Identifiers
+  {
+    string standard_usfm =
+    "\\id GEN\n"
+    "\\h Header\n"
+    "\\toc1 The Book of Genesis\n"
+    "\\cl Chapter\n"
+    "\\cp ②\n"
+    "\\cp Ⅰ";
+    string standard_html =
+    "<p class=\"mono\"><span>\\id </span><span>GEN</span></p>"
+    "<p class=\"mono\"><span>\\h </span><span>Header</span></p>"
+    "<p class=\"mono\"><span>\\toc1 </span><span>The Book of Genesis</span></p>"
+    "<p class=\"mono\"><span>\\cl </span><span>Chapter</span></p>"
+    "<p class=\"mono\"><span>\\cp </span><span>②</span></p>"
+    "<p class=\"mono\"><span>\\cp </span><span>Ⅰ</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // One Paragraph
+  {
+    string standard_usfm = "\\p Paragraph text.";
+    string standard_html = "<p class=\"p\"><span>Paragraph text.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  // Two Paragraphs
+  {
+    string standard_usfm =
+    "\\p Paragraph text.\n"
+    "\\p Paragraph txt.";
+    string standard_html =
+    "<p class=\"p\"><span>Paragraph text.</span></p>"
+    "<p class=\"p\"><span>Paragraph txt.</span></p>";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Export editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet ("Standard");
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
+  }
+  
+}
+
+/* Todo
+Round trip tests.
  
  
  public function testInlineText ()

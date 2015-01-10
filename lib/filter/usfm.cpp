@@ -254,7 +254,7 @@ int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 
 
 // Returns the verse number in the string of $usfm code at offset $offset.
-// Offset is calculated with mb_strlen to support UTF-8.
+// Offset is calculated with unicode_string_length to support UTF-8.
 int usfm_offset_to_versenumber (string usfm, unsigned int offset)
 {
   unsigned int totalOffset = 0;

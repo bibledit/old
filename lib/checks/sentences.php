@@ -132,7 +132,7 @@ class Checks_Sentences
         $this->fullText += " ";
       }
       // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
-      $count = mb_strlen ($text);
+      $count = unicode_string_length ($text);
       for ($i = 0; $i < $count; $i++) {
         $grapheme = unicode_string_substr ($text, $i, 1);
         // Skip graphemes to be disregarded.
@@ -219,7 +219,7 @@ class Checks_Sentences
 
     // Put the UTF-8 text into the arrays of verses and graphemes.
     for ($texts as $verse => $text) {
-      $count = mb_strlen ($text);
+      $count = unicode_string_length ($text);
       for ($i = 0; $i < $count; $i++) {
         $grapheme = unicode_string_substr ($text, $i, 1);
         $verses [] = $verse;
