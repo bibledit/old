@@ -293,7 +293,8 @@ typedef struct
 
 
 // A table of double ascii characters and their Greek UTF8 equivalents.
-typeof (bibleworks_greek_record) bibleworks_greek_table_2[] =
+//typeof (bibleworks_greek_record) bibleworks_greek_table_2[] =
+bibleworks_greek_record bibleworks_greek_table_2[] =
 {
   { "i,", "ί" },
   { "e,", "έ" },
@@ -313,7 +314,8 @@ typeof (bibleworks_greek_record) bibleworks_greek_table_2[] =
 
 
 // A table of single ascii characters and their Greek UTF8 equivalents.
-typeof (bibleworks_greek_record) bibleworks_greek_table_1[] =
+//typeof (bibleworks_greek_record) bibleworks_greek_table_1[] =
+bibleworks_greek_record bibleworks_greek_table_1[] =
 {
   { "B", "Β" },
   { "b", "β" },

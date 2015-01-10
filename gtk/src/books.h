@@ -25,6 +25,7 @@
 #include "libraries.h"
 #include "bookdata.h"
 
+void books_init(void);
 
 void books_order (const ustring& project, vector<unsigned int>& books);
 void books_standard_order (vector<unsigned int>& books);

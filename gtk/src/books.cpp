@@ -25,7 +25,8 @@
 #include "settings.h"
 #include "localizedbooks.h"
 
-extern typeof(book_record) books_table[];
+//extern typeof(book_record) books_table[];
+extern book_record books_table[];
 
 void books_order(const ustring & project, vector < unsigned int >&books)
 // Books read from the database usually are out of order. 
@@ -261,6 +262,7 @@ unsigned int books_osis_to_id(const ustring & osis)
   return 0;
 }
 
+// Could be much more efficient if the id was the index into the books_table[]
 ustring books_id_to_english(unsigned int id)
 {
   for (unsigned int i = 0; i < bookdata_books_count(); i++)
@@ -269,13 +271,124 @@ ustring books_id_to_english(unsigned int id)
   return "";
 }
 
+#include <unordered_map>
+
+std::unordered_map<std::string, int> bookmap;
+void books_init(void)
+{
+  bookmap["front matter"]=67;
+  bookmap["genesis"]=1;
+  bookmap["exodus"]=2;
+  bookmap["leviticus"]=3;
+  bookmap["numbers"]=4;
+  bookmap["deuteronomy"]=5;
+  bookmap["joshua"]=6;
+  bookmap["judges"]=7;
+  bookmap["ruth"]=8;
+  bookmap["1 samuel"]=9;
+  bookmap["2 samuel"]=10;
+ bookmap["1 kings"]=11;
+ bookmap["2 kings"]=12;
+ bookmap["1 chronicles"]=13;
+ bookmap["2 chronicles"]=14;
+ bookmap["ezra"]=15;
+ bookmap["nehemiah"]=16;
+ bookmap["esther"]=17;
+ bookmap["job"]=18;
+ bookmap["psalms"]=19;
+ bookmap["proverbs"]=20;
+ bookmap["ecclesiastes"]=21;
+ bookmap["song of solomon"]=22;
+ bookmap["isaiah"]=23;
+ bookmap["jeremiah"]=24;
+ bookmap["lamentations"]=25;
+ bookmap["ezekiel"]=26;
+ bookmap["daniel"]=27;
+ bookmap["hosea"]=28;
+ bookmap["joel"]=29;
+ bookmap["amos"]=30;
+ bookmap["obadiah"]=31;
+ bookmap["jonah"]=32;
+ bookmap["micah"]=33;
+ bookmap["nahum"]=34;
+ bookmap["habakkuk"]=35;
+ bookmap["zephaniah"]=36;
+ bookmap["haggai"]=37;
+ bookmap["zechariah"]=38;
+ bookmap["malachi"]=39;
+ bookmap["matthew"]=40;
+ bookmap["mark"]=41;
+ bookmap["luke"]=42;
+ bookmap["john"]=43;
+ bookmap["acts"]=44;
+ bookmap["romans"]=45;
+ bookmap["1 corinthians"]=46;
+ bookmap["2 corinthians"]=47;
+ bookmap["galatians"]=48;
+ bookmap["ephesians"]=49;
+ bookmap["philippians"]=50;
+ bookmap["colossians"]=51;
+ bookmap["1 thessalonians"]=  52;
+ bookmap["2 thessalonians"]=  53;
+ bookmap["1 timothy"]=  54;
+ bookmap["2 timothy"]=  55;
+ bookmap["titus"]=  56;
+ bookmap["philemon"]=  57;
+ bookmap["hebrews"]=  58;
+ bookmap["james"]=  59;
+ bookmap["1 peter"]=  60;
+ bookmap["2 peter"]=  61;
+ bookmap["1 john"]=  62;
+ bookmap["2 john"]=  63;
+ bookmap["3 john"]=  64;
+ bookmap["jude"]=65;
+ bookmap["revelation"]=  66;
+ bookmap["back matter"]=  68;
+ bookmap["other material"]=  69;
+ bookmap["tobit"]=  70;
+ bookmap["judith"]=  71;
+ bookmap["esther (greek)"]=  72;
+ bookmap["wisdom of solomon"]=  73;
+ bookmap["sirach"]=  74;
+ bookmap["baruch"]=  75;
+ bookmap["letter of jeremiah"]=  76;
+ bookmap["song of the three children"]=  77;
+ bookmap["susanna"]=  78;
+ bookmap["bel and the dragon"]=  79;
+ bookmap["1 maccabees"]=  80;
+ bookmap["2 maccabees"]=  81;
+ bookmap["1 esdras"]=  82;
+ bookmap["prayer of manasses"]=  83;
+ bookmap["psalm 151"]=  84;
+ bookmap["3 maccabees"]=  85;
+ bookmap["2 esdras"]=  86;
+ bookmap["4 maccabees"]=  87;
+ bookmap["daniel (greek)"]=  88;
+}
+
 unsigned int books_english_to_id(const ustring & english)
 {
+  // According to gprof, this procedure took 10% of all execution time
+  // of bibledit in a simple editing session. It uses an O(n)
+  // algorithm to match book names where n = 70 or so, and it is
+  // called many times.
   ustring s1(english.casefold());
+  int id = bookmap[s1]; // the unordered_map provides O(1) time to lookup instead of O(n)
+  if (id != 0) { return id; }
+
+  // For some reason, there are many thousands of calls to this
+  // routine with a blank string argument in english. I don't
+  // get it, but we can return 0 if so.
+  if (english.length() == 0) { return 0; }
+
+  // Otherwise, search for it the old fashion way...
   for (unsigned int i = 0; i < bookdata_books_count(); i++) {
     ustring s2(books_table[i].name);
     s2 = s2.casefold();
+    cerr << "Comparing '" << s1 << "' to " << s2 << endl;
     if (s1 == s2) {
+      // ... and put it into the bookmap too to save time if we see it again later
+      bookmap[s1] = books_table[i].id;
       return books_table[i].id;
     }
   }

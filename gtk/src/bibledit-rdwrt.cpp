@@ -29,6 +29,7 @@
 #include "urltransport.h"
 #include "vcs.h"
 #include "readwrite.h"
+#include "books.h" // TEMP - MAP
 
 directories *Directories;
 Settings *settings;
@@ -53,6 +54,7 @@ int main(int argc, char *argv[])
 
   // Create a new directories 'factory' and initialize it with argv[0]
   Directories = new directories(argv[0]);
+  books_init(); // TEMP - MAP
 
   // Bibledit can read from or write to Bible data.
   // Syntax: bibledit-rdwrt -r|-w ...
