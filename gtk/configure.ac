@@ -12,11 +12,13 @@ AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.h])
 
 
-CXXFLAGS="-g -O0 ${CXXFLAGS}"
+CXXFLAGS="-g -O2 ${CXXFLAGS}"
 AC_PROG_CC
 AC_PROG_CC_STDC
 AC_PROG_CPP
+AC_LANG([C++])
 AC_PROG_CXX
+AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_PROG_CC
 AC_HEADER_STDC
 PKG_CHECK_MODULES(GTK, gtk+-2.0 gdk-2.0,,AC_MSG_ERROR(Gtk2 development version is needed.))

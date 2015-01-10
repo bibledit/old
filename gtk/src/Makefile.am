@@ -489,7 +489,7 @@ bibledit_rdwrt_SOURCES = \
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 
-AM_CXXFLAGS = -Wall 
+AM_CXXFLAGS = -Wall -g -std=c++11
 AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(GOBJECT_CFLAGS)
 AM_CXXFLAGS += $(GTHREAD_CFLAGS)
