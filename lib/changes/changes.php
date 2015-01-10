@@ -28,7 +28,7 @@ $database_logs = Database_Logs::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$username = $session_logic->currentUser ();
+$username = request->session_logic()->currentUser ();
 
 
 // Handle AJAX call to remove a change notification.

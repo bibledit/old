@@ -68,7 +68,7 @@ for ($users as $user) {
       for ($chapters as $chapter) {
 
         // Get the sets of identifiers for that chapter, and set some variables.
-        $IdSets = $database_modifications->getUserIdentifiers ($user, $bible, $book, $chapter);
+        $IdSets = $database_modifications->getUserIdentifiers ($user, bible, book, chapter);
         $referenceOldId = 0;
         $referenceNewId = 0;
         $lastNewId = 0;
@@ -81,7 +81,7 @@ for ($users as $user) {
           $newId = $IdSet ['newid'];
 
           if ($restart) {
-            processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $email);
+            processIdentifiers ($user, bible, book, chapter, $referenceNewId, $newId, $email);
             $referenceOldId = $oldId;
             $referenceNewId = $newId;
             $lastNewId = $newId;
@@ -98,7 +98,7 @@ for ($users as $user) {
         }
 
         // Process the last set of identifiers.
-        processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $email);
+        processIdentifiers ($user, bible, book, chapter, $referenceNewId, $newId, $email);
 
       }
     }
@@ -119,7 +119,7 @@ for ($users as $user) {
 
 
 // Helper function.
-function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$email)
+function processIdentifiers ($user, bible, book, chapter, $oldId, $newId, &$email)
 {
   if ($oldId != 0) {
     $database_modifications = Database_Modifications::getInstance ();
@@ -128,11 +128,11 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
     $database_bibles = Database_Bibles::getInstance ();
     $database_history = Database_History::getInstance ();
     $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
-    $old_chapter_usfm = $database_modifications->getUserChapter ($user, $bible, $book, $chapter, $oldId);
+    $old_chapter_usfm = $database_modifications->getUserChapter ($user, bible, book, chapter, $oldId);
     $old_chapter_usfm = $old_chapter_usfm ['oldtext'];
-    $new_chapter_usfm = $database_modifications->getUserChapter ($user, $bible, $book, $chapter, $newId);
+    $new_chapter_usfm = $database_modifications->getUserChapter ($user, bible, book, chapter, $newId);
     $new_chapter_usfm = $new_chapter_usfm ['newtext'];
-    $timestamp = $database_modifications->getUserTimestamp ($user, $bible, $book, $chapter, $newId);
+    $timestamp = $database_modifications->getUserTimestamp ($user, bible, book, chapter, $newId);
     $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
     $new_verse_numbers = usfm_get_verse_numbers ($new_chapter_usfm);
     $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
@@ -165,9 +165,9 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
           $email += "</div>";
           if (request->database_config_user()->getUserUserChangesNotificationsOnline ($user)) {
             $changeNotificationUsers = array ($user);
-            $database_modifications->recordNotification ($changeNotificationUsers, "☺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
+            $database_modifications->recordNotification ($changeNotificationUsers, "☺", bible, book, chapter, $verse, $old_html, $modification, $new_html);
           }
-          $database_history->record ($timestamp, $user, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
+          $database_history->record ($timestamp, $user, bible, book, chapter, $verse, $old_html, $modification, $new_html);
         }
       }
     }
@@ -234,8 +234,8 @@ for ($bibles as $bible) {
     $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
     for ($chapters as $chapter) {
       Database_Logs::log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::translator ());
-      $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
-      $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      $old_chapter_usfm = $database_modifications->getTeamDiff (bible, book, chapter);
+      $new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
       $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
       $new_verse_numbers = usfm_get_verse_numbers ($new_chapter_usfm);
       $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
@@ -270,7 +270,7 @@ for ($bibles as $bible) {
           }
           if ($old_text != $new_text) {
             $modification = filter_diff_diff ($old_text, $new_text);
-            $database_modifications->recordNotification ($changeNotificationUsers, "♺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
+            $database_modifications->recordNotification ($changeNotificationUsers, "♺", bible, book, chapter, $verse, $old_html, $modification, $new_html);
           }
         }
       }
@@ -278,7 +278,7 @@ for ($bibles as $bible) {
       // 1. New diffs for this chapter can be stored straightaway.
       // 2. In case of large amounts of diff data, and this script gets killed, 
       //    then the next time this script runs again, it will continue from where the previous script was killed.
-      $database_modifications->deleteTeamDiffChapter ($bible, $book, $chapter);
+      $database_modifications->deleteTeamDiffChapter (bible, book, chapter);
     }
   }
 

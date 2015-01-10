@@ -28,7 +28,7 @@ class Checks_Logic
   static public function startAll ()
   {
     $database_bibles = Database_Bibles::getInstance ();
-    $bibles = $database_bibles->getBibles ();
+    $bibles = request->database_bibles()->getBibles ();
     for ($bibles as $bible) {
       self::start ($bible);
     }

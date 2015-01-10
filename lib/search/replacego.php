@@ -41,7 +41,7 @@ $siteUrl = $database_config_general->getSiteURL ();
 // Get Bible and passage for this identifier.
 $details = explode ("_", $id);
 $bibleID = $details [0];
-$bible = $database_bibles->getName ($bibleID);
+$bible = request->database_bibles()->getName ($bibleID);
 $book = $details [1];
 $chapter = $details [2];
 $verse = $details [3];
@@ -53,7 +53,7 @@ $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 // As a standard to compare against, get the plain text from the search database,
 // do the replacements, count the replacements, and then get the desired new plain text.
 $standardReplacementCount = 0;
-$standardPlainText = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
+$standardPlainText = $database_search->getBibleVerseText (bible, book, chapter, $verse);
 if ($casesensitive) {
   $standardPlainText = str_replace ($searchfor, $replacewith, $standardPlainText, $standardReplacementCount);
 } else {
@@ -64,7 +64,7 @@ if ($casesensitive) {
 
 // Get the old USFM into an array of verse => USFM fragment.
 $usfmArray = array ();
-$usfmString = $database_bibles->getChapter ($bible, $book, $chapter);
+$usfmString = request->database_bibles()->getChapter (bible, book, chapter);
 $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
 sort ($verses, SORT_NUMERIC);
@@ -125,7 +125,7 @@ if ($replacementOkay) {
 
 // Store the new chapter in the database on success.
 if ($replacementOkay) {
-  Bible_Logic::storeChapter ($bible, $book, $chapter, $updatedUsfm);
+  Bible_Logic::storeChapter (bible, book, chapter, $updatedUsfm);
 }
 
 

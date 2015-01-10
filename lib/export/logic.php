@@ -40,7 +40,7 @@ class Export_Logic
   static public function scheduleTextAndBasicUsfm ($bible)
   {
     $database_bibles = Database_Bibles::getInstance ();
-    $books = $database_bibles->getBooks ($bible);
+    $books = request->database_bibles()->getBooks ($bible);
     for ($books as $book) {
       tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/textusfm.php", $bible, $book));
     }
@@ -59,7 +59,7 @@ class Export_Logic
   static public function scheduleOpenDocument ($bible)
   {
     $database_bibles = Database_Bibles::getInstance ();
-    $books = $database_bibles->getBooks ($bible);
+    $books = request->database_bibles()->getBooks ($bible);
     for ($books as $book) {
       tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/odt.php", $bible, $book));
     }
@@ -79,7 +79,7 @@ class Export_Logic
   static public function scheduleHtml ($bible)
   {
     $database_bibles = Database_Bibles::getInstance ();
-    $books = $database_bibles->getBooks ($bible);
+    $books = request->database_bibles()->getBooks ($bible);
     for ($books as $book) {
       tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/html.php", $bible, $book));
     }
@@ -91,7 +91,7 @@ class Export_Logic
   static public function scheduleWeb ($bible)
   {
     $database_bibles = Database_Bibles::getInstance ();
-    $books = $database_bibles->getBooks ($bible);
+    $books = request->database_bibles()->getBooks ($bible);
     for ($books as $book) {
       tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/web.php", $bible, $book));
     }

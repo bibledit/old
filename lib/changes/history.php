@@ -27,7 +27,7 @@ $session_logic = Session_Logic::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-$username = $session_logic->currentUser ();
+$username = request->session_logic()->currentUser ();
 $focused_book = $ipc_focus->getBook ();
 $focused_chapter = $ipc_focus->getChapter ();
 $focused_verse = $ipc_focus->getVerse ();

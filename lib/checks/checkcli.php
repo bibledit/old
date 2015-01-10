@@ -75,29 +75,29 @@ $checking_patterns = Filter_String::string2array ($checking_patterns);
 $checking_patterns = array_filter ($checking_patterns, 'strlen');
 
 
-$books = $database_bibles->getBooks ($bible);
+$books = request->database_bibles()->getBooks ($bible);
 if ($check_versification) Checks_Versification::books ($bible, $books);
 
 
 for ($books as $book) {
 
 
-  $chapters = $database_bibles->getChapters ($bible, $book);
-  if ($check_versification) Checks_Versification::chapters ($bible, $book, $chapters);
+  $chapters = request->database_bibles()->getChapters ($bible, $book);
+  if ($check_versification) Checks_Versification::chapters (bible, book, chapters);
 
 
   for ($chapters as $chapter) {
-    $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
+    $chapterUsfm = request->database_bibles()->getChapter (bible, book, chapter);
 
 
     $verses = usfm_get_verse_numbers ($chapterUsfm);
-    if ($check_versification) Checks_Versification::verses ($bible, $book, $chapter, $verses);
+    if ($check_versification) Checks_Versification::verses (bible, book, chapter, $verses);
 
 
     for ($verses as $verse) {
       $verseUsfm = usfm_get_verse_text ($chapterUsfm, $verse);
       if ($check_double_spaces_usfm) {
-        Checks_Space::doubleSpaceUsfm ($bible, $book, $chapter, $verse, $verseUsfm);
+        Checks_Space::doubleSpaceUsfm (bible, book, chapter, $verse, $verseUsfm);
       }
     }
 
@@ -109,10 +109,10 @@ for ($books as $book) {
     $verses_headings = $filter_text->verses_headings;
     $verses_text = $filter_text->getVersesText ();
     if ($check_full_stop_in_headings) {
-      Checks_Headers::noPunctuationAtEnd ($bible, $book, $chapter, $verses_headings, $center_marks, $end_marks);
+      Checks_Headers::noPunctuationAtEnd (bible, book, chapter, $verses_headings, $center_marks, $end_marks);
     }
     if ($check_space_before_punctuation) {
-      Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);
+      Checks_Space::spaceBeforePunctuation (bible, book, chapter, $verses_text);
     }
 
 
@@ -124,7 +124,7 @@ for ($books as $book) {
       for ($results as $result) {
         $verse = array_keys ($result);
         $verse = $verse [0];
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
+        $database_check->recordOutput (bible, book, chapter, $verse, $result[$verse]);
       }
     }
 
@@ -137,18 +137,18 @@ for ($books as $book) {
       for ($results as $result) {
         $verse = array_keys ($result);
         $verse = $verse [0];
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
+        $database_check->recordOutput (bible, book, chapter, $verse, $result[$verse]);
       }
     }
 
 
     if ($check_missing_punctuation_end_verse) {
-      Checks_Verses::missingPunctuationAtEnd ($bible, $book, $chapter, $verses_text, $center_marks, $end_marks);
+      Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, $verses_text, $center_marks, $end_marks);
     }
 
 
     if ($check_patterns) {
-      Checks_Verses::patterns ($bible, $book, $chapter, $verses_text, $checking_patterns);
+      Checks_Verses::patterns (bible, book, chapter, $verses_text, $checking_patterns);
     }
 
   }
@@ -156,7 +156,7 @@ for ($books as $book) {
 
 
 // Identifier for this $bible.
-$bibleID = $database_bibles->getID ($bible);
+$bibleID = request->database_bibles()->getID ($bible);
 
 
 // Create an email with the checking results for this $bible.

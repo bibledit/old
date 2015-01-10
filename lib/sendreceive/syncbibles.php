@@ -50,7 +50,7 @@ $hash = $database_users->getmd5 ($user);
 // The client compares the two checksums.
 // If they match, it means everything is in sync.
 
-$bibles = $database_bibles->getBibles ();
+$bibles = request->database_bibles()->getBibles ();
 $client_checksum = Checksum_Logic::getBibles ($bibles);
 
 $post = array (
@@ -106,10 +106,10 @@ Database_Logs::log (gettext("Bibles") . ": " . implode (", ", $server_bibles), F
 // The client now has a list of Bibles the user has access to on the server.
 // The client deletes all local Bibles not in this list.
 // No change Bible actions to be recorded for this operation.
-$bibles = $database_bibles->getBibles ();
+$bibles = request->database_bibles()->getBibles ();
 $bibles = filter_string_array_diff ($bibles, $server_bibles);
 for ($bibles as $bible) {
-  $database_bibles->deleteBible ($bible);
+  request->database_bibles()->deleteBible ($bible);
   Database_Logs::log (gettext("Deleting Bible because the server did not grant access to it") . ": " . $bible, Filter_Roles::translator ());
 }
 
@@ -136,7 +136,7 @@ for ($server_bibles as $bible) {
 
 
   // Request all books in the $bible on the server.
-  $client_books = $database_bibles->getBooks ($bible);
+  $client_books = request->database_bibles()->getBooks ($bible);
   $post = array (
     "b" => $bible,
     "a" => "books"
@@ -158,7 +158,7 @@ for ($server_bibles as $bible) {
   // Any books not on the server, delete them from the client as well.
   $client_books = filter_string_array_diff ($client_books, $server_books);
   for ($client_books as $book) {
-    $database_bibles->deleteBook ($bible, $book);
+    request->database_bibles()->deleteBook ($bible, $book);
     $book_name = Database_Books::getEnglishFromId ($book);
     Database_Logs::log (gettext("Deleting book because the server does not have it") . ": $bible $book_name" , Filter_Roles::translator ());
   }
@@ -189,7 +189,7 @@ for ($server_bibles as $bible) {
     
 
     // The client requests all chapters per book from the server.
-    $client_chapters = $database_bibles->getChapters ($bible, $book);
+    $client_chapters = request->database_bibles()->getChapters ($bible, $book);
     $post = array (
       "b" => $bible,
       "bk" => $book,
@@ -213,7 +213,7 @@ for ($server_bibles as $bible) {
     // The client removes any local chapters not on the server.
     $client_chapters = filter_string_array_diff ($client_chapters, $server_chapters);
     for ($client_chapters as $chapter) {
-      $database_bibles->deleteChapter ($bible, $book, $chapter);
+      request->database_bibles()->deleteChapter (bible, book, chapter);
       Database_Logs::log (gettext("Deleting chapter because the server does not have it") . ": $bible $book_name $chapter" , Filter_Roles::translator ());
     }
 
@@ -231,7 +231,7 @@ for ($server_bibles as $bible) {
 
       // Get checksum for the chapter on client and on server.
       // If both are the same, it means the USFM in both is the same, and we're done.
-      $client_checksum = Checksum_Logic::getChapter ($bible, $book, $chapter);
+      $client_checksum = Checksum_Logic::getChapter (bible, book, chapter);
       $post = array (
         "b" => $bible,
         "bk" => $book,
@@ -272,9 +272,9 @@ for ($server_bibles as $bible) {
       
       // Check whether the user on the client has made changes in this chapter since the edits were sent to the server.
       // If there are none, then the client stores the chapter as it gets it from the server, and is done.
-      $old_usfm = $database_bibleactions->getUsfm ($bible, $book, $chapter);
+      $old_usfm = $database_bibleactions->getUsfm (bible, book, chapter);
       if ($old_usfm == "") {
-        $database_bibles->storeChapter ($bible, $book, $chapter, $server_usfm);
+        request->database_bibles()->storeChapter (bible, book, chapter, $server_usfm);
         continue;
       }
       
@@ -285,9 +285,9 @@ for ($server_bibles as $bible) {
       // It stores through the Bible Logic so the changes are staged to be sent.
       // The changes will be sent to the server during the next synchronize action.
       Database_Logs::log (gettext("Merging changes on server and client:") . " $bible $book_name $chapter", Filter_Roles::translator ());
-      $client_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      $client_usfm = request->database_bibles()->getChapter (bible, book, chapter);
       $merged_usfm = Filter_Merge::run ($old_usfm, $client_usfm, $server_usfm);
-      Bible_Logic::storeChapter ($bible, $book, $chapter, $merged_usfm);
+      Bible_Logic::storeChapter (bible, book, chapter, $merged_usfm);
 
     }
 

@@ -88,7 +88,7 @@ if ($action == "total") {
 
 
   // The server responds with a checksum and then the list of books in the Bible.
-  $server_books = $database_bibles->getBooks ($bible);
+  $server_books = request->database_bibles()->getBooks ($bible);
   $server_books = implode ("\n", $server_books);
   $checksum = Checksum_Logic::get ($server_books);
   echo "$checksum\n$server_books";
@@ -106,7 +106,7 @@ if ($action == "total") {
 
 
   // The server responds with the list of books in the Bible book.
-  $server_chapters = $database_bibles->getChapters ($bible, $book);
+  $server_chapters = request->database_bibles()->getChapters ($bible, $book);
   $server_chapters = implode ("\n", $server_chapters);
   $checksum = Checksum_Logic::get ($server_chapters);
   echo "$checksum\n$server_chapters";
@@ -116,7 +116,7 @@ if ($action == "total") {
 
 
   // The server responds with the checksum of the whole chapter.
-  $server_checksum = Checksum_Logic::getChapter ($bible, $book, $chapter);
+  $server_checksum = Checksum_Logic::getChapter (bible, book, chapter);
   echo $server_checksum;
 
 
@@ -124,7 +124,7 @@ if ($action == "total") {
   
   
   // The server responds with the USFM of the chapter, prefixed by a checksum.
-  $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+  $usfm = request->database_bibles()->getChapter (bible, book, chapter);
   $checksum = Checksum_Logic::get ($usfm);
   echo "$checksum\n$usfm";
   

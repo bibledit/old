@@ -66,7 +66,7 @@ file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
 unset ($basicUsfm);
 
 
-$chapters = $database_bibles->getChapters ($bible, $book);
+$chapters = request->database_bibles()->getChapters ($bible, $book);
 for ($chapters as $chapter) {
 
 
@@ -79,7 +79,7 @@ for ($chapters as $chapter) {
 
 
   // Get the USFM code for the current chapter.
-  $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+  $chapter_data = request->database_bibles()->getChapter (bible, book, chapter);
   $chapter_data = filter_string_trim ($chapter_data);
 
 

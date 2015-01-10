@@ -38,15 +38,15 @@ $currentPassage = array ($currentBook, $currentChapter, 1);
 $currentLocation = filter_passage_to_integer ($currentPassage);
 
 
-$books = $database_bibles->getBooks ($bible);
+$books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
-  $chapters = $database_bibles->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters ($bible, $book);
   for ($chapters as $chapter) {
     if ($chapter == 0) continue;
     $passage = array ($book, $chapter, 1);
     $location = filter_passage_to_integer ($passage);
     if ($location > $currentLocation) {
-      $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      $usfm = request->database_bibles()->getChapter (bible, book, chapter);
       $xrefs = Filter_Usfm::extractNotes ($usfm, array ("x"));
       if (empty ($xrefs)) {
         $ipc_focus->set ($book, $chapter, 1);

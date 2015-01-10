@@ -37,18 +37,18 @@ $bible = Filter_Cli::argument (@$argv, 1);
 Database_Logs::log (gettext("Converting Bible to USFM Resource") . ": $bible", Filter_Roles::manager ());
 
 
-$books = $database_bibles->getBooks ($bible);
+$books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
   $bookname = Database_Books::getEnglishFromId ($book);
   Database_Logs::log ("$bookname", Filter_Roles::manager ());
-  $chapters = $database_bibles->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters ($bible, $book);
   for ($chapters as $chapter) {
-    $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-    $database_usfmresources->storeChapter ($bible, $book, $chapter, $usfm);
-    $database_bibles->deleteChapter ($bible, $book, $chapter);
+    $usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    $database_usfmresources->storeChapter (bible, book, chapter, $usfm);
+    request->database_bibles()->deleteChapter (bible, book, chapter);
   }
 }
-$database_bibles->deleteBible ($bible);
+request->database_bibles()->deleteBible ($bible);
 // Any information about user access to this Bible is left untouched,
 // because this information is useful when the USFM Resource is converted
 // back to a Bible.

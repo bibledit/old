@@ -35,7 +35,7 @@ $chapter = request->query ['chapter'];
 $verse = request->query ['verse'];
 
 
-$usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+$usfm = request->database_bibles()->getChapter (bible, book, chapter);
 $usfm = usfm_get_verse_text ($usfm, $verse);
 
 

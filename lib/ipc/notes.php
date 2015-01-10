@@ -38,7 +38,7 @@ class Ipc_Notes
   public function open ($identifier)
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
+    $user = request->session_logic()->currentUser ();
     $database_ipc = Database_Ipc::getInstance();
     $database_ipc->storeMessage ($user, "", "opennote", $identifier);
   }
@@ -47,7 +47,7 @@ class Ipc_Notes
   public function get ()
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
+    $user = request->session_logic()->currentUser ();
     $database_ipc = Database_Ipc::getInstance();
     $data = $database_ipc->getNote ($user);
     if ($data == NULL) return NULL;
@@ -59,7 +59,7 @@ class Ipc_Notes
   public function delete ()
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
+    $user = request->session_logic()->currentUser ();
     $database_ipc = Database_Ipc::getInstance();
     $data = $database_ipc->getNote ($user);
     $counter = 0;
@@ -77,7 +77,7 @@ class Ipc_Notes
   public function alive ($alive = false)
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
+    $user = request->session_logic()->currentUser ();
     $database_ipc = Database_Ipc::getInstance ();
     if (func_num_args () == 0) {
       $alive = $database_ipc->getNotesAlive ();

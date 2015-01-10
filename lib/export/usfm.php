@@ -58,7 +58,7 @@ if (!file_exists ($usfmDirectoryFull)) mkdir ($usfmDirectoryFull, 0777, true);
 // Generate one USFM file per book.
 
 
-$books = $database_bibles->getBooks ($bible);
+$books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
 
 
@@ -67,10 +67,10 @@ for ($books as $book) {
 
 
   // Collect the USFM for all chapters in this book.
-  $chapters = $database_bibles->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters ($bible, $book);
   for ($chapters as $chapter) {
     // Get the USFM code for the current chapter.
-    $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+    $chapter_data = request->database_bibles()->getChapter (bible, book, chapter);
     $chapter_data = filter_string_trim ($chapter_data);
     // Add the chapter USFM code to the book's USFM code.
     $bookUsfmDataFull += $chapter_data;

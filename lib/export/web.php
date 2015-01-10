@@ -72,13 +72,13 @@ $html_text_rich_book_index->addText ("|");
 
 
 // Go through the chapters of this book.
-$chapters = $database_bibles->getChapters ($bible, $book);
+$chapters = request->database_bibles()->getChapters ($bible, $book);
 for ($chapters as $chapter) {
 
   // The text filter for this chapter.
   $filter_text_chapter = new Filter_Text ($bible);
 
-  $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+  $usfm = request->database_bibles()->getChapter (bible, book, chapter);
   $usfm = filter_string_trim ($usfm);
   // Use small chunks of USFM at a time for much better performance.
   $filter_text_chapter->addUsfmCode ($usfm);

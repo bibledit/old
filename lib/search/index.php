@@ -44,7 +44,7 @@ if (isset ($id)) {
   $verse = $details ['verse'];
   
   // Get the plain text.
-  $text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
+  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
   
   // Format it.
   $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);

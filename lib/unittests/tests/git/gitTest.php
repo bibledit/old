@@ -41,7 +41,7 @@ class filterGitTest extends PHPUnit_Framework_TestCase
     $database_search = Database_Search::getInstance ();
     $database_search->create ();
     $database_bibles = Database_Bibles::getInstance ();
-    $database_bibles->createBible ($this->bible);
+    request->database_bibles()->createBible ($this->bible);
 
     mkdir ($this->repository);
     mkdir ($this->newrepository);
@@ -122,7 +122,7 @@ EOD;
     $database_modifications = Database_Modifications::getInstance ();
     $database_bibles = Database_Bibles::getInstance();
     $database_modifications->deleteTeamDiffBible ($this->bible);
-    $database_bibles->deleteBible ($this->bible);
+    request->database_bibles()->deleteBible ($this->bible);
     filter_url_rmdir ($this->repository);
     filter_url_rmdir ($this->newrepository);
   }
@@ -140,7 +140,7 @@ EOD;
     $this->assertFileExists ("$repository/Song of Solomon/2/data");
     $this->assertFileNotExists ("$repository/Exodus/1/data");
 
-    $database_bibles->storeChapter ($this->bible, 2, 1, $this->song_of_solomon_2_data);
+    request->database_bibles()->storeChapter ($this->bible, 2, 1, $this->song_of_solomon_2_data);
     Filter_Git::syncBible2Git ($this->bible, $this->repository);
 
     $this->assertFileExists ("$repository/.git");
@@ -163,7 +163,7 @@ EOD;
     $this->assertFileExists ("$repository/Song of Solomon/2/data");
     $this->assertFileNotExists ("$repository/Exodus/1/data");
 
-    $database_bibles->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
+    request->database_bibles()->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
     Filter_Git::syncBible2Git ($this->bible, $this->repository);
 
     $this->assertFileExists ("$repository/.git");
@@ -187,9 +187,9 @@ EOD;
     $this->assertFileExists ("$repository/Song of Solomon/2/data");
     $this->assertFileNotExists ("$repository/Exodus/1/data");
 
-    $database_bibles->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
-    $database_bibles->storeChapter ($this->bible, 22, 2, $this->psalms_11_data);
-    $database_bibles->storeChapter ($this->bible, 19, 11, $this->song_of_solomon_2_data);
+    request->database_bibles()->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
+    request->database_bibles()->storeChapter ($this->bible, 22, 2, $this->psalms_11_data);
+    request->database_bibles()->storeChapter ($this->bible, 19, 11, $this->song_of_solomon_2_data);
     Filter_Git::syncBible2Git ($this->bible, $this->repository);
 
     $this->assertFileExists ("$repository/.git");
@@ -237,14 +237,14 @@ EOD;
     // The Bible has been created, but has no data yet.
     // Run the filter, and check that all three chapters are now the database.
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
-    $books = $database_bibles->getBooks ($this->bible);
+    $books = request->database_bibles()->getBooks ($this->bible);
     $this->assertEquals ($books, array (19, 22));
     // Check that the data matches.
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
     $this->assertEquals ($this->psalms_0_data, $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
     $this->assertEquals ($this->psalms_11_data, $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
     $this->assertEquals ($this->song_of_solomon_2_data, $usfm);
   }
 
@@ -260,14 +260,14 @@ EOD;
     filter_url_rmdir ($this->repository . "/Song of Solomon");
     filter_url_rmdir ($this->repository . "/Psalms/0");
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
-    $books = $database_bibles->getBooks ($this->bible);
+    $books = request->database_bibles()->getBooks ($this->bible);
     $this->assertEquals ($books, array (19));
     // Check that the data matches.
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
     $this->assertEquals ("", $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
     $this->assertEquals ($this->psalms_11_data, $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
     $this->assertEquals ("", $usfm);
   }
 
@@ -283,11 +283,11 @@ EOD;
    filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
    filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
     $this->assertEquals ($this->psalms_0_data, $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
     $this->assertEquals ("\\c 11", $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
     $this->assertEquals ("\\c 2", $usfm);
   }
 
@@ -298,28 +298,28 @@ EOD;
 
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // The Bible has been created, but has no data yet.
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
     $this->assertEmpty ($usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
     $this->assertEmpty ($usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
     $this->assertEmpty ($usfm);
 
     // Run the filter for each chapter, and check that all three chapters make it into the database.
     Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 0);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
     $this->assertEquals ($this->psalms_0_data, $usfm);
 
     Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
     $this->assertEquals ($this->psalms_11_data, $usfm);
     
     Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
-    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
     $this->assertEquals ($this->song_of_solomon_2_data, $usfm);
 
     // Check the two books are there.
-    $books = $database_bibles->getBooks ($this->bible);
+    $books = request->database_bibles()->getBooks ($this->bible);
     $this->assertEquals ($books, array (19, 22));
   }
 
@@ -342,15 +342,15 @@ EOD;
     Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
 
     // There should still be two books, although one book would have no chapters.
-    $books = $database_bibles->getBooks ($this->bible);
+    $books = request->database_bibles()->getBooks ($this->bible);
     $this->assertEquals ($books, array (19, 22));
 
     // Check that the chapter data matches.
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
     $this->assertEmpty ($usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
     $this->assertEquals ($this->psalms_11_data, $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
     $this->assertEmpty ($usfm);
   }
   
@@ -371,11 +371,11 @@ EOD;
     Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
 
     // Check that the database is updated accordingly.
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
     $this->assertEquals ($this->psalms_0_data, $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
     $this->assertEquals ("\\c 11", $usfm);
-    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
     $this->assertEquals ("\\c 2", $usfm);
   }
   

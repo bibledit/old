@@ -46,7 +46,7 @@ $verse = $details ['verse'];
 
 
 // Get the plain text.
-$text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
+$text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
 
 
 // Clickable passage.
@@ -66,7 +66,7 @@ if ($replacewith != "") $newtext =  Filter_Markup::words (array ($replacewith), 
 
 
 // The id sent to the browser contains bible identifier, book, chapter, and verse.
-$bibleID = $database_bibles->getID ($bible);
+$bibleID = request->database_bibles()->getID ($bible);
 $id = implode ("_", array ($bibleID, $book, $chapter, $verse));
 
 

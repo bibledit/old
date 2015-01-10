@@ -36,6 +36,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <fonts/index.h>
 #include <versification/index.h>
 #include <bible/manage.h>
+#include <edit/index.h>
+#include <editusfm/index.h>
+#include <editverse/index.h>
 
 
 /*
@@ -86,7 +89,7 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
 {
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "edit/index",      gettext ("Edit"),      bible_edit_menu ()      } );
+  if (edit_index_acl (webserver_request)) menu->push_back ( { "", edit_index_url (),      gettext ("Edit"),      bible_edit_menu ()      } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "search/index",    gettext ("Search"),    NULL                    } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "workbench/index", gettext ("Workbench"), bible_workbench_menu () } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    gettext ("Checks"),    bible_checks_menu ()    } );
@@ -97,10 +100,9 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
 
 vector <Menu_Main_Item> * Menu_Main::bible_edit_menu ()
 {
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "editusfm/index",  gettext ("USFM chapter"), NULL } );
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "editverse/index", gettext ("USFM verse"),   NULL } );
+  if (editusfm_index_acl (webserver_request)) menu->push_back ( { "", editusfm_index_url (),  gettext ("USFM chapter"), NULL } );
+  if (editverse_index_acl (webserver_request)) menu->push_back ( { "", editverse_index_url (), gettext ("USFM verse"),   NULL } );
   return menu;
 }
 

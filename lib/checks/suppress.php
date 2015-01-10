@@ -39,10 +39,10 @@ if (isset($release)) {
 
 // Get the Bibles the user has write-access to.
 $bibleIDs = array ();
-$bibles = $database_bibles->getBibles ();
+$bibles = request->database_bibles()->getBibles ();
 for ($bibles as $bible) {
   if (access_bible_write ($bible)) {
-    $id = $database_bibles->getID ($bible);
+    $id = request->database_bibles()->getID ($bible);
     $bibleIDs [] = $id;
   }
 }
@@ -56,7 +56,7 @@ for ($suppressions as $suppression) {
   // Only display entries for Bibles the user has write access to.
   if (in_array ($bibleID, $bibleIDs)) {
     $ids [] = $suppression['rowid'];
-    $bible = filter_string_sanitize_html ($database_bibles->getName ($bibleID));
+    $bible = filter_string_sanitize_html (request->database_bibles()->getName ($bibleID));
     $passage = Filter_Books::filter_passage_display_inline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
     $result = filter_string_sanitize_html ($suppression['data']);
     $result = "$bible $passage $result";

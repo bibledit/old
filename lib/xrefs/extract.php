@@ -38,7 +38,7 @@ $chapter = $ipc_focus->getChapter ();
 $allnotes = array ();
 
 
-$usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+$usfm = request->database_bibles()->getChapter (bible, book, chapter);
 $verses = usfm_get_verse_numbers ($usfm);
 for ($verses as $verse) {
   $verse_usfm = usfm_get_verse_text ($usfm, $verse);

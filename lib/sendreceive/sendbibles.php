@@ -67,15 +67,15 @@ for ($bibles as $bible) {
       Database_Logs::log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::translator ());
 
       // Get old and new USFM for this chapter.
-      $oldusfm = $database_bibleactions->getUsfm ($bible, $book, $chapter);
-      $newusfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      $oldusfm = $database_bibleactions->getUsfm (bible, book, chapter);
+      $newusfm = request->database_bibles()->getChapter (bible, book, chapter);
       
       // Straightaway clear the Bible action for this chapter.
       // This atomic operation enables new edits from the user in this chapter to be recorded straightaway, 
       // even during the time that this chapter is still being sent.
       // In the face of a slow network at times, this does occur in practise.
       // Examples have been seen.
-      $database_bibleactions->delete ($bible, $book, $chapter);
+      $database_bibleactions->delete (bible, book, chapter);
 
       // If old USFM and new USFM differ, and the new USFM is not empty, send it to the server.
       if (($newusfm != $oldusfm) && ($newusfm != "")) {
@@ -107,8 +107,8 @@ for ($bibles as $bible) {
           $communication_errors = true;
           Database_Logs::log ("Failure sending Bibles", Filter_Roles::translator ());
           // Restore the Bible action for this chapter.
-          $database_bibleactions->delete ($bible, $book, $chapter);
-          $database_bibleactions->record ($bible, $book, $chapter, $oldusfm);
+          $database_bibleactions->delete (bible, book, chapter);
+          $database_bibleactions->record (bible, book, chapter, $oldusfm);
 
         }
 
@@ -126,7 +126,7 @@ for ($bibles as $bible) {
             $response = implode ("\n", $response);
             
             if (Checksum_Logic::get ($response) == $checksum_message) {
-              Bible_Logic::storeChapter ($bible, $book, $chapter, $response);
+              Bible_Logic::storeChapter (bible, book, chapter, $response);
             } else {
               // Checksum error.
               // The chapter will not be stored on the client.
