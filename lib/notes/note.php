@@ -23,7 +23,7 @@ page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
-$ipc_focus = Ipc_Focus::getInstance();
+
 
 
 $id = request->query ['id'];

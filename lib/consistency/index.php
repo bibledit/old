@@ -29,7 +29,7 @@ $header->run ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $database_usfmresources = Database_UsfmResources::getInstance ();
-$ipc_focus = Ipc_Focus::getInstance();
+
 
 
 @$add = request->query ['add'];

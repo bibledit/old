@@ -115,7 +115,7 @@ if (isset ($query)) {
   
   // Deal with possible searching in the current book only.
   if ($currentbook) {
-    $ipc_focus = Ipc_Focus::getInstance();
+    
     $book = $ipc_focus->getBook ();
     $bookhits = array ();
     for ($hits as $hit) {

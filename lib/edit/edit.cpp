@@ -18,11 +18,15 @@
 
 
 #include <edit/edit.h>
+#include <edit/index.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
+#include <navigation/passage.h>
+#include <locale/translate.h>
 
 
 string edit_edit_url ()
@@ -40,61 +44,54 @@ bool edit_edit_acl (void * webserver_request)
 string edit_edit (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  
+  // Optionally handle a call to the page to set the passage.
+  if (request->query.count ("switchbook")) {
+    int switchbook = convert_to_int (request->query ["switchbook"]);
+    int switchchapter = 1;
+    if (request->query.count ("switchchapter")) {
+      switchchapter = convert_to_int (request->query ["switchchapter"]);
+    }
+    int switchverse = 1;
+    if (request->query.count ("switchverse")) {
+      switchverse = convert_to_int (request->query ["switchverse"]);
+    }
+    Ipc_Focus::set (request, switchbook, switchchapter, switchverse);
+    Navigation_Passage::recordHistory (request, switchbook, switchchapter, switchverse);
+  }
+  
+  
+  // Check whether a Bible editor is alive.
+  int timestamp = request->database_ipc()->getBibleAlive ();
+  bool alive = (timestamp > (filter_string_date_seconds_since_epoch () - 5));
+  
+  
+  if (alive) {
+    // If a Bible editor is alive, send javascript to the browser to close this new window.
+    string message = gettext("The passage has been opened in the existing Bible editor in another browser tab.");
+    string script =
+    "<!DOCTYPE html>\n"
+    "<html>\n"
+    "<head>\n"
+    "</head>\n"
+    "<body>\n"
+    "<script>\n"
+    "setTimeout (closeself, 1000);\n"
+    "function closeself () {\n"
+    "  var win = window.open (\"\" ,\"_self\", \"\");\n"
+    "  win.close();\n"
+    "}\n"
+    "</script>\n"
+    "<div>" + message + "</div>\n"
+    "</body>\n"
+    "</html>\n";
+    return script;
+  } else {
+    // If no Bible editor is alive, forward the browser to the Bible editor.
+    redirect_browser (edit_index_url (), request);
+  }
+  
   return "";
 }
 
-/* Todo
- require_once ("../bootstrap/bootstrap.php");
- page_access_level (Filter_Roles::translator ());
- 
- 
- $ipc_focus = Ipc_Focus::getInstance();
- $database_ipc = Database_Ipc::getInstance ();
- 
- 
- // Optionally handle a call to the page to set the passage.
- @$switchbook = request->query ['switchbook'];
- @$switchchapter = request->query ['switchchapter'];
- @$switchverse = request->query ['switchverse'];
- if (isset ($switchbook)) {
- $switchbook = Filter_Numeric::integer_in_string ($switchbook);
- if (!isset ($switchchapter)) $switchchapter = 1;
- $switchchapter = Filter_Numeric::integer_in_string ($switchchapter);
- if (!isset ($switchverse)) $switchverse = 1;
- $switchverse = Filter_Numeric::integer_in_string ($switchverse);
- $ipc_focus->set ($switchbook, $switchchapter, $switchverse);
- Navigation_Passage::recordHistory ($switchbook, $switchchapter, $switchverse);
- }
- 
- 
- // Check whether a Bible editor is alive.
- $timestamp = $database_ipc->getBibleAlive ();
- $alive = ($timestamp > (time () - 5));
- 
- 
- if ($alive) {
- // If a Bible editor is alive, send javascript to the browser to close this new window.
- $message = gettext("The passage has been opened in the existing Bible editor in another browser tab.");
- $script = <<< EOD
- <!DOCTYPE html>
- <html>
- <head>
- </head>
- <body>
- <script>
- setTimeout (closeself, 1000);
- function closeself () {
- var win = window.open ("" ,"_self", "");
- win.close();
- }
- </script>
- <div>$message</div>
- </body>
- </html>
- EOD;
- echo $script;
- } else {
- // If no Bible editor is alive, forward the browser to the Bible editor.
- redirect_browser ("index.php");
- }
-*/

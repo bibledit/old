@@ -47,7 +47,7 @@ if (isset ($navigate)) {
   $id = $navigate;
   $passage = $database_modifications->getNotificationPassage ($id);
   if ($passage != NULL) {
-    $ipc_focus = Ipc_Focus::getInstance();
+    
     $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
     Navigation_Passage::recordHistory ($passage['book'], $passage['chapter'], $passage['verse']);
   }

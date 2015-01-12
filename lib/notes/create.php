@@ -25,7 +25,7 @@ page_access_level (Filter_Roles::consultant ());
 $database_notes = Database_Notes::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $notes_logic = Notes_Logic::getInstance();
-$ipc_focus = Ipc_Focus::getInstance();
+
 
 
 // Is is possible to pass a Bible to this script.
