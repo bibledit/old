@@ -22,7 +22,7 @@
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <webserver/request.h>
-#include <ipc/focus.h>
+#include <editor/styles.h>
 
 
 string edit_styles_url ()
@@ -40,34 +40,21 @@ bool edit_styles_acl (void * webserver_request)
 string edit_styles (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  return "";
+
+  
+  if (request->query.count ("style")) {
+    string style = request->query["style"];
+    Editor_Styles::recordUsage (request, style);
+    string action = Editor_Styles::getAction (request, style);
+    return style + "\n" + action;
+  }
+  
+  
+  if (request->query.count ("all")) {
+    return Editor_Styles::getAll (request);
+  }
+  
+  
+  return Editor_Styles::getRecentlyUsed (request);
 }
 
-/* Todo
- 
- require_once ("../bootstrap/bootstrap.php");
- page_access_level (Filter_Roles::translator ());
- 
- 
- @$style = request->query['style'];
- if (isset ($style)) {
- Editor_Styles::recordUsage ($style);
- $action = Editor_Styles::getAction ($style);
- $data = array ('style' => $style, 'action' => $action);
- echo json_encode ($data);
- die;
- }
- 
- 
- @$all = request->query ['all'];
- if (isset ($all)) {
- echo Editor_Styles::getAll ();
- die;
- }
- 
- 
- echo Editor_Styles::getRecentlyUsed ();
- 
-
- 
- */
