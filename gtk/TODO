@@ -3,3 +3,24 @@ The features that you feel Bibledit-Gtk ought to have become todo items.
 I'd like to put out a call for patches implementing the todo items.
 
 
+These are bug fixes or speed enhancements or features that we believe
+are worthy of someone's attention to improve bibledit-gtk. For
+additional information, please contact Pastor Matt Postiff
+<postiffm@umich.edu> or Birch Champeon <birch@birchandconnie.com>.
+
+Roughly in order of priority
+
+Date Added Description
+1/12/2015  Fix Settings:: and ProjectConfiguration:: to have a "SaveSettings"
+	   routine or some such so that they do NOT save state in their 
+	   destructors.
+1/12/2015  Keyterms and related verses window is VERY slow to update when you
+	   change verses.
+1/12/2015  Fix Mappings::original2me because it takes a lot of time.
+1/13/2015  Fix #pragma warning in Windows compile
+1/13/2015  Fix duplication #define of WIN32 in Windows compile, probably by
+	   protecting the definition in config.h.in.
+1/13/2015  It is not clear that gtk/config.h should be tracked in git
+           because it changes with every ./configure call. Probably only
+	   config.h.in should be tracked.
+

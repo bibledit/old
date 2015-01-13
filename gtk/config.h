@@ -47,7 +47,7 @@
 #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 
 /* PACKAGE_DATA_DIR */
-#define PACKAGE_DATA_DIR "/usr/share/bibledit-gtk"
+#define PACKAGE_DATA_DIR "/share/bibledit-gtk"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "bibledit-gtk"
