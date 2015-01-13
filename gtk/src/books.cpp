@@ -271,9 +271,15 @@ ustring books_id_to_english(unsigned int id)
   return "";
 }
 
+// This requires the compiler flag -std=c++11. This, in turn, requires
+// the ax_cxx_compile_stdcxx11.m4 script to make configure.ac know how
+// to do the right thing.  On Ubuntu, I had to install the
+// autoconf-archive package to get this macro. Then run 
+// aclocal; autoconf; ./configure
+// Matt Postiff 1/12/2015
 #include <unordered_map>
-
 std::unordered_map<std::string, int> bookmap;
+
 void books_init(void)
 {
   bookmap["front matter"]=67;
@@ -366,19 +372,22 @@ void books_init(void)
  bookmap["daniel (greek)"]=  88;
 }
 
+// Return 0 if no book found
 unsigned int books_english_to_id(const ustring & english)
 {
   // According to gprof, this procedure took 10% of all execution time
-  // of bibledit in a simple editing session. It uses an O(n)
+  // of bibledit in a simple editing session. It used an O(n)
   // algorithm to match book names where n = 70 or so, and it is
-  // called many times.
+  // called many times. We first attempt to match using the bookmap
+  // hash at O(1) complexity, and if that fails, we fall back to the
+  // old way.
   ustring s1(english.casefold());
   int id = bookmap[s1]; // the unordered_map provides O(1) time to lookup instead of O(n)
   if (id != 0) { return id; }
 
   // For some reason, there are many thousands of calls to this
-  // routine with a blank string argument in english. I don't
-  // get it, but we can return 0 if so.
+  // routine with a blank string argument in english. I don't get it,
+  // but we can return 0 if so.
   if (english.length() == 0) { return 0; }
 
   // Otherwise, search for it the old fashion way...
