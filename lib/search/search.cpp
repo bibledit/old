@@ -113,7 +113,7 @@ string search_search (void * webserver_request)
     string excerpt;
     // Go through each line of text separately.
     for (auto & line : vtext) {
-      string markedLine = ""; // Todo should be this: Filter_Markup::words (queryWords, line);
+      string markedLine = filter_string_markup_words (queryWords, line);
       // If the line is marked up, add it to the excerpts.
       if (!excerpt.empty()) excerpt.append ("\n");
       if (markedLine != line) {
@@ -162,7 +162,7 @@ string search_search (void * webserver_request)
     string excerpt;
     // Go through each line of text separately.
     for (auto & line : vtext) {
-      string markedLine = "placeholder"; // Todo: port Filter_Markup::words (queryWords, line);
+      string markedLine = filter_string_markup_words (queryWords, line);
       if (markedLine != line) {
         // Store this bit of the excerpt.
         excerpt.append ("<p style=\"margin-top: 0em\">" + markedLine + "</p>\n");
@@ -190,5 +190,3 @@ string search_search (void * webserver_request)
   return page;
 }
 
-/* Todo
-*/

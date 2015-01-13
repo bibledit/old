@@ -31,6 +31,7 @@ void test_filter_custom_css ();
 void test_filter_bibleworks ();
 void test_filter_diff ();
 void test_filter_abbreviations ();
+void test_filter_markup ();
 
 
 #endif

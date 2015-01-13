@@ -425,7 +425,6 @@
 		CAA4D1041A45A647003ABA25 /* paths.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = paths.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1051A45A647003ABA25 /* roles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = roles.cpp; sourceTree = "<group>"; };
 		CAA4D1061A45A647003ABA25 /* roles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = roles.h; sourceTree = "<group>"; };
-		CAA4D1071A45A647003ABA25 /* search.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = search.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1081A45A647003ABA25 /* string.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = string.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D1091A45A647003ABA25 /* string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = string.h; sourceTree = "<group>"; };
 		CAA4D10A1A45A647003ABA25 /* string.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = string.php; sourceTree = "<group>"; };
@@ -910,7 +909,6 @@
 		CAA4D40B1A45A648003ABA25 /* fileTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = fileTest.php; sourceTree = "<group>"; };
 		CAA4D40C1A45A648003ABA25 /* hexTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hexTest.php; sourceTree = "<group>"; };
 		CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hyphenateTest.php; sourceTree = "<group>"; };
-		CAA4D40F1A45A648003ABA25 /* markupTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = markupTest.php; sourceTree = "<group>"; };
 		CAA4D4101A45A648003ABA25 /* mergeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = mergeTest.php; sourceTree = "<group>"; };
 		CAA4D4111A45A648003ABA25 /* notesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = notesTest.php; sourceTree = "<group>"; };
 		CAA4D4121A45A648003ABA25 /* numericTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = numericTest.php; sourceTree = "<group>"; };
@@ -1827,7 +1825,6 @@
 				CAA4D1041A45A647003ABA25 /* paths.php */,
 				CAA4D1051A45A647003ABA25 /* roles.cpp */,
 				CAA4D1061A45A647003ABA25 /* roles.h */,
-				CAA4D1071A45A647003ABA25 /* search.php */,
 				CAA4D1081A45A647003ABA25 /* string.cpp */,
 				CAA4D1091A45A647003ABA25 /* string.h */,
 				CAA4D10A1A45A647003ABA25 /* string.php */,
@@ -2867,7 +2864,6 @@
 				CAA4D40B1A45A648003ABA25 /* fileTest.php */,
 				CAA4D40C1A45A648003ABA25 /* hexTest.php */,
 				CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */,
-				CAA4D40F1A45A648003ABA25 /* markupTest.php */,
 				CAA4D4101A45A648003ABA25 /* mergeTest.php */,
 				CAA4D4111A45A648003ABA25 /* notesTest.php */,
 				CAA4D4121A45A648003ABA25 /* numericTest.php */,

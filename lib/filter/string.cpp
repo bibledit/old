@@ -451,7 +451,7 @@ size_t unicode_string_strpos (string haystack, string needle, size_t offset)
 
 
 // Case-insensitive version of "unicode_string_strpos".
-size_t unicode_string_strpos_case_insensitive (string haystack, string needle, size_t offset) // Todo
+size_t unicode_string_strpos_case_insensitive (string haystack, string needle, size_t offset)
 {
   // C++Port uses ICU library eventually for this: It has a search service.
   haystack = unicode_string_casefold (haystack);
@@ -923,7 +923,6 @@ string substr_replace (string original, string replacement, size_t start, size_t
 }
 
 
-
 #define MY_NUMBERS "0123456789"
 string number_in_string (const string & str)
 {
@@ -939,10 +938,9 @@ string number_in_string (const string & str)
 #undef MY_NUMBERS
 
 
-
 // This function marks the array of $words in the string $text.
 // It uses the <mark> markup for display as html.
-string filter_string_markup_words (const vector <string>& words, string text) // Todo
+string filter_string_markup_words (const vector <string>& words, string text)
 {
   // Array of needles to look for.
   // The needles contain the search $words as they occur in the $text
@@ -950,7 +948,8 @@ string filter_string_markup_words (const vector <string>& words, string text) //
   vector <string> needles;
   for (auto & word : words) {
     if (word == "") continue;
-    // Todo $needles = array_merge ($needles, Filter_Search::needles ($word, $test));
+    vector <string> new_needles = filter_string_search_needles (word, text);
+    needles.insert (needles.end(), new_needles.begin(), new_needles.end());
   }
   needles = filter_string_array_unique (needles);
   
@@ -969,17 +968,15 @@ string filter_string_markup_words (const vector <string>& words, string text) //
 // This function returns an array of needles to look for.
 // The needles contain the $search word as it occurs in the $string
 // in upper case or lower case or any mixed case.
-vector <string> filter_string_search_needles (string search, string text) // Todo
+vector <string> filter_string_search_needles (string search, string text)
 {
   vector <string> needles;
-  /* Todo
-  $position = mb_stripos ($string, $search, 0);
-  while ($position !== false) {
-    $needle = unicode_string_substr ($string, $position, unicode_string_length ($search));
-    $needles [] = $needle;
-    $position = mb_stripos ($string, $search, $position + 1);
+  size_t position = unicode_string_strpos_case_insensitive (text, search, 0);
+  while (position != string::npos) {
+    string needle = unicode_string_substr (text, position, unicode_string_length (search));
+    needles.push_back (needle);
+    position = unicode_string_strpos_case_insensitive (text, search, position + 1);
   }
-  $needles = array_unique ($needles);
-   */
+  needles = filter_string_array_unique (needles);
   return needles;
 }

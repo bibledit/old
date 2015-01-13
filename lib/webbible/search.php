@@ -120,7 +120,7 @@ for ($ids as $id) {
   $excerpt = "";
   // Go through each line of text separately.
   for ($text as $line) {
-    $markedLine = Filter_Markup::words ($queryWords, $line);
+    $markedLine = filter_string_markup_words ($queryWords, $line);
     if ($markedLine != $line) {
       // Store this bit of the excerpt.
       $excerpt += "<p style=\"margin-top: 0em; margin-bottom: 0em\">$markedLine</p>\n";

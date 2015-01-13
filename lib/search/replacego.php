@@ -57,7 +57,7 @@ $standardPlainText = request->database_search()->getBibleVerseText (bible, book,
 if ($casesensitive) {
   $standardPlainText = str_replace ($searchfor, $replacewith, $standardPlainText, $standardReplacementCount);
 } else {
-  $needles = Filter_Search::needles ($searchfor, $standardPlainText);
+  $needles = filter_string_search_needles ($searchfor, $standardPlainText);
   $standardPlainText = str_replace ($needles, $replacewith, $standardPlainText, $standardReplacementCount);
 }
 
@@ -79,7 +79,7 @@ $usfmReplacementCount = 0;
 if ($casesensitive) {
   $usfm = str_replace ($searchfor, $replacewith, $usfm, $usfmReplacementCount);
 } else {
-  $needles = Filter_Search::needles ($searchfor, $usfm);
+  $needles = filter_string_search_needles ($searchfor, $usfm);
   $usfm = str_replace ($needles, $replacewith, $usfm, $usfmReplacementCount);
 }
 $usfmArray [$verse] = $usfm;
@@ -130,7 +130,7 @@ if ($replacementOkay) {
 
 
 // Mark the new plain text.
-if ($replacewith != "") $updatedPlainText = Filter_Markup::words (array ($replacewith), $updatedPlainText);
+if ($replacewith != "") $updatedPlainText = filter_string_markup_words (array ($replacewith), $updatedPlainText);
 
 
 // Clickable passage.

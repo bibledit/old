@@ -90,7 +90,7 @@ class Consistency_Logic
             if ($redoPassage) {
               $text = $this->verseText ($resource, $book, $chapter, $verse);
               if ($translations != "") {
-                $text = Filter_Markup::words ($translations, $text);
+                $text = filter_string_markup_words ($translations, $text);
               }
               $database_volatile->setValue ($this->id, "$passageKey.$resource", $text);
             } else {

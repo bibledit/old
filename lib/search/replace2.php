@@ -56,7 +56,7 @@ if (isset ($id)) {
   $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
   $oldtext =  $text;
   $newtext = str_replace ($searchfor, $replacewith, $text);
-  if ($replacewith != "") $newtext =  Filter_Markup::words (array ($replacewith), $newtext);
+  if ($replacewith != "") $newtext =  filter_string_markup_words (array ($replacewith), $newtext);
   
 $output = <<< EOD
 <div id="$id">

@@ -53,16 +53,16 @@ $text = request->database_search()->getBibleVerseText (bible, book, chapter, $ve
 $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
 
 
-$oldtext =  Filter_Markup::words (array ($searchfor), $text);
+$oldtext =  filter_string_markup_words (array ($searchfor), $text);
 
 
 if ($casesensitive) {
   $newtext = str_replace ($searchfor, $replacewith, $text);
 } else {
-  $needles = Filter_Search::needles ($searchfor, $text);
+  $needles = filter_string_search_needles ($searchfor, $text);
   $newtext = str_replace ($needles, $replacewith, $text);
 }
-if ($replacewith != "") $newtext =  Filter_Markup::words (array ($replacewith), $newtext);
+if ($replacewith != "") $newtext =  filter_string_markup_words (array ($replacewith), $newtext);
 
 
 // The id sent to the browser contains bible identifier, book, chapter, and verse.
