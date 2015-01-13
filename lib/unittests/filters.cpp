@@ -1910,8 +1910,18 @@ void test_filters_test13 ()
   evaluate (__LINE__, __func__, -1, unicode_string_strpos (hebrew, needle, 4));
   evaluate (__LINE__, __func__, -1, unicode_string_strpos ("", "3"));
   
+  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
+  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
+  evaluate (__LINE__, __func__, -1, unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
+
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
+  
+  vector <string> needles;
+  needles = filter_string_search_needles ("ABC", "one abc two ABc three aBc four");
+  evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
+  needles = filter_string_search_needles ("abc", "one abc two ABc three aBc four");
+  evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
   
   // Test unique filename.
   string filename = "/tmp/unique";
@@ -2974,5 +2984,35 @@ void test_filter_abbreviations ()
     "Back Matter = \n"
     "Other Material = ";
     evaluate (__LINE__, __func__, standard, output);
+  }
+}
+
+
+void test_filter_markup ()
+{
+  {
+    string text =
+    "Zvino uchagadzira makumbo uye Makumbo uye maKumbo uye MAKUMBO emuakasia*, ndokuaputira negoridhe.\n"
+    "Zvino uchaisa makumbo muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
+    "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
+    "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
+    vector <string> words = { "makumbo", "akasia", "matanda" };
+    string result = filter_string_markup_words (words, text);
+    string standard =
+    "Zvino uchagadzira <mark>makumbo</mark> uye <mark>Makumbo</mark> uye <mark>maKumbo</mark> uye <mark>MAKUMBO</mark> emu<mark>akasia</mark>*, ndokuaputira negoridhe.\n"
+    "Zvino uchaisa <mark>makumbo</mark> muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
+    "Zvindori zvichava pamupendero kuti zvive nzvimbo dze<mark>makumbo</mark> kutakura tafura.\n"
+    "Zvino uchaita <mark>makumbo</mark> ne<mark>matanda</mark> ne<mark>Matanda</mark> ne<mark>maTANDA</mark> emu<mark>Akasia</mark>, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
+    evaluate (__LINE__, __func__, standard, result);
+  }
+  {
+    string text =
+    "Zvino uchagadzira makumbo uye Makumbo uye maKumbo uye MAKUMBO emuakasia*, ndokuaputira negoridhe.\n"
+    "Zvino uchaisa makumbo muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
+    "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
+    "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
+    vector <string> words;
+    string result = filter_string_markup_words (words, text);
+    evaluate (__LINE__, __func__, text, result);
   }
 }

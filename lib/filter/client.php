@@ -40,7 +40,7 @@ class Filter_Client
 
     $encoded_user = bin2hex ($user);
 
-    $address = $database_config_general->getServerAddress ();
+    $address = Database_Config_General::getServerAddress ();
 
     $url = "$address/sync/setup.php?user=$encoded_user&pass=$hash";
 

@@ -21,7 +21,7 @@
 #ifndef INCLUDED_HTTPD_H
 #define INCLUDED_HTTPD_H
 
-
+#include <config.h>
 #include "libraries.h"
 #ifndef WIN32
 #include <arpa/inet.h>

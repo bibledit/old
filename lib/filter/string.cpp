@@ -450,6 +450,23 @@ size_t unicode_string_strpos (string haystack, string needle, size_t offset)
 }
 
 
+// Case-insensitive version of "unicode_string_strpos".
+size_t unicode_string_strpos_case_insensitive (string haystack, string needle, size_t offset)
+{
+  // C++Port uses ICU library eventually for this: It has a search service.
+  haystack = unicode_string_casefold (haystack);
+  needle = unicode_string_casefold (needle);
+  
+  int haystack_length = unicode_string_length (haystack);
+  int needle_length = unicode_string_length (needle);
+  for (int pos = offset; pos <= haystack_length - needle_length; pos++) {
+    string substring = unicode_string_substr (haystack, pos, needle_length);
+    if (substring == needle) return pos;
+  }
+  return string::npos;
+}
+
+
 // Optionally the unicode wrappers can use the ICU library.
 // The wrappers should then have fallback functions for platforms where the ICU library is not available.
 
@@ -920,3 +937,48 @@ string number_in_string (const string & str)
   return output;
 }
 #undef MY_NUMBERS
+
+
+
+// This function marks the array of $words in the string $text.
+// It uses the <mark> markup for display as html.
+string filter_string_markup_words (const vector <string>& words, string text)
+{
+  // Array of needles to look for.
+  // The needles contain the search $words as they occur in the $text
+  // in upper case or lower case, or any mixed case.
+  vector <string> needles;
+  for (auto & word : words) {
+    if (word == "") continue;
+    vector <string> new_needles = filter_string_search_needles (word, text);
+    needles.insert (needles.end(), new_needles.begin(), new_needles.end());
+  }
+  needles = filter_string_array_unique (needles);
+  
+  // All the $needles are converted to $markup,
+  // which will replace the $needles.
+  for (auto & needle : needles) {
+    string markup = "<mark>" + needle + "</mark>";
+    text = filter_string_str_replace (needle, markup, text);
+  }
+  
+  // Result.
+  return text;
+}
+
+
+// This function returns an array of needles to look for.
+// The needles contain the $search word as it occurs in the $string
+// in upper case or lower case or any mixed case.
+vector <string> filter_string_search_needles (string search, string text)
+{
+  vector <string> needles;
+  size_t position = unicode_string_strpos_case_insensitive (text, search, 0);
+  while (position != string::npos) {
+    string needle = unicode_string_substr (text, position, unicode_string_length (search));
+    needles.push_back (needle);
+    position = unicode_string_strpos_case_insensitive (text, search, position + 1);
+  }
+  needles = filter_string_array_unique (needles);
+  return needles;
+}

@@ -44,7 +44,7 @@ if ($response === false || $response < Filter_Roles::guest () || $response > Fil
 }
 
 
-$address = $database_config_general->getServerAddress ();
+$address = Database_Config_General::getServerAddress ();
 
 
 // Go through all notes which have actions recorded for them.

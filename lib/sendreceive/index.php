@@ -88,12 +88,12 @@ if (isset(request->query['repeatsync'])) {
   if (!is_numeric ($repeatsync)) $repeatsync = 0;
   if ($repeatsync < 0) $repeatsync = 0;
   if ($repeatsync > 2) $repeatsync = 2;
-  $database_config_general->setRepeatSendReceive ($repeatsync);
+  Database_Config_General::setRepeatSendReceive ($repeatsync);
 }
-$view->view->repeatsync = $database_config_general->getRepeatSendReceive ();
+$view->view->repeatsync = Database_Config_General::getRepeatSendReceive ();
 
 
-if ($database_config_general->getServerAddress () == "") {
+if (Database_Config_General::getServerAddress () == "") {
   $view->view->errornotes = gettext("Collaboration has not been set up for the Bibles and Consultation Notes");
 }
 

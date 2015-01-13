@@ -28,7 +28,7 @@ $database_search = Database_Search::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$siteUrl = $database_config_general->getSiteURL ();
+$siteUrl = Database_Config_General::getSiteURL ();
 
 
 // Get the action variables from the query.
@@ -56,11 +56,11 @@ $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 // This only applies when searching/replacing in the plain text, not when doing it in the USFM.
 if ($searchplain) {
   $standardReplacementCount = 0;
-  $standardPlainText = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+  $standardPlainText = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
   if ($casesensitive) {
     $standardPlainText = str_replace ($searchfor, $replacewith, $standardPlainText, $standardReplacementCount);
   } else {
-    $needles = Filter_Search::needles ($searchfor, $standardPlainText);
+    $needles = filter_string_search_needles ($searchfor, $standardPlainText);
     $standardPlainText = str_replace ($needles, $replacewith, $standardPlainText, $standardReplacementCount);
   }
 }
@@ -83,7 +83,7 @@ $usfmReplacementCount = 0;
 if ($casesensitive) {
   $usfm = str_replace ($searchfor, $replacewith, $usfm, $usfmReplacementCount);
 } else {
-  $needles = Filter_Search::needles ($searchfor, $usfm);
+  $needles = filter_string_search_needles ($searchfor, $usfm);
   $usfm = str_replace ($needles, $replacewith, $usfm, $usfmReplacementCount);
 }
 $usfmArray [$verse] = $usfm;
@@ -145,7 +145,7 @@ if ($replacementOkay) {
 // Mark the new plain text.
 if ($replacewith != "") {
   if ($searchplain) {
-    $updatedPlainText = Filter_Markup::words (array ($replacewith), $updatedPlainText);
+    $updatedPlainText = filter_string_markup_words (array ($replacewith), $updatedPlainText);
   }
 }
 

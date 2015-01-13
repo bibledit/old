@@ -34,14 +34,14 @@ $view = new Assets_View (__FILE__);
 if (isset(request->query['disable'])) {
   config_logic_set (false);
   remove_all_users ();
-  $database_config_general->setRepeatSendReceive (0);
+  Database_Config_General::setRepeatSendReceive (0);
 }
 
 
 if (isset (request->post ['connect'])) {
 
   $address = request->post ['address'];
-  $database_config_general->setServerAddress ($address);
+  Database_Config_General::setServerAddress ($address);
 
   $user = request->post ['user'];
   $pass = request->post ['pass'];
@@ -65,7 +65,7 @@ if (isset (request->post ['connect'])) {
 if (isset (request->query['demo'])) {
 
   $address = Filter_Demo::demo_address ();
-  $database_config_general->setServerAddress ($address);
+  Database_Config_General::setServerAddress ($address);
 
   $user = "admin";
   $pass = "admin";
@@ -87,7 +87,7 @@ if (isset (request->query['demo'])) {
 $view->view->client = config_logic_client_enabled ();
 
 
-$address = $database_config_general->getServerAddress ();
+$address = Database_Config_General::getServerAddress ();
 $view->view->address = $address;
 
 
@@ -144,7 +144,7 @@ function enable_client ($username, $password, $level)
   
   // Set it repeats sync every so often.
   $database_config_general = Database_Config_General::getInstance ();
-  $database_config_general->setRepeatSendReceive (2);
+  Database_Config_General::setRepeatSendReceive (2);
   
   // Schedule a sync operation straight-away.
   SendReceive_Logic::queuesync (true);

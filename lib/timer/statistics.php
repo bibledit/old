@@ -39,7 +39,7 @@ $session_logic = Session_Logic::getInstance ();
 Database_Logs::log (gettext("Sending statistics to users"), Filter_Roles::admin ());
 
 
-$siteUrl = $database_config_general->getSiteURL ();
+$siteUrl = Database_Config_General::getSiteURL ();
 
 
 $bibles = request->database_bibles()->getBibles ();

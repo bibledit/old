@@ -33,7 +33,7 @@ $database_usfmresources = Database_UsfmResources::getInstance ();
 Database_Logs::log (gettext("Synchronizing USFM resources"), Filter_Roles::translator ());
 
 
-$address = $database_config_general->getServerAddress ();
+$address = Database_Config_General::getServerAddress ();
 $url = "$address/sync/usfmresources.php";
 
 

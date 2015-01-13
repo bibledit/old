@@ -17,6 +17,7 @@
 **  
 */
 
+#include <config.h>
 #include "libraries.h"
 #include "gwrappers.h"
 #include <glib.h>

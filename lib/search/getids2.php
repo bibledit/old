@@ -35,15 +35,15 @@ $database_search = Database_Search::getInstance ();
 // Do the search.
 if ($casesensitive) {
   if ($searchplain) {
-    $hits = $database_search->searchBibleTextCaseSensitive ($bible, $searchfor);
+    $hits = request->database_search()->searchBibleTextCaseSensitive ($bible, $searchfor);
   } else {
-    $hits = $database_search->searchBibleUsfmCaseSensitive ($bible, $searchfor);
+    $hits = request->database_search()->searchBibleUsfmCaseSensitive ($bible, $searchfor);
   }
 } else {
   if ($searchplain) {
-    $hits = $database_search->searchBibleText ($bible, $searchfor);
+    $hits = request->database_search()->searchBibleText ($bible, $searchfor);
   } else {
-    $hits = $database_search->searchBibleUsfm ($bible, $searchfor);
+    $hits = request->database_search()->searchBibleUsfm ($bible, $searchfor);
   }
 }
 

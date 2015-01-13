@@ -49,7 +49,7 @@ $user = $users [0];
 $session_logic->setUsername ($user);
 
 
-$address = $database_config_general->getServerAddress ();
+$address = Database_Config_General::getServerAddress ();
 $url = "$address/sync/setting.php";
 
 

@@ -38,7 +38,7 @@
 #define HAVE_UNISTD_H 1
 
 /* LINUX */
-#define LINUX "1"
+/* #undef LINUX */
 
 /* Name of package */
 #define PACKAGE "bibledit-gtk"
@@ -71,4 +71,4 @@
 #define VERSION "4.8.11"
 
 /* WIN32 */
-/* #undef WIN32 */
+#define WIN32 "1"

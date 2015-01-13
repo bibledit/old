@@ -182,7 +182,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editor/import.$(OBJEXT) edit/edit.$(OBJEXT) \
 	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
 	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
-	edit/styles.$(OBJEXT)
+	edit/styles.$(OBJEXT) search/search.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -550,7 +550,8 @@ libbibledit_a_SOURCES = \
 	edit/load.cpp \
 	edit/offset.cpp \
 	edit/save.cpp \
-	edit/styles.cpp
+	edit/styles.cpp \
+	search/search.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1227,6 +1228,8 @@ edit/save.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/styles.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
+search/search.$(OBJEXT): search/$(am__dirstamp) \
+	search/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1494,6 +1497,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/rebibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/renotes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@

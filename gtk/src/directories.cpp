@@ -18,7 +18,6 @@
  */
 
 
-#include "libraries.h"
 #include "directories.h"
 #include <glib.h>
 #include <config.h>
@@ -62,14 +61,13 @@ directories::directories(char *argv0)
   // making repeated calls more efficient by simply returning the
   // answer we have pre-computed.
 #ifdef WIN32
-    // A clever way to take a path like C:\Program
-    // Files\Bibledit-Gtk\editor\bin\ and chop the
-    // last component to get back to <something>\Bibledit-Gtk\editor...
-    package_data = gw_path_get_dirname(rundir);
-    // ... Then add two more dirs back on, resulting in
-    // <something>Bibledit-Gtk\editor\share\bibledit
-    package_data = gw_build_filename(package_data, "share", "bibledit");
-  }
+  // A clever way to take a path like C:\Program
+  // Files\Bibledit-Gtk\editor\bin\ and chop the
+  // last component to get back to <something>\Bibledit-Gtk\editor...
+  package_data = gw_path_get_dirname(rundir);
+  // ... Then add two more dirs back on, resulting in
+  // <something>Bibledit-Gtk\editor\share\bibledit
+  package_data = gw_build_filename(package_data, "share", "bibledit");
 #else
   // For Linux, this is hard-coded to match the variable set in config.h
   package_data = PACKAGE_DATA_DIR;
@@ -78,7 +76,7 @@ directories::directories(char *argv0)
 
   // The root directory of all data.
   root = tiny_directories_get_root();
-  root = fix_slashes(root);
+root = fix_slashes(root);
 }
 
 directories::~directories()

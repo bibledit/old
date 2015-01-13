@@ -62,6 +62,7 @@ string get_en_space ();
 size_t unicode_string_length (string s);
 string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 size_t unicode_string_strpos (string haystack, string needle, size_t offset = 0);
+size_t unicode_string_strpos_case_insensitive (string haystack, string needle, size_t offset = 0);
 string unicode_string_casefold (string s);
 bool unicode_string_is_valid (string s);
 int filter_string_rand (int floor, int ceiling);
@@ -81,6 +82,8 @@ void quick_sort (vector <long unsigned int>& one, vector <long unsigned int>& tw
 void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsigned int end);
 string substr_replace (string original, string replacement, size_t start, size_t length);
 string number_in_string (const string & str);
+string filter_string_markup_words (const vector <string>& words, string text);
+vector <string> filter_string_search_needles (string search, string text);
 
 
 #endif

@@ -49,7 +49,7 @@ class Filter_Datetime
   public static function user_zone (&$datetime)
   {
     $database_config_general = Database_Config_General::getInstance();
-    $timezone = $database_config_general->getTimezone();
+    $timezone = Database_Config_General::getTimezone();
     if ($timezone != "") {
       $datetimezone = new DateTimeZone ($timezone);
       $datetime->setTimezone ($datetimezone);

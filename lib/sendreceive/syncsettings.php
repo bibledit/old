@@ -33,7 +33,7 @@ $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$address = $database_config_general->getServerAddress ();
+$address = Database_Config_General::getServerAddress ();
 $url = "$address/sync/settings.php";
 
 

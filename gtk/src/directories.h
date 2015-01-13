@@ -27,7 +27,6 @@
 #ifndef INCLUDED_DIRECTORIES_H
 #define INCLUDED_DIRECTORIES_H
 
-
 #include "libraries.h"
 
 class directories {

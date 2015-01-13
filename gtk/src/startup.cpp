@@ -17,7 +17,7 @@
 **  
 */
 
-
+#include <config.h>
 #include "startup.h"
 #include "gtkwrappers.h"
 #include "shell.h"

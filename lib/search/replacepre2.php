@@ -27,7 +27,7 @@ $database_search = Database_Search::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$siteUrl = $database_config_general->getSiteURL ();
+$siteUrl = Database_Config_General::getSiteURL ();
 
 
 // Get search variables from the query.
@@ -39,7 +39,7 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Get the Bible and passage for this identifier.
-$details = $database_search->getBiblePassage ($id);
+$details = request->database_search()->getBiblePassage ($id);
 $bible = $details ['bible'];
 $book = $details ['book'];
 $chapter = $details ['chapter'];
@@ -48,9 +48,9 @@ $verse = $details ['verse'];
 
 // Get the plain text or the USFM.
 if ($searchplain) {
-  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
 } else {
-  $text = $database_search->getBibleVerseUsfm (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseUsfm (bible, book, chapter, $verse);
 }
 
 
@@ -58,16 +58,16 @@ if ($searchplain) {
 $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
 
 
-$oldtext =  Filter_Markup::words (array ($searchfor), $text);
+$oldtext =  filter_string_markup_words (array ($searchfor), $text);
 
 
 if ($casesensitive) {
   $newtext = str_replace ($searchfor, $replacewith, $text);
 } else {
-  $needles = Filter_Search::needles ($searchfor, $text);
+  $needles = filter_string_search_needles ($searchfor, $text);
   $newtext = str_replace ($needles, $replacewith, $text);
 }
-if ($replacewith != "") $newtext =  Filter_Markup::words (array ($replacewith), $newtext);
+if ($replacewith != "") $newtext =  filter_string_markup_words (array ($replacewith), $newtext);
 
 
 // The id sent to the browser contains bible identifier, book, chapter, and verse.

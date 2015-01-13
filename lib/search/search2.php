@@ -27,7 +27,7 @@ $database_search = Database_Search::getInstance ();
 $database_volatile = Database_Volatile::getInstance ();
 
 
-$siteUrl = $database_config_general->getSiteURL ();
+$siteUrl = Database_Config_General::getSiteURL ();
 
 
 @$bible = request->query ['bible'];
@@ -50,7 +50,7 @@ if (isset ($hit)) {
 
 
   // Get the Bible and passage for this identifier.
-  $details = $database_search->getBiblePassage ($hit);
+  $details = request->database_search()->getBiblePassage ($hit);
   $bible = $details ['bible'];
   $book = $details ['book'];
   $chapter = $details ['chapter'];
@@ -59,15 +59,15 @@ if (isset ($hit)) {
   
   // Get the plain text or USFM.
   if ($plaintext) {
-    $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+    $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
   } else {
-    $text = $database_search->getBibleVerseUsfm (bible, book, chapter, $verse);
+    $text = request->database_search()->getBibleVerseUsfm (bible, book, chapter, $verse);
   }
 
   
   // Format it.
   $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
-  $text =  Filter_Markup::words (array ($query), $text);
+  $text =  filter_string_markup_words (array ($query), $text);
   $output = "<div>$link $text</div>";
 
   
@@ -100,15 +100,15 @@ if (isset ($query)) {
   $hits = array ();
   if ($plaintext) {
     if ($casesensitive) {
-      $hits = $database_search->searchBibleTextCaseSensitive ($bible, $query);
+      $hits = request->database_search()->searchBibleTextCaseSensitive ($bible, $query);
     } else {
-      $hits = $database_search->searchBibleText ($bible, $query);
+      $hits = request->database_search()->searchBibleText ($bible, $query);
     }
   } else {
     if ($casesensitive) {
-      $hits = $database_search->searchBibleUsfmCaseSensitive ($bible, $query);
+      $hits = request->database_search()->searchBibleUsfmCaseSensitive ($bible, $query);
     } else {
-      $hits = $database_search->searchBibleUsfm ($bible, $query);
+      $hits = request->database_search()->searchBibleUsfm ($bible, $query);
     }
   }
   
@@ -119,7 +119,7 @@ if (isset ($query)) {
     $book = $ipc_focus->getBook ();
     $bookhits = array ();
     for ($hits as $hit) {
-      $details = $database_search->getBiblePassage ($hit);
+      $details = request->database_search()->getBiblePassage ($hit);
       if ($book == $details ['book']) {
         $bookhits [] = $hit;
       }

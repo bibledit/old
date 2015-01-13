@@ -33,7 +33,7 @@ $database_offlineresources = Database_OfflineResources::getInstance ();
 Database_Logs::log (gettext("Synchronizing external resources"), Filter_Roles::translator ());
 
 
-$address = $database_config_general->getServerAddress ();
+$address = Database_Config_General::getServerAddress ();
 $url = "$address/sync/externalresources.php";
 
 
