@@ -21,7 +21,7 @@
 #ifndef INCLUDED_UNAME_H
 #define INCLUDED_UNAME_H
 
-
+#include <config.h>
 #include "libraries.h"
 #include <glib.h>
 #include <gtk/gtk.h>
