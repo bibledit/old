@@ -79,7 +79,7 @@ void timer_index ()
         tasks_logic_queue (MAINTAINDATABASE);
       }
       
-      // Re-index Bible and notes.
+      // Re-index Bibles and notes.
       if ((hour == 2) && (minute == 0)) {
         tasks_logic_queue (REINDEXBIBLES);
         tasks_logic_queue (REINDEXNOTES);
