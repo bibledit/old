@@ -923,6 +923,7 @@ string substr_replace (string original, string replacement, size_t start, size_t
 }
 
 
+
 #define MY_NUMBERS "0123456789"
 string number_in_string (const string & str)
 {
@@ -936,6 +937,7 @@ string number_in_string (const string & str)
   return output;
 }
 #undef MY_NUMBERS
+
 
 
 // This function marks the array of $words in the string $text.
