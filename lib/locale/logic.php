@@ -28,7 +28,7 @@ class Locale_Logic
   private function __construct ()
   {
     $database_config_general = Database_Config_General::getInstance();
-    $locale = $database_config_general->getSiteLanguage ();
+    $locale = Database_Config_General::getSiteLanguage ();
     if ($locale != "") {
       $textdomain = dirname (__FILE__);
       $content = "$textdomain/$locale.mo";

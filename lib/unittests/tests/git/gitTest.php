@@ -39,7 +39,7 @@ class filterGitTest extends PHPUnit_Framework_TestCase
     $this->tearDown ();
 
     $database_search = Database_Search::getInstance ();
-    $database_search->create ();
+    request->database_search()->create ();
     $database_bibles = Database_Bibles::getInstance ();
     request->database_bibles()->createBible ($this->bible);
 

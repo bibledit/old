@@ -79,7 +79,7 @@ $exportedBible = basename (dirname (dirname ($backlinkUrl)));
 
 
 // Search the Bible text in the exported Bible.
-$ids = $database_search->searchText ($queryString, array ($exportedBible));
+$ids = request->database_search()->searchText ($queryString, array ($exportedBible));
 
 
 // Hit count.
@@ -93,7 +93,7 @@ for ($ids as $id) {
 
 
   // Get the details of this search hit.
-  $details = $database_search->getBiblePassage ($id);
+  $details = request->database_search()->getBiblePassage ($id);
   if ($details == NULL) continue;
   $bible = $details["bible"];
   $book = $details ["book"];
@@ -115,7 +115,7 @@ for ($ids as $id) {
 
 
   // The excerpt.
-  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.

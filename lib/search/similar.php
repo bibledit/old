@@ -45,7 +45,7 @@ if (isset ($load)) {
   
   // Text of the focused verse in the active Bible.
   // Remove all punctuation from it.
-  $versetext = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+  $versetext = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
   $punctuation = Database_Config_Bible::getSentenceStructureEndPunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
   $versetext = str_replace ($punctuation, "", $versetext);
@@ -69,7 +69,7 @@ if (isset ($words)) {
   $words = explode (" " , $words);
   
   // Include items if there are no more search hits than 30% of the total number of verses in the Bible.
-  $maxcount = intval (0.3 * $database_search->getVerseCount ($bible));
+  $maxcount = intval (0.3 * request->database_search()->getVerseCount ($bible));
 
   // Store how often a verse occurs in an array.
   // The keys are the identifiers of the search results.
@@ -79,7 +79,7 @@ if (isset ($words)) {
   for ($words as $word) {
     
     // Find out how often this word occurs in the Bible. Skip if too often.
-    $ids = $database_search->searchBibleText ($bible, $word);
+    $ids = request->database_search()->searchBibleText ($bible, $word);
     $count = count ($ids);
     if ($count > $maxcount) continue;
     
@@ -110,14 +110,14 @@ if (isset ($words)) {
 if (isset ($id)) {
   
   // Get the Bible and passage for this identifier.
-  $details = $database_search->getBiblePassage ($id);
+  $details = request->database_search()->getBiblePassage ($id);
   $bible = $details ['bible'];
   $book = $details ['book'];
   $chapter = $details ['chapter'];
   $verse = $details ['verse'];
   
   // Get the plain text.
-  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
 
   // Get search words.
   $words = $database_volatile->getValue ($myIdentifier, "searchsimilar");

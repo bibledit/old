@@ -48,10 +48,10 @@ exec ("cd $escapedDir; git config push.default matching");
 
 // On some machines the mail name and address are not set properly; therefore these are set here.
 $database_config_general = Database_Config_General::getInstance();
-$mail_name = $database_config_general->getSiteMailName();
+$mail_name = Database_Config_General::getSiteMailName();
 if (!$mail_name) $mail_name = "Bibledit";
 exec ("cd $escapedDir; git config user.name \"$mail_name\"");
-$mail_address = $database_config_general->getSiteMailAddress();
+$mail_address = Database_Config_General::getSiteMailAddress();
 if (!$mail_address) $mail_address = "bibledit-web@bibledit.org";
 exec ("cd $escapedDir; git config user.email \"$mail_address\"");
 

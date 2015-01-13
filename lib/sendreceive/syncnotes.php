@@ -49,7 +49,7 @@ if (!$healthy) {
 }
 
 
-$address = $database_config_general->getServerAddress ();
+$address = Database_Config_General::getServerAddress ();
 $url = "$address/sync/notes.php";
 
 

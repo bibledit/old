@@ -64,7 +64,7 @@ request->database_config_user()->setStylesheet ($standard_sheet);
 
 
 // Set the site language to "Default"
-$database_config_general->setSiteLanguage (Locale_Logic::filterDefault ("default"));
+Database_Config_General::setSiteLanguage (Locale_Logic::filterDefault ("default"));
 
 
 // Ensure the default users are there.

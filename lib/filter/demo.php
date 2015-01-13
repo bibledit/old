@@ -50,7 +50,7 @@ class Filter_Demo
     $warning = "";
     if (config_logic_client_enabled ()) {
       $database_config_general = Database_Config_General::getInstance ();
-      $address = $database_config_general->getServerAddress ();
+      $address = Database_Config_General::getServerAddress ();
       if ($address == self::demo_address ()) {
         $warning = gettext("Warning:") 
            . " " . gettext("The client is connected to a public demo server.") 

@@ -41,7 +41,7 @@ class SendReceive_Logic
     // Deal with a numerical minute to find out whether it's time to automatically sync.
     if (is_numeric ($control)) {
       $database_config_general = Database_Config_General::getInstance ();
-      $repeat = $database_config_general->getRepeatSendReceive ();
+      $repeat = Database_Config_General::getRepeatSendReceive ();
       // Sync every hour.
       if ($repeat == 1) {
         $control = $control % 60;

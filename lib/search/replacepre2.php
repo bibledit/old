@@ -27,7 +27,7 @@ $database_search = Database_Search::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$siteUrl = $database_config_general->getSiteURL ();
+$siteUrl = Database_Config_General::getSiteURL ();
 
 
 // Get search variables from the query.
@@ -39,7 +39,7 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Get the Bible and passage for this identifier.
-$details = $database_search->getBiblePassage ($id);
+$details = request->database_search()->getBiblePassage ($id);
 $bible = $details ['bible'];
 $book = $details ['book'];
 $chapter = $details ['chapter'];
@@ -48,9 +48,9 @@ $verse = $details ['verse'];
 
 // Get the plain text or the USFM.
 if ($searchplain) {
-  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
 } else {
-  $text = $database_search->getBibleVerseUsfm (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseUsfm (bible, book, chapter, $verse);
 }
 
 

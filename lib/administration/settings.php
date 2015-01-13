@@ -38,7 +38,7 @@ $database_config_general = Database_Config_General::getInstance ();
 if (isset ($timezone)) {
   $timezones = Filter_Datetime::timezones ();
   if (in_array ($timezone, $timezones)) {
-    $database_config_general->setTimezone ($timezone);
+    Database_Config_General::setTimezone ($timezone);
   }
 }
 
@@ -49,7 +49,7 @@ if (isset ($timezone)) {
 if (isset ($utc_offset_minutes)) {
   $timezone = timezone_name_from_abbr ("", $utc_offset_minutes * 60, 0);
   if ($timezone) {
-    $database_config_general->setTimezone ($timezone);
+    Database_Config_General::setTimezone ($timezone);
   }
 }
 

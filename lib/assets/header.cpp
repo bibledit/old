@@ -96,12 +96,9 @@ void Assets_Header::setEditorStylesheet ()
 }
 
 
-void Assets_Header::setSearchQuery (string query) // C++Port
+void Assets_Header::setSearchQuery (string query)
 {
-  query = ""; // Temporal.
-  /* 
-    $this->view->view->search_query = $query;
-   */
+  view->set_variable ("searchquery", query);
 }
 
 

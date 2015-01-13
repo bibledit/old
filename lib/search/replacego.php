@@ -28,7 +28,7 @@ $database_search = Database_Search::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$siteUrl = $database_config_general->getSiteURL ();
+$siteUrl = Database_Config_General::getSiteURL ();
 
 
 // Get the action variables from the query.
@@ -53,7 +53,7 @@ $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 // As a standard to compare against, get the plain text from the search database,
 // do the replacements, count the replacements, and then get the desired new plain text.
 $standardReplacementCount = 0;
-$standardPlainText = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+$standardPlainText = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
 if ($casesensitive) {
   $standardPlainText = str_replace ($searchfor, $replacewith, $standardPlainText, $standardReplacementCount);
 } else {

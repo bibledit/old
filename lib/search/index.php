@@ -37,14 +37,14 @@ if (!isset ($bible)) $bible = request->database_config_user()->getBible ();
 if (isset ($id)) {
   
   // Get the Bible and passage for this identifier.
-  $details = $database_search->getBiblePassage ($id);
+  $details = request->database_search()->getBiblePassage ($id);
   $bible = $details ['bible'];
   $book = $details ['book'];
   $chapter = $details ['chapter'];
   $verse = $details ['verse'];
   
   // Get the plain text.
-  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
   
   // Format it.
   $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
@@ -61,7 +61,7 @@ if (isset ($id)) {
 
 if (isset ($q)) {
   // Search in the active Bible.
-  $hits = $database_search->searchBibleText ($bible, $q);
+  $hits = request->database_search()->searchBibleText ($bible, $q);
   // Output results.
   for ($hits as $hit) {
     echo "$hit\n";
