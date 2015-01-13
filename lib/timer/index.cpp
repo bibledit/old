@@ -79,7 +79,7 @@ void timer_index ()
         tasks_logic_queue (MAINTAINDATABASE);
       }
       
-      // Delete temporal files older than a few days. Todo
+      // Delete temporal files older than a few days.
       if ((hour == 2) && (minute == 0)) {
         tasks_logic_queue (CLEANTMPFILES);
       }

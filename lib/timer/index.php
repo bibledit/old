@@ -110,22 +110,6 @@ if (!$client) {
 }
 
 
-// A flag is set on setup to (re-)create a number of databases. Todo
-$create_databases_flag = "../config/databases";
-if (file_exists ($create_databases_flag)) {
-  unlink ($create_databases_flag);
-  // Strong's numbers and English glosses for Bible.
-  $directory = dirname (__DIR__) . "/kjv";
-  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/import.php"));
-  // Hebrew Bible.
-  $directory = dirname (__DIR__) . "/morphhb";
-  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/import.php"));
-  // Greek Bible.
-  $directory = dirname (__DIR__) . "/sblgnt";
-  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/import.php"));
-}
-
-
 // Check open installation.
 if ($minute == 10) {
   include ("config/open.php");

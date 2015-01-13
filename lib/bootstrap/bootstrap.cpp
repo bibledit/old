@@ -76,6 +76,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/save.h>
 #include <edit/styles.h>
 #include <search/search.h>
+#include <search/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -86,7 +87,12 @@ void bootstrap_index (Webserver_Request * request)
   string url = request->get.substr (1);
   
   // Serve graphics, stylesheets, JavaScript.
-  if ((extension  == "ico") || (extension  == "png") || (extension == "css") || (extension == "js")) http_serve_file (request);
+  if (   (extension == "ico")
+      || (extension == "png")
+      || (extension == "gif")
+      || (extension == "css")
+      || (extension == "js")
+      ) http_serve_file (request);
   
   // Force setup.
   else if (config_logic_version () != Database_Config_General::getInstalledVersion ()) request->reply = setup_index (request);
@@ -114,6 +120,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == editverse_index_url ()) && editverse_index_acl (request)) request->reply = editverse_index (request);
   else if ((url == editusfm_index_url ()) && editusfm_index_acl (request)) request->reply = editusfm_index (request);
   else if ((url == edit_index_url ()) && edit_index_acl (request)) request->reply = edit_index (request);
+  else if ((url == search_index_url ()) && search_index_acl (request)) request->reply = search_index (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
