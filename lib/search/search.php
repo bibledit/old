@@ -128,7 +128,7 @@ for ($hits as $hit) {
   $textLinks [] = $link;
 
   // The excerpt.
-  $text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
+  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.

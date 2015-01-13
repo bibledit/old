@@ -30,6 +30,6 @@ $message = request->query['message'];
 if ($message == "") die;
 
 $database_ipc = Database_Ipc::getInstance();
-$database_ipc->storeMessage ($user, $channel, $subject, $message);
+request->database_ipc()->storeMessage ($user, $channel, $subject, $message);
 
 ?>

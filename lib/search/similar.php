@@ -45,7 +45,7 @@ if (isset ($load)) {
   
   // Text of the focused verse in the active Bible.
   // Remove all punctuation from it.
-  $versetext = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
+  $versetext = $database_search->getBibleVerseText (bible, book, chapter, $verse);
   $punctuation = Database_Config_Bible::getSentenceStructureEndPunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
   $versetext = str_replace ($punctuation, "", $versetext);
@@ -117,7 +117,7 @@ if (isset ($id)) {
   $verse = $details ['verse'];
   
   // Get the plain text.
-  $text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
+  $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
 
   // Get search words.
   $words = $database_volatile->getValue ($myIdentifier, "searchsimilar");

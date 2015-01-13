@@ -36,7 +36,7 @@ $resource = Filter_Cli::argument (@$argv, 1);
 Database_Logs::log (gettext("Converting USFM Resource to Bible") . ": $resource");
 
 
-$database_bibles->createBible ($resource);
+request->database_bibles()->createBible ($resource);
 $books = $database_usfmresources->getBooks ($resource);
 for ($books as $book) {
   $bookname = Database_Books::getEnglishFromId ($book);
@@ -44,7 +44,7 @@ for ($books as $book) {
   $chapters = $database_usfmresources->getChapters ($resource, $book);
   for ($chapters as $chapter) {
     $usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
-    $database_bibles->storeChapter ($resource, $book, $chapter, $usfm);
+    request->database_bibles()->storeChapter ($resource, $book, $chapter, $usfm);
   }
 }
 $database_usfmresources->deleteResource ($resource);

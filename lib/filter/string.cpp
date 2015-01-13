@@ -438,7 +438,7 @@ string unicode_string_substr (string s, size_t pos, size_t len)
 
 
 // Equivalent to PHP's mb_strpos function.
-size_t unicode_string_strpos (string haystack, string needle, size_t offset) // Todo write and test.
+size_t unicode_string_strpos (string haystack, string needle, size_t offset)
 {
   int haystack_length = unicode_string_length (haystack);
   int needle_length = unicode_string_length (needle);

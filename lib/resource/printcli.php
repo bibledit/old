@@ -58,11 +58,11 @@ $to = filter_passage_to_integer ($passage);
 $result = array ();
 
 
-$books = $database_bibles->getBooks ($bible);
+$books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
-  $chapters = $database_bibles->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters ($bible, $book);
   for ($chapters as $chapter) {
-    $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+    $usfm = request->database_bibles()->getChapter (bible, book, chapter);
     $verses = usfm_get_verse_numbers ($usfm);
     for ($verses as $verse) {
       $passage = filter_passage_to_integer (array ($book, $chapter, $verse));

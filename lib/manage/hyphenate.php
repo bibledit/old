@@ -52,20 +52,20 @@ $secondset = $secondset[0];
 
 
 // Delete and (re)create the hyphenated Bible, and grant privileges.
-$database_bibles->deleteBible ($outputBible);
-$database_bibles->createBible ($outputBible);
+request->database_bibles()->deleteBible ($outputBible);
+request->database_bibles()->createBible ($outputBible);
 $database_users->grantAccess2Bible ($user, $outputBible);
 
 
 // Go through the input Bible's books and chapters.
-$books = $database_bibles->getBooks ($inputBible);
+$books = request->database_bibles()->getBooks ($inputBible);
 for ($books as $book) {
   Database_Logs::log (Database_Books::getEnglishFromId ($book));
-  $chapters = $database_bibles->getChapters ($inputBible, $book);
+  $chapters = request->database_bibles()->getChapters ($inputBible, $book);
   for ($chapters as $chapter) {
-    $data = $database_bibles->getChapter ($inputBible, $book, $chapter);
+    $data = request->database_bibles()->getChapter ($inputBible, $book, $chapter);
     $data = Filter_Hyphenate::atTransition ($firstset, $secondset, $data);
-    $database_bibles->storeChapter ($outputBible, $book, $chapter, $data);
+    request->database_bibles()->storeChapter ($outputBible, $book, $chapter, $data);
   }
 }
 

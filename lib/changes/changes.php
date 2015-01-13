@@ -28,7 +28,7 @@ $database_logs = Database_Logs::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$username = $session_logic->currentUser ();
+$username = request->session_logic()->currentUser ();
 
 
 // Handle AJAX call to remove a change notification.
@@ -47,7 +47,7 @@ if (isset ($navigate)) {
   $id = $navigate;
   $passage = $database_modifications->getNotificationPassage ($id);
   if ($passage != NULL) {
-    $ipc_focus = Ipc_Focus::getInstance();
+    
     $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
     Navigation_Passage::recordHistory ($passage['book'], $passage['chapter'], $passage['verse']);
   }

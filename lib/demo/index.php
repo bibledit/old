@@ -56,7 +56,7 @@ styles_sheets_create_all ();
 
 
 // Set the export stylesheet to "Standard" for all Bibles and the admin.
-$bibles = $database_bibles->getBibles ();
+$bibles = request->database_bibles()->getBibles ();
 for ($bibles as $bible) {
   Database_Config_Bible::setExportStylesheet ($bible, $standard_sheet);
 }
@@ -85,7 +85,7 @@ for ($users as $user) {
 
 
 // Ensure the KJV Bible exists.
-$database_bibles->createBible ("KJV");
+request->database_bibles()->createBible ("KJV");
 $database_users->grantAccess2Bible ("admin", $bible);
 
 
@@ -625,28 +625,28 @@ for ($data as $usfm) {
 
 
 // Clean out nearly empty chapters from the Bibles.
-$bibles = $database_bibles->getBibles ();
+$bibles = request->database_bibles()->getBibles ();
 for ($bibles as $bible) {
-  $books = $database_bibles->getBooks ($bible);
+  $books = request->database_bibles()->getBooks ($bible);
   for ($books as $book) {
-    $chapters = $database_bibles->getChapters ($bible, $book);
+    $chapters = request->database_bibles()->getChapters ($bible, $book);
     for ($chapters as $chapter) {
       // Remove chapters, other than 0, that are rather short, as these chapters likely contain no text, but USFM markers only.
       if ($chapter == 0) continue;
-      $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      $usfm = request->database_bibles()->getChapter (bible, book, chapter);
       $length = strlen ($usfm);
       if ($length < 1000) {
-        Bible_Logic::deleteChapter ($bible, $book, $chapter);
+        Bible_Logic::deleteChapter (bible, book, chapter);
       }
     }
     // If a book contains chapter 0 only, remove that entire book.
-    $chapters = $database_bibles->getChapters ($bible, $book);
+    $chapters = request->database_bibles()->getChapters ($bible, $book);
     if ($chapters == array (0)) {
       Bible_Logic::deleteBook ($bible, $book);
     }
   }
   // If a Bible contains no books, remove that Bible.
-  $books = $database_bibles->getBooks ($bible);
+  $books = request->database_bibles()->getBooks ($bible);
   if (empty ($books)) Bible_Logic::deleteBible ($bible);
 }
 

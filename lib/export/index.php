@@ -30,7 +30,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
 
 
-$bibles = $database_bibles->getBibles ();
+$bibles = request->database_bibles()->getBibles ();
 
 
 // Go through all sub directories of the exports directory.

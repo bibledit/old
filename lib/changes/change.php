@@ -40,7 +40,7 @@ if (isset ($unsubscribe)) {
 // Note unassign handler.
 @$unassign = request->post['unassign'];
 if (isset ($unassign)) {
-  $notes_logic->unassignUser (Filter_Numeric::integer_in_string ($unassign), $session_logic->currentUser ());
+  $notes_logic->unassignUser (Filter_Numeric::integer_in_string ($unassign), request->session_logic()->currentUser ());
   die;
 }
 
@@ -57,7 +57,7 @@ if (isset ($delete)) {
 // From here on the script will produce output.
 $view = new Assets_View (__FILE__);
 $session_logic = Session_Logic::getInstance ();
-$username = $session_logic->currentUser ();
+$username = request->session_logic()->currentUser ();
 $level = $session_logic->currentLevel ();
 $view->view->level = $level;
 

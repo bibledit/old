@@ -31,8 +31,8 @@ class ipcNotesTest extends PHPUnit_Framework_TestCase
 
   protected function tearDown ()
   {
-    $database_ipc = Database_Ipc::getInstance ();
-    $database_ipc->trim ();
+    
+    request->database_ipc()->trim ();
     $session_logic = Session_Logic::getInstance ();
     $session_logic->setUsername ("");
   }

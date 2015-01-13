@@ -57,7 +57,7 @@ $view = new Assets_View (__FILE__);
 
 
 // The Bibles the current user has access to.
-$bibles = access_bible_bibles ($session_logic->currentUser ());
+$bibles = access_bible_bibles (request->session_logic()->currentUser ());
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -87,7 +87,7 @@ for ($identifiers as $identifier) {
   if ($passage_inclusion_selector) {
     $passages = $database_notes->getPassages ($identifier);
     for ($passages as $passage) {
-      $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
+      $usfm = request->database_bibles()->getChapter ($bible, $passage[0], $passage[1]);
       $text = usfm_get_verse_text ($usfm, $passage[2]);
       $verse_text += $text;
       $verse_text += "\n";

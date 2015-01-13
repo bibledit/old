@@ -30,7 +30,7 @@ $database_mappings = Database_Mappings::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$username = $session_logic->currentUser ();
+$username = request->session_logic()->currentUser ();
 $userlevel = $session_logic->currentLevel ();
 
 

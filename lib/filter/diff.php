@@ -55,8 +55,8 @@ class Filter_Diff
       $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
       for ($chapters as $chapter) {
         // Go through the combined verse numbers in the old and new chapter.
-        $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
-        $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+        $old_chapter_usfm = $database_modifications->getTeamDiff (bible, book, chapter);
+        $new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
         $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
         $new_verse_numbers = usfm_get_verse_numbers ($new_chapter_usfm);
         $verses = array_merge ($old_verse_numbers, $new_verse_numbers);

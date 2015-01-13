@@ -88,14 +88,14 @@ class Resource_Logic
     $database_config_user = Database_Config_User::getInstance ();
     $database_config_bible = Database_Config_Bible::getInstance ();
 
-    $bibles = $database_bibles->getBibles ();
+    $bibles = request->database_bibles()->getBibles ();
     $usfms = $database_usfmresources->getResources ();
     $externals = $database_resources->getNames ();
 
     $isBible = in_array ($resource, $bibles);
     $isUsfm = in_array ($resource, $usfms);
     if ($isBible || $isUsfm) {
-      if ($isBible) $chapter_usfm = $database_bibles->getChapter ($resource, $book, $chapter);
+      if ($isBible) $chapter_usfm = request->database_bibles()->getChapter ($resource, $book, $chapter);
       if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
       $verse_usfm = usfm_get_verse_text ($chapter_usfm, $verse);
       $database_config_user = Database_Config_User::getInstance ();
@@ -135,14 +135,14 @@ class Resource_Logic
     $database_usfmresources = Database_UsfmResources::getInstance ();
     $database_offlineresources = Database_OfflineResources::getInstance ();
 
-    $bibles = $database_bibles->getBibles ();
+    $bibles = request->database_bibles()->getBibles ();
     $usfms = $database_usfmresources->getResources ();
     $externals = $database_resources->getNames ();
 
     $isBible = in_array ($resource, $bibles);
     $isUsfm = in_array ($resource, $usfms);
     if ($isBible || $isUsfm) {
-      if ($isBible) $chapter_usfm = $database_bibles->getChapter ($resource, $book, $chapter);
+      if ($isBible) $chapter_usfm = request->database_bibles()->getChapter ($resource, $book, $chapter);
       if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
       $verse_usfm = usfm_get_verse_text ($chapter_usfm, $verse);
       $database_config_user = Database_Config_User::getInstance ();

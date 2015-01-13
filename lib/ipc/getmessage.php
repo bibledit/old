@@ -51,7 +51,7 @@ while (!is_array ($values)) {
   clearstatcache ();
   $counter++;
   if ($counter > 600) $id--;
-  $values = $database_ipc->retrieveMessage ($id, $user, $channel, $command);
+  $values = request->database_ipc()->retrieveMessage ($id, $user, $channel, $command);
 }
 
 
@@ -63,7 +63,7 @@ $message = $values['message'];
 
 if (is_int ($id)) {
   if ($channel != "") {
-    $database_ipc->deleteMessage ($id);
+    request->database_ipc()->deleteMessage ($id);
   }
 }
 

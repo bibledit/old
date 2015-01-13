@@ -29,7 +29,7 @@ $session_logic = Session_Logic::getInstance();
 $trash_handler = Trash_Handler::getInstance ();
 
 
-$user = $session_logic->currentUser ();
+$user = request->session_logic()->currentUser ();
 
 
 $success = "";

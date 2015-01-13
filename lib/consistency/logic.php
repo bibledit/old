@@ -76,7 +76,7 @@ class Consistency_Logic
           // If there was no change, then the data can be fetched from the volatile database.
           $redoPassage = false;
           $passageKey = "$book.$chapter.$verse";
-          $currentChapterId = $database_bibles->getChapterId ($resources [0], $book, $chapter);
+          $currentChapterId = request->database_bibles()->getChapterId ($resources [0], $book, $chapter);
           $storedChapterId = $database_volatile->getValue ($this->id, "$passageKey.id");
           if ($currentChapterId != $storedChapterId) {
             $database_volatile->setValue ($this->id, "$passageKey.id", $currentChapterId);

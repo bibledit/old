@@ -42,7 +42,7 @@ Database_Logs::log (gettext("Sending statistics to users"), Filter_Roles::admin 
 $siteUrl = $database_config_general->getSiteURL ();
 
 
-$bibles = $database_bibles->getBibles ();
+$bibles = request->database_bibles()->getBibles ();
 
 
 $users = $database_users->getUsers ();

@@ -33,7 +33,7 @@ private $temporary_folder;
     config_logic_set (false);
     $this->temporary_folder = uniqid (sys_get_temp_dir() . "/");
     mkdir ($this->temporary_folder);
-    $database_bibles->createBible ("phpunit");
+    request->database_bibles()->createBible ("phpunit");
     Bible_Logic::storeChapter ("phpunit", 1, 2, "old chapter text");
     $database_modifications->truncateTeams ();
     Bible_Logic::storeChapter ("phpunit", 1, 2, "new chapter text");
@@ -45,7 +45,7 @@ private $temporary_folder;
     $database_bibles = Database_Bibles::getInstance ();
     $database_modifications = Database_Modifications::getInstance ();
     config_logic_set (false);
-    $database_bibles->deleteBible ("phpunit");
+    request->database_bibles()->deleteBible ("phpunit");
     $database_modifications->truncateTeams ();
     filter_url_rmdir ($this->temporary_folder);
   }

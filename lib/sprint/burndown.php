@@ -94,7 +94,7 @@ $day = date ("j", $time);
 
 $bibles = array ($bible);
 if ($bible == "") {
-  $bibles = $database_bibles->getBibles ();
+  $bibles = request->database_bibles()->getBibles ();
 }
 
 

@@ -59,9 +59,9 @@ if (isset ($hit)) {
   
   // Get the plain text or USFM.
   if ($plaintext) {
-    $text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
+    $text = $database_search->getBibleVerseText (bible, book, chapter, $verse);
   } else {
-    $text = $database_search->getBibleVerseUsfm ($bible, $book, $chapter, $verse);
+    $text = $database_search->getBibleVerseUsfm (bible, book, chapter, $verse);
   }
 
   
@@ -115,7 +115,7 @@ if (isset ($query)) {
   
   // Deal with possible searching in the current book only.
   if ($currentbook) {
-    $ipc_focus = Ipc_Focus::getInstance();
+    
     $book = $ipc_focus->getBook ();
     $bookhits = array ();
     for ($hits as $hit) {

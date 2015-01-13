@@ -35,7 +35,7 @@ $bible = request->database_config_user()->getBible ();
 if (isset (request->query ["generate"])) {
   $jobId = $database_jobs->getNewId ();
   $database_jobs->setLevel ($jobId, Filter_Roles::consultant ());
-  $username = $session_logic->currentUser ();
+  $username = request->session_logic()->currentUser ();
   tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/printcli.php", $jobId, $username, $bible));
   redirect_browser ("../jobs/index.php?id=$jobId");
   die;
@@ -88,7 +88,7 @@ if (isset ($resources)) {
 if (isset ($frombook)) {
   if ($frombook == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a book"));
-    $books = $database_bibles->getBooks ($bible);
+    $books = request->database_bibles()->getBooks ($bible);
     for ($books as $book) {
       $parameter = "frombook=$book";
       $book = Database_Books::getEnglishFromId ($book);
@@ -107,9 +107,9 @@ if (isset ($frombook)) {
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set ending passage to a sensible value.
       $topassage [0] = $frombook;
-      $chapters = $database_bibles->getChapters ($bible, $topassage [0]);
+      $chapters = request->database_bibles()->getChapters ($bible, $topassage [0]);
       $topassage [1] = array_pop ($chapters);
-      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
+      $verses = usfm_get_verse_numbers (request->database_bibles()->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
       request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     }
@@ -122,7 +122,7 @@ if (isset ($fromchapter)) {
   if ($fromchapter == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
     $passage = explode (".", request->database_config_user()->getPrintPassageFrom ());
-    $chapters = $database_bibles->getChapters ($bible, $passage [0]);
+    $chapters = request->database_bibles()->getChapters ($bible, $passage [0]);
     for ($chapters as $chapter) {
       $parameter = "fromchapter=$chapter";
       $dialog_list->add_row ($chapter, $parameter);
@@ -139,7 +139,7 @@ if (isset ($fromchapter)) {
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set ending chapter / verse to sensible values.
       $topassage [1] = $fromchapter;
-      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
+      $verses = usfm_get_verse_numbers (request->database_bibles()->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
       request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     }
@@ -152,7 +152,7 @@ if (isset ($fromverse)) {
   if ($fromverse == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a verse"));
     $passage = explode (".", request->database_config_user()->getPrintPassageFrom ());
-    $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
+    $usfm = request->database_bibles()->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
     for ($verses as $verse) {
       $parameter = "fromverse=$verse";
@@ -167,7 +167,7 @@ if (isset ($fromverse)) {
     // Sensible matching ending verse.
     $topassage = explode (".", request->database_config_user()->getPrintPassageTo ());
     if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
-      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
+      $verses = usfm_get_verse_numbers (request->database_bibles()->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
       request->database_config_user()->setPrintPassageTo (implode (".", $topassage));
     }
@@ -179,7 +179,7 @@ if (isset ($fromverse)) {
 if (isset ($tobook)) {
   if ($tobook == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a book"));
-    $books = $database_bibles->getBooks ($bible);
+    $books = request->database_bibles()->getBooks ($bible);
     for ($books as $book) {
       $parameter = "tobook=$book";
       $book = Database_Books::getEnglishFromId ($book);
@@ -211,7 +211,7 @@ if (isset ($tochapter)) {
   if ($tochapter == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
     $passage = explode (".", request->database_config_user()->getPrintPassageTo ());
-    $chapters = $database_bibles->getChapters ($bible, $passage [0]);
+    $chapters = request->database_bibles()->getChapters ($bible, $passage [0]);
     for ($chapters as $chapter) {
       $parameter = "tochapter=$chapter";
       $dialog_list->add_row ($chapter, $parameter);
@@ -241,7 +241,7 @@ if (isset ($toverse)) {
   if ($toverse == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a verse"));
     $passage = explode (".", request->database_config_user()->getPrintPassageTo ());
-    $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
+    $usfm = request->database_bibles()->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
     for ($verses as $verse) {
       $parameter = "toverse=$verse";

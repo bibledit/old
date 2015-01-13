@@ -41,7 +41,7 @@ $database_commits = Database_Commits::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
 
 
-$bibles = $database_bibles->getBibles();
+$bibles = request->database_bibles()->getBibles();
 for ($bibles as $bible) {
 
   $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
@@ -101,7 +101,7 @@ for ($bibles as $bible) {
             $old_text = $filter_text_old->text_text->get ();
             $new_text = $filter_text_new->text_text->get ();
             $modification = filter_diff_diff ($old_text, $new_text);
-            $database_history->record ($timestamp, $author, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
+            $database_history->record ($timestamp, $author, bible, book, chapter, $verse, $old_html, $modification, $new_html);
           }
         }
       }

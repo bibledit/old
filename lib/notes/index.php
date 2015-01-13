@@ -43,7 +43,7 @@ if (isset ($preset_selector)) {
   request->database_config_user()->setConsultationNotesTextSelector (0);
   switch ($preset_selector) {
     case "assigned":
-      request->database_config_user()->setConsultationNotesAssignmentSelector ($session_logic->currentUser ());
+      request->database_config_user()->setConsultationNotesAssignmentSelector (request->session_logic()->currentUser ());
       break;
     case "subscribed":
       request->database_config_user()->setConsultationNotesSubscriptionSelector (1);

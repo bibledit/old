@@ -39,7 +39,7 @@ $move = intval (request->query ['move']);
 $usfmArray = array ();
 
 
-$usfmString = $database_bibles->getChapter ($bible, $book, $chapter);
+$usfmString = request->database_bibles()->getChapter (bible, book, chapter);
 if ($usfmString == "") die;
 
 
@@ -62,7 +62,7 @@ $usfmArray [$verse] = $usfm;
 
 
 $usfm = implode ("\n", $usfmArray);
-Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
+Bible_Logic::storeChapter (bible, book, chapter, $usfm);
 
 
 ?>

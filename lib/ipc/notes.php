@@ -38,18 +38,18 @@ class Ipc_Notes
   public function open ($identifier)
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
+    $user = request->session_logic()->currentUser ();
     $database_ipc = Database_Ipc::getInstance();
-    $database_ipc->storeMessage ($user, "", "opennote", $identifier);
+    request->database_ipc()->storeMessage ($user, "", "opennote", $identifier);
   }
 
 
   public function get ()
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
+    $user = request->session_logic()->currentUser ();
     $database_ipc = Database_Ipc::getInstance();
-    $data = $database_ipc->getNote ($user);
+    $data = request->database_ipc()->getNote ($user);
     if ($data == NULL) return NULL;
     $identifier = $data ['message'];
     return $identifier;
@@ -59,14 +59,14 @@ class Ipc_Notes
   public function delete ()
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
+    $user = request->session_logic()->currentUser ();
     $database_ipc = Database_Ipc::getInstance();
-    $data = $database_ipc->getNote ($user);
+    $data = request->database_ipc()->getNote ($user);
     $counter = 0;
     while ($data && ($counter < 100)) {
       $id = $data ['id'];
-      $database_ipc->deleteMessage ($id);
-      $data = $database_ipc->getNote ($user);
+      request->database_ipc()->deleteMessage ($id);
+      $data = request->database_ipc()->getNote ($user);
       $counter++;
     }
   }
@@ -77,14 +77,14 @@ class Ipc_Notes
   public function alive ($alive = false)
   {
     $session_logic = Session_Logic::getInstance ();
-    $user = $session_logic->currentUser ();
-    $database_ipc = Database_Ipc::getInstance ();
+    $user = request->session_logic()->currentUser ();
+    
     if (func_num_args () == 0) {
-      $alive = $database_ipc->getNotesAlive ();
+      $alive = request->database_ipc()->getNotesAlive ();
       return $alive;
     } else {
       $alive = Filter_Bool::int ($alive);
-      $database_ipc->storeMessage ($user, "", "notesalive", $alive);
+      request->database_ipc()->storeMessage ($user, "", "notesalive", $alive);
     }
   }
 

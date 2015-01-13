@@ -26,7 +26,7 @@ class Filter_User
   public static function myIdentifier ()
   {
     $session_logic = Session_Logic::getInstance ();
-    $identifier = hexdec (substr (md5 ($session_logic->currentUser ()), 0, 10));
+    $identifier = hexdec (substr (md5 (request->session_logic()->currentUser ()), 0, 10));
     return $identifier;
   }
 

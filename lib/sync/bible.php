@@ -77,18 +77,18 @@ if ($checksum != Checksum_Logic::get ($oldusfm . $newusfm)) {
 }
 
 
-$serverusfm = $database_bibles->getChapter ($bible, $book, $chapter);
+$serverusfm = request->database_bibles()->getChapter (bible, book, chapter);
 
 
 // Gather data for recording the changes made by the user, for the change notifications.
-$old_id = $database_bibles->getChapterId ($bible, $book, $chapter);
+$old_id = request->database_bibles()->getChapterId (bible, book, chapter);
 $old_text = $serverusfm;
 $new_text = $newusfm;
 
 
 if ($serverusfm == "") {
   // If the chapter on the server is still empty, then just store the client's version on the server, and that's it.
-  Bible_Logic::storeChapter ($bible, $book, $chapter, $newusfm);
+  Bible_Logic::storeChapter (bible, book, chapter, $newusfm);
 } else if ($newusfm != $serverusfm) {
   // Do a merge in case the client sends USFM that differs from what's on the server.
   $mergedusfm = Filter_Merge::run ($oldusfm, $newusfm, $serverusfm);
@@ -103,16 +103,16 @@ if ($serverusfm == "") {
     $database_mail->send ($username, $subject, $body);
   } else {
     // Update the server with the new chapter data.
-    Bible_Logic::storeChapter ($bible, $book, $chapter, $mergedusfm);
+    Bible_Logic::storeChapter (bible, book, chapter, $mergedusfm);
   }
 }
 
 
 // If text was saved, record it as a change entered by the user.
-$new_id = $database_bibles->getChapterId ($bible, $book, $chapter);
+$new_id = request->database_bibles()->getChapterId (bible, book, chapter);
 if ($new_id != $old_id) {
   $database_modifications = Database_Modifications::getInstance ();
-  $database_modifications->recordUserSave ($username, $bible, $book, $chapter, $old_id, $old_text, $new_id, $new_text);
+  $database_modifications->recordUserSave ($username, bible, book, chapter, $old_id, $old_text, $new_id, $new_text);
 }
 
 
@@ -121,7 +121,7 @@ if ($new_id != $old_id) {
 // This means that in most cases, nothing will be sent back.
 // That saves bandwidth.
 // And it allows the user on the client to keep editing without the returned chapter to overwrite the changes the user made.
-$serverusfm = $database_bibles->getChapter ($bible, $book, $chapter);
+$serverusfm = request->database_bibles()->getChapter (bible, book, chapter);
 if ($serverusfm != $newusfm) {
   $checksum = Checksum_Logic::get ($serverusfm);
   echo "$checksum\n$serverusfm";
