@@ -18,24 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_Search
+class Filter_Search // Todo port / write unit tests.
 {
-
-  // This function returns an array of needles to look for.
-  // The needles contain the $search word as it occurs in the $string
-  // in upper case or lower case or any mixed case.
-  public static function needles ($search, $string)
-  {
-    $needles = array ();
-    $position = mb_stripos ($string, $search, 0);
-    while ($position !== false) {
-      $needle = unicode_string_substr ($string, $position, unicode_string_length ($search));
-      $needles [] = $needle;
-      $position = mb_stripos ($string, $search, $position + 1);
-    }
-    $needles = array_unique ($needles);
-    return $needles;
-  }
 
 
 }

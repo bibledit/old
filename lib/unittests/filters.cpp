@@ -1884,7 +1884,7 @@ void test_filters_test12 ()
 }
 
 
-void test_filters_test13 ()
+void test_filters_test13 () // Todo
 {
   // Unicode tests.
   evaluate (__LINE__, __func__, 4, unicode_string_length ("test"));
@@ -1910,6 +1910,10 @@ void test_filters_test13 ()
   evaluate (__LINE__, __func__, -1, unicode_string_strpos (hebrew, needle, 4));
   evaluate (__LINE__, __func__, -1, unicode_string_strpos ("", "3"));
   
+  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
+  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
+  evaluate (__LINE__, __func__, -1, unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
+
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
   
