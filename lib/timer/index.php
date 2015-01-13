@@ -102,12 +102,6 @@ if (($hour == 1) && ($minute == 10)) {
 }
 
 
-// Delete temporal files older than a few days. Todo
-if (($hour == 2) && ($minute == 0)) {
-  tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/temp.php"));
-}
-
-
 // Email statistics to the users.
 if (!$client) {
   if (($hour == 3) && ($minute == 0)) {

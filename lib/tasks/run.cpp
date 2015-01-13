@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/import_task.h>
 #include <compare/compare.h>
 #include <database/maintenance.h>
+#include <tmp/tmp.h>
 
 
 mutex mutex_tasks; 
@@ -91,6 +92,8 @@ void tasks_run_one (string filename)
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
   } else if (command == MAINTAINDATABASE) {
     database_maintenance ();
+  } else if (command == CLEANTMPFILES) {
+    tmp_tmp ();
   } else if (command == "Placerholder") {
   } else {
     Database_Logs::log ("Unknown task: " + command);

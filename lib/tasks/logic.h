@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define IMPORTUSFM "importusfm"
 #define COMPAREUSFM "compareusfm"
 #define MAINTAINDATABASE "maintaindatabase"
+#define CLEANTMPFILES "cleantmpfiles"
 
 
 string tasks_logic_folder ();

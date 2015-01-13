@@ -158,7 +158,8 @@ libbibledit_a_SOURCES = \
 	edit/offset.cpp \
 	edit/save.cpp \
 	edit/styles.cpp \
-	search/search.cpp
+	search/search.cpp \
+	tmp/tmp.cpp
 
 bin_PROGRAMS = server unittest
 

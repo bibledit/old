@@ -79,6 +79,11 @@ void timer_index ()
         tasks_logic_queue (MAINTAINDATABASE);
       }
       
+      // Delete temporal files older than a few days. Todo
+      if ((hour == 2) && (minute == 0)) {
+        tasks_logic_queue (CLEANTMPFILES);
+      }
+      
       // Re-index Bibles and notes.
       if ((hour == 2) && (minute == 0)) {
         tasks_logic_queue (REINDEXBIBLES);
