@@ -117,6 +117,8 @@
 		CA5A77D91A5433EC00BE1708 /* import_bibleworks.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = import_bibleworks.html; sourceTree = "<group>"; };
 		CA5A77DA1A54447500BE1708 /* bibleworks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibleworks.cpp; sourceTree = "<group>"; };
 		CA5A77DB1A54447500BE1708 /* bibleworks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibleworks.h; sourceTree = "<group>"; };
+		CA6339861A655A3A00514F1E /* maintenance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = maintenance.cpp; sourceTree = "<group>"; };
+		CA6339871A655A3A00514F1E /* maintenance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maintenance.h; sourceTree = "<group>"; };
 		CA699A021A4AEBE000B23E0A /* color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
 		CA699A031A4AEBE000B23E0A /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
 		CA699A041A4AEBE000B23E0A /* color.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = color.html; sourceTree = "<group>"; };
@@ -859,7 +861,6 @@
 		CAA4D3811A45A648003ABA25 /* settings.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = settings.php; sourceTree = "<group>"; };
 		CAA4D3821A45A648003ABA25 /* setup.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = setup.php; sourceTree = "<group>"; };
 		CAA4D3831A45A648003ABA25 /* usfmresources.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = usfmresources.php; sourceTree = "<group>"; };
-		CAA4D38A1A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D38B1A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D38C1A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAA4D38D1A45A648003ABA25 /* logic.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = logic.php; sourceTree = "<group>"; };
@@ -1404,6 +1405,8 @@
 				CAA4D0221A45A647003ABA25 /* logs.h */,
 				CAA4D0231A45A647003ABA25 /* mail.cpp */,
 				CAA4D0241A45A647003ABA25 /* mail.h */,
+				CA6339861A655A3A00514F1E /* maintenance.cpp */,
+				CA6339871A655A3A00514F1E /* maintenance.h */,
 				CAA4D0251A45A647003ABA25 /* mappings.cpp */,
 				CAA4D0261A45A647003ABA25 /* mappings.h */,
 				CAA4D0271A45A647003ABA25 /* modifications.cpp */,
@@ -2724,7 +2727,6 @@
 		CAA4D3841A45A648003ABA25 /* tasks */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D38A1A45A648003ABA25 /* index.php */,
 				CAA4D38B1A45A648003ABA25 /* logic.cpp */,
 				CAA4D38C1A45A648003ABA25 /* logic.h */,
 				CAA4D38D1A45A648003ABA25 /* logic.php */,

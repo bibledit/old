@@ -73,6 +73,19 @@ void timer_index ()
       // At the sixth minute after midnight, after the backup silence, and any hour after, rotate the journal.
       if (minute == 6) tasks_logic_queue (ROTATEJOURNAL);
       
+      // Database maintenance and trimming.
+      // It takes a few minutes on a production machine.
+      if ((hour == 0) && (minute == 50)) {
+        tasks_logic_queue (MAINTAINDATABASE);
+      }
+      
+      // Re-index Bible and notes.
+      if ((hour == 2) && (minute == 0)) {
+        tasks_logic_queue (REINDEXBIBLES);
+        tasks_logic_queue (REINDEXNOTES);
+      }
+
+
     } catch (exception & e) {
       Database_Logs::log (e.what ());
     } catch (exception * e) {

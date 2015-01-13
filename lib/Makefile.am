@@ -63,6 +63,7 @@ libbibledit_a_SOURCES = \
 	database/modifications.cpp \
 	database/notes.cpp \
 	database/volatile.cpp \
+	database/maintenance.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

@@ -254,9 +254,9 @@ void Database_Bibles::optimize ()
         }
         // Remove the three most recent files from the array, so they don't get deleted.
         // Because scandir sorts the files, the files to be kept are at the end.
-        files2.pop_back ();
-        files2.pop_back ();
-        files2.pop_back ();
+        if (!files2.empty()) files2.pop_back ();
+        if (!files2.empty()) files2.pop_back ();
+        if (!files2.empty()) files2.pop_back ();
         // Remove the remaining files. These are the older versions.
         for (string file : files2) {
           string path = filter_url_create_path (folder, file);

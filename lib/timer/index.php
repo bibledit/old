@@ -85,13 +85,6 @@ if (!$client) {
 }
 
 
-// Database maintenance and filter_string_trimming.
-// It takes a few minutes on a production machine.
-if (($hour == 0) && ($minute == 50)) {
-  tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/database.php"));
-}
-
-
 // Sprint burndown.
 // It runs every hour.
 // The script itself determines what to do at which hour of the day or day of the week or day of the month.
@@ -109,16 +102,7 @@ if (($hour == 1) && ($minute == 10)) {
 }
 
 
-// Re-index Bible and notes.
-if (($hour == 2) && ($minute == 0)) {
-  $directory = dirname (__DIR__) . "/search";
-  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/rebibles.php"));
-  $directory = dirname (__DIR__) . "/search";
-  tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/renotes.php"));
-}
-
-
-// Delete temporal files older than a few days.
+// Delete temporal files older than a few days. Todo
 if (($hour == 2) && ($minute == 0)) {
   tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/temp.php"));
 }
@@ -132,7 +116,7 @@ if (!$client) {
 }
 
 
-// A flag is set on setup to (re-)create a number of databases.
+// A flag is set on setup to (re-)create a number of databases. Todo
 $create_databases_flag = "../config/databases";
 if (file_exists ($create_databases_flag)) {
   unlink ($create_databases_flag);
