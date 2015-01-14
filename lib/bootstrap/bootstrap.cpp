@@ -80,6 +80,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/select.h>
 #include <search/replace.h>
 #include <search/getids.h>
+#include <search/replacepre.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -174,6 +175,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == edit_save_url ()) && edit_save_acl (request)) request->reply = edit_save (request);
   else if ((url == edit_styles_url ()) && edit_styles_acl (request)) request->reply = edit_styles (request);
   else if ((url == search_getids_url ()) && search_getids_acl (request)) request->reply = search_getids (request);
+  else if ((url == search_replacepre_url ()) && search_replacepre_acl (request)) request->reply = search_replacepre (request);
 
   // Forward the browser to the default home page.
   else {

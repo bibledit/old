@@ -45,7 +45,7 @@ if (isset ($load)) {
   
   // Get Strong's numbers, plus English snippets.
   $html = "<table>\n";
-  $details = $database_kjv->getVerse ($book, $chapter, $verse);
+  $details = $database_kjv->getVerse (book, chapter, verse);
   for ($details as $detail) {
     $strong = $detail ['strong'];
     $english = $detail ['english'];
@@ -71,7 +71,7 @@ if (isset ($strong)) {
     $book = $detail ['book'];
     $chapter = $detail ['chapter'];
     $verse = $detail ['verse'];
-    $passage = array ($book, $chapter, $verse);
+    $passage = array (book, chapter, verse);
     $passage = filter_passage_to_integer ($passage);
     $passages [] = $passage;
   }
@@ -100,7 +100,7 @@ if (isset ($id)) {
   $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
 
   // Format it.
-  $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
+  $link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   $output = "<div>$link $text</div>";
   
   // Output to browser.

@@ -55,7 +55,7 @@ if ($searchplain) {
 
 
 // Clickable passage.
-$link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
+$link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
 
 
 $oldtext =  filter_string_markup_words (array ($searchfor), $text);
@@ -72,7 +72,7 @@ if ($replacewith != "") $newtext =  filter_string_markup_words (array ($replacew
 
 // The id sent to the browser contains bible identifier, book, chapter, and verse.
 $bibleID = request->database_bibles()->getID ($bible);
-$id = implode ("_", array ($bibleID, $book, $chapter, $verse));
+$id = implode ("_", array ($bibleID, book, chapter, verse));
 
 
 // Create output.

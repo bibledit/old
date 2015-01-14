@@ -43,7 +43,7 @@ $resources = request->database_config_user()->getActiveResources ();
 $resource = $resources [$resource];
 
 
-$html = Resource_Logic::getHtml ($resource, $book, $chapter, $verse);
+$html = Resource_Logic::getHtml ($resource, book, chapter, verse);
 echo $html;
 
 

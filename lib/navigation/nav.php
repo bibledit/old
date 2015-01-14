@@ -28,5 +28,5 @@ if (!is_numeric ($book)) die;
 if (!is_numeric ($chapter)) die;
 if (!is_numeric ($verse)) die;
 $ipc_focus = Ipc_Focus::getInstance ();
-$ipc_focus->set ($book, $chapter, $verse);
+$ipc_focus->set (book, chapter, verse);
 ?>

@@ -101,7 +101,7 @@ while ($xml->read ()) {
         $strong = str_replace ("strong:", "", $strong);
         $strong = str_replace ("'", "''", $strong);
         $english = str_replace ("'", "''", $english);
-        $sql = "INSERT INTO kjv (book, chapter, verse, strong, english) VALUES ($book, $chapter, $verse, '$strong', '$english');";
+        $sql = "INSERT INTO kjv (book, chapter, verse, strong, english) VALUES (book, chapter, verse, '$strong', '$english');";
         $db->exec ($sql);
       }
       $lemma = "";

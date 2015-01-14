@@ -199,7 +199,7 @@ if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 $verse = $ipc_focus->getVerse ();
-$identifiers = $database_notes->selectNotes ($bibles, $book, $chapter, $verse,
+$identifiers = $database_notes->selectNotes ($bibles, book, chapter, verse,
                                              $passage_selector,
                                              $edit_selector,
                                              $non_edit_selector,

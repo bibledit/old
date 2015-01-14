@@ -68,7 +68,7 @@ class Consistency_Logic
           $book = $passage [0];
           $chapter = $passage [1];
           $verse = $passage [2];
-          $line = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
+          $line = filter_passage_link_for_opening_editor_at (book, chapter, verse);
           $line += " ";
           
           // Check whether the chapter identifier has changed for this reference.
@@ -88,7 +88,7 @@ class Consistency_Logic
             
             // Produce new verse text if the passage is to be redone, or else fetch the existing text.
             if ($redoPassage) {
-              $text = $this->verseText ($resource, $book, $chapter, $verse);
+              $text = $this->verseText ($resource, book, chapter, verse);
               if ($translations != "") {
                 $text = filter_string_markup_words ($translations, $text);
               }
@@ -119,9 +119,9 @@ class Consistency_Logic
   }
 
 
-  private function verseText ($resource, $book, $chapter, $verse)
+  private function verseText ($resource, book, chapter, verse)
   {
-    $text = Resource_Logic::getText ($resource, $book, $chapter, $verse);
+    $text = Resource_Logic::getText ($resource, book, chapter, verse);
     return $text;
   }
  

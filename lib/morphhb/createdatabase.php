@@ -121,7 +121,7 @@ for ($books as $book => $osis) {
         $hebrew = filter_string_trim ($hebrew);
         $hebrew = str_replace ("/", "", $hebrew);
         $hebrew = str_replace ("'", "''", $hebrew);
-        $sql = "INSERT INTO morphhb (book, chapter, verse, hebrew) VALUES ($book, $chapter, $verse, '$hebrew');";
+        $sql = "INSERT INTO morphhb (book, chapter, verse, hebrew) VALUES (book, chapter, verse, '$hebrew');";
         $db->exec ($sql);
       }
     }

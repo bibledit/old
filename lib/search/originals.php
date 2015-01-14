@@ -47,14 +47,14 @@ if (isset ($load)) {
   // Get Hebrew or Greek words.
   $searchtext = "";
   if ($type == "ot") {
-    $details = $database_morphhb->getVerse ($book, $chapter, $verse);
+    $details = $database_morphhb->getVerse (book, chapter, verse);
     for ($details as $offset => $detail) {
       if ($offset) $searchtext += " ";
       $searchtext += $detail ['hebrew'];
     }
   }
   if ($type == "nt") {
-    $details = $database_sblgnt->getVerse ($book, $chapter, $verse);
+    $details = $database_sblgnt->getVerse (book, chapter, verse);
     for ($details as $offset => $detail) {
       if ($offset) $searchtext += " ";
       $searchtext += $detail ['greek'];
@@ -112,7 +112,7 @@ if (isset ($words)) {
       $book = $detail ['book'];
       $chapter = $detail ['chapter'];
       $verse = $detail ['verse'];
-      $passage = array ($book, $chapter, $verse);
+      $passage = array (book, chapter, verse);
       $passage = filter_passage_to_integer ($passage);
       if (isset ($passages [$passage])) $passages [$passage]++;
       else $passages [$passage] = 1;
@@ -148,7 +148,7 @@ if (isset ($id)) {
   $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
 
   // Format it.
-  $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
+  $link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   $output = "<div>$link $text</div>";
   
   // Output to browser.

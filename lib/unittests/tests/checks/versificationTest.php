@@ -107,7 +107,7 @@ class versificationsTest extends PHPUnit_Framework_TestCase
     // One missing and one extra verse.
     $verses = array (0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24);
     // Run check.
-    Checks_Versification::verses ("Bible", $book, $chapter, $verses);
+    Checks_Versification::verses ("Bible", book, chapter, verses);
     // Verify results.
     $database_check = Database_Check::getInstance ();
     $results = $database_check->getHits ();
@@ -157,7 +157,7 @@ class versificationsTest extends PHPUnit_Framework_TestCase
     // Verses out of order.
     $verses = array (0, 2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22);
     // Run check.
-    Checks_Versification::verses ("Bible", $book, $chapter, $verses);
+    Checks_Versification::verses ("Bible", book, chapter, verses);
     // Verify results.
     $database_check = Database_Check::getInstance ();
     $results = $database_check->getHits ();

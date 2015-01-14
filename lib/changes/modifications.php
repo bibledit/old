@@ -159,7 +159,7 @@ function processIdentifiers ($user, bible, book, chapter, $oldId, $newId, &$emai
         if ($old_text != $new_text) {
           $modification = filter_diff_diff ($old_text, $new_text);
           $email += "<div>";
-          $email += filter_passage_display ($book, $chapter, $verse);
+          $email += filter_passage_display (book, chapter, verse);
           $email += " ";
           $email += $modification;
           $email += "</div>";

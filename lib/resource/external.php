@@ -20,12 +20,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Resource_External
 {
 
-  public function get ($name, $book, $chapter, $verse)
+  public function get ($name, book, chapter, verse)
   {
     $database_resources = Database_Resources::getInstance ();
     $file = $database_resources->getInclude ($name);
     $output = "";
-    // Pass $book, $chapter, $verse to the included script below.
+    // Pass book, chapter, verse to the included script below.
     // The script fills the $output variable.
     include ($file);
     return $output;

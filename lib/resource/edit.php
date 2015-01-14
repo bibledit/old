@@ -70,7 +70,7 @@ $view->view->chapter = $chapter;
 $view->view->verse = $verse;
 
 
-$output = Resource_Logic::getExternal ($name, $book, $chapter, $verse, false);
+$output = Resource_Logic::getExternal ($name, book, chapter, verse, false);
 $view->view->output = $output;
 
 

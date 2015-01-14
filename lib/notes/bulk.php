@@ -64,7 +64,7 @@ if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 // This is done to remember them as long as this page is active.
 // Thus bulk operations on notes can be rectified somewhat easier.
 if (count (request->query) == 0) {
-  $identifiers = $database_notes->selectNotes ($bibles, $book, $chapter, $verse,
+  $identifiers = $database_notes->selectNotes ($bibles, book, chapter, verse,
                                                $passage_selector,
                                                $edit_selector,
                                                $non_edit_selector,

@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This script filters commentaries from www.studylight.org.
 
 
-function studylight ($directory, $book, $chapter, $verse)
+function studylight ($directory, book, chapter, verse)
 {
   // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
   $book--;

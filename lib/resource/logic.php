@@ -50,7 +50,7 @@ class Resource_Logic
   }
 
 
-  public static function getExternal ($name, $book, $chapter, $verse, $apply_mapping)
+  public static function getExternal ($name, book, chapter, verse, $apply_mapping)
   {
     if ($apply_mapping) {
       $database_resources = Database_Resources::getInstance ();
@@ -60,7 +60,7 @@ class Resource_Logic
       $bible = request->database_config_user()->getBible ();
       $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
       $resource_mapping = $database_resources->getMapping ($name);
-      $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
+      $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, book, chapter, verse);
       $output = "";
       for ($passages as $passage) {
         $object = new Resource_External ();
@@ -71,14 +71,14 @@ class Resource_Logic
       return $output;
     } else {
       $object = new Resource_External ();
-      $html = $object->get ($name, $book, $chapter, $verse);
+      $html = $object->get ($name, book, chapter, verse);
       unset ($object);
       return $html;
     }
   }
 
 
-  public static function getHtml ($resource, $book, $chapter, $verse)
+  public static function getHtml ($resource, book, chapter, verse)
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_resources = Database_Resources::getInstance ();
@@ -107,17 +107,17 @@ class Resource_Logic
       $html = $filter_text->html_text_standard->getInnerHtml ();
     } else if (in_array ($resource, $externals)) {
       // Use offline copy if it exists, else fetch it online.
-      if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
+      if ($database_offlineresources->exists ($resource, book, chapter, verse)) {
         $bible = request->database_config_user()->getBible ();
         $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
         $resource_mapping = $database_resources->getMapping ($resource);
-        $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
+        $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, book, chapter, verse);
         $html = "";
         for ($passages as $passage) {
           $html += $database_offlineresources->get ($resource, $passage [0], $passage [1], $passage [2]);
         }
       } else {
-        $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, true);
+        $html = Resource_Logic::getExternal ($resource, book, chapter, verse, true);
       }
     } else {
       $html = "";
@@ -128,7 +128,7 @@ class Resource_Logic
 
 
   // Get the resource for the verse in plain text format.
-  public static function getText ($resource, $book, $chapter, $verse)
+  public static function getText ($resource, book, chapter, verse)
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_resources = Database_Resources::getInstance ();
@@ -154,10 +154,10 @@ class Resource_Logic
       $text = $filter_text->text_text->get ();
     } else if (in_array ($resource, $externals)) {
       // Use offline copy if it exists, else fetch it online.
-      if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
-        $text = $database_offlineresources->get ($resource, $book, $chapter, $verse);
+      if ($database_offlineresources->exists ($resource, book, chapter, verse)) {
+        $text = $database_offlineresources->get ($resource, book, chapter, verse);
       } else {
-        $text = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, true);
+        $text = Resource_Logic::getExternal ($resource, book, chapter, verse, true);
       }
       $text = filter_string_html2text ($text);
     } else {

@@ -51,11 +51,11 @@ for ($chapters as $chapter) {
   $verses = $database_versifications->getVerses ($versification, $book, $chapter);
   for ($verses as $verse) {
     $message += "; verse $verse: ";
-    if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
+    if ($database_offlineresources->exists ($resource, book, chapter, verse)) {
       $message += "exists";
     } else {
-      $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, false);
-      $database_offlineresources->store ($resource, $book, $chapter, $verse, $html);
+      $html = Resource_Logic::getExternal ($resource, book, chapter, verse, false);
+      $database_offlineresources->store ($resource, book, chapter, verse, $html);
       $size = strlen ($html);
       $message += "size $size";
     }

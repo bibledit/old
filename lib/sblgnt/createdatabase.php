@@ -87,7 +87,7 @@ while ($xml->read ()) {
       $greek = $xml->value;
       $greek = filter_string_trim ($greek);
       $greek = str_replace ("'", "''", $greek);
-      $sql = "INSERT INTO sblgnt (book, chapter, verse, greek) VALUES ($book, $chapter, $verse, '$greek');";
+      $sql = "INSERT INTO sblgnt (book, chapter, verse, greek) VALUES (book, chapter, verse, '$greek');";
       $db->exec ($sql);
     }
   }

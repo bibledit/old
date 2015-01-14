@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // This script filters Bibles from www.bibleserver.com.
 
-function bibleserver ($directory, $book, $chapter, $verse)
+function bibleserver ($directory, book, chapter, verse)
 {
 
   // On bibleserver.com, Genesis is "1.Mose", Exodus is "2.Mose", and so on.

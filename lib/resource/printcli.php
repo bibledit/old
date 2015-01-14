@@ -65,16 +65,16 @@ for ($books as $book) {
     $usfm = request->database_bibles()->getChapter (bible, book, chapter);
     $verses = usfm_get_verse_numbers ($usfm);
     for ($verses as $verse) {
-      $passage = filter_passage_to_integer (array ($book, $chapter, $verse));
+      $passage = filter_passage_to_integer (array (book, chapter, verse));
       if (($passage >= $from) && ($passage <= $to)) {
-        $passageText = filter_passage_display ($book, $chapter, $verse);
+        $passageText = filter_passage_display (book, chapter, verse);
         $database_jobs->setProgress ($jobId, $passageText);
         $result [] = '<div class="nextresource">';
         $result [] = "<p>$passageText</p>";
         for ($resources as $resource) {
           $result [] = "<p>";
           $result [] = $resource;
-          $html = Resource_Logic::getHtml ($resource, $book, $chapter, $verse);
+          $html = Resource_Logic::getHtml ($resource, book, chapter, verse);
           $result [] = $html;
           $result [] = "</p>";
         }

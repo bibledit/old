@@ -27,6 +27,6 @@ include_once ("studylight.php");
 // The directory on studylight.org
 $directory = "geb";
 
-$output = studylight ($directory, $book, $chapter, $verse);
+$output = studylight ($directory, book, chapter, verse);
 
 ?>

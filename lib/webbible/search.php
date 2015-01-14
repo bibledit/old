@@ -102,7 +102,7 @@ for ($ids as $id) {
 
 
   // The title.
-  $title = "$bible" . " | " . filter_passage_display ($book, $chapter, $verse);
+  $title = "$bible" . " | " . filter_passage_display (book, chapter, verse);
   $title = filter_string_sanitize_html ($title);
 
 

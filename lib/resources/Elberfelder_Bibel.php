@@ -26,7 +26,7 @@ include_once ("bibleserver.php");
 // The directory on bibleserver.com
 $directory = "ELB";
   
-$output = bibleserver ($directory, $book, $chapter, $verse);
+$output = bibleserver ($directory, book, chapter, verse);
   
 
 ?>

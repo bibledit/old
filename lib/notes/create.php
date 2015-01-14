@@ -96,7 +96,7 @@ $view->view->bible = $bible;
 $view->view->book = $book;
 $view->view->chapter = $chapter;
 $view->view->verse = $verse;
-$passage = filter_passage_display ($book, $chapter, $verse);
+$passage = filter_passage_display (book, chapter, verse);
 $view->view->passage = $passage;
 
 
