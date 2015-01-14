@@ -572,7 +572,8 @@ void SearchSpecialDialog::on_activate()
   }
 }
 
-
+// MAP: I believe these two routines can be eliminated. Just set the
+// bool on on_timeout is set up.
 bool SearchSpecialDialog::on_timeout(gpointer data)
 {
   ((SearchSpecialDialog *) data)->timeout();

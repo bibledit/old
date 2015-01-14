@@ -38,7 +38,7 @@
 #define HAVE_UNISTD_H 1
 
 /* LINUX */
-/* #undef LINUX */
+#define LINUX "1"
 
 /* Name of package */
 #define PACKAGE "bibledit-gtk"
@@ -47,7 +47,7 @@
 #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 
 /* PACKAGE_DATA_DIR */
-#define PACKAGE_DATA_DIR "/share/bibledit-gtk"
+#define PACKAGE_DATA_DIR "/usr/share/bibledit-gtk"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "bibledit-gtk"
@@ -71,4 +71,4 @@
 #define VERSION "4.8.11"
 
 /* WIN32 */
-#define WIN32 "1"
+/* #undef WIN32 */

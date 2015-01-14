@@ -17,6 +17,23 @@ Date Added Description
 1/12/2015  Keyterms and related verses window is VERY slow to update when you
 	   change verses.
 1/12/2015  Fix Mappings::original2me because it takes a lot of time.
+1/13/2015  On my system, every other time Bibledit runs, it hangs up during
+	   startup for some reason. If I kill it and start over, it works.
+	   That is not appropriate behavior to our end user. The error /may/
+	   have to do with the following errors found in 
+	   /tmp/bibledit/bibledit.log:
+	   Could not find program "xetex". Install package texlive-xetex to resolve this.
+	   Could not find program "php". Install package php5-cli to resolve this.
+	   Webserver Access: Cannot connect to destination (localhost)
+	   Verified that the error is not due to the first two problems. Once I installed
+	   those, the errors go away, but the hang-up problem remains intermittently
+	   upon startup.
+1/13/2015  When shared resource directory is wrong/gone, Bibledit fails 
+	   without any warning message. It would be nice if /share/bibledit
+	   does not exist, for example, that the program pops up an error
+	   window to tell the user what is going on. Of course this symptom
+	   means that the program was not built or configured properly, but
+	   it would still be nice :-)
 1/13/2015  Fix #pragma warning in Windows compile
 1/13/2015  Fix duplication #define of WIN32 in Windows compile, probably by
 	   protecting the definition in config.h.in.

@@ -62,7 +62,8 @@ int WaitDialog::run()
   return gtk_dialog_run(GTK_DIALOG(waitdialog));
 }
 
-
+// MAP: I believe these two routines can be eliminated. Just set the
+// bool on on_timeout is set up.
 gboolean WaitDialog::static_on_timeout(gpointer data)
 {
   return ((WaitDialog *) data)->on_timeout();

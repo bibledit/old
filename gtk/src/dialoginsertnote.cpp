@@ -871,7 +871,8 @@ At the end the Ok button should be focused.
   }
 }
 
-
+// MAP: I believe these two routines can be eliminated. Just set the
+// bool on on_timeout is set up.
 bool InsertNoteDialog::on_timeout(gpointer data)
 {
   ((InsertNoteDialog *) data)->timeout();

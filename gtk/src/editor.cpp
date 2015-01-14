@@ -1677,15 +1677,43 @@ void Editor2::highlight_searchwords()
     return;
   }
 
+  // This code is why the highlighting is slow. It does all the
+  // operations essentially backward, waiting on a new thread to get
+  // started and to its work before doing anything else. Thread
+  // creation is a fairly very high overhead operation. As a result,
+  // this method is guaranteed to introduce more delay in the process
+  // of figuring out and marking the highlighted text than it would to
+  // just do it. See below.
+/*
   // Highlighting timeout.
-  if (highlight_timeout_event_id)
+  if (highlight_timeout_event_id) {
     gw_destroy_source (highlight_timeout_event_id);
+  }
   highlight_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_highlight_timeout), gpointer(this), NULL);
 
   // Create a new highlighting object.
   highlight = new Highlight(focused_paragraph->textbuffer, focused_paragraph->textview, project, reference_tag, current_verse_number);
   // New g_thread_new ("highlight", GThreadFunc (highlight_thread_start), gpointer(this));
   g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
+*/
+  
+  // MAP: Here's how I think it should be done, more synchronously instead of threaded.
+  highlight = new Highlight(focused_paragraph->textbuffer, focused_paragraph->textview, project, reference_tag, current_verse_number);
+  // The time-consuming part of highlighting is to determine what bits
+  // of text to highlight. Because it takes time, and the program
+  // should continue to respond, it is [was] done in a thread. MAP:
+  // But there is a problem when you type text, delete, then start
+  // typing again. The threaded-ness of this means that sometimes,
+  // bibledit starts overwriting text from the beginning of the verse
+  // instead of typing in the location where the cursor is. TODO: I am
+  // planning eventually to FIX the TIME CONSUMING PART so that the
+  // whole thing will be more efficient.
+  highlight->determine_locations();
+  assert(highlight->locations_ready);
+  highlight->highlight();
+  // Delete and NULL the object making it ready for next use.
+  delete highlight;
+  highlight = NULL;
 }
 
 
@@ -1723,7 +1751,10 @@ void Editor2::highlight_thread_main()
 {
   // The time-consuming part of highlighting is to determine what bits of text
   // to highlight. Because it takes time, and the program should continue
-  // to respond, it is done in a thread.
+  // to respond, it is done in a thread. MAP: But there is a problem when you type
+  // text, delete, then start typing again, the threaded-ness of this means that
+  // sometimes, be starts overwriting text from the beginning of the verse instead
+  // of typing in the location where the cursor is.
   if (highlight) {
     highlight->determine_locations();
   }
