@@ -77,6 +77,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/styles.h>
 #include <search/search.h>
 #include <search/index.h>
+#include <search/select.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -149,6 +150,7 @@ void bootstrap_index (Webserver_Request * request)
   // Items not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);
   else if ((url == search_search_url ()) && search_search_acl (request)) request->reply = search_search (request);
+  else if ((url == search_select_url ()) && search_select_acl (request)) request->reply = search_select (request);
 
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

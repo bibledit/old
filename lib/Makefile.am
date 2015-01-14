@@ -160,6 +160,7 @@ libbibledit_a_SOURCES = \
 	edit/styles.cpp \
 	search/search.cpp \
 	search/index.cpp \
+	search/select.cpp \
 	tmp/tmp.cpp
 
 bin_PROGRAMS = server unittest
