@@ -84,4 +84,4 @@ gettext("Bible"):
 <?php }
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
-<script type="text/javascript" src="poll.js?config_logic_version ()"></script>
+<script type="text/javascript" src="poll.js?##VERSION##"></script>

@@ -31,4 +31,4 @@ gettext("Summary"): $this->summary
 <div>$this->content</div>
 <hr>
 <p><a href="comment.php?id=$this->id">gettext("Add a comment to this note")</a></p>
-<script type="text/javascript" src="poll.js?config_logic_version ()"></script>
+<script type="text/javascript" src="poll.js?##VERSION##"></script>

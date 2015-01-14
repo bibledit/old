@@ -96,6 +96,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <script>
 $this->script;
 </script>
-<script type="text/javascript" src="changes.js?config_logic_version ()"></script>
-<script type="text/javascript" src="../navigation/nav.js?config_logic_version ()"></script>
-<script type="text/javascript" src="../notes/click.js?config_logic_version ()"></script>
+<script type="text/javascript" src="changes.js?##VERSION##"></script>
+<script type="text/javascript" src="../navigation/nav.js?##VERSION##"></script>
+<script type="text/javascript" src="../notes/click.js?##VERSION##"></script>

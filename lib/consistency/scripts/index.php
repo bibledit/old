@@ -72,5 +72,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php }
 <a href="?add=">[gettext("add resource")]</a>
 <p>gettext("Add the Consistency tool and the Bible editor in a Workbench for easier checking and editing.")
-<script type="text/javascript" src="index.js?config_logic_version ()"></script>
-<script type="text/javascript" src="../navigation/nav.js?config_logic_version ()"></script>
+<script type="text/javascript" src="index.js?##VERSION##"></script>
+<script type="text/javascript" src="../navigation/nav.js?##VERSION##"></script>

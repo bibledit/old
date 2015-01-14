@@ -47,4 +47,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   gettext("Changes in them will be overwritten during upgrade of Bibledit.")
 </p>
 <link rel="stylesheet" href="../jquery/smoothness/jquery-ui-1.10.3.css" />
-<script type="text/javascript" src="admin.js?config_logic_version ()"></script>
+<script type="text/javascript" src="admin.js?##VERSION##"></script>

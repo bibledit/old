@@ -49,4 +49,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   gettext("Progress will be visible in the Journal.")
 </p>
 <link rel="stylesheet" href="../jquery/smoothness/jquery-ui-1.10.3.css" />
-<script type="text/javascript" src="manage.js?config_logic_version ()"></script>
+<script type="text/javascript" src="manage.js?##VERSION##"></script>

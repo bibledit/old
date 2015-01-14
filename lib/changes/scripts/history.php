@@ -87,4 +87,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   gettext("The items are kept indefinitely.")
 </p>
-<script type="text/javascript" src="history.js?config_logic_version ()"></script>
+<script type="text/javascript" src="history.js?##VERSION##"></script>

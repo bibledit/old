@@ -217,7 +217,7 @@ $count = count ($identifiers);
 $view->view->count = $count;
 
 
-$view->render ("select.php");
+$view->render ("select");
 
 
 Assets_Page::footer ();

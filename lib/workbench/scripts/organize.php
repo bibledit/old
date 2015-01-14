@@ -41,4 +41,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   gettext("Click ✎ to edit.")
   gettext("Or create a new workbench.")
 </p>
-<script type="text/javascript" src="organize.js?config_logic_version ()"></script>
+<script type="text/javascript" src="organize.js?##VERSION##"></script>

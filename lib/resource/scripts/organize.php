@@ -38,4 +38,4 @@ gettext("Click to activate:")
   <a href="?add=$selectable">$selectable</a>
 <?php }
 </p>
-<script type="text/javascript" src="organize.js?config_logic_version ()"></script>
+<script type="text/javascript" src="organize.js?##VERSION##"></script>
