@@ -310,7 +310,9 @@ void Editor2::chapter_load(unsigned int chapter_in)
     GtkTextIter iter;
     gtk_text_buffer_get_start_iter(focused_paragraph->textbuffer, &iter);
     gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
-    scroll_insertion_point_on_screen ();
+    //scroll_insertion_point_on_screen ();
+    // Remove all the complicated timeout stuff and go right to work
+    scroll_insertion_point_on_screen_timeout ();
   }
   
   // Store size of actions buffer so we know whether the chapter changed.
@@ -1903,7 +1905,9 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
     } while (!moved && textbuffer);
   }
   if (moved) {
-    scroll_insertion_point_on_screen ();
+    //scroll_insertion_point_on_screen ();
+    // Remove all the complicated timeout stuff and go right to work
+    scroll_insertion_point_on_screen_timeout ();
   }
   return moved;
 }
@@ -1929,7 +1933,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
   if (focused_paragraph) {
 
     // Ensure that the screen has been fully displayed.
-    while (gtk_events_pending()) gtk_main_iteration();
+    while (gtk_events_pending()) { gtk_main_iteration(); }
 
     // Adjustment.
     GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport));
@@ -1966,7 +1970,15 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
       insertion_point_offset += rectangle.y;
     }
 
-    // Set the adjustment to move the insertion point into 1/3th of the visible part of the window.
+    // Set the adjustment to move the insertion point into 1/3th of
+    // the visible part of the window. TODO: This should be an option
+    // that the user can set. Sometimes it is distracting to have the
+    // text move automatically. In Emacs, for instance, the user can
+    // hit Ctrl-L to do that manually. We could have a preference that
+    // says "auto-scroll text window to center 1/3 of window" or
+    // something like that. This code slows the perceived user
+    // experience because they have to reorient their eyes to where
+    // the text moves to.
     /*
     If the insertion point is at 800, and the height of the visible window is 500,
     and the total window height is 1000, then the calculation of the offset is as follows:
@@ -1975,6 +1987,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
     Therefore the adjustment should move to 550.
     The adjustment value should stay within its limits. If it exceeds these, the viewport draws double lines.
     */
+    /* FOR NOW, COMMENT OUT
     gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
     if (adjustment_value < 0) {
       adjustment_value = 0;
@@ -1983,6 +1996,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
       adjustment_value = total_window_height - visible_window_height;
     }
     gtk_adjustment_set_value (adjustment, adjustment_value);
+    */
     
     // Remove any previous verse number highlight.
     {
@@ -2940,7 +2954,9 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   }
 
   // Scroll the insertion point onto the screen.
-  scroll_insertion_point_on_screen ();
+  //scroll_insertion_point_on_screen ();
+  // Remove all the complicated timeout stuff and go right to work
+  scroll_insertion_point_on_screen_timeout ();
 
   // Highlight search words.
   highlight_searchwords();
