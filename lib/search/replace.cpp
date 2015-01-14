@@ -47,21 +47,17 @@ string search_replace (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  
   string siteUrl = Database_Config_General::getSiteURL ();
-
   
   string bible = request->database_config_user()->getBible ();
   if (request->query.count ("b")) {
     bible = request->query ["b"];
   }
   
-  
   bool id_is_set = request->query.count ("id");
   string searchfor = request->query ["q"];
   string replacewith = request->query ["r"];
   int id = convert_to_int (request->query ["id"]);
-  
   
   if (id_is_set) {
     
