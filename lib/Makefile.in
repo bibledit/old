@@ -185,7 +185,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
 	edit/styles.$(OBJEXT) search/search.$(OBJEXT) \
 	search/index.$(OBJEXT) search/select.$(OBJEXT) \
-	search/replace.$(OBJEXT) tmp/tmp.$(OBJEXT)
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	tmp/tmp.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -559,6 +560,7 @@ libbibledit_a_SOURCES = \
 	search/index.cpp \
 	search/select.cpp \
 	search/replace.cpp \
+	search/getids.cpp \
 	tmp/tmp.cpp
 
 server_SOURCES = executable/bibledit.cpp
@@ -1246,6 +1248,8 @@ search/select.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/replace.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
+search/getids.$(OBJEXT): search/$(am__dirstamp) \
+	search/$(DEPDIR)/$(am__dirstamp)
 tmp/$(am__dirstamp):
 	@$(MKDIR_P) tmp
 	@: > tmp/$(am__dirstamp)
@@ -1520,6 +1524,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@onlinebible/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/rebibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/renotes.Po@am__quote@
