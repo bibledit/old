@@ -97,7 +97,7 @@ void search_reindex_bibles ()
   // When the raw USFM matches for a chapter, than this chapter is considered okay.
   bibles = request.database_bibles ()->getBibles ();
   for (auto & bible : bibles) {
-    Database_Logs::log ("Updating search index for Bible bible" , Filter_Roles::manager ());
+    Database_Logs::log ("Updating search index for Bible " + bible, Filter_Roles::manager ());
     vector <int> books = request.database_bibles ()->getBooks (bible);
     for (auto book : books) {
       vector <int> chapters = request.database_bibles ()->getChapters (bible, book);

@@ -43,14 +43,14 @@ bool search_index_acl (void * webserver_request)
 }
 
 
-string search_index (void * webserver_request) // Todo enable search.
+string search_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  string bible;
-  if (request->query.count ("b") == 0) {
-    bible = request->database_config_user()->getBible ();
+  string bible = request->database_config_user()->getBible ();
+  if (request->query.count ("b")) {
+    bible = request->query ["b"];
   }
  
 
