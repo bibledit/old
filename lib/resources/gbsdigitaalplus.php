@@ -37,10 +37,10 @@ function gbsdigitaalplus ($url, $chapter, $verse)
   
   if ($chapter == 0) {
     @$introduction = $data->summary;
-    $introduction = str_replace (array ("\n", "\r"), " ", $introduction);
-    $introduction = str_replace ("\t", "", $introduction);
-    $introduction = str_replace ('  ', ' ', $introduction);
-    $introduction = str_replace ('<br />', "", $introduction);
+    $introduction = filter_string_str_replace (array ("\n", "\r"), " ", $introduction);
+    $introduction = filter_string_str_replace ("\t", "", $introduction);
+    $introduction = filter_string_str_replace ('  ', ' ', $introduction);
+    $introduction = filter_string_str_replace ('<br />', "", $introduction);
     $introduction = filter_string_trim ($introduction);
     $output += "<p>$introduction</p>";
   }
@@ -48,9 +48,9 @@ function gbsdigitaalplus ($url, $chapter, $verse)
   
   if ($verse == 0) {
     @$introduction = $data->summary->originalText;
-    $introduction = str_replace (array ("\n", "\r"), " ", $introduction);
-    $introduction = str_replace ("\t", "", $introduction);
-    $introduction = str_replace ('  ', ' ', $introduction);
+    $introduction = filter_string_str_replace (array ("\n", "\r"), " ", $introduction);
+    $introduction = filter_string_str_replace ("\t", "", $introduction);
+    $introduction = filter_string_str_replace ('  ', ' ', $introduction);
     $introduction = filter_string_trim ($introduction);
     $output += "<p>$introduction</p>";
   }
@@ -73,7 +73,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
           // Add verse text.
           if (isset ($data->text)) {
             $text = $data->text;
-            $text = str_replace ('<br />', "", $text);
+            $text = filter_string_str_replace ('<br />', "", $text);
             $output += $text;
           }
           // Add notes.

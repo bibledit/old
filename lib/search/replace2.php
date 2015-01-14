@@ -55,7 +55,7 @@ if (isset ($id)) {
   // Format it.
   $link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   $oldtext =  $text;
-  $newtext = str_replace ($searchfor, $replacewith, $text);
+  $newtext = filter_string_str_replace ($searchfor, $replacewith, $text);
   if ($replacewith != "") $newtext =  filter_string_markup_words (array ($replacewith), $newtext);
   
 $output = <<< EOD

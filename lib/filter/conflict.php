@@ -77,7 +77,7 @@ class Filter_Conflict
     $serverData = filter_url_file_get_contents ($merge_head_version);
 
     $mergedData = Filter_Merge::run ($mergeBase, $userData, $serverData);
-    $mergedData = str_replace ("new__line", "\n", $mergedData);
+    $mergedData = filter_string_str_replace ("new__line", "\n", $mergedData);
     $mergedData = filter_string_trim ($mergedData);
 
    filter_url_file_put_contents ("$repository/$path", $mergedData);

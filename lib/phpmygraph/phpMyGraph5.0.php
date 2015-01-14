@@ -773,7 +773,7 @@ abstract class graphBase implements iGraph {
 		$rgb = array();
 		
 		//Strip #
-		$hexColor = str_replace("#", '', $hexColor);
+		$hexColor = filter_string_str_replace("#", '', $hexColor);
 		
 		//Convert to r g b
 		$rgb['r'] = hexdec(substr($hexColor, 0, 2));

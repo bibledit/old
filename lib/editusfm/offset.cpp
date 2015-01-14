@@ -57,5 +57,6 @@ string editusfm_offset (void * webserver_request)
   //$lineNumber = unicode_string_substr_count ($substring, "\n");
   //$data = array ("line" => $lineNumber);
   //echo json_encode ($data);
+  return "";
 }
 

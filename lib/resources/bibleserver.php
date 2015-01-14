@@ -113,7 +113,7 @@ function bibleserver ($directory, book, chapter, verse)
     $text = substr ($text, 0, $pos);
   }
   for ($i = 0; $i <= 9; $i++) {
-    $text = str_replace ($i, "", $text);
+    $text = filter_string_str_replace ($i, "", $text);
   }
   
   $text = strip_tags ("<" . $text);

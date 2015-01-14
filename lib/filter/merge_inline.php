@@ -141,13 +141,13 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
                          array('split_level' => 'words')));
 
         /* Run the diff and get the output. */
-        return str_replace($nl, "\n", $renderer->render($diff)) . "\n";
+        return filter_string_str_replace($nl, "\n", $renderer->render($diff)) . "\n";
     }
 
     function _splitOnWords($string, $newlineEscape = "\n")
     {
         // Ignore \0; otherwise the while loop will never finish.
-        $string = str_replace("\0", '', $string);
+        $string = filter_string_str_replace("\0", '', $string);
 
         $words = array();
         $length = strlen($string);
@@ -157,7 +157,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
             // Eat a word with any preceding whitespace.
             $spaces = strspn(substr($string, $pos), " \n");
             $nextpos = strcspn(substr($string, $pos + $spaces), " \n");
-            $words[] = str_replace("\n", $newlineEscape, substr($string, $pos, $spaces + $nextpos));
+            $words[] = filter_string_str_replace("\n", $newlineEscape, substr($string, $pos, $spaces + $nextpos));
             $pos += $spaces + $nextpos;
         }
 

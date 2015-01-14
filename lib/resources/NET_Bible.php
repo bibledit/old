@@ -94,7 +94,7 @@ $bookConverter = array (
 $book = $bookConverter [$book];
 
 $url = "https://net.bible.org/resource/netTexts/$book $chapter:$verse";
-$url = str_replace (" ", "%20", $url);
+$url = filter_string_str_replace (" ", "%20", $url);
 
 @$text = filter_url_file_get_contents ($url);
 
@@ -103,14 +103,14 @@ $output = $text;
 $output += "\n";
 
 $url = "https://net.bible.org/resource/netNotes/$book $chapter:$verse";
-$url = str_replace (" ", "%20", $url);
+$url = filter_string_str_replace (" ", "%20", $url);
 
 @$notes = filter_url_file_get_contents ($url);
 
 // The "bibleref" class experiences interference from other resources,
 // so that the reference would become invisible.
 // Remove this class, and the references will remain visible.
-$notes = str_replace ('class="bibleref"', '', $notes);
+$notes = filter_string_str_replace ('class="bibleref"', '', $notes);
 
 if ($notes) $output += $notes;
 

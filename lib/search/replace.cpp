@@ -106,7 +106,3 @@ string search_replace (void * webserver_request)
   
   return page;
 }
-/*
-Todo
-
-*/

@@ -210,7 +210,7 @@ class Text_Diff {
      */
     function filter_string_trimNewlines(&$line, $key='')
     {
-        $line = str_replace(array("\n", "\r"), '', $line);
+        $line = filter_string_str_replace(array("\n", "\r"), '', $line);
     }
 
     /**

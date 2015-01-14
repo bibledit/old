@@ -72,9 +72,9 @@ $unknown_abbreviations = array ();
 // Go through notes, do the replacement, collect unknown abbreviations.
 for ($allnotes as $note) {
   $note = $note ['text'];
-  $note = str_replace ('\x*', "", $note);
-  $note = str_replace ('\x', "", $note);
-  $note = str_replace ($abbreviations, "", $note);
+  $note = filter_string_str_replace ('\x*', "", $note);
+  $note = filter_string_str_replace ('\x', "", $note);
+  $note = filter_string_str_replace ($abbreviations, "", $note);
   $note = explode (" ", $note);
   for ($note as $fragment) {
     if (strlen ($fragment) <= 1) continue;

@@ -151,7 +151,7 @@ class Checks_Usfm
     }
     if ($position !== false) {
       $bit = substr ($usfm, $position - 1, 10);
-      $bit = str_replace ("\n", " ", $bit);
+      $bit = filter_string_str_replace ("\n", " ", $bit);
       $this->addResult ("New line within USFM: " . $bit, Checks_Usfm::displayNothing);
     }
   }
@@ -193,7 +193,7 @@ class Checks_Usfm
 
   private function forwardSlash ($usfm)
   {
-    $code = str_replace ("\n", " ", $usfm);
+    $code = filter_string_str_replace ("\n", " ", $usfm);
     $pos = strpos ($code, "/");
     if ($pos !== false) {
       $pos2 = strpos ($code, " ", $pos);

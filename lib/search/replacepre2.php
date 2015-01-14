@@ -62,10 +62,10 @@ $oldtext =  filter_string_markup_words (array ($searchfor), $text);
 
 
 if ($casesensitive) {
-  $newtext = str_replace ($searchfor, $replacewith, $text);
+  $newtext = filter_string_str_replace ($searchfor, $replacewith, $text);
 } else {
   $needles = filter_string_search_needles ($searchfor, $text);
-  $newtext = str_replace ($needles, $replacewith, $text);
+  $newtext = filter_string_str_replace ($needles, $replacewith, $text);
 }
 if ($replacewith != "") $newtext =  filter_string_markup_words (array ($replacewith), $newtext);
 

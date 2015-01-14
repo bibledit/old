@@ -1250,7 +1250,7 @@ else //user is authorized - display the main application
 						for($j=0; $j<sizeof($fields); $j++)
 						{
 							// PHP replaces space with underscore
-							$fields[$j] = str_replace(" ","_",$fields[$j]);
+							$fields[$j] = filter_string_str_replace(" ","_",$fields[$j]);
 							
 							$null = isset(request->post[$i.":".$fields[$j]."_null"]);
 							if(!$null)
@@ -1352,7 +1352,7 @@ else //user is authorized - display the main application
 						$query += ") VALUES (";
 						for($j=0; $j<sizeof($fields); $j++)
 						{
-							$field_index = str_replace(" ","_",$fields[$j]);
+							$field_index = filter_string_str_replace(" ","_",$fields[$j]);
 							$value = request->post[$pks[$i].":".$field_index];
 							$null = isset(request->post[$pks[$i].":".$field_index."_null"]);
 							$type = $result[$j][2];
@@ -1386,7 +1386,7 @@ else //user is authorized - display the main application
 						for($j=0; $j<sizeof($fields); $j++)
 						{
 							if(!is_numeric($pks[$i])) continue;
-							$field_index = str_replace(" ","_",$fields[$j]);
+							$field_index = filter_string_str_replace(" ","_",$fields[$j]);
 							$function = request->post["function_".$pks[$i]."_".$field_index];
 							$null = isset(request->post[$pks[$i].":".$field_index."_null"]);
 							$query += $db->quote_id($fields[$j])."=";
@@ -1583,7 +1583,7 @@ else //user is authorized - display the main application
 		{
 			$i++;
 			echo '[' . ($database['readable'] ? 'r':' ' ) . ($database['writable'] && $database['writable_dir'] ? 'w':' ' ) . '] ';
-			$url_path = str_replace(DIRECTORY_SEPARATOR,'/',$database['path']);
+			$url_path = filter_string_str_replace(DIRECTORY_SEPARATOR,'/',$database['path']);
 			if($database == $_SESSION[COOKIENAME.'currentDB'])
 				echo "<a href='?switchdb=".urlencode($database['path'])."' class='active_db'>".htmlencode($database['name'])."</a>  (<a href='".htmlencode($url_path)."' title='".$lang['backup']."'>&darr;</a>)";
 			else
@@ -1872,7 +1872,7 @@ else //user is authorized - display the main application
 
 					for($i=0; $i<sizeof($query); $i++) //iterate through the queries exploded by the delimiter
 					{
-						if(str_replace(" ", "", str_replace("\n", "", str_replace("\r", "", $query[$i])))!="") //make sure this query is not an empty string
+						if(str_replace(" ", "", filter_string_str_replace("\n", "", filter_string_str_replace("\r", "", $query[$i])))!="") //make sure this query is not an empty string
 						{
 							$queryTimer = new MicroTimer();
 							if(preg_match('/^\s*(?:select|pragma|explain)\s/i', $query[$i])===1)   // pragma and explain often return rows just like select
@@ -2122,7 +2122,7 @@ else //user is authorized - display the main application
 					for($i=0; $i<sizeof($result); $i++)
 					{
 						$field = $result[$i][1];
-						$field_index = str_replace(" ","_",$field);
+						$field_index = filter_string_str_replace(" ","_",$field);
 						$operator = request->post[$field_index.":operator"];
 						$value = request->post[$field_index];
 						if($value!="" || $operator=="!= ''" || $operator=="= ''")
@@ -2203,11 +2203,11 @@ else //user is authorized - display the main application
 								echo $tdWithClass;
 								$fldResult = $result[$j][$headers[$z]];
 								if(!empty($foundVal) and in_array($headers[$z], $fieldArr)){
-									$foundVal = str_replace('%', '', $foundVal);
+									$foundVal = filter_string_str_replace('%', '', $foundVal);
 									$fldResult = str_ireplace($foundVal[$cVal], '[fnd]'.$foundVal[$cVal].'[/fnd]', $fldResult);
 									$cVal++;
 								}
-								echo str_replace(array('[fnd]', '[/fnd]'), array('<u class="found">', '</u>'), htmlencode($fldResult));
+								echo filter_string_str_replace(array('[fnd]', '[/fnd]'), array('<u class="found">', '</u>'), htmlencode($fldResult));
 								echo "</td>";
 							}
 							echo "</tr>";
@@ -2593,7 +2593,7 @@ else //user is authorized - display the main application
 							<?php
 							for($i=0; $i<sizeof($arr); $i++)
 							{
-								$label = str_replace("'", "", htmlencode($arr[$i][$_SESSION[COOKIENAME.request->query['table'].'chartlabels']]));
+								$label = filter_string_str_replace("'", "", htmlencode($arr[$i][$_SESSION[COOKIENAME.request->query['table'].'chartlabels']]));
 								$value = htmlencode($arr[$i][$_SESSION[COOKIENAME.request->query['table'].'chartvalues']]);
 								
 								if($value==NULL || $value=="")
@@ -3726,7 +3726,7 @@ else //user is authorized - display the main application
 
 				for($i=0; $i<sizeof($query); $i++) //iterate through the queries exploded by the delimiter
 				{
-					if(str_replace(" ", "", str_replace("\n", "", str_replace("\r", "", $query[$i])))!="") //make sure this query is not an empty string
+					if(str_replace(" ", "", filter_string_str_replace("\n", "", filter_string_str_replace("\r", "", $query[$i])))!="") //make sure this query is not an empty string
 					{
 						$queryTimer = new MicroTimer();
 						if(preg_match('/^\s*(?:select|pragma|explain)\s/i', $query[$i])===1)   // pragma and explain often return rows just like select
@@ -4360,7 +4360,7 @@ class Database
 				if($debug) echo "<span title='".htmlencode($query)."' onclick='this.innerHTML=\"".htmlencode(str_replace('"','\"',$query))."\"' style='cursor:pointer'>SQL?</span><br />";
 				return false;
 			}
-			$tablename = str_replace('""','"',$matches[1]);
+			$tablename = filter_string_str_replace('""','"',$matches[1]);
 			$alterdefs = $matches[2];
 			if($debug) echo "ALTER TABLE QUERY=(".htmlencode($query)."), tablename=($tablename), alterdefs=($alterdefs)<hr>";
 			$result = $this->alterTable($tablename, $alterdefs);
@@ -4493,10 +4493,10 @@ class Database
 		{
 			if($preg_quote) $name = preg_quote($name,"/");
 			
-			$nameSingle = str_replace("'","''",$name);
-			$nameDouble = str_replace('"','""',$name);
-			$nameBacktick = str_replace('`','``',$name);
-			$nameSquare = str_replace(']',']]',$name);
+			$nameSingle = filter_string_str_replace("'","''",$name);
+			$nameDouble = filter_string_str_replace('"','""',$name);
+			$nameBacktick = filter_string_str_replace('`','``',$name);
+			$nameSquare = filter_string_str_replace(']',']]',$name);
 			$nameNo = $name;
 		}
 		
@@ -4641,13 +4641,13 @@ class Database
 						}
 						$action = strtolower($matches[1]);
 						if($action == 'add' || $action == 'rename to')	
-							$column = str_replace("''","'",$matches[4]);		// enclosed in ''
+							$column = filter_string_str_replace("''","'",$matches[4]);		// enclosed in ''
 						elseif($action == 'add primary key')
 							$column = $matches[2];	
 						else
-							$column = str_replace('""','"',$matches[3]);		// enclosed in ""
+							$column = filter_string_str_replace('""','"',$matches[3]);		// enclosed in ""
 
-						$column_escaped = str_replace("'","''",$column);
+						$column_escaped = filter_string_str_replace("'","''",$column);
 
 						if($debug) echo "action=($action), column=($column), column_escaped=($column_escaped)<hr />";
 
@@ -4741,7 +4741,7 @@ class Database
 									return false;
 								}
 								$createtesttableSQL = $newSQL;
-								$newcols[$column] = str_replace("''","'",$new_col_name);
+								$newcols[$column] = filter_string_str_replace("''","'",$new_col_name);
 								break;
 							case 'drop':
 								$preg_column_to_drop = "\s*".$this->sqlite_surroundings_preg($column)."\s+(?:".$this->sqlite_surroundings_preg("*",false,",'\"\[`").")+";      // delete this part (we want to drop this column)
@@ -4932,7 +4932,7 @@ class Database
 	public function quote_id($value)
 	{
 		// double-quotes need to be escaped by doubling them
-		$value = str_replace('"','""',$value);
+		$value = filter_string_str_replace('"','""',$value);
 		return '"'.$value.'"';
 	}
 
@@ -5042,11 +5042,11 @@ class Database
 						$cell = $arr[$z][$cols[$y]];
 						if($crlf)
 						{
-							$cell = str_replace("\n","", $cell);
-							$cell = str_replace("\r","", $cell);
+							$cell = filter_string_str_replace("\n","", $cell);
+							$cell = filter_string_str_replace("\r","", $cell);
 						}
-						$cell = str_replace($field_terminate,$field_escaped.$field_terminate,$cell);
-						$cell = str_replace($field_enclosed,$field_escaped.$field_enclosed,$cell);
+						$cell = filter_string_str_replace($field_terminate,$field_escaped.$field_terminate,$cell);
+						$cell = filter_string_str_replace($field_enclosed,$field_escaped.$field_enclosed,$cell);
 						// do not enclose NULLs
 						if($cell == NULL)
 							echo $null;  

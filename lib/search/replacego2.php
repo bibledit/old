@@ -58,10 +58,10 @@ if ($searchplain) {
   $standardReplacementCount = 0;
   $standardPlainText = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
   if ($casesensitive) {
-    $standardPlainText = str_replace ($searchfor, $replacewith, $standardPlainText, $standardReplacementCount);
+    $standardPlainText = filter_string_str_replace ($searchfor, $replacewith, $standardPlainText, $standardReplacementCount);
   } else {
     $needles = filter_string_search_needles ($searchfor, $standardPlainText);
-    $standardPlainText = str_replace ($needles, $replacewith, $standardPlainText, $standardReplacementCount);
+    $standardPlainText = filter_string_str_replace ($needles, $replacewith, $standardPlainText, $standardReplacementCount);
   }
 }
 
@@ -81,10 +81,10 @@ for ($verses as $vs) {
 $usfm = $usfmArray [$verse];
 $usfmReplacementCount = 0;
 if ($casesensitive) {
-  $usfm = str_replace ($searchfor, $replacewith, $usfm, $usfmReplacementCount);
+  $usfm = filter_string_str_replace ($searchfor, $replacewith, $usfm, $usfmReplacementCount);
 } else {
   $needles = filter_string_search_needles ($searchfor, $usfm);
-  $usfm = str_replace ($needles, $replacewith, $usfm, $usfmReplacementCount);
+  $usfm = filter_string_str_replace ($needles, $replacewith, $usfm, $usfmReplacementCount);
 }
 $usfmArray [$verse] = $usfm;
 

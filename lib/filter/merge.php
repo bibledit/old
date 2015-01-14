@@ -88,23 +88,23 @@ class Filter_Merge
 
   private static function lines2words ($data)
   {
-    $data = str_replace ("\n", " new__line ", $data);
-    $data = str_replace (" ", "\n", $data);
+    $data = filter_string_str_replace ("\n", " new__line ", $data);
+    $data = filter_string_str_replace (" ", "\n", $data);
     return $data;
   }
 
 
   private static function words2lines ($data)
   {
-    $data = str_replace ("\n", " ", $data);
-    $data = str_replace (" new__line ", "\n", $data);
+    $data = filter_string_str_replace ("\n", " ", $data);
+    $data = filter_string_str_replace (" new__line ", "\n", $data);
     return $data;
   }
 
 
   private static function lines2graphemes ($data)
   {
-    $data = str_replace ("\n", " new__line ", $data);
+    $data = filter_string_str_replace ("\n", " new__line ", $data);
     $data2 = "";
     $count = unicode_string_length ($data);
     for ($i = 0; $i < $count; $i++) {
@@ -118,8 +118,8 @@ class Filter_Merge
 
   private static function graphemes2lines ($data)
   {
-    $data = str_replace ("\n", "", $data);
-    $data = str_replace (" new__line ", "\n", $data);
+    $data = filter_string_str_replace ("\n", "", $data);
+    $data = filter_string_str_replace (" new__line ", "\n", $data);
     return $data;
   }
 

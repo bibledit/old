@@ -38,7 +38,7 @@ function gbsdigitaal ($url, $verse)
         if ($data->number == $verse) {
           if (isset ($data->text)) {
             $text = $data->text;
-            $text = str_replace ('<br />', "", $text);
+            $text = filter_string_str_replace ('<br />', "", $text);
             $text = preg_replace('/<sup[^<]+(<\/sup>)/i', '', $text);
     
             // Remove the pilcrow sign / paragraph sign if it's there.

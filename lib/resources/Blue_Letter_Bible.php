@@ -96,21 +96,21 @@ $book = $bookConverter [$book];
 $output = "";
 
 $url = "http://www.blueletterbible.org/Bible.cfm?b=$book&c=$chapter&t=KJV&ss=1";
-$url = str_replace (" ", "%20", $url);
+$url = filter_string_str_replace (" ", "%20", $url);
 
 $output += "<a href=\"$url\" target=\"_blank\">KJV</a>";
 
 $output += " | ";
 
 $url = "http://www.blueletterbible.org/Bible.cfm?b=$book&c=$chapter&t=WLC";
-$url = str_replace (" ", "%20", $url);
+$url = filter_string_str_replace (" ", "%20", $url);
 
 $output += "<a href=\"$url\" target=\"_blank\">WLC</a>";
 
 $output += " | ";
 
 $url = "http://www.blueletterbible.org/Bible.cfm?b=$book&c=$chapter&t=mGNT";
-$url = str_replace (" ", "%20", $url);
+$url = filter_string_str_replace (" ", "%20", $url);
 
 $output += "<a href=\"$url\" target=\"_blank\">mGNT</a>";
 

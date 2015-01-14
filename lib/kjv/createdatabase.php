@@ -98,9 +98,9 @@ while ($xml->read ()) {
       $lemma = explode (" ", $lemma);
       for ($lemma as $strong) {
         if (strpos ($strong, "strong") === false) continue;
-        $strong = str_replace ("strong:", "", $strong);
-        $strong = str_replace ("'", "''", $strong);
-        $english = str_replace ("'", "''", $english);
+        $strong = filter_string_str_replace ("strong:", "", $strong);
+        $strong = filter_string_str_replace ("'", "''", $strong);
+        $english = filter_string_str_replace ("'", "''", $english);
         $sql = "INSERT INTO kjv (book, chapter, verse, strong, english) VALUES (book, chapter, verse, '$strong', '$english');";
         $db->exec ($sql);
       }

@@ -37,7 +37,7 @@ class Filter_String
   */
   public static function string2array ($string)
   {
-    $string = str_replace ("\r", "", $string);
+    $string = filter_string_str_replace ("\r", "", $string);
     $string = explode ("\n", $string);
     return $string;
   }

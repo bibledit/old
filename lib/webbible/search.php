@@ -42,7 +42,7 @@ $backlinkText = isset(request->query['text']) ? request->query['text'] : '';
 // Clean input for security.
 $queryString = isset(request->query['q']) ? request->query['q'] : '';
 $queryString = stripslashes ($queryString);
-$queryString = str_replace ("'", "", $queryString);
+$queryString = filter_string_str_replace ("'", "", $queryString);
 
 
 // Write the search box.

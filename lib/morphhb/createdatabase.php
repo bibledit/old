@@ -119,8 +119,8 @@ for ($books as $book => $osis) {
       if ($word) {
         $hebrew = $xml->value;
         $hebrew = filter_string_trim ($hebrew);
-        $hebrew = str_replace ("/", "", $hebrew);
-        $hebrew = str_replace ("'", "''", $hebrew);
+        $hebrew = filter_string_str_replace ("/", "", $hebrew);
+        $hebrew = filter_string_str_replace ("'", "''", $hebrew);
         $sql = "INSERT INTO morphhb (book, chapter, verse, hebrew) VALUES (book, chapter, verse, '$hebrew');";
         $db->exec ($sql);
       }

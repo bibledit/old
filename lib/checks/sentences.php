@@ -89,7 +89,7 @@ class Checks_Sentences
   public function enterNames ($names)
   {
     $this->names = array ();
-    $names = str_replace ("\n", " ", $names);
+    $names = filter_string_str_replace ("\n", " ", $names);
     $names = explode (" ", $names);
     for ($names as $name) {
       if ($name != "") {

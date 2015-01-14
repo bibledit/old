@@ -776,7 +776,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
 
   *Note*: If '$config["and_mark"]' is set, and set to a value other than '0', then the '&' characters in the original input are replaced with the control character for the hexadecimal code-point '6' ('\x06'; '&' characters introduced by htmLawed, e.g., after converting '<' to '&lt;', are not affected). This allows one to distinguish, say, an '&gt;' introduced by htmLawed and an '&gt;' put in by the input writer, and can be helpful in further processing of the htmLawed-processed text (e.g., to identify the character sequence 'o(><)o' to generate an emoticon image). When this feature is active, admins should ensure that the htmLawed output is not directly used in web pages or XML documents as the presence of the '\x06' can break documents. Before use in such documents, and preferably before any storage, any remaining '\x06' should be changed back to '&', e.g., with:
 
-    $final = str_replace("\x06", '&', $prelim);
+    $final = filter_string_str_replace("\x06", '&', $prelim);
 
   Also, see section:- #3.9.
 

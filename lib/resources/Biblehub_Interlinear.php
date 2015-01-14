@@ -124,17 +124,17 @@ for ($tidied as $line) {
 
 $html = implode ("\n", $filtered_lines);
 
-$html = str_replace ('title=', 'target="_blank" title=', $html);
+$html = filter_string_str_replace ('title=', 'target="_blank" title=', $html);
 
-$html = str_replace ('/abbrev.htm', 'http://biblehub.com/abbrev.htm', $html);
-$html = str_replace ('/hebrew/', 'http://biblehub.com/hebrew/', $html);
-$html = str_replace ('/hebrewparse.htm', 'http://biblehub.com/hebrewparse.htm', $html);
-$html = str_replace ('/greek/', 'http://biblehub.com/greek/', $html);
-$html = str_replace ('/grammar/', 'http://biblehub.com/grammar/', $html);
+$html = filter_string_str_replace ('/abbrev.htm', 'http://biblehub.com/abbrev.htm', $html);
+$html = filter_string_str_replace ('/hebrew/', 'http://biblehub.com/hebrew/', $html);
+$html = filter_string_str_replace ('/hebrewparse.htm', 'http://biblehub.com/hebrewparse.htm', $html);
+$html = filter_string_str_replace ('/greek/', 'http://biblehub.com/greek/', $html);
+$html = filter_string_str_replace ('/grammar/', 'http://biblehub.com/grammar/', $html);
 
-$html = str_replace ('height="145"', '', $html);
+$html = filter_string_str_replace ('height="145"', '', $html);
 
-$html = str_replace ('&nbsp;&nbsp;', '&nbsp;', $html);
+$html = filter_string_str_replace ('&nbsp;&nbsp;', '&nbsp;', $html);
 
 // Stylesheet for using web fonts,
 // because installing fonts on some tablets is very hard.

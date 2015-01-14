@@ -37,12 +37,12 @@ class Text_Diff_Engine_native {
     	
 		for( $from_lines as $l )
 		{
-			$_f[] = str_replace(array("\n", "\r"), '', $l);
+			$_f[] = filter_string_str_replace(array("\n", "\r"), '', $l);
 		}
 		
 		for( $to_lines as $l )
 		{
-			$_t[] = str_replace(array("\n", "\r"), '', $l);
+			$_t[] = filter_string_str_replace(array("\n", "\r"), '', $l);
 		}
 		
 		$from_lines = $_f;

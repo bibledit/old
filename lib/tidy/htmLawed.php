@@ -21,7 +21,7 @@ $e = array('a'=>1, 'abbr'=>1, 'acronym'=>1, 'address'=>1, 'applet'=>1, 'area'=>1
 if(!empty($C['safe'])){
  unset($e['applet'], $e['embed'], $e['iframe'], $e['object'], $e['script']);
 }
-$x = !empty($C['elements']) ? str_replace(array("\n", "\r", "\t", ' '), '', $C['elements']) : '*';
+$x = !empty($C['elements']) ? filter_string_str_replace(array("\n", "\r", "\t", ' '), '', $C['elements']) : '*';
 if($x == '-*'){$e = array();}
 elseif(strpos($x, '*') === false){$e = array_flip(explode(',', $x));}
 else{
@@ -36,7 +36,7 @@ else{
 }
 $C['elements'] =& $e;
 // config attrs
-$x = !empty($C['deny_attribute']) ? str_replace(array("\n", "\r", "\t", ' '), '', $C['deny_attribute']) : '';
+$x = !empty($C['deny_attribute']) ? filter_string_str_replace(array("\n", "\r", "\t", ' '), '', $C['deny_attribute']) : '';
 $x = array_flip((isset($x[0]) && $x[0] == '*') ? explode('-', $x) : explode(',', $x. (!empty($C['safe']) ? ',on*' : '')));
 if(isset($x['on*'])){
  unset($x['on*']);
@@ -46,7 +46,7 @@ $C['deny_attribute'] = $x;
 // config URL
 $x = (isset($C['schemes'][2]) && strpos($C['schemes'], ':')) ? strtolower($C['schemes']) : 'href: aim, feed, file, ftp, gopher, http, https, irc, mailto, news, nntp, sftp, ssh, telnet; *:file, http, https';
 $C['schemes'] = array();
-for(explode(';', str_replace(array(' ', "\t", "\r", "\n"), '', $x)) as $v){
+for(explode(';', filter_string_str_replace(array(' ', "\t", "\r", "\n"), '', $x)) as $v){
  $x = $x2 = null; list($x, $x2) = explode(':', $v, 2);
  if($x2){$C['schemes'][$x] = array_flip(explode(',', $x2));}
 }
@@ -94,7 +94,7 @@ if($C['clean_ms_char']){
  $t = strtr($t, $x);
 }
 if($C['cdata'] or $C['comment']){$t = preg_replace_callback('`<!(?:(?:--.*?--)|(?:\[CDATA\[.*?\]\]))>`sm', 'hl_cmtcd', $t);}
-$t = preg_replace_callback('`&amp;([A-Za-z][A-Za-z0-9]{1,30}|#(?:[0-9]{1,8}|[Xx][0-9A-Fa-f]{1,7}));`', 'hl_ent', str_replace('&', '&amp;', $t));
+$t = preg_replace_callback('`&amp;([A-Za-z][A-Za-z0-9]{1,30}|#(?:[0-9]{1,8}|[Xx][0-9A-Fa-f]{1,7}));`', 'hl_ent', filter_string_str_replace('&', '&amp;', $t));
 if($C['unique_ids'] && !isset($GLOBALS['hl_Ids'])){$GLOBALS['hl_Ids'] = array();}
 if($C['hook']){$t = $C['hook']($t, $C, $S);}
 if($C['show_setting'] && preg_match('`^[a-z][a-z0-9_]*$`i', $C['show_setting'])){
@@ -103,7 +103,7 @@ if($C['show_setting'] && preg_match('`^[a-z][a-z0-9_]*$`i', $C['show_setting']))
 // main
 $t = preg_replace_callback('`<(?:(?:\s|$)|(?:[^>]*(?:>|$)))|>`m', 'hl_tag', $t);
 $t = $C['balance'] ? hl_bal($t, $C['keep_bad'], $C['parent']) : $t;
-$t = (($C['cdata'] or $C['comment']) && strpos($t, "\x01") !== false) ? str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05"), array('', '', '&', '<', '>'), $t) : $t;
+$t = (($C['cdata'] or $C['comment']) && strpos($t, "\x01") !== false) ? filter_string_str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05"), array('', '', '&', '<', '>'), $t) : $t;
 $t = $C['tidy'] ? hl_tidy($t, $C['tidy'], $C['parent']) : $t;
 unset($C, $e);
 if(isset($reC)){$GLOBALS['C'] = $reC;}
@@ -164,7 +164,7 @@ $eF = $eB + $eI;
 // $in sets allowed child
 $in = ((isset($eF[$in]) && $in != '#pcdata') or isset($eO[$in])) ? $in : 'div';
 if(isset($cE[$in])){
- return (!$do ? '' : str_replace(array('<', '>'), array('&lt;', '&gt;'), $t));
+ return (!$do ? '' : filter_string_str_replace(array('<', '>'), array('&lt;', '&gt;'), $t));
 }
 if(isset($cS[$in])){$inOk = $cS[$in];}
 elseif(isset($cI[$in])){$inOk = $eI; $cI['del'] = 1; $cI['ins'] = 1;}
@@ -306,8 +306,8 @@ if($n == 'comment'){
  if(substr(($t = preg_replace('`--+`', '-', substr($t, 4, -3))), -1) != ' '){$t += ' ';}
 }
 else{$t = substr($t, 1, -1);}
-$t = $v == 2 ? str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), $t) : $t;
-return str_replace(array('&', '<', '>'), array("\x03", "\x04", "\x05"), ($n == 'comment' ? "\x01\x02\x04!--$t--\x05\x02\x01" : "\x01\x01\x04$t\x05\x01\x01"));
+$t = $v == 2 ? filter_string_str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), $t) : $t;
+return filter_string_str_replace(array('&', '<', '>'), array("\x03", "\x04", "\x05"), ($n == 'comment' ? "\x01\x02\x04!--$t--\x05\x02\x01" : "\x01\x01\x04$t\x05\x01\x01"));
 // eof
 }
 
@@ -379,7 +379,7 @@ return $r;
 function hl_spec($t){
 // final $spec
 $s = array();
-$t = str_replace(array("\t", "\r", "\n", ' '), '', preg_replace_callback('/"(?>(`.|[^"])*)"/sm', create_function('$m', 'return substr(str_replace(array(";", "|", "~", " ", ",", "/", "(", ")", \'`"\'), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\""), $m[0]), 1, -1);'), filter_string_trim($t))); 
+$t = filter_string_str_replace(array("\t", "\r", "\n", ' '), '', preg_replace_callback('/"(?>(`.|[^"])*)"/sm', create_function('$m', 'return substr(str_replace(array(";", "|", "~", " ", ",", "/", "(", ")", \'`"\'), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\""), $m[0]), 1, -1);'), filter_string_trim($t))); 
 for($i = count(($t = explode(';', $t))); --$i>=0;){
  $w = $t[$i];
  if(empty($w) or ($e = strpos($w, '=')) === false or !strlen(($a =  substr($w, $e+1)))){continue;}
@@ -391,7 +391,7 @@ for($i = count(($t = explode(';', $t))); --$i>=0;){
   if(!isset($m[2])){$y[$x] = 1; continue;}
   for(explode('/', $m[2]) as $m){
    if(empty($m) or ($p = strpos($m, '=')) == 0 or $p < 5){$y[$x] = 1; continue;}
-   $y[$x][strtolower(substr($m, 0, $p))] = str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08"), array(";", "|", "~", " ", ",", "/", "(", ")"), substr($m, $p+1));
+   $y[$x][strtolower(substr($m, 0, $p))] = filter_string_str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08"), array(";", "|", "~", " ", ",", "/", "(", ")"), substr($m, $p+1));
   }
   if(isset($y[$x]['match']) && !hl_regex($y[$x]['match'])){unset($y[$x]['match']);}
   if(isset($y[$x]['nomatch']) && !hl_regex($y[$x]['nomatch'])){unset($y[$x]['nomatch']);}
@@ -415,22 +415,22 @@ $t = $t[0];
 if($t == '< '){return '&lt; ';}
 if($t == '>'){return '&gt;';}
 if(!preg_match('`^<(/?)([a-zA-Z][a-zA-Z1-6]*)([^>]*?)\s?>$`m', $t, $m)){
- return str_replace(array('<', '>'), array('&lt;', '&gt;'), $t);
+ return filter_string_str_replace(array('<', '>'), array('&lt;', '&gt;'), $t);
 }elseif(!isset($C['elements'][($e = strtolower($m[2]))])){
- return (($C['keep_bad']%2) ? str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : '');
+ return (($C['keep_bad']%2) ? filter_string_str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : '');
 }
 // attr string
-$a = str_replace(array("\n", "\r", "\t"), ' ', filter_string_trim($m[3]));
+$a = filter_string_str_replace(array("\n", "\r", "\t"), ' ', filter_string_trim($m[3]));
 // tag transform
 static $eD = array('applet'=>1, 'center'=>1, 'dir'=>1, 'embed'=>1, 'font'=>1, 'isindex'=>1, 'menu'=>1, 's'=>1, 'strike'=>1, 'u'=>1); // Deprecated
 if($C['make_tag_strict'] && isset($eD[$e])){
  $trt = hl_tag2($e, $a, $C['make_tag_strict']);
- if(!$e){return (($C['keep_bad']%2) ? str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : '');}
+ if(!$e){return (($C['keep_bad']%2) ? filter_string_str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : '');}
 }
 // close tag
 static $eE = array('area'=>1, 'br'=>1, 'col'=>1, 'embed'=>1, 'hr'=>1, 'img'=>1, 'input'=>1, 'isindex'=>1, 'param'=>1); // Empty ele
 if(!empty($m[1])){
- return (!isset($eE[$e]) ? (empty($C['hook_tag']) ? "</$e>" : $C['hook_tag']($e)) : (($C['keep_bad'])%2 ? str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : ''));
+ return (!isset($eE[$e]) ? (empty($C['hook_tag']) ? "</$e>" : $C['hook_tag']($e)) : (($C['keep_bad'])%2 ? filter_string_str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : ''));
 }
 
 // open tag & attr
@@ -504,11 +504,11 @@ for($aA as $k=>$v){
    $v = preg_replace_callback('`(url(?:\()(?: )*(?:\'|"|&(?:quot|apos);)?)(.+?)((?:\'|"|&(?:quot|apos);)?(?: )*(?:\)))`iS', 'hl_prot', $v);
    $v = !$C['css_expression'] ? preg_replace('`expression`i', ' ', preg_replace('`\\\\\S|(/|(%2f))(\*|(%2a))`i', ' ', $v)) : $v;
   }elseif(isset($aNP[$k]) or strpos($k, 'src') !== false or $k[0] == 'o'){
-   $v = str_replace("\xad", ' ', (strpos($v, '&') !== false ? str_replace(array('&#xad;', '&#173;', '&shy;'), ' ', $v) : $v));
+   $v = filter_string_str_replace("\xad", ' ', (strpos($v, '&') !== false ? filter_string_str_replace(array('&#xad;', '&#173;', '&shy;'), ' ', $v) : $v));
    $v = hl_prot($v, $k);
    if($k == 'href'){ // X-spam
     if($C['anti_mail_spam'] && strpos($v, 'mailto:') === 0){
-     $v = str_replace('@', htmlspecialchars($C['anti_mail_spam']), $v);
+     $v = filter_string_str_replace('@', htmlspecialchars($C['anti_mail_spam']), $v);
     }elseif($C['anti_link_spam']){
      $r1 = $C['anti_link_spam'][1];
      if(!empty($r1) && preg_match($r1, $v)){continue;}
@@ -524,7 +524,7 @@ for($aA as $k=>$v){
    }
   }
   if(isset($rl[$k]) && is_array($rl[$k]) && ($v = hl_attrval($v, $rl[$k])) === 0){continue;}
-  $a[$k] = str_replace('"', '&quot;', $v);
+  $a[$k] = filter_string_str_replace('"', '&quot;', $v);
  }
 }
 if($nfr){$a['rel'] = isset($a['rel']) ? $a['rel']. ' nofollow' : 'nofollow';}
@@ -626,7 +626,7 @@ static $fs = array('0'=>'xx-small', '1'=>'xx-small', '2'=>'small', '3'=>'medium'
 if($e == 'font'){
  $a2 = '';
  if(preg_match('`face\s*=\s*(\'|")([^=]+?)\\1`i', $a, $m) or preg_match('`face\s*=(\s*)(\S+)`i', $a, $m)){
-  $a2 += ' font-family: '. str_replace('"', '\'', filter_string_trim($m[2])). ';';
+  $a2 += ' font-family: '. filter_string_str_replace('"', '\'', filter_string_trim($m[2])). ';';
  }
  if(preg_match('`color\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m)){
   $a2 += ' color: '. filter_string_trim($m[2]). ';';
@@ -644,9 +644,9 @@ return '';
 function hl_tidy($t, $w, $p){
 // Tidy/compact HTM
 if(strpos(' pre,script,textarea', "$p,")){return $t;}
-$t = preg_replace('`\s+`', ' ', preg_replace_callback(array('`(<(!\[CDATA\[))(.+?)(\]\]>)`sm', '`(<(!--))(.+?)(-->)`sm', '`(<(pre|script|textarea)[^>]*?>)(.+?)(</\2>)`sm'), create_function('$m', 'return $m[1]. str_replace(array("<", ">", "\n", "\r", "\t", " "), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x07"), $m[3]). $m[4];'), $t));
+$t = preg_replace('`\s+`', ' ', preg_replace_callback(array('`(<(!\[CDATA\[))(.+?)(\]\]>)`sm', '`(<(!--))(.+?)(-->)`sm', '`(<(pre|script|textarea)[^>]*?>)(.+?)(</\2>)`sm'), create_function('$m', 'return $m[1]. filter_string_str_replace(array("<", ">", "\n", "\r", "\t", " "), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x07"), $m[3]). $m[4];'), $t));
 if(($w = strtolower($w)) == -1){
- return str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x07"), array('<', '>', "\n", "\r", "\t", ' '), $t);
+ return filter_string_str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x07"), array('<', '>', "\n", "\r", "\t", ' '), $t);
 }
 $s = strpos(" $w", 't') ? "\t" : ' ';
 $s = preg_match('`\d`', $w, $m) ? str_repeat($s, $m[0]) : str_repeat($s, ($s == "\t" ? 1 : 2));
@@ -687,12 +687,12 @@ while($X){
  }
  $X = 0;
 }
-$t = str_replace(array("\n ", " \n"), "\n", preg_replace('`[\n]\s*?[\n]+`', "\n", ob_get_contents()));
+$t = filter_string_str_replace(array("\n ", " \n"), "\n", preg_replace('`[\n]\s*?[\n]+`', "\n", ob_get_contents()));
 ob_end_clean();
 if(($l = strpos(" $w", 'r') ? (strpos(" $w", 'n') ? "\r\n" : "\r") : 0)){
- $t = str_replace("\n", $l, $t);
+ $t = filter_string_str_replace("\n", $l, $t);
 }
-return str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x07"), array('<', '>', "\n", "\r", "\t", ' '), $t);
+return filter_string_str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x07"), array('<', '>', "\n", "\r", "\t", ' '), $t);
 // eof
 }
 

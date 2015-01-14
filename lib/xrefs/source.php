@@ -54,8 +54,8 @@ $html = $editor_import->get ();
 // text, and vice versa.
 // Fix the source text, because the source text can be modified, since it won't be saved.
 for ($i = 1; $i < 1000; $i++) {
-  $html = str_replace ('note' . $i . '"', 'note' . ($i + 1000) . '"', $html);
-  $html = str_replace ('citation' . $i . '"', 'citation' . ($i + 1000) . '"', $html);
+  $html = filter_string_str_replace ('note' . $i . '"', 'note' . ($i + 1000) . '"', $html);
+  $html = filter_string_str_replace ('citation' . $i . '"', 'citation' . ($i + 1000) . '"', $html);
 }
 
 

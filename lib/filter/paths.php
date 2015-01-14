@@ -47,7 +47,7 @@ class Filter_Paths
     // Add the name for the book. No spaces.
     $filename += str_pad ($book, 2, "0", STR_PAD_LEFT);
     $book = Database_Books::getEnglishFromId ($book);
-    $book = str_replace (" ", "", $book);
+    $book = filter_string_str_replace (" ", "", $book);
     $filename += '-' . $book;
 
     // No chapter given: Provide name for the index files of all chapters in a book.

@@ -70,9 +70,13 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, "1f3870be274f6c49b3e31a0c6728957f", md5 ("apple"));
   }
   {
-    // Test str_replace.
+    // Test filter_string_str_replace.
     // Shows that std::string handles UTF-8 well for simple operations. 
     evaluate (__LINE__, __func__, "⇊⇦", filter_string_str_replace ("⇖", "", "⇊⇖⇦"));
+    // Exercise the replacement counter.
+    int counter = 0;
+    evaluate (__LINE__, __func__, "a", filter_string_str_replace ("bc", "", "abc", &counter));
+    evaluate (__LINE__, __func__, 1, counter);
   }
   {
     // Test filter_string_array_unique, a C++ equivalent for PHP's array_unique function.

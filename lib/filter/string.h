@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 vector <string> filter_string_explode (string value, char delimiter);
 string filter_string_implode (vector <string>& values, string delimiter);
-string filter_string_str_replace (string search, string replace, string subject);
+string filter_string_str_replace (string search, string replace, string subject, int * count = NULL);
 string convert_to_string (unsigned int i);
 string convert_to_string (int i);
 string convert_to_string (char * c);

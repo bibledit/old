@@ -48,10 +48,10 @@ if (isset ($load)) {
   $versetext = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
   $punctuation = Database_Config_Bible::getSentenceStructureEndPunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
-  $versetext = str_replace ($punctuation, "", $versetext);
+  $versetext = filter_string_str_replace ($punctuation, "", $versetext);
   $punctuation = Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
-  $versetext = str_replace ($punctuation, "", $versetext);
+  $versetext = filter_string_str_replace ($punctuation, "", $versetext);
   $versetext = filter_string_trim ($versetext);
 
   $database_volatile->setValue ($myIdentifier, "searchsimilar", $versetext);

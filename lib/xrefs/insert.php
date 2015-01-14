@@ -79,7 +79,7 @@ $allxrefs = unserialize ($allxrefs);
 
 // Replace the abbreviations in the cross references.
 for ($allxrefs as $key => $xref) {
-  $allxrefs [$key] ['text'] = str_replace ($find, $replace, $allxrefs [$key] ['text']);
+  $allxrefs [$key] ['text'] = filter_string_str_replace ($find, $replace, $allxrefs [$key] ['text']);
 }
 
 
