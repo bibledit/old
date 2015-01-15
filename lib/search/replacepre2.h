@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_SEARCH_REPLACEGO_H
-#define INCLUDED_SEARCH_REPLACEGO_H
+#ifndef INCLUDED_SEARCH_REPLACEPRE2_H
+#define INCLUDED_SEARCH_REPLACEPRE2_H
 
 
 #include <config/libraries.h>
 
 
-string search_replacego_url ();
-bool search_replacego_acl (void * webserver_request);
-string search_replacego (void * webserver_request);
+string search_replacepre2_url ();
+bool search_replacepre2_acl (void * webserver_request);
+string search_replacepre2 (void * webserver_request);
 
 
 #endif

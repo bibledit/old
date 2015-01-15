@@ -83,6 +83,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/replacepre.h>
 #include <search/replacego.h>
 #include <search/search2.h>
+#include <search/replace2.h>
+#include <search/replacepre2.h>
+#include <search/getids2.h>
+#include <search/replacego2.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -158,6 +162,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_select_url ()) && search_select_acl (request)) request->reply = search_select (request);
   else if ((url == search_replace_url ()) && search_replace_acl (request)) request->reply = search_replace (request);
   else if ((url == search_search2_url ()) && search_search2_acl (request)) request->reply = search_search2 (request);
+  else if ((url == search_replace2_url ()) && search_replace2_acl (request)) request->reply = search_replace2 (request);
 
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);
@@ -180,6 +185,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_getids_url ()) && search_getids_acl (request)) request->reply = search_getids (request);
   else if ((url == search_replacepre_url ()) && search_replacepre_acl (request)) request->reply = search_replacepre (request);
   else if ((url == search_replacego_url ()) && search_replacego_acl (request)) request->reply = search_replacego (request);
+  else if ((url == search_replacepre2_url ()) && search_replacepre2_acl (request)) request->reply = search_replacepre2 (request);
+  else if ((url == search_getids2_url ()) && search_getids2_acl (request)) request->reply = search_getids2 (request);
+  else if ((url == search_replacego2_url ()) && search_replacego2_acl (request)) request->reply = search_replacego2 (request);
 
   // Forward the browser to the default home page.
   else {
