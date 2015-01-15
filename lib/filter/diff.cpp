@@ -21,7 +21,6 @@
 #include <filter/string.h>
 #include <dtl/dtl.hpp>
 using dtl::Diff;
-#include <cmath>
 
 
 // This filter returns the diff of two input strngs.

@@ -37,9 +37,9 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $bibles = access_bible_bibles ();
-$book = $ipc_focus->getBook ();
-$chapter = $ipc_focus->getChapter ();
-$verse = $ipc_focus->getVerse ();
+$book = Ipc_Focus::getBook ();
+$chapter = Ipc_Focus::getChapter ();
+$verse = Ipc_Focus::getVerse ();
 $passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
 $edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
 $non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
@@ -52,7 +52,7 @@ $text_selector = request->database_config_user()->getConsultationNotesTextSelect
 $search_text = request->database_config_user()->getConsultationNotesSearchText();
 
 
-$userid = Filter_User::myIdentifier ();
+$userid = filter_string_user_identifier ();
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -76,12 +76,12 @@ if (count (request->query) == 0) {
                                                $text_selector,
                                                $search_text,
                                                NULL);
-  $database_volatile->setValue ($userid, "identifiers", serialize ($identifiers));
+  database_volatile.setValue ($userid, "identifiers", serialize ($identifiers));
 }
 
 
 // Get the stored note identifiers from the database.
-$identifiers = unserialize ($database_volatile->getValue ($userid, "identifiers"));
+$identifiers = unserialize (database_volatile.getValue ($userid, "identifiers"));
 
 
 $identifierlist = "";

@@ -39,15 +39,15 @@ if ($bible == "") {
 
 @$book = request->post ['book'];
 if ($book == "") {
-  $book = $ipc_focus->getBook ();
+  $book = Ipc_Focus::getBook ();
 }
 @$chapter = request->post ['chapter'];
 if ($chapter == "") {
-  $chapter = $ipc_focus->getChapter ();
+  $chapter = Ipc_Focus::getChapter ();
 }
 @$verse = request->post ['verse'];
 if ($verse == "") {
-  $verse = $ipc_focus->getVerse ();
+  $verse = Ipc_Focus::getVerse ();
 }
 
 

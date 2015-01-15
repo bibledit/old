@@ -28,9 +28,9 @@ $ipc_focus = Ipc_Focus::getInstance ();
 
 
 $username = request->session_logic()->currentUser ();
-$focused_book = $ipc_focus->getBook ();
-$focused_chapter = $ipc_focus->getChapter ();
-$focused_verse = $ipc_focus->getVerse ();
+$focused_book = Ipc_Focus::getBook ();
+$focused_chapter = Ipc_Focus::getChapter ();
+$focused_verse = Ipc_Focus::getVerse ();
 
 
 $header = new Assets_Header (gettext("Change History"));

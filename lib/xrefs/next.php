@@ -32,8 +32,8 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $bible = request->database_config_user()->getTargetXrefBible ();
 
 
-$currentBook = $ipc_focus->getBook ();
-$currentChapter = $ipc_focus->getChapter ();
+$currentBook = Ipc_Focus::getBook ();
+$currentChapter = Ipc_Focus::getChapter ();
 $currentPassage = array ($currentBook, $currentChapter, 1);
 $currentLocation = filter_passage_to_integer ($currentPassage);
 
@@ -49,7 +49,7 @@ for ($books as $book) {
       $usfm = request->database_bibles()->getChapter (bible, book, chapter);
       $xrefs = Filter_Usfm::extractNotes ($usfm, array ("x"));
       if (empty ($xrefs)) {
-        $ipc_focus->set ($book, $chapter, 1);
+        Ipc_Focus::set ($book, $chapter, 1);
         redirect_browser ("index.php");
         die;
       }

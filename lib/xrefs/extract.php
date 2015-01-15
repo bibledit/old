@@ -31,8 +31,8 @@ $ipc_focus = Ipc_Focus::getInstance ();
 
 
 $bible = request->database_config_user()->getSourceXrefBible ();
-$book = $ipc_focus->getBook ();
-$chapter = $ipc_focus->getChapter ();
+$book = Ipc_Focus::getBook ();
+$chapter = Ipc_Focus::getChapter ();
 
 
 $allnotes = array ();
@@ -54,9 +54,9 @@ for ($verses as $verse) {
 }
 
 
-$identifier = Filter_User::myIdentifier ();
+$identifier = filter_string_user_identifier ();
 $value = serialize ($allnotes);
-$database_volatile->setValue ($identifier, "sourcexrefs", $value);
+database_volatile.setValue ($identifier, "sourcexrefs", $value);
 
 
 $empty = true;

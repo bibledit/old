@@ -196,9 +196,9 @@ $view->view->textinclusionselector = $text_inclusion_selector;
 if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 
 
-$book = $ipc_focus->getBook ();
-$chapter = $ipc_focus->getChapter ();
-$verse = $ipc_focus->getVerse ();
+$book = Ipc_Focus::getBook ();
+$chapter = Ipc_Focus::getChapter ();
+$verse = Ipc_Focus::getVerse ();
 $identifiers = $database_notes->selectNotes ($bibles, book, chapter, verse,
                                              $passage_selector,
                                              $edit_selector,

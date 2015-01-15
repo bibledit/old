@@ -38,9 +38,9 @@ if (!isset ($bible)) $bible = request->database_config_user()->getBible ();
 @$load = request->query ['load'];
 if (isset ($load)) {
 
-  $book = $ipc_focus->getBook ();
-  $chapter = $ipc_focus->getChapter ();
-  $verse = $ipc_focus->getVerse ();
+  $book = Ipc_Focus::getBook ();
+  $chapter = Ipc_Focus::getChapter ();
+  $verse = Ipc_Focus::getVerse ();
   
   $type = Database_Books::getType ($book);
   
@@ -76,7 +76,7 @@ if (isset ($words)) {
   $words = filter_string_trim ($words);
   $words = explode (" " , $words);
 
-  $book = $ipc_focus->getBook ();
+  $book = Ipc_Focus::getBook ();
   $type = Database_Books::getType ($book);
 
   // Include items if there are no more search hits than 30% of the total number of verses in the Hebrew or Greek.

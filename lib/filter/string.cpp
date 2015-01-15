@@ -20,8 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
+#include <filter/md5.h>
 #include <database/config/general.h>
-#include <cmath>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -1012,4 +1012,15 @@ vector <string> filter_string_search_needles (string search, string text)
   }
   needles = filter_string_array_unique (needles);
   return needles;
+}
+
+
+// Returns an integer identifier based on the name of the current user.
+int filter_string_user_identifier (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string username = request->session_logic()->currentUser ();
+  string hash = md5 (username).substr (0, 5);
+  int identifier = stoi (hash, NULL, 36);
+  return identifier;
 }

@@ -34,9 +34,9 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $bible = access_bible_clamp (request->database_config_user()->getBible());
-$book = $ipc_focus->getBook ();
-$chapter = $ipc_focus->getChapter ();
-$verse = $ipc_focus->getVerse ();
+$book = Ipc_Focus::getBook ();
+$chapter = Ipc_Focus::getChapter ();
+$verse = Ipc_Focus::getVerse ();
 
 
 $passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();

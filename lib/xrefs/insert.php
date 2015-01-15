@@ -34,8 +34,8 @@ $ipc_focus = Ipc_Focus::getInstance ();
 
 $sourceBible = request->database_config_user()->getSourceXrefBible ();
 $targetBible = request->database_config_user()->getTargetXrefBible ();
-$book = $ipc_focus->getBook ();
-$chapter = $ipc_focus->getChapter ();
+$book = Ipc_Focus::getBook ();
+$chapter = Ipc_Focus::getChapter ();
 
 
 // Retrieve all abbreviations for the source Bible, sort them, longest first.
@@ -69,11 +69,11 @@ for ($sourceAbbreviations as $sourceAbbreviation => $bk) {
 
 
 // Storage identifier, based on the user's name.
-$identifier = Filter_User::myIdentifier ();
+$identifier = filter_string_user_identifier ();
 
 
 // Retrieve all notes from the database.
-$allxrefs = $database_volatile->getValue ($identifier, "sourcexrefs");
+$allxrefs = database_volatile.getValue ($identifier, "sourcexrefs");
 $allxrefs = unserialize ($allxrefs);
 
 

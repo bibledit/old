@@ -30,8 +30,8 @@ $passages = request->post ['passages'];
 $translations = request->post ['translations'];
 
 
-$database_volatile->setValue ($id, "passages", $passages);
-$database_volatile->setValue ($id, "translations", $translations);
+database_volatile.setValue ($id, "passages", $passages);
+database_volatile.setValue ($id, "translations", $translations);
 
 
 $logic = new Consistency_Logic ($id);
@@ -40,7 +40,7 @@ $logic = new Consistency_Logic ($id);
 $response = $logic->response ();
 
 
-$database_volatile->setValue ($id, "response", $response);
+database_volatile.setValue ($id, "response", $response);
 
 
 echo $response;

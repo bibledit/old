@@ -34,8 +34,8 @@ $logic = new Consistency_Logic ($id);
 $response = $logic->response ();
 
 
-if ($response != $database_volatile->getValue ($id, "response")) {
-  $database_volatile->setValue ($id, "response", $response);
+if ($response != database_volatile.getValue ($id, "response")) {
+  database_volatile.setValue ($id, "response", $response);
   echo $response;
 }
 

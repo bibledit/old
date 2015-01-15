@@ -29,7 +29,7 @@ $database_kjv = Database_Kjv::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-$myIdentifier = Filter_User::myIdentifier ();
+$myIdentifier = filter_string_user_identifier ();
 
 
 @$bible = request->query ['b'];
@@ -39,9 +39,9 @@ if (!isset ($bible)) $bible = request->database_config_user()->getBible ();
 @$load = request->query ['load'];
 if (isset ($load)) {
 
-  $book = $ipc_focus->getBook ();
-  $chapter = $ipc_focus->getChapter ();
-  $verse = $ipc_focus->getVerse ();
+  $book = Ipc_Focus::getBook ();
+  $chapter = Ipc_Focus::getChapter ();
+  $verse = Ipc_Focus::getVerse ();
   
   // Get Strong's numbers, plus English snippets.
   $html = "<table>\n";

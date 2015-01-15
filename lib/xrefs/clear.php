@@ -30,8 +30,8 @@ $ipc_focus = Ipc_Focus::getInstance ();
 
 
 $bible = request->database_config_user()->getTargetXrefBible ();
-$book = $ipc_focus->getBook ();
-$chapter = $ipc_focus->getChapter ();
+$book = Ipc_Focus::getBook ();
+$chapter = Ipc_Focus::getChapter ();
 
 
 $usfm = request->database_bibles()->getChapter (bible, book, chapter);

@@ -44,12 +44,12 @@ class Consistency_Logic
     $resources = array_merge ($resources, request->database_config_user()->getConsistencyResources ());
 
     // The passages entered in the Consistency tool.
-    $passages = $database_volatile->getValue ($this->id, "passages");
+    $passages = database_volatile.getValue ($this->id, "passages");
     $passages = filter_string_trim ($passages);
     $passages = Filter_String::string2array ($passages);
     
     // The translations from the Consistency tool.
-    $translations = $database_volatile->getValue ($this->id, "translations");
+    $translations = database_volatile.getValue ($this->id, "translations");
     $translations = filter_string_trim ($translations);
     $translations = Filter_String::string2array ($translations);
 
@@ -77,9 +77,9 @@ class Consistency_Logic
           $redoPassage = false;
           $passageKey = "$book.$chapter.$verse";
           $currentChapterId = request->database_bibles()->getChapterId ($resources [0], $book, $chapter);
-          $storedChapterId = $database_volatile->getValue ($this->id, "$passageKey.id");
+          $storedChapterId = database_volatile.getValue ($this->id, "$passageKey.id");
           if ($currentChapterId != $storedChapterId) {
-            $database_volatile->setValue ($this->id, "$passageKey.id", $currentChapterId);
+            database_volatile.setValue ($this->id, "$passageKey.id", $currentChapterId);
             $redoPassage = true;
           }
 
@@ -92,9 +92,9 @@ class Consistency_Logic
               if ($translations != "") {
                 $text = filter_string_markup_words ($translations, $text);
               }
-              $database_volatile->setValue ($this->id, "$passageKey.$resource", $text);
+              database_volatile.setValue ($this->id, "$passageKey.$resource", $text);
             } else {
-              $text = $database_volatile->getValue ($this->id, "$passageKey.$resource");
+              $text = database_volatile.getValue ($this->id, "$passageKey.$resource");
             }
             
             // Formatting.

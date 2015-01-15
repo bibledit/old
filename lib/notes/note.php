@@ -33,7 +33,7 @@ $id = request->query ['id'];
 $passages = $database_notes->getPassages ($id);
 if (is_array ($passages)) {
   if (!empty ($passages)) {
-    $ipc_focus->set ($passages[0][0], $passages[0][1], $passages[0][2]);
+    Ipc_Focus::set ($passages[0][0], $passages[0][1], $passages[0][2]);
     Navigation_Passage::recordHistory ($passages[0][0], $passages[0][1], $passages[0][2]);
   }
 }

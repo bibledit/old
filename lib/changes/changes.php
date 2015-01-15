@@ -48,7 +48,7 @@ if (isset ($navigate)) {
   $passage = $database_modifications->getNotificationPassage ($id);
   if ($passage != NULL) {
     
-    $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
+    Ipc_Focus::set ($passage['book'], $passage['chapter'], $passage['verse']);
     Navigation_Passage::recordHistory ($passage['book'], $passage['chapter'], $passage['verse']);
   }
   // Set the correct default Bible for the user.

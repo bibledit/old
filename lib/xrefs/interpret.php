@@ -45,11 +45,11 @@ if (isset (request->post ['save'])) {
 
 
 // Storage identifier, based on the user's name.
-$identifier = Filter_User::myIdentifier ();
+$identifier = filter_string_user_identifier ();
 
 
 // Retrieve all notes from the database.
-$allnotes = $database_volatile->getValue ($identifier, "sourcexrefs");
+$allnotes = database_volatile.getValue ($identifier, "sourcexrefs");
 $allnotes = unserialize ($allnotes);
 
 

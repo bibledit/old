@@ -185,6 +185,15 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
     evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
   }
+  // Tests for a user's identifier.
+  {
+    Webserver_Request request;
+    request.database_users ()->create ();
+    request.session_logic()->setUsername ("phpunit");
+    evaluate (__LINE__, __func__, 13683715, filter_string_user_identifier (&request));
+    request.session_logic()->setUsername ("phpunit2");
+    evaluate (__LINE__, __func__, 13767813, filter_string_user_identifier (&request));
+  }
 }
 
 
