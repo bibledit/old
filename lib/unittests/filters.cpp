@@ -103,6 +103,30 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, reference, output);
   }
   {
+    // Test filter_string_array_unique, a C++ equivalent for PHP's array_unique function.
+    vector <int> reference;
+    reference.push_back (111);
+    reference.push_back (2);
+    reference.push_back (999);
+    reference.push_back (7);
+    reference.push_back (888);
+    reference.push_back (5);
+    vector <int> input;
+    input.push_back (111);
+    input.push_back (2);
+    input.push_back (111);
+    input.push_back (2);
+    input.push_back (111);
+    input.push_back (999);
+    input.push_back (7);
+    input.push_back (7);
+    input.push_back (888);
+    input.push_back (5);
+    input.push_back (5);
+    vector <int> output = filter_string_array_unique (input);
+    evaluate (__LINE__, __func__, reference, output);
+  }
+  {
     // Test filter_string_array_diff, a C++ equivalent for PHP's filter_string_array_diff function.
     vector <string> reference;
     reference.push_back ("aaa");
@@ -121,6 +145,40 @@ void test_filters_test1 ()
     against.push_back ("x");
     vector <string> output = filter_string_array_diff (from, against);
     evaluate (__LINE__, __func__, reference, output);
+  }
+  {
+    // Test filter_string_array_diff, a C++ equivalent for PHP's filter_string_array_diff function.
+    vector <int> reference;
+    reference.push_back (111);
+    reference.push_back (999);
+    reference.push_back (2);
+    vector <int> from;
+    from.push_back (111);
+    from.push_back (222);
+    from.push_back (333);
+    from.push_back (999);
+    from.push_back (2);
+    from.push_back (8);
+    vector <int> against;
+    against.push_back (222);
+    against.push_back (333);
+    against.push_back (8);
+    vector <int> output = filter_string_array_diff (from, against);
+    evaluate (__LINE__, __func__, reference, output);
+  }
+  // Test for array_intersect, a C++ equivalent for PHP's array_intersect function.
+  {
+    vector <int> one;
+    vector <int> two;
+    one = {1};
+    two = {2};
+    evaluate (__LINE__, __func__, {}, array_intersect (one, two));
+    one = {1, 2, 3};
+    two = {2, 3, 4};
+    evaluate (__LINE__, __func__, {2, 3}, array_intersect (one, two));
+    one = {1, 2, 3, 4, 5};
+    two = {2, 3, 4};
+    evaluate (__LINE__, __func__, {2, 3, 4}, array_intersect (one, two));
   }
   {
     // Test filter_url_escape_shell_argument.

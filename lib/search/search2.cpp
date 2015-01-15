@@ -163,7 +163,7 @@ string search_search2 (void * webserver_request)
         hits = filter_string_array_diff (loadedHits, hits);
       }
       if (sharing == "intersect") {
-        // $hits = array_intersect ($loadedHits, $hits);
+        hits = array_intersect (loadedHits, hits);
       }
       hits = filter_string_array_unique (hits);
     }
@@ -175,6 +175,7 @@ string search_search2 (void * webserver_request)
       if (!output.empty ()) output.append ("\n");
       output.append (convert_to_string (hit));
     }
+
     
     // Store search hits in the volatile database.
     database_volatile.setValue (identifier, "hits", output);

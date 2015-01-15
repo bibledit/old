@@ -201,7 +201,7 @@ vector <int> filter_string_array_unique (vector <int> values)
 
 // A C++ equivalent for PHP's array_diff function.
 // Returns items in "from" which are not present in "against".
-vector <string> filter_string_array_diff (vector <string> from, vector <string> against) // Todo write simple unit test.
+vector <string> filter_string_array_diff (vector <string> from, vector <string> against)
 {
   vector <string> result;
   set <string> against2 (against.begin (), against.end ());
@@ -216,7 +216,7 @@ vector <string> filter_string_array_diff (vector <string> from, vector <string> 
 
 // A C++ equivalent for PHP's array_diff function.
 // Returns items in "from" which are not present in "against".
-vector <int> filter_string_array_diff (vector <int> from, vector <int> against) // Todo write unit test, a simple one.
+vector <int> filter_string_array_diff (vector <int> from, vector <int> against)
 {
   vector <int> result;
   set <int> against2 (against.begin (), against.end ());
