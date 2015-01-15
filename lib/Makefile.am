@@ -165,6 +165,7 @@ libbibledit_a_SOURCES = \
 	search/getids.cpp \
 	search/replacepre.cpp \
 	search/replacego.cpp \
+	search/search2.cpp \
 	tmp/tmp.cpp
 
 bin_PROGRAMS = server unittest

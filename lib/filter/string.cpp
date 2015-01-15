@@ -184,12 +184,42 @@ vector <string> filter_string_array_unique (vector <string> values)
 }
 
 
-// A C++ equivalent for PHP's filter_string_array_diff function.
+// A C++ equivalent for PHP's array_unique function.
+vector <int> filter_string_array_unique (vector <int> values)
+{
+  vector <int> result;
+  set <int> unique;
+  for (unsigned int i = 0; i < values.size (); i++) {
+    if (unique.find (values[i]) == unique.end ()) {
+      unique.insert (values[i]);
+      result.push_back ((values[i]));
+    }
+  }
+  return result;
+}
+
+
+// A C++ equivalent for PHP's array_diff function.
 // Returns items in "from" which are not present in "against".
-vector <string> filter_string_array_diff (vector <string> from, vector <string> against)
+vector <string> filter_string_array_diff (vector <string> from, vector <string> against) // Todo write simple unit test.
 {
   vector <string> result;
   set <string> against2 (against.begin (), against.end ());
+  for (unsigned int i = 0; i < from.size (); i++) {
+    if (against2.find (from[i]) == against2.end ()) {
+      result.push_back ((from[i]));
+    }
+  }
+  return result;
+}
+
+
+// A C++ equivalent for PHP's array_diff function.
+// Returns items in "from" which are not present in "against".
+vector <int> filter_string_array_diff (vector <int> from, vector <int> against) // Todo write unit test, a simple one.
+{
+  vector <int> result;
+  set <int> against2 (against.begin (), against.end ());
   for (unsigned int i = 0; i < from.size (); i++) {
     if (against2.find (from[i]) == against2.end ()) {
       result.push_back ((from[i]));

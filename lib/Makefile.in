@@ -187,7 +187,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	search/index.$(OBJEXT) search/select.$(OBJEXT) \
 	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
 	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT)
+	search/search2.$(OBJEXT) tmp/tmp.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -564,6 +564,7 @@ libbibledit_a_SOURCES = \
 	search/getids.cpp \
 	search/replacepre.cpp \
 	search/replacego.cpp \
+	search/search2.cpp \
 	tmp/tmp.cpp
 
 server_SOURCES = executable/bibledit.cpp
@@ -1257,6 +1258,8 @@ search/replacepre.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/replacego.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
+search/search2.$(OBJEXT): search/$(am__dirstamp) \
+	search/$(DEPDIR)/$(am__dirstamp)
 tmp/$(am__dirstamp):
 	@$(MKDIR_P) tmp
 	@: > tmp/$(am__dirstamp)
@@ -1539,6 +1542,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/replacego.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/replacepre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/search.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/search2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
