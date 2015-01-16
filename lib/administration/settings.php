@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 if ($_SERVER ['SERVER_ADDR'] != $_SERVER ['REMOTE_ADDR']) die;
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 if (Filter_Cli::not_yet_ready ()) die;

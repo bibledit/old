@@ -30,9 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("The repository that was created in this tutorial has the following URL:")</p>
 <pre>https://joe:pazz@github.com/joe/repo.git</pre>
 <p>gettext("Your own repository that you have created has a URL too, the one that will be used from now on. Please enter it below, and press the Submit button to save it.")</p>
-<form action="collaboration_password_protected_network_setup.php?object=$this->object#url" name="url" method="post">
+<form action="collaboration_password_protected_network_setup?object=$this->object#url" name="url" method="post">
   <p><input type="text" name="urlvalue" value="$this->url" /></p>
   <p><input type="submit" name="url" value=gettext("Submit") /></p>
 </form>
 
-<h2><a href="collaboration_repo_read.php?object=$this->object">gettext("Next page")</a></h2>
+<h2><a href="collaboration_repo_read?object=$this->object">gettext("Next page")</a></h2>

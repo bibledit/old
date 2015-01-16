@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <p>
   gettext("Resources")
-  <a href="organize.php">[gettext("organize")]</a>
+  <a href="organize">[gettext("organize")]</a>
 </p>
 <hr>
 <?php for ($this->resources as $offset => $resource) {

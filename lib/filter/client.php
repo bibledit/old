@@ -42,7 +42,7 @@ class Filter_Client
 
     $address = Database_Config_General::getServerAddress ();
 
-    $url = "$address/sync/setup.php?user=$encoded_user&pass=$hash";
+    $url = "$address/sync/setup?user=$encoded_user&pass=$hash";
 
     @$response = filter_url_file_get_contents ($url);
     if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {

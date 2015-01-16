@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h3>gettext("Settings for Resources")</h3>
-<p><a href="index.php">[gettext("back")</a>]</p>
+<p><a href="index">[gettext("back")</a>]</p>
 <h4>gettext("Active resources")</h4>
 <div id="sortable">
 <?php for ($this->actives as $active) {

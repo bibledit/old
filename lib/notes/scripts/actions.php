@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><a href="note.php?id=$this->id">gettext("Go back to the note contents")</a></p>
+<p><a href="note?id=$this->id">gettext("Go back to the note contents")</a></p>
 <p>gettext("Summary"): $this->summary</p>
 <p>
 <?php if ($this->subscribed) {
@@ -34,7 +34,7 @@ gettext("You are subscribed to this note") <a href="?id=$this->id&unsubscribe=">
   <?php }
 <?php }
 <?php if ($this->level >= 5) {
-  <a href="assign-1.php?id=$this->id">[gettext("add assignee")]</a>
+  <a href="assign-1?id=$this->id">[gettext("add assignee")]</a>
 <?php }
 </p>
 <?php if ($this->assignee) {
@@ -46,17 +46,17 @@ gettext("You are subscribed to this note") <a href="?id=$this->id&unsubscribe=">
 <p>
 gettext("Status"):
 <?php if ($this->level >= 4) {
-  <a href="status-1.php?id=$this->id">$this->status</a>
+  <a href="status-1?id=$this->id">$this->status</a>
 <?php } else {
   $this->status
 <?php }
 </p>
 <p>
   gettext("Verses"): $this->verses |
-  <a href="verses.php?id=$this->id">[gettext("edit")]</a>
+  <a href="verses?id=$this->id">[gettext("edit")]</a>
 </p>
   <p>gettext("Severity"):
-  <a href="severity-1.php?id=$this->id">$this->severity</a></p>
+  <a href="severity-1?id=$this->id">$this->severity</a></p>
 <p>
 </p>
 <p>
@@ -66,7 +66,7 @@ gettext("Bible"):
 <?php } else {
   gettext("This is a general note, it does not apply to any specific Bible")
 <?php }
-  <a href="bible-1.php?id=$this->id">[gettext("change")]</a>
+  <a href="bible-1?id=$this->id">[gettext("change")]</a>
 </p>
 <p>gettext("Identifier"): $this->id</p>
 </p>

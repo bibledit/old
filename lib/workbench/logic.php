@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("bootstrap/bootstrap.php");
+require_once ("bootstrap/bootstrap");
 
 
 class Workbench_Logic
@@ -30,27 +30,27 @@ class Workbench_Logic
     $urls = array_fill (0, 15, "");
     switch ($id) {
       case 1:
-        $urls [0] = "edit/index.php";
-        $urls [5] = "resource/index.php";
+        $urls [0] = "edit/index";
+        $urls [5] = "resource/index";
         break;
       case 2:
-        $urls [0] = "edit/index.php";
-        $urls [1] = "notes/index.php";
+        $urls [0] = "edit/index";
+        $urls [1] = "notes/index";
         break;
       case 3:
-        $urls [0] = "resource/index.php";
-        $urls [1] = "edit/index.php";
-        $urls [2] = "notes/index.php";
+        $urls [0] = "resource/index";
+        $urls [1] = "edit/index";
+        $urls [2] = "notes/index";
         break;
       case 4:
-        $urls [0] = "edit/index.php";
-        $urls [1] = "consistency/index.php";
+        $urls [0] = "edit/index";
+        $urls [1] = "consistency/index";
         break;
       default:
-        $urls [0] = "edit/index.php";
-        $urls [1] = "resource/index.php";
-        $urls [2] = "notes/index.php";
-        $urls [3] = "search/index.php";
+        $urls [0] = "edit/index";
+        $urls [1] = "resource/index";
+        $urls [2] = "notes/index";
+        $urls [3] = "search/index";
         break;
     }
     return $urls;

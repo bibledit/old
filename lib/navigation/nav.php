@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::guest ());
 $href = request->query ['href'];
 $passage = basename ($href);

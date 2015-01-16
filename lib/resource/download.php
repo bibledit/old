@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
@@ -39,9 +39,9 @@ if (isset (request->query ['download'])) {
   $books = $database_versifications->getBooks ($versification);
   for ($books as $book) {
     // Schedule the task with low priority so it does not get in the way of regular tasks.
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/downloadcli.php", $name, $book));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/downloadcli", $name, $book));
   }
-  redirect_browser ("../journal/index.php");
+  redirect_browser ("../journal/index");
   die;
 }
 
@@ -59,7 +59,7 @@ $header = new Assets_Header (gettext("Download resource"));
 $header->run ();
 
 
-$view->render ("download.php");
+$view->render ("download");
 
 
 Assets_Page::footer ();

@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::consultant ());
 
 
@@ -43,7 +43,7 @@ $header = new Assets_Header (gettext("Note"));
 // After adding a comment to a note it returns to the note.
 // When doing nothing for several seconds, the browser then returns to the list of notes.
 if (isset (request->query ['temporal'])) {
-  $header->addHeadLine ('<META HTTP-EQUIV="refresh" CONTENT="5;URL=index.php">'); // This can use existing function, expanded with the URL: Function refresh.
+  $header->addHeadLine ('<META HTTP-EQUIV="refresh" CONTENT="5;URL=index">'); // This can use existing function, expanded with the URL: Function refresh.
 }
 $header->run();
 
@@ -62,7 +62,7 @@ $content = $database_notes->getContents ($id);
 $view->view->content = $content;
 
 
-$view->render ("note.php");
+$view->render ("note");
 
 
 Assets_Page::footer ();

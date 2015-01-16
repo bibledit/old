@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <code>ssh://joe@git.code.sf.net/p/repo/code</code>
 <p>gettext("Where it says 'joe', you would need to fill in the username that can access the account on sourceforge.net. And where it has 'repo' you would need to fill in the name of the project that you created on sourceforge.net.")</p>
 <p>gettext("Your own repository that you have created has a URL too, the one that will be used from now on. Please enter it below, and press the Submit button to save it.")</p>
-<form action="collaboration_secure_network_setup.php?object=$this->object#url" name="url" method="post">
+<form action="collaboration_secure_network_setup?object=$this->object#url" name="url" method="post">
   <p><input type="text" name="urlvalue" value="$this->url" /></p>
   <p><input type="submit" name="url" value=gettext("Submit") /></p>
 </form>
@@ -52,4 +52,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("On your personal account page at sourceforge.net, choose Services, then choose Edit SSH Keys for Shell/CVS. Select all the text of the public key, see above, and copy it to the clipboard. Be sure it is the public key, not the private one. In the screen titled 'SSH Keys', there is a place where it says 'Authorized keys:'. Paste the text of the public key into that space on the web page. After checking that everything looks fine, press button 'Update'. Make sure to enter only the public key, not the private key. Synchronizing the keys into the system has a 10 minute delay.")</p>
 <p>gettext("After the delay of 10 minutes has expired you can continue to the next page.")</p>
 
-<h2><a href="collaboration_repo_read.php?object=$this->object">gettext("Next page")</a></h2>
+<h2><a href="collaboration_repo_read?object=$this->object">gettext("Next page")</a></h2>

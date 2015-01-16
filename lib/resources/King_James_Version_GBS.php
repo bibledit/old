@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Matthew 1 http://gbsdigitaal.nl/Data/AuthorizedVersion/2/40/2.json
 
 
-include_once ("gbsdigitaal.php");
+include_once ("gbsdigitaal");
 
 
 // Old (1) or New (2) Testament.

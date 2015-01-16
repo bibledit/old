@@ -45,7 +45,7 @@ string get_base_url (Webserver_Request * request)
 // "path" is an absolute value.
 void redirect_browser (string path, Webserver_Request * request)
 {
-  // A location header needs to contain an absolute url, like http://localhost/some.php.
+  // A location header needs to contain an absolute url, like http://localhost/some.
   // See 14.30 in the specification http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
   string location = get_base_url (request) + path;
   request->header = "Location: " + location;

@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("If it is still too large, you can remove some of the notes data files from it, keep these, and import these through a second upload. The note data files are the files that have numeric names, e.g. '44166759'.")</p>
 <br>
 <p>gettext("The next thing is to upload this file to Bibledit.")</p>
-<form enctype="multipart/form-data" action="import2.php" method="POST">
+<form enctype="multipart/form-data" action="import2" method="POST">
   <p>gettext("Choose the notes file to be uploaded. This tutorial assumes that the file is 'notes.tar.gz'.")</p>
   <input name="notes" type="file" />
   <p>gettext("Then press the Upload button.")</p>

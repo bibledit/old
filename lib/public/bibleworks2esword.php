@@ -38,14 +38,14 @@ $outputData = $inputData;
 </head>
 <body>
 <h2>BibleWorks ⇨ eSword</h2>
-<p><a href="index.php">Go back</a></p>
+<p><a href="index">Go back</a></p>
 <h3>Introduction</h3>
 <p>This page converts a text suitable for the BibleWorks Version Database Compiler to text suitable for importing into eSword.</p>
 <p>The text file may have Strong codifications, italics, cross references and footnotes.</p>
 <p>The <i>italics</i> are coded between square brackets: [and] means <i>and</i>.</p>
 <h3>Step 1: Supply input text</h3>
 <p>Paste some BibleWorks text into the text box, and then press the Submit button below.</p>
-<form action="bibleworks2esword.php" name="form" method="post">
+<form action="bibleworks2esword" name="form" method="post">
   <p><textarea name="data">$inputData;</textarea></p>
   <p><input type="submit" name="submit" value="Submit" /></p>
 </form>

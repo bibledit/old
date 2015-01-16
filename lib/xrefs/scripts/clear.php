@@ -28,6 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   gettext("Please fix it first.")
 </p>
 <?php } else {
-<p><a href="clear.php?overwrite=">gettext("Overwrite the existing cross references.")</a></p>
+<p><a href="clear?overwrite=">gettext("Overwrite the existing cross references.")</a></p>
 <?php }
-<p><a href="index.php">gettext("Cancel")</a></p>
+<p><a href="index">gettext("Cancel")</a></p>

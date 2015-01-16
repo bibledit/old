@@ -37,8 +37,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   gettext("On this page you can edit and test the script.")
 </p>
-<p><a href="admin.php">[gettext("back")]</a></p>
-<form action="edit.php?name=$this->name" name="name" method="post">
+<p><a href="admin">[gettext("back")]</a></p>
+<form action="edit?name=$this->name" name="name" method="post">
   <h3>gettext("Code")</h3>
   <p>gettext("Enter the code of the script.")</p>
   <textarea name="code">$this->code</textarea>

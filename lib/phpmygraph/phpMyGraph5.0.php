@@ -527,8 +527,8 @@ abstract class graphBase implements iGraph {
 		$phpCode += "\t\n";
 		$phpCode += "\t//Set content-type header\n";
 		$phpCode += "\theader(\"Content-type: image/png\");\n\n";
-		$phpCode += "\t//Include phpMyGraph5.0.php\n";
-		$phpCode += "\tinclude_once('phpMyGraph5.0.php');\n";
+		$phpCode += "\t//Include phpMyGraph5.0\n";
+		$phpCode += "\tinclude_once('phpMyGraph5.0');\n";
 		$phpCode += "\t\n";
 		$phpCode += "\t//Set config directives\n";
 		$phpCode += "\t\$cfg['title'] = 'Example graph';\n";

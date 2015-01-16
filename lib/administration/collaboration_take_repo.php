@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::admin ());
 
 Assets_Page::header (gettext("Collaboration"));
@@ -39,7 +39,7 @@ switch ($database_shell->logic ("collaboration_take_repo", 0, $output)) {
   case 1:
     $workingdirectory = dirname (__FILE__);
     $object = escapeshellarg ($object);
-    shell_exec ("cd $workingdirectory; php collaboration_take_repo-cli.php $object > $output 2>&1 &");
+    shell_exec ("cd $workingdirectory; php collaboration_take_repo-cli $object > $output 2>&1 &");
     break;
   case 0:
     $contents = file ($output, FILE_IGNORE_NEW_LINES);
@@ -52,8 +52,8 @@ switch ($database_shell->logic ("collaboration_take_repo", 0, $output)) {
 $view->view->contents = $contents;
 
 // Display the page(s).
-$view->render ("collaboration_take_repo1.php");
-if ($ready) $view->render ("collaboration_take_repo2.php");
+$view->render ("collaboration_take_repo1");
+if ($ready) $view->render ("collaboration_take_repo2");
 
 Assets_Page::footer ();
 

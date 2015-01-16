@@ -18,4 +18,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p class="error">gettext("There was a problem uploading the file.")</p>
-<p><a href="import1.php">gettext("You can go back to retry it.")</a></p>
+<p><a href="import1">gettext("You can go back to retry it.")</a></p>

@@ -25,7 +25,7 @@ class Tidy_Html
   // The function takes dirty $html and returns cleaned HTML.
   public static function run ($html)
   {
-    include_once ("htmLawed.php");
+    include_once ("htmLawed");
     $config = array ('tidy' => 1); 
     $html = htmLawed ($html, $config);
     return $html;

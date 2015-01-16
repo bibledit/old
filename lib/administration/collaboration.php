@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::admin ());
 
 
@@ -62,7 +62,7 @@ $git = $git->available;
 $view->view->git_available = $git;
 
 
-$view->render ("collaboration.php");
+$view->render ("collaboration");
 Assets_Page::footer ();
 
 

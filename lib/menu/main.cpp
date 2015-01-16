@@ -222,7 +222,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 /* C++Port client mode dependent.
     // If the installation is not prepared for Client mode, disable the client menu.
     // But keep the menu item in an open installation.
-    include ("config/open.php");
+    include ("config/open");
     if (!$open_installation) {
       if (!config_logic_client_prepared ()) {
         unset ($menu ["client"]);

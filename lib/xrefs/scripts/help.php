@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h3>gettext("Place cross references")</h3>
-<p><a href="index.php">[gettext("back")</a>]</p>
+<p><a href="index">[gettext("back")</a>]</p>
 <h4>gettext("Introduction")</h4>
 <p>
   gettext("The tool to place cross references enables you to easily and quickly place cross references in a Bible.")

@@ -2,19 +2,19 @@
 /**
  * A class for computing three way diffs.
  *
- * $Horde: framework/Text_Diff/Diff3.php,v 1.2.10.7 2009/01/06 15:23:41 jan Exp $
+ * $Horde: framework/Text_Diff/Diff3,v 1.2.10.7 2009/01/06 15:23:41 jan Exp $
  *
  * Copyright 2007-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.
  *
  * @package Text_Diff
  * @since   0.3.0
  */
 
 /** Text_Diff */
-require_once 'merge_diff.php';
+require_once 'merge_diff';
 
 /**
  * A class for computing three way diffs.
@@ -40,7 +40,7 @@ class Text_Diff3 extends Text_Diff {
      */
     function Text_Diff3($orig, $final1, $final2)
     {
-      	require_once 'merge_native.php';
+      	require_once 'merge_native';
         $engine = new Text_Diff_Engine_native();
         
         $this->_edits = $this->_diff3($engine->diff($orig, $final1),

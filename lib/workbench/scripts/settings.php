@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h3>gettext("Edit workbench") $this->name</h3>
-<form action="settings.php?name=$this->name" method="post">
+<form action="settings?name=$this->name" method="post">
 <p><b>gettext("Top row")</b> gettext ("height"):</p>
 <p><input type="text" name="height1" style="width: 18%" value="$this->height1" /></p>
 </p>
@@ -81,13 +81,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </form>
 <h4>gettext("Samples")</h4>
 <p>
-  <a href="settings.php?name=$this->name&preset=1">gettext("Editor and Resources")</a>
+  <a href="settings?name=$this->name&preset=1">gettext("Editor and Resources")</a>
   |
-  <a href="settings.php?name=$this->name&preset=2">gettext("Editor and Notes")</a>
+  <a href="settings?name=$this->name&preset=2">gettext("Editor and Notes")</a>
   |
-  <a href="settings.php?name=$this->name&preset=3">gettext("Resources, Editor, Notes")</a>
+  <a href="settings?name=$this->name&preset=3">gettext("Resources, Editor, Notes")</a>
   |
-  <a href="settings.php?name=$this->name&preset=4">gettext("Editor and Consistency tool")</a>
+  <a href="settings?name=$this->name&preset=4">gettext("Editor and Consistency tool")</a>
 </p>
 <h4>gettext("Help")</h4>
 <p>
@@ -117,11 +117,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   gettext("The internal URL of a Bibledit function can be found by opening that function in the web browser, and then copying the last two bits from the URL in the address bar.")
   gettext("The Edit page would have this URL:")
-  "edit/index.php".
+  "edit/index".
   gettext("The Resources page is")
-  "resource/index.php".
+  "resource/index".
   gettext("The Notes page is")
-  "notes/index.php".
+  "notes/index".
 </p>
 <br>
 <p>
@@ -143,27 +143,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   gettext("The Notes editor has some preset selectors.")
   gettext("To display all the notes for a certain passage, enter the following URL:")
-  "notes/index.php?presetselection=forverse".
+  "notes/index?presetselection=forverse".
   gettext("When this workbench will be opened, it will display all the notes that refer to the focused passage.")
   gettext("Other preset selectors for the Notes editor:")
 </p>
 <p>
-  "notes/index.php?presetselection=assigned"
+  "notes/index?presetselection=assigned"
   -
   gettext("Display all notes assigned to you.")
 </p>
 <p>
-  "notes/index.php?presetselection=subscribed"
+  "notes/index?presetselection=subscribed"
   -
   gettext("Display all notes you are subscribed to.")
 </p>
 <p>
-  "notes/index.php?presetselection=subscribeddayidle"
+  "notes/index?presetselection=subscribeddayidle"
   -
   gettext("Display subscribed notes that have been idle for a day.")
 </p>
 <p>
-  "notes/index.php?presetselection=subscribedweekidle"
+  "notes/index?presetselection=subscribedweekidle"
   -
   gettext("Display subscribed notes that have been idle for a week.")
 </p>

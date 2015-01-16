@@ -18,8 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h3>gettext("Edit note summary")</h3>
-<form action="summary.php?id=$this->id" name="form" method="post">
+<form action="summary?id=$this->id" name="form" method="post">
   <p><input type="text" name="entry" maxlength="300" value="$this->summary" /></p>
   <p><input type="submit" name="submit" value=gettext("Save") /></p>
 </form>
-<h4><a href="note.php?id=$this->id">gettext("Cancel")</a></h4>
+<h4><a href="note?id=$this->id">gettext("Cancel")</a></h4>

@@ -26,13 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <p>gettext("Amount of notes to be updated in one go:") $this->notescount</p>
 <br>
-<p><a href="bulk.php?subscribe=">gettext("Subscribe to the notes")</a></p>
-<p><a href="bulk.php?unsubscribe=">gettext("Unsubscribe from the notes")</a></p>
-<p><a href="assign-n.php">gettext("Assign the notes to somebody")</a></p>
-<p><a href="unassign-n.php">gettext("Unassign the notes from somebody")</a></p>
-<p><a href="status-n.php">gettext("Change the status of the notes")</a></p>
-<p><a href="severity-n.php">gettext("Change the severity of the notes")</a></p>
-<p><a href="bible-n.php">gettext("Change the Bible of the notes")</a></p>
-<p><a href="bulk.php?delete=">gettext("Delete the notes")</a></p>
+<p><a href="bulk?subscribe=">gettext("Subscribe to the notes")</a></p>
+<p><a href="bulk?unsubscribe=">gettext("Unsubscribe from the notes")</a></p>
+<p><a href="assign-n">gettext("Assign the notes to somebody")</a></p>
+<p><a href="unassign-n">gettext("Unassign the notes from somebody")</a></p>
+<p><a href="status-n">gettext("Change the status of the notes")</a></p>
+<p><a href="severity-n">gettext("Change the severity of the notes")</a></p>
+<p><a href="bible-n">gettext("Change the Bible of the notes")</a></p>
+<p><a href="bulk?delete=">gettext("Delete the notes")</a></p>
 <br>
-<p><a href="index.php">gettext("Back to notes list")</a></p>
+<p><a href="index">gettext("Back to notes list")</a></p>

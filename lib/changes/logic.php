@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("bootstrap/bootstrap.php");
+require_once ("bootstrap/bootstrap");
 
 
 class Changes_Logic
@@ -27,7 +27,7 @@ class Changes_Logic
 
   static public function start ()
   {
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/modifications.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/modifications"));
   }
 
 

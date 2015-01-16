@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h1>gettext("Verse mappings") $this->name</h1>
-<form action="map.php?name=$this->name" name="form" method="post">
+<form action="map?name=$this->name" name="form" method="post">
   <p><textarea name="data">$this->data</textarea></p>
   <p><input type="submit" name="submit" value=gettext("Save") /></p>
 </form>

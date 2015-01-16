@@ -20,11 +20,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h3><span id="count"></span> gettext("Change Notifications")</h3>
 <p>
   gettext("View")
-  <a href="changes.php" <?php if ($this->filter == 0) echo 'class="active"'>gettext("all")</a>
+  <a href="changes" <?php if ($this->filter == 0) echo 'class="active"'>gettext("all")</a>
   |
-  <a href="changes.php?filter=personal" <?php if ($this->filter == 1) echo 'class="active"'>gettext("personal")</a>
+  <a href="changes?filter=personal" <?php if ($this->filter == 1) echo 'class="active"'>gettext("personal")</a>
   |
-  <a href="changes.php?filter=team" <?php if ($this->filter == 2) echo 'class="active"'>gettext("team")</a>
+  <a href="changes?filter=team" <?php if ($this->filter == 2) echo 'class="active"'>gettext("team")</a>
   -
   <a href="#help">[gettext("help")]</a>
 </p>

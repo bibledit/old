@@ -1,7 +1,7 @@
 <?php
 
 /*
-htmLawedTest.php, 28 May 2013
+htmLawedTest, 28 May 2013
 htmLawed 1.1.17, 11 March 2014
 Copyright Santosh Patnaik
 Dual licensed with LGPL 3 and GPL 2+
@@ -69,7 +69,7 @@ if(function_exists('gzencode') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && pre
 
 // HTM for unprocessed
 if(isset(request->post['inputH'])){
- echo '<html><head><title>htmLawed test: HTML view of unprocessed input</title></head><body style="margin:0; padding: 0;"><p style="background-color: black; color: white; padding: 2px;">&nbsp; Rendering of unprocessed input without an HTML doctype or charset declaration &nbsp; &nbsp; <small><a style="color: white; text-decoration: none;" href="1" onclick="javascript:window.close(this); return false;">close window</a> | <a style="color: white; text-decoration: none;" href="htmLawedTest.php" onclick="javascript: window.open(\'htmLawedTest.php\', \'hlmain\'); window.close(this); return false;">htmLawed test page</a></small></p><div>', request->post['inputH'], '</div></body></html>';
+ echo '<html><head><title>htmLawed test: HTML view of unprocessed input</title></head><body style="margin:0; padding: 0;"><p style="background-color: black; color: white; padding: 2px;">&nbsp; Rendering of unprocessed input without an HTML doctype or charset declaration &nbsp; &nbsp; <small><a style="color: white; text-decoration: none;" href="1" onclick="javascript:window.close(this); return false;">close window</a> | <a style="color: white; text-decoration: none;" href="htmLawedTest" onclick="javascript: window.open(\'htmLawedTest\', \'hlmain\'); window.close(this); return false;">htmLawed test page</a></small></p><div>', request->post['inputH'], '</div></body></html>';
  exit;
 }
 
@@ -79,7 +79,7 @@ $do = (!empty(request->post[$_sid]) && isset(request->post['text'][0]) && !isset
 $limit_exceeded = isset(request->post['text'][$_limit]) ? 1 : 0;
 $pre_mem = memory_get_usage();
 $validation = (!empty(request->post[$_sid]) and isset(request->post['w3c_validate'][0])) ? 1 : 0;
-include './htmLawed.php';
+include './htmLawed';
 
 function format($t){
  $t = "\n". filter_string_str_replace(array("\t", "\r\n", "\r", '&', '<', '>', "\n"), array('    ', "\n", "\n", '&amp;', '&lt;', '&gt;', "<span class=\"newline\">&#172;</span><br />\n"), $t);
@@ -262,7 +262,7 @@ function sndUnproc(){
  var i = document.getElementById('text');
  if(!i){return;}
  i = i.value;
- var w = window.open('htmLawedTest.php?pre=1', 'hlprehtm');
+ var w = window.open('htmLawedTest?pre=1', 'hlprehtm');
  var f = document.createElement('form');
  f.enctype = 'application/x-www-form-urlencoded';
  f.method = 'post';
@@ -270,7 +270,7 @@ function sndUnproc(){
  if(f.style){f.style.display = 'none';}
  else{f.visibility = 'hidden';}
  f.innerHTML = '<p style="display:none;"><input style="display:none;" type="hidden" name="token" id="token" value="$token;" /><input style="display:none;" type="hidden" name="htmlspecialchars($_sid);" id="htmlspecialchars($_sid);" value="' + readCookie('htmlspecialchars($_sid);') + '" /></p>';
- f.action = 'htmLawedTest.php?pre=1';
+ f.action = 'htmLawedTest?pre=1';
  f.target = 'hlprehtm';
  f.method = 'post';
  var t = document.createElement('textarea');
@@ -437,12 +437,12 @@ var dmp = new diff_match_patch(); function diffLaunch(){var text1 = document.get
 <body>
 <div id="topmost">
 
-<h5 style="float: left; display: inline; margin-top: 0; margin-bottom: 5px;"><a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/index.php" title="htmLawed home">HTM<big><big>L</big></big>AWED</a> hl_version();?> <a href="htmLawedTest.php" title="test home">TEST</a></h5>
+<h5 style="float: left; display: inline; margin-top: 0; margin-bottom: 5px;"><a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/index" title="htmLawed home">HTM<big><big>L</big></big>AWED</a> hl_version();?> <a href="htmLawedTest" title="test home">TEST</a></h5>
 <span style="float: right;" class="help"><a href="htmLawed_README.htm"><span class="notice">htm</span></a> / <a href="htmLawed_README.txt"><span class="notice">txt</span></a> documentation</span><br style="clear:both;" />
 
-<a href="htmLawedTest.php" title="[toggle visibility] type or copy-paste" onclick="javascript:toggle('inputF'); return false;"><span class="notice">Input &raquo;</span> <span class="help" title="limit lower with multibyte characters(($_hlimit < $_limit && $_hlimit)? '; limit is '. $_hlimit. ' for viewing binaries' : '');"><small>(max. htmlspecialchars($_limit);?> chars)</small></span></a>
+<a href="htmLawedTest" title="[toggle visibility] type or copy-paste" onclick="javascript:toggle('inputF'); return false;"><span class="notice">Input &raquo;</span> <span class="help" title="limit lower with multibyte characters(($_hlimit < $_limit && $_hlimit)? '; limit is '. $_hlimit. ' for viewing binaries' : '');"><small>(max. htmlspecialchars($_limit);?> chars)</small></span></a>
 
-<form id="testform" name="testform" action="htmLawedTest.php" method="post" accept-charset="htmlspecialchars(request->post['enc']);" style="padding:0; margin: 0; display:inline;">
+<form id="testform" name="testform" action="htmLawedTest" method="post" accept-charset="htmlspecialchars(request->post['enc']);" style="padding:0; margin: 0; display:inline;">
 
 <div id="inputF" style="display: block;">
 
@@ -490,7 +490,7 @@ if($limit_exceeded){
 
 <br />
 
-<a href="htmLawedTest.php" title="[toggle visibility] htmLawed configuration" onclick="javascript:toggle('inputC'); return false;"><span class="notice">Settings &raquo;</span></a>
+<a href="htmLawedTest" title="[toggle visibility] htmLawed configuration" onclick="javascript:toggle('inputC'); return false;"><span class="notice">Settings &raquo;</span></a>
 
 <div id="inputC" style="display: none;">
 <table summary="none">
@@ -600,7 +600,7 @@ if($do){
  $st = microtime(); 
  $out = htmLawed(request->post['text'], $cfg, request->post['spec']);
  $et = microtime();
- echo '<br /><a href="htmLawedTest.php" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'inputR\'); return false;"><span class="notice">Input code &raquo;</span></a> <span class="help" title="tags estimated as half of total &gt; and &lt; chars; values may be inaccurate for non-ASCII text"><small><big>', strlen(request->post['text']), '</big> chars, ~<big>', ($tag = round((substr_count(request->post['text'], '>') + substr_count(request->post['text'], '<'))/2)), '</big> tag', ($tag > 1 ? 's' : ''), '</small>&nbsp;</span><div id="inputR" style="display: none;">', format(request->post['text']), '</div><script type="text/javascript">hl(\'inputR\');</script>', (!isset(request->post['text'][$_hlimit]) ? ' <a href="htmLawedTest.php" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'inputD\'); return false;"><span class="notice">Input binary &raquo;&nbsp;</span></a><div id="inputD" style="display: none;">'. hexdump(request->post['text']). '</div>' : ''), ' <a href="htmLawedTest.php" title="[toggle visibility] finalized internal settings as interpreted by htmLawed; for developers" onclick="javascript:toggle(\'settingF\'); return false;"><span class="notice">Finalized internal settings &raquo;&nbsp;</span></a> <div id="settingF" style="display: none;">$config: ', filter_string_str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['config'], true)))), '<br />$spec: ', filter_string_str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['spec'], true)))), '</div><script type="text/javascript">hl(\'settingF\');</script>', '<br /><a href="htmLawedTest.php" title="[toggle visibility] suitable for copy-paste" onclick="javascript:toggle(\'outputF\'); return false;"><span class="notice">Output &raquo;</span></a> <span class="help" title="approx., server-specific value excluding the \'include()\' call"><small>htmLawed processing time <big>', number_format(((substr($et,0,9)) + (substr($et,-10)) - (substr($st,0,9)) - (substr($st,-10))),4), '</big> s</small></span>', (($mem = memory_get_peak_usage()) !== false ? '<span class="help"><small>, peak memory usage <big>'. round(($mem-$pre_mem)/1048576, 2). '</big> <small>MB</small>' : ''), '</small></span><div id="outputF"  style="display: block;"><div><textarea id="text2" class="textarea" name="text2" rows="5" cols="100" style="width: 100%;">', htmlspecialchars($out), '</textarea></div><button type="button" onclick="javascript:document.getElementById(\'text2\').focus();document.getElementById(\'text2\').select()" title="select all to copy" style="float:right;">Select all</button>';
+ echo '<br /><a href="htmLawedTest" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'inputR\'); return false;"><span class="notice">Input code &raquo;</span></a> <span class="help" title="tags estimated as half of total &gt; and &lt; chars; values may be inaccurate for non-ASCII text"><small><big>', strlen(request->post['text']), '</big> chars, ~<big>', ($tag = round((substr_count(request->post['text'], '>') + substr_count(request->post['text'], '<'))/2)), '</big> tag', ($tag > 1 ? 's' : ''), '</small>&nbsp;</span><div id="inputR" style="display: none;">', format(request->post['text']), '</div><script type="text/javascript">hl(\'inputR\');</script>', (!isset(request->post['text'][$_hlimit]) ? ' <a href="htmLawedTest" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'inputD\'); return false;"><span class="notice">Input binary &raquo;&nbsp;</span></a><div id="inputD" style="display: none;">'. hexdump(request->post['text']). '</div>' : ''), ' <a href="htmLawedTest" title="[toggle visibility] finalized internal settings as interpreted by htmLawed; for developers" onclick="javascript:toggle(\'settingF\'); return false;"><span class="notice">Finalized internal settings &raquo;&nbsp;</span></a> <div id="settingF" style="display: none;">$config: ', filter_string_str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['config'], true)))), '<br />$spec: ', filter_string_str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['spec'], true)))), '</div><script type="text/javascript">hl(\'settingF\');</script>', '<br /><a href="htmLawedTest" title="[toggle visibility] suitable for copy-paste" onclick="javascript:toggle(\'outputF\'); return false;"><span class="notice">Output &raquo;</span></a> <span class="help" title="approx., server-specific value excluding the \'include()\' call"><small>htmLawed processing time <big>', number_format(((substr($et,0,9)) + (substr($et,-10)) - (substr($st,0,9)) - (substr($st,-10))),4), '</big> s</small></span>', (($mem = memory_get_peak_usage()) !== false ? '<span class="help"><small>, peak memory usage <big>'. round(($mem-$pre_mem)/1048576, 2). '</big> <small>MB</small>' : ''), '</small></span><div id="outputF"  style="display: block;"><div><textarea id="text2" class="textarea" name="text2" rows="5" cols="100" style="width: 100%;">', htmlspecialchars($out), '</textarea></div><button type="button" onclick="javascript:document.getElementById(\'text2\').focus();document.getElementById(\'text2\').select()" title="select all to copy" style="float:right;">Select all</button>';
  if($_w3c_validate && $validation)
  {
 ?>
@@ -610,7 +610,7 @@ if($do){
   
 <?php
  }
- echo '</div><br /><a href="htmLawedTest.php" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'outputR\'); return false;"><span class="notice">Output code &raquo;</span></a><div id="outputR" style="display: block;">', format($out), '</div><script type="text/javascript">hl(\'outputR\');</script>', (!isset(request->post['text'][$_hlimit]) ? ' <a href="htmLawedTest.php" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'outputD\'); return false;"><span class="notice">Output binary &raquo;</span></a><div id="outputD" style="display: none;">'. hexdump($out). '</div>' : ''), ' <a href="htmLawedTest.php" title="[toggle visibility] inline output-input diff; might not be perfectly accurate, semantically or otherwise " onclick="javascript:toggle(\'diff\'); diffLaunch(); return false;"><span class="notice">Diff &raquo;</span></a> <div id="diff" style="display: none;"></div><br /><a href="htmLawedTest.php" title="[toggle visibility] XHTML 1 Transitional doctype" onclick="javascript:toggle(\'outputH\'); return false;"><span class="notice">Output rendered &raquo;</span></a><div id="outputH" style="display: block;">', $out, '</div>';
+ echo '</div><br /><a href="htmLawedTest" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'outputR\'); return false;"><span class="notice">Output code &raquo;</span></a><div id="outputR" style="display: block;">', format($out), '</div><script type="text/javascript">hl(\'outputR\');</script>', (!isset(request->post['text'][$_hlimit]) ? ' <a href="htmLawedTest" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'outputD\'); return false;"><span class="notice">Output binary &raquo;</span></a><div id="outputD" style="display: none;">'. hexdump($out). '</div>' : ''), ' <a href="htmLawedTest" title="[toggle visibility] inline output-input diff; might not be perfectly accurate, semantically or otherwise " onclick="javascript:toggle(\'diff\'); diffLaunch(); return false;"><span class="notice">Diff &raquo;</span></a> <div id="diff" style="display: none;"></div><br /><a href="htmLawedTest" title="[toggle visibility] XHTML 1 Transitional doctype" onclick="javascript:toggle(\'outputH\'); return false;"><span class="notice">Output rendered &raquo;</span></a><div id="outputH" style="display: block;">', $out, '</div>';
 }
 else{
 ?>
@@ -621,7 +621,7 @@ else{
 
 (file_exists('./htmLawed_TESTCASE.txt') ? '<br /><br />You can use text from <a href="htmLawed_TESTCASE.txt"><span class="notice">this collection of test-cases</span></a> in the input. Set the character encoding of the browser to Unicode/utf-8 before copying.' : '');
 
-<br /><br />For anti-XSS tests, try the <a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawedSafeModeTest.php"><span class="notice">special test-page</span></a> or see <a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/rsnake/RSnakeXSSTest.htm"><span class="notice">these results</span></a>.
+<br /><br />For anti-XSS tests, try the <a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawedSafeModeTest"><span class="notice">special test-page</span></a> or see <a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/rsnake/RSnakeXSSTest.htm"><span class="notice">these results</span></a>.
 
 <br /><br /><small>Change <em>Encoding</em> to reflect the character encoding of the input text. Even then, it may not work or some characters may not display properly because of variable browser support and because of the form interface. Developers can write some PHP code to capture the filtered input to a file if this is important.
 <br /><br />Refer to the htmLawed documentation (<a href="htmLawed_README.htm"><span class="notice">htm</span></a>/<a href="htmLawed_README.txt"><span class="notice">txt</span></a>) for details about <em>Settings</em>, and htmLawed's behavior and limitations. For <em>Settings</em>, incorrectly-specified values like regular expressions are silently ignored. One or more settings form-fields may have been disabled. Some characters are not allowed in the <em>Spec</em> field.

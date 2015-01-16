@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
@@ -62,7 +62,7 @@ if ($noteIdentifier != "") {
 
 
 $view->view->identifier = $noteIdentifier;
-$view->render ("editsource.php");
+$view->render ("editsource");
 
 
 Assets_Page::footer ();

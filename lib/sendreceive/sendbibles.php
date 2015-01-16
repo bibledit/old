@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // Security: The script runs from the cli SAPI only.
@@ -98,7 +98,7 @@ for ($bibles as $bible) {
           "s"  => $checksum
         );
         
-        $url = "$address/sync/bible.php";
+        $url = "$address/sync/bible";
         $response = Sync_Logic::post ($post, $url);
     
         if ($response === false) {
@@ -169,7 +169,7 @@ for ($bibles as $bible) {
 // then the client should not download changes from the server,
 // because downloading them would overwrite the changes on the client.
 // The client only downloads changes from the server after it has sent all local edits successfully.
-if (!$communication_errors) tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncbibles.php"));
+if (!$communication_errors) tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncbibles"));
 
 
 ?>

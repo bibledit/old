@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 Assets_Page::header (gettext("Import"));
 
@@ -31,9 +31,9 @@ if(move_uploaded_file($tmpfile, $notesfile)) {
   $view->view->filename = $notesfile;
   $notesfolder = Filter_Archive::uncompress ($notesfile, true);
   $view->view->folder = $notesfolder;
-  $view->render ("import2.php");
+  $view->render ("import2");
 } else {
-  $view->render ("import2error.php");
+  $view->render ("import2error");
 }
 Assets_Page::footer ();
 

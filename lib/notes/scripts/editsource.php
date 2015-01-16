@@ -27,14 +27,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("Identifier:") 943430030.</p>
 <br>
 <p>gettext("Enter the identifier of the Consultation Note to be edited and press Submit.")</p>
-<form action="editsource.php" name="noteid" method="post">
+<form action="editsource" name="noteid" method="post">
   <p>
   <input type="text" name="identifier" maxlength="15" class="focus" value="$this->identifier" />
   <input type="submit" name="submit" value=gettext("Submit") />
   </p>
 </form>
 <br>
-<form action="editsource.php?identifier=$this->identifier" name="notetext" method="post">
+<form action="editsource?identifier=$this->identifier" name="notetext" method="post">
   <p><textarea name="data">$this->data</textarea></p>
   <p><input type="submit" name="save" value=gettext("Save") /></p>
 </form>

@@ -18,9 +18,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 error_reporting (E_ALL);
 $timerFolder = realpath ("../timer");
-$timerSignature = "* * * * * cd $timerFolder; php index.php; cd";
+$timerSignature = "* * * * * cd $timerFolder; php index; cd";
 $tasksFolder = realpath ("../tasks");
-$tasksSignature = "* * * * * php $tasksFolder/run.php";
+$tasksSignature = "* * * * * php $tasksFolder/run";
 // For Windows:
 $webuser = get_current_user ();
 // For Linux:

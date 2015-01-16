@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::guest ());
 
 
@@ -51,7 +51,7 @@ echo "<table width=\"100%\">\n";
 echo "<tr>\n";
 echo "<td><a href=\"$backlinkUrl\" id=\"\" title=\"$backlinkText\">$backlinkText</a></td>\n";
 echo "<td align=\"right\">\n";
-echo "<form action=\"search.php\" method=\"GET\" name=\"search\" id=\"search\">\n";
+echo "<form action=\"search\" method=\"GET\" name=\"search\" id=\"search\">\n";
 echo "<input name=\"q\" type=\"text\" value=\"$queryString\">\n";
 echo "<input type=\"image\" name=\"search\" src=\"lens.png\">\n";
 echo "<input type=\"hidden\" name=\"url\" value=\"$backlinkUrl\">\n";

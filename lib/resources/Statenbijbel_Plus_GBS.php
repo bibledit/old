@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Genesis 1 http://gbsdigitaal.nl/Data/Statenvertaling/1/1/2.json
 // Matthew 1 http://gbsdigitaal.nl/Data/Statenvertaling/2/40/2.json
 
-include_once ("gbsdigitaalplus.php");
+include_once ("gbsdigitaalplus");
 
 // Old (1) or New (2) Testament.
 $testament = $book >= 40 ? 2 : 1;

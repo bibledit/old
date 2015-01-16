@@ -18,4 +18,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p class="error">gettext("This chapter of the source Bible does not contain any cross references that could be extracted.")</p>
-<p><a href="index.php">[gettext("okay")]</a></p>
+<p><a href="index">[gettext("okay")]</a></p>

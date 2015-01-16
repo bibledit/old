@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::admin ());
 
 
@@ -35,7 +35,7 @@ if (isset ($add)) {
 @$delete = request->query['delete'];
 if (isset ($delete)) {
   // User cannot delete Resources in an open demo.
-  include ("config/open.php");
+  include ("config/open");
   if (!$open_installation) {
     $database_resources->delete ($delete);
     $database_offlineresources->delete ($delete);
@@ -56,7 +56,7 @@ $resources = $database_resources->getNames ();
 
 
 $view->view->resources = $resources;
-$view->render ("admin.php");
+$view->render ("admin");
 Assets_Page::footer ();
 
 

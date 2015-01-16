@@ -5,6 +5,6 @@ http://www.crosswire.org/sword/modules/ModInfo.jsp?modName=KJV
 kjvfull.xml
 This is the master file for the KJV. 
 
-createdatabase.php
+createdatabase
 This script imports the XML file into a SQLite database fit for use in Bibledit.
 

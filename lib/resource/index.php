@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::consultant ());
 $header = new Assets_Header (gettext("Resources"));
 $header->setNavigator ();
@@ -32,6 +32,6 @@ $resource_count = count ($resources);
 $script = "var resourceCount = $resource_count;";
 $view->view->script = $script;
 
-$view->render ("index.php");
+$view->render ("index");
 Assets_Page::footer ();
 ?>

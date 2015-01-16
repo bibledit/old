@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
@@ -46,8 +46,8 @@ if (in_array ($bible, $externalResources)) {
 @$convert = request->query ['convert'];
 if (isset ($convert)) {
   if (access_bible_write ($bible)) {
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2resource.php", $bible));
-    redirect_browser ("../journal/index.php");
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2resource", $bible));
+    redirect_browser ("../journal/index");
     die;
   } else {
     Assets_Page::error (gettext("Insufficient privileges to complete operation."));
@@ -59,7 +59,7 @@ $header = new Assets_Header (gettext("Convert"));
 $header->run ();
 
 
-$view->render ("bible2resource.php");
+$view->render ("bible2resource");
 
 
 Assets_Page::footer ();

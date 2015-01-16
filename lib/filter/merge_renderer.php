@@ -5,12 +5,12 @@
  * This class renders the diff in classic diff format. It is intended that
  * this class be customized via inheritance, to obtain fancier outputs.
  *
- * $Horde: framework/Text_Diff/Diff/Renderer.php,v 1.5.10.12 2009/07/24 13:26:40 jan Exp $
+ * $Horde: framework/Text_Diff/Diff/Renderer,v 1.5.10.12 2009/07/24 13:26:40 jan Exp $
  *
  * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.
  *
  * @package Text_Diff
  */

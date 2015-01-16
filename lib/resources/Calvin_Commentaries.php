@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This sample script displays the text of the Commentaries of Calvin.
 
 
-include_once ("studylight.php");
+include_once ("studylight");
 
 
 // The directory on studylight.org

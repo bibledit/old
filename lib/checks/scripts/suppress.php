@@ -18,13 +18,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h1>gettext("Suppressed check results")</h1>
-<p><a href="index.php">[gettext("back")] <a href="#help">[gettext ("help")]</a></p>
+<p><a href="index">[gettext("back")] <a href="#help">[gettext ("help")]</a></p>
 <br>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
 <?php for ($this->ids as $offset => $id) {
   <p style="color:grey;">
-  <a href="suppress.php?release=$id">
+  <a href="suppress?release=$id">
   ✗
   </a>
   $this->data[$offset]

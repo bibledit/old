@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("The process for cleaning consultation notes has started.")</p>
 <p>
   gettext("The progress is visible in the Journal.")
-  <a href="../journal/index.php">gettext("View journal.")</a>
+  <a href="../journal/index">gettext("View journal.")</a>
 </p>
 <p>gettext("It can take time, depending on the amount of consultation notes.")</p>
 <br>

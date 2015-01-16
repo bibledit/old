@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   
   <br>
   
-  <form action="client.php" name="server" method="post">
+  <form action="client" name="server" method="post">
     <p>gettext("Address of Bibledit Server on the Internet"):</p>
     <p><input type="text" name="address" maxlength="1000" class="focus fullwidth" value="$this->address" /></p>
     <table>

@@ -20,9 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   gettext("Change History")
   |
-  <a href="history.php?$this->back"> « </a>
+  <a href="history?$this->back"> « </a>
   $this->start-$this->end/$this->count
-  <a href="history.php?$this->forward"> » </a>
+  <a href="history?$this->forward"> » </a>
   |
   <a href="#filter">gettext("filter")</a>
   |
@@ -60,17 +60,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <a id="filter"></a>
 <p>
-  <a href="history.php?$this->bible" title="gettext("Display entries for the entire Bible")">gettext ("Bible")</a>
+  <a href="history?$this->bible" title="gettext("Display entries for the entire Bible")">gettext ("Bible")</a>
   |
-  <a href="history.php?$this->book" title="gettext("Display entries for the focused book")">gettext ("book")</a>
+  <a href="history?$this->book" title="gettext("Display entries for the focused book")">gettext ("book")</a>
   |
-  <a href="history.php?$this->chapter" title="gettext("Display entries for the focused chapter")">gettext ("chapter")</a>
+  <a href="history?$this->chapter" title="gettext("Display entries for the focused chapter")">gettext ("chapter")</a>
   |
-  <a href="history.php?$this->verse" title="gettext("Display entries for the focused verse")">gettext ("verse")</a>
+  <a href="history?$this->verse" title="gettext("Display entries for the focused verse")">gettext ("verse")</a>
 </p>
 <ul>
 <?php for ($this->author_names as $offset => $author_name) {
-  <li><a href="history.php?$this->author_queries[$offset]">$author_name</a></li>
+  <li><a href="history?$this->author_queries[$offset]">$author_name</a></li>
 <?php }
 </ul>
 <a id="help"></a>

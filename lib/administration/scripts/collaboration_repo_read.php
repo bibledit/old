@@ -33,9 +33,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("The shell command that was used is:") <code>$this->command</code></p>
 
 <p>gettext("If you'd like to retry, after updating the URL, press button Submit.")</p>
-<form action="collaboration_repo_read.php?object=$this->object" name="url" method="post">
+<form action="collaboration_repo_read?object=$this->object" name="url" method="post">
   <p><input type="text" name="urlvalue" value="$this->url" /></p>
   <p><input type="submit" name="url" value=gettext("Submit") /></p>
 </form>
 
-<h2><a href="collaboration_repo_clone.php?object=$this->object">gettext("Next page")</a></h2>
+<h2><a href="collaboration_repo_clone?object=$this->object">gettext("Next page")</a></h2>

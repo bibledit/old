@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // Security: The script runs from the cli SAPI only.
@@ -34,7 +34,7 @@ Database_Logs::log (gettext("Synchronizing USFM resources"), Filter_Roles::trans
 
 
 $address = Database_Config_General::getServerAddress ();
-$url = "$address/sync/usfmresources.php";
+$url = "$address/sync/usfmresources";
 
 
 // Request the checksum of all USFM resources from the server.

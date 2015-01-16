@@ -1,5 +1,5 @@
 # Create a file containing all the php files to be processed.
-find .. -iname '*.php' >> gettextfiles
+find .. -iname '*' >> gettextfiles
 
 # Remove bibledit.pot in case there are some strings in it which are no longer in use.
 rm bibledit.pot

@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   gettext("You can convert a Bible to a USFM Resource.")
   gettext("It means that the text of the Bible will be moved to a Resource.")
-  <a href="index.php" target="_blank">gettext("The users can display this resource.")</a>
+  <a href="index" target="_blank">gettext("The users can display this resource.")</a>
 </p>
 <br>
 <p>

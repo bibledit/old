@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p class="success">$this->success</p>
 <p>gettext("The Bible book below needs a matching abbreviation for the target Bible.")</p>
 <br>
-<form action="translate.php" name="pair" method="post">
+<form action="translate" name="pair" method="post">
   <table>
     <tr>
       <td>1. gettext("Book name:")</td>

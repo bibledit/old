@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 Assets_Page::header (gettext("Import"));
 $view = new Assets_View (__FILE__);
@@ -31,7 +31,7 @@ memory_limit
 max_execution_time
 For just now these are left as they are.
 */
-$view->render ("import1.php");
+$view->render ("import1");
 Assets_Page::footer ();
 
 ?>

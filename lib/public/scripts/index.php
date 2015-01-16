@@ -18,4 +18,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h1>gettext("Public")</h1>
-<p><a href="bibleworks2esword.php">gettext("Tool to convert a text file suitable for BibleWorks into a text file suitable for eSword")</a></p>
+<p><a href="bibleworks2esword">gettext("Tool to convert a text file suitable for BibleWorks into a text file suitable for eSword")</a></p>

@@ -17,11 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><a href="index.php">gettext("Back to notes list")</a></p>
+<p><a href="index">gettext("Back to notes list")</a></p>
 <p>gettext("Summary"): $this->summary</p>
 <div>$this->content</div>
 <hr>
-<form style="border:1px #bbb solid;" action="comment.php" name="form"  method="post">
+<form style="border:1px #bbb solid;" action="comment" name="form"  method="post">
   <p>gettext("Add a comment to this note:")</p>
   <textarea name="comment" id="comment" class="fullwidth"></textarea>
   <p>

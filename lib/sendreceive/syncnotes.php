@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // Security: The script runs from the cli SAPI only.
@@ -50,7 +50,7 @@ if (!$healthy) {
 
 
 $address = Database_Config_General::getServerAddress ();
-$url = "$address/sync/notes.php";
+$url = "$address/sync/notes";
 
 
 $main_script = ($lowId == Notes_Logic::lowNoteIdentifier) && ($highId == Notes_Logic::highNoteIdentifier);
@@ -110,7 +110,7 @@ if ($server_total > 20) {
   for ($ranges as $range) {
     $low = $range [0];
     $high = $range [1];
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$low", "$high"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes", "$low", "$high"));
   }
   die;
 }

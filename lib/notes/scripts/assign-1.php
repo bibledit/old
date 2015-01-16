@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h3>gettext("Select the user to assign the note to")</h3>
 <ul>
 <?php for ($this->users as $user) {
-  <li><a href="assign-1.php?id=$this->id&assign=$user">$user</a></li>
+  <li><a href="assign-1?id=$this->id&assign=$user">$user</a></li>
 <?php }
 </ul>
-<h4><a href="actions.php?id=$this->id">gettext("Cancel")</a></h4>
+<h4><a href="actions?id=$this->id">gettext("Cancel")</a></h4>

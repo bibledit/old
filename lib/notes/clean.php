@@ -17,14 +17,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::admin ());
 Assets_Page::header (gettext("Removing duplicate consultation notes"));
 set_time_limit (0);
 $workingdirectory = dirname (__FILE__);
-tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/cleancli.php"));
+tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/cleancli"));
 $view = new Assets_View (__FILE__);
-$view->render ("clean.php");
+$view->render ("clean");
 Assets_Page::footer ();
 
 ?>

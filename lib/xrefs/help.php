@@ -16,10 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::guest ());
 Assets_Page::header (gettext("Help"));
 $view = new Assets_View (__FILE__);
-$view->render ("help.php");
+$view->render ("help");
 Assets_Page::footer ();
 ?>

@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // John Gill, Exposition of the Whole Bible.
 
 
-include_once ("studylight.php");
+include_once ("studylight");
 
 
 // The directory on studylight.org

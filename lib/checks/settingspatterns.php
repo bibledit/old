@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
@@ -41,7 +41,7 @@ if (isset(request->post['patterns'])) {
 
 $view->view->bible = $bible;
 $view->view->patterns = Database_Config_Bible::getCheckingPatterns ($bible);
-$view->render ("settingspatterns.php");
+$view->render ("settingspatterns");
 Assets_Page::footer ();
 
 

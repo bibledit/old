@@ -431,7 +431,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
 
   // Include a link to the note on the site.
   contents.append ("<br>\n");
-  string link = Database_Config_General::getSiteURL () + "/notes/note.php?id=" + convert_to_string (identifier);
+  string link = Database_Config_General::getSiteURL () + "/notes/note?id=" + convert_to_string (identifier);
   contents.append ("<p><a href=\"");
   contents.append (link);
   contents.append ("\">View or respond online</a></p>\n");

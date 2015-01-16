@@ -41,7 +41,7 @@ class Validate_Utf8 {
   // Did not work reliably.
   private static function valid2 ($str)
   {
-    // From www.php.net/manual/en/function.mb-check-encoding.php
+    // From www.net/manual/en/function.mb-check-encoding
     $len = strlen($str);
     for($i = 0; $i < $len; $i++){
         $c = ord($str[$i]);
@@ -67,7 +67,7 @@ class Validate_Utf8 {
   // Returns true if $str is valid UTF-8 and false otherwise.
   public static function valid ($str)
   {
-    // From www.php.net/manual/en/function.mb-check-encoding.php
+    // From www.net/manual/en/function.mb-check-encoding
     return mb_check_encoding ($str, "UTF-8");
   }
 

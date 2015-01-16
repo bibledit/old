@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // Security: The script runs from the cli SAPI only.
@@ -55,7 +55,7 @@ for ($users as $user) {
 
   if (request->database_config_user()->getUserPendingChangesNotification ($user)) {
     $ids = $database_modifications->getNotificationIdentifiers ($user);
-    $body [] = "<p><a href=\"$siteUrl/changes/changes.php\">" . gettext("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/changes/changes\">" . gettext("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
@@ -76,7 +76,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<p><a href=\"$siteUrl/notes/index.php?presetselection=assigned\">" . gettext("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/notes/index?presetselection=assigned\">" . gettext("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
@@ -101,7 +101,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribed\">" . gettext("Total") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribed\">" . gettext("Total") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -118,7 +118,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribeddayidle\">" . gettext("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribeddayidle\">" . gettext("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -135,7 +135,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribedweekidle\">" . gettext("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribedweekidle\">" . gettext("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
     $body [] = "</ul>\n";
     $session_logic->setUsername ("");
   }

@@ -23,14 +23,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p>
     <a href="?remove=$workbench" title="gettext("Delete workbench")"> ✗ </a>
     |
-    <a href="settings.php?name=$workbench" title="gettext("Edit workbench")"> ✎ </a>
+    <a href="settings?name=$workbench" title="gettext("Edit workbench")"> ✎ </a>
     |
     <span class="drag">$workbench</span>
   </p>
 <?php }
 </div>
 <br>
-<form action="organize.php" name="form" method="post">
+<form action="organize" name="form" method="post">
   <input type="text" name="add" maxlength="300"  />
   <input type="submit" name="create" value=gettext("Create") />
 </form>

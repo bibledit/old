@@ -70,7 +70,7 @@ if (!$client) {
 if (!$client) {
   if (($hour == 0) && ($minute == 30)) {
     $directory = dirname (dirname (__FILE__)) . "/changes";
-    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/git.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/git"));
     unset ($directory);
   }
 }
@@ -105,17 +105,17 @@ if (($hour == 1) && ($minute == 10)) {
 // Email statistics to the users.
 if (!$client) {
   if (($hour == 3) && ($minute == 0)) {
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/statistics.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/statistics"));
   }
 }
 
 
 // Check open installation.
 if ($minute == 10) {
-  include ("config/open.php");
+  include ("config/open");
   if ($open_installation) {
     $directory = dirname (__DIR__) . "/demo";
-    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/index.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/index"));
   }
 }
 

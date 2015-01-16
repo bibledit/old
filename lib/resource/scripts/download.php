@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h3>gettext("Download resource") "$this->name"</h3>
-<p><a href="admin.php">[gettext("back")]</a></p>
+<p><a href="admin">[gettext("back")]</a></p>
 <br>
 <p>
   gettext("Bibledit can display external resources to the user.")

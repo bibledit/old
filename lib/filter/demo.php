@@ -26,7 +26,7 @@ class Filter_Demo
   // Else returns false.
   public static function open_demo ($user, $pass)
   {
-    include ("config/open.php");
+    include ("config/open");
     if ($open_installation) {
       if ($user == "admin") {
         if (($pass == 'admin') || ($pass == md5 ("admin"))) {

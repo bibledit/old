@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
@@ -74,7 +74,7 @@ $view->view->endpunctuationmarks = filter_string_sanitize_html (Database_Config_
 $view->view->middlepunctuationmarks = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible));
 $view->view->disregards = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards ($bible));
 $view->view->names = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames ($bible));
-$view->render ("settingssentences.php");
+$view->render ("settingssentences");
 
 
 Assets_Page::footer ();

@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This sample script displays the text of the Elberfelder Bibel.
 
 
-include_once ("bibleserver.php");
+include_once ("bibleserver");
 
 
 // The directory on bibleserver.com

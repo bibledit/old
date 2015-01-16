@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::consultant ());
 $assets_header = new Assets_Header (gettext("Bibles"));
 $assets_header->run();
@@ -25,6 +25,6 @@ $bibles = access_bible_bibles ();
 // Add general Bible.
 $bibles [] = Notes_Logic::generalBibleName ();
 $view->view->bibles = $bibles;
-$view->render ("bible-n.php");
+$view->render ("bible-n");
 Assets_Page::footer ();
 ?>

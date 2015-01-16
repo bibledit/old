@@ -23,6 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <p>gettext("There are two options:")</p>
 <ol>
-  <li><em>gettext("Take the data in the repository.")</em> gettext ("Taking the data in the repository means that the data in the repository is left as it is, and that a copy of that data overwrites your own data in Bibledit. This option is used most of the time.") <a href="collaboration_take_repo.php?object=$this->object">gettext("Take the data in the repository.")</a></li>
-  <li><em>gettext("Take your own data.")</em> gettext ("Taking your own data means that your data is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.") <a href="collaboration_take_yourself.php?object=$this->object">gettext("Take your data.")</a></li>
+  <li><em>gettext("Take the data in the repository.")</em> gettext ("Taking the data in the repository means that the data in the repository is left as it is, and that a copy of that data overwrites your own data in Bibledit. This option is used most of the time.") <a href="collaboration_take_repo?object=$this->object">gettext("Take the data in the repository.")</a></li>
+  <li><em>gettext("Take your own data.")</em> gettext ("Taking your own data means that your data is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.") <a href="collaboration_take_yourself?object=$this->object">gettext("Take your data.")</a></li>
 </ol>

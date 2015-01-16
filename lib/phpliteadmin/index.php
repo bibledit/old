@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // phpLiteAdmin is secured through the standard Bibledit login mechanism.
@@ -27,7 +27,7 @@ page_access_level (Filter_Roles::admin ());
 
 // Do not show phpLiteAdmin in an open installation, 
 // so nobody can effect the databases and their tables
-include ("config/open.php");
+include ("config/open");
 if ($open_installation) {
   Assets_Page::header ("phpLiteAdmin");
   Assets_Page::message (gettext("This open demo does not display the database editor for security reasons."));
@@ -78,9 +78,9 @@ if ($open_installation) {
 // This is sample configuration file
 //
 // You can configure phpliteadmin in one of 2 ways:
-// 1. Rename phpliteadmin.config.sample.php to phpliteadmin.config.php and change parameters in there.
-//    You can set only your custom settings in phpliteadmin.config.php. All other settings will be set to defaults.
-// 2. Change parameters directly in main phpliteadmin.php file
+// 1. Rename phpliteadmin.config.sample to phpliteadmin.config and change parameters in there.
+//    You can set only your custom settings in phpliteadmin.config. All other settings will be set to defaults.
+// 2. Change parameters directly in main phpliteadmin file
 //
 // Please see http://code.google.com/p/phpliteadmin/wiki/Configuration for more details
 
@@ -158,7 +158,7 @@ $allowed_extensions = array('db','db3','sqlite','sqlite3');
 // Read our wiki on how to translate: http://code.google.com/p/phpliteadmin/wiki/Localization
 $lang = array(
 	"direction" => "LTR",
-	"date_format" => 'g:ia \o\n F j, Y (T)',  // see http://php.net/manual/en/function.date.php for what the letters stand for
+	"date_format" => 'g:ia \o\n F j, Y (T)',  // see http://php.net/manual/en/function.date for what the letters stand for
 	"ver" => "version",
 	"for" => "for",
 	"to" => "to",
@@ -445,7 +445,7 @@ $lang = array(
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 // load optional configuration file
-$config_filename = './phpliteadmin.config.php';
+$config_filename = './phpliteadmin.config';
 if (is_readable($config_filename)) {
 	include_once $config_filename;
 }
@@ -484,10 +484,10 @@ $pageTimer = new MicroTimer();
 
 // load language file
 if($language != 'en') {
-	if(is_file('languages/lang_'.$language.'.php'))
-		include('languages/lang_'.$language.'.php');
-	elseif(is_file('lang_'.$language.'.php'))
-		include('lang_'.$language.'.php');
+	if(is_file('languages/lang_'.$language.''))
+		include('languages/lang_'.$language.'');
+	elseif(is_file('lang_'.$language.''))
+		include('lang_'.$language.'');
 }
 // version-number added so after updating, old session-data is not used anylonger
 // cookies names cannot contain symbols, except underscores
@@ -495,7 +495,7 @@ define("COOKIENAME", preg_replace('/[^a-zA-Z0-9_]/', '_', $cookie_name . '_' . V
 
 // stripslashes if MAGIC QUOTES is turned on
 // This is only a workaround. Please better turn off magic quotes!
-// This code is from http://php.net/manual/en/security.magicquotes.disabling.php
+// This code is from http://php.net/manual/en/security.magicquotes.disabling
 if (get_magic_quotes_gpc()) {
 	$process = array(&request->query, &request->post, &$_COOKIE, &$_REQUEST);
 	while (list($key, $val) = each($process)) {
@@ -936,7 +936,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 // Displaying the Bibledit heder and menu is postponed till here.
 // This fixes the following:
-// Warning: session_start(): Cannot send session cache limiter - headers already sent (output started at assets/view.php:57) in phpliteadmin/index.php on line 464
+// Warning: session_start(): Cannot send session cache limiter - headers already sent (output started at assets/view:57) in phpliteadmin/index on line 464
 // With headers, it forgets which table it has selected.
 Assets_Page::header ("phpLiteAdmin");
 
@@ -3521,7 +3521,7 @@ else //user is authorized - display the main application
 			if ($auth->isPasswordDefault())
 			{
 				echo "<div class='confirm' style='margin:20px 0px;'>";
-				echo sprintf($lang['warn_passwd'],(is_readable('phpliteadmin.config.php')?'phpliteadmin.config.php':PAGE))."<br />".$lang['warn0'];
+				echo sprintf($lang['warn_passwd'],(is_readable('phpliteadmin.config')?'phpliteadmin.config':PAGE))."<br />".$lang['warn0'];
 				echo "</div>";
 			}
 			
@@ -3531,7 +3531,7 @@ else //user is authorized - display the main application
 			echo "<b>".$lang['db_mod']."</b>: ".$db->getDate()."<br/>";
 			echo "<b>".$lang['sqlite_v']."</b>: ".$realVersion."<br/>";
 			echo "<b>".$lang['sqlite_ext']."</b> ".helpLink($lang['help1']).": ".$db->getType()."<br/>"; 
-			echo "<b>".$lang['php_v']."</b>: ".phpversion()."<br/><br/>";
+			echo "<b>".$lang['php_v']."</b>: "version()."<br/><br/>";
 			
 			if(isset(request->query['sort']) && (request->query['sort']=='type' || request->query['sort']=='name'))
 				$_SESSION[COOKIENAME.'sortTables'] = request->query['sort'];

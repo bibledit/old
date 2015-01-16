@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 page_access_level (Filter_Roles::translator ());
@@ -63,7 +63,7 @@ $unknown_abbreviations = array_values ($unknown_abbreviations);
 
 
 if (empty ($unknown_abbreviations)) {
-  redirect_browser ("clear.php");
+  redirect_browser ("clear");
   die;
 }
 
@@ -81,7 +81,7 @@ $view->view->remaining = count ($unknown_abbreviations) - 1;
 $view->view->bookname = $unknown_abbreviations [0];
 
 
-$view->render ("translate.php");
+$view->render ("translate");
 
 
 Assets_Page::footer ();

@@ -24,8 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p class="success">$this->success</p>
 <?php for ($this->ids as $offset => $id) {
   <p>
-    <a href="index.php?approve=$id"> ✔ </a>
-    <a href="index.php?delete=$id"> ✗ </a>
+    <a href="index?approve=$id"> ✔ </a>
+    <a href="index?delete=$id"> ✗ </a>
     $this->bibles[$offset]
     $this->links[$offset]
     $this->information[$offset]
@@ -41,6 +41,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <p>gettext("Click an entry to open the chapter in the text editor.")</p>
 <p>gettext("The Manager should enable the checks.")</p>
-<p><a href="suppress.php">gettext("Suppressed entries")</a></p>
+<p><a href="suppress">gettext("Suppressed entries")</a></p>
 <script type="text/javascript" src="index.js?##VERSION##"></script>
 <script type="text/javascript" src="../navigation/nav.js?##VERSION##"></script>

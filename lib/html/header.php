@@ -63,7 +63,7 @@ class Html_Header
     $tableDataElement = $this->htmlText->newTableData ($tableRowElement, true);
     $formElement = $this->htmlText->newElement ("form");
     $tableDataElement->appendChild ($formElement);
-    $formElement->setAttribute ("action", "../../../webbible/search.php");
+    $formElement->setAttribute ("action", "../../../webbible/search");
     $formElement->setAttribute ("method", "GET");
     $formElement->setAttribute ("name", "search");
     $formElement->setAttribute ("id", "search");

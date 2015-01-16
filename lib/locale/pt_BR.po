@@ -2969,7 +2969,7 @@ msgid ""
 "server, and get it up and running there. A web server is needed, PHP, and "
 "MySQL. If you have copied the web/web directory to, for example, "
 "http://localhost/bibledit, then to install the program and create all the "
-"databases, you need to run http://localhost/bibledit/setup.php once."
+"databases, you need to run http://localhost/bibledit/setup once."
 msgstr ""
 
 msgid "Open installation"

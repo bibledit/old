@@ -21,13 +21,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php for ($this->resources as $resource) {
   <p>
     <a href="?delete=$resource" class="deleteresource" title="gettext("Delete resource")"> ✗ </a>
-    <a href="edit.php?name=$resource" title="gettext("Edit resource")"> ✎ </a>
-    <a href="download.php?name=$resource" title="gettext("Download resource")"> ⇓ </a>
+    <a href="edit?name=$resource" title="gettext("Edit resource")"> ✎ </a>
+    <a href="download?name=$resource" title="gettext("Download resource")"> ⇓ </a>
     $resource
   </p>
 <?php }
 <br>
-<form action="admin.php" name="form" method="post">
+<form action="admin" name="form" method="post">
   <input type="text" name="entry" maxlength="300"  />
   <input type="submit" name="submit" value=gettext("Add") />
 </form>

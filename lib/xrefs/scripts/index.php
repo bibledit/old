@@ -19,13 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <p>
   gettext("Cross references")
-  <a href="help.php">[gettext("help")]</a>
+  <a href="help">[gettext("help")]</a>
   |
   gettext("source Bible:") <a href="?source=" title="gettext ("Select source Bible")">$this->source</a>
-  <a href="extract.php" title="gettext("Copy cross references from source to target for the entire chapter")"> ⇉ gettext ("copy cross references entire chapter") ⇉ </a>
+  <a href="extract" title="gettext("Copy cross references from source to target for the entire chapter")"> ⇉ gettext ("copy cross references entire chapter") ⇉ </a>
   gettext("target Bible:") <a href="?target=" title="gettext ("Select target Bible")">$this->target</a>
   |
-  <a href="next.php" title="gettext("Go to the next chapter without cross references")">gettext ("next chapter without cross references")</a>
+  <a href="next" title="gettext("Go to the next chapter without cross references")">gettext ("next chapter without cross references")</a>
 </p>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>

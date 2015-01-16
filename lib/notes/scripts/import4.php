@@ -22,4 +22,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("The progress of this process is visible in the Journal.")</p>
 <p>gettext("It can take a good amount of time, depending on the amount of notes to be imported.")</p>
 <p>gettext("After everything has been done, you can see the consultation notes in the normal place. They will be added to any existing ones.")</p>
-<p><a href="../journal/index.php">gettext("View journal.")</a></p>
+<p><a href="../journal/index">gettext("View journal.")</a></p>

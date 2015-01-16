@@ -18,4 +18,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>gettext("The cross references were inserted into the target Bible.")</p>
-<p><a href="index.php">[gettext("okay")]</a></p>
+<p><a href="index">[gettext("okay")]</a></p>

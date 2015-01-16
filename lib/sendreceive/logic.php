@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("bootstrap/bootstrap.php");
+require_once ("bootstrap/bootstrap");
 
 
 class SendReceive_Logic
@@ -27,7 +27,7 @@ class SendReceive_Logic
 
   static public function queuebible ($bible)
   {
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/sendreceive.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/sendreceive", $bible));
   }
 
 
@@ -61,11 +61,11 @@ class SendReceive_Logic
         $database_logs = Database_Logs::getInstance ();
         Database_Logs::log ("Not scheduling sync tasks, because the previous ones have not yet finished");
       } else {
-        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendnotes.php"));
-        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendbibles.php"));
-        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendsettings.php"));
-        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/externalresources.php"));
-        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/usfmresources.php"));
+        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendnotes"));
+        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendbibles"));
+        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendsettings"));
+        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/externalresources"));
+        tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ .  "/usfmresources"));
       }
     }
   }
@@ -75,14 +75,14 @@ class SendReceive_Logic
   // Returns the result as a boolean.
   public static function syncqueued ()
   {
-    if (tasks_logic_queued ("sendnotes.php")) return true;
-    if (tasks_logic_queued ("sendbibles.php")) return true;
-    if (tasks_logic_queued ("sendsettings.php")) return true;
-    if (tasks_logic_queued ("syncnotes.php")) return true;
-    if (tasks_logic_queued ("syncbibles.php")) return true;
-    if (tasks_logic_queued ("syncsettings.php")) return true;
-    if (tasks_logic_queued ("externalresources.php")) return true;
-    if (tasks_logic_queued ("usfmresources.php")) return true;
+    if (tasks_logic_queued ("sendnotes")) return true;
+    if (tasks_logic_queued ("sendbibles")) return true;
+    if (tasks_logic_queued ("sendsettings")) return true;
+    if (tasks_logic_queued ("syncnotes")) return true;
+    if (tasks_logic_queued ("syncbibles")) return true;
+    if (tasks_logic_queued ("syncsettings")) return true;
+    if (tasks_logic_queued ("externalresources")) return true;
+    if (tasks_logic_queued ("usfmresources")) return true;
     return false;
   }
   

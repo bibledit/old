@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("bootstrap/bootstrap.php");
+require_once ("bootstrap/bootstrap");
 
 
 class Sprint_Logic
@@ -33,7 +33,7 @@ class Sprint_Logic
   {
     if ($bible == "") $bible = "-";
     $mail = Filter_Bool::int ($mail);
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/burndown.php", $bible, $mail));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/burndown", $bible, $mail));
   }
 
 
@@ -61,7 +61,7 @@ class Sprint_Logic
     }
 
     // Create burndown chart as an image.
-    include_once ("../phpmygraph/phpMyGraph5.0.php");
+    include_once ("../phpmygraph/phpMyGraph5.0");
 
     $cfg['title-visible'] = false;
     $cfg['width'] = 700;

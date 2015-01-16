@@ -90,6 +90,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/similar.h>
 #include <search/strongs.h>
 #include <search/strong.h>
+#include <search/originals.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -169,6 +170,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_similar_url ()) && search_similar_acl (request)) request->reply = search_similar (request);
   else if ((url == search_strongs_url ()) && search_strongs_acl (request)) request->reply = search_strongs (request);
   else if ((url == search_strong_url ()) && search_strong_acl (request)) request->reply = search_strong (request);
+  else if ((url == search_originals_url ()) && search_originals_acl (request)) request->reply = search_originals (request);
 
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

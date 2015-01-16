@@ -2,19 +2,19 @@
 /**
  * "Inline" diff renderer.
  *
- * $Horde: framework/Text_Diff/Diff/Renderer/inline.php,v 1.4.10.16 2009/07/24 13:25:29 jan Exp $
+ * $Horde: framework/Text_Diff/Diff/Renderer/inline,v 1.4.10.16 2009/07/24 13:25:29 jan Exp $
  *
  * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.
  *
  * @author  Ciprian Popovici
  * @package Text_Diff
  */
 
 /** Text_Diff_Renderer */
-require_once 'merge_renderer.php';
+require_once 'merge_renderer';
 
 /**
  * "Inline" diff renderer.

@@ -55,7 +55,7 @@ class Dialog_Text
 
   public function run ()
   {
-    $this->view->render ("text.php");
+    $this->view->render ("text");
     Assets_Page::footer ();
     die ();
   }

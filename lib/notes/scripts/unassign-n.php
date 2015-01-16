@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h3>gettext("Select the user to unassign the notes from")</h3>
 <ul>
 <?php for ($this->users as $user) {
-  <li><a href="bulk.php?unassign=$user">$user</a></li>
+  <li><a href="bulk?unassign=$user">$user</a></li>
 <?php }
 </ul>
-<h4><a href="bulk.php">gettext("Cancel")</a></h4>
+<h4><a href="bulk">gettext("Cancel")</a></h4>

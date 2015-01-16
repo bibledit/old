@@ -29,7 +29,7 @@ function page_access_level ($level)
     $header->setLogin ();
     $header->run ();
     $view = new Assets_View (__FILE__);
-    $view->render ("privileges.php");
+    $view->render ("privileges");
     Assets_Page::footer ();
     die ();
   }
@@ -57,9 +57,9 @@ class Bootstrap
         $folder = basename ($folder);
         $page = pathinfo ($path, PATHINFO_BASENAME);
         if ($folder != "setup") {
-          if ($page != "topbar.php") {
-            if ($page != "client.php") {
-              redirect_browser ("../administration/client.php");
+          if ($page != "topbar") {
+            if ($page != "client") {
+              redirect_browser ("../administration/client");
               die;
             }
           }

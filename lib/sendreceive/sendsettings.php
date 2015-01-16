@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // Security: The script runs from the cli SAPI only.
@@ -50,7 +50,7 @@ $session_logic->setUsername ($user);
 
 
 $address = Database_Config_General::getServerAddress ();
-$url = "$address/sync/setting.php";
+$url = "$address/sync/setting";
 
 
 // Go through all settings flagged as having been updated on this client.
@@ -101,7 +101,7 @@ for ($ids as $id) {
 
 // All changed settings have now been sent to the server.
 // The client will now synchronize its settings with the server's settings.
-tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncsettings.php"));
+tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncsettings"));
 
 
 ?>

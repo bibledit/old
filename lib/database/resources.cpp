@@ -52,7 +52,7 @@ string Database_Resources::getFile (string name)
 string Database_Resources::getInclude (string name)
 {
   name = filter_string_str_replace (" ", "_", name);
-  string file = filter_url_create_path (folder (), name + ".php");
+  string file = filter_url_create_path (folder (), name + "");
   return file;
 }
 
@@ -60,7 +60,7 @@ string Database_Resources::getInclude (string name)
 string Database_Resources::getMetaFile (string name)
 {
   string file = getFile (name);
-  file = filter_string_str_replace (".php", "_meta.php", file);
+  file = filter_string_str_replace ("", "_meta", file);
   return file;
 }
 
@@ -93,15 +93,15 @@ void Database_Resources::save (const string& name, const string& code)
 // Gets the names of the available external resource scripts.
 // The names are derived from the filenames of the resource scripts, as follows:
 // * An underscore in the filenames becomes a space in the resource name.
-// * The .php extension is removed.
-// * Scripts ending on _meta.php are not considered. They contain meta information for that resource.
+// * The  extension is removed.
+// * Scripts ending on _meta are not considered. They contain meta information for that resource.
 vector <string> Database_Resources::getNames ()
 {
   vector <string> names;
   vector <string> files = filter_url_scandir (folder ());
   for (auto file : files) {
     if (file == unicode_string_casefold (file)) continue;
-    if (file.find ("_meta.php") != string::npos) continue;
+    if (file.find ("_meta") != string::npos) continue;
     string suffix = filter_url_get_extension (file);
     if (suffix != "php") continue;
     string name = file.substr (0, strlen (file.c_str()) -1 - strlen (suffix.c_str()));

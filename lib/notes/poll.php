@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::consultant ());
 $ipc_notes = Ipc_Notes::getInstance();
 $action = request->query ['action'];
@@ -25,7 +25,7 @@ if ($action == "alive") {
   $identifier = $ipc_notes->get ();
   if ($identifier) {
     $ipc_notes->delete ();
-    $url = "note.php?id=$identifier";
+    $url = "note?id=$identifier";
     echo $url;
   }
 } else if ($action == "unload") {

@@ -17,14 +17,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 Assets_Page::header (gettext("Import"));
 $file = request->query ['file'];
 $folder = Filter_Archive::uncompress ($file, true);
 $view = new Assets_View (__FILE__);
 $view->view->folder = $folder;
-$view->render ("import3.php");
+$view->render ("import3");
 Assets_Page::footer ();
 
 ?>

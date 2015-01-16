@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p class="success">$this->success</p>
 <p>gettext("The abbreviation below needs clarification as to which Bible book it refers to.")</p>
 <br>
-<form action="interpret.php" name="pair" method="post">
+<form action="interpret" name="pair" method="post">
   <table>
     <tr>
       <td>1. gettext("Optionally update the abbreviation:")</td>

@@ -78,7 +78,7 @@ class Filter_Merge
   */
   private static function merge ($base, $user, $server)
   {
-    include_once ("merge_merge.php");
+    include_once ("merge_merge");
     $threewaymerge = new ThreeWayMerge ($base, $user, $server);
     $result = $threewaymerge->merge ();
     if (strpos ($result, "be:conflict") !== false) return NULL;

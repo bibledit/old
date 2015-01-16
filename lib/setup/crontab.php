@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 error_reporting (E_ALL);
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 $messages = array ();
@@ -29,10 +29,10 @@ $messages = array ();
 
 // The entries to go into cron.
 $timerFolder = realpath ("../timer");
-$timerSignature = "* * * * * cd $timerFolder; php index.php; cd";
+$timerSignature = "* * * * * cd $timerFolder; php index; cd";
 
 $tasksFolder = realpath ("../tasks");
-$tasksSignature = "* * * * * php $tasksFolder/run.php";
+$tasksSignature = "* * * * * php $tasksFolder/run";
 
 
 // Get current crontab contents.
@@ -70,8 +70,8 @@ if (!$timerIncluded || !$tasksIncluded) {
 
 
 if (count ($messages) == 0) {
-  include ("../filter/url.php");
-  redirect_browser ("step.php?referer=crontab");
+  include ("../filter/url");
+  redirect_browser ("step?referer=crontab");
   die;
 }
 
@@ -109,6 +109,6 @@ for ($messages as $message) {
 <p><code>$tasksSignature;</code></p>
 <p>If the <code>cron</code> scheduler does not work for user <code>$webuser;</code>, it is also an option to schedule the tasks as user <code>root</code>. Run <code>crontab -e</code> as user <code>root</code>, and enter the following line given above.</p>
 <p>Your hosting provider will be able to advise also.</p>
-<p><a href="crontab.php" class="button button-large">Retry</a> <a href="step.php?referer=crontab" class="button button-large">Carry on</a></p>
+<p><a href="crontab" class="button button-large">Retry</a> <a href="step?referer=crontab" class="button button-large">Carry on</a></p>
 </body>
 </html>

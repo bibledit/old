@@ -117,5 +117,5 @@ gettext("Text inclusion:")
   <a <?php if ($this->textinclusionselector == 0) {class="active"<?php } href="select?textinclusionyselector=0">gettext("Do not include the note text")</a>
   <a <?php if ($this->textinclusionselector == 1) {class="active"<?php } href="select?textinclusionyselector=1">gettext("Include the note text")</a>
 </p>
-<h3><a href="index.php">gettext("Display the notes list")</a></h3>
+<h3><a href="index">gettext("Display the notes list")</a></h3>
 <script type="text/javascript" src="poll.js?##VERSION##"></script>

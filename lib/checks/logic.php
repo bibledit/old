@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("bootstrap/bootstrap.php");
+require_once ("bootstrap/bootstrap");
 
 
 class Checks_Logic
@@ -37,7 +37,7 @@ class Checks_Logic
 
   static public function start ($bible)
   {
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/checkcli.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/checkcli", $bible));
   }
 
 

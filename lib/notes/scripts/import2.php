@@ -20,4 +20,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h1>gettext("Importing notes, step 2")</h1>
 <p>gettext("The notes file has been uploaded successfully.")</p>
 <p>gettext("Filename"): $this->filename</p>
-<h3><a href="import3.php?file=$this->filename">gettext("Next")</a></h3>
+<h3><a href="import3?file=$this->filename">gettext("Next")</a></h3>

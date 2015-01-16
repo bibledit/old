@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h3>gettext("Update the severity of the notes")</h3>
 <ul>
 <?php for ($this->severities as $severity) {
-  <li><a href="bulk.php?severity=$severity[0]">$severity[1]</a></li>
+  <li><a href="bulk?severity=$severity[0]">$severity[1]</a></li>
 <?php }
 </ul>
-<h4><a href="bulk.php">gettext("Cancel")</a></h4>
+<h4><a href="bulk">gettext("Cancel")</a></h4>

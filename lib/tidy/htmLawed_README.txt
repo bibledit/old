@@ -204,13 +204,13 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
 -- 1.6  Availability ------------------------------------------------o
 
 
-  htmLawed can be downloaded for free at its website:- http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed. Besides the 'htmLawed.php' file, the download has the htmLawed documentation (this document) in plain text:- htmLawed_README.txt and HTML:- htmLawed_README.htm formats, a script for testing:- htmLawedTest.php, and a text file for test-cases:- htmLawed_TESTCASE.txt. htmLawed is also available as a PHP class (OOP code) on its website.
+  htmLawed can be downloaded for free at its website:- http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed. Besides the 'htmLawed' file, the download has the htmLawed documentation (this document) in plain text:- htmLawed_README.txt and HTML:- htmLawed_README.htm formats, a script for testing:- htmLawedTest, and a text file for test-cases:- htmLawed_TESTCASE.txt. htmLawed is also available as a PHP class (OOP code) on its website.
 
 
 == 2  Usage ========================================================oo
 
 
-  htmLawed works in PHP version 4.4 or higher. Either 'include()' the 'htmLawed.php' file, or copy-paste the entire code. To use with PHP 4.3, have the following code included:
+  htmLawed works in PHP version 4.4 or higher. Either 'include()' the 'htmLawed' file, or copy-paste the entire code. To use with PHP 4.3, have the following code included:
 
     if(!function_exists('ctype_digit')){
      function ctype_digit($var){
@@ -513,7 +513,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
 
   The time and memory consumed during text processing by htmLawed depends on its configuration, the size of the input, and the amount, nestedness and well-formedness of the HTML markup within the input. In particular, tag balancing and beautification each can increase the processing time by about a quarter.
 
-  The htmLawed demo:- htmLawedTest.php can be used to evaluate the performance and effects of different types of input and '$config'.
+  The htmLawed demo:- htmLawedTest can be used to evaluate the performance and effects of different types of input and '$config'.
 
 
 -- 2.5  Some security risks to keep in mind ------------------------o
@@ -539,15 +539,15 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
 -- 2.6  Use without modifying old 'kses()' code --------------------o
 
 
-  The 'Kses' PHP script is used by many applications (like 'WordPress'). It is possible to have such applications use htmLawed instead, since it is compatible with code that calls the 'kses()' function declared in the 'Kses' file (usually named 'kses.php'). E.g., application code like this will continue to work after replacing 'Kses' with htmLawed:
+  The 'Kses' PHP script is used by many applications (like 'WordPress'). It is possible to have such applications use htmLawed instead, since it is compatible with code that calls the 'kses()' function declared in the 'Kses' file (usually named 'kses'). E.g., application code like this will continue to work after replacing 'Kses' with htmLawed:
 
     $comment_filtered = kses($comment_input, array('a'=>array(), 'b'=>array(), 'i'=>array()));
 
   For some of the '$config' parameters, htmLawed will use values other than the default ones. These are indicated by '^' in section:- #2.2. To force htmLawed to use other values, function 'kses()' in the htmLawed code should be edited -- a few configurable parameters/variables need to be changed.
 
-  If the application uses a 'Kses' file that has the 'kses()' function declared, then, to have the application use htmLawed instead of 'Kses', simply rename 'htmLawed.php' (to 'kses.php', e.g.) and replace the 'Kses' file (or just replace the code in the 'Kses' file with the htmLawed code). If the 'kses()' function in the 'Kses' file had been renamed by the application developer (e.g., in 'WordPress', it is named 'wp_kses()'), then appropriately rename the 'kses()' function in the htmLawed code.
+  If the application uses a 'Kses' file that has the 'kses()' function declared, then, to have the application use htmLawed instead of 'Kses', simply rename 'htmLawed' (to 'kses', e.g.) and replace the 'Kses' file (or just replace the code in the 'Kses' file with the htmLawed code). If the 'kses()' function in the 'Kses' file had been renamed by the application developer (e.g., in 'WordPress', it is named 'wp_kses()'), then appropriately rename the 'kses()' function in the htmLawed code.
 
-  If the 'Kses' file used by the application has been highly altered by the application developers, then one may need a different approach. E.g., with 'WordPress', it is best to copy the htmLawed code to 'wp_includes/kses.php', rename the newly added function 'kses()' to 'wp_kses()', and delete the code for the original 'wp_kses()' function.
+  If the 'Kses' file used by the application has been highly altered by the application developers, then one may need a different approach. E.g., with 'WordPress', it is best to copy the htmLawed code to 'wp_includes/kses', rename the newly added function 'kses()' to 'wp_kses()', and delete the code for the original 'wp_kses()' function.
 
   If the 'Kses' code has a non-empty hook function (e.g., 'wp_kses_hook()' in case of 'WordPress'), then the code for htmLawed's 'kses_hook()' function should be appropriately edited. However, the requirement of the hook function should be re-evaluated considering that htmLawed has extra capabilities. With 'WordPress', the hook function is an essential one. The following code is suggested for the htmLawed 'kses_hook()' in case of 'WordPress':
 
@@ -649,7 +649,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
   
   *  htmLawed does not check or correct the character encoding of the input it receives. In conjunction with permitting circumstances such as when the character encoding is left undefined through HTTP headers or HTML 'meta' tags, this can permit an exploit (like Google's `UTF-7/XSS` vulnerability of the past). Also, htmLawed can mangle input text if it is not well-formed in terms of character encoding. Administrators can consider using code available elsewhere to check well-formedness of input text characters to correct any defect.
   
-  *  htmLawed is expected to work with input texts in ASCII-compatible single byte encodings such as national variants of ASCII (like ISO-646-DE/German of the ISO 646 standard), extended ASCII variants (like ISO 8859-10/Turkish of the ISO 8859/ISO Latin standard), ISO 8859-based Windows variants (like Windows 1252), EBCDIC, Shift JIS (Japanese), GB-Roman (Chinese), and KS-Roman (Korean). It should also properly handle texts with variable byte encodings like UTF-7 (Unicode) and UTF-8 (Unicode). However, htmLawed may mangle input texts with double byte encodings like UTF-16 (Unicode), JIS X 0208:1997 (Japanese) and K SX 1001:1992 (Korean), or the UTF-32 (Unicode) quadruple byte encoding. If an input text has such an encoding, administrators can use PHP's iconv:- http://php.net/manual/en/book.iconv.php functions, or some other mean, to convert text to UTF-8 before passing it to htmLawed.
+  *  htmLawed is expected to work with input texts in ASCII-compatible single byte encodings such as national variants of ASCII (like ISO-646-DE/German of the ISO 646 standard), extended ASCII variants (like ISO 8859-10/Turkish of the ISO 8859/ISO Latin standard), ISO 8859-based Windows variants (like Windows 1252), EBCDIC, Shift JIS (Japanese), GB-Roman (Chinese), and KS-Roman (Korean). It should also properly handle texts with variable byte encodings like UTF-7 (Unicode) and UTF-8 (Unicode). However, htmLawed may mangle input texts with double byte encodings like UTF-16 (Unicode), JIS X 0208:1997 (Japanese) and K SX 1001:1992 (Korean), or the UTF-32 (Unicode) quadruple byte encoding. If an input text has such an encoding, administrators can use PHP's iconv:- http://php.net/manual/en/book.iconv functions, or some other mean, to convert text to UTF-8 before passing it to htmLawed.
 
   *  Like any script using PHP's PCRE regex functions, PHP setup-specific low PCRE limit values can cause htmLawed to at least partially fail with very long input texts.
 	
@@ -772,7 +772,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
 
   `Neutralization` refers to the `entitification` of '&' to '&amp;'.
 
-  *Note*: htmLawed does not convert entities to the actual characters represented by them; one can pass the htmLawed output through PHP's 'html_entity_decode' function:- http://www.php.net/html_entity_decode for that.
+  *Note*: htmLawed does not convert entities to the actual characters represented by them; one can pass the htmLawed output through PHP's 'html_entity_decode' function:- http://www.net/html_entity_decode for that.
 
   *Note*: If '$config["and_mark"]' is set, and set to a value other than '0', then the '&' characters in the original input are replaced with the control character for the hexadecimal code-point '6' ('\x06'; '&' characters introduced by htmLawed, e.g., after converting '<' to '&lt;', are not affected). This allows one to distinguish, say, an '&gt;' introduced by htmLawed and an '&gt;' put in by the input writer, and can be helpful in further processing of the htmLawed-processed text (e.g., to identify the character sequence 'o(><)o' to generate an emoticon image). When this feature is active, admins should ensure that the htmLawed output is not directly used in web pages or XML documents as the presence of the '\x06' can break documents. Before use in such documents, and preferably before any storage, any remaining '\x06' should be changed back to '&', e.g., with:
 
@@ -888,13 +888,13 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
   Example input:
 
     <center>
-     The PHP <s>software</s> script used for this <strike>web-page</strike> web-page is <font style="font-weight: bold " face=arial size='+3' color   =  "red  ">htmLawedTest.php</font>, from <u style= 'color:green'>PHP Labware</u>.
+     The PHP <s>software</s> script used for this <strike>web-page</strike> web-page is <font style="font-weight: bold " face=arial size='+3' color   =  "red  ">htmLawedTest</font>, from <u style= 'color:green'>PHP Labware</u>.
     </center>
 
   The output:
 
     <div style="text-align: center;">
-     The PHP <span style="text-decoration: line-through;">software</span> script used for this <span style="text-decoration: line-through;">web-page</span> web-page is <span style="font-weight: bold; font-family: arial; color: red; font-size: 200%;">htmLawedTest.php</span>, from <span style="color:green; text-decoration: underline;">PHP Labware</span>.
+     The PHP <span style="text-decoration: line-through;">software</span> script used for this <span style="text-decoration: line-through;">web-page</span> web-page is <span style="font-weight: bold; font-family: arial; color: red; font-size: 200%;">htmLawedTest</span>, from <span style="color:green; text-decoration: underline;">PHP Labware</span>.
     </div>
 
 
@@ -1340,7 +1340,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
 -- 4.3  Change-log -------------------------------------------------o
 
 
-  (The release date for the downloadable package of files containing documentation, demo script, test-cases, etc., besides the 'htmLawed.php' file, may be updated without a change-log entry if the secondary files, but not htmLawed per se, are revised.)
+  (The release date for the downloadable package of files containing documentation, demo script, test-cases, etc., besides the 'htmLawed' file, may be updated without a change-log entry if the secondary files, but not htmLawed per se, are revised.)
 
   `Version number - Release date. Notes`
   
@@ -1410,13 +1410,13 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
 -- 4.4  Testing ----------------------------------------------------o
 
 
-  To test htmLawed using a form interface, a demo:- htmLawedTest.php web-page is provided with the htmLawed distribution ('htmLawed.php' and 'htmLawedTest.php' should be in the same directory on the web-server). A file with test-cases:- htmLawed_TESTCASE.txt is also provided.
+  To test htmLawed using a form interface, a demo:- htmLawedTest web-page is provided with the htmLawed distribution ('htmLawed' and 'htmLawedTest' should be in the same directory on the web-server). A file with test-cases:- htmLawed_TESTCASE.txt is also provided.
 
 
 -- 4.5  Upgrade, & old versions ------------------------------------o
 
 
-  Upgrading is as simple as replacing the previous version of 'htmLawed.php' (assuming it was not modified for customized features). As htmLawed output is almost always used in static documents, upgrading should not affect old, finalized content.
+  Upgrading is as simple as replacing the previous version of 'htmLawed' (assuming it was not modified for customized features). As htmLawed output is almost always used in static documents, upgrading should not affect old, finalized content.
 
   *Important*  The following upgrades may affect the functionality of a specific htmLawed installation:
 

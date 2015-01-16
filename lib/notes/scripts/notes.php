@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <?php for ($this->identifiers as $offset => $identifier) {
   <a name="note$this->identifiers[$offset]"></a>
-  <p><a href="note.php?id=$this->identifiers[$offset]">$this->summaries[$offset]</a></p>
+  <p><a href="note?id=$this->identifiers[$offset]">$this->summaries[$offset]</a></p>
   <p>$this->versetexts[$offset]</p>
   <p>$this->contents[$offset]</p>
 <?php }

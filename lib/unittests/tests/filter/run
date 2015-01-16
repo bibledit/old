@@ -2,5 +2,5 @@
 # where the system has been set up with username and password to access the database.
 
 ./../databases/setup
-phpunit --bootstrap ../../web/bootstrap/bootstrap.php .
+phpunit --bootstrap ../../web/bootstrap/bootstrap .
 ./../databases/teardown

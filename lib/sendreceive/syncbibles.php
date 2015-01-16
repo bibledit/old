@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // Security: The script runs from the cli SAPI only.
@@ -35,7 +35,7 @@ $database_books = Database_Books::getInstance ();
 
 
 $address = Database_Config_General::getServerAddress ();
-$url = "$address/sync/bibles.php";
+$url = "$address/sync/bibles";
 
 
 $users = $database_users->getUsers ();

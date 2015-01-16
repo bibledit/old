@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 // Security: The script runs from the cli SAPI only.
@@ -95,7 +95,7 @@ for ($notes as $note) {
       "c" => $content
     );
     
-    $url = "$address/sync/note.php";
+    $url = "$address/sync/note";
     $response = Sync_Logic::post ($post, $url);
 
     if ($response === false) {
@@ -154,7 +154,7 @@ for ($notes as $note) {
 // the client will now sync its notes with the server's notes.
 $lowId = Notes_Logic::lowNoteIdentifier;
 $highId = Notes_Logic::highNoteIdentifier;
-tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$lowId", "$highId"));
+tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes", "$lowId", "$highId"));
 
 
 ?>

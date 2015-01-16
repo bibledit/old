@@ -20,13 +20,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h2>gettext("Verse Mappings")</h2>
 <p>
   gettext("This lists the available verse mappings.")
-  <a href="index.php?new=">gettext("Create new.")</a>
+  <a href="index?new=">gettext("Create new.")</a>
 </p>
 <?php for ($this->mappings as $offset => $mapping) {
   <p>
     $mapping
     <?php if ($this->editable [$offset]) {
-    <a href="map.php?name=$mapping">[gettext("edit")]</a>
+    <a href="map?name=$mapping">[gettext("edit")]</a>
     <?php }
   </p>
 <?php }

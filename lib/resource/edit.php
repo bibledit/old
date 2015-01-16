@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 $header = new Assets_Header (gettext("Resource"));
 $header->run ();
@@ -34,7 +34,7 @@ $view->view->name = $name;
 
 if (isset(request->post['code'])) {
   $code = request->post['code'];
-  include ("config/open.php");
+  include ("config/open");
   if ($open_installation) {
     echo "<h2>Cannot save data in this open installation</h2>";
   } else {
@@ -82,7 +82,7 @@ $metafile = basename ($metafile);
 $view->view->metafile = $metafile;
 
 
-$view->render ("edit.php");
+$view->render ("edit");
 
 
 Assets_Page::footer ();

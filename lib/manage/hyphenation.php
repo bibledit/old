@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap");
 
 
 page_access_level (Filter_Roles::manager ());
@@ -78,7 +78,7 @@ if (isset(request->query['run'])) {
     $error = gettext("No second set of characters given");
   } else {
     $workingdirectory = __DIR__;
-    tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate.php", $bible, request->session_logic()->currentUser ()));
+    tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate", $bible, request->session_logic()->currentUser ()));
     $success = gettext("The Bible is being hyphenated. See the Journal for details.");
   }
 }
@@ -89,7 +89,7 @@ $view->view->secondset = $secondset;
 $view->view->bible = $bible;
 $view->view->success = $success;
 $view->view->error = $error;
-$view->render ("hyphenation.php");
+$view->render ("hyphenation");
 
 
 Assets_Page::footer ();

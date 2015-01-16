@@ -29,68 +29,68 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>gettext("Enable the desired checks:")</p>
 
 <p>
-<a href="settings.php?doublespacesusfm=">
+<a href="settings?doublespacesusfm=">
 <?php if ($this->double_spaces_usfm == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("double spaces in the raw USFM")
 </p>
 
 <p>
-<a href="settings.php?fullstopheadings=">
+<a href="settings?fullstopheadings=">
 <?php if ($this->full_stop_headings == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("punctuation at the end of a heading")
 </p>
 
 <p>
-<a href="settings.php?spacebeforepunctuation=">
+<a href="settings?spacebeforepunctuation=">
 <?php if ($this->space_before_punctuation == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("a space before a comma, semicolon, colon, full stop, question mark, or exclamation mark")
 </p>
 
 <p>
-<a href="settings.php?sentencestructure=">
+<a href="settings?sentencestructure=">
 <?php if ($this->sentence_structure == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("sentence structure")
 </p>
 
 <p>
-<a href="settings.php?paragraphstructure=">
+<a href="settings?paragraphstructure=">
 <?php if ($this->paragraph_structure == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("paragraph starts with a capital and ends with a correct end marker")
 </p>
 
 <p>
-<a href="settings.php?chaptersversesversification=">
+<a href="settings?chaptersversesversification=">
 <?php if ($this->chapters_verses_versification == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("correct number of books, chapters, and verses, according to the versification system")
 </p>
 
 <p>
-<a href="settings.php?wellformedusfm=">
+<a href="settings?wellformedusfm=">
 <?php if ($this->well_formed_usfm == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("well-formed USFM")
 </p>
 
 <p>
-<a href="settings.php?punctuationatendverse=">
+<a href="settings?punctuationatendverse=">
 <?php if ($this->punctuation_end_verse == true) { ☑ <?php } else { ☐ <?php }
 </a>
 gettext("missing punctuation at the end of a verse")
 </p>
 
 <p>
-<a href="settings.php?patterns=">
+<a href="settings?patterns=">
 <?php if ($this->check_patterns == true) { ☑ <?php } else { ☐ <?php }
 </a>
   gettext("patterns in the text")
-  [<a href="settingspatterns.php">gettext("settings")</a>]
+  [<a href="settingspatterns">gettext("settings")</a>]
 </p>
 
 <br>
-<p><a href="settingssentences.php">gettext("Settings for the sentence structure")</a></p>
+<p><a href="settingssentences">gettext("Settings for the sentence structure")</a></p>

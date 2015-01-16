@@ -19,4 +19,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <p>gettext("You can go to the next page if the cloning completed successfully and there was no error.")</p>
 
-<h2><a href="collaboration_repo_write.php?object=$this->object">gettext("Next page")</a></h2>
+<h2><a href="collaboration_repo_write?object=$this->object">gettext("Next page")</a></h2>

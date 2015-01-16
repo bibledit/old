@@ -72,4 +72,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php }
 
 <br>
-<p><a href="../journal/index.php">gettext("The Journal displays progress and diagnostic messages.")</a></p>
+<p><a href="../journal/index">gettext("The Journal displays progress and diagnostic messages.")</a></p>

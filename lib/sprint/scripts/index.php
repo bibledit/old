@@ -73,7 +73,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <p><a href="?mail=">gettext("Mail information to subscribers")</a></p>
 <br>
-<form action="index.php" name="addtask" method="post">
+<form action="index" name="addtask" method="post">
   <p>
     gettext("Add task")
     <input type="text" name="add" maxlength="256" />

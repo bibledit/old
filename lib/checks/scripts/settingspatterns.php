@@ -25,10 +25,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   gettext("Enter the patterns to search for.")
   gettext("One per line.")
 </p>
-<form action="settingspatterns.php" name="form" method="post">
+<form action="settingspatterns" name="form" method="post">
   <p><textarea name="patterns" class="fullwidth">$this->patterns</textarea></p>
   <p><input type="submit" name="submit" value=gettext("Save") /></p>
 </form>
 <br>
 <p>gettext("It will search the plain text of the Bible, without verse numbers, heading, and other additions.")</p>
-<p><a href="settings.php">gettext("Go back")</a></p>
+<p><a href="settings">gettext("Go back")</a></p>

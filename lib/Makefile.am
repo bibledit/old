@@ -173,6 +173,7 @@ libbibledit_a_SOURCES = \
 	search/similar.cpp \
 	search/strongs.cpp \
 	search/strong.cpp \
+	search/originals.cpp \
 	tmp/tmp.cpp
 
 bin_PROGRAMS = server unittest

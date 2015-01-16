@@ -23,10 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <a href="select">[gettext("select")]</a>
   <?php if ($this->level >= 5) {
     |
-    [<a href="bulk.php">gettext("update")</a>]
+    [<a href="bulk">gettext("update")</a>]
   <?php }
   |
-  <a href="create.php">gettext("Create note")</a>
+  <a href="create">gettext("Create note")</a>
 </p>
 <br>
 <div id="noteslist"><img src="../pix/loading.gif"></div>

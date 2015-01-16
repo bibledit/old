@@ -56,9 +56,9 @@ class ThreeWayMerge
 		$this->_NEW    = ( ! is_array( $NEW ) )    ? explode( "\n", filter_string_str_replace( "\r\n", "\n" , filter_string_trim( $NEW    ) ) ) : $NEW;
 		$this->_CUSTOM = ( ! is_array( $CUSTOM ) ) ? explode( "\n", filter_string_str_replace( "\r\n", "\n" , filter_string_trim( $CUSTOM ) ) ) : $CUSTOM;
 		
-    require_once 'merge_diff3.php';
-    require_once 'merge_renderer.php';
-    require_once 'merge_inline.php';
+    require_once 'merge_diff3';
+    require_once 'merge_renderer';
+    require_once 'merge_inline';
 	}
 	
 	/**

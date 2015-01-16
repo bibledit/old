@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <li>
   gettext("It generates Change Notifications for users who have enabled that option.")
   gettext("Every user makes personal settings.")
-  <a href="../user/notifications.php">gettext("Your settings are in the notifications.")</a>
+  <a href="../user/notifications">gettext("Your settings are in the notifications.")</a>
 </li>
 </ul>
 <p>gettext("Users who have change notifications awaiting their approval:")</p>
@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <tr>
     <td>$this->users[$offset]:</td>
     <td>$this->count[$offset]</td>
-    <td><a href="manage.php?clear=$this->users[$offset]">[gettext("clear")]</a></td>
+    <td><a href="manage?clear=$this->users[$offset]">[gettext("clear")]</a></td>
   </tr>
 <?php }
 </table>
