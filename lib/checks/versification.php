@@ -54,7 +54,7 @@ class Checks_Versification
   }
 
 
-  public static function verses (bible, book, chapter, $verses)
+  public static function verses (bible, book, chapter, verses)
   {
     // Get verses in this chapter according to the versification system for the Bible.
     $database_versifications = Database_Versifications::getInstance ();
@@ -66,18 +66,18 @@ class Checks_Versification
     $extraVerses = filter_string_array_diff ($verses, $standardVerses);
     $database_check = Database_Check::getInstance ();
     for ($absentVerses as $verse) {
-      $database_check->recordOutput (bible, book, chapter, $verse, "This verse is missing according to the versification system");
+      $database_check->recordOutput (bible, book, chapter, verse, "This verse is missing according to the versification system");
     }
     for ($extraVerses as $verse) {
       //if (($chapter == 0) && ($verse == 0)) continue;
-      $database_check->recordOutput (bible, book, chapter, $verse, "This verse is extra according to the versification system");
+      $database_check->recordOutput (bible, book, chapter, verse, "This verse is extra according to the versification system");
     }
     // Look for verses out of order.
     $previousVerse = 0;
     for ($verses as $key => $verse) {
       if ($key > 0) {
         if ($verse != ($previousVerse + 1)) {
-          $database_check->recordOutput (bible, book, chapter, $verse, "The verse is out of sequence");
+          $database_check->recordOutput (bible, book, chapter, verse, "The verse is out of sequence");
         }
       }
       $previousVerse = $verse;

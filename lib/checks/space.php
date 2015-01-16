@@ -22,7 +22,7 @@ class Checks_Space
 {
 
 
-  public static function doubleSpaceUsfm (bible, book, chapter, $verse, $data)
+  public static function doubleSpaceUsfm (bible, book, chapter, verse, $data)
   {
     $database_check = Database_Check::getInstance ();
     $pos = strpos ($data, "  ");
@@ -30,7 +30,7 @@ class Checks_Space
       $start = $pos - 10;
       if ($start < 0) $start = 0;
       $fragment = substr ($data, $start, 20);
-      $database_check->recordOutput (bible, book, chapter, $verse, "Double space:" . " ... " . $fragment . " ...");
+      $database_check->recordOutput (bible, book, chapter, verse, "Double space:" . " ... " . $fragment . " ...");
     }
   }
 
@@ -41,22 +41,22 @@ class Checks_Space
     $database_check = Database_Check::getInstance ();
     for ($texts as $verse => $text) {
       if (strpos ($text, " ,") !== false) {
-        $database_check->recordOutput (bible, book, chapter, $verse, "Space before a comma");
+        $database_check->recordOutput (bible, book, chapter, verse, "Space before a comma");
       }
       if (strpos ($text, " ;") !== false) {
-        $database_check->recordOutput (bible, book, chapter, $verse, "Space before a semicolon");
+        $database_check->recordOutput (bible, book, chapter, verse, "Space before a semicolon");
       }
       if (strpos ($text, " :") !== false) {
-        $database_check->recordOutput (bible, book, chapter, $verse, "Space before a colon");
+        $database_check->recordOutput (bible, book, chapter, verse, "Space before a colon");
       }
       if (strpos ($text, " .") !== false) {
-        $database_check->recordOutput (bible, book, chapter, $verse, "Space before a full stop");
+        $database_check->recordOutput (bible, book, chapter, verse, "Space before a full stop");
       }
       if (strpos ($text, " ?") !== false) {
-        $database_check->recordOutput (bible, book, chapter, $verse, "Space before a question mark");
+        $database_check->recordOutput (bible, book, chapter, verse, "Space before a question mark");
       }
       if (strpos ($text, " !") !== false) {
-        $database_check->recordOutput (bible, book, chapter, $verse, "Space before an exclamation mark");
+        $database_check->recordOutput (bible, book, chapter, verse, "Space before an exclamation mark");
       }
     }
   }

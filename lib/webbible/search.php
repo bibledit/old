@@ -115,7 +115,7 @@ for ($ids as $id) {
 
 
   // The excerpt.
-  $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseText (bible, book, chapter, verse);
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.

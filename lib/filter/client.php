@@ -54,7 +54,7 @@ class Filter_Client
   }
   
 
-  public static function createNoteEncode (bible, book, chapter, $verse, $summary, $contents, $raw)
+  public static function createNoteEncode (bible, book, chapter, verse, $summary, $contents, $raw)
   {
     $data = array ();
     $data [] = $bible;

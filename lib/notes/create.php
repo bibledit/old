@@ -54,7 +54,7 @@ if ($verse == "") {
 if (isset(request->post['submit'])) {
   $summary = filter_string_trim (request->post['summary']);
   $contents = filter_string_trim (request->post['contents']);
-  $notes_logic->createNote (bible, book, chapter, $verse, $summary, $contents, false);
+  $notes_logic->createNote (bible, book, chapter, verse, $summary, $contents, false);
   redirect_browser ("index.php");
   die;
 }

@@ -35,7 +35,7 @@ class Checks_Headers
       if (strpos ($centermarks, $lastCharacter) !== false) $message = true;
       if (strpos ($endmarks, $lastCharacter) !== false) $message = true;
       if ($message) {
-        $database_check->recordOutput (bible, book, chapter, $verse, "Punctuation at end of heading:" . " " . $heading);
+        $database_check->recordOutput (bible, book, chapter, verse, "Punctuation at end of heading:" . " " . $heading);
       }
     }
   }

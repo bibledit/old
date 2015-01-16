@@ -64,7 +64,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   $summary = $data ["summary"];
   $raw = $data ["raw"];
   $contents = $data ["contents"];
-  $server_id = $notes_logic->createNote (bible, book, chapter, $verse, $summary, $contents, $raw);
+  $server_id = $notes_logic->createNote (bible, book, chapter, verse, $summary, $contents, $raw);
 
   // Update the note identifier on the server to be same as the client.
   $database_notes->setIdentifier ($server_id, $note);

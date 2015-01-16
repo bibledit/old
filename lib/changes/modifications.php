@@ -165,9 +165,9 @@ function processIdentifiers ($user, bible, book, chapter, $oldId, $newId, &$emai
           $email += "</div>";
           if (request->database_config_user()->getUserUserChangesNotificationsOnline ($user)) {
             $changeNotificationUsers = array ($user);
-            $database_modifications->recordNotification ($changeNotificationUsers, "☺", bible, book, chapter, $verse, $old_html, $modification, $new_html);
+            $database_modifications->recordNotification ($changeNotificationUsers, "☺", bible, book, chapter, verse, $old_html, $modification, $new_html);
           }
-          $database_history->record ($timestamp, $user, bible, book, chapter, $verse, $old_html, $modification, $new_html);
+          $database_history->record ($timestamp, $user, bible, book, chapter, verse, $old_html, $modification, $new_html);
         }
       }
     }
@@ -270,7 +270,7 @@ for ($bibles as $bible) {
           }
           if ($old_text != $new_text) {
             $modification = filter_diff_diff ($old_text, $new_text);
-            $database_modifications->recordNotification ($changeNotificationUsers, "♺", bible, book, chapter, $verse, $old_html, $modification, $new_html);
+            $database_modifications->recordNotification ($changeNotificationUsers, "♺", bible, book, chapter, verse, $old_html, $modification, $new_html);
           }
         }
       }

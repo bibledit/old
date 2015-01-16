@@ -110,7 +110,7 @@ string search_similar (void * webserver_request)
       
     }
     
-    // Sort on occurence from high to low.
+    // Sort on occurrence from high to low.
     // Skip identifiers that only occur once.
     vector <int> ids;
     vector <int> counts;

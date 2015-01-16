@@ -120,7 +120,7 @@ if (isset ($words)) {
     
   }
 
-  // Sort on occurence from high to low.
+  // Sort on occurrence from high to low.
   arsort ($passages, SORT_NUMERIC);
   
   // Output the passage identifiers to the browser.
@@ -145,7 +145,7 @@ if (isset ($id)) {
   $verse = $passage [2];
   
   // Get the plain text.
-  $text = request->database_search()->getBibleVerseText (bible, book, chapter, $verse);
+  $text = request->database_search()->getBibleVerseText (bible, book, chapter, verse);
 
   // Format it.
   $link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
