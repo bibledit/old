@@ -170,7 +170,7 @@ bool filter_string_in_array (const string& needle, const vector <string>& haysta
 
 
 // A C++ equivalent for PHP's array_unique function.
-vector <string> filter_string_array_unique (vector <string> values)
+vector <string> array_unique (vector <string> values)
 {
   vector <string> result;
   set <string> unique;
@@ -185,7 +185,7 @@ vector <string> filter_string_array_unique (vector <string> values)
 
 
 // A C++ equivalent for PHP's array_unique function.
-vector <int> filter_string_array_unique (vector <int> values)
+vector <int> array_unique (vector <int> values)
 {
   vector <int> result;
   set <int> unique;
@@ -984,7 +984,7 @@ string filter_string_markup_words (const vector <string>& words, string text)
     vector <string> new_needles = filter_string_search_needles (word, text);
     needles.insert (needles.end(), new_needles.begin(), new_needles.end());
   }
-  needles = filter_string_array_unique (needles);
+  needles = array_unique (needles);
   
   // All the $needles are converted to $markup,
   // which will replace the $needles.
@@ -1010,7 +1010,7 @@ vector <string> filter_string_search_needles (string search, string text)
     needles.push_back (needle);
     position = unicode_string_strpos_case_insensitive (text, search, position + 1);
   }
-  needles = filter_string_array_unique (needles);
+  needles = array_unique (needles);
   return needles;
 }
 

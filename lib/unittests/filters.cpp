@@ -79,7 +79,7 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, 1, counter);
   }
   {
-    // Test filter_string_array_unique, a C++ equivalent for PHP's array_unique function.
+    // Test array_unique, a C++ equivalent for PHP's array_unique function.
     vector <string> reference;
     reference.push_back ("aaa");
     reference.push_back ("b");
@@ -99,11 +99,11 @@ void test_filters_test1 ()
     input.push_back ("yyy");
     input.push_back ("k");
     input.push_back ("k");
-    vector <string> output = filter_string_array_unique (input);
+    vector <string> output = array_unique (input);
     evaluate (__LINE__, __func__, reference, output);
   }
   {
-    // Test filter_string_array_unique, a C++ equivalent for PHP's array_unique function.
+    // Test array_unique, a C++ equivalent for PHP's array_unique function.
     vector <int> reference;
     reference.push_back (111);
     reference.push_back (2);
@@ -123,7 +123,7 @@ void test_filters_test1 ()
     input.push_back (888);
     input.push_back (5);
     input.push_back (5);
-    vector <int> output = filter_string_array_unique (input);
+    vector <int> output = array_unique (input);
     evaluate (__LINE__, __func__, reference, output);
   }
   {

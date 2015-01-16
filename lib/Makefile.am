@@ -172,6 +172,7 @@ libbibledit_a_SOURCES = \
 	search/replacego2.cpp \
 	search/similar.cpp \
 	search/strongs.cpp \
+	search/strong.cpp \
 	tmp/tmp.cpp
 
 bin_PROGRAMS = server unittest

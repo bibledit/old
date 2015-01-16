@@ -165,7 +165,7 @@ string search_search2 (void * webserver_request)
       if (sharing == "intersect") {
         hits = array_intersect (loadedHits, hits);
       }
-      hits = filter_string_array_unique (hits);
+      hits = array_unique (hits);
     }
     
     

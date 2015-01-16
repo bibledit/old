@@ -17,7 +17,7 @@
  */
 
 
-#include <search/strongs.h>
+#include <search/strong.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -31,26 +31,26 @@
 #include <ipc/focus.h>
 
 
-string search_strongs_url ()
+string search_strong_url ()
 {
-  return "search/strongs";
+  return "search/strong";
 }
 
 
-bool search_strongs_acl (void * webserver_request)
+bool search_strong_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
-string search_strongs (void * webserver_request)
+string search_strong (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
 
   Database_Kjv database_kjv = Database_Kjv ();
   
-
+  
   string bible = request->database_config_user()->getBible ();
   if (request->query.count ("b")) {
     bible = request->query ["b"];
@@ -58,80 +58,46 @@ string search_strongs (void * webserver_request)
   
   
   if (request->query.count ("load")) {
-    
+
     int book = Ipc_Focus::getBook (request);
     int chapter = Ipc_Focus::getChapter (request);
     int verse = Ipc_Focus::getVerse (request);
     
     // Get Strong's numbers, plus English snippets.
-    string searchtext;
+    string html = "<table>\n";
     vector <Database_Kjv_Item> details = database_kjv.getVerse (book, chapter, verse);
-    for (unsigned int i = 0; i < details.size(); i++) {
-      if (i) searchtext += " ";
-      searchtext += details[i].strong;
-      searchtext += " (";
-      searchtext += details[i].english;
-      searchtext += ")";
+    for (auto & detail : details) {
+      string strong = detail.strong;
+      string english = detail.english;
+      html += "<tr><td><a href=\"" + strong + "\">" + strong + "</a></td><td>" + english + "</td></tr>\n";
     }
+    html += "</table>\n";
     
-    searchtext = filter_string_trim (searchtext);
-    
-    return searchtext;
+    return html;
   }
   
   
-  if (request->query.count ("words")) {
+  if (request->query.count ("strong")) {
     
-    string s_words = request->query ["words"];
-    s_words = filter_string_trim (s_words);
-    vector <string> words = filter_string_explode (s_words, ' ');
+    string strong = request->query ["strong"];
+    strong = filter_string_trim (strong);
     
-    // Include items if there are no more search hits than 30% of the total number of verses in the KJV.
-    size_t maxcount = round (0.3 * 31102);
+    vector <int> passages;
     
-    // Store how often a verse occurs in an array.
-    // The keys are the passages of the search results.
-    // The values are how often the passages occur in the search results.
-    map <int, int> passages;
+    vector <Passage> details = database_kjv.searchStrong (strong);
     
-    for (auto & strong : words) {
-      
-      // Skip short words.
-      if (strong.length () < 2) continue;
-      
-      // Find out how often this word occurs in the Bible. Skip if too often.
-      vector <Passage> details = database_kjv.searchStrong (strong);
-      if (details.size() < 1) continue;
-      if (details.size () > maxcount) continue;
-      
-      // Store the identifiers and their count.
-      for (auto & passage : details) {
-        int i_passage = filter_passage_to_integer (passage);
-        if (passages.count (i_passage)) passages [i_passage]++;
-        else passages [i_passage] = 1;
-      }
-      
+    for (auto & passage : details) {
+      int i_passage = filter_passage_to_integer (passage);
+      passages.push_back (i_passage);
     }
     
-    // Sort on occurrence from high to low.
-    // Skip identifiers that only occur once.
-    vector <int> i_passages;
-    vector <int> counts;
-    for (auto & element : passages) {
-      int i_passage = element.first;
-      int count = element.second;
-      if (count <= 1) continue;
-      i_passages.push_back (i_passage);
-      counts.push_back (count);
-    }
-    quick_sort (counts, i_passages, 0, counts.size());
-    reverse (i_passages.begin(), i_passages.end());
-
-    // Output the passage identifiers to the browser.
+    passages = array_unique (passages);
+    sort (passages.begin(), passages.end());
+    
     string output;
-    for (auto & i_passage : i_passages) {
-      if (!output.empty ()) output.append ("\n");
-      output.append (convert_to_string (i_passage));
+    for (auto & passage : passages) {
+      if (!output.empty()) output.append ("\n");
+      output.append (convert_to_string (passage));
     }
     return output;
   }
@@ -147,7 +113,7 @@ string search_strongs (void * webserver_request)
     string verse = passage.verse;
     
     // Get the plain text.
-    string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string text = request->database_search()->getBibleVerseText (bible, book, chapter, stoi (verse));
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
@@ -170,7 +136,7 @@ string search_strongs (void * webserver_request)
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);
 
-  page += view.render ("search", "strongs");
+  page += view.render ("search", "strong");
   
   page += Assets_Page::footer ();
   

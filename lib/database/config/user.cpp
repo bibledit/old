@@ -780,7 +780,7 @@ void Database_Config_User::addUpdatedSetting (string value)
 {
   vector <string> settings = getUpdatedSettings ();
   settings.push_back (value);
-  settings = filter_string_array_unique (settings);
+  settings = array_unique (settings);
   setUpdatedSettings (settings);
 }
 void Database_Config_User::removeUpdatedSetting (string value)
