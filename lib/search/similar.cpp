@@ -111,16 +111,22 @@ string search_similar (void * webserver_request)
     }
     
     // Sort on occurence from high to low.
-    // Todo fix it. arsort ($identifiers, SORT_NUMERIC);
-    
-    // Output the passage identifiers to the browser.
     // Skip identifiers that only occur once.
-    string output;
+    vector <int> ids;
+    vector <int> counts;
     for (auto & element : identifiers) {
       int id = element.first;
       int count = element.second;
       if (count <= 1) continue;
-      cout << id << " " << count << endl; // Todo
+      ids.push_back (id);
+      counts.push_back (count);
+    }
+    quick_sort (counts, ids, 0, counts.size());
+    reverse (ids.begin(), ids.end());
+
+    // Output the passage identifiers to the browser.
+    string output;
+    for (auto & id : ids) {
       if (!output.empty ()) output.append ("\n");
       output.append (convert_to_string (id));
     }
