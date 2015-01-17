@@ -35,6 +35,7 @@ void test_editor_export ();
 void test_editor_import ();
 void test_editor_roundtrip ();
 void test_libraries_debug ();
+void test_workbench_logic ();
 
 
 #endif

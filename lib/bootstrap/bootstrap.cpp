@@ -91,6 +91,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/strongs.h>
 #include <search/strong.h>
 #include <search/originals.h>
+#include <workbench/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -135,6 +136,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == editusfm_index_url ()) && editusfm_index_acl (request)) request->reply = editusfm_index (request);
   else if ((url == edit_index_url ()) && edit_index_acl (request)) request->reply = edit_index (request);
   else if ((url == search_index_url ()) && search_index_acl (request)) request->reply = search_index (request);
+  else if ((url == workbench_index_url ()) && workbench_index_acl (request)) request->reply = workbench_index (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);

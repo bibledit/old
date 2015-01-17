@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checksum/logic.h>
 #include <editor/export.h>
 #include <editor/import.h>
+#include <workbench/logic.h>
 
 
 void test_sqlite ()
@@ -1478,6 +1479,75 @@ void test_editor_roundtrip ()
     evaluate (__LINE__, __func__, usfm, output);
   }
   refresh_sandbox (false);
+}
+
+
+void test_workbench_logic () // Todo
+{
+  // Initial setup for the tests.
+  refresh_sandbox (true);
+  Webserver_Request request;
+  request.database_users ()->create ();
+  request.session_logic ()->setUsername ("phpunit");
+  {
+    evaluate (__LINE__, __func__, "100%", workbenchProcessUnits ("100"));
+    evaluate (__LINE__, __func__, "100%", workbenchProcessUnits ("100 %"));
+    evaluate (__LINE__, __func__, "100px", workbenchProcessUnits ("100 px"));
+  }
+  {
+    evaluate (__LINE__, __func__, "default", workbenchGetActiveWorkbench (&request));
+    request.database_config_user()->setActiveWorkbench ("unittest");
+    evaluate (__LINE__, __func__, "unittest", workbenchGetActiveWorkbench (&request));
+  }
+  {
+    map <int, string> standard = { make_pair (0, "edit/index"), make_pair (5, "resource/index")};
+    evaluate (__LINE__, __func__, standard, workbenchDefaultURLs (1));
+  }
+  {
+    map <int, string> urls = { make_pair (10, "url1"), make_pair (2, "url2")};
+    workbenchSetURLs (&request, urls);
+    map <int, string> result = workbenchGetURLs (&request, false);
+    evaluate (__LINE__, __func__, urls, result);
+  }
+  {
+    map <int, string> widths = { make_pair (0, "24%"), make_pair (1, "24%"), make_pair (2, "24%"), make_pair (3, "24%")};
+    map <int, string> result = workbenchGetWidths (&request);
+    evaluate (__LINE__, __func__, widths, result);
+  }
+  {
+    vector <string> workbenches = workbenchGetWorkbenches (&request);
+    evaluate (__LINE__, __func__, {"unittest"}, workbenches);
+  }
+  refresh_sandbox (true);
+  request.database_users ()->create ();
+  {
+    request.database_config_user()->setActiveWorkbench ("unittest");
+    workbenchSetURLs (&request, {make_pair (10, "url10")});
+    request.database_config_user()->setActiveWorkbench ("unittest2");
+    map <int, string> standard = { make_pair (0, "url0"), make_pair (5, "url5")};
+    workbenchSetURLs (&request, standard);
+    vector <string> workbenches = workbenchGetWorkbenches (&request);
+    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workbenches);
+    workbenchDeleteWorkbench (&request, "unittest3");
+    workbenches = workbenchGetWorkbenches (&request);
+    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workbenches);
+    workbenchDeleteWorkbench (&request, "unittest2");
+    workbenches = workbenchGetWorkbenches (&request);
+    evaluate (__LINE__, __func__, {"unittest"}, workbenches);
+  }
+  refresh_sandbox (true);
+  request.database_users ()->create ();
+  {
+    request.database_config_user()->setActiveWorkbench ("unittest2");
+    workbenchSetURLs (&request, {make_pair (10, "url10")});
+    request.database_config_user()->setActiveWorkbench ("abc32");
+    workbenchSetURLs (&request, {make_pair (10, "url10"), make_pair (11, "url11")});
+    request.database_config_user()->setActiveWorkbench ("zzz");
+    workbenchSetURLs (&request, {make_pair (120, "url120"), make_pair (121, "url121")});
+    workbenchOrderWorkbenches (&request, {"zzz", "yyy", "unittest2", "abc32"});
+    vector <string> workbenches = workbenchGetWorkbenches (&request);
+    evaluate (__LINE__, __func__, {"zzz", "unittest2", "abc32"}, workbenches);
+  }
 }
 
 

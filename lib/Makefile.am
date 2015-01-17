@@ -174,7 +174,11 @@ libbibledit_a_SOURCES = \
 	search/strongs.cpp \
 	search/strong.cpp \
 	search/originals.cpp \
-	tmp/tmp.cpp
+	tmp/tmp.cpp \
+	workbench/index.cpp \
+	workbench/logic.cpp \
+	workbench/organize.cpp \
+	workbench/settings.cpp
 
 bin_PROGRAMS = server unittest
 
