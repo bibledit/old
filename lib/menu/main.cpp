@@ -40,6 +40,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editusfm/index.h>
 #include <editverse/index.h>
 #include <workbench/logic.h>
+#include <workbench/index.h>
+#include <workbench/organize.h>
 
 
 /*
@@ -88,11 +90,12 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
 
 vector <Menu_Main_Item> * Menu_Main::biblemenu ()
 {
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  int level = request->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (edit_index_acl (webserver_request)) menu->push_back ( { "", edit_index_url (),      gettext ("Edit"),      bible_edit_menu ()      } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "search/index",    gettext ("Search"),    NULL                    } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "workbench/index", gettext ("Workbench"), bible_workbench_menu () } );
+  if (workbench_index_acl (request)) menu->push_back ( { "", workbench_index_url (), gettext ("Workbench"), bible_workbench_menu () } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    gettext ("Checks"),    bible_checks_menu ()    } );
   if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), gettext ("Bibles"), NULL} );
   return menu;
@@ -108,7 +111,7 @@ vector <Menu_Main_Item> * Menu_Main::bible_edit_menu ()
 }
 
 
-vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
+vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu () // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   // Start building the Workbench menu.
@@ -116,10 +119,10 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   // Add the available configured Workbenches to the menu.
   vector <string> workbenches = workbenchGetWorkbenches (request);
   for (unsigned int i = 0; i < workbenches.size(); i++) {
-    menu->push_back ( {"", "workbench/index?bench=" + to_string (i), workbenches[i], NULL});
+    menu->push_back ( {"", workbench_index_url () + "?bench=" + to_string (i), workbenches[i], NULL});
   }
   // Finally add the Workbench Organizer.
-  if (/*level >= Filter_Roles::consultant ()*/ true) menu->push_back ( { "", "workbench/organize", gettext ("Organize"), NULL } );
+  if (workbench_organize_acl (request)) menu->push_back ( { "", workbench_organize_url (), gettext ("Organize"), NULL } );
   // The result.
   return menu;
 }

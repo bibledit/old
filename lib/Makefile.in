@@ -200,7 +200,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
 	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
 	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT)
+	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
+	workbench/organize.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -593,7 +594,8 @@ libbibledit_a_SOURCES = \
 	workbench/index.cpp \
 	workbench/logic.cpp \
 	workbench/organize.cpp \
-	workbench/settings.cpp
+	workbench/settings.cpp \
+	workbench/organize.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a

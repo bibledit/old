@@ -47,12 +47,12 @@ string workbench_index (void * webserver_request)
   
 
   if (request->query.count ("bench")) {
-    string bench = request->query ["bench"];
-    /* Todo
-    $workbenches = Workbench_Logic::getWorkbenches ();
-    $workbench = $workbenches [$bench];
-    request->database_config_user()->setActiveWorkbench ($workbench);
-    */
+    unsigned int bench = convert_to_int (request->query ["bench"]);
+    vector <string> workbenches = workbenchGetWorkbenches (request);
+    if (bench < workbenches.size ()) {
+      string workbench = workbenches [bench];
+      request->database_config_user()->setActiveWorkbench (workbench);
+    }
   }
   
   

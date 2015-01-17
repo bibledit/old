@@ -178,7 +178,8 @@ libbibledit_a_SOURCES = \
 	workbench/index.cpp \
 	workbench/logic.cpp \
 	workbench/organize.cpp \
-	workbench/settings.cpp
+	workbench/settings.cpp \
+	workbench/organize.cpp
 
 bin_PROGRAMS = server unittest
 
