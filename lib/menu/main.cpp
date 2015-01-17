@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/index.h>
 #include <editusfm/index.h>
 #include <editverse/index.h>
+#include <workbench/logic.h>
 
 
 /*
@@ -109,18 +110,16 @@ vector <Menu_Main_Item> * Menu_Main::bible_edit_menu ()
 
 vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   // Start building the Workbench menu.
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  /* Todo
-  // Add the available configured Workbenches to the menu. 
-  $workbenches = Workbench_Logic::getWorkbenches ();
-  for ($workbenches as $offset => $workbench) {
-    $menu [] = array ("workbench/index?bench=$offset", $workbench, NULL);
+  // Add the available configured Workbenches to the menu.
+  vector <string> workbenches = workbenchGetWorkbenches (request);
+  for (unsigned int i = 0; i < workbenches.size(); i++) {
+    menu->push_back ( {"", "workbench/index?bench=" + to_string (i), workbenches[i], NULL});
   }
-  */
-  // Finally add the Workbench Organizer.    
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "workbench/organize", gettext ("Organize"), NULL } );
+  // Finally add the Workbench Organizer.
+  if (/*level >= Filter_Roles::consultant ()*/ true) menu->push_back ( { "", "workbench/organize", gettext ("Organize"), NULL } );
   // The result.
   return menu;
 }
