@@ -1482,7 +1482,7 @@ void test_editor_roundtrip ()
 }
 
 
-void test_workbench_logic () // Todo
+void test_workbench_logic ()
 {
   // Initial setup for the tests.
   refresh_sandbox (true);

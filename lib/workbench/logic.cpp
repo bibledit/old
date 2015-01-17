@@ -211,17 +211,8 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
     if (line.find (workbench + "_") == 0) {
       vector <string> bits = filter_string_explode (line, '_');
       if (bits.size() == 3) {
-        int key = stoi (bits [1]);
+        int key = convert_to_int (bits [1]);
         string value = bits [2];
-
-        if ((selector == URLS) && use) {
-          // Add query value for suppressing the topbar as the workbench already has one.
-          if (value != "") value = filter_url_build_http_query (value, "topbar", "0");
-        }
-        
-        if (selector == WIDTHS) value = workbenchProcessUnits (value);
-        if (selector == HEIGHTS) value = workbenchProcessUnits (value);
-        
         values [key] = value;
       }
     }
@@ -233,25 +224,34 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
     if (selector == HEIGHTS) values = workbenchDefaultHeights (0);
   }
 
-  if ((selector == URLS) && use) {
+  for (auto & element : values) {
     
-    /* Todo
-      // Transform the internal URLs to full ones.
-      for ($urls as &$url) {
-        if ($url == "") continue;
-        $parts = pathinfo ($url);
-        $dirname = $parts ['dirname'];
-        if ($dirname != basename ($dirname)) continue;
-        @$extension = substr ($parts ['extension'], 0, 3);
-        if ($extension != 'php') continue;
-        // Add the prefix.
-        $url = "../$url";
+    if ((selector == URLS) && use) {
+  
+      // Add query value for suppressing the topbar as the workbench already has one.
+      if (element.second != "") {
+        element.second = filter_url_build_http_query (element.second, "topbar", "0");
       }
-     */
-    
+      
+      // Transform the internal URLs to full ones.
+      vector <string> bits = filter_string_explode (element.second, '/');
+      if (bits.size() == 2) {
+        element.second.insert (0, "/");
+      }
+    }
+
+    if (selector == WIDTHS) {
+      // Fix the units.
+      element.second = workbenchProcessUnits (element.second);
+    }
+
+    if (selector == HEIGHTS) {
+      // Fix the units.
+      element.second = workbenchProcessUnits (element.second);
+    }
 
   }
-  
+
   return values;
 }
 

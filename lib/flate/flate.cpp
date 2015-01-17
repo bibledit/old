@@ -73,7 +73,7 @@ void Flate::process_zones (string& rendering)
   // Start processing zones by locating the first one.
   size_t position = rendering.find ("<!-- #BEGINZONE");
   // Iterate through the file contents till all zones have been dealt with.
-  while ((position != string::npos) && (iterations < 50)) {
+  while ((position != string::npos) && (iterations < 1000)) {
     iterations++;
     // Position where the starting zone ends.
     size_t pos = rendering.find ("-->", position);
@@ -84,14 +84,14 @@ void Flate::process_zones (string& rendering)
     string name = zonestartline.substr (16, zonestartline.length () - 16 - 4);
     // Assemble the ending line for the current zone.
     string zoneendline = "<!-- #ENDZONE " + name + " -->";
-    // Locate the ending line.
+    // Locate the ending position.
     size_t zoneendposition = rendering.find (zoneendline);
     // Process if it exists.
     if (zoneendposition != string::npos) {
       // Take the ending line out.
       rendering.erase (zoneendposition, zoneendline.length ());
       // If the zone has not been enabled, remove all its contents within.
-      if (!zones [name]) {
+      if (zones.count (name) == 0) {
         rendering.erase (position, zoneendposition - position);
       }
     }

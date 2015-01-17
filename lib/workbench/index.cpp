@@ -26,6 +26,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <workbench/logic.h>
 
 
 string workbench_index_url ()
@@ -66,26 +67,29 @@ string workbench_index (void * webserver_request)
   Assets_View view = Assets_View ();
   
 
-  /* Todo
-  $urls = Workbench_Logic::getURLs (true);
-  $widths = Workbench_Logic::getWidths ();
-  for ($urls as $key => $url) {
-    $row = intval ($key / 5) + 1;
-    $column = $key % 5 + 1;
-    $variable = "url" . $row . $column;
-    $view->view->$variable = $url;
-    $variable = "width" . $row . $column;
-    $view->view->$variable = $widths [$key];
+  map <int, string> urls = workbenchGetURLs (request, true);
+  map <int, string> widths = workbenchGetWidths (request);
+  for (unsigned int key = 0; key < 15; key++) {
+    string url = urls [key];
+    string width = widths [key];
+    int row = round (key / 5) + 1;
+    int column = key % 5 + 1;
+    string variable = "url" + to_string (row) +  to_string (column);
+    view.set_variable (variable, url);
+    variable = "width" + to_string (row) +  to_string (column);
+    view.set_variable (variable, width);
+    if (convert_to_int (width) > 0) view.enable_zone (variable);
   }
   
   
-  $heights = Workbench_Logic::getHeights ();
-  for ($heights as $key => $height) {
-    $row = $key + 1;
-    $variable = "height" . $row;
-    $view->view->$variable = $height;
+  map <int, string> heights = workbenchGetHeights (request);
+  for (unsigned int key = 0; key < 3; key++) {
+    string height = heights [key];
+    int row = key + 1;
+    string variable = "height" + to_string (row);
+    view.set_variable (variable, height);
+    if (convert_to_int (height) > 0) view.enable_zone (variable);
   }
-   */
   
   
   page += view.render ("workbench", "index");
