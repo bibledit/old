@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_workbench_logic (); exit (0);
+  test_editor_import (); exit (0); // test_editor_export (); test_editor_roundtrip (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();

@@ -476,7 +476,7 @@ void Editor_Import::addText (string text)
       newParagraph ();
     }
     xmlNodePtr spanDomElement = newElement ("span");
-    xmlNodePtr textnode = xmlNewText (BAD_CAST filter_string_sanitize_html (text).c_str());
+    xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
     xmlAddChild (spanDomElement, textnode);
     xmlAddChild (currentPDomElement, spanDomElement);
     if (!currentTextStyles.empty ()) {
@@ -539,7 +539,7 @@ void Editor_Import::addNoteText (string text)
       addNote ("?", "");
     }
     xmlNodePtr spanDomElement = newElement ("span");
-    xmlNodePtr textnode = xmlNewText (BAD_CAST filter_string_sanitize_html (text).c_str());
+    xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
     xmlAddChild (spanDomElement, textnode);
     xmlAddChild (notePDomElement, spanDomElement);
     if (!currentNoteTextStyles.empty()) {
@@ -574,6 +574,6 @@ void Editor_Import::addLink (xmlNodePtr domNode, string reference, string identi
   // It was disabled again due to Chrome removing content on backspace.
   // $aDomElement->setAttribute ("contenteditable", "false");
   if (style != "") xmlNewProp (aDomElement, BAD_CAST "class", BAD_CAST style.c_str());
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
+  xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
   xmlAddChild (aDomElement, textnode);
 }

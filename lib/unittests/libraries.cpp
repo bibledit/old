@@ -585,6 +585,23 @@ void test_editor_import ()
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>Text </span><span class=\"add\">of the </span><span>1st</span><span class=\"add\"> second verse</span><span>.</span></p>";
     evaluate (__LINE__, __func__, standard, html);
   }
+  // Apostrophy etc.
+  {
+    string usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Judha muranda waJesu Kristu, uye munin'ina waJakobho ...\n";
+    Webserver_Request request;
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet ("Standard");
+    editor_import.run ();
+    string html = editor_import.get ();
+    string standard =
+    "<p class=\"c\"><span>1</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
+  }
+  
 }
 
 
