@@ -18,42 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-if (Filter_Cli::not_yet_ready ()) die;
 
-
-// CPU-intensive actions run at night.
-// This keeps the site more responsive during the day.
-
-
-$config_general = Database_Config_General::getInstance ();
-$database_logs = Database_Logs::getInstance ();
-
-
-$client = config_logic_client_enabled ();
-
-
-// The order for running the following nightly scripts is important.
-// Any of those scripts may influence the subsequent ones.
-// The order is such that all information generated is as recent as possible.
-// More important tasks are done first, and the less important ones at the end.
-// This leads to an order as visible in the code below.
-
-
-// Sending and receiving Bibles to and from the git repository.
-// On a production website running on an inexpensive virtual private server
-// with 512 Mbyte of memory and a fast network connection,
-// sending and receiving two Bibles takes more than 15 minutes when there are many changes.
-if (!$client) {
-  $sendreceive = (($hour == 0) && ($minute == 6));
-  $repeat = (($minute % 5) == 0);
-  if ($sendreceive || $repeat) {
-    SendReceive_Logic::queueAll ($sendreceive);
-  }
-}
-
-
-// Client sends/receives Bibles and Consultation.
-SendReceive_Logic::queuesync ($minute);
 
 
 // Deal with the changes in the Bible made per user.
