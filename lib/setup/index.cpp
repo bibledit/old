@@ -143,7 +143,7 @@ string setup_index (void * webserver_request)
         request->database_users ()->removeUser (admin_username);
         request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
         Database_Config_General::setInstalledVersion (VERSION);
-        redirect_browser (index_index_url (), request);
+        redirect_browser (request, index_index_url ());
       } else {
         view.enable_zone ("errors");
         view.set_variable ("error", filter_string_implode (errors, " "));

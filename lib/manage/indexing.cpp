@@ -55,13 +55,13 @@ string manage_indexing (void * webserver_request)
   
   if (refresh == "bibles") {
     tasks_logic_queue (REINDEXBIBLES);
-    redirect_browser (journal_index_url (), request);
+    redirect_browser (request, journal_index_url ());
     return "";
   }
   
   if (refresh == "notes") {
     tasks_logic_queue (REINDEXNOTES);
-    redirect_browser (journal_index_url (), request);
+    redirect_browser (request, journal_index_url ());
     return "";
   }
 

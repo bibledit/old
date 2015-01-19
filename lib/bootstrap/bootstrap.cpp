@@ -93,6 +93,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/originals.h>
 #include <workbench/index.h>
 #include <workbench/organize.h>
+#include <workbench/settings.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -175,6 +176,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_strongs_url ()) && search_strongs_acl (request)) request->reply = search_strongs (request);
   else if ((url == search_strong_url ()) && search_strong_acl (request)) request->reply = search_strong (request);
   else if ((url == search_originals_url ()) && search_originals_acl (request)) request->reply = search_originals (request);
+  else if ((url == workbench_settings_url ()) && workbench_settings_acl (request)) request->reply = workbench_settings (request);
 
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);
@@ -203,7 +205,7 @@ void bootstrap_index (Webserver_Request * request)
 
   // Forward the browser to the default home page.
   else {
-    redirect_browser (index_index_url (), request);
+    redirect_browser (request, index_index_url ());
   }
 }
 

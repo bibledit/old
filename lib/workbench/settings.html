@@ -1,93 +1,74 @@
-<?php
-/*
-Copyright (©) 2003-2015 Teus Benschop.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-?>
-<h3>gettext("Edit workbench") $this->name</h3>
-<form action="settings?name=$this->name" method="post">
+<h3>gettext("Edit workbench") ##name##</h3>
+<form action="settings?name=##name##" method="post">
 <p><b>gettext("Top row")</b> gettext ("height"):</p>
-<p><input type="text" name="height1" style="width: 18%" value="$this->height1" /></p>
+<p><input type="text" name="height1" style="width: 18%" value="##height1##" /></p>
 </p>
 <p>gettext("URLs"):</p>
 <p>
-  <input type="text" name="url11" style="width: 18%" value="$this->url11" />
-  <input type="text" name="url12" style="width: 18%" value="$this->url12" />
-  <input type="text" name="url13" style="width: 18%" value="$this->url13" />
-  <input type="text" name="url14" style="width: 18%" value="$this->url14" />
-  <input type="text" name="url15" style="width: 18%" value="$this->url15" />
+  <input type="text" name="url11" style="width: 18%" value="##url11##" />
+  <input type="text" name="url12" style="width: 18%" value="##url12##" />
+  <input type="text" name="url13" style="width: 18%" value="##url13##" />
+  <input type="text" name="url14" style="width: 18%" value="##url14##" />
+  <input type="text" name="url15" style="width: 18%" value="##url15##" />
 </p>
 <p>gettext("Widths"):</p>
 <p>
-  <input type="text" name="width11" style="width: 18%" value="$this->width11" />
-  <input type="text" name="width12" style="width: 18%" value="$this->width12" />
-  <input type="text" name="width13" style="width: 18%" value="$this->width13" />
-  <input type="text" name="width14" style="width: 18%" value="$this->width14" />
-  <input type="text" name="width15" style="width: 18%" value="$this->width15" />
+  <input type="text" name="width11" style="width: 18%" value="##width11##" />
+  <input type="text" name="width12" style="width: 18%" value="##width12##" />
+  <input type="text" name="width13" style="width: 18%" value="##width13##" />
+  <input type="text" name="width14" style="width: 18%" value="##width14##" />
+  <input type="text" name="width15" style="width: 18%" value="##width15##" />
 </p>
 <br>
 <p><b>gettext("Center row")</b> gettext ("height"):</p>
-<p><input type="text" name="height2" style="width: 18%" value="$this->height2" /></p>
+<p><input type="text" name="height2" style="width: 18%" value="##height2##" /></p>
 <p>gettext("URLs"):</p>
 <p>
-  <input type="text" name="url21" style="width: 18%" value="$this->url21" />
-  <input type="text" name="url22" style="width: 18%" value="$this->url22" />
-  <input type="text" name="url23" style="width: 18%" value="$this->url23" />
-  <input type="text" name="url24" style="width: 18%" value="$this->url24" />
-  <input type="text" name="url25" style="width: 18%" value="$this->url25" />
+  <input type="text" name="url21" style="width: 18%" value="##url21##" />
+  <input type="text" name="url22" style="width: 18%" value="##url22##" />
+  <input type="text" name="url23" style="width: 18%" value="##url23##" />
+  <input type="text" name="url24" style="width: 18%" value="##url24##" />
+  <input type="text" name="url25" style="width: 18%" value="##url25##" />
 </p>
 <p>gettext("Widths"):</p>
 <p>
-  <input type="text" name="width21" style="width: 18%" value="$this->width21" />
-  <input type="text" name="width22" style="width: 18%" value="$this->width22" />
-  <input type="text" name="width23" style="width: 18%" value="$this->width23" />
-  <input type="text" name="width24" style="width: 18%" value="$this->width24" />
-  <input type="text" name="width25" style="width: 18%" value="$this->width25" />
+  <input type="text" name="width21" style="width: 18%" value="##width21##" />
+  <input type="text" name="width22" style="width: 18%" value="##width22##" />
+  <input type="text" name="width23" style="width: 18%" value="##width23##" />
+  <input type="text" name="width24" style="width: 18%" value="##width24##" />
+  <input type="text" name="width25" style="width: 18%" value="##width25##" />
 </p>
 <br>
 <p><b>gettext("Bottom row")</b> gettext ("height"):</p>
-<p><input type="text" name="height3" style="width: 18%" value="$this->height3" /></p>
+<p><input type="text" name="height3" style="width: 18%" value="##height3##" /></p>
 <p>gettext("URLs"):</p>
 <p>
-  <input type="text" name="url31" style="width: 18%" value="$this->url31" />
-  <input type="text" name="url32" style="width: 18%" value="$this->url32" />
-  <input type="text" name="url33" style="width: 18%" value="$this->url33" />
-  <input type="text" name="url34" style="width: 18%" value="$this->url34" />
-  <input type="text" name="url35" style="width: 18%" value="$this->url35" />
+  <input type="text" name="url31" style="width: 18%" value="##url31##" />
+  <input type="text" name="url32" style="width: 18%" value="##url32##" />
+  <input type="text" name="url33" style="width: 18%" value="##url33##" />
+  <input type="text" name="url34" style="width: 18%" value="##url34##" />
+  <input type="text" name="url35" style="width: 18%" value="##url35##" />
 </p>
 <p>gettext("Widths"):</p>
 <p>
-  <input type="text" name="width31" style="width: 18%" value="$this->width31" />
-  <input type="text" name="width32" style="width: 18%" value="$this->width32" />
-  <input type="text" name="width33" style="width: 18%" value="$this->width33" />
-  <input type="text" name="width34" style="width: 18%" value="$this->width34" />
-  <input type="text" name="width35" style="width: 18%" value="$this->width35" />
+  <input type="text" name="width31" style="width: 18%" value="##width31##" />
+  <input type="text" name="width32" style="width: 18%" value="##width32##" />
+  <input type="text" name="width33" style="width: 18%" value="##width33##" />
+  <input type="text" name="width34" style="width: 18%" value="##width34##" />
+  <input type="text" name="width35" style="width: 18%" value="##width35##" />
 </p>
 <br>
 <p><input type="submit" name="save" value=gettext("Save") /></p>
 </form>
 <h4>gettext("Samples")</h4>
 <p>
-  <a href="settings?name=$this->name&preset=1">gettext("Editor and Resources")</a>
+  <a href="settings?name=##name##&preset=1">gettext("Editor and Resources")</a>
   |
-  <a href="settings?name=$this->name&preset=2">gettext("Editor and Notes")</a>
+  <a href="settings?name=##name##&preset=2">gettext("Editor and Notes")</a>
   |
-  <a href="settings?name=$this->name&preset=3">gettext("Resources, Editor, Notes")</a>
+  <a href="settings?name=##name##&preset=3">gettext("Resources, Editor, Notes")</a>
   |
-  <a href="settings?name=$this->name&preset=4">gettext("Editor and Consistency tool")</a>
+  <a href="settings?name=##name##&preset=4">gettext("Editor and Consistency tool")</a>
 </p>
 <h4>gettext("Help")</h4>
 <p>

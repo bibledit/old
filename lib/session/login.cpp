@@ -99,7 +99,7 @@ string session_login (void * webserver_request)
   if (request->session_logic ()->loggedIn ()) {
     if (forward != "") {
       // After login, the user is forwarded to the originally requested URL, if any.
-      redirect_browser (forward, request);
+      redirect_browser (request, forward);
       return page;
     }
     page += session_login_display_header (webserver_request);

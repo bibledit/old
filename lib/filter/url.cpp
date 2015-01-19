@@ -43,7 +43,7 @@ string get_base_url (Webserver_Request * request)
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-void redirect_browser (string path, Webserver_Request * request)
+void redirect_browser (Webserver_Request * request, string path)
 {
   // A location header needs to contain an absolute url, like http://localhost/some.
   // See 14.30 in the specification http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.

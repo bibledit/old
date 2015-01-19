@@ -89,7 +89,7 @@ string edit_edit (void * webserver_request)
     return script;
   } else {
     // If no Bible editor is alive, forward the browser to the Bible editor.
-    redirect_browser (edit_index_url (), request);
+    redirect_browser (request, edit_index_url ());
   }
   
   return "";

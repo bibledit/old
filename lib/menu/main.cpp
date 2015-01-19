@@ -111,7 +111,7 @@ vector <Menu_Main_Item> * Menu_Main::bible_edit_menu ()
 }
 
 
-vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu () // Todo
+vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   // Start building the Workbench menu.
