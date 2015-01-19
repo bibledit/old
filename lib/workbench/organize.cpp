@@ -27,6 +27,7 @@
 #include <locale/translate.h>
 #include <database/config/general.h>
 #include <workbench/logic.h>
+#include <dialog/yes.h>
 
 
 string workbench_organize_url ()
@@ -46,15 +47,62 @@ string workbench_organize (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
+  if (request->post.count ("add")) {
+    string add = request->post["add"];
+    request->database_config_user()->setActiveWorkbench (add);
+    workbenchSetURLs    (request, workbenchDefaultURLs (0));
+    workbenchSetWidths  (request, workbenchDefaultWidths (0));
+    workbenchSetHeights (request, workbenchDefaultHeights (0));
+  }
+  
+  
+  if (request->post.count ("workbenches")) {
+    string s_workbenches = request->post ["workbenches"];
+    vector <string> workbenches = filter_string_explode (s_workbenches, ',');
+    workbenchOrderWorkbenches (request, workbenches);
+    return "";
+  }
+  
+  
   string page;
   
   
-  Assets_Header header = Assets_Header (gettext("Workbench"), request);
+  Assets_Header header = Assets_Header (gettext("Workbenches"), request);
+  header.jQueryUIOn ("sortable");
   page = header.run ();
+  
+  
+  if (request->query.count ("remove")) {
+    string remove = request->query["remove"];
+    string confirm = request->query["confirm"];
+    if (confirm.empty ()) {
+      Dialog_Yes dialog_yes = Dialog_Yes ("organize", gettext("Would you like to delete this workbench configuration?"));
+      dialog_yes.add_query ("remove", remove);
+      page += dialog_yes.run ();
+      return page;
+    }
+    if (confirm == "yes") {
+      workbenchDeleteWorkbench (request, remove);
+    }
+  }
   
   
   Assets_View view = Assets_View ();
   
+  
+  vector <string> workbenchblock;
+  vector <string> workbenches = workbenchGetWorkbenches (request);
+  for (auto & workbench : workbenches) {
+    workbenchblock.push_back ("<p>");
+    workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + gettext("Delete workbench") + "\"> ✗ </a>");
+    workbenchblock.push_back ("|");
+    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + gettext("Edit workbench") + "\"> ✎ </a>");
+    workbenchblock.push_back ("|");
+    workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
+    workbenchblock.push_back ("</p>");
+  }
+  view.set_variable ("workbenchblock", filter_string_implode (workbenchblock, "\n"));
+
   
   page += view.render ("workbench", "organize");
   

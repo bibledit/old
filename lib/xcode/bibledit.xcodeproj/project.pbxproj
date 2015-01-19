@@ -85,7 +85,6 @@
 		CA31D6D91A69970800C3324A /* organize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = organize.h; sourceTree = "<group>"; };
 		CA31D6DA1A69970800C3324A /* organize.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = organize.html; sourceTree = "<group>"; };
 		CA31D6DB1A69970800C3324A /* organize.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = organize.js; sourceTree = "<group>"; };
-		CA31D6DC1A69970800C3324A /* organize.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = organize.php; sourceTree = "<group>"; };
 		CA31D6DD1A69970800C3324A /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
 		CA31D6DE1A69970800C3324A /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		CA31D6DF1A69970800C3324A /* settings.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = settings.html; sourceTree = "<group>"; };
@@ -3083,7 +3082,6 @@
 				CA31D6D91A69970800C3324A /* organize.h */,
 				CA31D6DA1A69970800C3324A /* organize.html */,
 				CA31D6DB1A69970800C3324A /* organize.js */,
-				CA31D6DC1A69970800C3324A /* organize.php */,
 				CA31D6DD1A69970800C3324A /* settings.cpp */,
 				CA31D6DE1A69970800C3324A /* settings.h */,
 				CA31D6DF1A69970800C3324A /* settings.html */,

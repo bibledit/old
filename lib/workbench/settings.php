@@ -31,9 +31,9 @@ request->database_config_user()->setActiveWorkbench ($name);
 
 @$preset = request->query ['preset'];
 if (isset ($preset)) {
-  Workbench_Logic::setURLs (Workbench_Logic::defaultURLs ($preset));
-  Workbench_Logic::setWidths (Workbench_Logic::defaultWidths ($preset));
-  Workbench_Logic::setHeights (Workbench_Logic::defaultHeights ($preset));
+  workbenchSetURLs (workbenchDefaultURLs ($preset));
+  workbenchSetWidths (workbenchDefaultWidths ($preset));
+  workbenchSetHeights (workbenchDefaultHeights ($preset));
 }
 
 
@@ -48,9 +48,9 @@ if (isset (request->post ['save'])) {
     }
     $row_heights [] = request->post ["height$row"];
   }
-  Workbench_Logic::setURLs ($urls);
-  Workbench_Logic::setWidths ($widths);
-  Workbench_Logic::setHeights ($row_heights);
+  workbenchSetURLs ($urls);
+  workbenchSetWidths ($widths);
+  workbenchSetHeights ($row_heights);
   redirect_browser ("index");
   die;
 }
@@ -61,8 +61,8 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
-$urls = Workbench_Logic::getURLs (false);
-$widths = Workbench_Logic::getWidths ();
+$urls = workbenchGetURLs (false);
+$widths = workbenchGetWidths ();
 for ($urls as $key => $url) {
   $row = intval ($key / 5) + 1;
   $column = $key % 5 + 1;
@@ -73,7 +73,7 @@ for ($urls as $key => $url) {
 }
 
 
-$row_heights = Workbench_Logic::getHeights ();
+$row_heights = workbenchGetHeights ();
 for ($row_heights as $key => $height) {
   $row = $key + 1;
   $variable = "height" . $row;
