@@ -21,9 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/UriCodec.cpp>
-#ifdef WIN32
-#include <direct.h>
-#endif
 #include <filter/string.h>
 #include <config.h>
 
@@ -34,7 +31,7 @@ string get_base_url (Webserver_Request * request)
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
   // Port
-  string port = "8080"; 
+  string port = NETWORK_PORT;
   // Full URL.  
   string url = scheme + "://" + request->host + ":" + port + "/";
   return url;

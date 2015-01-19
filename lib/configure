@@ -625,6 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+NETWORK_PORT
 CLIENT_INSTALLATION
 OPEN_INSTALLATION
 CURL_LIBS
@@ -744,6 +745,7 @@ with_xml_exec_prefix
 enable_xmltest
 with_open_installation
 with_client_installation
+with_network_port
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1395,6 +1397,8 @@ Optional Packages:
                           Open demo installation
   --with-client-installation=bool
                           Client installation
+  --with-network-port=number
+Open demo installation
 
 Some influential environment variables:
   CC          C compiler command
@@ -5930,6 +5934,25 @@ _ACEOF
 
 
 
+# Network port.
+
+# Check whether --with-network-port was given.
+if test "${with_network_port+set}" = set; then :
+  withval=$with_network_port;  NETWORK_PORT=$withval
+else
+   NETWORK_PORT=8080
+
+fi
+
+
+$as_echo "#define NETWORK_PORT /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define NETWORK_PORT "$NETWORK_PORT"
+_ACEOF
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -7412,4 +7435,5 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
+  Network port           : ${NETWORK_PORT}
 "

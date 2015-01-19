@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/threads.h>
 #include <thread>
 #include <timer/index.h>
+#include <config.h>
 
 
 // Set the root folder for the web server.
@@ -61,7 +62,7 @@ void bibledit_stop ()
   // Connect to localhost to initiate the shutdown mechanism in the running server.
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
-  sa.sin_port = htons (8080);
+  sa.sin_port = htons (stoi (NETWORK_PORT));
   //sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
   inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
   char str[INET_ADDRSTRLEN];

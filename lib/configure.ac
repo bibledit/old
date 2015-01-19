@@ -78,6 +78,17 @@ AC_DEFINE([CLIENT_INSTALLATION], [], [Define whether it is a client installation
 AC_DEFINE_UNQUOTED(CLIENT_INSTALLATION, "$CLIENT_INSTALLATION")
 AC_SUBST(CLIENT_INSTALLATION)
 
+# Network port.
+AC_ARG_WITH(network-port,
+[  --with-network-port=number
+Open demo installation],
+[ NETWORK_PORT=$withval ],
+[ NETWORK_PORT=8080 ]
+)
+AC_DEFINE([NETWORK_PORT], [], [Define the network port number])
+AC_DEFINE_UNQUOTED(NETWORK_PORT, "$NETWORK_PORT")
+AC_SUBST(NETWORK_PORT)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -85,4 +96,5 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
+  Network port           : ${NETWORK_PORT}
 "

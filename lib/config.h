@@ -34,6 +34,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define the network port number */
+#define NETWORK_PORT "8080"
+
 /* Define whether it is an open demo installation */
 #define OPEN_INSTALLATION "0"
 

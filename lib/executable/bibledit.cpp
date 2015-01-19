@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <config/libraries.h>
 #include <filter/url.h>
+#include <config.h>
 
 
 void sigint_handler (int s)
@@ -53,7 +54,7 @@ int main (int argc, char **argv)
 
   // Start the Bibledit library.
   bibledit_start ();
-  cout << "Listening on http://localhost:8080" << endl;
+  cout << "Listening on http://localhost:" << NETWORK_PORT << endl;
   cout << "Press Ctrl-C to quit" << endl;
   
   // Wait till Bibledit it is ready.

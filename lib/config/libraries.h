@@ -19,15 +19,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Basic C headers.
 #include <cstdlib>
-#ifdef WIN32
-#include <io.h>
-#include <sys/utime.h>
-#include <../dirent/include/dirent.h>
-#else
 #include <unistd.h>
 #include <utime.h>
 #include <dirent.h>
-#endif
 #include <stdio.h>
 #include <signal.h>
 #include <errno.h>
@@ -39,15 +33,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // C headers in sub folders.
 #include <sys/stat.h>
-#ifdef WIN32
-#include <ws2tcpip.h>
-#else
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
-#endif
 #include <sys/types.h>
 
 
@@ -69,9 +59,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Headers dependencies.
-#ifdef WIN32
-#else
-#endif
 #include <sqlite3.h>
 
 
@@ -81,5 +68,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 using namespace std;
-
-

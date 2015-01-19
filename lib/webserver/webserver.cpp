@@ -176,9 +176,6 @@ void webserver ()
   if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
   if (strcmp (OPEN_INSTALLATION, "1") == 0) config_globals_open_installation = true;
 
-  // Server port to listen on.
-  unsigned short porti = 8080;
-
   // Create a listening socket.
   int listenfd = socket(AF_INET, SOCK_STREAM, 0);
   if (listenfd < 0) cerr << "Error opening socket: It returns a descriptor of " << listenfd << endl;
@@ -194,7 +191,7 @@ void webserver ()
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl (INADDR_ANY);
-  serveraddr.sin_port = htons (porti);
+  serveraddr.sin_port = htons (stoi (NETWORK_PORT));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
   if (result != 0) cerr << "Error binding server to socket" << endl;
 
