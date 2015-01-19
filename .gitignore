@@ -22,7 +22,6 @@ config.status
 .cvsignore
 autom4te.cache/*
 geany_run_script.sh
-lib/bibledit
 .dirstamp
 unittest
 bibledit-linux
