@@ -38,12 +38,10 @@ string Checksum_Logic::send (string data) // C++Port No JSON, but checksum on fi
 
 
 // This function gets the checksum for $data, and returns it.
-// It uses a fast algorithm, good enough for notes.
+// It calculates the length of 'data' in bytes.
 string Checksum_Logic::get (string data)
 {
-  vector <string> bits = filter_string_explode (data, ' ');
-  string checksum = convert_to_string ((int)bits.size());
-  return checksum;
+  return to_string (data.length ());
 }
 
 
