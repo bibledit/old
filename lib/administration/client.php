@@ -147,7 +147,7 @@ function enable_client ($username, $password, $level)
   Database_Config_General::setRepeatSendReceive (2);
   
   // Schedule a sync operation straight-away.
-  SendReceive_Logic::queuesync (true);
+  sendreceive_queue_sync (true);
 }
 
 

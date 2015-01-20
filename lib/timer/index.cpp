@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 #include <tasks/run.h>
 #include <config/logic.h>
+#include <sendreceive/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -78,7 +79,7 @@ void timer_index ()
       if (minute == 6) tasks_logic_queue (ROTATEJOURNAL);
       
       // Client sends/receives Bibles and Consultation.
-      // Todo SendReceive_Logic::queuesync ($minute);
+      sendreceive_queue_sync (minute);
       
       // Sending and receiving Bibles to and from the git repository.
       // On a production website running on an inexpensive virtual private server
@@ -87,7 +88,7 @@ void timer_index ()
       bool sendreceive = ((hour == 0) && (minute == 5));
       bool repeat = ((minute % 5) == 0);
       if (sendreceive || repeat) {
-        // Todo SendReceive_Logic::queueAll (sendreceive);
+        sendreceive_queue_all (sendreceive);
       }
       
       // Database maintenance and trimming.

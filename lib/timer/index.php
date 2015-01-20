@@ -18,9 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-
-
-
+  
 // Deal with the changes in the Bible made per user.
 // Deal with notifications for the daily changes in the Bibles.
 // This takes a few minutes on a production machine with two Bibles and changes in several chapters.

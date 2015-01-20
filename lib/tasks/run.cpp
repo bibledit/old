@@ -94,7 +94,24 @@ void tasks_run_one (string filename)
     database_maintenance ();
   } else if (command == CLEANTMPFILES) {
     tmp_tmp ();
-  } else if (command == "Placerholder") {
+  } else if (command == SENDRECEIVEBIBLES) {
+    Database_Logs::log ("Not yet implemented: " + command); // sendreceive.php
+  } else if (command == SENDNOTES) {
+    Database_Logs::log ("Not yet implemented: " + command); // sendnotes.php
+  } else if (command == SENDBIBLES) {
+    Database_Logs::log ("Not yet implemented: " + command); // sendbibles.php
+  } else if (command == SENDSETTINGS) {
+    Database_Logs::log ("Not yet implemented: " + command); // sendsettings.php
+  } else if (command == SYNCNOTES) {
+    Database_Logs::log ("Not yet implemented: " + command); // syncnotes.php
+  } else if (command == SYNCBIBLES) {
+    Database_Logs::log ("Not yet implemented: " + command); // syncbibles.php
+  } else if (command == SYNCSETTINGS) {
+    Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
+  } else if (command == SYNCEXTERNALRESOURCES) {
+    Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
+  } else if (command == SYNCUSFMRESOURCES) {
+    Database_Logs::log ("Not yet implemented: " + command);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

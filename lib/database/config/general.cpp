@@ -273,13 +273,13 @@ void Database_Config_General::setServerAddress (string value)
 }
 
 
-string Database_Config_General::getRepeatSendReceive ()
+int Database_Config_General::getRepeatSendReceive ()
 {
-  return getValue ("repeat-send-receive", "0");
+  return getIValue ("repeat-send-receive", 0);
 }
-void Database_Config_General::setRepeatSendReceive (string value)
+void Database_Config_General::setRepeatSendReceive (int value)
 {
-  setValue ("repeat-send-receive", value);
+  setIValue ("repeat-send-receive", value);
 }
 
 

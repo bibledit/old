@@ -179,7 +179,8 @@ libbibledit_a_SOURCES = \
 	workbench/logic.cpp \
 	workbench/organize.cpp \
 	workbench/settings.cpp \
-	workbench/organize.cpp
+	workbench/organize.cpp \
+	sendreceive/logic.cpp
 
 bin_PROGRAMS = server unittest
 

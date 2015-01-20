@@ -74,7 +74,7 @@ if (isset(request->query['runsync'])) {
   if (SendReceive_Logic::syncqueued ()) {
     $view->view->successnotes = gettext("Still sending and receiving from the last time.");
   } else {
-    SendReceive_Logic::queuesync (true);
+    sendreceive_queue_sync (true);
     $view->view->successnotes = gettext("Will send and receive.");
   }
 }

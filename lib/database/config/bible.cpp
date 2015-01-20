@@ -267,13 +267,13 @@ void Database_Config_Bible::setSprintTaskCompletionCategories (string bible, str
 }
 
 
-string Database_Config_Bible::getRepeatSendReceive (string bible)
+int Database_Config_Bible::getRepeatSendReceive (string bible)
 {
-  return getValue (bible, "repeat-send-receive", "");
+  return getIValue (bible, "repeat-send-receive", 0);
 }
-void Database_Config_Bible::setRepeatSendReceive (string bible, string value) 
+void Database_Config_Bible::setRepeatSendReceive (string bible, int value)
 {
-  setValue (bible, "repeat-send-receive", value);
+  setIValue (bible, "repeat-send-receive", value);
 }
 
 

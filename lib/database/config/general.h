@@ -64,8 +64,8 @@ public:
   static void setClientMode (bool value);
   static string getServerAddress ();
   static void setServerAddress (string value);
-  static string getRepeatSendReceive ();
-  static void setRepeatSendReceive (string value);
+  static int getRepeatSendReceive ();
+  static void setRepeatSendReceive (int value);
   static string getInstalledVersion ();
   static void setInstalledVersion (string value);
 private:

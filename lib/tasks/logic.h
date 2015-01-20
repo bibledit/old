@@ -34,10 +34,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define COMPAREUSFM "compareusfm"
 #define MAINTAINDATABASE "maintaindatabase"
 #define CLEANTMPFILES "cleantmpfiles"
+#define SENDRECEIVEBIBLES "sendreceivebibles"
+#define SENDNOTES "sendnotes"
+#define SENDBIBLES "sendbibles"
+#define SENDSETTINGS "sendsettings"
+#define SYNCNOTES "syncnotes"
+#define SYNCBIBLES "syncbibles"
+#define SYNCSETTINGS "syncsettings"
+#define SYNCEXTERNALRESOURCES "syncexternalresources"
+#define SYNCUSFMRESOURCES "syncusfmresources"
 
 
 string tasks_logic_folder ();
 void tasks_logic_queue (string command, vector <string> parameters = { });
+string tasks_logic_queued (string command);
 
 
 #endif

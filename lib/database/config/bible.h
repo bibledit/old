@@ -65,8 +65,8 @@ public:
   static void setSentenceStructureNames (string bible, string value);
   static string getSprintTaskCompletionCategories (string bible);
   static void setSprintTaskCompletionCategories (string bible, string value);
-  static string getRepeatSendReceive (string bible);
-  static void setRepeatSendReceive (string bible, string value);
+  static int getRepeatSendReceive (string bible);
+  static void setRepeatSendReceive (string bible, int value);
   static bool getExportChapterDropCapsFrames (string bible);
   static void setExportChapterDropCapsFrames (string bible, bool value);
   static string getPageWidth (string bible);
