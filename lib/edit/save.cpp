@@ -54,9 +54,7 @@ string edit_save (void * webserver_request)
     int chapter = convert_to_int (request->post["chapter"]);
     string html = request->post["html"];
     string checksum = request->post["checksum"];
-    
-    cout << "Posted checksum " << checksum << " and calculated checksum " << Checksum_Logic::get (html) << endl; // Todo
-    
+
     if (Checksum_Logic::get (html) == checksum) {
       
       html = filter_string_trim (html);
