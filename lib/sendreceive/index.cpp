@@ -33,6 +33,7 @@
 #include <dialog/list.h>
 #include <sendreceive/logic.h>
 #include <config/logic.h>
+#include <demo/logic.h>
 
 
 string sendreceive_index_url ()
@@ -110,7 +111,6 @@ string sendreceive_index (void * webserver_request)
   
   
   if (config_logic_client_enabled ()) view.enable_zone ("client");
-  view.enable_zone ("client"); // C++Port: Disable once client works.
 
   
   if (request->query.count ("repeatsync")) {
@@ -129,14 +129,10 @@ string sendreceive_index (void * webserver_request)
   }
 
   
+  view.set_variable ("demo", demo_logic_client_demo_warning ());
+
+  
   page += view.render ("sendreceive", "index");
   page += Assets_Page::footer ();
   return page;
 }
-
-
-/* Todo
-
-$view->view->demo = Filter_Demo::client_demo_warning ();
-
-*/

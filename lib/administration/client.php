@@ -64,7 +64,7 @@ if (isset (request->post ['connect'])) {
 
 if (isset (request->query['demo'])) {
 
-  $address = Filter_Demo::demo_address ();
+  $address = demo_logic_demo_address ();
   Database_Config_General::setServerAddress ($address);
 
   $user = "admin";
@@ -98,7 +98,7 @@ for ($users as $user) {
 }
 
 
-$view->view->demo = Filter_Demo::client_demo_warning ();
+$view->view->demo = demo_logic_client_demo_warning ();
 
 
 Assets_Page::header (gettext("Client mode"));

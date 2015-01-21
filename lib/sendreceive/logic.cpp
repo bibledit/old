@@ -75,14 +75,14 @@ void sendreceive_queue_sync (int minute)
 // Returns the result as a boolean.
 bool sendreceive_sync_queued ()
 {
-  if (tasks_logic_queued (SENDNOTES).empty ()) return true;
-  if (tasks_logic_queued (SENDBIBLES).empty ()) return true;
-  if (tasks_logic_queued (SENDSETTINGS).empty ()) return true;
-  if (tasks_logic_queued (SYNCNOTES).empty ()) return true;
-  if (tasks_logic_queued (SYNCBIBLES).empty ()) return true;
-  if (tasks_logic_queued (SYNCSETTINGS).empty ()) return true;
-  if (tasks_logic_queued (SYNCEXTERNALRESOURCES).empty ()) return true;
-  if (tasks_logic_queued (SYNCUSFMRESOURCES).empty ()) return true;
+  if (!tasks_logic_queued (SENDNOTES).empty ()) return true;
+  if (!tasks_logic_queued (SENDBIBLES).empty ()) return true;
+  if (!tasks_logic_queued (SENDSETTINGS).empty ()) return true;
+  if (!tasks_logic_queued (SYNCNOTES).empty ()) return true;
+  if (!tasks_logic_queued (SYNCBIBLES).empty ()) return true;
+  if (!tasks_logic_queued (SYNCSETTINGS).empty ()) return true;
+  if (!tasks_logic_queued (SYNCEXTERNALRESOURCES).empty ()) return true;
+  if (!tasks_logic_queued (SYNCUSFMRESOURCES).empty ()) return true;
   return false;
 }
 
