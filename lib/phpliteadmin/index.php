@@ -461,7 +461,7 @@ define('PROJECT_BUGTRACKER_LINK','<a href="http://code.google.com/p/phpliteadmin
 
 // Resource output (css and javascript files)
 // we get out of the main code as soon as possible, without inizializing the session
-if (isset(request->query['resource'])) {
+if (request->query.count ('resource'])) {
 	Resources::output(request->query['resource']);
 	exit();
 }
@@ -805,7 +805,7 @@ if ($auth->isAuthorized())
 		unset($_SESSION[COOKIENAME.'currentDB']);
 	
 	//user is deleting a database
-	if(isset(request->query['database_delete']))
+	if(request->query.count ('database_delete']))
 	{
 		$dbpath = request->post['database_delete'];
 		// check whether $dbpath really is a db we manage
@@ -819,7 +819,7 @@ if ($auth->isAuthorized())
 	}
 	
 	//user is renaming a database
-	if(isset(request->query['database_rename']))
+	if(request->query.count ('database_rename']))
 	{
 		$oldpath = request->post['oldname'];
 		$newpath = request->post['newname'];
@@ -952,7 +952,7 @@ Assets_Page::header ("phpLiteAdmin");
 <title>PROJECT</title>
 
 <?php
-if(isset(request->query['theme'])) $theme = basename(request->query['theme']);
+if(request->query.count ('theme'])) $theme = basename(request->query['theme']);
 
 // allow themes to be dropped in subfolder "themes"
 if(is_file('themes/'.$theme)) $theme = 'themes/'.$theme;
@@ -964,7 +964,7 @@ else
 	// only use the default stylesheet if an external one does not exist
 	echo "<link href='?resource=css' rel='stylesheet' type='text/css' />", PHP_EOL;
 
-if(isset(request->query['help'])) //this page is used as the popup help section
+if(request->query.count ('help'])) //this page is used as the popup help section
 {
 	//help section array
 	$help = array
@@ -1088,7 +1088,7 @@ else //user is authorized - display the main application
 		}
 		$currentDB = $_SESSION[COOKIENAME.'currentDB'];
 	}
-	else if(isset(request->query['switchdb']))
+	else if(request->query.count ('switchdb']))
 	{
 		for($databases as $db_id => $database)
 		{
@@ -1108,7 +1108,7 @@ else //user is authorized - display the main application
 	$db->registerUserFunction($custom_functions);
 
 	//switch board for various operations a user could have requested - these actions are invisible and produce no output
-	if(isset(request->query['action']) && isset(request->query['confirm']))
+	if(request->query.count ('action']) && request->query.count ('confirm']))
 	{
 		switch(request->query['action'])
 		{
@@ -1611,7 +1611,7 @@ else //user is authorized - display the main application
 	echo "</fieldset>";
 	echo "<fieldset style='margin:15px;'><legend>";
 	echo "<a href='".PAGE."'";
-	if(!isset(request->query['table']))
+	if(!request->query.count ('table']))
 		echo " class='active_table'";
 	echo ">".htmlencode($currentDB['name'])."</a>";
 	echo "</legend>";
@@ -1625,7 +1625,7 @@ else //user is authorized - display the main application
 		{
 			echo "<span class='sidebar_table'>[".$lang[$result[$i]['type']=='table'?'tbl':'view']."]</span> ";
 			echo "<a href='?action=row_view&amp;table=".urlencode($result[$i]['name']).($result[$i]['type']=='view'?'&amp;view=1':'')."'";
-			if(isset(request->query['table']) && request->query['table']==$result[$i]['name'])
+			if(request->query.count ('table']) && request->query['table']==$result[$i]['name'])
 				echo " class='active_table'";
 			echo ">".htmlencode($result[$i]['name'])."</a><br/>";
 			$j++;
@@ -1654,12 +1654,12 @@ else //user is authorized - display the main application
 
 	//breadcrumb navigation
 	echo "<a href='".PAGE."'>".htmlencode($currentDB['name'])."</a>";
-	if(isset(request->query['table']))
+	if(request->query.count ('table']))
 		echo " &rarr; <a href='?table=".urlencode(request->query['table'])."&amp;action=row_view'>".htmlencode(request->query['table'])."</a>";
 	echo "<br/><br/>";
 
 	//user has performed some action so show the resulting message
-	if(isset(request->query['confirm']))
+	if(request->query.count ('confirm']))
 	{
 		echo "<div id='main'>";
 		echo "<div class='confirm'>";
@@ -1678,9 +1678,9 @@ else //user is authorized - display the main application
 	}
 
 	//show the various tab views for a table
-	if(!isset(request->query['confirm']) && isset(request->query['table']) && isset(request->query['action']) && (request->query['action']=="table_export" || request->query['action']=="table_import" || request->query['action']=="table_sql" || request->query['action']=="row_view" || request->query['action']=="row_create" || request->query['action']=="column_view" || request->query['action']=="table_rename" || request->query['action']=="table_search" || request->query['action']=="table_triggers"))
+	if(!request->query.count ('confirm']) && request->query.count ('table']) && request->query.count ('action']) && (request->query['action']=="table_export" || request->query['action']=="table_import" || request->query['action']=="table_sql" || request->query['action']=="row_view" || request->query['action']=="row_create" || request->query['action']=="column_view" || request->query['action']=="table_rename" || request->query['action']=="table_search" || request->query['action']=="table_triggers"))
 	{
-		if(!isset(request->query['view']))
+		if(!request->query.count ('view']))
 		{
 			echo "<a href='?table=".urlencode(request->query['table'])."&amp;action=row_view' ";
 			if(request->query['action']=="row_view")
@@ -1778,7 +1778,7 @@ else //user is authorized - display the main application
 	}
 
 	//switch board for the page display
-	if(isset(request->query['action']) && !isset(request->query['confirm']))
+	if(request->query.count ('action']) && !request->query.count ('confirm']))
 	{
 		echo "<div id='main'>";
 		switch(request->query['action'])
@@ -1956,7 +1956,7 @@ else //user is authorized - display the main application
 
 				echo "<fieldset>";
 				echo "<legend><b>".sprintf($lang['run_sql'],htmlencode($db->getName()))."</b></legend>";
-				if(!isset(request->query['view']))
+				if(!request->query.count ('view']))
 					echo "<form action='?table=".urlencode(request->query['table'])."&amp;action=table_sql' method='post'>";
 				else
 					echo "<form action='?table=".urlencode(request->query['table'])."&amp;action=table_sql&amp;view=1' method='post'>";
@@ -2112,7 +2112,7 @@ else //user is authorized - display the main application
 			case "table_search":
 				$foundVal = array();
 				$fieldArr = array();
-				if(isset(request->query['done']))
+				if(request->query.count ('done']))
 				{
 					$table = request->query['table'];
 					$query = "PRAGMA table_info(".$db->quote_id($table).")";
@@ -2215,7 +2215,7 @@ else //user is authorized - display the main application
 						echo "</table><br/><br/>";
 					}
 					
-					if(!isset(request->query['view']))
+					if(!request->query.count ('view']))
 						echo "<a href='?table=".urlencode(request->query['table'])."&amp;action=table_search'>".$lang['srch_again']."</a>";
 					else
 						echo "<a href='?table=".urlencode(request->query['table'])."&amp;action=table_search&amp;view=1'>".$lang['srch_again']."</a>";
@@ -2225,7 +2225,7 @@ else //user is authorized - display the main application
 					$query = "PRAGMA table_info(".$db->quote_id(request->query['table']).")";
 					$result = $db->selectArray($query);
 					
-					if(!isset(request->query['view']))
+					if(!request->query.count ('view']))
 						echo "<form action='?table=".urlencode(request->query['table'])."&amp;action=table_search&amp;done=1' method='post'>";
 					else
 						echo "<form action='?table=".urlencode(request->query['table'])."&amp;action=table_search&amp;view=1&amp;done=1' method='post'>";
@@ -2297,7 +2297,7 @@ else //user is authorized - display the main application
 			/////////////////////////////////////////////// view row
 			case "row_view":
 				$table = request->query['table'];
-				$is_view = isset(request->query['view']) ? '&amp;view=1' : '';
+				$is_view = request->query.count ('view']) ? '&amp;view=1' : '';
 
 				if(!isset(request->post['startRow']))
 					request->post['startRow'] = 0;
@@ -2392,19 +2392,19 @@ else //user is authorized - display the main application
 				echo "<div style='clear:both;'></div>";
 				echo "</div>";
 				
-				if(!isset(request->query['sort']))
+				if(!request->query.count ('sort']))
 					request->query['sort'] = NULL;
-				if(!isset(request->query['order']))
+				if(!request->query.count ('order']))
 					request->query['order'] = NULL;
 
 				$numRows = $_SESSION[COOKIENAME.'numRows'];
 				$startRow = request->post['startRow'];
-				if(isset(request->query['sort']))
+				if(request->query.count ('sort']))
 				{
 					$_SESSION[COOKIENAME.'sortRows'] = request->query['sort'];
 					$_SESSION[COOKIENAME.'currentTable'] = $table;
 				}
-				if(isset(request->query['order']))
+				if(request->query.count ('order']))
 				{
 					$_SESSION[COOKIENAME.'orderRows'] = request->query['order'];
 					$_SESSION[COOKIENAME.'currentTable'] = $table;
@@ -2433,7 +2433,7 @@ else //user is authorized - display the main application
 					echo "<span style='font-size:11px;'>".htmlencode($queryDisp)."</span>";
 					echo "</div><br/>";
 					
-					if(isset(request->query['view']))
+					if(request->query.count ('view']))
 					{
 						echo sprintf($lang['readonly_tbl'], htmlencode(request->query['table']))." <a href='http://en.wikipedia.org/wiki/View_(database)' target='_blank'>http://en.wikipedia.org/wiki/View_(database)</a>"; 
 						echo "<br/><br/>";	
@@ -2448,13 +2448,13 @@ else //user is authorized - display the main application
 						echo "<form action='?action=row_editordelete&amp;table=".urlencode($table).$is_view."' method='post' name='checkForm'>";
 						echo "<table border='0' cellpadding='2' cellspacing='1' class='viewTable'>";
 						echo "<tr>";
-						if(!isset(request->query['view']))
+						if(!request->query.count ('view']))
 							echo "<td colspan='3'></td>";
 	
 						for($i=0; $i<sizeof($result); $i++)
 						{
 							echo "<td class='tdheader'>";
-							if(!isset(request->query['view']))
+							if(!request->query.count ('view']))
 								echo "<a href='?action=row_view&amp;table=".urlencode($table)."&amp;sort=".urlencode($result[$i]['name']);
 							else
 								echo "<a href='?action=row_view&amp;table=".urlencode($table)."&amp;view=1&amp;sort=".urlencode($result[$i]['name']);
@@ -2477,7 +2477,7 @@ else //user is authorized - display the main application
 							$tdWithClass = "<td class='td".($i%2 ? "1" : "2")."'>";
 							$tdWithClassLeft = "<td class='td".($i%2 ? "1" : "2")."' style='text-align:left;'>";
 							echo "<tr>";
-							if(!isset(request->query['view']))
+							if(!request->query.count ('view']))
 							{
 								echo $tdWithClass;
 								echo "<input type='checkbox' name='check[]' value='".htmlencode($pk)."' id='check_".htmlencode($i)."'/>";
@@ -2508,7 +2508,7 @@ else //user is authorized - display the main application
 							echo "</tr>";
 						}
 						echo "</table>";
-						if(!isset(request->query['view']))
+						if(!request->query.count ('view']))
 						{
 							echo "<a onclick='checkAll()'>".$lang['chk_all']."</a> / <a onclick='uncheckAll()'>".$lang['unchk_all']."</a> <i>".$lang['with_sel'].":</i> ";
 							echo "<select name='type'>";
@@ -2683,7 +2683,7 @@ else //user is authorized - display the main application
 				{
 					echo "<br/><br/>".$lang['no_rows'];
 				}
-				elseif(!isset(request->query['view']))
+				elseif(!request->query.count ('view']))
 				{
 					echo "<br/><br/>".$lang['empty_tbl']." <a href='?table=".urlencode(request->query['table'])."&amp;action=row_create'>".$lang['click']."</a> ".$lang['insert_rows'];
 				}
@@ -2791,7 +2791,7 @@ else //user is authorized - display the main application
 			case "row_editordelete":
 				if(isset(request->post['check']))
 					$pks = request->post['check'];
-				else if(isset(request->query['pk']))
+				else if(request->query.count ('pk']))
 					$pks = array(request->query['pk']);
 				else $pks[0] = "";
 				$str = $pks[0];
@@ -2810,7 +2810,7 @@ else //user is authorized - display the main application
 				}
 				else
 				{
-					if((isset(request->post['type']) && request->post['type']=="edit") || (isset(request->query['type']) && request->query['type']=="edit")) //edit
+					if((isset(request->post['type']) && request->post['type']=="edit") || (request->query.count ('type']) && request->query['type']=="edit")) //edit
 					{
 						echo "<form action='?table=".urlencode(request->query['table'])."&amp;action=row_edit&amp;confirm=1&amp;pk=".urlencode($pkVal)."' method='post'>";
 						$query = "PRAGMA table_info(".$db->quote_id(request->query['table']).")";
@@ -2912,7 +2912,7 @@ else //user is authorized - display the main application
 				echo "<form action='?table=".urlencode(request->query['table'])."&amp;action=column_confirm' method='post' name='checkForm'>";
 				echo "<table border='0' cellpadding='2' cellspacing='1' class='viewTable'>";
 				echo "<tr>";
-				if(!isset(request->query['view']))
+				if(!request->query.count ('view']))
 					echo "<td colspan='3'></td>";
 				echo "<td class='tdheader'>".$lang['col']." #</td>";
 				echo "<td class='tdheader'>".$lang['fld']."</td>";
@@ -2948,7 +2948,7 @@ else //user is authorized - display the main application
 					$tdWithClass = "<td class='td".($i%2 ? "1" : "2")."'>";
 					$tdWithClassLeft = "<td class='td".($i%2 ? "1" : "2")."' style='text-align:left;'>";
 					echo "<tr>";
-					if(!isset(request->query['view']))
+					if(!request->query.count ('view']))
 					{
 						echo $tdWithClass;
 						echo "<input type='checkbox' name='check[]' value='".htmlencode($fieldVal)."' id='check_".$i."'/>";
@@ -2987,7 +2987,7 @@ else //user is authorized - display the main application
 				}
 
 				echo "</table>";
-				if(!isset(request->query['view']))
+				if(!request->query.count ('view']))
 				{
 					echo "<a onclick='checkAll()'>".$lang['chk_all']."</a> / <a onclick='uncheckAll()'>".$lang['unchk_all']."</a> <i>".$lang['with_sel'].":</i> ";
 					echo "<select name='action2'>";
@@ -2999,7 +2999,7 @@ else //user is authorized - display the main application
 					echo "<input type='submit' value='".$lang['go']."' name='massGo' class='btn'/>";
 				}
 				echo "</form>";
-				if(!isset(request->query['view']))
+				if(!request->query.count ('view']))
 				{
 					echo "<br/>";
 					echo "<form action='?table=".urlencode(request->query['table'])."&amp;action=column_create' method='post'>";
@@ -3012,7 +3012,7 @@ else //user is authorized - display the main application
 				$master = $db->selectArray($query);
 				
 				echo "<br/>";
-				if(!isset(request->query['view']))
+				if(!request->query.count ('view']))
 					$type = "table";
 				else
 					$type = "view";
@@ -3022,7 +3022,7 @@ else //user is authorized - display the main application
 				echo "<span style='font-size:11px;'>".htmlencode($master[0]['sql'])."</span>";
 				echo "</div>";
 				echo "<br/>";
-				if(!isset(request->query['view']))
+				if(!request->query.count ('view']))
 				{
 					echo "<br/><hr/><br/>";
 					//$query = "SELECT * FROM sqlite_master WHERE type='index' AND tbl_name='".request->query['table']."'";
@@ -3203,7 +3203,7 @@ else //user is authorized - display the main application
 			case "column_confirm":
 				if(isset(request->post['check']))
 					$pks = request->post['check'];
-				elseif(isset(request->query['pk']))
+				elseif(request->query.count ('pk']))
 					$pks = array(request->query['pk']);
 				else $pks = array();
 				
@@ -3236,9 +3236,9 @@ else //user is authorized - display the main application
 			case "column_edit":
 				echo "<h2>".sprintf($lang['edit_col'], htmlencode(request->query['pk']))." ".$lang['on_tbl']." '".htmlencode(request->query['table'])."'</h2>";
 				echo $lang['sqlite_limit']."<br/><br/>";
-				if(!isset(request->query['pk']))
+				if(!request->query.count ('pk']))
 					echo $lang['specify_col'];
-				else if(!isset(request->query['table']) || request->query['table']=="")
+				else if(!request->query.count ('table']) || request->query['table']=="")
 					echo $lang['specify_tbl'];
 				else
 				{
@@ -3433,9 +3433,9 @@ else //user is authorized - display the main application
 	
 	$view = "structure";
 		
-	if(!isset(request->query['table']) && !isset(request->query['confirm']) && (!isset(request->query['action']) || (isset(request->query['action']) && request->query['action']!="table_create"))) //the absence of these fields means we are viewing the database homepage
+	if(!request->query.count ('table']) && !request->query.count ('confirm']) && (!request->query.count ('action']) || (request->query.count ('action']) && request->query['action']!="table_create"))) //the absence of these fields means we are viewing the database homepage
 	{
-		if(isset(request->query['view']))
+		if(request->query.count ('view']))
 			$view = request->query['view'];
 		else
 			$view = "structure";
@@ -3533,9 +3533,9 @@ else //user is authorized - display the main application
 			echo "<b>".$lang['sqlite_ext']."</b> ".helpLink($lang['help1']).": ".$db->getType()."<br/>"; 
 			echo "<b>".$lang['php_v']."</b>: "version()."<br/><br/>";
 			
-			if(isset(request->query['sort']) && (request->query['sort']=='type' || request->query['sort']=='name'))
+			if(request->query.count ('sort']) && (request->query['sort']=='type' || request->query['sort']=='name'))
 				$_SESSION[COOKIENAME.'sortTables'] = request->query['sort'];
-			if(isset(request->query['order']) && (request->query['order']=='ASC' || request->query['order']=='DESC'))
+			if(request->query.count ('order']) && (request->query['order']=='ASC' || request->query['order']=='DESC'))
 				$_SESSION[COOKIENAME.'orderTables'] = request->query['order'];
 					
 			$query = "SELECT type, name FROM sqlite_master WHERE (type='table' OR type='view') AND name!='' AND name NOT LIKE 'sqlite_%'";
@@ -3588,7 +3588,7 @@ else //user is authorized - display the main application
 				$skippedTables = false;
 				for($i=0; $i<sizeof($result); $i++)
 				{
-					$records = $db->numRows($result[$i]['name'], (!isset(request->query['forceCount'])));
+					$records = $db->numRows($result[$i]['name'], (!request->query.count ('forceCount'])));
 					if($records == '?')
 					{
 						$skippedTables = true;

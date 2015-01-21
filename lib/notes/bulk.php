@@ -90,7 +90,7 @@ for ($identifiers as $identifier) {
 }
 
 
-if (isset(request->query['subscribe'])) {
+if (request->query.count ('subscribe'])) {
   for ($identifiers as $identifier) {
     $notes_logic->subscribe ($identifier);
   }
@@ -98,7 +98,7 @@ if (isset(request->query['subscribe'])) {
 }
 
 
-if (isset(request->query['unsubscribe'])) {
+if (request->query.count ('unsubscribe'])) {
   for ($identifiers as $identifier) {
     $notes_logic->unsubscribe ($identifier);
   }

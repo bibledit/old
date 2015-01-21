@@ -31,7 +31,7 @@ $database_bibleactions = Database_BibleActions::getInstance ();
 $view = new Assets_View (__FILE__);
 
 
-if (isset(request->query['disable'])) {
+if (request->query.count ('disable'])) {
   config_logic_set (false);
   remove_all_users ();
   Database_Config_General::setRepeatSendReceive (0);

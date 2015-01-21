@@ -69,7 +69,7 @@ if (isset ($bible)) {
 $bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 
-if (isset(request->query['run'])) {
+if (request->query.count ('run'])) {
   if ($bible == "") {
     $error = gettext("No Bible given");
   } else if ($firstset == "") {
