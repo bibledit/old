@@ -628,6 +628,8 @@ LIBOBJS
 NETWORK_PORT
 CLIENT_INSTALLATION
 OPEN_INSTALLATION
+GIT_LIBS
+GIT_CFLAGS
 CURL_LIBS
 CURL_CFLAGS
 EGREP
@@ -765,7 +767,9 @@ SQLITE_CFLAGS
 SQLITE_LIBS
 CPP
 CURL_CFLAGS
-CURL_LIBS'
+CURL_LIBS
+GIT_CFLAGS
+GIT_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1421,6 +1425,8 @@ Some influential environment variables:
   CPP         C preprocessor
   CURL_CFLAGS C compiler flags for CURL, overriding pkg-config
   CURL_LIBS   linker flags for CURL, overriding pkg-config
+  GIT_CFLAGS  C compiler flags for GIT, overriding pkg-config
+  GIT_LIBS    linker flags for GIT, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -5891,6 +5897,81 @@ else
 fi
 
 
+
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GIT" >&5
+$as_echo_n "checking for GIT... " >&6; }
+
+if test -n "$GIT_CFLAGS"; then
+    pkg_cv_GIT_CFLAGS="$GIT_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libgit2 >= 0.20.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libgit2 >= 0.20.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GIT_CFLAGS=`$PKG_CONFIG --cflags "libgit2 >= 0.20.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GIT_LIBS"; then
+    pkg_cv_GIT_LIBS="$GIT_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libgit2 >= 0.20.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libgit2 >= 0.20.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GIT_LIBS=`$PKG_CONFIG --libs "libgit2 >= 0.20.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GIT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libgit2 >= 0.20.0" 2>&1`
+        else
+	        GIT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libgit2 >= 0.20.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GIT_PKG_ERRORS" >&5
+
+	as_fn_error $? "libgit2 development version >= 0.20.0 is needed." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	as_fn_error $? "libgit2 development version >= 0.20.0 is needed." "$LINENO" 5
+else
+	GIT_CFLAGS=$pkg_cv_GIT_CFLAGS
+	GIT_LIBS=$pkg_cv_GIT_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+
+
+# Todo AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
 
 
 $as_echo "#define DIRECTORY_SEPARATOR \"/\"" >>confdefs.h

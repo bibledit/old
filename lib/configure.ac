@@ -54,6 +54,11 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
 
+PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,AC_MSG_ERROR(libgit2 development version >= 0.20.0 is needed.))
+AC_SUBST(GIT_CFLAGS)
+AC_SUBST(GIT_LIBS)
+# Todo AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
+
 AC_DEFINE([DIRECTORY_SEPARATOR], ["/"], [Define the directory separator as Windows differs from Linux])
 
 # Open installation.
