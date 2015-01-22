@@ -24,6 +24,7 @@
 #include <config/libraries.h>
 
 
+// A C++ equivalent for PHP's function.
 template <typename T>
 vector <T> array_intersect (vector <T> a, vector <T> b)
 {
@@ -38,7 +39,7 @@ vector <T> array_intersect (vector <T> a, vector <T> b)
 }
 
 
-// A C++ equivalent for PHP's in_array function.
+// A C++ equivalent for PHP's function.
 template <typename T>
 bool in_array (const T & needle, const vector <T> & haystack)
 {

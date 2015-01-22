@@ -3321,136 +3321,141 @@ void test_filter_git ()
   }
   
   
-  
+  // Sync Git Chapter To Bible Add Chapters ()
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // The Bible has been created, but has no data yet.
+    string usfm = request.database_bibles()->getChapter (bible, 19, 0);
+    evaluate (__LINE__, __func__, "", usfm);
+    usfm = request.database_bibles()->getChapter (bible, 19, 11);
+    evaluate (__LINE__, __func__, "", usfm);
+    usfm = request.database_bibles()->getChapter (bible, 22, 2);
+    evaluate (__LINE__, __func__, "", usfm);
+    
+    // Run the filter for each chapter, and check that all three chapters make it into the database.
+    filter_git_sync_git_chapter_to_bible (repository, bible, 19, 0);
+    usfm = request.database_bibles()->getChapter (bible, 19, 0);
+    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    
+    filter_git_sync_git_chapter_to_bible (repository, bible, 19, 11);
+    usfm = request.database_bibles()->getChapter (bible, 19, 11);
+    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    
+    filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
+    usfm = request.database_bibles()->getChapter (bible, 22, 2);
+    evaluate (__LINE__, __func__, song_of_solomon_2_data, usfm);
+    
+    // Check the two books are there.
+    vector <int> books = request.database_bibles()->getBooks (bible);
+    evaluate (__LINE__, __func__, {19, 22}, books);
 
+    // Remove the journal entries the test created.
+    refresh_sandbox (false);
+  }
   
   
+  // Sync Git Chapter To Bible Delete Chapters
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // Put that into the database.
+    filter_git_sync_git_to_bible (&request, repository, bible);
+    
+    // Remove one book and one chapter from the git repository,
+    filter_url_rmdir (repository + "/Song of Solomon");
+    filter_url_rmdir (repository + "/Psalms/0");
+    
+    // Run updates on the three chapters.
+    filter_git_sync_git_chapter_to_bible (repository, bible, 19, 0);
+    filter_git_sync_git_chapter_to_bible (repository, bible, 19, 11);
+    filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
+    
+    // There should still be two books, although one book would have no chapters.
+    vector <int> books = request.database_bibles()->getBooks (bible);
+    evaluate (__LINE__, __func__, {19, 22}, books);
+    
+    // Check that the chapter data matches.
+    string usfm = request.database_bibles()->getChapter (bible, 19, 0);
+    evaluate (__LINE__, __func__, "", usfm);
+    usfm = request.database_bibles()->getChapter (bible, 19, 11);
+    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    usfm = request.database_bibles()->getChapter (bible, 22, 2);
+    evaluate (__LINE__, __func__, "", usfm);
+
+    // Remove the journal entries the test created.
+    refresh_sandbox (false);
+  }
+  
+  
+  // Sync Git Chapter To Bible Update Chapters
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // Put that into the Bible database.
+    filter_git_sync_git_to_bible (&request, repository, bible);
+    
+    // Update some chapters in the git repository.
+    filter_url_file_put_contents (repository + "/Psalms/11/data", "\\c 11");
+    filter_url_file_put_contents (repository + "/Song of Solomon/2/data", "\\c 2");
+    
+    // Run updates on the two chapters.
+    filter_git_sync_git_chapter_to_bible (repository, bible, 19, 11);
+    filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
+    
+    // Check that the database is updated accordingly.
+    string usfm = request.database_bibles()->getChapter (bible, 19, 0);
+    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    usfm = request.database_bibles()->getChapter (bible, 19, 11);
+    evaluate (__LINE__, __func__, "\\c 11", usfm);
+    usfm = request.database_bibles()->getChapter (bible, 22, 2);
+    evaluate (__LINE__, __func__, "\\c 2", usfm);
+    
+    // Remove the journal entries the test created.
+    refresh_sandbox (false);
+  }
   
 }
 /* Todo
 
  
  
- C++Port: This may not be needed with llibgit2.
+ C++Port: This may not be needed with libgit2.
  public function testGetPullPassage ()
  {
  $output = Filter_Git::getPullPassage ("From https://github.com/joe/test");
- $this->assertNull ($output);
+ assertNull ($output);
  $output = Filter_Git::getPullPassage ("   443579b..90dcb57  master     -> origin/master");
- $this->assertNull ($output);
+ assertNull ($output);
  $output = Filter_Git::getPullPassage ("Updating 443579b..90dcb57");
- $this->assertNull ($output);
+ assertNull ($output);
  $output = Filter_Git::getPullPassage ("Fast-forward");
- $this->assertNull ($output);
+ assertNull ($output);
  $output = Filter_Git::getPullPassage (" Genesis/3/data | 2 +-");
- $this->assertEquals (array ('book' => "1", 'chapter' => "3"), $output);
+ assertEquals (array ('book' => "1", 'chapter' => "3"), $output);
  $output = Filter_Git::getPullPassage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
- $this->assertNull ($output);
+ assertNull ($output);
  $output = Filter_Git::getPullPassage (" delete mode 100644 Leviticus/1/data");
- $this->assertNull ($output);
+ assertNull ($output);
  $output = Filter_Git::getPullPassage (" Revelation/3/data | 2 +-");
- $this->assertEquals (array ('book' => "66", 'chapter' => "3"), $output);
+ assertEquals (array ('book' => "66", 'chapter' => "3"), $output);
  }
  
  
- public function testSyncGitChapterToBibleAddChapters ()
- {
- $database_bibles = Database_Bibles::getInstance();
- 
- // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
- // The Bible has been created, but has no data yet.
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
- $this->assertEmpty ($usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
- $this->assertEmpty ($usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
- $this->assertEmpty ($usfm);
- 
- // Run the filter for each chapter, and check that all three chapters make it into the database.
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 0);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
- $this->assertEquals ($this->psalms_0_data, $usfm);
- 
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
- $this->assertEquals ($this->psalms_11_data, $usfm);
- 
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
- $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
- $this->assertEquals ($this->song_of_solomon_2_data, $usfm);
- 
- // Check the two books are there.
- $books = request->database_bibles()->getBooks ($this->bible);
- $this->assertEquals ($books, array (19, 22));
- }
- 
- 
- public function testSyncGitChapterToBibleDeleteChapters ()
- {
- $database_bibles = Database_Bibles::getInstance ();
- 
- // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
- // Put that into the database.
- filter_git_sync_git_to_bible ($this->repository, $this->bible);
- 
- // Remove one book and one chapter from the git repository,
- filter_url_rmdir ($this->repository . "/Song of Solomon");
- filter_url_rmdir ($this->repository . "/Psalms/0");
- 
- // Run updates on the three chapters.
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 0);
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
- 
- // There should still be two books, although one book would have no chapters.
- $books = request->database_bibles()->getBooks ($this->bible);
- $this->assertEquals ($books, array (19, 22));
- 
- // Check that the chapter data matches.
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
- $this->assertEmpty ($usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
- $this->assertEquals ($this->psalms_11_data, $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
- $this->assertEmpty ($usfm);
- }
- 
- 
- public function testSyncGitChapterToBibleUpdateChapters ()
- {
- // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
- // Put that into the Bible database.
- $database_bibles = Database_Bibles::getInstance ();
- filter_git_sync_git_to_bible ($this->repository, $this->bible);
- 
- // Update some chapters in the git repository.
- filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
- filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
- 
- // Run updates on the two chapters.
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);
- Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
- 
- // Check that the database is updated accordingly.
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
- $this->assertEquals ($this->psalms_0_data, $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
- $this->assertEquals ("\\c 11", $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
- $this->assertEquals ("\\c 2", $usfm);
- }
- 
- 
+ C++Port: This may not be needed with libgit2.
  public function testExplodePath ()
  {
  $bookChapter = Filter_Git::explodePath ("Genesis/2/data");
- $this->assertEquals (array ('book' => 1, 'chapter' => 2), $bookChapter);
+ assertEquals (array ('book' => 1, 'chapter' => 2), $bookChapter);
  $bookChapter = Filter_Git::explodePath ("Genesi/2/data");
- $this->assertEquals (NULL, $bookChapter);
+ assertEquals (NULL, $bookChapter);
  $bookChapter = Filter_Git::explodePath ("Exodus/3/data");
- $this->assertEquals (array ('book' => 2, 'chapter' => 3), $bookChapter);
+ assertEquals (array ('book' => 2, 'chapter' => 3), $bookChapter);
  $bookChapter = Filter_Git::explodePath ("dictionary");
- $this->assertEquals (NULL, $bookChapter);
+ assertEquals (NULL, $bookChapter);
  }
  
 

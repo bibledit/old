@@ -209,3 +209,29 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
 }
 
 
+// This filter takes one chapter of the Bible data as it is stored in the $git folder,
+// and puts this information into Bibledit's database.
+// The $git is a git repository, and may contain other data as well.
+void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter)
+{
+  // Filename for the chapter.
+  string bookname = Database_Books::getEnglishFromId (book);
+  string filename = filter_url_create_path (repository, bookname, to_string (chapter), "data");
+  
+  if (file_exists (filename)) {
+    
+    // Store chapter in database.
+    string usfm = filter_url_file_get_contents (filename);
+    Bible_Logic::storeChapter (bible, book, chapter, usfm);
+    Database_Logs::log (gettext("A collaborator updated") + " " + bible + " " + bookname + " " + to_string (chapter));
+    
+  } else {
+    
+    // Delete chapter from database.
+    Bible_Logic::deleteChapter (bible, book, chapter);
+    Database_Logs::log (gettext("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+    
+  }
+}
+
+

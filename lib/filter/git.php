@@ -34,37 +34,6 @@ class Filter_Git
   }
   
 
-  // This filter takes one chapter of the Bible data as it is stored in the $git folder,
-  // and puts this information into Bibledit's database.
-  // The $git is a git repository, and may contain other data as well.
-  public static function syncGitChapter2Bible ($git, bible, book, chapter)
-  {
-    // The databases.
-    $database_bibles = Database_Bibles::getInstance ();
-    $database_books = Database_Books::getInstance ();
-    $database_logs = Database_Logs::getInstance ();
-    
-    // Filename for the chapter.
-    $bookname = Database_Books::getEnglishFromId ($book);
-    $filename = "$git/$bookname/$chapter/data";
-    
-    if (file_exists ($filename)) {
-
-      // Store chapter in database.
-      $usfm = filter_url_file_get_contents ($filename);
-      Bible_Logic::storeChapter (bible, book, chapter, $usfm);
-      Database_Logs::log (gettext("A collaborator updated") . " $bible $bookname $chapter");
-
-    } else {
-
-      // Delete chapter from database.
-      Bible_Logic::deleteChapter (bible, book, chapter);
-      Database_Logs::log (gettext("A collaborator deleted chapter") . " $bible $bookname $chapter");
-
-    }
-  }
-
-
   // This function returns an array with all commits in the git repository in $directory.
   public static function commits ($directory)
   {

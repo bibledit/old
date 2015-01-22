@@ -172,7 +172,7 @@ if ($success) {
     if ($book_chapter) {
       $book = $book_chapter ['book'];
       $chapter = $book_chapter ['chapter'];
-      Filter_Git::syncGitChapter2Bible ($directory, bible, book, chapter);
+      filter_git_sync_git_chapter_to_bible ($directory, bible, book, chapter);
     }
   }
 }
