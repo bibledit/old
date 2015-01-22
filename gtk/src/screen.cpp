@@ -167,7 +167,8 @@ DialogPresenter::~DialogPresenter()
   gw_destroy_source(event_id);
 }
 
-
+// MAP: I believe these two routines can be eliminated. Just do the
+// work where on_timeout is set up.
 bool DialogPresenter::on_timeout(gpointer data)
 {
   ((DialogPresenter *) data)->timeout();

@@ -25,7 +25,6 @@
 #include "settings.h"
 #include "localizedbooks.h"
 
-//extern typeof(book_record) books_table[];
 extern book_record books_table[];
 
 void books_order(const ustring & project, vector < unsigned int >&books)

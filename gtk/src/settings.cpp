@@ -31,7 +31,12 @@ This made bibledit sluggish in cases where many values were needed at once.
 This new object is a much faster, in-memory, system for the settings.
 It loads a value the first time it is requested, 
 and then keeps it in memory for the rest of the time.
-It will write the values back to disk on object destruction.
+It will write the values back to disk on object destruction. 
+[MAP: This last statement is true, but it is not good design. There 
+should be a save_settings routine that is called explicitly, and object
+destruction should not save any settings, because we don't know when that
+routine will be called relative to all other object destructions, if at all
+(i.e. if the program terminates early).
 */
 {
   event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300000, GSourceFunc(on_timeout), gpointer(this), NULL);
@@ -64,7 +69,8 @@ ProjectConfiguration * Settings::projectconfig(ustring project, bool save_on_des
   return projectconfigurations[projectconfigurations.size() - 1];
 }
 
-
+// A good example of a repetitively-called routine that saves
+// settings every once in a while. 
 void Settings::save ()
 // Saves the configurations to disk.
 {

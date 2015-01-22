@@ -75,10 +75,13 @@ void WindowShowRelatedVerses::go_to(const ustring & project, const Reference & r
   if (!myreference.equals(reference)) {
     myreference.assign(reference);
     myproject = project;
-    if (event_id) {
-      gw_destroy_source (event_id);
-    }
-    event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_timeout), gpointer(this), NULL);
+    // if (event_id) {
+    //   gw_destroy_source (event_id);
+    // }
+    //event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_timeout), gpointer(this), NULL);
+    // Call directly instead of overhead of above; seems to cut time in 
+    // half to display the related words.
+    load_webview("");
   }
 }
 
@@ -257,7 +260,8 @@ void WindowShowRelatedVerses::thread_main(gpointer data)
   thread_runs = false;
 }
 
-
+// These two methods only serve to slow down the rendering of show
+// related verses -- MAP 1/13/2015
 bool WindowShowRelatedVerses::on_timeout(gpointer user_data)
 {
   return ((WindowShowRelatedVerses *) user_data)->timeout();

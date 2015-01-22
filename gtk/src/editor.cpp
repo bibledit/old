@@ -310,7 +310,9 @@ void Editor2::chapter_load(unsigned int chapter_in)
     GtkTextIter iter;
     gtk_text_buffer_get_start_iter(focused_paragraph->textbuffer, &iter);
     gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
-    scroll_insertion_point_on_screen ();
+    //scroll_insertion_point_on_screen ();
+    // Remove all the complicated timeout stuff and go right to work
+    scroll_insertion_point_on_screen_timeout ();
   }
   
   // Store size of actions buffer so we know whether the chapter changed.
@@ -1677,15 +1679,43 @@ void Editor2::highlight_searchwords()
     return;
   }
 
+  // This code is why the highlighting is slow. It does all the
+  // operations essentially backward, waiting on a new thread to get
+  // started and to its work before doing anything else. Thread
+  // creation is a fairly very high overhead operation. As a result,
+  // this method is guaranteed to introduce more delay in the process
+  // of figuring out and marking the highlighted text than it would to
+  // just do it. See below.
+/*
   // Highlighting timeout.
-  if (highlight_timeout_event_id)
+  if (highlight_timeout_event_id) {
     gw_destroy_source (highlight_timeout_event_id);
+  }
   highlight_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_highlight_timeout), gpointer(this), NULL);
 
   // Create a new highlighting object.
   highlight = new Highlight(focused_paragraph->textbuffer, focused_paragraph->textview, project, reference_tag, current_verse_number);
   // New g_thread_new ("highlight", GThreadFunc (highlight_thread_start), gpointer(this));
   g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
+*/
+  
+  // MAP: Here's how I think it should be done, more synchronously instead of threaded.
+  highlight = new Highlight(focused_paragraph->textbuffer, focused_paragraph->textview, project, reference_tag, current_verse_number);
+  // The time-consuming part of highlighting is to determine what bits
+  // of text to highlight. Because it takes time, and the program
+  // should continue to respond, it is [was] done in a thread. MAP:
+  // But there is a problem when you type text, delete, then start
+  // typing again. The threaded-ness of this means that sometimes,
+  // bibledit starts overwriting text from the beginning of the verse
+  // instead of typing in the location where the cursor is. TODO: I am
+  // planning eventually to FIX the TIME CONSUMING PART so that the
+  // whole thing will be more efficient.
+  highlight->determine_locations();
+  assert(highlight->locations_ready);
+  highlight->highlight();
+  // Delete and NULL the object making it ready for next use.
+  delete highlight;
+  highlight = NULL;
 }
 
 
@@ -1723,7 +1753,10 @@ void Editor2::highlight_thread_main()
 {
   // The time-consuming part of highlighting is to determine what bits of text
   // to highlight. Because it takes time, and the program should continue
-  // to respond, it is done in a thread.
+  // to respond, it is done in a thread. MAP: But there is a problem when you type
+  // text, delete, then start typing again, the threaded-ness of this means that
+  // sometimes, be starts overwriting text from the beginning of the verse instead
+  // of typing in the location where the cursor is.
   if (highlight) {
     highlight->determine_locations();
   }
@@ -1872,7 +1905,9 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
     } while (!moved && textbuffer);
   }
   if (moved) {
-    scroll_insertion_point_on_screen ();
+    //scroll_insertion_point_on_screen ();
+    // Remove all the complicated timeout stuff and go right to work
+    scroll_insertion_point_on_screen_timeout ();
   }
   return moved;
 }
@@ -1898,7 +1933,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
   if (focused_paragraph) {
 
     // Ensure that the screen has been fully displayed.
-    while (gtk_events_pending()) gtk_main_iteration();
+    while (gtk_events_pending()) { gtk_main_iteration(); }
 
     // Adjustment.
     GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport));
@@ -1935,7 +1970,20 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
       insertion_point_offset += rectangle.y;
     }
 
-    // Set the adjustment to move the insertion point into 1/3th of the visible part of the window.
+    // Set the adjustment to move the insertion point into 1/3th of
+    // the visible part of the window. TODO: This should be an option
+    // that the user can set. Sometimes it is distracting to have the
+    // text move automatically. In Emacs, for instance, the user can
+    // hit Ctrl-L to do that manually. We could have a preference that
+    // says "auto-scroll text window to center 1/3 of window" or
+    // something like that. This code slows the perceived user
+    // experience because they have to reorient their eyes to where
+    // the text moves to. Certainly when the cursor moves out of the
+    // window then we need to auto-scroll by some amount, but it is
+    // debatable whether we should auto-center the text or just move
+    // the window by a line or two. I've attempted to do the latter, but
+    // it is not perfect at the moment, so there is still some more TODO.
+
     /*
     If the insertion point is at 800, and the height of the visible window is 500,
     and the total window height is 1000, then the calculation of the offset is as follows:
@@ -1944,15 +1992,24 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
     Therefore the adjustment should move to 550.
     The adjustment value should stay within its limits. If it exceeds these, the viewport draws double lines.
     */
-    gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
+    
+    //gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
+    // While working within a viewport, we will not scroll
+    gdouble adjustment_value = gtk_adjustment_get_value(adjustment);
+    if (insertion_point_offset < (gtk_adjustment_get_value(adjustment)+20)) {
+      adjustment_value = insertion_point_offset - 60;
+    }
+    else if (insertion_point_offset > (gtk_adjustment_get_value(adjustment) + visible_window_height - 20)) {
+      adjustment_value = insertion_point_offset - visible_window_height + 60;
+    }
     if (adjustment_value < 0) {
       adjustment_value = 0;
     }
-    if (adjustment_value > (total_window_height - visible_window_height)) {
+    else if (adjustment_value > (total_window_height - visible_window_height)) {
       adjustment_value = total_window_height - visible_window_height;
     }
     gtk_adjustment_set_value (adjustment, adjustment_value);
-    
+
     // Remove any previous verse number highlight.
     {
       GtkTextIter startiter, enditer;
@@ -2909,7 +2966,9 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   }
 
   // Scroll the insertion point onto the screen.
-  scroll_insertion_point_on_screen ();
+  //scroll_insertion_point_on_screen ();
+  // Remove all the complicated timeout stuff and go right to work
+  scroll_insertion_point_on_screen_timeout ();
 
   // Highlight search words.
   highlight_searchwords();

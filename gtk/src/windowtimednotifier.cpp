@@ -50,6 +50,8 @@ gboolean TimedNotifierWindow::on_delete_event(GtkWidget * widget, GdkEvent * eve
   return true;
 }
 
+// MAP: I believe these two routines can be eliminated. Just do the
+// work where on_timeout is set up.
 gboolean TimedNotifierWindow::on_timeout(gpointer data)
 {
   return ((TimedNotifierWindow *) data)->timeout();

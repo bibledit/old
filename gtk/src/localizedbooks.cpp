@@ -27,7 +27,6 @@
 #include "tiny_utilities.h"
 
 
-//extern typeof(book_record) books_table[];
 extern book_record books_table[];
 
 BookLocalization::BookLocalization(const ustring & language_in, const ustring & filename)

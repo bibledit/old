@@ -31,7 +31,6 @@ found".
 The id is connected to a book, and is used in the notes database too.
 Therefore, ids are not supposed to be changed; new ones can be added though.
 */
-//typeof(book_record) books_table[] =
 book_record books_table[] =
 {
   {

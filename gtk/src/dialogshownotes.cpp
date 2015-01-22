@@ -440,7 +440,8 @@ void ShowNotesDialog::restart_timeout ()
   event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_timeout), gpointer(this), NULL);
 }
 
-
+// MAP: I believe these two routines can be eliminated. Just set the
+// bool on on_timeout is set up.
 bool ShowNotesDialog::on_timeout(gpointer user_data)
 {
   ((ShowNotesDialog *) user_data)->timeout();
