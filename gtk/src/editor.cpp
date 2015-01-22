@@ -1978,7 +1978,12 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
     // says "auto-scroll text window to center 1/3 of window" or
     // something like that. This code slows the perceived user
     // experience because they have to reorient their eyes to where
-    // the text moves to.
+    // the text moves to. Certainly when the cursor moves out of the
+    // window then we need to auto-scroll by some amount, but it is
+    // debatable whether we should auto-center the text or just move
+    // the window by a line or two. I've attempted to do the latter, but
+    // it is not perfect at the moment, so there is still some more TODO.
+
     /*
     If the insertion point is at 800, and the height of the visible window is 500,
     and the total window height is 1000, then the calculation of the offset is as follows:
@@ -1987,17 +1992,24 @@ void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
     Therefore the adjustment should move to 550.
     The adjustment value should stay within its limits. If it exceeds these, the viewport draws double lines.
     */
-    /* FOR NOW, COMMENT OUT
-    gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
+    
+    //gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
+    // While working within a viewport, we will not scroll
+    gdouble adjustment_value = gtk_adjustment_get_value(adjustment);
+    if (insertion_point_offset < (gtk_adjustment_get_value(adjustment)+20)) {
+      adjustment_value = insertion_point_offset - 60;
+    }
+    else if (insertion_point_offset > (gtk_adjustment_get_value(adjustment) + visible_window_height - 20)) {
+      adjustment_value = insertion_point_offset - visible_window_height + 60;
+    }
     if (adjustment_value < 0) {
       adjustment_value = 0;
     }
-    if (adjustment_value > (total_window_height - visible_window_height)) {
+    else if (adjustment_value > (total_window_height - visible_window_height)) {
       adjustment_value = total_window_height - visible_window_height;
     }
     gtk_adjustment_set_value (adjustment, adjustment_value);
-    */
-    
+
     // Remove any previous verse number highlight.
     {
       GtkTextIter startiter, enditer;

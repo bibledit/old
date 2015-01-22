@@ -50,7 +50,6 @@ unsigned int compression_record_count();
 unsigned int uncompression_identifier_get(const ustring & filename);
 
 
-//typeof(compression_record_data) compression_table[] =
 compression_record_data compression_table[] =
 {
   { ".tar.gz",   0, 2}, 
