@@ -33,7 +33,7 @@ $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $view->view->url = $url;
 
 // Create the git repository directory now since this is the most convenient moment to do it.
-$directory = filter_git_git_directory ($object);
+$directory = filter_git_directory ($object);
 filter_url_rmdir ($directory);
 mkdir ($directory, 0777, true);
 

@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.46],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0.47],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -57,7 +57,7 @@ AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not fou
 PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,AC_MSG_ERROR(libgit2 development version >= 0.20.0 is needed.))
 AC_SUBST(GIT_CFLAGS)
 AC_SUBST(GIT_LIBS)
-# Todo AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
+# Fails for some reason: AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
 
 AC_DEFINE([DIRECTORY_SEPARATOR], ["/"], [Define the directory separator as Windows differs from Linux])
 

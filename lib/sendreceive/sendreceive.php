@@ -46,7 +46,7 @@ Database_Logs::log ("Send/receive Bible" . " " . $bible, Filter_Roles::translato
 
 
 // The git directory for this object.
-$directory = filter_git_git_directory ($bible);
+$directory = filter_git_directory ($bible);
 $shelldirectory = escapeshellarg ($directory);
 
 
@@ -58,7 +58,7 @@ if (!is_dir ($directory)) {
 
 
 // Sync the repository with the database.
-$success = Filter_Git::syncBible2Git ($bible, $directory);
+$success = filter_git_sync_bible_to_git ($bible, $directory);
 
 
 // If the above does not succeed, then there is a serious problem.

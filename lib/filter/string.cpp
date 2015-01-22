@@ -157,18 +157,6 @@ bool convert_to_bool (string s)
 }
 
 
-// A C++ equivalent for PHP's in_array function.
-bool filter_string_in_array (const string& needle, const vector <string>& haystack)
-{
-  int max = haystack.size ();
-  if (max == 0) return false;
-  for (int i = 0; i < max; i++) {
-    if (haystack [i] == needle) return true;
-  }
-  return false;
-}
-
-
 // A C++ equivalent for PHP's array_unique function.
 vector <string> array_unique (vector <string> values)
 {

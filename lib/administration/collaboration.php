@@ -50,7 +50,7 @@ $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 if (isset (request->query ['disable'])) {
   $url = "";
   Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
-  $repository = filter_git_git_directory ($object);
+  $repository = filter_git_directory ($object);
   filter_url_rmdir ($repository);
 }
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);

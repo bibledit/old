@@ -346,7 +346,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread `xml2-config --libs` $(SQLITE_LIBS) \
-	$(CURL_LIBS)
+	$(CURL_LIBS) $(GIT_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -615,7 +615,8 @@ unittest_SOURCES = \
 
 unittest_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking \
-	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS)
+	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
+	$(GIT_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h

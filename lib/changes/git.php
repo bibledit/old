@@ -47,7 +47,7 @@ for ($bibles as $bible) {
   $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
   // The git directory for the Bible.
-  $directory = filter_git_git_directory ($bible);
+  $directory = filter_git_directory ($bible);
   if (!is_dir ($directory)) continue;
   Database_Logs::log ("$history Processing directory" . " " . $directory, Filter_Roles::manager ());
   $shelldirectory = escapeshellarg ($directory);

@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/bibleworks.h>
 #include <filter/diff.h>
 #include <filter/abbreviations.h>
+#include <filter/git.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -259,6 +260,14 @@ void test_filters_test2 ()
   {
     evaluate (__LINE__, __func__, true, unicode_string_is_valid ("valid"));
     evaluate (__LINE__, __func__, true, unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
+  }
+  {
+    vector <string> haystack = {"needle"};
+    string needle = "needle";
+    evaluate (__LINE__, __func__, true, filter_string_in_array (needle, haystack));
+    evaluate (__LINE__, __func__, true, filter_string_in_array (1, {1, 2, 3}));
+    evaluate (__LINE__, __func__, false, filter_string_in_array (1, {2, 3}));
+    
   }
 }
 
@@ -3087,3 +3096,360 @@ void test_filter_markup ()
     evaluate (__LINE__, __func__, text, result);
   }
 }
+
+
+void test_filter_git_setup (Webserver_Request * request, string bible, string newbible,
+                            string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
+{
+  refresh_sandbox (true);
+  
+  string repository = filter_git_directory (bible);
+  string newrepository = filter_git_directory (newbible);
+
+  filter_url_mkdir (repository);
+  filter_url_mkdir (newrepository);
+  
+  request->remote_address = "127.0.0.1";
+  request->user_agent = "unittest";
+  request->database_users ()->create ();
+  request->session_logic ()->setUsername ("unittest");
+  request->database_search()->create ();
+  request->database_bibles()->createBible (bible);
+
+  filter_git_init (repository);
+  filter_git_init (newrepository);
+  
+  filter_url_mkdir (filter_url_create_path (repository, "Psalms"));
+  filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
+  filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
+  filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon"));
+  filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon", "2"));
+  
+  filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), psalms_0_data);
+  filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "11", "data"), psalms_11_data);
+  filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+}
+
+
+void test_filter_git ()
+{
+  string bible = "unittest";
+  string newbible = "newunittest";
+  string repository = filter_git_directory (bible);
+  string newrepository = filter_git_directory (newbible);
+  Webserver_Request request;
+  
+  string psalms_0_data =
+    "\\id PSA\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 UGWALO\n"
+    "\\mt LWEZIHLABELELO\n";
+
+  string psalms_11_data =
+  "\\c 11\n"
+  "\\s IN\\sc KOSI\\sc* iyisiphephelo sabaqotho\n"
+  "\\d Kumqondisi wokuhlabelela. EsikaDavida\n"
+  "\\p\n"
+  "\\v 1 Ngithembela eN\\sc KOSI\\sc*ni\\x + Hlab. 25.2.\\x*. Lingatsho njani emphefumulweni wami: Balekela entabeni yenu \\add njeng\\add*enyoni\\x + 1 Sam. 23.14,19. 26.19,20.\\x*.\n"
+  "\\v 2 Ngoba, khangela, ababi bayagobisa idandili\\x + Hlab. 7.12. Hlab. 64.4.\\x*, balungisa umtshoko wabo entanjeni\\x + Hlab. 7.12. 21.12.\\x*, ukuze batshoke emnyameni abaqotho ngenhliziyo\\x + Hlab. 7.10.\\x*.\n"
+  "\\v 3 Nxa izisekelo zidilizwa\\x + Isa. 19.10. Hlab. 82.5. Hlab. 75.3.\\x*, angenzani olungileyo\\x + Jobe 22.13.\\x*?\n"
+  "\\p\n"
+  "\\v 4 IN\\sc KOSI\\x + Hab. 2.20.\\x*\\sc* isethempelini layo elingcwele\\x + Hlab. 5.7. Hlab. 150.1.\\x*; iN\\sc KOSI\\sc*, isihlalo sayo sobukhosi sisemazulwini\\x + Hlab. 2.4. 103.19. 115.3. 123.1. Isa. 66.1. Mat. 5.34. 23.22. Seb. 7.49. Isam. 4.2.\\x*; amehlo ayo ayakhangela\\x + Jobe 24.23. Hlab. 33.13. 34.15. 66.7. Hlab. 14.2. 102.19. 113.5,6.\\x*, inkophe zayo ziyahlola, abantwana babantu.\n"
+  "\\v 5 IN\\sc KOSI\\sc* iyamhlola olungileyo, kodwa omubi lothanda ubudlwangudlwangu, umphefumulo wayo uyamzonda\\x + Gen. 22.1.\\x*.\n"
+  "\\v 6 Uzanisa phezu kwababi imijibila, umlilo, lesolufa*\\x + Jobe 18.15.\\x*, lomoya otshisayo\\x + Hlab. 119.53. Lilo 5.10.\\x*, kuzakuba yisabelo senkezo yabo\\x + Hlab. 75.8. Jobe 21.20. Hlab. 16.5.\\x*.\n"
+  "\\v 7 Ngoba ilungile iN\\sc KOSI\\sc*, iyathanda ukulunga\\x + Hlab. 33.5. 45.7. Hlab. 37.28. 146.8.\\x*; ubuso bayo buyabona oqotho\\x + Hlab. 33.18. Hlab. 17.2.\\x*.\n";
+
+  string song_of_solomon_2_data =
+  "\\c 2\n"
+  "\\p\n"
+  "\\v 1 Ngilirozi\\x + Isa. 35.1.\\x* leSharoni\\x + Josh. 12.18.\\x*, umduze wezigodi\\x + 2.16. 4.5. 5.13. 6.2,3. 7.2. 2 Lan. 4.5. Hos. 14.5. Hlab. 45.\\x*.\n"
+  "\\p\n"
+  "\\v 2 Njengomduze phakathi kwameva\\x + 2.16. 4.5. 5.13. 6.2,3. 7.2. 2 Lan. 4.5. Hos. 14.5. Hlab. 45.\\x*, unjalo umngane wami phakathi kwamadodakazi\\x + 1.15.\\x*.\n"
+  "\\p\n"
+  "\\v 3 Njengesihlahla sama-aphula phakathi kwezihlahla zeganga, sinjalo isithandwa sami phakathi kwamadodana\\x + Zaga 25.11.\\x*. Ngahlala emthunzini waso ngathokoza kakhulu\\x + Isa. 25.4. 32.2.\\x*, lesithelo saso simnandi ekunambitheni kwami\\x + Isam. 22.2.\\x*.\n"
+  "\\v 4 Sangisa endlini yewayini, lesiboniso saso phezu kwami siluthando\\x + 1.4.\\x*.\n"
+  "\\v 5 Ngisekelani\\x + Gen. 27.37.\\x* ngeziphiso zewayini\\x + 2 Sam. 6.19. 1 Lan. 16.3. Hos. 3.1.\\x*, lingiqinise ngama-aphula\\x + Zaga 25.11.\\x*, ngoba ngigul\\add isw\\add*a \\add lu\\add*thando\\x + 5.8.\\x*.\n"
+  "\\v 6 Isandla saso sokhohlo singaphansi kwekhanda lami\\x + 8.3. Dute. 33.27.\\x*, lesokunene saso siyangigona\\x + 8.3. Dute. 33.27.\\x*.\n"
+  "\\v 7 Ngiyalifungisa\\x + 3.5. 8.4. 5.8,9.\\x*, madodakazi eJerusalema\\x + 1.5.\\x*, ngemiziki\\x + 2.9,17.\\x*\\x + Zaga 6.5.\\x* kumbe ngezimpala zeganga\\x + 2.9,17.\\x*\\x + Zaga 5.19.\\x*, ukuze lingaphazamisi lingavusi uthando luze luthande.\n"
+  "\\p\n"
+  "\\v 8 Ilizwi lesithandwa sami! Khangela sona siyeza, siseqa phezu kwezintaba, siqolotsha phezu kwamaqaqa\\x + Isa. 52.7.\\x*.\n"
+  "\\v 9 Isithandwa sami sinjengomziki\\x + 2.7,17. 8.14. 2 Sam. 22.34.\\x* kumbe njengethole lendluzele\\x + 2.7,17. 8.14. 2 Sam. 22.34.\\x*\\x + 4.5. 7.3.\\x*. Khangela simi ngemva komduli wethu, silunguza emawindini, sizibonakalisa\\f + \\fk zibonakalisa: \\fl Heb. \\fq hluma.\\f* eminxibeni yewindi\\x + Isa. 14.16.\\x*.\n"
+  "\\v 10 Isithandwa sami saphendula sathi kimi\\x + Hlu. 18.14.\\x*: Vuka wena\\x + 2.13.\\x*, mngane wami, omuhle wami, a\\add si\\add*hambe wena\\x + 1.15.\\x*.\n"
+  "\\v 11 Ngoba khangela, ubusika sebudlulile, izulu seliphelile, lihambile.\n"
+  "\\v 12 Amaluba ayabonakala emhlabeni, isikhathi sokuhlabelela \\add se\\add*sifikile, lelizwi lejuba liyezwakala elizweni lakithi\\x + Hlab. 74.19. Jer. 8.7.\\x*.\n"
+  "\\v 13 Isihlahla somkhiwa sivuthisa imikhiwa yaso eluhlaza, lamavini \\add ale\\add*mpoko\\x + 2.15. 7.12.\\x* aletha iphunga elimnandi\\x + Tshu. 7.1.\\x*. Vuka wena, mngane wami, omuhle wami wena, \\add si\\add*hambe\\x + 2.10.\\x*.\n"
+  "\\p\n"
+  "\\v 14 Juba lami\\x + 5.2. 6.9. 1.15. Mat. 10.16.\\x*, \\add elis\\add*engoxweni yedwala\\x + Jer. 48.28.\\x*\\x + Jer. 49.16. Obad. 3.\\x*, ekusithekeni kweliwa\\x + Hez. 38.20.\\x*, ngitshengisa ubuso bakho, ngizwise ilizwi lakho\\x + 8.13.\\x*, ngoba ilizwi lakho limnandi, lobuso bakho buyabukeka\\x + 1.5.\\x*.\n"
+  "\\v 15 Sibambeleni amakhanka, amakhanka amancinyane, ona izivini\\x + Hez. 13.4. Luka 13.32.\\x*, ngoba izivini zethu \\add zile\\add*zimpoko\\x + 2.15. 7.12.\\x*.\n"
+  "\\v 16 Isithandwa sami ngesami, lami ngingowaso\\x + 6.3. 7.10.\\x*, eselusa phakathi kwemiduze\\x + 2.1. 4.5. 6.3.\\x*.\n"
+  "\\v 17 Kuze kube semadabukakusa, lamathunzi abaleke\\x + 4.6.\\x*, phenduka, sithandwa sami, ube njengomziki kumbe njengethole lendluzele\\x + 8.14. 2.9.\\x* phezu kwezintaba zeBhetheri\\x + 2 Sam. 2.29.\\x*.\n";
+
+  // Sync Bible To Git 1
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    
+    request.database_bibles()->storeChapter (bible, 2, 1, song_of_solomon_2_data);
+    filter_git_sync_bible_to_git (&request, bible, repository);
+
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    // Todo evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+  }
+
+}
+/* Todo
+
+ 
+ 
+ 
+ public function testSyncBibleToGit2 ()
+ {
+ $database_bibles = Database_Bibles::getInstance();
+ 
+ $repository = $this->repository;
+ 
+ $this->assertFileExists ("$repository/.git");
+ $this->assertFileExists ("$repository/Psalms/0/data");
+ $this->assertFileExists ("$repository/Psalms/11/data");
+ $this->assertFileExists ("$repository/Song of Solomon/2/data");
+ $this->assertFileNotExists ("$repository/Exodus/1/data");
+ 
+ request->database_bibles()->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
+ filter_git_sync_bible_to_git ($this->bible, $this->repository);
+ 
+ $this->assertFileExists ("$repository/.git");
+ $this->assertFileNotExists ("$repository/Psalms/0/data");
+ $this->assertFileExists ("$repository/Psalms/1/data");
+ 
+ $data = filter_url_file_get_contents ("$repository/Psalms/1/data");
+ $this->assertEquals ($this->song_of_solomon_2_data, $data);
+ }
+ 
+ 
+ public function testSyncBibleToGit3 ()
+ {
+ $database_bibles = Database_Bibles::getInstance();
+ 
+ $repository = $this->repository;
+ 
+ $this->assertFileExists ("$repository/.git");
+ $this->assertFileExists ("$repository/Psalms/0/data");
+ $this->assertFileExists ("$repository/Psalms/11/data");
+ $this->assertFileExists ("$repository/Song of Solomon/2/data");
+ $this->assertFileNotExists ("$repository/Exodus/1/data");
+ 
+ request->database_bibles()->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
+ request->database_bibles()->storeChapter ($this->bible, 22, 2, $this->psalms_11_data);
+ request->database_bibles()->storeChapter ($this->bible, 19, 11, $this->song_of_solomon_2_data);
+ filter_git_sync_bible_to_git ($this->bible, $this->repository);
+ 
+ $this->assertFileExists ("$repository/.git");
+ $this->assertFileExists ("$repository/Song of Solomon/2/data");
+ $this->assertFileExists ("$repository/Psalms/1/data");
+ $this->assertFileExists ("$repository/Song of Solomon/2/data");
+ $this->assertFileExists ("$repository/Psalms/11/data");
+ 
+ $data = filter_url_file_get_contents ("$repository/Song of Solomon/2/data");
+ $this->assertEquals ($this->psalms_11_data, $data);
+ 
+ $data = filter_url_file_get_contents ("$repository/Psalms/11/data");
+ $this->assertEquals ($this->song_of_solomon_2_data, $data);
+ 
+ $data = filter_url_file_get_contents ("$repository/Psalms/1/data");
+ $this->assertEquals ($this->song_of_solomon_2_data, $data);
+ }
+ 
+ 
+ public function testGetPullPassage ()
+ {
+ $output = Filter_Git::getPullPassage ("From https://github.com/joe/test");
+ $this->assertNull ($output);
+ $output = Filter_Git::getPullPassage ("   443579b..90dcb57  master     -> origin/master");
+ $this->assertNull ($output);
+ $output = Filter_Git::getPullPassage ("Updating 443579b..90dcb57");
+ $this->assertNull ($output);
+ $output = Filter_Git::getPullPassage ("Fast-forward");
+ $this->assertNull ($output);
+ $output = Filter_Git::getPullPassage (" Genesis/3/data | 2 +-");
+ $this->assertEquals (array ('book' => "1", 'chapter' => "3"), $output);
+ $output = Filter_Git::getPullPassage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
+ $this->assertNull ($output);
+ $output = Filter_Git::getPullPassage (" delete mode 100644 Leviticus/1/data");
+ $this->assertNull ($output);
+ $output = Filter_Git::getPullPassage (" Revelation/3/data | 2 +-");
+ $this->assertEquals (array ('book' => "66", 'chapter' => "3"), $output);
+ }
+ 
+ 
+ public function testSyncGitToBibleAddChapters ()
+ {
+ $database_bibles = Database_Bibles::getInstance();
+ // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+ // The Bible has been created, but has no data yet.
+ // Run the filter, and check that all three chapters are now the database.
+ Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ $books = request->database_bibles()->getBooks ($this->bible);
+ $this->assertEquals ($books, array (19, 22));
+ // Check that the data matches.
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
+ $this->assertEquals ($this->psalms_0_data, $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
+ $this->assertEquals ($this->psalms_11_data, $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
+ $this->assertEquals ($this->song_of_solomon_2_data, $usfm);
+ }
+ 
+ 
+ public function testSyncGitToBibleDeleteChapters ()
+ {
+ // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+ // Put that into the database.
+ $database_bibles = Database_Bibles::getInstance();
+ Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ // Remove one book and one chapter from the git repository,
+ // and check that after running the filter, the database is updated accordingly.
+ filter_url_rmdir ($this->repository . "/Song of Solomon");
+ filter_url_rmdir ($this->repository . "/Psalms/0");
+ Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ $books = request->database_bibles()->getBooks ($this->bible);
+ $this->assertEquals ($books, array (19));
+ // Check that the data matches.
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
+ $this->assertEquals ("", $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
+ $this->assertEquals ($this->psalms_11_data, $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
+ $this->assertEquals ("", $usfm);
+ }
+ 
+ 
+ public function testSyncGitToBibleUpdateChapters ()
+ {
+ // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+ // Put that into the database.
+ $database_bibles = Database_Bibles::getInstance();
+ Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ // Update some chapters in the git repository,
+ // and check that after running the filter, the database is updated accordingly.
+ filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
+ filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
+ Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
+ $this->assertEquals ($this->psalms_0_data, $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
+ $this->assertEquals ("\\c 11", $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
+ $this->assertEquals ("\\c 2", $usfm);
+ }
+ 
+ 
+ public function testSyncGitChapterToBibleAddChapters ()
+ {
+ $database_bibles = Database_Bibles::getInstance();
+ 
+ // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+ // The Bible has been created, but has no data yet.
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
+ $this->assertEmpty ($usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
+ $this->assertEmpty ($usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
+ $this->assertEmpty ($usfm);
+ 
+ // Run the filter for each chapter, and check that all three chapters make it into the database.
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 0);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
+ $this->assertEquals ($this->psalms_0_data, $usfm);
+ 
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
+ $this->assertEquals ($this->psalms_11_data, $usfm);
+ 
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
+ $this->assertEquals ($this->song_of_solomon_2_data, $usfm);
+ 
+ // Check the two books are there.
+ $books = request->database_bibles()->getBooks ($this->bible);
+ $this->assertEquals ($books, array (19, 22));
+ }
+ 
+ 
+ public function testSyncGitChapterToBibleDeleteChapters ()
+ {
+ $database_bibles = Database_Bibles::getInstance ();
+ 
+ // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+ // Put that into the database.
+ Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ 
+ // Remove one book and one chapter from the git repository,
+ filter_url_rmdir ($this->repository . "/Song of Solomon");
+ filter_url_rmdir ($this->repository . "/Psalms/0");
+ 
+ // Run updates on the three chapters.
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 0);
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
+ 
+ // There should still be two books, although one book would have no chapters.
+ $books = request->database_bibles()->getBooks ($this->bible);
+ $this->assertEquals ($books, array (19, 22));
+ 
+ // Check that the chapter data matches.
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
+ $this->assertEmpty ($usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
+ $this->assertEquals ($this->psalms_11_data, $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
+ $this->assertEmpty ($usfm);
+ }
+ 
+ 
+ public function testSyncGitChapterToBibleUpdateChapters ()
+ {
+ // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+ // Put that into the Bible database.
+ $database_bibles = Database_Bibles::getInstance ();
+ Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ 
+ // Update some chapters in the git repository.
+ filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
+ filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
+ 
+ // Run updates on the two chapters.
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);
+ Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 22, 2);
+ 
+ // Check that the database is updated accordingly.
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
+ $this->assertEquals ($this->psalms_0_data, $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
+ $this->assertEquals ("\\c 11", $usfm);
+ $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
+ $this->assertEquals ("\\c 2", $usfm);
+ }
+ 
+ 
+ public function testExplodePath ()
+ {
+ $bookChapter = Filter_Git::explodePath ("Genesis/2/data");
+ $this->assertEquals (array ('book' => 1, 'chapter' => 2), $bookChapter);
+ $bookChapter = Filter_Git::explodePath ("Genesi/2/data");
+ $this->assertEquals (NULL, $bookChapter);
+ $bookChapter = Filter_Git::explodePath ("Exodus/3/data");
+ $this->assertEquals (array ('book' => 2, 'chapter' => 3), $bookChapter);
+ $bookChapter = Filter_Git::explodePath ("dictionary");
+ $this->assertEquals (NULL, $bookChapter);
+ }
+ 
+
+*/

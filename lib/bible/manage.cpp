@@ -123,7 +123,7 @@ string bible_manage (void * webserver_request)
       // User needs write access for delete operation.
       if (access_bible_write (request, bible)) {
         Bible_Logic::deleteBible (bible);
-        string gitdirectory = filter_git_git_directory (bible);
+        string gitdirectory = filter_git_directory (bible);
         if (filter_url_file_exists (gitdirectory)) {
           filter_url_rmdir (gitdirectory);
         }

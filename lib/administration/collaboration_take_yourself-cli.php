@@ -32,14 +32,14 @@ $database_notes = Database_Notes::getInstance ();
 
 
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
-$directory = filter_git_git_directory ($object);
+$directory = filter_git_directory ($object);
 $consultationsfolder = $database_notes->mainFolder ();
 
 
 // Our data goes into the local repository.
 echo gettext("Step 1/2:") . " ";
 echo gettext("Exporting the local Bible data to the local repository") . "\n";
-Filter_Git::syncBible2Git ($object, $directory, true);
+filter_git_sync_bible_to_git ($object, $directory, true);
 
 
 // Directory for use by the shell.

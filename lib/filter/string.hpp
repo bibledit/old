@@ -38,4 +38,12 @@ vector <T> array_intersect (vector <T> a, vector <T> b)
 }
 
 
+// A C++ equivalent for PHP's in_array function.
+template <typename T>
+bool filter_string_in_array (const T & needle, const vector <T> & haystack)
+{
+  return (find (haystack.begin(), haystack.end(), needle) != haystack.end());
+}
+
+
 #endif
