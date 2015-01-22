@@ -75,7 +75,7 @@ bool filter_git_sync_bible_to_git (void *webserver_request, string bible, string
     if (filter_url_is_dir (path)) {
       int book = Database_Books::getIdFromEnglish (bookname);
       if (book) {
-        if (filter_string_in_array (book, books)) {
+        if (in_array (book, books)) {
           // Book exists in the database: Check the chapters.
           vector <int> chapters = request->database_bibles()->getChapters (bible, book);
           vector <string> chapterfiles = filter_url_scandir (filter_url_create_path (repository, bookname));
@@ -86,7 +86,7 @@ bool filter_git_sync_bible_to_git (void *webserver_request, string bible, string
                 int chapter = convert_to_int (chaptername);
                 string filename = filter_url_create_path (repository, bookname, chaptername, "data");
                 if (filter_url_file_exists (filename)) {
-                  if (!filter_string_in_array (chapter, chapters)) {
+                  if (!in_array (chapter, chapters)) {
                     // Chapter does not exist in the database.
                     filter_url_rmdir (filter_url_create_path (repository, bookname, chaptername));
                   }

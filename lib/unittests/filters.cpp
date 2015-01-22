@@ -264,9 +264,9 @@ void test_filters_test2 ()
   {
     vector <string> haystack = {"needle"};
     string needle = "needle";
-    evaluate (__LINE__, __func__, true, filter_string_in_array (needle, haystack));
-    evaluate (__LINE__, __func__, true, filter_string_in_array (1, {1, 2, 3}));
-    evaluate (__LINE__, __func__, false, filter_string_in_array (1, {2, 3}));
+    evaluate (__LINE__, __func__, true, in_array (needle, haystack));
+    evaluate (__LINE__, __func__, true, in_array (1, {1, 2, 3}));
+    evaluate (__LINE__, __func__, false, in_array (1, {2, 3}));
     
   }
 }

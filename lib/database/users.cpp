@@ -465,7 +465,7 @@ bool Database_Users::hasAccess2Bible (string user, string bible)
   int level = getUserLevel (user);
   if (level >= Filter_Roles::admin ()) return true;
   vector <string> bibles = getBibles4User (user);
-  return filter_string_in_array (bible, bibles);
+  return in_array (bible, bibles);
 }
 
 
