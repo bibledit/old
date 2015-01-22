@@ -3204,70 +3204,65 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
   }
 
+  // Sync Bible To Git 2
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    
+    request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
+    filter_git_sync_bible_to_git (&request, bible, repository);
+
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
+    
+    string data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
+    evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+  }
+  
+  // Sync Bible To Git 3
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+
+    request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
+    request.database_bibles()->storeChapter (bible, 22, 2, psalms_11_data);
+    request.database_bibles()->storeChapter (bible, 19, 11, song_of_solomon_2_data);
+    filter_git_sync_bible_to_git (&request, bible, repository);
+    
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+
+    string data = filter_url_file_get_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"));
+    evaluate (__LINE__, __func__, psalms_11_data, data);
+    
+    data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "11", "data"));
+    evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    
+    data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
+    evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+  }
+  
+  
+  
 }
 /* Todo
 
  
  
- 
- public function testSyncBibleToGit2 ()
- {
- $database_bibles = Database_Bibles::getInstance();
- 
- $repository = $this->repository;
- 
- $this->assertFileExists ("$repository/.git");
- $this->assertFileExists ("$repository/Psalms/0/data");
- $this->assertFileExists ("$repository/Psalms/11/data");
- $this->assertFileExists ("$repository/Song of Solomon/2/data");
- $this->assertFileNotExists ("$repository/Exodus/1/data");
- 
- request->database_bibles()->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
- filter_git_sync_bible_to_git ($this->bible, $this->repository);
- 
- $this->assertFileExists ("$repository/.git");
- $this->assertFileNotExists ("$repository/Psalms/0/data");
- $this->assertFileExists ("$repository/Psalms/1/data");
- 
- $data = filter_url_file_get_contents ("$repository/Psalms/1/data");
- $this->assertEquals ($this->song_of_solomon_2_data, $data);
- }
- 
- 
- public function testSyncBibleToGit3 ()
- {
- $database_bibles = Database_Bibles::getInstance();
- 
- $repository = $this->repository;
- 
- $this->assertFileExists ("$repository/.git");
- $this->assertFileExists ("$repository/Psalms/0/data");
- $this->assertFileExists ("$repository/Psalms/11/data");
- $this->assertFileExists ("$repository/Song of Solomon/2/data");
- $this->assertFileNotExists ("$repository/Exodus/1/data");
- 
- request->database_bibles()->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
- request->database_bibles()->storeChapter ($this->bible, 22, 2, $this->psalms_11_data);
- request->database_bibles()->storeChapter ($this->bible, 19, 11, $this->song_of_solomon_2_data);
- filter_git_sync_bible_to_git ($this->bible, $this->repository);
- 
- $this->assertFileExists ("$repository/.git");
- $this->assertFileExists ("$repository/Song of Solomon/2/data");
- $this->assertFileExists ("$repository/Psalms/1/data");
- $this->assertFileExists ("$repository/Song of Solomon/2/data");
- $this->assertFileExists ("$repository/Psalms/11/data");
- 
- $data = filter_url_file_get_contents ("$repository/Song of Solomon/2/data");
- $this->assertEquals ($this->psalms_11_data, $data);
- 
- $data = filter_url_file_get_contents ("$repository/Psalms/11/data");
- $this->assertEquals ($this->song_of_solomon_2_data, $data);
- 
- $data = filter_url_file_get_contents ("$repository/Psalms/1/data");
- $this->assertEquals ($this->song_of_solomon_2_data, $data);
- }
- 
- 
+ C++Port: This may not be needed with llibgit2.
  public function testGetPullPassage ()
  {
  $output = Filter_Git::getPullPassage ("From https://github.com/joe/test");
