@@ -53,7 +53,7 @@ $filter_text_bible = new Filter_Text ($bible);
 $filter_text_bible->esword_text = new Esword_Text ($bible);
 $books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
-  $chapters = request->database_bibles()->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters (bible, book);
   for ($chapters as $chapter) {
     $chapter_data = request->database_bibles()->getChapter (bible, book, chapter);
     $chapter_data = filter_string_trim ($chapter_data);

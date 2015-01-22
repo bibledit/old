@@ -40,7 +40,7 @@ $currentLocation = filter_passage_to_integer ($currentPassage);
 
 $books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
-  $chapters = request->database_bibles()->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters (bible, book);
   for ($chapters as $chapter) {
     if ($chapter == 0) continue;
     $passage = array ($book, $chapter, 1);

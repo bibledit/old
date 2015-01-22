@@ -60,7 +60,7 @@ $result = array ();
 
 $books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
-  $chapters = request->database_bibles()->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters (bible, book);
   for ($chapters as $chapter) {
     $usfm = request->database_bibles()->getChapter (bible, book, chapter);
     $verses = usfm_get_verse_numbers ($usfm);

@@ -60,7 +60,7 @@ $bibles = $database_bibleactions->getBibles ();
 for ($bibles as $bible) {
   $books = $database_bibleactions->getBooks ($bible);
   for ($books as $book) {
-    $chapters = $database_bibleactions->getChapters ($bible, $book);
+    $chapters = $database_bibleactions->getChapters (bible, book);
     for ($chapters as $chapter) {
 
       $bookname = Database_Books::getEnglishFromId ($book);

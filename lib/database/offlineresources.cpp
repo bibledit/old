@@ -54,7 +54,7 @@ void Database_OfflineResources::erase (string name)
 void Database_OfflineResources::store (string name, int book, int chapter, int verse, string html)
 {
   string folder = resourceFolder (name);
-  if (!filter_url_file_exists (folder)) filter_url_mkdir (folder);
+  if (!file_exists (folder)) filter_url_mkdir (folder);
 
   string file = databaseFile (name, book);
 
@@ -62,7 +62,7 @@ void Database_OfflineResources::store (string name, int book, int chapter, int v
 
   sqlite3 *db = NULL;
 
-  if (!filter_url_file_exists (file)) {
+  if (!file_exists (file)) {
     db = connect (file);
     string sql = ""
                  "CREATE TABLE IF NOT EXISTS offlineresources ("
@@ -107,7 +107,7 @@ void Database_OfflineResources::healthy (string file)
 bool Database_OfflineResources::exists (string name, int book, int chapter, int verse)
 {
   string file = databaseFile (name, book);
-  if (filter_url_file_exists (file)) {
+  if (file_exists (file)) {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT html FROM offlineresources WHERE chapter =");
     sql.add (chapter);
@@ -148,7 +148,7 @@ string Database_OfflineResources::get (string name, int book, int chapter, int v
 {
   string html = "";
   string file = databaseFile (name, book);
-  if (filter_url_file_exists (file)) {
+  if (file_exists (file)) {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT html FROM offlineresources WHERE chapter =");
     sql.add (chapter);
@@ -183,7 +183,7 @@ int Database_OfflineResources::size (const string & name, string file)
 {
   file = filter_url_create_path (resourceFolder (name), file);
   int size = 0;
-  if (filter_url_file_exists (file)) size = filter_url_filesize (file);
+  if (file_exists (file)) size = filter_url_filesize (file);
   return size;
 }
 
@@ -202,7 +202,7 @@ void Database_OfflineResources::unlink (const string & name, string file)
 void Database_OfflineResources::save (const string & name, string file, const string & contents)
 {
   string path = resourceFolder (name);
-  if (!filter_url_file_exists (path)) filter_url_mkdir (path);
+  if (!file_exists (path)) filter_url_mkdir (path);
   file = filter_url_create_path (path, file);
   filter_url_file_put_contents (file, contents);
 }

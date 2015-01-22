@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Returns the path to the zipfile it created.
 string filter_archive_zip_file (string filename)
 {
-  if (!filter_url_file_exists (filename)) return "";
+  if (!file_exists (filename)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
   string logfile = filter_url_tempfile () + ".log";
   string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
@@ -48,7 +48,7 @@ string filter_archive_zip_file (string filename)
 // Returns the path to the compressed archive it created.
 string filter_archive_zip_folder (string folder)
 {
-  if (!filter_url_file_exists (folder)) return "";
+  if (!file_exists (folder)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
   string logfile = filter_url_tempfile () + ".log";
   folder = filter_url_escape_shell_argument (folder);

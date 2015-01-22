@@ -64,7 +64,7 @@ for ($users as $user) {
     for ($books as $book) {
 
       // Go through the chapters in that book.
-      $chapters = $database_modifications->getUserChapters ($user, $bible, $book);
+      $chapters = $database_modifications->getUserChapters ($user, bible, book);
       for ($chapters as $chapter) {
 
         // Get the sets of identifiers for that chapter, and set some variables.
@@ -231,7 +231,7 @@ for ($bibles as $bible) {
   // Generate the online change notifications.
   $books = $database_modifications->getTeamDiffBooks ($bible);
   for ($books as $book) {
-    $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
+    $chapters = $database_modifications->getTeamDiffChapters (bible, book);
     for ($chapters as $chapter) {
       Database_Logs::log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::translator ());
       $old_chapter_usfm = $database_modifications->getTeamDiff (bible, book, chapter);

@@ -9,7 +9,7 @@ class Filter_Git
   // It tries to interpret it to find a passage that would have updated.
   // If a valid book and chapter are found, it returns them.
   // Else it returns NULL.
-  public static function getPullPassage ($line)
+  public static function getPullPassage ($line) C++Port may not be needed for libgit2.
   {
     // Sample lines:
     // "From https://github.com/joe/test"
@@ -33,92 +33,6 @@ class Filter_Git
     return array ('book' => $book, 'chapter' => $chapter);
   }
   
-
-  // This filter takes the Bible data as it is stored in the $git folder,
-  // and puts this information into Bibledit's database.
-  // The $git is a git repository, and may contain other data as well.
-  // The filter focuses on reading the data in the git repository and the database,
-  // and only writes to the database if necessary,
-  // This speeds up the filter.
-  public static function syncGit2Bible ($git, $bible)
-  {
-    $success = true;
-
-    $database_bibles = Database_Bibles::getInstance ();
-    $database_books = Database_Books::getInstance ();
-    $database_logs = Database_Logs::getInstance ();
-
-    // Stage one:
-    // Read the chapters in the git repository,
-    // and check that they occur in the database.
-    // If any does not occur, add the chapter to the database.
-    // This stage does not check the contents of the chapters.
-    $books = request->database_bibles()->getBooks ($bible);
-    for (new DirectoryIterator ($git) as $fileInfo) {
-      if ($fileInfo->isDot ()) continue;
-      if ($fileInfo->isDir ()) {
-        $bookname = $fileInfo->getFilename ();
-        $book = Database_Books::getIdFromEnglish ($bookname);
-        if ($book) {
-          // Check the chapters.
-          $chapters = request->database_bibles()->getChapters ($bible, $book);
-          for (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
-            if ($fileInfo2->isDot ()) continue;
-            if ($fileInfo2->isDir ()) {
-              $chapter = $fileInfo2->getFilename ();
-              if (is_numeric ($chapter)) {
-                $filename = "$git/$bookname/$chapter/data";
-                if (file_exists ($filename)) {
-                  if (!in_array ($chapter, $chapters)) {
-                    // Chapter does not exist in the database: Add it.
-                    $usfm = filter_url_file_get_contents ($filename);
-                    Bible_Logic::storeChapter (bible, book, chapter, $usfm);
-                    Database_Logs::log (gettext("A translator added chapter") . " $bible $bookname $chapter");
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-
-    // Stage two:
-    // Read through the chapters in the database,
-    // and check that they occur in the git folder.
-    // If necessary, remove a chapter from the database.
-    // If a chapter matches, check that the contents of the data in the git
-    // folder and the contents in the database match.
-    // If necessary, update the data in the database.
-    $books = request->database_bibles()->getBooks ($bible);
-    for ($books as $book) {
-      $bookname = Database_Books::getEnglishFromId ($book);
-      $bookdir = "$git/$bookname";
-      if (file_exists ($bookdir)) {
-        $chapters = request->database_bibles()->getChapters ($bible, $book);
-        for ($chapters as $chapter) {
-          $chapterdir = "$bookdir/$chapter";
-          if (file_exists ($chapterdir)) {
-            $datafile = "$chapterdir/data";
-            $contents = filter_url_file_get_contents ($datafile);
-            $usfm = request->database_bibles()->getChapter (bible, book, chapter);
-            if ($contents != $usfm) {
-              Bible_Logic::storeChapter (bible, book, chapter, $contents);
-              Database_Logs::log (gettext("A translator updated chapter") . " $bible $bookname $chapter");
-           }
-          } else {
-            Bible_Logic::deleteChapter (bible, book, chapter);
-            Database_Logs::log (gettext("A translator deleted chapter") . " $bible $bookname $chapter");
-         }
-        }
-      } else {
-        Bible_Logic::deleteBook ($bible, $book);
-        Database_Logs::log (gettext("A translator deleted book") . " $bible $bookname");
-      }
-    }
-  }
-
 
   // This filter takes one chapter of the Bible data as it is stored in the $git folder,
   // and puts this information into Bibledit's database.

@@ -97,7 +97,7 @@ void Database_UsfmResources::storeChapter (const string& name, int book, int cha
 {
   string file = chapterFile (name, book, chapter);
   string folder = filter_url_dirname (file);
-  if (!filter_url_file_exists (folder)) filter_url_mkdir (folder);
+  if (!file_exists (folder)) filter_url_mkdir (folder);
   filter_url_file_put_contents (file, usfm);
 }
 

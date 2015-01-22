@@ -53,7 +53,7 @@ string Flate::render (string html)
 {
   string rendering;
   try {
-    if (filter_url_file_exists (html)) {
+    if (file_exists (html)) {
       rendering = filter_url_file_get_contents (html);
       process_zones (rendering);
       process_variables (rendering);

@@ -66,7 +66,7 @@ file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
 unset ($basicUsfm);
 
 
-$chapters = request->database_bibles()->getChapters ($bible, $book);
+$chapters = request->database_bibles()->getChapters (bible, book);
 for ($chapters as $chapter) {
 
 

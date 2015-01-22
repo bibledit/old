@@ -629,7 +629,7 @@ $bibles = request->database_bibles()->getBibles ();
 for ($bibles as $bible) {
   $books = request->database_bibles()->getBooks ($bible);
   for ($books as $book) {
-    $chapters = request->database_bibles()->getChapters ($bible, $book);
+    $chapters = request->database_bibles()->getChapters (bible, book);
     for ($chapters as $chapter) {
       // Remove chapters, other than 0, that are rather short, as these chapters likely contain no text, but USFM markers only.
       if ($chapter == 0) continue;
@@ -640,9 +640,9 @@ for ($bibles as $bible) {
       }
     }
     // If a book contains chapter 0 only, remove that entire book.
-    $chapters = request->database_bibles()->getChapters ($bible, $book);
+    $chapters = request->database_bibles()->getChapters (bible, book);
     if ($chapters == array (0)) {
-      Bible_Logic::deleteBook ($bible, $book);
+      Bible_Logic::deleteBook (bible, book);
     }
   }
   // If a Bible contains no books, remove that Bible.

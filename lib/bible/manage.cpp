@@ -124,7 +124,7 @@ string bible_manage (void * webserver_request)
       if (access_bible_write (request, bible)) {
         Bible_Logic::deleteBible (bible);
         string gitdirectory = filter_git_directory (bible);
-        if (filter_url_file_exists (gitdirectory)) {
+        if (file_exists (gitdirectory)) {
           filter_url_rmdir (gitdirectory);
         }
       } else {

@@ -35,7 +35,7 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
 {
   string value;
   string filename = file (bible, key);
-  if (filter_url_file_exists (filename)) value = filter_url_file_get_contents (filename);
+  if (file_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   return value;
 }
@@ -45,7 +45,7 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
 {
   string filename = file (bible, key);
   string dirname = filter_url_dirname (filename);
-  if (!filter_url_file_exists (dirname)) filter_url_mkdir (dirname);
+  if (!file_exists (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
 }
 

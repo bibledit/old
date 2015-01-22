@@ -57,7 +57,7 @@ $filter_text = new Filter_Text ($bible);
 
 $books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
-  $chapters = request->database_bibles()->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters (bible, book);
   for ($chapters as $chapter) {
     $usfm = request->database_bibles()->getChapter (bible, book, chapter);
     $usfm = filter_string_trim ($usfm);

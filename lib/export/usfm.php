@@ -67,7 +67,7 @@ for ($books as $book) {
 
 
   // Collect the USFM for all chapters in this book.
-  $chapters = request->database_bibles()->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters (bible, book);
   for ($chapters as $chapter) {
     // Get the USFM code for the current chapter.
     $chapter_data = request->database_bibles()->getChapter (bible, book, chapter);

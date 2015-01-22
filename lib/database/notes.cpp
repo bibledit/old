@@ -453,7 +453,7 @@ string Database_Notes::expiryFile (int identifier)
 // This checks whether the note identifier exists.
 bool Database_Notes::identifierExists (int identifier)
 {
-  return filter_url_file_exists (noteFolder (identifier));
+  return file_exists (noteFolder (identifier));
 }
 
 
@@ -1537,7 +1537,7 @@ void Database_Notes::unmarkForDeletion (int identifier)
 bool Database_Notes::isMarkedForDeletion (int identifier)
 {
   string file = expiryFile (identifier);
-  return filter_url_file_exists (file);
+  return file_exists (file);
 }
 
 
@@ -1736,7 +1736,7 @@ void Database_Notes::set_availability (bool available)
 // Returns whether the notes databases are available, as a boolean.
 bool Database_Notes::available ()
 {
-  return !filter_url_file_exists (availability_flag ());
+  return !file_exists (availability_flag ());
 }
 
 

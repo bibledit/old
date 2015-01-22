@@ -98,7 +98,7 @@ if ($action == "total") {
 
 
   // The server responds with the checksum of the whole book.
-  $server_checksum = Checksum_Logic::getBook ($bible, $book);
+  $server_checksum = Checksum_Logic::getBook (bible, book);
   echo $server_checksum;
 
 
@@ -106,7 +106,7 @@ if ($action == "total") {
 
 
   // The server responds with the list of books in the Bible book.
-  $server_chapters = request->database_bibles()->getChapters ($bible, $book);
+  $server_chapters = request->database_bibles()->getChapters (bible, book);
   $server_chapters = implode ("\n", $server_chapters);
   $checksum = Checksum_Logic::get ($server_chapters);
   echo "$checksum\n$server_chapters";

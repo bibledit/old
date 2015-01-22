@@ -45,7 +45,7 @@ string Database_Config_General::getValue (const char * key, const char * default
 {
   string value;
   string filename = file (key);
-  if (filter_url_file_exists (filename)) value = filter_url_file_get_contents (filename);
+  if (file_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   return value;
 }

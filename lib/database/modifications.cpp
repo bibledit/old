@@ -94,7 +94,7 @@ string Database_Modifications::teamFile (const string& bible, int book, int chap
 bool Database_Modifications::teamDiffExists (const string& bible, int book, int chapter)
 {
   string file = teamFile (bible, book, chapter);
-  return filter_url_file_exists (file);
+  return file_exists (file);
 }
 
 
@@ -314,7 +314,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
 {
   // This entry is saved in a deep folder structure with the new ID in it.
   string folder = userNewIDFolder (username, bible, book, chapter, newID);
-  if (!filter_url_file_exists (folder)) filter_url_mkdir (folder);
+  if (!file_exists (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   string timeFile = userTimeFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (timeFile, convert_to_string (filter_string_date_seconds_since_epoch ()));

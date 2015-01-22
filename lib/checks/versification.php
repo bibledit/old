@@ -22,7 +22,7 @@ class Checks_Versification
 {
 
 
-  public static function books ($bible, $books)
+  public static function books (bible, books)
   {
     $database_versifications = Database_Versifications::getInstance ();
     $standardBooks = $database_versifications->getBooks ("English");
@@ -30,10 +30,10 @@ class Checks_Versification
     $extraBooks = filter_string_array_diff ($books, $standardBooks);
     $database_check = Database_Check::getInstance ();
     for ($absentBooks as $book) {
-      $database_check->recordOutput ($bible, $book, 1, 1, "This book is absent from the Bible");
+      $database_check->recordOutput (bible, book, 1, 1, "This book is absent from the Bible");
     }
     for ($extraBooks as $book) {
-      $database_check->recordOutput ($bible, $book, 1, 1, "This book is extra in the Bible");
+      $database_check->recordOutput (bible, book, 1, 1, "This book is extra in the Bible");
     }
   }
 

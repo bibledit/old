@@ -75,7 +75,7 @@ $filter_text->html_text_standard->customClass = Filter_CustomCSS::getClass ($bib
 
 
 // Load one book.
-$chapters = request->database_bibles()->getChapters ($bible, $book);
+$chapters = request->database_bibles()->getChapters (bible, book);
 for ($chapters as $chapter) {
   $usfm = request->database_bibles()->getChapter (bible, book, chapter);
   $usfm = filter_string_trim ($usfm);

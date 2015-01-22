@@ -75,7 +75,7 @@ vector <string> Database_Bibles::getBibles ()
 int Database_Bibles::getID (string name)
 {
   string file = filter_url_create_path (bibleFolder (name), "id");
-  if (filter_url_file_exists (file)) {
+  if (file_exists (file)) {
     return convert_to_int (filter_url_file_get_contents (file));
   }
   return 0;
@@ -133,7 +133,7 @@ void Database_Bibles::deleteBible (string name)
 void Database_Bibles::storeChapter (string name, int book, int chapter_number, string chapter_text)
 {
   string folder = chapterFolder (name, book, chapter_number);
-  if (!filter_url_file_exists (folder)) filter_url_mkdir (folder);
+  if (!file_exists (folder)) filter_url_mkdir (folder);
 
   // Increase the chapter identifier, and store the chapter data.
   int id = getChapterId (name, book, chapter_number);

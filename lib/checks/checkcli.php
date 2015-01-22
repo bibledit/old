@@ -76,13 +76,13 @@ $checking_patterns = array_filter ($checking_patterns, 'strlen');
 
 
 $books = request->database_bibles()->getBooks ($bible);
-if ($check_versification) Checks_Versification::books ($bible, $books);
+if ($check_versification) Checks_Versification::books (bible, books);
 
 
 for ($books as $book) {
 
 
-  $chapters = request->database_bibles()->getChapters ($bible, $book);
+  $chapters = request->database_bibles()->getChapters (bible, book);
   if ($check_versification) Checks_Versification::chapters (bible, book, chapters);
 
 

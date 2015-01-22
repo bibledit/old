@@ -986,7 +986,7 @@ void test_filters_test9 ()
   {
     // Test zip compression of one file.
     string zipfile = filter_archive_zip_file (file1);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_exists (zipfile));
     evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
     filter_url_unlink (zipfile);
     // Test compressing a non-existing file.
@@ -1001,7 +1001,7 @@ void test_filters_test9 ()
     filter_url_file_put_contents (folder + "/file2", data2);
     // Test zip compression.
     string zipfile = filter_archive_zip_folder (folder);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_exists (zipfile));
     evaluate (__LINE__, __func__, 396, filter_url_filesize (zipfile));
     // Clean up the mess.
     filter_url_unlink (zipfile);
@@ -1012,7 +1012,7 @@ void test_filters_test9 ()
     string zipfile = filter_archive_zip_file (file1);
     // Test unzip.
     string folder = filter_archive_unzip (zipfile);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_exists (zipfile));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     filter_url_unlink (zipfile);
     filter_url_rmdir (folder);
@@ -1024,7 +1024,7 @@ void test_filters_test9 ()
   {
     // Test gzipped tarball compression.
     string tarball = filter_archive_tar_gzip_file (file1);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
+    evaluate (__LINE__, __func__, true, file_exists (tarball));
     int size = filter_url_filesize (tarball);
     if ((size < 155) || (size > 180)) evaluate (__LINE__, __func__, "between 155 and 180", convert_to_string (size));
     // Clean up tarball from /tmp folder.
@@ -1041,7 +1041,7 @@ void test_filters_test9 ()
     filter_url_file_put_contents (folder + "/file2", data2);
     // Test compression.
     string tarball = filter_archive_tar_gzip_folder (folder);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
+    evaluate (__LINE__, __func__, true, file_exists (tarball));
     int size = filter_url_filesize (tarball);
     if ((size < 235) || (size > 260)) evaluate (__LINE__, __func__, "between 235 and 260", convert_to_string (size));
     // Clean up.
@@ -1056,10 +1056,10 @@ void test_filters_test9 ()
     string tarball = filter_archive_tar_gzip_file (file1);
     // Test decompression.
     string folder = filter_archive_untar_gzip (tarball);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (folder));
+    evaluate (__LINE__, __func__, true, file_exists (folder));
     filter_url_rmdir (folder);
     folder = filter_archive_uncompress (tarball);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (folder));
+    evaluate (__LINE__, __func__, true, file_exists (folder));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     filter_url_rmdir (folder);
     filter_url_unlink (tarball);
@@ -3188,38 +3188,38 @@ void test_filter_git ()
   // Sync Bible To Git 1
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
     
     request.database_bibles()->storeChapter (bible, 2, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
 
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
   }
 
   // Sync Bible To Git 2
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
 
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
     
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
 
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
     
     string data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
@@ -3229,21 +3229,21 @@ void test_filter_git ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
 
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     request.database_bibles()->storeChapter (bible, 22, 2, psalms_11_data);
     request.database_bibles()->storeChapter (bible, 19, 11, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
 
     string data = filter_url_file_get_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"));
     evaluate (__LINE__, __func__, psalms_11_data, data);
@@ -3254,6 +3254,75 @@ void test_filter_git ()
     data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
   }
+  
+  // Sync Git To Bible Add Chapters
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // The Bible has been created, but has no data yet.
+    // Run the filter, and check that all three chapters are now in the database.
+    filter_git_sync_git_to_bible (&request, repository, bible);
+    vector <int> books = request.database_bibles()->getBooks (bible);
+    evaluate (__LINE__, __func__, {19, 22}, books);
+    // Check that the data matches.
+    string usfm = request.database_bibles()->getChapter (bible, 19, 0);
+    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    usfm = request.database_bibles()->getChapter (bible, 19, 11);
+    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    usfm = request.database_bibles()->getChapter (bible, 22, 2);
+    evaluate (__LINE__, __func__, song_of_solomon_2_data, usfm);
+    // Remove the journal entries the test created.
+    refresh_sandbox (false);
+  }
+  
+  // Sync Git To Bible Delete Chapters
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // Put that into the database.
+    filter_git_sync_git_to_bible (&request, repository, bible);
+    // Remove one book and one chapter from the git repository,
+    // and check that after running the filter, the database is updated accordingly.
+    filter_url_rmdir (repository + "/Song of Solomon");
+    filter_url_rmdir (repository + "/Psalms/0");
+    filter_git_sync_git_to_bible (&request, repository, bible);
+    vector <int> books = request.database_bibles()->getBooks (bible);
+    evaluate (__LINE__, __func__, {19}, books);
+    // Check that the data matches.
+    string usfm = request.database_bibles()->getChapter (bible, 19, 0);
+    evaluate (__LINE__, __func__, "", usfm);
+    usfm = request.database_bibles()->getChapter (bible, 19, 11);
+    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    usfm = request.database_bibles()->getChapter (bible, 22, 2);
+    evaluate (__LINE__, __func__, "", usfm);
+    // Remove the journal entries the test created.
+    refresh_sandbox (false);
+  }
+  
+  // Sync Git To Bible Update Chapters
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // Put that into the database.
+    filter_git_sync_git_to_bible (&request, repository, bible);
+    // Update some chapters in the git repository,
+    // and check that after running the filter, the database is updated accordingly.
+    filter_url_file_put_contents (repository + "/Psalms/11/data", "\\c 11");
+    filter_url_file_put_contents (repository + "/Song of Solomon/2/data", "\\c 2");
+    filter_git_sync_git_to_bible (&request, repository, bible);
+    string usfm = request.database_bibles()->getChapter (bible, 19, 0);
+    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    usfm = request.database_bibles()->getChapter (bible, 19, 11);
+    evaluate (__LINE__, __func__, "\\c 11", usfm);
+    usfm = request.database_bibles()->getChapter (bible, 22, 2);
+    evaluate (__LINE__, __func__, "\\c 2", usfm);
+    // Remove the journal entries the test created.
+    refresh_sandbox (false);
+  }
+  
+  
+  
+
   
   
   
@@ -3281,68 +3350,6 @@ void test_filter_git ()
  $this->assertNull ($output);
  $output = Filter_Git::getPullPassage (" Revelation/3/data | 2 +-");
  $this->assertEquals (array ('book' => "66", 'chapter' => "3"), $output);
- }
- 
- 
- public function testSyncGitToBibleAddChapters ()
- {
- $database_bibles = Database_Bibles::getInstance();
- // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
- // The Bible has been created, but has no data yet.
- // Run the filter, and check that all three chapters are now the database.
- Filter_Git::syncGit2Bible ($this->repository, $this->bible);
- $books = request->database_bibles()->getBooks ($this->bible);
- $this->assertEquals ($books, array (19, 22));
- // Check that the data matches.
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
- $this->assertEquals ($this->psalms_0_data, $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
- $this->assertEquals ($this->psalms_11_data, $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
- $this->assertEquals ($this->song_of_solomon_2_data, $usfm);
- }
- 
- 
- public function testSyncGitToBibleDeleteChapters ()
- {
- // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
- // Put that into the database.
- $database_bibles = Database_Bibles::getInstance();
- Filter_Git::syncGit2Bible ($this->repository, $this->bible);
- // Remove one book and one chapter from the git repository,
- // and check that after running the filter, the database is updated accordingly.
- filter_url_rmdir ($this->repository . "/Song of Solomon");
- filter_url_rmdir ($this->repository . "/Psalms/0");
- Filter_Git::syncGit2Bible ($this->repository, $this->bible);
- $books = request->database_bibles()->getBooks ($this->bible);
- $this->assertEquals ($books, array (19));
- // Check that the data matches.
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
- $this->assertEquals ("", $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
- $this->assertEquals ($this->psalms_11_data, $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
- $this->assertEquals ("", $usfm);
- }
- 
- 
- public function testSyncGitToBibleUpdateChapters ()
- {
- // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
- // Put that into the database.
- $database_bibles = Database_Bibles::getInstance();
- Filter_Git::syncGit2Bible ($this->repository, $this->bible);
- // Update some chapters in the git repository,
- // and check that after running the filter, the database is updated accordingly.
- filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
- filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
- Filter_Git::syncGit2Bible ($this->repository, $this->bible);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 0);
- $this->assertEquals ($this->psalms_0_data, $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 19, 11);
- $this->assertEquals ("\\c 11", $usfm);
- $usfm = request->database_bibles()->getChapter ($this->bible, 22, 2);
- $this->assertEquals ("\\c 2", $usfm);
  }
  
  
@@ -3384,7 +3391,7 @@ void test_filter_git ()
  
  // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
  // Put that into the database.
- Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ filter_git_sync_git_to_bible ($this->repository, $this->bible);
  
  // Remove one book and one chapter from the git repository,
  filter_url_rmdir ($this->repository . "/Song of Solomon");
@@ -3414,7 +3421,7 @@ void test_filter_git ()
  // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
  // Put that into the Bible database.
  $database_bibles = Database_Bibles::getInstance ();
- Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+ filter_git_sync_git_to_bible ($this->repository, $this->bible);
  
  // Update some chapters in the git repository.
  filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");

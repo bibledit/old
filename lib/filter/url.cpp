@@ -133,7 +133,7 @@ string filter_url_get_extension (string url)
 
 
 // Returns true if the file in "url" exists.
-bool filter_url_file_exists (string url)
+bool file_exists (string url)
 {
   struct stat buffer;   
   return (stat (url.c_str(), &buffer) == 0);
@@ -218,7 +218,7 @@ void filter_url_set_write_permission (string path)
 // C++ rough equivalent for PHP'sfilter_url_file_get_contents.
 string filter_url_file_get_contents (string filename)
 {
-  if (!filter_url_file_exists (filename)) return "";
+  if (!file_exists (filename)) return "";
   try {
     ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
     streamoff filesize = ifs.tellg();
@@ -329,10 +329,10 @@ string filter_url_escape_shell_argument (string argument)
 // to ensure that the $path does not yet exist in the filesystem.
 string filter_url_unique_path (string path)
 {
-  if (!filter_url_file_exists (path)) return path;
+  if (!file_exists (path)) return path;
   for (unsigned int i = 1; i < 100; i++) {
     string uniquepath = path + "." + convert_to_string (i);
-    if (!filter_url_file_exists (uniquepath)) return uniquepath;
+    if (!file_exists (uniquepath)) return uniquepath;
   }
   return path + "." + convert_to_string (filter_string_rand (100, 1000));
 }
