@@ -3201,7 +3201,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
     evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
     evaluate (__LINE__, __func__, false, filter_url_file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    // Todo evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
   }
 
 }

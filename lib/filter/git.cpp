@@ -59,9 +59,8 @@ bool filter_git_init (string directory)
 // The $git is a git repository, and may contain other data as well.
 // The filter focuses on reading the data in the git repository, and only writes to it if necessary,
 // This speeds up the filter.
-bool filter_git_sync_bible_to_git (void *webserver_request, string bible, string repository) // Todo
+void filter_git_sync_bible_to_git (void *webserver_request, string bible, string repository) // Todo
 {
-  bool success = true;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   // First stage.
@@ -102,28 +101,23 @@ bool filter_git_sync_bible_to_git (void *webserver_request, string bible, string
     }
   }
   
-  /* Todo
   // Second stage.
   // Read the books / chapters from the database,
   // and check if they occur in the repository, and the data matches.
   // If necessary, save the chapter to the repository.
-  $books = request->database_bibles()->getBooks ($bible);
-  for ($books as $book) {
-    $bookname = Database_Books::getEnglishFromId ($book);
-    if ($progress) echo "$bookname ";
-    $bookdir = "$git/$bookname";
-    if (!file_exists ($bookdir)) mkdir ($bookdir);
-    $chapters = request->database_bibles()->getChapters ($bible, $book);
-    for ($chapters as $chapter) {
-      $chapterdir = "$bookdir/$chapter";
-      if (!file_exists ($chapterdir)) mkdir ($chapterdir);
-      $datafile = "$chapterdir/data";
-      @$contents = filter_url_file_get_contents ($datafile);
-      $usfm = request->database_bibles()->getChapter (bible, book, chapter);
-      if ($contents != $usfm)filter_url_file_put_contents ($datafile, $usfm);
+  books = request->database_bibles()->getBooks (bible);
+  for (auto & book : books) {
+    string bookname = Database_Books::getEnglishFromId (book);
+    string bookdir = filter_url_create_path (repository, bookname);
+    if (!filter_url_file_exists (bookdir)) filter_url_mkdir (bookdir);
+    vector <int> chapters = request->database_bibles()->getChapters (bible, book);
+    for (auto & chapter : chapters) {
+      string chapterdir = filter_url_create_path (bookdir, to_string (chapter));;
+      if (!filter_url_file_exists (chapterdir)) filter_url_mkdir (chapterdir);
+      string datafile = filter_url_create_path (chapterdir, "data");
+      string contents = filter_url_file_get_contents (datafile);
+      string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+      if (contents != usfm) filter_url_file_put_contents (datafile, usfm);
     }
   }
-  if ($progress) echo "\n";
-  */
-  return success;
 }

@@ -26,7 +26,7 @@
 
 string filter_git_directory (string object);
 bool filter_git_init (string directory);
-bool filter_git_sync_bible_to_git (void *webserver_request, string bible, string repository);
+void filter_git_sync_bible_to_git (void *webserver_request, string bible, string repository);
 
 
 #endif
