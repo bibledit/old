@@ -489,6 +489,7 @@ bibledit_rdwrt_SOURCES = \
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 
+AM_CPPFLAGS = -DBIBLEDIT_LOCALEDIR=\"${BIBLEDIT_LOCALEDIR}\"
 AM_CXXFLAGS = -Wall -g -std=c++11
 AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(GOBJECT_CFLAGS)

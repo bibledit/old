@@ -215,6 +215,19 @@ AC_SUBST(LIBSOUP_LIBS)
 
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
 
+#-------------------------------------------------------------------------------
+# Internationalization
+#-------------------------------------------------------------------------------
+IT_PROG_INTLTOOL([0.35.0])
+
+GETTEXT_PACKAGE=bibledit-gtk
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
+                   [The domain to use with gettext])
+AM_GLIB_GNU_GETTEXT
+
+BIBLEDIT_LOCALEDIR=[${datadir}/locale]
+AC_SUBST(BIBLEDIT_LOCALEDIR)
 
 # This code is kept to learn from.
 # AC_CHECK_HEADER(aspell.h, [AC_DEFINE(HAVE_ASPELL_H,1, 

@@ -58,6 +58,11 @@ VCS *vcs;
 
 int main(int argc, char *argv[])
 {
+  // Internationalization: initialize gettext
+  bindtextdomain(GETTEXT_PACKAGE, BIBLEDIT_LOCALEDIR);
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  textdomain(GETTEXT_PACKAGE);
+
   // Initialize g threads.
   // g_thread_init has been deprecated since version 2.32 and should not be used in newly-written code. 
   // This function is no longer necessary. 
@@ -143,7 +148,8 @@ int main(int argc, char *argv[])
   if (argc > 2 && strcmp(argv[1], "--xembed") == 0) {
     xembed = strtoul(argv[2], &argv[2], 0);
     if (*argv[2] != 0) {
-      fprintf(stderr, "Bad xembed value: %s\n", argv[2]);
+      /// Translators: please leave the '%s' as is.
+      fprintf(stderr, _("Bad xembed value: %s\n"), argv[2]);
       return 0;
     }
   }
