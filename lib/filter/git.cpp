@@ -35,22 +35,27 @@ string filter_git_directory (string object)
 }
 
 
-void filter_git_check_error (int result)
+string filter_git_check_error (int result)
 {
+  string msg;
   if (result != 0) {
     const git_error * error = giterr_last ();
+    msg = error->message;
     Database_Logs::log (error->message);
   }
+  return msg;
 }
 
 
 // Runs the equivalent of "git init".
 bool filter_git_init (string directory)
 {
+  git_threads_init ();
   git_repository *repo = NULL;
   int result = git_repository_init (&repo, directory.c_str(), false);
   filter_git_check_error (result);
   git_repository_free (repo);
+  git_threads_shutdown ();
   return (result == 0);
 }
 
@@ -235,3 +240,86 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 }
 
 
+int cred_acquire_cb (git_cred **out, const char * url, const char * username_from_url, unsigned int allowed_types, void *payload)
+{
+  if (url) {};
+  if (username_from_url) {};
+  if (allowed_types) {};
+  if (payload) {};
+  
+  char username[128] = {0};
+  char password[128] = {0};
+  
+  //printf("Username: ");
+  //scanf("%s", username);
+  
+  //printf("Password: ");
+  //scanf("%s", password);
+  
+  return git_cred_userpass_plaintext_new (out, username, password);
+}
+
+
+// Returns true if the git repository at "url" is online.
+bool filter_git_remote_read (string url, string & error) // Todo
+{
+  int result = 0;
+  git_threads_init ();
+  
+  // Before running the actual test create an instance of a local repository.
+  git_repository * repo = NULL;
+  string repository_path = filter_url_tempfile ();
+  filter_url_mkdir (repository_path);
+  filter_git_init (repository_path);
+  result = git_repository_open (&repo, repository_path.c_str());
+  error = filter_git_check_error (result);
+  
+  // Create an instance of a remote from the URL.
+  // The transport to use is detected from the URL
+  git_remote * remote = NULL;
+  if (result == 0) {
+    result = git_remote_create (&remote, repo, "test", url.c_str ());
+    error = filter_git_check_error (result);
+  }
+
+  // Callbacks.
+  git_remote_callbacks callbacks = GIT_REMOTE_CALLBACKS_INIT;
+  if (result == 0) {
+    callbacks.credentials = cred_acquire_cb;
+    git_remote_set_callbacks(remote, &callbacks);
+  }
+  
+  // When connecting, the underlying code needs to know wether to push or fetch.
+  if (result == 0) {
+    result = git_remote_connect (remote, GIT_DIRECTION_FETCH);
+    error = filter_git_check_error (result);
+  }
+
+  // Read from the repository.
+  const git_remote_head **refs;
+  size_t refs_len;
+  if (result == 0) {
+    result = git_remote_ls (&refs, &refs_len, remote);
+    error = filter_git_check_error (result);
+  }
+  
+  // Put output into the journal.
+  if (result == 0) {
+    for (size_t i = 0; i < refs_len; i++) {
+      char oid [GIT_OID_HEXSZ + 1] = {0};
+      git_oid_fmt (oid, &refs[i]->oid);
+      string msg = "Reading remote repository: ";
+      msg.append (oid);
+      msg.append (" ");
+      msg.append (refs[i]->name);
+      Database_Logs::log (msg);
+    }
+  }
+  
+  // Free resources.
+  if (remote) git_remote_free (remote);
+  if (repo) git_repository_free (repo);
+  git_threads_shutdown ();
+
+  return (result == 0);
+}

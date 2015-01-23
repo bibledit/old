@@ -1,0 +1,14 @@
+<h1>gettext("Test read access")</h1>
+<p>gettext("Bible"): ##object##</p>
+<p>gettext("Repository URL"): ##url##</p>
+<br>
+<p class="error">##error_message##</p>
+<p class="success">##success_message##</p>
+<p class="error">##error##</p>
+<br>
+<p>gettext("If you'd like to retry, after updating the URL, press button Submit.")</p>
+<form action="?object=##object##" name="url" method="post">
+  <p><input type="text" name="urlvalue" value="##url##" class="fullwidth" /></p>
+  <p><input type="submit" name="url" value=gettext("Submit") /></p>
+</form>
+<h2><a href="clone?object=##object##">gettext("Next page")</a></h2>

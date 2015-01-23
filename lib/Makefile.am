@@ -119,6 +119,7 @@ libbibledit_a_SOURCES = \
 	collaboration/open.cpp \
 	collaboration/password.cpp \
 	collaboration/secure.cpp \
+	collaboration/read.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \
