@@ -114,6 +114,7 @@ libbibledit_a_SOURCES = \
 	manage/users.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
+	administration/collaboration.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \

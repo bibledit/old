@@ -3419,9 +3419,7 @@ void test_filter_git ()
   }
   
 }
-/* Todo
-
- 
+/* 
  
  C++Port: This may not be needed with libgit2.
  public function testGetPullPassage ()

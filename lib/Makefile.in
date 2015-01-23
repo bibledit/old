@@ -169,40 +169,42 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
 	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
 	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
-	administration/timezone.$(OBJEXT) search/rebibles.$(OBJEXT) \
-	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
-	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
-	fonts/index.$(OBJEXT) versification/index.$(OBJEXT) \
-	versification/system.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	editverse/id.$(OBJEXT) editverse/load.$(OBJEXT) \
-	editverse/save.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/id.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/export.$(OBJEXT) \
-	editor/import.$(OBJEXT) edit/edit.$(OBJEXT) \
-	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
-	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
-	edit/styles.$(OBJEXT) search/search.$(OBJEXT) \
-	search/index.$(OBJEXT) search/select.$(OBJEXT) \
-	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
-	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
-	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
-	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
-	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
-	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
-	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
-	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) demo/logic.$(OBJEXT)
+	administration/timezone.$(OBJEXT) \
+	administration/collaboration.$(OBJEXT) \
+	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
+	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
+	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
+	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
+	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
+	fonts/logic.$(OBJEXT) fonts/index.$(OBJEXT) \
+	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editverse/id.$(OBJEXT) \
+	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/id.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/export.$(OBJEXT) editor/import.$(OBJEXT) \
+	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
+	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
+	search/search.$(OBJEXT) search/index.$(OBJEXT) \
+	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
+	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
+	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
+	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
+	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
+	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
+	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
+	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
+	workbench/logic.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	demo/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -534,6 +536,7 @@ libbibledit_a_SOURCES = \
 	manage/users.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
+	administration/collaboration.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \
@@ -1105,6 +1108,9 @@ administration/language.$(OBJEXT): administration/$(am__dirstamp) \
 	administration/$(DEPDIR)/$(am__dirstamp)
 administration/timezone.$(OBJEXT): administration/$(am__dirstamp) \
 	administration/$(DEPDIR)/$(am__dirstamp)
+administration/collaboration.$(OBJEXT):  \
+	administration/$(am__dirstamp) \
+	administration/$(DEPDIR)/$(am__dirstamp)
 search/$(am__dirstamp):
 	@$(MKDIR_P) search
 	@: > search/$(am__dirstamp)
@@ -1495,6 +1501,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/bible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/user.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/collaboration.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/language.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/timezone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/builder.Po@am__quote@

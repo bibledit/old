@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
+#include <administration/collaboration.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
@@ -145,6 +146,9 @@ void bootstrap_index (Webserver_Request * request)
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
 
+  // Tools menu.
+  else if ((url == sendreceive_index_url ()) && sendreceive_index_acl (request)) request->reply = sendreceive_index (request);
+  
   // Settings menu.
   else if ((url == manage_users_url ()) && manage_users_acl (request)) request->reply = manage_users (request);
   else if ((url == manage_indexing_url ()) && manage_indexing_acl (request)) request->reply = manage_indexing (request);
@@ -158,9 +162,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == versification_index_url ()) && versification_index_acl (request)) request->reply = versification_index (request);
   else if ((url == versification_system_url ()) && versification_system_acl (request)) request->reply = versification_system (request);
   else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
-  
-  // Tools menu.
-  else if ((url == sendreceive_index_url ()) && sendreceive_index_acl (request)) request->reply = sendreceive_index (request);
+  else if ((url == administration_collaboration_url ()) && administration_collaboration_acl (request)) request->reply = administration_collaboration (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);

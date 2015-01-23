@@ -61,7 +61,7 @@ bool filter_git_init (string directory)
 // The $git is a git repository, and may contain other data as well.
 // The filter focuses on reading the data in the git repository, and only writes to it if necessary,
 // This speeds up the filter.
-void filter_git_sync_bible_to_git (void * webserver_request, string bible, string repository) // Todo
+void filter_git_sync_bible_to_git (void * webserver_request, string bible, string repository)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
