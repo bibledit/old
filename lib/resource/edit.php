@@ -29,7 +29,7 @@ $database_resources = Database_Resources::getInstance ();
 
 
 @$name = request->query['name'];
-$view->view->name = $name;
+$view.set_variable ("name = $name;
 
 
 if (isset(request->post['code'])) {
@@ -43,13 +43,13 @@ if (isset(request->post['code'])) {
   $book = request->post ['book'];
   $chapter = request->post ['chapter'];
   $verse = request->post ['verse'];
-  $view->view->posted = true;
+  $view.set_variable ("posted = true;
 }
 
 
 $file = $database_resources->getFile ($name);
 $code = filter_url_file_get_contents ($file);
-$view->view->code = $code;
+$view.set_variable ("code = $code;
 
 
 $database_books = Database_Books::getInstance ();
@@ -58,28 +58,28 @@ $booknames = array ();
 for ($books as $id) {
   $booknames [] = Database_Books::getEnglishFromId ($id);
 }
-$view->view->books = $books;
-$view->view->booknames = $booknames;
+$view.set_variable ("books = $books;
+$view.set_variable ("booknames = $booknames;
 
 
 if (!isset ($book)) $book = 1;
 if (!isset ($chapter)) $chapter = 1;
 if (!isset ($verse)) $verse = 1;
-$view->view->book = $book;
-$view->view->chapter = $chapter;
-$view->view->verse = $verse;
+$view.set_variable ("book = $book;
+$view.set_variable ("chapter = $chapter;
+$view.set_variable ("verse = $verse;
 
 
 $output = Resource_Logic::getExternal ($name, book, chapter, verse, false);
-$view->view->output = $output;
+$view.set_variable ("output = $output;
 
 
 $file = $database_resources->getFile ($name);
 $file = basename ($file);
-$view->view->file = $file;
+$view.set_variable ("file = $file;
 $metafile = $database_resources->getMetaFile ($name);
 $metafile = basename ($metafile);
-$view->view->metafile = $metafile;
+$view.set_variable ("metafile = $metafile;
 
 
 $view->render ("edit");

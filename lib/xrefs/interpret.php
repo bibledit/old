@@ -98,17 +98,17 @@ $view = new Assets_View (__FILE__);
 
 
 $unknown_abbreviations = array_unique ($unknown_abbreviations);
-$view->view->remaining = count ($unknown_abbreviations) - 1;
+$view.set_variable ("remaining = count ($unknown_abbreviations) - 1;
 
 
-$view->view->abbreviation = $unknown_abbreviations [0];
+$view.set_variable ("abbreviation = $unknown_abbreviations [0];
 
 
 $books = Database_Books::getIDs ();
 for ($books as &$book) {
   $book = Database_Books::getEnglishFromId ($book);
 }
-$view->view->books = $books;
+$view.set_variable ("books = $books;
 
 
 $view->render ("interpret");

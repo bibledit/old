@@ -35,7 +35,7 @@ $view = new Assets_View (__FILE__);
 
 
 $severities = $database_notes->getPossibleSeverities ();
-$view->view->severities = $severities;
+$view.set_variable ("severities = $severities;
 
 
 $view->render ("severity-n");

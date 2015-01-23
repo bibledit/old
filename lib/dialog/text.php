@@ -34,22 +34,22 @@ class Dialog_Text
   public function __construct ($header, $text, $parameter)
   {
     $this->view = new Assets_View (__FILE__);
-    $this->view->view->caller = $_SERVER["PHP_SELF"];
-    $this->view->view->header = $header;
-    $this->view->view->parameter = $parameter;
-    $this->view->view->text = $text;
+    $this->view.set_variable ("caller = $_SERVER["PHP_SELF"];
+    $this->view.set_variable ("header = $header;
+    $this->view.set_variable ("parameter = $parameter;
+    $this->view.set_variable ("text = $text;
   }
 
 
   public function info_top ($text)
   {
-    $this->view->view->info_top = $text;
+    $this->view.set_variable ("info_top = $text;
   }
 
 
   public function info_bottom ($text)
   {
-    $this->view->view->info_bottom = $text;
+    $this->view.set_variable ("info_bottom = $text;
   }
 
 

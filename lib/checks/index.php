@@ -36,14 +36,14 @@ $view = new Assets_View (__FILE__);
 @$approve = request->query['approve'];
 if (isset ($approve)) {
   $database_check->approve ($approve);
-  $view->view->success = gettext("The entry was approved and suppressed.");
+  $view.set_variable ("success = gettext("The entry was approved and suppressed.");
 }
 
 
 @$delete = request->query['delete'];
 if (isset ($delete)) {
   $database_check->delete ($delete);
-  $view->view->success = gettext("The entry was deleted for just now.");
+  $view.set_variable ("success = gettext("The entry was deleted for just now.");
 }
 
 
@@ -83,10 +83,10 @@ for ($hits as $hit) {
 }
 
 
-$view->view->ids = $ids;
-$view->view->bibles = $bibles;
-$view->view->links = $links;
-$view->view->information = $information;
+$view.set_variable ("ids = $ids;
+$view.set_variable ("bibles = $bibles;
+$view.set_variable ("links = $links;
+$view.set_variable ("information = $information;
 
 
 $view->render ("index");

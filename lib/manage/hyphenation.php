@@ -84,11 +84,11 @@ if (request->query.count ('run'])) {
 }
 
 
-$view->view->firstset = $firstset;
-$view->view->secondset = $secondset;
-$view->view->bible = $bible;
-$view->view->success = $success;
-$view->view->error = $error;
+$view.set_variable ("firstset = $firstset;
+$view.set_variable ("secondset = $secondset;
+$view.set_variable ("bible = $bible;
+$view.set_variable ("success = $success;
+$view.set_variable ("error = $error;
 $view->render ("hyphenation");
 
 

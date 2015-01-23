@@ -16,45 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-
 require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::admin ());
-
 Assets_Page::header (gettext("Collaboration"));
-
 $view = new Assets_View (__FILE__);
-
 $object = request->query ['object'];
-$view->view->object = $object;
-
+$view.set_variable ("object = $object;
 $database_config_bible = Database_Config_Bible::getInstance();
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
-$view->view->url = $url;
-
-$ready = false;
-$database_shell = Database_Shell::getInstance ();
-$output = "";
-$contents = array ();
-switch ($database_shell->logic ("collaboration_take_yourself", 0, $output)) {
-  case 1:
-    $workingdirectory = dirname (__FILE__);
-    $object = escapeshellarg ($object);
-    shell_exec ("cd $workingdirectory; php collaboration_take_yourself-cli $object > $output 2>&1 &");
-    break;
-  case 0:
-    $contents = file ($output, FILE_IGNORE_NEW_LINES);
-    break;
-  case -1:
-    $contents = file ($output, FILE_IGNORE_NEW_LINES);
-    $ready = true;
-    break;
-}
-$view->view->contents = $contents;
-
-// Display the page(s).
-$view->render ("collaboration_take_yourself1");
-if ($ready) $view->render ("collaboration_take_yourself2");
-
+$directory = filter_git_directory ($object);
+$view->render ("collaboration_repo_data");
 Assets_Page::footer ();
-
 ?>

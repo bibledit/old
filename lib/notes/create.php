@@ -87,17 +87,17 @@ if (isset ($fromchange)) {
   $contents += "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
   $contents += "<p>" . gettext("New text:") . "</p>";
   $contents += $database_modifications->getNotificationNewText ($fromchange);
-  $view->view->summary = $summary;
-  $view->view->contents = $contents;
+  $view.set_variable ("summary = $summary;
+  $view.set_variable ("contents = $contents;
 }
 
 
-$view->view->bible = $bible;
-$view->view->book = $book;
-$view->view->chapter = $chapter;
-$view->view->verse = $verse;
+$view.set_variable ("bible = $bible;
+$view.set_variable ("book = $book;
+$view.set_variable ("chapter = $chapter;
+$view.set_variable ("verse = $verse;
 $passage = filter_passage_display (book, chapter, verse);
-$view->view->passage = $passage;
+$view.set_variable ("passage = $passage;
 
 
 $view->render ("create");

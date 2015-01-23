@@ -33,47 +33,47 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 if (isset(request->post['capitals'])) {
   Database_Config_Bible::setSentenceStructureCapitals ($bible, request->post['capitals']);
-  $view->view->success = gettext("The capitals were stored");
+  $view.set_variable ("success = gettext("The capitals were stored");
 }
 
 
 if (isset(request->post['smallletters'])) {
   Database_Config_Bible::setSentenceStructureSmallLetters ($bible, request->post['smallletters']);
-  $view->view->success = gettext("The small letters were stored");
+  $view.set_variable ("success = gettext("The small letters were stored");
 }
 
 
 if (isset(request->post['endpunctuationmarks'])) {
   Database_Config_Bible::setSentenceStructureEndPunctuation ($bible, request->post['endpunctuationmarks']);
-  $view->view->success = gettext("The punctuation marks at the ends of sentences were stored");
+  $view.set_variable ("success = gettext("The punctuation marks at the ends of sentences were stored");
 }
 
 
 if (isset(request->post['middlepunctuationmarks'])) {
   Database_Config_Bible::setSentenceStructureMiddlePunctuation ($bible, request->post['middlepunctuationmarks']);
-  $view->view->success = gettext("The punctuation marks within the sentences were stored");
+  $view.set_variable ("success = gettext("The punctuation marks within the sentences were stored");
 }
 
 
 if (isset(request->post['disregards'])) {
   Database_Config_Bible::setSentenceStructureDisregards ($bible, request->post['disregards']);
-  $view->view->success = gettext("The characters that should be disregarded within the sentences were stored");
+  $view.set_variable ("success = gettext("The characters that should be disregarded within the sentences were stored");
 }
 
 
 if (isset(request->post['names'])) {
   Database_Config_Bible::setSentenceStructureNames ($bible, request->post['names']);
-  $view->view->success = gettext("The names that may occur after mid-sentence punctuation were stored");
+  $view.set_variable ("success = gettext("The names that may occur after mid-sentence punctuation were stored");
 }
 
 
-$view->view->bible = $bible;
-$view->view->capitals = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureCapitals ($bible));
-$view->view->smallletters = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureSmallLetters ($bible));
-$view->view->endpunctuationmarks = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureEndPunctuation ($bible));
-$view->view->middlepunctuationmarks = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible));
-$view->view->disregards = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards ($bible));
-$view->view->names = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames ($bible));
+$view.set_variable ("bible = $bible;
+$view.set_variable ("capitals = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureCapitals ($bible));
+$view.set_variable ("smallletters = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureSmallLetters ($bible));
+$view.set_variable ("endpunctuationmarks = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureEndPunctuation ($bible));
+$view.set_variable ("middlepunctuationmarks = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible));
+$view.set_variable ("disregards = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards ($bible));
+$view.set_variable ("names = filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames ($bible));
 $view->render ("settingssentences");
 
 

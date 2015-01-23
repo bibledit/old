@@ -47,7 +47,7 @@ $assets_header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to.
@@ -62,7 +62,7 @@ for ($users as $offset => $user) {
   }
   if (!$access) unset ($users [$offset]);
 }
-$view->view->users = $users;
+$view.set_variable ("users = $users;
 
 
 $view->render ("assign-1");

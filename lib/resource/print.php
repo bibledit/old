@@ -270,19 +270,19 @@ $view = new Assets_View (__FILE__);
 
 
 $resources = request->database_config_user()->getPrintResources ();
-$view->view->resources = $resources;
+$view.set_variable ("resources = $resources;
 
 
 $passage = explode (".", request->database_config_user()->getPrintPassageFrom ());
-$view->view->from_book = Database_Books::getEnglishFromId ($passage [0]);
-$view->view->from_chapter = $passage [1];
-$view->view->from_verse = $passage [2];
+$view.set_variable ("from_book = Database_Books::getEnglishFromId ($passage [0]);
+$view.set_variable ("from_chapter = $passage [1];
+$view.set_variable ("from_verse = $passage [2];
 
 
 $passage = explode (".", request->database_config_user()->getPrintPassageTo ());
-$view->view->to_book = Database_Books::getEnglishFromId ($passage [0]);
-$view->view->to_chapter = $passage [1];
-$view->view->to_verse = $passage [2];
+$view.set_variable ("to_book = Database_Books::getEnglishFromId ($passage [0]);
+$view.set_variable ("to_chapter = $passage [1];
+$view.set_variable ("to_verse = $passage [2];
 
 
 $view->render ("print");

@@ -28,9 +28,9 @@ unlink ($notesfile);
 @$tmpfile = $_FILES['notes']['tmp_name'];
 $view = new Assets_View (__FILE__);
 if(move_uploaded_file($tmpfile, $notesfile)) {
-  $view->view->filename = $notesfile;
+  $view.set_variable ("filename = $notesfile;
   $notesfolder = Filter_Archive::uncompress ($notesfile, true);
-  $view->view->folder = $notesfolder;
+  $view.set_variable ("folder = $notesfolder;
   $view->render ("import2");
 } else {
   $view->render ("import2error");

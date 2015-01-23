@@ -85,12 +85,12 @@ if (!access_bible_write ($target)) {
 }
 if ($source == "") $source = "--";
 if ($target == "") $target = "--";
-$view->view->source = $source;
-$view->view->target = $target;
+$view.set_variable ("source = $source;
+$view.set_variable ("target = $target;
 
 
-$view->view->success = $success;
-$view->view->error = $error;
+$view.set_variable ("success = $success;
+$view.set_variable ("error = $error;
 
 
 $view->render ("index");

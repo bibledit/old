@@ -49,14 +49,14 @@ if (isset (request->post ['connect'])) {
   $response = config_logic_setup ($user, md5 ($pass));
 
   if ($response === false) {
-    $view->view->error = gettext("Could not connect to the server.");
+    $view.set_variable ("error = gettext("Could not connect to the server.");
   } else if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
     // Enable client mode upon a successful connection.
     enable_client ($user, $pass, $response);
     // Feedback.
-    $view->view->success = gettext("Connection is okay.");
+    $view.set_variable ("success = gettext("Connection is okay.");
   } else {
-    $view->view->error = $response . ": " . gettext("Check that your username and password exist on the server.");
+    $view.set_variable ("error = $response . ": " . gettext("Check that your username and password exist on the server.");
   }
 
 }
@@ -76,29 +76,29 @@ if (isset (request->query['demo'])) {
     // Enable client mode upon a successful connection.
     enable_client ($user, $pass, $response);
     // Feedback.
-    $view->view->success = gettext("Demo connection is okay.");
+    $view.set_variable ("success = gettext("Demo connection is okay.");
   } else {
-    $view->view->error = gettext("Could not connect to the demo server.");
+    $view.set_variable ("error = gettext("Could not connect to the demo server.");
   }
   
 }
 
 
-$view->view->client = config_logic_client_enabled ();
+$view.set_variable ("client = config_logic_client_enabled ();
 
 
 $address = Database_Config_General::getServerAddress ();
-$view->view->address = $address;
+$view.set_variable ("address = $address;
 
 
 $users = $database_users->getUsers ();
 for ($users as $user) {
   $level = $database_users->getUserLevel ($user);
-  $view->view->role = Filter_Roles::text ($level);
+  $view.set_variable ("role = Filter_Roles::text ($level);
 }
 
 
-$view->view->demo = demo_logic_client_demo_warning ();
+$view.set_variable ("demo = demo_logic_client_demo_warning ();
 
 
 Assets_Page::header (gettext("Client mode"));

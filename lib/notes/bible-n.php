@@ -24,7 +24,7 @@ $view = new Assets_View (__FILE__);
 $bibles = access_bible_bibles ();
 // Add general Bible.
 $bibles [] = Notes_Logic::generalBibleName ();
-$view->view->bibles = $bibles;
+$view.set_variable ("bibles = $bibles;
 $view->render ("bible-n");
 Assets_Page::footer ();
 ?>

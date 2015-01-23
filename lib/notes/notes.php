@@ -65,11 +65,11 @@ if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 
 
 $identifiers = $database_notes->selectNotes ($bibles, book, chapter, verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
-$view->view->identifiers = $identifiers;
+$view.set_variable ("identifiers = $identifiers;
 
 
 $count = count ($identifiers);
-$view->view->count = $count;
+$view.set_variable ("count = $count;
 
 
 $summaries = array ();
@@ -102,9 +102,9 @@ for ($identifiers as $identifier) {
   $contents[] = $content;
 
 }
-$view->view->summaries = $summaries;
-$view->view->versetexts = $verse_texts;
-$view->view->contents = $contents;
+$view.set_variable ("summaries = $summaries;
+$view.set_variable ("versetexts = $verse_texts;
+$view.set_variable ("contents = $contents;
 
 
 $view->render ("notes");

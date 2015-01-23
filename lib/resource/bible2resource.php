@@ -26,7 +26,7 @@ $view = new Assets_View (__FILE__);
 
 
 @$bible = request->query['bible'];
-$view->view->bible = $bible;
+$view.set_variable ("bible = $bible;
 
 
 $database_resources = Database_Resources::getInstance ();
@@ -35,11 +35,11 @@ $database_usfmresources = Database_UsfmResources::getInstance ();
 
 $usfmResources = $database_usfmresources->getResources ();
 if (in_array ($bible, $usfmResources)) {
-  $view->view->error = gettext("A USFM Resource with this name already exists");
+  $view.set_variable ("error = gettext("A USFM Resource with this name already exists");
 }
 $externalResources = $database_resources->getNames ();
 if (in_array ($bible, $externalResources)) {
-  $view->view->error = gettext("An external resource with this name already exists");
+  $view.set_variable ("error = gettext("An external resource with this name already exists");
 }
 
 

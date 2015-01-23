@@ -88,7 +88,7 @@ switch ($passage) {
 
 // Total item count.
 $count = $database_history->count ($author_filter, $myBibles, $book_filter, $chapter_filter, $verse_filter);
-$view->view->count = $count;
+$view.set_variable ("count = $count;
 
 
 // Displaying items from $start to $end.
@@ -98,8 +98,8 @@ if ($count == 0) {
   $start = -1;
   $end = 0;
 }
-$view->view->start = $start + 1;
-$view->view->end = $end;
+$view.set_variable ("start = $start + 1;
+$view.set_variable ("end = $end;
 
 
 // The various bits of the history from the database.
@@ -122,13 +122,13 @@ for ($data as $entry) {
   $modifications [] = $entry ['modification'];
   $newTexts [] = $entry ['newtext'];
 }
-$view->view->passageTexts = $passageTexts;
-$view->view->authors = $authors;
-$view->view->dates = $dates;
-$view->view->bibles = $bibles;
-$view->view->oldTexts = $oldTexts;
-$view->view->modifications = $modifications;
-$view->view->newTexts = $newTexts;
+$view.set_variable ("passageTexts = $passageTexts;
+$view.set_variable ("authors = $authors;
+$view.set_variable ("dates = $dates;
+$view.set_variable ("bibles = $bibles;
+$view.set_variable ("oldTexts = $oldTexts;
+$view.set_variable ("modifications = $modifications;
+$view.set_variable ("newTexts = $newTexts;
 
 
 // Data for going back and forward in the pager.
@@ -136,26 +136,26 @@ $back = $start;
 if ($back > 0) $back -= 50;
 if ($back < 0) $back = 0;
 $forward = $start + 50;
-$view->view->back = http_build_query (array_merge ($state, array ('start' => $back)));
-$view->view->forward = http_build_query (array_merge ($state, array ('start' => $forward)));
+$view.set_variable ("back = http_build_query (array_merge ($state, array ('start' => $back)));
+$view.set_variable ("forward = http_build_query (array_merge ($state, array ('start' => $forward)));
 
 
 // Data for the passage filter.
-$view->view->bible = http_build_query (array_merge ($state, array ('passage' => 0)));
-$view->view->book = http_build_query (array_merge ($state, array ('passage' => 1)));
-$view->view->chapter = http_build_query (array_merge ($state, array ('passage' => 2)));
-$view->view->verse = http_build_query (array_merge ($state, array ('passage' => 3)));
+$view.set_variable ("bible = http_build_query (array_merge ($state, array ('passage' => 0)));
+$view.set_variable ("book = http_build_query (array_merge ($state, array ('passage' => 1)));
+$view.set_variable ("chapter = http_build_query (array_merge ($state, array ('passage' => 2)));
+$view.set_variable ("verse = http_build_query (array_merge ($state, array ('passage' => 3)));
 
 
 // Data for the author filter.
 $author_names = $database_history->authors ($myBibles);
 array_unshift ($author_names, gettext("everybody"));
-$view->view->author_names = $author_names;
+$view.set_variable ("author_names = $author_names;
 $author_queries = array ();
 for ($author_names as $offset => $dummy) {
   $author_queries [] = http_build_query (array_merge ($state, array ('author' => $offset)));
 }
-$view->view->author_queries = $author_queries;
+$view.set_variable ("author_queries = $author_queries;
 
 
 $view->render ("history");

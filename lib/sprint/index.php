@@ -63,7 +63,7 @@ $view = new Assets_View (__FILE__);
 @$title = request->post ['add'];
 if (isset ($title)) {
   $database_sprint->storeTask ($bible, $year, $month, $title);
-  $view->view->success = gettext("New task added");
+  $view.set_variable ("success = gettext("New task added");
   // Focus the entry for adding tasks only in case a new task was added.
   $header->setBodyOnload ('document.addtask.add.focus();'); // Use html5 autofocus
 }
@@ -72,7 +72,7 @@ if (isset ($title)) {
 @$mail = request->query ['mail'];
 if (isset ($mail)) {
   Sprint_Logic::burndown ($bible, true);
-  $view->view->success = gettext("The information was mailed to the subscribers");
+  $view.set_variable ("success = gettext("The information was mailed to the subscribers");
   // Give the burndown logic time to update the sprint history,
   // so the page will display the updated burndown chart.
   sleep (2);
@@ -110,7 +110,7 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 if (isset ($moveback)) {
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
-  $view->view->success = gettext("The task was moved to the previous sprint");
+  $view.set_variable ("success = gettext("The task was moved to the previous sprint");
 }
 
 
@@ -118,7 +118,7 @@ if (isset ($moveback)) {
 if (isset ($moveforward)) {
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
-  $view->view->success = gettext("The task was moved to the next sprint");
+  $view.set_variable ("success = gettext("The task was moved to the next sprint");
 }
 
 
@@ -152,21 +152,21 @@ for ($tasks as &$id) {
 }
 
 
-$view->view->bible = $bible;
-$view->view->sprint = date ("F Y", mktime (0, 0, 0, $month, 1, $year));
-$view->view->tasks = $tasks;
-$view->view->titles = $titles;
-$view->view->percentages = $percentages;
+$view.set_variable ("bible = $bible;
+$view.set_variable ("sprint = date ("F Y", mktime (0, 0, 0, $month, 1, $year));
+$view.set_variable ("tasks = $tasks;
+$view.set_variable ("titles = $titles;
+$view.set_variable ("percentages = $percentages;
 //if (extension_loaded ("gd")) {
-//  $view->view->chart = base64_encode (Sprint_Logic::createGraphicalBurndownChart ($bible, $year, $month));
+//  $view.set_variable ("chart = base64_encode (Sprint_Logic::createGraphicalBurndownChart ($bible, $year, $month));
 //}
-$view->view->chart2 = Sprint_Logic::createTextBasedBurndownChart ($bible, $year, $month);
+$view.set_variable ("chart2 = Sprint_Logic::createTextBasedBurndownChart ($bible, $year, $month);
 
 
 $categorytext = Database_Config_Bible::getSprintTaskCompletionCategories ($bible);
-$view->view->categorytext = $categorytext;
+$view.set_variable ("categorytext = $categorytext;
 $categories = explode ("\n", $categorytext);
-$view->view->categories = $categories;
+$view.set_variable ("categories = $categories;
 
 
 $view->render ("index");

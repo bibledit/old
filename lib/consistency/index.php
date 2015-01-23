@@ -62,7 +62,7 @@ if (isset ($remove)) {
 $view = new Assets_View (__FILE__);
 
 
-$view->view->resources = request->database_config_user()->getConsistencyResources ();
+$view.set_variable ("resources = request->database_config_user()->getConsistencyResources ();
 
 
 $view->render ("index");

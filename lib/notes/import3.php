@@ -23,7 +23,7 @@ Assets_Page::header (gettext("Import"));
 $file = request->query ['file'];
 $folder = Filter_Archive::uncompress ($file, true);
 $view = new Assets_View (__FILE__);
-$view->view->folder = $folder;
+$view.set_variable ("folder = $folder;
 $view->render ("import3");
 Assets_Page::footer ();
 

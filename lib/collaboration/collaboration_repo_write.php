@@ -25,13 +25,13 @@ Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
 $object = request->query ['object'];
-$view->view->object = $object;
+$view.set_variable ("object = $object;
 
 $directory = filter_git_directory ($object);
 
 $database_config_bible = Database_Config_Bible::getInstance();
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
-$view->view->url = $url;
+$view.set_variable ("url = $url;
 
 $ready = false;
 $database_shell = Database_Shell::getInstance ();
@@ -52,7 +52,7 @@ switch ($database_shell->logic ("collaboration_repo_write", 0, $output)) {
     $ready = true;
     break;
 }
-$view->view->contents = $contents;
+$view.set_variable ("contents = $contents;
 
 $view->render ("collaboration_repo_write1");
 if ($ready) $view->render ("collaboration_repo_write2");

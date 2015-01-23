@@ -56,11 +56,11 @@ $assets_header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 $verses = filter_passage_display_multiline ($database_notes->getPassages ($id));
-$view->view->verses = $verses;
+$view.set_variable ("verses = $verses;
 
 
 $view->render ("verses");

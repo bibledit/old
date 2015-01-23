@@ -45,12 +45,12 @@ $assets_header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 $bibles = access_bible_bibles ();
 $bibles [] = Notes_Logic::generalBibleName ();
-$view->view->bibles = $bibles;
+$view.set_variable ("bibles = $bibles;
 
 
 $view->render ("bible-1");

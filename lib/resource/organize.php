@@ -56,13 +56,13 @@ $view = new Assets_View (__FILE__);
 
 
 $active_resources = request->database_config_user()->getActiveResources ();
-$view->view->actives = $active_resources;
+$view.set_variable ("actives = $active_resources;
 
 
 // The selectable resources are the available ones minus the active ones.
 $available_resources = Resource_Logic::getNames ();
 $selectable_resources = filter_string_array_diff ($available_resources, $active_resources);
-$view->view->selectables = $selectable_resources;
+$view.set_variable ("selectables = $selectable_resources;
 
 
 $view->render ("organize");

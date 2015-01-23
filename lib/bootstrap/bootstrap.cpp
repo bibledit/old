@@ -37,7 +37,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
-#include <administration/collaboration.h>
+#include <collaboration/index.h>
+#include <collaboration/flash.h>
+#include <collaboration/open.h>
+#include <collaboration/password.h>
+#include <collaboration/secure.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
@@ -162,7 +166,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == versification_index_url ()) && versification_index_acl (request)) request->reply = versification_index (request);
   else if ((url == versification_system_url ()) && versification_system_acl (request)) request->reply = versification_system (request);
   else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
-  else if ((url == administration_collaboration_url ()) && administration_collaboration_acl (request)) request->reply = administration_collaboration (request);
+  else if ((url == collaboration_index_url ()) && collaboration_index_acl (request)) request->reply = collaboration_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);
@@ -183,6 +187,10 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_strong_url ()) && search_strong_acl (request)) request->reply = search_strong (request);
   else if ((url == search_originals_url ()) && search_originals_acl (request)) request->reply = search_originals (request);
   else if ((url == workbench_settings_url ()) && workbench_settings_acl (request)) request->reply = workbench_settings (request);
+  else if ((url == collaboration_flash_url ()) && collaboration_flash_acl (request)) request->reply = collaboration_flash (request);
+  else if ((url == collaboration_open_url ()) && collaboration_open_acl (request)) request->reply = collaboration_open (request);
+  else if ((url == collaboration_password_url ()) && collaboration_password_acl (request)) request->reply = collaboration_password (request);
+  else if ((url == collaboration_secure_url ()) && collaboration_secure_acl (request)) request->reply = collaboration_secure (request);
 
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

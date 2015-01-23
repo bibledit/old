@@ -38,7 +38,7 @@ $view = new Assets_View (__FILE__);
 // the currently logged-in user has access to, and who have notes assigned.
 $bibles = access_bible_bibles ();
 $users = $database_notes->getAllAssignees ($bibles);
-$view->view->users = $users;
+$view.set_variable ("users = $users;
 
 
 $view->render ("unassign-n");

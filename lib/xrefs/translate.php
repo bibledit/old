@@ -75,10 +75,10 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->remaining = count ($unknown_abbreviations) - 1;
+$view.set_variable ("remaining = count ($unknown_abbreviations) - 1;
 
 
-$view->view->bookname = $unknown_abbreviations [0];
+$view.set_variable ("bookname = $unknown_abbreviations [0];
 
 
 $view->render ("translate");

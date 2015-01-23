@@ -17,7 +17,7 @@
  */
 
 
-#include <administration/collaboration.h>
+#include <collaboration/secure.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -32,19 +32,19 @@
 #include <dialog/list.h>
 
 
-string administration_collaboration_url ()
+string collaboration_secure_url ()
 {
-  return "administration/collaboration";
+  return "collaboration/secure";
 }
 
 
-bool administration_collaboration_acl (void * webserver_request)
+bool collaboration_secure_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
 }
 
 
-string administration_collaboration (void * webserver_request)
+string collaboration_secure (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -55,36 +55,18 @@ string administration_collaboration (void * webserver_request)
   
   
   string object = request->query ["object"];
-  if (request->query.count ("select")) {
-    string select = request->query["select"];
-    if (select == "") {
-      Dialog_List dialog_list = Dialog_List ("collaboration", gettext("Which Bible are you going to use?"), "", "");
-      dialog_list.add_query ("object", object);
-      vector <string> bibles = request->database_bibles()->getBibles();
-      for (auto & value : bibles) {
-        dialog_list.add_row (value, "select", value);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      object = select;
-    }
-  }
   view.set_variable ("object", object);
-  if (!object.empty ()) view.enable_zone ("objectactive");
-
   
-  if (request->query.count ("disable")) {
-    Database_Config_Bible::setRemoteRepositoryUrl (object, "");
-    string repository = filter_git_directory (object);
-    filter_url_rmdir (repository);
+  
+  if (request->post.count ("url")) {
+    string url = request->post["urlvalue"];
+    Database_Config_Bible::setRemoteRepositoryUrl (object, url);
   }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
-  if (!url.empty ()) view.enable_zone ("urlactive");
   
   
-  page += view.render ("administration", "collaboration");
+  page += view.render ("collaboration", "secure");
   page += Assets_Page::footer ();
   return page;
 }

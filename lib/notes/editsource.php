@@ -44,9 +44,9 @@ if (isset(request->post['data'])) {
   $noteData = request->post['data'];
   if ($database_notes->identifierExists ($noteIdentifier)) {
     $noteData = $database_notes->setContents ($noteIdentifier, $noteData);
-    $view->view->success = gettext("The note was saved");
+    $view.set_variable ("success = gettext("The note was saved");
   } else {
-    $view->view->error = gettext("Unknown Note Identifier");
+    $view.set_variable ("error = gettext("Unknown Note Identifier");
   }
 }
 
@@ -54,14 +54,14 @@ if (isset(request->post['data'])) {
 if ($noteIdentifier != "") {
   if ($database_notes->identifierExists ($noteIdentifier)) {
     $noteData = $database_notes->getContents ($noteIdentifier);
-    $view->view->data = $noteData;
+    $view.set_variable ("data = $noteData;
   } else {
-    $view->view->error = gettext("Unknown Note Identifier");
+    $view.set_variable ("error = gettext("Unknown Note Identifier");
   }
 }
 
 
-$view->view->identifier = $noteIdentifier;
+$view.set_variable ("identifier = $noteIdentifier;
 $view->render ("editsource");
 
 

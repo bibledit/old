@@ -67,8 +67,8 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->count = count ($xrefs);
-$view->view->tags = $openers - $closers;
+$view.set_variable ("count = count ($xrefs);
+$view.set_variable ("tags = $openers - $closers;
 
 
 $view->render ("clear");

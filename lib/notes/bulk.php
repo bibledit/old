@@ -193,7 +193,7 @@ $view = new Assets_View (__FILE__);
 
 
 $notescount = count ($identifiers);
-$view->view->notescount = $notescount;
+$view.set_variable ("notescount = $notescount;
 
 
 $view->render ("bulk");

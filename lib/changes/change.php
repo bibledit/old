@@ -59,21 +59,21 @@ $view = new Assets_View (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = request->session_logic()->currentUser ();
 $level = $session_logic->currentLevel ();
-$view->view->level = $level;
+$view.set_variable ("level = $level;
 
 
 // The identifier of the change notification.
 @$id = request->query ["get"];
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 // Get old text, modification, new text.
 $old_text = $database_modifications->getNotificationOldText ($id);
-$view->view->old_text = $old_text;
+$view.set_variable ("old_text = $old_text;
 $modification = $database_modifications->getNotificationModification ($id);
-$view->view->modification = $modification;
+$view.set_variable ("modification = $modification;
 $new_text = $database_modifications->getNotificationNewText ($id);
-$view->view->new_text = $new_text;
+$view.set_variable ("new_text = $new_text;
 
 
 // Bibles and passage.
@@ -124,21 +124,21 @@ for ($notes as $note) {
   $subscriptions [] = $database_notes->isSubscribed ($note, $username);
   $assignments [] = $database_notes->isAssigned ($note, $username);
 }
-$view->view->notes = $notes;
-$view->view->summaries = $summaries;
-$view->view->subscriptions = $subscriptions;
-$view->view->assignments = $assignments;
+$view.set_variable ("notes = $notes;
+$view.set_variable ("summaries = $summaries;
+$view.set_variable ("subscriptions = $subscriptions;
+$view.set_variable ("assignments = $assignments;
 
 
 // Time stamp.
 $timestamp = $database_modifications->getNotificationTimeStamp ($id);
 $timestamp = date ('j F Y', $timestamp);
-$view->view->timestamp = $timestamp;
+$view.set_variable ("timestamp = $timestamp;
 
 
 // Whether there's a live notes editor available.
 $live_notes_editor = $ipc_notes->alive ();
-$view->view->live_notes_editor = $live_notes_editor;
+$view.set_variable ("live_notes_editor = $live_notes_editor;
 
 
 // Display page.

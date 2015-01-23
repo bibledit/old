@@ -16,29 +16,45 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+
 require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::admin ());
+
 Assets_Page::header (gettext("Collaboration"));
 
-$view = new Assets_view (__FILE__);
-
-$which_git = new Filter_Which ("git");
-$view->view->git = $which_git->available;
-$which_ssh = new Filter_Which ("ssh");
-$view->view->ssh = $which_ssh->available;
-
-$database_config_bible = Database_Config_Bible::getInstance();
+$view = new Assets_View (__FILE__);
 
 $object = request->query ['object'];
-$view->view->object = $object;
+$view.set_variable ("object = $object;
 
-if (isset(request->post['url'])) {
-  $url = request->post['urlvalue'];
-  Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
-}
+$database_config_bible = Database_Config_Bible::getInstance();
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
-$view->view->url = $url;
+$view.set_variable ("url = $url;
 
-$view->render ("collaboration_secure_network_setup");
+$ready = false;
+$database_shell = Database_Shell::getInstance ();
+$output = "";
+$contents = array ();
+switch ($database_shell->logic ("collaboration_take_yourself", 0, $output)) {
+  case 1:
+    $workingdirectory = dirname (__FILE__);
+    $object = escapeshellarg ($object);
+    shell_exec ("cd $workingdirectory; php collaboration_take_yourself-cli $object > $output 2>&1 &");
+    break;
+  case 0:
+    $contents = file ($output, FILE_IGNORE_NEW_LINES);
+    break;
+  case -1:
+    $contents = file ($output, FILE_IGNORE_NEW_LINES);
+    $ready = true;
+    break;
+}
+$view.set_variable ("contents = $contents;
+
+// Display the page(s).
+$view->render ("collaboration_take_yourself1");
+if ($ready) $view->render ("collaboration_take_yourself2");
+
 Assets_Page::footer ();
+
 ?>
