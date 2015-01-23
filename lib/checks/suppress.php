@@ -33,7 +33,7 @@ $view = new Assets_View (__FILE__);
 @$release = request->query['release'];
 if (isset($release)) {
   $database_check->release ($release);
-  $view->view->success = gettext("The check result will no longer be suppressed.");
+  $view.set_variable ("success = gettext("The check result will no longer be suppressed.");
 }
 
 
@@ -63,8 +63,8 @@ for ($suppressions as $suppression) {
     $data [] = $result;
   }
 }
-$view->view->ids = $ids;
-$view->view->data = $data;
+$view.set_variable ("ids = $ids;
+$view.set_variable ("data = $data;
 
 
 $view->render ("suppress");

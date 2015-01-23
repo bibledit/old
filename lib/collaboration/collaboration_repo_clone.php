@@ -25,21 +25,24 @@ Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
 $object = request->query ['object'];
-$view->view->object = $object;
+$view.set_variable ("object = $object;
+
+$directory = filter_git_directory ($object);
 
 $database_config_bible = Database_Config_Bible::getInstance();
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
-$view->view->url = $url;
+$view.set_variable ("url = $url;
 
 $ready = false;
 $database_shell = Database_Shell::getInstance ();
 $output = "";
 $contents = array ();
-switch ($database_shell->logic ("collaboration_take_yourself", 0, $output)) {
+switch ($database_shell->logic ("collaboration_repo_clone", 0, $output)) {
   case 1:
     $workingdirectory = dirname (__FILE__);
     $object = escapeshellarg ($object);
-    shell_exec ("cd $workingdirectory; php collaboration_take_yourself-cli $object > $output 2>&1 &");
+    $directory = escapeshellarg ($directory);
+    shell_exec ("cd $workingdirectory; php collaboration_repo_clone-cli $object $directory > $output 2>&1 &");
     break;
   case 0:
     $contents = file ($output, FILE_IGNORE_NEW_LINES);
@@ -49,11 +52,10 @@ switch ($database_shell->logic ("collaboration_take_yourself", 0, $output)) {
     $ready = true;
     break;
 }
-$view->view->contents = $contents;
+@$view.set_variable ("contents = $contents;
 
-// Display the page(s).
-$view->render ("collaboration_take_yourself1");
-if ($ready) $view->render ("collaboration_take_yourself2");
+$view->render ("collaboration_repo_clone1");
+if ($ready) $view->render ("collaboration_repo_clone2");
 
 Assets_Page::footer ();
 

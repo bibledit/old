@@ -18,29 +18,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::admin ());
-
 Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
-
-$which_git = new Filter_Which ("git");
-$view->view->git = $which_git->available;
-
 $object = request->query ['object'];
-$view->view->object = $object;
-
+$view.set_variable ("object = $object;
 $database_config_bible = Database_Config_Bible::getInstance();
-if (isset(request->post['url'])) {
-  $url = request->post['urlvalue'];
-  Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
-}
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
-$view->view->url = $url;
-
-ob_start ();
-$username = system ("whoami");
-ob_end_clean();
-$view->view->username = $username;
-
-$view->render ("collaboration_flash_drive_setup");
+$directory = filter_git_directory ($object);
+$view->render ("collaboration_repo_data");
 Assets_Page::footer ();
 ?>

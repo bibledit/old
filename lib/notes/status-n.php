@@ -33,7 +33,7 @@ $view = new Assets_View (__FILE__);
 
 
 $statuses = $database_notes->getPossibleStatuses ();
-$view->view->statuses = $statuses;
+$view.set_variable ("statuses = $statuses;
 
 
 $view->render ("status-n");

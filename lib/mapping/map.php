@@ -35,7 +35,7 @@ $userlevel = $session_logic->currentLevel ();
 
 
 $name = request->query['name'];
-$view->view->name = filter_string_sanitize_html ($name);
+$view.set_variable ("name = filter_string_sanitize_html ($name);
 
 
 //$write = request->database_styles()->hasWriteAccess ($username, $name);
@@ -52,7 +52,7 @@ if (isset(request->post['submit'])) {
 
 
 $data = $database_mappings->export ($name);
-$view->view->data = $data;
+$view.set_variable ("data = $data;
 
 
 $view->render ("map");

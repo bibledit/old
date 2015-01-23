@@ -45,7 +45,7 @@ for ($users as $offset => $user) {
   }
   if (!$access) unset ($users [$offset]);
 }
-$view->view->users = $users;
+$view.set_variable ("users = $users;
 
 
 $view->render ("assign-n");

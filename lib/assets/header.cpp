@@ -64,7 +64,7 @@ void Assets_Header::setLogin () // C++Port
 {
   /* 
     $request = $_SERVER['REQUEST_URI'];
-    $this->view->view->request = $request; Update to this->request.
+    $this->view.set_variable ("request = $request; Update to this->request.
    */
 }
 

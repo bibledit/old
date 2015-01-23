@@ -21,8 +21,8 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 Assets_Page::header (gettext("Import"));
 $view = new Assets_View (__FILE__);
-$view->view->post_max_size = ini_get ("post_max_size");
-$view->view->upload_max_filesize = ini_get ("upload_max_filesize");
+$view.set_variable ("post_max_size = ini_get ("post_max_size");
+$view.set_variable ("upload_max_filesize = ini_get ("upload_max_filesize");
 /*
 Other variables of importance are:
 file_uploads

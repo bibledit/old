@@ -51,15 +51,15 @@ $header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 $summary = $database_notes->getSummary ($id);
-$view->view->summary = $summary;
+$view.set_variable ("summary = $summary;
 
 
 $content = $database_notes->getContents ($id);
-$view->view->content = $content;
+$view.set_variable ("content = $content;
 
 
 $view->render ("note");

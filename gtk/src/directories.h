@@ -40,7 +40,18 @@ class directories {
   // C:\Program Files\Bibledit\editor\share\bibledit)
   ustring package_data;
   ustring root;
-  
+  ustring projects;
+  ustring notes;
+  ustring stylesheets;
+  ustring configuration;
+  ustring pictures;
+  ustring resources;
+  ustring scripts;
+  ustring temp;
+  ustring templates;
+  ustring templates_user;
+  ustring restore;
+
   ustring fix_slashes(ustring &tofix);
 
  public: 

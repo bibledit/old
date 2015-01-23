@@ -117,15 +117,15 @@ $view = new Assets_View (__FILE__);
 
 
 $passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
-$view->view->passageselector = $passage_selector;
+$view.set_variable ("passageselector = $passage_selector;
 
 
 $edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
-$view->view->editselector = $edit_selector;
+$view.set_variable ("editselector = $edit_selector;
 
 
 $non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
-$view->view->noneditselector = $non_edit_selector;
+$view.set_variable ("noneditselector = $non_edit_selector;
 
 
 $possible_statuses = $database_notes->getPossibleStatuses();
@@ -133,63 +133,63 @@ for ($possible_statuses as $possible_status) {
   $status_ids [] = $possible_status[0];
   $status_localizations [] = $possible_status[1];
 }
-$view->view->statusids = $status_ids;
-$view->view->statuslocs = $status_localizations;
+$view.set_variable ("statusids = $status_ids;
+$view.set_variable ("statuslocs = $status_localizations;
 
 
 $status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
-$view->view->statusselector = $status_selector;
+$view.set_variable ("statusselector = $status_selector;
 
 
 // The information about available Bibles could be gathered from the notes database.
 // But multiple teams can be hosted, the information about available Bibles
 // is gathered from the Bibles the user has access to.
 $bibles = access_bible_bibles ();
-$view->view->bibles = $bibles;
+$view.set_variable ("bibles = $bibles;
 
 
 $bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
-$view->view->bibleselector = $bible_selector;
+$view.set_variable ("bibleselector = $bible_selector;
 
 
 $assignees = $database_notes->getAllAssignees ($bibles);
-$view->view->assignees = $assignees;
+$view.set_variable ("assignees = $assignees;
 if ($assignment_selector != "") {
   if (!in_array ($assignment_selector, $assignees)) {
-    $view->view->nonexistingassignee = true;
+    $view.set_variable ("nonexistingassignee = true;
   }
 }
 
 
 $assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
-$view->view->assignmentselector = $assignment_selector;
+$view.set_variable ("assignmentselector = $assignment_selector;
 
 
 $subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
-$view->view->subscriptionselector = $subscription_selector;
+$view.set_variable ("subscriptionselector = $subscription_selector;
 
 
-$view->view->severities = $database_notes->getPossibleSeverities();
+$view.set_variable ("severities = $database_notes->getPossibleSeverities();
 
 
 $severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector();
-$view->view->severityselector = $severity_selector;
+$view.set_variable ("severityselector = $severity_selector;
 
 
 $text_selector = request->database_config_user()->getConsultationNotesTextSelector();
-$view->view->textselector = $text_selector;
+$view.set_variable ("textselector = $text_selector;
 
 
 $search_text = request->database_config_user()->getConsultationNotesSearchText();
-$view->view->searchtext = filter_string_sanitize_html ($search_text);
+$view.set_variable ("searchtext = filter_string_sanitize_html ($search_text);
 
 
 $passage_inclusion_selector = request->database_config_user()->getConsultationNotesPassageInclusionSelector();
-$view->view->passageinclusionselector = $passage_inclusion_selector;
+$view.set_variable ("passageinclusionselector = $passage_inclusion_selector;
 
 
 $text_inclusion_selector = request->database_config_user()->getConsultationNotesTextInclusionSelector();
-$view->view->textinclusionselector = $text_inclusion_selector;
+$view.set_variable ("textinclusionselector = $text_inclusion_selector;
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -214,7 +214,7 @@ $identifiers = $database_notes->selectNotes ($bibles, book, chapter, verse,
 
 
 $count = count ($identifiers);
-$view->view->count = $count;
+$view.set_variable ("count = $count;
 
 
 $view->render ("select");

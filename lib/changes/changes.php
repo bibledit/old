@@ -78,15 +78,15 @@ $ids = array ();
 @$filter = request->query ['filter'];
 if ($filter == "personal") {
   $ids = $database_modifications->getNotificationPersonalIdentifiers ($username, "☺", true);
-  $view->view->filter = 1;
+  $view.set_variable ("filter = 1;
 } else if ($filter == "team") {
   $ids = $database_modifications->getNotificationTeamIdentifiers ($username, "♺", true);
-  $view->view->filter = 2;
+  $view.set_variable ("filter = 2;
 } else {
   $ids = $database_modifications->getNotificationIdentifiers ($username, true);
-  $view->view->filter = 0;
+  $view.set_variable ("filter = 0;
 }
-$view->view->ids = $ids;
+$view.set_variable ("ids = $ids;
 
 
 $links = array ();
@@ -102,9 +102,9 @@ for ($ids as $id) {
   $modification = $database_modifications->getNotificationModification ($id);
   $modifications [] = $modification;
 }
-$view->view->links = $links;
-$view->view->categories = $categories;
-$view->view->modifications = $modifications;
+$view.set_variable ("links = $links;
+$view.set_variable ("categories = $categories;
+$view.set_variable ("modifications = $modifications;
 
 
 $loading = '"' . gettext("Loading ...") . '"';
@@ -113,7 +113,7 @@ $loading = '"' . gettext("Loading ...") . '"';
 $script = <<<EOD
 var loading = $loading;
 EOD;
-$view->view->script = $script;
+$view.set_variable ("script = $script;
 
 
 $view->render ("changes");

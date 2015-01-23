@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/logic.h>
 #include <workbench/index.h>
 #include <workbench/organize.h>
+#include <collaboration/index.h>
 
 
 /*
@@ -218,7 +219,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (styles_indext_acl (webserver_request))                                                menu->push_back ( { "", styles_indext_url (), gettext ("Styles"), stylessubmenu () } );
   if (versification_index_acl (webserver_request))                                          menu->push_back ( { "", versification_index_url (), gettext ("Versifications"), NULL } );
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
-  if (level >= Filter_Roles::admin ())                                                      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );
+  if (collaboration_index_acl (webserver_request)) menu->push_back ( { "", collaboration_index_url (), gettext ("Collaboration"), NULL } );
   if (level >= Filter_Roles::consultant ())                                                 menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
   if (fonts_index_acl (webserver_request))                                                  menu->push_back ( { "", fonts_index_url (), gettext ("Fonts"), NULL } );
 /* C++Port client mode dependent.
@@ -229,10 +230,6 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
       if (!config_logic_client_prepared ()) {
         unset ($menu ["client"]);
       }
-    }
-    // If Client mode is enabled, disable certain menu entries.
-    if (config_logic_client_enabled ()) {
-      unset ($menu ["collaboration"]);
     }
 */
   return menu;

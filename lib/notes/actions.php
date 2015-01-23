@@ -88,47 +88,47 @@ $assets_header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 $summary = $database_notes->getSummary ($id);
-$view->view->summary = $summary;
+$view.set_variable ("summary = $summary;
 
 
 $subscribed = $database_notes->isSubscribed ($id, $user);
-$view->view->subscribed = $subscribed;
+$view.set_variable ("subscribed = $subscribed;
 
 
 $assignees = $database_notes->getAssignees ($id);
-$view->view->assignees = $assignees;
+$view.set_variable ("assignees = $assignees;
 
 
 $assignee = $database_notes->isAssigned ($id, $user);
-$view->view->assignee = $assignee;
+$view.set_variable ("assignee = $assignee;
 
 
 $status = $database_notes->getStatus ($id);
-$view->view->status = $status;
+$view.set_variable ("status = $status;
 
 
 $verses = filter_passage_display_inline ($database_notes->getPassages ($id));
-$view->view->verses = $verses;
+$view.set_variable ("verses = $verses;
 
 
 $severity = $database_notes->getSeverity ($id);
-$view->view->severity = $severity;
+$view.set_variable ("severity = $severity;
 
 
 $bible = $database_notes->getBible ($id);
-$view->view->bible = $bible;
+$view.set_variable ("bible = $bible;
 
 
 $marked = $database_notes->isMarkedForDeletion ($id);
-$view->view->marked = $marked;
+$view.set_variable ("marked = $marked;
 
 
-$view->view->success = $success;
-$view->view->error = $error;
+$view.set_variable ("success = $success;
+$view.set_variable ("error = $error;
 
 
 $view->render ("actions");

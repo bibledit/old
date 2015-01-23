@@ -26,11 +26,11 @@ $view = new Assets_View (__FILE__);
 
 $database_config_user = Database_Config_User::getInstance ();
 $resources = request->database_config_user()->getActiveResources ();
-$view->view->resources = $resources;
+$view.set_variable ("resources = $resources;
 
 $resource_count = count ($resources);
 $script = "var resourceCount = $resource_count;";
-$view->view->script = $script;
+$view.set_variable ("script = $script;
 
 $view->render ("index");
 Assets_Page::footer ();

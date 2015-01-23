@@ -58,8 +58,8 @@ for ($mappings as $mapping) {
 }
 
 
-$view->view->mappings = $mappings;
-$view->view->editable = $editable;
+$view.set_variable ("mappings = $mappings;
+$view.set_variable ("editable = $editable;
 
 
 $view->render ("index");

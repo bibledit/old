@@ -51,8 +51,8 @@ for ($users as $user) {
 }
 
 
-$view->view->users = $pendingUsers;
-$view->view->count = $pendingCount;
+$view.set_variable ("users = $pendingUsers;
+$view.set_variable ("count = $pendingCount;
 
 
 $view->render ("manage");

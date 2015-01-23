@@ -31,7 +31,7 @@ $database_versifications = Database_Versifications::getInstance ();
 
 
 @$name = request->query['name'];
-$view->view->name = $name;
+$view.set_variable ("name = $name;
 
 
 if (isset (request->query ['download'])) {
@@ -52,7 +52,7 @@ if (isset (request->query ['clear'])) {
 
 
 $count = $database_offlineresources->count ($name);
-$view->view->count = $count;
+$view.set_variable ("count = $count;
 
 
 $header = new Assets_Header (gettext("Download resource"));

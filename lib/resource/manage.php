@@ -54,7 +54,7 @@ $view = new Assets_View (__FILE__);
 
 
 $resources = $database_usfmresources->getResources ();
-$view->view->resources = $resources;
+$view.set_variable ("resources = $resources;
 
 
 $view->render ("manage");

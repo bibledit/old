@@ -44,11 +44,11 @@ $assets_header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 $statuses = $database_notes->getPossibleStatuses ();
-$view->view->statuses = $statuses;
+$view.set_variable ("statuses = $statuses;
 
 
 $view->render ("status-1");

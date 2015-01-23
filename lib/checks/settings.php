@@ -52,65 +52,65 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 if (request->query.count ('run'])) {
   Checks_Logic::start ($bible);
-  $view->view->success = gettext("Will run the checks. See the Journal for progress.");
+  $view.set_variable ("success = gettext("Will run the checks. See the Journal for progress.");
 }
 
 
 if (isset (request->query['doublespacesusfm'])) {
   Database_Config_Bible::setCheckDoubleSpacesUsfm ($bible, !Database_Config_Bible::getCheckDoubleSpacesUsfm ($bible));
 }
-$view->view->double_spaces_usfm = Database_Config_Bible::getCheckDoubleSpacesUsfm ($bible);
+$view.set_variable ("double_spaces_usfm = Database_Config_Bible::getCheckDoubleSpacesUsfm ($bible);
 
 
 if (isset (request->query['fullstopheadings'])) {
   Database_Config_Bible::setCheckFullStopInHeadings ($bible, !Database_Config_Bible::getCheckFullStopInHeadings ($bible));
 }
-$view->view->full_stop_headings = Database_Config_Bible::getCheckFullStopInHeadings ($bible);
+$view.set_variable ("full_stop_headings = Database_Config_Bible::getCheckFullStopInHeadings ($bible);
 
 
 if (isset (request->query['spacebeforepunctuation'])) {
   Database_Config_Bible::setCheckSpaceBeforePunctuation ($bible, !Database_Config_Bible::getCheckSpaceBeforePunctuation ($bible));
 }
-$view->view->space_before_punctuation = Database_Config_Bible::getCheckSpaceBeforePunctuation ($bible);
+$view.set_variable ("space_before_punctuation = Database_Config_Bible::getCheckSpaceBeforePunctuation ($bible);
 
 
 if (isset (request->query['sentencestructure'])) {
   Database_Config_Bible::setCheckSentenceStructure ($bible, !Database_Config_Bible::getCheckSentenceStructure ($bible));
 }
-$view->view->sentence_structure = Database_Config_Bible::getCheckSentenceStructure ($bible);
+$view.set_variable ("sentence_structure = Database_Config_Bible::getCheckSentenceStructure ($bible);
 
 
 if (isset (request->query['paragraphstructure'])) {
   Database_Config_Bible::setCheckParagraphStructure ($bible, !Database_Config_Bible::getCheckParagraphStructure ($bible));
 }
-$view->view->paragraph_structure = Database_Config_Bible::getCheckParagraphStructure ($bible);
+$view.set_variable ("paragraph_structure = Database_Config_Bible::getCheckParagraphStructure ($bible);
 
 
 if (isset (request->query['chaptersversesversification'])) {
   Database_Config_Bible::setCheckChaptesVersesVersification ($bible, !Database_Config_Bible::getCheckChaptesVersesVersification ($bible));
 }
-$view->view->chapters_verses_versification = Database_Config_Bible::getCheckChaptesVersesVersification ($bible);
+$view.set_variable ("chapters_verses_versification = Database_Config_Bible::getCheckChaptesVersesVersification ($bible);
 
 
 if (isset (request->query['wellformedusfm'])) {
   Database_Config_Bible::setCheckWellFormedUsfm ($bible, !Database_Config_Bible::getCheckWellFormedUsfm ($bible));
 }
-$view->view->well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm ($bible);
+$view.set_variable ("well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm ($bible);
 
 
 if (isset (request->query['punctuationatendverse'])) {
   Database_Config_Bible::setCheckMissingPunctuationEndVerse ($bible, !Database_Config_Bible::getCheckMissingPunctuationEndVerse ($bible));
 }
-$view->view->punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse ($bible);
+$view.set_variable ("punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse ($bible);
 
 
 if (isset (request->query['patterns'])) {
   Database_Config_Bible::setCheckPatterns ($bible, !Database_Config_Bible::getCheckPatterns ($bible));
 }
-$view->view->check_patterns = Database_Config_Bible::getCheckPatterns ($bible);
+$view.set_variable ("check_patterns = Database_Config_Bible::getCheckPatterns ($bible);
 
 
-$view->view->bible = $bible;
+$view.set_variable ("bible = $bible;
 $view->render ("settings");
 Assets_Page::footer ();
 

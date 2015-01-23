@@ -45,12 +45,12 @@ $header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 $summary = $database_notes->getSummary ($id);
 $summary = filter_string_sanitize_html ($summary);
-$view->view->summary = $summary;
+$view.set_variable ("summary = $summary;
 
 
 $view->render ("summary");

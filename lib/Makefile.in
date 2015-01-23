@@ -169,40 +169,44 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
 	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
 	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
-	administration/timezone.$(OBJEXT) search/rebibles.$(OBJEXT) \
-	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
-	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
-	fonts/index.$(OBJEXT) versification/index.$(OBJEXT) \
-	versification/system.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	editverse/id.$(OBJEXT) editverse/load.$(OBJEXT) \
-	editverse/save.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/id.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/export.$(OBJEXT) \
-	editor/import.$(OBJEXT) edit/edit.$(OBJEXT) \
-	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
-	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
-	edit/styles.$(OBJEXT) search/search.$(OBJEXT) \
-	search/index.$(OBJEXT) search/select.$(OBJEXT) \
-	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
-	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
-	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
-	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
-	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
-	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
-	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
-	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) demo/logic.$(OBJEXT)
+	administration/timezone.$(OBJEXT) \
+	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
+	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
+	collaboration/secure.$(OBJEXT) collaboration/read.$(OBJEXT) \
+	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
+	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
+	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
+	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
+	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
+	fonts/logic.$(OBJEXT) fonts/index.$(OBJEXT) \
+	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editverse/id.$(OBJEXT) \
+	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/id.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/export.$(OBJEXT) editor/import.$(OBJEXT) \
+	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
+	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
+	search/search.$(OBJEXT) search/index.$(OBJEXT) \
+	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
+	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
+	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
+	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
+	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
+	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
+	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
+	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
+	workbench/logic.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	demo/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -534,6 +538,12 @@ libbibledit_a_SOURCES = \
 	manage/users.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
+	collaboration/index.cpp \
+	collaboration/flash.cpp \
+	collaboration/open.cpp \
+	collaboration/password.cpp \
+	collaboration/secure.cpp \
+	collaboration/read.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \
@@ -1105,6 +1115,24 @@ administration/language.$(OBJEXT): administration/$(am__dirstamp) \
 	administration/$(DEPDIR)/$(am__dirstamp)
 administration/timezone.$(OBJEXT): administration/$(am__dirstamp) \
 	administration/$(DEPDIR)/$(am__dirstamp)
+collaboration/$(am__dirstamp):
+	@$(MKDIR_P) collaboration
+	@: > collaboration/$(am__dirstamp)
+collaboration/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) collaboration/$(DEPDIR)
+	@: > collaboration/$(DEPDIR)/$(am__dirstamp)
+collaboration/index.$(OBJEXT): collaboration/$(am__dirstamp) \
+	collaboration/$(DEPDIR)/$(am__dirstamp)
+collaboration/flash.$(OBJEXT): collaboration/$(am__dirstamp) \
+	collaboration/$(DEPDIR)/$(am__dirstamp)
+collaboration/open.$(OBJEXT): collaboration/$(am__dirstamp) \
+	collaboration/$(DEPDIR)/$(am__dirstamp)
+collaboration/password.$(OBJEXT): collaboration/$(am__dirstamp) \
+	collaboration/$(DEPDIR)/$(am__dirstamp)
+collaboration/secure.$(OBJEXT): collaboration/$(am__dirstamp) \
+	collaboration/$(DEPDIR)/$(am__dirstamp)
+collaboration/read.$(OBJEXT): collaboration/$(am__dirstamp) \
+	collaboration/$(DEPDIR)/$(am__dirstamp)
 search/$(am__dirstamp):
 	@$(MKDIR_P) search
 	@: > search/$(am__dirstamp)
@@ -1441,6 +1469,7 @@ mostlyclean-compile:
 	-rm -f book/*.$(OBJEXT)
 	-rm -f bootstrap/*.$(OBJEXT)
 	-rm -f checksum/*.$(OBJEXT)
+	-rm -f collaboration/*.$(OBJEXT)
 	-rm -f compare/*.$(OBJEXT)
 	-rm -f config/*.$(OBJEXT)
 	-rm -f confirm/*.$(OBJEXT)
@@ -1515,6 +1544,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@book/$(DEPDIR)/create.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checksum/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/flash.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/open.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/password.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/read.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/secure.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/compare.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
@@ -1986,6 +2021,8 @@ distclean-generic:
 	-rm -f bootstrap/$(am__dirstamp)
 	-rm -f checksum/$(DEPDIR)/$(am__dirstamp)
 	-rm -f checksum/$(am__dirstamp)
+	-rm -f collaboration/$(DEPDIR)/$(am__dirstamp)
+	-rm -f collaboration/$(am__dirstamp)
 	-rm -f compare/$(DEPDIR)/$(am__dirstamp)
 	-rm -f compare/$(am__dirstamp)
 	-rm -f config/$(DEPDIR)/$(am__dirstamp)
@@ -2093,7 +2130,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) checksum/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) checksum/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -2141,7 +2178,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) checksum/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) checksum/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

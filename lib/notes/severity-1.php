@@ -45,11 +45,11 @@ $assets_header->run();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$view.set_variable ("id = $id;
 
 
 $severities = $database_notes->getPossibleSeverities ();
-$view->view->severities = $severities;
+$view.set_variable ("severities = $severities;
 
 
 $view->render ("severity-1");

@@ -76,7 +76,51 @@ directories::directories(char *argv0)
 
   // The root directory of all data.
   root = tiny_directories_get_root();
-root = fix_slashes(root);
+  root = fix_slashes(root);
+
+  // Directory containing all the projects
+  projects = tiny_directories_get_projects();
+  projects = fix_slashes(projects);
+
+  // Directory with the notes
+  notes = gw_build_filename(root, "notes");
+  notes = fix_slashes(notes);
+
+  // Directory with the stylesheets
+  stylesheets = gw_build_filename(root, "stylesheets");
+  stylesheets = fix_slashes(stylesheets);
+
+  // Directory with the configuration
+  configuration = gw_build_filename(root, "configuration");
+  configuration = fix_slashes(configuration);
+
+  // Directory with the pictures
+  pictures = gw_build_filename(root, "pictures");
+  pictures = fix_slashes(pictures);
+
+  // Directory with the resources.
+  resources = gw_build_filename(root, "resources");
+  resources = fix_slashes(resources);
+
+  // Directory with the scripts.
+  scripts = gw_build_filename(root, "scripts");
+  scripts = fix_slashes(scripts);
+
+  // Temporary directory bibledit uses.
+  temp = gw_build_filename(g_get_tmp_dir(), "bibledit");
+  temp = fix_slashes(temp);
+
+  // Directory with the templates
+  templates = gw_build_filename(get_temp(), "templates");
+  templates = fix_slashes(templates);
+
+  // Directory with the User's custom raw templates
+  templates_user = gw_build_filename(root, "templates");
+  templates_user = fix_slashes(templates_user);
+
+  // Directory, if exists, to restore from
+  restore = root + ".restored";
+  restore = fix_slashes(restore);
 }
 
 directories::~directories()
@@ -110,86 +154,66 @@ ustring directories::get_root()
 ustring directories::get_projects()
 {
   // This returns the directory with all the projects.
-  ustring dir = tiny_directories_get_projects();
-  dir = fix_slashes(dir);
-  return dir;
+  return projects;
 }
 
 
 ustring directories::get_notes()
 {
   // This returns the directory with the notes
-  ustring dir = gw_build_filename(root, "notes");
-  dir = fix_slashes(dir);
-  return dir;
+  return notes;
 }
 
 
 ustring directories::get_stylesheets()
 {
   // This returns the directory with the stylesheets
-  ustring dir = gw_build_filename(root, "stylesheets");
-  dir = fix_slashes(dir);
-  return dir;
+  return stylesheets;
 }
 
 
 ustring directories::get_configuration()
 {
   // This returns the directory with the configuration
-  ustring dir = gw_build_filename(root, "configuration");
-  dir = fix_slashes(dir);
-  return dir;
+  return configuration;
 }
 
 
 ustring directories::get_pictures()
 {
   // This returns the directory with the pictures
-  ustring dir = gw_build_filename(root, "pictures");
-  dir = fix_slashes(dir);
-  return dir;
+  return pictures;
 }
 
 ustring directories::get_resources()
 {
   // This returns the directory with the resources.
-  ustring dir = gw_build_filename(root, "resources");
-  dir = fix_slashes(dir);
-  return dir;
+  return resources;
 }
 
 ustring directories::get_scripts()
 {
   // This returns the directory with the scripts.
-  ustring dir = gw_build_filename(root, "scripts");
-  dir = fix_slashes(dir);
-  return dir;
+  return scripts;
 }
 
 
 ustring directories::get_temp()
 {
   // Returns the temporal directory bibledit uses.
-  ustring dir = gw_build_filename(g_get_tmp_dir(), "bibledit");
-  dir = fix_slashes(dir);
-  return dir;
+  return temp;
 }
 
 ustring directories::get_templates()
 {
   // This returns the directory with the templates
-  ustring dir = gw_build_filename(get_temp(), "templates");
-  dir = fix_slashes(dir);
-  return dir;
+  return templates;
 }
 
 ustring directories::get_templates_user()
 {
   // This returns the directory with the User's custom raw templates
-  ustring dir = gw_build_filename(root, "templates");
-  dir = fix_slashes(dir);
-  return dir;
+  return templates_user;
 }
 
 ustring directories::get_package_data()
@@ -199,10 +223,8 @@ ustring directories::get_package_data()
 }
 
 ustring directories::get_restore ()
-// The directory, if found, to restore from.
 {
-  ustring dir = root + ".restored";
-  dir = fix_slashes(dir);
-  return dir;
+  // The directory, if found, to restore from.
+  return restore;
 }
 
