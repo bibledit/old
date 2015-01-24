@@ -67,7 +67,7 @@ string collaboration_read (void * webserver_request)
     Database_Jobs database_jobs = Database_Jobs ();
     int jobId = database_jobs.getNewId ();
     database_jobs.setLevel (jobId, Filter_Roles::admin ());
-    database_jobs.setProgress (jobId, collaboration_clone_header ());
+    database_jobs.setStart (jobId, collaboration_clone_header ());
     tasks_logic_queue (CLONEGITREPOSITORY, {object, convert_to_string (jobId)});
     redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
     return "";

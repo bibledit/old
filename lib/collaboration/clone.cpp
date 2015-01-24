@@ -36,10 +36,11 @@ typedef struct progress_data {
   int job_identifier;
   int seconds;
 } progress_data;
-// Todo need to have "percentage complete" field in the jobs database, so the page can display a progress bar.
-// Todo need to have a "before", progress" and "after" field in the database,
+// Todo
+// need to have "percentage complete" field in the jobs database, so the page can display a progress bar.
+// need to have a "before", progress" and "after" field in the database,
 // as well as a "complete" text (as it has now).
-// Todo start it as a thread.
+// start it as a thread.
 
 
 static int fetch_progress (const git_transfer_progress *stats, void *payload)
@@ -49,7 +50,10 @@ static int fetch_progress (const git_transfer_progress *stats, void *payload)
   if (seconds != pd->seconds) {
     size_t received_kilo_bytes = stats->received_bytes / 1048;
     int percentage = round (100 * stats->received_objects / stats->total_objects);
-    cout << percentage << "% " << received_kilo_bytes << "kb" << endl; // Todo
+    string progress = to_string (received_kilo_bytes) + " kb";
+    Database_Jobs database_jobs;
+    database_jobs.setPercentage (pd->job_identifier, percentage);
+    database_jobs.setProgress (pd->job_identifier, progress);
     pd->seconds = seconds;
   }
   return 0;
@@ -62,7 +66,9 @@ static void checkout_progress (const char *path, size_t cur, size_t tot, void *p
   int seconds = filter_string_date_seconds_since_epoch ();
   if (seconds != pd->seconds) {
     int percentage = round (100 * cur / tot);
-    cout << percentage << "%" << " " << path << endl; // Todo
+    Database_Jobs database_jobs;
+    database_jobs.setPercentage (pd->job_identifier, percentage);
+    if (path) database_jobs.setProgress (pd->job_identifier, path);
     pd->seconds = seconds;
   }
 }
@@ -84,25 +90,30 @@ static int clone_cred_acquire_cb (git_cred **out, const char * url, const char *
 
 void collaboration_clone (string object, int jobid) // Todo writing it.
 {
-  Database_Jobs database_jobs;
-
-  Assets_View view = Assets_View ();
-
-  view.set_variable ("object", object);
-  
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
-  view.set_variable ("url", url);
-
   string path = filter_git_directory (object);
+  int result = 1;
+  string error;
+
+  Database_Jobs database_jobs;
 
   if (!object.empty ()) {
     
+    string page = collaboration_clone_header ();
+    Assets_View view = Assets_View ();
+    view.set_variable ("object", object);
+    view.set_variable ("url", url);
+    page += view.render ("collaboration", "clone");
+    page += Assets_Page::footer ();
+    database_jobs.setStart (jobid, page);
+
     // Clear a possible existing git repository directory.
     filter_url_rmdir (path);
 
     git_threads_init ();
 
     progress_data pd = {0, 0};
+    pd.job_identifier = jobid;
     git_repository *cloned_repo = NULL;
     git_clone_options clone_opts;
     git_clone_init_options (&clone_opts, GIT_CLONE_OPTIONS_VERSION);
@@ -119,18 +130,15 @@ void collaboration_clone (string object, int jobid) // Todo writing it.
     clone_opts.remote_callbacks.payload = &pd;
     
     // Do the clone
-    int result = git_clone (&cloned_repo, url.c_str(), path.c_str(), &clone_opts);
+    result = git_clone (&cloned_repo, url.c_str(), path.c_str(), &clone_opts);
     if (result != 0) {
       const git_error *err = giterr_last();
-      cout << err->message << endl;
+      error = err->message;
     }
     if (cloned_repo) git_repository_free (cloned_repo);
     git_threads_shutdown ();
 
 /* Todo
-      echo gettext("Ok: The repository was cloned successfully.");
-
- echo gettext("Error: The repository could not be cloned.");
  
  
     // Switch rename detection off.
@@ -155,12 +163,19 @@ void collaboration_clone (string object, int jobid) // Todo writing it.
     
   }
 
-  
   string page = collaboration_clone_header ();
+  Assets_View view = Assets_View ();
+  view.set_variable ("object", object);
+  view.set_variable ("url", url);
+  if (result == 0) {
+    view.enable_zone ("okay");
+  } else {
+    view.enable_zone ("error");
+    view.set_variable ("error", error);
+  }
   page += view.render ("collaboration", "clone");
   page += Assets_Page::footer ();
-
-  database_jobs.setProgress (jobid, page);
+  database_jobs.setResult (jobid, page);
 }
 
 

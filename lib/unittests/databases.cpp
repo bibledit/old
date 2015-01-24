@@ -1236,7 +1236,7 @@ void test_database_ipc ()
 }
 
 
-void test_database_jobs ()
+void test_database_jobs () // Todo
 {
   {
     refresh_sandbox (true);
@@ -1259,6 +1259,14 @@ void test_database_jobs ()
     level = database_jobs.getLevel (id);
     evaluate (__LINE__, __func__, 123, level);
 
+    // Test Start
+    id = database_jobs.getNewId ();
+    string start = database_jobs.getStart (id);
+    evaluate (__LINE__, __func__, "", start);
+    database_jobs.setStart (id, "start");
+    start = database_jobs.getStart (id);
+    evaluate (__LINE__, __func__, "start", start);
+    
     // Test Progress
     id = database_jobs.getNewId ();
     string progress = database_jobs.getProgress (id);
@@ -1266,7 +1274,15 @@ void test_database_jobs ()
     database_jobs.setProgress (id, "progress");
     progress = database_jobs.getProgress (id);
     evaluate (__LINE__, __func__, "progress", progress);
-
+    
+    // Test Percentage
+    id = database_jobs.getNewId ();
+    string percentage = database_jobs.getPercentage (id);
+    evaluate (__LINE__, __func__, "", percentage);
+    database_jobs.setPercentage (id, 55);
+    percentage = database_jobs.getPercentage (id);
+    evaluate (__LINE__, __func__, "55", percentage);
+    
     // Test Result.
     id = database_jobs.getNewId ();
     string result = database_jobs.getResult (id);

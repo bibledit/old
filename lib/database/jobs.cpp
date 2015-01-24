@@ -48,10 +48,13 @@ sqlite3 * Database_Jobs::connect ()
 void Database_Jobs::create ()
 {
   sqlite3 * db = connect ();
+  database_sqlite_exec (db, "DROP TABLE IF EXISTS jobs");
   string sql = "CREATE TABLE IF NOT EXISTS jobs ("
                " id integer,"
                " timestamp integer,"
                " level integer,"
+               " start text,"
+               " percentage integer,"
                " progress text,"
                " result text"
                ");";
@@ -146,6 +149,66 @@ int Database_Jobs::getLevel (int id)
     return convert_to_int (level);
   }
   return 0;
+}
+
+
+void Database_Jobs::setStart (int id, string start) // Todo
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("UPDATE jobs SET start =");
+  sql.add (start);
+  sql.add ("WHERE id =");
+  sql.add (id);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
+string Database_Jobs::getStart (int id) // Todo
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT start FROM jobs WHERE id =");
+  sql.add (id);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["start"];
+  database_sqlite_disconnect (db);
+  for (auto & start : result) {
+    return start;
+  }
+  return "";
+}
+
+
+void Database_Jobs::setPercentage (int id, int percentage) // Todo
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("UPDATE jobs SET percentage =");
+  sql.add (percentage);
+  sql.add ("WHERE id =");
+  sql.add (id);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
+string Database_Jobs::getPercentage (int id) // Todo
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT percentage FROM jobs WHERE id =");
+  sql.add (id);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["percentage"];
+  database_sqlite_disconnect (db);
+  for (auto & percentage : result) {
+    return percentage;
+  }
+  return "";
 }
 
 

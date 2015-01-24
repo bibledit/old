@@ -44,7 +44,7 @@ bool jobs_index_acl (void * webserver_request)
 }
 
 
-string jobs_index (void * webserver_request)
+string jobs_index (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -60,6 +60,8 @@ string jobs_index (void * webserver_request)
   Database_Jobs database_jobs = Database_Jobs ();
   bool exists = database_jobs.idExists (id);
   int level = database_jobs.getLevel (id);
+  string start = database_jobs.getStart (id);
+  string percentage = database_jobs.getPercentage (id);
   string progress = database_jobs.getProgress (id);
   string result = database_jobs.getResult (id);
 
@@ -73,17 +75,25 @@ string jobs_index (void * webserver_request)
   } else if (level > userlevel) {
     // Check user access to the job.
     contents = gettext("This job is not available to you.");
-  } else if (result != "") {
+  } else if (!result.empty ()) {
     contents = result;
-  } else if (progress != "") {
-    contents = progress;
+  } else if (!start.empty () | !progress.empty () | !percentage.empty ()) {
+    contents = start;
+    if (!percentage.empty ()) {
+      view.enable_zone ("percentage");
+      view.set_variable ("percentage", percentage);
+    }
+    if (!progress.empty ()) {
+      view.enable_zone ("progress");
+      view.set_variable ("progress", progress);
+    }
   } else {
-    contents = gettext("The job is in the queue.");
+    contents = gettext("The job is scheduled to start shortly.");
   }
   view.set_variable ("contents", contents);
 
   // If the result is still pending, refresh the page shortly.
-  if (result == "") {
+  if (result.empty ()) {
     header.refresh (3);
   }
   
