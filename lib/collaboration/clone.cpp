@@ -32,7 +32,7 @@
 #include <git2.h>
 
 
-void collaboration_clone (string object, int jobid) // Todo
+void collaboration_clone (string object, int jobid)
 {
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   string path = filter_git_directory (object);
@@ -52,10 +52,7 @@ void collaboration_clone (string object, int jobid) // Todo
     database_jobs.setStart (jobid, page);
     result = filter_git_remote_clone (url, path, jobid, error);
 
-
-/* Todo
- 
- 
+/* Todo rename detection off / default pushing method, name / email.
     // Switch rename detection off.
     // This is necessary for the consultation notes, since git has been seen to "detect" spurious renames.
     exec ("cd $escapedDir; git config diff.renamelimit 0");
@@ -73,9 +70,6 @@ void collaboration_clone (string object, int jobid) // Todo
     if (!$mail_address) $mail_address = "bibledit-web@bibledit.org";
     exec ("cd $escapedDir; git config user.email \"$mail_address\"");
 */
-    
-    
-    
   }
 
   string page = collaboration_clone_header ();

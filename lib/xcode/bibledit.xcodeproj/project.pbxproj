@@ -1029,10 +1029,6 @@
 		CAF6DBFA1A72583700E5389F /* collaboration_repo_data.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_repo_data.html; sourceTree = "<group>"; };
 		CAF6DBFB1A72583700E5389F /* collaboration_repo_data.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = collaboration_repo_data.php; sourceTree = "<group>"; };
 		CAF6DBFC1A72583700E5389F /* read.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = read.html; sourceTree = "<group>"; };
-		CAF6DBFE1A72583700E5389F /* collaboration_repo_write-cli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "collaboration_repo_write-cli.php"; sourceTree = "<group>"; };
-		CAF6DBFF1A72583700E5389F /* collaboration_repo_write.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = collaboration_repo_write.php; sourceTree = "<group>"; };
-		CAF6DC001A72583700E5389F /* collaboration_repo_write1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_repo_write1.html; sourceTree = "<group>"; };
-		CAF6DC011A72583700E5389F /* collaboration_repo_write2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_repo_write2.html; sourceTree = "<group>"; };
 		CAF6DC021A72583700E5389F /* secure.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = secure.cpp; sourceTree = "<group>"; };
 		CAF6DC031A72583700E5389F /* secure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = secure.h; sourceTree = "<group>"; };
 		CAF6DC041A72583700E5389F /* secure.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = secure.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1049,6 +1045,9 @@
 		CAF6DC0F1A72B4E000E5389F /* clone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clone.cpp; sourceTree = "<group>"; };
 		CAF6DC101A72B4E000E5389F /* clone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = clone.h; sourceTree = "<group>"; };
 		CAF6DC111A72B4E000E5389F /* clone.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = clone.html; sourceTree = "<group>"; };
+		CAF6DC131A73EFF400E5389F /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
+		CAF6DC141A73EFF400E5389F /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
+		CAF6DC151A73EFF400E5389F /* write.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = write.html; sourceTree = "<group>"; };
 		CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sheetm.cpp; sourceTree = "<group>"; };
 		CAFE132D1A48ABEA00F0DB35 /* sheetm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheetm.h; sourceTree = "<group>"; };
 		CAFE132E1A497AB200F0DB35 /* yes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = yes.cpp; sourceTree = "<group>"; };
@@ -3230,13 +3229,12 @@
 				CAF6DBFC1A72583700E5389F /* read.html */,
 				CAF6DC0D1A726D2700E5389F /* read.cpp */,
 				CAF6DC0E1A726D2700E5389F /* read.h */,
-				CAF6DBFE1A72583700E5389F /* collaboration_repo_write-cli.php */,
-				CAF6DBFF1A72583700E5389F /* collaboration_repo_write.php */,
-				CAF6DC001A72583700E5389F /* collaboration_repo_write1.html */,
-				CAF6DC011A72583700E5389F /* collaboration_repo_write2.html */,
 				CAF6DC021A72583700E5389F /* secure.cpp */,
 				CAF6DC031A72583700E5389F /* secure.h */,
 				CAF6DC041A72583700E5389F /* secure.html */,
+				CAF6DC131A73EFF400E5389F /* write.cpp */,
+				CAF6DC141A73EFF400E5389F /* write.h */,
+				CAF6DC151A73EFF400E5389F /* write.html */,
 				CAF6DC051A72583700E5389F /* collaboration_take_repo-cli.php */,
 				CAF6DC061A72583700E5389F /* collaboration_take_repo.php */,
 				CAF6DC071A72583700E5389F /* collaboration_take_repo1.html */,

@@ -358,7 +358,7 @@ static void checkout_progress (const char *path, size_t cur, size_t tot, void *p
 }
 
 
-bool filter_git_remote_clone (string url, string path, int jobid, string & error) // Todo
+bool filter_git_remote_clone (string url, string path, int jobid, string & error)
 {
   // Clear a possible existing git repository directory.
   filter_url_rmdir (path);
@@ -391,6 +391,96 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
   if (cloned_repo) git_repository_free (cloned_repo);
   git_threads_shutdown ();
   
+  return (result == 0);
+}
+
+
+bool filter_git_remote_add_all (string repository, string & error) // Todo
+{
+  git_repository * repo = NULL;
+  git_index * index = NULL;
+
+  git_threads_init();
+
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    error = filter_git_check_error (result);
+  }
+
+  if (result == 0) {
+    result = git_repository_index (&index, repo);
+    error = filter_git_check_error (result);
+  }
+
+  if (result == 0) {
+    result = git_index_add_all (index, NULL, 0, NULL, NULL);
+    error = filter_git_check_error (result);
+  }
+  
+  if (result == 0) {
+    result = git_index_write (index);
+    error = filter_git_check_error (result);
+  }
+  
+  // Free resources.
+  if (index) git_index_free (index);
+  if (repo) git_repository_free (repo);
+  git_threads_shutdown();
+
+  return (result == 0);
+}
+
+
+bool filter_git_commit (string repository, string user, string email, string message, string & error) // Todo
+{
+  // Initialize the git system.
+  git_threads_init();
+
+  // Open the git repository.
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    error = filter_git_check_error (result);
+  }
+  
+  // Get the index to be committed to HEAD.
+  git_index * index = NULL;
+  if (result == 0) {
+    result = git_repository_index (&index, repo);
+    error = filter_git_check_error (result);
+  }
+  
+  
+  time_t ctime = filter_string_date_seconds_since_epoch ();
+  unsigned int parents, p;
+
+  // To commit, the index must be supplied as a tree.
+  //git_tree * tree = NULL;
+  if (result == 0) {
+    //result = git_index_write_tree(tree, index);
+    //error = filter_git_check_error (result);
+  }
+
+  // Todo some links for git commit:
+  // http://stackoverflow.com/questions/27672722/libgit2-commit-example
+  // https://libgit2.github.com/libgit2/ex/HEAD/general.html#section-Writing_Commits
+  // http://stackoverflow.com/questions/15711444/how-to-commit-to-a-git-repository-using-libgit2
+  // http://stackoverflow.com/questions/16040460/libgit2-how-to-do-a-commit-of-all-files-added-by-path
+  
+  git_oid tree_id, parent_id, commit_id;
+  git_tree *tree;
+  git_commit *parent;
+
+  const git_signature *author;
+  const git_signature *cmtter;
+  git_signature_new ((git_signature **)&author, user.c_str(), email.c_str(), ctime, 0);
+  git_signature_new ((git_signature **)&cmtter, user.c_str(), email.c_str(), ctime, 0);
+  
+  // Free resources.
+  if (index) git_index_free (index);
+  if (repo) git_repository_free (repo);
+  git_threads_shutdown();
+
   return (result == 0);
 }
 
