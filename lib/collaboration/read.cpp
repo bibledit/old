@@ -84,7 +84,7 @@ string collaboration_read (void * webserver_request)
 
   
   string error;
-  bool online = filter_git_remote_read (url, error); // Todo
+  bool online = filter_git_remote_read (url, error);
   if (online) {
     string success_message = gettext("Read access to the repository is successful.");
     view.set_variable ("success_message", success_message);

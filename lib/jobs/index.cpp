@@ -44,7 +44,7 @@ bool jobs_index_acl (void * webserver_request)
 }
 
 
-string jobs_index (void * webserver_request) // Todo
+string jobs_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

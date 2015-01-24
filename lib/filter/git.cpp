@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <database/logs.h>
 #include <database/books.h>
+#include <database/jobs.h>
 #include <config.h>
 #include <git2.h>
 #include <bible/logic.h>
@@ -240,7 +241,7 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 }
 
 
-int cred_acquire_cb (git_cred **out, const char * url, const char * username_from_url, unsigned int allowed_types, void *payload)
+static int cred_acquire_cb (git_cred **out, const char * url, const char * username_from_url, unsigned int allowed_types, void *payload)
 {
   if (url) {};
   if (username_from_url) {};
@@ -255,7 +256,7 @@ int cred_acquire_cb (git_cred **out, const char * url, const char * username_fro
 
 
 // Returns true if the git repository at "url" is online.
-bool filter_git_remote_read (string url, string & error) // Todo
+bool filter_git_remote_read (string url, string & error)
 {
   int result = 0;
   git_threads_init ();
@@ -277,10 +278,11 @@ bool filter_git_remote_read (string url, string & error) // Todo
   }
 
   // Callbacks.
-  git_remote_callbacks callbacks = GIT_REMOTE_CALLBACKS_INIT;
+  git_remote_callbacks callbacks;
+  git_remote_init_callbacks (&callbacks, GIT_REMOTE_CALLBACKS_VERSION);
   if (result == 0) {
     callbacks.credentials = cred_acquire_cb;
-    git_remote_set_callbacks(remote, &callbacks);
+    git_remote_set_callbacks (remote, &callbacks);
   }
   
   // When connecting, the underlying code needs to know wether to push or fetch.
@@ -317,3 +319,78 @@ bool filter_git_remote_read (string url, string & error) // Todo
 
   return (result == 0);
 }
+
+
+typedef struct git_progress_data {
+  int job_identifier;
+  int seconds;
+} git_progress_data;
+
+
+static int fetch_progress (const git_transfer_progress *stats, void *payload)
+{
+  git_progress_data *pd = (git_progress_data*) payload;
+  int seconds = filter_string_date_seconds_since_epoch ();
+  if (seconds != pd->seconds) {
+    size_t received_kilo_bytes = stats->received_bytes / 1048;
+    int percentage = round (100 * stats->received_objects / stats->total_objects);
+    string progress = to_string (received_kilo_bytes) + " kb";
+    Database_Jobs database_jobs;
+    database_jobs.setPercentage (pd->job_identifier, percentage);
+    database_jobs.setProgress (pd->job_identifier, progress);
+    pd->seconds = seconds;
+  }
+  return 0;
+}
+
+
+static void checkout_progress (const char *path, size_t cur, size_t tot, void *payload)
+{
+  git_progress_data *pd = (git_progress_data*) payload;
+  int seconds = filter_string_date_seconds_since_epoch ();
+  if (seconds != pd->seconds) {
+    int percentage = round (100 * cur / tot);
+    Database_Jobs database_jobs;
+    database_jobs.setPercentage (pd->job_identifier, percentage);
+    if (path) database_jobs.setProgress (pd->job_identifier, path);
+    pd->seconds = seconds;
+  }
+}
+
+
+bool filter_git_remote_clone (string url, string path, int jobid, string & error) // Todo
+{
+  // Clear a possible existing git repository directory.
+  filter_url_rmdir (path);
+  
+  git_threads_init ();
+  
+  git_progress_data pd = {0, 0};
+  pd.job_identifier = jobid;
+  git_repository *cloned_repo = NULL;
+  git_clone_options clone_opts;
+  git_clone_init_options (&clone_opts, GIT_CLONE_OPTIONS_VERSION);
+  git_checkout_options checkout_opts;
+  git_checkout_init_options (&checkout_opts, GIT_CHECKOUT_OPTIONS_VERSION);
+  
+  // Set up options
+  checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE_CREATE;
+  checkout_opts.progress_cb = checkout_progress;
+  checkout_opts.progress_payload = &pd;
+  clone_opts.checkout_opts = checkout_opts;
+  clone_opts.remote_callbacks.transfer_progress = &fetch_progress;
+  clone_opts.remote_callbacks.credentials = cred_acquire_cb;
+  clone_opts.remote_callbacks.payload = &pd;
+  
+  // Do the clone
+  int result = git_clone (&cloned_repo, url.c_str(), path.c_str(), &clone_opts);
+  if (result != 0) {
+    const git_error *err = giterr_last();
+    error = err->message;
+  }
+  if (cloned_repo) git_repository_free (cloned_repo);
+  git_threads_shutdown ();
+  
+  return (result == 0);
+}
+

@@ -1236,7 +1236,7 @@ void test_database_ipc ()
 }
 
 
-void test_database_jobs () // Todo
+void test_database_jobs ()
 {
   {
     refresh_sandbox (true);

@@ -30,6 +30,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
 void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible);
 void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter);
 bool filter_git_remote_read (string url, string & error);
+bool filter_git_remote_clone (string url, string path, int jobid, string & error); // Todo
 
 
 #endif

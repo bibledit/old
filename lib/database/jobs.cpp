@@ -152,7 +152,7 @@ int Database_Jobs::getLevel (int id)
 }
 
 
-void Database_Jobs::setStart (int id, string start) // Todo
+void Database_Jobs::setStart (int id, string start)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET start =");
@@ -166,7 +166,7 @@ void Database_Jobs::setStart (int id, string start) // Todo
 }
 
 
-string Database_Jobs::getStart (int id) // Todo
+string Database_Jobs::getStart (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT start FROM jobs WHERE id =");
@@ -182,7 +182,7 @@ string Database_Jobs::getStart (int id) // Todo
 }
 
 
-void Database_Jobs::setPercentage (int id, int percentage) // Todo
+void Database_Jobs::setPercentage (int id, int percentage)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET percentage =");
@@ -196,7 +196,7 @@ void Database_Jobs::setPercentage (int id, int percentage) // Todo
 }
 
 
-string Database_Jobs::getPercentage (int id) // Todo
+string Database_Jobs::getPercentage (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT percentage FROM jobs WHERE id =");

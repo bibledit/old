@@ -32,67 +32,11 @@
 #include <git2.h>
 
 
-typedef struct progress_data {
-  int job_identifier;
-  int seconds;
-} progress_data;
-// Todo
-// need to have "percentage complete" field in the jobs database, so the page can display a progress bar.
-// need to have a "before", progress" and "after" field in the database,
-// as well as a "complete" text (as it has now).
-// start it as a thread.
-
-
-static int fetch_progress (const git_transfer_progress *stats, void *payload)
-{
-  progress_data *pd = (progress_data*) payload;
-  int seconds = filter_string_date_seconds_since_epoch ();
-  if (seconds != pd->seconds) {
-    size_t received_kilo_bytes = stats->received_bytes / 1048;
-    int percentage = round (100 * stats->received_objects / stats->total_objects);
-    string progress = to_string (received_kilo_bytes) + " kb";
-    Database_Jobs database_jobs;
-    database_jobs.setPercentage (pd->job_identifier, percentage);
-    database_jobs.setProgress (pd->job_identifier, progress);
-    pd->seconds = seconds;
-  }
-  return 0;
-}
-
-
-static void checkout_progress (const char *path, size_t cur, size_t tot, void *payload)
-{
-  progress_data *pd = (progress_data*) payload;
-  int seconds = filter_string_date_seconds_since_epoch ();
-  if (seconds != pd->seconds) {
-    int percentage = round (100 * cur / tot);
-    Database_Jobs database_jobs;
-    database_jobs.setPercentage (pd->job_identifier, percentage);
-    if (path) database_jobs.setProgress (pd->job_identifier, path);
-    pd->seconds = seconds;
-  }
-}
-
-
-static int clone_cred_acquire_cb (git_cred **out, const char * url, const char * username_from_url, unsigned int allowed_types, void *payload)
-{
-  if (url) {};
-  if (username_from_url) {};
-  if (allowed_types) {};
-  if (payload) {};
-  
-  char username[128] = {0};
-  char password[128] = {0};
-  
-  return git_cred_userpass_plaintext_new (out, username, password);
-}
-
-
-void collaboration_clone (string object, int jobid) // Todo writing it.
+void collaboration_clone (string object, int jobid) // Todo
 {
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   string path = filter_git_directory (object);
-  int result = 1;
+  bool result = false;
   string error;
 
   Database_Jobs database_jobs;
@@ -106,37 +50,8 @@ void collaboration_clone (string object, int jobid) // Todo writing it.
     page += view.render ("collaboration", "clone");
     page += Assets_Page::footer ();
     database_jobs.setStart (jobid, page);
+    result = filter_git_remote_clone (url, path, jobid, error);
 
-    // Clear a possible existing git repository directory.
-    filter_url_rmdir (path);
-
-    git_threads_init ();
-
-    progress_data pd = {0, 0};
-    pd.job_identifier = jobid;
-    git_repository *cloned_repo = NULL;
-    git_clone_options clone_opts;
-    git_clone_init_options (&clone_opts, GIT_CLONE_OPTIONS_VERSION);
-    git_checkout_options checkout_opts;
-    git_checkout_init_options (&checkout_opts, GIT_CHECKOUT_OPTIONS_VERSION);
-    
-    // Set up options
-    checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE_CREATE;
-    checkout_opts.progress_cb = checkout_progress;
-    checkout_opts.progress_payload = &pd;
-    clone_opts.checkout_opts = checkout_opts;
-    clone_opts.remote_callbacks.transfer_progress = &fetch_progress;
-    clone_opts.remote_callbacks.credentials = clone_cred_acquire_cb;
-    clone_opts.remote_callbacks.payload = &pd;
-    
-    // Do the clone
-    result = git_clone (&cloned_repo, url.c_str(), path.c_str(), &clone_opts);
-    if (result != 0) {
-      const git_error *err = giterr_last();
-      error = err->message;
-    }
-    if (cloned_repo) git_repository_free (cloned_repo);
-    git_threads_shutdown ();
 
 /* Todo
  
@@ -167,7 +82,7 @@ void collaboration_clone (string object, int jobid) // Todo writing it.
   Assets_View view = Assets_View ();
   view.set_variable ("object", object);
   view.set_variable ("url", url);
-  if (result == 0) {
+  if (result) {
     view.enable_zone ("okay");
   } else {
     view.enable_zone ("error");
