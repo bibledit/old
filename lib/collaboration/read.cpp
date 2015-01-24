@@ -29,7 +29,11 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
+#include <database/jobs.h>
 #include <dialog/list.h>
+#include <tasks/logic.h>
+#include <jobs/index.h>
+#include <collaboration/clone.h>
 
 
 string collaboration_read_url ()
@@ -59,6 +63,17 @@ string collaboration_read (void * webserver_request)
   view.set_variable ("object", object);
   
   
+  if (request->query.count ("clone")) {
+    Database_Jobs database_jobs = Database_Jobs ();
+    int jobId = database_jobs.getNewId ();
+    database_jobs.setLevel (jobId, Filter_Roles::admin ());
+    database_jobs.setProgress (jobId, collaboration_clone_header ());
+    tasks_logic_queue (CLONEGITREPOSITORY, {object, convert_to_string (jobId)});
+    redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+    return "";
+  }
+
+  
   // Deal wih possibly setting or updating the URL of the remote repository.
   if (request->post.count ("url")) {
     string url = request->post["urlvalue"];
@@ -68,14 +83,6 @@ string collaboration_read (void * webserver_request)
   view.set_variable ("url", url);
 
   
-  // Create the git repository directory now since this is the most convenient moment to do it.
-  if (!object.empty ()) {
-    string directory = filter_git_directory (object);
-    filter_url_rmdir (directory);
-    filter_url_mkdir (directory);
-  }
-  
-
   string error;
   bool online = filter_git_remote_read (url, error); // Todo
   if (online) {

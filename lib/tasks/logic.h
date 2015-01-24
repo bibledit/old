@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define COMPAREUSFM "compareusfm"
 #define MAINTAINDATABASE "maintaindatabase"
 #define CLEANTMPFILES "cleantmpfiles"
+#define CLONEGITREPOSITORY "clonegitrepository"
 #define SENDRECEIVEBIBLES "sendreceivebibles"
 #define SENDNOTES "sendnotes"
 #define SENDBIBLES "sendbibles"

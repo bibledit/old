@@ -250,12 +250,6 @@ int cred_acquire_cb (git_cred **out, const char * url, const char * username_fro
   char username[128] = {0};
   char password[128] = {0};
   
-  //printf("Username: ");
-  //scanf("%s", username);
-  
-  //printf("Password: ");
-  //scanf("%s", password);
-  
   return git_cred_userpass_plaintext_new (out, username, password);
 }
 

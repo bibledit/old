@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <compare/compare.h>
 #include <database/maintenance.h>
 #include <tmp/tmp.h>
+#include <collaboration/clone.h>
 
 
 mutex mutex_tasks; 
@@ -94,6 +95,8 @@ void tasks_run_one (string filename)
     database_maintenance ();
   } else if (command == CLEANTMPFILES) {
     tmp_tmp ();
+  } else if (command == CLONEGITREPOSITORY) {
+    collaboration_clone (parameter1, convert_to_int (parameter2));
   } else if (command == SENDRECEIVEBIBLES) {
     Database_Logs::log ("Not yet implemented: " + command); // sendreceive.php
   } else if (command == SENDNOTES) {
