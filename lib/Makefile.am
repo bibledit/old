@@ -120,9 +120,7 @@ libbibledit_a_SOURCES = \
 	collaboration/open.cpp \
 	collaboration/password.cpp \
 	collaboration/secure.cpp \
-	collaboration/read.cpp \
 	collaboration/link.cpp \
-	collaboration/write.cpp \
 	collaboration/direction.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \

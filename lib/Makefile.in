@@ -172,8 +172,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
-	collaboration/secure.$(OBJEXT) collaboration/read.$(OBJEXT) \
-	collaboration/link.$(OBJEXT) collaboration/write.$(OBJEXT) \
+	collaboration/secure.$(OBJEXT) collaboration/link.$(OBJEXT) \
 	collaboration/direction.$(OBJEXT) search/rebibles.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
 	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
@@ -545,9 +544,7 @@ libbibledit_a_SOURCES = \
 	collaboration/open.cpp \
 	collaboration/password.cpp \
 	collaboration/secure.cpp \
-	collaboration/read.cpp \
 	collaboration/link.cpp \
-	collaboration/write.cpp \
 	collaboration/direction.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
@@ -1138,11 +1135,7 @@ collaboration/password.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
 collaboration/secure.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
-collaboration/read.$(OBJEXT): collaboration/$(am__dirstamp) \
-	collaboration/$(DEPDIR)/$(am__dirstamp)
 collaboration/link.$(OBJEXT): collaboration/$(am__dirstamp) \
-	collaboration/$(DEPDIR)/$(am__dirstamp)
-collaboration/write.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
 collaboration/direction.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
@@ -1563,9 +1556,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/link.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/open.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/password.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/read.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/secure.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/write.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/compare.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@

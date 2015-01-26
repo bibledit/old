@@ -500,3 +500,57 @@ bool filter_git_commit (string repository, string user, string email, string mes
   return (result == 0);
 }
 
+
+void filter_git_config_set_bool (string repository, string name, bool value)
+{
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  git_config * cfg = NULL;
+  result = git_repository_config (&cfg, repo);
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  result = git_config_set_bool (cfg, name.c_str(), value);
+  if (cfg) git_config_free (cfg);
+  if (repo) git_repository_free (repo);
+}
+
+
+void filter_git_config_set_int (string repository, string name, int value)
+{
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  git_config * cfg = NULL;
+  result = git_repository_config (&cfg, repo);
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  result = git_config_set_int32 (cfg, name.c_str(), value);
+  if (cfg) git_config_free (cfg);
+  if (repo) git_repository_free (repo);
+}
+
+
+void filter_git_config_set_string (string repository, string name, string value)
+{
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  git_config * cfg = NULL;
+  result = git_repository_config (&cfg, repo);
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  result = git_config_set_string (cfg, name.c_str(), value.c_str());
+  if (cfg) git_config_free (cfg);
+  if (repo) git_repository_free (repo);
+
+}

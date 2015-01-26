@@ -28,6 +28,7 @@ string filter_shell_escape_argument (string argument)
   return argument;
 }
 
+
 int filter_shell_run (string directory, string command, const vector <string> parameters, string & output, string & error) // Todo
 {
   command = filter_shell_escape_argument (command);

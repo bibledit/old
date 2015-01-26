@@ -42,8 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <collaboration/open.h>
 #include <collaboration/password.h>
 #include <collaboration/secure.h>
-#include <collaboration/read.h>
-#include <collaboration/write.h>
 #include <collaboration/direction.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
@@ -194,8 +192,6 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == collaboration_open_url ()) && collaboration_open_acl (request)) request->reply = collaboration_open (request);
   else if ((url == collaboration_password_url ()) && collaboration_password_acl (request)) request->reply = collaboration_password (request);
   else if ((url == collaboration_secure_url ()) && collaboration_secure_acl (request)) request->reply = collaboration_secure (request);
-  else if ((url == collaboration_read_url ()) && collaboration_read_acl (request)) request->reply = collaboration_read (request);
-  else if ((url == collaboration_write_url ()) && collaboration_write_acl (request)) request->reply = collaboration_write (request);
   else if ((url == collaboration_direction_url ()) && collaboration_direction_acl (request)) request->reply = collaboration_direction (request);
 
   // AJAX calls.

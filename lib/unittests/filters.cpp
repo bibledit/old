@@ -3459,7 +3459,12 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
   }
-  
+  // Setting values in the configuration.
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    filter_git_config_set_bool (repository, "foo.setting", false);
+    filter_git_config_set_int (repository, "bar.setting", 11);
+  }
   
 }
 /* Todo git remote tests.

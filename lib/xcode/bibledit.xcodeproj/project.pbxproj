@@ -1033,7 +1033,6 @@
 		CAF6DBF41A72583700E5389F /* password.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = password.h; sourceTree = "<group>"; };
 		CAF6DBF51A72583700E5389F /* password.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = password.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAF6DBFB1A72583700E5389F /* collaboration_repo_data.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = collaboration_repo_data.php; sourceTree = "<group>"; };
-		CAF6DBFC1A72583700E5389F /* read.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = read.html; sourceTree = "<group>"; };
 		CAF6DC021A72583700E5389F /* secure.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = secure.cpp; sourceTree = "<group>"; };
 		CAF6DC031A72583700E5389F /* secure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = secure.h; sourceTree = "<group>"; };
 		CAF6DC041A72583700E5389F /* secure.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = secure.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1045,14 +1044,9 @@
 		CAF6DC0A1A72583700E5389F /* collaboration_take_yourself.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = collaboration_take_yourself.php; sourceTree = "<group>"; };
 		CAF6DC0B1A72583700E5389F /* collaboration_take_yourself1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_take_yourself1.html; sourceTree = "<group>"; };
 		CAF6DC0C1A72583700E5389F /* collaboration_take_yourself2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_take_yourself2.html; sourceTree = "<group>"; };
-		CAF6DC0D1A726D2700E5389F /* read.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = read.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAF6DC0E1A726D2700E5389F /* read.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = read.h; sourceTree = "<group>"; };
 		CAF6DC0F1A72B4E000E5389F /* link.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = link.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DC101A72B4E000E5389F /* link.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = link.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAF6DC111A72B4E000E5389F /* link.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = link.html; sourceTree = "<group>"; };
-		CAF6DC131A73EFF400E5389F /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
-		CAF6DC141A73EFF400E5389F /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
-		CAF6DC151A73EFF400E5389F /* write.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = write.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sheetm.cpp; sourceTree = "<group>"; };
 		CAFE132D1A48ABEA00F0DB35 /* sheetm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheetm.h; sourceTree = "<group>"; };
 		CAFE132E1A497AB200F0DB35 /* yes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = yes.cpp; sourceTree = "<group>"; };
@@ -3236,15 +3230,9 @@
 				CAF6DBF41A72583700E5389F /* password.h */,
 				CAF6DBF51A72583700E5389F /* password.html */,
 				CAF6DBFB1A72583700E5389F /* collaboration_repo_data.php */,
-				CAF6DBFC1A72583700E5389F /* read.html */,
-				CAF6DC0D1A726D2700E5389F /* read.cpp */,
-				CAF6DC0E1A726D2700E5389F /* read.h */,
 				CAF6DC021A72583700E5389F /* secure.cpp */,
 				CAF6DC031A72583700E5389F /* secure.h */,
 				CAF6DC041A72583700E5389F /* secure.html */,
-				CAF6DC131A73EFF400E5389F /* write.cpp */,
-				CAF6DC141A73EFF400E5389F /* write.h */,
-				CAF6DC151A73EFF400E5389F /* write.html */,
 				CAF6DC051A72583700E5389F /* collaboration_take_repo-cli.php */,
 				CAF6DC061A72583700E5389F /* collaboration_take_repo.php */,
 				CAF6DC071A72583700E5389F /* collaboration_take_repo1.html */,
