@@ -49,11 +49,11 @@ string filter_git_check_error (int result)
 
 
 // Runs the equivalent of "git init".
-bool filter_git_init (string directory)
+bool filter_git_init (string directory, bool bare)
 {
   git_threads_init ();
   git_repository *repo = NULL;
-  int result = git_repository_init (&repo, directory.c_str(), false);
+  int result = git_repository_init (&repo, directory.c_str(), bare);
   filter_git_check_error (result);
   git_repository_free (repo);
   git_threads_shutdown ();
@@ -335,9 +335,11 @@ static int fetch_progress (const git_transfer_progress *stats, void *payload)
     size_t received_kilo_bytes = stats->received_bytes / 1048;
     int percentage = round (100 * stats->received_objects / stats->total_objects);
     string progress = to_string (received_kilo_bytes) + " kb";
-    Database_Jobs database_jobs;
-    database_jobs.setPercentage (pd->job_identifier, percentage);
-    database_jobs.setProgress (pd->job_identifier, progress);
+    if (pd->job_identifier) {
+      Database_Jobs database_jobs;
+      database_jobs.setPercentage (pd->job_identifier, percentage);
+      database_jobs.setProgress (pd->job_identifier, progress);
+    }
     pd->seconds = seconds;
   }
   return 0;
@@ -350,9 +352,11 @@ static void checkout_progress (const char *path, size_t cur, size_t tot, void *p
   int seconds = filter_string_date_seconds_since_epoch ();
   if (seconds != pd->seconds) {
     int percentage = round (100 * cur / tot);
-    Database_Jobs database_jobs;
-    database_jobs.setPercentage (pd->job_identifier, percentage);
-    if (path) database_jobs.setProgress (pd->job_identifier, path);
+    if (pd->job_identifier) {
+      Database_Jobs database_jobs;
+      database_jobs.setPercentage (pd->job_identifier, percentage);
+      if (path) database_jobs.setProgress (pd->job_identifier, path);
+    }
     pd->seconds = seconds;
   }
 }
@@ -395,7 +399,7 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
 }
 
 
-bool filter_git_remote_add_all (string repository, string & error) // Todo
+bool filter_git_add_all (string repository, string & error)
 {
   git_repository * repo = NULL;
   git_index * index = NULL;
@@ -449,34 +453,46 @@ bool filter_git_commit (string repository, string user, string email, string mes
     result = git_repository_index (&index, repo);
     error = filter_git_check_error (result);
   }
-  
-  
-  time_t ctime = filter_string_date_seconds_since_epoch ();
-  unsigned int parents, p;
 
-  // To commit, the index must be supplied as a tree.
-  //git_tree * tree = NULL;
+  // Create a tree from the index.
+  git_oid tree_oid;
   if (result == 0) {
-    //result = git_index_write_tree(tree, index);
-    //error = filter_git_check_error (result);
+    result = git_index_write_tree (&tree_oid, index);
+    error = filter_git_check_error (result);
   }
 
-  // Todo some links for git commit:
-  // http://stackoverflow.com/questions/27672722/libgit2-commit-example
-  // https://libgit2.github.com/libgit2/ex/HEAD/general.html#section-Writing_Commits
-  // http://stackoverflow.com/questions/15711444/how-to-commit-to-a-git-repository-using-libgit2
-  // http://stackoverflow.com/questions/16040460/libgit2-how-to-do-a-commit-of-all-files-added-by-path
-  
-  git_oid tree_id, parent_id, commit_id;
-  git_tree *tree;
-  git_commit *parent;
+  // Create a signature.
+  git_signature * signature = NULL;
+  time_t ctime = filter_string_date_seconds_since_epoch ();
+  if (result == 0) {
+    git_signature_new ((git_signature **)&signature, user.c_str(), email.c_str(), ctime, 0);
+    error = filter_git_check_error (result);
+  }
 
-  const git_signature *author;
-  const git_signature *cmtter;
-  git_signature_new ((git_signature **)&author, user.c_str(), email.c_str(), ctime, 0);
-  git_signature_new ((git_signature **)&cmtter, user.c_str(), email.c_str(), ctime, 0);
+  // Get the tree.
+  git_tree * tree = NULL;
+  if (result == 0) {
+    result = git_tree_lookup (&tree, repo, &tree_oid);
+    error = filter_git_check_error (result);
+  }
+
+  git_buf buffer;
+  memset (&buffer, 0, sizeof (git_buf));
+  if (result == 0) {
+    result = git_message_prettify (&buffer, message.c_str(), 0, '#');
+    error = filter_git_check_error (result);
+  }
   
+  git_oid commit_oid;
+  if (result == 0) {
+    result = git_commit_create_v (&commit_oid, repo, "HEAD", signature, signature, NULL, buffer.ptr, tree, 0);
+    error = filter_git_check_error (result);
+  }
+
   // Free resources.
+  git_buf_free (&buffer);
+  if (tree) git_tree_free (tree);
+  if (signature) git_signature_free (signature);
   if (index) git_index_free (index);
   if (repo) git_repository_free (repo);
   git_threads_shutdown();

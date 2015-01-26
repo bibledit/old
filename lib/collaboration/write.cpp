@@ -33,7 +33,7 @@
 #include <dialog/list.h>
 #include <tasks/logic.h>
 #include <jobs/index.h>
-#include <collaboration/clone.h>
+#include <collaboration/link.h>
 
 
 string collaboration_write_url ()
@@ -74,20 +74,38 @@ string collaboration_write (void * webserver_request) // Todo
 
     string directory = filter_git_directory (object);
     string error;
+    string username = request->session_logic ()->currentUser ();
+    string email = request->database_users ()->getUserToEmail (username);
+    bool okay = true;
     
     // Temporal file for trying write access.
     string temporal_file_name = filter_url_create_path (directory, "test_repository_writable");
     filter_url_file_put_contents (temporal_file_name, "contents");
     
     // Add this file.
-    if (filter_git_remote_add_all (directory, error)) { // Todo
-      okaylines.push_back (gettext("A file was added to the cloned repository successfully ."));
+    okay = filter_git_add_all (directory, error);
+    if (okay) { // Todo
+      okaylines.push_back (gettext("A file was added to the cloned repository successfully."));
     } else {
       errorlines.push_back (gettext("Failure adding a file to the cloned repository."));
       errorlines.push_back (error);
     }
     
+    // Commit the file locally.
+    if (okay) {
+      okay = filter_git_commit (directory, username, email, "Write text", error);
+      if (okay) { // Todo
+        okaylines.push_back (gettext("The file was committed to the cloned repository successfully."));
+      } else {
+        errorlines.push_back (gettext("Failure committing a file to the cloned repository."));
+        errorlines.push_back (error);
+      }
+    }
 
+
+    
+    
+    
   } else {
     errorlines.push_back (gettext ("No Bible given"));
   }
@@ -112,18 +130,6 @@ string collaboration_write (void * webserver_request) // Todo
 
 
 echo gettext("Step: Committing the above changes locally") . "\n";
-
-// Commit the above locally.
-$command = "cd $escapedDir; git commit -a -m write-test 2>&1";
-echo "$command\n";
-passthru ($command, $exit_code);
-// Exit code can be 1 in case there was nothing to commit.
-if (($exit_code == 0) || ($exit_code == 1)) {
-  echo gettext("Ok: Local commit was made successfully.");
-} else {
-  echo gettext("Error: Local commit failed.");
-}
-echo "\n";
 
 echo gettext("Step: Pulling changes from the remote repository") . "\n";
 

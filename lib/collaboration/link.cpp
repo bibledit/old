@@ -17,7 +17,7 @@
  */
 
 
-#include <collaboration/clone.h>
+#include <collaboration/link.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -32,28 +32,48 @@
 #include <git2.h>
 
 
-void collaboration_clone (string object, int jobid)
+void collaboration_link (string object, int jobid, string direction)
 {
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   string path = filter_git_directory (object);
-  bool result = false;
+  bool result = true;
   string error;
 
   Database_Jobs database_jobs;
 
-  if (!object.empty ()) {
-    
-    string page = collaboration_clone_header ();
-    Assets_View view = Assets_View ();
-    view.set_variable ("object", object);
-    view.set_variable ("url", url);
-    page += view.render ("collaboration", "clone");
-    page += Assets_Page::footer ();
-    database_jobs.setStart (jobid, page);
+  string page = collaboration_link_header ();
+  Assets_View view = Assets_View ();
+  view.set_variable ("object", object);
+  view.set_variable ("url", url);
+  if (direction == "me") view.enable_zone ("takeme");
+  if (direction == "repo") view.enable_zone ("takerepo");
+  page += view.render ("collaboration", "clone");
+  page += Assets_Page::footer ();
+  database_jobs.setStart (jobid, page);
+
+  if (result) {
+    if (object.empty ()) {
+      error = gettext ("No Bible given");
+      result = false;
+    }
+  }
+  if (result) {
+    if (direction != "repo" && direction != "me") {
+      error = gettext ("It is unclear which data to copy to where");
+      result = false;
+    }
+  }
+  if (result) {
     result = filter_git_remote_clone (url, path, jobid, error);
+  }
+
+  
 
 /* Todo rename detection off / default pushing method, name / email.
-    // Switch rename detection off.
+
+ 
+ 
+ // Switch rename detection off.
     // This is necessary for the consultation notes, since git has been seen to "detect" spurious renames.
     exec ("cd $escapedDir; git config diff.renamelimit 0");
     exec ("cd $escapedDir; git config diff.renames false");
@@ -70,25 +90,26 @@ void collaboration_clone (string object, int jobid)
     if (!$mail_address) $mail_address = "bibledit-web@bibledit.org";
     exec ("cd $escapedDir; git config user.email \"$mail_address\"");
 */
-  }
 
-  string page = collaboration_clone_header ();
-  Assets_View view = Assets_View ();
+  page = collaboration_link_header ();
+  view = Assets_View ();
   view.set_variable ("object", object);
   view.set_variable ("url", url);
+  if (direction == "me") view.enable_zone ("takeme");
+  if (direction == "repo") view.enable_zone ("takerepo");
   if (result) {
     view.enable_zone ("okay");
   } else {
     view.enable_zone ("error");
     view.set_variable ("error", error);
   }
-  page += view.render ("collaboration", "clone");
+  page += view.render ("collaboration", "link");
   page += Assets_Page::footer ();
   database_jobs.setResult (jobid, page);
 }
 
 
-string collaboration_clone_header ()
+string collaboration_link_header ()
 {
-  return "<h1>" + gettext ("Clone repository") + "</h1>\n";
+  return "<h1>" + gettext ("Link repository") + "</h1>\n";
 }

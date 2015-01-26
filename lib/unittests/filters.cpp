@@ -3099,7 +3099,7 @@ void test_filter_markup ()
 
 
 void test_filter_git_setup (Webserver_Request * request, string bible, string newbible,
-                            string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
+                                   string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
 {
   refresh_sandbox (true);
   
@@ -3133,10 +3133,12 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
 
 void test_filter_git ()
 {
-  string bible = "unittest";
-  string newbible = "newunittest";
+  string bible = "localrepo";
+  string newbible = "newlocalrepo";
   string repository = filter_git_directory (bible);
   string newrepository = filter_git_directory (newbible);
+  string remoterepository = filter_git_directory ("remoterepo");
+  string clonedrepository = filter_git_directory ("clonedrepo");
   Webserver_Request request;
   
   string psalms_0_data =
@@ -3417,9 +3419,50 @@ void test_filter_git ()
     // Remove the journal entries the test created.
     refresh_sandbox (false);
   }
+
+  // Test of basic git operations in combination with a remote repository.
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    string error;
+    bool success;
+    string remoteurl = "file://" + remoterepository;
+    
+    // Create bare remote reository.
+    filter_url_mkdir (remoterepository);
+    filter_git_init (remoterepository, true);
+    
+    // Test read access to the remote repository.
+    success = filter_git_remote_read (remoterepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Test cloning the repository.
+    success = filter_git_remote_clone (remoteurl, clonedrepository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Store some Bible data in the cloned repository.
+    filter_url_mkdir (filter_url_create_path (clonedrepository, "Psalms", "0"));
+    filter_url_file_put_contents (filter_url_create_path (clonedrepository, "Psalms", "0", "data"), psalms_0_data);
+    filter_url_mkdir (filter_url_create_path (clonedrepository, "Psalms", "11"));
+    filter_url_file_put_contents (filter_url_create_path (clonedrepository, "Psalms", "11", "data"), psalms_11_data);
+    filter_url_mkdir (filter_url_create_path (clonedrepository, "Song of Solomon", "2"));
+    filter_url_file_put_contents (filter_url_create_path (clonedrepository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+
+    // Add the Bible data to the git index.
+    success = filter_git_add_all (clonedrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Commit the index to the repository.
+    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+  }
+  
   
 }
-/* 
+/* Todo git remote tests.
  
  C++Port: This may not be needed with libgit2.
  public function testGetPullPassage ()

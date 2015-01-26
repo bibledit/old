@@ -17,22 +17,16 @@
  */
 
 
-#ifndef INCLUDED_FILTER_GIT_H
-#define INCLUDED_FILTER_GIT_H
+#ifndef INCLUDED_COLLABORATION_DIRECTION_H
+#define INCLUDED_COLLABORATION_DIRECTION_H
 
 
 #include <config/libraries.h>
 
 
-string filter_git_directory (string object);
-bool filter_git_init (string directory, bool bare = false);
-void filter_git_sync_bible_to_git (void * webserver_request, string bible, string repository);
-void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible);
-void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter);
-bool filter_git_remote_read (string url, string & error);
-bool filter_git_remote_clone (string url, string path, int jobid, string & error);
-bool filter_git_add_all (string repository, string & error); // Todo
-bool filter_git_commit (string repository, string user, string email, string message, string & error); // Todo
+string collaboration_direction_url ();
+bool collaboration_direction_acl (void * webserver_request);
+string collaboration_direction (void * webserver_request);
 
 
 #endif

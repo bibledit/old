@@ -20,6 +20,7 @@ libbibledit_a_SOURCES = \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
+	filter/shell.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -120,8 +121,9 @@ libbibledit_a_SOURCES = \
 	collaboration/password.cpp \
 	collaboration/secure.cpp \
 	collaboration/read.cpp \
-	collaboration/clone.cpp \
+	collaboration/link.cpp \
 	collaboration/write.cpp \
+	collaboration/direction.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \

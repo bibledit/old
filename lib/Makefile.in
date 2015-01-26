@@ -121,11 +121,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/passage.$(OBJEXT) filter/customcss.$(OBJEXT) \
 	filter/bibleworks.$(OBJEXT) filter/git.$(OBJEXT) \
 	filter/diff.$(OBJEXT) filter/abbreviations.$(OBJEXT) \
-	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	assets/builder.$(OBJEXT) index/index.$(OBJEXT) \
-	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	filter/shell.$(OBJEXT) flate/flate.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) assets/builder.$(OBJEXT) \
+	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
@@ -173,41 +173,41 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
 	collaboration/secure.$(OBJEXT) collaboration/read.$(OBJEXT) \
-	collaboration/clone.$(OBJEXT) collaboration/write.$(OBJEXT) \
-	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
-	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
-	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
-	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
-	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
-	fonts/logic.$(OBJEXT) fonts/index.$(OBJEXT) \
-	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
-	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
-	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
-	editverse/index.$(OBJEXT) editverse/id.$(OBJEXT) \
-	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
-	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
-	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
-	editusfm/id.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/export.$(OBJEXT) editor/import.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
-	search/search.$(OBJEXT) search/index.$(OBJEXT) \
-	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
-	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
-	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
-	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
-	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
-	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
-	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
-	workbench/logic.$(OBJEXT) workbench/organize.$(OBJEXT) \
-	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
-	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
-	demo/logic.$(OBJEXT)
+	collaboration/link.$(OBJEXT) collaboration/write.$(OBJEXT) \
+	collaboration/direction.$(OBJEXT) search/rebibles.$(OBJEXT) \
+	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
+	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
+	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
+	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
+	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
+	fonts/index.$(OBJEXT) versification/index.$(OBJEXT) \
+	versification/system.$(OBJEXT) book/create.$(OBJEXT) \
+	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
+	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
+	editverse/id.$(OBJEXT) editverse/load.$(OBJEXT) \
+	editverse/save.$(OBJEXT) navigation/passage.$(OBJEXT) \
+	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/id.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/export.$(OBJEXT) \
+	editor/import.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) search/search.$(OBJEXT) \
+	search/index.$(OBJEXT) search/select.$(OBJEXT) \
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
+	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
+	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
+	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
+	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
+	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
+	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
+	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
+	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
+	sendreceive/index.$(OBJEXT) demo/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -445,6 +445,7 @@ libbibledit_a_SOURCES = \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
+	filter/shell.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -545,8 +546,9 @@ libbibledit_a_SOURCES = \
 	collaboration/password.cpp \
 	collaboration/secure.cpp \
 	collaboration/read.cpp \
-	collaboration/clone.cpp \
+	collaboration/link.cpp \
 	collaboration/write.cpp \
+	collaboration/direction.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \
@@ -749,6 +751,8 @@ filter/git.$(OBJEXT): filter/$(am__dirstamp) \
 filter/diff.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/abbreviations.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/shell.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -1136,9 +1140,11 @@ collaboration/secure.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
 collaboration/read.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
-collaboration/clone.$(OBJEXT): collaboration/$(am__dirstamp) \
+collaboration/link.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
 collaboration/write.$(OBJEXT): collaboration/$(am__dirstamp) \
+	collaboration/$(DEPDIR)/$(am__dirstamp)
+collaboration/direction.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
 search/$(am__dirstamp):
 	@$(MKDIR_P) search
@@ -1551,9 +1557,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@book/$(DEPDIR)/create.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checksum/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/clone.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/direction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/flash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/link.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/open.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/read.Po@am__quote@
@@ -1639,6 +1646,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/passage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/shell.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@

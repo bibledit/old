@@ -17,7 +17,7 @@
  */
 
 
-#include <collaboration/read.h>
+#include <collaboration/direction.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -27,28 +27,27 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <access/bible.h>
 #include <database/config/bible.h>
 #include <database/jobs.h>
 #include <dialog/list.h>
+#include <collaboration/link.h>
 #include <tasks/logic.h>
 #include <jobs/index.h>
-#include <collaboration/link.h>
 
 
-string collaboration_read_url ()
+string collaboration_direction_url ()
 {
-  return "collaboration/read";
+  return "collaboration/direction";
 }
 
 
-bool collaboration_read_acl (void * webserver_request)
+bool collaboration_direction_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
 }
 
 
-string collaboration_read (void * webserver_request)
+string collaboration_direction (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -57,45 +56,26 @@ string collaboration_read (void * webserver_request)
   page = header.run ();
   Assets_View view = Assets_View ();
   
-
-  // The Bible (object) to work with.
   string object = request->query ["object"];
   view.set_variable ("object", object);
   
-  
-  if (request->query.count ("clone")) {
-    Database_Jobs database_jobs = Database_Jobs ();
-    int jobId = database_jobs.getNewId ();
-    database_jobs.setLevel (jobId, Filter_Roles::admin ());
-    database_jobs.setStart (jobId, collaboration_link_header ());
-    tasks_logic_queue (LINKGITREPOSITORY, {object, convert_to_string (jobId)});
-    redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
-    return "";
-  }
-
-  
-  // Deal wih possibly setting or updating the URL of the remote repository.
-  if (request->post.count ("url")) {
-    string url = request->post["urlvalue"];
-    Database_Config_Bible::setRemoteRepositoryUrl (object, url);
-  }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
 
-  
-  string error;
-  bool online = filter_git_remote_read (url, error);
-  if (online) {
-    string success_message = gettext("Read access to the repository is successful.");
-    view.set_variable ("success_message", success_message);
-  } else {
-    string error_message = gettext("Read access failed. Please retry it, possibly with another URL.");
-    view.set_variable ("error_message", error_message);
-    view.set_variable ("error", error);
+  if (request->query.count ("take")) {
+    string take = request->query ["take"];
+    if (!object.empty ()) {
+      Database_Jobs database_jobs = Database_Jobs ();
+      int jobId = database_jobs.getNewId ();
+      database_jobs.setLevel (jobId, Filter_Roles::admin ());
+      database_jobs.setStart (jobId, collaboration_link_header ());
+      tasks_logic_queue (LINKGITREPOSITORY, {object, convert_to_string (jobId), take});
+      redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+      return "";
+    }
   }
   
-  
-  page += view.render ("collaboration", "read");
+  page += view.render ("collaboration", "direction");
   page += Assets_Page::footer ();
   return page;
 }

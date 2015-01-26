@@ -17,15 +17,15 @@
  */
 
 
-#ifndef INCLUDED_COLLABORATION_CLONE_H
-#define INCLUDED_COLLABORATION_CLONE_H
+#ifndef INCLUDED_COLLABORATION_LINK_H
+#define INCLUDED_COLLABORATION_LINK_H
 
 
 #include <config/libraries.h>
 
 
-void collaboration_clone (string object, int jobid);
-string collaboration_clone_header ();
+void collaboration_link (string object, int jobid, string direction);
+string collaboration_link_header ();
 
 
 #endif
