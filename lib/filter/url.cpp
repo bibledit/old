@@ -307,9 +307,14 @@ string filter_url_urldecode (string url)
 
 
 // Returns the name of a temporary file.
-string filter_url_tempfile ()
+string filter_url_tempfile (const char * directory)
 {
-  string filename = filter_url_create_root_path ("tmp", convert_to_string (filter_string_date_seconds_since_epoch ()) + convert_to_string (filter_string_date_numerical_microseconds ()));
+  string filename = convert_to_string (filter_string_date_seconds_since_epoch ()) + convert_to_string (filter_string_date_numerical_microseconds ());
+  if (directory) {
+    filename = filter_url_create_path (directory, filename);
+  } else {
+    filename = filter_url_create_root_path ("tmp", filename);
+  }
   return filename;
 }
 

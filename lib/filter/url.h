@@ -53,7 +53,7 @@ int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
 int filter_url_filemtime (string filename);
 string filter_url_urldecode (string url);
-string filter_url_tempfile ();
+string filter_url_tempfile (const char * directory = NULL);
 string filter_url_escape_shell_argument (string argument);
 string filter_url_unique_path (string path);
 bool filter_url_email_is_valid (string email);

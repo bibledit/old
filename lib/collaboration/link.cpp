@@ -25,6 +25,7 @@
 #include <filter/string.h>
 #include <filter/git.h>
 #include <filter/url.h>
+#include <filter/shell.h>
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
@@ -79,13 +80,13 @@ void collaboration_link (string object, int jobid, string direction)
   
   // Clone the remote repository, with feedback about progress.
   if (result) {
-    success.push_back ("Clone remote repository");
+    success.push_back ("Copy repository to Bibledit");
     result = filter_git_remote_clone (url, path, jobid, error);
   }
 
   // Set some configuration values.
   if (result) {
-    success.push_back (gettext ("Configure cloned repository"));
+    success.push_back (gettext ("Configure copied data"));
 
     // Switch rename detection off.
     // This is necessary for the consultation notes, since git has been seen to "detect" spurious renames.
@@ -112,95 +113,82 @@ void collaboration_link (string object, int jobid, string direction)
   
   // Add this file.
   if (result) {
-    result = filter_git_add_all (path, error);
+    result = filter_git_add_remove_all (path, error);
     if (result) {
-      success.push_back (gettext("A file was added to the cloned repository successfully."));
+      success.push_back (gettext("A file was added to the data successfully."));
     } else {
-      error.append (" " + gettext("Failure adding a file to the cloned repository."));
+      error.append (" " + gettext("Failure adding a file to the data."));
     }
-    
   }
   
   // Commit the file locally.
   if (result) {
-    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test", error);
+    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 1", error);
     if (result) {
-      success.push_back (gettext("The file was committed to the cloned repository successfully."));
+      success.push_back (gettext("The file was committed successfully."));
     } else {
-      error.append (" " + gettext("Failure committing a file to the cloned repository."));
+      error.append (" " + gettext("Failure committing the file."));
     }
   }
   
+  // Pull changes from the remote repository.
+  // We cannot look at the exit code here in case the repository is empty,
+  // because in such cases the exit code is undefined.
+  if (result) {
+    string out, err;
+    filter_shell_run (path, "git", {"pull"}, out, err);
+    success.push_back (out + " " + err);
+    success.push_back (gettext("Changes were pulled from the repository successfully."));
+  }
+  
+  // Push the changes to see if there is write access.
+  // Notice the --all switch needed when the remote repository is empty.
+  if (result) {
+    string out, err;
+    result = (filter_shell_run (path, "git", {"push", "--all"}, out, err) == 0);
+    success.push_back (out + " " + err);
+    if (result) {
+      success.push_back (gettext("Changes were pushed to the repository successfully."));
+    } else {
+      error.append (" " + gettext("Pushing changes to the repository failed."));
+    }
+  }
+  
+  // Remove the temporal file from the cloned repository.
+  filter_url_unlink (temporal_file_name);
+  if (result) {
+    result = filter_git_add_remove_all (path, error); // Todo fails for removed files.
+    if (result) {
+      success.push_back (gettext("The temporal file was removed from the data successfully."));
+    } else {
+      error.append (" " + gettext("Failure removing the temporal file from the data."));
+    }
+  }
+  if (result) {
+    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
+    if (result) {
+      success.push_back (gettext("The removed temporal file was committed successfully."));
+    } else {
+      error.append (" " + gettext("Failure committing the removed temporal file."));
+    }
+  }
 
+  // Push changes to the remote repository.
+  if (result) {
+    string out, err;
+    result = (filter_shell_run (path, "git", {"push"}, out, err) == 0);
+    success.push_back (out + " " + err);
+    if (result) {
+      success.push_back (gettext("The changes were pushed to the repository successfully."));
+    } else {
+      error.append (" " + gettext("Pushing changes to the repository failed."));
+    }
+  }
   
-  
-  /* Todo
-   
-   echo gettext("Step: Committing the above changes locally") . "\n";
-   
-   echo gettext("Step: Pulling changes from the remote repository") . "\n";
-   
-   // Pull changes.
-   // We cannot look at the exit code here in case the repository is empty,
-   // because in such cases the exit code is undefined.
-   $command = "cd $escapedDir; git pull 2>&1";
-   echo "$command\n";
-   passthru ($command, $exit_code);
-   echo gettext("Ok: Changes were pulled from the repository successfully.");
-   echo "\n";
-   
-   echo gettext("Step: Pushing changes to the remote repository") . "\n";
-   
-   // Push the changes to see if there is write access.
-   // Notice the --all switch needed when the remote repository is empty.
-   $command = "cd $escapedDir; git push --all 2>&1";
-   echo "$command\n";
-   passthru ($command, $exit_code);
-   if ($exit_code == 0) {
-   echo gettext("Ok: Changes were pushed to the repository successfully.");
-   } else {
-   echo gettext("Error: Pushing changes to the repository failed.");
-   }
-   echo "\n";
-   
-   echo gettext("Step: Removing the temporal file from the local repository") . "\n";
-   
-   // Remove the temporal file from the cloned repository.
-   unlink ($temporal_file_name);
-   $command = "cd $escapedDir; git commit -a -m write-test 2>&1";
-   echo "$command\n";
-   passthru ($command, $exit_code);
-   if ($exit_code == 0) {
-   echo gettext("Ok: The temporal file was removed from the local repository successfully.");
-   } else {
-   echo gettext("Error: Removing the temporal file from the local repository failed.");
-   }
-   echo "\n";
-   
-   echo gettext("Step: Pushing the changes to the remote repository") . "\n";
-   
-   // Push changes to the remote repository.
-   $command = "cd $escapedDir; git push 2>&1";
-   echo "$command\n";
-   passthru ($command, $exit_code);
-   if ($exit_code == 0) {
-   echo gettext("Ok: Changes were pushed to the remote repository successfully.");
-   } else {
-   echo gettext("Error: Pushing changes to the remote repository failed.");
-   }
-   echo "\n";
-   
-   exec ("sync");
-   
-   $database_shell = Database_Shell::getInstance ();
-   $database_shell->stopProcess ("collaboration_repo_write", 0);
-   
-   */
-
+  // Just in case it uses a flash disk, flush the pending writes to disk.
+  sync ();
  
- 
-// Todo add more linking steps.
-  
+  // Ready linking the repository.
   page = collaboration_link_header ();
   view = Assets_View ();
   view.set_variable ("object", object);

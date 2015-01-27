@@ -3420,6 +3420,13 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
 
+  // Setting values in the configuration.
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    filter_git_config_set_bool (repository, "foo.setting", false);
+    filter_git_config_set_int (repository, "bar.setting", 11);
+  }
+
   // Test of basic git operations in combination with a remote repository.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
@@ -3450,7 +3457,7 @@ void test_filter_git ()
     filter_url_file_put_contents (filter_url_create_path (clonedrepository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
 
     // Add the Bible data to the git index.
-    success = filter_git_add_all (clonedrepository, error);
+    success = filter_git_add_remove_all (clonedrepository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     
@@ -3458,12 +3465,17 @@ void test_filter_git ()
     success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-  }
-  // Setting values in the configuration.
-  {
-    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    filter_git_config_set_bool (repository, "foo.setting", false);
-    filter_git_config_set_int (repository, "bar.setting", 11);
+    
+    // Remove some Bible data from the cloned repository.
+    filter_url_rmdir (filter_url_create_path (clonedrepository, "Psalms"));
+    success = filter_git_add_remove_all (clonedrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Commit the index to the repository.
+    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
   }
   
 }

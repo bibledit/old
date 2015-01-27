@@ -399,7 +399,20 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
 }
 
 
-bool filter_git_add_all (string repository, string & error)
+static int filter_git_index_remove_matched_path_cb (const char *path, const char *matched_pathspec, void *payload) // Todo
+{
+  if (matched_pathspec) {};
+  if (path) {
+    string * directory = (string *) payload;
+    string filename = filter_url_create_path (* directory, path);
+    if (file_exists (filename)) return 1;
+    else return 0;
+  }
+  return 0;
+}
+
+
+bool filter_git_add_remove_all (string repository, string & error)
 {
   git_repository * repo = NULL;
   git_index * index = NULL;
@@ -421,6 +434,11 @@ bool filter_git_add_all (string repository, string & error)
     error = filter_git_check_error (result);
   }
   
+  if (result == 0) {
+    result = git_index_remove_all (index, NULL, filter_git_index_remove_matched_path_cb, &repository);
+    error = filter_git_check_error (result);
+  }
+
   if (result == 0) {
     result = git_index_write (index);
     error = filter_git_check_error (result);
@@ -476,6 +494,7 @@ bool filter_git_commit (string repository, string user, string email, string mes
     error = filter_git_check_error (result);
   }
 
+  // Format the commit message.
   git_buf buffer;
   memset (&buffer, 0, sizeof (git_buf));
   if (result == 0) {
@@ -483,10 +502,34 @@ bool filter_git_commit (string repository, string user, string email, string mes
     error = filter_git_check_error (result);
   }
   
+  // Check whether the repository is empty, so HEAD is not yet committed.
+  bool head_unborn = git_repository_head_unborn (repo) == 1;
+
+  // Get HEAD as a commit object to use as the parent of the commit, if available.
+  git_oid parent_id;
+  git_commit *parent = NULL;
+  if (!head_unborn) {
+    if (result == 0) {
+      result = git_reference_name_to_id (&parent_id, repo, "HEAD");
+      error = filter_git_check_error (result);
+    }
+    if (result == 0) {
+      result = git_commit_lookup (&parent, repo, &parent_id);
+      error = filter_git_check_error (result);
+    }
+  }
+
   git_oid commit_oid;
-  if (result == 0) {
-    result = git_commit_create_v (&commit_oid, repo, "HEAD", signature, signature, NULL, buffer.ptr, tree, 0);
-    error = filter_git_check_error (result);
+  if (head_unborn) {
+    if (result == 0) {
+      result = git_commit_create_v (&commit_oid, repo, "HEAD", signature, signature, NULL, buffer.ptr, tree, 0);
+      error = filter_git_check_error (result);
+    }
+  } else {
+    if (result == 0) {
+      result = git_commit_create_v (&commit_oid, repo, "HEAD", signature, signature, NULL, buffer.ptr, tree, 1, parent);
+      error = filter_git_check_error (result);
+    }
   }
 
   // Free resources.
