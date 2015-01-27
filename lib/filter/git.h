@@ -38,6 +38,7 @@ void filter_git_config_set_bool (string repository, string name, bool value);
 void filter_git_config_set_int (string repository, string name, int value);
 void filter_git_config_set_string (string repository, string name, string value);
 Passage filter_git_get_pull_passage (string line);
+vector <string> filter_git_status (string repository); // Todo
 
 
 #endif

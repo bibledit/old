@@ -3500,6 +3500,58 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, standard.equal (passage));
   }
   
+  // Exercise the "git status" filter.
+  {
+    // Refresh the repository, and store three chapters in it.
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+
+    vector <string> paths;
+
+    // There should be three modified paths.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+
+    // Add the files to the index.
+    string error;
+    filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, "", error);
+
+    // There should still be three paths.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+    
+    // Commit the index.
+    filter_git_commit (repository, "user", "email", "unittest", error);
+    evaluate (__LINE__, __func__, "", error);
+
+    // There should be no modified paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {}, paths);
+
+    // Remove both Psalms chapters.
+    filter_url_rmdir (filter_url_create_path (repository, "Psalms"));
+
+    // There should be two modified paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+
+    // Add / remove the files to the index.
+    filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // There should still be two paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+    
+    // Commit the index.
+    filter_git_commit (repository, "user", "email", "unittest", error);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // There should be no modified paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {}, paths);
+  }
+  
   
 }
 /* Todo git tests.

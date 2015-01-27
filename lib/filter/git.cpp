@@ -633,3 +633,61 @@ Passage filter_git_get_pull_passage (string line)
 }
 
 
+// Reports information comparable to "git status".
+// Repository: "repository".
+// All changed files will be returned.
+vector <string> filter_git_status (string repository) // Todo
+{
+  vector <string> paths;
+  
+  int result = 0;
+  
+  git_repository * repo = NULL;
+  result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+
+  git_status_list * status = NULL;
+  if (result == 0) {
+    result = git_status_list_new (&status, repo, NULL);
+    if (result != 0) {
+      filter_git_check_error (result);
+    }
+  }
+
+  if (result == 0) {
+    size_t maxi = git_status_list_entrycount (status);
+    for (size_t i = 0; i < maxi; ++i) {
+      const git_status_entry * entry = git_status_byindex (status, i);
+      if (entry->status == GIT_STATUS_CURRENT) continue;
+      if (entry->status & GIT_STATUS_IGNORED) continue;
+      if (entry) {
+        git_diff_delta * mut = NULL;
+        if (entry->head_to_index) mut = entry->head_to_index;
+        if (entry->index_to_workdir) mut = entry->index_to_workdir;
+        if (mut) {
+          string path;
+          if (mut->old_file.path) path = mut->old_file.path;
+          else if (mut->new_file.path) path = mut->new_file.path;
+          if (!path.empty ()) paths.push_back (path);
+        }
+      }
+      if (entry->status & GIT_STATUS_INDEX_NEW) {};
+      if (entry->status & GIT_STATUS_INDEX_MODIFIED) {};
+      if (entry->status & GIT_STATUS_INDEX_DELETED) {};
+      if (entry->status & GIT_STATUS_INDEX_RENAMED) {};
+      if (entry->status & GIT_STATUS_INDEX_TYPECHANGE) {};
+      if (entry->status & GIT_STATUS_WT_NEW) {};
+      if (entry->status & GIT_STATUS_WT_MODIFIED) {};
+      if (entry->status & GIT_STATUS_WT_DELETED) {};
+      if (entry->status & GIT_STATUS_WT_RENAMED) {};
+      if (entry->status & GIT_STATUS_WT_TYPECHANGE) {};
+    }
+  }
+  
+  if (status) git_status_list_free (status);
+  if (repo) git_repository_free (repo);
+  
+  return paths;
+}
