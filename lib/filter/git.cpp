@@ -399,7 +399,7 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
 }
 
 
-static int filter_git_index_remove_matched_path_cb (const char *path, const char *matched_pathspec, void *payload) // Todo
+static int filter_git_index_remove_matched_path_cb (const char *path, const char *matched_pathspec, void *payload)
 {
   if (matched_pathspec) {};
   if (path) {
@@ -453,7 +453,7 @@ bool filter_git_add_remove_all (string repository, string & error)
 }
 
 
-bool filter_git_commit (string repository, string user, string email, string message, string & error) // Todo
+bool filter_git_commit (string repository, string user, string email, string message, string & error)
 {
   // Initialize the git system.
   git_threads_init();
@@ -597,3 +597,39 @@ void filter_git_config_set_string (string repository, string name, string value)
   if (repo) git_repository_free (repo);
 
 }
+
+
+// This filter takes a $line of the output of the git pull command.
+// It tries to interpret it to find a passage that would have been updated.
+// If a valid book and chapter are found, it returns them.
+Passage filter_git_get_pull_passage (string line)
+{
+  // Sample lines:
+  // "From https://github.com/joe/test"
+  // "   443579b..90dcb57  master     -> origin/master"
+  // "Updating 443579b..90dcb57"
+  // "Fast-forward"
+  // " Genesis/1/data | 2 +-"
+  // " 1 file changed, 1 insertion(+), 1 deletion(-)"
+  // " delete mode 100644 Leviticus/1/data"
+  // " create mode 100644 Leviticus/2/data"
+  Passage passage;
+  vector <string> bits = filter_string_explode (line, '/');
+  if (bits.size () == 3) {
+    string bookname = filter_string_trim (bits [0]);
+    int book = Database_Books::getIdFromEnglish (bookname);
+    if (book) {
+      if (filter_string_is_numeric (bits [1])) {
+        int chapter = convert_to_int (bits [1]);
+        string data = bits [2];
+        if (data.find ("data") != string::npos) {
+          passage.book = book;
+          passage.chapter = chapter;
+        }
+      }
+    }
+  }
+  return passage;
+}
+
+

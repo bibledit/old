@@ -22,6 +22,7 @@
 
 
 #include <config/libraries.h>
+#include <filter/passage.h>
 
 
 string filter_git_directory (string object);
@@ -31,11 +32,12 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
 void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter);
 bool filter_git_remote_read (string url, string & error);
 bool filter_git_remote_clone (string url, string path, int jobid, string & error);
-bool filter_git_add_remove_all (string repository, string & error); // Todo
-bool filter_git_commit (string repository, string user, string email, string message, string & error); // Todo
+bool filter_git_add_remove_all (string repository, string & error);
+bool filter_git_commit (string repository, string user, string email, string message, string & error);
 void filter_git_config_set_bool (string repository, string name, bool value);
 void filter_git_config_set_int (string repository, string name, int value);
 void filter_git_config_set_string (string repository, string name, string value);
+Passage filter_git_get_pull_passage (string line);
 
 
 #endif

@@ -159,7 +159,7 @@ void collaboration_link (string object, int jobid, string direction)
   // Remove the temporal file from the cloned repository.
   filter_url_unlink (temporal_file_name);
   if (result) {
-    result = filter_git_add_remove_all (path, error); // Todo fails for removed files.
+    result = filter_git_add_remove_all (path, error);
     if (result) {
       success.push_back (gettext("The temporal file was removed from the data successfully."));
     } else {

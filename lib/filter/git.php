@@ -5,35 +5,6 @@ class Filter_Git
 
 
 
-  // This filter takes a $line of the output of the git pull command.
-  // It tries to interpret it to find a passage that would have updated.
-  // If a valid book and chapter are found, it returns them.
-  // Else it returns NULL.
-  public static function getPullPassage ($line) C++Port may not be needed for libgit2.
-  {
-    // Sample lines:
-    // "From https://github.com/joe/test"
-    // "   443579b..90dcb57  master     -> origin/master"
-    // "Updating 443579b..90dcb57"
-    // "Fast-forward"
-    // " Genesis/1/data | 2 +-"
-    // " 1 file changed, 1 insertion(+), 1 deletion(-)"
-    // " delete mode 100644 Leviticus/1/data"
-    // " create mode 100644 Leviticus/2/data"
-    $bits = explode ("/", $line);
-    if (count ($bits) != 3) return NULL;
-    $book = filter_string_trim ($bits [0]);
-    $database_books = Database_Books::getInstance();
-    $book = Database_Books::getIdFromEnglish ($book);
-    if (!$book) return NULL;
-    $chapter = $bits [1];
-    if (!is_numeric ($chapter)) return NULL;
-    $data = $bits [2];
-    if (strpos ($data, "data") === false) return NULL;
-    return array ('book' => $book, 'chapter' => $chapter);
-  }
-  
-
   // This function returns an array with all commits in the git repository in $directory.
   public static function commits ($directory)
   {

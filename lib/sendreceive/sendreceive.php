@@ -168,7 +168,7 @@ if ($success) {
 // Record the changes from the collaborators into the Bible database.
 if ($success) {
   for ($pull_messages as $pull_message) {
-    $book_chapter = Filter_Git::getPullPassage ($pull_message);
+    $book_chapter = filter_git_get_pull_passage ($pull_message);
     if ($book_chapter) {
       $book = $book_chapter ['book'];
       $chapter = $book_chapter ['chapter'];

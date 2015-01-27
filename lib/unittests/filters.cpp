@@ -3478,31 +3478,33 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, "", error);
   }
   
+  // Get Pull Passage
+  {
+    Passage passage = filter_git_get_pull_passage ("From https://github.com/joe/test");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage ("   443579b..90dcb57  master     -> origin/master");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage ("Updating 443579b..90dcb57");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage ("Fast-forward");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage (" Genesis/3/data | 2 +-");
+    Passage standard = Passage ("", 1, 3, "");
+    evaluate (__LINE__, __func__, true, standard.equal (passage));
+    passage = filter_git_get_pull_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage (" delete mode 100644 Leviticus/1/data");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage (" Revelation/3/data | 2 +-");
+    standard = Passage ("", 66, 3, "");
+    evaluate (__LINE__, __func__, true, standard.equal (passage));
+  }
+  
+  
 }
-/* Todo git remote tests.
+/* Todo git tests.
  
- C++Port: This may not be needed with libgit2.
- public function testGetPullPassage ()
- {
- $output = Filter_Git::getPullPassage ("From https://github.com/joe/test");
- assertNull ($output);
- $output = Filter_Git::getPullPassage ("   443579b..90dcb57  master     -> origin/master");
- assertNull ($output);
- $output = Filter_Git::getPullPassage ("Updating 443579b..90dcb57");
- assertNull ($output);
- $output = Filter_Git::getPullPassage ("Fast-forward");
- assertNull ($output);
- $output = Filter_Git::getPullPassage (" Genesis/3/data | 2 +-");
- assertEquals (array ('book' => "1", 'chapter' => "3"), $output);
- $output = Filter_Git::getPullPassage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
- assertNull ($output);
- $output = Filter_Git::getPullPassage (" delete mode 100644 Leviticus/1/data");
- assertNull ($output);
- $output = Filter_Git::getPullPassage (" Revelation/3/data | 2 +-");
- assertEquals (array ('book' => "66", 'chapter' => "3"), $output);
- }
- 
- 
+ Non-ported PHP git tests.
  C++Port: This may not be needed with libgit2.
  public function testExplodePath ()
  {
@@ -3515,6 +3517,6 @@ void test_filter_git ()
  $bookChapter = Filter_Git::explodePath ("dictionary");
  assertEquals (NULL, $bookChapter);
  }
- 
+
 
 */
