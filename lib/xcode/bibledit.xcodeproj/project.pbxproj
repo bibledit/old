@@ -1035,14 +1035,6 @@
 		CAF6DC021A72583700E5389F /* secure.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = secure.cpp; sourceTree = "<group>"; };
 		CAF6DC031A72583700E5389F /* secure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = secure.h; sourceTree = "<group>"; };
 		CAF6DC041A72583700E5389F /* secure.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = secure.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAF6DC051A72583700E5389F /* collaboration_take_repo-cli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "collaboration_take_repo-cli.php"; sourceTree = "<group>"; };
-		CAF6DC061A72583700E5389F /* collaboration_take_repo.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = collaboration_take_repo.php; sourceTree = "<group>"; };
-		CAF6DC071A72583700E5389F /* collaboration_take_repo1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_take_repo1.html; sourceTree = "<group>"; };
-		CAF6DC081A72583700E5389F /* collaboration_take_repo2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_take_repo2.html; sourceTree = "<group>"; };
-		CAF6DC091A72583700E5389F /* collaboration_take_yourself-cli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "collaboration_take_yourself-cli.php"; sourceTree = "<group>"; };
-		CAF6DC0A1A72583700E5389F /* collaboration_take_yourself.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = collaboration_take_yourself.php; sourceTree = "<group>"; };
-		CAF6DC0B1A72583700E5389F /* collaboration_take_yourself1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_take_yourself1.html; sourceTree = "<group>"; };
-		CAF6DC0C1A72583700E5389F /* collaboration_take_yourself2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = collaboration_take_yourself2.html; sourceTree = "<group>"; };
 		CAF6DC0F1A72B4E000E5389F /* link.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = link.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DC101A72B4E000E5389F /* link.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = link.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAF6DC111A72B4E000E5389F /* link.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = link.html; sourceTree = "<group>"; };
@@ -3231,14 +3223,6 @@
 				CAF6DC021A72583700E5389F /* secure.cpp */,
 				CAF6DC031A72583700E5389F /* secure.h */,
 				CAF6DC041A72583700E5389F /* secure.html */,
-				CAF6DC051A72583700E5389F /* collaboration_take_repo-cli.php */,
-				CAF6DC061A72583700E5389F /* collaboration_take_repo.php */,
-				CAF6DC071A72583700E5389F /* collaboration_take_repo1.html */,
-				CAF6DC081A72583700E5389F /* collaboration_take_repo2.html */,
-				CAF6DC091A72583700E5389F /* collaboration_take_yourself-cli.php */,
-				CAF6DC0A1A72583700E5389F /* collaboration_take_yourself.php */,
-				CAF6DC0B1A72583700E5389F /* collaboration_take_yourself1.html */,
-				CAF6DC0C1A72583700E5389F /* collaboration_take_yourself2.html */,
 			);
 			name = collaboration;
 			path = ../collaboration;

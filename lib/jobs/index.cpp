@@ -94,7 +94,7 @@ string jobs_index (void * webserver_request)
 
   // If the result is still pending, refresh the page shortly.
   if (result.empty ()) {
-    header.refresh (3);
+    header.refresh (1);
   }
   
   header.setEditorStylesheet ();

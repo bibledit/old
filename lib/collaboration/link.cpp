@@ -42,6 +42,8 @@ void collaboration_link (string object, int jobid, string direction)
   bool result = true;
   vector <string> success;
   string error;
+  bool takeme = (direction == "me");
+  bool takerepo = (direction == "repo");
 
   Database_Jobs database_jobs;
 
@@ -64,7 +66,7 @@ void collaboration_link (string object, int jobid, string direction)
     }
   }
   if (result) {
-    if (direction != "repo" && direction != "me") {
+    if (!takeme && !takerepo) {
       error = gettext ("It is unclear which data to copy to where");
       result = false;
     }
@@ -185,7 +187,59 @@ void collaboration_link (string object, int jobid, string direction)
     }
   }
   
-  // Just in case it uses a flash disk, flush the pending writes to disk.
+  // If so requested by the user,
+  // copy the data from the local cloned repository,
+  // and store it in Bibledit's Bible given in $object,
+  // overwriting the whole Bible that was there before.
+  if (takerepo && result) {
+    success.push_back (gettext ("Copying the data from the repository and storing it in Bibledit."));
+    Webserver_Request request;
+    filter_git_sync_git_to_bible (&request, path, object);
+  }
+  
+  // If so requested by the user,
+  // copy the data from Bibledit to the local cloned repository,
+  // and then push it to the remote repository,
+  // so that the data in the repository matches with Bibledit's local data.
+  if (takeme && result) {
+
+    // Bibledit's data goes into the local repository.
+    Webserver_Request request;
+    success.push_back (gettext("Storing the local Bible data to the staging area."));
+    filter_git_sync_bible_to_git (&request, object, path);
+
+    // Stage the data: add and remove it as needed.
+    if (result) {
+      result = filter_git_add_remove_all (path, error);
+      if (result) {
+        success.push_back (gettext("The local Bible data was staged successfully."));
+      } else {
+        error.append (" " + gettext("Failure staging the local Bible data."));
+      }
+    }
+    if (result) {
+      result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
+      if (result) {
+        success.push_back (gettext("The local Bible data was committed successfully."));
+      } else {
+        error.append (" " + gettext("Failure committing the local Bible data."));
+      }
+    }
+
+    // Push changes to the remote repository.
+    if (result) {
+      string out, err;
+      result = (filter_shell_run (path, "git", {"push"}, out, err) == 0);
+      success.push_back (out + " " + err);
+      if (result) {
+        success.push_back (gettext("The local Bible data was pushed to the repository successfully."));
+      } else {
+        error.append (" " + gettext("Pushing the local Bible data to the repository failed."));
+      }
+    }
+  }
+  
+  // Just in case it uses a removable flash disk for the repository, flush any pending writes to disk.
   sync ();
  
   // Ready linking the repository.
