@@ -206,7 +206,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
 	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
 	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) demo/logic.$(OBJEXT)
+	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	demo/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -614,6 +615,7 @@ libbibledit_a_SOURCES = \
 	workbench/organize.cpp \
 	sendreceive/logic.cpp \
 	sendreceive/index.cpp \
+	sendreceive/sendreceive.cpp \
 	demo/logic.cpp
 
 server_SOURCES = executable/bibledit.cpp
@@ -1378,6 +1380,8 @@ sendreceive/logic.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/index.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/sendreceive.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -1686,6 +1690,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strongs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/sendreceive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@

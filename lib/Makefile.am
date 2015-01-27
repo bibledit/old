@@ -190,6 +190,7 @@ libbibledit_a_SOURCES = \
 	workbench/organize.cpp \
 	sendreceive/logic.cpp \
 	sendreceive/index.cpp \
+	sendreceive/sendreceive.cpp \
 	demo/logic.cpp
 
 bin_PROGRAMS = server unittest

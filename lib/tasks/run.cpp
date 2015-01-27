@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/maintenance.h>
 #include <tmp/tmp.h>
 #include <collaboration/link.h>
+#include <sendreceive/sendreceive.h>
 
 
 mutex mutex_tasks; 
@@ -98,7 +99,7 @@ void tasks_run_one (string filename)
   } else if (command == LINKGITREPOSITORY) {
     collaboration_link (parameter1, convert_to_int (parameter2), parameter3);
   } else if (command == SENDRECEIVEBIBLES) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendreceive.php
+    sendreceive_sendreceive (parameter1);
   } else if (command == SENDNOTES) {
     Database_Logs::log ("Not yet implemented: " + command); // sendnotes.php
   } else if (command == SENDBIBLES) {

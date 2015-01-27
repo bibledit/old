@@ -50,5 +50,7 @@ int filter_shell_run (string directory, string command, const vector <string> pa
   int result = system (command.c_str());
   output = filter_url_file_get_contents (stdout);
   error = filter_url_file_get_contents (stderr);
+  filter_url_unlink (stdout);
+  filter_url_unlink (stderr);
   return result;
 }
