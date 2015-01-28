@@ -3433,6 +3433,7 @@ void test_filter_git ()
     string error;
     bool success;
     string remoteurl = "file://" + remoterepository;
+    vector <string> messages;
     
     // Create bare remote reository.
     filter_url_mkdir (remoterepository);
@@ -3476,6 +3477,19 @@ void test_filter_git ()
     success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
+    
+    // Push to the remote repository.
+    success = filter_git_push (clonedrepository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, 2, messages.size());
+
+    // Pull from remote repository.
+    success = filter_git_push (clonedrepository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, {"Everything up-to-date"}, messages);
+    
+    //for (auto & msg : messages) cout << msg << endl; // Todo
+    //cout << clonedrepository << endl; exit (0); // Todo
   }
   
   // Get Pull Passage

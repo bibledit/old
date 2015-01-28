@@ -57,115 +57,92 @@ void sendreceive_sendreceive (string bible)
   filter_git_sync_bible_to_git (&request, bible, directory);
   
 
-  // Commit the new data to the repository.
-  // Log any errors.
+  // Log the status of the repository, something like "git status".
+  // Set a flag indicating whether there are local changes available.
+  bool localchanges = false;
   if (success) {
+    vector <string> paths = filter_git_status (directory);
+    for (auto & path : paths) Database_Logs::log (path, Filter_Roles::translator ());
+    localchanges = !paths.empty ();
+  }
+  
+  
+  // In case of local changes, add / remove the updated data to the index.
+  if (success && localchanges) {
     success = filter_git_add_remove_all (directory, error);
     if (!success) {
       Database_Logs::log (error, Filter_Roles::translator ());
     }
   }
   
-  
 
-  
-  /* Todo
-  
-  
-  if ($success) {
-    $logs = array ();
-    $command = "cd $shelldirectory; git status 2>&1";
-    $logs [] = "$send_receive $command";
-    unset ($result);
-    exec ($command, $result, $exit_code);
-    if ($exit_code != 0) $success = false;
-    for ($result as $line) {
-      if ($line) $logs [] = "$send_receive $line";
-    }
-    if (!$success || (count ($result) > 4)) {
-      for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
+  // In case of local changes, commit the index to the repository.
+  if (success && localchanges) {
+    string user = Database_Config_General::getSiteMailName ();
+    if (user.empty ()) user = "Bibledit";
+    string mail = Database_Config_General::getSiteMailAddress ();
+    if (mail.empty ()) mail = "bibledit@bibledit.org";
+    success = filter_git_commit (directory, user, mail, "Changes made in Bibledit", error);
+    if (!success) {
+      Database_Logs::log (error, Filter_Roles::translator ());
     }
   }
-  
-  
-  if ($success) {
-    $logs = array ();
-    $command = "cd $shelldirectory; git commit -a -m ChangesCommittedFromBibleditWeb 2>&1";
-    $logs [] = "$send_receive $command";
-    unset ($result);
-    exec ($command, $result, $exit_code);
-    if (($exit_code != 0) && ($exit_code != 1)) $success = false;
-    for ($result as $line) {
-      if ($line) $logs [] = "$send_receive $line";
-    }
-    if (!$success || (count ($result) > 4)) {
-      for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
-    }
-  }
-  
+
   
   // Pull changes from the remote repository.
   // Record the pull messages to see which chapter has changes.
-  $pull_messages = array ();
-  if ($success) {
-    $logs = array ();
-    $conflict = false;
-    $command = "cd $shelldirectory; git pull 2>&1";
-    $logs [] = "$send_receive $command";
-    unset ($result);
-    exec ($command, $result, $exit_code);
-    for ($result as $line) {
-      $logs [] = "$send_receive $line";
-      if (strstr ($line, "CONFLICT") !== false) $conflict = true;
-      $pull_messages [] = $line;
+  vector <string> pull_messages;
+  if (success) {
+    vector <string> logs;
+    bool conflict = false;
+    success = filter_git_pull (directory, pull_messages);
+    for (auto & line : pull_messages) {
+      logs.push_back (line);;
+      if (line.find ("CONFLICT") != string::npos) conflict = true;
     }
-    if ($conflict) {
-      $message = "Bibledit will merge the conflicts.";
-      $logs [] = "$send_receive $message";
-      Filter_Conflict::run ($directory);
+    if (conflict) {
+      logs.push_back ("Bibledit will merge the conflicts.");
+      // Todo port and test Filter_Conflict::run (directory);
     }
-    if (!$success || $conflict || (count ($result) > 1)) {
-      for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
+    if (!success || conflict || logs.size () > 1) {
+      for (auto & log : logs) {
+        if (log.find ("Updating") == 0) continue;
+        if (log.find ("Fast-forward") == 0) continue;
+        if (log.find ("file changed") != string::npos) continue;
+        if (log.find ("From ") == 0) continue;
+        if (log.find ("origin/master") != string::npos) continue;
+        Database_Logs::log ("receive " + log, Filter_Roles::translator ());
+      }
     }
   }
   
   
-  // Push our changes into the remote repository.
-  if ($success) {
-    $logs = array ();
-    $command = "cd $shelldirectory; git push 2>&1";
-    $logs [] = "$send_receive $command";
-    unset ($result);
-    exec ($command, $result, $exit_code);
-    if ($exit_code != 0) $success = false;
-    for ($result as $line) {
-      if (strstr ($line, "/.ssh") != false) continue;
-      if ($line) $logs [] = "$send_receive $line";
-    }
-    if (!$success || (count ($result) > 1)) {
-      for ($logs as $log) Database_Logs::log ($log, Filter_Roles::translator ());
+  // Push any local changes to the remote repository.
+  if (success) {
+    vector <string> messages;
+    success = filter_git_push (directory, messages);
+    if (!success || messages.size() > 1) {
+      for (auto & msg : messages) Database_Logs::log ("send " + msg, Filter_Roles::translator ());
     }
   }
   
   
   // Record the changes from the collaborators into the Bible database.
-  if ($success) {
-    for ($pull_messages as $pull_message) {
-      $book_chapter = filter_git_get_pull_passage ($pull_message);
-      if ($book_chapter) {
-        $book = $book_chapter ['book'];
-        $chapter = $book_chapter ['chapter'];
-        filter_git_sync_git_chapter_to_bible ($directory, bible, book, chapter);
+  if (success) {
+    for (auto & pull_message : pull_messages) {
+      Passage passage = filter_git_get_pull_passage (pull_message);
+      if (passage.book) {
+        int book = passage.book;
+        int chapter = passage.chapter;
+        filter_git_sync_git_chapter_to_bible (directory, bible, book, chapter);
       }
     }
   }
   
   
   // Done.
-  if (!$success) {
+  if (!success) {
     Database_Logs::log ("Failure during sending and receiving", Filter_Roles::translator ());
   }
-  Database_Logs::log ("Ready sending and receiving Bible" . " " . $bible, Filter_Roles::translator ());
-*/
-
+  Database_Logs::log ("Ready sending and receiving Bible " + bible, Filter_Roles::translator ());
 }

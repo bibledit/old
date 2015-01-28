@@ -137,18 +137,18 @@ void collaboration_link (string object, int jobid, string direction)
   // We cannot look at the exit code here in case the repository is empty,
   // because in such cases the exit code is undefined.
   if (result) {
-    string out, err;
-    filter_shell_run (path, "git", {"pull"}, out, err);
-    success.push_back (out + " " + err);
+    vector <string> messages;
+    filter_git_pull (path, messages);
+    success.insert (success.end(), messages.begin(), messages.end());
     success.push_back (gettext("Changes were pulled from the repository successfully."));
   }
   
   // Push the changes to see if there is write access.
-  // Notice the --all switch needed when the remote repository is empty.
+  // The --all switch is needed for when the remote repository is empty.
   if (result) {
-    string out, err;
-    result = (filter_shell_run (path, "git", {"push", "--all"}, out, err) == 0);
-    success.push_back (out + " " + err);
+    vector <string> messages;
+    result = filter_git_push (path, messages, true);
+    success.insert (success.end(), messages.begin(), messages.end());
     if (result) {
       success.push_back (gettext("Changes were pushed to the repository successfully."));
     } else {
@@ -177,9 +177,9 @@ void collaboration_link (string object, int jobid, string direction)
 
   // Push changes to the remote repository.
   if (result) {
-    string out, err;
-    result = (filter_shell_run (path, "git", {"push"}, out, err) == 0);
-    success.push_back (out + " " + err);
+    vector <string> messages;
+    result = filter_git_push (path, messages);
+    success.insert (success.end(), messages.begin(), messages.end());
     if (result) {
       success.push_back (gettext("The changes were pushed to the repository successfully."));
     } else {
@@ -228,9 +228,9 @@ void collaboration_link (string object, int jobid, string direction)
 
     // Push changes to the remote repository.
     if (result) {
-      string out, err;
-      result = (filter_shell_run (path, "git", {"push"}, out, err) == 0);
-      success.push_back (out + " " + err);
+      vector <string> messages;
+      result = filter_git_push (path, messages);
+      success.insert (success.end(), messages.begin(), messages.end());
       if (result) {
         success.push_back (gettext("The local Bible data was pushed to the repository successfully."));
       } else {

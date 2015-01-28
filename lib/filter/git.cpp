@@ -20,6 +20,7 @@
 #include <filter/git.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/shell.h>
 #include <database/logs.h>
 #include <database/books.h>
 #include <database/jobs.h>
@@ -453,7 +454,7 @@ bool filter_git_add_remove_all (string repository, string & error)
 }
 
 
-bool filter_git_commit (string repository, string user, string email, string message, string & error)
+bool filter_git_commit (string repository, string user, string email, string message, string & error) // Todo
 {
   // Initialize the git system.
   git_threads_init();
@@ -636,7 +637,7 @@ Passage filter_git_get_pull_passage (string line)
 // Reports information comparable to "git status".
 // Repository: "repository".
 // All changed files will be returned.
-vector <string> filter_git_status (string repository) // Todo
+vector <string> filter_git_status (string repository)
 {
   vector <string> paths;
   
@@ -690,4 +691,36 @@ vector <string> filter_git_status (string repository) // Todo
   if (repo) git_repository_free (repo);
   
   return paths;
+}
+
+
+// Runs "git pull" and returns true if it ran fine.
+// It puts the messages in container "messages".
+bool filter_git_pull (string repository, vector <string> & messages) // Todo
+{
+  string out, err;
+  int result = filter_shell_run (repository, "git", {"pull"}, out, err);
+  out = filter_string_trim (out);
+  err = filter_string_trim (err);
+  messages = filter_string_explode (out, '\n');
+  vector <string> lines = filter_string_explode (err, '\n');
+  messages.insert (messages.end(), lines.begin(), lines.end());
+  return (result == 0);
+}
+
+
+// Runs "git pull" and returns true if it ran fine.
+// It puts the push messages in container "messages".
+bool filter_git_push (string repository, vector <string> & messages, bool all) // Todo
+{
+  string out, err;
+  vector <string> parameters = {"push"};
+  if (all) parameters.push_back ("--all");
+  int result = filter_shell_run (repository, "git", parameters, out, err);
+  out = filter_string_trim (out);
+  err = filter_string_trim (err);
+  messages = filter_string_explode (out, '\n');
+  vector <string> lines = filter_string_explode (err, '\n');
+  messages.insert (messages.end(), lines.begin(), lines.end());
+  return (result == 0);
 }
