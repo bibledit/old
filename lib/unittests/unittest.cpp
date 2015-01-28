@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_filter_git (); exit (0); // Todo
+  //test_filter_git (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -286,7 +286,6 @@ int main (int argc, char **argv)
   test_database_check ();
   test_database_commits ();
   test_database_confirm ();
-  test_database_history ();
   test_database_ipc ();
   test_database_jobs ();
   test_database_kjv ();

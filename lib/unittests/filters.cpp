@@ -3487,9 +3487,6 @@ void test_filter_git ()
     success = filter_git_push (clonedrepository, messages);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, {"Everything up-to-date"}, messages);
-    
-    //for (auto & msg : messages) cout << msg << endl; // Todo
-    //cout << clonedrepository << endl; exit (0); // Todo
   }
   
   // Get Pull Passage
@@ -3565,24 +3562,4 @@ void test_filter_git ()
     paths = filter_git_status (repository);
     evaluate (__LINE__, __func__, {}, paths);
   }
-  
-  
 }
-/* Todo git tests.
- 
- Non-ported PHP git tests.
- C++Port: This may not be needed with libgit2.
- public function testExplodePath ()
- {
- $bookChapter = Filter_Git::explodePath ("Genesis/2/data");
- assertEquals (array ('book' => 1, 'chapter' => 2), $bookChapter);
- $bookChapter = Filter_Git::explodePath ("Genesi/2/data");
- assertEquals (NULL, $bookChapter);
- $bookChapter = Filter_Git::explodePath ("Exodus/3/data");
- assertEquals (array ('book' => 2, 'chapter' => 3), $bookChapter);
- $bookChapter = Filter_Git::explodePath ("dictionary");
- assertEquals (NULL, $bookChapter);
- }
-
-
-*/

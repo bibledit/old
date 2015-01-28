@@ -41,7 +41,6 @@ $database_config_bible = Database_Config_Bible::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
-$database_history = Database_History::getInstance ();
 $database_users = Database_Users::getInstance ();
 
 
@@ -126,7 +125,6 @@ function processIdentifiers ($user, bible, book, chapter, $oldId, $newId, &$emai
     $database_config_user = Database_Config_User::getInstance ();
     $database_config_bible = Database_Config_Bible::getInstance ();
     $database_bibles = Database_Bibles::getInstance ();
-    $database_history = Database_History::getInstance ();
     $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
     $old_chapter_usfm = $database_modifications->getUserChapter ($user, bible, book, chapter, $oldId);
     $old_chapter_usfm = $old_chapter_usfm ['oldtext'];
@@ -167,7 +165,6 @@ function processIdentifiers ($user, bible, book, chapter, $oldId, $newId, &$emai
             $changeNotificationUsers = array ($user);
             $database_modifications->recordNotification ($changeNotificationUsers, "☺", bible, book, chapter, verse, $old_html, $modification, $new_html);
           }
-          $database_history->record ($timestamp, $user, bible, book, chapter, verse, $old_html, $modification, $new_html);
         }
       }
     }

@@ -454,7 +454,7 @@ bool filter_git_add_remove_all (string repository, string & error)
 }
 
 
-bool filter_git_commit (string repository, string user, string email, string message, string & error) // Todo
+bool filter_git_commit (string repository, string user, string email, string message, string & error)
 {
   // Initialize the git system.
   git_threads_init();
@@ -696,7 +696,7 @@ vector <string> filter_git_status (string repository)
 
 // Runs "git pull" and returns true if it ran fine.
 // It puts the messages in container "messages".
-bool filter_git_pull (string repository, vector <string> & messages) // Todo
+bool filter_git_pull (string repository, vector <string> & messages)
 {
   string out, err;
   int result = filter_shell_run (repository, "git", {"pull"}, out, err);
@@ -711,7 +711,7 @@ bool filter_git_pull (string repository, vector <string> & messages) // Todo
 
 // Runs "git pull" and returns true if it ran fine.
 // It puts the push messages in container "messages".
-bool filter_git_push (string repository, vector <string> & messages, bool all) // Todo
+bool filter_git_push (string repository, vector <string> & messages, bool all)
 {
   string out, err;
   vector <string> parameters = {"push"};
