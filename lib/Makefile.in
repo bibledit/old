@@ -133,14 +133,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
 	database/books.$(OBJEXT) database/bibleactions.$(OBJEXT) \
 	database/check.$(OBJEXT) database/commits.$(OBJEXT) \
-	database/confirm.$(OBJEXT) database/history.$(OBJEXT) \
-	database/ipc.$(OBJEXT) database/jobs.$(OBJEXT) \
-	database/kjv.$(OBJEXT) database/morphhb.$(OBJEXT) \
-	database/sblgnt.$(OBJEXT) database/offlineresources.$(OBJEXT) \
-	database/sprint.$(OBJEXT) database/mail.$(OBJEXT) \
-	database/navigation.$(OBJEXT) database/resources.$(OBJEXT) \
-	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
-	database/noteactions.$(OBJEXT) \
+	database/confirm.$(OBJEXT) database/ipc.$(OBJEXT) \
+	database/jobs.$(OBJEXT) database/kjv.$(OBJEXT) \
+	database/morphhb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
+	database/offlineresources.$(OBJEXT) database/sprint.$(OBJEXT) \
+	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
+	database/resources.$(OBJEXT) database/usfmresources.$(OBJEXT) \
+	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
@@ -471,7 +470,6 @@ libbibledit_a_SOURCES = \
 	database/check.cpp \
 	database/commits.cpp \
 	database/confirm.cpp \
-	database/history.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
 	database/kjv.cpp \
@@ -850,8 +848,6 @@ database/check.$(OBJEXT): database/$(am__dirstamp) \
 database/commits.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/confirm.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
-database/history.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/ipc.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -1572,7 +1568,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/commits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/history.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@

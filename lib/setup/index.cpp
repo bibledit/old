@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/commits.h>
 #include <database/confirm.h>
-#include <database/history.h>
 #include <database/jobs.h>
 #include <database/sprint.h>
 #include <database/mail.h>
@@ -79,8 +78,6 @@ void setup_initialize_data ()
   database_commits.create ();  
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
-  Database_History database_history = Database_History ();
-  database_history.create ();
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.create ();
   Database_Sprint database_sprint = Database_Sprint ();

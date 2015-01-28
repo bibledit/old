@@ -29,16 +29,6 @@ if (!$client) {
 }
 
 
-// Comb through the git log and add the changes to the history.
-if (!$client) {
-  if (($hour == 0) && ($minute == 30)) {
-    $directory = dirname (dirname (__FILE__)) . "/changes";
-    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/git"));
-    unset ($directory);
-  }
-}
-
-
 // Run the checks on the Bibles.
 // This takes 15 minutes on a production machine with two Bibles.
 if (!$client) {

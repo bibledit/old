@@ -168,7 +168,6 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "changes/changes", gettext ("Notifications"), NULL } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "changes/history", gettext ("History"), NULL } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "revisions", gettext ("Download"), NULL } );
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "changes/manage", gettext ("Manage"), NULL } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "journal/index", gettext ("Journal"), NULL } );

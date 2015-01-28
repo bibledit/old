@@ -46,7 +46,6 @@ libbibledit_a_SOURCES = \
 	database/check.cpp \
 	database/commits.cpp \
 	database/confirm.cpp \
-	database/history.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
 	database/kjv.cpp \

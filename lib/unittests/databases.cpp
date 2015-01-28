@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/check.h>
 #include <database/commits.h>
 #include <database/confirm.h>
-#include <database/history.h>
 #include <database/ipc.h>
 #include <database/jobs.h>
 #include <database/kjv.h>
@@ -1027,52 +1026,6 @@ void test_database_confirm ()
   database_confirm.erase (id);
   query = database_confirm.getQuery (id);
   evaluate (__LINE__, __func__,"", query);
-}
-
-
-void test_database_history ()
-{
-  refresh_sandbox (true);
-  Database_History database_history = Database_History ();
-  database_history.create ();
-  database_history.optimize ();
-  database_history.trim ();
-  
-  string author = "test";
-  string bible = "phpunit";
-  int book = 1;
-  int chapter = 2;
-  int verse = 3;
-  int start = 0;
-
-  // Start with an empty history.
-  int count = database_history.count (author, {bible}, book, chapter, verse);
-  evaluate (__LINE__, __func__, 0, count);
-
-  count = database_history.count ("", {}, 0, -1, -1);
-  evaluate (__LINE__, __func__, 0, count);
-
-  vector <Database_History_Item> data = database_history.get (author, {bible}, book, chapter, verse, start);
-  evaluate (__LINE__, __func__, 0, data.size ());
-
-  vector <string> authors = database_history.authors ({bible});
-  evaluate (__LINE__, __func__, 0, authors.size ());
-
-  // Record some data.
-  database_history.record (filter_string_date_seconds_since_epoch(), author, bible, book, chapter, verse, "old1", "mod1", "new1");
-  database_history.record (filter_string_date_seconds_since_epoch(), author, bible, book, chapter, verse, "old2", "mod2", "new2");
-
-  // Check the data.
-  count = database_history.count (author, {bible}, book, chapter, verse);
-  evaluate (__LINE__, __func__, 2, count);
-  
-  count = database_history.count ("", {}, -1, -1, -1);
-  evaluate (__LINE__, __func__, 2, count);
-
-  data = database_history.get (author, {bible}, book, chapter, verse, start);
-  evaluate (__LINE__, __func__, 2, data.size ());
-  evaluate (__LINE__, __func__, "test", data [0].author);
-  evaluate (__LINE__, __func__, "new2", data [1].newtext);
 }
 
 
