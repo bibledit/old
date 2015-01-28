@@ -255,26 +255,26 @@ void test_checksum_logic ()
   {
     string data = "\\v Verse 1";
     string checksum = Checksum_Logic::get (data);
-    evaluate (__LINE__, __func__, "3", checksum);
+    evaluate (__LINE__, __func__, "10", checksum);
   }
   // Get2
   {
-    string data = "Line one\\nLine 2\\n";
+    string data = "Line one\nLine 2\n";
     string checksum = Checksum_Logic::get (data);
-    evaluate (__LINE__, __func__, "3", checksum);
+    evaluate (__LINE__, __func__, "16", checksum);
   }
   // Send1
   {
     string data = "\\v Verse 1";
     string checksum = Checksum_Logic::send (data);
-    string standard = "3\n" + data;
+    string standard = "10\n" + data;
     evaluate (__LINE__, __func__, standard, checksum);
   }
   // Send2
   {
-    string data = "Line one\\nLine 2\n";
+    string data = "Line one\nLine 2\n";
     string checksum = Checksum_Logic::send (data);
-    string standard = "3\n" + data;
+    string standard = "16\n" + data;
     evaluate (__LINE__, __func__, standard, checksum);
   }
   // Setup some data.
