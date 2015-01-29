@@ -546,6 +546,21 @@ bool filter_git_commit (string repository, string user, string email, string mes
 }
 
 
+// This function runs "git commit" through the shell.
+// It is needed because so far the libgit2 calls, in the parallel function, do not yet do the same as the shell call.
+bool filter_git_commit (string repository, string message, vector <string> & messages) // Todo
+{
+  string out, err;
+  int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, out, err);
+  out = filter_string_trim (out);
+  err = filter_string_trim (err);
+  messages = filter_string_explode (out, '\n');
+  vector <string> lines = filter_string_explode (err, '\n');
+  messages.insert (messages.end(), lines.begin(), lines.end());
+  return (result == 0);
+}
+
+
 void filter_git_config_set_bool (string repository, string name, bool value)
 {
   git_repository * repo = NULL;
@@ -728,9 +743,13 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
 
 
 // Resolves any conflicts in "repository".
-bool filter_git_resolve_conflicts (string repository, string & error) // Todo
+// It fills "count" with the number of resolved merge conflicts.
+// It fills "error" with any error that the library generates.
+// It returns true on success, that is, no errors occurred.
+bool filter_git_resolve_conflicts (string repository, int & count, string & error) // Todo
 {
   int result = 0;
+  count = 0;
 
   // Open the repository.
   git_repository * repo = NULL;
@@ -804,12 +823,25 @@ bool filter_git_resolve_conflicts (string repository, string & error) // Todo
           filter_url_file_put_contents (file, mergedcontents);
           
           // Mark the conflict as resolved.
-          git_index_conflict_remove (index, ours->path); // Todo
+          // git_index_conflict_remove (index, ours->path);
+          // git_index_add_bypath (index, ours->path);
+          
+          // Increase resolved conflict counter.
+          count++;
         }
       }
   
       // Free resources.
       if (iter) git_index_conflict_iterator_free (iter);
+      
+      // Write the updated index to disk.
+      if (result == 0) {
+        //result = git_index_write (index);
+        //error = filter_git_check_error (result);
+      }
+
+      // Clean up repository state.
+      //git_repository_state_cleanup (repo);
     }
   }
 

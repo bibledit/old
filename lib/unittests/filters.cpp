@@ -3714,7 +3714,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (newrepository, messages, true);
     // Change something in the repository, and pull from remote:
-    // Git merges by itself.
+    // Git fails to merge by itself.
     string contents =
     "Line one one 1 one\n"
     "Line two 2 two 2 two\n"
@@ -3727,36 +3727,39 @@ void test_filter_git ()
     success = filter_git_commit (repository, "test", "test", "test", error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    // Pull changes should result in a conflict.
+    // Pulling changes should result in a merge conflict.
     success = filter_git_pull (repository, messages);
     evaluate (__LINE__, __func__, false, success);
 
-    success = filter_git_resolve_conflicts (repository, error); // Todo
-    //evaluate (__LINE__, __func__, true, success);
-    //evaluate (__LINE__, __func__, "", error);
-    /*
+    // Resolve the conflict.
+    int count = 0;
+    success = filter_git_resolve_conflicts (repository, count, error);
     evaluate (__LINE__, __func__, true, success);
-    success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
+    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, 1, count);
+
+    // Verify the resolved contents on correctness.
+    contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
+    string standard =
+    "Line 1 one 1 one\n"
+    "Line two 2 two 2 two\n"
+    "Line three 3 three 3 three";
+    evaluate (__LINE__, __func__, standard, contents);
+    // The status still displays the file as in conflict.
+    messages = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
+
+    // Commit and push the result.
+    success = filter_git_commit (repository, "message", messages);
     evaluate (__LINE__, __func__, true, success);
-    success = find (messages.begin(), messages.end(), "Merge made by the 'recursive' strategy.") != messages.end();
-    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, 1, messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
-    // Check the merge result.
-    string standard =
-    "\\id PSALM\n"
-    "\\h Izihlabelelo\n"
-    "\\toc2 Izihlabelelo\n"
-    "\\mt2 THE BOOK\n"
-    "\\mt OF PSALMS\n";
-    contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
-    evaluate (__LINE__, __func__, standard, contents);
-    */
+    evaluate (__LINE__, __func__, 2, messages.size());
     
-    // Todo write filter that iterates through the conflicting data.
-    // and then resolves them one by one.
-    //for (auto & msg : messages) cout << msg << endl; // Todo
-    
+    // Status up-to-date.
+    messages = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {}, messages);
   }
   // Todo test conflict resolution.
 }
