@@ -21,6 +21,7 @@ libbibledit_a_SOURCES = \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
 	filter/shell.cpp \
+	filter/merge.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \

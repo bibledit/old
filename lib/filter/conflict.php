@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_Conflict
+class Filter_Conflict // Todo port it.
 {
 
   // This function resolves any conflicts in a git repository.
@@ -76,7 +76,7 @@ class Filter_Conflict
     $userData = filter_url_file_get_contents ($head_version);
     $serverData = filter_url_file_get_contents ($merge_head_version);
 
-    $mergedData = Filter_Merge::run ($mergeBase, $userData, $serverData);
+    $mergedData = filter_merge_run ($mergeBase, $userData, $serverData);
     $mergedData = filter_string_str_replace ("new__line", "\n", $mergedData);
     $mergedData = filter_string_trim ($mergedData);
 

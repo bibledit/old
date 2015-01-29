@@ -91,7 +91,7 @@ if ($serverusfm == "") {
   Bible_Logic::storeChapter (bible, book, chapter, $newusfm);
 } else if ($newusfm != $serverusfm) {
   // Do a merge in case the client sends USFM that differs from what's on the server.
-  $mergedusfm = Filter_Merge::run ($oldusfm, $newusfm, $serverusfm);
+  $mergedusfm = filter_merge_run ($oldusfm, $newusfm, $serverusfm);
   if ($mergedusfm == $serverusfm) {
     // When the merged USFM is the same as what's already on the server, then it means there was a merge conflict.
     // Email the user with the details, so the user can resolve the conflicts.

@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/diff.h>
 #include <filter/abbreviations.h>
 #include <filter/git.h>
+#include <filter/merge.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -3561,5 +3562,231 @@ void test_filter_git ()
     // There should be no modified paths now.
     paths = filter_git_status (repository);
     evaluate (__LINE__, __func__, {}, paths);
+  }
+}
+
+
+void test_filter_merge ()
+{
+  // Test Line Merge Simple Modifications.
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka kukaJesu\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka kukaJesu";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Line Merge Equal Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka kukaJesu\n"
+    "\\s Ukuvuka kukaJesu\n";
+    string serverModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka kukaJesu\n"
+    "\\s Ukuvuka kukaJesu\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 28\n"
+    "\\s Ukuvuka kukaJesu\n"
+    "\\s Ukuvuka kukaJesu";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Line Merge Multiple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\pp\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Marko 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya osukwini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\pp\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Marko 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya osukwini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Word Merge Simple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Word Merge Equal Modifications.
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Word Merge Multiple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakaliswa kwaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakaliswa kwaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Grapheme Merge Simple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Conflict Take Server.
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Practical Merge Example One
+  {
+    string mergeBaseData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string userModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string serverModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth verse.\n"
+    "\\v 5\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first verse.\n"
+    "\\v 2 And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth verse.\n"
+    "\\v 5";
+    evaluate (__LINE__, __func__, standard, output);
   }
 }

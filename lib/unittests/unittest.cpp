@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  //test_checksum_logic (); exit (0); // Todo
+  test_filter_merge (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -319,6 +319,7 @@ int main (int argc, char **argv)
   test_filter_markup ();
   test_workbench_logic ();
   test_filter_git ();
+  test_filter_merge ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

@@ -286,7 +286,7 @@ for ($server_bibles as $bible) {
       // The changes will be sent to the server during the next synchronize action.
       Database_Logs::log (gettext("Merging changes on server and client:") . " $bible $book_name $chapter", Filter_Roles::translator ());
       $client_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-      $merged_usfm = Filter_Merge::run ($old_usfm, $client_usfm, $server_usfm);
+      $merged_usfm = filter_merge_run ($old_usfm, $client_usfm, $server_usfm);
       Bible_Logic::storeChapter (bible, book, chapter, $merged_usfm);
 
     }
