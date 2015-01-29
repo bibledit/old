@@ -3100,7 +3100,7 @@ void test_filter_markup ()
 
 
 void test_filter_git_setup (Webserver_Request * request, string bible, string newbible,
-                                   string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
+                            string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
 {
   refresh_sandbox (true);
   
@@ -3120,15 +3120,21 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   filter_git_init (repository);
   filter_git_init (newrepository);
   
-  filter_url_mkdir (filter_url_create_path (repository, "Psalms"));
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
-  filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon"));
   filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon", "2"));
   
   filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), psalms_0_data);
   filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "11", "data"), psalms_11_data);
   filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+
+  filter_url_mkdir (filter_url_create_path (newrepository, "Psalms", "0"));
+  filter_url_mkdir (filter_url_create_path (newrepository, "Psalms", "11"));
+  filter_url_mkdir (filter_url_create_path (newrepository, "Song of Solomon", "2"));
+  
+  filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), psalms_0_data);
+  filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "11", "data"), psalms_11_data);
+  filter_url_file_put_contents (filter_url_create_path (newrepository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
 }
 
 
@@ -3563,6 +3569,196 @@ void test_filter_git ()
     paths = filter_git_status (repository);
     evaluate (__LINE__, __func__, {}, paths);
   }
+  
+  // Test git's internal conflict resolution.
+  {
+    refresh_sandbox (true);
+    string error;
+    bool success;
+    vector <string> messages;
+
+    // Create remote repository.
+    filter_url_mkdir (remoterepository);
+    filter_git_init (remoterepository, true);
+    string remoteurl = "file://" + remoterepository;
+
+    // Clone the remote repository.
+    success = filter_git_remote_clone (remoteurl, repository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Store three chapters in the local repository and push it to the remote repository.
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
+    filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon", "2"));
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), psalms_0_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "11", "data"), psalms_11_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (repository, messages, true);
+    evaluate (__LINE__, __func__, true, success);
+
+    // Clone the remote repository to a new local repository.
+    success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Set the stage for a conflict that git itself can merge:
+    // Change something in the new repository, push it to the remote.
+    string newcontents =
+    "\\id PSA\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 THE BOOK\n"
+    "\\mt OF PSALMS\n";
+    filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), newcontents);
+    success = filter_git_add_remove_all (newrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (newrepository, messages, true);
+    // Change something in the repository, and pull from remote:
+    // Git merges by itself.
+    string contents =
+    "\\id PSALM\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 UGWALO\n"
+    "\\mt LWEZIHLABELELO\n";
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), contents);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_pull (repository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
+    evaluate (__LINE__, __func__, true, success);
+    success = find (messages.begin(), messages.end(), "Merge made by the 'recursive' strategy.") != messages.end();
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_push (repository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    // Check the merge result.
+    string standard =
+    "\\id PSALM\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 THE BOOK\n"
+    "\\mt OF PSALMS\n";
+    contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
+    evaluate (__LINE__, __func__, standard, contents);
+  }
+  {
+    refresh_sandbox (true);
+    string error;
+    bool success;
+    vector <string> messages;
+    
+    // Create remote repository.
+    filter_url_mkdir (remoterepository);
+    filter_git_init (remoterepository, true);
+    string remoteurl = "file://" + remoterepository;
+    
+    // Clone the remote repository.
+    success = filter_git_remote_clone (remoteurl, repository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Store three chapters in the local repository and push it to the remote repository.
+    psalms_0_data =
+    "Line one one one\n"
+    "Line two two two\n"
+    "Line three three three\n";
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
+    filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon", "2"));
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), psalms_0_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "11", "data"), psalms_11_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (repository, messages, true);
+    evaluate (__LINE__, __func__, true, success);
+    
+    // Clone the remote repository to a new local repository.
+    success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Set the stage for a conflict that git itself can merge:
+    // Change something in the new repository, push it to the remote.
+    string newcontents =
+    "Line 1 one one\n"
+    "Line two two two\n"
+    "Line three three three\n";
+    filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), newcontents);
+    success = filter_git_add_remove_all (newrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (newrepository, messages, true);
+    // Change something in the repository, and pull from remote:
+    // Git merges by itself.
+    string contents =
+    "Line one one 1 one\n"
+    "Line two 2 two 2 two\n"
+    "Line three 3 three 3 three\n";
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), contents);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    // Pull changes should result in a conflict.
+    success = filter_git_pull (repository, messages);
+    evaluate (__LINE__, __func__, false, success);
+
+    success = filter_git_resolve_conflicts (repository, error); // Todo
+    //evaluate (__LINE__, __func__, true, success);
+    //evaluate (__LINE__, __func__, "", error);
+    /*
+    evaluate (__LINE__, __func__, true, success);
+    success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
+    evaluate (__LINE__, __func__, true, success);
+    success = find (messages.begin(), messages.end(), "Merge made by the 'recursive' strategy.") != messages.end();
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_push (repository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    // Check the merge result.
+    string standard =
+    "\\id PSALM\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 THE BOOK\n"
+    "\\mt OF PSALMS\n";
+    contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
+    evaluate (__LINE__, __func__, standard, contents);
+    */
+    
+    // Todo write filter that iterates through the conflicting data.
+    // and then resolves them one by one.
+    //for (auto & msg : messages) cout << msg << endl; // Todo
+    
+  }
+  // Todo test conflict resolution.
 }
 
 

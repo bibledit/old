@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/shell.h>
+#include <filter/merge.h>
 #include <database/logs.h>
 #include <database/books.h>
 #include <database/jobs.h>
@@ -724,3 +725,100 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
   messages.insert (messages.end(), lines.begin(), lines.end());
   return (result == 0);
 }
+
+
+// Resolves any conflicts in "repository".
+bool filter_git_resolve_conflicts (string repository, string & error) // Todo
+{
+  int result = 0;
+
+  // Open the repository.
+  git_repository * repo = NULL;
+  result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) error = filter_git_check_error (result);
+  
+  // Get the index.
+  git_index * index = NULL;
+  if (result == 0) {
+    result = git_repository_index (&index, repo);
+    if (result != 0) error = filter_git_check_error (result);
+  }
+
+  // Get a handle on the object database.
+  git_odb *odb = NULL;
+  if (result == 0) {
+    git_repository_odb (&odb, repo);
+  }
+
+  // Proceed if the index contains conflicts.
+  if (result == 0) {
+    if (git_index_has_conflicts (index)) {
+      
+      // Iterator for going through the conflicts.
+      git_index_conflict_iterator * iter = NULL;
+      result = git_index_conflict_iterator_new (&iter, index);
+      if (result != 0) error = filter_git_check_error (result);
+      if (result == 0) {
+
+        // Iterate through the conflicts.
+        const git_index_entry *ancestor = NULL;
+        const git_index_entry *ours = NULL;
+        const git_index_entry *theirs = NULL;
+        while (git_index_conflict_next (&ancestor, &ours, &theirs, iter) != GIT_ITEROVER) {
+          
+          // Obtain string contents for ancestor, ours, and theirs.
+          string ancestorcontents;
+          if (ancestor) {
+            git_odb_object *ancestor_file = NULL;
+            git_odb_read (&ancestor_file, odb, &ancestor->id);
+            const void *ancestor_data = git_odb_object_data (ancestor_file);
+            size_t ancestor_size = git_odb_object_size (ancestor_file);
+            const char * ancestor_chars = (const char *) ancestor_data;
+            for (size_t i = 0; i < ancestor_size; i++) ancestorcontents += ancestor_chars [i];
+            if (ancestor_file) git_odb_object_free (ancestor_file);
+          }
+          string ourcontents;
+          if (ours) {
+            git_odb_object *ours_file = NULL;
+            git_odb_read (&ours_file, odb, &ours->id);
+            const void *ours_data = git_odb_object_data (ours_file);
+            size_t ours_size = git_odb_object_size (ours_file);
+            const char * our_chars = (const char *) ours_data;
+            for (size_t i = 0; i < ours_size; i++) ourcontents += our_chars [i];
+            if (ours_file) git_odb_object_free (ours_file);
+          }
+          string theircontents;
+          if (theirs) {
+            git_odb_object *theirs_file = NULL;
+            git_odb_read (&theirs_file, odb, &theirs->id);
+            const void *theirs_data = git_odb_object_data (theirs_file);
+            size_t theirs_size = git_odb_object_size (theirs_file);
+            const char * their_chars = (const char *) theirs_data;
+            for (size_t i = 0; i < theirs_size; i++) theircontents += their_chars [i];
+            if (theirs_file) git_odb_object_free (theirs_file);
+          }
+          
+          // Merge and store in the filesystem.
+          string mergedcontents = filter_merge_run (ancestorcontents, ourcontents, theircontents); // Todo
+          string file = filter_url_create_path (repository, ours->path); // Todo
+          filter_url_file_put_contents (file, mergedcontents);
+          
+          // Mark the conflict as resolved.
+          git_index_conflict_remove (index, ours->path); // Todo
+        }
+      }
+  
+      // Free resources.
+      if (iter) git_index_conflict_iterator_free (iter);
+    }
+  }
+
+  // Free resources.
+  if (odb) git_odb_free (odb);
+  if (index) git_index_free (index);
+  if (repo) git_repository_free (repo);
+
+  // Done.
+  return (result == 0);
+}
+
