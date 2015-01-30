@@ -91,18 +91,17 @@ void sendreceive_sendreceive (string bible)
   
   // Pull changes from the remote repository.
   // Record the pull messages to see which chapter has changes.
+  // Record the conflicting passages, to see which chapters to update.
   vector <string> pull_messages;
+  vector <string> paths_resolved_conflicts;
   if (success) {
     vector <string> logs;
     bool conflict = false;
     success = filter_git_pull (directory, pull_messages);
     for (auto & line : pull_messages) {
-      logs.push_back (line);;
+      logs.push_back (line);
       if (line.find ("CONFLICT") != string::npos) conflict = true;
-    }
-    if (conflict) {
-      logs.push_back ("Bibledit will merge the conflicts.");
-      // Todo port and test Filter_Conflict::run (directory);
+      if (line.find ("MERGE_HEAD") != string::npos) conflict = true;
     }
     if (!success || conflict || logs.size () > 1) {
       for (auto & log : logs) {
@@ -111,24 +110,40 @@ void sendreceive_sendreceive (string bible)
         if (log.find ("file changed") != string::npos) continue;
         if (log.find ("From ") == 0) continue;
         if (log.find ("origin/master") != string::npos) continue;
-        Database_Logs::log ("receive " + log, Filter_Roles::translator ());
+        Database_Logs::log ("receive: " + log, Filter_Roles::translator ());
       }
+    }
+    if (conflict) {
+      logs.push_back ("Bibledit will resolve the conflicts.");
+      filter_git_resolve_conflicts (directory, paths_resolved_conflicts, error);
+      if (!error.empty ()) Database_Logs::log (error, Filter_Roles::translator ());
+      vector <string> messages;
+      filter_git_commit (directory, "Bibledit resolved the conflicts", messages);
+      for (auto & msg : messages) Database_Logs::log ("conflict resolution: " + msg, Filter_Roles::translator ());
+      // The above "git pull" operation failed due to the conflict(s).
+      // Since the conflicts have now been resolved, set "success" to true again.
+      // This enables the subsequent git operations to run successfully.
+      success = true;
     }
   }
   
   
   // Push any local changes to the remote repository.
+  // Or changes due to automatic merge and/or conflict resolution.
   if (success) {
     vector <string> messages;
     success = filter_git_push (directory, messages);
     if (!success || messages.size() > 1) {
-      for (auto & msg : messages) Database_Logs::log ("send " + msg, Filter_Roles::translator ());
+      for (auto & msg : messages) Database_Logs::log ("send: " + msg, Filter_Roles::translator ());
     }
   }
   
   
   // Record the changes from the collaborators into the Bible database.
+  // The changes will be taken from the standard "git pull" messages,
+  // plus the paths of the files that have resolved conflicts.
   if (success) {
+    pull_messages.insert (pull_messages.end (), paths_resolved_conflicts.begin (), paths_resolved_conflicts.end());
     for (auto & pull_message : pull_messages) {
       Passage passage = filter_git_get_pull_passage (pull_message);
       if (passage.book) {

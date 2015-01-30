@@ -3732,11 +3732,10 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, false, success);
 
     // Resolve the conflict.
-    int count = 0;
-    success = filter_git_resolve_conflicts (repository, count, error);
+    success = filter_git_resolve_conflicts (repository, messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    evaluate (__LINE__, __func__, 1, count);
+    evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
 
     // Verify the resolved contents on correctness.
     contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
@@ -3761,7 +3760,6 @@ void test_filter_git ()
     messages = filter_git_status (repository);
     evaluate (__LINE__, __func__, {}, messages);
   }
-  // Todo test conflict resolution.
 }
 
 

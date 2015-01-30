@@ -548,7 +548,7 @@ bool filter_git_commit (string repository, string user, string email, string mes
 
 // This function runs "git commit" through the shell.
 // It is needed because so far the libgit2 calls, in the parallel function, do not yet do the same as the shell call.
-bool filter_git_commit (string repository, string message, vector <string> & messages) // Todo
+bool filter_git_commit (string repository, string message, vector <string> & messages)
 {
   string out, err;
   int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, out, err);
@@ -743,13 +743,13 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
 
 
 // Resolves any conflicts in "repository".
-// It fills "count" with the number of resolved merge conflicts.
+// It fills "paths" with the paths to the files with the resolved merge conflicts.
 // It fills "error" with any error that the library generates.
 // It returns true on success, that is, no errors occurred.
-bool filter_git_resolve_conflicts (string repository, int & count, string & error) // Todo
+bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error)
 {
   int result = 0;
-  count = 0;
+  paths.clear();
 
   // Open the repository.
   git_repository * repo = NULL;
@@ -818,16 +818,16 @@ bool filter_git_resolve_conflicts (string repository, int & count, string & erro
           }
           
           // Merge and store in the filesystem.
-          string mergedcontents = filter_merge_run (ancestorcontents, ourcontents, theircontents); // Todo
-          string file = filter_url_create_path (repository, ours->path); // Todo
+          string mergedcontents = filter_merge_run (ancestorcontents, ourcontents, theircontents);
+          string file = filter_url_create_path (repository, ours->path);
           filter_url_file_put_contents (file, mergedcontents);
           
           // Mark the conflict as resolved.
           // git_index_conflict_remove (index, ours->path);
           // git_index_add_bypath (index, ours->path);
           
-          // Increase resolved conflict counter.
-          count++;
+          // Record the path of the file with the resolved conflict.
+          paths.push_back (ours->path);
         }
       }
   

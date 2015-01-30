@@ -42,7 +42,7 @@ Passage filter_git_get_pull_passage (string line);
 vector <string> filter_git_status (string repository);
 bool filter_git_pull (string repository, vector <string> & messages);
 bool filter_git_push (string repository, vector <string> & messages, bool all = false);
-bool filter_git_resolve_conflicts (string repository, int & count, string & error); // Todo
+bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error);
 
 
 #endif

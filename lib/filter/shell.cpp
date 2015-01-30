@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 string filter_shell_escape_argument (string argument)
 {
   argument = filter_string_str_replace ("'", "\\'", argument);
+  argument.insert (0, "'");
+  argument.append ("'");
   return argument;
 }
 
