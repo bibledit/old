@@ -50,7 +50,7 @@ class Bootstrap
     // the bootstrap script forwards to the client mode setup page,
     // unless it is already going to that page.
     if (config_logic_client_prepared ()) {
-      if (!config_logic_client_enabled ()) {
+      if (!client_logic_client_enabled ()) {
         @$uri = $_SERVER ["REQUEST_URI"];
         $path = parse_url ($uri, PHP_URL_PATH);
         $folder = pathinfo ($path, PATHINFO_DIRNAME);

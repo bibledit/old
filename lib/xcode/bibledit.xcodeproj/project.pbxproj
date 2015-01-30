@@ -887,7 +887,6 @@
 		CAA4D3CC1A45A648003ABA25 /* usfmTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = usfmTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3CD1A45A648003ABA25 /* versesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versesTest.php; sourceTree = "<group>"; };
 		CAA4D3CE1A45A648003ABA25 /* versificationTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versificationTest.php; sourceTree = "<group>"; };
-		CAA4D3FE1A45A648003ABA25 /* clientTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = clientTest.php; sourceTree = "<group>"; };
 		CAA4D4011A45A648003ABA25 /* datetimeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = datetimeTest.php; sourceTree = "<group>"; };
 		CAA4D4031A45A648003ABA25 /* changed_verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = changed_verses.html; sourceTree = "<group>"; };
 		CAA4D4041A45A648003ABA25 /* chapters_new.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = chapters_new.usfm; sourceTree = "<group>"; };
@@ -2843,7 +2842,6 @@
 		CAA4D3FA1A45A648003ABA25 /* filter */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D3FE1A45A648003ABA25 /* clientTest.php */,
 				CAA4D4011A45A648003ABA25 /* datetimeTest.php */,
 				CAA4D4021A45A648003ABA25 /* diffStandards */,
 				CAA4D40A1A45A648003ABA25 /* diffTest.php */,

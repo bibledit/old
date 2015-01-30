@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/commits.h>
 #include <database/jobs.h>
 #include <database/config/user.h>
-
+#include <client/logic.h>
 
 
 void database_maintenance ()
@@ -48,7 +48,7 @@ void database_maintenance ()
   
   
   // Whether running in client mode.
-  bool client_mode = config_logic_client_enabled ();
+  bool client_mode = client_logic_client_enabled ();
   
   
   Webserver_Request webserver_request;

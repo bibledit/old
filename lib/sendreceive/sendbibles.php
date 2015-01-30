@@ -37,7 +37,7 @@ $database_books = Database_Books::getInstance ();
 Database_Logs::log (gettext("Sending and receiving Bibles"), Filter_Roles::translator ());
 
 
-$response = config_logic_setup ();
+$response = dlient_logic_enable_clientup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
   Database_Logs::log (gettext("Failure initializing sending and receiving Bibles"), Filter_Roles::translator ());
   die;

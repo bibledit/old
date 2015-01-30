@@ -1572,29 +1572,60 @@ void test_workbench_logic ()
 void test_client_logic () // Todo
 {
   refresh_sandbox (true);
+  
 
   /*
   public function setUp ()
   {
     $this->tearDown ();
-    config_logic_set (true);
+    dlient_logic_enable_client (true);
   }
   
   
   public function tearDown ()
   {
-    config_logic_set (false);
+    dlient_logic_enable_client (false);
   }
   
   
   public function testEnabled ()
   {
-    $enabled = config_logic_client_enabled ();
+    $enabled = client_logic_client_enabled ();
     $this->assertTrue ($enabled);
-    config_logic_set (false);
-    $enabled = config_logic_client_enabled ();
+    dlient_logic_enable_client (false);
+    $enabled = client_logic_client_enabled ();
     $this->assertFalse ($enabled);
   }
+   
+   public function testCreateNote ()
+   {
+   $data = Filter_Client::createNoteEncode ("bible", 1, 2, 3, "summary", "line1\nline2", false);
+   $standard = <<<EOD
+   bible
+   1
+   2
+   3
+   summary
+   
+   line1
+   line2
+   EOD;
+   $this->assertEquals ($standard, $data);
+   
+   $data = Filter_Client::createNoteDecode ($standard);
+   $this->assertEquals ("bible", $data ["bible"]);
+   $this->assertEquals (1, $data ["book"]);
+   $this->assertEquals (2, $data ["chapter"]);
+   $this->assertEquals (3, $data ["verse"]);
+   $this->assertEquals ("summary", $data ["summary"]);
+   $this->assertEquals ("", $data ["raw"]);
+   $contents = <<<EOD
+   line1
+   line2
+   EOD;
+   $this->assertEquals ($contents, $data ["contents"]);
+   }
+
   */
   
 

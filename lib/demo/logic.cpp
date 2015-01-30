@@ -23,6 +23,7 @@
 #include <config.h>
 #include <database/config/general.h>
 #include <locale/translate.h>
+#include <client/logic.h>
 
 
 // Returns true for username/password 'admin' in an open demo installation.
@@ -51,7 +52,7 @@ string demo_logic_demo_address ()
 string demo_logic_client_demo_warning ()
 {
   string warning;
-  if (config_logic_client_enabled ()) {
+  if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
     if (address == demo_logic_demo_address ()) {
       warning = gettext("Warning:")

@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/organize.h>
 #include <collaboration/index.h>
 #include <client/index.h>
+#include <client/logic.h>
 
 
 /*
@@ -211,11 +212,11 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (manage_users_acl (webserver_request)              && !config_logic_client_enabled ()) menu->push_back ( { "", manage_users_url (), gettext ("Users"), NULL } );
+  if (manage_users_acl (webserver_request)              && !client_logic_client_enabled ()) menu->push_back ( { "", manage_users_url (), gettext ("Users"), NULL } );
   if (manage_indexing_acl (webserver_request))                                              menu->push_back ( { "", manage_indexing_url (), gettext ("Indexing"), NULL } );
   if (administration_language_acl (webserver_request))                                      menu->push_back ( { "", administration_language_url (), gettext ("Language"), NULL } );
   if (administration_timezone_acl (webserver_request))                                      menu->push_back ( { "", administration_timezone_url (), gettext ("Timezone"), NULL } );
-  if (email_index_acl (webserver_request)               && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
+  if (email_index_acl (webserver_request)               && !client_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
   if (styles_indext_acl (webserver_request))                                                menu->push_back ( { "", styles_indext_url (), gettext ("Styles"), stylessubmenu () } );
   if (versification_index_acl (webserver_request))                                          menu->push_back ( { "", versification_index_url (), gettext ("Versifications"), NULL } );
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );

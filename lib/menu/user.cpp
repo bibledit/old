@@ -88,7 +88,7 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
 string Menu_User::create (string request)
 {
   // No user menu in client mode.
-  // C++Port if (config_logic_client_enabled ()) return "";
+  // C++Port if (client_logic_client_enabled ()) return "";
 
   vector <Menu_User_Item> * main_menu = mainmenu (request);
 

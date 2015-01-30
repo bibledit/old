@@ -180,7 +180,7 @@ if (count ($emailBody) > 0) {
   for ($users as $user) {
     if (request->database_config_user()->getUserBibleChecksNotification ($user)) {
       if (access_bible_write ($bible, $user)) {
-        if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
+        if (!client_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }
     }
   }

@@ -105,7 +105,7 @@ for ($users as $user) {
     // Send the user email with the user's personal changes if the user opted to receive it.
     if (request->database_config_user()->getUserUserChangesNotification ($user)) {
       $subject = gettext("Changes you entered in") . " " . $bible;
-      if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $email);
+      if (!client_logic_client_enabled ()) $database_mail->send ($user, $subject, $email);
     }
     unset ($email);
 
@@ -219,7 +219,7 @@ for ($bibles as $bible) {
   for ($users as $user) {
     if (request->database_config_user()->getUserBibleChangesNotification ($user)) {
       if (access_bible_read ($bible, $user)) {
-        if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
+        if (!client_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }
     }
   }

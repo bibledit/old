@@ -34,6 +34,7 @@
 #include <sendreceive/logic.h>
 #include <config/logic.h>
 #include <demo/logic.h>
+#include <client/logic.h>
 
 
 string sendreceive_index_url ()
@@ -110,7 +111,7 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-  if (config_logic_client_enabled ()) view.enable_zone ("client");
+  if (client_logic_client_enabled ()) view.enable_zone ("client");
 
   
   if (request->query.count ("repeatsync")) {

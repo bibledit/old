@@ -39,23 +39,3 @@ bool config_logic_client_prepared ()
 }
 
 
-// Returns whether Client mode is enabled.
-bool config_logic_client_enabled ()
-{
-  return Database_Config_General::getClientMode ();
-}
-
-
-// Sets the Client mode.
-// $enable: boolean: true or false.
-void config_logic_set (bool enable) // Todo
-{
-  Database_Config_General::setClientMode (enable);
-}
-
-
-
-
-
-
-

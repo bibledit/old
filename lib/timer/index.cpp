@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/run.h>
 #include <config/logic.h>
 #include <sendreceive/logic.h>
+#include <client/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -40,7 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void timer_index ()
 {
-  bool client = config_logic_client_enabled ();
+  bool client = client_logic_client_enabled ();
   int previous_second = -1;
   int previous_minute = -1;
   while (config_globals_running) {

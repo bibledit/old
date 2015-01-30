@@ -21,13 +21,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <database/config/bible.h>
 #include <config/logic.h>
+#include <client/logic.h>
 
 
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
 bool access_bible_read (void * webserver_request, string & bible, string user) // C++Port test it.
 {
-  if (config_logic_client_enabled ()) {
+  if (client_logic_client_enabled ()) {
     // Client: User has access to all Bibles.
     return true;
   }
@@ -49,7 +50,7 @@ bool access_bible_read (void * webserver_request, string & bible, string user) /
 // If no user is given, it takes the currently logged-in user.
 bool access_bible_write (void * webserver_request, string & bible, string user) // C++Port test it.
 {
-  if (config_logic_client_enabled ()) {
+  if (client_logic_client_enabled ()) {
     // Client: User has access to all Bibles.
     return true;
   }
