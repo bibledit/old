@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <database/config/general.h>
+#include <database/users.h>
 
 
 // Returns whether Client mode is enabled.
@@ -86,44 +87,40 @@ void client_logic_create_note_decode (string data,
 }
 
 
-
-/* Todo
-class Filter_Client // Todo
+// This function does the initial connection from the client to the server.
+// It receives settings from the server and applies them to the client.
+// It returns the level of the user.
+// It returns -1 in case of failure.
+int client_logic_connection_setup (string user, string hash) // Todo
 {
-  
-  
-  // This function does the initial connection from the client to the server.
-  // It receives settings from the server and applies them to the client.
-  // It returns the level of the user.
-  // It returns false in case of failure.
-  public static function setup ($user = "", $hash = "")
-  {
-    $database_config_general = Database_Config_General::getInstance ();
-    $database_users = Database_Users::getInstance ();
-    
-    if ($user == "") {
-      $users = $database_users->getUsers ();
-      if (empty ($users)) return false;
-      $user = $users [0];
-      $hash = $database_users->getmd5 ($user);
-    }
-    
-    $encoded_user = bin2hex ($user);
-    
-    $address = Database_Config_General::getServerAddress ();
-    
-    $url = "$address/sync/setup?user=$encoded_user&pass=$hash";
-    
-    @$response = filter_url_file_get_contents ($url);
-    if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
-      // Set user's role on the client to be the same as on the server.
-      $database_users->updateUserLevel ($user, $response);
-    }
-    
-    return $response;
+  if (user.empty ()) {
+    Database_Users database_users = Database_Users ();
+    vector <string> users = database_users.getUsers ();
+    if (users.empty()) return -1;
+    user = users [0];
+    hash = database_users.getmd5 (user);
   }
   
+/* Todo
+  $encoded_user = bin2hex ($user);
   
+ http://stackoverflow.com/questions/18424101/c-small-char-to-hex-function
  
+ http://stackoverflow.com/questions/18906027/missing-punctuation-from-c-hex2bin
+
+ Write unittest for round-trip function.
+ 
+  $address = Database_Config_General::getServerAddress ();
+  
+  $url = "$address/sync/setup?user=$encoded_user&pass=$hash";
+  
+  @$response = filter_url_file_get_contents ($url);
+  if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
+    // Set user's role on the client to be the same as on the server.
+    $database_users->updateUserLevel ($user, $response);
+  }
+  
+  return $response;
+ */
+  return 0;
 }
-*/

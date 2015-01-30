@@ -196,6 +196,24 @@ void test_filters_test1 ()
     request.session_logic()->setUsername ("phpunit2");
     evaluate (__LINE__, __func__, 13767813, filter_string_user_identifier (&request));
   }
+  // Test hex2bin and bin2hex as equivalents to PHP's functions. Todo
+  {
+    string bin = "This is a 123 test.";
+    string hex = "5468697320697320612031323320746573742e";
+    evaluate (__LINE__, __func__, hex, bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    bin = "סֶ	א	ב	ױ";
+    hex = "d7a1d6b609d79009d79109d7b1";
+    evaluate (__LINE__, __func__, hex, bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    bin.clear ();
+    hex.clear ();
+    evaluate (__LINE__, __func__, hex, bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    hex = "a";
+    evaluate (__LINE__, __func__, "", bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+  }
 }
 
 
