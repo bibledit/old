@@ -32,7 +32,7 @@ string config_logic_version ()
 }
 
 
-// Returns whether client mode is enabled during configure. Todo
+// Returns whether client mode is enabled during configure.
 bool config_logic_client_prepared ()
 {
   return (CLIENT == "yes");

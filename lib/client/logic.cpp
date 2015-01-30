@@ -36,3 +36,74 @@ void dlient_logic_enable_client (bool enable) // Todo
 {
   Database_Config_General::setClientMode (enable);
 }
+
+
+/* Todo
+class Filter_Client // Todo
+{
+  
+  
+  // This function does the initial connection from the client to the server.
+  // It receives settings from the server and applies them to the client.
+  // It returns the level of the user.
+  // It returns false in case of failure.
+  public static function setup ($user = "", $hash = "")
+  {
+    $database_config_general = Database_Config_General::getInstance ();
+    $database_users = Database_Users::getInstance ();
+    
+    if ($user == "") {
+      $users = $database_users->getUsers ();
+      if (empty ($users)) return false;
+      $user = $users [0];
+      $hash = $database_users->getmd5 ($user);
+    }
+    
+    $encoded_user = bin2hex ($user);
+    
+    $address = Database_Config_General::getServerAddress ();
+    
+    $url = "$address/sync/setup?user=$encoded_user&pass=$hash";
+    
+    @$response = filter_url_file_get_contents ($url);
+    if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
+      // Set user's role on the client to be the same as on the server.
+      $database_users->updateUserLevel ($user, $response);
+    }
+    
+    return $response;
+  }
+  
+  
+  public static function createNoteEncode (bible, book, chapter, verse, $summary, $contents, $raw)
+  {
+    $data = array ();
+    $data [] = $bible;
+    $data [] = $book;
+    $data [] = $chapter;
+    $data [] = $verse;
+    $data [] = $summary;
+    $data [] = $raw;
+    $data [] = $contents;
+    $data = implode ("\n", $data);
+    return $data;
+  }
+  
+  
+  public static function createNoteDecode ($data)
+  {
+    $data = explode ("\n", $data);
+    $result = array ();
+    $result ["bible"] = array_shift ($data);
+    $result ["book"] = array_shift ($data);
+    $result ["chapter"] = array_shift ($data);
+    $result ["verse"] = array_shift ($data);
+    $result ["summary"] = array_shift ($data);
+    $result ["raw"] = array_shift ($data);
+    $result ["contents"] = implode ("\n", $data);
+    return $result;
+  }
+  
+  
+}
+*/
