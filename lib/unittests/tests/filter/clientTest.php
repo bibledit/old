@@ -18,31 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
  
-class filterClientTest extends PHPUnit_Framework_TestCase
+class filterClientTest extends PHPUnit_Framework_TestCase // Todo
 {
-
-  public function setUp ()
-  {
-    $this->tearDown ();
-    config_logic_set (true);
-  }
-
-
-  public function tearDown ()
-  {
-    config_logic_set (false);
-  }
-
-
-  public function testEnabled ()
-  {
-    $enabled = config_logic_client_enabled ();
-    $this->assertTrue ($enabled);
-    config_logic_set (false);
-    $enabled = config_logic_client_enabled ();
-    $this->assertFalse ($enabled);
-  }
-
 
   public function testCreateNote ()
   {

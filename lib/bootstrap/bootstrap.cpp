@@ -101,6 +101,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/organize.h>
 #include <workbench/settings.h>
 #include <sendreceive/index.h>
+#include <client/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -166,8 +167,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == styles_view_url ()) && styles_view_acl (request)) request->reply = styles_view (request);
   else if ((url == versification_index_url ()) && versification_index_acl (request)) request->reply = versification_index (request);
   else if ((url == versification_system_url ()) && versification_system_acl (request)) request->reply = versification_system (request);
-  else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   else if ((url == collaboration_index_url ()) && collaboration_index_acl (request)) request->reply = collaboration_index (request);
+  else if ((url == client_index_url ()) && client_index_acl (request)) request->reply = client_index (request);
+  else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);

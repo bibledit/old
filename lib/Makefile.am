@@ -191,7 +191,9 @@ libbibledit_a_SOURCES = \
 	sendreceive/logic.cpp \
 	sendreceive/index.cpp \
 	sendreceive/sendreceive.cpp \
-	demo/logic.cpp
+	demo/logic.cpp \
+	client/index.cpp \
+	client/logic.cpp
 
 bin_PROGRAMS = server unittest
 

@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-string config_logic_version ();
+string config_logic_version (); // Todo
 bool config_logic_client_prepared ();
 bool config_logic_client_enabled ();
 void config_logic_set (bool enable);

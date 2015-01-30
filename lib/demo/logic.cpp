@@ -29,7 +29,7 @@
 // Else returns false.
 bool demo_logic_open_demo (string user, string pass)
 {
-  if (OPEN_INSTALLATION == "1") {
+  if (DEMO == "yes") {
     if (user == "admin") {
       if ((pass == "admin") || (pass == md5 ("admin"))) {
         return true;

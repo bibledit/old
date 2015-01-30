@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/index.h>
 #include <workbench/organize.h>
 #include <collaboration/index.h>
+#include <client/index.h>
 
 
 /*

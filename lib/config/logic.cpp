@@ -32,10 +32,10 @@ string config_logic_version ()
 }
 
 
-// Returns whether Client mode is prepared during setup.
+// Returns whether client mode is enabled during configure. Todo
 bool config_logic_client_prepared ()
 {
-  return convert_to_bool (CLIENT_INSTALLATION);
+  return (CLIENT == "yes");
 }
 
 
@@ -48,7 +48,7 @@ bool config_logic_client_enabled ()
 
 // Sets the Client mode.
 // $enable: boolean: true or false.
-void config_logic_set (bool enable)
+void config_logic_set (bool enable) // Todo
 {
   Database_Config_General::setClientMode (enable);
 }
