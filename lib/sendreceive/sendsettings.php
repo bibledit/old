@@ -36,7 +36,7 @@ $session_logic = Session_Logic::getInstance ();
 Database_Logs::log (gettext("Sending and receiving Settings"), Filter_Roles::translator ());
 
 
-$response = dlient_logic_enable_clientup ();
+$response = client_logic_enable_clientup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
   Database_Logs::log (gettext("Failure sending and receiving Settings"), Filter_Roles::translator ());
   die;

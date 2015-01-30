@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editor/import.h>
 #include <workbench/logic.h>
 #include <config/logic.h>
+#include <client/logic.h>
 
 
 void test_sqlite ()
@@ -1569,64 +1570,48 @@ void test_workbench_logic ()
 }
 
 
-void test_client_logic () // Todo
+void test_client_logic ()
 {
   refresh_sandbox (true);
-  
-
-  /*
-  public function setUp ()
+  // Test Client Enabled.
   {
-    $this->tearDown ();
-    dlient_logic_enable_client (true);
+    bool enabled = client_logic_client_enabled ();
+    evaluate (__LINE__, __func__, false, enabled);
+    client_logic_enable_client (true);
+    enabled = client_logic_client_enabled ();
+    evaluate (__LINE__, __func__, true, enabled);
+    client_logic_enable_client (false);
+    enabled = client_logic_client_enabled ();
+    evaluate (__LINE__, __func__, false, enabled);
   }
-  
-  
-  public function tearDown ()
+  // Test Create Note En/Decode
   {
-    dlient_logic_enable_client (false);
-  }
-  
-  
-  public function testEnabled ()
-  {
-    $enabled = client_logic_client_enabled ();
-    $this->assertTrue ($enabled);
-    dlient_logic_enable_client (false);
-    $enabled = client_logic_client_enabled ();
-    $this->assertFalse ($enabled);
-  }
-   
-   public function testCreateNote ()
-   {
-   $data = Filter_Client::createNoteEncode ("bible", 1, 2, 3, "summary", "line1\nline2", false);
-   $standard = <<<EOD
-   bible
-   1
-   2
-   3
-   summary
-   
-   line1
-   line2
-   EOD;
-   $this->assertEquals ($standard, $data);
-   
-   $data = Filter_Client::createNoteDecode ($standard);
-   $this->assertEquals ("bible", $data ["bible"]);
-   $this->assertEquals (1, $data ["book"]);
-   $this->assertEquals (2, $data ["chapter"]);
-   $this->assertEquals (3, $data ["verse"]);
-   $this->assertEquals ("summary", $data ["summary"]);
-   $this->assertEquals ("", $data ["raw"]);
-   $contents = <<<EOD
-   line1
-   line2
-   EOD;
-   $this->assertEquals ($contents, $data ["contents"]);
-   }
+    string data = client_logic_create_note_encode ("bible", 1, 2, 3, "summary", "line1\nline2", false);
+    string standard =
+    "bible\n"
+    "1\n"
+    "2\n"
+    "3\n"
+    "summary\n"
+    "0\n"
+    "line1\n"
+    "line2";
+    evaluate (__LINE__, __func__, standard, data);
 
-  */
-  
-
+    string bible;
+    int book, chapter, verse;
+    string summary, contents;
+    bool raw;
+    client_logic_create_note_decode (standard, bible, book, chapter, verse, summary, contents, raw);
+    evaluate (__LINE__, __func__, "bible", bible);
+    evaluate (__LINE__, __func__, 1, book);
+    evaluate (__LINE__, __func__, 2, chapter);
+    evaluate (__LINE__, __func__, 3, verse);
+    evaluate (__LINE__, __func__, "summary", summary);
+    evaluate (__LINE__, __func__, false, raw);
+    standard =
+    "line1\n"
+    "line2";
+    evaluate (__LINE__, __func__, standard, contents);
+  }
 }

@@ -60,7 +60,7 @@ string client_index (void * webserver_request)
     string pass = request->post ["pass"];
     
     /*
-     string response = dlient_logic_enable_clientup (user, md5 (pass));
+     string response = client_logic_enable_clientup (user, md5 (pass));
      
     if ($response === false) {
       $view.set_variable ("error = gettext("Could not connect to the server.");
@@ -92,7 +92,7 @@ string client_index (void * webserver_request)
  
  
  if (request->query.count ("disable"])) {
- dlient_logic_enable_client (false);
+ client_logic_enable_client (false);
  remove_all_users ();
  Database_Config_General::setRepeatSendReceive (0);
  }
@@ -108,7 +108,7 @@ string client_index (void * webserver_request)
  $user = "admin";
  $pass = "admin";
  
- $response = dlient_logic_enable_clientup ($user, md5 ($pass));
+ $response = client_logic_enable_clientup ($user, md5 ($pass));
  
  if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
  // Enable client mode upon a successful connection.
@@ -161,7 +161,7 @@ string client_index (void * webserver_request)
  function enable_client ($username, $password, $level)
  {
  // Enable client mode upon a successful connection.
- dlient_logic_enable_client (true);
+ client_logic_enable_client (true);
  
  // Remove all users from the database, and add the current one.
  remove_all_users ();

@@ -32,10 +32,59 @@ bool client_logic_client_enabled ()
 
 // Sets the Client mode.
 // $enable: boolean: true or false.
-void dlient_logic_enable_client (bool enable) // Todo
+void client_logic_enable_client (bool enable)
 {
   Database_Config_General::setClientMode (enable);
 }
+
+
+string client_logic_create_note_encode (string bible, int book, int chapter, int verse,
+                                        string summary, string contents, bool raw)
+{
+  vector <string> data;
+  data.push_back (bible);
+  data.push_back (convert_to_string (book));
+  data.push_back (convert_to_string (chapter));
+  data.push_back (convert_to_string (verse));
+  data.push_back (summary);
+  data.push_back (convert_to_string (raw));
+  data.push_back (contents);
+  return filter_string_implode (data, "\n");
+}
+
+
+void client_logic_create_note_decode (string data,
+                                      string& bible, int& book, int& chapter, int& verse,
+                                      string& summary, string& contents, bool& raw)
+{
+  vector <string> lines = filter_string_explode (data, '\n');
+  if (!lines.empty ()) {
+    bible = lines [0];
+    lines.erase (lines.begin());
+  }
+  if (!lines.empty ()) {
+    book = convert_to_int (lines [0]);
+    lines.erase (lines.begin());
+  }
+  if (!lines.empty ()) {
+    chapter = convert_to_int (lines [0]);
+    lines.erase (lines.begin());
+  }
+  if (!lines.empty ()) {
+    verse = convert_to_int (lines [0]);
+    lines.erase (lines.begin());
+  }
+  if (!lines.empty ()) {
+    summary = lines [0];
+    lines.erase (lines.begin());
+  }
+  if (!lines.empty ()) {
+    raw = convert_to_bool (lines [0]);
+    lines.erase (lines.begin());
+  }
+  contents = filter_string_implode (lines, "\n");
+}
+
 
 
 /* Todo
@@ -75,35 +124,6 @@ class Filter_Client // Todo
   }
   
   
-  public static function createNoteEncode (bible, book, chapter, verse, $summary, $contents, $raw)
-  {
-    $data = array ();
-    $data [] = $bible;
-    $data [] = $book;
-    $data [] = $chapter;
-    $data [] = $verse;
-    $data [] = $summary;
-    $data [] = $raw;
-    $data [] = $contents;
-    $data = implode ("\n", $data);
-    return $data;
-  }
-  
-  
-  public static function createNoteDecode ($data)
-  {
-    $data = explode ("\n", $data);
-    $result = array ();
-    $result ["bible"] = array_shift ($data);
-    $result ["book"] = array_shift ($data);
-    $result ["chapter"] = array_shift ($data);
-    $result ["verse"] = array_shift ($data);
-    $result ["summary"] = array_shift ($data);
-    $result ["raw"] = array_shift ($data);
-    $result ["contents"] = implode ("\n", $data);
-    return $result;
-  }
-  
-  
+ 
 }
 */

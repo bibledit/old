@@ -25,7 +25,7 @@
 
 
 bool client_logic_client_enabled ();
-void dlient_logic_enable_client (bool enable);
+void client_logic_enable_client (bool enable);
 
 
 #endif

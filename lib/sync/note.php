@@ -56,7 +56,7 @@ $session_logic->setUsername ($username);
 if ($action == Notes_Logic::noteActionCreate) {
   
   // Create the note on the server.  
-  $data = Filter_Client::createNoteDecode ($content);
+  $data = client_logic_create_note_decode ($content);
   $bible = $data ["bible"];
   $book = $data ["book"];
   $chapter = $data ["chapter"];
