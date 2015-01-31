@@ -61,7 +61,3 @@ string sync_setup (void * webserver_request)
   this_thread::sleep_for (chrono::seconds (1));
   return "Server does not recognize the credentials";
 }
-
-
-/* Todo port
-*/

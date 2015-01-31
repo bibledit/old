@@ -93,7 +93,7 @@ void client_logic_create_note_decode (string data,
 // It receives settings from the server and applies them to the client.
 // It returns the level of the user.
 // It returns an empty string in case of failure or the response from the server.
-string client_logic_connection_setup (string user, string hash) // Todo
+string client_logic_connection_setup (string user, string hash)
 {
   if (user.empty ()) {
     Database_Users database_users = Database_Users ();
@@ -111,7 +111,7 @@ string client_logic_connection_setup (string user, string hash) // Todo
   string url = address + ":" + convert_to_string (port) + "/sync/setup?user=" + encoded_user + "&pass=" + hash;
 
   string error;
-  string response = filter_url_http_get (url, error); // Todo
+  string response = filter_url_http_get (url, error);
   int iresponse = convert_to_int (response);
   
   if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
