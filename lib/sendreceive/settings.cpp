@@ -30,6 +30,7 @@
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
+#include <sync/logic.h>
 
 
 void sendreceive_send_settings () // Todo
@@ -59,19 +60,22 @@ void sendreceive_send_settings () // Todo
   string url = client_logic_url (address, port, "setting");
   
   // Go through all settings flagged as having been updated on this client.
-  vector <string> ids = request.database_config_user()->getUpdatedSettings ();
+  vector <int> ids = request.database_config_user()->getUpdatedSettings ();
   if (!ids.empty ()) {
     Database_Logs::log (gettext("Sending settings"), Filter_Roles::translator ());
   }
   
-  /*
-  
-  
-  for ($ids as $id) {
-    
-    // Get and serialize the setting.
-    $setting = null;
-    switch ($id) {
+  for (auto id : ids) {
+
+    map <string, string> post = {
+      make_pair ("u", bin2hex (user)),
+      make_pair ("p", request.database_users ()->getmd5 (user)),
+      make_pair ("l", convert_to_string (request.database_users ()->getUserLevel (user))),
+      make_pair ("i", convert_to_string (id))
+    };
+
+    /* Todo
+    switch (id) {
       case Sync_Logic::WORKBENCH_SETTING:
       {
         $urls = request.database_config_user()->getWorkbenchURLs ();
@@ -87,15 +91,14 @@ void sendreceive_send_settings () // Todo
         break;
       }
     }
+    */
     
+  }
+
+  /* Todo
+   
+
     // POST the setting to the server.
-    $post = array (
-                   "u" => bin2hex ($user),
-                   "p" => request.database_users ()->getmd5 ($user),
-                   "l" => request.database_users ()->getUserLevel ($user),
-                   "i" => $id,
-                   "s" => serialize ($setting)
-                   );
     $response = Sync_Logic::post ($post, $url);
     
     // Handle server's response.
@@ -104,12 +107,9 @@ void sendreceive_send_settings () // Todo
     } else {
       request.database_config_user()->removeUpdatedSetting ($id);
     }
-    
-  }
+   */
   
   
-  
-*/
   // All changed settings have now been sent to the server.
   // The client will now synchronize its settings with the server's settings.
   tasks_logic_queue (SYNCSETTINGS);

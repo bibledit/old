@@ -307,6 +307,14 @@ string filter_url_urldecode (string url)
 }
 
 
+// A C++ near equivalent for PHP's urlencode function.
+string filter_url_urlencode (string url)
+{
+  url = UriEncode (url);
+  return url;
+}
+
+
 // Returns the name of a temporary file.
 string filter_url_tempfile (const char * directory)
 {
@@ -390,15 +398,18 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 }
 
 
+// Sends a http GET request to the $url.
+// It returns the response from the server.
+// It writes any error to $error.
 string filter_url_http_get (string url, string& error)
 {
   string response;
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
+    curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
     CURLcode res = curl_easy_perform (curl);
@@ -413,6 +424,57 @@ string filter_url_http_get (string url, string& error)
       response.clear ();
       error = curl_easy_strerror (res);
     }
+    curl_easy_cleanup (curl);
+  }
+  return response;
+}
+
+
+// Sends a http POST request to $url.
+// It posts the $values.
+// It returns the response from the server.
+// It writes any error to $error.
+string filter_url_http_post (string url, map <string, string> values, string& error) // Todo
+{
+  string response;
+  // Get a curl handle.
+  CURL *curl = curl_easy_init ();
+  if (curl) {
+    // First set the URL that is about to receive the POST.
+    // This can be http or https.
+    curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+    // Generate the post data.
+    string postdata;
+    for (auto & element : values) {
+      if (!postdata.empty ()) postdata.append ("&");
+      postdata.append (element.first);
+      postdata.append ("=");
+      postdata.append (filter_url_urlencode (element.second));
+    }
+    // Specify the POST data to curl, e.g.: "name=foo&project=bar"
+    curl_easy_setopt (curl, CURLOPT_POSTFIELDS, postdata.c_str());
+    // Callback for the server response.
+    curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
+    curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
+    // Further options.
+    curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
+    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L); // Todo
+    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    // Perform the request.
+    CURLcode res = curl_easy_perform (curl);
+    // Result check.
+    if (res == CURLE_OK) {
+      error.clear ();
+      long http_code = 0;
+      curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+      if (http_code != 200) {
+        response.append ("http code " + convert_to_string ((int)http_code));
+      }
+    } else {
+      response.clear ();
+      error = curl_easy_strerror (res);
+    }
+    // Always cleanup.
     curl_easy_cleanup (curl);
   }
   return response;

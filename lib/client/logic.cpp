@@ -108,7 +108,7 @@ string client_logic_connection_setup (string user, string hash)
   string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
   
-  string url = client_logic_url (address, port, "setup") + "?user=" + encoded_user + "&pass=" + hash; // Todo use logic.
+  string url = client_logic_url (address, port, "setup") + "?user=" + encoded_user + "&pass=" + hash;
 
   string error;
   string response = filter_url_http_get (url, error);

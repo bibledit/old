@@ -147,10 +147,10 @@ public:
   void setFocusedChapter (int chapter);
   int getFocusedVerse ();
   void setFocusedVerse (int verse);
-  vector <string> getUpdatedSettings ();
-  void setUpdatedSettings (vector <string> values);
-  void addUpdatedSetting (string value);
-  void removeUpdatedSetting (string value);
+  vector <int> getUpdatedSettings ();
+  void setUpdatedSettings (vector <int> values);
+  void addUpdatedSetting (int value);
+  void removeUpdatedSetting (int value);
 private:
   void * webserver_request;
   string file (string user, const char * key);
@@ -166,6 +166,8 @@ private:
   vector <string> getList (const char * key);
   vector <string> getListForUser (string user, const char * key);
   void setList (const char * key, vector <string> values);
+  vector <int> getIList (const char * key);
+  void setIList (const char * key, vector <int> values);
   const char * keySprintMonth ();
   const char * keySprintYear ();
 };

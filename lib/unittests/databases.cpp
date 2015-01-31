@@ -113,23 +113,18 @@ void test_database_config_user ()
     request.session_logic ()->attemptLogin ("username", "password");
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
-    vector <string> empty;
-    evaluate (__LINE__, __func__, empty, request.database_config_user ()->getUpdatedSettings ());
+    evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());
     
-    vector <string> standard1;
-    standard1.push_back ("one two three");
-    standard1.push_back ("four five six");
+    vector <int> standard1 = {123, 456};
     request.database_config_user ()->setUpdatedSettings (standard1);
     evaluate (__LINE__, __func__, standard1, request.database_config_user ()->getUpdatedSettings ());
     
-    request.database_config_user ()->addUpdatedSetting ("seven eight nine");
-    standard1.push_back ("seven eight nine");
+    request.database_config_user ()->addUpdatedSetting (789);
+    standard1.push_back (789);
     evaluate (__LINE__, __func__, standard1, request.database_config_user ()->getUpdatedSettings ());
     
-    request.database_config_user ()->removeUpdatedSetting ("four five six");
-    vector <string> standard2;
-    standard2.push_back ("one two three");
-    standard2.push_back ("seven eight nine");
+    request.database_config_user ()->removeUpdatedSetting (456);
+    vector <int> standard2 = {123, 789};
     evaluate (__LINE__, __func__, standard2, request.database_config_user ()->getUpdatedSettings ());
     
     // Testing the Sprint month and its trim () function.
