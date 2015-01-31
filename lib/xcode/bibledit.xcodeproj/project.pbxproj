@@ -855,7 +855,6 @@
 		CAA4D37F1A45A648003ABA25 /* notes.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = notes.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3801A45A648003ABA25 /* setting.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = setting.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3811A45A648003ABA25 /* settings.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = settings.php; sourceTree = "<group>"; };
-		CAA4D3821A45A648003ABA25 /* setup.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = setup.php; sourceTree = "<group>"; };
 		CAA4D3831A45A648003ABA25 /* usfmresources.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = usfmresources.php; sourceTree = "<group>"; };
 		CAA4D38B1A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D38C1A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
@@ -2706,7 +2705,6 @@
 				CAA4D3811A45A648003ABA25 /* settings.php */,
 				CA05545D1A7D283D0023BA52 /* setup.cpp */,
 				CA05545E1A7D283D0023BA52 /* setup.h */,
-				CAA4D3821A45A648003ABA25 /* setup.php */,
 				CAA4D3831A45A648003ABA25 /* usfmresources.php */,
 			);
 			name = sync;
