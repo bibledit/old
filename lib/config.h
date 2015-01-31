@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define whether it is a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -53,7 +53,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.54"
+#define PACKAGE_STRING "bibledit 1.0.55"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -62,10 +62,10 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.54"
+#define PACKAGE_VERSION "1.0.55"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.0.54"
+#define VERSION "1.0.55"

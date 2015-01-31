@@ -44,9 +44,9 @@ if ($action == "total") {
   // checks which Bibles this user has access to,
   // calculate the checksum of all chapters in those Bibles,
   // and returns this checksum to the client.
-  $user_ok = $database_users->usernameExists ($username);
+  $user_ok = request->database_users ()->usernameExists ($username);
   if (!$user_ok) Database_Logs::log ("Non existing user $username", Filter_Roles::manager ());
-  $pass_ok = ($password == $database_users->getmd5 ($username));
+  $pass_ok = ($password == request->database_users ()->getmd5 ($username));
   if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
   if (!$user_ok || !$pass_ok) {
     // Unauthorized.
@@ -64,7 +64,7 @@ if ($action == "total") {
 
   // The server reads the credentials from the client's user,
   // and responds with a list of Bibles this user has access to.
-  if ($password != $database_users->getmd5 ($username)) {
+  if ($password != request->database_users ()->getmd5 ($username)) {
     // Unauthorized.
     request->response_code = 401);
     die;

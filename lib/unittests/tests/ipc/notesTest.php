@@ -25,7 +25,7 @@ class ipcNotesTest extends PHPUnit_Framework_TestCase
   {
     $this->tearDown ();
     $session_logic = Session_Logic::getInstance ();
-    $session_logic->setUsername ("phpunit");
+    request->session_logic ()->setUsername ("phpunit");
   }
 
 
@@ -34,7 +34,7 @@ class ipcNotesTest extends PHPUnit_Framework_TestCase
     
     request->database_ipc()->trim ();
     $session_logic = Session_Logic::getInstance ();
-    $session_logic->setUsername ("");
+    request->session_logic ()->setUsername ("");
   }
 
 

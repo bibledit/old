@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_user = Database_Config_User::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
@@ -176,7 +176,7 @@ for ($hits as $hit) {
 if (count ($emailBody) > 0) {
   $subject = gettext("Bible Checks") . " " . $bible;
   $emailBody = implode ("\n", $emailBody);
-  $users = $database_users->getUsers ();
+  $users = request->database_users ()->getUsers ();
   for ($users as $user) {
     if (request->database_config_user()->getUserBibleChecksNotification ($user)) {
       if (access_bible_write ($bible, $user)) {

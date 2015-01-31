@@ -25,7 +25,7 @@ require_once ("../bootstrap/bootstrap");
 Filter_Cli::assert ();
 
 
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_bible = Database_Config_Bible::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_logs = Database_Logs::getInstance ();
@@ -41,7 +41,7 @@ Database_Logs::log ("Checking and updating the open demo site");
 
 
 // Set user to 'admin' as this is the user who is always logged in an open demo installation.
-$session_logic->setUsername ("admin");
+request->session_logic ()->setUsername ("admin");
 
 
 // Delete the "Standard" stylesheet and re-create it.
@@ -77,16 +77,16 @@ $users = array (
   array ("admin", Filter_Roles::admin ())
 );
 for ($users as $user) {
-  if (!$database_users->usernameExists ($user [0])) {
-    $database_users->addNewUser($user [0], $user [0], $user [1], "");
+  if (!request->database_users ()->usernameExists ($user [0])) {
+    request->database_users ()->addNewUser($user [0], $user [0], $user [1], "");
   }
-  $database_users->updateUserLevel ($user [0], $user [1]);
+  request->database_users ()->updateUserLevel ($user [0], $user [1]);
 }
 
 
 // Ensure the KJV Bible exists.
 request->database_bibles()->createBible ("KJV");
-$database_users->grantAccess2Bible ("admin", $bible);
+request->database_users ()->grantAccess2Bible ("admin", $bible);
 
 
 // Store some text into the KJV Bible.

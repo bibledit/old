@@ -221,18 +221,13 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (versification_index_acl (webserver_request))                                          menu->push_back ( { "", versification_index_url (), gettext ("Versifications"), NULL } );
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
   if (collaboration_index_acl (webserver_request)) menu->push_back ( { "", collaboration_index_url (), gettext ("Collaboration"), NULL } );
-  if (level >= Filter_Roles::consultant ())                                                 menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
-  if (fonts_index_acl (webserver_request))                                                  menu->push_back ( { "", fonts_index_url (), gettext ("Fonts"), NULL } );
-/* C++Port client mode dependent.
-    // If the installation is not prepared for Client mode, disable the client menu.
-    // But keep the menu item in an open installation.
-    include ("config/open");
-    if (!$open_installation) {
-      if (!config_logic_client_prepared ()) {
-        unset ($menu ["client"]);
-      }
-    }
-*/
+  // If the installation is not prepared for Client mode, disable the client menu.
+  // But keep the menu item in an open installation.
+  bool client_menu = client_index_acl (webserver_request);
+  if (!config_logic_client_prepared ()) client_menu = false;
+  if (config_logic_demo ()) client_menu = true;
+  if (client_menu) menu->push_back ( { "", client_index_url (), gettext ("Client"), NULL } );
+  if (fonts_index_acl (webserver_request)) menu->push_back ( { "", fonts_index_url (), gettext ("Fonts"), NULL } );
   return menu;
 }
 

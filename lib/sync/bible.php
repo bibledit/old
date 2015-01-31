@@ -39,9 +39,9 @@ $session_logic = Session_Logic::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 
 
-$user_ok = $database_users->usernameExists ($username);
+$user_ok = request->database_users ()->usernameExists ($username);
 if (!$user_ok) Database_Logs::log ("Non existing user $username", Filter_Roles::manager ());
-$pass_ok = ($password == $database_users->getmd5 ($username));
+$pass_ok = ($password == request->database_users ()->getmd5 ($username));
 if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
 if (!$user_ok || !$pass_ok) {
   // Unauthorized.
@@ -50,7 +50,7 @@ if (!$user_ok || !$pass_ok) {
 }
 
 
-$session_logic->setUsername ($username);
+request->session_logic ()->setUsername ($username);
 
 
 $bookname = Database_Books::getEnglishFromId ($book);

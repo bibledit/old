@@ -36,7 +36,7 @@ $database_modifications->create ();
 
 
 // Other databases needed.
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_bible = Database_Config_Bible::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_mail = Database_Mail::getInstance ();
@@ -182,7 +182,7 @@ for ($bibles as $bible) {
 
 
   $changeNotificationUsers = array ();
-  $users = $database_users->getUsers ();
+  $users = request->database_users ()->getUsers ();
   for ($users as $user) {
     if (access_bible_read ($bible, $user)) {
       if (request->database_config_user()->getUserGenerateChangeNotifications ($user)) {
@@ -215,7 +215,7 @@ for ($bibles as $bible) {
   // Email users.
   $subject = gettext("Recent changes") . " " . $bible;
   $emailBody = filter_url_file_get_contents ($versesoutputfile);
-  $users = $database_users->getUsers ();
+  $users = request->database_users ()->getUsers ();
   for ($users as $user) {
     if (request->database_config_user()->getUserBibleChangesNotification ($user)) {
       if (access_bible_read ($bible, $user)) {

@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_user = Database_Config_User::getInstance ();
 $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
@@ -40,9 +40,9 @@ $url = "$address/sync/settings";
 // The client is supposed to have one user.
 // Get this username to send it to the server.
 // The server uses it to access the proper settings for the user.
-$users = $database_users->getUsers ();
+$users = request->database_users ()->getUsers ();
 $user = $users [0];
-$session_logic->setUsername ($user);
+request->session_logic ()->setUsername ($user);
 
 
 // The script requests the checksum of all relevant settings from the server.

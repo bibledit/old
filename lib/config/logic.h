@@ -24,14 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-string config_logic_version (); // Todo
+string config_logic_version ();
 bool config_logic_client_prepared ();
-string client_logic_create_note_encode (string bible, int book, int chapter, int verse,
-                                        string summary, string contents, bool raw);
-void client_logic_create_note_decode (string data,
-                                      string& bible, int& book, int& chapter, int& verse,
-                                      string& summary, string& contents, bool& raw);
-int client_logic_connection_setup (string user = "", string hash = "");
+bool config_logic_demo ();
 
 
 #endif

@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/UriCodec.cpp>
 #include <filter/string.h>
 #include <config.h>
+#include <curl/curl.h>
 
 
 // Gets the base URL of current Bibledit installation.
@@ -379,4 +380,40 @@ string filter_url_build_http_query (string url, const string& parameter, const s
   url.append ("=");
   url.append (value);
   return url;
+}
+
+
+size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream)
+{
+  ((string *) stream)->append ((char *) ptr, 0, size * count);
+  return size * count;
+}
+
+
+string filter_url_http_get (string url, string& error)
+{
+  string response;
+  CURL *curl = curl_easy_init ();
+  if (curl) {
+    curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    CURLcode res = curl_easy_perform (curl);
+    if (res == CURLE_OK) {
+      error.clear ();
+      long http_code = 0;
+      curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+      if (http_code != 200) {
+        response.append ("http code " + convert_to_string ((int)http_code));
+      }
+    } else {
+      response.clear ();
+      error = curl_easy_strerror (res);
+    }
+    curl_easy_cleanup (curl);
+  }
+  return response;
 }

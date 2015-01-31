@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_bibles = Database_Bibles::getInstance ();
 $database_bibleactions = Database_BibleActions::getInstance ();
 $database_users = Database_Users::getInstance ();
@@ -47,9 +47,9 @@ if ($response === false || $response < Filter_Roles::guest () || $response > Fil
 $address = Database_Config_General::getServerAddress ();
 
 
-$users = $database_users->getUsers ();
+$users = request->database_users ()->getUsers ();
 $user = $users [0];
-$hash = $database_users->getmd5 ($user);
+$hash = request->database_users ()->getmd5 ($user);
 
 
 $communication_errors = false;

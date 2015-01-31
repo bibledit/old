@@ -31,7 +31,7 @@ $bible = Filter_Cli::argument (@$argv, 3);
 
 
 $session_logic = Session_Logic::getInstance ();
-$session_logic->setUsername ($user);
+request->session_logic ()->setUsername ($user);
 
 
 $database_jobs = Database_Jobs::getInstance ();

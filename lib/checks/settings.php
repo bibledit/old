@@ -26,7 +26,7 @@ Assets_Page::header (gettext("Manage Checks"));
 $view = new Assets_View (__FILE__);
 
 
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_user = Database_Config_User::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
 $database_logs = Database_Logs::getInstance ();

@@ -1015,7 +1015,7 @@ int filter_string_user_identifier (void * webserver_request)
 
 
 // C++ equivalent for PHP's bin2hex function.
-string bin2hex (string bin) // Todo
+string bin2hex (string bin)
 {
   string res;
   const char hex[] = "0123456789abcdef";
@@ -1030,7 +1030,7 @@ string bin2hex (string bin) // Todo
 
 
 // C++ equivalent for PHP's hex2bin function.
-string hex2bin (string hex) // Todo
+string hex2bin (string hex)
 {
   string out;
   if (hex.length() % 2 == 0) {

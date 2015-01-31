@@ -64,6 +64,8 @@ public:
   static void setClientMode (bool value);
   static string getServerAddress ();
   static void setServerAddress (string value);
+  static int getServerPort ();
+  static void setServerPort (int value);
   static int getRepeatSendReceive ();
   static void setRepeatSendReceive (int value);
   static string getInstalledVersion ();

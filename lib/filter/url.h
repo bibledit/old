@@ -58,6 +58,7 @@ string filter_url_escape_shell_argument (string argument);
 string filter_url_unique_path (string path);
 bool filter_url_email_is_valid (string email);
 string filter_url_build_http_query (string url, const string& parameter, const string& value);
+string filter_url_http_get (string url, string& error);
 
 
 #endif

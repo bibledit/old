@@ -56,7 +56,7 @@ $userid = filter_string_user_identifier ();
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
+if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 
 
 // In case there are no GET variables yet, 
@@ -108,7 +108,7 @@ if (request->query.count ('unsubscribe'])) {
 
 @$assign = request->query['assign'];
 if (isset ($assign)) {
-  if ($database_users->usernameExists ($assign)) {
+  if (request->database_users ()->usernameExists ($assign)) {
     for ($identifiers as $identifier) {
       if (!$database_notes->isAssigned ($identifier, $assign)) {
         $notes_logic->assignUser ($identifier, $assign);
@@ -122,7 +122,7 @@ if (isset ($assign)) {
 
 @$unassign = request->query['unassign'];
 if (isset ($unassign)) {
-  if ($database_users->usernameExists ($unassign)) {
+  if (request->database_users ()->usernameExists ($unassign)) {
     for ($identifiers as $identifier) {
       if ($database_notes->isAssigned ($identifier, $unassign)) {
         $notes_logic->unassignUser ($identifier, $unassign);

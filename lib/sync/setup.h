@@ -17,21 +17,15 @@
  */
 
 
-#ifndef INCLUDED_CLIENT_LOGIC_H
-#define INCLUDED_CLIENT_LOGIC_H
+#ifndef INCLUDED_SYNC_SETUP_H
+#define INCLUDED_SYNC_SETUP_H
 
 
 #include <config/libraries.h>
 
 
-bool client_logic_client_enabled ();
-void client_logic_enable_client (bool enable);
-string client_logic_create_note_encode (string bible, int book, int chapter, int verse,
-                                        string summary, string contents, bool raw);
-void client_logic_create_note_decode (string data,
-                                      string& bible, int& book, int& chapter, int& verse,
-                                      string& summary, string& contents, bool& raw);
-string client_logic_connection_setup (string user = "", string hash = "");
-
+string sync_setup_url ();
+bool sync_setup_acl (void * webserver_request);
+string sync_setup (void * webserver_request);
 
 #endif

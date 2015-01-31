@@ -37,11 +37,11 @@ $notes_logic = Notes_Logic::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$user_ok = $database_users->usernameExists ($username);
+$user_ok = request->database_users ()->usernameExists ($username);
 if (!$user_ok) Database_Logs::log ("Non existing user $username", Filter_Roles::manager ());
-$pass_ok = ($password == $database_users->getmd5 ($username));
+$pass_ok = ($password == request->database_users ()->getmd5 ($username));
 if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
-$level_ok = ($level == $database_users->getUserLevel ($username));
+$level_ok = ($level == request->database_users ()->getUserLevel ($username));
 if (!$level_ok) Database_Logs::log ("Incorrect role $level for user $username", Filter_Roles::manager ());
 if (!$user_ok || !$pass_ok || !$level_ok) {
   // Unauthorized.
@@ -50,7 +50,7 @@ if (!$user_ok || !$pass_ok || !$level_ok) {
 }
 
 
-$session_logic->setUsername ($username);
+request->session_logic ()->setUsername ($username);
 
 
 if ($action == Notes_Logic::noteActionCreate) {

@@ -39,3 +39,8 @@ bool config_logic_client_prepared ()
 }
 
 
+// Returns whether demo mode is enabled during configure.
+bool config_logic_demo ()
+{
+  return (DEMO == "yes");
+}

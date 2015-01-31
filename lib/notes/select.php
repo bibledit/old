@@ -193,7 +193,7 @@ $view.set_variable ("textinclusionselector = $text_inclusion_selector;
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
+if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 
 
 $book = Ipc_Focus::getBook ();

@@ -132,9 +132,9 @@ EOD;
 
 
 $database_users = Database_Users::getInstance ();
-$database_users->create ();
-$database_users->addNewUser ("username", "password", 123, "email@address.com");
-$database_users->debug ();
+request->database_users ()->create ();
+request->database_users ()->addNewUser ("username", "password", 123, "email@address.com");
+request->database_users ()->debug ();
 
 
 

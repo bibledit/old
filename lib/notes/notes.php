@@ -61,7 +61,7 @@ $bibles = access_bible_bibles (request->session_logic()->currentUser ());
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
+if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 
 
 $identifiers = $database_notes->selectNotes ($bibles, book, chapter, verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);

@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_users = Database_Users::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 $database_modifications = Database_Modifications::getInstance ();
@@ -45,7 +45,7 @@ $siteUrl = Database_Config_General::getSiteURL ();
 $bibles = request->database_bibles()->getBibles ();
 
 
-$users = $database_users->getUsers ();
+$users = request->database_users ()->getUsers ();
 for ($users as $user) {
 
 
@@ -83,7 +83,7 @@ for ($users as $user) {
   if (request->database_config_user()->getUserSubscribedNotesStatisticsNotification ($user)) {
     $body [] = "<p>" . gettext("Number of consultation notes you are subscribed to") . ":</p>\n";
     $body [] = "<ul>\n";
-    $session_logic->setUsername ($user);
+    request->session_logic ()->setUsername ($user);
 
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
@@ -137,7 +137,7 @@ for ($users as $user) {
       NULL);   // Limit.
     $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribedweekidle\">" . gettext("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
     $body [] = "</ul>\n";
-    $session_logic->setUsername ("");
+    request->session_logic ()->setUsername ("");
   }
 
 

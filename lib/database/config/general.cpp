@@ -273,6 +273,16 @@ void Database_Config_General::setServerAddress (string value)
 }
 
 
+int Database_Config_General::getServerPort ()
+{
+  return getIValue ("server-port", 8080);
+}
+void Database_Config_General::setServerPort (int value)
+{
+  setIValue ("server-port", value);
+}
+
+
 int Database_Config_General::getRepeatSendReceive ()
 {
   return getIValue ("repeat-send-receive", 0);

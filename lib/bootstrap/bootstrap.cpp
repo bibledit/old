@@ -102,6 +102,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/settings.h>
 #include <sendreceive/index.h>
 #include <client/index.h>
+#include <sync/setup.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -196,6 +197,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == collaboration_secure_url ()) && collaboration_secure_acl (request)) request->reply = collaboration_secure (request);
   else if ((url == collaboration_direction_url ()) && collaboration_direction_acl (request)) request->reply = collaboration_direction (request);
 
+  // Client calls.
+  else if ((url == sync_setup_url ()) && sync_setup_acl (request)) request->reply = sync_setup (request);
+  
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);
   else if ((url == navigation_poll_url ()) && navigation_poll_acl (request)) request->reply = navigation_poll (request);

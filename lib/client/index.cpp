@@ -27,6 +27,11 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <database/noteactions.h>
+#include <database/bibleactions.h>
+#include <client/logic.h>
+#include <demo/logic.h>
+#include <sendreceive/logic.h>
 
 
 string client_index_url ()
@@ -41,151 +46,119 @@ bool client_index_acl (void * webserver_request)
 }
 
 
+void client_index_remove_all_users (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  vector <string> existingusers = request->database_users()->getUsers ();
+  for (auto existinguser : existingusers) {
+    request->database_users()->removeUser (existinguser);
+  }
+}
+
+
+void client_index_enable_client (void * webserver_request, string username, string password, int level)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // Enable client mode upon a successful connection.
+  client_logic_enable_client (true);
+  
+  // Remove all users from the database, and add the current one.
+  client_index_remove_all_users (request);
+  request->database_users ()->addNewUser (username, password, level, "");
+  
+  // Clear all pending note actions and Bible actions and settings updates.
+  Database_NoteActions database_noteactions = Database_NoteActions ();
+  Database_BibleActions database_bibleactions = Database_BibleActions ();
+  database_noteactions.clear ();
+  database_noteactions.create ();
+  database_bibleactions.clear ();
+  database_bibleactions.create ();
+  request->session_logic ()->setUsername (username);
+  request->database_config_user()->setUpdatedSettings ({});
+  
+  // Set it to repeat sync every so often.
+  Database_Config_General::setRepeatSendReceive (2);
+  
+  // Schedule a sync operation straight-away.
+  sendreceive_queue_sync (true);
+}
+
+
 string client_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
   
-  page = Assets_Page::header (gettext ("client"), webserver_request, "");
+  page = Assets_Page::header (gettext ("Client mode"), webserver_request, "");
   
   Assets_View view = Assets_View ();
 
-  if (request->post.count ("connect")) {
-    
-    string address = request->post ["address"];
-    Database_Config_General::setServerAddress (address);
-    
-    string user = request->post ["user"];
-    string pass = request->post ["pass"];
-    
-    /*
-     string response = client_logic_enable_clientup (user, md5 (pass));
-     
-    if ($response === false) {
-      $view.set_variable ("error = gettext("Could not connect to the server.");
-                          } else if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
-                            // Enable client mode upon a successful connection.
-                            enable_client ($user, $pass, $response);
-                            // Feedback.
-                            $view.set_variable ("success = gettext("Connection is okay.");
-                                                } else {
-                                                  $view.set_variable ("error = $response . ": " . gettext("Check that your username and password exist on the server.");
-                                                                      }
-      */
+  if (request->query.count ("disable")) {
+    client_logic_enable_client (false);
+    client_index_remove_all_users (request);
+    Database_Config_General::setRepeatSendReceive (0);
   }
 
+  bool connect = request->post.count ("connect");
+  bool demo = request->query.count ("demo");
+  if (connect || demo) {
+    
+    string address;
+    if (connect) address = request->post ["address"];
+    if (demo) address = demo_logic_demo_address ();
+    if (address.find ("http") == string::npos) address.insert (0, "http://");
+    Database_Config_General::setServerAddress (address);
+    
+    int port;
+    if (connect) port = convert_to_int (request->post ["port"]);
+    if (demo) port = demo_logic_demo_port ();
+    Database_Config_General::setServerPort (port);
+    
+    string user;
+    if (connect) user = request->post ["user"];
+    if (demo) user = "admin";
+    
+    string pass;
+    if (connect) pass = request->post ["pass"];
+    if (demo) pass = "admin";
+    
+    string response = client_logic_connection_setup (user, md5 (pass));
+    int iresponse = convert_to_int (response);
+
+    if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
+      // Enable client mode upon a successful connection.
+      client_index_enable_client (request, user, pass, iresponse);
+      // Feedback.
+      view.set_variable ("success", gettext("Connection is okay."));
+    } else {
+      view.set_variable ("error", gettext ("Could not make the connection with the Bibledit server") + ": " + response);
+    }
+  }
+
+  if (client_logic_client_enabled ())
+    view.enable_zone ("clienton");
+  else
+    view.enable_zone ("clientoff");
   
+  string address = Database_Config_General::getServerAddress ();
+  view.set_variable ("address", address);
+  
+  int port = Database_Config_General::getServerPort ();
+  view.set_variable ("port", convert_to_string (port));
+  
+  vector <string> users = request->database_users ()->getUsers ();
+  for (auto & user : users) {
+    int level = request->database_users()->getUserLevel (user);
+    view.set_variable ("role", Filter_Roles::text (level));
+  }
+  
+  view.set_variable ("demo", demo_logic_client_demo_warning ());
+                                                                                    
   page += view.render ("client", "index");
   
   page += Assets_Page::footer ();
   
   return page;
 }
-/* Todo
- 
- 
- $database_noteactions = Database_NoteActions::getInstance ();
- $database_bibleactions = Database_BibleActions::getInstance ();
- 
- 
- 
- 
- if (request->query.count ("disable"])) {
- client_logic_enable_client (false);
- remove_all_users ();
- Database_Config_General::setRepeatSendReceive (0);
- }
- 
- 
- 
- 
- if (isset (request->query["demo"])) {
- 
- $address = demo_logic_demo_address ();
- Database_Config_General::setServerAddress ($address);
- 
- $user = "admin";
- $pass = "admin";
- 
- $response = client_logic_enable_clientup ($user, md5 ($pass));
- 
- if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
- // Enable client mode upon a successful connection.
- enable_client ($user, $pass, $response);
- // Feedback.
- $view.set_variable ("success = gettext("Demo connection is okay.");
- } else {
- $view.set_variable ("error = gettext("Could not connect to the demo server.");
- }
- 
- }
- 
- 
- $view.set_variable ("client = client_logic_client_enabled ();
- 
- 
- $address = Database_Config_General::getServerAddress ();
- $view.set_variable ("address = $address;
- 
- 
- $users = $database_users->getUsers ();
- for ($users as $user) {
- $level = $database_users->getUserLevel ($user);
- $view.set_variable ("role = Filter_Roles::text ($level);
- }
- 
- 
- $view.set_variable ("demo = demo_logic_client_demo_warning ();
- 
- 
- Assets_Page::header (gettext("Client mode"));
- 
- 
- $view->render ("client");
- 
- 
- Assets_Page::footer ();
- 
- 
- function remove_all_users ()
- {
- $database_users = Database_Users::getInstance ();
- $existingusers = $database_users->getUsers ();
- for ($existingusers as $existinguser) {
- $database_users->removeUser ($existinguser);
- }
- }
- 
- 
- function enable_client ($username, $password, $level)
- {
- // Enable client mode upon a successful connection.
- client_logic_enable_client (true);
- 
- // Remove all users from the database, and add the current one.
- remove_all_users ();
- $database_users = Database_Users::getInstance ();
- $database_users->addNewUser ($username, $password, $level, "");
- 
- // Clear all pending note actions and Bible actions and settings updates.
- $database_noteactions = Database_NoteActions::getInstance ();
- $database_bibleactions = Database_BibleActions::getInstance ();
- $database_config_user = Database_Config_User::getInstance ();
- $session_logic = Session_Logic::getInstance ();
- $database_noteactions->clear ();
- $database_noteactions->create ();
- $database_bibleactions->clear ();
- $database_bibleactions->create ();
- $session_logic->setUsername ($username);
- request->database_config_user()->setUpdatedSettings (array ());
- 
- // Set it repeats sync every so often.
- $database_config_general = Database_Config_General::getInstance ();
- Database_Config_General::setRepeatSendReceive (2);
- 
- // Schedule a sync operation straight-away.
- sendreceive_queue_sync (true);
- }
-
-*/

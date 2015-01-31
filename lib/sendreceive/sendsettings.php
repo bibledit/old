@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_user = Database_Config_User::getInstance ();
 $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
@@ -44,9 +44,9 @@ if ($response === false || $response < Filter_Roles::guest () || $response > Fil
 
 
 // Set the correct user in the session, which is sole user on the Client.
-$users = $database_users->getUsers ();
+$users = request->database_users ()->getUsers ();
 $user = $users [0];
-$session_logic->setUsername ($user);
+request->session_logic ()->setUsername ($user);
 
 
 $address = Database_Config_General::getServerAddress ();
@@ -82,8 +82,8 @@ for ($ids as $id) {
   // POST the setting to the server.
   $post = array (
     "u" => bin2hex ($user),
-    "p" => $database_users->getmd5 ($user),
-    "l" => $database_users->getUserLevel ($user),
+    "p" => request->database_users ()->getmd5 ($user),
+    "l" => request->database_users ()->getUserLevel ($user),
     "i" => $id,
     "s" => serialize ($setting)
   );

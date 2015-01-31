@@ -18,30 +18,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap"); // Todo port the setup page.
-
-
-$username = request->query ['user'];
-$username = Filter_Hex::hex2bin ($username);
-$password = request->query ['pass'];
-
-
-$database_users = Database_Users::getInstance ();
-
-
-if ($database_users->usernameExists ($username)) {
-  $md5 = $database_users->getmd5 ($username);
-  if ($password == $md5) {
-    // The credentials of the client have been accepted.
-    // Return the level to the client.
-    echo $database_users->getUserLevel ($username);
-    die;
-  }
-}
-
-
-// The credentials were not accepted.
-echo 0;
-
 
 ?>

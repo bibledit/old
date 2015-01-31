@@ -25,6 +25,7 @@
 
 bool demo_logic_open_demo (string user, string pass);
 string demo_logic_demo_address ();
+int demo_logic_demo_port ();
 string demo_logic_client_demo_warning ();
 
 

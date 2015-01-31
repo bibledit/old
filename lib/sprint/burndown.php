@@ -66,7 +66,7 @@ if (!$email && !$sprintstart && !$sprintfinish) {
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_bible = Database_Config_Bible::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_users = Database_Users::getInstance ();
@@ -127,7 +127,7 @@ for ($bibles as $bible) {
       $categories = explode ("\n", $categories);
       $category_count = count ($categories);
       $category_percentage = intval (100 / $category_count);
-      $users = $database_users->getUsers ();
+      $users = request->database_users ()->getUsers ();
       for ($users as $user) {
         if (!access_bible_write ($bible, $user)) continue;
         if (request->database_config_user()->getUserSprintProgressNotification ($user)) {

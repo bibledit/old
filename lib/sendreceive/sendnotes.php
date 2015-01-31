@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_notes = Database_Notes::getInstance ();
 $database_noteactions = Database_NoteActions::getInstance ();
 $database_users = Database_Users::getInstance ();
@@ -87,8 +87,8 @@ for ($notes as $note) {
     // Generate a POST request.
     $post = array (
       "u" => bin2hex ($username), 
-      "p" => $database_users->getmd5 ($username),
-      "l" => $database_users->getUserLevel ($username),
+      "p" => request->database_users ()->getmd5 ($username),
+      "l" => request->database_users ()->getUserLevel ($username),
       "n" => $note,
       "t" => $timestamp,
       "a" => $action,

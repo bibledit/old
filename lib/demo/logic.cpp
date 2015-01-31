@@ -44,7 +44,13 @@ bool demo_logic_open_demo (string user, string pass)
 // Returns the address of the current demo server.
 string demo_logic_demo_address ()
 {
-  return "http://bibledit.org:9090";
+  return "http://bibledit.org";
+}
+
+
+int demo_logic_demo_port ()
+{
+  return 8080;
 }
 
 
@@ -55,10 +61,13 @@ string demo_logic_client_demo_warning ()
   if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
     if (address == demo_logic_demo_address ()) {
-      warning = gettext("Warning:")
-      + " " + gettext("The client is connected to a public demo server.")
-      + " " + gettext("Everybody can modify the data on that server.")
-      + " " + gettext("After send and receive your data will reflect the data on the server.");
+      int port = Database_Config_General::getServerPort ();
+      if (port == demo_logic_demo_port ()) {
+        warning = gettext("Warning:")
+        + " " + gettext("The client is connected to a public demo server.")
+        + " " + gettext("Everybody can modify the data on that server.")
+        + " " + gettext("After send and receive your data will reflect the data on the server.");
+      }
     }
   }
   return warning;

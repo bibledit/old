@@ -29,7 +29,7 @@ require_once ("../bootstrap/bootstrap");
 if (Filter_Cli::not_yet_ready ()) die;
 
 
-$database_config_general = Database_Config_General::getInstance ();
+
 
 
 // Set the system's time zone.

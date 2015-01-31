@@ -24,7 +24,7 @@ Bootstrap::getInstance ();
 function page_access_level ($level)
 {
   $session_logic = Session_Logic::getInstance ();
-  if ($level > $session_logic->currentLevel ()) {
+  if ($level > request->session_logic ()->currentLevel ()) {
     $header = new Assets_Header ("Privileges");
     $header->setLogin ();
     $header->run ();

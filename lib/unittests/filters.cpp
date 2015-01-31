@@ -196,7 +196,7 @@ void test_filters_test1 ()
     request.session_logic()->setUsername ("phpunit2");
     evaluate (__LINE__, __func__, 13767813, filter_string_user_identifier (&request));
   }
-  // Test hex2bin and bin2hex as equivalents to PHP's functions. Todo
+  // Test hex2bin and bin2hex as equivalents to PHP's functions.
   {
     string bin = "This is a 123 test.";
     string hex = "5468697320697320612031323320746573742e";
@@ -286,7 +286,13 @@ void test_filters_test2 ()
     evaluate (__LINE__, __func__, true, in_array (needle, haystack));
     evaluate (__LINE__, __func__, true, in_array (1, {1, 2, 3}));
     evaluate (__LINE__, __func__, false, in_array (1, {2, 3}));
-    
+  }
+  {
+    // Test http get.
+    string result, error;
+    result = filter_url_http_get ("http://localhost/none", error);
+    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    evaluate (__LINE__, __func__, "", result);
   }
 }
 
