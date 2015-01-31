@@ -191,6 +191,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/logic.cpp \
 	sendreceive/index.cpp \
 	sendreceive/sendreceive.cpp \
+	sendreceive/settings.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \

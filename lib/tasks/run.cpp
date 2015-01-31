@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tmp/tmp.h>
 #include <collaboration/link.h>
 #include <sendreceive/sendreceive.h>
+#include <sendreceive/settings.h>
 
 
 mutex mutex_tasks; 
@@ -105,17 +106,17 @@ void tasks_run_one (string filename)
   } else if (command == SENDBIBLES) {
     Database_Logs::log ("Not yet implemented: " + command); // sendbibles.php
   } else if (command == SENDSETTINGS) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendsettings.php
+    sendreceive_send_settings ();
   } else if (command == SYNCNOTES) {
     Database_Logs::log ("Not yet implemented: " + command); // syncnotes.php
   } else if (command == SYNCBIBLES) {
     Database_Logs::log ("Not yet implemented: " + command); // syncbibles.php
   } else if (command == SYNCSETTINGS) {
-    Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
+    sendreceive_sync_settings ();
   } else if (command == SYNCEXTERNALRESOURCES) {
-    Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
+    Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
   } else if (command == SYNCUSFMRESOURCES) {
-    Database_Logs::log ("Not yet implemented: " + command);
+    Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

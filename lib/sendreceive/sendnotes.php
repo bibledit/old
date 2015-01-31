@@ -37,7 +37,7 @@ $notes_logic = Notes_Logic::getInstance ();
 Database_Logs::log (gettext("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
 
 
-$response = client_logic_enable_clientup ();
+$response = client_logic_connection_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
   Database_Logs::log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
   die;

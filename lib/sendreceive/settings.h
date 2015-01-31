@@ -17,22 +17,16 @@
  */
 
 
-#ifndef INCLUDED_CLIENT_LOGIC_H
-#define INCLUDED_CLIENT_LOGIC_H
+#ifndef INCLUDED_SENDRECEIVE_SETTINGS_H
+#define INCLUDED_SENDRECEIVE_SETTINGS_H
 
 
 #include <config/libraries.h>
+#include <filter/string.hpp>
 
 
-bool client_logic_client_enabled ();
-void client_logic_enable_client (bool enable);
-string client_logic_create_note_encode (string bible, int book, int chapter, int verse,
-                                        string summary, string contents, bool raw);
-void client_logic_create_note_decode (string data,
-                                      string& bible, int& book, int& chapter, int& verse,
-                                      string& summary, string& contents, bool& raw);
-string client_logic_connection_setup (string user = "", string hash = "");
-string client_logic_url (string address, int port, string path);
+void sendreceive_send_settings ();
+void sendreceive_sync_settings ();
 
 
 #endif
