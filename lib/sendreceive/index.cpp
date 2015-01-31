@@ -103,10 +103,10 @@ string sendreceive_index (void * webserver_request)
   
   if (request->query.count ("runsync")) {
     if (sendreceive_sync_queued ()) {
-      view.set_variable ("successnotes", gettext("Still sending and receiving from the last time."));
+      view.set_variable ("successsync", gettext("Still sending and receiving from the last time."));
     } else {
-      sendreceive_queue_sync (true);
-      view.set_variable ("successnotes", gettext("Will send and receive."));
+      sendreceive_queue_sync (-1);
+      view.set_variable ("successsync", gettext("Will send and receive."));
     }
   }
   
@@ -126,7 +126,7 @@ string sendreceive_index (void * webserver_request)
   
   
   if (Database_Config_General::getServerAddress () == "") {
-    view.set_variable ("errornotes", gettext("Collaboration has not been set up for the Bibles and Consultation Notes"));
+    view.set_variable ("errorsync", gettext("Collaboration has not been set up for the Bibles and Consultation Notes"));
   }
 
   

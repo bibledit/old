@@ -81,7 +81,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   Database_Config_General::setRepeatSendReceive (2);
   
   // Schedule a sync operation straight-away.
-  sendreceive_queue_sync (true);
+  sendreceive_queue_sync (-1);
 }
 
 
