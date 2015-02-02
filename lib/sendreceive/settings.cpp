@@ -80,13 +80,13 @@ void sendreceive_settings () // Todo test i.
 
     string value;
     switch (id) {
-      case Sync_Logic::sync_settings_send_workbench_urls:
+      case Sync_Logic::settings_send_workbench_urls:
         value = request.database_config_user()->getWorkbenchURLs ();
         break;
-      case Sync_Logic::sync_settings_send_workbench_widths:
+      case Sync_Logic::settings_send_workbench_widths:
         value = request.database_config_user()->getWorkbenchWidths ();
         break;
-      case Sync_Logic::sync_settings_send_workbench_heights:
+      case Sync_Logic::settings_send_workbench_heights:
         value = request.database_config_user()->getWorkbenchHeights ();
         break;
     }
@@ -112,7 +112,7 @@ void sendreceive_settings () // Todo test i.
   // If it matches, that means that the local settings match the settings on the server.
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
-  post ["a"] = convert_to_string (Sync_Logic::sync_settings_get_total_checksum);
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_total_checksum);
   string error;
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -128,7 +128,7 @@ void sendreceive_settings () // Todo test i.
   // At this stage the total checksum of all relevant settings on the client differs from the same on the server.
   // Requests all settings from the server.
 
-  post ["a"] = convert_to_string (Sync_Logic::sync_settings_get_workbench_urls);
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_urls);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench URLS", Filter_Roles::translator ());
@@ -136,7 +136,7 @@ void sendreceive_settings () // Todo test i.
   }
   request.database_config_user()->setWorkbenchURLs (response);
 
-  post ["a"] = convert_to_string (Sync_Logic::sync_settings_get_workbench_widths);
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_widths);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench widths", Filter_Roles::translator ());
@@ -144,7 +144,7 @@ void sendreceive_settings () // Todo test i.
   }
   request.database_config_user()->setWorkbenchWidths (response);
 
-  post ["a"] = convert_to_string (Sync_Logic::sync_settings_get_workbench_heights);
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_heights);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench heights", Filter_Roles::translator ());

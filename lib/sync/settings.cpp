@@ -58,34 +58,34 @@ string sync_settings (void * webserver_request) // Todo est it.
   string value = request->post ["v"];
 
   switch (action) {
-    case Sync_Logic::sync_settings_get_total_checksum:
+    case Sync_Logic::settings_get_total_checksum:
     {
       return sync_logic.settings_checksum ();
     }
-    case Sync_Logic::sync_settings_send_workbench_urls:
+    case Sync_Logic::settings_send_workbench_urls:
     {
       request->database_config_user()->setWorkbenchURLs (value);
       return "";
     }
-    case Sync_Logic::sync_settings_get_workbench_urls:
+    case Sync_Logic::settings_get_workbench_urls:
     {
       return request->database_config_user()->getWorkbenchURLs ();
     }
-    case Sync_Logic::sync_settings_send_workbench_widths:
+    case Sync_Logic::settings_send_workbench_widths:
     {
       request->database_config_user()->setWorkbenchWidths (value);
       return "";
     }
-    case Sync_Logic::sync_settings_get_workbench_widths:
+    case Sync_Logic::settings_get_workbench_widths:
     {
       return request->database_config_user()->getWorkbenchWidths ();
     }
-    case Sync_Logic::sync_settings_send_workbench_heights:
+    case Sync_Logic::settings_send_workbench_heights:
     {
       request->database_config_user()->setWorkbenchHeights (value);
       return "";
     }
-    case Sync_Logic::sync_settings_get_workbench_heights:
+    case Sync_Logic::settings_get_workbench_heights:
     {
       return request->database_config_user()->getWorkbenchHeights ();
     }
