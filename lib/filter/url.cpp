@@ -458,7 +458,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
     // Further options.
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
-    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
     // Perform the request.
     CURLcode res = curl_easy_perform (curl);
@@ -468,14 +468,41 @@ string filter_url_http_post (string url, map <string, string> values, string& er
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        response.append ("http code " + convert_to_string ((int)http_code));
+        error.append ("Server response " + filter_url_http_response_code_text (http_code));
       }
     } else {
-      response.clear ();
       error = curl_easy_strerror (res);
     }
     // Always cleanup.
     curl_easy_cleanup (curl);
   }
   return response;
+}
+
+
+string filter_url_http_response_code_text (int code)
+{
+  string text = convert_to_string (code);
+  text.append (" ");
+  switch (code) {
+    case 200:
+      text += "OK";
+      break;
+    case 302:
+      text += "Found";
+      break;
+    case 400:
+      text += "Bad Request";
+      break;
+    case 401:
+      text += "Unauthorized";
+      break;
+    case 409:
+      text += "Conflict";
+      break;
+    default:
+      text += "Error";
+      break;
+  }
+  return text;
 }

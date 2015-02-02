@@ -23,6 +23,7 @@
 #include <filter/roles.h>
 #include <database/config/general.h>
 #include <database/users.h>
+#include <database/logs.h>
 #include <curl/curl.h>
 #include <sync/setup.h>
 
@@ -39,6 +40,54 @@ bool client_logic_client_enabled ()
 void client_logic_enable_client (bool enable)
 {
   Database_Config_General::setClientMode (enable);
+}
+
+
+// Generates a URL for connecting to the Bibledit server.
+// $address is the website.
+// $port is the port number.
+// $path is the path after the website.
+string client_logic_url (string address, int port, string path)
+{
+  return address + ":" + convert_to_string (port) + "/" + path;
+}
+
+
+// This function does the initial connection from the client to the server.
+// It receives settings from the server and applies them to the client.
+// It returns the level of the user.
+// It returns an empty string in case of failure or the response from the server.
+string client_logic_connection_setup (string user, string hash)
+{
+  if (user.empty ()) {
+    Database_Users database_users = Database_Users ();
+    vector <string> users = database_users.getUsers ();
+    if (users.empty()) return "";
+    user = users [0];
+    hash = database_users.getmd5 (user);
+  }
+  
+  string encoded_user = bin2hex (user);
+  
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  
+  string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
+  
+  string error;
+  string response = filter_url_http_get (url, error);
+  int iresponse = convert_to_int (response);
+  
+  if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
+    // Set user's role on the client to be the same as on the server.
+    Database_Users database_users = Database_Users ();
+    database_users.updateUserLevel (user, iresponse);
+  } else {
+    Database_Logs::log (error, Filter_Roles::translator ());
+  }
+  
+  if (response.empty ()) response = error;
+  return response;
 }
 
 
@@ -90,47 +139,3 @@ void client_logic_create_note_decode (string data,
 }
 
 
-// This function does the initial connection from the client to the server.
-// It receives settings from the server and applies them to the client.
-// It returns the level of the user.
-// It returns an empty string in case of failure or the response from the server.
-string client_logic_connection_setup (string user, string hash)
-{
-  if (user.empty ()) {
-    Database_Users database_users = Database_Users ();
-    vector <string> users = database_users.getUsers ();
-    if (users.empty()) return "";
-    user = users [0];
-    hash = database_users.getmd5 (user);
-  }
-  
-  string encoded_user = bin2hex (user);
-
-  string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
-  
-  string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
-
-  string error;
-  string response = filter_url_http_get (url, error);
-  int iresponse = convert_to_int (response);
-  
-  if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
-    // Set user's role on the client to be the same as on the server.
-    Database_Users database_users = Database_Users ();
-    database_users.updateUserLevel (user, iresponse);
-  }
-
-  if (response.empty ()) response = error;
-  return response;
-}
-
-
-// Generates a URL for connecting to the Bibledit server.
-// $address is the website.
-// $port is the port number.
-// $path is the path after the website.
-string client_logic_url (string address, int port, string path)
-{
-  return address + ":" + convert_to_string (port) + "/" + path;
-}

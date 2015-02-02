@@ -45,10 +45,10 @@ bool sync_settings_acl (void * webserver_request)
 }
 
 
-string sync_settings (void * webserver_request) // Todo est it.
+string sync_settings (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Sync_Logic sync_logic =   Sync_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
   // Check on the credentials.
   if (!sync_logic.credentials_okay ()) return "";

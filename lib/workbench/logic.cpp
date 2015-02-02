@@ -172,15 +172,15 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
   rawvalue = filter_string_implode (newlines, "\n");
   if (selector == URLS) {
     request->database_config_user()->setWorkbenchURLs (rawvalue);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls); // Todo test i.=t
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls);
   }
   if (selector == WIDTHS) {
     request->database_config_user()->setWorkbenchWidths (rawvalue);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths); // Todo test it.
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths);
   }
   if (selector == HEIGHTS) {
     request->database_config_user()->setWorkbenchHeights (rawvalue);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights); // Todo test.
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
   }
 }
 
@@ -340,7 +340,7 @@ void workbenchDeleteWorkbench (void * webserver_request, string workbench)
   request->database_config_user()->setActiveWorkbench ("");
   
   // For a client, store the setting for sending to the server.
-  request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls); // Todo test it.
+  request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls);
   request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths);
   request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
 }

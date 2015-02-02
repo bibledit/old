@@ -212,6 +212,10 @@
 		CA71AC5A1A641DD800EF85A8 /* search.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = search.html; sourceTree = "<group>"; };
 		CA82662E1A7FAA330049DFD3 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
 		CA82662F1A7FAA330049DFD3 /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
+		CA8266301A7FFC9C0049DFD3 /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
+		CA8266311A7FFC9C0049DFD3 /* bibles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibles.h; sourceTree = "<group>"; };
+		CA8266321A7FFCCF0049DFD3 /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
+		CA8266331A7FFCCF0049DFD3 /* bibles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibles.h; sourceTree = "<group>"; };
 		CA8669C11A793629009E8E3F /* merge.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = merge.cpp; sourceTree = "<group>"; };
 		CA8669C21A793629009E8E3F /* merge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = merge.h; sourceTree = "<group>"; };
 		CA8E3C501A5C43D1002180D8 /* export.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = export.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -2578,6 +2582,8 @@
 		CAA4D3201A45A648003ABA25 /* sendreceive */ = {
 			isa = PBXGroup;
 			children = (
+				CA8266301A7FFC9C0049DFD3 /* bibles.cpp */,
+				CA8266311A7FFC9C0049DFD3 /* bibles.h */,
 				CAA4D3211A45A648003ABA25 /* externalresources.php */,
 				CAEE85F41A7006B500BE3A1A /* index.cpp */,
 				CAEE85F51A7006B500BE3A1A /* index.h */,
@@ -2694,6 +2700,8 @@
 		CAA4D3731A45A648003ABA25 /* sync */ = {
 			isa = PBXGroup;
 			children = (
+				CA8266321A7FFCCF0049DFD3 /* bibles.cpp */,
+				CA8266331A7FFCCF0049DFD3 /* bibles.h */,
 				CAA4D3781A45A648003ABA25 /* bible.php */,
 				CAA4D3791A45A648003ABA25 /* bibles.php */,
 				CAA4D37A1A45A648003ABA25 /* externalresources.php */,

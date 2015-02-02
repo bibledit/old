@@ -34,7 +34,7 @@
 #include <sync/settings.h>
 
 
-void sendreceive_settings () // Todo test i.
+void sendreceive_settings ()
 {
   Database_Logs::log (gettext("Settings: Send/Receive"), Filter_Roles::translator ());
   

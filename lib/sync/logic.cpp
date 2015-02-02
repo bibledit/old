@@ -117,7 +117,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // On failure it retries a few times.
 // It returns the server's response, or an empty string on failure.
-string Sync_Logic::post (map <string, string> & post, const string& url, string & error) // Todo test retries and so on.
+string Sync_Logic::post (map <string, string> & post, const string& url, string & error)
 {
   error.clear ();
   // After failure, retry a few times more.

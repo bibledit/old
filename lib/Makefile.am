@@ -192,11 +192,13 @@ libbibledit_a_SOURCES = \
 	sendreceive/index.cpp \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
+	sendreceive/bibles.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
 	sync/setup.cpp \
-	sync/settings.cpp
+	sync/settings.cpp \
+	sync/bibles.cpp
 
 bin_PROGRAMS = server unittest
 

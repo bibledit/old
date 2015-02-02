@@ -17,14 +17,24 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_SETTINGS_H
-#define INCLUDED_SENDRECEIVE_SETTINGS_H
+#include <sendreceive/bibles.h>
+#include <filter/url.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <tasks/logic.h>
+#include <config/logic.h>
+#include <database/config/general.h>
+#include <database/config/bible.h>
+#include <database/logs.h>
+#include <database/bibles.h>
+#include <client/logic.h>
+#include <locale/translate.h>
+#include <webserver/request.h>
+#include <sync/logic.h>
+#include <sync/settings.h>
 
 
-#include <config/libraries.h>
+void sendreceive_bibles () // Todo
+{
+}
 
-
-void sendreceive_settings ();
-
-
-#endif

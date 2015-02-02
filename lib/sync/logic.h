@@ -46,6 +46,15 @@ public:
   static const int settings_get_workbench_widths = 5;
   static const int settings_send_workbench_heights = 6;
   static const int settings_get_workbench_heights = 7;
+  static const int bibles_get_total_checksum = 1;
+  static const int bibles_get_bibles = 2;
+  static const int bibles_get_bible_checksum = 3;
+  static const int bibles_get_books = 4;
+  static const int bibles_get_book_checksum = 5;
+  static const int bibles_get_chapters = 6;
+  static const int bibles_get_chapter_checksum = 7;
+  static const int bibles_send_chapter = 8;
+  static const int bibles_get_chapter = 9;
   bool credentials_okay ();
   string settings_checksum ();
   string checksum (const vector <int> & identifiers);

@@ -207,9 +207,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
 	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
 	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
-	sendreceive/settings.$(OBJEXT) demo/logic.$(OBJEXT) \
-	client/index.$(OBJEXT) client/logic.$(OBJEXT) \
-	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT)
+	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
+	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
+	client/logic.$(OBJEXT) sync/setup.$(OBJEXT) \
+	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -620,11 +621,13 @@ libbibledit_a_SOURCES = \
 	sendreceive/index.cpp \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
+	sendreceive/bibles.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
 	sync/setup.cpp \
-	sync/settings.cpp
+	sync/settings.cpp \
+	sync/bibles.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1392,6 +1395,8 @@ sendreceive/sendreceive.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/settings.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/bibles.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -1413,6 +1418,8 @@ client/logic.$(OBJEXT): client/$(am__dirstamp) \
 sync/setup.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/settings.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
+sync/bibles.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
@@ -1715,6 +1722,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/similar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strong.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strongs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/sendreceive.Po@am__quote@
@@ -1732,6 +1740,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheetm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@

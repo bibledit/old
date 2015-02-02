@@ -17,14 +17,14 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_SETTINGS_H
-#define INCLUDED_SENDRECEIVE_SETTINGS_H
+#ifndef INCLUDED_SENDRECEIVE_BIBLES_H
+#define INCLUDED_SENDRECEIVE_BIBLES_H
 
 
 #include <config/libraries.h>
 
 
-void sendreceive_settings ();
+void sendreceive_bibles ();
 
 
 #endif
