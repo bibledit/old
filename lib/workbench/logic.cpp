@@ -23,6 +23,7 @@
 #include <webserver/request.h>
 #include <edit/index.h>
 #include <search/index.h>
+#include <sync/logic.h>
 
 
 map <int, string> workbenchDefaultURLs (int id)
@@ -150,6 +151,7 @@ string workbenchProcessUnits (string length)
 
 void workbenchSetValues (void * webserver_request, int selector, const map <int, string> & values)
 {
+  // Store values locally, and for a client, store them also for sending to the server.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string workbench = workbenchGetActiveWorkbench (request);
   string rawvalue;
@@ -168,11 +170,18 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
     newlines.push_back (line);
   }
   rawvalue = filter_string_implode (newlines, "\n");
-  if (selector == URLS) request->database_config_user()->setWorkbenchURLs (rawvalue);
-  if (selector == WIDTHS) request->database_config_user()->setWorkbenchWidths (rawvalue);
-  if (selector == HEIGHTS) request->database_config_user()->setWorkbenchHeights (rawvalue);
-  // For a client, store the setting for sending to the server.
-  // C++Port request->database_config_user()->addUpdatedSetting (Sync_Logic::WORKBENCH_SETTING);
+  if (selector == URLS) {
+    request->database_config_user()->setWorkbenchURLs (rawvalue);
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::sync_settings_send_workbench_urls); // Todo test i.=t
+  }
+  if (selector == WIDTHS) {
+    request->database_config_user()->setWorkbenchWidths (rawvalue);
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::sync_settings_send_workbench_widths); // Todo test it.
+  }
+  if (selector == HEIGHTS) {
+    request->database_config_user()->setWorkbenchHeights (rawvalue);
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::sync_settings_send_workbench_heights); // Todo test.
+  }
 }
 
 
@@ -331,7 +340,9 @@ void workbenchDeleteWorkbench (void * webserver_request, string workbench)
   request->database_config_user()->setActiveWorkbench ("");
   
   // For a client, store the setting for sending to the server.
-  // C++Port request->database_config_user()->addUpdatedSetting (Sync_Logic::WORKBENCH_SETTING);
+  request->database_config_user()->addUpdatedSetting (Sync_Logic::sync_settings_send_workbench_urls); // Todo test it.
+  request->database_config_user()->addUpdatedSetting (Sync_Logic::sync_settings_send_workbench_widths);
+  request->database_config_user()->addUpdatedSetting (Sync_Logic::sync_settings_send_workbench_heights);
 }
 
 

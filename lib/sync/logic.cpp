@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/md5.h>
+#include <filter/roles.h>
 #include <database/notes.h>
 #include <database/noteactions.h>
 #include <database/mail.h>
@@ -38,6 +39,38 @@ Sync_Logic::Sync_Logic (void * webserver_request_in)
 
 Sync_Logic::~Sync_Logic ()
 {
+}
+
+
+bool Sync_Logic::credentials_okay ()
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // Get the credentials the client POSTed to the us, the server.
+  string username = hex2bin (request->post ["u"]);
+  string password = request->post ["p"];
+  int level = convert_to_int (request->post ["l"]);
+  
+  // Check all credentials.
+  bool user_ok = request->database_users ()->usernameExists (username);
+  if (!user_ok) Database_Logs::log ("Non existing user: " + username, Filter_Roles::manager ());
+  bool pass_ok = (password == request->database_users ()->getmd5 (username));
+  if (!pass_ok) Database_Logs::log ("Incorrect password: " + password, Filter_Roles::manager ());
+  bool level_ok = (level == request->database_users ()->getUserLevel (username));
+  if (!level_ok) Database_Logs::log ("Incorrect role: " + Filter_Roles::text (level), Filter_Roles::manager ());
+  if (!user_ok || !pass_ok || !level_ok) {
+    // Unauthorized.
+    // Delay a while to obstruct a flood of requests with invalid credentials.
+    this_thread::sleep_for (chrono::seconds (1));
+    request->response_code = 401;
+    return false;
+  }
+  
+  // Set username in session.
+  request->session_logic ()->setUsername (username);
+  
+  // OK.
+  return true;
 }
 
 
@@ -81,65 +114,42 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 }
 
 
-/* C++Port
-
 // Sends a post request to the url.
 // On failure it retries a few times.
-// It returns the server's response, or false on failure.
-public static function post (post, url)
+// It returns the server's response, or an empty string on failure.
+string Sync_Logic::post (map <string, string> & post, const string& url, string & error) // Todo test retries and so on.
 {
-  // Use key 'http' even if you send the request to https.
-  options = array (
-    'http' => array (
-      'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-      'method'  => 'POST',
-      'content' => http_build_query (post),
-      'timeout' => 3600
-    ),
-  );
-  context  = stream_context_create (options);
-
+  error.clear ();
   // After failure, retry a few times more.
-  retry = 0;
+  int retry = 0;
   while (++retry <= 3) {
-    @response = filter_url_file_get_contents (url, false, context);
-    if (response === false) {
-      // Log failure.
-      database_logs = Database_Logs::getInstance ();
-      // If the server or connection is down entirely there won't be even a response header.
-      @response_header = http_response_header [0];
-      if (response_header) database_logs.log (response_header, Filter_Roles::translator ());
-    } else {
-      // Return successful response.
+    string response = filter_url_http_post (url, post, error);
+    if (error.empty ()) {
+      // Success: Return response.
       return response;
+    } else {
+      // Log failure.
+      Database_Logs::log (error, Filter_Roles::translator ());
     }
   }
-  // Failure: Give up.
-  return false;
+  // Too many failures: Give up.
+  return "";
 }
 
 
 // Calculates the checksum of all settings that to be kept in sync between server and client.
-static public function settings_checksum ()
+string Sync_Logic::settings_checksum ()
 {
-  checksum = "";
-  checksum += Sync_Logic::workbench_checksum ();
-  checksum = md5 (checksum);
-  return checksum;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string checksum;
+  checksum.append (request->database_config_user()->getWorkbenchURLs ());
+  checksum.append (request->database_config_user()->getWorkbenchWidths ());
+  checksum.append (request->database_config_user()->getWorkbenchHeights ());
+  return md5 (checksum);
 }
 
 
-// Checksum calculation for workbench settings.
-const WORKBENCH_SETTING = 1;
-static public function workbench_checksum ()
-{
-  database_config_user = Database_Config_User::getInstance ();
-  urls = database_config_user.getWorkbenchURLs ();
-  widths = database_config_user.getWorkbenchWidths ();
-  heights = database_config_user.getWorkbenchHeights ();
-  checksum = md5 (urls . widths . heights);
-  return checksum;
-}
+/* C++Port
 
 
 // Calculates the checksum of all offline resources.

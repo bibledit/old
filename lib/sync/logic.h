@@ -34,13 +34,23 @@ public:
 };
 
 
-class Sync_Logic
+class Sync_Logic // Todo
 {
 public:
   Sync_Logic (void * webserver_request_in);
   ~Sync_Logic ();
+  static const int sync_settings_get_total_checksum = 1;
+  static const int sync_settings_send_workbench_urls = 2;
+  static const int sync_settings_get_workbench_urls = 3;
+  static const int sync_settings_send_workbench_widths = 4;
+  static const int sync_settings_get_workbench_widths = 5;
+  static const int sync_settings_send_workbench_heights = 6;
+  static const int sync_settings_get_workbench_heights = 7;
+  bool credentials_okay ();
+  string settings_checksum ();
   string checksum (const vector <int> & identifiers);
   vector <Sync_Logic_Range> create_range (int start, int end);
+  string post (map <string, string> & post, const string& url, string & error);
 private:
   void * webserver_request;
 };

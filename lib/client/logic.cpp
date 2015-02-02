@@ -24,6 +24,7 @@
 #include <database/config/general.h>
 #include <database/users.h>
 #include <curl/curl.h>
+#include <sync/setup.h>
 
 
 // Returns whether Client mode is enabled.
@@ -108,7 +109,7 @@ string client_logic_connection_setup (string user, string hash)
   string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
   
-  string url = client_logic_url (address, port, "setup") + "?user=" + encoded_user + "&pass=" + hash;
+  string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
 
   string error;
   string response = filter_url_http_get (url, error);
@@ -131,5 +132,5 @@ string client_logic_connection_setup (string user, string hash)
 // $path is the path after the website.
 string client_logic_url (string address, int port, string path)
 {
-  return address + ":" + convert_to_string (port) + "/sync/" + path;
+  return address + ":" + convert_to_string (port) + "/" + path;
 }

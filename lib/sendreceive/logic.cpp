@@ -64,7 +64,7 @@ void sendreceive_queue_sync (int minute)
     } else {
       tasks_logic_queue (SENDNOTES);
       tasks_logic_queue (SENDBIBLES);
-      tasks_logic_queue (SENDSETTINGS);
+      tasks_logic_queue (SYNCSETTINGS);
       tasks_logic_queue (SYNCEXTERNALRESOURCES);
       tasks_logic_queue (SYNCUSFMRESOURCES);
     }
@@ -78,7 +78,6 @@ bool sendreceive_sync_queued ()
 {
   if (!tasks_logic_queued (SENDNOTES).empty ()) return true;
   if (!tasks_logic_queued (SENDBIBLES).empty ()) return true;
-  if (!tasks_logic_queued (SENDSETTINGS).empty ()) return true;
   if (!tasks_logic_queued (SYNCNOTES).empty ()) return true;
   if (!tasks_logic_queued (SYNCBIBLES).empty ()) return true;
   if (!tasks_logic_queued (SYNCSETTINGS).empty ()) return true;

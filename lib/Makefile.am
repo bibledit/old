@@ -195,7 +195,8 @@ libbibledit_a_SOURCES = \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
-	sync/setup.cpp
+	sync/setup.cpp \
+	sync/settings.cpp
 
 bin_PROGRAMS = server unittest
 

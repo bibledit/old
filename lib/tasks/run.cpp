@@ -105,14 +105,12 @@ void tasks_run_one (string filename)
     Database_Logs::log ("Not yet implemented: " + command); // sendnotes.php
   } else if (command == SENDBIBLES) {
     Database_Logs::log ("Not yet implemented: " + command); // sendbibles.php
-  } else if (command == SENDSETTINGS) {
-    sendreceive_send_settings ();
   } else if (command == SYNCNOTES) {
     Database_Logs::log ("Not yet implemented: " + command); // syncnotes.php
   } else if (command == SYNCBIBLES) {
     Database_Logs::log ("Not yet implemented: " + command); // syncbibles.php
   } else if (command == SYNCSETTINGS) {
-    sendreceive_sync_settings ();
+    sendreceive_settings ();
   } else if (command == SYNCEXTERNALRESOURCES) {
     Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
   } else if (command == SYNCUSFMRESOURCES) {

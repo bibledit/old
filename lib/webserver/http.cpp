@@ -170,6 +170,7 @@ void http_assemble_response (Webserver_Request * request)
   string http_response_code_fragment = convert_to_string (request->response_code) + " ";
   if (request->response_code == 200) http_response_code_fragment += "OK";
   else if (request->response_code == 302) http_response_code_fragment += "Found";
+  else if (request->response_code == 400) http_response_code_fragment += "Bad Request";
   else if (request->response_code == 401) http_response_code_fragment += "Unauthorized";
   else if (request->response_code == 409) http_response_code_fragment += "Conflict";
 

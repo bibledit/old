@@ -434,7 +434,7 @@ string filter_url_http_get (string url, string& error)
 // It posts the $values.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error) // Todo
+string filter_url_http_post (string url, map <string, string> values, string& error)
 {
   string response;
   // Get a curl handle.
@@ -458,7 +458,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
     // Further options.
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
-    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L); // Todo
+    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
     // Perform the request.
     CURLcode res = curl_easy_perform (curl);

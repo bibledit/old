@@ -17,15 +17,17 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_SETTINGS_H
-#define INCLUDED_SENDRECEIVE_SETTINGS_H
+#ifndef INCLUDED_SYNC_SETTINGS_H
+#define INCLUDED_SYNC_SETTINGS_H
 
 
 #include <config/libraries.h>
 #include <filter/string.hpp>
 
 
-void sendreceive_settings ();
+string sync_settings_url ();
+bool sync_settings_acl (void * webserver_request);
+string sync_settings (void * webserver_request);
 
 
 #endif
