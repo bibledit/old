@@ -104,6 +104,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/index.h>
 #include <sync/setup.h>
 #include <sync/settings.h>
+#include <sync/bibles.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -201,6 +202,7 @@ void bootstrap_index (Webserver_Request * request)
   // Client calls.
   else if ((url == sync_setup_url ()) && sync_setup_acl (request)) request->reply = sync_setup (request);
   else if ((url == sync_settings_url ()) && sync_settings_acl (request)) request->reply = sync_settings (request);
+  else if ((url == sync_bibles_url ()) && sync_bibles_acl (request)) request->reply = sync_bibles (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

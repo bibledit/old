@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <collaboration/link.h>
 #include <sendreceive/sendreceive.h>
 #include <sendreceive/settings.h>
+#include <sendreceive/bibles.h>
 
 
 mutex mutex_tasks; 
@@ -101,14 +102,10 @@ void tasks_run_one (string filename)
     collaboration_link (parameter1, convert_to_int (parameter2), parameter3);
   } else if (command == SENDRECEIVEBIBLES) {
     sendreceive_sendreceive (parameter1);
-  } else if (command == SENDNOTES) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendnotes.php
-  } else if (command == SENDBIBLES) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendbibles.php
   } else if (command == SYNCNOTES) {
     Database_Logs::log ("Not yet implemented: " + command); // syncnotes.php
   } else if (command == SYNCBIBLES) {
-    Database_Logs::log ("Not yet implemented: " + command); // syncbibles.php
+    sendreceive_bibles ();
   } else if (command == SYNCSETTINGS) {
     sendreceive_settings ();
   } else if (command == SYNCEXTERNALRESOURCES) {

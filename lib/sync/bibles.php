@@ -36,55 +36,8 @@ $database_mail = Database_Mail::getInstance ();
 @$chapter = request->post ['c'];
 $action = request->post ['a'];
 
-
-if ($action == "total") {
-
-
-  // The server reads the credentials from the client's user,
-  // checks which Bibles this user has access to,
-  // calculate the checksum of all chapters in those Bibles,
-  // and returns this checksum to the client.
-  $user_ok = request->database_users ()->usernameExists ($username);
-  if (!$user_ok) Database_Logs::log ("Non existing user $username", Filter_Roles::manager ());
-  $pass_ok = ($password == request->database_users ()->getmd5 ($username));
-  if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
-  if (!$user_ok || !$pass_ok) {
-    // Unauthorized.
-    request->response_code = 401);
-    die;
-  }
-
-  $bibles = access_bible_bibles ($username);
-  $server_checksum = Checksum_Logic::getBibles ($bibles);
-  echo $server_checksum;
-
-
-} else if ($action == "bibles") {
-
-
-  // The server reads the credentials from the client's user,
-  // and responds with a list of Bibles this user has access to.
-  if ($password != request->database_users ()->getmd5 ($username)) {
-    // Unauthorized.
-    request->response_code = 401);
-    die;
-  }
-
-  $bibles = access_bible_bibles ($username);
-  $bibles = implode ("\n", $bibles);
-  $checksum = Checksum_Logic::get ($bibles);
-  echo "$checksum\n$bibles";
-
-
-} else if ($action == "bible") {
-
-
-  // The server responds with the checksum for the whole Bible.
-  $server_checksum = Checksum_Logic::getBible ($bible);
-  echo $server_checksum;
-
-
-} else if ($action == "books") {
+  
+if ($action == "books") {
 
 
   // The server responds with a checksum and then the list of books in the Bible.

@@ -62,8 +62,8 @@ void sendreceive_queue_sync (int minute)
     if (sendreceive_sync_queued ()) {
       Database_Logs::log ("Not scheduling sync tasks, because the previous ones have not yet finished");
     } else {
-      tasks_logic_queue (SENDNOTES);
-      tasks_logic_queue (SENDBIBLES);
+      tasks_logic_queue (SYNCNOTES);
+      tasks_logic_queue (SYNCBIBLES);
       tasks_logic_queue (SYNCSETTINGS);
       tasks_logic_queue (SYNCEXTERNALRESOURCES);
       tasks_logic_queue (SYNCUSFMRESOURCES);
@@ -76,8 +76,6 @@ void sendreceive_queue_sync (int minute)
 // Returns the result as a boolean.
 bool sendreceive_sync_queued ()
 {
-  if (!tasks_logic_queued (SENDNOTES).empty ()) return true;
-  if (!tasks_logic_queued (SENDBIBLES).empty ()) return true;
   if (!tasks_logic_queued (SYNCNOTES).empty ()) return true;
   if (!tasks_logic_queued (SYNCBIBLES).empty ()) return true;
   if (!tasks_logic_queued (SYNCSETTINGS).empty ()) return true;
