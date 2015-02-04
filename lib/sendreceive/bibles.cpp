@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/merge.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
@@ -299,76 +300,67 @@ void sendreceive_bibles () // Todo
       Database_Logs::log (gettext("Bibles: Checksum error while receiving list of books from server"), Filter_Roles::translator ());
       continue;
     }
+    vector <int> i_server_books;
+    for (auto & book : v_server_books) i_server_books.push_back (convert_to_int (book));
 
 
-  
-  /* Todo port.
-
-  
-  
-
-   
-   
     // Any books not on the server, delete them from the client as well.
-    $client_books = filter_string_array_diff ($client_books, $server_books);
-    for ($client_books as $book) {
-      request->database_bibles()->deleteBook (bible, book);
-      $book_name = Database_Books::getEnglishFromId ($book);
-      Database_Logs::log (gettext("Deleting book because the server does not have it") . ": $bible $book_name" , Filter_Roles::translator ());
+    client_books = filter_string_array_diff (client_books, i_server_books);
+    for (auto & book : client_books) {
+      request.database_bibles()->deleteBook (bible, book);
+      string book_name = Database_Books::getEnglishFromId (book);
+      Database_Logs::log (gettext("Deleting book because the server does not have it") + ": " + bible + " " + book_name , Filter_Roles::translator ());
     }
     
     
     // The client goes through all the books as on the server, and deals with each of them.
-    for ($server_books as $book) {
+    for (auto & book : i_server_books) {
       
-      
-      $book_name = Database_Books::getEnglishFromId ($book);
+  
+      string book_name = Database_Books::getEnglishFromId (book);
       
       
       // Compare the checksum for the whole book on the client with the same on the server to see if this book is in sync.
-      $client_checksum = Checksum_Logic::getBook (bible, book);
-      $post = array (
-                     "b" => $bible,
-                     "bk" => $book,
-                     "a" => "book"
-                     );
-      $server_checksum = sync_logic.post ($post, $url);
-      if ($server_checksum === false) {
-        Database_Logs::log (gettext("Failure getting book checksum"), Filter_Roles::translator ());
+      string client_checksum = Checksum_Logic::getBook (&request, bible, book);
+      post ["a"] = to_string (Sync_Logic::bibles_get_book_checksum);
+      post ["bk"] = to_string (book);
+      string server_checksum = sync_logic.post (post, url, error);
+      if (!error.empty ()) {
+        Database_Logs::log (gettext("Bibles: Failure getting book checksum") + ": " + error, Filter_Roles::translator ());
         continue;
       }
-      if ($client_checksum == $server_checksum) {
+      if (client_checksum == server_checksum) {
         continue;
       }
-      
-      
+
+
       // The client requests all chapters per book from the server.
-      $client_chapters = request->database_bibles()->getChapters (bible, book);
-      $post = array (
-                     "b" => $bible,
-                     "bk" => $book,
-                     "a" => "chapters"
-                     );
-      $server_chapters = sync_logic.post ($post, $url);
-      if ($server_chapters === false) {
-        $bookname = Database_Books::getEnglishFromId ($book);
-        Database_Logs::log (gettext("Failure getting list of chapters:") . " $bible $bookname", Filter_Roles::translator ());
+      vector <int> client_chapters = request.database_bibles()->getChapters (bible, book);
+      post ["a"] = to_string (Sync_Logic::bibles_get_chapters);
+      string server_chapters = sync_logic.post (post, url, error);
+      if (!error.empty () || server_chapters.empty ()) {
+        Database_Logs::log (gettext("Bibles: Failure getting list of chapters:") + " " + bible + " " + book_name, Filter_Roles::translator ());
         continue;
       }
-      $server_chapters = explode ("\n", $server_chapters);
+      vector <string> v_server_chapters = filter_string_explode (server_chapters, '\n');
       // Do checksumming on the data to be sure the data is valid.
       // Invalid data may cause chapters to be added or deleted on the client.
-      $server_checksum = array_shift ($server_chapters);
-      $message_checksum = Checksum_Logic::get (server_chapters);
-      if ($server_checksum != $message_checksum) {
-        Database_Logs::log (gettext("Checksum error while receiving list of chapters from server"), Filter_Roles::translator ());
+      server_checksum = v_server_chapters [0];
+      v_server_chapters.erase (v_server_chapters.begin());
+      string message_checksum = Checksum_Logic::get (v_server_chapters);
+      if (server_checksum != message_checksum) {
+        Database_Logs::log (gettext("Bibles: Checksum error while receiving list of chapters"), Filter_Roles::translator ());
         continue;
       }
+      vector <int> i_server_chapters;
+      for (auto & chapter : v_server_chapters) i_server_chapters.push_back (convert_to_int (chapter));
+      
+      
       // The client removes any local chapters not on the server.
-      $client_chapters = filter_string_array_diff ($client_chapters, $server_chapters);
-      for ($client_chapters as $chapter) {
-        request->database_bibles()->deleteChapter (bible, book, chapter);
-        Database_Logs::log (gettext("Deleting chapter because the server does not have it") . ": $bible $book_name $chapter" , Filter_Roles::translator ());
+      client_chapters = filter_string_array_diff (client_chapters, i_server_chapters);
+      for (auto & chapter : client_chapters) {
+        request.database_bibles()->deleteChapter (bible, book, chapter);
+        Database_Logs::log (gettext("Bibles: Deleting chapter because the server does not have it") + ": " + bible + " " + book_name + " " + to_string (chapter), Filter_Roles::translator ());
       }
       
       
@@ -381,56 +373,54 @@ void sendreceive_bibles () // Todo
       // The solution is this:
       // When the Bible actions database contains an action for this particular chapter,
       // it means that chapter is being edited, and therefore the new chapter from the server should be merged with what is on the client.
-      for ($server_chapters as $chapter) {
+      for (auto & chapter : i_server_chapters) {
+
         
         // Get checksum for the chapter on client and on server.
         // If both are the same, it means the USFM in both is the same, and we're done.
-        $client_checksum = Checksum_Logic::getChapter (bible, book, chapter);
-        $post = array (
-                       "b" => $bible,
-                       "bk" => $book,
-                       "c" => $chapter,
-                       "a" => "chapter"
-                       );
-        $server_checksum = sync_logic.post ($post, $url);
-        if ($server_checksum === false) {
-          Database_Logs::log (gettext("Failure getting checksum:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+        string client_checksum = Checksum_Logic::getChapter (&request, bible, book, chapter);
+        post ["a"] = to_string (Sync_Logic::bibles_get_chapter_checksum);
+        post ["c"] = to_string (chapter);
+
+        string server_checksum = sync_logic.post (post, url, error);
+        if (!error.empty () || server_checksum.empty ()) {
+          Database_Logs::log (gettext("Bibles: Failure getting checksum:") + " " + bible + " " + book_name + " " + to_string (chapter), Filter_Roles::translator ());
           continue;
         }
-        if ($client_checksum == $server_checksum) {
+        if (client_checksum == server_checksum) {
           continue;
         }
         
+
         // Different checksums: Get the USFM for the chapter as it is on the server.
-        Database_Logs::log (gettext("Getting chapter:") . " $bible $book_name $chapter", Filter_Roles::translator ());
-        $post = array (
-                       "b" => $bible,
-                       "bk" => $book,
-                       "c" => $chapter,
-                       "a" => "get"
-                       );
-        $server_usfm = sync_logic.post ($post, $url);
-        if ($server_usfm === false) {
-          Database_Logs::log (gettext("Failure getting chapter:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+        Database_Logs::log (gettext("Bibles: Getting chapter:") + " " + bible + " " + book_name + " " + to_string (chapter), Filter_Roles::translator ());
+        post ["a"] = to_string (Sync_Logic::bibles_get_chapter);
+        string server_usfm = sync_logic.post (post, url, error);
+        if (!error.empty () || server_usfm.empty ()) {
+          Database_Logs::log (gettext("Bibles: Failure getting chapter:") + " " + bible + " " + book_name + " " + to_string (chapter), Filter_Roles::translator ());
           continue;
         }
+
         
         // Verify the checksum of the chapter on the server, to be sure there's no corruption during transmission.
-        $server_usfm = explode ("\n", $server_usfm);
-        $checksum = array_shift ($server_usfm);
-        $server_usfm = implode ("\n", $server_usfm);
-        if (!Checksum_Logic::get ($server_usfm) == $checksum) {
-          Database_Logs::log (gettext("Checksum error while receiving chapter from server:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+        vector <string> v_server_usfm = filter_string_explode (server_usfm, '\n');
+        string checksum = v_server_usfm [0];
+        v_server_usfm.erase (v_server_usfm.begin());
+        server_usfm = filter_string_implode (v_server_usfm, "\n");
+        if (Checksum_Logic::get (server_usfm) != checksum) {
+          Database_Logs::log (gettext("Bibles: Checksum error while receiving chapter from server:") + " " + bible + " " + book_name + " " + to_string (chapter), Filter_Roles::translator ());
           continue;
         }
         
+
         // Check whether the user on the client has made changes in this chapter since the edits were sent to the server.
         // If there are none, then the client stores the chapter as it gets it from the server, and is done.
-        $old_usfm = $database_bibleactions->getUsfm (bible, book, chapter);
-        if ($old_usfm == "") {
-          request->database_bibles()->storeChapter (bible, book, chapter, $server_usfm);
+        string old_usfm = database_bibleactions.getUsfm (bible, book, chapter);
+        if (old_usfm.empty ()) {
+          request.database_bibles()->storeChapter (bible, book, chapter, server_usfm);
           continue;
         }
+
         
         // At this stage we're in a situation that there are changes on the client, and changes on the server.
         // Merge them.
@@ -438,18 +428,12 @@ void sendreceive_bibles () // Todo
         // Store the merged data on the client.
         // It stores through the Bible Logic so the changes are staged to be sent.
         // The changes will be sent to the server during the next synchronize action.
-        Database_Logs::log (gettext("Merging changes on server and client:") . " $bible $book_name $chapter", Filter_Roles::translator ());
-        $client_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-        $merged_usfm = filter_merge_run ($old_usfm, $client_usfm, $server_usfm);
-        Bible_Logic::storeChapter (bible, book, chapter, $merged_usfm);
-        
+        Database_Logs::log (gettext("Bibles: Merging changes on server and client") + " " + bible + " " + book_name + " " + to_string (chapter), Filter_Roles::translator ());
+        string client_usfm = request.database_bibles()->getChapter (bible, book, chapter);
+        string merged_usfm = filter_merge_run (old_usfm, client_usfm, server_usfm);
+        Bible_Logic::storeChapter (bible, book, chapter, merged_usfm);
       }
-      
-      
     }
-   */
-    
-    
   }
   
   

@@ -58,6 +58,8 @@ string sync_bibles (void * webserver_request) // Todo
   // Get the relevant parameters the client may have POSTed to us, the server.
   int action = convert_to_int (request->post ["a"]);
   string bible = request->post ["b"];
+  int book = convert_to_int (request->post ["bk"]);
+  int chapter = convert_to_int (request->post ["c"]);
   
   switch (action) {
     case Sync_Logic::bibles_get_total_checksum:
@@ -86,29 +88,46 @@ string sync_bibles (void * webserver_request) // Todo
       // The server responds with the checksum for the whole Bible.
       return Checksum_Logic::getBible (request, bible);
     }
-    case Sync_Logic::bibles_get_books: // Todo
+    case Sync_Logic::bibles_get_books:
     {
-      return "";
+      // The server responds with a checksum and then the list of books in the Bible.
+      vector <int> server_books = request->database_bibles()->getBooks (bible);
+      vector <string> v_server_books;
+      for (auto book : server_books) v_server_books.push_back (to_string (book));
+      string s_server_books = filter_string_implode (v_server_books, "\n");
+      string checksum = Checksum_Logic::get (v_server_books);
+      return checksum + "\n" + s_server_books;
     }
     case Sync_Logic::bibles_get_book_checksum:
     {
-      return "";
+      // The server responds with the checksum of the whole book.
+      return Checksum_Logic::getBook (request, bible, book);
     }
     case Sync_Logic::bibles_get_chapters:
     {
-      return "";
+      // The server responds with the list of books in the Bible book.
+      vector <int> server_chapters = request->database_bibles()->getChapters (bible, book);
+      vector <string> v_server_chapters;
+      for (auto & chapter : server_chapters) v_server_chapters.push_back (to_string (chapter));
+      string s_server_chapters = filter_string_implode (v_server_chapters, "\n");
+      string checksum = Checksum_Logic::get (v_server_chapters);
+      return checksum + "\n" + s_server_chapters;
     }
     case Sync_Logic::bibles_get_chapter_checksum:
     {
-      return "";
+      // The server responds with the checksum of the whole chapter.
+      return Checksum_Logic::getChapter (request, bible, book, chapter);
     }
-    case Sync_Logic::bibles_send_chapter:
+    case Sync_Logic::bibles_send_chapter: // Todo
     {
       return "";
     }
     case Sync_Logic::bibles_get_chapter:
     {
-      return "";
+      // The server responds with the USFM of the chapter, prefixed by a checksum.
+      string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+      string checksum = Checksum_Logic::get (usfm);
+      return checksum + "\n" + usfm;
     }
   }
   
