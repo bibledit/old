@@ -34,7 +34,7 @@ public:
 };
 
 
-class Sync_Logic // Todo
+class Sync_Logic
 {
 public:
   Sync_Logic (void * webserver_request_in);

@@ -21,18 +21,23 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/merge.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>
 #include <database/bibles.h>
+#include <database/books.h>
+#include <database/mail.h>
+#include <database/modifications.h>
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
 #include <sync/logic.h>
 #include <checksum/logic.h>
 #include <access/bible.h>
+#include <bible/logic.h>
 
 
 string sync_bibles_url ()
@@ -47,7 +52,94 @@ bool sync_bibles_acl (void * webserver_request)
 }
 
 
-string sync_bibles (void * webserver_request) // Todo
+string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
+{
+  string oldusfm = request->post ["o"];
+  string newusfm = request->post ["n"];
+  string checksum = request->post ["s"];
+
+  
+  string username = request->session_logic ()->currentUser ();
+  string bookname = Database_Books::getEnglishFromId (book);
+  
+  
+  Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + to_string (chapter), Filter_Roles::manager ());
+  
+  
+  // Check whether the user has write-access to the Bible.
+  if (!access_bible_write (request, bible, username)) {
+    string message = "User " + username + " does not have write access to Bible " + bible;
+    Database_Logs::log (message, Filter_Roles::manager ());
+    return message;
+  }
+  
+  
+  // Check checksum.
+  if (checksum != Checksum_Logic::get (oldusfm + newusfm)) {
+    string message = "The received data is corrupted";
+    Database_Logs::log (message, Filter_Roles::manager ());
+    return message;
+  }
+  
+  
+  string serverusfm = request->database_bibles()->getChapter (bible, book, chapter);
+  
+  
+  // Gather data for recording the changes made by the user, for the change notifications.
+  int old_id = request->database_bibles()->getChapterId (bible, book, chapter);
+  string old_text = serverusfm;
+  string new_text = newusfm;
+  
+  
+  if (serverusfm == "") {
+    // If the chapter on the server is still empty, then just store the client's version on the server, and that's it.
+    Bible_Logic::storeChapter (bible, book, chapter, newusfm);
+  } else if (newusfm != serverusfm) {
+    // Do a merge in case the client sends USFM that differs from what's on the server.
+    string mergedusfm = filter_merge_run (oldusfm, newusfm, serverusfm);
+    if (mergedusfm == serverusfm) {
+      // When the merged USFM is the same as what's already on the server, then it means there was a merge conflict.
+      // Email the user with the details, so the user can resolve the conflicts.
+      string subject = "Problem sending chapter to server";
+      string body = "<p>While sending " + bible + " " + bookname + " " + to_string (chapter) + " to the server, the server didn't manage to merge it.</p>";
+      body.append ("<p>Please re-enter your changes as you see fit.</p>");
+      body.append ("<p>Here is the chapter you sent to the server:</p>");
+      body.append ("<pre>" + newusfm + "</pre>");
+      Database_Mail database_mail = Database_Mail (request);
+      database_mail.send (username, subject, body);
+    } else {
+      // Update the server with the new chapter data.
+      Bible_Logic::storeChapter (bible, book, chapter, mergedusfm);
+    }
+  }
+  
+
+  // If text was saved, record it as a change entered by the user.
+  int new_id = request->database_bibles()->getChapterId (bible, book, chapter);
+  if (new_id != old_id) {
+    Database_Modifications database_modifications = Database_Modifications ();
+    database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
+  }
+  
+  
+  // Send the updated chapter back to the client.
+  // Do this only in case the updated chapter USFM is different from the new USFM the client sent.
+  // This means that in most cases, nothing will be sent back.
+  // That saves bandwidth.
+  // And it allows the user on the client to continue editing
+  // without the returned chapter overwriting the changes the user made.
+  serverusfm = request->database_bibles()->getChapter (bible, book, chapter);
+  if (serverusfm != newusfm) {
+    string checksum = Checksum_Logic::get (serverusfm);
+    return checksum + "\n" + serverusfm;
+  }
+
+  
+  return "";
+}
+
+
+string sync_bibles (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
@@ -79,8 +171,8 @@ string sync_bibles (void * webserver_request) // Todo
       // and responds with a list of Bibles this user has access to.
       string username = request->session_logic ()->currentUser ();
       vector <string> bibles = access_bible_bibles (request, username);
+      string checksum = Checksum_Logic::get (bibles);
       string s_bibles = filter_string_implode (bibles, "\n");
-      string checksum = Checksum_Logic::get (s_bibles);
       return checksum + "\n" + s_bibles;
     }
     case Sync_Logic::bibles_get_bible_checksum:
@@ -118,14 +210,14 @@ string sync_bibles (void * webserver_request) // Todo
       // The server responds with the checksum of the whole chapter.
       return Checksum_Logic::getChapter (request, bible, book, chapter);
     }
-    case Sync_Logic::bibles_send_chapter: // Todo
+    case Sync_Logic::bibles_send_chapter:
     {
-      return "";
+      return sync_bibles_receive_chapter (request, bible, book, chapter);
     }
     case Sync_Logic::bibles_get_chapter:
     {
       // The server responds with the USFM of the chapter, prefixed by a checksum.
-      string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+      string usfm = filter_string_trim (request->database_bibles()->getChapter (bible, book, chapter));
       string checksum = Checksum_Logic::get (usfm);
       return checksum + "\n" + usfm;
     }

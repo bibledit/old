@@ -34,7 +34,6 @@ void test_store_bible_data ();
 void test_editor_export ();
 void test_editor_import ();
 void test_editor_roundtrip ();
-void test_libraries_debug ();
 void test_workbench_logic ();
 void test_client_logic ();
 

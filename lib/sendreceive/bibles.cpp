@@ -38,7 +38,7 @@
 #include <bible/logic.h>
 
 
-void sendreceive_bibles () // Todo
+void sendreceive_bibles ()
 {
   Database_Logs::log (gettext("Bibles: Send/Receive"), Filter_Roles::translator ());
   
@@ -64,6 +64,16 @@ void sendreceive_bibles () // Todo
   string user = users [0];
   request.session_logic ()->setUsername (user);
   string password = request.database_users ()->getmd5 (user);
+  
+  
+  // The basic request to be POSTed to the server.
+  // It contains the user's credentials.
+  map <string, string> post;
+  post ["u"] = bin2hex (user);
+  post ["p"] = password;
+  post ["l"] = to_string (request.database_users ()->getUserLevel (user));
+  // Error variable.
+  string error;
   
   
   // Server URL to call.
@@ -109,19 +119,17 @@ void sendreceive_bibles () // Todo
           // That means that compression is not a good option.
           
           // Generate a POST request.
-          map <string, string> post;
-          post ["u"]  = bin2hex (user);
-          post ["p"]  = password;
-          post ["a"]  = to_string (Sync_Logic::bibles_send_chapter);
-          post ["bi"] = bible;
-          post ["bo"] = to_string (book);
-          post ["ch"] = to_string (chapter);
-          post ["o"]  = oldusfm;
-          post ["n"]  = newusfm;
-          post ["s"]  = checksum;
+          map <string, string> sendpost = post;
+          sendpost ["a"]  = to_string (Sync_Logic::bibles_send_chapter);
+          sendpost ["b"] = bible;
+          sendpost ["bk"] = to_string (book);
+          sendpost ["c"] = to_string (chapter);
+          sendpost ["o"]  = oldusfm;
+          sendpost ["n"]  = newusfm;
+          sendpost ["s"]  = checksum;
           
           string error;
-          response = sync_logic.post (post, url, error);
+          response = sync_logic.post (sendpost, url, error);
           
           if (!error.empty ()) {
             
@@ -168,15 +176,13 @@ void sendreceive_bibles () // Todo
             // as it considers the client as already up to date.
             
           }
-          
         }
-        
       }
     }
   }
   
   
-  // Test the following: Todo
+  // Test the following:
   // * Slight edits on client: Transfer to the server.
   // * Edits on client and on server: Merge both versions.
   // * Big edits on client: Transfer to server.
@@ -196,16 +202,6 @@ void sendreceive_bibles () // Todo
     Database_Logs::log ("Bibles: Not downloading changes from the server due to communication errors", Filter_Roles::translator ());
     return;
   }
-
-  
-  // The basic request to be POSTed to the server.
-  // It contains the user's credentials.
-  map <string, string> post;
-  post ["u"] = bin2hex (user);
-  post ["p"] = password;
-  post ["l"] = to_string (request.database_users ()->getUserLevel (user));
-  // Error variable.
-  string error;
 
   
   // Calculate the total checksum of all chapters in all books in all local Bibles.
@@ -372,7 +368,8 @@ void sendreceive_bibles () // Todo
       // because in this case the newest chapter is not on the server, but on the client.
       // The solution is this:
       // When the Bible actions database contains an action for this particular chapter,
-      // it means that chapter is being edited, and therefore the new chapter from the server should be merged with what is on the client.
+      // it means that chapter is being edited,
+      // and therefore the new chapter from the server should be merged with what is on the client.
       for (auto & chapter : i_server_chapters) {
 
         
@@ -381,7 +378,6 @@ void sendreceive_bibles () // Todo
         string client_checksum = Checksum_Logic::getChapter (&request, bible, book, chapter);
         post ["a"] = to_string (Sync_Logic::bibles_get_chapter_checksum);
         post ["c"] = to_string (chapter);
-
         string server_checksum = sync_logic.post (post, url, error);
         if (!error.empty () || server_checksum.empty ()) {
           Database_Logs::log (gettext("Bibles: Failure getting checksum:") + " " + bible + " " + book_name + " " + to_string (chapter), Filter_Roles::translator ());
