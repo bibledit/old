@@ -1,0 +1,43 @@
+Bibledit for iOS
+
+Introduction
+
+In the second half of 2014 an effort was made to port Bibledit, written in PHP, to iOS. This required a PHP interpreter and a web server on a standard iOS device. To get the web server running was the easier part of the job. The other part, the PHP interpreter, proved to be a challenge. Initially PHP binaries from Cydia were used for that. But iOS does not allow starting a binary as a sub process. The application sandbox kills that binary straight after start. This was confirmed on the Apple iOS developer forum. The next step was to compile PHP for the iOS platform. This worked, sort of, but minor parts of the PHP did not work. It was those minor parts that Bibledit also needed for it to work. There was also “Draftcode PHP IDE”, an iOS app that includes a web server and PHP interpreter. But it was not able to run Bibledit. It was also thought to use the Safari browser to display Bibledit. But then if the browser would be in the foreground, the Bibledit app with the PHP interpreter would go into the background, and iOS would stop to run it.
+The current port of Bibledit for iOS consists of the following parts:
+* A native Bibledit iOS app.
+* The bibledit library written in C++, compiled for iOS.
+* The iOS web browser library displaying pages through the bibledit library. 
+
+libcurl
+
+Libcurl is available from http://curl.haxx.se. Information about how to build libcurl for iOS, and how to use it in an iOS app, is available from http://seiryu.home.comcast.net/~seiryu/libcurl-ios.html. A package is available from there, which comes with a precompiled binary of libcurl, its headers, and a sample app for iOS developers. It also provides the build script to build the library. Copy the build script, the headers, and the precompiled library to the libcurl subdirectory.
+
+
+
+
+
+
+
+Some points of attention with regard to the Xcode settings.
+* Drag the "lib" folder of the php-ios project to the Bibledit project in Xcode,
+  remain with file "libphp5.a" only 
+  while removing the processor-specific libraries from the "lib" folder.
+* Copy the entire "include" folder of the php-ios project to the bibledit-ios project.
+* In the project, Build Settings, All, go to Apple LLVM 6.0 - Custom Compiler Flags, Other C Flags,
+  add the following:
+  -I$(PROJECT_DIR)/include/
+  -I$(PROJECT_DIR)/include/Zend/
+  -I$(PROJECT_DIR)/include/TSRM/
+  -I$(PROJECT_DIR)/include/main/
+  Note that the starting hyphen (-) should be entered.
+* Add the entire "bibledit-web" folder to the project in Xcode, 
+  and select "Copy items if needed", and "Create folder references".
+  This will add the entire folder hierarchy, so it will be installed 
+  to the Resources on iOS.
+
+  
+
+
+
+Beta testing iOS apps is made easy:
+https://developer.apple.com/app-store/testflight
