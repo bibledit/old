@@ -67,6 +67,10 @@ void client_index_enable_client (void * webserver_request, string username, stri
   client_index_remove_all_users (request);
   request->database_users ()->addNewUser (username, password, level, "");
   
+  // Update the username and the level in the current session.
+  request->session_logic ()->setUsername (username);
+  request->session_logic ()->currentLevel (true);
+  
   // Clear all pending note actions and Bible actions and settings updates.
   Database_NoteActions database_noteactions = Database_NoteActions ();
   Database_BibleActions database_bibleactions = Database_BibleActions ();
@@ -89,18 +93,14 @@ string client_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  string page;
-  
-  page = Assets_Page::header (gettext ("Client mode"), webserver_request, "");
-  
   Assets_View view = Assets_View ();
-
+  
   if (request->query.count ("disable")) {
     client_logic_enable_client (false);
     client_index_remove_all_users (request);
     Database_Config_General::setRepeatSendReceive (0);
   }
-
+  
   bool connect = request->post.count ("connect");
   bool demo = request->query.count ("demo");
   if (connect || demo) {
@@ -156,6 +156,12 @@ string client_index (void * webserver_request)
   
   view.set_variable ("demo", demo_logic_client_demo_warning ());
                                                                                     
+  string page;
+
+  // Since the role of the user may change after a successful connection to the server,
+  // the menu generation in the header should be postponed till when the actual role is known.
+  page = Assets_Page::header (gettext ("Client mode"), webserver_request, "");
+  
   page += view.render ("client", "index");
   
   page += Assets_Page::footer ();

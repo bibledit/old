@@ -73,7 +73,7 @@ Menu_Main::~Menu_Main ()
 }
 
 // C++Port use the page's access control function for determining whether to include the page.
-vector <Menu_Main_Item> * Menu_Main::mainmenu () // Todo
+vector <Menu_Main_Item> * Menu_Main::mainmenu ()
 {
   // This is the main menu.
   // It will be visible in the top bar.
@@ -192,7 +192,7 @@ vector <Menu_Main_Item> * Menu_Main::planningmenu ()
 }
 
 
-vector <Menu_Main_Item> * Menu_Main::toolsmenu () // Todo
+vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
