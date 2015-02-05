@@ -85,9 +85,6 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
 // Create the menu.
 string Menu_User::create (string request)
 {
-  // No user menu in client mode.
-  // Todo C++Port if (client_logic_client_enabled ()) return "";
-
   vector <Menu_User_Item> * main_menu = mainmenu (request);
 
   // To create CSS menu the HTML structure needs to be like this:
@@ -129,7 +126,7 @@ string Menu_User::create (string request)
     xmlTextWriterEndElement (xmlwriter); // span
    
     // Build the submenu.
-    if (item.submenu) submenu (xmlwriter, item.submenu); // Todo: Disable this -> fixes problem.
+    if (item.submenu) submenu (xmlwriter, item.submenu);
     
     // Free dynamic memory submenu.
     if (item.submenu) delete (item.submenu);
@@ -157,7 +154,7 @@ string Menu_User::create (string request)
 }
 
 
-void Menu_User::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_User_Item> * menu) // Todo
+void Menu_User::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_User_Item> * menu)
 {
   if (menu->size()) {
     xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");

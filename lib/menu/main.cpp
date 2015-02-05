@@ -81,10 +81,10 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", gettext ("Bible"),     biblemenu ()     } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Notes"),     notesmenu ()     } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Resources"), resourcesmenu () } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Changes"),   changesmenu ()   } );
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", gettext ("Planning"),  planningmenu ()  } );
+  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Notes"),     notesmenu ()     } );
+  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Resources"), resourcesmenu () } );
+  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Changes"),   changesmenu ()   } );
+  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", gettext ("Planning"),  planningmenu ()  } );
   vector <Menu_Main_Item> *  tools_menu = toolsmenu ();
   if (tools_menu->size ()) {
                                             menu->push_back ( { "", "", gettext ("Tools"),     tools_menu     } );
@@ -105,7 +105,7 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
   if (edit_index_acl (webserver_request)) menu->push_back ( { "", edit_index_url (),      gettext ("Edit"),      bible_edit_menu ()      } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "search/index",    gettext ("Search"),    NULL                    } );
   if (workbench_index_acl (request)) menu->push_back ( { "", workbench_index_url (), gettext ("Workbench"), bible_workbench_menu () } );
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    gettext ("Checks"),    bible_checks_menu ()    } );
+  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    gettext ("Checks"),    bible_checks_menu ()    } );
   if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), gettext ("Bibles"), NULL} );
   return menu;
 }
@@ -195,12 +195,11 @@ vector <Menu_Main_Item> * Menu_Main::planningmenu ()
 vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), gettext ("Sync"), NULL } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "exports", gettext ("Exports"), exportssubmenu () } );
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "manage/hyphenation", gettext ("Hyphenation"), NULL } );
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "xrefs/index", gettext ("Cross references"), NULL } );
-  if (level >= Filter_Roles::admin ()) menu->push_back ( { "", "phpliteadmin/index", gettext ("phpLiteAdmin"), NULL } );
+  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "exports", gettext ("Exports"), exportssubmenu () } );
+  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "manage/hyphenation", gettext ("Hyphenation"), NULL } );
+  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "xrefs/index", gettext ("Cross references"), NULL } );
+  // C++Port if (level >= Filter_Roles::admin ()) menu->push_back ( { "", "phpliteadmin/index", gettext ("phpLiteAdmin"), NULL } );
   return menu;
 }
 
@@ -221,7 +220,6 @@ vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
 vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   if (manage_users_acl (webserver_request)              && !client_logic_client_enabled ()) menu->push_back ( { "", manage_users_url (), gettext ("Users"), NULL } );
   if (manage_indexing_acl (webserver_request))                                              menu->push_back ( { "", manage_indexing_url (), gettext ("Indexing"), NULL } );
   if (administration_language_acl (webserver_request))                                      menu->push_back ( { "", administration_language_url (), gettext ("Language"), NULL } );
@@ -229,7 +227,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (email_index_acl (webserver_request)               && !client_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
   if (styles_indext_acl (webserver_request))                                                menu->push_back ( { "", styles_indext_url (), gettext ("Styles"), stylessubmenu () } );
   if (versification_index_acl (webserver_request))                                          menu->push_back ( { "", versification_index_url (), gettext ("Versifications"), NULL } );
-  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
+  // C++Port if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
   if (collaboration_index_acl (webserver_request)) menu->push_back ( { "", collaboration_index_url (), gettext ("Collaboration"), NULL } );
   // If the installation is not prepared for Client mode, disable the client menu.
   // But keep the menu item in an open installation.
