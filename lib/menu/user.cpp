@@ -23,22 +23,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <webserver/request.h>
 #include <filter/roles.h>
+#include <filter/string.h>
 #include <session/logout.h>
+#include <session/login.h>
 #include <user/notifications.h>
 #include <user/account.h>
+#include <client/logic.h>
 
 
-/*
-This generates a user menu.
+// This generates a user menu.
+// It is based on all possible menu entries.
+// It reads the access levels of those entries.
+// It only keeps the menu entries the currently logged-in user has access to.
+// It considers whether the user is logged in.
 
-It is based on arrays of all possible menu entries.
-
-It reads the access levels of those entries.
-It removes the menu entries the currently logged-in user has no access to, and keeps the rest.
-
-It also considers whether any user is logged in at all.
-It updates the menu accordingly.
-*/
 
 
 Menu_User::Menu_User (void * webserver_request_in)
@@ -60,7 +58,7 @@ vector <Menu_User_Item> * Menu_User::mainmenu (string request)
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
   if (username.empty ()) {
-    menu->push_back ( { "", "session/login?request=" + request, gettext ("Login"), NULL } );
+    menu->push_back ( { "", convert_to_string (session_login_url ()) + "?request=" + request, gettext ("Login"), NULL } );
   } else {
     menu->push_back ( { "", "", username, usermenu () } );
   }
@@ -73,10 +71,13 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
 {
   // Generate the user menu.
   // Take access control into account.
+
+  bool client = client_logic_client_enabled ();
+
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
-  if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), gettext ("Logout"), NULL } );
+  if (!client) if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), gettext ("Logout"), NULL } );
   if (user_notifications_acl (webserver_request)) menu->push_back ( { "", user_notifications_url (), gettext ("Notifications"), NULL } );
-  if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), gettext ("Account"), NULL } );
+  if (!client) if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), gettext ("Account"), NULL } );
   return menu;
 }
 

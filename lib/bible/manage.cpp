@@ -70,7 +70,7 @@ string bible_manage (void * webserver_request)
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
       error_message = gettext("This Bible already exists");
     } else {
-      request->database_bibles ()->createBible (bible); // Todo test
+      request->database_bibles ()->createBible (bible);
       // Check / grant access.
       if (!access_bible_write (request, bible)) {
         request->database_users ()->grantAccess2Bible (request->session_logic ()->currentUser (), bible);
