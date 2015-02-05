@@ -45,6 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <collaboration/index.h>
 #include <client/index.h>
 #include <client/logic.h>
+#include <sendreceive/index.h>
 
 
 /*
@@ -72,7 +73,7 @@ Menu_Main::~Menu_Main ()
 }
 
 // C++Port use the page's access control function for determining whether to include the page.
-vector <Menu_Main_Item> * Menu_Main::mainmenu ()
+vector <Menu_Main_Item> * Menu_Main::mainmenu () // Todo
 {
   // This is the main menu.
   // It will be visible in the top bar.
@@ -84,7 +85,12 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Resources"), resourcesmenu () } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Changes"),   changesmenu ()   } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", gettext ("Planning"),  planningmenu ()  } );
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", gettext ("Tools"),     toolsmenu ()     } );
+  vector <Menu_Main_Item> *  tools_menu = toolsmenu ();
+  if (tools_menu->size ()) {
+                                            menu->push_back ( { "", "", gettext ("Tools"),     tools_menu     } );
+  } else {
+    delete tools_menu;
+  }
   if (level >= Filter_Roles::member ())     menu->push_back ( { "", "", gettext ("Settings"),  settingsmenu ()  } );
                                             menu->push_back ( { "", "", gettext ("Help"),      helpmenu ()      } );
   return menu;
@@ -186,11 +192,11 @@ vector <Menu_Main_Item> * Menu_Main::planningmenu ()
 }
 
 
-vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
+vector <Menu_Main_Item> * Menu_Main::toolsmenu () // Todo
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "sendreceive/index", gettext ("Sync"), NULL } );
+  if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), gettext ("Sync"), NULL } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "exports", gettext ("Exports"), exportssubmenu () } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "manage/hyphenation", gettext ("Hyphenation"), NULL } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "xrefs/index", gettext ("Cross references"), NULL } );
@@ -204,6 +210,10 @@ vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   if (level >= Filter_Roles::manager ()) menu->push_back ( { "", "manage/exports", gettext ("Manage"), NULL } );
+  if (menu->empty ()) {
+    delete menu;
+    menu = NULL;
+  }
   return menu;
 }
 
@@ -326,23 +336,25 @@ string Menu_Main::create ()
 
 void Menu_Main::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_Main_Item> * menu)
 {
-  xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
-  for (unsigned int i = 0; i < menu->size(); i++) {
-    Menu_Main_Item item = menu->at (i);
-    xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
-    subsubmenu (xmlwriter, item.submenu);
-    if (item.href == "") {
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
-    } else {
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
-      xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
+  if (menu->size()) {
+    xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
+    for (unsigned int i = 0; i < menu->size(); i++) {
+      Menu_Main_Item item = menu->at (i);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
+      subsubmenu (xmlwriter, item.submenu);
+      if (item.href == "") {
+        xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
+      } else {
+        xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
+        xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
+      }
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
+      xmlTextWriterEndElement (xmlwriter); // span
+      xmlTextWriterEndElement (xmlwriter); // li
+      if (item.submenu) delete item.submenu;
     }
-    xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
-    xmlTextWriterEndElement (xmlwriter); // span
-    xmlTextWriterEndElement (xmlwriter); // li
-    if (item.submenu) delete item.submenu;
+    xmlTextWriterEndElement (xmlwriter); // ul
   }
-  xmlTextWriterEndElement (xmlwriter); // ul
 }
 
 
