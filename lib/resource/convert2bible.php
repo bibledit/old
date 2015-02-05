@@ -36,7 +36,7 @@ $resource = Filter_Cli::argument (@$argv, 1);
 Database_Logs::log (gettext("Converting USFM Resource to Bible") . ": $resource");
 
 
-request->database_bibles()->createBible ($resource);
+request->database_bibles()->createBible ($resource); Disable in client.
 $books = $database_usfmresources->getBooks ($resource);
 for ($books as $book) {
   $bookname = Database_Books::getEnglishFromId ($book);

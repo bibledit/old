@@ -30,6 +30,7 @@
 #include <dialog/yes.h>
 #include <access/bible.h>
 #include <bible/logic.h>
+#include <client/logic.h>
 
 
 string bible_manage_url ()
@@ -56,7 +57,7 @@ string bible_manage (void * webserver_request)
   
   string success_message;
   string error_message;
-
+  
   // New Bible handler.
   if (request->query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("manage", gettext("Please enter a name for the new empty Bible"), "", "new", "");
@@ -69,7 +70,7 @@ string bible_manage (void * webserver_request)
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
       error_message = gettext("This Bible already exists");
     } else {
-      request->database_bibles ()->createBible (bible);
+      request->database_bibles ()->createBible (bible); // Todo test
       // Check / grant access.
       if (!access_bible_write (request, bible)) {
         request->database_users ()->grantAccess2Bible (request->session_logic ()->currentUser (), bible);
@@ -147,7 +148,8 @@ string bible_manage (void * webserver_request)
     bibleblock.append ("<li><a href=\"settings?bible=" + bible + "\">" + bible + "</a></li>\n");
   }
   view.set_variable ("bibleblock", bibleblock);
-                       
+
+  if (!client_logic_client_enabled ()) view.enable_zone ("server");
 
   page += view.render ("bible", "manage");
   
