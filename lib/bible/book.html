@@ -5,5 +5,7 @@
 <p>gettext("Chapters:") ##chapterblock##</p>
 <!-- #BEGINZONE write_access -->
   <p><a href="book?bible=##bible##&book=##book##&createchapter=">gettext("Create chapter")</a></p>
-  <p><a href="settings?bible=##bible##&deletebook=##book##">gettext("Delete this book")</a></p>
+  <!-- #BEGINZONE server -->
+    <p><a href="settings?bible=##bible##&deletebook=##book##">gettext("Delete this book")</a></p>
+  <!-- #ENDZONE server -->
 <!-- #ENDZONE write_access -->

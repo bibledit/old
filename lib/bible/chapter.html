@@ -2,5 +2,7 @@
 <p>gettext("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
 <p>gettext("Book"): <a href="book?bible=##bible##&book=##book##">##book_name##</a></p>
 <!-- #BEGINZONE write_access -->
-<p><a href="book?bible=##bible##&book=##book##&deletechapter=##chapter##">gettext("Delete this chapter")</a></p>
+  <!-- #BEGINZONE server -->
+    <p><a href="book?bible=##bible##&book=##book##&deletechapter=##chapter##">gettext("Delete this chapter")</a></p>
+  <!-- #ENDZONE server -->
 <!-- #ENDZONE write_access -->

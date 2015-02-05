@@ -35,6 +35,7 @@
 #include <access/bible.h>
 #include <book/create.h>
 #include <bible/logic.h>
+#include <client/logic.h>
 
 
 string bible_book_url ()
@@ -135,6 +136,8 @@ string bible_book (void * webserver_request)
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
   
+  if (!client_logic_client_enabled ()) view.enable_zone ("server");
+
   page += view.render ("bible", "book");
   
   page += Assets_Page::footer ();
