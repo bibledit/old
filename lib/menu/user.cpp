@@ -82,14 +82,11 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
 }
 
 
-
-
-
 // Create the menu.
 string Menu_User::create (string request)
 {
   // No user menu in client mode.
-  // C++Port if (client_logic_client_enabled ()) return "";
+  // Todo C++Port if (client_logic_client_enabled ()) return "";
 
   vector <Menu_User_Item> * main_menu = mainmenu (request);
 
@@ -132,7 +129,7 @@ string Menu_User::create (string request)
     xmlTextWriterEndElement (xmlwriter); // span
    
     // Build the submenu.
-    if (item.submenu) submenu (xmlwriter, item.submenu);
+    if (item.submenu) submenu (xmlwriter, item.submenu); // Todo: Disable this -> fixes problem.
     
     // Free dynamic memory submenu.
     if (item.submenu) delete (item.submenu);
@@ -160,24 +157,26 @@ string Menu_User::create (string request)
 }
 
 
-void Menu_User::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_User_Item> * menu)
+void Menu_User::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_User_Item> * menu) // Todo
 {
-  xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
-  for (unsigned int i = 0; i < menu->size(); i++) {
-    Menu_User_Item item = menu->at (i);
-    xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
-    if (item.href == "") {
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
-    } else {
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
-      xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
+  if (menu->size()) {
+    xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
+    for (unsigned int i = 0; i < menu->size(); i++) {
+      Menu_User_Item item = menu->at (i);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
+      if (item.href == "") {
+        xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
+      } else {
+        xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
+        xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
+      }
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
+      xmlTextWriterEndElement (xmlwriter); // span or a
+      xmlTextWriterEndElement (xmlwriter); // li
+      if (item.submenu) delete item.submenu;
     }
-    xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
-    xmlTextWriterEndElement (xmlwriter); // span
-    xmlTextWriterEndElement (xmlwriter); // li
-    if (item.submenu) delete item.submenu;
+    xmlTextWriterEndElement (xmlwriter); // ul
   }
-  xmlTextWriterEndElement (xmlwriter); // ul
 }
 
 
