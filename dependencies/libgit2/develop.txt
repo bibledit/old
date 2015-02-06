@@ -8,5 +8,5 @@ Information about building for OS X is at https://libgit2.github.com/docs/guides
 
 iOS
 
-Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link.
+Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link and at https://github.com/Eonil/libgit2-make-ios.
 
