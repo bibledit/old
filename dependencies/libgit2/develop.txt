@@ -1,0 +1,19 @@
+libgit2
+
+Libgit2 is available from https://libgit2.github.com. Version 0.21.5 was downloaded as a tarsal, then unpacked. To save space, the “tests” folder was removed. The remainder was checked-in. This provides the source code to build the library for the various operating systems and the various architectures. Libgit2 is developing fast, and the API is not yet stable. Bibledit works with the API of version 0.21.
+
+OS X
+
+
+
+
+iOS
+
+
+
+
+
+Information about how to build libcurl for iOS, and how to use it in an iOS app, is available from http://seiryu.home.comcast.net/~seiryu/libcurl-ios.html. A software archive is available from there too. It provides the script “build-libcurl-ios.sh” to build the library on iOS. The ios folder contains the “build” script. Run it like this:
+$ ./build
+It generates libcurl.a, and the headers in the curl directory, on the Desktop. Copy these to a known folder so the bibledit library can find them. Include the library with with Bibledit for iOS.
+
