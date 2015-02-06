@@ -92,9 +92,9 @@ AC_SUBST(DEMO)
 # Client installation.
 CLIENT=no
 AC_ARG_ENABLE(client,
-[  --enable-client  Enable client mode],
-[ CLIENT=yes
-])
+  [--enable-client Enable client mode],
+  [CLIENT=yes]
+)
 AC_DEFINE([CLIENT], [], [Define whether it is a client installation])
 AC_DEFINE_UNQUOTED(CLIENT, "$CLIENT")
 AC_SUBST(CLIENT)
@@ -117,7 +117,7 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
-  Git                    : $GIT_CFLAGS
+  Libgit2                : $GIT_CFLAGS
   Network port           : ${NETWORK_PORT}
   Client installation    : ${CLIENT}
   Demo installation      : ${DEMO}

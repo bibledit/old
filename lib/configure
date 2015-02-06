@@ -1397,7 +1397,7 @@ Optional Features:
                           speeds up one-time build
   --disable-xmltest       Do not try to compile and run a test LIBXML program
   --enable-demo  Enable demo mode
-  --enable-client  Enable client mode
+--enable-client Enable client mode
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6239,7 +6239,7 @@ _ACEOF
 CLIENT=no
 # Check whether --enable-client was given.
 if test "${enable_client+set}" = set; then :
-  enableval=$enable_client;  CLIENT=yes
+  enableval=$enable_client; CLIENT=yes
 
 fi
 
@@ -7753,7 +7753,7 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
-  Git                    : $GIT_CFLAGS
+  Libgit2                : $GIT_CFLAGS
   Network port           : ${NETWORK_PORT}
   Client installation    : ${CLIENT}
   Demo installation      : ${DEMO}
