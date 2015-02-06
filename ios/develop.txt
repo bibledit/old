@@ -10,12 +10,19 @@ The current port of Bibledit for iOS consists of the following parts:
 
 libcurl
 
-Libcurl is available from http://curl.haxx.se. Information about how to build libcurl for iOS, and how to use it in an iOS app, is available from http://seiryu.home.comcast.net/~seiryu/libcurl-ios.html. A package is available from there, which comes with a precompiled binary of libcurl, its headers, and a sample app for iOS developers. It also provides the build script to build the library. Copy the build script, the headers, and the precompiled library to the libcurl subdirectory.
+The Bibledit library depends on libcurl. Libcurl is available from http://curl.haxx.se. Information about how to build libcurl for iOS, and how to use it in an iOS app, is available from http://seiryu.home.comcast.net/~seiryu/libcurl-ios.html. A software archive is available from there. It comes with a precompiled binary of libcurl, its headers, and a sample app for iOS developers. It also provides the build script to build the library on iOS. Copy the build script, the headers, and the precompiled library to bibledit/libcurl.
 
+libsqlite
 
+The Bibledit library depends on libsqlite3. The iOS development kit with Xcode includes this library. The folder is /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk. The header is in usr/include and the dylib is in usr/lib.
 
+libxml2
 
+The Bibledit library depends on libxml2. The iOS development kit with Xcode includes this library. For more information, see heading libsqlite.
 
+libgit2
+
+The Bibledit library depends on libgit2.
 
 
 Some points of attention with regard to the Xcode settings.
