@@ -25,6 +25,7 @@ libgit2
 The Bibledit library depends on libgit2.
 
 
+
 Some points of attention with regard to the Xcode settings.
 * Drag the "lib" folder of the php-ios project to the Bibledit project in Xcode,
   remain with file "libphp5.a" only 
