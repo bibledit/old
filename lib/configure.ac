@@ -56,10 +56,26 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
 
-PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,AC_MSG_ERROR(libgit2 development version >= 0.20.0 is needed.))
+AS_IF([test -f ../../dependencies/libgit2/libgit2.a], [
+    AC_MSG_CHECKING([Git cflags])
+    GIT_CFLAGS=-I../../dependencies/libgit2
+    AC_MSG_RESULT([$GIT_CFLAGS])
+    AC_MSG_CHECKING([Git libs])
+    GIT_LIBS="-L../../dependencies/libgit2 -lgit2"
+    AC_MSG_RESULT([$GIT_LIBS])
+  ],
+  [test -d /foo/bar], [echo foo bar],
+  PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,AC_MSG_ERROR(libgit2 development version >= 0.20.0 is needed.))
+)
 AC_SUBST(GIT_CFLAGS)
 AC_SUBST(GIT_LIBS)
+
 # Fails for some reason: AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
+
+PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
+AC_SUBST(OPENSSL_CFLAGS)
+AC_SUBST(OPENSSL_LIBS)
+
 
 AC_DEFINE([DIRECTORY_SEPARATOR], ["/"], [Define the directory separator as Windows differs from Linux])
 
@@ -101,6 +117,7 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
+  Git                    : $GIT_CFLAGS
   Network port           : ${NETWORK_PORT}
   Client installation    : ${CLIENT}
   Demo installation      : ${DEMO}
