@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Clean any previous output.
-rm ~/Desktop/libgit2.a
-rm -rf ~/Desktop/git2
+rm -rf x86_64/include/*
+rm -rf x86_64/lib/*
 
 # Go to the root directory where to work from.
+cd ..
 cd libgit2*
 
 # Clean / create build directory.
@@ -19,12 +20,12 @@ cmake .. -DBUILD_SHARED_LIBS=OFF -DBUILD_CLAR=OFF -DTHREADSAFE=ON
 cmake --build .
 
 # Copy the output to the desktop.
-cp -r ../include ~/Desktop/git2
-cp libgit2.a ~/Desktop
+cp -r ../include ../osx/x86_64/include
+cp libgit2.a ../osx/x86_64/lib
 cd ..
 
 # Clean build directory.
 rm -rf build
 
 echo If everything went well, then libgit2 has been built for OS X.
-echo The output was copied to the desktop.
+echo The output was copied to osx/x86_64.

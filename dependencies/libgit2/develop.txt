@@ -4,7 +4,7 @@ Libgit2 is available from https://libgit2.github.com. Version 0.21.5 was downloa
 
 OS X
 
-Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link. Run the “build” script in the osx folder. Copy the files libgit2.a and git2.h and folder git2 to the ../dependencies/libgit2 folder. The ./configure script of the Bibledit library will then find them. 
+Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link. Run the “build” script in the osx folder. It will copy the files libgit2.a and git2.h and folder git2 to the x86_64 folder. When configurating Bibledit, reference this folder through the ./configure script. 
 
 iOS
 
