@@ -4,9 +4,21 @@ Libgit2 is available from https://libgit2.github.com. Version 0.21.5 was downloa
 
 OS X
 
-Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link. Run the “build” script in the osx folder. It will copy the files libgit2.a and git2.h and folder git2 to the x86_64 folder. When configurating Bibledit, reference this folder through the ./configure script. 
+Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link. Building works through the autotools. Run the “build” script in the auto folder. It will copy the files libgit2.a and git2.h and folder git2 to the auto folder. When configurating Bibledit, reference this folder through the ./configure script. 
+
+Linux
+
+Build through the autotools. See OS X for more information.
+
+Cygwin
+
+Build through the autotools. See OS X for more information.
 
 iOS
 
-Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link and at https://github.com/Eonil/libgit2-make-ios.
+Information about building for OS X is at https://libgit2.github.com/docs/guides/build-and-link and at https://github.com/Eonil/libgit2-make-ios. Bibledit uses libgit2 for some of the git operations, and uses the command line version of git for other git operations. The command line tool does not work on iOS. Therefore it is not yet possible now to use the git operations on iOS. For that reason is is not yet necessary to compile libgit2 for iOS.
+
+Android
+
+See iOS for reasons Bibledit does not yet use git on Android.
 
