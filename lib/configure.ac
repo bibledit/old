@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.60],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0.61],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -46,7 +46,7 @@ fi
 
 AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this first.))
 
-PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(sqlite development version >= 3.0.0 is needed.))
+PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(libsqlite3-dev version >= 3.0.0 is needed.))
 AC_SUBST(SQLITE_CFLAGS)
 AC_SUBST(SQLITE_LIBS)
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
@@ -56,26 +56,35 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
 
-AS_IF([test -f ../../dependencies/libgit2/libgit2.a], [
-    AC_MSG_CHECKING([Git cflags])
-    GIT_CFLAGS=-I../../dependencies/libgit2
-    AC_MSG_RESULT([$GIT_CFLAGS])
-    AC_MSG_CHECKING([Git libs])
-    GIT_LIBS="-L../../dependencies/libgit2 -lgit2"
-    AC_MSG_RESULT([$GIT_LIBS])
+# Libgit path.
+AC_ARG_WITH(libgit-path,
+  [ --with-libgit-path=path Path to the libgit2 headers and library],
+  [ LIBGIT_PATH=$withval ],
+  [ LIBGIT_PATH=undefined ]
+)
+AC_DEFINE([LIBGIT_PATH], [], [The path to libgit2])
+AC_DEFINE_UNQUOTED(LIBGIT_PATH, "$LIBGIT_PATH")
+AC_SUBST(LIBGIT_PATH)
+AS_IF([test -d ${LIBGIT_PATH}], [
+    AC_MSG_CHECKING([GIT_CFLAGS])
+    GIT_CFLAGS=-I${LIBGIT_PATH}/include
+    AC_MSG_RESULT([${GIT_CFLAGS}])
+    AC_MSG_CHECKING([GIT_LIBS])
+    GIT_LIBS="-L${LIBGIT_PATH}/lib -lgit2"
+    AC_MSG_RESULT([${GIT_LIBS}])
   ],
-  [test -d /foo/bar], [echo foo bar],
+  AC_MSG_CHECKING([included libgit2])
+  AC_MSG_RESULT([no])
+  AC_MSG_NOTICE([the two messages "command not found" are just cosmetic])
   PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,AC_MSG_ERROR(libgit2 development version >= 0.20.0 is needed.))
 )
 AC_SUBST(GIT_CFLAGS)
 AC_SUBST(GIT_LIBS)
-
-# Fails for some reason: AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
+# Fails for unknown reason: AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
 
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
-
 
 AC_DEFINE([DIRECTORY_SEPARATOR], ["/"], [Define the directory separator as Windows differs from Linux])
 
@@ -101,8 +110,7 @@ AC_SUBST(CLIENT)
 
 # Network port.
 AC_ARG_WITH(network-port,
-[  --with-network-port=number
-Open demo installation],
+[  --with-network-port=number Port number for server to listen on],
 [ NETWORK_PORT=$withval ],
 [ NETWORK_PORT=8080 ]
 )
@@ -117,7 +125,8 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
-  Libgit2                : $GIT_CFLAGS
+  Libgit2 include        : ${GIT_CFLAGS}
+  Libgit2 library        : ${GIT_LIBS}
   Network port           : ${NETWORK_PORT}
   Client installation    : ${CLIENT}
   Demo installation      : ${DEMO}

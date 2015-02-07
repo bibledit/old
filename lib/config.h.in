@@ -39,6 +39,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* The path to libgit2 */
+#undef LIBGIT_PATH
+
 /* Define the network port number */
 #undef NETWORK_PORT
 
