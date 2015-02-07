@@ -128,11 +128,10 @@ AC_OUTPUT(Makefile)
 echo "
 Bibledit $VERSION configuration summary:
 
-  Version                : ${PACKAGE_VERSION}
-  Installation prefix    : ${prefix}
-  Libgit2 compiler flags : ${GIT_CFLAGS}
-  Libgit2 linker flags   : ${GIT_LIBS}
-  Network port           : ${NETWORK_PORT}
-  Client installation    : ${CLIENT}
-  Demo installation      : ${DEMO}
+Installation prefix    : ${prefix}
+Libgit2 compiler flags : ${GIT_CFLAGS}
+Libgit2 linker flags   : ${GIT_LIBS}
+Network port           : ${NETWORK_PORT}
+Client installation    : ${CLIENT}
+Demo installation      : ${DEMO}
 "
