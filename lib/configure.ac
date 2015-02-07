@@ -58,7 +58,7 @@ AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not fou
 
 # Libgit path.
 AC_ARG_WITH(libgit-path,
-  [ --with-libgit-path=path Path to the libgit2 headers and library],
+  [  --with-libgit-path=path Path to the libgit2 headers and library],
   [ LIBGIT_PATH=$withval ],
   [ LIBGIT_PATH=undefined ]
 )
@@ -76,7 +76,12 @@ AS_IF([test -d ${LIBGIT_PATH}], [
   AC_MSG_CHECKING([included libgit2])
   AC_MSG_RESULT([no])
   AC_MSG_NOTICE([the two messages "command not found" are just cosmetic])
-  PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,AC_MSG_ERROR(libgit2 development version >= 0.20.0 is needed.))
+  PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,
+    AC_MSG_NOTICE([the following error may be fixed in several ways:])
+    AC_MSG_NOTICE([* ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64])
+    AC_MSG_NOTICE([* install package libgit2-dev version 0.21 exactly])
+    AC_MSG_ERROR([libgit2 cannot be located and is needed])
+  )
 )
 AC_SUBST(GIT_CFLAGS)
 AC_SUBST(GIT_LIBS)

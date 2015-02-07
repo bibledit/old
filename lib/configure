@@ -1406,7 +1406,7 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-xml-prefix=PFX   Prefix where libxml is installed (optional)
   --with-xml-exec-prefix=PFX Exec prefix where libxml is installed (optional)
- --with-libgit-path=path Path to the libgit2 headers and library
+  --with-libgit-path=path Path to the libgit2 headers and library
   --with-network-port=number Port number for server to listen on
 
 Some influential environment variables:
@@ -6144,11 +6144,25 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GIT_PKG_ERRORS" >&5
 
-	as_fn_error $? "libgit2 development version >= 0.20.0 is needed." "$LINENO" 5
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: the following error may be fixed in several ways:" >&5
+$as_echo "$as_me: the following error may be fixed in several ways:" >&6;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&5
+$as_echo "$as_me: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&6;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: * install package libgit2-dev version 0.21 exactly" >&5
+$as_echo "$as_me: * install package libgit2-dev version 0.21 exactly" >&6;}
+    as_fn_error $? "libgit2 cannot be located and is needed" "$LINENO" 5
+
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	as_fn_error $? "libgit2 development version >= 0.20.0 is needed." "$LINENO" 5
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: the following error may be fixed in several ways:" >&5
+$as_echo "$as_me: the following error may be fixed in several ways:" >&6;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&5
+$as_echo "$as_me: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&6;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: * install package libgit2-dev version 0.21 exactly" >&5
+$as_echo "$as_me: * install package libgit2-dev version 0.21 exactly" >&6;}
+    as_fn_error $? "libgit2 cannot be located and is needed" "$LINENO" 5
+
 else
 	GIT_CFLAGS=$pkg_cv_GIT_CFLAGS
 	GIT_LIBS=$pkg_cv_GIT_LIBS
