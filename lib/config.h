@@ -41,7 +41,7 @@
 #define HAVE_UNISTD_H 1
 
 /* The path to libgit2 */
-#define LIBGIT_PATH "../dependencies/libgit2/osx/x86_64"
+#define LIBGIT_PATH "../dependencies/libgit2/auto/auto"
 
 /* Define the network port number */
 #define NETWORK_PORT "8080"

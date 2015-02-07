@@ -6146,8 +6146,8 @@ fi
 
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: the following error may be fixed in several ways:" >&5
 $as_echo "$as_me: the following error may be fixed in several ways:" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&5
-$as_echo "$as_me: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&6;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: * ./configure --with-libgit-path=../dependencies/libgit2/auto/auto" >&5
+$as_echo "$as_me: * ./configure --with-libgit-path=../dependencies/libgit2/auto/auto" >&6;}
     { $as_echo "$as_me:${as_lineno-$LINENO}: * install package libgit2-dev version 0.21 exactly" >&5
 $as_echo "$as_me: * install package libgit2-dev version 0.21 exactly" >&6;}
     as_fn_error $? "libgit2 cannot be located and is needed" "$LINENO" 5
@@ -6157,8 +6157,8 @@ elif test $pkg_failed = untried; then
 $as_echo "no" >&6; }
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: the following error may be fixed in several ways:" >&5
 $as_echo "$as_me: the following error may be fixed in several ways:" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&5
-$as_echo "$as_me: * ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64" >&6;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: * ./configure --with-libgit-path=../dependencies/libgit2/auto/auto" >&5
+$as_echo "$as_me: * ./configure --with-libgit-path=../dependencies/libgit2/auto/auto" >&6;}
     { $as_echo "$as_me:${as_lineno-$LINENO}: * install package libgit2-dev version 0.21 exactly" >&5
 $as_echo "$as_me: * install package libgit2-dev version 0.21 exactly" >&6;}
     as_fn_error $? "libgit2 cannot be located and is needed" "$LINENO" 5
@@ -7789,8 +7789,8 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
-  Libgit2 include        : ${GIT_CFLAGS}
-  Libgit2 library        : ${GIT_LIBS}
+  Libgit2 compiler flags : ${GIT_CFLAGS}
+  Libgit2 linker flags   : ${GIT_LIBS}
   Network port           : ${NETWORK_PORT}
   Client installation    : ${CLIENT}
   Demo installation      : ${DEMO}

@@ -78,7 +78,7 @@ AS_IF([test -d ${LIBGIT_PATH}], [
   AC_MSG_NOTICE([the two messages "command not found" are just cosmetic])
   PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,
     AC_MSG_NOTICE([the following error may be fixed in several ways:])
-    AC_MSG_NOTICE([* ./configure --with-libgit-path=../dependencies/libgit2/osx/x86_64])
+    AC_MSG_NOTICE([* ./configure --with-libgit-path=../dependencies/libgit2/auto/auto])
     AC_MSG_NOTICE([* install package libgit2-dev version 0.21 exactly])
     AC_MSG_ERROR([libgit2 cannot be located and is needed])
   )
@@ -130,8 +130,8 @@ Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
-  Libgit2 include        : ${GIT_CFLAGS}
-  Libgit2 library        : ${GIT_LIBS}
+  Libgit2 compiler flags : ${GIT_CFLAGS}
+  Libgit2 linker flags   : ${GIT_LIBS}
   Network port           : ${NETWORK_PORT}
   Client installation    : ${CLIENT}
   Demo installation      : ${DEMO}
