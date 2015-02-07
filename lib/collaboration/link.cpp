@@ -31,7 +31,6 @@
 #include <database/config/bible.h>
 #include <database/config/general.h>
 #include <database/jobs.h>
-#include <git2.h>
 
 
 void collaboration_link (string object, int jobid, string direction)

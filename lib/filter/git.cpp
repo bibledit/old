@@ -26,7 +26,9 @@
 #include <database/books.h>
 #include <database/jobs.h>
 #include <config.h>
+#ifdef HAVE_GIT
 #include <git2.h>
+#endif
 #include <bible/logic.h>
 #include <locale/translate.h>
 
@@ -40,6 +42,7 @@ string filter_git_directory (string object)
 
 string filter_git_check_error (int result)
 {
+#ifdef HAVE_GIT
   string msg;
   if (result != 0) {
     const git_error * error = giterr_last ();
@@ -47,12 +50,17 @@ string filter_git_check_error (int result)
     Database_Logs::log (error->message);
   }
   return msg;
+#else
+  if (result) {};
+  return "";
+#endif
 }
 
 
 // Runs the equivalent of "git init".
 bool filter_git_init (string directory, bool bare)
 {
+#ifdef HAVE_GIT
   git_threads_init ();
   git_repository *repo = NULL;
   int result = git_repository_init (&repo, directory.c_str(), bare);
@@ -60,6 +68,11 @@ bool filter_git_init (string directory, bool bare)
   git_repository_free (repo);
   git_threads_shutdown ();
   return (result == 0);
+#else
+  if (bare) {};
+  if (directory.empty ()) {};
+  return false;
+#endif
 }
 
 
@@ -217,6 +230,12 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
 }
 
 
+string filter_git_disabled ()
+{
+  return "Git has been disabled on iOS and Android, and can be enabled on Linux, Windows and OS X";
+}
+
+
 // This filter takes one chapter of the Bible data as it is stored in the $git folder,
 // and puts this information into Bibledit's database.
 // The $git is a git repository, and may contain other data as well.
@@ -243,6 +262,7 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 }
 
 
+#ifdef HAVE_GIT
 static int cred_acquire_cb (git_cred **out, const char * url, const char * username_from_url, unsigned int allowed_types, void *payload)
 {
   if (url) {};
@@ -255,11 +275,13 @@ static int cred_acquire_cb (git_cred **out, const char * url, const char * usern
   
   return git_cred_userpass_plaintext_new (out, username, password);
 }
+#endif
 
 
 // Returns true if the git repository at "url" is online.
 bool filter_git_remote_read (string url, string & error)
 {
+#ifdef HAVE_GIT
   int result = 0;
   git_threads_init ();
   
@@ -320,6 +342,11 @@ bool filter_git_remote_read (string url, string & error)
   git_threads_shutdown ();
 
   return (result == 0);
+#else
+  url.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
 }
 
 
@@ -329,6 +356,7 @@ typedef struct git_progress_data {
 } git_progress_data;
 
 
+#ifdef HAVE_GIT
 static int fetch_progress (const git_transfer_progress *stats, void *payload)
 {
   git_progress_data *pd = (git_progress_data*) payload;
@@ -346,8 +374,10 @@ static int fetch_progress (const git_transfer_progress *stats, void *payload)
   }
   return 0;
 }
+#endif
 
 
+#ifdef HAVE_GIT
 static void checkout_progress (const char *path, size_t cur, size_t tot, void *payload)
 {
   git_progress_data *pd = (git_progress_data*) payload;
@@ -362,10 +392,12 @@ static void checkout_progress (const char *path, size_t cur, size_t tot, void *p
     pd->seconds = seconds;
   }
 }
+#endif
 
 
 bool filter_git_remote_clone (string url, string path, int jobid, string & error)
 {
+#ifdef HAVE_GIT
   // Clear a possible existing git repository directory.
   filter_url_rmdir (path);
   
@@ -398,6 +430,13 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
   git_threads_shutdown ();
   
   return (result == 0);
+#else
+  url.clear ();
+  path.clear ();
+  if (jobid) {};
+  error = filter_git_disabled ();
+  return false;
+#endif
 }
 
 
@@ -416,6 +455,7 @@ static int filter_git_index_remove_matched_path_cb (const char *path, const char
 
 bool filter_git_add_remove_all (string repository, string & error)
 {
+#ifdef HAVE_GIT
   git_repository * repo = NULL;
   git_index * index = NULL;
 
@@ -452,11 +492,17 @@ bool filter_git_add_remove_all (string repository, string & error)
   git_threads_shutdown();
 
   return (result == 0);
+#else
+  repository.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
 }
 
 
 bool filter_git_commit (string repository, string user, string email, string message, string & error)
 {
+#ifdef HAVE_GIT
   // Initialize the git system.
   git_threads_init();
 
@@ -543,6 +589,14 @@ bool filter_git_commit (string repository, string user, string email, string mes
   git_threads_shutdown();
 
   return (result == 0);
+#else
+  repository.clear ();
+  user.clear ();
+  email.clear ();
+  message.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
 }
 
 
@@ -563,6 +617,7 @@ bool filter_git_commit (string repository, string message, vector <string> & mes
 
 void filter_git_config_set_bool (string repository, string name, bool value)
 {
+#ifdef HAVE_GIT
   git_repository * repo = NULL;
   int result = git_repository_open (&repo, repository.c_str());
   if (result != 0) {
@@ -576,11 +631,17 @@ void filter_git_config_set_bool (string repository, string name, bool value)
   result = git_config_set_bool (cfg, name.c_str(), value);
   if (cfg) git_config_free (cfg);
   if (repo) git_repository_free (repo);
+#else
+  repository.clear ();
+  name.clear ();
+  if (value) {};
+#endif
 }
 
 
 void filter_git_config_set_int (string repository, string name, int value)
 {
+#ifdef HAVE_GIT
   git_repository * repo = NULL;
   int result = git_repository_open (&repo, repository.c_str());
   if (result != 0) {
@@ -594,11 +655,17 @@ void filter_git_config_set_int (string repository, string name, int value)
   result = git_config_set_int32 (cfg, name.c_str(), value);
   if (cfg) git_config_free (cfg);
   if (repo) git_repository_free (repo);
+#else
+  repository.clear ();
+  name.clear ();
+  if (value) {};
+#endif
 }
 
 
 void filter_git_config_set_string (string repository, string name, string value)
 {
+#ifdef HAVE_GIT
   git_repository * repo = NULL;
   int result = git_repository_open (&repo, repository.c_str());
   if (result != 0) {
@@ -612,7 +679,11 @@ void filter_git_config_set_string (string repository, string name, string value)
   result = git_config_set_string (cfg, name.c_str(), value.c_str());
   if (cfg) git_config_free (cfg);
   if (repo) git_repository_free (repo);
-
+#else
+  repository.clear ();
+  name.clear ();
+  value.clear ();
+#endif
 }
 
 
@@ -655,6 +726,7 @@ Passage filter_git_get_pull_passage (string line)
 // All changed files will be returned.
 vector <string> filter_git_status (string repository)
 {
+#ifdef HAVE_GIT
   vector <string> paths;
   
   int result = 0;
@@ -707,6 +779,10 @@ vector <string> filter_git_status (string repository)
   if (repo) git_repository_free (repo);
   
   return paths;
+#else
+  repository.clear ();
+  return {};
+#endif
 }
 
 
@@ -748,6 +824,7 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
 // It returns true on success, that is, no errors occurred.
 bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error)
 {
+#ifdef HAVE_GIT
   int result = 0;
   paths.clear();
 
@@ -852,5 +929,11 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
 
   // Done.
   return (result == 0);
+#else
+  repository.clear ();
+  paths.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
 }
 

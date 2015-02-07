@@ -72,19 +72,22 @@ AS_IF([test -d ${LIBGIT_PATH}], [
     AC_MSG_CHECKING([GIT_LIBS])
     GIT_LIBS="-L${LIBGIT_PATH}/lib -lgit2"
     AC_MSG_RESULT([${GIT_LIBS}])
+    AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled])
   ],
   AC_MSG_CHECKING([included libgit2])
   AC_MSG_RESULT([no])
   AC_MSG_NOTICE([the two messages "command not found" are just cosmetic])
-  PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,,
-    AC_MSG_NOTICE([the following error may be fixed in several ways:])
-    AC_MSG_NOTICE([* ./configure --with-libgit-path=../dependencies/libgit2/auto/auto])
+  PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,
+    AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled]),
+    AC_MSG_NOTICE([libgit2 cannot be located and git functions will be disabled])
+    AC_MSG_NOTICE([this can be remedied in several ways:])
+    AC_MSG_NOTICE([* ./configure --with-libgit-path=../dependencies/libgit2])
     AC_MSG_NOTICE([* install package libgit2-dev version 0.21 exactly])
-    AC_MSG_ERROR([libgit2 cannot be located and is needed])
   )
 )
 AC_SUBST(GIT_CFLAGS)
 AC_SUBST(GIT_LIBS)
+AC_SUBST(GIT_ENABLED)
 # Fails for unknown reason: AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
 
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))

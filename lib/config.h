@@ -13,6 +13,9 @@
 /* define if the compiler supports basic C++11 syntax */
 /* #undef HAVE_CXX11 */
 
+/* Whether git funcions are available and enabled */
+/* #undef HAVE_GIT */
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
@@ -41,7 +44,7 @@
 #define HAVE_UNISTD_H 1
 
 /* The path to libgit2 */
-#define LIBGIT_PATH "../dependencies/libgit2/auto/auto"
+#define LIBGIT_PATH "undefined"
 
 /* Define the network port number */
 #define NETWORK_PORT "8080"
