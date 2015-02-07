@@ -22,7 +22,7 @@ The Bibledit library depends on libxml2. The iOS development kit with Xcode incl
 
 libgit2
 
-The Bibledit library depends on libgit2.
+The Bibledit library normally depends on libgit2. But on iOS it does not have this dependency.
 
 
 
