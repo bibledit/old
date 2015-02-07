@@ -20,7 +20,9 @@ cmake .. -DBUILD_SHARED_LIBS=OFF -DBUILD_CLAR=OFF -DTHREADSAFE=ON
 cmake --build .
 
 # Copy the output to the desktop.
+mkdir -p ../../osx/x86_64/include
 cp -r ../include/* ../../osx/x86_64/include
+mkdir  -p ../../osx/x86_64/lib
 cp libgit2.a ../../osx/x86_64/lib
 cd ..
 
