@@ -8,6 +8,9 @@ BITS=$2
 echo Compile for architecture $ARCH $BITS bits
 
 export IPHONEOS_DEPLOYMENT_TARGET="6.0"
+SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+TOOLDIR=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+COMPILEFLAGS="-Wall -Wextra -pedantic -g -O2 -c"
 
 CURLINCLUDE=../dependencies/libcurl/ios/include/curl
 
@@ -16,8 +19,6 @@ cp curlbuild$BITS.h curlbuild.h
 popd > /dev/null
 
 pushd ../lib > /dev/null
-
-find . -name *.o -delete
 
 CPPFILES=(
 
@@ -41,44 +42,6 @@ filter/diff.cpp
 filter/abbreviations.cpp
 filter/shell.cpp
 filter/merge.cpp
-
-)
-
-CFILES=(
-
-webserver/io.c
-
-)
-
-for cpp in ${CPPFILES[@]}; do
-
-extension="${cpp##*.}"
-basepath="${cpp%.*}"
-echo Compiling $cpp to $basepath.o
-
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -DHAVE_CONFIG_H -arch ${ARCH} -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk -I. -I/usr/include/libxml2 -I../dependencies/libcurl/ios/include -Wall -Wextra -pedantic -std=c++11 -stdlib=libc++ -g -O2 -c -o $basepath.o $cpp
-
-done
-
-for c in ${CFILES[@]}; do
-
-extension="${c##*.}"
-basepath="${c%.*}"
-echo Compiling $c to $basepath.o
-
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -DHAVE_CONFIG_H -arch ${ARCH} -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk -I. -Wall -Wextra -pedantic -g -O2 -c -o $basepath.o $c
-
-done
-
-popd > /dev/null
-
-pushd $CURLINCLUDE > /dev/null
-rm curlbuild.h
-popd > /dev/null
-
-
-exit
-
 flate/flate.cpp
 assets/view.cpp
 assets/page.cpp
@@ -257,4 +220,64 @@ sync/setup.cpp
 sync/settings.cpp
 sync/bibles.cpp
 
-# export LDFLAGS="-arch ${ARCH} -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+)
+
+CFILES=(
+
+webserver/io.c
+
+)
+
+for cpp in ${CPPFILES[@]}; do
+
+extension="${cpp##*.}"
+basepath="${cpp%.*}"
+echo Compiling $cpp
+
+$TOOLDIR/clang++ -arch ${ARCH} -isysroot $SYSROOT -I. -I/usr/include/libxml2 -I../dependencies/libcurl/ios/include $COMPILEFLAGS -std=c++11 -stdlib=libc++ -o $basepath.o $cpp
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+  exit
+fi
+
+done
+
+for c in ${CFILES[@]}; do
+
+extension="${c##*.}"
+basepath="${c%.*}"
+echo Compiling $c
+
+$TOOLDIR/clang -arch ${ARCH} -isysroot $SYSROOT -I. $COMPILEFLAGS -o $basepath.o $c
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+  exit
+fi
+
+done
+
+popd > /dev/null
+
+pushd $CURLINCLUDE > /dev/null
+rm curlbuild.h
+popd > /dev/null
+
+
+# Linking
+echo Linking
+
+pushd ../lib > /dev/null
+
+rm -f libbibledit.a
+
+$TOOLDIR/ar cru libbibledit.a `find . -name *.o`
+$TOOLDIR/ranlib libbibledit.a
+
+popd > /dev/null
+
+
+# Copy output to desktop
+
+pushd ../lib > /dev/null
+cp libbibledit.a ~/Desktop/libbibledit-$ARCH.a
+popd > /dev/null

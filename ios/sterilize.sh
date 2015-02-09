@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Build libbibledit on OS X for iOS.
-
 # Sterilize the Bibledit library configuration.
-pushd ../lib > /dev/null
+pushd ../lib
+./configure
+echo Clean source.
 make clean > /dev/null
-popd > /dev/null
-
+popd
 
 
