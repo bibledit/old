@@ -10,6 +10,8 @@ export IPHONEOS_DEPLOYMENT_TARGET="6.0"
 
 pushd ../lib > /dev/null
 
+find . -name *.o -delete
+
 CPPFILES=(
 
 library/bibledit.cpp
