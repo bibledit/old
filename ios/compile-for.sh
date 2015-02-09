@@ -49,7 +49,7 @@ extension="${cpp##*.}"
 basepath="${cpp%.*}"
 echo Compiling $cpp to $basepath.o
 
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -DHAVE_CONFIG_H -arch ${ARCH} -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk -I. -I/usr/include/libxml2 -Wall -Wextra -pedantic -std=c++11 -stdlib=libc++ -g -O2 -c -o $basepath.o $cpp
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -DHAVE_CONFIG_H -arch ${ARCH} -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk -I. -I/usr/include/libxml2 -I../dependencies/libcurl/ios/include -Wall -Wextra -pedantic -std=c++11 -stdlib=libc++ -g -O2 -c -o $basepath.o $cpp
 
 done
 
