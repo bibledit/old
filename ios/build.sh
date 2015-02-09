@@ -4,5 +4,5 @@
 
 sh sterilize.sh
 
-sh compile-for.sh armv7
+sh compile-for.sh armv7 32
 

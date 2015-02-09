@@ -4,9 +4,16 @@
 # This script runs on OS X.
 
 ARCH=$1
-echo Compile for architecture $ARCH
+BITS=$2
+echo Compile for architecture $ARCH $BITS bits
 
 export IPHONEOS_DEPLOYMENT_TARGET="6.0"
+
+CURLINCLUDE=../dependencies/libcurl/ios/include/curl
+
+pushd $CURLINCLUDE > /dev/null
+cp curlbuild$BITS.h curlbuild.h
+popd > /dev/null
 
 pushd ../lib > /dev/null
 
@@ -64,6 +71,11 @@ echo Compiling $c to $basepath.o
 done
 
 popd > /dev/null
+
+pushd $CURLINCLUDE > /dev/null
+rm curlbuild.h
+popd > /dev/null
+
 
 exit
 

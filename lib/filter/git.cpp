@@ -440,6 +440,7 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
 }
 
 
+#ifdef HAVE_GIT
 static int filter_git_index_remove_matched_path_cb (const char *path, const char *matched_pathspec, void *payload)
 {
   if (matched_pathspec) {};
@@ -451,6 +452,7 @@ static int filter_git_index_remove_matched_path_cb (const char *path, const char
   }
   return 0;
 }
+#endif
 
 
 bool filter_git_add_remove_all (string repository, string & error)
