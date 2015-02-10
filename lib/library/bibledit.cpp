@@ -28,6 +28,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config.h>
 
 
+// Get Bibledit's version number.
+const char * bibledit_version_number ()
+{
+  return VERSION;
+}
+
+
+// Get the port number that Bibledit's web server listens on.
+const char * bibledit_network_port ()
+{
+  return NETWORK_PORT;
+}
+
+
 // Set the root folder for the web server.
 void bibledit_set_web_root (const char * directory)
 {
