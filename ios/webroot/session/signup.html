@@ -1,0 +1,44 @@
+<h1>gettext("Signup")</h1>
+
+<form action="signup" method="post">
+
+  <table>
+
+  <p class="error">##error_message##</p>
+
+  <tr>
+  <td align="right">gettext("Which username would you like to use?")</td>
+  <td><input type="text" name="user" maxlength="30" autofocus /></td>
+  <td class="error">##username_invalid_message##</td>
+  </tr>
+
+  <tr>
+  <td align="right">gettext("Which password?")</td>
+  <td><input type="password" name="pass" maxlength="30" /></td>
+  <td class="error">##password_invalid_message##</td>
+  </tr>
+
+  <tr>
+  <td align="right">gettext("Your email address?")</td>
+  <td><input type="text" name="mail" maxlength="256" /></td>
+  <td class="error">##email_invalid_message##</td>
+  </tr>
+
+  <tr>
+  <td align="right">gettext("Security question:") ##question##</td>
+  <td><input type="text" name="answer" maxlength="40" /></td>
+  <td class="error">##answer_invalid_message##</td>
+  </tr>
+
+  <tr>
+  <td align="right"></td>
+  <td><input type="submit" name="submit" value="gettext("Signup")" /></td>
+  </tr>
+
+  </table>
+
+  <input type="hidden" name="standard" maxlength="40" value="##standard##" />
+
+  <p>gettext("Hint for answering the security question:") ##passage##</p>
+
+</form>

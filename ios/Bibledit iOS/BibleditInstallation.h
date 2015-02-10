@@ -14,7 +14,7 @@
 
 
 + (void) run;
-+ (NSString *) bundleVersion;
++ (NSString *) libraryVersion;
 + (NSString *) installedVersion;
 + (void) installedVersion:(NSString *)version;
 

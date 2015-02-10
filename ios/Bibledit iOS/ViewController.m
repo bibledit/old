@@ -50,8 +50,6 @@ UIWebView * webview;
     self.view = webview;
     webview.userInteractionEnabled = YES;
     
-    NSLog (@"%@", [BibleditPaths resources]); // Todo
-    NSLog (@"%@", [BibleditPaths documents]); // Todo
 
     // [self performSelectorInBackground:@selector(runWebserver) withObject:nil];
     [self runWebserver];

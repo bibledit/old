@@ -1,0 +1,15 @@
+<h3>gettext("Workbenches")</h3>
+<div id="sortable">##workbenchblock##</div>
+<br>
+<form action="organize" name="form" method="post">
+  <input type="text" name="add" maxlength="300"  />
+  <input type="submit" name="create" value=gettext("Create") />
+</form>
+<br>
+<p>
+  gettext("Drag the list of workbenches into the desired order.")
+  gettext("Click ✗ to remove.")
+  gettext("Click ✎ to edit.")
+  gettext("Or create a new workbench.")
+</p>
+<script type="text/javascript" src="organize.js?##VERSION##"></script>

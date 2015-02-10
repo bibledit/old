@@ -9,6 +9,7 @@
 
 #import "BibleditInstallation.h"
 #import "BibleditPaths.h"
+#import "bibledit.h"
 
 
 @implementation BibleditInstallation
@@ -16,12 +17,13 @@
 
 + (void) run
 {
-    // Bail out in case the installed version equals the bundle version.
-    NSString * version = [self bundleVersion];
+    // Bail out in case the installed version equals the bibledit library version.
+    NSString * version = [self libraryVersion];
     // Todo if ([version isEqualToString:[self installedVersion]]) return;
 
+    NSLog (@"%@", [BibleditPaths resources]); // Todo
     
-    NSArray *inputComponents = [NSArray arrayWithObjects:[BibleditPaths resources], @"setup", nil];
+    NSArray *inputComponents = [NSArray arrayWithObjects:[BibleditPaths resources], @"webroot", nil];
     NSString *inputDirectory = [NSString pathWithComponents:inputComponents];
     
     NSString *outputDirectory = [BibleditPaths documents];
@@ -48,17 +50,17 @@
         }
     }
     
+    NSLog (@"%@", [BibleditPaths documents]); // Todo
     // Store the installed version in the preferences.
     [self installedVersion:version];
 }
 
 
-+ (NSString *) bundleVersion
++ (NSString *) libraryVersion
 {
-    // Retieve the version of Bibledit-Web that comes with this bundle.
-    NSArray *components = [NSArray arrayWithObjects:[[NSBundle mainBundle] resourcePath], @"VERSION", nil];
-    NSString *path = [NSString pathWithComponents:components];
-    NSString *version = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    // Retieve the version of the Bibledit library.
+    NSString *version = [NSString stringWithFormat:@"%s", bibledit_version_number ()];
+    
     return version;
 }
 

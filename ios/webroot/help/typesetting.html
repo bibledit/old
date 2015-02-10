@@ -1,0 +1,261 @@
+<h1>gettext("Typesetting Bibles")</h1>
+
+<h2>gettext("Introduction")</h2>
+<p>gettext("The Bible has been translated. It is time to publish it.")</p>
+<p>gettext("This article assists with typesetting the Bible.")</p>
+<p>gettext("At the end of all, you will have a PDF file with part of the Bible, or the whole Bible, typeset, ready for publishing.")</p>
+
+<h2>gettext("Basic assumptions")</h2>
+<ul>
+<li>gettext("The Bible is available in USFM code.")</li>
+<li>gettext("The USFM code is clean and adheres to the standards.")</li>
+<li>gettext("You have access to Bibledit.")</li>
+<li>gettext("You have OpenOffice, LibreOffice or an equivalent.")</li>
+</ul>
+
+<h2>gettext("Importing the USFM files")</h2>
+<p>gettext("This section describes the steps to take to prepare the USFM code for export.")</p>
+<p>gettext("Each Bible book is stored as one USFM file.")</p>
+<ul>
+<li>gettext("Create a new Bible in Bibledit through menu Bibles. Give the Bible a name. The example calls it 'Ndebele'.")</li>
+<li>gettext("Click the 'Ndebele' Bible.")</li>
+<li>gettext("Import data into it.")</li>
+<li>gettext("Choose the option to upload a file.")</li>
+</ul>
+<p>gettext("You can upload 66 separate files, or you can put all the 66 files into one zipped file, and then upload that zipped file. Import takes a while. The Journal shows the progress.")</p>
+<ul>
+<li>gettext("Create a new stylesheet in menu Styles. Give it a name. The example calls it 'Ndebele'.")</li>
+</ul>
+<p>gettext("All the data is now in Bibledit. Everthing is ready for export to OpenDocument files.")</p>
+<p>gettext("The OpenDocument files are used as a starting point for typesetting.")</p>
+
+<h2>gettext("Hyphenation")</h2>
+<p>gettext("Some of the word in the OpenDocument files are long. This results in too much space between some words.")</p>
+<p>gettext("The words need to get hyphens so that part of the word goes on the next line.")</p>
+<p>gettext("LibreOffice and Adobe InDesign have hyphenation algorithms for many languages. That would solve the problem.")</p>
+<p>gettext("But the programs do not have a hyphenation algorithms for all languages.")</p>
+<p>gettext("Bibledit has a hyphenater that could assist.")</p>
+<ul>
+<li>gettext("In Bibledit, go to menu Hyphenation.")</li>
+<li>gettext("Enter the first set of characters, and the second set, and save it.")</li>
+<li>gettext("Set the Bible where to take the data from. In this case it is 'Ndebele'.")</li>
+<li>gettext("Insert the soft hyphens according to the setting. It takes a while to complete.")</li>
+</ul>
+<p>gettext("The output Bible is called 'Ndebele-hyphenated'.")</p>
+<p>gettext("Use this Bible from now on.")</p>
+
+<h2>gettext("Exporting to OpenDocument files")</h2>
+<p>gettext("Make an initial export just to see how the text looks.")</p>
+<ul>
+<li>gettext("In Bibledit, go to menu Exports.")</li>
+<li>gettext("Add Bible 'Ndebele' to the ones that will be exported.")</li>
+<li>gettext("Use stylesheet 'Ndebele'.")</li>
+<li>gettext("Output the chapter number in drop caps. Switch that setting on.")</li>
+<li>gettext("Set the page size. I use this: width: 138 mm; height: 210 mm.")</li>
+<li>gettext("Set the margins. I use this: 10 mm for top and bottom margins, 12 mm for the outer margins, and 14 mm for the inner margins.")</li>
+<li>gettext("Do not display the date in the running headers. Switch that setting off.")</li>
+<li>gettext("Do a fresh export.")</li>
+</ul>
+<p>gettext("The Logbook shows the progress. Proceed when it is ready.")</p>
+<ul>
+<li>gettext("Go to menu Exports and choose your Bible there. Then go to the OpenDocument folder.")</li>
+</ul>
+<p>gettext("You will see the Bible exported into several formats.")</p>
+<p>gettext("Open the books in LibreOffice to see how they look.")</p>
+<br>
+<p>gettext("The divine name will be underlined in the OpenDocument files. The divine name is within \\nd_...\\nd* markup in USFM. Some prefer this in small capitals, not underlined.")</p>
+<p>gettext("This can be changed in the stylesheet.")</p>
+<ul>
+<li>gettext("Go to menu Styles, and choose the 'Ndebele' stylesheet.")</li>
+<li>gettext("Click the 'nd' style.")</li>
+<li>gettext("Switch 'Underline' off.")</li>
+<li>gettext("Switch 'Small caps' on.")</li>
+<li>gettext("Do a new export, wait a while, and review the OpenDocument files again.")</li>
+</ul>
+<br>
+<p>gettext("The verse numbers are in superscript. The verse numbers are small and difficult to read.")</p>
+<p>gettext("The intended audience prefers the verse numbers in bigger print.")</p>
+<ul>
+<li>gettext("Go to the relevant stylesheet and choose the 'v' style.")</li>
+<li>gettext("Switch 'Superscript' off.")</li>
+<li>gettext("Do a new export and review the OpenDocument files.")</li>
+</ul>
+<br>
+<p>gettext("The text in the OpenDocument files has been divided into paragraphs. New paragraphs start when appropriate in the context. This is how the USFM files have been marked up.")</p>
+<p>gettext("The people who are going to read this Bible prefer each verse to start a new paragraph.")</p>
+<ul>
+<li>gettext("Go to the stylesheet, and choose the 'v' style.")</li>
+<li>gettext("Switch 'Restart paragraph' on.")</li>
+<li>gettext("Export again.")</li>
+</ul>
+<br>
+<p>gettext("Since each verse starts a new paragraph, there is no longer any need to indent the first line of that paragraph.")</p>
+<ul>
+<li>gettext("In the stylesheet, edit the 'p' style.")</li>
+<li>gettext("Set the 'First line indent' to 0 mm.")</li>
+</ul>
+<br>
+<p>gettext("Some verses are short. Chapters that start with short verses no longer have the chapter number in drop caps in LibreOffice.")</p>
+<p>gettext("This is because this verse is all on one line, and thus there is no space for drop caps, as these need two lines of text.")</p>
+<p>gettext("Setting the text in two columns in LibreOffice solves the problem. The drop caps are back.")</p>
+<br>
+<p>gettext("The letters of the Bible text are too big. This takes up a lot of space. The Bible would get too many pages.")</p>
+<p>gettext("Find out which styles start paragraphs. In the Ndebele Bible, these are the styles p, s, nb, d.")</p>
+<p>gettext("Set these styles to have a font size of 10 points.")</p>
+<br>
+<p>gettext("The letters of the notes and crossreferences are too big.")</p>
+<p>gettext("Set the fontsize of the styles ft and xt to 6 points.")</p>
+<br>
+<p>gettext("Parts of the footnotes are in bold or italics or both. You may prefer it all in normal script.")</p>
+  <p>gettext("Update the relevant footnote styles and switch bold and italics off. The styles are fk, fl, fq, fqa.")</p>
+
+<h2>gettext("Typesetting guidelines")</h2>
+<ol>
+<li>
+  gettext("The following needs consideration if the Bible includes more than one book.")
+  gettext("Does the next book follow on the same page on which the previous book finished, or do the books follow on from one another in a different way?")
+  gettext("Whatever method is chosen, it needs to be applied consistently throughout the Bible.")
+</li>
+<li>
+  gettext("Line spacing should be consistent throughout and should be placed line on line across all pages.")
+  gettext("It means that they should all line up with each other all the way down the page and across all pages.")
+  gettext("Then when the Bible is printed, the printed text will be back to back and not show through from one side of the page to the other.")
+  gettext("In the typesetting software, this can be implemented by setting up a grid in the document, and then aligning all text to this grid.")
+</li>
+<li>
+  gettext("The space after the verse numbers would be the same and consistent.")
+  gettext("Bibledit exports the text to OpenDocument format using 'en spaces' after each verse.")
+  gettext("This ensures a consistent width of the spaces after the verse numbers.")
+</li>
+<li>
+  gettext("The verse numbers should be set closer to the text that follows rather than half-way between.")
+  gettext("Many fonts have half spaces and hair spaces that can be used for this.")
+  gettext("Or set the kerning to a specific amount for the verse numbers.")
+</li>
+<li>
+  gettext("Superscript numerals could also be considered for verse numbers.")
+  gettext("They are less intrusive while at the same time just as readable and easily found if they are not made too small.")
+  gettext("They should be larger than any note citations in the text.")
+  gettext("The size of the superscript would be between 70 and 80% of the size of the main text.")
+</li>
+<li>
+  gettext("The alignment of the drop caps chapter numbers to the text beside it is to be consistent.")
+  gettext("There should be some space between the numbers and the text.")
+  gettext("Drop cap characters should not be too large and not rise too far above the height of the other letters on the first line.")
+  gettext("The top of the highest letters should reach to about the same height.")
+  gettext("The drop cap characters in the body of the text should not be indented.")
+</li>
+<li>
+  gettext("The chapter divisions would also benefit from some more space between them and the text of the preceding chapter.")
+  gettext("When there is no heading above a chapter, it may be visually better to start the chapter number with a line space before it.")
+</li>
+<li>
+  gettext("The amount of space given to the Bible book headings should not be too much.")
+  gettext("But they can do with some space above and below them.")
+</li>
+<li>
+  gettext("Subheadings should not appear squashed amongst the rest of the text and would benefit from some space.")
+</li>
+<li>
+  gettext("Subheadings do not need to be set on the grid.")
+  gettext("They are much better set a little closer to the text that follows.")
+</li>
+<li>
+  gettext("Subheadings are an addition and not Scripture, so it is appropriate to put these in italics.")
+</li>
+<li>
+  gettext("The space between the text and footnotes should not be too tight neither unnecessarily large.")
+  gettext("Keep the gap between the references in the footer and the main bock of text as consistent as possible.")
+</li>
+<li>
+  gettext("The footnotes and crossreferences should not have a large variation in how far they finish from the foot of the page.")
+</li>
+<li>
+  gettext("In the crossreferences it is pleasing to have the chapter and verse number kept together with the book name, especially as the small font on long lines gives scope for this.")
+</li>
+<li>
+  gettext("The columns should start at the same height and should be balanced at the ends.")
+</li>
+<li>
+  gettext("The gap between the columns should be between 4 and 5 mm.")
+</li>
+<li>
+  gettext("The centre line dividing the two columns should start about level or very slightly above the top of the highest ascenders on the first line of text in a column and finish about level with the bottom of the lowest descenders on the bottom line.")
+  gettext("The centre line may also be omitted, as most modern Bibles do.")
+  gettext("The pages looks cleaner then.")
+</li>
+<li>
+  gettext("The Psalm headers need consistent spaces before and after and should be positioned closer to the Psalm that follows than to the Psalm before.")
+</li>
+<li>
+  gettext("A 10 mm margin is okay for the top and bottom margins.")
+  gettext("A 12 mm margin is good for the outer margin.")
+  gettext("The inner margin needs slightly more, for example 14 mm.")
+</li>
+<li>
+  gettext("For singable Psalms, readability would be helped by distinguishing the verse numbers visually.")
+</li>
+<li>
+  gettext("It is helpful to distinguish the running head, perhaps by using a semi-bold version of the same font.")
+</li>
+<li>
+  gettext("One way in which the number of pages in a volume could be reduced without loss of readability would be to choose a font with slightly shorter ascenders and descenders and then tighten the leading (line spacing) slightly.")
+</li>
+<li>
+  gettext("When producing PDF output, the text needs to be monochrome black, not black consisting of three or four colours.")
+</li>
+<li>
+  gettext("The last line of a verse or paragraph should not appear on its own at the top of a column.")
+  gettext("The typesetting software will have a setting for 'orphans' to control this.")
+  gettext("An elegant way of avoiding orphans is to increase or decrease the tracking of the text.")
+  gettext("This is the overall spacing of the letters in a paragraph or on a line.")
+</li>
+<li>
+  gettext("Avoid hyphenations in the headings.")
+</li>
+<li>
+  gettext("Many book titles consist of a main title and a subtitle, like 'The gospel of Matthew'.")
+  gettext("'Matthew' is the main title, and the rest is the subtitle.")
+  gettext("It is good if there is a clear contrast on size between these two.")
+  gettext("Say 24 points bold for the main title, and 14 points regular for the subtitle.")
+</li>
+<li>
+  gettext("The number of hyphens used in a row should be few for enhanced readability.")
+  gettext("The number of hyphens used in a row should not amount to more than three consecutive hyphenated lines.")
+  gettext("At times a word that is now hyphenated could be forced down onto the next line without opening up the gaps between the words too much on the line above.")
+  gettext("Hyphenation should be set to the optimum result for the column width but then it is usually necessary to go over every page and make corrections manually.")
+</li>
+<li>
+  gettext("The main page numbering should start at the first page of Genesis, or Matthew in case of New Testaments.")
+</li>
+<li>
+  gettext("To avoid what are sometimes referred to as 'rivers' in the text.")
+  gettext("This is where large spaces between words cause rivers of white space to be seen running through the text.")
+  gettext("The use of hyphenation or tracking adjustments are tools that can be used to minimise the problem.")
+  gettext("But as always they need to be used with discretion.")
+</li>
+<li>
+  gettext("As a general rule text will be justified on the left and the right.")
+</li>
+<li>
+  gettext("A word, part of a word, or very short line should not appear by itself at the end of a paragraph.")
+  gettext("This result in less much white space between paragraphs or at the bottom of a page.")
+</li>
+<li>
+  gettext("The main page numbering starts at the first page of the text of the Scripture.")
+  gettext("This first page of Scripture starts on the recto (right side of a two page spread) for left to right reading scripts and the verso (left side of a two page spread) for right to left scripts.")
+</li>
+<li>
+  gettext("Due to subheadings starting in a new column, there may be spaces at the foot of pages.")
+  gettext("They can be filled by carefully adjusting tracking in one of the paragraphs.")
+  gettext("The paragraph would then take up an extra line to fill that space.")
+  gettext("It may not always be possible to fill gaps completely without creating unsightly spacing within paragraphs.")
+  gettext("It needs to be handled with common sense.")
+</li>
+</ol>
+
+<h2>gettext("The typesetting")</h2>
+<p>gettext("The typesetting can be done in LibreOffice. This is free software.")</p>
+<p>gettext("The organisation may want to use specialized typesetting software like Adobe InDesign.")</p>
+<p><a href="typesettinglibreoffice">gettext("LibreOffice")</a></p>
+<p><a href="typesettingindesign">gettext("Adobe InDesign")</a></p>

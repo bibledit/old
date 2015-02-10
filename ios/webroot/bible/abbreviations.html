@@ -1,0 +1,16 @@
+<h3>gettext("Book abbreviations")</h3>
+<p class="success">##success_message##</p>
+<p class="error">##error_message##</p>
+<p>gettext("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
+<br>
+<p>
+  gettext("Update the abbreviations.")
+  gettext("One line per book.")
+  gettext("Book lines may repeat with different abbreviations for the same book.")
+</p>
+<form action="?bible=##bible##" name="form" method="post">
+  <p><textarea name="data">##data##</textarea></p>
+  <p><input type="submit" name="submit" value=gettext("Save") /></p>
+</form>
+<br>
+<p><a href="/xrefs/index" target="_blank">gettext("Book abbreviations are used while copying cross references from a source Bible to a target Bible.")</a></p>

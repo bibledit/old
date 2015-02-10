@@ -1,0 +1,25 @@
+#!/bin/bash
+
+while :
+do
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  wget http://localhost:8080 -O /dev/null
+  sleep 1
+done

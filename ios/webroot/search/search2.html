@@ -1,0 +1,23 @@
+<p>
+  gettext("Bible"): 
+  ##bible##
+  <a href="select" title="gettext("Menu")">☰</a>
+</p>
+<p>
+  <input id="searchentry" type="text" value="" placeholder="gettext("Search for")" />
+  <input id="searchbutton" type="button" value="gettext("Search")"  />
+  <img id="searchloading" src="/pix/loading.gif">
+  <span id="hitcount"></span>
+  <progress value="0" max="100"></progress>
+</p>
+<p><input type="checkbox" id="casesensitive">gettext("Case sensitive")</p>
+<p>gettext("Search") <input type="radio" id="searchplain" name="where" checked="checked">gettext ("main text without notes") <input type="radio" name="where">gettext("underlying USFM")</p>
+<p><input type="checkbox" id="currentbook">gettext("Current book")</p>
+<p>gettext("What to do with the search results"):</p>
+<p><input type="radio" id="load" name="share" checked="checked">gettext("Display them on the page")</p>
+<p><input type="radio" id="add" name="share">gettext("Add them to the ones already on the page")</p>
+<p><input type="radio" id="remove" name="share">gettext("Remove them from the ones already on the page")</p>
+<p><input type="radio" id="intersect" name="share">gettext("Display the intersection of them and the ones already on the page")</p>
+<div id="searchresults"></div>
+<script>##script##</script>
+<script type="text/javascript" src="search2.js?##VERSION##"></script>
