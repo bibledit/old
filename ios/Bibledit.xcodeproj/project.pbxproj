@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CE02134E19DF15EA006EE62F /* BibleditHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = CE02134D19DF15EA006EE62F /* BibleditHttp.m */; };
+		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
+		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
+		CAB519B81A8A6B6500F4ED36 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B71A8A6B6500F4ED36 /* libcurl.a */; };
+		CAB519BA1A8A6BDD00F4ED36 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B91A8A6BDD00F4ED36 /* Security.framework */; };
+		CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BB1A8A6BE800F4ED36 /* libz.dylib */; };
+		CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */; };
+		CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */; };
+		CAB519C91A8A771C00F4ED36 /* setup in Resources */ = {isa = PBXBuildFile; fileRef = CAB519C81A8A771C00F4ED36 /* setup */; };
 		CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE02134F19E03F9B006EE62F /* Storyboard.storyboard */; };
 		CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2F911919DC8ACA0091157F /* libxml2.dylib */; };
-		CE643E1E19D07868008D9007 /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = CE643E1D19D07868008D9007 /* WebServer.m */; };
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
 		CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */; };
 		CEA9296819B06C9600DA3766 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296719B06C9600DA3766 /* Foundation.framework */; };
@@ -24,21 +30,24 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CE02134C19DF15E9006EE62F /* BibleditHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditHttp.h; sourceTree = "<group>"; };
-		CE02134D19DF15EA006EE62F /* BibleditHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditHttp.m; sourceTree = "<group>"; };
+		CAB519B31A8A658F00F4ED36 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = lib/libbibledit.a; sourceTree = "<group>"; };
+		CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		CAB519B71A8A6B6500F4ED36 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = lib/libcurl.a; sourceTree = "<group>"; };
+		CAB519B91A8A6BDD00F4ED36 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		CAB519BB1A8A6BE800F4ED36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		CAB519C81A8A771C00F4ED36 /* setup */ = {isa = PBXFileReference; lastKnownFileType = folder; path = setup; sourceTree = SOURCE_ROOT; };
 		CE02134F19E03F9B006EE62F /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		CE02138E19E432B8006EE62F /* libphp5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libphp5.a; path = lib/libphp5.a; sourceTree = "<group>"; };
 		CE2F911919DC8ACA0091157F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CE2F911B19DC8B4C0091157F /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		CE2F911D19DC8B980091157F /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		CE2F912119DD69D70091157F /* libphp5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libphp5.a; path = "Bibledit iOS/libphp5.a"; sourceTree = "<group>"; };
-		CE643E1C19D07868008D9007 /* WebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServer.h; sourceTree = "<group>"; };
-		CE643E1D19D07868008D9007 /* WebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServer.m; sourceTree = "<group>"; };
 		CE8E8AE019C49FAE0025EAC2 /* BibleditPaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditPaths.h; sourceTree = "<group>"; };
 		CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditPaths.m; sourceTree = "<group>"; };
 		CE8E8AE319C4A4E50025EAC2 /* BibleditInstallation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditInstallation.h; sourceTree = "<group>"; };
 		CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditInstallation.m; sourceTree = "<group>"; };
-		CE8E8AE619C4B3290025EAC2 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = SOURCE_ROOT; };
 		CEA9296419B06C9600DA3766 /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA9296719B06C9600DA3766 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEA9296919B06C9600DA3766 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -60,6 +69,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */,
+				CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */,
+				CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */,
+				CAB519BA1A8A6BDD00F4ED36 /* Security.framework in Frameworks */,
+				CAB519B81A8A6B6500F4ED36 /* libcurl.a in Frameworks */,
+				CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */,
+				CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */,
 				CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */,
 				CEA9296A19B06C9600DA3766 /* CoreGraphics.framework in Frameworks */,
 				CEA9296C19B06C9600DA3766 /* UIKit.framework in Frameworks */,
@@ -90,6 +106,13 @@
 		CEA9296619B06C9600DA3766 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */,
+				CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */,
+				CAB519BB1A8A6BE800F4ED36 /* libz.dylib */,
+				CAB519B91A8A6BDD00F4ED36 /* Security.framework */,
+				CAB519B71A8A6B6500F4ED36 /* libcurl.a */,
+				CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */,
+				CAB519B31A8A658F00F4ED36 /* libbibledit.a */,
 				CE02138E19E432B8006EE62F /* libphp5.a */,
 				CE2F912119DD69D70091157F /* libphp5.a */,
 				CE2F911D19DC8B980091157F /* libiconv.dylib */,
@@ -106,12 +129,8 @@
 		CEA9296D19B06C9600DA3766 /* Bibledit iOS */ = {
 			isa = PBXGroup;
 			children = (
-				CE643E1C19D07868008D9007 /* WebServer.h */,
-				CE643E1D19D07868008D9007 /* WebServer.m */,
 				CE8E8AE019C49FAE0025EAC2 /* BibleditPaths.h */,
 				CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */,
-				CE02134C19DF15E9006EE62F /* BibleditHttp.h */,
-				CE02134D19DF15EA006EE62F /* BibleditHttp.m */,
 				CE8E8AE319C4A4E50025EAC2 /* BibleditInstallation.h */,
 				CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */,
 				CEA9297F19B06C9600DA3766 /* ViewController.h */,
@@ -127,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				CE02134F19E03F9B006EE62F /* Storyboard.storyboard */,
-				CE8E8AE619C4B3290025EAC2 /* VERSION */,
+				CAB519C81A8A771C00F4ED36 /* setup */,
 				CEA9298219B06C9700DA3766 /* Images.xcassets */,
 				CEA9296F19B06C9600DA3766 /* Bibledit-Info.plist */,
 				CEA9297019B06C9600DA3766 /* InfoPlist.strings */,
@@ -201,6 +220,7 @@
 			files = (
 				CEA9298319B06C9700DA3766 /* Images.xcassets in Resources */,
 				CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */,
+				CAB519C91A8A771C00F4ED36 /* setup in Resources */,
 				CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,10 +232,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE02134E19DF15EA006EE62F /* BibleditHttp.m in Sources */,
 				CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */,
 				CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */,
-				CE643E1E19D07868008D9007 /* WebServer.m in Sources */,
 				CEA9298119B06C9600DA3766 /* ViewController.m in Sources */,
 				CEA9297819B06C9600DA3766 /* AppDelegate.m in Sources */,
 				CEA9297419B06C9600DA3766 /* main.m in Sources */,
@@ -314,8 +332,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bibledit iOS/Bibledit-Prefix.pch";
 				INFOPLIST_FILE = "Bibledit iOS/Bibledit-Info.plist";
@@ -340,8 +362,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bibledit iOS/Bibledit-Prefix.pch";
 				INFOPLIST_FILE = "Bibledit iOS/Bibledit-Info.plist";

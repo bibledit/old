@@ -20,7 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #import "ViewController.h"
 #import "BibleditPaths.h"
 #import "BibleditInstallation.h"
-#import "WebServer.h"
+#import "bibledit.h"
+
 
 
 @interface ViewController ()
@@ -49,7 +50,11 @@ UIWebView * webview;
     self.view = webview;
     webview.userInteractionEnabled = YES;
     
-    [self performSelectorInBackground:@selector(runWebserver) withObject:nil];
+    NSLog (@"%@", [BibleditPaths resources]); // Todo
+    NSLog (@"%@", [BibleditPaths documents]); // Todo
+
+    // [self performSelectorInBackground:@selector(runWebserver) withObject:nil];
+    [self runWebserver];
     
     [self performSelectorInBackground:@selector(runInstallation) withObject:nil];
 }
@@ -63,9 +68,9 @@ UIWebView * webview;
 
 - (void) runInstallation
 {
-    // Display message: Installing.
+    // Display message to user.
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], @"setup.html", nil];
+        NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], @"setup", @"setup.html", nil];
         NSString *path = [NSString pathWithComponents:components];
         [self browseTo:path];
     });
@@ -75,21 +80,21 @@ UIWebView * webview;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self browseTo:@"http://localhost:8080"];
     });
-    [self debug];
 }
 
 
 - (void) runWebserver
 {
+    return;
     NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], @"bibledit-web", nil];
     NSString *path = [NSString pathWithComponents:components];
     
     path = [BibleditPaths documents];
     
     const char * document_root = [path UTF8String];
-    //server (0, argv, (char *) document_root);
-    if (document_root) {}; // Todo
-    NSLog(@"test output");
+
+    NSLog(@"%s", (char *) document_root);
+    NSLog(@"%s", bibledit_version_number ());
 
 }
 
@@ -105,8 +110,7 @@ UIWebView * webview;
 - (void)debug
 {
     
-    
-    NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], nil];
+    NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], nil];
     NSString *directory = [NSString pathWithComponents:components];
     
     

@@ -13,13 +13,13 @@ SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/$PLATFORM.platform/
 TOOLDIR=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 COMPILEFLAGS="-Wall -Wextra -pedantic -g -O2 -c"
 
-CURLINCLUDE=../dependencies/libcurl/ios/include/curl
+CURLINCLUDE=../../dependencies/libcurl/ios/include/curl
 
 pushd $CURLINCLUDE > /dev/null
 cp curlbuild$BITS.h curlbuild.h
 popd > /dev/null
 
-pushd ../lib > /dev/null
+pushd ../../lib > /dev/null
 
 CPPFILES=(
 
@@ -267,7 +267,7 @@ popd > /dev/null
 # Linking
 echo Linking
 
-pushd ../lib > /dev/null
+pushd ../../lib > /dev/null
 
 rm -f libbibledit.a
 
@@ -279,7 +279,7 @@ popd > /dev/null
 
 # Copy output to desktop
 
-pushd ../lib > /dev/null
+pushd ../../lib > /dev/null
 cp libbibledit.a ~/Desktop/libbibledit-$ARCH.a
 popd > /dev/null
 

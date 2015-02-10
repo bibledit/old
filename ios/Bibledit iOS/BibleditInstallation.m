@@ -21,7 +21,7 @@
     // Todo if ([version isEqualToString:[self installedVersion]]) return;
 
     
-    NSArray *inputComponents = [NSArray arrayWithObjects:[BibleditPaths resources], @"bibledit-web", nil];
+    NSArray *inputComponents = [NSArray arrayWithObjects:[BibleditPaths resources], @"setup", nil];
     NSString *inputDirectory = [NSString pathWithComponents:inputComponents];
     
     NSString *outputDirectory = [BibleditPaths documents];
@@ -42,6 +42,7 @@
                 // Copy file to destination. First remove old item to prevent a copy error.
                 [fileManager removeItemAtPath:outputPath error:nil];
                 [fileManager copyItemAtPath:inputPath toPath:outputPath error:nil];
+                //NSLog (@"%@", outputPath); // Todo
             }
             
         }
