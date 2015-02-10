@@ -4,11 +4,12 @@
 # This script runs on OS X.
 
 ARCH=$1
-BITS=$2
+PLATFORM=$2
+BITS=$3
 echo Compile for architecture $ARCH $BITS bits
 
 export IPHONEOS_DEPLOYMENT_TARGET="6.0"
-SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/$PLATFORM.platform/Developer/SDKs/$PLATFORM.sdk
 TOOLDIR=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 COMPILEFLAGS="-Wall -Wextra -pedantic -g -O2 -c"
 
@@ -281,3 +282,14 @@ popd > /dev/null
 pushd ../lib > /dev/null
 cp libbibledit.a ~/Desktop/libbibledit-$ARCH.a
 popd > /dev/null
+
+
+pushd ../lib > /dev/null
+
+# $TOOLDIR/clang++ -arch ${ARCH} -isysroot $SYSROOT -I. -I/usr/include/libxml2 -I../dependencies/libcurl/ios/include $COMPILEFLAGS -std=c++11 -stdlib=libc++ -o executable/bibledit.o executable/bibledit.cpp
+
+# $TOOLDIR/clang++ -v -arch ${ARCH} -isysroot $SYSROOT -L. -L/usr/lib -L../dependencies/libcurl/ios/lib -lcurl -lxml2 -lz -lpthread -liconv -lm -lsqlite3 -lipsec -std=c++11 -stdlib=libc++ -o server executable/bibledit.o libbibledit.a
+
+popd > /dev/null
+
+# -lssl -lcrypto
