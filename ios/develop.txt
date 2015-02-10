@@ -14,11 +14,11 @@ The Bibledit library depends on libcurl. The headers and precompiled library are
 
 libsqlite
 
-The Bibledit library depends on libsqlite3. The iOS development kit with Xcode includes this library. The folder is /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk. The header is in usr/include and the dylib is in usr/lib.
+The Bibledit library depends on libsqlite3. The iOS SDK with Xcode includes this library. The folder is /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk. The header is in usr/include and the dylib is in usr/lib.
 
 libxml2
 
-The Bibledit library depends on libxml2. The iOS development kit with Xcode includes this library. For more information, see heading libsqlite.
+The Bibledit library depends on libxml2. The iOS SDK with Xcode includes this library. For more information, see heading libsqlite.
 
 libgit2
 

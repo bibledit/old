@@ -283,13 +283,3 @@ pushd ../lib > /dev/null
 cp libbibledit.a ~/Desktop/libbibledit-$ARCH.a
 popd > /dev/null
 
-
-pushd ../lib > /dev/null
-
-# $TOOLDIR/clang++ -arch ${ARCH} -isysroot $SYSROOT -I. -I/usr/include/libxml2 -I../dependencies/libcurl/ios/include $COMPILEFLAGS -std=c++11 -stdlib=libc++ -o executable/bibledit.o executable/bibledit.cpp
-
-# $TOOLDIR/clang++ -v -arch ${ARCH} -isysroot $SYSROOT -L. -L/usr/lib -L../dependencies/libcurl/ios/lib -lcurl -lxml2 -lz -lpthread -liconv -lm -lsqlite3 -lipsec -std=c++11 -stdlib=libc++ -o server executable/bibledit.o libbibledit.a
-
-popd > /dev/null
-
-# -lssl -lcrypto
