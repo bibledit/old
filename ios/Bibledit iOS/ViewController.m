@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #import "BibleditPaths.h"
 #import "BibleditInstallation.h"
 #import "WebServer.h"
-#include "php_cli.h"
 
 
 @interface ViewController ()
@@ -74,7 +73,7 @@ UIWebView * webview;
     [BibleditInstallation run];
     // Open Bibledit-Web main page.
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self browseTo:@"http://localhost:8080/index.php"];
+        [self browseTo:@"http://localhost:8080"];
     });
     [self debug];
 }
@@ -88,8 +87,10 @@ UIWebView * webview;
     path = [BibleditPaths documents];
     
     const char * document_root = [path UTF8String];
-    char *argv [] = {NULL};
-    server (0, argv, (char *) document_root);
+    //server (0, argv, (char *) document_root);
+    if (document_root) {}; // Todo
+    NSLog(@"test output");
+
 }
 
 

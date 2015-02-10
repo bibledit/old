@@ -9,18 +9,10 @@
 /* Begin PBXBuildFile section */
 		CE02134E19DF15EA006EE62F /* BibleditHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = CE02134D19DF15EA006EE62F /* BibleditHttp.m */; };
 		CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE02134F19E03F9B006EE62F /* Storyboard.storyboard */; };
-		CE02137C19E047BD006EE62F /* php_cli_server.c in Sources */ = {isa = PBXBuildFile; fileRef = CE02137619E047BD006EE62F /* php_cli_server.c */; };
-		CE02137D19E047BD006EE62F /* php_cli.c in Sources */ = {isa = PBXBuildFile; fileRef = CE02137819E047BD006EE62F /* php_cli.c */; };
-		CE02137E19E047BD006EE62F /* php_http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = CE02137A19E047BD006EE62F /* php_http_parser.c */; };
-		CE02138B19E2DFEA006EE62F /* setup.css in Resources */ = {isa = PBXBuildFile; fileRef = CE02138819E2DFEA006EE62F /* setup.css */; };
-		CE02138C19E2DFEA006EE62F /* setup.html in Resources */ = {isa = PBXBuildFile; fileRef = CE02138919E2DFEA006EE62F /* setup.html */; };
-		CE02138D19E2DFEA006EE62F /* setup.png in Resources */ = {isa = PBXBuildFile; fileRef = CE02138A19E2DFEA006EE62F /* setup.png */; };
-		CE02139719E7009C006EE62F /* bibledit-web in Resources */ = {isa = PBXBuildFile; fileRef = CE02139619E7009C006EE62F /* bibledit-web */; };
 		CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2F911919DC8ACA0091157F /* libxml2.dylib */; };
 		CE643E1E19D07868008D9007 /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = CE643E1D19D07868008D9007 /* WebServer.m */; };
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
 		CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */; };
-		CE8E8AE719C4B3290025EAC2 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = CE8E8AE619C4B3290025EAC2 /* VERSION */; };
 		CEA9296819B06C9600DA3766 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296719B06C9600DA3766 /* Foundation.framework */; };
 		CEA9296A19B06C9600DA3766 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296919B06C9600DA3766 /* CoreGraphics.framework */; };
 		CEA9296C19B06C9600DA3766 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296B19B06C9600DA3766 /* UIKit.framework */; };
@@ -35,17 +27,7 @@
 		CE02134C19DF15E9006EE62F /* BibleditHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditHttp.h; sourceTree = "<group>"; };
 		CE02134D19DF15EA006EE62F /* BibleditHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditHttp.m; sourceTree = "<group>"; };
 		CE02134F19E03F9B006EE62F /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
-		CE02137619E047BD006EE62F /* php_cli_server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = php_cli_server.c; sourceTree = "<group>"; };
-		CE02137719E047BD006EE62F /* php_cli_server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = php_cli_server.h; sourceTree = "<group>"; };
-		CE02137819E047BD006EE62F /* php_cli.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = php_cli.c; sourceTree = "<group>"; };
-		CE02137919E047BD006EE62F /* php_cli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = php_cli.h; sourceTree = "<group>"; };
-		CE02137A19E047BD006EE62F /* php_http_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = php_http_parser.c; sourceTree = "<group>"; };
-		CE02137B19E047BD006EE62F /* php_http_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = php_http_parser.h; sourceTree = "<group>"; };
-		CE02138819E2DFEA006EE62F /* setup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = setup.css; sourceTree = "<group>"; };
-		CE02138919E2DFEA006EE62F /* setup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = setup.html; sourceTree = "<group>"; };
-		CE02138A19E2DFEA006EE62F /* setup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setup.png; sourceTree = "<group>"; };
 		CE02138E19E432B8006EE62F /* libphp5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libphp5.a; path = lib/libphp5.a; sourceTree = "<group>"; };
-		CE02139619E7009C006EE62F /* bibledit-web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "bibledit-web"; sourceTree = "<group>"; };
 		CE2F911919DC8ACA0091157F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CE2F911B19DC8B4C0091157F /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		CE2F911D19DC8B980091157F /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
@@ -91,10 +73,6 @@
 		CEA9295B19B06C9600DA3766 = {
 			isa = PBXGroup;
 			children = (
-				CE02139619E7009C006EE62F /* bibledit-web */,
-				CE02138819E2DFEA006EE62F /* setup.css */,
-				CE02138919E2DFEA006EE62F /* setup.html */,
-				CE02138A19E2DFEA006EE62F /* setup.png */,
 				CEA9296D19B06C9600DA3766 /* Bibledit iOS */,
 				CEA9296619B06C9600DA3766 /* Frameworks */,
 				CEA9296519B06C9600DA3766 /* Products */,
@@ -138,12 +116,6 @@
 				CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */,
 				CEA9297F19B06C9600DA3766 /* ViewController.h */,
 				CEA9298019B06C9600DA3766 /* ViewController.m */,
-				CE02137619E047BD006EE62F /* php_cli_server.c */,
-				CE02137719E047BD006EE62F /* php_cli_server.h */,
-				CE02137819E047BD006EE62F /* php_cli.c */,
-				CE02137919E047BD006EE62F /* php_cli.h */,
-				CE02137A19E047BD006EE62F /* php_http_parser.c */,
-				CE02137B19E047BD006EE62F /* php_http_parser.h */,
 				CEA9297619B06C9600DA3766 /* AppDelegate.h */,
 				CEA9297719B06C9600DA3766 /* AppDelegate.m */,
 				CEA9296E19B06C9600DA3766 /* Supporting Files */,
@@ -227,12 +199,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE02139719E7009C006EE62F /* bibledit-web in Resources */,
-				CE02138B19E2DFEA006EE62F /* setup.css in Resources */,
-				CE02138C19E2DFEA006EE62F /* setup.html in Resources */,
-				CE02138D19E2DFEA006EE62F /* setup.png in Resources */,
 				CEA9298319B06C9700DA3766 /* Images.xcassets in Resources */,
-				CE8E8AE719C4B3290025EAC2 /* VERSION in Resources */,
 				CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */,
 				CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */,
 			);
@@ -250,10 +217,7 @@
 				CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */,
 				CE643E1E19D07868008D9007 /* WebServer.m in Sources */,
 				CEA9298119B06C9600DA3766 /* ViewController.m in Sources */,
-				CE02137C19E047BD006EE62F /* php_cli_server.c in Sources */,
-				CE02137D19E047BD006EE62F /* php_cli.c in Sources */,
 				CEA9297819B06C9600DA3766 /* AppDelegate.m in Sources */,
-				CE02137E19E047BD006EE62F /* php_http_parser.c in Sources */,
 				CEA9297419B06C9600DA3766 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
