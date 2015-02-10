@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void sigint_handler (int s)
 {
   if (s) {};
-  bibledit_stop ();
+  bibledit_stop_server ();
 }
 
 
@@ -49,16 +49,16 @@ int main (int argc, char **argv)
   memset (linkname, 0, 256); // valgrind uninitialized value(s)
   ssize_t r = readlink ("/proc/self/exe", linkname, 256);
   if (r) {};
-  bibledit_root (filter_url_dirname (linkname));
+  bibledit_set_web_root (filter_url_dirname (linkname).c_str());
   free (linkname);
 
   // Start the Bibledit library.
-  bibledit_start ();
+  bibledit_start_server ();
   cout << "Listening on http://localhost:" << NETWORK_PORT << endl;
   cout << "Press Ctrl-C to quit" << endl;
   
   // Wait till Bibledit it is ready.
-  while (bibledit_running ()) { };
+  while (bibledit_is_running ()) { };
   
   return EXIT_SUCCESS;
 }

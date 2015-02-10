@@ -39,7 +39,7 @@ function page_access_level ($level)
 class Bootstrap
 {
   private static $instance;
-  public $bibledit_root_folder;
+  public $bibledit_set_web_root_folder;
 
 
   private function __construct()

@@ -29,14 +29,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Set the root folder for the web server.
-void bibledit_root (string directory)
+void bibledit_set_web_root (const char * directory)
 {
   config_globals_document_root = directory;
 }
 
 
 // Start the Bibledit server.
-void bibledit_start () 
+void bibledit_start_server () 
 {
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
@@ -46,7 +46,7 @@ void bibledit_start ()
 
 
 // Returns true if Bibledit is running.
-bool bibledit_running ()
+bool bibledit_is_running ()
 {
   this_thread::sleep_for (chrono::milliseconds (10));
   return config_globals_running;
@@ -54,7 +54,7 @@ bool bibledit_running ()
 
 
 // Stop the Bibledit server.
-void bibledit_stop ()
+void bibledit_stop_server ()
 {
   // Clear running flag.
   config_globals_running = false;

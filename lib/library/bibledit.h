@@ -17,17 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <string>
-
-
-using namespace std;
-
-
 extern "C" {
 
-  void bibledit_root (string directory);
-  void bibledit_start ();
-  bool bibledit_running ();
-  void bibledit_stop ();
+  void bibledit_set_web_root (const char * directory);
+  void bibledit_start_server ();
+  bool bibledit_is_running ();
+  void bibledit_stop_server ();
 
 }
