@@ -27,7 +27,6 @@ extern "C" {
 
 
 #include <sys/types.h>
-#include "php_config.h"
 #include <stdint.h>
 
 

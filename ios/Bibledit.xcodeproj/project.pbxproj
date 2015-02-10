@@ -15,10 +15,8 @@
 		CE02138B19E2DFEA006EE62F /* setup.css in Resources */ = {isa = PBXBuildFile; fileRef = CE02138819E2DFEA006EE62F /* setup.css */; };
 		CE02138C19E2DFEA006EE62F /* setup.html in Resources */ = {isa = PBXBuildFile; fileRef = CE02138919E2DFEA006EE62F /* setup.html */; };
 		CE02138D19E2DFEA006EE62F /* setup.png in Resources */ = {isa = PBXBuildFile; fileRef = CE02138A19E2DFEA006EE62F /* setup.png */; };
-		CE02138F19E432B8006EE62F /* libphp5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE02138E19E432B8006EE62F /* libphp5.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		CE02139719E7009C006EE62F /* bibledit-web in Resources */ = {isa = PBXBuildFile; fileRef = CE02139619E7009C006EE62F /* bibledit-web */; };
 		CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2F911919DC8ACA0091157F /* libxml2.dylib */; };
-		CE2F911C19DC8B4C0091157F /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2F911B19DC8B4C0091157F /* libresolv.dylib */; };
 		CE643E1E19D07868008D9007 /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = CE643E1D19D07868008D9007 /* WebServer.m */; };
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
 		CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */; };
@@ -80,8 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE02138F19E432B8006EE62F /* libphp5.a in Frameworks */,
-				CE2F911C19DC8B4C0091157F /* libresolv.dylib in Frameworks */,
 				CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */,
 				CEA9296A19B06C9600DA3766 /* CoreGraphics.framework in Frameworks */,
 				CEA9296C19B06C9600DA3766 /* UIKit.framework in Frameworks */,
@@ -195,14 +191,14 @@
 		CEA9295C19B06C9600DA3766 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Teus Benshop";
 				TargetAttributes = {
 					CEA9296319B06C9600DA3766 = {
 						DevelopmentTeam = L37WFUB5MH;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -352,7 +348,6 @@
 		CEA9299A19B06C9700DA3766 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -365,18 +360,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"-I$(PROJECT_DIR)/include/",
-					"-I$(PROJECT_DIR)/include/Zend/",
-					"-I$(PROJECT_DIR)/include/TSRM/",
-					"-I$(PROJECT_DIR)/include/main/",
-				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-I$(PROJECT_DIR)/include/";
 				PRODUCT_NAME = Bibledit;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -384,7 +374,6 @@
 		CEA9299B19B06C9700DA3766 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -397,18 +386,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"-I$(PROJECT_DIR)/include/",
-					"-I$(PROJECT_DIR)/include/Zend/",
-					"-I$(PROJECT_DIR)/include/TSRM/",
-					"-I$(PROJECT_DIR)/include/main/",
-				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-I$(PROJECT_DIR)/include/";
 				PRODUCT_NAME = Bibledit;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
