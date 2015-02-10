@@ -1,6 +1,6 @@
-bibledit-ios
+Bibledit iOS
 ============
 
-Bibledit for iOS
+Bibledit for iOS source code repository.
 
 
