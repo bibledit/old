@@ -109,7 +109,7 @@ AC_SUBST(DEMO)
 # Client installation.
 CLIENT=no
 AC_ARG_ENABLE(client,
-  [--enable-client Enable client mode],
+  [  --enable-client Enable client mode],
   [CLIENT=yes]
 )
 AC_DEFINE([CLIENT], [], [Define whether it is a client installation])

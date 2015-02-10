@@ -1400,7 +1400,7 @@ Optional Features:
                           speeds up one-time build
   --disable-xmltest       Do not try to compile and run a test LIBXML program
   --enable-demo  Enable demo mode
---enable-client Enable client mode
+  --enable-client Enable client mode
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
