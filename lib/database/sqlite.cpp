@@ -86,18 +86,16 @@ The database errors went away.
 sqlite3 * database_sqlite_connect_file (string filename)
 {
   sqlite3 *db;
-  int rc;
-  try {
-    rc = sqlite3_open (filename.c_str(), &db);
-    if (rc) {
-      throw runtime_error (sqlite3_errmsg (db));
-    }
-    sqlite3_busy_timeout (db, 1000);
-  } catch (exception & ex) {
-    string message = "Database " + filename + ": " + ex.what();
+  int rc = sqlite3_open (filename.c_str(), &db);
+  //rc = 1; // Todo
+  if (rc) {
+    const char * error = sqlite3_errmsg (db);
+    string message = "Database " + filename + ": ";
+    if (error) message.append (error);
     Database_Logs::log (message);
     return NULL;
   }
+  sqlite3_busy_timeout (db, 1000);
   return db;
 }
 
@@ -107,8 +105,9 @@ sqlite3 * database_sqlite_connect_file (string filename)
 // If it has a path, then it returns the path as given.
 string database_sqlite_file (string database)
 {
-  if (filter_url_dirname (database) == ".") 
+  if (filter_url_dirname (database) == ".") {
     return filter_url_create_root_path ("databases", database + ".sqlite");
+  }
   return database;
 }
 
@@ -132,7 +131,7 @@ void database_sqlite_exec (sqlite3 * db, string sql)
   try {
     rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error (error); // Todo
     }
   } catch (exception & ex) {
     string message = "SQL " + sql + ": " + ex.what();
@@ -150,7 +149,7 @@ map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
   try {
     rc = sqlite3_exec (db, sql.c_str(), reader.callback, &reader, &error);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error (error); // Todo
     }
   } catch (exception & ex) {
     string message = "SQL " + sql + ": " + ex.what();

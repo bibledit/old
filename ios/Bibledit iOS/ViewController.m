@@ -83,16 +83,13 @@ UIWebView * webview;
 
 - (void) runWebserver
 {
-    return;
-    NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], @"bibledit-web", nil];
+    NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], @"webroot", nil];
     NSString *path = [NSString pathWithComponents:components];
-    
-    path = [BibleditPaths documents];
-    
     const char * document_root = [path UTF8String];
+    bibledit_set_web_root (document_root);
+    bibledit_start_server ();
 
-    NSLog(@"%s", (char *) document_root);
-    NSLog(@"%s", bibledit_version_number ());
+    NSLog(@"Document root: %s", (char *) document_root);
 
 }
 
