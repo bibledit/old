@@ -83,7 +83,7 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", gettext ("Bible"),     biblemenu ()     } );
   // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Notes"),     notesmenu ()     } );
   // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Resources"), resourcesmenu () } );
-  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Changes"),   changesmenu ()   } );
+  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", gettext ("Changes"),   changesmenu ()   } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", gettext ("Planning"),  planningmenu ()  } );
   vector <Menu_Main_Item> *  tools_menu = toolsmenu ();
   if (tools_menu->size ()) {
@@ -175,9 +175,9 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "changes/changes", gettext ("Notifications"), NULL } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "revisions", gettext ("Download"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "changes/manage", gettext ("Manage"), NULL } );
+  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "changes/changes", gettext ("Notifications"), NULL } );
+  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "revisions", gettext ("Download"), NULL } );
+  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "changes/manage", gettext ("Manage"), NULL } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "journal/index", gettext ("Journal"), NULL } );
   return menu;
 }
@@ -259,10 +259,6 @@ vector <Menu_Main_Item> * Menu_Main::helpmenu ()
 // Create the menu.
 string Menu_Main::create ()
 {
-  // Modify the menu based on user access level.  // C++Port
-/* C++Port
-  $mainmenu = $this->accesscontrol ($this->mainmenu ());
-*/
   vector <Menu_Main_Item> * main_menu = mainmenu ();
 
   // To HTML for the CSS menu needs to be like this:
