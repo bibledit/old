@@ -226,6 +226,7 @@
 		CA8E3C551A5C43F8002180D8 /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CA8E4EFF1A6E8346001720D0 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA8E4F001A6E8346001720D0 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = libgit2.html; sourceTree = "<group>"; };
 		CAA4CEFB1A45A647003ABA25 /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bible.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4CEFC1A45A647003ABA25 /* bible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bible.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CEFD1A45A647003ABA25 /* user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
@@ -1875,6 +1876,7 @@
 				CAA4D14C1A45A647003ABA25 /* installwindows.html */,
 				CAA4D14D1A45A647003ABA25 /* introduction.html */,
 				CAA4D14E1A45A647003ABA25 /* leanmanagement.html */,
+				CA9F197A1A8BB28B004FF341 /* libgit2.html */,
 				CAA4D14F1A45A647003ABA25 /* methodology.html */,
 				CAA4D1501A45A647003ABA25 /* navigation.html */,
 				CAA4D1511A45A647003ABA25 /* scrum.html */,

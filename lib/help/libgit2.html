@@ -1,0 +1,59 @@
+<h1>gettext("Produce libgit2 for Bibledit")</h1>
+<p>
+  gettext("Bibledit uses libgit2 for interaction with git repositories.")
+  gettext("This is optional.")
+  gettext("It is recommended that Bibledit configured as a server uses git repositories for improved Bible data safety.")
+</p>
+<p>
+gettext("The interface of libgit2 is not yet stable.")
+gettext("Bibledit has been tested to work well with one particular version of libgit2:")
+gettext("Version 0.21.5.")
+</p>
+<p>
+gettext("The steps below provide information about how to compile libgit2 and where to place the library so that Bibledit can find it.")
+</p>
+
+<ol>
+
+<li>
+  <a href="https://libgit2.github.com/" target="_blank">gettext("Download libgit2 from the website.")</a>
+  gettext("It is available from the Download link.")
+  gettext("Bibledit needs version 0.21.5 exactly.")
+</li>
+
+<li>
+  gettext("Store the downloaded libgit2 file "v0.21.5.tar.gz" in the home folder.")
+</li>
+
+<li>
+  gettext("Run the following commands from a Terminal:")
+</li>
+
+<li>
+  <p><code>cd</code></p>
+  <p><code>tar xf v0.21.5.tar.gz</code></p>
+  <p><code>cd </code></p>
+  <p><code>cd libgit2-0.21.5</code></p>
+  <p><code>mkdir build</code></p>
+  <p><code>cd build</code></p>
+  <p><code>cmake ..</code></p>
+  <p><code>cmake --build .</code></p>
+  <p><code>cp libgit2.so ~</code></p>
+  <p><code>cd</code></p>
+</li>
+
+<li>
+  gettext("The above should work without errors.")
+  gettext("If program "cmake" is missing, install that first.")
+  gettext("If the compiler or linker are missing, install them first.")
+  gettext("If other dependencies are missing, install them first.")
+</li>
+
+<li>
+  gettext("It will have produced a library file "libgit2.so" and copied it to the home folder.")
+  gettext("Move this library file to the root directory of the bibledit source code.")
+  gettext("Bibledit will search for it there during its configure stage.")
+  gettext("If Bibledit finds "libgit2.so", it will enable collaboration through a git repository.")
+</li>
+
+</ol>
