@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.64],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0.65],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -56,39 +56,18 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
 
-# Libgit path.
-AC_ARG_WITH(libgit-path,
-  [  --with-libgit-path=path Path to the libgit2 headers and library],
-  [ LIBGIT_PATH=$withval ],
-  [ LIBGIT_PATH=undefined ]
-)
-AC_DEFINE([LIBGIT_PATH], [], [The path to libgit2])
-AC_DEFINE_UNQUOTED(LIBGIT_PATH, "$LIBGIT_PATH")
-AC_SUBST(LIBGIT_PATH)
-AS_IF([test -d ${LIBGIT_PATH}], [
-    AC_MSG_CHECKING([GIT_CFLAGS])
-    GIT_CFLAGS=-I${LIBGIT_PATH}/include
-    AC_MSG_RESULT([${GIT_CFLAGS}])
-    AC_MSG_CHECKING([GIT_LIBS])
-    GIT_LIBS="-L${LIBGIT_PATH}/lib -lgit2"
-    AC_MSG_RESULT([${GIT_LIBS}])
+# Check whether libgit2.so / libgit2.dylib / libgit2.dll is available in the source directory.
+AC_MSG_CHECKING([libgit2])
+LIBGIT=libgit2.*
+AS_IF([test -f ${LIBGIT}], [
+    GIT_LIBS="-lgit2"
     AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled])
+    AC_MSG_RESULT([included])
   ],
-  AC_MSG_CHECKING([included libgit2])
   AC_MSG_RESULT([no])
-  AC_MSG_NOTICE([the two messages "command not found" are just cosmetic])
-  PKG_CHECK_MODULES(GIT, libgit2 >= 0.20.0,
-    AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled]),
-    AC_MSG_NOTICE([libgit2 cannot be located and git functions will be disabled])
-    AC_MSG_NOTICE([this can be remedied in several ways:])
-    AC_MSG_NOTICE([* ./configure --with-libgit-path=../dependencies/libgit2])
-    AC_MSG_NOTICE([* install package libgit2-dev version 0.21 exactly])
-  )
 )
-AC_SUBST(GIT_CFLAGS)
 AC_SUBST(GIT_LIBS)
 AC_SUBST(GIT_ENABLED)
-# Fails for unknown reason: AC_CHECK_HEADER(git2.h, , AC_MSG_ERROR([Header file git2.h was not found. Usually this is in libgit2-dev.]))
 
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
@@ -132,7 +111,6 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix    : ${prefix}
-Libgit2 compiler flags : ${GIT_CFLAGS}
 Libgit2 linker flags   : ${GIT_LIBS}
 Network port           : ${NETWORK_PORT}
 Client installation    : ${CLIENT}
