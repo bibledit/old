@@ -30,7 +30,7 @@
 // Else returns false.
 bool demo_logic_open_demo (string user, string pass)
 {
-  if (DEMO == "yes") {
+  if (strcmp (DEMO, "yes") == 0) { // Todo
     if (user == "admin") {
       if ((pass == "admin") || (pass == md5 ("admin"))) {
         return true;

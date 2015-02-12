@@ -35,12 +35,12 @@ string config_logic_version ()
 // Returns whether client mode is enabled during configure.
 bool config_logic_client_prepared ()
 {
-  return (CLIENT == "yes");
+  return (strcmp (CLIENT, "yes") == 0); // Todo
 }
 
 
 // Returns whether demo mode is enabled during configure.
 bool config_logic_demo ()
 {
-  return (DEMO == "yes");
+  return (strcmp (DEMO, "yes") == 0); // Todo
 }
