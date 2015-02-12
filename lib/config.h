@@ -14,7 +14,7 @@
 /* #undef HAVE_CXX11 */
 
 /* Whether git funcions are available and enabled */
-/* #undef HAVE_GIT */
+#define HAVE_GIT 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1

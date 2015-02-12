@@ -6046,16 +6046,18 @@ $as_echo_n "checking libgit2... " >&6; }
 LIBGIT=libgit2.*
 if test -f ${LIBGIT}; then :
 
+    LIBGIT=`ls libgit2.*`
     GIT_LIBS="-lgit2"
 
 $as_echo "#define HAVE_GIT 1" >>confdefs.h
 
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: included" >&5
-$as_echo "included" >&6; }
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBGIT" >&5
+$as_echo "$LIBGIT" >&6; }
 
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
+  LIBGIT=""
 
 fi
 
@@ -7673,7 +7675,7 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix    : ${prefix}
-Libgit2 linker flags   : ${GIT_LIBS}
+Libgit2                : ${LIBGIT}
 Network port           : ${NETWORK_PORT}
 Client installation    : ${CLIENT}
 Demo installation      : ${DEMO}

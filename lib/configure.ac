@@ -60,11 +60,13 @@ AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not fou
 AC_MSG_CHECKING([libgit2])
 LIBGIT=libgit2.*
 AS_IF([test -f ${LIBGIT}], [
+    LIBGIT=`ls libgit2.*`
     GIT_LIBS="-lgit2"
     AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled])
-    AC_MSG_RESULT([included])
+    AC_MSG_RESULT([$LIBGIT])
   ],
   AC_MSG_RESULT([no])
+  LIBGIT=""
 )
 AC_SUBST(GIT_LIBS)
 AC_SUBST(GIT_ENABLED)
@@ -111,7 +113,7 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix    : ${prefix}
-Libgit2 linker flags   : ${GIT_LIBS}
+Libgit2                : ${LIBGIT}
 Network port           : ${NETWORK_PORT}
 Client installation    : ${CLIENT}
 Demo installation      : ${DEMO}

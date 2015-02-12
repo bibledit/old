@@ -1,4 +1,5 @@
 *.[oa]
+*.dylib
 *~
 bibledit-dbus
 bibledit-vcs
