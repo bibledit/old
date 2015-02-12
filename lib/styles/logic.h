@@ -165,6 +165,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define EndNotePositionAtMarker   2 
 
 
+string styles_logic_standard_sheet ();
 string styles_logic_category_text (string category);
 string styles_logic_type_text (int type);
 string styles_logic_subtype_text (int type, int subtype);

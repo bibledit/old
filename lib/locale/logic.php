@@ -89,17 +89,6 @@ class Locale_Logic
   }
 
 
-  /**
-  * Filters out the default language.
-  * Returns the $localization, or "" in case of the default language.
-  */
-  public static function filterDefault ($localization)
-  {
-    if ($localization == "default") $localization = "";
-    return $localization;
-  }
-
-
   public function translate ($english)
   {
     if ($this->translate) {

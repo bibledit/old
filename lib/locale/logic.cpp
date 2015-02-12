@@ -17,30 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <config/logic.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <database/books.h>
-#include <database/config/general.h>
-#include <config.h>
+#include <locale/logic.h>
 
 
-// Returns the Bibledit version number.
-string config_logic_version ()
+// Filters out the default language.
+// Returns the $localization, or "" in case of the default language.
+string locale_logic_filter_default_language (string localization)
 {
-  return VERSION;
+  if (localization == "default") localization = "";
+  return localization;
 }
 
 
-// Returns whether client mode is enabled during configure.
-bool config_logic_client_prepared ()
-{
-  return (strcmp (CLIENT, "yes") == 0);
-}
-
-
-// Returns whether demo mode is enabled during configure.
-bool config_logic_demo_enabled ()
-{
-  return (strcmp (DEMO, "yes") == 0);
-}

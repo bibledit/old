@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/sendreceive.h>
 #include <sendreceive/settings.h>
 #include <sendreceive/bibles.h>
+#include <demo/logic.h>
 
 
 mutex mutex_tasks; 
@@ -112,9 +113,12 @@ void tasks_run_one (string filename)
     Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
   } else if (command == SYNCUSFMRESOURCES) {
     Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
+  } else if (command == CLEANDEMO) {
+    demo_clean_data ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }
+  
 
   // Decrease running tasks count.
   mutex_tasks.lock ();

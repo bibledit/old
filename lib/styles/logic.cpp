@@ -22,6 +22,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
+// The name of the "Standard" stylesheet.
+string styles_logic_standard_sheet () // Todo implement anywhere.
+{
+  return "Standard";
+}
+
+
 // This contains the styles logic.
 // categoryText - Returns the $category as human readable text.
 string styles_logic_category_text (string category)

@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define SYNCSETTINGS "syncsettings"
 #define SYNCEXTERNALRESOURCES "syncexternalresources"
 #define SYNCUSFMRESOURCES "syncusfmresources"
+#define CLEANDEMO "cleandemo"
 
 
 string tasks_logic_folder ();

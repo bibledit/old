@@ -138,7 +138,7 @@ string sendreceive_index (void * webserver_request)
   }
 
   
-  view.set_variable ("demo", demo_logic_client_demo_warning ());
+  view.set_variable ("demo", demo_client_warning ());
 
   
   page += view.render ("sendreceive", "index");

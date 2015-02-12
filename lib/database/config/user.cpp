@@ -214,7 +214,7 @@ string Database_Config_User::getBible ()
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
     // There may not even be a first Bible: Create one.
     if (bibles.empty ()) {
-      bible = "Bibledit Sample Bible";
+      bible = "Bibledit Sample Bible"; // Todo use demo call.
       database_bibles->createBible (bible);
     } else {
       bible = bibles [0];

@@ -33,6 +33,7 @@ libbibledit_a_SOURCES = \
 	menu/main.cpp \
 	menu/user.cpp \
 	locale/translate.cpp \
+	locale/logic.cpp \
 	database/config/general.cpp \
 	database/config/bible.cpp \
 	database/config/user.cpp \

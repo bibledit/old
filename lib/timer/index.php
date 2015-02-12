@@ -63,16 +63,6 @@ if (!$client) {
 }
 
 
-// Check open installation. Todo
-if ($minute == 10) {
-  include ("config/open");
-  if ($open_installation) {
-    $directory = dirname (__DIR__) . "/demo";
-    tasks_logic_queue (Tasks_Logic::PHP, array ("$directory/index"));
-  }
-}
-
-
 
 
 ?>

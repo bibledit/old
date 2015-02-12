@@ -19,20 +19,36 @@
 
 #include <demo/logic.h>
 #include <filter/md5.h>
+#include <filter/roles.h>
+#include <filter/usfm.h>
+#include <filter/url.h>
 #include <config/logic.h>
 #include <config.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
+#include <database/logs.h>
 #include <locale/translate.h>
 #include <client/logic.h>
+#include <styles/logic.h>
+#include <styles/sheets.h>
+#include <locale/logic.h>
+#include <bible/logic.h>
 
 
-// Returns true for username/password 'admin' in an open demo installation.
-// Else returns false.
-bool demo_logic_open_demo (string user, string pass)
+// The username and password for a demo installation.
+string demo_credentials ()
 {
-  if (strcmp (DEMO, "yes") == 0) { // Todo
-    if (user == "admin") {
-      if ((pass == "admin") || (pass == md5 ("admin"))) {
+  return "admin";
+}
+
+
+// Returns true for correct credentials for a demo installation.
+// Else returns false.
+bool demo_acl (string user, string pass)
+{
+  if (strcmp (DEMO, "yes") == 0) {
+    if (user == demo_credentials ()) {
+      if ((pass == demo_credentials ()) || (pass == md5 (demo_credentials ()))) {
         return true;
       }
     }
@@ -42,27 +58,27 @@ bool demo_logic_open_demo (string user, string pass)
 
 
 // Returns the address of the current demo server.
-string demo_logic_demo_address ()
+string demo_address ()
 {
   return "http://bibledit.org";
 }
 
 
-int demo_logic_demo_port ()
+int demo_port ()
 {
   return 8080;
 }
 
 
 // Returns a warning in case the client is connected to the open demo server.
-string demo_logic_client_demo_warning ()
+string demo_client_warning ()
 {
   string warning;
   if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
-    if (address == demo_logic_demo_address ()) {
+    if (address == demo_address ()) {
       int port = Database_Config_General::getServerPort ();
-      if (port == demo_logic_demo_port ()) {
+      if (port == demo_port ()) {
         warning = translate("Warning:")
         + " " + translate("The client is connected to a public demo server.")
         + " " + translate("Everybody can modify the data on that server.")
@@ -71,4 +87,126 @@ string demo_logic_client_demo_warning ()
     }
   }
   return warning;
+}
+
+
+// Cleans and resets the data in the Bibledit installation.
+void demo_clean_data ()
+{
+  Database_Logs::log ("Cleaning up the demo data");
+
+  
+  Webserver_Request request;
+  
+  
+  // Set user to the demo credentials (admin) as this is the user who is always logged-in in a demo installation.
+  request.session_logic ()->setUsername (demo_credentials ());
+  
+  
+  // Delete the "Standard" stylesheet and re-create it.
+  // Delete empty sheet that may have been there.
+  request.database_styles()->deleteSheet (styles_logic_standard_sheet ());
+  request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
+  request.database_styles()->deleteSheet ("");
+  request.database_styles()->createSheet (styles_logic_standard_sheet ());
+  request.database_styles()->grantWriteAccess (demo_credentials (), styles_logic_standard_sheet ());
+  styles_sheets_create_all ();
+  
+  
+  // Set the export stylesheet to "Standard" for all Bibles and the admin.
+  vector <string> bibles = request.database_bibles()->getBibles ();
+  for (auto & bible : bibles) {
+    Database_Config_Bible::setExportStylesheet (bible, styles_logic_standard_sheet ());
+  }
+  request.database_config_user()->setStylesheet (styles_logic_standard_sheet ());
+  
+  
+  // Set the site language to "Default"
+  Database_Config_General::setSiteLanguage ("");
+  
+  
+  // Ensure the default users are there.
+  map <string, int> users = {
+    make_pair ("guest", Filter_Roles::guest ()),
+    make_pair ("member", Filter_Roles::member ()),
+    make_pair ("consultant", Filter_Roles::consultant ()),
+    make_pair ("translator", Filter_Roles::translator ()),
+    make_pair ("manager", Filter_Roles::manager ()),
+    make_pair ("admin", Filter_Roles::admin ())
+  };
+  for (auto & element : users) {
+    if (!request.database_users ()->usernameExists (element.first)) {
+      request.database_users ()->addNewUser(element.first, element.first, element.second, "");
+    }
+    request.database_users ()->updateUserLevel (element.first, element.second);
+  }
+
+  
+  // Create / update sample Bible.
+  demo_create_sample_bible (&request);
+
+
+  // Clean out nearly empty chapters from the Bibles.
+  bibles = request.database_bibles()->getBibles ();
+  for (auto bible : bibles) {
+    vector <int> books = request.database_bibles()->getBooks (bible);
+    for (auto book : books) {
+      vector <int> chapters = request.database_bibles()->getChapters (bible, book);
+      for (auto chapter : chapters) {
+        // Remove chapters, other than 0, that are rather short, as these chapters likely contain no text, but USFM markers only.
+        if (chapter == 0) continue;
+        string usfm = request.database_bibles()->getChapter (bible, book, chapter);
+        if (usfm.length () < 200) {
+          Database_Logs::log ("Deleting a demo chapter because it does not contain enough text: " + to_string (book) + ":" + to_string (chapter));
+          Bible_Logic::deleteChapter (bible, book, chapter);
+        }
+      }
+      // If a book contains chapter 0 only, remove that entire book.
+      chapters = request.database_bibles()->getChapters (bible, book);
+      if ((chapters.size () == 1) && (chapters [0] == 0)) {
+        Database_Logs::log ("Deleting a demo book because it is empty");
+        Bible_Logic::deleteBook (bible, book);
+      }
+    }
+    // If a Bible contains no books, remove that Bible.
+    books = request.database_bibles()->getBooks (bible);
+    if (books.empty ()) {
+      Database_Logs::log ("Deleting a demo Bible because it is empty");
+      Bible_Logic::deleteBible (bible);
+    }
+  }
+}
+
+
+// The name of the sample Bible.
+string demo_sample_bible_name ()
+{
+  return "Bibledit Sample Bible";
+}
+
+
+// Creates a sample Bible
+void demo_create_sample_bible (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  
+  // Ensure the KJV Bible exists.
+  request->database_bibles()->createBible (demo_sample_bible_name ());
+  request->database_users ()->grantAccess2Bible (demo_credentials (), demo_sample_bible_name ());
+  
+  
+  // Store some text into the KJV Bible.
+  string directory = filter_url_create_root_path ("demo");
+  vector <string> files = filter_url_scandir (directory);
+  for (auto file : files) {
+    if (filter_url_get_extension (file) == "usfm") {
+      file = filter_url_create_path (directory, file);
+      string usfm = filter_url_file_get_contents (file);
+      vector <BookChapterData> book_chapter_data = usfm_import (usfm, "Standard");
+      for (auto data : book_chapter_data) {
+        Bible_Logic::storeChapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
+      }
+    }
+  }
 }

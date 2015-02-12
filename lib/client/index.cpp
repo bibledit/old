@@ -107,13 +107,13 @@ string client_index (void * webserver_request)
     
     string address;
     if (connect) address = request->post ["address"];
-    if (demo) address = demo_logic_demo_address ();
+    if (demo) address = demo_address ();
     if (address.find ("http") == string::npos) address.insert (0, "http://");
     Database_Config_General::setServerAddress (address);
     
     int port;
     if (connect) port = convert_to_int (request->post ["port"]);
-    if (demo) port = demo_logic_demo_port ();
+    if (demo) port = demo_port ();
     Database_Config_General::setServerPort (port);
     
     string user;
@@ -154,7 +154,7 @@ string client_index (void * webserver_request)
     view.set_variable ("role", Filter_Roles::text (level));
   }
   
-  view.set_variable ("demo", demo_logic_client_demo_warning ());
+  view.set_variable ("demo", demo_client_warning ());
                                                                                     
   string page;
 

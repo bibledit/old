@@ -108,6 +108,13 @@ void timer_index ()
         tasks_logic_queue (REINDEXBIBLES);
         tasks_logic_queue (REINDEXNOTES);
       }
+      
+      // Actions for a demo installation.
+      if (minute == 10) {
+        if (config_logic_demo_enabled ()) {
+          tasks_logic_queue (CLEANDEMO);
+        }
+      }
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());

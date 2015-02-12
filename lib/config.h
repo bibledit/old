@@ -5,7 +5,7 @@
 #define CLIENT "no"
 
 /* Define whether it is a demo installation */
-#define DEMO "no"
+#define DEMO "yes"
 
 /* Define the directory separator as Windows differs from Linux */
 #define DIRECTORY_SEPARATOR "/"

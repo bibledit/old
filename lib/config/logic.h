@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string config_logic_version ();
 bool config_logic_client_prepared ();
-bool config_logic_demo ();
+bool config_logic_demo_enabled ();
 
 
 #endif
