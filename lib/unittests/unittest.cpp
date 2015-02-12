@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_database_config_user (); test_filters (); test_session_logic (); test_client_logic (); exit (0);
+  // test_filter_git (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
