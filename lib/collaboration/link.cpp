@@ -60,13 +60,13 @@ void collaboration_link (string object, int jobid, string direction)
   // Some checks on input values.
   if (result) {
     if (object.empty ()) {
-      error = gettext ("No Bible given");
+      error = translate ("No Bible given");
       result = false;
     }
   }
   if (result) {
     if (!takeme && !takerepo) {
-      error = gettext ("It is unclear which data to copy to where");
+      error = translate ("It is unclear which data to copy to where");
       result = false;
     }
   }
@@ -74,9 +74,9 @@ void collaboration_link (string object, int jobid, string direction)
   // Try read access.
   result = filter_git_remote_read (url, error);
   if (result) {
-    success.push_back (gettext("Read access to the repository is successful."));
+    success.push_back (translate("Read access to the repository is successful."));
   } else {
-    error.append (" " + gettext ("Read access failed."));
+    error.append (" " + translate ("Read access failed."));
   }
   
   // Clone the remote repository, with feedback about progress.
@@ -87,7 +87,7 @@ void collaboration_link (string object, int jobid, string direction)
 
   // Set some configuration values.
   if (result) {
-    success.push_back (gettext ("Configure copied data"));
+    success.push_back (translate ("Configure copied data"));
 
     // Switch rename detection off.
     // This is necessary for the consultation notes, since git has been seen to "detect" spurious renames.
@@ -116,9 +116,9 @@ void collaboration_link (string object, int jobid, string direction)
   if (result) {
     result = filter_git_add_remove_all (path, error);
     if (result) {
-      success.push_back (gettext("A file was added to the data successfully."));
+      success.push_back (translate("A file was added to the data successfully."));
     } else {
-      error.append (" " + gettext("Failure adding a file to the data."));
+      error.append (" " + translate("Failure adding a file to the data."));
     }
   }
   
@@ -126,9 +126,9 @@ void collaboration_link (string object, int jobid, string direction)
   if (result) {
     result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 1", error);
     if (result) {
-      success.push_back (gettext("The file was committed successfully."));
+      success.push_back (translate("The file was committed successfully."));
     } else {
-      error.append (" " + gettext("Failure committing the file."));
+      error.append (" " + translate("Failure committing the file."));
     }
   }
   
@@ -139,7 +139,7 @@ void collaboration_link (string object, int jobid, string direction)
     vector <string> messages;
     filter_git_pull (path, messages);
     success.insert (success.end(), messages.begin(), messages.end());
-    success.push_back (gettext("Changes were pulled from the repository successfully."));
+    success.push_back (translate("Changes were pulled from the repository successfully."));
   }
   
   // Push the changes to see if there is write access.
@@ -149,9 +149,9 @@ void collaboration_link (string object, int jobid, string direction)
     result = filter_git_push (path, messages, true);
     success.insert (success.end(), messages.begin(), messages.end());
     if (result) {
-      success.push_back (gettext("Changes were pushed to the repository successfully."));
+      success.push_back (translate("Changes were pushed to the repository successfully."));
     } else {
-      error.append (" " + gettext("Pushing changes to the repository failed."));
+      error.append (" " + translate("Pushing changes to the repository failed."));
     }
   }
   
@@ -160,17 +160,17 @@ void collaboration_link (string object, int jobid, string direction)
   if (result) {
     result = filter_git_add_remove_all (path, error);
     if (result) {
-      success.push_back (gettext("The temporal file was removed from the data successfully."));
+      success.push_back (translate("The temporal file was removed from the data successfully."));
     } else {
-      error.append (" " + gettext("Failure removing the temporal file from the data."));
+      error.append (" " + translate("Failure removing the temporal file from the data."));
     }
   }
   if (result) {
     result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
     if (result) {
-      success.push_back (gettext("The removed temporal file was committed successfully."));
+      success.push_back (translate("The removed temporal file was committed successfully."));
     } else {
-      error.append (" " + gettext("Failure committing the removed temporal file."));
+      error.append (" " + translate("Failure committing the removed temporal file."));
     }
   }
 
@@ -180,9 +180,9 @@ void collaboration_link (string object, int jobid, string direction)
     result = filter_git_push (path, messages);
     success.insert (success.end(), messages.begin(), messages.end());
     if (result) {
-      success.push_back (gettext("The changes were pushed to the repository successfully."));
+      success.push_back (translate("The changes were pushed to the repository successfully."));
     } else {
-      error.append (" " + gettext("Pushing changes to the repository failed."));
+      error.append (" " + translate("Pushing changes to the repository failed."));
     }
   }
   
@@ -191,7 +191,7 @@ void collaboration_link (string object, int jobid, string direction)
   // and store it in Bibledit's Bible given in $object,
   // overwriting the whole Bible that was there before.
   if (takerepo && result) {
-    success.push_back (gettext ("Copying the data from the repository and storing it in Bibledit."));
+    success.push_back (translate ("Copying the data from the repository and storing it in Bibledit."));
     Webserver_Request request;
     filter_git_sync_git_to_bible (&request, path, object);
   }
@@ -204,24 +204,24 @@ void collaboration_link (string object, int jobid, string direction)
 
     // Bibledit's data goes into the local repository.
     Webserver_Request request;
-    success.push_back (gettext("Storing the local Bible data to the staging area."));
+    success.push_back (translate("Storing the local Bible data to the staging area."));
     filter_git_sync_bible_to_git (&request, object, path);
 
     // Stage the data: add and remove it as needed.
     if (result) {
       result = filter_git_add_remove_all (path, error);
       if (result) {
-        success.push_back (gettext("The local Bible data was staged successfully."));
+        success.push_back (translate("The local Bible data was staged successfully."));
       } else {
-        error.append (" " + gettext("Failure staging the local Bible data."));
+        error.append (" " + translate("Failure staging the local Bible data."));
       }
     }
     if (result) {
       result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
       if (result) {
-        success.push_back (gettext("The local Bible data was committed successfully."));
+        success.push_back (translate("The local Bible data was committed successfully."));
       } else {
-        error.append (" " + gettext("Failure committing the local Bible data."));
+        error.append (" " + translate("Failure committing the local Bible data."));
       }
     }
 
@@ -231,9 +231,9 @@ void collaboration_link (string object, int jobid, string direction)
       result = filter_git_push (path, messages);
       success.insert (success.end(), messages.begin(), messages.end());
       if (result) {
-        success.push_back (gettext("The local Bible data was pushed to the repository successfully."));
+        success.push_back (translate("The local Bible data was pushed to the repository successfully."));
       } else {
-        error.append (" " + gettext("Pushing the local Bible data to the repository failed."));
+        error.append (" " + translate("Pushing the local Bible data to the repository failed."));
       }
     }
   }
@@ -263,5 +263,5 @@ void collaboration_link (string object, int jobid, string direction)
 
 string collaboration_link_header ()
 {
-  return "<h1>" + gettext ("Link repository") + "</h1>\n";
+  return "<h1>" + translate ("Link repository") + "</h1>\n";
 }

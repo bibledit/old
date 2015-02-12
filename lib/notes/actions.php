@@ -65,7 +65,7 @@ if (isset (request->query['done'])) {
 
 if (isset (request->query['markdel'])) {
   $notes_logic->markForDeletion ($id);
-  $success = gettext("The note will be deleted after a week.") . " " . gettext ("Adding a comment to the note cancels the deletion.");
+  $success = translate("The note will be deleted after a week.") . " " . translate ("Adding a comment to the note cancels the deletion.");
 }
 
 
@@ -81,7 +81,7 @@ if (isset (request->query['delete'])) {
 }
 
 
-$assets_header = new Assets_Header (gettext("Note actions"));
+$assets_header = new Assets_Header (translate("Note actions"));
 $assets_header->run();
 
 

@@ -63,10 +63,10 @@ string demo_logic_client_demo_warning ()
     if (address == demo_logic_demo_address ()) {
       int port = Database_Config_General::getServerPort ();
       if (port == demo_logic_demo_port ()) {
-        warning = gettext("Warning:")
-        + " " + gettext("The client is connected to a public demo server.")
-        + " " + gettext("Everybody can modify the data on that server.")
-        + " " + gettext("After send and receive your data will reflect the data on the server.");
+        warning = translate("Warning:")
+        + " " + translate("The client is connected to a public demo server.")
+        + " " + translate("Everybody can modify the data on that server.")
+        + " " + translate("After send and receive your data will reflect the data on the server.");
       }
     }
   }

@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1>gettext("Importing notes, step 2")</h1>
-<p>gettext("The notes file has been uploaded successfully.")</p>
-<p>gettext("Filename"): $this->filename</p>
-<h3><a href="import3?file=$this->filename">gettext("Next")</a></h3>
+<h1>translate("Importing notes, step 2")</h1>
+<p>translate("The notes file has been uploaded successfully.")</p>
+<p>translate("Filename"): $this->filename</p>
+<h3><a href="import3?file=$this->filename">translate("Next")</a></h3>

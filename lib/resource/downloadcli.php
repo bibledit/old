@@ -65,7 +65,7 @@ for ($chapters as $chapter) {
 }
 
 
-Database_Logs::log (gettext("Completed") . " $resource $bookName", Filter_Roles::manager ());
+Database_Logs::log (translate("Completed") . " $resource $bookName", Filter_Roles::manager ());
 
 
 ?>

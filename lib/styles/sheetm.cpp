@@ -53,7 +53,7 @@ string styles_sheetm (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Stylesheet"), webserver_request, "");
+  page = Assets_Page::header (translate ("Stylesheet"), webserver_request, "");
   
   Assets_View view = Assets_View ();
   
@@ -71,15 +71,15 @@ string styles_sheetm (void * webserver_request)
     string newstyle = request->post["entry"];
     vector <string> existing_markers = database_styles.getMarkers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
-      page += Assets_Page::error (gettext("This style already exists"));
+      page += Assets_Page::error (translate("This style already exists"));
     } else {
       database_styles.addMarker (name, newstyle);
       styles_sheets_create_all ();
-      page += Assets_Page::success (gettext("The style has been created"));
+      page += Assets_Page::success (translate("The style has been created"));
     }
   }
   if (request->query.count("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("sheetm", gettext("Please enter the name for the new style"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("sheetm", translate("Please enter the name for the new style"), "", "new", "");
     dialog_entry.add_query ("name", name);
     page += dialog_entry.run ();
     return page;
@@ -98,7 +98,7 @@ string styles_sheetm (void * webserver_request)
     markerblock.push_back ("<tr>");
     markerblock.push_back ("<td><a href=\"view?sheet=" + name + "&style=" + marker + "\">" + marker + "</a></td>");
     markerblock.push_back ("<td>" + marker_name + "</td>");
-    markerblock.push_back ("<td>[<a href=\"?name=" + name + "&delete=" + marker + "\">" + gettext("delete") + "]</a></td>");
+    markerblock.push_back ("<td>[<a href=\"?name=" + name + "&delete=" + marker + "\">" + translate("delete") + "]</a></td>");
     markerblock.push_back ("</tr>");
   }
   view.set_variable ("markerblock", filter_string_implode (markerblock, "\n"));

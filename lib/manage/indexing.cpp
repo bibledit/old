@@ -47,7 +47,7 @@ string manage_indexing (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (gettext ("Indexing"), webserver_request, "");
+  page = Assets_Page::header (translate ("Indexing"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 

@@ -36,7 +36,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-Database_Logs::log (gettext("Sending statistics to users"), Filter_Roles::admin ());
+Database_Logs::log (translate("Sending statistics to users"), Filter_Roles::admin ());
 
 
 $siteUrl = Database_Config_General::getSiteURL ();
@@ -49,13 +49,13 @@ $users = request->database_users ()->getUsers ();
 for ($users as $user) {
 
 
-  $subject = "Bibledit " . gettext("statistics");
+  $subject = "Bibledit " . translate("statistics");
   $body = array ();
 
 
   if (request->database_config_user()->getUserPendingChangesNotification ($user)) {
     $ids = $database_modifications->getNotificationIdentifiers ($user);
-    $body [] = "<p><a href=\"$siteUrl/changes/changes\">" . gettext("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/changes/changes\">" . translate("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
@@ -76,12 +76,12 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<p><a href=\"$siteUrl/notes/index?presetselection=assigned\">" . gettext("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/notes/index?presetselection=assigned\">" . translate("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
   if (request->database_config_user()->getUserSubscribedNotesStatisticsNotification ($user)) {
-    $body [] = "<p>" . gettext("Number of consultation notes you are subscribed to") . ":</p>\n";
+    $body [] = "<p>" . translate("Number of consultation notes you are subscribed to") . ":</p>\n";
     $body [] = "<ul>\n";
     request->session_logic ()->setUsername ($user);
 
@@ -101,7 +101,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribed\">" . gettext("Total") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribed\">" . translate("Total") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -118,7 +118,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribeddayidle\">" . gettext("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribeddayidle\">" . translate("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -135,7 +135,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribedweekidle\">" . gettext("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribedweekidle\">" . translate("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
     $body [] = "</ul>\n";
     request->session_logic ()->setUsername ("");
   }

@@ -19,25 +19,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <p class="error">$this->errorr</p>
 <p class="success">$this->success</p>
-<p>gettext("The Bible book below needs a matching abbreviation for the target Bible.")</p>
+<p>translate("The Bible book below needs a matching abbreviation for the target Bible.")</p>
 <br>
 <form action="translate" name="pair" method="post">
   <table>
     <tr>
-      <td>1. gettext("Book name:")</td>
+      <td>1. translate("Book name:")</td>
       <td>$this->bookname<input type="hidden" name="fullname" maxlength="50" value="$this->bookname" /></td>
     </tr>
     <tr>
-      <td>2. gettext("Enter the abbreviation:")</td>
+      <td>2. translate("Enter the abbreviation:")</td>
       <td><input type="text" name="abbreviation" maxlength="50" value="" /></td>
     </tr>
     <tr>
-      <td>3. gettext("Save it:")</td>
-      <td><input type="submit" name="save" value=gettext("Save") /></td>
+      <td>3. translate("Save it:")</td>
+      <td><input type="submit" name="save" value=translate("Save") /></td>
     </tr>
   </table>
 </form>
 <br>
 <?php if ($this->remaining) {
-  <p>gettext("Remaining book names without an abbreviation:") $this->remaining.</p>
+  <p>translate("Remaining book names without an abbreviation:") $this->remaining.</p>
 <?php }

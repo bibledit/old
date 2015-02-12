@@ -1221,10 +1221,10 @@ void Filter_Text::processNote ()
 */
 void Filter_Text::produceInfoDocument (string path)
 {
-  Html_Text information = Html_Text (gettext("Information"));
+  Html_Text information = Html_Text (translate("Information"));
 
   // Number of chapters per book.
-  information.newHeading1 (gettext("Number of chapters per book"));
+  information.newHeading1 (translate("Number of chapters per book"));
   for (const auto & element : numberOfChaptersPerBook) {
     string line = Database_Books::getEnglishFromId (element.first) + " => " + convert_to_string (element.second);
     information.newParagraph ();
@@ -1232,7 +1232,7 @@ void Filter_Text::produceInfoDocument (string path)
   }
 
   // Running headers.
-  information.newHeading1 (gettext("Running headers"));
+  information.newHeading1 (translate("Running headers"));
   for (auto item : runningHeaders) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
@@ -1240,13 +1240,13 @@ void Filter_Text::produceInfoDocument (string path)
   }
 
   // Table of Contents entries.
-  information.newHeading1 (gettext("Long table of contents entries"));
+  information.newHeading1 (translate("Long table of contents entries"));
   for (auto item : longTOCs) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
-  information.newHeading1 (gettext("Short table of contents entries"));
+  information.newHeading1 (translate("Short table of contents entries"));
   for (auto item : shortTOCs) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
@@ -1254,7 +1254,7 @@ void Filter_Text::produceInfoDocument (string path)
   }
 
   // Book abbreviations.
-  information.newHeading1 (gettext("Book abbreviations"));
+  information.newHeading1 (translate("Book abbreviations"));
   for (auto item : bookAbbreviations) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
@@ -1262,13 +1262,13 @@ void Filter_Text::produceInfoDocument (string path)
   }
 
   // Chapter specials.
-  information.newHeading1 (gettext("Publishing chapter labels"));
+  information.newHeading1 (translate("Publishing chapter labels"));
   for (auto item : chapterLabels) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
-  information.newHeading1 (gettext("Publishing alternate chapter numbers"));
+  information.newHeading1 (translate("Publishing alternate chapter numbers"));
   for (auto item : publishedChapterMarkers) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
@@ -1276,29 +1276,29 @@ void Filter_Text::produceInfoDocument (string path)
   }
 
   // Word lists.
-  information.newHeading1 (gettext("Word list, glossary, dictionary entries"));
+  information.newHeading1 (translate("Word list, glossary, dictionary entries"));
   for (auto item : wordListGlossaryDictionary) {
     information.newParagraph ();
     information.addText (item);
   }
-  information.newHeading1 (gettext("Hebrew word list entries"));
+  information.newHeading1 (translate("Hebrew word list entries"));
   for (auto item : hebrewWordList) {
     information.newParagraph ();
     information.addText (item);
   }
-  information.newHeading1 (gettext("Greek word list entries"));
+  information.newHeading1 (translate("Greek word list entries"));
   for (auto item : greekWordList) {
     information.newParagraph ();
     information.addText (item);
   }
-  information.newHeading1 (gettext("Subject index entries"));
+  information.newHeading1 (translate("Subject index entries"));
   for (auto item : subjectIndex) {
     information.newParagraph ();
     information.addText (item);
   }
 
   // Other info.
-  information.newHeading1 (gettext("Other information"));
+  information.newHeading1 (translate("Other information"));
   for (auto item : info) {
     information.newParagraph ();
     information.addText (item);
@@ -1377,8 +1377,8 @@ void Filter_Text::addToWordList (vector <string>  & list)
 */
 void Filter_Text::produceFalloutDocument (string path)
 {
-  Html_Text html_text = Html_Text (gettext("Fallout"));
-  html_text.newHeading1 (gettext("Fallout"));
+  Html_Text html_text = Html_Text (translate("Fallout"));
+  html_text.newHeading1 (translate("Fallout"));
   for (string line : fallout) {
     html_text.newParagraph ();
     html_text.addText (line);

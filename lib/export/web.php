@@ -65,7 +65,7 @@ $bibleBookText = $bible . " " . Database_Books::getEnglishFromId ($book);
 // Web index file for the book.
 $html_text_rich_book_index = new Html_Text ($bibleBookText);
 $htmlHeader = new Html_Header ($html_text_rich_book_index);
-$htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book), gettext("Go back to") . " " . $bibleBookText);
+$htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book), translate("Go back to") . " " . $bibleBookText);
 $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array (Database_Books::getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
 $html_text_rich_book_index->newParagraph ("navigationbar");
 $html_text_rich_book_index->addText ("|");
@@ -84,12 +84,12 @@ for ($chapters as $chapter) {
   $filter_text_chapter->addUsfmCode ($usfm);
 
   // Interlinked web data for one chapter.
-  $filter_text_chapter->html_text_linked = new Html_Text (gettext("Bible"));
+  $filter_text_chapter->html_text_linked = new Html_Text (translate("Bible"));
   $filter_text_chapter->html_text_linked->customClass = Filter_CustomCSS::getClass ($bible);
 
   // Create breadcrumbs for the chapter.
   $htmlHeader = new Html_Header ($filter_text_chapter->html_text_linked);
-  $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext("Go back to") . " " . $bibleBookText . " " . $chapter);
+  $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book, $chapter), translate("Go back to") . " " . $bibleBookText . " " . $chapter);
   $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
                               array (Database_Books::getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                               array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
@@ -110,7 +110,7 @@ $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ($directory, $
 
 
 
-Database_Logs::log (gettext("Exported to web") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
+Database_Logs::log (translate("Exported to web") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
 
 
 ?>

@@ -1,50 +1,50 @@
-<h3>gettext("Client mode")</h3>
+<h3>translate("Client mode")</h3>
 
 <!-- #BEGINZONE clienton -->
 <p>
-  gettext("Client mode is enabled.")
-  <a href="?disable=">gettext("Disable it.")</a>
+  translate("Client mode is enabled.")
+  <a href="?disable=">translate("Disable it.")</a>
 </p>
 <p>
-  gettext("Server"):
+  translate("Server"):
   <a href="##address##:##port##" target="_blank">##address##:##port##</a>
 </p>
-<p>gettext("Your role:") ##role##</p>
+<p>translate("Your role:") ##role##</p>
 <!-- #ENDZONE clienton -->
 
 <!-- #BEGINZONE clientoff -->
-<p>gettext("To enable client mode, enter the details below, and click Enable.")</p>
+<p>translate("To enable client mode, enter the details below, and click Enable.")</p>
 
 <br>
 
 <form action="index" name="server" method="post">
   <table>
   <tr>
-    <td align="right">gettext("Internet address of the Bibledit Server")</td>
+    <td align="right">translate("Internet address of the Bibledit Server")</td>
     <td><input type="text" name="address" maxlength="1000" value="##address##" autofocus /></td>
   </tr>
     <tr>
-      <td align="right">gettext("Server port number")</td>
+      <td align="right">translate("Server port number")</td>
       <td><input type="text" name="port" maxlength="6" value="##port##" /></td>
     </tr>
     <tr>
-    <td align="right">gettext("Username on the server")</td>
+    <td align="right">translate("Username on the server")</td>
     <td><input type="text" name="user" maxlength="30" /></td>
     </tr>
     <tr>
-      <td align="right">gettext("Password on the server")</td>
+      <td align="right">translate("Password on the server")</td>
       <td><input type="password" name="pass" maxlength="30" /></td>
     </tr>
     <tr>
       <td></td>
-      <td><input type="submit" name="connect" class="focus" value="gettext("Enable")" /></td>
+      <td><input type="submit" name="connect" class="focus" value="translate("Enable")" /></td>
     </tr>
   </table>
 </form>
 
 <br>
 
-<p><a href="?demo=">gettext("Or else connect to the Bibledit Demo Server.")</a></p>
+<p><a href="?demo=">translate("Or else connect to the Bibledit Demo Server.")</a></p>
 <!-- #ENDZONE clientoff -->
 
 <p class="error">##error##</p>
@@ -54,31 +54,31 @@
 <br>
 
 <p>
-  gettext("When client mode is enabled, Bibledit can be used offline as a client on a local computing device.")
+  translate("When client mode is enabled, Bibledit can be used offline as a client on a local computing device.")
 </p>
 
 <br>
 
 <p>
-  gettext("Client mode affects the following:")
+  translate("Client mode affects the following:")
 </p>
 <ul>
 <li>
-  gettext("Can synchronize the local Bibles with the Bibles on a Bibledit server.")
+  translate("Can synchronize the local Bibles with the Bibles on a Bibledit server.")
 </li>
 <li>
-  gettext("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit server.")
+  translate("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit server.")
 </li>
 <li>
-  gettext("After connecting to a server, the first time you synchronize, you will get the same data as on the server.")
-  gettext("Local Bible data and Notes not on the server will be erased.")
-  gettext("Bible data and Notes on the server will be downloaded.")
-  gettext("This is good because it means that your data will be backed up to the server.")
+  translate("After connecting to a server, the first time you synchronize, you will get the same data as on the server.")
+  translate("Local Bible data and Notes not on the server will be erased.")
+  translate("Bible data and Notes on the server will be downloaded.")
+  translate("This is good because it means that your data will be backed up to the server.")
 </li>
 <li>
-  gettext("Does not send or receive email.")
+  translate("Does not send or receive email.")
 </li>
 <li>
-  gettext("User is always logged in.")
+  translate("User is always logged in.")
 </li>
 </ul>

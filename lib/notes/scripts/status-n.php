@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Select the new status for the notes")</h3>
+<h3>translate("Select the new status for the notes")</h3>
 <ul>
 <?php for ($this->statuses as $status) {
   <li><a href="bulk?status=$status[0]">$status[0]</a></li>
 <?php }
 </ul>
-<h4><a href="bulk">gettext("Cancel")</a></h4>
+<h4><a href="bulk">translate("Cancel")</a></h4>

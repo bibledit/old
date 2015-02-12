@@ -17,24 +17,24 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1>gettext("Edit Note Source")</h1>
+<h1>translate("Edit Note Source")</h1>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
-<p>gettext("You can edit the source of a Consultation Note.")</p>
-<p>gettext("Each Consultation Notes has an identifier.")</p>
-<p>gettext("The identifier of a Consultation Note can be seen through the Actions link of that note.")</p>
-<p>gettext("Example:")</p>
-<p>gettext("Identifier:") 943430030.</p>
+<p>translate("You can edit the source of a Consultation Note.")</p>
+<p>translate("Each Consultation Notes has an identifier.")</p>
+<p>translate("The identifier of a Consultation Note can be seen through the Actions link of that note.")</p>
+<p>translate("Example:")</p>
+<p>translate("Identifier:") 943430030.</p>
 <br>
-<p>gettext("Enter the identifier of the Consultation Note to be edited and press Submit.")</p>
+<p>translate("Enter the identifier of the Consultation Note to be edited and press Submit.")</p>
 <form action="editsource" name="noteid" method="post">
   <p>
   <input type="text" name="identifier" maxlength="15" class="focus" value="$this->identifier" />
-  <input type="submit" name="submit" value=gettext("Submit") />
+  <input type="submit" name="submit" value=translate("Submit") />
   </p>
 </form>
 <br>
 <form action="editsource?identifier=$this->identifier" name="notetext" method="post">
   <p><textarea name="data">$this->data</textarea></p>
-  <p><input type="submit" name="save" value=gettext("Save") /></p>
+  <p><input type="submit" name="save" value=translate("Save") /></p>
 </form>

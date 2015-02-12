@@ -46,7 +46,7 @@ string user_account (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (gettext("Account"), webserver_request, "");
+  page = Assets_Page::header (translate("Account"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 
@@ -67,51 +67,51 @@ string user_account (void * webserver_request)
     if ((newpassword != "") || (newpassword2 != "")) {
       if (newpassword.length () < 4) {
         form_is_valid = false;
-        view.set_variable ("new_password_invalid_message", gettext("Password should be at least four characters long"));
+        view.set_variable ("new_password_invalid_message", translate("Password should be at least four characters long"));
       }
       if (newpassword2.length () < 4) {
         form_is_valid = false;
-        view.set_variable ("new_password2_invalid_message", gettext("Password should be at least four characters long"));
+        view.set_variable ("new_password2_invalid_message", translate("Password should be at least four characters long"));
       }
       if (newpassword2 != newpassword) {
         form_is_valid = false;
-        view.set_variable ("new_password2_invalid_message", gettext("Passwords do not match"));
+        view.set_variable ("new_password2_invalid_message", translate("Passwords do not match"));
       }
       if (!request->database_users()->matchUsernamePassword (username, currentpassword)) {
         form_is_valid = false;
-        view.set_variable ("current_password_invalid_message", gettext("Current password is not valid"));
+        view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
         request->database_users()->updateUserPassword (username, newpassword);
         actions_taken = true;
-        success_messages.push_back (gettext("The new password was saved"));
+        success_messages.push_back (translate("The new password was saved"));
       }
     }
   
     if (newemail != "") {
       if (!filter_url_email_is_valid (newemail)) {
         form_is_valid = false;
-        view.set_variable ("new_email_invalid_message", gettext("Email address is not valid"));
+        view.set_variable ("new_email_invalid_message", translate("Email address is not valid"));
       }
       if (!request->database_users()->matchUsernamePassword (username, currentpassword)) {
         form_is_valid = false;
-        view.set_variable ("current_password_invalid_message", gettext("Current password is not valid"));
+        view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
         Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
-        string initial_subject = gettext("Email address verification");
-        string initial_body = gettext("Somebody requested to change the email address that belongs to your account.");
+        string initial_subject = translate("Email address verification");
+        string initial_body = translate("Somebody requested to change the email address that belongs to your account.");
         string query = request->database_users()->updateEmailQuery (username, newemail);
-        string subsequent_subject = gettext("Email address change");
-        string subsequent_body = gettext("The email address that belongs to your account has been changed successfully.");
+        string subsequent_subject = translate("Email address change");
+        string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
         confirm_worker.setup (newemail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
         actions_taken = true;
-        success_messages.push_back (gettext("A verification email was sent to ") + newemail);
+        success_messages.push_back (translate("A verification email was sent to ") + newemail);
       }
     }
   
     if (!actions_taken) {
-      success_messages.push_back (gettext("No changes were made"));
+      success_messages.push_back (translate("No changes were made"));
     }
   
   }

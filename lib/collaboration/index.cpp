@@ -49,7 +49,7 @@ string collaboration_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
-  Assets_Header header = Assets_Header (gettext("Collaboration"), request);
+  Assets_Header header = Assets_Header (translate("Collaboration"), request);
   page = header.run ();
   Assets_View view = Assets_View ();
   
@@ -58,7 +58,7 @@ string collaboration_index (void * webserver_request)
   if (request->query.count ("select")) {
     string select = request->query["select"];
     if (select == "") {
-      Dialog_List dialog_list = Dialog_List ("index", gettext("Which Bible are you going to use?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
       dialog_list.add_query ("object", object);
       vector <string> bibles = request->database_bibles()->getBibles();
       for (auto & value : bibles) {

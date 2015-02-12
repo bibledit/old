@@ -24,7 +24,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
-Assets_Page::header (gettext("Hyphenation"));
+Assets_Page::header (translate("Hyphenation"));
 $view = new Assets_View (__FILE__);
 
 
@@ -47,7 +47,7 @@ if (isset(request->post['sets'])) {
   Database_Config_Bible::setHyphenationFirstSet ($bible, $firstset);
   $secondset = request->post['secondset'];
   Database_Config_Bible::setHyphenationSecondSet ($bible, $secondset);
-  $success = gettext("The two sets of characters were saved");
+  $success = translate("The two sets of characters were saved");
 }
 $firstset = Database_Config_Bible::getHyphenationFirstSet ($bible);
 $secondset = Database_Config_Bible::getHyphenationSecondSet ($bible);
@@ -56,7 +56,7 @@ $secondset = Database_Config_Bible::getHyphenationSecondSet ($bible);
 @$bible = request->query ['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (gettext("Which Bible would you like to take the data from?"));
+    $dialog_list = new Dialog_List2 (translate("Which Bible would you like to take the data from?"));
     $bibles = access_bible_bibles ();
     for ($bibles as $item) {
       $dialog_list->add_row ($item, "bible=$item");
@@ -71,15 +71,15 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 if (request->query.count ('run'])) {
   if ($bible == "") {
-    $error = gettext("No Bible given");
+    $error = translate("No Bible given");
   } else if ($firstset == "") {
-    $error = gettext("No first set of characters given");
+    $error = translate("No first set of characters given");
   } else if ($secondset == "") {
-    $error = gettext("No second set of characters given");
+    $error = translate("No second set of characters given");
   } else {
     $workingdirectory = __DIR__;
     tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate", $bible, request->session_logic()->currentUser ()));
-    $success = gettext("The Bible is being hyphenated. See the Journal for details.");
+    $success = translate("The Bible is being hyphenated. See the Journal for details.");
   }
 }
 

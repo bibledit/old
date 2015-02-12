@@ -17,5 +17,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p>gettext("The cross references were inserted into the target Bible.")</p>
-<p><a href="index">[gettext("okay")]</a></p>
+<p>translate("The cross references were inserted into the target Bible.")</p>
+<p><a href="index">[translate("okay")]</a></p>

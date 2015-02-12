@@ -479,7 +479,7 @@ void Editor_Export::error_handler (void *ctx, const char *msg, ...)
   va_start (arg_ptr, msg);
   vsnprintf (buf, 256, msg, arg_ptr);
   va_end (arg_ptr);
-  string error (gettext ("Saving Editor text") + ": ");
+  string error (translate ("Saving Editor text") + ": ");
   error.append (buf);
   Database_Logs::log (error);
   return;

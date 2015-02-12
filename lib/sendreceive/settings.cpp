@@ -36,7 +36,7 @@
 
 void sendreceive_settings ()
 {
-  Database_Logs::log (gettext("Settings: Send/Receive"), Filter_Roles::translator ());
+  Database_Logs::log (translate("Settings: Send/Receive"), Filter_Roles::translator ());
   
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
@@ -44,14 +44,14 @@ void sendreceive_settings ()
   string response = client_logic_connection_setup ();
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
-    Database_Logs::log (gettext("Failure sending and receiving Settings"), Filter_Roles::translator ());
+    Database_Logs::log (translate("Failure sending and receiving Settings"), Filter_Roles::translator ());
     return;
   }
 
   // Set the correct user in the session: The sole user on the Client.
   vector <string> users = request.database_users ()->getUsers ();
   if (users.empty ()) {
-    Database_Logs::log (gettext("No user found"), Filter_Roles::translator ());
+    Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     return;
   }
   string user = users [0];
@@ -64,7 +64,7 @@ void sendreceive_settings ()
   // Go through all settings flagged as having been updated on this client.
   vector <int> ids = request.database_config_user()->getUpdatedSettings ();
   if (!ids.empty ()) {
-    Database_Logs::log (gettext("Sending settings"), Filter_Roles::translator ());
+    Database_Logs::log (translate("Sending settings"), Filter_Roles::translator ());
   }
   
   // The POST request contains the credentials.

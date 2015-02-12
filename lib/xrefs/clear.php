@@ -60,7 +60,7 @@ if (empty ($xrefs)) {
 }
 
 
-$header = new Assets_Header (gettext("Cross references"));
+$header = new Assets_Header (translate("Cross references"));
 $header->run ();
 
 

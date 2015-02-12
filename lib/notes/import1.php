@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
-Assets_Page::header (gettext("Import"));
+Assets_Page::header (translate("Import"));
 $view = new Assets_View (__FILE__);
 $view.set_variable ("post_max_size = ini_get ("post_max_size");
 $view.set_variable ("upload_max_filesize = ini_get ("upload_max_filesize");

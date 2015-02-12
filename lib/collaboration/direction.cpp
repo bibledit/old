@@ -52,7 +52,7 @@ string collaboration_direction (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
-  Assets_Header header = Assets_Header (gettext("Collaboration"), request);
+  Assets_Header header = Assets_Header (translate("Collaboration"), request);
   page = header.run ();
   Assets_View view = Assets_View ();
   

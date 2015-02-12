@@ -58,7 +58,7 @@ vector <Menu_User_Item> * Menu_User::mainmenu (string request)
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
   if (username.empty ()) {
-    menu->push_back ( { "", convert_to_string (session_login_url ()) + "?request=" + request, gettext ("Login"), NULL } );
+    menu->push_back ( { "", convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login"), NULL } );
   } else {
     menu->push_back ( { "", "", username, usermenu () } );
   }
@@ -75,9 +75,9 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
   bool client = client_logic_client_enabled ();
 
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
-  if (!client) if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), gettext ("Logout"), NULL } );
-  if (user_notifications_acl (webserver_request)) menu->push_back ( { "", user_notifications_url (), gettext ("Notifications"), NULL } );
-  if (!client) if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), gettext ("Account"), NULL } );
+  if (!client) if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), translate ("Logout"), NULL } );
+  if (user_notifications_acl (webserver_request)) menu->push_back ( { "", user_notifications_url (), translate ("Notifications"), NULL } );
+  if (!client) if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), translate ("Account"), NULL } );
   return menu;
 }
 

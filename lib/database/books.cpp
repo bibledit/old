@@ -182,7 +182,7 @@ string Database_Books::getEnglishFromId (int id)
       return books_table[i].english;
     }
   }
-  return gettext ("Unknown");
+  return translate ("Unknown");
 }
 
 

@@ -17,17 +17,17 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Clean Consultation Notes")</h3>
-<p>gettext("The process for cleaning consultation notes has started.")</p>
+<h3>translate("Clean Consultation Notes")</h3>
+<p>translate("The process for cleaning consultation notes has started.")</p>
 <p>
-  gettext("The progress is visible in the Journal.")
-  <a href="../journal/index">gettext("View journal.")</a>
+  translate("The progress is visible in the Journal.")
+  <a href="../journal/index">translate("View journal.")</a>
 </p>
-<p>gettext("It can take time, depending on the amount of consultation notes.")</p>
+<p>translate("It can take time, depending on the amount of consultation notes.")</p>
 <br>
-<p>gettext("It removes duplicate consultation notes.")</p>
-<p>gettext("Notes are duplicates when their summary, contents, and verses are the same.")</p>
+<p>translate("It removes duplicate consultation notes.")</p>
+<p>translate("Notes are duplicates when their summary, contents, and verses are the same.")</p>
 <p>
-  gettext("Duplicates may occur for various reasons.")
-  gettext("One reason could be that some notes have been imported more than once.")
+  translate("Duplicates may occur for various reasons.")
+  translate("One reason could be that some notes have been imported more than once.")
 </p>

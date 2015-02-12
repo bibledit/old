@@ -28,14 +28,14 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_logs = Database_Logs::getInstance ();
 
 
-Assets_Page::header (gettext("Export"));
+Assets_Page::header (translate("Export"));
 $view = new Assets_View (__FILE__);
 
 
 @$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (gettext("Select a Bible"));
+    $dialog_list = new Dialog_List2 (translate("Select a Bible"));
     $bibles = access_bible_bibles ();
     for ($bibles as $bible) {
       // Select Bibles the user has write access to.
@@ -57,13 +57,13 @@ $view.set_variable ("bible = $bible;
 if (request->query.count ('remove'])) {
   $directory = Export_Logic::bibleDirectory ($bible);
   filter_url_rmdir ($directory);
-  $view.set_variable ("success = gettext("The export has been removed."); 
+  $view.set_variable ("success = translate("The export has been removed."); 
 }
 
 
 if (request->query.count ('webtoggle'])) {
   Database_Config_Bible::setExportWebDuringNight ($bible, !Database_Config_Bible::getExportWebDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly export to Web format was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly export to Web format was updated."); 
 }
 $view.set_variable ("web = Database_Config_Bible::getExportWebDuringNight ($bible);
 
@@ -71,66 +71,66 @@ $view.set_variable ("web = Database_Config_Bible::getExportWebDuringNight ($bibl
 if (request->query.count ('webnow'])) {
   Export_Logic::scheduleWeb ($bible);
   Export_Logic::scheduleWebIndex ($bible);
-  $view.set_variable ("success = gettext("The Bible is being exported to Web format."); 
+  $view.set_variable ("success = translate("The Bible is being exported to Web format."); 
 }
 
 
 if (request->query.count ('htmltoggle'])) {
   Database_Config_Bible::setExportHtmlDuringNight ($bible, !Database_Config_Bible::getExportHtmlDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly export to Html format was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly export to Html format was updated."); 
 }
 $view.set_variable ("html = Database_Config_Bible::getExportHtmlDuringNight ($bible);
 
 
 if (request->query.count ('htmlnow'])) {
   Export_Logic::scheduleHtml ($bible);
-  $view.set_variable ("success = gettext("The Bible is being exported to Html format."); 
+  $view.set_variable ("success = translate("The Bible is being exported to Html format."); 
 }
 
 
 if (request->query.count ('usfmtoggle'])) {
   Database_Config_Bible::setExportUsfmDuringNight ($bible, !Database_Config_Bible::getExportUsfmDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly export to USFM format was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly export to USFM format was updated."); 
 }
 $view.set_variable ("usfm = Database_Config_Bible::getExportUsfmDuringNight ($bible);
 
 
 if (request->query.count ('usfmnow'])) {
   Export_Logic::scheduleUsfm ($bible);
-  $view.set_variable ("success = gettext("The Bible is being exported to USFM format."); 
+  $view.set_variable ("success = translate("The Bible is being exported to USFM format."); 
 }
 
 
 if (request->query.count ('usfmsecuretoggle'])) {
   Database_Config_Bible::setSecureUsfmExport ($bible, !Database_Config_Bible::getSecureUsfmExport ($bible));
-  $view.set_variable ("success = gettext("The setting for securing the USFM export was updated."); 
+  $view.set_variable ("success = translate("The setting for securing the USFM export was updated."); 
 }
 $view.set_variable ("usfmsecure = Database_Config_Bible::getSecureUsfmExport ($bible);
 
 
 if (request->query.count ('texttoggle'])) {
   Database_Config_Bible::setExportTextDuringNight ($bible, !Database_Config_Bible::getExportTextDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly export to basic USFM format and text was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly export to basic USFM format and text was updated."); 
 }
 $view.set_variable ("text = Database_Config_Bible::getExportTextDuringNight ($bible);
 
 
 if (request->query.count ('textnow'])) {
   Export_Logic::scheduleTextAndBasicUsfm ($bible);
-  $view.set_variable ("success = gettext("The Bible is being exported to basic USFM format and text."); 
+  $view.set_variable ("success = translate("The Bible is being exported to basic USFM format and text."); 
 }
 
 
 if (request->query.count ('odttoggle'])) {
   Database_Config_Bible::setExportOdtDuringNight ($bible, !Database_Config_Bible::getExportOdtDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly export to OpenDocument was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly export to OpenDocument was updated."); 
 }
 $view.set_variable ("odt = Database_Config_Bible::getExportOdtDuringNight ($bible);
 
 
 if (request->query.count ('odtnow'])) {
   Export_Logic::scheduleOpenDocument ($bible);
-  $view.set_variable ("success = gettext("The Bible is being exported to OpenDocument format."); 
+  $view.set_variable ("success = translate("The Bible is being exported to OpenDocument format."); 
 }
 
 
@@ -140,7 +140,7 @@ if (isset (request->query['dropcapstoggle'])) {
 
 
 if (isset (request->query['pagewidth'])) {
-  $dialog_entry = new Dialog_Entry ("", gettext("Please enter a page width in millimeters"), Database_Config_Bible::getPageWidth ($bible), "pagewidth", gettext ("The width of A4 is 210 mm. The width of Letter is 216 mm."));
+  $dialog_entry = new Dialog_Entry ("", translate("Please enter a page width in millimeters"), Database_Config_Bible::getPageWidth ($bible), "pagewidth", translate ("The width of A4 is 210 mm. The width of Letter is 216 mm."));
   die;
 }
 if (isset(request->post['pagewidth'])) {
@@ -153,7 +153,7 @@ if (isset(request->post['pagewidth'])) {
 
 
 if (isset (request->query['pageheight'])) {
-  $dialog_entry = new Dialog_Entry ("", gettext("Please enter a page height in millimeters"), Database_Config_Bible::getPageHeight ($bible), "pageheight", gettext ("The height of A4 is 297 mm. The width of Letter is 279 mm."));
+  $dialog_entry = new Dialog_Entry ("", translate("Please enter a page height in millimeters"), Database_Config_Bible::getPageHeight ($bible), "pageheight", translate ("The height of A4 is 297 mm. The width of Letter is 279 mm."));
   die;
 }
 if (isset(request->post['pageheight'])) {
@@ -166,7 +166,7 @@ if (isset(request->post['pageheight'])) {
 
 
 if (isset (request->query['innermargin'])) {
-  $dialog_entry = new Dialog_Entry ("", gettext("Please enter an inner margin size in millimeters"), Database_Config_Bible::getInnerMargin ($bible), "innermargin", "");
+  $dialog_entry = new Dialog_Entry ("", translate("Please enter an inner margin size in millimeters"), Database_Config_Bible::getInnerMargin ($bible), "innermargin", "");
   die;
 }
 if (isset(request->post['innermargin'])) {
@@ -179,7 +179,7 @@ if (isset(request->post['innermargin'])) {
 
 
 if (isset (request->query['outermargin'])) {
-  $dialog_entry = new Dialog_Entry ("", gettext("Please enter an outer margin size in millimeters"), Database_Config_Bible::getOuterMargin ($bible), "outermargin", "");
+  $dialog_entry = new Dialog_Entry ("", translate("Please enter an outer margin size in millimeters"), Database_Config_Bible::getOuterMargin ($bible), "outermargin", "");
   die;
 }
 if (isset(request->post['outermargin'])) {
@@ -192,7 +192,7 @@ if (isset(request->post['outermargin'])) {
 
 
 if (isset (request->query['topmargin'])) {
-  $dialog_entry = new Dialog_Entry ("", gettext("Please enter an top margin size in millimeters"), Database_Config_Bible::getTopMargin ($bible), "topmargin", "");
+  $dialog_entry = new Dialog_Entry ("", translate("Please enter an top margin size in millimeters"), Database_Config_Bible::getTopMargin ($bible), "topmargin", "");
   die;
 }
 if (isset(request->post['topmargin'])) {
@@ -205,7 +205,7 @@ if (isset(request->post['topmargin'])) {
 
 
 if (isset (request->query['bottommargin'])) {
-  $dialog_entry = new Dialog_Entry ("", gettext("Please enter an bottom margin size in millimeters"), Database_Config_Bible::getBottomMargin ($bible), "bottommargin", "");
+  $dialog_entry = new Dialog_Entry ("", translate("Please enter an bottom margin size in millimeters"), Database_Config_Bible::getBottomMargin ($bible), "bottommargin", "");
   die;
 }
 if (isset(request->post['bottommargin'])) {
@@ -224,21 +224,21 @@ if (isset (request->query['dateinheadertoggle'])) {
 
 if (request->query.count ('odtsecuretoggle'])) {
   Database_Config_Bible::setSecureOdtExport ($bible, !Database_Config_Bible::getSecureOdtExport ($bible));
-  $view.set_variable ("success = gettext("The setting for securing the OpenDocument export was updated."); 
+  $view.set_variable ("success = translate("The setting for securing the OpenDocument export was updated."); 
 }
 $view.set_variable ("odtsecure = Database_Config_Bible::getSecureOdtExport ($bible);
 
 
 if (request->query.count ('infotoggle'])) {
   Database_Config_Bible::setGenerateInfoDuringNight ($bible, !Database_Config_Bible::getGenerateInfoDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly generation of info was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly generation of info was updated."); 
 }
 $view.set_variable ("info = Database_Config_Bible::getGenerateInfoDuringNight ($bible);
 
 
 if (request->query.count ('infonow'])) {
   Export_Logic::scheduleInfo ($bible);
-  $view.set_variable ("success = gettext("The info documents are being generated."); 
+  $view.set_variable ("success = translate("The info documents are being generated."); 
 }
 
 
@@ -255,34 +255,34 @@ $view.set_variable ("dateinheader = Database_Config_Bible::getDateInHeader ($bib
 
 if (request->query.count ('eswordtoggle'])) {
   Database_Config_Bible::setExportESwordDuringNight ($bible, !Database_Config_Bible::getExportESwordDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly export to e-Sword format was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly export to e-Sword format was updated."); 
 }
 $view.set_variable ("esword = Database_Config_Bible::getExportESwordDuringNight ($bible);
 
 
 if (request->query.count ('eswordnow'])) {
   Export_Logic::scheduleESword ($bible);
-  $view.set_variable ("success = gettext("The Bible is being exported to e-Sword format."); 
+  $view.set_variable ("success = translate("The Bible is being exported to e-Sword format."); 
 }
 
 
 if (request->query.count ('onlinebibletoggle'])) {
   Database_Config_Bible::setExportOnlineBibleDuringNight ($bible, !Database_Config_Bible::getExportOnlineBibleDuringNight ($bible));
-  $view.set_variable ("success = gettext("The setting for nightly export to Online Bible format was updated."); 
+  $view.set_variable ("success = translate("The setting for nightly export to Online Bible format was updated."); 
 }
 $view.set_variable ("onlinebible = Database_Config_Bible::getExportOnlineBibleDuringNight ($bible);
 
 
 if (request->query.count ('onlinebiblenow'])) {
   Export_Logic::scheduleOnlineBible ($bible);
-  $view.set_variable ("success = gettext("The Bible is being exported to Online Bible format."); 
+  $view.set_variable ("success = translate("The Bible is being exported to Online Bible format."); 
 }
 
 
 if (isset (request->query['sheet'])) {
   $sheet = request->query['sheet'];
   if ($sheet == "") {
-    $dialog_list = new Dialog_List2 (gettext("Would you like to use another stylesheet for the exports?"));
+    $dialog_list = new Dialog_List2 (translate("Would you like to use another stylesheet for the exports?"));
     $database_styles = Database_Styles::getInstance();
     $sheets = request->database_styles()->getSheets();
     for ($sheets as $sheet) {
@@ -299,7 +299,7 @@ if (isset (request->query['sheet'])) {
 if (isset(request->post['passwordsubmit'])) {
   $password = request->post['passwordentry'];
   Database_Config_Bible::setExportPassword ($bible, $password);
-  $view.set_variable ("success = gettext("The password for securing exports was saved."); 
+  $view.set_variable ("success = translate("The password for securing exports was saved."); 
 }
 $view.set_variable ("password = Database_Config_Bible::getExportPassword ($bible);
 

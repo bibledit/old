@@ -222,7 +222,7 @@ AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(GIT_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 
-LIBS = -Wall -lpthread
+LIBS = -Wall -lpthread -L.
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)

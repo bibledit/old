@@ -99,21 +99,21 @@ void Database_Notes::create ()
 
   // Enter the standard statuses in the list of translatable strings.
   if (false) {
-    gettext("New");
-    gettext("Pending");
-    gettext("In progress");
-    gettext("Done");
-    gettext("Reopened");
+    translate("New");
+    translate("Pending");
+    translate("In progress");
+    translate("Done");
+    translate("Reopened");
   }
 
   // Enter the standard severities in the list of translatable strings.
   if (false) {
-    gettext("Wish");
-    gettext("Minor");
-    gettext("Normal");
-    gettext("Important");
-    gettext("Major");
-    gettext("Critical");
+    translate("Wish");
+    translate("Minor");
+    translate("Normal");
+    translate("Important");
+    translate("Major");
+    translate("Critical");
   }
 }
 
@@ -1241,7 +1241,7 @@ string Database_Notes::getStatus (int identifier)
 {
   string status = getRawStatus (identifier);
   // Localize status if possible.
-  status = gettext (status.c_str());
+  status = translate (status.c_str());
   // Return status.
   return status;
 }
@@ -1290,7 +1290,7 @@ vector <Database_Notes_Text> Database_Notes::getPossibleStatuses ()
   // Localize the results.
   vector <Database_Notes_Text> localized_statuses;
   for (auto & status : statuses) {
-    string localization = gettext (status.c_str());
+    string localization = translate (status.c_str());
     Database_Notes_Text localized_status;
     localized_status.raw = status;
     localized_status.localized = localization;
@@ -1325,7 +1325,7 @@ string Database_Notes::getSeverity (int identifier)
   string severitystring;
   if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [severity];
   if (severitystring.empty()) severitystring = "Normal";
-  severitystring = gettext (severitystring.c_str());
+  severitystring = translate (severitystring.c_str());
   return severitystring;
 }
 
@@ -1361,7 +1361,7 @@ vector <Database_Notes_Text> Database_Notes::getPossibleSeverities ()
   for (auto & value : standard) {
     Database_Notes_Text severity;
     severity.raw = value;
-    severity.localized = gettext (value.c_str());
+    severity.localized = translate (value.c_str());
     severities.push_back (severity);
   }
   return severities;

@@ -46,7 +46,7 @@ string user_notifications (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (gettext("Notifications"), webserver_request, "");
+  page = Assets_Page::header (translate("Notifications"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 

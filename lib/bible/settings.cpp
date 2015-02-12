@@ -56,7 +56,7 @@ string bible_settings (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Bible"), webserver_request, "");
+  page = Assets_Page::header (translate ("Bible"), webserver_request, "");
   
   Assets_View view = Assets_View ();
   
@@ -75,7 +75,7 @@ string bible_settings (void * webserver_request)
   if (request->query.count ("versification")) {
     string versification = request->query["versification"];
     if (versification == "") {
-      Dialog_List dialog_list = Dialog_List ("settings", gettext("Would you like to change the versification system?"), gettext ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the versification system?"), translate ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
       dialog_list.add_query ("bible", bible);
       Database_Versifications database_versifications = Database_Versifications ();
       vector <string> versification_names = database_versifications.getSystems ();
@@ -95,7 +95,7 @@ string bible_settings (void * webserver_request)
   if (request->query.count ("mapping")) {
     string mapping = request->query["mapping"];
     if (mapping == "") {
-      Dialog_List dialog_list = Dialog_List ("settings", gettext("Would you like to change the verse mapping?"), gettext ("A verse mapping can be used to match verses for parallel Bible display. Please make your choice below."), "");
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the verse mapping?"), translate ("A verse mapping can be used to match verses for parallel Bible display. Please make your choice below."), "");
       dialog_list.add_query ("bible", bible);
       Database_Mappings database_mappings = Database_Mappings ();
       vector <string> mapping_names = database_mappings.names ();
@@ -115,7 +115,7 @@ string bible_settings (void * webserver_request)
   if (request->query.count ("createbook")) {
     string createbook = request->query["createbook"];
     if (createbook == "") {
-      Dialog_Books dialog_books = Dialog_Books ("settings", gettext("Create book"), "", "", "createbook", {}, request->database_bibles ()->getBooks (bible));
+      Dialog_Books dialog_books = Dialog_Books ("settings", translate("Create book"), "", "", "createbook", {}, request->database_bibles ()->getBooks (bible));
       dialog_books.add_query ("bible", bible);
       page += dialog_books.run ();
       return page;
@@ -139,7 +139,7 @@ string bible_settings (void * webserver_request)
       if (write_access) Bible_Logic::deleteBook (bible, convert_to_int (deletebook));
     } else if (confirm == "cancel") {
     } else {
-      Dialog_Yes dialog_yes = Dialog_Yes ("settings", gettext("Would you like to delete this book?"));
+      Dialog_Yes dialog_yes = Dialog_Yes ("settings", translate("Would you like to delete this book?"));
       dialog_yes.add_query ("bible", bible);
       dialog_yes.add_query ("deletebook", deletebook);
       page += dialog_yes.run ();
@@ -152,7 +152,7 @@ string bible_settings (void * webserver_request)
   vector <int> book_ids = filter_passage_get_ordered_books (bible);
   for (auto & book: book_ids) {
     string book_name = Database_Books::getEnglishFromId (book);
-    book_name = gettext(book_name);
+    book_name = translate(book_name);
     bookblock.append ("<a href=\"book?bible=" + bible + "&book=" + convert_to_string (book) + "\">" + book_name + "</a>\n");
   }
   view.set_variable ("bookblock", bookblock);

@@ -34,12 +34,12 @@ $database_users = Database_Users::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-Database_Logs::log (gettext("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
+Database_Logs::log (translate("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
 
 
 $response = client_logic_connection_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  Database_Logs::log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
+  Database_Logs::log (translate("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
   die;
 }
 
@@ -52,7 +52,7 @@ $notes = $database_noteactions->getNotes ();
 for ($notes as $note) {
 
   $summary = $database_notes->getSummary ($note);
-  Database_Logs::log (gettext("Sending note to server") . ": $summary", Filter_Roles::translator ());
+  Database_Logs::log (translate("Sending note to server") . ": $summary", Filter_Roles::translator ());
 
 
   // Go through all the actions for the current note.

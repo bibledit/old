@@ -76,7 +76,7 @@ $filter_text->produceInfoDocument ($informationdFilename);
 $filter_text->produceFalloutDocument ($falloutFilename);
 
 
-Database_Logs::log (gettext("Documents with information and fallout were created") . " $bible", Filter_Roles::translator ());
+Database_Logs::log (translate("Documents with information and fallout were created") . " $bible", Filter_Roles::translator ());
 
 
 ?>

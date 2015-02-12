@@ -182,7 +182,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
                   string usfm = filter_url_file_get_contents (filename);
                   Bible_Logic::storeChapter (bible, book, chapter, usfm);
                   // Log it.
-                  string message = gettext("A translator added chapter") + " " + bible + " " + bookname + " " + chapterfile;
+                  string message = translate("A translator added chapter") + " " + bible + " " + bookname + " " + chapterfile;
                   Database_Logs::log (message);
                 }
               }
@@ -215,16 +215,16 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
           string usfm = request->database_bibles()->getChapter (bible, book, chapter);
           if (contents != usfm) {
             Bible_Logic::storeChapter (bible, book, chapter, contents);
-            Database_Logs::log (gettext("A translator updated chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
           }
         } else {
           Bible_Logic::deleteChapter (bible, book, chapter);
-          Database_Logs::log (gettext("A translator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
         }
       }
     } else {
       Bible_Logic::deleteBook (bible, book);
-      Database_Logs::log (gettext("A translator deleted book") + " " + bible + " " + bookname);
+      Database_Logs::log (translate("A translator deleted book") + " " + bible + " " + bookname);
     }
   }
 }
@@ -250,13 +250,13 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
     // Store chapter in database.
     string usfm = filter_url_file_get_contents (filename);
     Bible_Logic::storeChapter (bible, book, chapter, usfm);
-    Database_Logs::log (gettext("A collaborator updated") + " " + bible + " " + bookname + " " + to_string (chapter));
+    Database_Logs::log (translate("A collaborator updated") + " " + bible + " " + bookname + " " + to_string (chapter));
     
   } else {
     
     // Delete chapter from database.
     Bible_Logic::deleteChapter (bible, book, chapter);
-    Database_Logs::log (gettext("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
     
   }
 }

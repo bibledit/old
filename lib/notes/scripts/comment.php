@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><a href="index">gettext("Back to notes list")</a></p>
-<p>gettext("Summary"): $this->summary</p>
+<p><a href="index">translate("Back to notes list")</a></p>
+<p>translate("Summary"): $this->summary</p>
 <div>$this->content</div>
 <hr>
 <form style="border:1px #bbb solid;" action="comment" name="form"  method="post">
-  <p>gettext("Add a comment to this note:")</p>
+  <p>translate("Add a comment to this note:")</p>
   <textarea name="comment" id="comment" class="fullwidth"></textarea>
   <p>
-    <input type="submit" name="submit" value=gettext("Save") onClick="this.value = 'gettext ("Please wait")'; return true;" />
-    <input type="submit" name="cancel" value=gettext("Cancel") />
+    <input type="submit" name="submit" value=translate("Save") onClick="this.value = 'translate ("Please wait")'; return true;" />
+    <input type="submit" name="cancel" value=translate("Cancel") />
   </p>
   <input type="hidden" name="id" value=$this->id />
 </form>

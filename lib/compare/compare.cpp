@@ -40,7 +40,7 @@
 
 void compare_compare (string bible, string compare, int jobId)
 {
-  Database_Logs::log (gettext("Comparing Bibles") + " " + bible + " " + gettext ("and") + " " + compare, Filter_Roles::consultant ());
+  Database_Logs::log (translate("Comparing Bibles") + " " + bible + " " + translate ("and") + " " + compare, Filter_Roles::consultant ());
 
   
   Database_Jobs database_jobs = Database_Jobs ();
@@ -50,13 +50,13 @@ void compare_compare (string bible, string compare, int jobId)
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
 
-  database_jobs.setProgress (jobId, gettext("The Bibles are being compared..."));
+  database_jobs.setProgress (jobId, translate("The Bibles are being compared..."));
   
 
   // The results of the comparison. Will be displayed to the user.
   vector <string> result;
-  result.push_back (gettext("Bible") + " '" + bible + "' " + gettext ("has been compared with") + " '" + compare + "'.");
-  result.push_back (gettext("Additions are in bold.") + " " + gettext ("Removed words are in strikethrough."));
+  result.push_back (translate("Bible") + " '" + bible + "' " + translate ("has been compared with") + " '" + compare + "'.");
+  result.push_back (translate("Additions are in bold.") + " " + translate ("Removed words are in strikethrough."));
   result.push_back ("");
   
   
@@ -95,13 +95,13 @@ void compare_compare (string bible, string compare, int jobId)
     
     
     if (find (bibleBooks.begin(), bibleBooks.end(), book) == bibleBooks.end()) {
-      absent.push_back (gettext("Bible") + " '" + bible + "' " + gettext ("does not contain") + " " + bookName + ".");
+      absent.push_back (translate("Bible") + " '" + bible + "' " + translate ("does not contain") + " " + bookName + ".");
       continue;
     }
     
     if (find (compareBooks.begin(), compareBooks.end(), book) == compareBooks.end()) {
       if (find (resourceBooks.begin(), resourceBooks.end(), book) == resourceBooks.end ()) {
-        absent.push_back (gettext("Bible/Resource") + " '" + compare + "' " + gettext ("does not contain") + " " + bookName + ".");
+        absent.push_back (translate("Bible/Resource") + " '" + compare + "' " + translate ("does not contain") + " " + bookName + ".");
         continue;
       }
     }
@@ -127,7 +127,7 @@ void compare_compare (string bible, string compare, int jobId)
       
       // Look for, report, and skip missing chapters in the source Bible.
       if (find (bibleChapters.begin(), bibleChapters.end(), chapter) == bibleChapters.end ()) {
-        absent.push_back (gettext("Bible") + " '" + bible + "' " + gettext ("does not contain") + " " + bookName + " " + convert_to_string (chapter) + ".");
+        absent.push_back (translate("Bible") + " '" + bible + "' " + translate ("does not contain") + " " + bookName + " " + convert_to_string (chapter) + ".");
         continue;
       }
 
@@ -135,7 +135,7 @@ void compare_compare (string bible, string compare, int jobId)
       // Look for, report, and skip missing chapters in the comparison USFM data.
       if (find (compareChapters.begin(), compareChapters.end(), chapter) == compareChapters.end()) {
         if (find (resourceChapters.begin(), resourceChapters.end(), chapter) == resourceChapters.end()) {
-          absent.push_back (gettext("Bible/Resource") + " '" + compare + "' " + gettext ("does not contain") + " " + bookName + " " + convert_to_string (chapter) + ".");
+          absent.push_back (translate("Bible/Resource") + " '" + compare + "' " + translate ("does not contain") + " " + bookName + " " + convert_to_string (chapter) + ".");
           continue;
         }
       }
@@ -214,7 +214,7 @@ void compare_compare (string bible, string compare, int jobId)
   // Add the text of the new verses, as they are in the $bible.
   if (!new_verses.empty ()) {
     result.push_back ("");
-    result.push_back (gettext("The texts as they are in the Bible") + " " + bible);
+    result.push_back (translate("The texts as they are in the Bible") + " " + bible);
     result.push_back ("");
     result.insert (result.end(), new_verses.begin(), new_verses.end());
   }
@@ -232,5 +232,5 @@ void compare_compare (string bible, string compare, int jobId)
   database_jobs.setResult (jobId, filter_string_implode (result, "\n"));
   
   
-  Database_Logs::log (gettext("Comparison is ready"), Filter_Roles::consultant ());
+  Database_Logs::log (translate("Comparison is ready"), Filter_Roles::consultant ());
 }

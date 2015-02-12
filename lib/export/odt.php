@@ -130,7 +130,7 @@ if ($secure) {
 }
 
 
-Database_Logs::log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . gettext("Exported to OpenDocument files"), Filter_Roles::translator ());
+Database_Logs::log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . translate("Exported to OpenDocument files"), Filter_Roles::translator ());
 
 
 ?>

@@ -76,29 +76,29 @@ string editusfm_save (void * webserver_request)
                 string newText = chapter_data_to_save;
                 Database_Modifications database_modifications = Database_Modifications ();
                 database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
-                return gettext("Saved");
+                return translate("Saved");
               } else {
-                return gettext("Not saved because of too many changes");
+                return translate("Not saved because of too many changes");
               }
             } else {
               Database_Logs::log ("The following data could not be saved and was discarded: " + chapter_data_to_save);
-              return gettext("Save failure");
+              return translate("Save failure");
             }
           }
         } else {
           Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
-          return gettext("Save failure");
+          return translate("Save failure");
         }
       } else {
         Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
-        return gettext("Nothing to save");
+        return translate("Nothing to save");
       }
     } else {
       request->response_code = 409;
-      return gettext("Checksum error");
+      return translate("Checksum error");
     }
   } else {
-    return gettext("Nothing to save");
+    return translate("Nothing to save");
   }
-  return gettext ("Server is confused");
+  return translate ("Server is confused");
 }

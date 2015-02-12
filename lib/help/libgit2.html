@@ -1,32 +1,32 @@
-<h1>gettext("Build libgit2 for Bibledit")</h1>
+<h1>translate("Build libgit2 for Bibledit")</h1>
 <p>
-  gettext("Bibledit uses libgit2 for interaction with git repositories.")
-  gettext("This is optional.")
-  gettext("It is recommended that Bibledit configured as a server uses git repositories for improved Bible data safety.")
+  translate("Bibledit uses libgit2 for interaction with git repositories.")
+  translate("This is optional.")
+  translate("It is recommended that Bibledit configured as a server uses git repositories for improved Bible data safety.")
 </p>
 <p>
-gettext("The interface of libgit2 is not yet stable.")
-gettext("Bibledit has been tested to work well with one particular version of libgit2:")
-gettext("Version 0.21.5.")
+translate("The interface of libgit2 is not yet stable.")
+translate("Bibledit has been tested to work well with one particular version of libgit2:")
+translate("Version 0.21.5.")
 </p>
 <p>
-gettext("The steps below provide information about how to build libgit2 and where to place the library so that Bibledit can find it.")
+translate("The steps below provide information about how to build libgit2 and where to place the library so that Bibledit can find it.")
 </p>
 
 <ol>
 
 <li>
-  <a href="https://libgit2.github.com/" target="_blank">gettext("Download libgit2 from the website.")</a>
-  gettext("It is available from the Download link.")
-  gettext("Bibledit needs version 0.21.5 exactly.")
+  <a href="https://libgit2.github.com/" target="_blank">translate("Download libgit2 from the website.")</a>
+  translate("It is available from the Download link.")
+  translate("Bibledit needs version 0.21.5 exactly.")
 </li>
 
 <li>
-  gettext("Store the downloaded libgit2 file "v0.21.5.tar.gz" in the home folder.")
+  translate("Store the downloaded libgit2 file "v0.21.5.tar.gz" in the home folder.")
 </li>
 
 <li>
-  gettext("Run the following commands from a Terminal:")
+  translate("Run the following commands from a Terminal:")
 </li>
 
 <li>
@@ -43,17 +43,17 @@ gettext("The steps below provide information about how to build libgit2 and wher
 </li>
 
 <li>
-  gettext("The above should work without errors.")
-  gettext("If program "cmake" is missing, install that first.")
-  gettext("If the compiler or linker are missing, install them first.")
-  gettext("If other dependencies are missing, install them first.")
+  translate("The above should work without errors.")
+  translate("If program "cmake" is missing, install that first.")
+  translate("If the compiler or linker are missing, install them first.")
+  translate("If other dependencies are missing, install them first.")
 </li>
 
 <li>
-  gettext("It will have produced a library file "libgit2.so" and copied it to the home folder.")
-  gettext("Move this library file to the root directory of the bibledit source code.")
-  gettext("Bibledit will search for it there during its configure stage.")
-  gettext("If Bibledit finds "libgit2.so", it will enable collaboration through a git repository.")
+  translate("It will have produced a library file "libgit2.so" and copied it to the home folder.")
+  translate("Move this library file to the root directory of the bibledit source code.")
+  translate("Bibledit will search for it there during its configure stage.")
+  translate("If Bibledit finds "libgit2.so", it will enable collaboration through a git repository.")
 </li>
 
 </ol>

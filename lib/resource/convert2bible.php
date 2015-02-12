@@ -33,7 +33,7 @@ $database_modifications = Database_Modifications::getInstance ();
 
 
 $resource = Filter_Cli::argument (@$argv, 1);
-Database_Logs::log (gettext("Converting USFM Resource to Bible") . ": $resource");
+Database_Logs::log (translate("Converting USFM Resource to Bible") . ": $resource");
 
 
 request->database_bibles()->createBible ($resource); Disable in client.
@@ -50,7 +50,7 @@ for ($books as $book) {
 $database_usfmresources->deleteResource ($resource);
 
 
-Database_Logs::log (gettext("Conversion completed"));
+Database_Logs::log (translate("Conversion completed"));
 
 
 ?>

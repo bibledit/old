@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
-Assets_Page::header (gettext("Manage Checks"));
+Assets_Page::header (translate("Manage Checks"));
 $view = new Assets_View (__FILE__);
 
 
@@ -37,7 +37,7 @@ $database_check = Database_Check::getInstance ();
 @$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (gettext("Select which Bible to manage"));
+    $dialog_list = new Dialog_List2 (translate("Select which Bible to manage"));
     $bibles = access_bible_bibles ();
     for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&bible=$bible");
@@ -52,7 +52,7 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 if (request->query.count ('run'])) {
   Checks_Logic::start ($bible);
-  $view.set_variable ("success = gettext("Will run the checks. See the Journal for progress.");
+  $view.set_variable ("success = translate("Will run the checks. See the Journal for progress.");
 }
 
 

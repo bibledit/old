@@ -18,16 +18,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  gettext("This chapter of the target Bible contains cross references:")
+  translate("This chapter of the target Bible contains cross references:")
   $this->count;
 </p>
 <?php if ($this->tags != 0) {
 <p>
-  gettext("A cross reference is malformed.")
-  gettext("The opening tag does not match the closing tag.")
-  gettext("Please fix it first.")
+  translate("A cross reference is malformed.")
+  translate("The opening tag does not match the closing tag.")
+  translate("Please fix it first.")
 </p>
 <?php } else {
-<p><a href="clear?overwrite=">gettext("Overwrite the existing cross references.")</a></p>
+<p><a href="clear?overwrite=">translate("Overwrite the existing cross references.")</a></p>
 <?php }
-<p><a href="index">gettext("Cancel")</a></p>
+<p><a href="index">translate("Cancel")</a></p>

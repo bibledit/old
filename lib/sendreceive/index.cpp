@@ -63,7 +63,7 @@ string sendreceive_index (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (gettext("Send/Receive"), request);
+  Assets_Header header = Assets_Header (translate("Send/Receive"), request);
   page = header.run ();
   Assets_View view = Assets_View ();
   
@@ -72,7 +72,7 @@ string sendreceive_index (void * webserver_request)
   if (request->query.count ("bible")) {
     bible = request->query["bible"];
     if (bible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", gettext("Select a Bible"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", "");
       vector <string> bibles = access_bible_bibles (request);
       for (auto & bible : bibles) {
         // Select Bibles the user has write access to.
@@ -94,7 +94,7 @@ string sendreceive_index (void * webserver_request)
   
   if (request->query.count ("runbible")) {
     sendreceive_queue_bible (bible);
-    view.set_variable ("successbible", gettext("Will send and receive."));
+    view.set_variable ("successbible", translate("Will send and receive."));
   }
   
   
@@ -105,16 +105,16 @@ string sendreceive_index (void * webserver_request)
   
   
   if (Database_Config_Bible::getRemoteRepositoryUrl (bible) == "") {
-    view.set_variable ("errorbible", gettext("Collaboration has not been set up for this Bible"));
+    view.set_variable ("errorbible", translate("Collaboration has not been set up for this Bible"));
   }
   
   
   if (request->query.count ("runsync")) {
     if (sendreceive_sync_queued ()) {
-      view.set_variable ("successsync", gettext("Still sending and receiving from the last time."));
+      view.set_variable ("successsync", translate("Still sending and receiving from the last time."));
     } else {
       sendreceive_queue_sync (-1);
-      view.set_variable ("successsync", gettext("Will send and receive."));
+      view.set_variable ("successsync", translate("Will send and receive."));
     }
   }
   
@@ -134,7 +134,7 @@ string sendreceive_index (void * webserver_request)
   
   
   if (Database_Config_General::getServerAddress () == "") {
-    view.set_variable ("errorsync", gettext("Collaboration has not been set up for the Bibles and Consultation Notes"));
+    view.set_variable ("errorsync", translate("Collaboration has not been set up for the Bibles and Consultation Notes"));
   }
 
   

@@ -1,139 +1,139 @@
-<h1>gettext("Install Bibledit 1.9 on iOS 7: iPad and iPhone")</h1>
+<h1>translate("Install Bibledit 1.9 on iOS 7: iPad and iPhone")</h1>
 <p>
-  gettext("This assumes a standard iPad or iPhone running iOS 7.")
-  gettext("The steps below have been tested on an iPad mini running iOS 7.1.2.")
+  translate("This assumes a standard iPad or iPhone running iOS 7.")
+  translate("The steps below have been tested on an iPad mini running iOS 7.1.2.")
 </p>
 
 <ol>
 
 <li>
 <p>
-  gettext("Do an untethered jailbreak of iOS 7.1.x on the device with Pangu or another tool.")
-  gettext("A number of guides on the Internet provide assistance.")
+  translate("Do an untethered jailbreak of iOS 7.1.x on the device with Pangu or another tool.")
+  translate("A number of guides on the Internet provide assistance.")
 </p>
 </li>
 
 <li>
 <p>
-  gettext("If the jailbreaking did not install Cydia:")
-  <a href="http://www.cydiaios7.com" target="_blank">gettext("Install Cydia iOS 7 on the device.")</a>
-  gettext("Open Cydia for the first time and let it install the software and reboot the device.")
+  translate("If the jailbreaking did not install Cydia:")
+  <a href="http://www.cydiaios7.com" target="_blank">translate("Install Cydia iOS 7 on the device.")</a>
+  translate("Open Cydia for the first time and let it install the software and reboot the device.")
 </p>
 </li>
 
 <li>
-<p>gettext("Open Cydia, go to Sources, and add the following APT URL:")</p>
+<p>translate("Open Cydia, go to Sources, and add the following APT URL:")</p>
 <p><code>http://ios-webstack.tk/cydia</code></p>
 </li>
 
 <li>
-<p>gettext("In Cydia, search for and install the following package:")</p>
+<p>translate("In Cydia, search for and install the following package:")</p>
 <p><code>ios-lighttpd-php-mysql</code></p>
 </li>
 
 <li>
 <p>
-  gettext("Open Safari on the device.")
-  gettext("Browse to the following address:")
+  translate("Open Safari on the device.")
+  translate("Browse to the following address:")
 </p>
 <p><a href="http://localhost" target="_blank"><code>localhost</code></a></p>
 <p>
-  gettext("It should display a page saying that it works.")
+  translate("It should display a page saying that it works.")
 </p>
 </li>
 
 <li>
 <p>
-  gettext("In the iOS Settings, there is a new entry:")
+  translate("In the iOS Settings, there is a new entry:")
   "Lighttpd MySQL".
-  gettext("Tap it, look for the MySQL Server, and disable it.")
-  gettext("This saves system resources.")
+  translate("Tap it, look for the MySQL Server, and disable it.")
+  translate("This saves system resources.")
 </p>
 </li>
 
 <li>
-<p>gettext("In Cydia, search for and install the following packages:")</p>
+<p>translate("In Cydia, search for and install the following packages:")</p>
 <p><code>MobileTerminal</code></p>
 <p><code>wget</code></p>
 <p><code>unzip</code></p>
 </li>
 
 <li>
-<p>gettext('Open the "Terminal" app.')</p>
+<p>translate('Open the "Terminal" app.')</p>
 </li>
 
 <li>
 <p>
-  gettext("Become root to escalate your privileges.")
-  gettext("In the terminal, type the command below, and press return:")
+  translate("Become root to escalate your privileges.")
+  translate("In the terminal, type the command below, and press return:")
 </p>
 <p><code>su root</code></p>
 <p>
-  gettext("It asks for the password.")
-  gettext("In the terminal, type the password below, and press return:")
+  translate("It asks for the password.")
+  translate("In the terminal, type the password below, and press return:")
 </p>
 <p><code>alpine</code></p>
 <p>
-  gettext("The password is invisible in the terminal.")
+  translate("The password is invisible in the terminal.")
 </p>
 </li>
 
 <li>
 <p>
-  gettext("Change to the home directory.")
-  gettext("In the terminal, type the command below, and press return:")
+  translate("Change to the home directory.")
+  translate("In the terminal, type the command below, and press return:")
 </p>
 <p><code>cd</code></p>
 </li>
 
 <li>
 <p>
-  gettext("Download the Bibledit software.")
-  gettext("In the terminal, type the command below, and press return:")
+  translate("Download the Bibledit software.")
+  translate("In the terminal, type the command below, and press return:")
 </p>
 <p><code>wget --no-check-certificate https://github.com/teusbenschop/bibledit-ios/archive/master.zip</code></p>
 <p>
-  gettext("The download takes some time.")
+  translate("The download takes some time.")
 </p>
 </li>
 
 <li>
 <p>
-  gettext("Unpack the downloaded software.")
-  gettext("In the terminal, type the command below, and press return:")
+  translate("Unpack the downloaded software.")
+  translate("In the terminal, type the command below, and press return:")
 </p>
 <p><code>unzip master</code></p>
 <p>
-  gettext("It will inflate a lot of files.")
+  translate("It will inflate a lot of files.")
 </p>
 </li>
 
 <li>
 <p>
-  gettext("Run the Bibledit installation script.")
-  gettext("In the terminal, type the command below, and press return:")
+  translate("Run the Bibledit installation script.")
+  translate("In the terminal, type the command below, and press return:")
 </p>
 <p><code>./bibledit-ios-master/install</code></p>
 <p>
-  gettext("It will output messages but no errors should occur.")
+  translate("It will output messages but no errors should occur.")
 </p>
 </li>
 
 <li>
 <p>
-  gettext("Open Safari on the device.")
-  gettext("Browse to the following address:")
+  translate("Open Safari on the device.")
+  translate("Browse to the following address:")
 </p>
 <p><a href="http://localhost/Bibledit" target="_blank"><code>localhost/Bibledit</code></a></p>
 <p>
-  gettext("It should display Bibledit.")
-  gettext("Follow the steps in Safari to complete the installation and open Bibledit.")
+  translate("It should display Bibledit.")
+  translate("Follow the steps in Safari to complete the installation and open Bibledit.")
 </p>
 </li>
 
 </ol>
 
 <p>
-  gettext("Note:")
-  gettext("Work on a version of Bibledit on iOS that does not require jailbreaking the device is in progress.")
+  translate("Note:")
+  translate("Work on a version of Bibledit on iOS that does not require jailbreaking the device is in progress.")
 </p>

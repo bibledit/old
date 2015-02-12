@@ -50,7 +50,7 @@ string jobs_index (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (gettext ("Job"), request);
+  Assets_Header header = Assets_Header (translate ("Job"), request);
   
   Assets_View view = Assets_View ();
 
@@ -71,10 +71,10 @@ string jobs_index (void * webserver_request)
   string contents;
   if (!exists) {
     // Check on existence of the job.
-    contents = gettext("This job does not exist.");
+    contents = translate("This job does not exist.");
   } else if (level > userlevel) {
     // Check user access to the job.
-    contents = gettext("This job is not available to you.");
+    contents = translate("This job is not available to you.");
   } else if (!result.empty ()) {
     contents = result;
   } else if (!start.empty () | !progress.empty () | !percentage.empty ()) {
@@ -88,7 +88,7 @@ string jobs_index (void * webserver_request)
       view.set_variable ("progress", progress);
     }
   } else {
-    contents = gettext("The job is scheduled to start shortly.");
+    contents = translate("The job is scheduled to start shortly.");
   }
   view.set_variable ("contents", contents);
 

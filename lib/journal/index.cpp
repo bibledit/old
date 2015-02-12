@@ -93,12 +93,12 @@ string journal_index (void * webserver_request)
   Database_Logs database_logs = Database_Logs ();
 
   
-  Assets_Header header = Assets_Header (gettext ("Journal"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Journal"), webserver_request);
   string page = header.run ();
 
 
   Assets_View view = Assets_View ();
-  view.set_variable ("journal", gettext ("Journal"));
+  view.set_variable ("journal", translate ("Journal"));
 
 
   string lastfilename;

@@ -85,7 +85,7 @@ $ids = request->database_search()->searchText ($queryString, array ($exportedBib
 // Hit count.
 $hitCount = count ($ids);
 echo "<font size=\"-1\" color=\"grey\"><hr /></font>\n";
-echo "<p><font size=\"-1\" color=\"grey\">$hitCount " . gettext("chapters") . "</font></p>\n";
+echo "<p><font size=\"-1\" color=\"grey\">$hitCount " . translate("chapters") . "</font></p>\n";
 
 
 // Go through the search hits.

@@ -102,7 +102,7 @@ Passage Passage::from_text (const string& text)
 string filter_passage_display (int book, int chapter, string verse)
 {
   string display;
-  display.append (gettext (Database_Books::getEnglishFromId (book).c_str()));
+  display.append (translate (Database_Books::getEnglishFromId (book).c_str()));
   display.append (" ");
   display.append (convert_to_string (chapter));
   if (!verse.empty ()) display.append (":" + verse);

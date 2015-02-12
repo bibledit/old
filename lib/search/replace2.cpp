@@ -95,7 +95,7 @@ string search_replace2 (void * webserver_request)
   
   // Build the advanced replace page.
   string page;
-  Assets_Header header = Assets_Header (gettext("Replace"), request);
+  Assets_Header header = Assets_Header (translate("Replace"), request);
   page = header.run ();
   Assets_View view = Assets_View ();
   view.set_variable ("bible", bible);

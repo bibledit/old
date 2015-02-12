@@ -156,8 +156,8 @@ string Assets_Header::run ()
     view->set_variable ("usermenu", menu_user.create (loginrequest));
     if (request->session_logic ()->currentLevel () >= 2) {
       view->enable_zone ("display_search");
-      view->set_variable ("search", gettext ("Search"));
-      view->set_variable ("searching", gettext ("Searching"));
+      view->set_variable ("search", translate ("Search"));
+      view->set_variable ("searching", translate ("Searching"));
     }
     if (displayNavigator) {
       view->enable_zone ("display_navigator");

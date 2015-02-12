@@ -131,9 +131,9 @@ string client_index (void * webserver_request)
       // Enable client mode upon a successful connection.
       client_index_enable_client (request, user, pass, iresponse);
       // Feedback.
-      view.set_variable ("success", gettext("Connection is okay."));
+      view.set_variable ("success", translate("Connection is okay."));
     } else {
-      view.set_variable ("error", gettext ("Could not make the connection with the Bibledit server") + ": " + response);
+      view.set_variable ("error", translate ("Could not make the connection with the Bibledit server") + ": " + response);
     }
   }
 
@@ -160,7 +160,7 @@ string client_index (void * webserver_request)
 
   // Since the role of the user may change after a successful connection to the server,
   // the menu generation in the header should be postponed till when the actual role is known.
-  page = Assets_Page::header (gettext ("Client mode"), webserver_request, "");
+  page = Assets_Page::header (translate ("Client mode"), webserver_request, "");
   
   page += view.render ("client", "index");
   

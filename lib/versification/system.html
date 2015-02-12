@@ -1,17 +1,17 @@
-<h1>gettext("Versification system") ##name##</h1>
+<h1>translate("Versification system") ##name##</h1>
 
 <p>
-gettext("This shows how many verses each chapter of the Bible has according to this versification system, and how many chapters each book has.")
-gettext("It can be edited further down the page.")
-<a href="index?delete=##name##">gettext("Delete this versification.")</a>
+translate("This shows how many verses each chapter of the Bible has according to this versification system, and how many chapters each book has.")
+translate("It can be edited further down the page.")
+<a href="index?delete=##name##">translate("Delete this versification.")</a>
 </p>
 
 <table>
   <thead>
     <tr>
-      <td>gettext("Book")</td>
-      <td>gettext("Chapter")</td>
-      <td>gettext("Verses")</td>
+      <td>translate("Book")</td>
+      <td>translate("Chapter")</td>
+      <td>translate("Verses")</td>
     </tr>
   </thead>
   <tbody>
@@ -22,12 +22,12 @@ gettext("It can be edited further down the page.")
 <br>
 
 <p>
-gettext("You can modify this versification system.")
-gettext ("To do that, edit the data below, and then submit it.")
-gettext ("It will overwrite whatever was there before.")
+translate("You can modify this versification system.")
+translate ("To do that, edit the data below, and then submit it.")
+translate ("It will overwrite whatever was there before.")
 </p>
 
 <form action="?name=##name##" name="form" method="post">
   <p><textarea name="data">##output##</textarea></p>
-  <p><input type="submit" name="submit" value=gettext("Submit") /></p>
+  <p><input type="submit" name="submit" value=translate("Submit") /></p>
 </form>

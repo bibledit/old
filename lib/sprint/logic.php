@@ -126,7 +126,7 @@ class Sprint_Logic
     // Write "days" below the x-axis.
     lines.push_back ('<tr>';
     $columncount = count ($data);
-    $text = gettext("days");
+    $text = translate("days");
     lines.push_back ("<td colspan=\"$columncount\">$text</td>";
     lines.push_back ("</tr>";
 

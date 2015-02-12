@@ -18,17 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-<a href="index">gettext("Back to notes list")</a>
+<a href="index">translate("Back to notes list")</a>
 |
-<a href="actions?id=$this->id">gettext("Actions")</a>
+<a href="actions?id=$this->id">translate("Actions")</a>
 </p>
 <p>
-gettext("Summary"): $this->summary
+translate("Summary"): $this->summary
 <?php if ($this->level >= 5) {
-  [<a href="summary?id=$this->id">gettext("edit")</a>]
+  [<a href="summary?id=$this->id">translate("edit")</a>]
 <?php }
 </p>
 <div>$this->content</div>
 <hr>
-<p><a href="comment?id=$this->id">gettext("Add a comment to this note")</a></p>
+<p><a href="comment?id=$this->id">translate("Add a comment to this note")</a></p>
 <script type="text/javascript" src="poll.js?##VERSION##"></script>

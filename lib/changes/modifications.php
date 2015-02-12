@@ -56,7 +56,7 @@ for ($users as $user) {
   for ($bibles as $bible) {
 
     // Body of the email to be sent.
-    $email = "<p>" . gettext("You have entered the changes below in the online Bible Editor.") ." " . gettext ("You may check if it made its way into the Bible text.") . "</p>";
+    $email = "<p>" . translate("You have entered the changes below in the online Bible Editor.") ." " . translate ("You may check if it made its way into the Bible text.") . "</p>";
 
     // Go through the books in that Bible.
     $books = $database_modifications->getUserBooks ($user, $bible);
@@ -104,7 +104,7 @@ for ($users as $user) {
 
     // Send the user email with the user's personal changes if the user opted to receive it.
     if (request->database_config_user()->getUserUserChangesNotification ($user)) {
-      $subject = gettext("Changes you entered in") . " " . $bible;
+      $subject = translate("Changes you entered in") . " " . $bible;
       if (!client_logic_client_enabled ()) $database_mail->send ($user, $subject, $email);
     }
     unset ($email);
@@ -142,8 +142,8 @@ function processIdentifiers ($user, bible, book, chapter, $oldId, $newId, &$emai
       if ($old_verse_usfm != $new_verse_usfm) {
         $filter_text_old = new Filter_Text ($bible);
         $filter_text_new = new Filter_Text ($bible);
-        $filter_text_old->html_text_standard = new Html_Text (gettext("Bible"));
-        $filter_text_new->html_text_standard = new Html_Text (gettext("Bible"));
+        $filter_text_old->html_text_standard = new Html_Text (translate("Bible"));
+        $filter_text_new->html_text_standard = new Html_Text (translate("Bible"));
         $filter_text_old->text_text = new Text_Text ();
         $filter_text_new->text_text = new Text_Text ();
         $filter_text_old->addUsfmCode ($old_verse_usfm);
@@ -213,7 +213,7 @@ for ($bibles as $bible) {
 
 
   // Email users.
-  $subject = gettext("Recent changes") . " " . $bible;
+  $subject = translate("Recent changes") . " " . $bible;
   $emailBody = filter_url_file_get_contents ($versesoutputfile);
   $users = request->database_users ()->getUsers ();
   for ($users as $user) {
@@ -247,8 +247,8 @@ for ($bibles as $bible) {
           if ($processedChangesCount < 800) {
             $filter_text_old = new Filter_Text ($bible);
             $filter_text_new = new Filter_Text ($bible);
-            $filter_text_old->html_text_standard = new Html_Text (gettext("Bible"));
-            $filter_text_new->html_text_standard = new Html_Text (gettext("Bible"));
+            $filter_text_old->html_text_standard = new Html_Text (translate("Bible"));
+            $filter_text_new->html_text_standard = new Html_Text (translate("Bible"));
             $filter_text_old->text_text = new Text_Text ();
             $filter_text_new->text_text = new Text_Text ();
             $filter_text_old->addUsfmCode ($old_verse_usfm);

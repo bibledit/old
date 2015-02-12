@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <a name="line$this->line_number_edit"></a>
   <form action="$this->caller?session=$this->session&bible=$this->bible&book=$this->book&chapter=$this->chapter&textsaveline=$this->line_number_edit#line$this->goto_line" name="form" method="post">
   <p><textarea name="data">$this->line_data_edit</textarea></p>
-  <p><input type="submit" name="submit" value=gettext("Save") /><input type="submit" name="cancel" value=gettext ("Cancel") /></p>
+  <p><input type="submit" name="submit" value=translate("Save") /><input type="submit" name="cancel" value=translate ("Cancel") /></p>
 </form>
 <?php }
 <?php for ($this->line_data_after as $offset => $line) {

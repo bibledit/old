@@ -56,14 +56,14 @@ $month = request->database_config_user()->getSprintMonth ();
 $year = request->database_config_user()->getSprintYear ();
 
 
-$header = new Assets_Header (gettext("Sprint"));
+$header = new Assets_Header (translate("Sprint"));
 $view = new Assets_View (__FILE__);
 
 
 @$title = request->post ['add'];
 if (isset ($title)) {
   $database_sprint->storeTask ($bible, $year, $month, $title);
-  $view.set_variable ("success = gettext("New task added");
+  $view.set_variable ("success = translate("New task added");
   // Focus the entry for adding tasks only in case a new task was added.
   $header->setBodyOnload ('document.addtask.add.focus();'); // Use html5 autofocus
 }
@@ -72,7 +72,7 @@ if (isset ($title)) {
 @$mail = request->query ['mail'];
 if (isset ($mail)) {
   Sprint_Logic::burndown ($bible, true);
-  $view.set_variable ("success = gettext("The information was mailed to the subscribers");
+  $view.set_variable ("success = translate("The information was mailed to the subscribers");
   // Give the burndown logic time to update the sprint history,
   // so the page will display the updated burndown chart.
   sleep (2);
@@ -85,7 +85,7 @@ $header->run ();
 @$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (gettext("Select which Bible to display the Sprint for"));
+    $dialog_list = new Dialog_List2 (translate("Select which Bible to display the Sprint for"));
     $bibles = access_bible_bibles ();
     for ($bibles as $bible) {
       // Select from Bibles the user has write access to.
@@ -110,7 +110,7 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 if (isset ($moveback)) {
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
-  $view.set_variable ("success = gettext("The task was moved to the previous sprint");
+  $view.set_variable ("success = translate("The task was moved to the previous sprint");
 }
 
 
@@ -118,7 +118,7 @@ if (isset ($moveback)) {
 if (isset ($moveforward)) {
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
-  $view.set_variable ("success = gettext("The task was moved to the next sprint");
+  $view.set_variable ("success = translate("The task was moved to the next sprint");
 }
 
 

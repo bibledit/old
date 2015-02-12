@@ -56,7 +56,7 @@ string bible_book (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Book"), webserver_request, "");
+  page = Assets_Page::header (translate ("Book"), webserver_request, "");
   
   Assets_View view = Assets_View ();
   
@@ -82,7 +82,7 @@ string bible_book (void * webserver_request)
   if (deletechapter != "") {
     string confirm = request->query ["confirm"];
     if (confirm == "") {
-      Dialog_Yes dialog_yes = Dialog_Yes ("book", gettext("Would you like to delete this chapter?"));
+      Dialog_Yes dialog_yes = Dialog_Yes ("book", translate("Would you like to delete this chapter?"));
       dialog_yes.add_query ("bible", bible);
       dialog_yes.add_query ("book", convert_to_string (book));
       dialog_yes.add_query ("deletechapter", deletechapter);
@@ -95,7 +95,7 @@ string bible_book (void * webserver_request)
   
   // Add chapter.
   if (request->query.count ("createchapter")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("book", gettext("Please enter the number for the new chapter"), "", "createchapter", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("book", translate("Please enter the number for the new chapter"), "", "createchapter", "");
     dialog_entry.add_query ("bible", bible);
     dialog_entry.add_query ("book", convert_to_string (book));
     page += dialog_entry.run ();
@@ -113,7 +113,7 @@ string bible_book (void * webserver_request)
       if (result) success_message = message;
       else error_message = message;
     } else {
-      error_message = gettext ("This chapter already exists");
+      error_message = translate ("This chapter already exists");
     }
   }
   

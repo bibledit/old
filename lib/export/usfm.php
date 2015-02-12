@@ -116,7 +116,7 @@ if (Database_Config_Bible::getSecureUsfmExport ($bible)) {
 }
 
 
-Database_Logs::log ($bible . ": " . gettext("Exported to USFM"), Filter_Roles::translator ());
+Database_Logs::log ($bible . ": " . translate("Exported to USFM"), Filter_Roles::translator ());
 
 
 ?>

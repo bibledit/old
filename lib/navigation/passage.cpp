@@ -47,13 +47,13 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   // Links to go back and forward are grayed out or active depending on available passages to go to.
   fragments.push_back ("<div id=\"backforward\">");
   if (database_navigation.previousExists (user)) {
-    fragments.push_back ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + gettext("Back") + "\">↶</a>");
+    fragments.push_back ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
   } else {
     fragments.push_back ("<span class=\"grayedout\">↶</span>");
   }
   fragments.push_back ("");
   if (database_navigation.nextExists (user)) {
-    fragments.push_back ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + gettext("Forward") + "\">↷</a>");
+    fragments.push_back ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
   } else {
     fragments.push_back ("<span class=\"grayedout\">↷</span>");
   }
@@ -88,7 +88,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   fragments.push_back ("<div id=\"versepicker\">");
   
   fragments.push_back ("<input name=\"selectpassage\" id=\"selectpassage\" type=\"text\" value=\"" + bookName + " " + convert_to_string (chapter) + ":" + convert_to_string (verse) + "\" size=\"14\" />");
-  fragments.push_back ("<input name=\"submitpassage\" id=\"submitpassage\" type=\"submit\" value=\"" + gettext("Go") + "\" />");
+  fragments.push_back ("<input name=\"submitpassage\" id=\"submitpassage\" type=\"submit\" value=\"" + translate("Go") + "\" />");
   
   fragments.push_back ("<div id=\"handpicker\">");
   

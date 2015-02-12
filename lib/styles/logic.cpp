@@ -26,44 +26,44 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // categoryText - Returns the $category as human readable text.
 string styles_logic_category_text (string category)
 {
-  if (category == "id")  return gettext ("Identification information");
-  if (category == "ith") return gettext ("Introduction titles and headings");
-  if (category == "ipp") return gettext ("Introduction paragraphs and poetry");
-  if (category == "ioe") return gettext ("Introduction other elements");
-  if (category == "t"  ) return gettext ("Titles");
-  if (category == "h"  ) return gettext ("Headings");
-  if (category == "cv" ) return gettext ("Chapters and verses");
-  if (category == "p"  ) return gettext ("Paragraphs");
-  if (category == "l"  ) return gettext ("Lists");
-  if (category == "pe" ) return gettext ("Poetry elements");
-  if (category == "te" ) return gettext ("Table elements");
-  if (category == "f"  ) return gettext ("Footnotes");
-  if (category == "x"  ) return gettext ("Crossreferences");
-  if (category == "xsn") return gettext ("Extended study notes");
-  if (category == "st" ) return gettext ("Special text");
-  if (category == "cs" ) return gettext ("Character styles");
-  if (category == "sb" ) return gettext ("Spacings and breaks");
-  if (category == "sf" ) return gettext ("Special features");
-  if (category == "pm" ) return gettext ("Peripheral materials");
-  return gettext ("Extra styles");
+  if (category == "id")  return translate ("Identification information");
+  if (category == "ith") return translate ("Introduction titles and headings");
+  if (category == "ipp") return translate ("Introduction paragraphs and poetry");
+  if (category == "ioe") return translate ("Introduction other elements");
+  if (category == "t"  ) return translate ("Titles");
+  if (category == "h"  ) return translate ("Headings");
+  if (category == "cv" ) return translate ("Chapters and verses");
+  if (category == "p"  ) return translate ("Paragraphs");
+  if (category == "l"  ) return translate ("Lists");
+  if (category == "pe" ) return translate ("Poetry elements");
+  if (category == "te" ) return translate ("Table elements");
+  if (category == "f"  ) return translate ("Footnotes");
+  if (category == "x"  ) return translate ("Crossreferences");
+  if (category == "xsn") return translate ("Extended study notes");
+  if (category == "st" ) return translate ("Special text");
+  if (category == "cs" ) return translate ("Character styles");
+  if (category == "sb" ) return translate ("Spacings and breaks");
+  if (category == "sf" ) return translate ("Special features");
+  if (category == "pm" ) return translate ("Peripheral materials");
+  return translate ("Extra styles");
 }
 
 
 // Returns the $type as human readable text.
 string styles_logic_type_text (int type)
 {
-  if (type == StyleTypeIdentifier     ) return gettext ("is an identifier");
-  if (type == StyleTypeStartsParagraph) return gettext ("starts a new paragraph");
-  if (type == StyleTypeInlineText     ) return gettext ("is inline text with endmarker");
-  if (type == StyleTypeChapterNumber  ) return gettext ("is a chapter number");
-  if (type == StyleTypeVerseNumber    ) return gettext ("is a verse number");
-  if (type == StyleTypeFootEndNote    ) return gettext ("is a footnote or endnote");
-  if (type == StyleTypeCrossreference ) return gettext ("is a crossreference");
-  if (type == StyleTypePeripheral     ) return gettext ("is a peripheral element");
-  if (type == StyleTypePicture        ) return gettext ("is a picture");
-  if (type == StyleTypePageBreak      ) return gettext ("starts a new page");
-  if (type == StyleTypeTableElement   ) return gettext ("is a table element");
-  if (type == StyleTypeWordlistElement) return gettext ("is a word list element");
+  if (type == StyleTypeIdentifier     ) return translate ("is an identifier");
+  if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
+  if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
+  if (type == StyleTypeChapterNumber  ) return translate ("is a chapter number");
+  if (type == StyleTypeVerseNumber    ) return translate ("is a verse number");
+  if (type == StyleTypeFootEndNote    ) return translate ("is a footnote or endnote");
+  if (type == StyleTypeCrossreference ) return translate ("is a crossreference");
+  if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
+  if (type == StyleTypePicture        ) return translate ("is a picture");
+  if (type == StyleTypePageBreak      ) return translate ("starts a new page");
+  if (type == StyleTypeTableElement   ) return translate ("is a table element");
+  if (type == StyleTypeWordlistElement) return translate ("is a word list element");
   return "--";
 }
 
@@ -72,22 +72,22 @@ string styles_logic_type_text (int type)
 string styles_logic_subtype_text (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeBook                  ) return gettext ("identifies the book");
-    if (subtype == IdentifierSubtypeEncoding              ) return gettext ("identifies the encoding");
-    if (subtype == IdentifierSubtypeComment               ) return gettext ("is a comment");
-    if (subtype == IdentifierSubtypeRunningHeader         ) return gettext ("is a running header");
-    if (subtype == IdentifierSubtypeLongTOC               ) return gettext ("is long table of contents text");
-    if (subtype == IdentifierSubtypeShortTOC              ) return gettext ("is short table of contents text");
-    if (subtype == IdentifierSubtypeBookAbbrev            ) return gettext ("is the book abbreviation");
-    if (subtype == IdentifierSubtypeChapterLabel          ) return gettext ("is the chapter label");
-    if (subtype == IdentifierSubtypePublishedChapterMarker) return gettext ("is the published chapter marker");
-    if (subtype == IdentifierSubtypeCommentWithEndmarker  ) return gettext ("is a comment with an endmarker");
+    if (subtype == IdentifierSubtypeBook                  ) return translate ("identifies the book");
+    if (subtype == IdentifierSubtypeEncoding              ) return translate ("identifies the encoding");
+    if (subtype == IdentifierSubtypeComment               ) return translate ("is a comment");
+    if (subtype == IdentifierSubtypeRunningHeader         ) return translate ("is a running header");
+    if (subtype == IdentifierSubtypeLongTOC               ) return translate ("is long table of contents text");
+    if (subtype == IdentifierSubtypeShortTOC              ) return translate ("is short table of contents text");
+    if (subtype == IdentifierSubtypeBookAbbrev            ) return translate ("is the book abbreviation");
+    if (subtype == IdentifierSubtypeChapterLabel          ) return translate ("is the chapter label");
+    if (subtype == IdentifierSubtypePublishedChapterMarker) return translate ("is the published chapter marker");
+    if (subtype == IdentifierSubtypeCommentWithEndmarker  ) return translate ("is a comment with an endmarker");
   }
   if (type == StyleTypeStartsParagraph) {
-    if (subtype == ParagraphSubtypeMainTitle)       return gettext ("is a main title");
-    if (subtype == ParagraphSubtypeSubTitle)        return gettext ("is a subtitle");
-    if (subtype == ParagraphSubtypeSectionHeading)  return gettext ("is a section heading");
-    if (subtype == ParagraphSubtypeNormalParagraph) return gettext ("is a normal paragraph");
+    if (subtype == ParagraphSubtypeMainTitle)       return translate ("is a main title");
+    if (subtype == ParagraphSubtypeSubTitle)        return translate ("is a subtitle");
+    if (subtype == ParagraphSubtypeSectionHeading)  return translate ("is a section heading");
+    if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is a normal paragraph");
   }
   if (type == StyleTypeInlineText) {
   }
@@ -96,45 +96,45 @@ string styles_logic_subtype_text (int type, int subtype)
   if (type == StyleTypeVerseNumber) {
   }
   if (type == StyleTypeFootEndNote) {
-    if (subtype == FootEndNoteSubtypeFootnote            ) return gettext ("starts a footnote");
-    if (subtype == FootEndNoteSubtypeEndnote             ) return gettext ("starts an endnote");
-    if (subtype == FootEndNoteSubtypeStandardContent     ) return gettext ("is standard content");
-    if (subtype == FootEndNoteSubtypeContent             ) return gettext ("is content");
-    if (subtype == FootEndNoteSubtypeContentWithEndmarker) return gettext ("is content with endmarker");
-    if (subtype == FootEndNoteSubtypeParagraph           ) return gettext ("starts another paragraph");
+    if (subtype == FootEndNoteSubtypeFootnote            ) return translate ("starts a footnote");
+    if (subtype == FootEndNoteSubtypeEndnote             ) return translate ("starts an endnote");
+    if (subtype == FootEndNoteSubtypeStandardContent     ) return translate ("is standard content");
+    if (subtype == FootEndNoteSubtypeContent             ) return translate ("is content");
+    if (subtype == FootEndNoteSubtypeContentWithEndmarker) return translate ("is content with endmarker");
+    if (subtype == FootEndNoteSubtypeParagraph           ) return translate ("starts another paragraph");
   }
   if (type == StyleTypeCrossreference) {
-    if (subtype == ParagraphSubtypeMainTitle      ) return gettext ("starts a crossreference");
-    if (subtype == ParagraphSubtypeSubTitle       ) return gettext ("is standard content");
-    if (subtype == ParagraphSubtypeSectionHeading ) return gettext ("is content");
-    if (subtype == ParagraphSubtypeNormalParagraph) return gettext ("is content with endmarker");
+    if (subtype == ParagraphSubtypeMainTitle      ) return translate ("starts a crossreference");
+    if (subtype == ParagraphSubtypeSubTitle       ) return translate ("is standard content");
+    if (subtype == ParagraphSubtypeSectionHeading ) return translate ("is content");
+    if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is content with endmarker");
   }
   if (type == StyleTypePeripheral) {
-    if (subtype == PeripheralSubtypePublication    ) return gettext ("starts publication data");
-    if (subtype == PeripheralSubtypeTableOfContents) return gettext ("starts table of contents");
-    if (subtype == PeripheralSubtypePreface        ) return gettext ("starts preface");
-    if (subtype == PeripheralSubtypeIntroduction   ) return gettext ("starts introduction");
-    if (subtype == PeripheralSubtypeGlossary       ) return gettext ("starts concordance");
-    if (subtype == PeripheralSubtypeConcordance    ) return gettext ("starts glossary");
-    if (subtype == PeripheralSubtypeIndex          ) return gettext ("starts index");
-    if (subtype == PeripheralSubtypeMapIndex       ) return gettext ("starts map index");
-    if (subtype == PeripheralSubtypeCover          ) return gettext ("starts cover");
-    if (subtype == PeripheralSubtypeSpine          ) return gettext ("starts spine");
+    if (subtype == PeripheralSubtypePublication    ) return translate ("starts publication data");
+    if (subtype == PeripheralSubtypeTableOfContents) return translate ("starts table of contents");
+    if (subtype == PeripheralSubtypePreface        ) return translate ("starts preface");
+    if (subtype == PeripheralSubtypeIntroduction   ) return translate ("starts introduction");
+    if (subtype == PeripheralSubtypeGlossary       ) return translate ("starts concordance");
+    if (subtype == PeripheralSubtypeConcordance    ) return translate ("starts glossary");
+    if (subtype == PeripheralSubtypeIndex          ) return translate ("starts index");
+    if (subtype == PeripheralSubtypeMapIndex       ) return translate ("starts map index");
+    if (subtype == PeripheralSubtypeCover          ) return translate ("starts cover");
+    if (subtype == PeripheralSubtypeSpine          ) return translate ("starts spine");
   }
   if (type == StyleTypePicture) {
   }
   if (type == StyleTypePageBreak) {
   }
   if (type == StyleTypeTableElement) {
-    if (subtype == TableElementSubtypeRow    ) return gettext ("starts a new row");
-    if (subtype == TableElementSubtypeHeading) return gettext ("is a column heading");
-    if (subtype == TableElementSubtypeCell   ) return gettext ("is cell data");
+    if (subtype == TableElementSubtypeRow    ) return translate ("starts a new row");
+    if (subtype == TableElementSubtypeHeading) return translate ("is a column heading");
+    if (subtype == TableElementSubtypeCell   ) return translate ("is cell data");
   }
   if (type == StyleTypeWordlistElement) {
-    if (subtype == WorListElementSubtypeWordlistGlossaryDictionary) return gettext ("is a wordlist / glossary / dictionary entry");
-    if (subtype == WorListElementSubtypeHebrewWordlistEntry       ) return gettext ("is a Hebrew wordlist entry");
-    if (subtype == WorListElementSubtypeGreekWordlistEntry        ) return gettext ("is a Greek wordlist entry");
-    if (subtype == WorListElementSubtypeSubjectIndexEntry         ) return gettext ("is a subject index entry");
+    if (subtype == WorListElementSubtypeWordlistGlossaryDictionary) return translate ("is a wordlist / glossary / dictionary entry");
+    if (subtype == WorListElementSubtypeHebrewWordlistEntry       ) return translate ("is a Hebrew wordlist entry");
+    if (subtype == WorListElementSubtypeGreekWordlistEntry        ) return translate ("is a Greek wordlist entry");
+    if (subtype == WorListElementSubtypeSubjectIndexEntry         ) return translate ("is a subject index entry");
   }
   return "--";
 }
@@ -230,10 +230,10 @@ bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtyp
 // Returns the $value as human readable text.
 string styles_logic_off_on_inherit_toggle_text (int value)
 {
-  if (value == ooitOff    ) return gettext ("Off");
-  if (value == ooitOn     ) return gettext ("On");
-  if (value == ooitInherit) return gettext ("Inherit");
-  if (value == ooitToggle ) return gettext ("Toggle");
+  if (value == ooitOff    ) return translate ("Off");
+  if (value == ooitOn     ) return translate ("On");
+  if (value == ooitInherit) return translate ("Inherit");
+  if (value == ooitToggle ) return translate ("Toggle");
   return "--";
 }
 
@@ -304,10 +304,10 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
 // Returns the $value as human readable text.
 string styles_logic_alignment_text (int value)
 {
-  if (value == AlignmentLeft   ) return gettext ("Start (Left in left-to-right script)");
-  if (value == AlignmentCenter ) return gettext ("Center");
-  if (value == AlignmentRight  ) return gettext ("End (Right in left-to-right script)");
-  if (value == AlignmentJustify) return gettext ("Justify");
+  if (value == AlignmentLeft   ) return translate ("Start (Left in left-to-right script)");
+  if (value == AlignmentCenter ) return translate ("Center");
+  if (value == AlignmentRight  ) return translate ("End (Right in left-to-right script)");
+  if (value == AlignmentJustify) return translate ("Justify");
   return "--";
 }
 
@@ -405,10 +405,10 @@ int styles_logic_get_userbool1_function (int type, int subtype)
 string styles_logic_get_userbool1_text (int function)
 {
   switch (function) {
-    case UserBool1PrintChapterAtFirstVerse : return gettext ("Print chapter number at first verse");
-    case UserBool1IdStartsNewPage          : return gettext ("Start on a new page");
-    case UserBool1NoteAppliesToApocrypha   : return gettext ("Refers to the Apocrypha");
-    case UserBool1VerseRestartsParagraph   : return gettext ("Restart paragraph");
+    case UserBool1PrintChapterAtFirstVerse : return translate ("Print chapter number at first verse");
+    case UserBool1IdStartsNewPage          : return translate ("Start on a new page");
+    case UserBool1NoteAppliesToApocrypha   : return translate ("Refers to the Apocrypha");
+    case UserBool1VerseRestartsParagraph   : return translate ("Restart paragraph");
   }
   return "--";
 }
@@ -432,9 +432,9 @@ int styles_logic_get_userbool2_function (int type, int subtype)
 string styles_logic_get_userbool2_text (int function)
 {
   switch (function) {
-    case UserBool2IdStartsOddPage            : return gettext ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
-    case UserBool2ChapterInLeftRunningHeader : return gettext ("Print chapter number in the running header of the left page");
-    case UserBool2RunningHeaderLeft          : return gettext ("Print this in the running header of the left page");
+    case UserBool2IdStartsOddPage            : return translate ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
+    case UserBool2ChapterInLeftRunningHeader : return translate ("Print chapter number in the running header of the left page");
+    case UserBool2RunningHeaderLeft          : return translate ("Print this in the running header of the left page");
   }
   return "";
 }
@@ -458,8 +458,8 @@ int styles_logic_get_userbool3_function (int type, int subtype)
 string styles_logic_get_userbool3_text (int function)
 {
   switch (function) {
-    case UserBool3ChapterInRightRunningHeader : return gettext ("Print chapter number in the running header of the right page");
-    case UserBool3RunningHeaderRight          : return gettext ("Print this in the running header of the right page");
+    case UserBool3ChapterInRightRunningHeader : return translate ("Print chapter number in the running header of the right page");
+    case UserBool3RunningHeaderRight          : return translate ("Print this in the running header of the right page");
   }
   return "";
 }
@@ -493,7 +493,7 @@ string styles_logic_note_numbering_text (int value)
 {
   if (value == NoteNumbering123 ) return "1, 2, 3 ...";
   if (value == NoteNumberingAbc ) return "a, b, c ...";
-  if (value == NoteNumberingUser) return gettext ("User defined sequence");
+  if (value == NoteNumberingUser) return translate ("User defined sequence");
   return convert_to_string (value);
 }
 
@@ -518,9 +518,9 @@ int styles_logic_get_userint2_function (int type, int subtype)
 // Returns the value as human readable text for when to restart the note numbering.
 string styles_logic_note_restart_numbering_text (int value)
 {
-  if (value == NoteRestartNumberingNever       ) return gettext ("Never");
-  if (value == NoteRestartNumberingEveryBook   ) return gettext ("Every book");
-  if (value == NoteRestartNumberingEveryChapter) return gettext ("Every chapter");
+  if (value == NoteRestartNumberingNever       ) return translate ("Never");
+  if (value == NoteRestartNumberingEveryBook   ) return translate ("Every book");
+  if (value == NoteRestartNumberingEveryChapter) return translate ("Every chapter");
   return convert_to_string (value);
 }
 
@@ -528,9 +528,9 @@ string styles_logic_note_restart_numbering_text (int value)
 // Returns the value as human readable text for the position of the endnotes.
 string styles_logic_end_note_position_text (int value)
 {
-  if (value == EndNotePositionAfterBook) return gettext ("After each book");
-  if (value == EndNotePositionVeryEnd  ) return gettext ("After everything else");
-  if (value == EndNotePositionAtMarker ) return gettext ("Upon encountering a certain marker");
+  if (value == EndNotePositionAfterBook) return translate ("After each book");
+  if (value == EndNotePositionVeryEnd  ) return translate ("After everything else");
+  if (value == EndNotePositionAtMarker ) return translate ("Upon encountering a certain marker");
   return convert_to_string (value);
 }
 

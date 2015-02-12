@@ -17,33 +17,33 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Download resource") "$this->name"</h3>
-<p><a href="admin">[gettext("back")]</a></p>
+<h3>translate("Download resource") "$this->name"</h3>
+<p><a href="admin">[translate("back")]</a></p>
 <br>
 <p>
-  gettext("Bibledit can display external resources to the user.")
-  gettext("It fetches the resources from websites on the Internet.")
-  gettext("Some of those websites may be slow to respond.")
-  gettext("Bibledit may not always be able to reach them.")
+  translate("Bibledit can display external resources to the user.")
+  translate("It fetches the resources from websites on the Internet.")
+  translate("Some of those websites may be slow to respond.")
+  translate("Bibledit may not always be able to reach them.")
 </p>
 <p>
-  gettext("To address these issues, you can download external resources.")
-  gettext("Bibledit then stores the data in its database.")
-  gettext("When a downloaded resource is needed, Bibledit can fetch the data from its database rather than from the external website.")
-  gettext("This works faster.")
-  gettext("It takes the load off the website.")
+  translate("To address these issues, you can download external resources.")
+  translate("Bibledit then stores the data in its database.")
+  translate("When a downloaded resource is needed, Bibledit can fetch the data from its database rather than from the external website.")
+  translate("This works faster.")
+  translate("It takes the load off the website.")
 </p>
 <br>
 <p>
-  gettext("Number of verses available offline for this resource:")
+  translate("Number of verses available offline for this resource:")
   $this->count
   <?php if ($this->count) {
-    [<a href="?name=$this->name&clear">gettext("clear")</a>]
+    [<a href="?name=$this->name&clear">translate("clear")</a>]
   <?php }
 </p>
-<p><a href="?name=$this->name&download">gettext("Start downloading this resource, en view the progress in the Journal.")</a></p>
+<p><a href="?name=$this->name&download">translate("Start downloading this resource, en view the progress in the Journal.")</a></p>
 <br>
 <p>
-  gettext("It takes partial downloads into account, because it only downloads the missing pieces.")
-  gettext("Clear any offline verses if a full download is needed.")
+  translate("It takes partial downloads into account, because it only downloads the missing pieces.")
+  translate("Clear any offline verses if a full download is needed.")
 </p>

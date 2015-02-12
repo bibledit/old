@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Settings for Resources")</h3>
-<p><a href="index">[gettext("back")</a>]</p>
-<h4>gettext("Active resources")</h4>
+<h3>translate("Settings for Resources")</h3>
+<p><a href="index">[translate("back")</a>]</p>
+<h4>translate("Active resources")</h4>
 <div id="sortable">
 <?php for ($this->actives as $active) {
   <p><a href="?remove=$active"> ✗ </a>$active</p>
@@ -27,12 +27,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </div>
 <br>
 <p>
-  gettext("To change the order, drag an item to another location.")
-  gettext("Click ✗ to remove.")
+  translate("To change the order, drag an item to another location.")
+  translate("Click ✗ to remove.")
 </p>
-<h4>gettext("Available resources")</h4>
+<h4>translate("Available resources")</h4>
 <p>
-gettext("Click to activate:")
+translate("Click to activate:")
 <?php for ($this->selectables as $offset => $selectable) {
   <?php if ($offset) echo " | "
   <a href="?add=$selectable">$selectable</a>

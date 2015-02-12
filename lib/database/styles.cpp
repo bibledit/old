@@ -725,8 +725,8 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
     }
     // Non-standard marker.
     item.marker = marker;
-    item.name = gettext ("Name");
-    item.info = gettext ("Information");
+    item.name = translate ("Name");
+    item.info = translate ("Information");
   } else {
     // Read the style from file.
     string contents = filter_url_file_get_contents (filename);

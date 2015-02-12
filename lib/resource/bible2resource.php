@@ -35,11 +35,11 @@ $database_usfmresources = Database_UsfmResources::getInstance ();
 
 $usfmResources = $database_usfmresources->getResources ();
 if (in_array ($bible, $usfmResources)) {
-  $view.set_variable ("error = gettext("A USFM Resource with this name already exists");
+  $view.set_variable ("error = translate("A USFM Resource with this name already exists");
 }
 $externalResources = $database_resources->getNames ();
 if (in_array ($bible, $externalResources)) {
-  $view.set_variable ("error = gettext("An external resource with this name already exists");
+  $view.set_variable ("error = translate("An external resource with this name already exists");
 }
 
 
@@ -50,12 +50,12 @@ if (isset ($convert)) {
     redirect_browser ("../journal/index");
     die;
   } else {
-    Assets_Page::error (gettext("Insufficient privileges to complete operation."));
+    Assets_Page::error (translate("Insufficient privileges to complete operation."));
   }
 }
 
 
-$header = new Assets_Header (gettext("Convert"));
+$header = new Assets_Header (translate("Convert"));
 $header->run ();
 
 

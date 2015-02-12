@@ -49,7 +49,7 @@ string fonts_index (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Fonts"), webserver_request, "");
+  page = Assets_Page::header (translate ("Fonts"), webserver_request, "");
   
   Assets_View view = Assets_View ();
 
@@ -66,7 +66,7 @@ string fonts_index (void * webserver_request)
     if (!font_in_use) {
       Fonts_Logic::erase (font);
     } else {
-      page += Assets_Page::error (gettext("The font could not be deleted because it is in use.")); // C++Port Test it.
+      page += Assets_Page::error (translate("The font could not be deleted because it is in use.")); // C++Port Test it.
     }
   }
   
@@ -78,7 +78,7 @@ string fonts_index (void * webserver_request)
     filename = _FILES["data"]["name"];
     tmpfile = _FILES["data"]["tmp_name"];
     if (move_uploaded_file (tmpfile, filename)) {
-      Assets_Page::success (gettext("The font has been uploaded."));
+      Assets_Page::success (translate("The font has been uploaded."));
     } else {
       Assets_Page::error (Filter_Upload::error2text (_FILES["data"]["error"]));
     }
@@ -91,7 +91,7 @@ string fonts_index (void * webserver_request)
   vector <string> fontsblock;
   for (auto & font : fonts) {
     fontsblock.push_back ("<p>");
-    fontsblock.push_back ("<a href=\"?delete=" + font+ "\" title=\"" + gettext("Delete font") + "\"> ✗ </a>");
+    fontsblock.push_back ("<a href=\"?delete=" + font+ "\" title=\"" + translate("Delete font") + "\"> ✗ </a>");
     fontsblock.push_back (font);
     fontsblock.push_back ("</p>");
   }

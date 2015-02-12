@@ -101,7 +101,7 @@ class Resource_Logic
       $database_config_user = Database_Config_User::getInstance ();
       $stylesheet = request->database_config_user()->getStylesheet ();
       $filter_text = new Filter_Text ($resource);
-      $filter_text->html_text_standard = new Html_Text (gettext("Bible"));
+      $filter_text->html_text_standard = new Html_Text (translate("Bible"));
       $filter_text->addUsfmCode ($verse_usfm);
       $filter_text->run ($stylesheet);
       $html = $filter_text->html_text_standard->getInnerHtml ();

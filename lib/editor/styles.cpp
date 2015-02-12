@@ -34,7 +34,7 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
   // The recent styles.
   string s_styles = request->database_config_user()->getRecentlyAppliedStyles ();
   vector <string> styles = filter_string_explode (s_styles, ' ');
-  string fragment = gettext("Select style") + ": ";
+  string fragment = translate("Select style") + ": ";
   for (unsigned int i = 0; i < styles.size(); i++) {
     if (i) fragment += " | ";
     string marker = styles [i];
@@ -47,9 +47,9 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
   
   // Links for cancelling and for all styles.
   fragment += " ";
-  fragment += "<a href=\"cancel\">[" + gettext("cancel") + "]</a>";
+  fragment += "<a href=\"cancel\">[" + translate("cancel") + "]</a>";
   fragment += " ";
-  fragment += "<a href=\"all\" >[" + gettext("all") + "]</a>";
+  fragment += "<a href=\"all\" >[" + translate("all") + "]</a>";
   
   return fragment;
 }
@@ -67,7 +67,7 @@ string Editor_Styles::getAll (void * webserver_request)
   
   lines.push_back ("<select id=\"styleslist\">");
   
-  string line = gettext("Select style");
+  string line = translate("Select style");
   lines.push_back ("<option>" + line + "</option>");
   
   for (auto & item : data) {
@@ -84,7 +84,7 @@ string Editor_Styles::getAll (void * webserver_request)
   
   // Link for cancelling.
   lines.push_back (" ");
-  lines.push_back ("<a href=\"cancel\">[" + gettext("cancel") + "]</a>");
+  lines.push_back ("<a href=\"cancel\">[" + translate("cancel") + "]</a>");
   
   string html = filter_string_implode (lines, "\n");
   

@@ -47,7 +47,7 @@ string session_password (void * webserver_request)
 
   string page;
 
-  Assets_Header header = Assets_Header (gettext ("Password"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
   page += header.run ();
 
   Assets_View view = Assets_View ();
@@ -57,7 +57,7 @@ string session_password (void * webserver_request)
     bool form_is_valid = true;
     string user = request->post["user"];
     if (user.length () < 4) {
-      view.set_variable ("error_message", gettext("Username or email address is too short"));
+      view.set_variable ("error_message", translate("Username or email address is too short"));
       form_is_valid = false;
     }
     string email;
@@ -83,18 +83,18 @@ string session_password (void * webserver_request)
       database_users.updateUserPassword (username, generated_password);
       Database_Mail database_mail = Database_Mail (webserver_request);
       // Send the new password to the user.
-      string subject = gettext("Account changed");
-      string body = gettext("Somebody requested a new password for your account.");
+      string subject = translate("Account changed");
+      string body = translate("Somebody requested a new password for your account.");
       body += "\n\n";
-      body += gettext("Here is the new password:");
+      body += translate("Here is the new password:");
       body += "\n\n";
       body += generated_password;
       body += "\n\n";
-      body += gettext("It is recommended to log into your account with this new password, and then change it.");
+      body += translate("It is recommended to log into your account with this new password, and then change it.");
       database_mail.send (username, subject, body);
-      view.set_variable ("success_message", gettext("A message was sent to the email address belonging to this account to help you getting the password"));
+      view.set_variable ("success_message", translate("A message was sent to the email address belonging to this account to help you getting the password"));
     } else {
-      view.set_variable ("error_message", gettext("Username or email address cannot be found"));
+      view.set_variable ("error_message", translate("Username or email address cannot be found"));
     }
   }
   

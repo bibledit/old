@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::translator ());
 
 
-$header = new Assets_Header (gettext("Consistency"));
+$header = new Assets_Header (translate("Consistency"));
 $header->run ();
 
 
@@ -35,7 +35,7 @@ $database_usfmresources = Database_UsfmResources::getInstance ();
 @$add = request->query ['add'];
 if (isset ($add)) {
   if ($add == "") {
-    $dialog_list = new Dialog_List2 (gettext("Would you like to add a Resource?"));
+    $dialog_list = new Dialog_List2 (translate("Would you like to add a Resource?"));
     $resources = Resource_Logic::getNames ();
     for ($resources as $resource) {
       $dialog_list->add_row ($resource, "&add=$resource");

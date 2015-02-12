@@ -70,11 +70,11 @@ string session_login (void * webserver_request)
     string pass = request->post["pass"];
     if (user.length () < 2) {
       form_is_valid = false;
-      view.set_variable ("username_email_invalid", gettext ("Username should be at least two characters long"));
+      view.set_variable ("username_email_invalid", translate ("Username should be at least two characters long"));
     }
     if (pass.length() < 4) {
       form_is_valid = false;
-      view.set_variable ("password_invalid", gettext ("Password should be at least four characters long"));
+      view.set_variable ("password_invalid", translate ("Password should be at least four characters long"));
     }
     if (form_is_valid) {
       if (request->session_logic()->attemptLogin (user, pass)) {
@@ -84,7 +84,7 @@ string session_login (void * webserver_request)
         string siteUrl = get_base_url (request);
         Database_Config_General::setSiteURL (siteUrl);
       } else {
-        view.set_variable ("error_message", gettext ("Username or email address or password are not correct"));
+        view.set_variable ("error_message", translate ("Username or email address or password are not correct"));
         request->session_logic()->logout();
         // Log the login failure for the Administrator(s) only. Other with lower roles cannot reverse engineer a user's password based on the failure information.
         Database_Logs::log ("Failed login attempt for user " + user + " with password " + pass, Filter_Roles::admin ());
@@ -126,6 +126,6 @@ string session_login_display_header (void * webserver_request)
   2. The script may forward the user to another page.
      Therefore no output should be sent so the forward headers work.
   */
-  Assets_Header header = Assets_Header (gettext ("Login"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Login"), webserver_request);
   return header.run ();
 }

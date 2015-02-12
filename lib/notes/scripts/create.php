@@ -19,16 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <form style="border:1px #bbb solid;" action="create"  name="form" method="post">
   <p>
-    gettext("Create consultation note for")
+    translate("Create consultation note for")
     $this->passage
   </p>
-  <p>gettext("Summary"):</p>
+  <p>translate("Summary"):</p>
   <p><input type="text" name="summary" maxlength="100" class="fullwidth" value="$this->summary"/></p>
-  <p>gettext("Body"): </p>
+  <p>translate("Body"): </p>
   <textarea name="contents" class="fullwidth">$this->contents</textarea>
   <p>
-    <input type="submit" name="submit" value="gettext("Save")" onClick="this.value = 'gettext ("Please wait")'; return true;" />
-    <input type="submit" name="cancel" value="gettext("Cancel")" />
+    <input type="submit" name="submit" value="translate("Save")" onClick="this.value = 'translate ("Please wait")'; return true;" />
+    <input type="submit" name="cancel" value="translate("Cancel")" />
   </p>
   <input type="hidden" name="bible" value="$this->bible" />
   <input type="hidden" name="book" value="$this->book" />

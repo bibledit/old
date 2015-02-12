@@ -37,7 +37,7 @@ if (isset(request->post['submit'])) {
 }
 
 
-$header = new Assets_Header (gettext("Note summary"));
+$header = new Assets_Header (translate("Note summary"));
 $header->setBodyOnload ('document.form.entry.focus();'); // Use html5 autofocus
 $header->run();
 

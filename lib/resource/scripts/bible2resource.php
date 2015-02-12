@@ -17,25 +17,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2>gettext("Convert Bible to USFM Resource")</h2>
-<p>gettext("Bible"): $this->bible</p>
+<h2>translate("Convert Bible to USFM Resource")</h2>
+<p>translate("Bible"): $this->bible</p>
 <br>
 <p>
-  gettext("You can convert a Bible to a USFM Resource.")
-  gettext("It means that the text of the Bible will be moved to a Resource.")
-  <a href="index" target="_blank">gettext("The users can display this resource.")</a>
+  translate("You can convert a Bible to a USFM Resource.")
+  translate("It means that the text of the Bible will be moved to a Resource.")
+  <a href="index" target="_blank">translate("The users can display this resource.")</a>
 </p>
 <br>
 <p>
-  gettext("A Resource will be created with the same name and text as the Bible.")
-  gettext("When the conversion is complete, the Bible will be deleted.")
-  gettext("A Bible can be edited, but a USFM Resource cannot.")
-  gettext("A Bible can be searched, but a USFM Resource cannot.")
-  gettext("The USFM Resource uses less space.")
-  gettext("Operations on the remaining Bibles will be faster, because the table for Bibles in the database will be smaller.")
+  translate("A Resource will be created with the same name and text as the Bible.")
+  translate("When the conversion is complete, the Bible will be deleted.")
+  translate("A Bible can be edited, but a USFM Resource cannot.")
+  translate("A Bible can be searched, but a USFM Resource cannot.")
+  translate("The USFM Resource uses less space.")
+  translate("Operations on the remaining Bibles will be faster, because the table for Bibles in the database will be smaller.")
 </p>
 <br>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
-<p><a href="?bible=$this->bible&convert=">gettext("Start the conversion process.")</a></p>
-<p>gettext("You can view the conversion process in the Journal.")</p>
+<p><a href="?bible=$this->bible&convert=">translate("Start the conversion process.")</a></p>
+<p>translate("You can view the conversion process in the Journal.")</p>

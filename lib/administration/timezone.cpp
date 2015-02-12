@@ -47,7 +47,7 @@ string administration_timezone (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (gettext ("Timezone"), webserver_request, "");
+  page = Assets_Page::header (translate ("Timezone"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 
@@ -66,9 +66,9 @@ string administration_timezone (void * webserver_request)
       timezone = +14;
       clipped = true;
     }
-    if (clipped) error = gettext ("The timezone was clipped");
+    if (clipped) error = translate ("The timezone was clipped");
     Database_Config_General::setTimezone (timezone);
-    success = gettext ("The timezone was saved");
+    success = translate ("The timezone was saved");
   }
 
   int timezone = Database_Config_General::getTimezone();

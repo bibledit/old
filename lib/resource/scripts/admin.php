@@ -17,34 +17,34 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2>gettext("External resources")</h2>
+<h2>translate("External resources")</h2>
 <?php for ($this->resources as $resource) {
   <p>
-    <a href="?delete=$resource" class="deleteresource" title="gettext("Delete resource")"> ✗ </a>
-    <a href="edit?name=$resource" title="gettext("Edit resource")"> ✎ </a>
-    <a href="download?name=$resource" title="gettext("Download resource")"> ⇓ </a>
+    <a href="?delete=$resource" class="deleteresource" title="translate("Delete resource")"> ✗ </a>
+    <a href="edit?name=$resource" title="translate("Edit resource")"> ✎ </a>
+    <a href="download?name=$resource" title="translate("Download resource")"> ⇓ </a>
     $resource
   </p>
 <?php }
 <br>
 <form action="admin" name="form" method="post">
   <input type="text" name="entry" maxlength="300"  />
-  <input type="submit" name="submit" value=gettext("Add") />
+  <input type="submit" name="submit" value=translate("Add") />
 </form>
-<div id="dialog-confirm" title="gettext("Remove the resource?")" style="display:none;">
+<div id="dialog-confirm" title="translate("Remove the resource?")" style="display:none;">
   <p>
     <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
-    gettext("Are you sure?")
+    translate("Are you sure?")
   </p>
 </div>
 <br>
 <p>
-  gettext("You can add, edit, download, and delete resources.")
-  gettext("A new resource needs at least one capital in its name to be valid.")
+  translate("You can add, edit, download, and delete resources.")
+  translate("A new resource needs at least one capital in its name to be valid.")
 </p>
 <p>
-  gettext("Bibledit comes with a set of default resources.")
-  gettext("Changes in them will be overwritten during upgrade of Bibledit.")
+  translate("Bibledit comes with a set of default resources.")
+  translate("Changes in them will be overwritten during upgrade of Bibledit.")
 </p>
 <link rel="stylesheet" href="../jquery/smoothness/jquery-ui-1.10.3.css" />
 <script type="text/javascript" src="admin.js?##VERSION##"></script>

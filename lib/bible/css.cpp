@@ -50,7 +50,7 @@ string bible_css (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (gettext("Font and text direction"), request);
+  Assets_Header header = Assets_Header (translate("Font and text direction"), request);
   header.jQueryUIOn ("sortable");
   page = header.run ();
   

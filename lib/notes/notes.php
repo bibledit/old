@@ -111,7 +111,7 @@ $view->render ("notes");
 
 
 if ($count == 0) {
-  Assets_Page::message (gettext("This view does not display any notes."));
+  Assets_Page::message (translate("This view does not display any notes."));
 }
 
 

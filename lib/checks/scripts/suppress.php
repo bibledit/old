@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1>gettext("Suppressed check results")</h1>
-<p><a href="index">[gettext("back")] <a href="#help">[gettext ("help")]</a></p>
+<h1>translate("Suppressed check results")</h1>
+<p><a href="index">[translate("back")] <a href="#help">[translate ("help")]</a></p>
 <br>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
@@ -33,9 +33,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <a id="help"></a>
 <p>
-  gettext("The page lists the suppressed results of the checks.")
+  translate("The page lists the suppressed results of the checks.")
 </p>
 <p>
-  gettext("Click ✗ to remove the items from the suppressed list.")
-  gettext("It will be visible again in the list of check results.")
+  translate("Click ✗ to remove the items from the suppressed list.")
+  translate("It will be visible again in the list of check results.")
 </p>

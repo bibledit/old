@@ -17,34 +17,34 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><a href="note?id=$this->id">gettext("Go back to the note contents")</a></p>
-<p>gettext("Summary"): $this->summary</p>
+<p><a href="note?id=$this->id">translate("Go back to the note contents")</a></p>
+<p>translate("Summary"): $this->summary</p>
 <p>
 <?php if ($this->subscribed) {
-gettext("You are subscribed to this note") <a href="?id=$this->id&unsubscribe=">[gettext ("unsubscribe")]</a>
+translate("You are subscribed to this note") <a href="?id=$this->id&unsubscribe=">[translate ("unsubscribe")]</a>
 <?php } else {
-<a href="?id=$this->id&subscribe=">gettext("Subscribe to this note")</a>
+<a href="?id=$this->id&subscribe=">translate("Subscribe to this note")</a>
 <?php }
-<p>gettext("The note has been assigned to"):
+<p>translate("The note has been assigned to"):
 <?php for ($this->assignees as $offset => $assignee) {
   $this->assignees[$offset]
   <?php if ($this->level >= 5) {
-    <a href="?id=$this->id&unassign=$this->assignees[$offset]">[gettext("unassign")]</a>
+    <a href="?id=$this->id&unassign=$this->assignees[$offset]">[translate("unassign")]</a>
     |
   <?php }
 <?php }
 <?php if ($this->level >= 5) {
-  <a href="assign-1?id=$this->id">[gettext("add assignee")]</a>
+  <a href="assign-1?id=$this->id">[translate("add assignee")]</a>
 <?php }
 </p>
 <?php if ($this->assignee) {
   <p>
-  gettext("This note has been assigned to you for you to take action on.")
-  <a href="?id=$this->id&done=">gettext("I have done my part on it.")</a>
+  translate("This note has been assigned to you for you to take action on.")
+  <a href="?id=$this->id&done=">translate("I have done my part on it.")</a>
   </p>
 <?php }
 <p>
-gettext("Status"):
+translate("Status"):
 <?php if ($this->level >= 4) {
   <a href="status-1?id=$this->id">$this->status</a>
 <?php } else {
@@ -52,35 +52,35 @@ gettext("Status"):
 <?php }
 </p>
 <p>
-  gettext("Verses"): $this->verses |
-  <a href="verses?id=$this->id">[gettext("edit")]</a>
+  translate("Verses"): $this->verses |
+  <a href="verses?id=$this->id">[translate("edit")]</a>
 </p>
-  <p>gettext("Severity"):
+  <p>translate("Severity"):
   <a href="severity-1?id=$this->id">$this->severity</a></p>
 <p>
 </p>
 <p>
-gettext("Bible"):
+translate("Bible"):
 <?php if ($this->bible != "") {
   $this->bible
 <?php } else {
-  gettext("This is a general note, it does not apply to any specific Bible")
+  translate("This is a general note, it does not apply to any specific Bible")
 <?php }
-  <a href="bible-1?id=$this->id">[gettext("change")]</a>
+  <a href="bible-1?id=$this->id">[translate("change")]</a>
 </p>
-<p>gettext("Identifier"): $this->id</p>
+<p>translate("Identifier"): $this->id</p>
 </p>
 <?php if ($this->level >= 5) {
   <p>
   <?php if ($this->marked) {
-    gettext("The note will be deleted after it expires
+    translate("The note will be deleted after it expires
     ")
-    <a href="?id=$this->id&unmarkdel=">[gettext("cancel")]</a>
+    <a href="?id=$this->id&unmarkdel=">[translate("cancel")]</a>
   <?php } else {
-    <a href="?id=$this->id&markdel=">gettext("Mark the note for deletion after a week")</a>
+    <a href="?id=$this->id&markdel=">translate("Mark the note for deletion after a week")</a>
   <?php }
   </p>
-  <p><a href="?id=$this->id&delete=">gettext("Delete the note now")</a></p>
+  <p><a href="?id=$this->id&delete=">translate("Delete the note now")</a></p>
 <?php }
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
