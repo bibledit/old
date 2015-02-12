@@ -631,6 +631,7 @@ DEMO
 OPENSSL_LIBS
 OPENSSL_CFLAGS
 GIT_ENABLED
+LIBGIT
 GIT_LIBS
 CURL_LIBS
 CURL_CFLAGS
@@ -6040,14 +6041,13 @@ fi
 
 
 
-# Check whether libgit2.so / libgit2.dylib / libgit2.dll is available in the source directory.
+# Check for libgit2.a in the source directory.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking libgit2" >&5
 $as_echo_n "checking libgit2... " >&6; }
-LIBGIT=libgit2.*
+LIBGIT=libgit2.a
 if test -f ${LIBGIT}; then :
 
-    LIBGIT=`ls libgit2.*`
-    GIT_LIBS="-lgit2"
+    GIT_LIBS="-lz"
 
 $as_echo "#define HAVE_GIT 1" >>confdefs.h
 
@@ -6060,6 +6060,7 @@ $as_echo "no" >&6; }
   LIBGIT=""
 
 fi
+
 
 
 

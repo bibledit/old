@@ -63,7 +63,7 @@ if (!$client) {
 }
 
 
-// Check open installation.
+// Check open installation. Todo
 if ($minute == 10) {
   include ("config/open");
   if ($open_installation) {

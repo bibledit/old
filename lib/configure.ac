@@ -56,12 +56,11 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
 
-# Check whether libgit2.so / libgit2.dylib / libgit2.dll is available in the source directory.
+# Check for libgit2.a in the source directory.
 AC_MSG_CHECKING([libgit2])
-LIBGIT=libgit2.*
+LIBGIT=libgit2.a
 AS_IF([test -f ${LIBGIT}], [
-    LIBGIT=`ls libgit2.*`
-    GIT_LIBS="-lgit2"
+    GIT_LIBS="-lz"
     AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled])
     AC_MSG_RESULT([$LIBGIT])
   ],
@@ -69,6 +68,7 @@ AS_IF([test -f ${LIBGIT}], [
   LIBGIT=""
 )
 AC_SUBST(GIT_LIBS)
+AC_SUBST(LIBGIT)
 AC_SUBST(GIT_ENABLED)
 
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))

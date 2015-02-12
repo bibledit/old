@@ -32,13 +32,12 @@ translate("The steps below provide information about how to build libgit2 and wh
 <li>
   <p><code>cd</code></p>
   <p><code>tar xf v0.21.5.tar.gz</code></p>
-  <p><code>cd </code></p>
   <p><code>cd libgit2-0.21.5</code></p>
   <p><code>mkdir build</code></p>
   <p><code>cd build</code></p>
-  <p><code>cmake ..</code></p>
+  <p><code>cmake .. -DBUILD_CLAR=OFF -DTHREADSAFE=ON -DBUILD_SHARED_LIBS=OFF</code></p>
   <p><code>cmake --build .</code></p>
-  <p><code>cp libgit2.so ~</code></p>
+  <p><code>cp libgit2.a ~</code></p>
   <p><code>cd</code></p>
 </li>
 
