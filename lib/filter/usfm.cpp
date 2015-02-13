@@ -663,8 +663,8 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 // This function proves useful in cases that the text in the Bible editor gets corrupted
 // due to human error.
 // It also is useful in cases where the session is deleted from the server, so that the text in the editors get corrupted.
-// It also is useful in view of some unstable connections between browser and server, to prevent data corruption.
-bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm)
+// It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
+bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
