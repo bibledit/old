@@ -21,4 +21,8 @@ cp ../../lib/library/bibledit.h ~/Desktop
 
 echo Creating fat library file
 lipo -create -output ~/Desktop/libbibledit.a ~/Desktop/libbibledit-armv7.a ~/Desktop/libbibledit-armv7s.a ~/Desktop/libbibledit-arm64.a ~/Desktop/libbibledit-i386.a ~/Desktop/libbibledit-x86_64.a
+lipo -info ~/Desktop/libbibledit.a
+
+echo Copying library into place
+mv ~/Desktop/libbibledit.a ../lib
 
