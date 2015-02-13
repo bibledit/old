@@ -24,7 +24,6 @@
 #include <config/libraries.h>
 
 
-string demo_credentials (); // Todo move elsewhere as it's used for clients also. Create demo_level also (admin).
 bool demo_acl (string user, string pass);
 string demo_address ();
 int demo_port ();

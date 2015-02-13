@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <setup/index.h>
-#include <config.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <webserver/request.h>
@@ -43,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <index/index.h>
 #include <styles/sheets.h>
 #include <demo/logic.h>
+#include <config/logic.h>
 
 
 void setup_write_access ()
@@ -116,7 +116,7 @@ void setup_initialize_data ()
 }
 
 
-string setup_index (void * webserver_request) // Todo
+string setup_index (void * webserver_request)
 {
   // Ensure write access to certain folders.
   setup_write_access ();
@@ -126,6 +126,13 @@ string setup_index (void * webserver_request) // Todo
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
+  // In client mode, do not display the page for entering the admin's details.
+  if (config_logic_client_prepared ()) {
+    redirect_browser (request, index_index_url ());
+    Database_Config_General::setInstalledVersion (config_logic_version ()); // Todo update VERSION anywhere.
+    return "";
+  }
+
   Assets_View view = Assets_View ();
 
   // Get the existing Administrators.
@@ -144,7 +151,7 @@ string setup_index (void * webserver_request) // Todo
       if (errors.empty()) {
         request->database_users ()->removeUser (admin_username);
         request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
-        Database_Config_General::setInstalledVersion (VERSION);
+        Database_Config_General::setInstalledVersion (config_logic_version ());
         redirect_browser (request, index_index_url ());
       } else {
         view.enable_zone ("errors");
@@ -177,7 +184,7 @@ string setup_index (void * webserver_request) // Todo
     view.set_variable ("readonly", "readonly");
     // If the admin's are already there, then the setup has completed.
     // The automatic page refresh will kick in, and navigate to the main screen.
-    Database_Config_General::setInstalledVersion (VERSION);
+    Database_Config_General::setInstalledVersion (config_logic_version ());
   }
 
   return view.render ("setup", "index");

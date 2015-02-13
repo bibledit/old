@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/main.h>
 #include <menu/user.h>
 #include <locale/translate.h>
-#include <config.h>
+#include <config/logic.h>
 #include <access/bible.h>
 #include <navigation/passage.h>
 
@@ -133,7 +133,7 @@ string Assets_Header::run ()
   string page;
   
   // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
-  view->set_variable("VERSION", VERSION);
+  view->set_variable("VERSION", config_logic_version ());
 
   if (includeJQueryUI) {
     view->enable_zone ("include_jquery_ui");  // C++Port

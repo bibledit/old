@@ -35,20 +35,13 @@
 #include <bible/logic.h>
 
 
-// The username and password for a demo installation.
-string demo_credentials ()
-{
-  return "admin";
-}
-
-
 // Returns true for correct credentials for a demo installation.
 // Else returns false.
 bool demo_acl (string user, string pass)
 {
   if (strcmp (DEMO, "yes") == 0) {
-    if (user == demo_credentials ()) {
-      if ((pass == demo_credentials ()) || (pass == md5 (demo_credentials ()))) {
+    if (user == session_admin_credentials ()) {
+      if ((pass == session_admin_credentials ()) || (pass == md5 (session_admin_credentials ()))) {
         return true;
       }
     }
@@ -100,7 +93,7 @@ void demo_clean_data ()
   
   
   // Set user to the demo credentials (admin) as this is the user who is always logged-in in a demo installation.
-  request.session_logic ()->setUsername (demo_credentials ());
+  request.session_logic ()->setUsername (session_admin_credentials ());
   
   
   // Delete the "Standard" stylesheet and re-create it.
@@ -109,7 +102,7 @@ void demo_clean_data ()
   request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
   request.database_styles()->deleteSheet ("");
   request.database_styles()->createSheet (styles_logic_standard_sheet ());
-  request.database_styles()->grantWriteAccess (demo_credentials (), styles_logic_standard_sheet ());
+  request.database_styles()->grantWriteAccess (session_admin_credentials (), styles_logic_standard_sheet ());
   styles_sheets_create_all ();
   
   
