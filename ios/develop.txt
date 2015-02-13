@@ -2,7 +2,6 @@ Bibledit for iOS
 
 Todo
 
-The webroot does not exist, therefore it does not run. Fix that.
 
 
 Introduction

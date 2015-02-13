@@ -24,7 +24,8 @@
     NSArray *inputComponents = [NSArray arrayWithObjects:[BibleditPaths resources], @"webroot", nil];
     NSString *inputDirectory = [NSString pathWithComponents:inputComponents];
     
-    NSString *outputDirectory = [BibleditPaths documents];
+    NSArray *outputComponents = [NSArray arrayWithObjects:[BibleditPaths documents], @"webroot", nil];
+    NSString *outputDirectory = [NSString pathWithComponents:outputComponents];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtPath:inputDirectory];
@@ -42,9 +43,7 @@
                 // Copy file to destination. First remove old item to prevent a copy error.
                 [fileManager removeItemAtPath:outputPath error:nil];
                 [fileManager copyItemAtPath:inputPath toPath:outputPath error:nil];
-                //NSLog (@"%@", outputPath); // Todo
             }
-            
         }
     }
     
