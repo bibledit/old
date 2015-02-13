@@ -190,13 +190,10 @@ void demo_create_sample_bible (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  
-  // Ensure the KJV Bible exists.
+  // Ensure the sample Bible exists.
   request->database_bibles()->createBible (demo_sample_bible_name ());
-  request->database_users ()->grantAccess2Bible (demo_credentials (), demo_sample_bible_name ());
   
-  
-  // Store some text into the KJV Bible.
+  // Store some text into the sample Bible.
   string directory = filter_url_create_root_path ("demo");
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
@@ -209,4 +206,7 @@ void demo_create_sample_bible (void * webserver_request)
       }
     }
   }
+  
+  // Set the sample Bible to viewable by all users.
+  Database_Config_Bible::setViewableByAllUsers (demo_sample_bible_name (), true);
 }
