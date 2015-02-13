@@ -132,7 +132,7 @@ void demo_clean_data ()
     make_pair ("consultant", Filter_Roles::consultant ()),
     make_pair ("translator", Filter_Roles::translator ()),
     make_pair ("manager", Filter_Roles::manager ()),
-    make_pair ("admin", Filter_Roles::admin ())
+    make_pair (session_admin_credentials (), Filter_Roles::admin ())
   };
   for (auto & element : users) {
     if (!request.database_users ()->usernameExists (element.first)) {

@@ -28,6 +28,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 
 
+// The username and password for a demo installation, and for a disconnected client installation
+string session_admin_credentials () // Tod
+{
+  return "admin";
+}
+
+
 /*
 
 The PHP persistent storage of sessions normally works well.
@@ -106,7 +113,7 @@ bool Session_Logic::openAccess ()
 {
   // Open access if it is flagged as such.
   if (config_globals_open_installation) {
-    setUsername ("admin");
+    setUsername (session_admin_credentials ());
     level = Filter_Roles::admin ();
     logged_in = true;
     return true;
@@ -228,7 +235,7 @@ bool Session_Logic::clientAccess ()
     vector <string> users = database_users.getUsers ();
     string user;
     if (users.empty ()) {
-      user = "admin";
+      user = session_admin_credentials ();
       level = Filter_Roles::admin ();
     } else {
       user = users [0];

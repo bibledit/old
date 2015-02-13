@@ -116,7 +116,7 @@ void setup_initialize_data ()
 }
 
 
-string setup_index (void * webserver_request)
+string setup_index (void * webserver_request) // Todo
 {
   // Ensure write access to certain folders.
   setup_write_access ();

@@ -73,15 +73,15 @@ void test_session_logic ()
     Database_Users database_users = Database_Users ();
     database_users.create ();
     
-    // In an open installation, a client is always logged in as user admin, even after logging out.
+    // In an demo installation, a client is always logged in as user admin, even after logging out.
     config_globals_open_installation = true;
     Webserver_Request request = Webserver_Request ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    evaluate (__LINE__, __func__, "admin", request.session_logic ()->currentUser ());
+    evaluate (__LINE__, __func__, session_admin_credentials (), request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, Filter_Roles::admin (), request.session_logic ()->currentLevel ());
     request.session_logic ()->logout ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    evaluate (__LINE__, __func__, "admin", request.session_logic ()->currentUser ());
+    evaluate (__LINE__, __func__, session_admin_credentials (), request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, Filter_Roles::admin (), request.session_logic ()->currentLevel ());
     
     // Test function to set the username.
@@ -98,7 +98,7 @@ void test_session_logic ()
     config_globals_client_prepared = true;
     Webserver_Request request = Webserver_Request ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    evaluate (__LINE__, __func__, "admin", request.session_logic ()->currentUser ());
+    evaluate (__LINE__, __func__, session_admin_credentials (), request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, Filter_Roles::admin (), request.session_logic ()->currentLevel ());
     config_globals_client_prepared = false;
   }

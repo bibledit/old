@@ -118,11 +118,11 @@ string client_index (void * webserver_request)
     
     string user;
     if (connect) user = request->post ["user"];
-    if (demo) user = "admin";
+    if (demo) user = session_admin_credentials ();
     
     string pass;
     if (connect) pass = request->post ["pass"];
-    if (demo) pass = "admin";
+    if (demo) pass = session_admin_credentials (); 
 
     string response = client_logic_connection_setup (user, md5 (pass));
     int iresponse = convert_to_int (response);
