@@ -338,8 +338,8 @@ void test_filters_test3 ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
 
-    evaluate (__LINE__, __func__, 0, usfm_import ("", "Standard").size());
-    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", "Standard");
+    evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
+    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, import2.size());
     if (import2.size () == 2) {
       evaluate (__LINE__, __func__, 33, import2 [0].book);
@@ -1118,7 +1118,7 @@ void test_filters_test10 ()
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.createPageBreakStyle ();
     odf_text.newParagraph ();
-    evaluate (__LINE__, __func__, "Standard", odf_text.currentParagraphStyle);
+    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.currentParagraphStyle);
     odf_text.addText ("Paragraph One");
     evaluate (__LINE__, __func__, "Paragraph One", odf_text.currentParagraphContent);
     odf_text.newParagraph ();
@@ -1190,7 +1190,7 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
@@ -1213,7 +1213,7 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("Text");
@@ -1242,14 +1242,14 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
     add.color = "#000000";
-    Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
+    Database_Styles_Item nd = database_styles.getMarkerData (styles_logic_standard_sheet (), "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
@@ -1280,14 +1280,14 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
     add.color = "#000000";
-    Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
+    Database_Styles_Item nd = database_styles.getMarkerData (styles_logic_standard_sheet (), "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
@@ -1324,14 +1324,14 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item d = database_styles.getMarkerData ("Standard", "d");
+    Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.createParagraphStyle (d.marker, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style");
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style at first, then Standard");
-    odf_text.updateCurrentParagraphStyle ("Standard");
+    odf_text.updateCurrentParagraphStyle (styles_logic_standard_sheet ());
     odf_text.save (OdfTextTestDotOdt);
     string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
@@ -1386,7 +1386,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     // Check that it finds the running headers.
     int desiredRunningHeaders = 5;
     int actualRunningHeaders = filter_text.runningHeaders.size();
@@ -1527,7 +1527,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1574,7 +1574,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1598,7 +1598,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1659,7 +1659,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
     string standard = 
       "The book of\n"
@@ -1683,7 +1683,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
     string standard = 
       "1\n"
@@ -1715,7 +1715,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
     map <int, string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
     evaluate (__LINE__, __func__, standard, output);
@@ -1737,7 +1737,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
     map <int, string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
     evaluate (__LINE__, __func__, standard, output);
@@ -1765,7 +1765,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
       {1, "Verse one."},
@@ -1789,7 +1789,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
       {1, "He said: I will sing to the Lord."},
@@ -1810,7 +1810,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     vector <int> output = filter_text.paragraph_start_positions;
     vector <int> standard = {0, 9, 58};
     evaluate (__LINE__, __func__, standard, output);
@@ -1825,7 +1825,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
       {1, "He said: I will sing to the Lord."},
@@ -1843,7 +1843,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
       "    <p class=\"p\">\n"
@@ -1865,7 +1865,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
       "    <p class=\"p\">\n"
@@ -1888,7 +1888,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
       "    <p class=\"p\">\n"
@@ -1911,7 +1911,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1933,7 +1933,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_text_and_note_citations = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1954,7 +1954,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1979,7 +1979,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());

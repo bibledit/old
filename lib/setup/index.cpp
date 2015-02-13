@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <index/index.h>
 #include <styles/sheets.h>
+#include <demo/logic.h>
 
 
 void setup_write_access ()
@@ -106,6 +107,10 @@ void setup_initialize_data ()
   // Create stylesheets.
   styles_sheets_create_all ();
   
+  // Create sample Bible if there's no Bible yet.
+  vector <string> bibles = request.database_bibles()->getBibles ();
+  if (bibles.empty ()) demo_create_sample_bible (&request);
+
   // Clear setup flag.
   config_globals_setup_running = false;
 }

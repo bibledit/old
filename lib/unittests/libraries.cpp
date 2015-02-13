@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/logic.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <styles/logic.h>
 
 
 void test_sqlite ()
@@ -435,7 +436,7 @@ void test_editor_export ()
     string html = "<p class=\"p\"><span>The earth brought forth.</span></p>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth.";
@@ -447,7 +448,7 @@ void test_editor_export ()
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth.";
@@ -459,7 +460,7 @@ void test_editor_export ()
     string html = "<p class=\"p\"><span>The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you</span><span>.</span></p>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
@@ -477,7 +478,7 @@ void test_editor_export ()
     "</div>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth\\x + 2 Joh. 1.1\\x*.";
@@ -495,7 +496,7 @@ void test_editor_export ()
     "</div>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth.";
@@ -514,7 +515,7 @@ void test_editor_export ()
       "</div>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth.";
@@ -535,7 +536,7 @@ void test_editor_import ()
     Webserver_Request request;
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     evaluate (__LINE__, __func__, 61, editor_import.textLength);
     evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_import.verseStartOffsets);
@@ -557,7 +558,7 @@ void test_editor_import ()
     Webserver_Request request;
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     evaluate (__LINE__, __func__, 913, editor_import.textLength);
     evaluate (__LINE__, __func__, { make_pair (0, 0),
@@ -579,7 +580,7 @@ void test_editor_import ()
     Webserver_Request request;
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     string standard =
@@ -596,7 +597,7 @@ void test_editor_import ()
     Webserver_Request request;
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     string standard =
@@ -619,14 +620,14 @@ void test_editor_roundtrip ()
 
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, filter_string_trim (html));
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, filter_string_trim (usfm));
@@ -644,14 +645,14 @@ void test_editor_roundtrip ()
 
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -665,14 +666,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -690,14 +691,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -723,14 +724,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -744,14 +745,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -769,14 +770,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -790,14 +791,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -811,14 +812,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -836,14 +837,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -861,14 +862,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -886,14 +887,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -913,14 +914,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -944,7 +945,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -958,7 +959,7 @@ void test_editor_roundtrip ()
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -973,14 +974,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -999,14 +1000,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1028,14 +1029,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1055,14 +1056,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1142,14 +1143,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1169,14 +1170,14 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1207,13 +1208,13 @@ void test_editor_roundtrip ()
 
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1267,13 +1268,13 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1287,7 +1288,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     
@@ -1295,7 +1296,7 @@ void test_editor_roundtrip ()
 
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1313,7 +1314,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (standard_usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string html = editor_import.get ();
     
@@ -1321,7 +1322,7 @@ void test_editor_roundtrip ()
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
@@ -1336,7 +1337,7 @@ void test_editor_roundtrip ()
 
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string output = editor_import.get ();
     string html =
@@ -1345,7 +1346,7 @@ void test_editor_roundtrip ()
 
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     output = editor_export.get ();
     usfm =
@@ -1363,7 +1364,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string output = editor_import.get ();
     string html =
@@ -1372,7 +1373,7 @@ void test_editor_roundtrip ()
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     output = editor_export.get ();
     usfm =
@@ -1389,7 +1390,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string output = editor_import.get ();
     string html =
@@ -1398,7 +1399,7 @@ void test_editor_roundtrip ()
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     output = editor_export.get ();
     usfm = "\\p The \\add \\+nd Lord God\\+nd*\\add*\\add  is\\add* calling you";
@@ -1414,7 +1415,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string output = editor_import.get ();
     string html =
@@ -1427,7 +1428,7 @@ void test_editor_roundtrip ()
     
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     output = editor_export.get ();
     usfm =
@@ -1445,7 +1446,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string output = editor_import.get ();
     string html =
@@ -1458,7 +1459,7 @@ void test_editor_roundtrip ()
 
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     output = editor_export.get ();
     usfm =
@@ -1479,7 +1480,7 @@ void test_editor_roundtrip ()
     
     Editor_Import editor_import = Editor_Import (&request);
     editor_import.load (usfm);
-    editor_import.stylesheet ("Standard");
+    editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
     string output = editor_import.get ();
     string html =
@@ -1492,7 +1493,7 @@ void test_editor_roundtrip ()
 
     Editor_Export editor_export (&request);
     editor_export.load (html);
-    editor_export.stylesheet ("Standard");
+    editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     output = editor_export.get ();
     evaluate (__LINE__, __func__, usfm, output);

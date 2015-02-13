@@ -68,7 +68,6 @@ public:
   Database_Styles ();
   ~Database_Styles ();
   void create ();
-  string standard ();
   void createSheet (string sheet);
   vector <string> getSheets ();
   void deleteSheet (string sheet);

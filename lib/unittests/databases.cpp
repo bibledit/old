@@ -55,6 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
+#include <styles/logic.h>
 
 
 void test_database_config_general ()
@@ -487,19 +488,19 @@ void test_database_styles ()
     Database_Styles database_styles = Database_Styles ();
 
     vector <string> sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
 
     database_styles.createSheet ("phpunit");
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard", "phpunit" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet (), "phpunit" }, sheets);
 
     database_styles.deleteSheet ("phpunit");
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
 
-    database_styles.deleteSheet ("Standard");
+    database_styles.deleteSheet (styles_logic_standard_sheet ());
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
   }
   {
     refresh_sandbox (true);
@@ -508,7 +509,7 @@ void test_database_styles ()
 
     vector <string> markers;
     
-    markers = database_styles.getMarkers ("Standard");
+    markers = database_styles.getMarkers (styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 179, markers.size ());
 
     markers = database_styles.getMarkers ("phpunit");

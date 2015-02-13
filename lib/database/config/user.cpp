@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/styles.h>
 #include <webserver/request.h>
 #include <demo/logic.h>
+#include <styles/logic.h>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)
@@ -189,7 +190,7 @@ void Database_Config_User::trim ()
 
 string Database_Config_User::getStylesheet ()
 {
-  string sheet = getValue ("stylesheet", "Standard");
+  string sheet = getValue ("stylesheet", styles_logic_standard_sheet ().c_str());
   // If the stylesheet does not exist, take the first one available instead.
   Database_Styles * database_styles = ((Webserver_Request *) webserver_request)->database_styles ();
   vector <string> sheets = database_styles->getSheets();

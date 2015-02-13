@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // The name of the "Standard" stylesheet.
-string styles_logic_standard_sheet () // Todo implement anywhere.
+string styles_logic_standard_sheet ()
 {
   return "Standard";
 }

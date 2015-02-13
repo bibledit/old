@@ -333,7 +333,7 @@ void Odf_Text::initialize_styles_xml ()
   {
     xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
     xmlAddChild (officeStylesDomNode, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Standard");
+    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST styles_logic_standard_sheet ().c_str());
     xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
     xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "text");
   }
@@ -342,7 +342,7 @@ void Odf_Text::initialize_styles_xml ()
     xmlAddChild (officeStylesDomNode, style_style);
     xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Heading");
     xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Standard");
+    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
     xmlNewProp (style_style, BAD_CAST "style:next-style-name", BAD_CAST "Text_20_body");
     xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "text");
     {
@@ -359,7 +359,7 @@ void Odf_Text::initialize_styles_xml ()
     xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Text_20_body");
     xmlNewProp (style_style, BAD_CAST "style:display-name", BAD_CAST "Text body");
     xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Standard");
+    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
     xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "text");
     {
       xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
@@ -373,7 +373,7 @@ void Odf_Text::initialize_styles_xml ()
     xmlAddChild (officeStylesDomNode, style_style);
     xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Header");
     xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Standard");
+    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
     xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "extra");
   }
   {
@@ -382,7 +382,7 @@ void Odf_Text::initialize_styles_xml ()
     xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Header_20_left");
     xmlNewProp (style_style, BAD_CAST "style:display-name", BAD_CAST "Header left");
     xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Standard");
+    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
     xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "extra");
   }
 
@@ -528,7 +528,7 @@ void Odf_Text::initialize_styles_xml ()
   {
     xmlNodePtr style_master_page = xmlNewNode (NULL, BAD_CAST "style:master-page");
     xmlAddChild (office_master_styles, style_master_page);
-    xmlNewProp (style_master_page, BAD_CAST "style:name", BAD_CAST "Standard");
+    xmlNewProp (style_master_page, BAD_CAST "style:name", BAD_CAST styles_logic_standard_sheet ().c_str());
     xmlNewProp (style_master_page, BAD_CAST "style:page-layout-name", BAD_CAST "Mpm1");
     {
       xmlNodePtr style_header = xmlNewNode (NULL, BAD_CAST "style:header");

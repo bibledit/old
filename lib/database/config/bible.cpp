@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <styles/logic.h>
 
 
 // Functions for getting and setting values or lists of values.
@@ -379,7 +380,7 @@ void Database_Config_Bible::setHyphenationSecondSet (string bible, string value)
 
 string Database_Config_Bible::getExportStylesheet (string bible)
 {
-  return getValue (bible, "export-stylesheet", "Standard");
+  return getValue (bible, "export-stylesheet", styles_logic_standard_sheet ().c_str());
 }
 void Database_Config_Bible::setExportStylesheet (string bible, string value)
 {

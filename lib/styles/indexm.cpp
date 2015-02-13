@@ -34,6 +34,7 @@
 #include <access/user.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
+#include <styles/logic.h>
 
 
 string styles_indexm_url ()
@@ -113,7 +114,7 @@ string styles_indexm (void * webserver_request)
     bool editable = database_styles.hasWriteAccess (username, sheet);
     if (userlevel >= Filter_Roles::admin ()) editable = true;
     // Cannot edit the Standard stylesheet.
-    if (sheet == database_styles.standard()) editable = false;
+    if (sheet == styles_logic_standard_sheet ()) editable = false;
     if (editable) {
       sheetblock.push_back ("<a href=\"sheetm?name=" + sheet + "\">[" + translate("edit") + "]</a>");
     }
