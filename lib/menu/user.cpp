@@ -60,7 +60,8 @@ vector <Menu_User_Item> * Menu_User::mainmenu (string request)
   if (username.empty ()) {
     menu->push_back ( { "", convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login"), NULL } );
   } else {
-    menu->push_back ( { "", "", username, usermenu () } );
+    // Gear: "⚙"
+    menu->push_back ( { "", "",  username, usermenu () } );
   }
   return menu;
 }
