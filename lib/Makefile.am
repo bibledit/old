@@ -102,6 +102,7 @@ libbibledit_a_SOURCES = \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
 	bible/css.cpp \
+	bible/editing.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \

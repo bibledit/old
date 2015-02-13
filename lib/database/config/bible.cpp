@@ -558,3 +558,13 @@ void Database_Config_Bible::setTextFont (string bible, string value)
 }
 
 
+int Database_Config_Bible::getEditingAllowedDifference (string bible)
+{
+  return getIValue (bible, "editing-allowed-difference", 20);
+}
+void Database_Config_Bible::setEditingAllowedDifference (string bible, int value)
+{
+  setIValue (bible, "editing-allowed-difference", value);
+}
+
+

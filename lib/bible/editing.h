@@ -17,41 +17,16 @@
  */
 
 
-#ifndef INCLUDED_FILTER_STRING_HPP
-#define INCLUDED_FILTER_STRING_HPP
+#ifndef INCLUDED_BIBLE_EDITING_H
+#define INCLUDED_BIBLE_EDITING_H
 
 
 #include <config/libraries.h>
 
 
-// A C++ equivalent for PHP's function.
-template <typename T>
-vector <T> array_intersect (vector <T> a, vector <T> b)
-{
-  vector <T> result;
-  set <T> aset (a.begin(), a.end());
-  for (auto & item : b) {
-    if (aset.find (item) != aset.end()) {
-      result.push_back (item);
-    }
-  }
-  return result;
-}
-
-
-// A C++ equivalent for PHP's function.
-template <typename T>
-bool in_array (const T & needle, const vector <T> & haystack)
-{
-  return (find (haystack.begin(), haystack.end(), needle) != haystack.end());
-}
-
-
-// Clip a value to not be less than "lower" and not more than "higher"
-template <typename T>
-T clip (const T& n, const T& lower, const T& upper) {
-  return max (lower, min (n, upper));
-}
+string bible_editing_url ();
+bool bible_editing_acl (void * webserver_request);
+string bible_editing (void * webserver_request);
 
 
 #endif

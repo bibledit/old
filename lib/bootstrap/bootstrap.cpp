@@ -56,11 +56,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/chapter.h>
 #include <bible/import_usfm.h>
 #include <bible/import_bibleworks.h>
-#include <compare/index.h>
-#include <jobs/index.h>
 #include <bible/abbreviations.h>
 #include <bible/order.h>
 #include <bible/css.h>
+#include <bible/editing.h>
+#include <compare/index.h>
+#include <jobs/index.h>
 #include <editverse/index.h>
 #include <editverse/id.h>
 #include <editverse/load.h>
@@ -151,6 +152,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_index_url ()) && search_index_acl (request)) request->reply = search_index (request);
   else if ((url == workbench_index_url ()) && workbench_index_acl (request)) request->reply = workbench_index (request);
   else if ((url == workbench_organize_url ()) && workbench_organize_acl (request)) request->reply = workbench_organize (request);
+  else if ((url == bible_editing_url ()) && bible_editing_acl (request)) request->reply = bible_editing (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
