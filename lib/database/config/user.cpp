@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <database/styles.h>
 #include <webserver/request.h>
+#include <demo/logic.h>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)
@@ -212,9 +213,10 @@ string Database_Config_User::getBible ()
   Database_Bibles * database_bibles = request->database_bibles ();
   vector <string> bibles = database_bibles->getBibles ();
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
-    // There may not even be a first Bible: Create one.
+    // There may not even be a first Bible: Create sample Bible.
     if (bibles.empty ()) {
-      bible = "Bibledit Sample Bible"; // Todo use demo call.
+      bible = demo_sample_bible_name ();
+      demo_create_sample_bible (webserver_request);
       database_bibles->createBible (bible);
     } else {
       bible = bibles [0];
