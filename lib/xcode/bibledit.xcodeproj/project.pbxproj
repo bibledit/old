@@ -838,8 +838,6 @@
 		CAA4D3441A45A648003ABA25 /* signup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = signup.cpp; sourceTree = "<group>"; };
 		CAA4D3451A45A648003ABA25 /* signup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = signup.h; sourceTree = "<group>"; };
 		CAA4D3461A45A648003ABA25 /* signup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = signup.html; sourceTree = "<group>"; };
-		CAA4D34C1A45A648003ABA25 /* cron.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = cron.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D34D1A45A648003ABA25 /* crontab.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = crontab.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D34E1A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAA4D34F1A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D3501A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -2629,8 +2627,6 @@
 		CAA4D3471A45A648003ABA25 /* setup */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D34C1A45A648003ABA25 /* cron.php */,
-				CAA4D34D1A45A648003ABA25 /* crontab.php */,
 				CAA4D34E1A45A648003ABA25 /* index.cpp */,
 				CAA4D34F1A45A648003ABA25 /* index.h */,
 				CAA4D3501A45A648003ABA25 /* index.html */,
