@@ -1,50 +1,50 @@
 <style type="text/css">##custom_css##</style>
-<h3>gettext("Font and text direction")</h3>
-<p>gettext("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
+<h3>translate("Font and text direction")</h3>
+<p>translate("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
 <br>
 <p>
-  gettext("Set the font, the text direction, and the writing mode for the Bible editors.")
+  translate("Set the font, the text direction, and the writing mode for the Bible editors.")
 </p>
 <br>
 <form action="?bible=##bible##" name="form" method="post">
 
-  <p>gettext("Font"): <input type="text" name="font" value="##font##"></p>
-  <p>gettext("A font can be entered in different ways:")</p>
+  <p>translate("Font"): <input type="text" name="font" value="##font##"></p>
+  <p>translate("A font can be entered in different ways:")</p>
   <ul>
   <li>
-    gettext("Enter the name of a locally available font.")
-    gettext("Example:")
+    translate("Enter the name of a locally available font.")
+    translate("Example:")
     Gentium Plus
   </li>
   <li>
-    <a href="../fonts/index" target="_blank">gettext("Upload a font file.")</a>
-    gettext("Then enter its name.")
-    gettext("Example:")
+    <a href="../fonts/index" target="_blank">translate("Upload a font file.")</a>
+    translate("Then enter its name.")
+    translate("Example:")
     GentiumPlus-R.ttf
   </li>
   <li>
-    gettext("Enter the name of a font available on the Internet.")
-    gettext("Example:")
+    translate("Enter the name of a font available on the Internet.")
+    translate("Example:")
     http://website.org/fonts/GentiumPlus-R.ttf
   </li>
   </ul>
 
   <br>
-  <p>gettext("Direction"):</p>
-  <p><input type="radio" name="direction" value="" ##direction_none##>gettext("Unspecified")</p>
-  <p><input type="radio" name="direction" value="ltr" ##direction_ltr##>gettext("Left-to-right")</p>
-  <p><input type="radio" name="direction" value="rtl" ##direction_rtl##>gettext("Right-to-left")</p>
+  <p>translate("Direction"):</p>
+  <p><input type="radio" name="direction" value="" ##direction_none##>translate("Unspecified")</p>
+  <p><input type="radio" name="direction" value="ltr" ##direction_ltr##>translate("Left-to-right")</p>
+  <p><input type="radio" name="direction" value="rtl" ##direction_rtl##>translate("Right-to-left")</p>
   <br>
-  <p>gettext("Writing mode"):</p>
-  <p><input type="radio" name="mode" value="" ##mode_none##>gettext("Unspecified")</p>
-  <p><input type="radio" name="mode" value="tb-lr" ##mode_tblr##>gettext("Top to bottom and left to right")</p>
-  <p><input type="radio" name="mode" value="tb-rl" ##mode_tbrl##>gettext("Top to bottom and right to left")</p>
-  <p><input type="radio" name="mode" value="bt-lr" ##mode_btlr##>gettext("Bottom to top and left to right")</p>
-  <p><input type="radio" name="mode" value="bt-rl" ##mode_btrl##>gettext("Bottom to top and right to left")</p>
+  <p>translate("Writing mode"):</p>
+  <p><input type="radio" name="mode" value="" ##mode_none##>translate("Unspecified")</p>
+  <p><input type="radio" name="mode" value="tb-lr" ##mode_tblr##>translate("Top to bottom and left to right")</p>
+  <p><input type="radio" name="mode" value="tb-rl" ##mode_tbrl##>translate("Top to bottom and right to left")</p>
+  <p><input type="radio" name="mode" value="bt-lr" ##mode_btlr##>translate("Bottom to top and left to right")</p>
+  <p><input type="radio" name="mode" value="bt-rl" ##mode_btrl##>translate("Bottom to top and right to left")</p>
   <br>
-  <p><input type="submit" name="submit" value=gettext("Save") /></p>
+  <p><input type="submit" name="submit" value=translate("Save") /></p>
 </form>
 <br>
 <div class="##custom_class##" contenteditable="true">
-  gettext("After saving, the settings will be applied to this editable sample text.")
+  translate("After saving, the settings will be applied to this editable sample text.")
 </p>

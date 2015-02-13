@@ -1,42 +1,42 @@
-<h1>gettext("Install Bibledit-Web 1.9 on OSX")</h1>
+<h1>translate("Install Bibledit-Web 1.9 on OSX")</h1>
 <p>
-  gettext("This assumes a standard installation of the operating system.")
-  gettext("Bibledit-Web runs on all recent versions of OSX.")
-  gettext("The steps below have been tested on OS X 10.7 Lion.")
-  gettext("Open a terminal to enter some of the commands:") Applications / Utilities / Terminal.
+  translate("This assumes a standard installation of the operating system.")
+  translate("Bibledit-Web runs on all recent versions of OSX.")
+  translate("The steps below have been tested on OS X 10.7 Lion.")
+  translate("Open a terminal to enter some of the commands:") Applications / Utilities / Terminal.
 </p>
 
 <ol>
 
 <li>
-<p><a href="http://guide.macports.org" target="_blank">gettext("Install Xcode.")</a></p>
+<p><a href="http://guide.macports.org" target="_blank">translate("Install Xcode.")</a></p>
 </li>
 
 <li>
-<p><a href="http://www.macports.org" target="_blank">gettext("Install MacPorts.")</a></p>
+<p><a href="http://www.macports.org" target="_blank">translate("Install MacPorts.")</a></p>
 </li>
 
 <li>
-<p>gettext("Install the Apache web server:")</p>
+<p>translate("Install the Apache web server:")</p>
 <p><code>sudo port install apache2</code></p>
 </li>
 
 <li>
-<p>gettext("Activate Apache:")</p>
+<p>translate("Activate Apache:")</p>
 <p><code>sudo port load apache2</code></p>
 </li>
 
 <li>
 <p>
-  gettext("To verify Apache is running, point your browser to:")
+  translate("To verify Apache is running, point your browser to:")
   <a href="http://localhost/" target="_blank">​http://localhost</a>.
-  gettext("The page should say:")
+  translate("The page should say:")
   It works!
 </p>
 </li>
 
 <li>
-<p>gettext("Install PHP plus modules:")</p>
+<p>translate("Install PHP plus modules:")</p>
 <p><code>sudo port install php5 +apache2</code></p>
 <p><code>sudo port install php5-mbstring</code></p>
 <p><code>sudo port install php5-posix</code></p>
@@ -45,67 +45,67 @@
 </li>
 
 <li>
-<p>gettext("Register PHP with Apache:")</p>
+<p>translate("Register PHP with Apache:")</p>
 <p><code>cd /opt/local/apache2/modules</code></p>
 <p><code>sudo /opt/local/apache2/bin/apxs -a -e -n "php5" libphp5.so</code></p>
 </li>
 
 <li>
-<p>gettext("Update the Apache configuration:")</p>
+<p>translate("Update the Apache configuration:")</p>
 <p><code>sudo nano /opt/local/apache2/conf/httpd.conf</code></p>
-<p>gettext("In that file, search for:")</p>
+<p>translate("In that file, search for:")</p>
 <p><code>DirectoryIndex index.html</code></p>
-<p>gettext("and change it to:")</p>
+<p>translate("and change it to:")</p>
 <p><code>DirectoryIndex index index.html</code></p>
-<p>gettext("Add the following line at the end of that file:")</p>
+<p>translate("Add the following line at the end of that file:")</p>
 <p><code>Include conf/extra/mod_php.conf</code></p>
-<p>gettext("Save the file.")</p>
+<p>translate("Save the file.")</p>
 </li>
 
 <li>
-<p>gettext("Configure PHP:")</p>
+<p>translate("Configure PHP:")</p>
 <p><code>cd /opt/local/etc/php5</code></p>
 <p><code>sudo cp php.ini-development php.ini</code></p>
 </li>
 
 <li>
-<p>gettext("Restart Apache for the new configuration to take effect:")</p>
+<p>translate("Restart Apache for the new configuration to take effect:")</p>
 <p><code>sudo /opt/local/apache2/bin/apachectl restart</code></p>
 </li>
 
 <li>
 <p>
-  <a href="http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.9.zip" target="_blank">gettext("Download") Bibledit-Web 1.9</a>.
+  <a href="http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.9.zip" target="_blank">translate("Download") Bibledit-Web 1.9</a>.
 </p>
 </li>
 
 <li>
-<p>gettext("Unzip Bibledit-Web into this folder:") <code>/opt/local/apache2/htdocs</code></p>
+<p>translate("Unzip Bibledit-Web into this folder:") <code>/opt/local/apache2/htdocs</code></p>
 </li>
 
 <li>
-<p>gettext("Set correct permissions on folder bibledit-web for the web server:")</p>
+<p>translate("Set correct permissions on folder bibledit-web for the web server:")</p>
 <p><code>sudo chown -R root /opt/local/apache2/htdocs/bibledit-web</code></p>
 <p><code>sudo chmod -R 0777 /opt/local/apache2/htdocs/bibledit-web</code></p>
 </li>
 
 <li>
 <p>
-  gettext("To configure Bibledit-Web, point your browser to:")
+  translate("To configure Bibledit-Web, point your browser to:")
   <a href="http://localhost/bibledit-web" target="_blank">​http://localhost/bibledit-web</a>.
-  gettext("Follow all the steps in the browser.")
+  translate("Follow all the steps in the browser.")
 </p>
 </li>
 
 <li>
 <p>
-  gettext("To use Bibledit-Web, point your browser to the same address:")
+  translate("To use Bibledit-Web, point your browser to the same address:")
   <a href="http://localhost/bibledit-web" target="_blank">​http://localhost/bibledit-web</a>.
 </p>
 </li>
 
 <li>
-<p>gettext("Once everything works, put PHP in production mode:")</p>
+<p>translate("Once everything works, put PHP in production mode:")</p>
 <p><code>cd /opt/local/etc/php5</code></p>
 <p><code>sudo cp php.ini-production php.ini</code></p>
 </li>

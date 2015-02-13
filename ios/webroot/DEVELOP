@@ -42,5 +42,8 @@ shell commands and has options for security holes.
 The self-contained version is offers hardly any options for security holes.
 Thus the server is expected to be more secure.
 
-Libcurl may not be available easily on all types of tablets.
-Therefore it can be used for operations essential to servers, but not essential to smaller clients.
+Libgit2 is working in a way, but when compiling it as a static library, with thread-safety on,
+it appears to crash. This was observed with version 0.21.5.
+For the above reason, Bibledit does not yet use libgit2.
+It uses shell calls to git instead.
+

@@ -1,7 +1,7 @@
-<h1>gettext("Bible") ##bible##</h1>
-<p>gettext("Available books") (##book_count##): ##bookblock##</p>
+<h1>translate("Bible") ##bible##</h1>
+<p>translate("Available books") (##book_count##): ##bookblock##</p>
 <p>
-  gettext("Versification system"):
+  translate("Versification system"):
   <!-- #BEGINZONE write_access -->
     <a href="settings?bible=##bible##&versification=">
   <!-- #ENDZONE write_access -->
@@ -11,7 +11,7 @@
   <!-- #ENDZONE write_access -->
 </p>
 <p>
-  gettext("Verse mapping"):
+  translate("Verse mapping"):
   <!-- #BEGINZONE write_access -->
     <a href="settings?bible=##bible##&mapping=">
   <!-- #ENDZONE write_access -->
@@ -21,20 +21,20 @@
   <!-- #ENDZONE write_access -->
 </p>
 <!-- #BEGINZONE write_access -->
-  <p><a href="settings?bible=##bible##&createbook=">gettext("Create book")</a></p>
-  <p><a href="import_usfm?bible=##bible##">gettext("Import USFM")</a></p>
-  <p><a href="import_bibleworks?bible=##bible##">gettext("Import BibleWorks")</a></p>
+  <p><a href="settings?bible=##bible##&createbook=">translate("Create book")</a></p>
+  <p><a href="import_usfm?bible=##bible##">translate("Import USFM")</a></p>
+  <p><a href="import_bibleworks?bible=##bible##">translate("Import BibleWorks")</a></p>
 <!-- #ENDZONE write_access -->
 <!-- #BEGINZONE server -->
-<p><a href="manage?copy=##bible##">gettext("Copy this Bible")</a></p>
+<p><a href="manage?copy=##bible##">translate("Copy this Bible")</a></p>
 <!-- #ENDZONE server -->
 <!-- #BEGINZONE write_access -->
   <!-- #BEGINZONE server -->
-    <p><a href="manage?delete=##bible##">gettext("Delete this Bible")</a></p>
-    <p><a href="../resource/bible2resource?bible=##bible##">gettext("Convert to USFM resource") (not yet implemented)</a></p>
+    <p><a href="manage?delete=##bible##">translate("Delete this Bible")</a></p>
+    <p><a href="../resource/bible2resource?bible=##bible##">translate("Convert to USFM resource") (not yet implemented)</a></p>
   <!-- #ENDZONE server -->
 <!-- #ENDZONE write_access -->
-<p><a href="../compare/index?bible=##bible##">gettext("Compare with ...")</a></p>
+<p><a href="../compare/index?bible=##bible##">translate("Compare with ...")</a></p>
 <p>
 <!-- #BEGINZONE write_access -->
   <a href="?bible=##bible##&viewable=">
@@ -43,10 +43,11 @@
 <!-- #BEGINZONE write_access -->
 </a>
 <!-- #ENDZONE write_access -->
-gettext("Viewable by all users")
+translate("Viewable by all users")
 </p>
 <!-- #BEGINZONE write_access -->
-  <p><a href="abbreviations?bible=##bible##">gettext("Book abbreviations")</a></p>
-  <p><a href="order?bible=##bible##">gettext("Book order")</a></p>
-  <p><a href="css?bible=##bible##">gettext("Font and text direction")</a></p>
+  <p><a href="abbreviations?bible=##bible##">translate("Book abbreviations")</a></p>
+  <p><a href="order?bible=##bible##">translate("Book order")</a></p>
+  <p><a href="css?bible=##bible##">translate("Font and text direction")</a></p>
+  <p><a href="editing?bible=##bible##">translate("Editing settings")</a></p>
 <!-- #ENDZONE write_access -->
