@@ -20,8 +20,6 @@
     // Bail out in case the installed version equals the bibledit library version.
     NSString * version = [self libraryVersion];
     // Todo if ([version isEqualToString:[self installedVersion]]) return;
-
-    NSLog (@"%@", [BibleditPaths resources]); // Todo
     
     NSArray *inputComponents = [NSArray arrayWithObjects:[BibleditPaths resources], @"webroot", nil];
     NSString *inputDirectory = [NSString pathWithComponents:inputComponents];
@@ -50,7 +48,6 @@
         }
     }
     
-    NSLog (@"%@", [BibleditPaths documents]); // Todo
     // Store the installed version in the preferences.
     [self installedVersion:version];
 }

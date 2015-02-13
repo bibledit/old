@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA0773811A8E80DC0061C5B7 /* develop.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA0773801A8E80DB0061C5B7 /* develop.txt */; };
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
 		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
 		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA0773801A8E80DB0061C5B7 /* develop.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = develop.txt; sourceTree = "<group>"; };
 		CA9ADE011A8A9752000FD430 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = SOURCE_ROOT; };
 		CAB519B31A8A658F00F4ED36 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = lib/libbibledit.a; sourceTree = "<group>"; };
 		CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -91,6 +93,7 @@
 		CEA9295B19B06C9600DA3766 = {
 			isa = PBXGroup;
 			children = (
+				CA0773801A8E80DB0061C5B7 /* develop.txt */,
 				CEA9296D19B06C9600DA3766 /* Bibledit iOS */,
 				CEA9296619B06C9600DA3766 /* Frameworks */,
 				CEA9296519B06C9600DA3766 /* Products */,
@@ -221,6 +224,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA0773811A8E80DC0061C5B7 /* develop.txt in Resources */,
 				CA9ADE021A8A9752000FD430 /* webroot in Resources */,
 				CEA9298319B06C9700DA3766 /* Images.xcassets in Resources */,
 				CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */,

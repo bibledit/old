@@ -1,5 +1,10 @@
 Bibledit for iOS
 
+Todo
+
+The webroot does not exist, therefore it does not run. Fix that.
+
+
 Introduction
 
 In the second half of 2014 an effort was made to port Bibledit, written in PHP, to iOS. This required a PHP interpreter and a web server on a standard iOS device. To get the web server running was the easier part of the job. The other part, the PHP interpreter, proved to be a challenge. Initially PHP binaries from Cydia were used for that. But iOS does not allow starting a binary as a sub process. The application sandbox kills that binary straight after start. This was confirmed on the Apple iOS developer forum. The next step was to compile PHP for the iOS platform. This worked, sort of, but minor parts of the PHP did not work. It was those minor parts that Bibledit also needed for it to work. There was also “Draftcode PHP IDE”, an iOS app that includes a web server and PHP interpreter. But it was not able to run Bibledit. It was also thought to use the Safari browser to display Bibledit. But then if the browser would be in the foreground, the Bibledit app with the PHP interpreter would go into the background, and iOS would stop to run it.
@@ -12,158 +17,8 @@ libcurl
 
 The Bibledit library depends on libcurl. The headers and precompiled library are available from dependencies/libcurl/ios.
 
-libsqlite
+Other libraries
 
-The Bibledit library depends on libsqlite3. The iOS SDK with Xcode includes this library. The folder is /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk. The header is in usr/include and the dylib is in usr/lib.
+The Bibledit library depends on libsqlite3, libz, libc++ libxml2 Security.framework CFNetwork.framework. The iOS SDK with Xcode includes this library. Link against all of these libraries in the project settings, the Build Phases.
 
-libxml2
-
-The Bibledit library depends on libxml2. The iOS SDK with Xcode includes this library. For more information, see heading libsqlite.
-
-libgit2
-
-The Bibledit library normally depends on libgit2. But on iOS it does not have this dependency.
-
-
-
-Some points of attention with regard to the Xcode settings.
-* Drag the "lib" folder of the php-ios project to the Bibledit project in Xcode,
-  remain with file "libphp5.a" only 
-  while removing the processor-specific libraries from the "lib" folder.
-* Copy the entire "include" folder of the php-ios project to the bibledit-ios project.
-* In the project, Build Settings, All, go to Apple LLVM 6.0 - Custom Compiler Flags, Other C Flags,
-  add the following:
-  -I$(PROJECT_DIR)/include/
-  -I$(PROJECT_DIR)/include/Zend/
-  -I$(PROJECT_DIR)/include/TSRM/
-  -I$(PROJECT_DIR)/include/main/
-  Note that the starting hyphen (-) should be entered.
-* Add the entire "bibledit-web" folder to the project in Xcode, 
-  and select "Copy items if needed", and "Create folder references".
-  This will add the entire folder hierarchy, so it will be installed 
-  to the Resources on iOS.
-
-  
-
-
-
-Beta testing iOS apps is made easy:
-https://developer.apple.com/app-store/testflight
-
-
-Bibledit for iOS
-
-If Bibledit for iOS were to use the Safari browser to display Bibledit-Web,
-then the Bibledit app itself including its web server would go into the background,
-and iOS would stop running it.
-Therefore the interface of Bibledit for iOS solely consists of the iOS web browser library.
-Thus the Bibledit app would always be in the foreground, and therefore keeps running.
-
-
-
-The following information is no longer up to date.
-
-Some points of attention with regard to the Xcode settings.
-* Drag the "lib" folder of the php-ios project to the Bibledit project in Xcode,
-  remain with file "libphp5.a" only 
-  while removing the processor-specific libraries from the "lib" folder.
-* Copy the entire "include" folder of the php-ios project to the bibledit-ios project.
-* In the project, Build Settings, All, go to Apple LLVM 6.0 - Custom Compiler Flags, Other C Flags,
-  add the following:
-  -I$(PROJECT_DIR)/include/
-  -I$(PROJECT_DIR)/include/Zend/
-  -I$(PROJECT_DIR)/include/TSRM/
-  -I$(PROJECT_DIR)/include/main/
-  Note that the starting hyphen (-) should be entered.
-* Add the entire "bibledit-web" folder to the project in Xcode, 
-  and select "Copy items if needed", and "Create folder references".
-  This will add the entire folder hierarchy, so it will be installed 
-  to the Resources on iOS.
-
-  
-The git repository contains a folder "bibledit-web".
-This folder contains all the source code of Bibledit-Web.
-Script "refresh.sh" refreshes and updates this code.
-Script "tar.sh" converts the files in folder "bibledit-web"
-into one file called "bibledit-web.tar".
-Run "tar.sh" on Mac OS before building Bibledit for iOS in Xcode.
-
-
-
-
-The Bibledit-Web setup displays several warnings. 
-The first one is this:
-Warning: Creating default object from empty value in [path]/database/users.php on line 35.
-From the source code, the error is related to the sqlite3 driver via PDO.
-Attempts at solving it:
-* To find out the cause: 
-  Echo the message in the connect method at database/sqlite.php line 35.
-  Result: It gives no error there.
-* Run Bibledit-Web within Draftcode PHP IDE to see if it runs well there:
-  Result 1: Draftcode crashes on the Location: header.
-  Result 2: It works well with SQlite databases.
-* Remove the iconv requirement from Bibledit-Web.
-  Compile PHP for iOS without iconv support. Run Bibledit again.
-  Result: The message about an empty value on line 35 is still there.
-* Create a minimal sqlite.php test case.
-  Copy it from the Resources to the Documents within the app.
-  Result: SQLite works as expected.
-* Add the bibledit-web folder to the included Resources, 
-  and copy all files to the Documents at the first run.
-  Result: The message about an empty value on line 35 is still there.
-* Is the filesystem in folder Documents writable to create a database, 
-  or is being read-only causing the problem?
-  Result: The database is created, which means the file system is writeable.
-* Would it make a difference to open http://localhost/index/index.php
-  rather than http://localhost/index.php ?
-  Result: The message about an empty value on line 35 is still there.
-* Try to reproduce the problem on Linux with php-5.4.33.tar.bz2.
-  Result: On Linux it all works fine.
-* Would the problem be that php-5.4.33 fails on that, 
-  and that 5.4.23 is fine? Draftcode uses 5.4.23.
-  Result: It makes no difference.
-* Could it be this bug?
-  http://stackoverflow.com/questions/3989709/php-object-is-null-right-after-creation
-  Set the ini variable zend.enable_gc to Off.
-  Result: Makes no difference.
-* The cause is that on object creation, $this remains NULL on iOS,
-  whereas $this is set to the instantiated object on Linux, as it should.
-* Would it run through the standard embedded SAPI?
-  Result: No, it makes no difference: The error is still there.
-* Extract the settings from the Linux php.ini file for development on Linux, 
-  and integrate it into the iOS INI settings.
-  Result: The PHP library on iOS hangs on some of those settings.
-  Result: The error is still there.
-* Don't use $this in the object, but use self::$variable everywhere.
-  Result: That resolves the problem: It works fine.
-* Try configuring PHP with the options Draftcode uses.
-  Compiling on Mac works fine.
-  Result: The error is still there.
-* Observation: While compiling on Mac OSX with clang, 
-  it complains about missing symbols.
-  While compiling on Linux with gcc, it does not complain about missing symbols.
-* Follow the script at https://gist.github.com/rsky/4745953.
-  Result: Errors configuring the package.
-* Create a minimal setup with minimal files to emulate the problem, 
-  and track the cause down.
-  Result: The problem displays in file index/sqlite.php.
-* Compile on Linux:
-  Install gcc-arm-linux-gnueabi and binutils-arm-linux-gnueabi packages, 
-  and then just use arm-linux-gnueabi-gcc instead of gcc for compilation.
-  You need to be careful on what flavour of linux and binutils you have on your target system. 
-  The newest stuff is hardfloat, in this case you would do:
-  sudo apt-get install gcc-arm-linux-gnueabihf
-  This brings in the complete cross-compile environment, including binutils.
-  Xopy the entire Xcode folder to Linux, and link to it while compiling. 
-  Result: Compilation works flawlessly through script built-linux-armv7.sh.
-  Result: On OSX, lipo cannot find the architecture of libphp5.a.
-  Result: Linking on OSX fails.
-* Configure with thread safety through --enable-maintainer-zts.
-  Result: The error keeps coming up.
-* The Draftcode libphp5.a was requested plus licensing conditions.
-  Result: No response from the developer.
-
-
-
-Beta testing iOS apps is made easy:
-https://developer.apple.com/app-store/testflight
+Beta testing iOS apps is made easy: https://developer.apple.com/app-store/testflight
