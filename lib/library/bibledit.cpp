@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <thread>
 #include <timer/index.h>
 #include <config/logic.h>
+#include <database/config/general.h>
 
 
 // Get Bibledit's version number.
@@ -56,6 +57,14 @@ void bibledit_start_server ()
   config_globals_worker = new thread (webserver);
   // Run the timers in a thread.
   config_globals_timer = new thread (timer_index);
+}
+
+
+// Sets a global flag, so the library will quit at midnight.
+void bibledit_quit_at_midnight () // Todo
+{
+  Database_Config_General::setJustStarted (true);
+  config_globals_quit_at_midnight = true;
 }
 
 

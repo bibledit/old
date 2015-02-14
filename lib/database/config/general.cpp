@@ -303,3 +303,13 @@ void Database_Config_General::setInstalledVersion (string value)
 }
 
 
+bool Database_Config_General::getJustStarted ()
+{
+  return getBValue ("just-started", false);
+}
+void Database_Config_General::setJustStarted (bool value)
+{
+  setBValue ("just-started", value);
+}
+
+

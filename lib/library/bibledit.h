@@ -25,6 +25,7 @@ extern "C" {
   const char * bibledit_network_port ();
   void bibledit_set_web_root (const char * directory);
   void bibledit_start_server ();
+  void bibledit_quit_at_midnight ();
   bool bibledit_is_running ();
   void bibledit_stop_server ();
 

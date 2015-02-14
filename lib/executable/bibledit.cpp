@@ -56,6 +56,9 @@ int main (int argc, char **argv)
   cout << "Listening on http://localhost:" << config_logic_network_port () << endl;
   cout << "Press Ctrl-C to quit" << endl;
   
+  // Server should restart itself at midnight.
+  bibledit_quit_at_midnight ();
+  
   // Wait till Bibledit it is ready.
   while (bibledit_is_running ()) { };
   

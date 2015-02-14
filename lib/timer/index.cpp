@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <timer/index.h>
 #include <database/logs.h>
+#include <database/config/general.h>
 #include <config/globals.h>
 #include <filter/string.h>
 #include <tasks/logic.h>
@@ -113,6 +114,21 @@ void timer_index ()
       if (minute == 10) {
         if (config_logic_demo_enabled ()) {
           tasks_logic_queue (CLEANDEMO);
+        }
+      }
+      
+      // Quit at midnight if flag is set.
+      if (config_globals_quit_at_midnight) {
+        if (hour == 0) {
+          if (minute == 0) {
+            if (!Database_Config_General::getJustStarted ()) {
+              Database_Logs::log ("Server restarts itself");
+              exit (0); // Todo
+            }
+          }
+          if (minute == 1) {
+            Database_Config_General::setJustStarted (false);
+          }
         }
       }
 

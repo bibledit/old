@@ -30,3 +30,4 @@ extern thread * config_globals_timer;
 extern bool config_globals_setup_running;
 extern bool config_globals_mail_receive_running;
 extern bool config_globals_mail_send_running;
+extern bool config_globals_quit_at_midnight;
