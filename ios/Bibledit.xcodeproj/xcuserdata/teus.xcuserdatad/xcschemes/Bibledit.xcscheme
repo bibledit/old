@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEA9296319B06C9600DA3766"
-               BuildableName = "Bibledit.app"
-               BlueprintName = "Bibledit"
+               BuildableName = "bibledit-ios.app"
+               BlueprintName = "bibledit-ios"
                ReferencedContainer = "container:Bibledit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA9296319B06C9600DA3766"
-            BuildableName = "Bibledit.app"
-            BlueprintName = "Bibledit"
+            BuildableName = "bibledit-ios.app"
+            BlueprintName = "bibledit-ios"
             ReferencedContainer = "container:Bibledit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -52,8 +52,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA9296319B06C9600DA3766"
-            BuildableName = "Bibledit.app"
-            BlueprintName = "Bibledit"
+            BuildableName = "bibledit-ios.app"
+            BlueprintName = "bibledit-ios"
             ReferencedContainer = "container:Bibledit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,8 +70,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA9296319B06C9600DA3766"
-            BuildableName = "Bibledit.app"
-            BlueprintName = "Bibledit"
+            BuildableName = "bibledit-ios.app"
+            BlueprintName = "bibledit-ios"
             ReferencedContainer = "container:Bibledit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

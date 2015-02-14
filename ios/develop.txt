@@ -1,9 +1,5 @@
 Bibledit for iOS
 
-Todo
-
-
-
 Introduction
 
 In the second half of 2014 an effort was made to port Bibledit, written in PHP, to iOS. This required a PHP interpreter and a web server on a standard iOS device. To get the web server running was the easier part of the job. The other part, the PHP interpreter, proved to be a challenge. Initially PHP binaries from Cydia were used for that. But iOS does not allow starting a binary as a sub process. The application sandbox kills that binary straight after start. This was confirmed on the Apple iOS developer forum. The next step was to compile PHP for the iOS platform. This worked, sort of, but minor parts of the PHP did not work. It was those minor parts that Bibledit also needed for it to work. There was also “Draftcode PHP IDE”, an iOS app that includes a web server and PHP interpreter. But it was not able to run Bibledit. It was also thought to use the Safari browser to display Bibledit. But then if the browser would be in the foreground, the Bibledit app with the PHP interpreter would go into the background, and iOS would stop to run it.

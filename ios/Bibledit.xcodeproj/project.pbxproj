@@ -50,18 +50,18 @@
 		CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditPaths.m; sourceTree = "<group>"; };
 		CE8E8AE319C4A4E50025EAC2 /* BibleditInstallation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditInstallation.h; sourceTree = "<group>"; };
 		CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditInstallation.m; sourceTree = "<group>"; };
-		CEA9296419B06C9600DA3766 /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA9296419B06C9600DA3766 /* bibledit-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bibledit-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA9296719B06C9600DA3766 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEA9296919B06C9600DA3766 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CEA9296B19B06C9600DA3766 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		CEA9296F19B06C9600DA3766 /* Bibledit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Bibledit-Info.plist"; sourceTree = "<group>"; };
+		CEA9296F19B06C9600DA3766 /* bibledit-ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "bibledit-ios-Info.plist"; sourceTree = "<group>"; };
 		CEA9297119B06C9600DA3766 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CEA9297319B06C9600DA3766 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CEA9297519B06C9600DA3766 /* Bibledit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bibledit-Prefix.pch"; sourceTree = "<group>"; };
+		CEA9297519B06C9600DA3766 /* bibledit-ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bibledit-ios-Prefix.pch"; sourceTree = "<group>"; };
 		CEA9297619B06C9600DA3766 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CEA9297719B06C9600DA3766 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CEA9297F19B06C9600DA3766 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CEA9298019B06C9600DA3766 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CEA9298019B06C9600DA3766 /* ViewController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; tabWidth = 2; };
 		CEA9298219B06C9700DA3766 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,7 +100,7 @@
 		CEA9296519B06C9600DA3766 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CEA9296419B06C9600DA3766 /* Bibledit.app */,
+				CEA9296419B06C9600DA3766 /* bibledit-ios.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,10 +148,10 @@
 				CE02134F19E03F9B006EE62F /* Storyboard.storyboard */,
 				CAB519C81A8A771C00F4ED36 /* setup */,
 				CEA9298219B06C9700DA3766 /* Images.xcassets */,
-				CEA9296F19B06C9600DA3766 /* Bibledit-Info.plist */,
+				CEA9296F19B06C9600DA3766 /* bibledit-ios-Info.plist */,
 				CEA9297019B06C9600DA3766 /* InfoPlist.strings */,
 				CEA9297319B06C9600DA3766 /* main.m */,
-				CEA9297519B06C9600DA3766 /* Bibledit-Prefix.pch */,
+				CEA9297519B06C9600DA3766 /* bibledit-ios-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -159,9 +159,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CEA9296319B06C9600DA3766 /* Bibledit */ = {
+		CEA9296319B06C9600DA3766 /* bibledit-ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CEA9299919B06C9700DA3766 /* Build configuration list for PBXNativeTarget "Bibledit" */;
+			buildConfigurationList = CEA9299919B06C9700DA3766 /* Build configuration list for PBXNativeTarget "bibledit-ios" */;
 			buildPhases = (
 				CEA9296019B06C9600DA3766 /* Sources */,
 				CEA9296119B06C9600DA3766 /* Frameworks */,
@@ -171,9 +171,9 @@
 			);
 			dependencies = (
 			);
-			name = Bibledit;
+			name = "bibledit-ios";
 			productName = "Bibledit iOS";
-			productReference = CEA9296419B06C9600DA3766 /* Bibledit.app */;
+			productReference = CEA9296419B06C9600DA3766 /* bibledit-ios.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -183,7 +183,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
-				ORGANIZATIONNAME = "Teus Benshop";
+				ORGANIZATIONNAME = "Teus Benschop";
 				TargetAttributes = {
 					CEA9296319B06C9600DA3766 = {
 						DevelopmentTeam = L37WFUB5MH;
@@ -208,7 +208,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CEA9296319B06C9600DA3766 /* Bibledit */,
+				CEA9296319B06C9600DA3766 /* bibledit-ios */,
 			);
 		};
 /* End PBXProject section */
@@ -342,8 +342,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Bibledit iOS/Bibledit-Prefix.pch";
-				INFOPLIST_FILE = "Bibledit iOS/Bibledit-Info.plist";
+				GCC_PREFIX_HEADER = "Bibledit iOS/bibledit-ios-Prefix.pch";
+				INFOPLIST_FILE = "Bibledit iOS/bibledit-ios-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -351,7 +351,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-I$(PROJECT_DIR)/include/";
-				PRODUCT_NAME = Bibledit;
+				PRODUCT_NAME = "bibledit-ios";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -373,8 +373,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Bibledit iOS/Bibledit-Prefix.pch";
-				INFOPLIST_FILE = "Bibledit iOS/Bibledit-Info.plist";
+				GCC_PREFIX_HEADER = "Bibledit iOS/bibledit-ios-Prefix.pch";
+				INFOPLIST_FILE = "Bibledit iOS/bibledit-ios-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -382,7 +382,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-I$(PROJECT_DIR)/include/";
-				PRODUCT_NAME = Bibledit;
+				PRODUCT_NAME = "bibledit-ios";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -403,7 +403,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CEA9299919B06C9700DA3766 /* Build configuration list for PBXNativeTarget "Bibledit" */ = {
+		CEA9299919B06C9700DA3766 /* Build configuration list for PBXNativeTarget "bibledit-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CEA9299A19B06C9700DA3766 /* Debug */,
