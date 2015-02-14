@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define whether it is a client installation */
-#define CLIENT "yes"
+#define CLIENT "no"
 
 /* Define whether it is a demo installation */
 #define DEMO "no"

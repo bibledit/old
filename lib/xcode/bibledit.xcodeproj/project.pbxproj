@@ -3240,7 +3240,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit" */;
+			buildConfigurationList = CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit-lib" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3363,7 +3363,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit" */ = {
+		CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit-lib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CAB29AC61A4480CC00139BD7 /* Debug */,

@@ -101,6 +101,11 @@ string journal_index (void * webserver_request)
   view.set_variable ("journal", translate ("Journal"));
 
 
+  if (request->query.count ("clear")) {
+    database_logs.clear ();
+  }
+
+  
   string lastfilename;
   vector <string> entries = database_logs.get (0, lastfilename);
 
@@ -129,8 +134,15 @@ string journal_index (void * webserver_request)
   }
   view.set_variable ("lines", lines);
 
-
-  // Pass the filename of the most recent entry to javascript for use by the AJAX calls for getting subsequent journal entries.
+  
+  // Display bottom links in case of many entries.
+  // The bottom links assist the user on touch devices
+  // so the user does not need to scroll to the top of the screen to operate the menu.
+  if (entries.size () > 20) view.enable_zone ("manyentries");
+  
+  
+  // Pass the filename of the most recent entry to javascript
+  // for use by the AJAX calls for getting subsequent journal entries.
   string script = "var filename = " + lastfilename + ";";
   view.set_variable ("script", script);
 

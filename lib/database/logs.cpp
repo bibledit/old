@@ -165,15 +165,8 @@ void Database_Logs::rotate ()
   // Also clear the logbook database out.
   files = filter_url_scandir (directory);
   if (files.size () > 100) {
-    for (auto file : files) {
-      filter_url_unlink (filter_url_create_path (directory, file));
-    }
-    sqlite3 * db = connect ();
-    sql = "DELETE FROM logs;";
-    database_sqlite_exec (db, sql);
-    database_sqlite_disconnect (db);
+    clear ();
     log ("Irrecoverable journal errors: Everything was cleared out");
-    checkup ();
   }
 }
 
@@ -247,4 +240,20 @@ void Database_Logs::update (int oldseconds, int newseconds)
     database_sqlite_exec (db, sql);
   }
   database_sqlite_disconnect (db);
+}
+
+
+// Clears all journal entries.
+void Database_Logs::clear ()
+{
+  string directory = folder ();
+  vector <string> files = filter_url_scandir (directory);
+  for (auto file : files) {
+    filter_url_unlink (filter_url_create_path (directory, file));
+  }
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, "DELETE FROM logs;");
+  database_sqlite_disconnect (db);
+  checkup ();
+  log ("The journal was cleared");
 }
