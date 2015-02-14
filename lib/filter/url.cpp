@@ -22,8 +22,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/UriCodec.cpp>
 #include <filter/string.h>
-#include <config.h>
+#include <config/logic.h>
 #include <curl/curl.h>
+#include <config.h>
 
 
 // Gets the base URL of current Bibledit installation.
@@ -32,7 +33,7 @@ string get_base_url (Webserver_Request * request)
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
   // Port
-  string port = NETWORK_PORT;
+  string port = config_logic_network_port ();
   // Full URL.  
   string url = scheme + "://" + request->host + ":" + port + "/";
   return url;

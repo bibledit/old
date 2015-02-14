@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <config/libraries.h>
 #include <filter/url.h>
-#include <config.h>
+#include <config/logic.h>
 
 
 void sigint_handler (int s)
@@ -44,7 +44,6 @@ int main (int argc, char **argv)
 
   // Get the executable path and base the document root on it.
   // Mac OS X: NSGetExecutablePath()
-  // Solaris: getexecname()
   char *linkname = (char *) malloc (256);
   memset (linkname, 0, 256); // valgrind uninitialized value(s)
   ssize_t r = readlink ("/proc/self/exe", linkname, 256);
@@ -54,7 +53,7 @@ int main (int argc, char **argv)
 
   // Start the Bibledit library.
   bibledit_start_server ();
-  cout << "Listening on http://localhost:" << NETWORK_PORT << endl;
+  cout << "Listening on http://localhost:" << config_logic_network_port () << endl;
   cout << "Press Ctrl-C to quit" << endl;
   
   // Wait till Bibledit it is ready.

@@ -26,9 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Returns the Bibledit version number.
-string config_logic_version ()
+const char * config_logic_version ()
 {
   return VERSION;
+}
+
+
+// Return the network port configured for the server.
+const char * config_logic_network_port ()
+{
+  return NETWORK_PORT;
 }
 
 

@@ -25,20 +25,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/threads.h>
 #include <thread>
 #include <timer/index.h>
-#include <config.h>
+#include <config/logic.h>
 
 
 // Get Bibledit's version number.
 const char * bibledit_version_number ()
 {
-  return VERSION;
+  return config_logic_version ();
 }
 
 
 // Get the port number that Bibledit's web server listens on.
 const char * bibledit_network_port ()
 {
-  return NETWORK_PORT;
+  return config_logic_network_port ();
 }
 
 
@@ -76,7 +76,7 @@ void bibledit_stop_server ()
   // Connect to localhost to initiate the shutdown mechanism in the running server.
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
-  sa.sin_port = htons (stoi (NETWORK_PORT));
+  sa.sin_port = htons (stoi (config_logic_network_port ()));
   //sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
   inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
   char str[INET_ADDRSTRLEN];
