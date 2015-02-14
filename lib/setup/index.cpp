@@ -129,7 +129,7 @@ string setup_index (void * webserver_request)
   // In client mode, do not display the page for entering the admin's details.
   if (config_logic_client_prepared ()) {
     redirect_browser (request, index_index_url ());
-    Database_Config_General::setInstalledVersion (config_logic_version ()); // Todo update VERSION anywhere.
+    Database_Config_General::setInstalledVersion (config_logic_version ());
     return "";
   }
 

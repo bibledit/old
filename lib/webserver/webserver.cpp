@@ -225,7 +225,9 @@ void webserver ()
       string clientaddress = remote_address;
       
       // Handle this request in a thread, enabling parallel requests.
-      new thread (webserver_process_request, connfd, clientaddress);
+      thread request_thread = thread (webserver_process_request, connfd, clientaddress);
+      // Detach and delete thread object.
+      request_thread.detach ();
       
     } else {
       cerr << "Error accepting connection on socket" << endl;
