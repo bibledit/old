@@ -3,6 +3,4 @@ while true
 do
   ./server
   sleep 0.1
-  date
-  Todo
 done

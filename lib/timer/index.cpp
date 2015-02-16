@@ -120,13 +120,16 @@ void timer_index ()
       // Quit at midnight if flag is set.
       if (config_globals_quit_at_midnight) {
         if (hour == 0) {
-          if (minute == 0) {
+          if (minute == 1) {
             if (!Database_Config_General::getJustStarted ()) {
               Database_Logs::log ("Server restarts itself");
-              exit (0); // Todo
+              exit (0);
             }
           }
-          if (minute == 1) {
+          // Clear flag in preparation of restart next minute.
+          // This flag also has the purpose of ensuring the server restarts once during that minute,
+          // rather than restarting repeatedly many times during that minute.
+          if (minute == 0) {
             Database_Config_General::setJustStarted (false);
           }
         }

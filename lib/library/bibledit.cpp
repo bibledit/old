@@ -61,7 +61,7 @@ void bibledit_start_server ()
 
 
 // Sets a global flag, so the library will quit at midnight.
-void bibledit_quit_at_midnight () // Todo
+void bibledit_quit_at_midnight ()
 {
   Database_Config_General::setJustStarted (true);
   config_globals_quit_at_midnight = true;
