@@ -85,7 +85,6 @@ string journal_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int userLevel = request->session_logic()->currentLevel ();
-  if (userLevel) {};
 
   string filename = request->query ["filename"];
   if (!filename.empty ()) return journal_index_ajax (request, filename);

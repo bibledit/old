@@ -26,3 +26,10 @@ lipo -info ~/Desktop/libbibledit.a
 echo Copying library into place
 mv ~/Desktop/libbibledit.a ../lib
 
+echo Restore library to default state
+pushd ../../lib
+./configure
+make clean > /dev/null
+popd
+
+

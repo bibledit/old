@@ -137,5 +137,11 @@ void tasks_run_check ()
   // Get and start first available task.
   vector <string> tasks = filter_url_scandir (tasks_logic_folder ());
   if (tasks.empty ()) return;
-  new thread (tasks_run_one, tasks [0]);
+  /* Todo
+   new thread (tasks_run_one, tasks [0]);
+  */
+  thread task_thread = thread (tasks_run_one, tasks [0]);
+  // Detach the thread to the thread continues to run independently,
+  // when the thread object goes out of scope, and no memory is leaked this way.
+  task_thread.detach ();
 }
