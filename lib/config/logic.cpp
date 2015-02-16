@@ -51,3 +51,10 @@ bool config_logic_demo_enabled ()
 {
   return (strcmp (DEMO, "yes") == 0);
 }
+
+
+// Returns the maximum number of parallel tasks to run.
+int config_logic_max_parallel_tasks ()
+{
+  return PARALLEL_TASKS;
+}

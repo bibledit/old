@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/settings.h>
 #include <sendreceive/bibles.h>
 #include <demo/logic.h>
+#include <config/logic.h>
 
 
 mutex mutex_tasks; 
@@ -133,7 +134,7 @@ void tasks_run_check ()
   mutex_tasks.lock ();
   int taskscount = running_tasks;
   mutex_tasks.unlock ();
-  if (taskscount >= 10) return;
+  if (taskscount >= config_logic_max_parallel_tasks ()) return;
   // Get and start first available task.
   vector <string> tasks = filter_url_scandir (tasks_logic_folder ());
   if (tasks.empty ()) return;

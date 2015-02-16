@@ -67,6 +67,9 @@
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "1.0.68"
 
+/* Define the maximum number of parallel background tasks to run */
+#define PARALLEL_TASKS 10
+
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 

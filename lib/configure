@@ -625,6 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+PARALLEL_TASKS
 NETWORK_PORT
 CLIENT
 DEMO
@@ -752,6 +753,7 @@ enable_xmltest
 enable_demo
 enable_client
 with_network_port
+with_parallel_tasks
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1404,6 +1406,7 @@ Optional Packages:
   --with-xml-prefix=PFX   Prefix where libxml is installed (optional)
   --with-xml-exec-prefix=PFX Exec prefix where libxml is installed (optional)
   --with-network-port=number Port number for server to listen on
+  --with-parallel-tasks=number Maximum number of parallel background tasks
 
 Some influential environment variables:
   CC          C compiler command
@@ -6191,6 +6194,25 @@ $as_echo "#define NETWORK_PORT /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define NETWORK_PORT "$NETWORK_PORT"
+_ACEOF
+
+
+
+# Maximum number of parallel tasks to run.
+
+# Check whether --with-parallel-tasks was given.
+if test "${with_parallel_tasks+set}" = set; then :
+  withval=$with_parallel_tasks;  PARALLEL_TASKS=$withval
+else
+   PARALLEL_TASKS=10
+
+fi
+
+
+$as_echo "#define PARALLEL_TASKS /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define PARALLEL_TASKS $PARALLEL_TASKS
 _ACEOF
 
 
