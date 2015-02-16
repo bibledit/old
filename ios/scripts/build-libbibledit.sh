@@ -26,10 +26,13 @@ lipo -info ~/Desktop/libbibledit.a
 echo Copying library into place
 mv ~/Desktop/libbibledit.a ../lib
 
+say Compile for iOS is ready
+
 echo Restore library to default state
 pushd ../../lib
 ./configure
 make clean > /dev/null
+make --jobs=4
 popd
 
 

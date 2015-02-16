@@ -122,9 +122,10 @@ AC_OUTPUT(Makefile)
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix    : ${prefix}
-Libgit2                : ${LIBGIT}
-Network port           : ${NETWORK_PORT}
-Client installation    : ${CLIENT}
-Demo installation      : ${DEMO}
+Installation prefix              : ${prefix}
+Libgit2                          : ${LIBGIT}
+Network port                     : ${NETWORK_PORT}
+Client installation              : ${CLIENT}
+Demo installation                : ${DEMO}
+Maximum number of parallel tasks : ${PARALLEL_TASKS}
 "
