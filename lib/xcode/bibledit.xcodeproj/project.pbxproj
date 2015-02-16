@@ -653,7 +653,6 @@
 		CAA4D22F1A45A648003ABA25 /* nav.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nav.js; sourceTree = "<group>"; };
 		CAA4D2301A45A648003ABA25 /* nav.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = nav.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2311A45A648003ABA25 /* passage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = passage.js; sourceTree = "<group>"; };
-		CAA4D2331A45A648003ABA25 /* poll.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = poll.php; sourceTree = "<group>"; };
 		CAA4D2341A45A648003ABA25 /* shortcuts.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = shortcuts.js; sourceTree = "<group>"; };
 		CAA4D2381A45A648003ABA25 /* nicedit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nicedit.js; sourceTree = "<group>"; };
 		CAA4D2391A45A648003ABA25 /* nicEditorIcons.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = nicEditorIcons.gif; sourceTree = "<group>"; };
@@ -2208,7 +2207,6 @@
 				CAA4D2311A45A648003ABA25 /* passage.js */,
 				CA06BDE81A56F39200A051FF /* passage.cpp */,
 				CA06BDE91A56F39200A051FF /* passage.h */,
-				CAA4D2331A45A648003ABA25 /* poll.php */,
 				CA06BDF01A572DE400A051FF /* poll.cpp */,
 				CA06BDF11A572DE400A051FF /* poll.h */,
 				CAA4D2341A45A648003ABA25 /* shortcuts.js */,
@@ -3240,7 +3238,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit-lib" */;
+			buildConfigurationList = CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3363,7 +3361,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit-lib" */ = {
+		CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CAB29AC61A4480CC00139BD7 /* Debug */,
