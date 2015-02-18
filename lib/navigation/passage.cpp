@@ -28,9 +28,21 @@
 #include <ipc/focus.h>
 
 
+/*
+ On the iPad, Bibledit uses the UIWebView class for html presentation.
+ https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIWebView_Class/
+ Bibledit used to have a verse navigator that used overlays for selecting book, chapter, and verse.
+ When selecting the verse, the UIWebView crashed with the following message:
+ UIPopoverPresentationController should have a non-nil sourceView or barButtonItem set before the presentation occurs.
+ This is a bug in the UIWebView.
+ To circumvent that bug, and also for better operation on the iPad with regard to touch operation,
+ Bibledit now uses a different verse navigator, one without the overlays.
+*/
+
+
 string Navigation_Passage::getContainer ()
 {
-  return "<div id=\"versepickerwrapper\"></div>";
+  return "<div id=\"passagenavigation\"></div>";
 }
 
 
@@ -42,22 +54,23 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   string user = request->session_logic()->currentUser ();
   
-  vector <string> fragments;
+  string fragment;
   
   // Links to go back and forward are grayed out or active depending on available passages to go to.
-  fragments.push_back ("<div id=\"backforward\">");
+  fragment.append ("<div id=\"backforward\">");
   if (database_navigation.previousExists (user)) {
-    fragments.push_back ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
+    fragment.append ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
   } else {
-    fragments.push_back ("<span class=\"grayedout\">↶</span>");
+    fragment.append ("<span class=\"grayedout\">↶</span>");
   }
-  fragments.push_back ("");
+  fragment.append (" ");
   if (database_navigation.nextExists (user)) {
-    fragments.push_back ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
+    fragment.append ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
   } else {
-    fragments.push_back ("<span class=\"grayedout\">↷</span>");
+    fragment.append ("<span class=\"grayedout\">↷</span>");
   }
-  fragments.push_back ("</div>");
+  fragment.append ("</div>");
+  fragment.append ("\n");
   
   int book = Ipc_Focus::getBook (request);
   
@@ -71,6 +84,8 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   }
   
   string bookName = Database_Books::getEnglishFromId (book);
+
+  fragment.append ("<a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a>");
   
   int chapter = Ipc_Focus::getChapter (request);
   
@@ -82,39 +97,21 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
       else chapter = 1;
     }
   }
+
+  fragment.append ("<a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + to_string (chapter) +  " </a>");
   
+  fragment.append (":");
+
   int verse = Ipc_Focus::getVerse (request);
   
-  fragments.push_back ("<div id=\"versepicker\">");
-  
-  fragments.push_back ("<input name=\"selectpassage\" id=\"selectpassage\" type=\"text\" value=\"" + bookName + " " + convert_to_string (chapter) + ":" + convert_to_string (verse) + "\" size=\"14\" />");
-  fragments.push_back ("<input name=\"submitpassage\" id=\"submitpassage\" type=\"submit\" value=\"" + translate("Go") + "\" />");
-  
-  fragments.push_back ("<div id=\"handpicker\">");
-  
-  fragments.push_back ("<select id=\"booklist\" size=15>");
-  fragments.push_back (getBooksFragment (request, bible));
-  fragments.push_back ("</select>");
-  
-  fragments.push_back ("<select id=\"chapterlist\" size=15>");
-  fragments.push_back (getChaptersFragment (request, bible, book, chapter));
-  fragments.push_back ("</select>");
-  
-  fragments.push_back ("<select id=\"verselist\" size=15 multiple>");
-  fragments.push_back (getVersesFragment (request, bible, book, chapter, verse));
-  
-  fragments.push_back ("</select>");
-  
-  fragments.push_back ("</div>");
-  
-  fragments.push_back ("</div>");
+  fragment.append ("<a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + to_string (verse) +  " </a>");
   
   // The result.
-  return filter_string_implode (fragments, "\n");
+  return fragment;
 }
 
 
-string Navigation_Passage::getBooksFragment (void * webserver_request, string bible)
+string Navigation_Passage::getBooksFragment (void * webserver_request, string bible) // Todo update.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int activeBook = Ipc_Focus::getBook (request);
@@ -125,58 +122,76 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   } else {
     books = filter_passage_get_ordered_books (bible);
   }
-  string html = "";
+  string html;
   for (auto book : books) {
+    if (!html.empty ()) html.append ("|");
     string bookName = Database_Books::getEnglishFromId (book);
-    string selected;
-    if (book == activeBook) selected = " selected";
-    html += "<option" + selected + ">" + bookName + "</option>";
+    bool selected = (book == activeBook);
+    if (selected) html.append ("<mark>");
+    html.append ("<a id=\"" + to_string (book) + "apply\" href=\"applybook\" title=\"" + translate ("Select book") + "\"> ");
+    html.append (bookName);
+    html.append (" </a>");
+    if (selected) html.append ("</mark>");
   }
+  html.insert (0, "<span id=\"applybook\">");
+  html.append ("</span>");
   return html;
 }
 
 
-string Navigation_Passage::getChaptersFragment (void * webserver_request, string bible, int book, int chapter)
+string Navigation_Passage::getChaptersFragment (void * webserver_request, string bible, int book, int chapter) // Todo update.
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> chapters;
-  if (bible == "") {
+  if (bible.empty ()) {
     Database_Versifications database_versifications = Database_Versifications ();
     chapters = database_versifications.getChapters ("English", book, true);
   } else {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
     chapters = request->database_bibles()->getChapters (bible, book);
   }
-  string html = "";
+  string html;
   for (auto ch : chapters) {
-    string selected = "";
-    if (ch == chapter) selected = " selected";
-    html += "<option" + selected + ">" + convert_to_string (ch) + "</option>";
+    if (!html.empty ()) html.append ("|");
+    bool selected = (ch == chapter);
+    if (selected) html.append ("<mark>");
+    html.append ("<a id=\"" + to_string (ch) + "apply\" href=\"applychapter\" title=\"" + translate ("Select chapter") + "\"> ");
+    html.append (to_string (ch));
+    html.append (" </a>");
+    if (selected) html.append ("</mark>");
   }
+  html.insert (0, "<span id=\"applychapter\">");
+  html.append ("</span>");
   return html;
 }
 
 
-string Navigation_Passage::getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse)
+string Navigation_Passage::getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse) // Todo update.
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> verses;
   if (bible == "") {
     Database_Versifications database_versifications = Database_Versifications ();
     verses = database_versifications.getVerses ("English", book, chapter);
   } else {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
     verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
   }
-  string html = "";
+  string html;
   for (auto vs : verses) {
-    string selected = "";
-    if (verse == vs) selected = " selected";
-    html += "<option" + selected + ">" + convert_to_string (vs) +  "</option>";
+    if (!html.empty ()) html.append ("|");
+    bool selected = (verse == vs);
+    if (selected) html.append ("<mark>");
+    html.append ("<a id=\"" + to_string (vs) + "apply\" href=\"applyverse\" title=\"" + translate ("Select verse") + "\"> ");
+    html.append (to_string (vs));
+    html.append (" </a>");
+    if (selected) html.append ("</mark>");
   }
+  html.insert (0, "<span id=\"applyverse\">");
+  html.append ("</span>");
   return html;
 }
 
 
-string Navigation_Passage::code (string bible, bool header)
+string Navigation_Passage::code (string bible, bool header) // Todo update.
 {
   string code = "";
   if (header) {
@@ -193,14 +208,38 @@ string Navigation_Passage::code (string bible, bool header)
 }
 
 
-void Navigation_Passage::setBookChapterVerse (void * webserver_request, int book, int chapter, int verse)
+void Navigation_Passage::setBook (void * webserver_request, int book)
+{
+  Ipc_Focus::set (webserver_request, book, 1, 1);
+  recordHistory (webserver_request, book, 1, 1);
+}
+
+
+void Navigation_Passage::setChapter (void * webserver_request, int chapter)
+{
+  int book = Ipc_Focus::getBook (webserver_request);
+  Ipc_Focus::set (webserver_request, book, chapter, 1);
+  recordHistory (webserver_request, book, chapter, 1);
+}
+
+
+void Navigation_Passage::setVerse (void * webserver_request, int verse)
+{
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+  Ipc_Focus::set (webserver_request, book, chapter, verse);
+  recordHistory (webserver_request, book, chapter, verse);
+}
+
+
+void Navigation_Passage::setBookChapterVerse (void * webserver_request, int book, int chapter, int verse) // Todo update.
 {
   Ipc_Focus::set (webserver_request, book, chapter, verse);
   recordHistory (webserver_request, book, chapter, verse);
 }
 
 
-void Navigation_Passage::setPassage (void * webserver_request, string bible, string passage)
+void Navigation_Passage::setPassage (void * webserver_request, string bible, string passage) // Todo update.
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -222,7 +261,7 @@ void Navigation_Passage::setPassage (void * webserver_request, string bible, str
 }
 
 
-Passage Navigation_Passage::getNextVerse (void * webserver_request, string bible, int book, int chapter, int verse)
+Passage Navigation_Passage::getNextVerse (void * webserver_request, string bible, int book, int chapter, int verse) // Todo update.
 {
   verse++;
   if (bible != "") {
@@ -237,7 +276,7 @@ Passage Navigation_Passage::getNextVerse (void * webserver_request, string bible
 }
 
 
-Passage Navigation_Passage::getPreviousVerse (void * webserver_request, string bible, int book, int chapter, int verse)
+Passage Navigation_Passage::getPreviousVerse (void * webserver_request, string bible, int book, int chapter, int verse) // Todo update.
 {
   verse--;
   if (bible != "") {
@@ -252,7 +291,7 @@ Passage Navigation_Passage::getPreviousVerse (void * webserver_request, string b
 }
 
 
-void Navigation_Passage::gotoNextVerse (void * webserver_request, string bible)
+void Navigation_Passage::gotoNextVerse (void * webserver_request, string bible) // Todo update.
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -265,7 +304,7 @@ void Navigation_Passage::gotoNextVerse (void * webserver_request, string bible)
 }
 
 
-void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bible)
+void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bible) // Todo update.
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -278,7 +317,7 @@ void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bib
 }
 
 
-void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse)
+void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse) // Todo update.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
@@ -287,7 +326,7 @@ void Navigation_Passage::recordHistory (void * webserver_request, int book, int 
 }
 
 
-void Navigation_Passage::goBack (void * webserver_request)
+void Navigation_Passage::goBack (void * webserver_request) // Todo update.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation = Database_Navigation ();
@@ -299,7 +338,7 @@ void Navigation_Passage::goBack (void * webserver_request)
 }
 
 
-void Navigation_Passage::goForward (void * webserver_request)
+void Navigation_Passage::goForward (void * webserver_request) // Todo update.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation = Database_Navigation ();

@@ -34,6 +34,9 @@ public:
   static string getChaptersFragment (void * webserver_request, string bible, int book, int chapter);
   static string getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse);
   static string code (string bible, bool header = false);
+  static void setBook (void * webserver_request, int book);
+  static void setChapter (void * webserver_request, int chapter);
+  static void setVerse (void * webserver_request, int verse);
   static void setBookChapterVerse (void * webserver_request, int book, int chapter, int verse);
   static void setPassage (void * webserver_request, string bible, string passage);
   static void gotoNextVerse (void * webserver_request, string bible);
