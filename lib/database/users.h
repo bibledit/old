@@ -53,6 +53,7 @@ public:
   void setTokens (string username, string address, string agent, string fingerprint);
   void removeTokens (string username);
   string getUsername (string address, string agent, string fingerprint);
+  string getTouchEnabled (string address, string agent, string fingerprint);
   void pingTimestamp (string username);
   int getTimestamp (string username);
   vector <string> getTeams ();

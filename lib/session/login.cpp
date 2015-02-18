@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <config/logic.h>
 
 
 const char * session_login_url ()
@@ -65,6 +66,7 @@ string session_login (void * webserver_request)
 
   // Form submission handler.
   if (request->post["submit"] != "") {
+    for (auto element : request->post) cout << element.first << " " << element.second << endl; // Todo
     bool form_is_valid = true;
     string user = request->post["user"];
     string pass = request->post["pass"];
@@ -83,14 +85,23 @@ string session_login (void * webserver_request)
         // Store web site's base URL.
         string siteUrl = get_base_url (request);
         Database_Config_General::setSiteURL (siteUrl);
+        // During login, determine whether the the device is a touch enabled device.
+        // Research shows that most desktop users move with their mouse over the screen before they click,
+        // so we can detect those mouse movements through javascript,
+        // and store that information with the user and device. Todo
+
       } else {
         view.set_variable ("error_message", translate ("Username or email address or password are not correct"));
         request->session_logic()->logout();
-        // Log the login failure for the Administrator(s) only. Other with lower roles cannot reverse engineer a user's password based on the failure information.
+        // Log the login failure for the Administrator(s) only.
+        // Others with lower roles should not be able to reverse engineer a user's password
+        // based on the failure information.
         Database_Logs::log ("Failed login attempt for user " + user + " with password " + pass, Filter_Roles::admin ());
       }
     }
   }
+  
+  view.set_variable ("VERSION", config_logic_version ());
 
   string page;
 

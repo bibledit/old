@@ -73,18 +73,31 @@ void Database_Users::create ()
         " address text,"
         " agent text,"
         " fingerprint text,"
-        " cookie text"
+        " cookie text,"
+        " touch boolean"
         ");";
   database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }
 
 
-void Database_Users::upgrade ()
+void Database_Users::upgrade () // Todo
 {
   // Upgrade table "users".
   // Column 'timestamp' is available in older databases. It is not in use.
   // It cannot be dropped easily in SQLite. Leave it for just now.
+
+  // Upgrade table "logins" and add a boolean column for "touch",
+  // indicating whether a device is touch-enabled.
+  sqlite3 * db = connect ();
+  string sql;
+  sql = "PRAGMA table_info (logins);";
+  vector <string> columns = database_sqlite_query (db, sql) ["name"];
+  if (find (columns.begin(), columns.end(), "touch") == columns.end()) {
+    sql = "ALTER TABLE logins ADD COLUMN touch boolean;";
+    database_sqlite_exec (db, sql);
+  }
+  database_sqlite_disconnect (db);
 }
 
 
@@ -333,6 +346,7 @@ string Database_Users::getmd5 (string user)
 
 
 // Sets the login security tokens for a user.
+// Todo Also store whether the device is touch-enabled. Todo
 void Database_Users::setTokens (string username, string address, string agent, string fingerprint)
 {
   if (username == getUsername (address, agent, fingerprint)) return;
@@ -371,6 +385,12 @@ string Database_Users::getUsername (string address, string agent, string fingerp
   database_sqlite_disconnect (db);
   if (!result.empty()) return result [0];
   return "";
+}
+
+
+string getTouchEnabled (string address, string agent, string fingerprint) // Todo
+{
+  
 }
 
 

@@ -4,7 +4,7 @@
     <p class="error">##error_message##</p>
     <tr>
       <td align="right">translate ("Username or email address")</td>
-      <td><input type="text" name="user" maxlength="30" class="focus" autofocus /></td>
+      <td><input type="text" name="user" maxlength="30" /></td>
       <td class="error">##username_email_invalid##</td>
     </tr>
     <tr>
@@ -14,9 +14,11 @@
     </tr>
     <tr>
       <td align="right"></td>
-      <td><input type="submit" name="submit" value="translate ("Login")" /></td>
+      <td><input type="submit" id="test" name="submit" value="translate ("Login")" /></td> Todo
     </tr>
   </table>
+  <td><input type="hidden" id="touch" name="touch" value="1" /></td>
   <p><a href="password">translate ("Forgot password?")</a></p>
   <p>translate ("Not registered?") <a href="signup">translate ("Sign up!")</a></p>
 </form>
+<script type="text/javascript" src="login.js?##VERSION##"></script>

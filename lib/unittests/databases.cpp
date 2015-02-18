@@ -297,13 +297,14 @@ void test_database_logs ()
 }
 
 
-void test_database_users ()
+void test_database_users () // Todo
 {
   // Tests for Database_Users.
   {
     refresh_sandbox (true);
     Database_Users database_users = Database_Users ();
     database_users.create ();
+    database_users.upgrade ();
 
     string username = "unit test";
     string password = "pazz";
