@@ -133,7 +133,7 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
     html.append (" </a>");
     if (selected) html.append ("</mark>");
   }
-  html.insert (0, "<span id=\"applybook\">");
+  html.insert (0, translate ("Select book") + " <span id=\"applybook\">");
   html.append ("</span>");
   return html;
 }
@@ -159,7 +159,7 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
     html.append (" </a>");
     if (selected) html.append ("</mark>");
   }
-  html.insert (0, "<span id=\"applychapter\">");
+  html.insert (0, translate ("Select chapter") + " <span id=\"applychapter\">");
   html.append ("</span>");
   return html;
 }
@@ -185,7 +185,7 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
     html.append (" </a>");
     if (selected) html.append ("</mark>");
   }
-  html.insert (0, "<span id=\"applyverse\">");
+  html.insert (0, translate ("Select verse") + " <span id=\"applyverse\">");
   html.append ("</span>");
   return html;
 }
