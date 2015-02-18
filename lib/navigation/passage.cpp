@@ -124,15 +124,11 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   }
   string html;
   for (auto book : books) {
-    if (!html.empty ()) html.append ("|");
     string bookName = Database_Books::getEnglishFromId (book);
     bool selected = (book == activeBook);
-    if (selected) html.append ("<mark>");
-    html.append ("<a id=\"" + to_string (book) + "apply\" href=\"applybook\" title=\"" + translate ("Select book") + "\"> ");
-    html.append (bookName);
-    html.append (" </a>");
-    if (selected) html.append ("</mark>");
+    getSelectorLink (html, to_string (book), "applybook", translate ("Select book"), bookName, selected);
   }
+  getSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
   html.insert (0, translate ("Select book") + " <span id=\"applybook\">");
   html.append ("</span>");
   return html;
@@ -151,14 +147,10 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
   }
   string html;
   for (auto ch : chapters) {
-    if (!html.empty ()) html.append ("|");
     bool selected = (ch == chapter);
-    if (selected) html.append ("<mark>");
-    html.append ("<a id=\"" + to_string (ch) + "apply\" href=\"applychapter\" title=\"" + translate ("Select chapter") + "\"> ");
-    html.append (to_string (ch));
-    html.append (" </a>");
-    if (selected) html.append ("</mark>");
+    getSelectorLink (html, to_string (ch), "applychapter", translate ("Select chapter"), to_string (ch), selected);
   }
+  getSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
   html.insert (0, translate ("Select chapter") + " <span id=\"applychapter\">");
   html.append ("</span>");
   return html;
@@ -177,14 +169,10 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
   }
   string html;
   for (auto vs : verses) {
-    if (!html.empty ()) html.append ("|");
     bool selected = (verse == vs);
-    if (selected) html.append ("<mark>");
-    html.append ("<a id=\"" + to_string (vs) + "apply\" href=\"applyverse\" title=\"" + translate ("Select verse") + "\"> ");
-    html.append (to_string (vs));
-    html.append (" </a>");
-    if (selected) html.append ("</mark>");
+    getSelectorLink (html, to_string (vs), "applyverse", translate ("Select verse"), to_string (vs), selected);
   }
+  getSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
   html.insert (0, translate ("Select verse") + " <span id=\"applyverse\">");
   html.append ("</span>");
   return html;
@@ -347,6 +335,17 @@ void Navigation_Passage::goForward (void * webserver_request)
   if (passage.book) {
     Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
+}
+
+
+void Navigation_Passage::getSelectorLink (string& html, string id, string href, string title, string text, bool selected)
+{
+  if (!html.empty ()) html.append ("|");
+  if (selected) html.append ("<mark>");
+  html.append ("<a id=\"" + id + "apply\" href=\"" + href + "\" title=\"" + title + "\"> ");
+  html.append (text);
+  html.append (" </a>");
+  if (selected) html.append ("</mark>");
 }
 
 

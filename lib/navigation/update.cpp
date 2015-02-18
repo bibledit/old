@@ -68,8 +68,11 @@ string navigation_update (void * webserver_request)
   
   
   else if (request->query.count ("applybook")) {
-    int book = convert_to_int (request->query ["applybook"]);
-    if (book) Navigation_Passage::setBook (request, book);
+    string msg = request->query ["applybook"];
+    if (msg.find ("cancel") == string::npos) {
+      int book = convert_to_int (msg);
+      if (book) Navigation_Passage::setBook (request, book);
+    }
   }
   
   
@@ -79,8 +82,11 @@ string navigation_update (void * webserver_request)
   
   
   else if (request->query.count ("applychapter")) {
-    int chapter = convert_to_int (request->query ["applychapter"]);
-    Navigation_Passage::setChapter (request, chapter);
+    string msg = request->query ["applychapter"];
+    if (msg.find ("cancel") == string::npos) {
+      int chapter = convert_to_int (msg);
+      Navigation_Passage::setChapter (request, chapter);
+    }
   }
   
   
@@ -90,8 +96,11 @@ string navigation_update (void * webserver_request)
   
 
   else if (request->query.count ("applyverse")) {
-    int verse = convert_to_int (request->query ["applyverse"]);
-    Navigation_Passage::setVerse (request, verse);
+    string msg = request->query ["applyverse"];
+    if (msg.find ("cancel") == string::npos) {
+      int verse = convert_to_int (msg);
+      Navigation_Passage::setVerse (request, verse);
+    }
   }
   
   

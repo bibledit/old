@@ -45,6 +45,7 @@ public:
   static void goBack (void * webserver_request);
   static void goForward (void * webserver_request);
 private:
+  static void getSelectorLink (string& html, string id, string href, string title, string text, bool selected);
   static Passage getNextVerse (void * webserver_request, string bible, int book, int chapter, int verse);
   static Passage getPreviousVerse (void * webserver_request, string bible, int book, int chapter, int verse);
 };
