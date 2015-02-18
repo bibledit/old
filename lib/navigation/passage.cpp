@@ -29,7 +29,7 @@
 
 
 /*
- On the iPad, Bibledit uses the UIWebView class for html presentation.
+ On the iPad, Bibledit uses the UIWebView class as the web browser.
  https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIWebView_Class/
  Bibledit used to have a verse navigator that used overlays for selecting book, chapter, and verse.
  When selecting the verse, the UIWebView crashed with the following message:
@@ -111,7 +111,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 }
 
 
-string Navigation_Passage::getBooksFragment (void * webserver_request, string bible) // Todo update.
+string Navigation_Passage::getBooksFragment (void * webserver_request, string bible)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int activeBook = Ipc_Focus::getBook (request);
@@ -139,7 +139,7 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
 }
 
 
-string Navigation_Passage::getChaptersFragment (void * webserver_request, string bible, int book, int chapter) // Todo update.
+string Navigation_Passage::getChaptersFragment (void * webserver_request, string bible, int book, int chapter)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> chapters;
@@ -165,7 +165,7 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
 }
 
 
-string Navigation_Passage::getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse) // Todo update.
+string Navigation_Passage::getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> verses;
@@ -191,7 +191,7 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
 }
 
 
-string Navigation_Passage::code (string bible, bool header) // Todo update.
+string Navigation_Passage::code (string bible, bool header)
 {
   string code = "";
   if (header) {
@@ -232,14 +232,14 @@ void Navigation_Passage::setVerse (void * webserver_request, int verse)
 }
 
 
-void Navigation_Passage::setBookChapterVerse (void * webserver_request, int book, int chapter, int verse) // Todo update.
+void Navigation_Passage::setBookChapterVerse (void * webserver_request, int book, int chapter, int verse)
 {
   Ipc_Focus::set (webserver_request, book, chapter, verse);
   recordHistory (webserver_request, book, chapter, verse);
 }
 
 
-void Navigation_Passage::setPassage (void * webserver_request, string bible, string passage) // Todo update.
+void Navigation_Passage::setPassage (void * webserver_request, string bible, string passage)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -261,7 +261,7 @@ void Navigation_Passage::setPassage (void * webserver_request, string bible, str
 }
 
 
-Passage Navigation_Passage::getNextVerse (void * webserver_request, string bible, int book, int chapter, int verse) // Todo update.
+Passage Navigation_Passage::getNextVerse (void * webserver_request, string bible, int book, int chapter, int verse)
 {
   verse++;
   if (bible != "") {
@@ -276,7 +276,7 @@ Passage Navigation_Passage::getNextVerse (void * webserver_request, string bible
 }
 
 
-Passage Navigation_Passage::getPreviousVerse (void * webserver_request, string bible, int book, int chapter, int verse) // Todo update.
+Passage Navigation_Passage::getPreviousVerse (void * webserver_request, string bible, int book, int chapter, int verse)
 {
   verse--;
   if (bible != "") {
@@ -291,7 +291,7 @@ Passage Navigation_Passage::getPreviousVerse (void * webserver_request, string b
 }
 
 
-void Navigation_Passage::gotoNextVerse (void * webserver_request, string bible) // Todo update.
+void Navigation_Passage::gotoNextVerse (void * webserver_request, string bible)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -304,7 +304,7 @@ void Navigation_Passage::gotoNextVerse (void * webserver_request, string bible) 
 }
 
 
-void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bible) // Todo update.
+void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bible)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -317,7 +317,7 @@ void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bib
 }
 
 
-void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse) // Todo update.
+void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
@@ -326,7 +326,7 @@ void Navigation_Passage::recordHistory (void * webserver_request, int book, int 
 }
 
 
-void Navigation_Passage::goBack (void * webserver_request) // Todo update.
+void Navigation_Passage::goBack (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation = Database_Navigation ();
@@ -338,7 +338,7 @@ void Navigation_Passage::goBack (void * webserver_request) // Todo update.
 }
 
 
-void Navigation_Passage::goForward (void * webserver_request) // Todo update.
+void Navigation_Passage::goForward (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation = Database_Navigation ();
@@ -348,3 +348,36 @@ void Navigation_Passage::goForward (void * webserver_request) // Todo update.
     Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
 }
+
+
+/*
+public static function getEntry ()
+{
+  $html = "";
+  $html .= '<input name="selectpassage" id="selectpassage" type="text" value=""/>';
+  $html .= '<input name="submitpassage" id="submitpassage"  type="submit" value="' . gettext ("OK") . '" />';
+  return $html;
+}
+
+
+public static function setPassage ($bible, $passage)
+{
+  $ipc_focus = Ipc_Focus::getInstance();
+  $currentBook = $ipc_focus->getBook ();
+  $currentChapter = $ipc_focus->getChapter ();
+  $currentVerse = $ipc_focus->getVerse ();
+  $passage = trim ($passage);
+  if (($passage == "") || ($passage == "+")) {
+    $passage = Navigation_Passage::getNextVerse ($bible, $currentBook, $currentChapter, $currentVerse);
+  } else if ($passage == "-") {
+    $passage = Navigation_Passage::getPreviousVerse ($bible, $currentBook, $currentChapter, $currentVerse);
+  } else {
+    $passage = Filter_Books::interpretPassage (array ($currentBook, $currentChapter, $currentVerse), $passage);
+  }
+  if ($passage[0] != 0) {
+    $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
+    Navigation_Passage::recordHistory ($passage [0], $passage [1], $passage [2]);
+    
+  }
+}
+*/
