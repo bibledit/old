@@ -653,7 +653,6 @@
 		CAA4D22F1A45A648003ABA25 /* nav.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nav.js; sourceTree = "<group>"; };
 		CAA4D2301A45A648003ABA25 /* nav.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = nav.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2311A45A648003ABA25 /* passage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = passage.js; sourceTree = "<group>"; };
-		CAA4D2331A45A648003ABA25 /* poll.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = poll.php; sourceTree = "<group>"; };
 		CAA4D2341A45A648003ABA25 /* shortcuts.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = shortcuts.js; sourceTree = "<group>"; };
 		CAA4D2381A45A648003ABA25 /* nicedit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nicedit.js; sourceTree = "<group>"; };
 		CAA4D2391A45A648003ABA25 /* nicEditorIcons.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = nicEditorIcons.gif; sourceTree = "<group>"; };
@@ -987,6 +986,8 @@
 		CAA4D4A61A460861003ABA25 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
 		CAA4D4A71A4608BC003ABA25 /* indext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indext.cpp; sourceTree = "<group>"; };
 		CAA4D4A81A4608BC003ABA25 /* indext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indext.h; sourceTree = "<group>"; };
+		CAB1D6361A9289A3008F1A31 /* passage.js.old.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = passage.js.old.js; sourceTree = "<group>"; };
+		CAB1D6371A9289A3008F1A31 /* passage.php.old.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = passage.php.old.php; sourceTree = "<group>"; };
 		CAB399B31A484893007C79E8 /* indexm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indexm.cpp; sourceTree = "<group>"; };
 		CAB399B41A484893007C79E8 /* indexm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indexm.h; sourceTree = "<group>"; };
 		CABF088E1A8E29A600003101 /* editing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editing.cpp; sourceTree = "<group>"; };
@@ -2208,7 +2209,8 @@
 				CAA4D2311A45A648003ABA25 /* passage.js */,
 				CA06BDE81A56F39200A051FF /* passage.cpp */,
 				CA06BDE91A56F39200A051FF /* passage.h */,
-				CAA4D2331A45A648003ABA25 /* poll.php */,
+				CAB1D6361A9289A3008F1A31 /* passage.js.old.js */,
+				CAB1D6371A9289A3008F1A31 /* passage.php.old.php */,
 				CA06BDF01A572DE400A051FF /* poll.cpp */,
 				CA06BDF11A572DE400A051FF /* poll.h */,
 				CAA4D2341A45A648003ABA25 /* shortcuts.js */,
@@ -3240,7 +3242,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit-lib" */;
+			buildConfigurationList = CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3363,7 +3365,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit-lib" */ = {
+		CAB29AC41A4480CC00139BD7 /* Build configuration list for PBXProject "bibledit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CAB29AC61A4480CC00139BD7 /* Debug */,

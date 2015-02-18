@@ -26,11 +26,13 @@
 #include <database/logs.h>
 #include <curl/curl.h>
 #include <sync/setup.h>
+#include <config/logic.h>
 
 
 // Returns whether Client mode is enabled.
 bool client_logic_client_enabled ()
 {
+  if (!config_logic_client_prepared ()) return false;
   return Database_Config_General::getClientMode ();
 }
 
