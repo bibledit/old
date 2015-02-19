@@ -103,15 +103,13 @@ void Assets_Header::setSearchQuery (string query)
 
 
 // Whether to display the topbar.
-bool Assets_Header::displayTopbar () // C++Port
+bool Assets_Header::displayTopbar ()
 {
-  /*
-    // If the topbar is in the query, it means: don't display it.
-    if (isset (request->query ['topbar'])) {
-      unset (request->query ['topbar']);
-      return false;      
-    }
-*/
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  // If the topbar is in the query: Don't display the top bar.
+  if (request->query.count ("topbar")) {
+    return false;
+  }
   // Display the topbar.
   return true;
 }
@@ -132,11 +130,12 @@ string Assets_Header::run ()
 
   string page;
   
-  // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
+  // Include the Bibledit version number in the stylesheet and javascript URL
+  // to refresh the browser's cache after a Bibledit upgrade.
   view->set_variable("VERSION", config_logic_version ());
 
   if (includeJQueryUI) {
-    view->enable_zone ("include_jquery_ui");  // C++Port
+    view->enable_zone ("include_jquery_ui");
     view->set_variable ("include_jquery_ui_subset", JQueryUISubset);
   }
 
@@ -147,6 +146,12 @@ string Assets_Header::run ()
   }
   view->set_variable ("head_lines", headlines);
 
+  view->set_variable ("included_stylesheet", includedStylesheet);
+  if (!includedEditorStylesheet.empty ()) {
+    view->enable_zone ("include_editor_stylesheet");
+    view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
+  }
+  
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
     Menu_Main menu_main = Menu_Main (webserver_request);
@@ -165,12 +170,8 @@ string Assets_Header::run ()
       view->set_variable ("navigation_html", Navigation_Passage::getContainer ());
       view->set_variable ("navigation_code", Navigation_Passage::code (bible, true));
     }
-    view->set_variable ("included_stylesheet", includedStylesheet);
-    if (!includedEditorStylesheet.empty ()) {
-      view->enable_zone ("include_editor_stylesheet");
-      view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
-    }
   }
+
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");
 

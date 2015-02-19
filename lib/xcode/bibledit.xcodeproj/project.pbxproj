@@ -243,8 +243,6 @@
 		CAA4CF2E1A45A647003ABA25 /* timezone.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = timezone.html; sourceTree = "<group>"; };
 		CAA4CF371A45A647003ABA25 /* bibledit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bibledit.png; sourceTree = "<group>"; };
 		CAA4CF381A45A647003ABA25 /* bibledit.xpm */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.xpm; sourceTree = "<group>"; };
-		CAA4CF391A45A647003ABA25 /* builder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = builder.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAA4CF3A1A45A647003ABA25 /* builder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = builder.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CF3B1A45A647003ABA25 /* error.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = error.html; sourceTree = "<group>"; };
 		CAA4CF3C1A45A647003ABA25 /* footer.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = footer.html; sourceTree = "<group>"; };
 		CAA4CF3D1A45A647003ABA25 /* header.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = header.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1102,8 +1100,6 @@
 			children = (
 				CAA4CF371A45A647003ABA25 /* bibledit.png */,
 				CAA4CF381A45A647003ABA25 /* bibledit.xpm */,
-				CAA4CF391A45A647003ABA25 /* builder.cpp */,
-				CAA4CF3A1A45A647003ABA25 /* builder.h */,
 				CAA4CF3B1A45A647003ABA25 /* error.html */,
 				CAA4CF3C1A45A647003ABA25 /* footer.html */,
 				CAA4CF3D1A45A647003ABA25 /* header.cpp */,

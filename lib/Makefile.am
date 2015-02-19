@@ -26,7 +26,6 @@ libbibledit_a_SOURCES = \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
-	assets/builder.cpp \
 	index/index.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
