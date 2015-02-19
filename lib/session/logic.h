@@ -36,6 +36,7 @@ public:
   bool attemptLogin (string user_or_email, string password, bool touch_enabled);
   bool loggedIn ();
   string currentUser ();
+  bool touchEnabled ();
   int currentLevel (bool force = false);
   void logout ();
 private:
@@ -43,6 +44,7 @@ private:
   int check_ip_blocks = 3;     // How many numbers from IP use in fingerprint?
   bool logged_in;              // Whether user is logged in.
   string username;             // The username.
+  bool touch_enabled;          // Whether user works from a touch-enabled device.
   void * webserver_request;    // Pointer to instance of Webserver_Request.
   void Open ();
   bool openAccess ();

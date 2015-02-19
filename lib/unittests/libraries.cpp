@@ -63,7 +63,7 @@ void test_sqlite ()
 }
 
 
-void test_session_logic () // Todo
+void test_session_logic ()
 {
   // Test for class Session_Logic.
   {

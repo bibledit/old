@@ -85,7 +85,7 @@ string session_login (void * webserver_request)
     if (form_is_valid) {
       if (request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
         // Log the login.
-        Database_Logs::log (request->session_logic()->currentUser () + " logged in"); // Todo add fingerprints / touch.
+        Database_Logs::log (request->session_logic()->currentUser () + " logged in");
         // Store web site's base URL.
         string siteUrl = get_base_url (request);
         Database_Config_General::setSiteURL (siteUrl);
