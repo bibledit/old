@@ -390,7 +390,7 @@ void test_database_users () // Todo
     string address = "192.168.1.0";
     string agent = "Browser's user agent";
     string fingerprint = "ԴԵԶԸ";
-    database_users.setTokens (username, address, agent, fingerprint);
+    database_users.setTokens (username, address, agent, fingerprint, true);
     evaluate (__LINE__, __func__, username, database_users.getUsername (address, agent, fingerprint));
     database_users.removeTokens (username);
     evaluate (__LINE__, __func__, "", database_users.getUsername (address, agent, fingerprint));
@@ -400,6 +400,28 @@ void test_database_users () // Todo
     int timestamp = database_users.getTimestamp (username);
     int second = filter_string_date_seconds_since_epoch ();
     if ((timestamp != second) && (timestamp != second + 1)) evaluate (__LINE__, __func__, second, timestamp);
+  }
+  // Test touch-enabled settings. Todo
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+
+    string username = "unittest";
+    string password = "pass";
+    string email = "mail@site.nl";
+    string address = "192.168.1.2";
+    string agent = "Browser's user agent";
+    string fingerprint = "abcdef";
+    bool touch = true; // Todo
+    database_users.setTokens (username, address, agent, fingerprint, touch);
+    evaluate (__LINE__, __func__, true, database_users.getTouchEnabled (address, agent, fingerprint));
+    
+    database_users.removeTokens (username);
+    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint));
+    
+    database_users.setTokens (username, address, agent, fingerprint, touch);
+    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint + "x"));
   }
   {
     refresh_sandbox (true);

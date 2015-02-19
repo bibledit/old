@@ -88,7 +88,7 @@ void Database_Users::upgrade () // Todo
   // It cannot be dropped easily in SQLite. Leave it for just now.
 
   // Upgrade table "logins" and add a boolean column for "touch",
-  // indicating whether a device is touch-enabled.
+  // indicating whether the device the user works on is touch-enabled.
   sqlite3 * db = connect ();
   string sql;
   sql = "PRAGMA table_info (logins);";
@@ -347,16 +347,26 @@ string Database_Users::getmd5 (string user)
 
 // Sets the login security tokens for a user.
 // Todo Also store whether the device is touch-enabled. Todo
-void Database_Users::setTokens (string username, string address, string agent, string fingerprint)
+void Database_Users::setTokens (string username, string address, string agent, string fingerprint, bool touch)
 {
   if (username == getUsername (address, agent, fingerprint)) return;
-  username = database_sqlite_no_sql_injection (username);
   address = md5 (address);
   agent = md5 (agent);
   fingerprint = md5 (fingerprint);
-  string sql = "INSERT INTO logins (username, address, agent, fingerprint) VALUES ('" + username + "', '" + address + "', '" + agent + "', '" + fingerprint + "')";
+  SqliteSQL sql;
+  sql.add ("INSERT INTO logins (username, address, agent, fingerprint, touch) VALUES (");
+  sql.add (username);
+  sql.add (",");
+  sql.add (address);
+  sql.add (",");
+  sql.add (agent);
+  sql.add (",");
+  sql.add (fingerprint);
+  sql.add (",");
+  sql.add (touch);
+  sql.add (");");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
+  database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
 
@@ -379,18 +389,42 @@ string Database_Users::getUsername (string address, string agent, string fingerp
   address = md5 (address);
   agent = md5 (agent);
   fingerprint = md5 (fingerprint);
-  string sql = "SELECT username FROM logins WHERE address = '" + address + "' AND agent = '" + agent + "' AND fingerprint = '" + fingerprint + "';";
+  SqliteSQL sql;
+  sql.add ("SELECT username FROM logins WHERE address =");
+  sql.add (address);
+  sql.add ("AND agent =");
+  sql.add (agent);
+  sql.add ("AND fingerprint =");
+  sql.add (fingerprint);
+  sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  vector <string> result = database_sqlite_query (db, sql.sql) ["username"];
   database_sqlite_disconnect (db);
   if (!result.empty()) return result [0];
   return "";
 }
 
 
-string getTouchEnabled (string address, string agent, string fingerprint) // Todo
+// Returns whether the device that matches the remote IP $address and the browser's user $agent,
+// and the other fingerprints is touch-enabled.
+bool Database_Users::getTouchEnabled (string address, string agent, string fingerprint) // Todo
 {
-  
+  address = md5 (address);
+  agent = md5 (agent);
+  fingerprint = md5 (fingerprint);
+  SqliteSQL sql;
+  sql.add ("SELECT touch FROM logins WHERE address =");
+  sql.add (address);
+  sql.add ("AND agent =");
+  sql.add (agent);
+  sql.add ("AND fingerprint =");
+  sql.add (fingerprint);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["touch"];
+  database_sqlite_disconnect (db);
+  if (!result.empty()) return convert_to_bool (result [0]);
+  return false;
 }
 
 

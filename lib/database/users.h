@@ -50,10 +50,10 @@ public:
   void updateUserEmail (string user, string email);
   vector <string> getUsers ();
   string getmd5 (string user);
-  void setTokens (string username, string address, string agent, string fingerprint);
+  void setTokens (string username, string address, string agent, string fingerprint, bool touch);
   void removeTokens (string username);
   string getUsername (string address, string agent, string fingerprint);
-  string getTouchEnabled (string address, string agent, string fingerprint);
+  bool getTouchEnabled (string address, string agent, string fingerprint);
   void pingTimestamp (string username);
   int getTimestamp (string username);
   vector <string> getTeams ();

@@ -171,7 +171,8 @@ bool Session_Logic::attemptLogin (string user_or_email, string password)
     string security1 = remoteAddress ();
     string security2 = ((Webserver_Request *) webserver_request)->user_agent;
     string security3 = fingerprint ();
-    database.setTokens (user_or_email, security1, security2, security3);
+    bool touch = false; // Todo
+    database.setTokens (user_or_email, security1, security2, security3, touch);
     currentLevel (true);
     return true;
   }
