@@ -407,7 +407,7 @@ string Database_Users::getUsername (string address, string agent, string fingerp
 
 // Returns whether the device that matches the remote IP $address and the browser's user $agent,
 // and the other fingerprints is touch-enabled.
-bool Database_Users::getTouchEnabled (string address, string agent, string fingerprint) // Todo
+bool Database_Users::getTouchEnabled (string address, string agent, string fingerprint)
 {
   address = md5 (address);
   agent = md5 (agent);

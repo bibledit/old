@@ -50,6 +50,22 @@ void bibledit_set_web_root (const char * directory)
 }
 
 
+// Sets whether the library considers any device that connects to be touch-enabled.
+// This is necessary for on devices as clients which are always logged-in.
+// The detection of touch-enabled devices happens during login,
+// so when the login is skipped, the device is not detected.
+// Therefore the calling program can preset touch-enabled here through this library call.
+void bibledit_set_touch_enabled (bool enabled) // Todo
+{
+  // Set global variable for use elsewhere in the library.
+  // A value of zero does nothing,
+  // so set it greater than or smaller than zero to have effect.
+  if (enabled) config_globals_touch_enabled = 1;
+  else config_globals_touch_enabled = -1;
+
+}
+
+
 // Start the Bibledit server.
 void bibledit_start_server () 
 {

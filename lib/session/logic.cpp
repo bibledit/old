@@ -205,6 +205,12 @@ string Session_Logic::currentUser ()
 
 bool Session_Logic::touchEnabled () // Todo
 {
+  // Deal with the global variable for touch-enabled.
+  // The variable, if zero, does nothing.
+  // Else it either sets or clears the touch-enabled state.
+  if (config_globals_touch_enabled > 0) touch_enabled = true;
+  if (config_globals_touch_enabled < 0) touch_enabled = false;
+  // Give the result, either set globally, or else through prior reading from the database.
   return touch_enabled;
 }
 
