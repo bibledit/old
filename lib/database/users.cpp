@@ -81,7 +81,7 @@ void Database_Users::create ()
 }
 
 
-void Database_Users::upgrade () // Todo
+void Database_Users::upgrade ()
 {
   // Upgrade table "users".
   // Column 'timestamp' is available in older databases. It is not in use.
@@ -346,7 +346,7 @@ string Database_Users::getmd5 (string user)
 
 
 // Sets the login security tokens for a user.
-// Todo Also store whether the device is touch-enabled. Todo
+// Also store whether the device is touch-enabled.
 void Database_Users::setTokens (string username, string address, string agent, string fingerprint, bool touch)
 {
   if (username == getUsername (address, agent, fingerprint)) return;

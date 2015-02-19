@@ -63,7 +63,7 @@ void test_sqlite ()
 }
 
 
-void test_session_logic ()
+void test_session_logic () // Todo
 {
   // Test for class Session_Logic.
   {
@@ -131,8 +131,8 @@ void test_session_logic ()
     database_users.addNewUser (username, password, level, email);
 
     // Log in by providing username and password.
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "incorrect"));
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password));
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "incorrect", true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
 
     // Check whether logged in also from another session.
     request = Webserver_Request ();
@@ -150,7 +150,7 @@ void test_session_logic ()
     
     // Login. then vary the browser's signature for subsequent sessions.
     request = Webserver_Request ();
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     string remote_address = request.remote_address;
     string user_agent = request.user_agent;

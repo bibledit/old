@@ -111,7 +111,7 @@ void test_database_config_user ()
     Database_Users database_users = Database_Users ();
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");
-    request.session_logic ()->attemptLogin ("username", "password");
+    request.session_logic ()->attemptLogin ("username", "password", true);
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
     evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());
@@ -297,7 +297,7 @@ void test_database_logs ()
 }
 
 
-void test_database_users () // Todo
+void test_database_users ()
 {
   // Tests for Database_Users.
   {
@@ -401,7 +401,7 @@ void test_database_users () // Todo
     int second = filter_string_date_seconds_since_epoch ();
     if ((timestamp != second) && (timestamp != second + 1)) evaluate (__LINE__, __func__, second, timestamp);
   }
-  // Test touch-enabled settings. Todo
+  // Test touch-enabled settings.
   {
     refresh_sandbox (true);
     Database_Users database_users = Database_Users ();
@@ -413,7 +413,7 @@ void test_database_users () // Todo
     string address = "192.168.1.2";
     string agent = "Browser's user agent";
     string fingerprint = "abcdef";
-    bool touch = true; // Todo
+    bool touch = true;
     database_users.setTokens (username, address, agent, fingerprint, touch);
     evaluate (__LINE__, __func__, true, database_users.getTouchEnabled (address, agent, fingerprint));
     

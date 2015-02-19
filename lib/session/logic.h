@@ -33,7 +33,7 @@ public:
   Session_Logic (void * webserver_request_in);
   ~Session_Logic ();
   void setUsername (string name);
-  bool attemptLogin (string user_or_email, string password);
+  bool attemptLogin (string user_or_email, string password, bool touch_enabled);
   bool loggedIn ();
   string currentUser ();
   int currentLevel (bool force = false);

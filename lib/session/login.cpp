@@ -66,10 +66,14 @@ string session_login (void * webserver_request)
 
   // Form submission handler.
   if (request->post["submit"] != "") {
-    for (auto element : request->post) cout << element.first << " " << element.second << endl; // Todo
     bool form_is_valid = true;
     string user = request->post["user"];
     string pass = request->post["pass"];
+    // During login it determines whether the the device is a touch enabled device.
+    // Research shows that most desktop users move with their mouse over the screen before they click,
+    // so we can detect those mouse movements through javascript,
+    // and store that information with the user and device.
+    bool touch_enabled = convert_to_bool (request->post["touch"]);
     if (user.length () < 2) {
       form_is_valid = false;
       view.set_variable ("username_email_invalid", translate ("Username should be at least two characters long"));
@@ -79,16 +83,12 @@ string session_login (void * webserver_request)
       view.set_variable ("password_invalid", translate ("Password should be at least four characters long"));
     }
     if (form_is_valid) {
-      if (request->session_logic()->attemptLogin (user, pass)) {
+      if (request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
         // Log the login.
-        Database_Logs::log (request->session_logic()->currentUser () + " logged in");
+        Database_Logs::log (request->session_logic()->currentUser () + " logged in"); // Todo add fingerprints / touch.
         // Store web site's base URL.
         string siteUrl = get_base_url (request);
         Database_Config_General::setSiteURL (siteUrl);
-        // During login, determine whether the the device is a touch enabled device.
-        // Research shows that most desktop users move with their mouse over the screen before they click,
-        // so we can detect those mouse movements through javascript,
-        // and store that information with the user and device. Todo
 
       } else {
         view.set_variable ("error_message", translate ("Username or email address or password are not correct"));

@@ -148,8 +148,9 @@ string Session_Logic::fingerprint ()
 
 
 // Attempts to log into the system.
+// Records whether the user logged in from a touch-enabled device.
 // Returns boolean success.
-bool Session_Logic::attemptLogin (string user_or_email, string password)
+bool Session_Logic::attemptLogin (string user_or_email, string password, bool touch_enabled)
 {
   Database_Users database = Database_Users ();
   bool login_okay = false;
@@ -171,8 +172,7 @@ bool Session_Logic::attemptLogin (string user_or_email, string password)
     string security1 = remoteAddress ();
     string security2 = ((Webserver_Request *) webserver_request)->user_agent;
     string security3 = fingerprint ();
-    bool touch = false; // Todo
-    database.setTokens (user_or_email, security1, security2, security3, touch);
+    database.setTokens (user_or_email, security1, security2, security3, touch_enabled);
     currentLevel (true);
     return true;
   }
