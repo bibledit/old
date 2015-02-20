@@ -729,9 +729,6 @@
 		CAA4D2981A45A648003ABA25 /* ParseWebData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParseWebData.cpp; sourceTree = "<group>"; };
 		CAA4D2991A45A648003ABA25 /* ParseWebData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseWebData.h; sourceTree = "<group>"; };
 		CAA4D29A1A45A648003ABA25 /* ParseWebData_local.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseWebData_local.h; sourceTree = "<group>"; };
-		CAA4D29C1A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = index.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D29D1A45A648003ABA25 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		CAA4D29F1A45A648003ABA25 /* phpMyGraph5.0.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = phpMyGraph5.0.php; sourceTree = "<group>"; };
 		CAA4D2A11A45A648003ABA25 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		CAA4D2A21A45A648003ABA25 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		CAA4D2A31A45A648003ABA25 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -2339,25 +2336,6 @@
 			path = ../parsewebdata;
 			sourceTree = "<group>";
 		};
-		CAA4D29B1A45A648003ABA25 /* phpliteadmin */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D29C1A45A648003ABA25 /* index.php */,
-				CAA4D29D1A45A648003ABA25 /* README.txt */,
-			);
-			name = phpliteadmin;
-			path = ../phpliteadmin;
-			sourceTree = "<group>";
-		};
-		CAA4D29E1A45A648003ABA25 /* phpmygraph */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D29F1A45A648003ABA25 /* phpMyGraph5.0.php */,
-			);
-			name = phpmygraph;
-			path = ../phpmygraph;
-			sourceTree = "<group>";
-		};
 		CAA4D2A01A45A648003ABA25 /* pix */ = {
 			isa = PBXGroup;
 			children = (
@@ -3133,8 +3111,6 @@
 				CAA4D27C1A45A648003ABA25 /* odf */,
 				CAA4D2851A45A648003ABA25 /* onlinebible */,
 				CAA4D28C1A45A648003ABA25 /* parsewebdata */,
-				CAA4D29B1A45A648003ABA25 /* phpliteadmin */,
-				CAA4D29E1A45A648003ABA25 /* phpmygraph */,
 				CAA4D2A01A45A648003ABA25 /* pix */,
 				CAA4D2A41A45A648003ABA25 /* pot */,
 				CAA4D2A71A45A648003ABA25 /* processes */,

@@ -21,6 +21,7 @@
 #import "BibleditPaths.h"
 #import "BibleditInstallation.h"
 #import "bibledit.h"
+#import <mach/mach.h>
 
 
 @interface ViewController ()
@@ -30,6 +31,7 @@
 @implementation ViewController
 
 UIWebView * webview;
+NSTimer *timer;
 
 - (void)viewDidLoad
 {
@@ -44,20 +46,30 @@ UIWebView * webview;
   @finally {
   }
   
-  webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0,
-                                                        [[UIScreen mainScreen] applicationFrame].size.width, [[UIScreen mainScreen] applicationFrame].size.height)];
-  self.view = webview;
-  webview.userInteractionEnabled = YES;
+  [self displayBrowser];
   
   [self runWebserver];
   
   [self performSelectorInBackground:@selector(runInstallation) withObject:nil];
+  
+  timer = [NSTimer scheduledTimerWithTimeInterval:600.0 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
 }
 
 
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
+  // There is are huge memory leaks in ios UIWebView.
+  // The memory usage keeps creeping up over time when it displays dynamic pages.
+  // iOS sends a few memory warnings after an hour or so, then iOS kills the app.
+  [self logMemoryUsage];
+  bibledit_log ("The device runs low on memory. Resetting the user interface to release memory.");
+  // A suggestion to release memory is the following:
+  // [webview loadHTMLString: @"" baseURL: nil];
+  // [self browseTo:@"http://localhost:8080"];
+  // A suggestion to release memory is to reload the webview
+  [webview reload];
+  [self logMemoryUsage];
 }
 
 
@@ -97,13 +109,37 @@ UIWebView * webview;
 }
 
 
+- (void)displayBrowser
+{
+  webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, [[UIScreen mainScreen] applicationFrame].size.height)];
+  self.view = webview;
+  webview.userInteractionEnabled = YES;
+}
+
+
+- (void) timerTick:(NSTimer *)incomingTimer
+{
+  [self logMemoryUsage];
+}
+
+
+- (void)logMemoryUsage
+{
+  struct mach_task_basic_info info;
+  mach_msg_type_number_t size = MACH_TASK_BASIC_INFO_COUNT;
+  kern_return_t kerr = task_info (mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&info, &size);
+  if (kerr == KERN_SUCCESS) {
+    NSString *string = [NSString stringWithFormat:@"Memory in use: %lld Mb", info.resident_size / 1024 / 1024];
+    const char * message = [string UTF8String];
+    bibledit_log (message);
+  }
+}
+
+
 - (void)debug
 {
-  
   NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], nil];
   NSString *directory = [NSString pathWithComponents:components];
-  
-  
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSDirectoryEnumerator *dirEnumerator = [fileManager enumeratorAtPath:directory];
   NSString *file;
@@ -117,10 +153,8 @@ UIWebView * webview;
       } else {
         NSLog(@"%@ is a file", original);
       }
-      
     }
   }
-  
 }
 
 
