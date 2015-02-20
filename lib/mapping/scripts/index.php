@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2>gettext("Verse Mappings")</h2>
+<h2>translate("Verse Mappings")</h2>
 <p>
-  gettext("This lists the available verse mappings.")
-  <a href="index?new=">gettext("Create new.")</a>
+  translate("This lists the available verse mappings.")
+  <a href="index?new=">translate("Create new.")</a>
 </p>
 <?php for ($this->mappings as $offset => $mapping) {
   <p>
     $mapping
     <?php if ($this->editable [$offset]) {
-    <a href="map?name=$mapping">[gettext("edit")]</a>
+    <a href="map?name=$mapping">[translate("edit")]</a>
     <?php }
   </p>
 <?php }

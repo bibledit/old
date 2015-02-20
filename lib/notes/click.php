@@ -39,12 +39,12 @@ if (isset ($new)) {
   $database_modifications = Database_Modifications::getInstance ();
   $database_bibles = Database_Bibles::getInstance ();
   $bible = $database_modifications->getNotificationBible ($new);
-  $summary = gettext("Query about a change in the text");
-  $contents = "<p>" . gettext("Old text:") . "</p>";
+  $summary = translate("Query about a change in the text");
+  $contents = "<p>" . translate("Old text:") . "</p>";
   $contents += $database_modifications->getNotificationOldText ($new);
-  $contents += "<p>" .  gettext("Change:") . "</p>";
+  $contents += "<p>" .  translate("Change:") . "</p>";
   $contents += "<p>" . $database_modifications->getNotificationModification ($new) . "</p>";
-  $contents += "<p>" . gettext("New text:") . "</p>";
+  $contents += "<p>" . translate("New text:") . "</p>";
   $contents += $database_modifications->getNotificationNewText ($new);
   $passage = $database_modifications->getNotificationPassage ($new);
   $database_notes = Database_Notes::getInstance ();

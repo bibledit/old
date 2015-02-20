@@ -64,7 +64,7 @@ string edit_index (void * webserver_request)
   string page;
   
   
-  Assets_Header header = Assets_Header (gettext("Edit"), request);
+  Assets_Header header = Assets_Header (translate("Edit"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
   page = header.run ();
@@ -73,7 +73,7 @@ string edit_index (void * webserver_request)
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];
     if (changebible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", gettext("Select which Bible to open in the editor"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
       vector <string> bibles = access_bible_bibles (request);
       for (auto & bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);
@@ -113,9 +113,9 @@ string edit_index (void * webserver_request)
   view.set_variable ("write_access", s_write_access);
   
 
-  string chapterLoaded = gettext("Loaded");
-  string chapterSaving = gettext("Saving...");
-  string chapterRetrying = gettext("Retrying...");
+  string chapterLoaded = translate("Loaded");
+  string chapterSaving = translate("Saving...");
+  string chapterRetrying = translate("Retrying...");
   string script =
   "var editorChapterLoaded = '" + chapterLoaded + "';\n"
   "var editorChapterSaving = '" + chapterSaving + "';\n"

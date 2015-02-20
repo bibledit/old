@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include <locale/translate.h>
+#include <styles/logic.h>
 
 
 // This is the database for the styles.
@@ -281,12 +282,6 @@ void Database_Styles::create ()
 }
 
 
-string Database_Styles::standard ()
-{
-  return "Standard";
-}
-
-
 // Creates a stylesheet.
 void Database_Styles::createSheet (string sheet)
 {
@@ -302,8 +297,8 @@ void Database_Styles::createSheet (string sheet)
 vector <string> Database_Styles::getSheets ()
 {
   vector <string> sheets = filter_url_scandir (databasefolder ());
-  if (find (sheets.begin (), sheets.end (), standard ()) == sheets.end ()) {
-    sheets.push_back (standard ());
+  if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
+    sheets.push_back (styles_logic_standard_sheet ());
   }
   sort (sheets.begin(), sheets.end());
   return sheets;
@@ -725,8 +720,8 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
     }
     // Non-standard marker.
     item.marker = marker;
-    item.name = gettext ("Name");
-    item.info = gettext ("Information");
+    item.name = translate ("Name");
+    item.info = translate ("Information");
   } else {
     // Read the style from file.
     string contents = filter_url_file_get_contents (filename);

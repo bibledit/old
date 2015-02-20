@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/check.h>
 #include <database/commits.h>
 #include <database/confirm.h>
-#include <database/history.h>
 #include <database/ipc.h>
 #include <database/jobs.h>
 #include <database/kjv.h>
@@ -56,6 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
+#include <styles/logic.h>
 
 
 void test_database_config_general ()
@@ -111,26 +111,21 @@ void test_database_config_user ()
     Database_Users database_users = Database_Users ();
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");
-    request.session_logic ()->attemptLogin ("username", "password");
+    request.session_logic ()->attemptLogin ("username", "password", true);
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
-    vector <string> empty;
-    evaluate (__LINE__, __func__, empty, request.database_config_user ()->getUpdatedSettings ());
+    evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());
     
-    vector <string> standard1;
-    standard1.push_back ("one two three");
-    standard1.push_back ("four five six");
+    vector <int> standard1 = {123, 456};
     request.database_config_user ()->setUpdatedSettings (standard1);
     evaluate (__LINE__, __func__, standard1, request.database_config_user ()->getUpdatedSettings ());
     
-    request.database_config_user ()->addUpdatedSetting ("seven eight nine");
-    standard1.push_back ("seven eight nine");
+    request.database_config_user ()->addUpdatedSetting (789);
+    standard1.push_back (789);
     evaluate (__LINE__, __func__, standard1, request.database_config_user ()->getUpdatedSettings ());
     
-    request.database_config_user ()->removeUpdatedSetting ("four five six");
-    vector <string> standard2;
-    standard2.push_back ("one two three");
-    standard2.push_back ("seven eight nine");
+    request.database_config_user ()->removeUpdatedSetting (456);
+    vector <int> standard2 = {123, 789};
     evaluate (__LINE__, __func__, standard2, request.database_config_user ()->getUpdatedSettings ());
     
     // Testing the Sprint month and its trim () function.
@@ -309,6 +304,7 @@ void test_database_users ()
     refresh_sandbox (true);
     Database_Users database_users = Database_Users ();
     database_users.create ();
+    database_users.upgrade ();
 
     string username = "unit test";
     string password = "pazz";
@@ -394,7 +390,7 @@ void test_database_users ()
     string address = "192.168.1.0";
     string agent = "Browser's user agent";
     string fingerprint = "ԴԵԶԸ";
-    database_users.setTokens (username, address, agent, fingerprint);
+    database_users.setTokens (username, address, agent, fingerprint, true);
     evaluate (__LINE__, __func__, username, database_users.getUsername (address, agent, fingerprint));
     database_users.removeTokens (username);
     evaluate (__LINE__, __func__, "", database_users.getUsername (address, agent, fingerprint));
@@ -404,6 +400,28 @@ void test_database_users ()
     int timestamp = database_users.getTimestamp (username);
     int second = filter_string_date_seconds_since_epoch ();
     if ((timestamp != second) && (timestamp != second + 1)) evaluate (__LINE__, __func__, second, timestamp);
+  }
+  // Test touch-enabled settings.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+
+    string username = "unittest";
+    string password = "pass";
+    string email = "mail@site.nl";
+    string address = "192.168.1.2";
+    string agent = "Browser's user agent";
+    string fingerprint = "abcdef";
+    bool touch = true;
+    database_users.setTokens (username, address, agent, fingerprint, touch);
+    evaluate (__LINE__, __func__, true, database_users.getTouchEnabled (address, agent, fingerprint));
+    
+    database_users.removeTokens (username);
+    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint));
+    
+    database_users.setTokens (username, address, agent, fingerprint, touch);
+    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint + "x"));
   }
   {
     refresh_sandbox (true);
@@ -493,19 +511,19 @@ void test_database_styles ()
     Database_Styles database_styles = Database_Styles ();
 
     vector <string> sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
 
     database_styles.createSheet ("phpunit");
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard", "phpunit" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet (), "phpunit" }, sheets);
 
     database_styles.deleteSheet ("phpunit");
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
 
-    database_styles.deleteSheet ("Standard");
+    database_styles.deleteSheet (styles_logic_standard_sheet ());
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
   }
   {
     refresh_sandbox (true);
@@ -514,7 +532,7 @@ void test_database_styles ()
 
     vector <string> markers;
     
-    markers = database_styles.getMarkers ("Standard");
+    markers = database_styles.getMarkers (styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 179, markers.size ());
 
     markers = database_styles.getMarkers ("phpunit");
@@ -1030,52 +1048,6 @@ void test_database_confirm ()
 }
 
 
-void test_database_history ()
-{
-  refresh_sandbox (true);
-  Database_History database_history = Database_History ();
-  database_history.create ();
-  database_history.optimize ();
-  database_history.trim ();
-  
-  string author = "test";
-  string bible = "phpunit";
-  int book = 1;
-  int chapter = 2;
-  int verse = 3;
-  int start = 0;
-
-  // Start with an empty history.
-  int count = database_history.count (author, {bible}, book, chapter, verse);
-  evaluate (__LINE__, __func__, 0, count);
-
-  count = database_history.count ("", {}, 0, -1, -1);
-  evaluate (__LINE__, __func__, 0, count);
-
-  vector <Database_History_Item> data = database_history.get (author, {bible}, book, chapter, verse, start);
-  evaluate (__LINE__, __func__, 0, data.size ());
-
-  vector <string> authors = database_history.authors ({bible});
-  evaluate (__LINE__, __func__, 0, authors.size ());
-
-  // Record some data.
-  database_history.record (filter_string_date_seconds_since_epoch(), author, bible, book, chapter, verse, "old1", "mod1", "new1");
-  database_history.record (filter_string_date_seconds_since_epoch(), author, bible, book, chapter, verse, "old2", "mod2", "new2");
-
-  // Check the data.
-  count = database_history.count (author, {bible}, book, chapter, verse);
-  evaluate (__LINE__, __func__, 2, count);
-  
-  count = database_history.count ("", {}, -1, -1, -1);
-  evaluate (__LINE__, __func__, 2, count);
-
-  data = database_history.get (author, {bible}, book, chapter, verse, start);
-  evaluate (__LINE__, __func__, 2, data.size ());
-  evaluate (__LINE__, __func__, "test", data [0].author);
-  evaluate (__LINE__, __func__, "new2", data [1].newtext);
-}
-
-
 void test_database_ipc ()
 {
    // Test Trim
@@ -1259,6 +1231,14 @@ void test_database_jobs ()
     level = database_jobs.getLevel (id);
     evaluate (__LINE__, __func__, 123, level);
 
+    // Test Start
+    id = database_jobs.getNewId ();
+    string start = database_jobs.getStart (id);
+    evaluate (__LINE__, __func__, "", start);
+    database_jobs.setStart (id, "start");
+    start = database_jobs.getStart (id);
+    evaluate (__LINE__, __func__, "start", start);
+    
     // Test Progress
     id = database_jobs.getNewId ();
     string progress = database_jobs.getProgress (id);
@@ -1266,7 +1246,15 @@ void test_database_jobs ()
     database_jobs.setProgress (id, "progress");
     progress = database_jobs.getProgress (id);
     evaluate (__LINE__, __func__, "progress", progress);
-
+    
+    // Test Percentage
+    id = database_jobs.getNewId ();
+    string percentage = database_jobs.getPercentage (id);
+    evaluate (__LINE__, __func__, "", percentage);
+    database_jobs.setPercentage (id, 55);
+    percentage = database_jobs.getPercentage (id);
+    evaluate (__LINE__, __func__, "55", percentage);
+    
     // Test Result.
     id = database_jobs.getNewId ();
     string result = database_jobs.getResult (id);

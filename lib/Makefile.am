@@ -20,17 +20,19 @@ libbibledit_a_SOURCES = \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
+	filter/shell.cpp \
+	filter/merge.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
-	assets/builder.cpp \
 	index/index.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
 	locale/translate.cpp \
+	locale/logic.cpp \
 	database/config/general.cpp \
 	database/config/bible.cpp \
 	database/config/user.cpp \
@@ -45,7 +47,6 @@ libbibledit_a_SOURCES = \
 	database/check.cpp \
 	database/commits.cpp \
 	database/confirm.cpp \
-	database/history.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
 	database/kjv.cpp \
@@ -100,6 +101,7 @@ libbibledit_a_SOURCES = \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
 	bible/css.cpp \
+	bible/editing.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
@@ -119,7 +121,8 @@ libbibledit_a_SOURCES = \
 	collaboration/open.cpp \
 	collaboration/password.cpp \
 	collaboration/secure.cpp \
-	collaboration/read.cpp \
+	collaboration/link.cpp \
+	collaboration/direction.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \
@@ -188,7 +191,15 @@ libbibledit_a_SOURCES = \
 	workbench/organize.cpp \
 	sendreceive/logic.cpp \
 	sendreceive/index.cpp \
-	demo/logic.cpp
+	sendreceive/sendreceive.cpp \
+	sendreceive/settings.cpp \
+	sendreceive/bibles.cpp \
+	demo/logic.cpp \
+	client/index.cpp \
+	client/logic.cpp \
+	sync/setup.cpp \
+	sync/settings.cpp \
+	sync/bibles.cpp
 
 bin_PROGRAMS = server unittest
 
@@ -210,12 +221,14 @@ AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(GIT_CFLAGS)
+AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 
-LIBS = -Wall -lpthread
+LIBS = -Wall -lpthread -L.
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
 LIBS += $(GIT_LIBS)
+LIBS += $(OPENSSL_LIBS)
 
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 

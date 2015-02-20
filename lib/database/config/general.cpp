@@ -273,6 +273,16 @@ void Database_Config_General::setServerAddress (string value)
 }
 
 
+int Database_Config_General::getServerPort ()
+{
+  return getIValue ("server-port", 8080);
+}
+void Database_Config_General::setServerPort (int value)
+{
+  setIValue ("server-port", value);
+}
+
+
 int Database_Config_General::getRepeatSendReceive ()
 {
   return getIValue ("repeat-send-receive", 0);
@@ -290,6 +300,16 @@ string Database_Config_General::getInstalledVersion ()
 void Database_Config_General::setInstalledVersion (string value)
 {
   setValue ("installed-version", value);
+}
+
+
+bool Database_Config_General::getJustStarted ()
+{
+  return getBValue ("just-started", false);
+}
+void Database_Config_General::setJustStarted (bool value)
+{
+  setBValue ("just-started", value);
 }
 
 

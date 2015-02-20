@@ -39,8 +39,27 @@ class Sync_Logic
 public:
   Sync_Logic (void * webserver_request_in);
   ~Sync_Logic ();
+  static const int settings_get_total_checksum = 1;
+  static const int settings_send_workbench_urls = 2;
+  static const int settings_get_workbench_urls = 3;
+  static const int settings_send_workbench_widths = 4;
+  static const int settings_get_workbench_widths = 5;
+  static const int settings_send_workbench_heights = 6;
+  static const int settings_get_workbench_heights = 7;
+  static const int bibles_get_total_checksum = 1;
+  static const int bibles_get_bibles = 2;
+  static const int bibles_get_bible_checksum = 3;
+  static const int bibles_get_books = 4;
+  static const int bibles_get_book_checksum = 5;
+  static const int bibles_get_chapters = 6;
+  static const int bibles_get_chapter_checksum = 7;
+  static const int bibles_send_chapter = 8;
+  static const int bibles_get_chapter = 9;
+  bool credentials_okay ();
+  string settings_checksum ();
   string checksum (const vector <int> & identifiers);
   vector <Sync_Logic_Range> create_range (int start, int end);
+  string post (map <string, string> & post, const string& url, string & error);
 private:
   void * webserver_request;
 };

@@ -57,7 +57,7 @@ string Flate::render (string html)
       rendering = filter_url_file_get_contents (html);
       process_zones (rendering);
       process_variables (rendering);
-      process_gettext (rendering);
+      process_translate (rendering);
     }
   } catch (...) {
     Database_Logs::log ("Failure to process template " + html);
@@ -125,12 +125,12 @@ void Flate::process_variables (string& rendering)
 }
 
 
-void Flate::process_gettext (string& rendering)
+void Flate::process_translate (string& rendering)
 {
-  // Clean up the gettext calls.
-  rendering = filter_string_str_replace ("gettext (", "gettext(", rendering);
+  // Clean up the "translate" (gettext) calls.
+  rendering = filter_string_str_replace ("translate (", "translate(", rendering);
   // Gettext markup.
-  string gettextopen = "gettext(\"";
+  string gettextopen = "translate(\"";
   string gettextclose = "\")";
   // Limit gettext iterations.
   int iterations = 0;
@@ -151,7 +151,7 @@ void Flate::process_gettext (string& rendering)
       // Take the English out.
       rendering.erase (position, pos - position);
       // Insert the localization.
-      rendering.insert (position, gettext (english));
+      rendering.insert (position, translate (english));
     }
     // Next gettext call.
     position = rendering.find (gettextopen);

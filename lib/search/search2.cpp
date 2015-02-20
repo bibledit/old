@@ -188,7 +188,7 @@ string search_search2 (void * webserver_request)
   
   // Build the advanced search page.
   string page;
-  Assets_Header header = Assets_Header (gettext("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), request);
   header.setNavigator ();
   page = header.run ();
   Assets_View view = Assets_View ();

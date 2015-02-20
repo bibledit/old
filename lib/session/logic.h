@@ -24,15 +24,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+string session_admin_credentials ();
+
+
 class Session_Logic
 {
 public:
   Session_Logic (void * webserver_request_in);
   ~Session_Logic ();
   void setUsername (string name);
-  bool attemptLogin (string user_or_email, string password);
+  bool attemptLogin (string user_or_email, string password, bool touch_enabled);
   bool loggedIn ();
   string currentUser ();
+  bool touchEnabled ();
   int currentLevel (bool force = false);
   void logout ();
 private:
@@ -40,6 +44,7 @@ private:
   int check_ip_blocks = 3;     // How many numbers from IP use in fingerprint?
   bool logged_in;              // Whether user is logged in.
   string username;             // The username.
+  bool touch_enabled;          // Whether user works from a touch-enabled device.
   void * webserver_request;    // Pointer to instance of Webserver_Request.
   void Open ();
   bool openAccess ();

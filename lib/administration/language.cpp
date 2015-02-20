@@ -46,7 +46,7 @@ string administration_language (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (gettext ("Language"), webserver_request, "");
+  page = Assets_Page::header (translate ("Language"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 
@@ -56,7 +56,7 @@ string administration_language (void * webserver_request)
   @language =  _GET['language'];
   if (isset (language)) {
     if (language == "") {
-      dialog_list = new Dialog_List2 (gettext("Set the default language for the site"));
+      dialog_list = new Dialog_List2 (translate("Set the default language for the site"));
       languages = Locale_Logic::getLocalizations ();
       for (languages as language) {
         dialog_list.add_row (Locale_Logic::getLanguage (language), "&language=language");

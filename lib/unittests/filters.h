@@ -33,6 +33,7 @@ void test_filter_diff ();
 void test_filter_abbreviations ();
 void test_filter_markup ();
 void test_filter_git ();
+void test_filter_merge ();
 
 
 #endif

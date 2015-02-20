@@ -27,19 +27,19 @@ Filter_Cli::assert ();
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_notes = Database_Notes::getInstance ();
 $database_noteactions = Database_NoteActions::getInstance ();
 $database_users = Database_Users::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-Database_Logs::log (gettext("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
+Database_Logs::log (translate("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
 
 
-$response = config_logic_setup ();
+$response = client_logic_connection_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  Database_Logs::log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
+  Database_Logs::log (translate("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
   die;
 }
 
@@ -52,7 +52,7 @@ $notes = $database_noteactions->getNotes ();
 for ($notes as $note) {
 
   $summary = $database_notes->getSummary ($note);
-  Database_Logs::log (gettext("Sending note to server") . ": $summary", Filter_Roles::translator ());
+  Database_Logs::log (translate("Sending note to server") . ": $summary", Filter_Roles::translator ());
 
 
   // Go through all the actions for the current note.
@@ -87,8 +87,8 @@ for ($notes as $note) {
     // Generate a POST request.
     $post = array (
       "u" => bin2hex ($username), 
-      "p" => $database_users->getmd5 ($username),
-      "l" => $database_users->getUserLevel ($username),
+      "p" => request->database_users ()->getmd5 ($username),
+      "l" => request->database_users ()->getUserLevel ($username),
       "n" => $note,
       "t" => $timestamp,
       "a" => $action,

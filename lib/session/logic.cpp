@@ -25,6 +25,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <config/globals.h>
+#include <config/logic.h>
+
+
+// The username and password for a demo installation, and for a disconnected client installation
+string session_admin_credentials () // Tod
+{
+  return "admin";
+}
 
 
 /*
@@ -65,6 +73,7 @@ After the port to C++, the PHP session mechanism is no longer a good option.
 Session_Logic::Session_Logic (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;
+  touch_enabled = false;
   Open ();
 }
 
@@ -82,11 +91,13 @@ void Session_Logic::Open ()
 
   string address = remoteAddress ();
   string agent = ((Webserver_Request *) webserver_request)->user_agent;
+  string finger_print = fingerprint ();
   Database_Users database_users = Database_Users ();
-  string username = database_users.getUsername (address, agent, fingerprint ());
+  string username = database_users.getUsername (address, agent, finger_print);
   if (username != "") {
     setUsername (username);
     logged_in = true;
+    touch_enabled = database_users.getTouchEnabled (address, agent, finger_print);
     database_users.pingTimestamp (username);
   } else {
     setUsername ("");
@@ -105,7 +116,7 @@ bool Session_Logic::openAccess ()
 {
   // Open access if it is flagged as such.
   if (config_globals_open_installation) {
-    setUsername ("admin");
+    setUsername (session_admin_credentials ());
     level = Filter_Roles::admin ();
     logged_in = true;
     return true;
@@ -140,8 +151,9 @@ string Session_Logic::fingerprint ()
 
 
 // Attempts to log into the system.
+// Records whether the user logged in from a touch-enabled device.
 // Returns boolean success.
-bool Session_Logic::attemptLogin (string user_or_email, string password)
+bool Session_Logic::attemptLogin (string user_or_email, string password, bool touch_enabled)
 {
   Database_Users database = Database_Users ();
   bool login_okay = false;
@@ -163,7 +175,7 @@ bool Session_Logic::attemptLogin (string user_or_email, string password)
     string security1 = remoteAddress ();
     string security2 = ((Webserver_Request *) webserver_request)->user_agent;
     string security3 = fingerprint ();
-    database.setTokens (user_or_email, security1, security2, security3);
+    database.setTokens (user_or_email, security1, security2, security3, touch_enabled);
     currentLevel (true);
     return true;
   }
@@ -188,6 +200,18 @@ bool Session_Logic::loggedIn ()
 string Session_Logic::currentUser ()
 {
   return username;
+}
+
+
+bool Session_Logic::touchEnabled ()
+{
+  // Deal with the global variable for touch-enabled.
+  // The variable, if zero, does nothing.
+  // Else it either sets or clears the touch-enabled state.
+  if (config_globals_touch_enabled > 0) touch_enabled = true;
+  if (config_globals_touch_enabled < 0) touch_enabled = false;
+  // Give the result, either set globally, or else through prior reading from the database.
+  return touch_enabled;
 }
 
 
@@ -227,7 +251,7 @@ bool Session_Logic::clientAccess ()
     vector <string> users = database_users.getUsers ();
     string user;
     if (users.empty ()) {
-      user = "admin";
+      user = session_admin_credentials ();
       level = Filter_Roles::admin ();
     } else {
       user = users [0];

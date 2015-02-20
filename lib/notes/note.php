@@ -39,7 +39,7 @@ if (is_array ($passages)) {
 }
 
 
-$header = new Assets_Header (gettext("Note"));
+$header = new Assets_Header (translate("Note"));
 // After adding a comment to a note it returns to the note.
 // When doing nothing for several seconds, the browser then returns to the list of notes.
 if (isset (request->query ['temporal'])) {

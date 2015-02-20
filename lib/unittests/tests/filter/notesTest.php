@@ -28,7 +28,7 @@ class filterNotesTest extends PHPUnit_Framework_TestCase
   public function testFilterNotesImportFromBibleditGtkFile()
   {
     $session_logic = Session_Logic::getInstance ();
-    $session_logic->setUsername ("PHPUnit");
+    request->session_logic ()->setUsername ("PHPUnit");
     $_SERVER['HTTP_USER_AGENT'] = "PHPUnit";
     $_SERVER['REMOTE_ADDR'] = "127.0.0.1";
     $database_notes = Database_Notes::getInstance();

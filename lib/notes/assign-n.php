@@ -26,7 +26,7 @@ $database_notes = Database_Notes::getInstance();
 $database_users = Database_Users::getInstance();
 
 
-$header = new Assets_Header (gettext("Assign notes"));
+$header = new Assets_Header (translate("Assign notes"));
 $header->run();
 
 
@@ -35,12 +35,12 @@ $view = new Assets_View (__FILE__);
 
 // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to.
 $bibles = access_bible_bibles ();
-$users = $database_users->getUsers ();
+$users = request->database_users ()->getUsers ();
 for ($users as $offset => $user) {
   $access = false;
   for ($bibles as $bible) {
     if (!$access) {
-      $access = $database_users->hasAccess2Bible ($user, $bible);
+      $access = request->database_users ()->hasAccess2Bible ($user, $bible);
     }
   }
   if (!$access) unset ($users [$offset]);

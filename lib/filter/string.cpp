@@ -1012,3 +1012,35 @@ int filter_string_user_identifier (void * webserver_request)
   int identifier = stoi (hash, NULL, 36);
   return identifier;
 }
+
+
+// C++ equivalent for PHP's bin2hex function.
+string bin2hex (string bin)
+{
+  string res;
+  const char hex[] = "0123456789abcdef";
+  for (auto sc : bin)
+  {
+    unsigned char c = static_cast<unsigned char>(sc);
+    res += hex[c >> 4];
+    res += hex[c & 0xf];
+  }
+  return res;
+}
+
+
+// C++ equivalent for PHP's hex2bin function.
+string hex2bin (string hex)
+{
+  string out;
+  if (hex.length() % 2 == 0) {
+    out.reserve (hex.length()/2);
+    string extract;
+    for (string::const_iterator pos = hex.begin(); pos < hex.end(); pos += 2)
+    {
+      extract.assign (pos, pos+2);
+      out.push_back (stoi (extract, nullptr, 16));
+    }
+  }
+  return out;
+}

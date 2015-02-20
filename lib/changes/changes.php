@@ -65,7 +65,7 @@ if (isset (request->query ['match'])) {
 }
 
 
-$header = new Assets_Header (gettext("Changes"));
+$header = new Assets_Header (translate("Changes"));
 $header->setStylesheet ();
 $header->run ();
 
@@ -107,7 +107,7 @@ $view.set_variable ("categories = $categories;
 $view.set_variable ("modifications = $modifications;
 
 
-$loading = '"' . gettext("Loading ...") . '"';
+$loading = '"' . translate("Loading ...") . '"';
 
 
 $script = <<<EOD

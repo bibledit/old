@@ -38,11 +38,11 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
   Database_Versifications database_versifications = Database_Versifications ();
   int bible_id = database_bibles.getID (bible);
   if (bible_id == 0) {
-    feedback.push_back (gettext("Bible bible does not exist: Cannot create book"));
+    feedback.push_back (translate("Bible bible does not exist: Cannot create book"));
     return false;
   }
   if (book == 0) {
-    feedback.push_back (gettext("Invalid book while creating a book template"));
+    feedback.push_back (translate("Invalid book while creating a book template"));
     return false;
   }
   
@@ -83,7 +83,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
   
   // Done.
   if (chaptersCreated.size () == 0) {
-    feedback.push_back (gettext("No chapters have been created"));
+    feedback.push_back (translate("No chapters have been created"));
     return false;
   }
   string created;
@@ -91,6 +91,6 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
     if (!created.empty ()) created.append (" ");
     created.append (convert_to_string (chapter));
   }
-  feedback.push_back (gettext("The following chapters have been created:") + " " + created);
+  feedback.push_back (translate("The following chapters have been created:") + " " + created);
   return true;
 }

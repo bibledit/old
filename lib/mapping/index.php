@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
-Assets_Page::header (gettext("Verse Mappings"));
+Assets_Page::header (translate("Verse Mappings"));
 $view = new Assets_View (__FILE__);
 
 
@@ -31,19 +31,19 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $username = request->session_logic()->currentUser ();
-$userlevel = $session_logic->currentLevel ();
+$userlevel = request->session_logic ()->currentLevel ();
 
 
 if (isset(request->post['new'])) {
   $name = request->post['entry'];
   if (in_array ($name, $database_mappings->names ())) {
-    Assets_Page::error (gettext("This verse mapping already exists"));
+    Assets_Page::error (translate("This verse mapping already exists"));
   } else {
     $database_mappings->create ($name);
   }
 }
 if (isset (request->query['new'])) {
-  $dialog_entry = new Dialog_Entry ("", gettext("Enter a name for the new verse mapping"), "", "new", "");
+  $dialog_entry = new Dialog_Entry ("", translate("Enter a name for the new verse mapping"), "", "new", "");
   die;
 }
 

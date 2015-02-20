@@ -51,7 +51,7 @@ string editverse_save (void * webserver_request)
   // Check on information about where to save the verse.
   bool save = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("verse") && request->post.count ("usfm"));
   if (!save) {
-    return gettext("Don't know where to save");
+    return translate("Don't know where to save");
   }
 
   
@@ -66,20 +66,20 @@ string editverse_save (void * webserver_request)
   // Checksum.
   if (Checksum_Logic::get (usfm) != checksum) {
     request->response_code = 409;
-    return gettext ("Checksum error");
+    return translate ("Checksum error");
   }
 
   
   // Check there's anything to save at all.
   usfm = filter_string_trim (usfm);
   if (usfm == "") {
-    return gettext("Nothing to save");
+    return translate("Nothing to save");
   }
   
   
   // Check on valid UTF-8.
   if (!unicode_string_is_valid (usfm)) {
-    return gettext("Cannot save: Needs Unicode");
+    return translate("Cannot save: Needs Unicode");
   }
   
   
@@ -127,13 +127,13 @@ string editverse_save (void * webserver_request)
         int newID = request->database_bibles()->getChapterId (bible, book, chapter);
         string newText = chapter_data_to_save;
         database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
-        return gettext("Saved");
+        return translate("Saved");
       } else {
-        return gettext("Not saved because of too many changes");
+        return translate("Not saved because of too many changes");
       }
     } else {
       Database_Logs::log ("The following data could not be saved and was discarded: " + chapter_data_to_save);
-      return gettext("Save failure");
+      return translate("Save failure");
     }
   }
 

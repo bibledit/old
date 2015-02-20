@@ -71,7 +71,7 @@ if (!$empty) {
 }
 
 
-$header = new Assets_Header (gettext("Cross references"));
+$header = new Assets_Header (translate("Cross references"));
 $header->run ();
 $view = new Assets_View (__FILE__);
 $view->render ("extract");

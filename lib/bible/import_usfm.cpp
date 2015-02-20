@@ -47,7 +47,7 @@ string bible_import_usfm (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Import USFM"), webserver_request, "");
+  page = Assets_Page::header (translate ("Import USFM"), webserver_request, "");
   
   Assets_View view = Assets_View ();
   
@@ -71,13 +71,13 @@ string bible_import_usfm (void * webserver_request)
       if (unicode_string_is_valid (data)) {
         string datafile = filter_url_tempfile ();
         filter_url_file_put_contents (datafile, data);
-        success_message = gettext("Import has started. See Journal for progress.");
+        success_message = translate("Import has started. See Journal for progress.");
         tasks_logic_queue (IMPORTUSFM, { datafile, bible });
       } else {
-        error_message = gettext("Please supply valid Unicode UTF-8 text.");
+        error_message = translate("Please supply valid Unicode UTF-8 text.");
       }
     } else {
-      success_message = gettext("Nothing was imported.");
+      success_message = translate("Nothing was imported.");
     }
   }
 
@@ -87,10 +87,10 @@ string bible_import_usfm (void * webserver_request)
     string data = request->post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (datafile, data);
-      success_message = gettext("Import has started. See Journal for progress.");
+      success_message = translate("Import has started. See Journal for progress.");
       tasks_logic_queue (IMPORTUSFM, { datafile, bible });
     } else {
-      error_message = gettext ("Nothing was uploaded");
+      error_message = translate ("Nothing was uploaded");
     }
   }
   

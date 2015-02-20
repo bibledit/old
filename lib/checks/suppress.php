@@ -26,14 +26,14 @@ $database_check = Database_Check::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-Assets_Page::header (gettext("Suppressed check results"));
+Assets_Page::header (translate("Suppressed check results"));
 $view = new Assets_View (__FILE__);
 
 
 @$release = request->query['release'];
 if (isset($release)) {
   $database_check->release ($release);
-  $view.set_variable ("success = gettext("The check result will no longer be suppressed.");
+  $view.set_variable ("success = translate("The check result will no longer be suppressed.");
 }
 
 

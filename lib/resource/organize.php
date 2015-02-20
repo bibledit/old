@@ -49,7 +49,7 @@ if (isset ($resources)) {
 }
 
 
-$header = new Assets_Header (gettext("Resources"));
+$header = new Assets_Header (translate("Resources"));
 $header->jQueryUIOn ("sortable");
 $header->run ();
 $view = new Assets_View (__FILE__);

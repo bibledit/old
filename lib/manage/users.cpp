@@ -52,7 +52,7 @@ string manage_users (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (gettext ("Users"), webserver_request, "");
+  page = Assets_Page::header (translate ("Users"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 
@@ -63,17 +63,17 @@ string manage_users (void * webserver_request)
   
   // New user creation.
   if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("users", gettext("Please enter a name for the new user"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("users", translate("Please enter a name for the new user"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("new")) {
     string user = request->post["entry"];
     if (request->database_users ()->usernameExists (user)) {
-      page += Assets_Page::error (gettext("User already exists"));
+      page += Assets_Page::error (translate("User already exists"));
     } else {
       request->database_users ()->addNewUser(user, user, Filter_Roles::member (), "");
-      page += Assets_Page::success (gettext("User created"));
+      page += Assets_Page::success (translate("User created"));
     }
   }
   
@@ -98,7 +98,7 @@ string manage_users (void * webserver_request)
   if (request->query.count ("level")) {
     string level = request->query ["level"];
     if (level == "") {
-      Dialog_List dialog_list = Dialog_List ("users", gettext("Select a role for") + " " + user, "", "");
+      Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + user, "", "");
       dialog_list.add_query ("user", user);
       for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
         if (i <= currentLevel) {
@@ -117,7 +117,7 @@ string manage_users (void * webserver_request)
   if (request->query.count ("email")) {
     string email = request->query ["email"];
     if (email == "") {
-      string question = gettext("Please enter an email address for") + " " + user;
+      string question = translate("Please enter an email address for") + " " + user;
       string value = request->database_users ()->getUserToEmail (user);
       Dialog_Entry dialog_entry = Dialog_Entry ("users", question, value, "email", "");
       dialog_entry.add_query ("user", user);
@@ -128,10 +128,10 @@ string manage_users (void * webserver_request)
   if (request->post.count ("email")) {
     string email = request->post["entry"];
     if (filter_url_email_is_valid (email)) {
-      page += Assets_Page::success (gettext("Email address was updated"));
+      page += Assets_Page::success (translate("Email address was updated"));
       request->database_users ()->updateUserEmail (user, email);
     } else {
-      page += Assets_Page::error (gettext("The email address is not valid"));
+      page += Assets_Page::error (translate("The email address is not valid"));
     }
   }
   
@@ -152,7 +152,7 @@ string manage_users (void * webserver_request)
     string addbible = request->query["addbible"];
     if (addbible == "") {
       /* C++Port
-      dialog_list = new Dialog_List (NULL, gettext("Would you like to grant user user access to a Bible?"), "", "");
+      dialog_list = new Dialog_List (NULL, translate("Would you like to grant user user access to a Bible?"), "", "");
       for (accessibleBibles as bible) {
         parameter = "?user=user&addbible=bible";
         dialog_list.add_row (bible, parameter);
@@ -161,7 +161,7 @@ string manage_users (void * webserver_request)
       die;
       */
     } else {
-      Assets_Page::success (gettext("The user has become a member of the translation team that works on this Bible"));
+      Assets_Page::success (translate("The user has become a member of the translation team that works on this Bible"));
       request->database_users ()->grantAccess2Bible (user, addbible);
     }
   }
@@ -171,7 +171,7 @@ string manage_users (void * webserver_request)
   if (request->query.count ("removebible")) {
     string removebible = request->query ["removebible"];
     request->database_users ()->revokeAccess2Bible (user, removebible);
-    Assets_Page::success (gettext("The user is no longer a member of the translation team that works on this Bible"));
+    Assets_Page::success (translate("The user is no longer a member of the translation team that works on this Bible"));
   }
   
   

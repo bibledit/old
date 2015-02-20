@@ -35,10 +35,10 @@ Dialog_List::Dialog_List (string url, string question, string info_top, string i
   base_url = url;
   view->set_variable ("question", question);
   if (info_top == "")
-    info_top = gettext("Here are the various options:");
+    info_top = translate("Here are the various options:");
   view->set_variable ("info_top", info_top);
   if (info_bottom == "")
-    info_bottom = gettext("Please pick one.");
+    info_bottom = translate("Please pick one.");
   view->set_variable ("info_bottom", info_bottom);
   assets_view = view;
 }

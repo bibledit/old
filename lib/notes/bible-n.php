@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::consultant ());
-$assets_header = new Assets_Header (gettext("Bibles"));
+$assets_header = new Assets_Header (translate("Bibles"));
 $assets_header->run();
 $view = new Assets_View (__FILE__);
 $bibles = access_bible_bibles ();

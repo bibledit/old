@@ -24,7 +24,7 @@ Bootstrap::getInstance ();
 function page_access_level ($level)
 {
   $session_logic = Session_Logic::getInstance ();
-  if ($level > $session_logic->currentLevel ()) {
+  if ($level > request->session_logic ()->currentLevel ()) {
     $header = new Assets_Header ("Privileges");
     $header->setLogin ();
     $header->run ();
@@ -39,7 +39,7 @@ function page_access_level ($level)
 class Bootstrap
 {
   private static $instance;
-  public $bibledit_root_folder;
+  public $bibledit_set_web_root_folder;
 
 
   private function __construct()
@@ -50,7 +50,7 @@ class Bootstrap
     // the bootstrap script forwards to the client mode setup page,
     // unless it is already going to that page.
     if (config_logic_client_prepared ()) {
-      if (!config_logic_client_enabled ()) {
+      if (!client_logic_client_enabled ()) {
         @$uri = $_SERVER ["REQUEST_URI"];
         $path = parse_url ($uri, PHP_URL_PATH);
         $folder = pathinfo ($path, PATHINFO_DIRNAME);

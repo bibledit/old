@@ -17,22 +17,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2>gettext("Notes Bulk Update")</h2>
+<h2>translate("Notes Bulk Update")</h2>
 <p class="error">
-  gettext("This function is powerful.")
-  gettext("One mouse click can update many notes at once.")
-  gettext("Changes made here are not easily reverted.")
+  translate("This function is powerful.")
+  translate("One mouse click can update many notes at once.")
+  translate("Changes made here are not easily reverted.")
 </p>
 <br>
-<p>gettext("Amount of notes to be updated in one go:") $this->notescount</p>
+<p>translate("Amount of notes to be updated in one go:") $this->notescount</p>
 <br>
-<p><a href="bulk?subscribe=">gettext("Subscribe to the notes")</a></p>
-<p><a href="bulk?unsubscribe=">gettext("Unsubscribe from the notes")</a></p>
-<p><a href="assign-n">gettext("Assign the notes to somebody")</a></p>
-<p><a href="unassign-n">gettext("Unassign the notes from somebody")</a></p>
-<p><a href="status-n">gettext("Change the status of the notes")</a></p>
-<p><a href="severity-n">gettext("Change the severity of the notes")</a></p>
-<p><a href="bible-n">gettext("Change the Bible of the notes")</a></p>
-<p><a href="bulk?delete=">gettext("Delete the notes")</a></p>
+<p><a href="bulk?subscribe=">translate("Subscribe to the notes")</a></p>
+<p><a href="bulk?unsubscribe=">translate("Unsubscribe from the notes")</a></p>
+<p><a href="assign-n">translate("Assign the notes to somebody")</a></p>
+<p><a href="unassign-n">translate("Unassign the notes from somebody")</a></p>
+<p><a href="status-n">translate("Change the status of the notes")</a></p>
+<p><a href="severity-n">translate("Change the severity of the notes")</a></p>
+<p><a href="bible-n">translate("Change the Bible of the notes")</a></p>
+<p><a href="bulk?delete=">translate("Delete the notes")</a></p>
 <br>
-<p><a href="index">gettext("Back to notes list")</a></p>
+<p><a href="index">translate("Back to notes list")</a></p>

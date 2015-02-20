@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Equivalent for the well-known gettext function.
 // Does not work yet: Needs real localization support.
-string gettext (string english)
+string translate (string english)
 {
   return english;
 }

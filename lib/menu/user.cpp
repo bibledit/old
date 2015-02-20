@@ -23,22 +23,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <webserver/request.h>
 #include <filter/roles.h>
+#include <filter/string.h>
 #include <session/logout.h>
+#include <session/login.h>
 #include <user/notifications.h>
 #include <user/account.h>
+#include <client/logic.h>
 
 
-/*
-This generates a user menu.
+// This generates a user menu.
+// It is based on all possible menu entries.
+// It reads the access levels of those entries.
+// It only keeps the menu entries the currently logged-in user has access to.
+// It considers whether the user is logged in.
 
-It is based on arrays of all possible menu entries.
-
-It reads the access levels of those entries.
-It removes the menu entries the currently logged-in user has no access to, and keeps the rest.
-
-It also considers whether any user is logged in at all.
-It updates the menu accordingly.
-*/
 
 
 Menu_User::Menu_User (void * webserver_request_in)
@@ -60,9 +58,10 @@ vector <Menu_User_Item> * Menu_User::mainmenu (string request)
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
   if (username.empty ()) {
-    menu->push_back ( { "", "session/login?request=" + request, gettext ("Login"), NULL } );
+    menu->push_back ( { "", convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login"), NULL } );
   } else {
-    menu->push_back ( { "", "", username, usermenu () } );
+    // Gear: "⚙"
+    menu->push_back ( { "", "",  username, usermenu () } );
   }
   return menu;
 }
@@ -73,23 +72,20 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
 {
   // Generate the user menu.
   // Take access control into account.
+
+  bool client = client_logic_client_enabled ();
+
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
-  if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), gettext ("Logout"), NULL } );
-  if (user_notifications_acl (webserver_request)) menu->push_back ( { "", user_notifications_url (), gettext ("Notifications"), NULL } );
-  if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), gettext ("Account"), NULL } );
+  if (!client) if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), translate ("Logout"), NULL } );
+  if (user_notifications_acl (webserver_request)) menu->push_back ( { "", user_notifications_url (), translate ("Notifications"), NULL } );
+  if (!client) if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), translate ("Account"), NULL } );
   return menu;
 }
-
-
-
 
 
 // Create the menu.
 string Menu_User::create (string request)
 {
-  // No user menu in client mode.
-  // C++Port if (config_logic_client_enabled ()) return "";
-
   vector <Menu_User_Item> * main_menu = mainmenu (request);
 
   // To create CSS menu the HTML structure needs to be like this:
@@ -161,22 +157,24 @@ string Menu_User::create (string request)
 
 void Menu_User::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_User_Item> * menu)
 {
-  xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
-  for (unsigned int i = 0; i < menu->size(); i++) {
-    Menu_User_Item item = menu->at (i);
-    xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
-    if (item.href == "") {
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
-    } else {
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
-      xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
+  if (menu->size()) {
+    xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
+    for (unsigned int i = 0; i < menu->size(); i++) {
+      Menu_User_Item item = menu->at (i);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
+      if (item.href == "") {
+        xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
+      } else {
+        xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
+        xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
+      }
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
+      xmlTextWriterEndElement (xmlwriter); // span or a
+      xmlTextWriterEndElement (xmlwriter); // li
+      if (item.submenu) delete item.submenu;
     }
-    xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
-    xmlTextWriterEndElement (xmlwriter); // span
-    xmlTextWriterEndElement (xmlwriter); // li
-    if (item.submenu) delete item.submenu;
+    xmlTextWriterEndElement (xmlwriter); // ul
   }
-  xmlTextWriterEndElement (xmlwriter); // ul
 }
 
 

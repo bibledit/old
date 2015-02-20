@@ -36,11 +36,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sprint.h>
 #include <database/navigation.h>
 #include <database/sprint.h>
-#include <database/history.h>
 #include <database/commits.h>
 #include <database/jobs.h>
 #include <database/config/user.h>
-
+#include <client/logic.h>
 
 
 void database_maintenance ()
@@ -49,7 +48,7 @@ void database_maintenance ()
   
   
   // Whether running in client mode.
-  bool client_mode = config_logic_client_enabled ();
+  bool client_mode = client_logic_client_enabled ();
   
   
   Webserver_Request webserver_request;
@@ -117,10 +116,6 @@ void database_maintenance ()
   filter_url_unlink (filter_url_create_root_path ("databases", "navigation.sqlite"));
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
-  
-  
-  Database_History database_history = Database_History ();
-  database_history.optimize ();
   
   
   Database_Commits database_commits = Database_Commits ();

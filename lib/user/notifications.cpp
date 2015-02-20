@@ -36,7 +36,7 @@ string user_notifications_url ()
 
 bool user_notifications_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
@@ -46,7 +46,7 @@ string user_notifications (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (gettext("Notifications"), webserver_request, "");
+  page = Assets_Page::header (translate("Notifications"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 

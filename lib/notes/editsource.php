@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
-$header = new Assets_Header (gettext("Edit Note Source"));
+$header = new Assets_Header (translate("Edit Note Source"));
 $header->setBodyOnload ('document.noteid.identifier.focus();'); // Use html5 autofocus
 $header->run ();
 
@@ -44,9 +44,9 @@ if (isset(request->post['data'])) {
   $noteData = request->post['data'];
   if ($database_notes->identifierExists ($noteIdentifier)) {
     $noteData = $database_notes->setContents ($noteIdentifier, $noteData);
-    $view.set_variable ("success = gettext("The note was saved");
+    $view.set_variable ("success = translate("The note was saved");
   } else {
-    $view.set_variable ("error = gettext("Unknown Note Identifier");
+    $view.set_variable ("error = translate("Unknown Note Identifier");
   }
 }
 
@@ -56,7 +56,7 @@ if ($noteIdentifier != "") {
     $noteData = $database_notes->getContents ($noteIdentifier);
     $view.set_variable ("data = $noteData;
   } else {
-    $view.set_variable ("error = gettext("Unknown Note Identifier");
+    $view.set_variable ("error = translate("Unknown Note Identifier");
   }
 }
 

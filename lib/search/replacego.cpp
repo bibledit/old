@@ -178,7 +178,7 @@ string search_replacego (void * webserver_request)
   if (replacementOkay) {
     msg = updatedPlainText;
   } else {
-    msg = "<span class=\"error\">" + gettext("This text could not be automatically replaced. Click the passage to do it manually.") + "</span>";
+    msg = "<span class=\"error\">" + translate("This text could not be automatically replaced. Click the passage to do it manually.") + "</span>";
   }
   
   

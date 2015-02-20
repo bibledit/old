@@ -17,15 +17,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Consistency")</h3>
-<p><a href="#help">[gettext("help")]</a></p>
+<h3>translate("Consistency")</h3>
+<p><a href="#help">[translate("help")]</a></p>
 <br>
 <table>
 <tr style="vertical-align: top;">
 <td style="width:10%;">
-  <p>gettext("Passages:")</p>
+  <p>translate("Passages:")</p>
   <textarea id="passages"></textarea>
-  <p>gettext("Translations:")</p>
+  <p>translate("Translations:")</p>
   <textarea id="translations"></textarea>
 </td>
 <td style="width:1%;"></td>
@@ -37,40 +37,40 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </table>
 <br>
 <a id="help"></a>
-<h4>gettext("Description")</h4>
+<h4>translate("Description")</h4>
 <p>
-  gettext("This assists with checking how consistent words have been translated in the Bible.")
+  translate("This assists with checking how consistent words have been translated in the Bible.")
 </p>
-<h4>gettext("Instructions")</h4>
+<h4>translate("Instructions")</h4>
 <ol>
-  <li>gettext("Enter book, chapter and verse in the 'Passages:' box.")</li>
-  <p>gettext("System: The web page will load the verse text for the passages.")</p>
+  <li>translate("Enter book, chapter and verse in the 'Passages:' box.")</li>
+  <p>translate("System: The web page will load the verse text for the passages.")</p>
 </ol>
 <ol>
   <li>
-    gettext("Enter key word text you want to search for in the 'Translations:' box.")
-    gettext("One word per line.")
+    translate("Enter key word text you want to search for in the 'Translations:' box.")
+    translate("One word per line.")
     </li>
-  <p>gettext("System: The web page will mark the translations in the verse text.")</p>
+  <p>translate("System: The web page will mark the translations in the verse text.")</p>
 </ol>
-<h4>gettext("Examples")</h4>
-<h5>gettext("Passages:")</h5>
+<h4>translate("Examples")</h4>
+<h5>translate("Passages:")</h5>
 <p>Exod. 37:4-5, 14-15, 27-28</p>
 <p>Exod. 38:5-7</p>
 <p>Exod. 39:35, 39</p>
-<h5>gettext("Translation:")</h5>
-<p>gettext("salvation")</p>
-<p>gettext("justification")</p>
-<p>gettext("redemption")</p>
+<h5>translate("Translation:")</h5>
+<p>translate("salvation")</p>
+<p>translate("justification")</p>
+<p>translate("redemption")</p>
 
-<h4>gettext("Tips")</h4>
-<p>gettext("Add Resources as extra aids for comparison"):
+<h4>translate("Tips")</h4>
+<p>translate("Add Resources as extra aids for comparison"):
 <?php for ($this->resources as $resource) {
   $resource
-  <a href="?remove=$resource">[gettext("remove")]</a>
+  <a href="?remove=$resource">[translate("remove")]</a>
   |
 <?php }
-<a href="?add=">[gettext("add resource")]</a>
-<p>gettext("Add the Consistency tool and the Bible editor in a Workbench for easier checking and editing.")
+<a href="?add=">[translate("add resource")]</a>
+<p>translate("Add the Consistency tool and the Bible editor in a Workbench for easier checking and editing.")
 <script type="text/javascript" src="index.js?##VERSION##"></script>
 <script type="text/javascript" src="../navigation/nav.js?##VERSION##"></script>

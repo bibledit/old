@@ -39,13 +39,13 @@ $action = request->post ['a'];
 if ($action == "notes") {
 
   $user = Filter_Hex::hex2bin (request->post ['u']);
-  if (!$database_users->usernameExists ($user)) {
+  if (!request->database_users ()->usernameExists ($user)) {
     Database_Logs::log ("A client passes non existing user $user", Filter_Roles::manager ());
     die;
   }
 
   $md5 = request->post ['p'];
-  if ($md5 != $database_users->getmd5 ($user)) {
+  if ($md5 != request->database_users ()->getmd5 ($user)) {
     Database_Logs::log ("A client provides incorrect password for user $user", Filter_Roles::manager ()); // Test it.
     die;
   }
@@ -65,11 +65,11 @@ if ($action == "notes") {
 } else if ($action == "identifiers") {
 
   $user = Filter_Hex::hex2bin (request->post ['u']);
-  if (!$database_users->usernameExists ($user)) {
+  if (!request->database_users ()->usernameExists ($user)) {
     die;
   }
   $md5 = request->post ['p'];
-  if ($md5 != $database_users->getmd5 ($user)) {
+  if ($md5 != request->database_users ()->getmd5 ($user)) {
     die;
   }
 

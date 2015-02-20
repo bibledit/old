@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Select the new status for the note")</h3>
+<h3>translate("Select the new status for the note")</h3>
 <ul>
 <?php for ($this->statuses as $status) {
   <li><a href="status-1?id=$this->id&status=$status[0]">$status[0]</a></li>
 <?php }
 </ul>
-<h4><a href="actions?id=$this->id">gettext("Cancel")</a></h4>
+<h4><a href="actions?id=$this->id">translate("Cancel")</a></h4>

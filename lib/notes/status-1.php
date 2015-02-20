@@ -37,7 +37,7 @@ if (isset ($status)) {
 }
 
 
-$assets_header = new Assets_Header (gettext("Note status"));
+$assets_header = new Assets_Header (translate("Note status"));
 $assets_header->run();
 
 

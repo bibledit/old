@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <database/styles.h>
+#include <styles/logic.h>
 
 
 class Odf_Text
@@ -33,7 +34,7 @@ class Odf_Text
 public:
   Odf_Text (string bible_in);
   ~Odf_Text ();
-  void newParagraph (string style = "Standard");
+  void newParagraph (string style = styles_logic_standard_sheet ());
   void addText (string text);
   void newHeading1 (string text, bool hide = false);
   void createPageBreakStyle ();

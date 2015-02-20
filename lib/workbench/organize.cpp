@@ -67,7 +67,7 @@ string workbench_organize (void * webserver_request)
   string page;
   
   
-  Assets_Header header = Assets_Header (gettext("Workbenches"), request);
+  Assets_Header header = Assets_Header (translate("Workbenches"), request);
   header.jQueryUIOn ("sortable");
   page = header.run ();
   
@@ -76,7 +76,7 @@ string workbench_organize (void * webserver_request)
     string remove = request->query["remove"];
     string confirm = request->query["confirm"];
     if (confirm.empty ()) {
-      Dialog_Yes dialog_yes = Dialog_Yes ("organize", gettext("Would you like to delete this workbench configuration?"));
+      Dialog_Yes dialog_yes = Dialog_Yes ("organize", translate("Would you like to delete this workbench configuration?"));
       dialog_yes.add_query ("remove", remove);
       page += dialog_yes.run ();
       return page;
@@ -94,9 +94,9 @@ string workbench_organize (void * webserver_request)
   vector <string> workbenches = workbenchGetWorkbenches (request);
   for (auto & workbench : workbenches) {
     workbenchblock.push_back ("<p>");
-    workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + gettext("Delete workbench") + "\"> ✗ </a>");
+    workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");
     workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + gettext("Edit workbench") + "\"> ✎ </a>");
+    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit workbench") + "\"> ✎ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
     workbenchblock.push_back ("</p>");

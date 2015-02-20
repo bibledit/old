@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Assign the notes to another Bible")</h3>
+<h3>translate("Assign the notes to another Bible")</h3>
 <ul>
 <?php for ($this->bibles as $bible) {
   <li><a href="bulk?bible=$bible">$bible</a></li>
 <?php }
 </ul>
-<h4><a href="bulk">gettext("Cancel")</a></h4>
+<h4><a href="bulk">translate("Cancel")</a></h4>

@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
-Assets_Page::header (gettext("Verse mappings"));
+Assets_Page::header (translate("Verse mappings"));
 $view = new Assets_View (__FILE__);
 
 
@@ -31,7 +31,7 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $username = request->session_logic()->currentUser ();
-$userlevel = $session_logic->currentLevel ();
+$userlevel = request->session_logic ()->currentLevel ();
 
 
 $name = request->query['name'];

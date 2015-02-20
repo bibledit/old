@@ -34,7 +34,7 @@ $database_books = Database_Books::getInstance ();
 $bible = Filter_Cli::argument (@$argv, 1);
 
 
-Database_Logs::log (gettext("Converting Bible to USFM Resource") . ": $bible", Filter_Roles::manager ());
+Database_Logs::log (translate("Converting Bible to USFM Resource") . ": $bible", Filter_Roles::manager ());
 
 
 $books = request->database_bibles()->getBooks ($bible);
@@ -54,7 +54,7 @@ request->database_bibles()->deleteBible ($bible);
 // back to a Bible.
 
 
-Database_Logs::log (gettext("Completed"), Filter_Roles::manager ());
+Database_Logs::log (translate("Completed"), Filter_Roles::manager ());
 
 
 ?>

@@ -17,36 +17,36 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2>gettext("USFM Resources")</h2>
+<h2>translate("USFM Resources")</h2>
 <?php for ($this->resources as $resource) {
   <p>
-    <a href="?delete=$resource" class="deleteresource" title="gettext("Remove")">
+    <a href="?delete=$resource" class="deleteresource" title="translate("Remove")">
     ✗
     </a>
-    <a href="?convert=$resource" class="convertresource" title="gettext("Convert")">
+    <a href="?convert=$resource" class="convertresource" title="translate("Convert")">
     ♻
     </a>
     $resource
   </p>
 <?php }
-<div id="confirm-delete" title="gettext("Remove the resource?")" style="display:none;">
+<div id="confirm-delete" title="translate("Remove the resource?")" style="display:none;">
   <p>
     <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
-    gettext("Are you sure?")
+    translate("Are you sure?")
   </p>
 </div>
-<div id="confirm-convert" title="gettext("Convert the resource?")" style="display:none;">
+<div id="confirm-convert" title="translate("Convert the resource?")" style="display:none;">
   <p>
     <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
-    gettext("Are you sure to convert the resource to a Bible?")
+    translate("Are you sure to convert the resource to a Bible?")
   </p>
 </div>
 <br>
-<p>gettext("To create a USFM resource, go to the Bibles, and convert it to a USFM resource.")</p>
-<p>gettext("You can delete a USFM resource.")</p>
+<p>translate("To create a USFM resource, go to the Bibles, and convert it to a USFM resource.")</p>
+<p>translate("You can delete a USFM resource.")</p>
 <p>
-  gettext("You can convert a USFM resource back to a Bible.")
-  gettext("Progress will be visible in the Journal.")
+  translate("You can convert a USFM resource back to a Bible.")
+  translate("Progress will be visible in the Journal.")
 </p>
 <link rel="stylesheet" href="../jquery/smoothness/jquery-ui-1.10.3.css" />
 <script type="text/javascript" src="manage.js?##VERSION##"></script>

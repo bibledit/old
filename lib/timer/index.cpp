@@ -19,12 +19,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <timer/index.h>
 #include <database/logs.h>
+#include <database/config/general.h>
 #include <config/globals.h>
 #include <filter/string.h>
 #include <tasks/logic.h>
 #include <tasks/run.h>
 #include <config/logic.h>
 #include <sendreceive/logic.h>
+#include <client/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -40,7 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void timer_index ()
 {
-  bool client = config_logic_client_enabled ();
+  bool client = client_logic_client_enabled ();
   int previous_second = -1;
   int previous_minute = -1;
   while (config_globals_running) {
@@ -106,6 +108,31 @@ void timer_index ()
       if ((hour == 2) && (minute == 0)) {
         tasks_logic_queue (REINDEXBIBLES);
         tasks_logic_queue (REINDEXNOTES);
+      }
+      
+      // Actions for a demo installation.
+      if (minute == 10) {
+        if (config_logic_demo_enabled ()) {
+          tasks_logic_queue (CLEANDEMO);
+        }
+      }
+      
+      // Quit at midnight if flag is set.
+      if (config_globals_quit_at_midnight) {
+        if (hour == 0) {
+          if (minute == 1) {
+            if (!Database_Config_General::getJustStarted ()) {
+              Database_Logs::log ("Server restarts itself");
+              exit (0);
+            }
+          }
+          // Clear flag in preparation of restart next minute.
+          // This flag also has the purpose of ensuring the server restarts once during that minute,
+          // rather than restarting repeatedly many times during that minute.
+          if (minute == 0) {
+            Database_Config_General::setJustStarted (false);
+          }
+        }
       }
 
     } catch (exception & e) {

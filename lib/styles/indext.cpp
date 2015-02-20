@@ -52,7 +52,7 @@ string styles_indext (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (gettext ("Styles"), webserver_request, "");
+  page = Assets_Page::header (translate ("Styles"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 
@@ -62,7 +62,7 @@ string styles_indext (void * webserver_request)
   string sheet = request->query["sheet"];
     
   if (sheet == "") {
-    Dialog_List dialog_list = Dialog_List ("indext", gettext("Would you like to switch to another stylesheet?"), "", "");
+    Dialog_List dialog_list = Dialog_List ("indext", translate("Would you like to switch to another stylesheet?"), "", "");
     Database_Styles database_styles = Database_Styles();
     vector <string> sheets = database_styles.getSheets();
     for (auto& name : sheets) {

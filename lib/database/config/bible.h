@@ -123,6 +123,8 @@ public:
   static void setTextDirection (string bible, int value);
   static string getTextFont (string bible);
   static void setTextFont (string bible, string value);
+  static int getEditingAllowedDifference (string bible);
+  static void setEditingAllowedDifference (string bible, int value);
 private:
   static string file (string bible, const char * key);
   static string getValue (string bible, const char * key, const char * default_value);

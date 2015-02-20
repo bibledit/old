@@ -32,6 +32,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <compare/compare.h>
 #include <database/maintenance.h>
 #include <tmp/tmp.h>
+#include <collaboration/link.h>
+#include <sendreceive/sendreceive.h>
+#include <sendreceive/settings.h>
+#include <sendreceive/bibles.h>
+#include <demo/logic.h>
+#include <config/logic.h>
 
 
 mutex mutex_tasks; 
@@ -94,27 +100,26 @@ void tasks_run_one (string filename)
     database_maintenance ();
   } else if (command == CLEANTMPFILES) {
     tmp_tmp ();
+  } else if (command == LINKGITREPOSITORY) {
+    collaboration_link (parameter1, convert_to_int (parameter2), parameter3);
   } else if (command == SENDRECEIVEBIBLES) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendreceive.php
-  } else if (command == SENDNOTES) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendnotes.php
-  } else if (command == SENDBIBLES) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendbibles.php
-  } else if (command == SENDSETTINGS) {
-    Database_Logs::log ("Not yet implemented: " + command); // sendsettings.php
+    sendreceive_sendreceive (parameter1);
   } else if (command == SYNCNOTES) {
     Database_Logs::log ("Not yet implemented: " + command); // syncnotes.php
   } else if (command == SYNCBIBLES) {
-    Database_Logs::log ("Not yet implemented: " + command); // syncbibles.php
+    sendreceive_bibles ();
   } else if (command == SYNCSETTINGS) {
-    Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
+    sendreceive_settings ();
   } else if (command == SYNCEXTERNALRESOURCES) {
-    Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
+    Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
   } else if (command == SYNCUSFMRESOURCES) {
-    Database_Logs::log ("Not yet implemented: " + command);
+    Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
+  } else if (command == CLEANDEMO) {
+    demo_clean_data ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }
+  
 
   // Decrease running tasks count.
   mutex_tasks.lock ();
@@ -129,9 +134,12 @@ void tasks_run_check ()
   mutex_tasks.lock ();
   int taskscount = running_tasks;
   mutex_tasks.unlock ();
-  if (taskscount >= 10) return;
+  if (taskscount >= config_logic_max_parallel_tasks ()) return;
   // Get and start first available task.
   vector <string> tasks = filter_url_scandir (tasks_logic_folder ());
   if (tasks.empty ()) return;
-  new thread (tasks_run_one, tasks [0]);
+  thread task_thread = thread (tasks_run_one, tasks [0]);
+  // Detach the thread to the thread continues to run independently,
+  // when the thread object goes out of scope, and no memory is leaked this way.
+  task_thread.detach ();
 }

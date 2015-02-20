@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
-Assets_Page::header (gettext("Changes"));
+Assets_Page::header (translate("Changes"));
 $view = new Assets_View (__FILE__);
 
 

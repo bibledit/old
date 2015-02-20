@@ -49,7 +49,7 @@ string email_index (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (gettext("Mail"), webserver_request, "");
+  page = Assets_Page::header (translate("Mail"), webserver_request, "");
 
   Assets_View view = Assets_View ();
 
@@ -61,13 +61,13 @@ string email_index (void * webserver_request)
     if (sitemail.length () > 0) {
       if (!filter_url_email_is_valid (sitemail)) {
         form_is_valid = false;
-        view.set_variable ("site_name_error", gettext("The email address does not appear to be valid"));
+        view.set_variable ("site_name_error", translate("The email address does not appear to be valid"));
       }
     }
     if (form_is_valid) {
       Database_Config_General::setSiteMailName (sitename);
       Database_Config_General::setSiteMailAddress (sitemail);
-      view.set_variable ("site_name_success", gettext("The name and email address were saved"));
+      view.set_variable ("site_name_success", translate("The name and email address were saved"));
     }
   }
   view.set_variable ("sitename", Database_Config_General::getSiteMailName ());
@@ -85,14 +85,14 @@ string email_index (void * webserver_request)
     Database_Config_General::setMailStoragePassword (storagepassword);
     Database_Config_General::setMailStorageProtocol (storagesecurity);
     Database_Config_General::setMailStoragePort (storageport);
-    string storage_success = gettext("The details were saved.");
+    string storage_success = translate("The details were saved.");
     string storage_error;
     int mailcount = email_receive_count (storage_error);
     if (storage_error.empty ()) {
       storage_success.append (" ");
-      storage_success.append (gettext("The account was accessed successfully."));
+      storage_success.append (translate("The account was accessed successfully."));
       storage_success.append (" ");
-      storage_success.append (gettext ("Messages on server:"));
+      storage_success.append (translate ("Messages on server:"));
       storage_success.append (" ");
       storage_success.append (convert_to_string (mailcount));
       storage_success.append (".");
@@ -118,13 +118,13 @@ string email_index (void * webserver_request)
     Database_Config_General::setMailSendUsername (sendusername);
     Database_Config_General::setMailSendPassword (sendpassword);
     Database_Config_General::setMailSendPort (sendport);
-    string send_success  = gettext("The details were saved.");
+    string send_success  = translate("The details were saved.");
     string send_error;
     string send_debug;
     string result = email_send (Database_Config_General::getSiteMailAddress(), Database_Config_General::getSiteMailName(), "Test", "This is to try out whether Bibledit can send email.");
     if (result.empty()) {
       send_success.append (" ");
-      send_success.append (gettext("For the purpose of trying whether Bibledit can send email, a test email was sent out to the account above:"));
+      send_success.append (translate("For the purpose of trying whether Bibledit can send email, a test email was sent out to the account above:"));
       send_success.append (" ");
       send_success.append (Database_Config_General::getSiteMailAddress());
     } else {

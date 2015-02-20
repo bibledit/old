@@ -58,7 +58,7 @@ if (isset ($delete)) {
 $view = new Assets_View (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = request->session_logic()->currentUser ();
-$level = $session_logic->currentLevel ();
+$level = request->session_logic ()->currentLevel ();
 $view.set_variable ("level = $level;
 
 

@@ -20,15 +20,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <table>
   <tr>
-    <td>gettext("Old"):</td>
+    <td>translate("Old"):</td>
     <td>$this->old_text</td>
   </tr>
   <tr>
-    <td>gettext("Change"):</td>
+    <td>translate("Change"):</td>
     <td>$this->modification</td>
   </tr>
   <tr>
-    <td>gettext("New"):</td>
+    <td>translate("New"):</td>
     <td>$this->new_text</td>
   </tr>
 </table>
@@ -43,9 +43,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
         <a href="../notes/note?id=$this->notes[$offset]" target="_blank">$this->summaries[$offset]</a>
       <?php }
       </td>
-      <td><?php if ($this->subscriptions[$offset]) {<a href="unsubscribe" id="unsubscribe$this->notes[$offset]">[gettext("unsubscribe")]</a><?php }</td>
-      <td><?php if ($this->assignments[$offset]) {<a href="unassign" id="unassign$this->notes[$offset]">[gettext("I have done my part on it")]</a><?php }</td>
-      <td><?php if ($this->level >= 5) {<a href="delete" id="delete$this->notes[$offset]">[gettext("mark for deletion")]</a><?php }</td>
+      <td><?php if ($this->subscriptions[$offset]) {<a href="unsubscribe" id="unsubscribe$this->notes[$offset]">[translate("unsubscribe")]</a><?php }</td>
+      <td><?php if ($this->assignments[$offset]) {<a href="unassign" id="unassign$this->notes[$offset]">[translate("I have done my part on it")]</a><?php }</td>
+      <td><?php if ($this->level >= 5) {<a href="delete" id="delete$this->notes[$offset]">[translate("mark for deletion")]</a><?php }</td>
     </tr>
   <?php }
 </table>
@@ -53,9 +53,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   $this->timestamp
   |
   <?php if ($this->live_notes_editor) {
-    <a class="newnote" href="$this->id">gettext("Create note")</a>
+    <a class="newnote" href="$this->id">translate("Create note")</a>
   <?php } else {
-    <a href="../notes/create?fromchange=$this->id" target="_blank">gettext("Create note")</a>
+    <a href="../notes/create?fromchange=$this->id" target="_blank">translate("Create note")</a>
   <?php }
 </p>
 <br>

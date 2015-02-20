@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::consultant ());
 
 
-$header = new Assets_Header (gettext("Select notes"));
+$header = new Assets_Header (translate("Select notes"));
 $header->run();
 
 
@@ -96,7 +96,7 @@ if (isset ($text_selector)) {
   @$search_text = request->post['text'];
   if (isset ($search_text)) {
     request->database_config_user()->setConsultationNotesSearchText ($search_text);
-    Assets_Page::success (gettext("Search text saved"));
+    Assets_Page::success (translate("Search text saved"));
   }
 }
 
@@ -193,7 +193,7 @@ $view.set_variable ("textinclusionselector = $text_inclusion_selector;
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
+if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 
 
 $book = Ipc_Focus::getBook ();

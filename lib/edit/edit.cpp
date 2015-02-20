@@ -69,7 +69,7 @@ string edit_edit (void * webserver_request)
   
   if (alive) {
     // If a Bible editor is alive, send javascript to the browser to close this new window.
-    string message = gettext("The passage has been opened in the existing Bible editor in another browser tab.");
+    string message = translate("The passage has been opened in the existing Bible editor in another browser tab.");
     string script =
     "<!DOCTYPE html>\n"
     "<html>\n"

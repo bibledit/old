@@ -56,31 +56,31 @@ string session_signup (void * webserver_request)
 
   string page;
 
-  page += Assets_Page::header (gettext ("Signup"), webserver_request, "");
+  page += Assets_Page::header (translate ("Signup"), webserver_request, "");
   Assets_View view = Assets_View ();
 
   // Some security questions.
   vector <Verification> verifications;
   Verification verification;
 
-  verification.question = gettext("To which city was Paul travelling when a light from heaven shone round about him?");
-  verification.answer   = gettext("Damascus");
-  verification.passage  = gettext("And while he travelled, he came near Damascus; and suddenly a light from heaven shone round about him.");
+  verification.question = translate("To which city was Paul travelling when a light from heaven shone round about him?");
+  verification.answer   = translate("Damascus");
+  verification.passage  = translate("And while he travelled, he came near Damascus; and suddenly a light from heaven shone round about him.");
   verifications.push_back (verification);
  
-  verification.question = gettext("What is the name of the brother of Aaron the high priest?");
-  verification.answer   = gettext("Moses");
-  verification.passage  = gettext("And the anger of Jehova was kindled against Moses, and he said: Is not Aaron the Levite your brother?");
+  verification.question = translate("What is the name of the brother of Aaron the high priest?");
+  verification.answer   = translate("Moses");
+  verification.passage  = translate("And the anger of Jehova was kindled against Moses, and he said: Is not Aaron the Levite your brother?");
   verifications.push_back (verification);
   
-  verification.question = gettext("What is the name of the city where Jesus was born?");
-  verification.answer   = gettext("Bethlehem");
-  verification.passage  = gettext("When Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, wise men from the east came to Jerusalem.");
+  verification.question = translate("What is the name of the city where Jesus was born?");
+  verification.answer   = translate("Bethlehem");
+  verification.passage  = translate("When Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, wise men from the east came to Jerusalem.");
   verifications.push_back (verification);
   
-  verification.question = gettext("What is the name of the island where John was sent to?");
-  verification.answer   = gettext("Patmos");
-  verification.passage  = gettext("I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.");
+  verification.question = translate("What is the name of the island where John was sent to?");
+  verification.answer   = translate("Patmos");
+  verification.passage  = translate("I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.");
   verifications.push_back (verification);
   
   int question_number = filter_string_rand (0, 3);
@@ -102,40 +102,40 @@ string session_signup (void * webserver_request)
     string standard = request->post["standard"];
     if (user.length () < 2) {
       form_is_valid = false;
-      view.set_variable ("username_invalid_message", gettext("Username should be at least two characters long"));
+      view.set_variable ("username_invalid_message", translate("Username should be at least two characters long"));
     }
     if (pass.length () < 2) {
       form_is_valid = false;
-      view.set_variable ("password_invalid_message", gettext("Password should be at least two characters long"));
+      view.set_variable ("password_invalid_message", translate("Password should be at least two characters long"));
     }
     if (!filter_url_email_is_valid (mail)) {
       form_is_valid = false;
-      view.set_variable ("email_invalid_message", gettext("The email address is not valid"));
+      view.set_variable ("email_invalid_message", translate("The email address is not valid"));
     }
     if (answer != standard) {
       form_is_valid = false;
-      view.set_variable ("answer_invalid_message", gettext("The answer to the question is not correct"));
+      view.set_variable ("answer_invalid_message", translate("The answer to the question is not correct"));
     }
     Database_Users database_users = Database_Users ();
     if (form_is_valid) {
       if (database_users.usernameExists (user)) {
-        view.set_variable ("error_message", gettext("The username that you have chosen has already been taken. Please choose another one."));
+        view.set_variable ("error_message", translate("The username that you have chosen has already been taken. Please choose another one."));
         form_is_valid = false;
       }
     }
     if (form_is_valid) {
       if (database_users.emailExists (mail)) {
-        view.set_variable ("error_message", gettext("The email address that you have chosen has already been taken. Please choose another one."));
+        view.set_variable ("error_message", translate("The email address that you have chosen has already been taken. Please choose another one."));
         form_is_valid = false;
       }
     }
     if (form_is_valid) {
       Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
-      string initial_subject = gettext("Signup verification");
-      string initial_body = gettext("There is a request to open an account with this email address.");
+      string initial_subject = translate("Signup verification");
+      string initial_body = translate("There is a request to open an account with this email address.");
       string query = database_users.addNewUserQuery (user, pass, Filter_Roles::member (), mail);
-      string subsequent_subject = gettext("Account opened");
-      string subsequent_body = gettext("Welcome! Your account is now active.");
+      string subsequent_subject = translate("Account opened");
+      string subsequent_body = translate("Welcome! Your account is now active.");
       confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
       signed_up = true;
     }

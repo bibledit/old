@@ -28,10 +28,16 @@
 #include <ipc/focus.h>
 
 
-string Navigation_Passage::getContainer ()
-{
-  return "<div id=\"versepickerwrapper\"></div>";
-}
+/*
+ On the iPad, Bibledit uses the UIWebView class as the web browser.
+ https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIWebView_Class/
+ Bibledit used to have a verse navigator that used overlays for selecting book, chapter, and verse.
+ When selecting the verse, the UIWebView crashed with the following message:
+ UIPopoverPresentationController should have a non-nil sourceView or barButtonItem set before the presentation occurs.
+ This is a bug in the UIWebView.
+ To circumvent that bug, and also for better operation on the iPad with regard to touch operation,
+ Bibledit now uses a different verse navigator, one without the overlays.
+*/
 
 
 string Navigation_Passage::getNavigator (void * webserver_request, string bible)
@@ -42,22 +48,25 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   string user = request->session_logic()->currentUser ();
   
-  vector <string> fragments;
+  string fragment;
   
   // Links to go back and forward are grayed out or active depending on available passages to go to.
-  fragments.push_back ("<div id=\"backforward\">");
+  fragment.append ("<li>");
   if (database_navigation.previousExists (user)) {
-    fragments.push_back ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + gettext("Back") + "\">↶</a>");
+    fragment.append ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
   } else {
-    fragments.push_back ("<span class=\"grayedout\">↶</span>");
+    fragment.append ("<span class=\"grayedout\">↶</span>");
   }
-  fragments.push_back ("");
+  fragment.append ("</li>");
+  fragment.append ("<li>");
+  fragment.append (" ");
   if (database_navigation.nextExists (user)) {
-    fragments.push_back ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + gettext("Forward") + "\">↷</a>");
+    fragment.append ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
   } else {
-    fragments.push_back ("<span class=\"grayedout\">↷</span>");
+    fragment.append ("<span class=\"grayedout\">↷</span>");
   }
-  fragments.push_back ("</div>");
+  fragment.append ("</li>");
+  fragment.append ("\n");
   
   int book = Ipc_Focus::getBook (request);
   
@@ -71,6 +80,8 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   }
   
   string bookName = Database_Books::getEnglishFromId (book);
+
+  fragment.append ("<li><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></li>");
   
   int chapter = Ipc_Focus::getChapter (request);
   
@@ -82,35 +93,17 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
       else chapter = 1;
     }
   }
+
+  fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + to_string (chapter) +  " </a></li>");
   
+  fragment.append ("<li><span>:</span></li>");
+
   int verse = Ipc_Focus::getVerse (request);
   
-  fragments.push_back ("<div id=\"versepicker\">");
-  
-  fragments.push_back ("<input name=\"selectpassage\" id=\"selectpassage\" type=\"text\" value=\"" + bookName + " " + convert_to_string (chapter) + ":" + convert_to_string (verse) + "\" size=\"14\" />");
-  fragments.push_back ("<input name=\"submitpassage\" id=\"submitpassage\" type=\"submit\" value=\"" + gettext("Go") + "\" />");
-  
-  fragments.push_back ("<div id=\"handpicker\">");
-  
-  fragments.push_back ("<select id=\"booklist\" size=15>");
-  fragments.push_back (getBooksFragment (request, bible));
-  fragments.push_back ("</select>");
-  
-  fragments.push_back ("<select id=\"chapterlist\" size=15>");
-  fragments.push_back (getChaptersFragment (request, bible, book, chapter));
-  fragments.push_back ("</select>");
-  
-  fragments.push_back ("<select id=\"verselist\" size=15 multiple>");
-  fragments.push_back (getVersesFragment (request, bible, book, chapter, verse));
-  
-  fragments.push_back ("</select>");
-  
-  fragments.push_back ("</div>");
-  
-  fragments.push_back ("</div>");
-  
+  fragment.append ("<li><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + to_string (verse) +  " </a></li>");
+
   // The result.
-  return filter_string_implode (fragments, "\n");
+  return fragment;
 }
 
 
@@ -125,53 +118,74 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   } else {
     books = filter_passage_get_ordered_books (bible);
   }
-  string html = "";
+  string html;
   for (auto book : books) {
     string bookName = Database_Books::getEnglishFromId (book);
-    string selected;
-    if (book == activeBook) selected = " selected";
-    html += "<option" + selected + ">" + bookName + "</option>";
+    bool selected = (book == activeBook);
+    getSelectorLink (html, to_string (book), "applybook", translate ("Select book"), bookName, selected);
   }
+  getSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+
+  html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
+  html.append ("</span>");
+
+  html.insert (0, "<li>");
+  html.append ("</li>");
+  
   return html;
 }
 
 
 string Navigation_Passage::getChaptersFragment (void * webserver_request, string bible, int book, int chapter)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> chapters;
-  if (bible == "") {
+  if (bible.empty ()) {
     Database_Versifications database_versifications = Database_Versifications ();
     chapters = database_versifications.getChapters ("English", book, true);
   } else {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
     chapters = request->database_bibles()->getChapters (bible, book);
   }
-  string html = "";
+  string html;
   for (auto ch : chapters) {
-    string selected = "";
-    if (ch == chapter) selected = " selected";
-    html += "<option" + selected + ">" + convert_to_string (ch) + "</option>";
+    bool selected = (ch == chapter);
+    getSelectorLink (html, to_string (ch), "applychapter", translate ("Select chapter"), to_string (ch), selected);
   }
+  getSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+
+  html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
+  html.append ("</span>");
+
+  html.insert (0, "<li>");
+  html.append ("</li>");
+  
   return html;
 }
 
 
 string Navigation_Passage::getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> verses;
   if (bible == "") {
     Database_Versifications database_versifications = Database_Versifications ();
     verses = database_versifications.getVerses ("English", book, chapter);
   } else {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
     verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
   }
-  string html = "";
+  string html;
   for (auto vs : verses) {
-    string selected = "";
-    if (verse == vs) selected = " selected";
-    html += "<option" + selected + ">" + convert_to_string (vs) +  "</option>";
+    bool selected = (verse == vs);
+    getSelectorLink (html, to_string (vs), "applyverse", translate ("Select verse"), to_string (vs), selected);
   }
+  getSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+
+  html.insert (0, "<span id=\"applyverse\">" + translate ("Select verse"));
+  html.append ("</span>");
+
+  html.insert (0, "<li>");
+  html.append ("</li>");
+  
   return html;
 }
 
@@ -190,6 +204,30 @@ string Navigation_Passage::code (string bible, bool header)
   code += "</script>";
   code += "\n";
   return code;
+}
+
+
+void Navigation_Passage::setBook (void * webserver_request, int book)
+{
+  Ipc_Focus::set (webserver_request, book, 1, 1);
+  recordHistory (webserver_request, book, 1, 1);
+}
+
+
+void Navigation_Passage::setChapter (void * webserver_request, int chapter)
+{
+  int book = Ipc_Focus::getBook (webserver_request);
+  Ipc_Focus::set (webserver_request, book, chapter, 1);
+  recordHistory (webserver_request, book, chapter, 1);
+}
+
+
+void Navigation_Passage::setVerse (void * webserver_request, int verse)
+{
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+  Ipc_Focus::set (webserver_request, book, chapter, verse);
+  recordHistory (webserver_request, book, chapter, verse);
 }
 
 
@@ -309,3 +347,47 @@ void Navigation_Passage::goForward (void * webserver_request)
     Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
 }
+
+
+void Navigation_Passage::getSelectorLink (string& html, string id, string href, string title, string text, bool selected)
+{
+  if (!html.empty ()) html.append ("|");
+  if (selected) html.append ("<mark>");
+  html.append ("<a id=\"" + id + "apply\" href=\"" + href + "\" title=\"" + title + "\"> ");
+  html.append (text);
+  html.append (" </a>");
+  if (selected) html.append ("</mark>");
+}
+
+
+/*
+public static function getEntry ()
+{
+  $html = "";
+  $html .= '<input name="selectpassage" id="selectpassage" type="text" value=""/>';
+  $html .= '<input name="submitpassage" id="submitpassage"  type="submit" value="' . gettext ("OK") . '" />';
+  return $html;
+}
+
+
+public static function setPassage ($bible, $passage)
+{
+  $ipc_focus = Ipc_Focus::getInstance();
+  $currentBook = $ipc_focus->getBook ();
+  $currentChapter = $ipc_focus->getChapter ();
+  $currentVerse = $ipc_focus->getVerse ();
+  $passage = trim ($passage);
+  if (($passage == "") || ($passage == "+")) {
+    $passage = Navigation_Passage::getNextVerse ($bible, $currentBook, $currentChapter, $currentVerse);
+  } else if ($passage == "-") {
+    $passage = Navigation_Passage::getPreviousVerse ($bible, $currentBook, $currentChapter, $currentVerse);
+  } else {
+    $passage = Filter_Books::interpretPassage (array ($currentBook, $currentChapter, $currentVerse), $passage);
+  }
+  if ($passage[0] != 0) {
+    $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
+    Navigation_Passage::recordHistory ($passage [0], $passage [1], $passage [2]);
+    
+  }
+}
+*/

@@ -51,7 +51,7 @@ string search_search (void * webserver_request)
   string page;
  
   
-  Assets_Header header = Assets_Header (gettext("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), request);
 
   
   // The query: The word or string to search for.

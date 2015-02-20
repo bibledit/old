@@ -27,7 +27,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_users = Database_Users::getInstance ();
 
 
-Assets_Page::header (gettext("Checks"));
+Assets_Page::header (translate("Checks"));
 
 
 $view = new Assets_View (__FILE__);
@@ -36,14 +36,14 @@ $view = new Assets_View (__FILE__);
 @$approve = request->query['approve'];
 if (isset ($approve)) {
   $database_check->approve ($approve);
-  $view.set_variable ("success = gettext("The entry was approved and suppressed.");
+  $view.set_variable ("success = translate("The entry was approved and suppressed.");
 }
 
 
 @$delete = request->query['delete'];
 if (isset ($delete)) {
   $database_check->delete ($delete);
-  $view.set_variable ("success = gettext("The entry was deleted for just now.");
+  $view.set_variable ("success = translate("The entry was deleted for just now.");
 }
 
 

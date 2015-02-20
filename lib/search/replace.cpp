@@ -90,7 +90,7 @@ string search_replace (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (gettext("Replace"), request);
+  Assets_Header header = Assets_Header (translate("Replace"), request);
   page = header.run ();
   
   Assets_View view = Assets_View ();

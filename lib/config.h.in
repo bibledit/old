@@ -1,10 +1,19 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define whether it is a client installation */
-#undef CLIENT_INSTALLATION
+#undef CLIENT
+
+/* Define whether it is a demo installation */
+#undef DEMO
 
 /* Define the directory separator as Windows differs from Linux */
 #undef DIRECTORY_SEPARATOR
+
+/* define if the compiler supports basic C++11 syntax */
+#undef HAVE_CXX11
+
+/* Whether git funcions are available and enabled */
+#undef HAVE_GIT
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -36,9 +45,6 @@
 /* Define the network port number */
 #undef NETWORK_PORT
 
-/* Define whether it is an open demo installation */
-#undef OPEN_INSTALLATION
-
 /* Name of package */
 #undef PACKAGE
 
@@ -59,6 +65,9 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* Define the maximum number of parallel background tasks to run */
+#undef PARALLEL_TASKS
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

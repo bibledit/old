@@ -18,15 +18,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  gettext("Notes")
+  translate("Notes")
   |
-  <a href="select">[gettext("select")]</a>
+  <a href="select">[translate("select")]</a>
   <?php if ($this->level >= 5) {
     |
-    [<a href="bulk">gettext("update")</a>]
+    [<a href="bulk">translate("update")</a>]
   <?php }
   |
-  <a href="create">gettext("Create note")</a>
+  <a href="create">translate("Create note")</a>
 </p>
 <br>
 <div id="noteslist"><img src="../pix/loading.gif"></div>

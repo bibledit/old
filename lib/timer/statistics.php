@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_users = Database_Users::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 $database_modifications = Database_Modifications::getInstance ();
@@ -36,7 +36,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-Database_Logs::log (gettext("Sending statistics to users"), Filter_Roles::admin ());
+Database_Logs::log (translate("Sending statistics to users"), Filter_Roles::admin ());
 
 
 $siteUrl = Database_Config_General::getSiteURL ();
@@ -45,17 +45,17 @@ $siteUrl = Database_Config_General::getSiteURL ();
 $bibles = request->database_bibles()->getBibles ();
 
 
-$users = $database_users->getUsers ();
+$users = request->database_users ()->getUsers ();
 for ($users as $user) {
 
 
-  $subject = "Bibledit " . gettext("statistics");
+  $subject = "Bibledit " . translate("statistics");
   $body = array ();
 
 
   if (request->database_config_user()->getUserPendingChangesNotification ($user)) {
     $ids = $database_modifications->getNotificationIdentifiers ($user);
-    $body [] = "<p><a href=\"$siteUrl/changes/changes\">" . gettext("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/changes/changes\">" . translate("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
@@ -76,14 +76,14 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<p><a href=\"$siteUrl/notes/index?presetselection=assigned\">" . gettext("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/notes/index?presetselection=assigned\">" . translate("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
   if (request->database_config_user()->getUserSubscribedNotesStatisticsNotification ($user)) {
-    $body [] = "<p>" . gettext("Number of consultation notes you are subscribed to") . ":</p>\n";
+    $body [] = "<p>" . translate("Number of consultation notes you are subscribed to") . ":</p>\n";
     $body [] = "<ul>\n";
-    $session_logic->setUsername ($user);
+    request->session_logic ()->setUsername ($user);
 
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
@@ -101,7 +101,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribed\">" . gettext("Total") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribed\">" . translate("Total") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -118,7 +118,7 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribeddayidle\">" . gettext("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribeddayidle\">" . translate("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -135,15 +135,15 @@ for ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribedweekidle\">" . gettext("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index?presetselection=subscribedweekidle\">" . translate("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
     $body [] = "</ul>\n";
-    $session_logic->setUsername ("");
+    request->session_logic ()->setUsername ("");
   }
 
 
   if (count ($body) > 0) {
     $body = implode ("\n", $body);
-    if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $body);
+    if (!client_logic_client_enabled ()) $database_mail->send ($user, $subject, $body);
   }
 }
 

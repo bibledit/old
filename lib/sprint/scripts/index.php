@@ -17,11 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Sprint")</h3>
+<h3>translate("Sprint")</h3>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
 <p>
-  gettext("Bible"):
+  translate("Bible"):
   <a href="?bible=">$this->bible</a>
   |
   <a href="?previoussprint=">«</a>
@@ -65,29 +65,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php }
 </table>
 <br>
-<p>gettext('Sprint Burndown Chart - Remaining Tasks')</p>
+<p>translate('Sprint Burndown Chart - Remaining Tasks')</p>
 <?php if ($this->chart) {
   <img src="data:image/png;base64,$this->chart" />
 <?php }
 <p>$this->chart2</p>
 <br>
-<p><a href="?mail=">gettext("Mail information to subscribers")</a></p>
+<p><a href="?mail=">translate("Mail information to subscribers")</a></p>
 <br>
 <form action="index" name="addtask" method="post">
   <p>
-    gettext("Add task")
+    translate("Add task")
     <input type="text" name="add" maxlength="256" />
-    <input type="submit" name="submit" value="gettext("Add")" />
+    <input type="submit" name="submit" value="translate("Add")" />
   </p>
 </form>
 <br>
 <form action="" name="categories" method="post">
   <p>
-    gettext("Enter task completion categories.")
-    gettext("One per line.")
+    translate("Enter task completion categories.")
+    translate("One per line.")
   </p>
   <p><textarea name="categories" style="width:100px">$this->categorytext</textarea></p>
-  <p><input type="submit" name="save" value="gettext("Save")" /></p>
+  <p><input type="submit" name="save" value="translate("Save")" /></p>
 </form>
 <br>
 <a id="help"></a>

@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <collaboration/open.h>
 #include <collaboration/password.h>
 #include <collaboration/secure.h>
-#include <collaboration/read.h>
+#include <collaboration/direction.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
@@ -56,11 +56,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/chapter.h>
 #include <bible/import_usfm.h>
 #include <bible/import_bibleworks.h>
-#include <compare/index.h>
-#include <jobs/index.h>
 #include <bible/abbreviations.h>
 #include <bible/order.h>
 #include <bible/css.h>
+#include <bible/editing.h>
+#include <compare/index.h>
+#include <jobs/index.h>
 #include <editverse/index.h>
 #include <editverse/id.h>
 #include <editverse/load.h>
@@ -101,6 +102,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/organize.h>
 #include <workbench/settings.h>
 #include <sendreceive/index.h>
+#include <client/index.h>
+#include <sync/setup.h>
+#include <sync/settings.h>
+#include <sync/bibles.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -147,6 +152,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_index_url ()) && search_index_acl (request)) request->reply = search_index (request);
   else if ((url == workbench_index_url ()) && workbench_index_acl (request)) request->reply = workbench_index (request);
   else if ((url == workbench_organize_url ()) && workbench_organize_acl (request)) request->reply = workbench_organize (request);
+  else if ((url == bible_editing_url ()) && bible_editing_acl (request)) request->reply = bible_editing (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
@@ -166,8 +172,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == styles_view_url ()) && styles_view_acl (request)) request->reply = styles_view (request);
   else if ((url == versification_index_url ()) && versification_index_acl (request)) request->reply = versification_index (request);
   else if ((url == versification_system_url ()) && versification_system_acl (request)) request->reply = versification_system (request);
-  else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   else if ((url == collaboration_index_url ()) && collaboration_index_acl (request)) request->reply = collaboration_index (request);
+  else if ((url == client_index_url ()) && client_index_acl (request)) request->reply = client_index (request);
+  else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);
@@ -192,8 +199,13 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == collaboration_open_url ()) && collaboration_open_acl (request)) request->reply = collaboration_open (request);
   else if ((url == collaboration_password_url ()) && collaboration_password_acl (request)) request->reply = collaboration_password (request);
   else if ((url == collaboration_secure_url ()) && collaboration_secure_acl (request)) request->reply = collaboration_secure (request);
-  else if ((url == collaboration_read_url ()) && collaboration_read_acl (request)) request->reply = collaboration_read (request);
+  else if ((url == collaboration_direction_url ()) && collaboration_direction_acl (request)) request->reply = collaboration_direction (request);
 
+  // Client calls.
+  else if ((url == sync_setup_url ()) && sync_setup_acl (request)) request->reply = sync_setup (request);
+  else if ((url == sync_settings_url ()) && sync_settings_acl (request)) request->reply = sync_settings (request);
+  else if ((url == sync_bibles_url ()) && sync_bibles_acl (request)) request->reply = sync_bibles (request);
+  
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);
   else if ((url == navigation_poll_url ()) && navigation_poll_acl (request)) request->reply = navigation_poll (request);
@@ -224,5 +236,3 @@ void bootstrap_index (Webserver_Request * request)
     redirect_browser (request, index_index_url ());
   }
 }
-
-

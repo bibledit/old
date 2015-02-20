@@ -84,7 +84,7 @@ string workbench_settings (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (gettext("Edit workbench"), request);
+  Assets_Header header = Assets_Header (translate("Edit workbench"), request);
   page = header.run ();
   
   Assets_View view = Assets_View ();

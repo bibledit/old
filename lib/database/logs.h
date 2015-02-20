@@ -37,6 +37,7 @@ public:
   vector <string> get (int day, string & lastfilename);
   string getNext (string &filename);
   void update (int oldseconds, int newseconds);
+  void clear ();
 private:
   static string folder ();
   sqlite3 * connect ();

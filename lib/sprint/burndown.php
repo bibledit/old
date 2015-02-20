@@ -66,7 +66,7 @@ if (!$email && !$sprintstart && !$sprintfinish) {
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_config_bible = Database_Config_Bible::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_users = Database_Users::getInstance ();
@@ -127,19 +127,19 @@ for ($bibles as $bible) {
       $categories = explode ("\n", $categories);
       $category_count = count ($categories);
       $category_percentage = intval (100 / $category_count);
-      $users = $database_users->getUsers ();
+      $users = request->database_users ()->getUsers ();
       for ($users as $user) {
         if (!access_bible_write ($bible, $user)) continue;
         if (request->database_config_user()->getUserSprintProgressNotification ($user)) {
     
-          $subject = gettext("Team's progress in Sprint");
-          if ($sprintstart) $subject = gettext("Sprint has started");
-          if ($sprintfinish) $subject = gettext("Sprint has finished");
+          $subject = translate("Team's progress in Sprint");
+          if ($sprintstart) $subject = translate("Sprint has started");
+          if ($sprintfinish) $subject = translate("Sprint has finished");
           $subject +=  " | " . $bible;
     
           $body = array ();
     
-          $body [] = "<h3>" . gettext("Sprint Planning and Team's Progress") . " | $bible</h3>";
+          $body [] = "<h3>" . translate("Sprint Planning and Team's Progress") . " | $bible</h3>";
           $body [] = "<table>";
           $tasks = $database_sprint->getTasks ($bible, $year, $month);
           for ($tasks as $id) {
@@ -153,13 +153,13 @@ for ($bibles as $bible) {
           }
           $body [] = "</table>";
     
-          $body [] = "<h3>" . gettext("Sprint Burndown Chart - Remaining Tasks") . "</h3>";
+          $body [] = "<h3>" . translate("Sprint Burndown Chart - Remaining Tasks") . "</h3>";
           $burndownchart = Sprint_Logic::createTextBasedBurndownChart ($bible, $year, $month);
           $body [] = "<p>$burndownchart</p>";
     
           if (count ($body) > 0) {
             $body = implode ("\n", $body);
-            if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $body);
+            if (!client_logic_client_enabled ()) $database_mail->send ($user, $subject, $body);
           }
     
         }

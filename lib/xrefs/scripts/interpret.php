@@ -19,16 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <p class="error">$this->errorr</p>
 <p class="success">$this->success</p>
-<p>gettext("The abbreviation below needs clarification as to which Bible book it refers to.")</p>
+<p>translate("The abbreviation below needs clarification as to which Bible book it refers to.")</p>
 <br>
 <form action="interpret" name="pair" method="post">
   <table>
     <tr>
-      <td>1. gettext("Optionally update the abbreviation:")</td>
+      <td>1. translate("Optionally update the abbreviation:")</td>
       <td><input type="text" name="abbreviation" maxlength="50" value="$this->abbreviation" /></td>
     </tr>
     <tr>
-      <td>2. gettext("Select the Bible book it represents:")</td>
+      <td>2. translate("Select the Bible book it represents:")</td>
       <td>
         <select name="fullname">
         <?php for ($this->books as $book) {
@@ -38,12 +38,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
       </td>
     </tr>
     <tr>
-      <td>3. gettext("Save it:")</td>
-      <td><input type="submit" name="save" value=gettext("Save") /></td>
+      <td>3. translate("Save it:")</td>
+      <td><input type="submit" name="save" value=translate("Save") /></td>
     </tr>
   </table>
 </form>
 <br>
 <?php if ($this->remaining) {
-  <p>gettext("Remaining abbreviations to clarify:") $this->remaining.</p>
+  <p>translate("Remaining abbreviations to clarify:") $this->remaining.</p>
 <?php }

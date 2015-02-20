@@ -66,7 +66,7 @@ if (isset(request->post['cancel'])) {
 }
 
 
-$assets_header = new Assets_Header (gettext("Create note"));
+$assets_header = new Assets_Header (translate("Create note"));
 $assets_header->run();
 
 
@@ -80,12 +80,12 @@ if (isset ($fromchange)) {
   $database_modifications = Database_Modifications::getInstance ();
   $database_bibles = Database_Bibles::getInstance ();
   $bible = $database_modifications->getNotificationBible ($fromchange);
-  $summary = gettext("Query about a change in the text");
-  $contents = "<p>" . gettext("Old text:") . "</p>";
+  $summary = translate("Query about a change in the text");
+  $contents = "<p>" . translate("Old text:") . "</p>";
   $contents += $database_modifications->getNotificationOldText ($fromchange);
-  $contents += "<p>" .  gettext("Change:") . "</p>";
+  $contents += "<p>" .  translate("Change:") . "</p>";
   $contents += "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
-  $contents += "<p>" . gettext("New text:") . "</p>";
+  $contents += "<p>" . translate("New text:") . "</p>";
   $contents += $database_modifications->getNotificationNewText ($fromchange);
   $view.set_variable ("summary = $summary;
   $view.set_variable ("contents = $contents;

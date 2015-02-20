@@ -54,7 +54,7 @@ $secondset = $secondset[0];
 // Delete and (re)create the hyphenated Bible, and grant privileges.
 request->database_bibles()->deleteBible ($outputBible);
 request->database_bibles()->createBible ($outputBible);
-$database_users->grantAccess2Bible ($user, $outputBible);
+request->database_users ()->grantAccess2Bible ($user, $outputBible);
 
 
 // Go through the input Bible's books and chapters.

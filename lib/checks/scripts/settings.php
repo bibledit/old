@@ -17,80 +17,80 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2>gettext("Manage Checks")</h2>
+<h2>translate("Manage Checks")</h2>
 <p>
-  gettext("Bible"): <a href="?bible=">$this->bible</a>.
-  gettext("It will be checked every night.")
-  <a href="?run=">gettext("Check it now")</a>.
+  translate("Bible"): <a href="?bible=">$this->bible</a>.
+  translate("It will be checked every night.")
+  <a href="?run=">translate("Check it now")</a>.
 </p>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
 <br>
-<p>gettext("Enable the desired checks:")</p>
+<p>translate("Enable the desired checks:")</p>
 
 <p>
 <a href="settings?doublespacesusfm=">
 <?php if ($this->double_spaces_usfm == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("double spaces in the raw USFM")
+translate("double spaces in the raw USFM")
 </p>
 
 <p>
 <a href="settings?fullstopheadings=">
 <?php if ($this->full_stop_headings == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("punctuation at the end of a heading")
+translate("punctuation at the end of a heading")
 </p>
 
 <p>
 <a href="settings?spacebeforepunctuation=">
 <?php if ($this->space_before_punctuation == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("a space before a comma, semicolon, colon, full stop, question mark, or exclamation mark")
+translate("a space before a comma, semicolon, colon, full stop, question mark, or exclamation mark")
 </p>
 
 <p>
 <a href="settings?sentencestructure=">
 <?php if ($this->sentence_structure == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("sentence structure")
+translate("sentence structure")
 </p>
 
 <p>
 <a href="settings?paragraphstructure=">
 <?php if ($this->paragraph_structure == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("paragraph starts with a capital and ends with a correct end marker")
+translate("paragraph starts with a capital and ends with a correct end marker")
 </p>
 
 <p>
 <a href="settings?chaptersversesversification=">
 <?php if ($this->chapters_verses_versification == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("correct number of books, chapters, and verses, according to the versification system")
+translate("correct number of books, chapters, and verses, according to the versification system")
 </p>
 
 <p>
 <a href="settings?wellformedusfm=">
 <?php if ($this->well_formed_usfm == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("well-formed USFM")
+translate("well-formed USFM")
 </p>
 
 <p>
 <a href="settings?punctuationatendverse=">
 <?php if ($this->punctuation_end_verse == true) { ☑ <?php } else { ☐ <?php }
 </a>
-gettext("missing punctuation at the end of a verse")
+translate("missing punctuation at the end of a verse")
 </p>
 
 <p>
 <a href="settings?patterns=">
 <?php if ($this->check_patterns == true) { ☑ <?php } else { ☐ <?php }
 </a>
-  gettext("patterns in the text")
-  [<a href="settingspatterns">gettext("settings")</a>]
+  translate("patterns in the text")
+  [<a href="settingspatterns">translate("settings")</a>]
 </p>
 
 <br>
-<p><a href="settingssentences">gettext("Settings for the sentence structure")</a></p>
+<p><a href="settingssentences">translate("Settings for the sentence structure")</a></p>

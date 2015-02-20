@@ -1,0 +1,422 @@
+html {
+  height: 100%;
+}
+
+body {
+  # font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+  margin: 2px;
+  padding: 2px;
+  padding-top: 0;
+}
+
+h1 {
+  font-weight: bold;
+  font-style: italic;
+}
+
+h2 {
+  font-style:italic;
+}
+
+h3, h4, h5 {
+}
+
+p {
+  margin: 0;
+  padding: 0 0.2em;
+}
+
+div p, div ul, div ol {
+  margin-bottom: 0;
+}
+
+div {
+  margin: 0;
+}
+
+strong {
+  color: #488B9B
+}
+
+a:link {
+  text-decoration: none;
+  background: none;
+  color: blue;
+}
+
+a:visited {
+  color: blue;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus,
+a:active {
+  color: red;
+}
+
+/* Form control defaults styles */
+select {
+  border: 1px solid #ddd;
+  padding: 0;
+}
+
+input,
+button {
+  border: 1px solid #ddd;
+  padding: 0.1em 0.3em;
+}
+
+select:hover,
+input:hover,
+button:hover {
+  border-color: #00f;
+}
+
+select:focus,
+input:focus,
+button:focus {
+  border-color: #00f;
+  box-shadow: 1px 1px .5em rgba(0, 0, 255, 0.3);
+}
+
+/* Layout */
+div.body {
+  clear: left;
+  margin-left: auto;
+}
+
+div.body p {
+  margin: 0;
+}
+
+dl {
+  margin: 0;
+}
+
+dt {
+  color: #488B9B;
+  clear: left;
+  margin-top: 20px;
+  text-align: left;
+}
+
+#toc ul li {
+  list-style-type: none;
+}
+
+.level1 {
+  margin-left: 0em;
+}
+
+.level2 {
+  margin-left: 3em;
+}
+
+.level3 {
+  margin-left: 6em;
+}
+
+.level4 {
+  margin-left: 9em;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+.active {
+  font-weight: bold;
+  font-size: larger;
+}
+
+textarea {
+  width: 100%;
+  height: 20em;
+}
+
+.fullwidth {
+  width: 100%;
+}
+
+.topalign {
+  vertical-align: top;
+}
+
+#search {
+  display: inline;
+}
+
+.selected {
+  background: #FFFFCC;
+}
+
+.grayedout {
+  color: grey;
+}
+
+.small {
+  font-size: small;
+}
+
+.center {
+  height: 100%;
+  text-align: center;
+}
+
+:focus {
+  outline: none;
+  border-color: blue;
+  box-shadow: 0 0 10px blue;
+}
+
+#mainmenu {
+  float: left;
+}
+
+.clearfix {
+  clear: both;
+}
+
+/* Top bar styles */
+
+#topbar {
+  background-color: #fff;
+  color: #ccc;
+  transition: color 0.5s ease-in-out, background-color 0.4s ease-in-out;
+  margin-top: -4px;
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+#topbar:hover {
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+#topbar a {
+  color: #ccc;
+  transition: color 0.5s ease-in-out;
+  color: #000;
+}
+
+#topbar:hover a {
+  color: #000;
+}
+
+.clearfix {
+  clear: both;
+}
+
+/* Main menu styles */
+.menu {
+  z-index: 5;
+  margin: 0.2em;
+}
+
+.menu, .menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu ul {
+  position: absolute;
+  display: none;
+  background: #d9d9d9;
+}
+
+.menu ul li {
+  min-width: 10em;
+}
+
+.menu ul li ul {
+  margin-left: 8em;
+}
+
+.menu span {
+  cursor: default;
+}
+
+.menu ul a,
+.menu ul span {
+  padding: 0.8em;
+  display: block;
+}
+
+.menu > li {
+  float: left;
+}
+
+.menu > li > a,
+.menu > li > span {
+  display: block;
+  padding: 0.6em;
+  border-radius: 0.3em 0.3em 0 0;
+}
+
+.menu li.hover,
+.menu li.hover a,
+.menu li.hover span {
+  color: #000 !important;
+}
+
+.menu > li:hover > a,
+.menu > li.hover > a,
+.menu > li:hover > span,
+.menu > li.hover > span {
+  background: #d9d9d9;
+}
+
+.menu > li > a:hover,
+.menu ul a:hover,
+.menu li.hover a {
+  background: #d0d0d0;
+}
+
+.menu a:hover {
+  background: #d0d0d0;
+}
+
+.menu > li:hover > ul,
+.menu > li.hover > ul {
+  display: block;
+}
+
+.menu li li:hover ul,
+.menu li li.hover ul {
+  display: block;
+}
+
+/* Search box and stuff */
+
+#searchwrapper {
+  float: right;
+}
+
+#search {
+  display: block;
+  float: right;
+  padding-top: 0.5em;
+}
+
+#search input {
+  background: #fff;
+  border: 1px solid #f3f3f3;
+  color: #ccc;
+  padding: 0 0.3em;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #ddd;
+  color: #000;
+}
+
+#topbar:hover #search input {
+  border: 1px solid #ddd;
+  color: #000;
+}
+
+#topbar:hover #search input[type=submit] {
+  background: #f6f6f6;
+}
+
+#search input:hover,
+#search input:focus {
+  border-color: #999;
+  box-shadow: none;
+}
+
+#search input:focus {
+  border-color: #ccc;
+  color: #666;
+}
+
+/* User menu settings */
+#usermenu {
+  float: right;
+}
+
+#usermenu ul {
+  margin-left: -6em;
+}
+
+/* Verse picker */
+#backforward {
+  cursor: default;
+  float: left;
+  margin-right: 0.5em;
+}
+
+#backforward a,
+#backforward span {
+  font-size: 130%;
+  line-height: 1.5em;
+  padding: 0.4em;
+  padding-bottom: 0.2em;
+  text-decoration: none;
+}
+
+#backforward a:hover {
+  background: #f9f9f9;
+  border-radius: 0.5em;
+}
+
+#versepicker {
+  float: left;
+  padding: 0.5em;
+  margin: -0.5em;
+}
+
+#handpicker {
+  position: absolute;
+  display: none;
+  padding: 1.5em;
+  background: #f0f0f0;
+}
+
+#versepicker:hover #handpicker,
+#versepicker.hover #handpicker,
+#handpicker:hover,
+#handpicker.hover {
+  display: block;
+}
+
+/* Search page styles */
+
+#searchbox {
+  padding-top: 2em;
+  text-align: center;
+}
+
+/* Print */
+
+@media print {
+  #topcontainer { display : none; }
+}
+
+@page { margin: 2cm } 
+ 
+@page :left {
+  margin-left: 3cm;
+  margin-right: 2cm;
+}
+ 
+@page :right {
+  margin-left: 2cm;
+  margin-right: 3cm;
+}
+
+.nextresource {
+  page-break-inside: avoid;
+  orphans:3; 
+  widows:2;
+}
+
+

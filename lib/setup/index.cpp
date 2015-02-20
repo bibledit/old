@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <setup/index.h>
-#include <config.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <webserver/request.h>
@@ -29,7 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/commits.h>
 #include <database/confirm.h>
-#include <database/history.h>
 #include <database/jobs.h>
 #include <database/sprint.h>
 #include <database/mail.h>
@@ -43,6 +41,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <index/index.h>
 #include <styles/sheets.h>
+#include <demo/logic.h>
+#include <config/logic.h>
 
 
 void setup_write_access ()
@@ -79,8 +79,6 @@ void setup_initialize_data ()
   database_commits.create ();  
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
-  Database_History database_history = Database_History ();
-  database_history.create ();
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.create ();
   Database_Sprint database_sprint = Database_Sprint ();
@@ -109,6 +107,10 @@ void setup_initialize_data ()
   // Create stylesheets.
   styles_sheets_create_all ();
   
+  // Create sample Bible if there's no Bible yet.
+  vector <string> bibles = request.database_bibles()->getBibles ();
+  if (bibles.empty ()) demo_create_sample_bible (&request);
+
   // Clear setup flag.
   config_globals_setup_running = false;
 }
@@ -124,6 +126,13 @@ string setup_index (void * webserver_request)
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
+  // In client mode, do not display the page for entering the admin's details.
+  if (config_logic_client_prepared ()) {
+    redirect_browser (request, index_index_url ());
+    Database_Config_General::setInstalledVersion (config_logic_version ());
+    return "";
+  }
+
   Assets_View view = Assets_View ();
 
   // Get the existing Administrators.
@@ -142,7 +151,7 @@ string setup_index (void * webserver_request)
       if (errors.empty()) {
         request->database_users ()->removeUser (admin_username);
         request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
-        Database_Config_General::setInstalledVersion (VERSION);
+        Database_Config_General::setInstalledVersion (config_logic_version ());
         redirect_browser (request, index_index_url ());
       } else {
         view.enable_zone ("errors");
@@ -175,7 +184,7 @@ string setup_index (void * webserver_request)
     view.set_variable ("readonly", "readonly");
     // If the admin's are already there, then the setup has completed.
     // The automatic page refresh will kick in, and navigate to the main screen.
-    Database_Config_General::setInstalledVersion (VERSION);
+    Database_Config_General::setInstalledVersion (config_logic_version ());
   }
 
   return view.render ("setup", "index");

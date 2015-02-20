@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
-Assets_Page::header (gettext("Import"));
+Assets_Page::header (translate("Import"));
 set_time_limit (0);
 $folder = request->query ['folder'];
 if (file_exists ($folder)) {
@@ -29,7 +29,7 @@ if (file_exists ($folder)) {
   $view = new Assets_View (__FILE__);
   $view->render ("import4");
 } else {
-  Assets_Page::error (gettext("Could not find the folder with the consultation notes"));
+  Assets_Page::error (translate("Could not find the folder with the consultation notes"));
 }
 Assets_Page::footer ();
 

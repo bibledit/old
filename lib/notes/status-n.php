@@ -25,7 +25,7 @@ page_access_level (Filter_Roles::manager ());
 $database_notes = Database_Notes::getInstance();
 
 
-$header = new Assets_Header (gettext("Notes status"));
+$header = new Assets_Header (translate("Notes status"));
 $header->run();
 
 

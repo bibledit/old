@@ -24,6 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <database/styles.h>
 #include <webserver/request.h>
+#include <demo/logic.h>
+#include <styles/logic.h>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)
@@ -143,6 +145,27 @@ void Database_Config_User::setList (const char * key, vector <string> values)
 }
 
 
+vector <int> Database_Config_User::getIList (const char * key)
+{
+  vector <string> lines = getList (key);
+  vector <int> result;
+  for (auto & line : lines) {
+    result.push_back (convert_to_int (line));
+  }
+  return result;
+}
+
+
+void Database_Config_User::setIList (const char * key, vector <int> values)
+{
+  vector <string> lines;
+  for (auto & value : values) {
+    lines.push_back (convert_to_string (value));
+  }
+  setList (key, lines);
+}
+
+
 void Database_Config_User::trim ()
 {
   // Reset the sprint month and year after some time.
@@ -167,7 +190,7 @@ void Database_Config_User::trim ()
 
 string Database_Config_User::getStylesheet ()
 {
-  string sheet = getValue ("stylesheet", "Standard");
+  string sheet = getValue ("stylesheet", styles_logic_standard_sheet ().c_str());
   // If the stylesheet does not exist, take the first one available instead.
   Database_Styles * database_styles = ((Webserver_Request *) webserver_request)->database_styles ();
   vector <string> sheets = database_styles->getSheets();
@@ -191,9 +214,10 @@ string Database_Config_User::getBible ()
   Database_Bibles * database_bibles = request->database_bibles ();
   vector <string> bibles = database_bibles->getBibles ();
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
-    // There may not even be a first Bible: Create one.
+    // There may not even be a first Bible: Create sample Bible.
     if (bibles.empty ()) {
-      bible = "testBible";
+      bible = demo_sample_bible_name ();
+      demo_create_sample_bible (webserver_request);
       database_bibles->createBible (bible);
     } else {
       bible = bibles [0];
@@ -768,25 +792,25 @@ void Database_Config_User::setFocusedVerse (int verse)
 }
 
 
-vector <string> Database_Config_User::getUpdatedSettings ()
+vector <int> Database_Config_User::getUpdatedSettings ()
 {
-  return getList ("updated-settings");
+  return getIList ("updated-settings");
 }
-void Database_Config_User::setUpdatedSettings (vector <string> values)
+void Database_Config_User::setUpdatedSettings (vector <int> values)
 {
-  setList ("updated-settings", values);
+  setIList ("updated-settings", values);
 }
-void Database_Config_User::addUpdatedSetting (string value)
+void Database_Config_User::addUpdatedSetting (int value)
 {
-  vector <string> settings = getUpdatedSettings ();
+  vector <int> settings = getUpdatedSettings ();
   settings.push_back (value);
   settings = array_unique (settings);
   setUpdatedSettings (settings);
 }
-void Database_Config_User::removeUpdatedSetting (string value)
+void Database_Config_User::removeUpdatedSetting (int value)
 {
-  vector <string> settings = getUpdatedSettings ();
-  vector <string> against;
+  vector <int> settings = getUpdatedSettings ();
+  vector <int> against;
   against.push_back (value);
   settings = filter_string_array_diff (settings, against);
   setUpdatedSettings (settings);

@@ -22,6 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/UriCodec.cpp>
 #include <filter/string.h>
+#include <config/logic.h>
+#include <curl/curl.h>
 #include <config.h>
 
 
@@ -31,7 +33,7 @@ string get_base_url (Webserver_Request * request)
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
   // Port
-  string port = NETWORK_PORT;
+  string port = config_logic_network_port ();
   // Full URL.  
   string url = scheme + "://" + request->host + ":" + port + "/";
   return url;
@@ -306,10 +308,23 @@ string filter_url_urldecode (string url)
 }
 
 
-// Returns the name of a temporary file.
-string filter_url_tempfile ()
+// A C++ near equivalent for PHP's urlencode function.
+string filter_url_urlencode (string url)
 {
-  string filename = filter_url_create_root_path ("tmp", convert_to_string (filter_string_date_seconds_since_epoch ()) + convert_to_string (filter_string_date_numerical_microseconds ()));
+  url = UriEncode (url);
+  return url;
+}
+
+
+// Returns the name of a temporary file.
+string filter_url_tempfile (const char * directory)
+{
+  string filename = convert_to_string (filter_string_date_seconds_since_epoch ()) + convert_to_string (filter_string_date_numerical_microseconds ());
+  if (directory) {
+    filename = filter_url_create_path (directory, filename);
+  } else {
+    filename = filter_url_create_root_path ("tmp", filename);
+  }
   return filename;
 }
 
@@ -374,4 +389,150 @@ string filter_url_build_http_query (string url, const string& parameter, const s
   url.append ("=");
   url.append (value);
   return url;
+}
+
+
+size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream)
+{
+  ((string *) stream)->append ((char *) ptr, 0, size * count);
+  return size * count;
+}
+
+
+// Sends a http GET request to the $url.
+// It returns the response from the server.
+// It writes any error to $error.
+string filter_url_http_get (string url, string& error)
+{
+  string response;
+  CURL *curl = curl_easy_init ();
+  if (curl) {
+    curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
+    curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
+    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    CURLcode res = curl_easy_perform (curl);
+    if (res == CURLE_OK) {
+      error.clear ();
+      long http_code = 0;
+      curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+      if (http_code != 200) {
+        response.append ("http code " + convert_to_string ((int)http_code));
+      }
+    } else {
+      response.clear ();
+      error = curl_easy_strerror (res);
+    }
+    curl_easy_cleanup (curl);
+  }
+  return response;
+}
+
+
+// Sends a http POST request to $url.
+// It posts the $values.
+// It returns the response from the server.
+// It writes any error to $error.
+string filter_url_http_post (string url, map <string, string> values, string& error)
+{
+  string response;
+  // Get a curl handle.
+  CURL *curl = curl_easy_init ();
+  if (curl) {
+    // First set the URL that is about to receive the POST.
+    // This can be http or https.
+    curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+    // Generate the post data.
+    string postdata;
+    for (auto & element : values) {
+      if (!postdata.empty ()) postdata.append ("&");
+      postdata.append (element.first);
+      postdata.append ("=");
+      postdata.append (filter_url_urlencode (element.second));
+    }
+    // Specify the POST data to curl, e.g.: "name=foo&project=bar"
+    curl_easy_setopt (curl, CURLOPT_POSTFIELDS, postdata.c_str());
+    // Callback for the server response.
+    curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
+    curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
+    // Further options.
+    curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
+    // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    // Perform the request.
+    CURLcode res = curl_easy_perform (curl);
+    // Result check.
+    if (res == CURLE_OK) {
+      error.clear ();
+      long http_code = 0;
+      curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+      if (http_code != 200) {
+        error.append ("Server response " + filter_url_http_response_code_text (http_code));
+      }
+    } else {
+      error = curl_easy_strerror (res);
+    }
+    // Always cleanup.
+    curl_easy_cleanup (curl);
+  }
+  return response;
+}
+
+
+string filter_url_http_response_code_text (int code)
+{
+  string text = convert_to_string (code);
+  text.append (" ");
+  switch (code) {
+    case 100: text += "Continue"; break;
+    case 101: text += "Switching Protocols"; break;
+    case 200: text += "OK"; break;
+    case 201: text += "Created"; break;
+    case 202: text += "Accepted"; break;
+    case 203: text += "Non-Authoritative Information"; break;
+    case 204: text += "No Content"; break;
+    case 205: text += "Reset Content"; break;
+    case 206: text += "Partial Content"; break;
+    case 300: text += "Multiple Choices"; break;
+    case 301: text += "Moved Permanently"; break;
+    case 302: text += "Found"; break;
+    case 303: text += "See Other"; break;
+    case 304: text += "Not Modified"; break;
+    case 305: text += "Use Proxy"; break;
+    case 307: text += "Temporary Redirect"; break;
+    case 308: text += "Permanent Redirect"; break;
+    case 400: text += "Bad Request"; break;
+    case 401: text += "Unauthorized"; break;
+    case 402: text += "Payment Required"; break;
+    case 403: text += "Forbidden"; break;
+    case 404: text += "Not Found"; break;
+    case 405: text += "Method Not Allowed"; break;
+    case 406: text += "Not Acceptable"; break;
+    case 407: text += "Proxy Authentication Required"; break;
+    case 408: text += "Request Timeout"; break;
+    case 409: text += "Conflict"; break;
+    case 410: text += "Gone"; break;
+    case 411: text += "Length Required"; break;
+    case 412: text += "Precondition Failed"; break;
+    case 413: text += "Request Entity Too Large"; break;
+    case 414: text += "Request-URI Too Long"; break;
+    case 415: text += "Unsupported Media Type"; break;
+    case 416: text += "Requested Range Not Satisfiable"; break;
+    case 417: text += "Expectation Failed"; break;
+    case 426: text += "Upgrade Required"; break;
+    case 428: text += "Precondition Required"; break;
+    case 429: text += "Too Many Requests"; break;
+    case 431: text += "Request Header Fields Too Large"; break;
+    case 500: text += "Internal Server Error"; break;
+    case 501: text += "Not Implemented"; break;
+    case 502: text += "Bad Gateway"; break;
+    case 503: text += "Service Unavailable"; break;
+    case 504: text += "Gateway Timeout"; break;
+    case 505: text += "HTTP Version Not Supported"; break;
+    case 511: text += "Network Authentication Required"; break;
+    default:  text += "Error"; break;
+  }
+  return text;
 }

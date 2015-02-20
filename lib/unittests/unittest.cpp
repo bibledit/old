@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_filter_git (); exit (0); // Todo
+  // test_session_logic (); test_database_users (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -286,7 +286,6 @@ int main (int argc, char **argv)
   test_database_check ();
   test_database_commits ();
   test_database_confirm ();
-  test_database_history ();
   test_database_ipc ();
   test_database_jobs ();
   test_database_kjv ();
@@ -316,10 +315,10 @@ int main (int argc, char **argv)
   test_editor_export ();
   test_editor_import ();
   test_editor_roundtrip ();
-  test_libraries_debug ();
   test_filter_markup ();
   test_workbench_logic ();
   test_filter_git ();
+  test_filter_merge ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

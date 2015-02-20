@@ -34,6 +34,7 @@
 #include <access/user.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
+#include <styles/logic.h>
 
 
 string styles_indexm_url ()
@@ -54,7 +55,7 @@ string styles_indexm (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Styles"), webserver_request, "");
+  page = Assets_Page::header (translate ("Styles"), webserver_request, "");
   
   Assets_View view = Assets_View ();
   
@@ -67,16 +68,16 @@ string styles_indexm (void * webserver_request)
     string name = request->post["entry"];
     vector <string> existing = database_styles.getSheets ();
     if (find (existing.begin(), existing.end (), name) != existing.end ()) {
-      page += Assets_Page::error (gettext("This stylesheet already exists"));
+      page += Assets_Page::error (translate("This stylesheet already exists"));
     } else {
       database_styles.createSheet (name);
       database_styles.grantWriteAccess (username, name);
       styles_sheets_create_all ();
-      page += Assets_Page::success (gettext("The stylesheet has been created"));
+      page += Assets_Page::success (translate("The stylesheet has been created"));
     }
   }
   if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("indexm", gettext("Please enter the name for the new stylesheet"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("indexm", translate("Please enter the name for the new stylesheet"), "", "new", "");
     page += dialog_entry.run();
     return page;
   }
@@ -91,10 +92,10 @@ string styles_indexm (void * webserver_request)
         if (write) {
           database_styles.deleteSheet (del);
           database_styles.revokeWriteAccess ("", del);
-          page += Assets_Page::success (gettext("The stylesheet has been deleted"));
+          page += Assets_Page::success (translate("The stylesheet has been deleted"));
         }
       } if (confirm == "") {
-        Dialog_Yes dialog_yes = Dialog_Yes ("indexm", gettext("Would you like to delete this stylesheet?"));
+        Dialog_Yes dialog_yes = Dialog_Yes ("indexm", translate("Would you like to delete this stylesheet?"));
         dialog_yes.add_query ("delete", del);
         page += dialog_yes.run ();
         return page;
@@ -113,9 +114,9 @@ string styles_indexm (void * webserver_request)
     bool editable = database_styles.hasWriteAccess (username, sheet);
     if (userlevel >= Filter_Roles::admin ()) editable = true;
     // Cannot edit the Standard stylesheet.
-    if (sheet == database_styles.standard()) editable = false;
+    if (sheet == styles_logic_standard_sheet ()) editable = false;
     if (editable) {
-      sheetblock.push_back ("<a href=\"sheetm?name=" + sheet + "\">[" + gettext("edit") + "]</a>");
+      sheetblock.push_back ("<a href=\"sheetm?name=" + sheet + "\">[" + translate("edit") + "]</a>");
     }
     sheetblock.push_back ("</p>");
   }

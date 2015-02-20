@@ -30,6 +30,7 @@
 #include <dialog/yes.h>
 #include <access/bible.h>
 #include <bible/logic.h>
+#include <client/logic.h>
 
 
 string bible_manage_url ()
@@ -50,16 +51,16 @@ string bible_manage (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Bibles"), webserver_request, "");
+  page = Assets_Page::header (translate ("Bibles"), webserver_request, "");
   
   Assets_View view = Assets_View ();
   
   string success_message;
   string error_message;
-
+  
   // New Bible handler.
   if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("manage", gettext("Please enter a name for the new empty Bible"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("manage", translate("Please enter a name for the new empty Bible"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }
@@ -67,21 +68,21 @@ string bible_manage (void * webserver_request)
     string bible = request->post ["entry"];
     vector <string> bibles = request->database_bibles ()->getBibles ();
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
-      error_message = gettext("This Bible already exists");
+      error_message = translate("This Bible already exists");
     } else {
       request->database_bibles ()->createBible (bible);
       // Check / grant access.
       if (!access_bible_write (request, bible)) {
         request->database_users ()->grantAccess2Bible (request->session_logic ()->currentUser (), bible);
       }
-      success_message = gettext("The Bible was created");
+      success_message = translate("The Bible was created");
     }
   }
   
   // Copy Bible handler.
   if (request->query.count ("copy")) {
     string copy = request->query["copy"];
-    Dialog_Entry dialog_entry = Dialog_Entry ("manage", gettext("Please enter a name for where to copy the Bible to"), "", "", "A new Bible will be created with the given name, and the current Bible copied to it");
+    Dialog_Entry dialog_entry = Dialog_Entry ("manage", translate("Please enter a name for where to copy the Bible to"), "", "", "A new Bible will be created with the given name, and the current Bible copied to it");
     dialog_entry.add_query ("origin", copy);
     page += dialog_entry.run ();
     return page;
@@ -92,7 +93,7 @@ string bible_manage (void * webserver_request)
       string destination = request->post["entry"];
       vector <string> bibles = request->database_bibles ()->getBibles ();
       if (find (bibles.begin(), bibles.end(), destination) != bibles.end()) {
-        error_message = gettext("Cannot copy the Bible because the destination Bible already exists.");
+        error_message = translate("Cannot copy the Bible because the destination Bible already exists.");
       } else {
         // User needs read access to the original.
         if (access_bible_read (request, origin)) {
@@ -105,7 +106,7 @@ string bible_manage (void * webserver_request)
               Bible_Logic::storeChapter (destination, book, chapter, data);
             }
           }
-          success_message = gettext("The Bible was copied.");
+          success_message = translate("The Bible was copied.");
           // Check / grant access to destination Bible.
           if (!access_bible_write (request, destination)) {
             request->database_users ()->grantAccess2Bible (request->session_logic ()->currentUser (), destination);
@@ -132,7 +133,7 @@ string bible_manage (void * webserver_request)
       }
     }
     if (confirm == "") {
-      Dialog_Yes dialog_yes = Dialog_Yes ("manage", gettext("Would you like to delete this Bible?") + " (" + bible + ")");
+      Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to delete this Bible?") + " (" + bible + ")");
       dialog_yes.add_query ("delete", bible);
       page += dialog_yes.run ();
       return page;
@@ -147,7 +148,8 @@ string bible_manage (void * webserver_request)
     bibleblock.append ("<li><a href=\"settings?bible=" + bible + "\">" + bible + "</a></li>\n");
   }
   view.set_variable ("bibleblock", bibleblock);
-                       
+
+  if (!client_logic_client_enabled ()) view.enable_zone ("server");
 
   page += view.render ("bible", "manage");
   

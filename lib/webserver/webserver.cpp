@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/logs.h>
 #include <config.h>
+#include <config/logic.h>
 #include <webserver/io.h>
 #include <filter/string.h>
 
@@ -173,8 +174,8 @@ void webserver_process_request (int connfd, string clientaddress)
 void webserver ()
 {
   // Setup server behaviour.
-  if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
-  if (strcmp (OPEN_INSTALLATION, "1") == 0) config_globals_open_installation = true;
+  config_globals_client_prepared = config_logic_client_prepared ();;
+  if (strcmp (DEMO, "yes") == 0) config_globals_open_installation = true;
 
   // Create a listening socket.
   int listenfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -191,7 +192,7 @@ void webserver ()
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl (INADDR_ANY);
-  serveraddr.sin_port = htons (stoi (NETWORK_PORT));
+  serveraddr.sin_port = htons (stoi (config_logic_network_port ()));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
   if (result != 0) cerr << "Error binding server to socket" << endl;
 
@@ -224,7 +225,9 @@ void webserver ()
       string clientaddress = remote_address;
       
       // Handle this request in a thread, enabling parallel requests.
-      new thread (webserver_process_request, connfd, clientaddress);
+      thread request_thread = thread (webserver_process_request, connfd, clientaddress);
+      // Detach and delete thread object.
+      request_thread.detach ();
       
     } else {
       cerr << "Error accepting connection on socket" << endl;

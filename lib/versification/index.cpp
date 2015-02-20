@@ -46,7 +46,7 @@ string versification_index (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Versifications"), webserver_request, "");
+  page = Assets_Page::header (translate ("Versifications"), webserver_request, "");
   
   Assets_View view = Assets_View ();
 
@@ -57,7 +57,7 @@ string versification_index (void * webserver_request)
     database_versifications.createSystem (name);
   }
   if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", gettext("Please enter the name for the new versification system"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter the name for the new versification system"), "", "new", "");
     page += dialog_entry.run();
     return page;
   }
@@ -69,7 +69,7 @@ string versification_index (void * webserver_request)
       database_versifications.erase (name);
     } else if (confirm == "cancel") {
     } else {
-      Dialog_Yes dialog_yes = Dialog_Yes ("index", gettext("Would you like to delete this versification system?"));
+      Dialog_Yes dialog_yes = Dialog_Yes ("index", translate("Would you like to delete this versification system?"));
       dialog_yes.add_query ("delete", name);
       page += dialog_yes.run ();
       return page;

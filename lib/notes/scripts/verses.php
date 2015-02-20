@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Edit the verses?")</h3>
+<h3>translate("Edit the verses?")</h3>
 <form action="verses?id=$this->id" name="form" method="post">
   <p><textarea name="verses">$this->verses</textarea></p>
-  <p><input type="submit" name="submit" value=gettext("Save") /></p>
+  <p><input type="submit" name="submit" value=translate("Save") /></p>
 </form>
-<h4><a href="actions?id=$this->id">gettext("Cancel")</a></h4>
+<h4><a href="actions?id=$this->id">translate("Cancel")</a></h4>

@@ -87,6 +87,8 @@ string number_in_string (const string & str);
 string filter_string_markup_words (const vector <string>& words, string text);
 vector <string> filter_string_search_needles (string search, string text);
 int filter_string_user_identifier (void * webserver_request);
+string bin2hex (string bin);
+string hex2bin (string hex);
 
 
 #endif

@@ -34,6 +34,7 @@
 #include <sendreceive/logic.h>
 #include <config/logic.h>
 #include <demo/logic.h>
+#include <client/logic.h>
 
 
 string sendreceive_index_url ()
@@ -44,7 +45,15 @@ string sendreceive_index_url ()
 
 bool sendreceive_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  // The role of Translator or higher enables send/receive.
+  bool enable = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (!enable) {
+    // In Client mode, also a Consultant can send/receive.
+    if (client_logic_client_enabled ()) {
+      enable = Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+    }
+  }
+  return enable;
 }
 
 
@@ -54,7 +63,7 @@ string sendreceive_index (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (gettext("Send/Receive"), request);
+  Assets_Header header = Assets_Header (translate("Send/Receive"), request);
   page = header.run ();
   Assets_View view = Assets_View ();
   
@@ -63,7 +72,7 @@ string sendreceive_index (void * webserver_request)
   if (request->query.count ("bible")) {
     bible = request->query["bible"];
     if (bible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", gettext("Select a Bible"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", "");
       vector <string> bibles = access_bible_bibles (request);
       for (auto & bible : bibles) {
         // Select Bibles the user has write access to.
@@ -85,7 +94,7 @@ string sendreceive_index (void * webserver_request)
   
   if (request->query.count ("runbible")) {
     sendreceive_queue_bible (bible);
-    view.set_variable ("successbible", gettext("Will send and receive."));
+    view.set_variable ("successbible", translate("Will send and receive."));
   }
   
   
@@ -96,21 +105,21 @@ string sendreceive_index (void * webserver_request)
   
   
   if (Database_Config_Bible::getRemoteRepositoryUrl (bible) == "") {
-    view.set_variable ("errorbible", gettext("Collaboration has not been set up for this Bible"));
+    view.set_variable ("errorbible", translate("Collaboration has not been set up for this Bible"));
   }
   
   
   if (request->query.count ("runsync")) {
     if (sendreceive_sync_queued ()) {
-      view.set_variable ("successnotes", gettext("Still sending and receiving from the last time."));
+      view.set_variable ("successsync", translate("Still sending and receiving from the last time."));
     } else {
-      sendreceive_queue_sync (true);
-      view.set_variable ("successnotes", gettext("Will send and receive."));
+      sendreceive_queue_sync (-1);
+      view.set_variable ("successsync", translate("Will send and receive."));
     }
   }
   
   
-  if (config_logic_client_enabled ()) view.enable_zone ("client");
+  if (client_logic_client_enabled ()) view.enable_zone ("client");
 
   
   if (request->query.count ("repeatsync")) {
@@ -125,11 +134,11 @@ string sendreceive_index (void * webserver_request)
   
   
   if (Database_Config_General::getServerAddress () == "") {
-    view.set_variable ("errornotes", gettext("Collaboration has not been set up for the Bibles and Consultation Notes"));
+    view.set_variable ("errorsync", translate("Collaboration has not been set up for the Bibles and Consultation Notes"));
   }
 
   
-  view.set_variable ("demo", demo_logic_client_demo_warning ());
+  view.set_variable ("demo", demo_client_warning ());
 
   
   page += view.render ("sendreceive", "index");

@@ -46,7 +46,7 @@ if (isset(request->post['cancel'])) {
 }
 
 
-$assets_header = new Assets_Header (gettext("Comment"));
+$assets_header = new Assets_Header (translate("Comment"));
 $assets_header->run();
 
 

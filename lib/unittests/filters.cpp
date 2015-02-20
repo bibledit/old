@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/diff.h>
 #include <filter/abbreviations.h>
 #include <filter/git.h>
+#include <filter/merge.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -195,6 +196,24 @@ void test_filters_test1 ()
     request.session_logic()->setUsername ("phpunit2");
     evaluate (__LINE__, __func__, 13767813, filter_string_user_identifier (&request));
   }
+  // Test hex2bin and bin2hex as equivalents to PHP's functions.
+  {
+    string bin = "This is a 123 test.";
+    string hex = "5468697320697320612031323320746573742e";
+    evaluate (__LINE__, __func__, hex, bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    bin = "סֶ	א	ב	ױ";
+    hex = "d7a1d6b609d79009d79109d7b1";
+    evaluate (__LINE__, __func__, hex, bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    bin.clear ();
+    hex.clear ();
+    evaluate (__LINE__, __func__, hex, bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    hex = "a";
+    evaluate (__LINE__, __func__, "", bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+  }
 }
 
 
@@ -216,6 +235,12 @@ void test_filters_test2 ()
     evaluate (__LINE__, __func__, "Store settings", filter_url_urldecode ("Store+settings"));
     evaluate (__LINE__, __func__, "test@mail", filter_url_urldecode ("test%40mail"));
     evaluate (__LINE__, __func__, "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
+    // Test URL encoder.
+    evaluate (__LINE__, __func__, "Store%20settings", filter_url_urlencode ("Store settings"));
+    evaluate (__LINE__, __func__, "test%40mail", filter_url_urlencode ("test@mail"));
+    evaluate (__LINE__, __func__, "%E1%A8%80ab%5Cd%40a", filter_url_urlencode ("ᨀab\\d@a"));
+    evaluate (__LINE__, __func__, "foo%3Dbar%26baz%3D", filter_url_urlencode ("foo=bar&baz="));
+    evaluate (__LINE__, __func__, "%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_urlencode ("בְּרֵאשִׁ֖ית"));
   }
   {
     // Test dirname and basename functions.
@@ -267,7 +292,17 @@ void test_filters_test2 ()
     evaluate (__LINE__, __func__, true, in_array (needle, haystack));
     evaluate (__LINE__, __func__, true, in_array (1, {1, 2, 3}));
     evaluate (__LINE__, __func__, false, in_array (1, {2, 3}));
-    
+  }
+  {
+    // Test http GET and POST
+    string result, error;
+    result = filter_url_http_get ("http://localhost/none", error);
+    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    evaluate (__LINE__, __func__, "", result);
+    map <string, string> values = {make_pair ("a", "value1"), make_pair ("b", "value2")};
+    result = filter_url_http_post ("http://localhost/none", values, error);
+    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    evaluate (__LINE__, __func__, "", result);
   }
 }
 
@@ -303,8 +338,8 @@ void test_filters_test3 ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
 
-    evaluate (__LINE__, __func__, 0, usfm_import ("", "Standard").size());
-    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", "Standard");
+    evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
+    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, import2.size());
     if (import2.size () == 2) {
       evaluate (__LINE__, __func__, 33, import2 [0].book);
@@ -1083,7 +1118,7 @@ void test_filters_test10 ()
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.createPageBreakStyle ();
     odf_text.newParagraph ();
-    evaluate (__LINE__, __func__, "Standard", odf_text.currentParagraphStyle);
+    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.currentParagraphStyle);
     odf_text.addText ("Paragraph One");
     evaluate (__LINE__, __func__, "Paragraph One", odf_text.currentParagraphContent);
     odf_text.newParagraph ();
@@ -1155,7 +1190,7 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
@@ -1178,7 +1213,7 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("Text");
@@ -1207,14 +1242,14 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
     add.color = "#000000";
-    Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
+    Database_Styles_Item nd = database_styles.getMarkerData (styles_logic_standard_sheet (), "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
@@ -1245,14 +1280,14 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
     add.color = "#000000";
-    Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
+    Database_Styles_Item nd = database_styles.getMarkerData (styles_logic_standard_sheet (), "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
@@ -1289,14 +1324,14 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Styles_Item d = database_styles.getMarkerData ("Standard", "d");
+    Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.createParagraphStyle (d.marker, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style");
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style at first, then Standard");
-    odf_text.updateCurrentParagraphStyle ("Standard");
+    odf_text.updateCurrentParagraphStyle (styles_logic_standard_sheet ());
     odf_text.save (OdfTextTestDotOdt);
     string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
@@ -1351,7 +1386,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     // Check that it finds the running headers.
     int desiredRunningHeaders = 5;
     int actualRunningHeaders = filter_text.runningHeaders.size();
@@ -1492,7 +1527,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1539,7 +1574,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1563,7 +1598,7 @@ void test_filters_test11 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1624,7 +1659,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
     string standard = 
       "The book of\n"
@@ -1648,7 +1683,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
     string standard = 
       "1\n"
@@ -1680,7 +1715,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
     map <int, string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
     evaluate (__LINE__, __func__, standard, output);
@@ -1702,7 +1737,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
     map <int, string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
     evaluate (__LINE__, __func__, standard, output);
@@ -1730,7 +1765,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
       {1, "Verse one."},
@@ -1754,7 +1789,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
       {1, "He said: I will sing to the Lord."},
@@ -1775,7 +1810,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     vector <int> output = filter_text.paragraph_start_positions;
     vector <int> standard = {0, 9, 58};
     evaluate (__LINE__, __func__, standard, output);
@@ -1790,7 +1825,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
       {1, "He said: I will sing to the Lord."},
@@ -1808,7 +1843,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
       "    <p class=\"p\">\n"
@@ -1830,7 +1865,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
       "    <p class=\"p\">\n"
@@ -1853,7 +1888,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
       "    <p class=\"p\">\n"
@@ -1876,7 +1911,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1898,7 +1933,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_text_and_note_citations = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1919,7 +1954,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -1944,7 +1979,7 @@ void test_filters_test12 ()
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
-    filter_text.run ("Standard");
+    filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
@@ -3119,24 +3154,32 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   filter_git_init (repository);
   filter_git_init (newrepository);
   
-  filter_url_mkdir (filter_url_create_path (repository, "Psalms"));
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
-  filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon"));
   filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon", "2"));
   
   filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), psalms_0_data);
   filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "11", "data"), psalms_11_data);
   filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+
+  filter_url_mkdir (filter_url_create_path (newrepository, "Psalms", "0"));
+  filter_url_mkdir (filter_url_create_path (newrepository, "Psalms", "11"));
+  filter_url_mkdir (filter_url_create_path (newrepository, "Song of Solomon", "2"));
+  
+  filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), psalms_0_data);
+  filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "11", "data"), psalms_11_data);
+  filter_url_file_put_contents (filter_url_create_path (newrepository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
 }
 
 
 void test_filter_git ()
 {
-  string bible = "unittest";
-  string newbible = "newunittest";
+  string bible = "localrepo";
+  string newbible = "newlocalrepo";
   string repository = filter_git_directory (bible);
   string newrepository = filter_git_directory (newbible);
+  string remoterepository = filter_git_directory ("remoterepo");
+  string clonedrepository = filter_git_directory ("clonedrepo");
   Webserver_Request request;
   
   string psalms_0_data =
@@ -3417,44 +3460,564 @@ void test_filter_git ()
     // Remove the journal entries the test created.
     refresh_sandbox (false);
   }
-  
-}
-/* 
- 
- C++Port: This may not be needed with libgit2.
- public function testGetPullPassage ()
- {
- $output = Filter_Git::getPullPassage ("From https://github.com/joe/test");
- assertNull ($output);
- $output = Filter_Git::getPullPassage ("   443579b..90dcb57  master     -> origin/master");
- assertNull ($output);
- $output = Filter_Git::getPullPassage ("Updating 443579b..90dcb57");
- assertNull ($output);
- $output = Filter_Git::getPullPassage ("Fast-forward");
- assertNull ($output);
- $output = Filter_Git::getPullPassage (" Genesis/3/data | 2 +-");
- assertEquals (array ('book' => "1", 'chapter' => "3"), $output);
- $output = Filter_Git::getPullPassage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
- assertNull ($output);
- $output = Filter_Git::getPullPassage (" delete mode 100644 Leviticus/1/data");
- assertNull ($output);
- $output = Filter_Git::getPullPassage (" Revelation/3/data | 2 +-");
- assertEquals (array ('book' => "66", 'chapter' => "3"), $output);
- }
- 
- 
- C++Port: This may not be needed with libgit2.
- public function testExplodePath ()
- {
- $bookChapter = Filter_Git::explodePath ("Genesis/2/data");
- assertEquals (array ('book' => 1, 'chapter' => 2), $bookChapter);
- $bookChapter = Filter_Git::explodePath ("Genesi/2/data");
- assertEquals (NULL, $bookChapter);
- $bookChapter = Filter_Git::explodePath ("Exodus/3/data");
- assertEquals (array ('book' => 2, 'chapter' => 3), $bookChapter);
- $bookChapter = Filter_Git::explodePath ("dictionary");
- assertEquals (NULL, $bookChapter);
- }
- 
 
-*/
+  // Setting values in the configuration.
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    filter_git_config_set_bool (repository, "foo.setting", false);
+    filter_git_config_set_int (repository, "bar.setting", 11);
+  }
+
+  // Test of basic git operations in combination with a remote repository.
+  {
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    string error;
+    bool success;
+    string remoteurl = "file://" + remoterepository;
+    vector <string> messages;
+    
+    // Create bare remote reository.
+    filter_url_mkdir (remoterepository);
+    filter_git_init (remoterepository, true);
+    
+    // Test read access to the remote repository.
+    success = filter_git_remote_read (remoterepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Test cloning the repository.
+    success = filter_git_remote_clone (remoteurl, clonedrepository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Store some Bible data in the cloned repository.
+    filter_url_mkdir (filter_url_create_path (clonedrepository, "Psalms", "0"));
+    filter_url_file_put_contents (filter_url_create_path (clonedrepository, "Psalms", "0", "data"), psalms_0_data);
+    filter_url_mkdir (filter_url_create_path (clonedrepository, "Psalms", "11"));
+    filter_url_file_put_contents (filter_url_create_path (clonedrepository, "Psalms", "11", "data"), psalms_11_data);
+    filter_url_mkdir (filter_url_create_path (clonedrepository, "Song of Solomon", "2"));
+    filter_url_file_put_contents (filter_url_create_path (clonedrepository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+
+    // Add the Bible data to the git index.
+    success = filter_git_add_remove_all (clonedrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Commit the index to the repository.
+    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Remove some Bible data from the cloned repository.
+    filter_url_rmdir (filter_url_create_path (clonedrepository, "Psalms"));
+    success = filter_git_add_remove_all (clonedrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Commit the index to the repository.
+    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Push to the remote repository.
+    success = filter_git_push (clonedrepository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, 2, messages.size());
+
+    // Pull from remote repository.
+    success = filter_git_push (clonedrepository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, {"Everything up-to-date"}, messages);
+  }
+  
+  // Get Pull Passage
+  {
+    Passage passage = filter_git_get_pull_passage ("From https://github.com/joe/test");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage ("   443579b..90dcb57  master     -> origin/master");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage ("Updating 443579b..90dcb57");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage ("Fast-forward");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage (" Genesis/3/data | 2 +-");
+    Passage standard = Passage ("", 1, 3, "");
+    evaluate (__LINE__, __func__, true, standard.equal (passage));
+    passage = filter_git_get_pull_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage (" delete mode 100644 Leviticus/1/data");
+    evaluate (__LINE__, __func__, 0, passage.book);
+    passage = filter_git_get_pull_passage (" Revelation/3/data | 2 +-");
+    standard = Passage ("", 66, 3, "");
+    evaluate (__LINE__, __func__, true, standard.equal (passage));
+  }
+  
+  // Exercise the "git status" filter.
+  {
+    // Refresh the repository, and store three chapters in it.
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+
+    vector <string> paths;
+
+    // There should be three modified paths.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+
+    // Add the files to the index.
+    string error;
+    filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, "", error);
+
+    // There should still be three paths.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+    
+    // Commit the index.
+    filter_git_commit (repository, "user", "email", "unittest", error);
+    evaluate (__LINE__, __func__, "", error);
+
+    // There should be no modified paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {}, paths);
+
+    // Remove both Psalms chapters.
+    filter_url_rmdir (filter_url_create_path (repository, "Psalms"));
+
+    // There should be two modified paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+
+    // Add / remove the files to the index.
+    filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // There should still be two paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+    
+    // Commit the index.
+    filter_git_commit (repository, "user", "email", "unittest", error);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // There should be no modified paths now.
+    paths = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {}, paths);
+  }
+  
+  // Test git's internal conflict resolution.
+  {
+    refresh_sandbox (true);
+    string error;
+    bool success;
+    vector <string> messages;
+
+    // Create remote repository.
+    filter_url_mkdir (remoterepository);
+    filter_git_init (remoterepository, true);
+    string remoteurl = "file://" + remoterepository;
+
+    // Clone the remote repository.
+    success = filter_git_remote_clone (remoteurl, repository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Store three chapters in the local repository and push it to the remote repository.
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
+    filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon", "2"));
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), psalms_0_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "11", "data"), psalms_11_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (repository, messages, true);
+    evaluate (__LINE__, __func__, true, success);
+
+    // Clone the remote repository to a new local repository.
+    success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+
+    // Set the stage for a conflict that git itself can merge:
+    // Change something in the new repository, push it to the remote.
+    string newcontents =
+    "\\id PSA\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 THE BOOK\n"
+    "\\mt OF PSALMS\n";
+    filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), newcontents);
+    success = filter_git_add_remove_all (newrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (newrepository, messages, true);
+    // Change something in the repository, and pull from remote:
+    // Git merges by itself.
+    string contents =
+    "\\id PSALM\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 UGWALO\n"
+    "\\mt LWEZIHLABELELO\n";
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), contents);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_pull (repository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
+    evaluate (__LINE__, __func__, true, success);
+    success = find (messages.begin(), messages.end(), "Merge made by the 'recursive' strategy.") != messages.end();
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_push (repository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    // Check the merge result.
+    string standard =
+    "\\id PSALM\n"
+    "\\h Izihlabelelo\n"
+    "\\toc2 Izihlabelelo\n"
+    "\\mt2 THE BOOK\n"
+    "\\mt OF PSALMS\n";
+    contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
+    evaluate (__LINE__, __func__, standard, contents);
+  }
+  {
+    refresh_sandbox (true);
+    string error;
+    bool success;
+    vector <string> messages;
+    
+    // Create remote repository.
+    filter_url_mkdir (remoterepository);
+    filter_git_init (remoterepository, true);
+    string remoteurl = "file://" + remoterepository;
+    
+    // Clone the remote repository.
+    success = filter_git_remote_clone (remoteurl, repository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Store three chapters in the local repository and push it to the remote repository.
+    psalms_0_data =
+    "Line one one one\n"
+    "Line two two two\n"
+    "Line three three three\n";
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
+    filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
+    filter_url_mkdir (filter_url_create_path (repository, "Song of Solomon", "2"));
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), psalms_0_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "11", "data"), psalms_11_data);
+    filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (repository, messages, true);
+    evaluate (__LINE__, __func__, true, success);
+    
+    // Clone the remote repository to a new local repository.
+    success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    
+    // Set the stage for a conflict that git itself can merge:
+    // Change something in the new repository, push it to the remote.
+    string newcontents =
+    "Line 1 one one\n"
+    "Line two two two\n"
+    "Line three three three\n";
+    filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), newcontents);
+    success = filter_git_add_remove_all (newrepository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_push (newrepository, messages, true);
+    // Change something in the repository, and pull from remote:
+    // Git fails to merge by itself.
+    string contents =
+    "Line one one 1 one\n"
+    "Line two 2 two 2 two\n"
+    "Line three 3 three 3 three\n";
+    filter_url_file_put_contents (filter_url_create_path (repository, "Psalms", "0", "data"), contents);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    success = filter_git_commit (repository, "test", "test", "test", error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    // Pulling changes should result in a merge conflict.
+    success = filter_git_pull (repository, messages);
+    evaluate (__LINE__, __func__, false, success);
+
+    // Resolve the conflict.
+    success = filter_git_resolve_conflicts (repository, messages, error);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
+
+    // Verify the resolved contents on correctness.
+    contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
+    string standard =
+    "Line 1 one 1 one\n"
+    "Line two 2 two 2 two\n"
+    "Line three 3 three 3 three";
+    evaluate (__LINE__, __func__, standard, contents);
+    // The status still displays the file as in conflict.
+    messages = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
+
+    // Commit and push the result.
+    success = filter_git_commit (repository, "message", messages);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, 1, messages.size());
+    success = filter_git_push (repository, messages);
+    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, 2, messages.size());
+    
+    // Status up-to-date.
+    messages = filter_git_status (repository);
+    evaluate (__LINE__, __func__, {}, messages);
+  }
+}
+
+
+void test_filter_merge ()
+{
+  // Test Line Merge Simple Modifications.
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka kukaJesu\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka kukaJesu";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Line Merge Equal Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka kukaJesu\n"
+    "\\s Ukuvuka kukaJesu\n";
+    string serverModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka kukaJesu\n"
+    "\\s Ukuvuka kukaJesu\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 28\n"
+    "\\s Ukuvuka kukaJesu\n"
+    "\\s Ukuvuka kukaJesu";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Line Merge Multiple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\pp\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Marko 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya osukwini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\pp\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Marko 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya osukwini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Word Merge Simple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Word Merge Equal Modifications.
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Word Merge Multiple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 28\n"
+    "\\s Ukuvuka lokuzibonakaliswa kwaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\s Ukuvuka lokuzibonakaliswa kwaJesu\n"
+    "\\p\n"
+    "\\v 1 Kwathi ekupheleni kwesabatha\\x + Mark. 16.1-8. Luka 24.1-10.\\x*, emadabukakusa kusiya o\\add sukw\\add*ini lokuqala lweviki\\x + Joha. 20.1.\\x*, kwafika uMariya Magadalena\\x + Joha. 20.1.\\x*, lomunye uMariya, ukuzabona ingcwaba\\x + 27.56,61. Mark. 16.1. Luka 24.10.\\x*.\n"
+    "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
+    "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Grapheme Merge Simple Modifications
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi bathuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Conflict Take Server.
+  {
+    string mergeBaseData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string userModificationData =
+    "\\c 28\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string serverModificationData =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 29\n"
+    "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Test Practical Merge Example One
+  {
+    string mergeBaseData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string userModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string serverModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth verse.\n"
+    "\\v 5\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first verse.\n"
+    "\\v 2 And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth verse.\n"
+    "\\v 5";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+}

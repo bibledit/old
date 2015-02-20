@@ -53,7 +53,7 @@ void Confirm_Worker::setup (string to, string initial_subject, string initial_bo
   int confirmation_id = database_confirm.getNewID ();
   initial_subject += " " + convert_to_string (confirmation_id);
   initial_body += "\n\n";
-  initial_body += gettext ("Please confirm this request by replying to this email. There is a confirmation number in the subject line. Your reply should have this same confirmation number in the subject line.");
+  initial_body += translate ("Please confirm this request by replying to this email. There is a confirmation number in the subject line. Your reply should have this same confirmation number in the subject line.");
   Database_Mail database_mail = Database_Mail (webserver_request);
   database_mail.send (to, initial_subject, initial_body);
   database_confirm.store (confirmation_id, query, to, subsequent_subject, subsequent_body);

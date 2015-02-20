@@ -45,12 +45,22 @@ string Checksum_Logic::get (string data)
 }
 
 
+// This function gets the checksum for $data, and returns it.
+// It calculates the length of vector 'data' in bytes.
+string Checksum_Logic::get (const vector <string>& data)
+{
+  int length = 0;
+  for (auto & bit : data) length += bit.length ();
+  return to_string (length);
+}
+
+
 // Returns a proper checksum for the USFM in the chapter.
 string Checksum_Logic::getChapter (void * webserver_request, string bible, int book, int chapter)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  string checksum = md5 (usfm);
+  string checksum = md5 (filter_string_trim (usfm));
   return checksum;
 }
 

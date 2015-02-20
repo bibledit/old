@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
-Assets_Page::header (gettext("Sentence Structure"));
+Assets_Page::header (translate("Sentence Structure"));
 $view = new Assets_View (__FILE__);
 $database_config_user = Database_Config_User::getInstance();
 $database_config_bible = Database_Config_Bible::getInstance();
@@ -33,37 +33,37 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 
 if (isset(request->post['capitals'])) {
   Database_Config_Bible::setSentenceStructureCapitals ($bible, request->post['capitals']);
-  $view.set_variable ("success = gettext("The capitals were stored");
+  $view.set_variable ("success = translate("The capitals were stored");
 }
 
 
 if (isset(request->post['smallletters'])) {
   Database_Config_Bible::setSentenceStructureSmallLetters ($bible, request->post['smallletters']);
-  $view.set_variable ("success = gettext("The small letters were stored");
+  $view.set_variable ("success = translate("The small letters were stored");
 }
 
 
 if (isset(request->post['endpunctuationmarks'])) {
   Database_Config_Bible::setSentenceStructureEndPunctuation ($bible, request->post['endpunctuationmarks']);
-  $view.set_variable ("success = gettext("The punctuation marks at the ends of sentences were stored");
+  $view.set_variable ("success = translate("The punctuation marks at the ends of sentences were stored");
 }
 
 
 if (isset(request->post['middlepunctuationmarks'])) {
   Database_Config_Bible::setSentenceStructureMiddlePunctuation ($bible, request->post['middlepunctuationmarks']);
-  $view.set_variable ("success = gettext("The punctuation marks within the sentences were stored");
+  $view.set_variable ("success = translate("The punctuation marks within the sentences were stored");
 }
 
 
 if (isset(request->post['disregards'])) {
   Database_Config_Bible::setSentenceStructureDisregards ($bible, request->post['disregards']);
-  $view.set_variable ("success = gettext("The characters that should be disregarded within the sentences were stored");
+  $view.set_variable ("success = translate("The characters that should be disregarded within the sentences were stored");
 }
 
 
 if (isset(request->post['names'])) {
   Database_Config_Bible::setSentenceStructureNames ($bible, request->post['names']);
-  $view.set_variable ("success = gettext("The names that may occur after mid-sentence punctuation were stored");
+  $view.set_variable ("success = translate("The names that may occur after mid-sentence punctuation were stored");
 }
 
 

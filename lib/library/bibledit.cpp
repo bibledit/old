@@ -25,18 +25,50 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/threads.h>
 #include <thread>
 #include <timer/index.h>
-#include <config.h>
+#include <config/logic.h>
+#include <database/config/general.h>
+#include <database/logs.h>
+
+
+// Get Bibledit's version number.
+const char * bibledit_version_number ()
+{
+  return config_logic_version ();
+}
+
+
+// Get the port number that Bibledit's web server listens on.
+const char * bibledit_network_port ()
+{
+  return config_logic_network_port ();
+}
 
 
 // Set the root folder for the web server.
-void bibledit_root (string directory)
+void bibledit_set_web_root (const char * directory)
 {
   config_globals_document_root = directory;
 }
 
 
+// Sets whether the library considers any device that connects to be touch-enabled.
+// This is necessary for on devices as clients which are always logged-in.
+// The detection of touch-enabled devices happens during login,
+// so when the login is skipped, the device is not detected.
+// Therefore the calling program can preset touch-enabled here through this library call.
+void bibledit_set_touch_enabled (bool enabled)
+{
+  // Set global variable for use elsewhere in the library.
+  // A value of zero does nothing,
+  // so set it greater than or smaller than zero to have effect.
+  if (enabled) config_globals_touch_enabled = 1;
+  else config_globals_touch_enabled = -1;
+
+}
+
+
 // Start the Bibledit server.
-void bibledit_start () 
+void bibledit_start_server () 
 {
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
@@ -45,8 +77,23 @@ void bibledit_start ()
 }
 
 
+// Sets a global flag, so the library will quit at midnight.
+void bibledit_quit_at_midnight ()
+{
+  Database_Config_General::setJustStarted (true);
+  config_globals_quit_at_midnight = true;
+}
+
+
+// Puts an entry in the journal.
+void bibledit_log (const char * message) // Todo
+{
+  Database_Logs::log (message);
+}
+
+
 // Returns true if Bibledit is running.
-bool bibledit_running ()
+bool bibledit_is_running ()
 {
   this_thread::sleep_for (chrono::milliseconds (10));
   return config_globals_running;
@@ -54,7 +101,7 @@ bool bibledit_running ()
 
 
 // Stop the Bibledit server.
-void bibledit_stop ()
+void bibledit_stop_server ()
 {
   // Clear running flag.
   config_globals_running = false;
@@ -62,7 +109,7 @@ void bibledit_stop ()
   // Connect to localhost to initiate the shutdown mechanism in the running server.
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
-  sa.sin_port = htons (stoi (NETWORK_PORT));
+  sa.sin_port = htons (stoi (config_logic_network_port ()));
   //sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
   inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
   char str[INET_ADDRSTRLEN];

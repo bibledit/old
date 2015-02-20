@@ -31,7 +31,7 @@ $bible = Filter_Cli::argument (@$argv, 3);
 
 
 $session_logic = Session_Logic::getInstance ();
-$session_logic->setUsername ($user);
+request->session_logic ()->setUsername ($user);
 
 
 $database_jobs = Database_Jobs::getInstance ();
@@ -39,7 +39,7 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$database_jobs->setProgress ($jobId, gettext("The document is being created..."));
+$database_jobs->setProgress ($jobId, translate("The document is being created..."));
 
 
 $resources = request->database_config_user()->getPrintResourcesForUser ($user);

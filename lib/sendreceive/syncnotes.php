@@ -32,7 +32,7 @@ $highId = Filter_Cli::argument (@$argv, 2);
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_bible = Database_Config_Bible::getInstance ();
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_notes = Database_Notes::getInstance ();
 $database_users = Database_Users::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
@@ -62,9 +62,9 @@ $main_script = ($lowId == Notes_Logic::lowNoteIdentifier) && ($highId == Notes_L
 // The server will use this user to find out the Bibles this user has access to,
 // so the server can select the correct notes for this user.
 // The client selects all available notes on the system.
-$users = $database_users->getUsers ();
+$users = request->database_users ()->getUsers ();
 $user = $users [0];
-$md5 = $database_users->getmd5 ($user);
+$md5 = request->database_users ()->getmd5 ($user);
 
 
 // The script requests the total note count from the server, and their total checksum.

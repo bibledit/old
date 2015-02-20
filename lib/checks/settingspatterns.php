@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap");
 page_access_level (Filter_Roles::manager ());
 
 
-Assets_Page::header (gettext("Patterns"));
+Assets_Page::header (translate("Patterns"));
 $view = new Assets_View (__FILE__);
 $database_config_user = Database_Config_User::getInstance();
 $database_config_bible = Database_Config_Bible::getInstance();
@@ -35,7 +35,7 @@ $bible = access_bible_clamp (request->database_config_user()->getBible ());
 if (isset(request->post['patterns'])) {
   $patterns = request->post ['patterns'];
   if ($bible) Database_Config_Bible::setCheckingPatterns ($bible, $patterns);
-  $view.set_variable ("success = gettext("The patterns were saved");
+  $view.set_variable ("success = translate("The patterns were saved");
 }
 
 

@@ -37,7 +37,7 @@ private:
   map <string, bool> zones;
   void process_zones (string& rendering);
   void process_variables (string& rendering);
-  void process_gettext (string& rendering);
+  void process_translate (string& rendering);
 };
 
 

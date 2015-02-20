@@ -47,7 +47,7 @@ string bible_abbreviations (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Abbreviations"), webserver_request, "");
+  page = Assets_Page::header (translate ("Abbreviations"), webserver_request, "");
   
   Assets_View view = Assets_View ();
   
@@ -65,12 +65,12 @@ string bible_abbreviations (void * webserver_request)
     if (data != "") {
       if (unicode_string_is_valid (data)) {
         Database_Config_Bible::setBookAbbreviations (bible, data);
-        success_message = gettext("The abbreviations were saved.");
+        success_message = translate("The abbreviations were saved.");
       } else {
-        error_message = gettext("Please supply valid Unicode UTF-8 text.");
+        error_message = translate("Please supply valid Unicode UTF-8 text.");
       }
     } else {
-      success_message = gettext("Nothing was saved.");
+      success_message = translate("Nothing was saved.");
     }
   }
 

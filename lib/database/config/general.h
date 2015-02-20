@@ -64,10 +64,14 @@ public:
   static void setClientMode (bool value);
   static string getServerAddress ();
   static void setServerAddress (string value);
+  static int getServerPort ();
+  static void setServerPort (int value);
   static int getRepeatSendReceive ();
   static void setRepeatSendReceive (int value);
   static string getInstalledVersion ();
   static void setInstalledVersion (string value);
+  static bool getJustStarted ();
+  static void setJustStarted (bool value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

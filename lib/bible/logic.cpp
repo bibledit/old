@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/modifications.h>
 #include <database/bibleactions.h>
 #include <config/logic.h>
+#include <client/logic.h>
 
 
 void Bible_Logic::storeChapter (const string& bible, int book, int chapter, const string& usfm)
@@ -31,7 +32,7 @@ void Bible_Logic::storeChapter (const string& bible, int book, int chapter, cons
   Database_Bibles database_bibles = Database_Bibles ();
 
   // Record data of the chapter to be stored prior to storing the new version.
-  if (config_logic_client_enabled ()) {
+  if (client_logic_client_enabled ()) {
 
     // Client stores Bible action.
     string oldusfm = database_bibles.getChapter (bible, book, chapter);
@@ -56,7 +57,7 @@ void Bible_Logic::deleteChapter (const string& bible, int book, int chapter)
   Database_Bibles database_bibles = Database_Bibles ();
 
   // Record data of the chapter to be deleted prior to deletion.
-  if (config_logic_client_enabled ()) {
+  if (client_logic_client_enabled ()) {
 
     // Client stores Bible action.
     string usfm = database_bibles.getChapter (bible, book, chapter);
@@ -81,7 +82,7 @@ void Bible_Logic::deleteBook (const string& bible, int book)
   Database_Bibles database_bibles = Database_Bibles ();
 
   // Record data of the book to be deleted prior to deletion.
-  if (config_logic_client_enabled ()) {
+  if (client_logic_client_enabled ()) {
 
     // Client stores Bible actions.
     Database_BibleActions database_bibleactions = Database_BibleActions ();
@@ -109,7 +110,7 @@ void Bible_Logic::deleteBible (const string& bible)
   Database_Bibles database_bibles = Database_Bibles ();
 
   // Record data of the Bible to be deleted prior to deletion.
-  if (config_logic_client_enabled ()) {
+  if (client_logic_client_enabled ()) {
 
     // Client stores Bible actions.
     Database_BibleActions database_bibleactions = Database_BibleActions ();

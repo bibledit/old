@@ -55,7 +55,7 @@ $count = $database_offlineresources->count ($name);
 $view.set_variable ("count = $count;
 
 
-$header = new Assets_Header (gettext("Download resource"));
+$header = new Assets_Header (translate("Download resource"));
 $header->run ();
 
 

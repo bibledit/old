@@ -55,7 +55,7 @@ string styles_view (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (gettext ("Style"), webserver_request, "");
+  page = Assets_Page::header (translate ("Style"), webserver_request, "");
   
   Assets_View view = Assets_View ();
 
@@ -84,7 +84,7 @@ string styles_view (void * webserver_request)
   // The style's name.
   string name = marker_data.name;
   if (request->query.count ("name")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter the name for the style"), name, "name", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the name for the style"), name, "name", "");
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -100,7 +100,7 @@ string styles_view (void * webserver_request)
   // The style's info.
   string info = marker_data.info;
   if (request->query.count ("info")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter the description for the style"), info, "info", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the description for the style"), info, "info", "");
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -118,7 +118,7 @@ string styles_view (void * webserver_request)
   if (request->query.count("category")) {
     category = request->query["category"];
     if (category == "") {
-      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the category of this style?"),gettext("Here are the various categories:"), gettext("Please pick one."));
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the category of this style?"),translate("Here are the various categories:"), translate("Please pick one."));
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       dialog_list.add_row (styles_logic_category_text ("id"),  "category", "id");
@@ -156,7 +156,7 @@ string styles_view (void * webserver_request)
     string s = request->query["type"];
     type = convert_to_int (s);
     if (s == "") {
-      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the type of this style?"), gettext("Here are the various types:"), gettext("Please pick one."));
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the type of this style?"), translate("Here are the various types:"), translate("Please pick one."));
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       for (int i = 0; i < 99; i++) {
@@ -181,7 +181,7 @@ string styles_view (void * webserver_request)
     string s = request->query["subtype"];
     subtype = convert_to_int (s);
     if (s == "") {
-      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the sub type of this style?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
@@ -208,7 +208,7 @@ string styles_view (void * webserver_request)
   if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (request->query.count ("fontsize")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a fontsize between 5 and 60 points"), convert_to_string (fontsize), "fontsize", gettext ("The value to enter is just a number, e.g. 12."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a fontsize between 5 and 60 points"), convert_to_string (fontsize), "fontsize", translate ("The value to enter is just a number, e.g. 12."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -233,7 +233,7 @@ string styles_view (void * webserver_request)
   if (request->query.count ("italic")) {
     string s = request->query["italic"];
     if (s == "") {
-      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change whether this style is in italics?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
@@ -258,7 +258,7 @@ string styles_view (void * webserver_request)
   if (request->query.count ("bold")) {
     string s = request->query["bold"];
     if (s == "") {
-      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change whether this style is in bold?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in bold?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
@@ -283,7 +283,7 @@ string styles_view (void * webserver_request)
   if (request->query.count ("underline")) {
     string s = request->query["underline"];
     if (s == "") {
-      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change whether this style is underlined?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is underlined?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
@@ -308,7 +308,7 @@ string styles_view (void * webserver_request)
   if (request->query.count ("smallcaps")) {
     string s = request->query["smallcaps"];
     if (s == "") {
-      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change whether this style is in small caps?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in small caps?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
@@ -346,7 +346,7 @@ string styles_view (void * webserver_request)
   // Text alignment.
   int justification = marker_data.justification;
   if (request->query.count ("alignment")) {
-    Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the text alignment of this style?"), "", "");
+    Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), "", "");
     dialog_list.add_query ("sheet", sheet);
     dialog_list.add_query ("style", style);
     for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
@@ -365,7 +365,7 @@ string styles_view (void * webserver_request)
   // Space before paragraph.
   float spacebefore = marker_data.spacebefore;
   if (request->query.count ("spacebefore")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a space of between 0 and 100 mm before the paragraph"), convert_to_string (spacebefore), "spacebefore", gettext ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm before the paragraph"), convert_to_string (spacebefore), "spacebefore", translate ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -383,7 +383,7 @@ string styles_view (void * webserver_request)
   // Space after paragraph.
   float spaceafter = marker_data.spaceafter;
   if (request->query.count ("spaceafter")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a space of between 0 and 100 mm after the paragraph"), convert_to_string (spaceafter), "spaceafter", gettext ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm after the paragraph"), convert_to_string (spaceafter), "spaceafter", translate ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -401,7 +401,7 @@ string styles_view (void * webserver_request)
   // Left margin.
   float leftmargin = marker_data.leftmargin;
   if (request->query.count ("leftmargin")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a left margin of between -100 and 100 mm"), convert_to_string (leftmargin), "leftmargin", gettext ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a left margin of between -100 and 100 mm"), convert_to_string (leftmargin), "leftmargin", translate ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -419,7 +419,7 @@ string styles_view (void * webserver_request)
   // Right margin.
   float rightmargin = marker_data.rightmargin;
   if (request->query.count ("rightmargin")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a right margin of between -100 and 100 mm"), convert_to_string (rightmargin), "rightmargin", gettext ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a right margin of between -100 and 100 mm"), convert_to_string (rightmargin), "rightmargin", translate ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -437,7 +437,7 @@ string styles_view (void * webserver_request)
   // First line indent.
   float firstlineindent = marker_data.firstlineindent;
   if (request->query.count ("firstlineindent")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a first line indent of between -100 and 100 mm"), convert_to_string (firstlineindent), "firstlineindent", gettext ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a first line indent of between -100 and 100 mm"), convert_to_string (firstlineindent), "firstlineindent", translate ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -469,7 +469,7 @@ string styles_view (void * webserver_request)
   if (request->query.count ("color")) {
     color = request->query["color"];
     if (color == "") {
-      Dialog_Color dialog_color = Dialog_Color ("view", gettext("Please specify a new color"));
+      Dialog_Color dialog_color = Dialog_Color ("view", translate("Please specify a new color"));
       dialog_color.add_query ("sheet", sheet);
       dialog_color.add_query ("style", style);
       page += dialog_color.run ();
@@ -541,7 +541,7 @@ string styles_view (void * webserver_request)
     case UserInt1NoteNumbering :
       view.enable_zone ("userint1_notenumbering");
       if (request->query.count ("notenumbering")) {
-        Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the numbering of the note?"), "", "");
+        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the numbering of the note?"), "", "");
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteNumbering123; i <= NoteNumberingUser; i++) {
@@ -559,7 +559,7 @@ string styles_view (void * webserver_request)
     case UserInt1TableColumnNumber :
       view.enable_zone ("userint1_columnnumber");
       if (request->query.count ("userint1")) {
-        Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a column number between 1 and 4"), convert_to_string (userint1), "userint1", gettext ("This is the column number for the style. The first columm is number 1."));
+        Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a column number between 1 and 4"), convert_to_string (userint1), "userint1", translate ("This is the column number for the style. The first columm is number 1."));
         dialog_entry.add_query ("sheet", sheet);
         dialog_entry.add_query ("style", style);
         page += dialog_entry.run ();
@@ -585,7 +585,7 @@ string styles_view (void * webserver_request)
     case UserInt2NoteNumberingRestart :
       view.enable_zone ("userint2_notenumberingrestart");
       if (request->query.count ("notenumberingrestart")) {
-        Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change when the note numbering restarts?"), "", "");
+        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change when the note numbering restarts?"), "", "");
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteRestartNumberingNever; i <= NoteRestartNumberingEveryChapter; i++) {
@@ -603,7 +603,7 @@ string styles_view (void * webserver_request)
     case UserInt2EndnotePosition :
       view.enable_zone ("userint2_endnoteposition");
       if (request->query.count ("endnoteposition")) {
-        Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the position where to dump the endnotes?"), "", "");
+        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the position where to dump the endnotes?"), "", "");
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = EndNotePositionAfterBook; i <= EndNotePositionAtMarker; i++) {
@@ -634,14 +634,14 @@ string styles_view (void * webserver_request)
     case UserString1NoteNumberingSequence :
       if (userint1 == NoteNumberingUser) {
         view.enable_zone ("userstring1_numberingsequence");
-        userstring1_question = gettext("Please enter a new note numbering sequence");
-        userstring1_help = gettext("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters");
+        userstring1_question = translate("Please enter a new note numbering sequence");
+        userstring1_help = translate("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters");
       }
       break;
     case UserString1WordListEntryAddition :
       view.enable_zone ("userstring1_wordlistaddition");
-      userstring1_question = gettext("Please enter a new addition to the word list entry");
-      userstring1_help = gettext("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit would include this in the exported documents.");
+      userstring1_question = translate("Please enter a new addition to the word list entry");
+      userstring1_help = translate("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit would include this in the exported documents.");
       break;
   }
   if (request->query.count ("userstring1")) {
@@ -669,8 +669,8 @@ string styles_view (void * webserver_request)
     case UserString2DumpEndnotesHere :
       if (userint2 == EndNotePositionAtMarker) {
         view.enable_zone ("userstring2_dumpendnotes");
-        userstring2_question = gettext("Please enter a marker at which the endnotes should be dumped");
-        userstring2_info = gettext("The marker is to be given without the backslash, e.g. \"zendnotes\".");
+        userstring2_question = translate("Please enter a marker at which the endnotes should be dumped");
+        userstring2_info = translate("The marker is to be given without the backslash, e.g. \"zendnotes\".");
       }
       break;
   }

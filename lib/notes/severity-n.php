@@ -27,7 +27,7 @@ $notes_logic = Notes_Logic::getInstance();
 $database_users = Database_Users::getInstance();
 
 
-$header = new Assets_Header (gettext("Severity"));
+$header = new Assets_Header (translate("Severity"));
 $header->run();
 
 

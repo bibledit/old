@@ -20,10 +20,15 @@
 #include <filter/git.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/shell.h>
+#include <filter/merge.h>
 #include <database/logs.h>
 #include <database/books.h>
+#include <database/jobs.h>
 #include <config.h>
+#ifdef HAVE_GIT
 #include <git2.h>
+#endif
 #include <bible/logic.h>
 #include <locale/translate.h>
 
@@ -37,6 +42,7 @@ string filter_git_directory (string object)
 
 string filter_git_check_error (int result)
 {
+#ifdef HAVE_GIT
   string msg;
   if (result != 0) {
     const git_error * error = giterr_last ();
@@ -44,19 +50,29 @@ string filter_git_check_error (int result)
     Database_Logs::log (error->message);
   }
   return msg;
+#else
+  if (result) {};
+  return "";
+#endif
 }
 
 
 // Runs the equivalent of "git init".
-bool filter_git_init (string directory)
+bool filter_git_init (string directory, bool bare)
 {
+#ifdef HAVE_GIT
   git_threads_init ();
   git_repository *repo = NULL;
-  int result = git_repository_init (&repo, directory.c_str(), false);
+  int result = git_repository_init (&repo, directory.c_str(), bare);
   filter_git_check_error (result);
   git_repository_free (repo);
   git_threads_shutdown ();
   return (result == 0);
+#else
+  if (bare) {};
+  if (directory.empty ()) {};
+  return false;
+#endif
 }
 
 
@@ -166,7 +182,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
                   string usfm = filter_url_file_get_contents (filename);
                   Bible_Logic::storeChapter (bible, book, chapter, usfm);
                   // Log it.
-                  string message = gettext("A translator added chapter") + " " + bible + " " + bookname + " " + chapterfile;
+                  string message = translate("A translator added chapter") + " " + bible + " " + bookname + " " + chapterfile;
                   Database_Logs::log (message);
                 }
               }
@@ -199,18 +215,24 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
           string usfm = request->database_bibles()->getChapter (bible, book, chapter);
           if (contents != usfm) {
             Bible_Logic::storeChapter (bible, book, chapter, contents);
-            Database_Logs::log (gettext("A translator updated chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
           }
         } else {
           Bible_Logic::deleteChapter (bible, book, chapter);
-          Database_Logs::log (gettext("A translator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
         }
       }
     } else {
       Bible_Logic::deleteBook (bible, book);
-      Database_Logs::log (gettext("A translator deleted book") + " " + bible + " " + bookname);
+      Database_Logs::log (translate("A translator deleted book") + " " + bible + " " + bookname);
     }
   }
+}
+
+
+string filter_git_disabled ()
+{
+  return "Git has been disabled on iOS and Android, and can be enabled on Linux, Windows and OS X";
 }
 
 
@@ -228,19 +250,20 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
     // Store chapter in database.
     string usfm = filter_url_file_get_contents (filename);
     Bible_Logic::storeChapter (bible, book, chapter, usfm);
-    Database_Logs::log (gettext("A collaborator updated") + " " + bible + " " + bookname + " " + to_string (chapter));
+    Database_Logs::log (translate("A collaborator updated") + " " + bible + " " + bookname + " " + to_string (chapter));
     
   } else {
     
     // Delete chapter from database.
     Bible_Logic::deleteChapter (bible, book, chapter);
-    Database_Logs::log (gettext("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
     
   }
 }
 
 
-int cred_acquire_cb (git_cred **out, const char * url, const char * username_from_url, unsigned int allowed_types, void *payload)
+#ifdef HAVE_GIT
+static int cred_acquire_cb (git_cred **out, const char * url, const char * username_from_url, unsigned int allowed_types, void *payload)
 {
   if (url) {};
   if (username_from_url) {};
@@ -250,19 +273,15 @@ int cred_acquire_cb (git_cred **out, const char * url, const char * username_fro
   char username[128] = {0};
   char password[128] = {0};
   
-  //printf("Username: ");
-  //scanf("%s", username);
-  
-  //printf("Password: ");
-  //scanf("%s", password);
-  
   return git_cred_userpass_plaintext_new (out, username, password);
 }
+#endif
 
 
 // Returns true if the git repository at "url" is online.
-bool filter_git_remote_read (string url, string & error) // Todo
+bool filter_git_remote_read (string url, string & error)
 {
+#ifdef HAVE_GIT
   int result = 0;
   git_threads_init ();
   
@@ -283,10 +302,11 @@ bool filter_git_remote_read (string url, string & error) // Todo
   }
 
   // Callbacks.
-  git_remote_callbacks callbacks = GIT_REMOTE_CALLBACKS_INIT;
+  git_remote_callbacks callbacks;
+  git_remote_init_callbacks (&callbacks, GIT_REMOTE_CALLBACKS_VERSION);
   if (result == 0) {
     callbacks.credentials = cred_acquire_cb;
-    git_remote_set_callbacks(remote, &callbacks);
+    git_remote_set_callbacks (remote, &callbacks);
   }
   
   // When connecting, the underlying code needs to know wether to push or fetch.
@@ -322,4 +342,600 @@ bool filter_git_remote_read (string url, string & error) // Todo
   git_threads_shutdown ();
 
   return (result == 0);
+#else
+  url.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
 }
+
+
+typedef struct git_progress_data {
+  int job_identifier;
+  int seconds;
+} git_progress_data;
+
+
+#ifdef HAVE_GIT
+static int fetch_progress (const git_transfer_progress *stats, void *payload)
+{
+  git_progress_data *pd = (git_progress_data*) payload;
+  int seconds = filter_string_date_seconds_since_epoch ();
+  if (seconds != pd->seconds) {
+    size_t received_kilo_bytes = stats->received_bytes / 1048;
+    int percentage = round (100 * stats->received_objects / stats->total_objects);
+    string progress = to_string (received_kilo_bytes) + " kb";
+    if (pd->job_identifier) {
+      Database_Jobs database_jobs;
+      database_jobs.setPercentage (pd->job_identifier, percentage);
+      database_jobs.setProgress (pd->job_identifier, progress);
+    }
+    pd->seconds = seconds;
+  }
+  return 0;
+}
+#endif
+
+
+#ifdef HAVE_GIT
+static void checkout_progress (const char *path, size_t cur, size_t tot, void *payload)
+{
+  git_progress_data *pd = (git_progress_data*) payload;
+  int seconds = filter_string_date_seconds_since_epoch ();
+  if (seconds != pd->seconds) {
+    int percentage = round (100 * cur / tot);
+    if (pd->job_identifier) {
+      Database_Jobs database_jobs;
+      database_jobs.setPercentage (pd->job_identifier, percentage);
+      if (path) database_jobs.setProgress (pd->job_identifier, path);
+    }
+    pd->seconds = seconds;
+  }
+}
+#endif
+
+
+bool filter_git_remote_clone (string url, string path, int jobid, string & error)
+{
+#ifdef HAVE_GIT
+  // Clear a possible existing git repository directory.
+  filter_url_rmdir (path);
+  
+  git_threads_init ();
+  
+  git_progress_data pd = {0, 0};
+  pd.job_identifier = jobid;
+  git_repository *cloned_repo = NULL;
+  git_clone_options clone_opts;
+  git_clone_init_options (&clone_opts, GIT_CLONE_OPTIONS_VERSION);
+  git_checkout_options checkout_opts;
+  git_checkout_init_options (&checkout_opts, GIT_CHECKOUT_OPTIONS_VERSION);
+  
+  // Set up options
+  checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE_CREATE;
+  checkout_opts.progress_cb = checkout_progress;
+  checkout_opts.progress_payload = &pd;
+  clone_opts.checkout_opts = checkout_opts;
+  clone_opts.remote_callbacks.transfer_progress = &fetch_progress;
+  clone_opts.remote_callbacks.credentials = cred_acquire_cb;
+  clone_opts.remote_callbacks.payload = &pd;
+  
+  // Do the clone
+  int result = git_clone (&cloned_repo, url.c_str(), path.c_str(), &clone_opts);
+  if (result != 0) {
+    const git_error *err = giterr_last();
+    error = err->message;
+  }
+  if (cloned_repo) git_repository_free (cloned_repo);
+  git_threads_shutdown ();
+  
+  return (result == 0);
+#else
+  url.clear ();
+  path.clear ();
+  if (jobid) {};
+  error = filter_git_disabled ();
+  return false;
+#endif
+}
+
+
+#ifdef HAVE_GIT
+static int filter_git_index_remove_matched_path_cb (const char *path, const char *matched_pathspec, void *payload)
+{
+  if (matched_pathspec) {};
+  if (path) {
+    string * directory = (string *) payload;
+    string filename = filter_url_create_path (* directory, path);
+    if (file_exists (filename)) return 1;
+    else return 0;
+  }
+  return 0;
+}
+#endif
+
+
+bool filter_git_add_remove_all (string repository, string & error)
+{
+#ifdef HAVE_GIT
+  git_repository * repo = NULL;
+  git_index * index = NULL;
+
+  git_threads_init();
+
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    error = filter_git_check_error (result);
+  }
+
+  if (result == 0) {
+    result = git_repository_index (&index, repo);
+    error = filter_git_check_error (result);
+  }
+
+  if (result == 0) {
+    result = git_index_add_all (index, NULL, 0, NULL, NULL);
+    error = filter_git_check_error (result);
+  }
+  
+  if (result == 0) {
+    result = git_index_remove_all (index, NULL, filter_git_index_remove_matched_path_cb, &repository);
+    error = filter_git_check_error (result);
+  }
+
+  if (result == 0) {
+    result = git_index_write (index);
+    error = filter_git_check_error (result);
+  }
+  
+  // Free resources.
+  if (index) git_index_free (index);
+  if (repo) git_repository_free (repo);
+  git_threads_shutdown();
+
+  return (result == 0);
+#else
+  repository.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
+}
+
+
+bool filter_git_commit (string repository, string user, string email, string message, string & error)
+{
+#ifdef HAVE_GIT
+  // Initialize the git system.
+  git_threads_init();
+
+  // Open the git repository.
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    error = filter_git_check_error (result);
+  }
+  
+  // Get the index to be committed to HEAD.
+  git_index * index = NULL;
+  if (result == 0) {
+    result = git_repository_index (&index, repo);
+    error = filter_git_check_error (result);
+  }
+
+  // Create a tree from the index.
+  git_oid tree_oid;
+  if (result == 0) {
+    result = git_index_write_tree (&tree_oid, index);
+    error = filter_git_check_error (result);
+  }
+
+  // Create a signature.
+  git_signature * signature = NULL;
+  time_t ctime = filter_string_date_seconds_since_epoch ();
+  if (result == 0) {
+    git_signature_new ((git_signature **)&signature, user.c_str(), email.c_str(), ctime, 0);
+    error = filter_git_check_error (result);
+  }
+
+  // Get the tree.
+  git_tree * tree = NULL;
+  if (result == 0) {
+    result = git_tree_lookup (&tree, repo, &tree_oid);
+    error = filter_git_check_error (result);
+  }
+
+  // Format the commit message.
+  git_buf buffer;
+  memset (&buffer, 0, sizeof (git_buf));
+  if (result == 0) {
+    result = git_message_prettify (&buffer, message.c_str(), 0, '#');
+    error = filter_git_check_error (result);
+  }
+  
+  // Check whether the repository is empty, so HEAD is not yet committed.
+  bool head_unborn = git_repository_head_unborn (repo) == 1;
+
+  // Get HEAD as a commit object to use as the parent of the commit, if available.
+  git_oid parent_id;
+  git_commit *parent = NULL;
+  if (!head_unborn) {
+    if (result == 0) {
+      result = git_reference_name_to_id (&parent_id, repo, "HEAD");
+      error = filter_git_check_error (result);
+    }
+    if (result == 0) {
+      result = git_commit_lookup (&parent, repo, &parent_id);
+      error = filter_git_check_error (result);
+    }
+  }
+
+  git_oid commit_oid;
+  if (head_unborn) {
+    if (result == 0) {
+      result = git_commit_create_v (&commit_oid, repo, "HEAD", signature, signature, NULL, buffer.ptr, tree, 0);
+      error = filter_git_check_error (result);
+    }
+  } else {
+    if (result == 0) {
+      result = git_commit_create_v (&commit_oid, repo, "HEAD", signature, signature, NULL, buffer.ptr, tree, 1, parent);
+      error = filter_git_check_error (result);
+    }
+  }
+
+  // Free resources.
+  git_buf_free (&buffer);
+  if (tree) git_tree_free (tree);
+  if (signature) git_signature_free (signature);
+  if (index) git_index_free (index);
+  if (repo) git_repository_free (repo);
+  git_threads_shutdown();
+
+  return (result == 0);
+#else
+  repository.clear ();
+  user.clear ();
+  email.clear ();
+  message.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
+}
+
+
+// This function runs "git commit" through the shell.
+// It is needed because so far the libgit2 calls, in the parallel function, do not yet do the same as the shell call.
+bool filter_git_commit (string repository, string message, vector <string> & messages)
+{
+  string out, err;
+  int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, out, err);
+  out = filter_string_trim (out);
+  err = filter_string_trim (err);
+  messages = filter_string_explode (out, '\n');
+  vector <string> lines = filter_string_explode (err, '\n');
+  messages.insert (messages.end(), lines.begin(), lines.end());
+  return (result == 0);
+}
+
+
+void filter_git_config_set_bool (string repository, string name, bool value)
+{
+#ifdef HAVE_GIT
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  git_config * cfg = NULL;
+  result = git_repository_config (&cfg, repo);
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  result = git_config_set_bool (cfg, name.c_str(), value);
+  if (cfg) git_config_free (cfg);
+  if (repo) git_repository_free (repo);
+#else
+  repository.clear ();
+  name.clear ();
+  if (value) {};
+#endif
+}
+
+
+void filter_git_config_set_int (string repository, string name, int value)
+{
+#ifdef HAVE_GIT
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  git_config * cfg = NULL;
+  result = git_repository_config (&cfg, repo);
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  result = git_config_set_int32 (cfg, name.c_str(), value);
+  if (cfg) git_config_free (cfg);
+  if (repo) git_repository_free (repo);
+#else
+  repository.clear ();
+  name.clear ();
+  if (value) {};
+#endif
+}
+
+
+void filter_git_config_set_string (string repository, string name, string value)
+{
+#ifdef HAVE_GIT
+  git_repository * repo = NULL;
+  int result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  git_config * cfg = NULL;
+  result = git_repository_config (&cfg, repo);
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+  result = git_config_set_string (cfg, name.c_str(), value.c_str());
+  if (cfg) git_config_free (cfg);
+  if (repo) git_repository_free (repo);
+#else
+  repository.clear ();
+  name.clear ();
+  value.clear ();
+#endif
+}
+
+
+// This filter takes a $line of the output of the git pull command.
+// It tries to interpret it to find a passage that would have been updated.
+// If a valid book and chapter are found, it returns them.
+Passage filter_git_get_pull_passage (string line)
+{
+  // Sample lines:
+  // "From https://github.com/joe/test"
+  // "   443579b..90dcb57  master     -> origin/master"
+  // "Updating 443579b..90dcb57"
+  // "Fast-forward"
+  // " Genesis/1/data | 2 +-"
+  // " 1 file changed, 1 insertion(+), 1 deletion(-)"
+  // " delete mode 100644 Leviticus/1/data"
+  // " create mode 100644 Leviticus/2/data"
+  Passage passage;
+  vector <string> bits = filter_string_explode (line, '/');
+  if (bits.size () == 3) {
+    string bookname = filter_string_trim (bits [0]);
+    int book = Database_Books::getIdFromEnglish (bookname);
+    if (book) {
+      if (filter_string_is_numeric (bits [1])) {
+        int chapter = convert_to_int (bits [1]);
+        string data = bits [2];
+        if (data.find ("data") != string::npos) {
+          passage.book = book;
+          passage.chapter = chapter;
+        }
+      }
+    }
+  }
+  return passage;
+}
+
+
+// Reports information comparable to "git status".
+// Repository: "repository".
+// All changed files will be returned.
+vector <string> filter_git_status (string repository)
+{
+#ifdef HAVE_GIT
+  vector <string> paths;
+  
+  int result = 0;
+  
+  git_repository * repo = NULL;
+  result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) {
+    filter_git_check_error (result);
+  }
+
+  git_status_list * status = NULL;
+  if (result == 0) {
+    result = git_status_list_new (&status, repo, NULL);
+    if (result != 0) {
+      filter_git_check_error (result);
+    }
+  }
+
+  if (result == 0) {
+    size_t maxi = git_status_list_entrycount (status);
+    for (size_t i = 0; i < maxi; ++i) {
+      const git_status_entry * entry = git_status_byindex (status, i);
+      if (entry->status == GIT_STATUS_CURRENT) continue;
+      if (entry->status & GIT_STATUS_IGNORED) continue;
+      if (entry) {
+        git_diff_delta * mut = NULL;
+        if (entry->head_to_index) mut = entry->head_to_index;
+        if (entry->index_to_workdir) mut = entry->index_to_workdir;
+        if (mut) {
+          string path;
+          if (mut->old_file.path) path = mut->old_file.path;
+          else if (mut->new_file.path) path = mut->new_file.path;
+          if (!path.empty ()) paths.push_back (path);
+        }
+      }
+      if (entry->status & GIT_STATUS_INDEX_NEW) {};
+      if (entry->status & GIT_STATUS_INDEX_MODIFIED) {};
+      if (entry->status & GIT_STATUS_INDEX_DELETED) {};
+      if (entry->status & GIT_STATUS_INDEX_RENAMED) {};
+      if (entry->status & GIT_STATUS_INDEX_TYPECHANGE) {};
+      if (entry->status & GIT_STATUS_WT_NEW) {};
+      if (entry->status & GIT_STATUS_WT_MODIFIED) {};
+      if (entry->status & GIT_STATUS_WT_DELETED) {};
+      if (entry->status & GIT_STATUS_WT_RENAMED) {};
+      if (entry->status & GIT_STATUS_WT_TYPECHANGE) {};
+    }
+  }
+  
+  if (status) git_status_list_free (status);
+  if (repo) git_repository_free (repo);
+  
+  return paths;
+#else
+  repository.clear ();
+  return {};
+#endif
+}
+
+
+// Runs "git pull" and returns true if it ran fine.
+// It puts the messages in container "messages".
+bool filter_git_pull (string repository, vector <string> & messages)
+{
+  string out, err;
+  int result = filter_shell_run (repository, "git", {"pull"}, out, err);
+  out = filter_string_trim (out);
+  err = filter_string_trim (err);
+  messages = filter_string_explode (out, '\n');
+  vector <string> lines = filter_string_explode (err, '\n');
+  messages.insert (messages.end(), lines.begin(), lines.end());
+  return (result == 0);
+}
+
+
+// Runs "git pull" and returns true if it ran fine.
+// It puts the push messages in container "messages".
+bool filter_git_push (string repository, vector <string> & messages, bool all)
+{
+  string out, err;
+  vector <string> parameters = {"push"};
+  if (all) parameters.push_back ("--all");
+  int result = filter_shell_run (repository, "git", parameters, out, err);
+  out = filter_string_trim (out);
+  err = filter_string_trim (err);
+  messages = filter_string_explode (out, '\n');
+  vector <string> lines = filter_string_explode (err, '\n');
+  messages.insert (messages.end(), lines.begin(), lines.end());
+  return (result == 0);
+}
+
+
+// Resolves any conflicts in "repository".
+// It fills "paths" with the paths to the files with the resolved merge conflicts.
+// It fills "error" with any error that the library generates.
+// It returns true on success, that is, no errors occurred.
+bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error)
+{
+#ifdef HAVE_GIT
+  int result = 0;
+  paths.clear();
+
+  // Open the repository.
+  git_repository * repo = NULL;
+  result = git_repository_open (&repo, repository.c_str());
+  if (result != 0) error = filter_git_check_error (result);
+  
+  // Get the index.
+  git_index * index = NULL;
+  if (result == 0) {
+    result = git_repository_index (&index, repo);
+    if (result != 0) error = filter_git_check_error (result);
+  }
+
+  // Get a handle on the object database.
+  git_odb *odb = NULL;
+  if (result == 0) {
+    git_repository_odb (&odb, repo);
+  }
+
+  // Proceed if the index contains conflicts.
+  if (result == 0) {
+    if (git_index_has_conflicts (index)) {
+      
+      // Iterator for going through the conflicts.
+      git_index_conflict_iterator * iter = NULL;
+      result = git_index_conflict_iterator_new (&iter, index);
+      if (result != 0) error = filter_git_check_error (result);
+      if (result == 0) {
+
+        // Iterate through the conflicts.
+        const git_index_entry *ancestor = NULL;
+        const git_index_entry *ours = NULL;
+        const git_index_entry *theirs = NULL;
+        while (git_index_conflict_next (&ancestor, &ours, &theirs, iter) != GIT_ITEROVER) {
+          
+          // Obtain string contents for ancestor, ours, and theirs.
+          string ancestorcontents;
+          if (ancestor) {
+            git_odb_object *ancestor_file = NULL;
+            git_odb_read (&ancestor_file, odb, &ancestor->id);
+            const void *ancestor_data = git_odb_object_data (ancestor_file);
+            size_t ancestor_size = git_odb_object_size (ancestor_file);
+            const char * ancestor_chars = (const char *) ancestor_data;
+            for (size_t i = 0; i < ancestor_size; i++) ancestorcontents += ancestor_chars [i];
+            if (ancestor_file) git_odb_object_free (ancestor_file);
+          }
+          string ourcontents;
+          if (ours) {
+            git_odb_object *ours_file = NULL;
+            git_odb_read (&ours_file, odb, &ours->id);
+            const void *ours_data = git_odb_object_data (ours_file);
+            size_t ours_size = git_odb_object_size (ours_file);
+            const char * our_chars = (const char *) ours_data;
+            for (size_t i = 0; i < ours_size; i++) ourcontents += our_chars [i];
+            if (ours_file) git_odb_object_free (ours_file);
+          }
+          string theircontents;
+          if (theirs) {
+            git_odb_object *theirs_file = NULL;
+            git_odb_read (&theirs_file, odb, &theirs->id);
+            const void *theirs_data = git_odb_object_data (theirs_file);
+            size_t theirs_size = git_odb_object_size (theirs_file);
+            const char * their_chars = (const char *) theirs_data;
+            for (size_t i = 0; i < theirs_size; i++) theircontents += their_chars [i];
+            if (theirs_file) git_odb_object_free (theirs_file);
+          }
+          
+          // Merge and store in the filesystem.
+          string mergedcontents = filter_merge_run (ancestorcontents, ourcontents, theircontents);
+          string file = filter_url_create_path (repository, ours->path);
+          filter_url_file_put_contents (file, mergedcontents);
+          
+          // Mark the conflict as resolved.
+          // git_index_conflict_remove (index, ours->path);
+          // git_index_add_bypath (index, ours->path);
+          
+          // Record the path of the file with the resolved conflict.
+          paths.push_back (ours->path);
+        }
+      }
+  
+      // Free resources.
+      if (iter) git_index_conflict_iterator_free (iter);
+      
+      // Write the updated index to disk.
+      if (result == 0) {
+        //result = git_index_write (index);
+        //error = filter_git_check_error (result);
+      }
+
+      // Clean up repository state.
+      //git_repository_state_cleanup (repo);
+    }
+  }
+
+  // Free resources.
+  if (odb) git_odb_free (odb);
+  if (index) git_index_free (index);
+  if (repo) git_repository_free (repo);
+
+  // Done.
+  return (result == 0);
+#else
+  repository.clear ();
+  paths.clear ();
+  error = filter_git_disabled ();
+  return false;
+#endif
+}
+

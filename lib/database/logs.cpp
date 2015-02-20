@@ -154,6 +154,20 @@ void Database_Logs::rotate ()
   database_sqlite_exec (db, sql);
 
   database_sqlite_disconnect (db);
+  
+  // If there are too many files still left in the logbook folder,
+  // that means that there's some problem that prevents the logbook entries from being recorded in the database.
+  // This may lead to an infinite loop as has been noticed at times,
+  // and this may quickly exhaust the available inodes on the filesystem.
+  // Therefore if there are too many files still left in the logbook folder, clear them out.
+  // This leads to loss of logbook information, but be it so.
+  // Loss of information is better in this case than a server that gets stuck.
+  // Also clear the logbook database out.
+  files = filter_url_scandir (directory);
+  if (files.size () > 100) {
+    clear ();
+    log ("Irrecoverable journal errors: Everything was cleared out");
+  }
 }
 
 
@@ -226,4 +240,20 @@ void Database_Logs::update (int oldseconds, int newseconds)
     database_sqlite_exec (db, sql);
   }
   database_sqlite_disconnect (db);
+}
+
+
+// Clears all journal entries.
+void Database_Logs::clear ()
+{
+  string directory = folder ();
+  vector <string> files = filter_url_scandir (directory);
+  for (auto file : files) {
+    filter_url_unlink (filter_url_create_path (directory, file));
+  }
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, "DELETE FROM logs;");
+  database_sqlite_disconnect (db);
+  checkup ();
+  log ("The journal was cleared");
 }

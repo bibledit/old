@@ -70,7 +70,7 @@ if ($font) {
 
 
 $filter_text = new Filter_Text ($bible);
-$filter_text->html_text_standard = new Html_Text (gettext("Bible"));
+$filter_text->html_text_standard = new Html_Text (translate("Bible"));
 $filter_text->html_text_standard->customClass = Filter_CustomCSS::getClass ($bible);
 
 
@@ -92,7 +92,7 @@ $filter_text->run ($stylesheet);
 $filter_text->html_text_standard->save ($filename);
 
 
-Database_Logs::log (gettext("Exported to html") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
+Database_Logs::log (translate("Exported to html") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
 
 
 ?>

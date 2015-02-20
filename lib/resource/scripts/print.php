@@ -17,11 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3>gettext("Print Resources")</h3>
+<h3>translate("Print Resources")</h3>
 <ol>
 <li>
 <p>
-  gettext("Resources to print:")
+  translate("Resources to print:")
   <a href="?add=">➕</a>
 </p>
 <div id="sortable">
@@ -33,18 +33,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>  
 <li>
 <p>
-  gettext("Set range: ")
-  gettext("From")
+  translate("Set range: ")
+  translate("From")
   <a href="?frombook=">$this->from_book</a>
   <a href="?fromchapter=">$this->from_chapter</a>:<a href="?fromverse=">$this->from_verse</a>
-  gettext("to")
+  translate("to")
   <a href="?tobook=">$this->to_book</a>
   <a href="?tochapter=">$this->to_chapter</a>:<a href="?toverse=">$this->to_verse</a>
   </p>
 </li>
 <br>  
 <li>
-<p><a href="?generate=" target="_blank">gettext("Generate the document.")</a></p>
+<p><a href="?generate=" target="_blank">translate("Generate the document.")</a></p>
 </li>
 </ol>
 <script type="text/javascript" src="print.js?##VERSION##"></script>

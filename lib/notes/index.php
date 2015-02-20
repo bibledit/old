@@ -63,7 +63,7 @@ if (isset ($preset_selector)) {
 }
 
 
-$header = new Assets_Header (gettext("Consultation Notes"));
+$header = new Assets_Header (translate("Consultation Notes"));
 $header->setNavigator ();
 $header->run();
 

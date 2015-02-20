@@ -50,7 +50,7 @@ string jobs_index (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (gettext ("Job"), request);
+  Assets_Header header = Assets_Header (translate ("Job"), request);
   
   Assets_View view = Assets_View ();
 
@@ -60,6 +60,8 @@ string jobs_index (void * webserver_request)
   Database_Jobs database_jobs = Database_Jobs ();
   bool exists = database_jobs.idExists (id);
   int level = database_jobs.getLevel (id);
+  string start = database_jobs.getStart (id);
+  string percentage = database_jobs.getPercentage (id);
   string progress = database_jobs.getProgress (id);
   string result = database_jobs.getResult (id);
 
@@ -69,22 +71,30 @@ string jobs_index (void * webserver_request)
   string contents;
   if (!exists) {
     // Check on existence of the job.
-    contents = gettext("This job does not exist.");
+    contents = translate("This job does not exist.");
   } else if (level > userlevel) {
     // Check user access to the job.
-    contents = gettext("This job is not available to you.");
-  } else if (result != "") {
+    contents = translate("This job is not available to you.");
+  } else if (!result.empty ()) {
     contents = result;
-  } else if (progress != "") {
-    contents = progress;
+  } else if (!start.empty () | !progress.empty () | !percentage.empty ()) {
+    contents = start;
+    if (!percentage.empty ()) {
+      view.enable_zone ("percentage");
+      view.set_variable ("percentage", percentage);
+    }
+    if (!progress.empty ()) {
+      view.enable_zone ("progress");
+      view.set_variable ("progress", progress);
+    }
   } else {
-    contents = gettext("The job is in the queue.");
+    contents = translate("The job is scheduled to start shortly.");
   }
   view.set_variable ("contents", contents);
 
   // If the result is still pending, refresh the page shortly.
-  if (result == "") {
-    header.refresh (3);
+  if (result.empty ()) {
+    header.refresh (1);
   }
   
   header.setEditorStylesheet ();

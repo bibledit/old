@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1>gettext("Checks")</h1>
-<p><a href="#help">[gettext("help")]</a></p>
+<h1>translate("Checks")</h1>
+<p><a href="#help">[translate("help")]</a></p>
 <br>
 <p class="error">$this->error</p>
 <p class="success">$this->success</p>
@@ -33,14 +33,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php }
 <br>
 <a id="help"></a>
-<p>gettext("The page displays a list of results of running the checks.")</p>
-<p>gettext("Click ✔ to approve and suppress the entry.")</p>
+<p>translate("The page displays a list of results of running the checks.")</p>
+<p>translate("Click ✔ to approve and suppress the entry.")</p>
 <p>
-  gettext("Click ✗ to remove the entry for just now.")
-  gettext("It will be back next day, unless the text of the Bible is corrected.")
+  translate("Click ✗ to remove the entry for just now.")
+  translate("It will be back next day, unless the text of the Bible is corrected.")
 </p>
-<p>gettext("Click an entry to open the chapter in the text editor.")</p>
-<p>gettext("The Manager should enable the checks.")</p>
-<p><a href="suppress">gettext("Suppressed entries")</a></p>
+<p>translate("Click an entry to open the chapter in the text editor.")</p>
+<p>translate("The Manager should enable the checks.")</p>
+<p><a href="suppress">translate("Suppressed entries")</a></p>
 <script type="text/javascript" src="index.js?##VERSION##"></script>
 <script type="text/javascript" src="../navigation/nav.js?##VERSION##"></script>

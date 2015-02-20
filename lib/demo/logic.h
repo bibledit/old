@@ -23,9 +23,14 @@
 
 #include <config/libraries.h>
 
-bool demo_logic_open_demo (string user, string pass);
-string demo_logic_demo_address ();
-string demo_logic_client_demo_warning ();
+
+bool demo_acl (string user, string pass);
+string demo_address ();
+int demo_port ();
+string demo_client_warning ();
+void demo_clean_data ();
+string demo_sample_bible_name ();
+void demo_create_sample_bible (void * webserver_request);
 
 
 #endif

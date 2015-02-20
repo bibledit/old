@@ -25,12 +25,12 @@ require_once ("../bootstrap/bootstrap");
 Filter_Cli::assert ();
 
 
-$database_config_general = Database_Config_General::getInstance ();
+
 $database_logs = Database_Logs::getInstance ();
 $database_usfmresources = Database_UsfmResources::getInstance ();
 
 
-Database_Logs::log (gettext("Synchronizing USFM resources"), Filter_Roles::translator ());
+Database_Logs::log (translate("Synchronizing USFM resources"), Filter_Roles::translator ());
 
 
 $address = Database_Config_General::getServerAddress ();

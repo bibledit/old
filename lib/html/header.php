@@ -71,7 +71,7 @@ class Html_Header
     $formElement->appendChild ($inputElement);
     $inputElement->setAttribute ("name", "q");
     $inputElement->setAttribute ("type", "text");
-    $inputElement->setAttribute ("placeholder", gettext("Search the Bible"));
+    $inputElement->setAttribute ("placeholder", translate("Search the Bible"));
     $inputElement = $this->htmlText->newElement ("input");
     $formElement->appendChild ($inputElement);
     $inputElement->setAttribute ("type", "image");

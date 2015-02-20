@@ -81,12 +81,12 @@ int Filter_Roles::highest ()
 
 string Filter_Roles::text (int role)
 {
-  if (role == admin ()) return gettext ("Administrator");
-  if (role == manager ()) return gettext ("Manager");
-  if (role == translator ()) return gettext ("Translator");
-  if (role == consultant ())return gettext ("Consultant");
-  if (role == member ()) return gettext ("Member");
-  return gettext ("Guest");
+  if (role == admin ()) return translate ("Administrator");
+  if (role == manager ()) return translate ("Manager");
+  if (role == translator ()) return translate ("Translator");
+  if (role == consultant ())return translate ("Consultant");
+  if (role == member ()) return translate ("Member");
+  return translate ("Guest");
 }
 
 
