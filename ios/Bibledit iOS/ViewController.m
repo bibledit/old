@@ -22,6 +22,8 @@
 #import "BibleditInstallation.h"
 #import "bibledit.h"
 #import <mach/mach.h>
+#import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 
 @interface ViewController ()
@@ -30,7 +32,8 @@
 
 @implementation ViewController
 
-UIWebView * webview;
+//UIWebView *webview;
+WKWebView *webview;
 NSTimer *timer;
 
 - (void)viewDidLoad
@@ -46,7 +49,7 @@ NSTimer *timer;
   @finally {
   }
   
-  [self displayBrowser];
+  [self displayWebView];
   
   [self runWebserver];
   
@@ -63,13 +66,11 @@ NSTimer *timer;
   // The memory usage keeps creeping up over time when it displays dynamic pages.
   // iOS sends a few memory warnings after an hour or so, then iOS kills the app.
   [self logMemoryUsage];
-  bibledit_log ("The device runs low on memory. Resetting the user interface to release memory.");
-  // A suggestion to release memory is the following:
-  // [webview loadHTMLString: @"" baseURL: nil];
-  // [self browseTo:@"http://localhost:8080"];
-  // A suggestion to release memory is to reload the webview
-  [webview reload];
-  [self logMemoryUsage];
+  bibledit_log ("The device runs low on memory.");
+  // WKWeb​View is new on iOS 8 and uses and leaks far less memory.
+  // It uses the webkit rendering engine, and a faster javascript engine.
+  // The best solution to the above memory problems is to use WKWebView.
+  // That has been implemented.
 }
 
 
@@ -97,7 +98,6 @@ NSTimer *timer;
   const char * document_root = [path UTF8String];
   bibledit_set_web_root (document_root);
   bibledit_start_server ();
-  // NSLog(@"Document root: %s", (char *) document_root);
 }
 
 
@@ -109,11 +109,16 @@ NSTimer *timer;
 }
 
 
-- (void)displayBrowser
+- (void)displayWebView
 {
+  WKWebViewConfiguration *theConfiguration = [[WKWebViewConfiguration alloc] init];
+  webview = [[WKWebView alloc] initWithFrame:self.view.frame configuration:theConfiguration];
+  // webView.navigationDelegate = self;
+  /*
   webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, [[UIScreen mainScreen] applicationFrame].size.height)];
   self.view = webview;
   webview.userInteractionEnabled = YES;
+  */
 }
 
 
