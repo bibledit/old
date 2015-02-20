@@ -27,6 +27,7 @@ extern "C" {
   void bibledit_set_touch_enabled (bool enabled);
   void bibledit_start_server ();
   void bibledit_quit_at_midnight ();
+  void bibledit_log (const char * message);
   bool bibledit_is_running ();
   void bibledit_stop_server ();
 

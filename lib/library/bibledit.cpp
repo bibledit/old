@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <timer/index.h>
 #include <config/logic.h>
 #include <database/config/general.h>
+#include <database/logs.h>
 
 
 // Get Bibledit's version number.
@@ -81,6 +82,13 @@ void bibledit_quit_at_midnight ()
 {
   Database_Config_General::setJustStarted (true);
   config_globals_quit_at_midnight = true;
+}
+
+
+// Puts an entry in the journal.
+void bibledit_log (const char * message) // Todo
+{
+  Database_Logs::log (message);
 }
 
 
