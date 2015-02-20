@@ -167,7 +167,6 @@ string Assets_Header::run ()
     if (displayNavigator) {
       view->enable_zone ("display_navigator");
       string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-      view->set_variable ("navigation_html", Navigation_Passage::getContainer ());
       view->set_variable ("navigation_code", Navigation_Passage::code (bible, true));
     }
   }

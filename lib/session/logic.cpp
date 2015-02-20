@@ -203,7 +203,7 @@ string Session_Logic::currentUser ()
 }
 
 
-bool Session_Logic::touchEnabled () // Todo
+bool Session_Logic::touchEnabled ()
 {
   // Deal with the global variable for touch-enabled.
   // The variable, if zero, does nothing.

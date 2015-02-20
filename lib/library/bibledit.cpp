@@ -55,7 +55,7 @@ void bibledit_set_web_root (const char * directory)
 // The detection of touch-enabled devices happens during login,
 // so when the login is skipped, the device is not detected.
 // Therefore the calling program can preset touch-enabled here through this library call.
-void bibledit_set_touch_enabled (bool enabled) // Todo
+void bibledit_set_touch_enabled (bool enabled)
 {
   // Set global variable for use elsewhere in the library.
   // A value of zero does nothing,

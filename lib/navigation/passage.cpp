@@ -40,12 +40,6 @@
 */
 
 
-string Navigation_Passage::getContainer ()
-{
-  return "<div id=\"passagenavigation\"></div>";
-}
-
-
 string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -57,19 +51,21 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   string fragment;
   
   // Links to go back and forward are grayed out or active depending on available passages to go to.
-  fragment.append ("<div id=\"backforward\">");
+  fragment.append ("<li>");
   if (database_navigation.previousExists (user)) {
     fragment.append ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
   } else {
     fragment.append ("<span class=\"grayedout\">↶</span>");
   }
+  fragment.append ("</li>");
+  fragment.append ("<li>");
   fragment.append (" ");
   if (database_navigation.nextExists (user)) {
     fragment.append ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
   } else {
     fragment.append ("<span class=\"grayedout\">↷</span>");
   }
-  fragment.append ("</div>");
+  fragment.append ("</li>");
   fragment.append ("\n");
   
   int book = Ipc_Focus::getBook (request);
@@ -85,7 +81,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   string bookName = Database_Books::getEnglishFromId (book);
 
-  fragment.append ("<a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a>");
+  fragment.append ("<li><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></li>");
   
   int chapter = Ipc_Focus::getChapter (request);
   
@@ -98,14 +94,14 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     }
   }
 
-  fragment.append ("<a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + to_string (chapter) +  " </a>");
+  fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + to_string (chapter) +  " </a></li>");
   
-  fragment.append (":");
+  fragment.append ("<li><span>:</span></li>");
 
   int verse = Ipc_Focus::getVerse (request);
   
-  fragment.append ("<a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + to_string (verse) +  " </a>");
-  
+  fragment.append ("<li><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + to_string (verse) +  " </a></li>");
+
   // The result.
   return fragment;
 }
@@ -129,8 +125,13 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
     getSelectorLink (html, to_string (book), "applybook", translate ("Select book"), bookName, selected);
   }
   getSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
-  html.insert (0, translate ("Select book") + " <span id=\"applybook\">");
+
+  html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
   html.append ("</span>");
+
+  html.insert (0, "<li>");
+  html.append ("</li>");
+  
   return html;
 }
 
@@ -151,8 +152,13 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
     getSelectorLink (html, to_string (ch), "applychapter", translate ("Select chapter"), to_string (ch), selected);
   }
   getSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
-  html.insert (0, translate ("Select chapter") + " <span id=\"applychapter\">");
+
+  html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
   html.append ("</span>");
+
+  html.insert (0, "<li>");
+  html.append ("</li>");
+  
   return html;
 }
 
@@ -173,8 +179,13 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
     getSelectorLink (html, to_string (vs), "applyverse", translate ("Select verse"), to_string (vs), selected);
   }
   getSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
-  html.insert (0, translate ("Select verse") + " <span id=\"applyverse\">");
+
+  html.insert (0, "<span id=\"applyverse\">" + translate ("Select verse"));
   html.append ("</span>");
+
+  html.insert (0, "<li>");
+  html.append ("</li>");
+  
   return html;
 }
 

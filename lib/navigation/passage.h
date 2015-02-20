@@ -28,7 +28,6 @@
 class Navigation_Passage
 {
 public:
-  static string getContainer ();
   static string getNavigator (void * webserver_request, string bible);
   static string getBooksFragment (void * webserver_request, string bible);
   static string getChaptersFragment (void * webserver_request, string bible, int book, int chapter);
