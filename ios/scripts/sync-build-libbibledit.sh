@@ -1,7 +1,41 @@
 #!/bin/bash
 
 
-# Build libbibledit on OS X for iOS.
+# Synchronize and build libbibledit on OS X for iOS.
+
+
+# Sychronizes the libbibledit data files in the source tree to iOS and cleans them up.
+
+rsync -av --delete ../../lib/ ../webroot
+
+pushd ../webroot
+
+make distclean
+
+find . -name "*.h" -delete
+
+find . -name "*.cpp" -delete
+
+find . -name "*.c" -delete
+
+find . -name "*.php" -delete
+
+rm Make*
+rm *.m4
+rm -r autom*cache
+rm bibledit
+rm compile
+rm config.*
+rm configure*
+rm depcomp
+rm dev
+rm install-sh
+rm missing
+rm reconfigure
+rm valgrind
+rm -rf .deps
+
+popd
 
 
 # Configure the Bibledit library.
@@ -331,7 +365,7 @@ compile i386 iPhoneSimulator 32
 configure
 compile x86_64 iPhoneSimulator 64
 
-cp ../../lib/library/bibledit.h ~/Desktop
+cp ../../lib/library/bibledit.h ../include/
 
 echo Creating fat library file
 lipo -create -output ~/Desktop/libbibledit.a ~/Desktop/libbibledit-armv7.a ~/Desktop/libbibledit-armv7s.a ~/Desktop/libbibledit-arm64.a ~/Desktop/libbibledit-i386.a ~/Desktop/libbibledit-x86_64.a
@@ -347,6 +381,13 @@ fi
 
 echo Copying library into place
 mv ~/Desktop/libbibledit.a ../lib
+
+echo Clean libraries from desktop
+rm ~/Desktop/libbibledit-armv7.a
+rm ~/Desktop/libbibledit-armv7s.a
+rm ~/Desktop/libbibledit-arm64.a
+rm ~/Desktop/libbibledit-i386.a
+rm ~/Desktop/libbibledit-x86_64.a
 
 say Compile for iOS is ready
 

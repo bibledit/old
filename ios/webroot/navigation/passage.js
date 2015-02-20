@@ -28,7 +28,7 @@ var navigatorTimeout;
 
 
 $(document).ready (function () {
-  navigatorContainer = $ ("#passagenavigation");
+  navigatorContainer = $ ("#versepickerwrapper");
   buildNavigator ();
   navigationPollPassage ();
 });
@@ -36,7 +36,6 @@ $(document).ready (function () {
 
 function buildNavigator () {
   $.get ("/navigation/update?bible=" + navigationBible, function (response) {
-    // Todo console.log (response);
     navigatorContainer.empty ();
     navigatorContainer.append (response);
     bindClickHandlers ();
@@ -160,7 +159,7 @@ function applyChapter (event) {
 }
 
 
-function displayVerses (event) { // Todo write
+function displayVerses (event) {
   event.preventDefault ();
   $.ajax ({
     url: "/navigation/update",
@@ -193,9 +192,6 @@ function applyVerse (event) {
     });
   }
 }
-
-
-
 
 
 function navigatePreviousVerse (event) {
@@ -248,7 +244,7 @@ function navigationPollPassage ()
 }
 
 
-function navigationHandleKeyDown (event) // Todo check
+function navigationHandleKeyDown (event)
 {
   // Ctrl-G
   if ((event.ctrlKey == true) && (event.keyCode == 71)) {
@@ -315,9 +311,29 @@ function navigationCallNewPassage () {
 }
 
 
-function navigationInitializePickers () // Todo may not be needed.
-{
-  if (navigationPickedBook == undefined) navigationPickedBook = navigationBook;
-  if (navigationPickedChapter == undefined) navigationPickedChapter = navigationChapter;
+/*
+function navigationGetEntry () {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getentry", function (response) {
+    navigatorContainer.empty ();
+    navigatorContainer.append (response);
+    $("#selectpassage").focus ();
+    $("#submitpassage").on ("click", function (event) {
+      navigationSubmitEntry ();
+    });
+  });
 }
+
+
+function navigationSubmitEntry () {
+  var passage = $("#selectpassage").val ();
+    $.ajax ({
+    url: "../navigation/update.php",
+    type: "GET",
+    data: { bible: navigationBible, passage: passage },
+    complete: function (xhr, status) {
+      buildNavigator ();
+    }
+  });
+}
+*/
 

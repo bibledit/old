@@ -1,7 +1,13 @@
-<div id="topcontainer">
 <!-- #BEGINZONE display_topbar -->
+<div id="topcontainer">
   <div id="topbar">
     ##mainmenu##
+    <!-- #BEGINZONE display_navigator -->
+    <ul id="versepickerwrapper" class="menu"></ul>
+    <script type="text/javascript" src="/navigation/passage.js?##VERSION##"></script>
+    <script type="text/javascript">var displayNavigator = true;</script>
+    ##navigation_code##
+    <!-- #ENDZONE display_navigator -->
     ##usermenu##
     <!-- #BEGINZONE display_search -->
     <ul id="searchwrapper" class="menu">
@@ -13,12 +19,5 @@
     <!-- #ENDZONE display_search -->
   <div class="clearfix"></div>
   </div>
-  <!-- #BEGINZONE display_navigator -->
-    <div id="versepickerwrapper">##navigation_html##</div>
-    <script type="text/javascript" src="/navigation/passage.js?##VERSION##"></script>
-    <script type="text/javascript">var displayNavigator = true;</script>
-    ##navigation_code##
-    <div class="clearfix"></div>
-  <!-- #ENDZONE display_navigator -->
-<!-- #ENDZONE display_topbar -->
 </div>
+<!-- #ENDZONE display_topbar -->

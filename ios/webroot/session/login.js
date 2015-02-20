@@ -15,15 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-$ (document).ready (function () {
-  if (window.self === window.top) {
-    // On main page: Enable menu on touch screen.
-    $ ('.toggle').click (function () {
-      var hovered = $ (this).hasClass ('hover');
-      $ ('.hover').removeClass('hover');
-      if (!hovered) {
-        $ (this).addClass ('hover');
-      }
-    });
-  }
+
+var touchCounter = 1;
+
+$(document).ready (function () {
+  window.addEventListener('mousemove', function mouseMoveDetector() {
+    touchCounter++;
+    // Just touching the Login button already gives a few mouse movements.
+    // Skip the first few movements.
+    if (touchCounter > 10) {
+      window.removeEventListener('mousemove', mouseMoveDetector);
+      var touch = $ ("#touch");
+      touch.attr ("value", "0");
+    }
+  });
 });
