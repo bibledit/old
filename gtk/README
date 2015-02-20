@@ -13,8 +13,8 @@ At first gtkmm-2.0 was used because of its ease of use.
 But later gtk+2.x (and higher) was used, for these reasons:
 - A bug in gtkmm caused the default button in a dialog not to be activated 
   when Enter was pressed. Gtk+ did not have this problem.
-- I gtkmm-2.4 signal_cursor_moved was suddenly removed. This was queries on 
-  the gtkmm discussionlist. The reply given made me to loose confidence
+- In gtkmm-2.4 signal_cursor_moved was suddenly removed. This was queries on 
+  the gtkmm discussionlist. The reply given made me to lose confidence
   in gtkmm.
 - In Gtk+ the Glade interface designer could be used, and that makes
   designing interfaces so much faster and simpler.

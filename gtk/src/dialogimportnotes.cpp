@@ -376,7 +376,7 @@ void ImportNotesDialog::make_known_corrections_to_xml_file()
     // Get the line.
     ustring line = rt.lines[i];
     // The Glib xml parser gives an error on lines like:
-    // ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     // So remove that line.
     if (line.find("xml") != string::npos)
       line = "";

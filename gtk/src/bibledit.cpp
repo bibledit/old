@@ -42,8 +42,11 @@
 #include "urltransport.h"
 #include "runtime.h"
 #include "vcs.h"
-#include "books.h" // TEMP - MAP
+#include "books.h"
 #include <new>
+#include <libintl.h>
+#include <glib.h>
+#include <glib/gi18n.h>
 
 directories *Directories;
 Settings *settings;

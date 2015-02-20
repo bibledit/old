@@ -4,11 +4,35 @@
 /* DARWIN */
 /* #undef DARWIN */
 
+/* always defined to indicate that i18n is enabled */
+#define ENABLE_NLS 1
+
 /* Define to 1 if pango >= 1.8.0. */
 #define FIXED_PANGO 1
 
+/* The domain to use with gettext */
+#define GETTEXT_PACKAGE "bibledit"
+
+/* Define to 1 if you have the `bind_textdomain_codeset' function. */
+#define HAVE_BIND_TEXTDOMAIN_CODESET 1
+
+/* define if the compiler supports basic C++11 syntax */
+#define HAVE_CXX11 1
+
+/* Define to 1 if you have the `dcgettext' function. */
+#define HAVE_DCGETTEXT 1
+
+/* Define if the GNU gettext() function is already present or preinstalled. */
+#define HAVE_GETTEXT 1
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
+
+/* Define if your <locale.h> file defines LC_MESSAGES. */
+#define HAVE_LC_MESSAGES 1
+
+/* Define to 1 if you have the <locale.h> header file. */
+#define HAVE_LOCALE_H 1
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1

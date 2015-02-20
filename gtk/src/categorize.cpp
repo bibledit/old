@@ -54,7 +54,7 @@ CategorizeChapterVerse::CategorizeChapterVerse(const vector < ustring > &lines)
     if (marker == "v") {
       versenumber = ln;
       // Make it robust, even handling cases like:
-      // - \v 1-2“Moi - No space after verse number.
+      // - \v 1-2"Moi - No space after verse number.
       size_t spaceposition = versenumber.find_first_not_of("0123456789,-ab");
       if (spaceposition != string::npos) {
         versenumber = versenumber.substr(0, spaceposition);

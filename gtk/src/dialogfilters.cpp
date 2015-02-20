@@ -396,7 +396,7 @@ void FiltersDialog::on_rulesbuffer_changed_execute()
     GwSpawn spawn("teckit_compile");
     spawn.workingdirectory(Directories->get_scripts());
     spawn.arg(scriptfile);
-    // To compile UTF-8 source that lacks an encoding signature, the –u flag must be specified on the compiler command line.
+    // To compile UTF-8 source that lacks an encoding signature, the -u flag must be specified on the compiler command line.
     spawn.arg("-u");
     spawn.run();
     if (spawn.exitstatus != 0) {

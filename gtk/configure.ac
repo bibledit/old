@@ -220,7 +220,7 @@ AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. 
 #-------------------------------------------------------------------------------
 IT_PROG_INTLTOOL([0.35.0])
 
-GETTEXT_PACKAGE=bibledit-gtk
+GETTEXT_PACKAGE=bibledit
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
                    [The domain to use with gettext])
@@ -328,6 +328,7 @@ AC_CONFIG_FILES([Makefile
 		  xetex/Makefile
 		  git/Makefile
 		  php/Makefile
+		  po/Makefile.in
 		])
 AC_OUTPUT
 

@@ -9370,7 +9370,7 @@ fi
 
 
 
-GETTEXT_PACKAGE=bibledit-gtk
+GETTEXT_PACKAGE=bibledit
 
 
 cat >>confdefs.h <<_ACEOF
@@ -10225,7 +10225,7 @@ _ACEOF
 fi
 
 
-ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile xetex/Makefile git/Makefile php/Makefile"
+ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile xetex/Makefile git/Makefile php/Makefile po/Makefile.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -10997,6 +10997,7 @@ do
     "xetex/Makefile") CONFIG_FILES="$CONFIG_FILES xetex/Makefile" ;;
     "git/Makefile") CONFIG_FILES="$CONFIG_FILES git/Makefile" ;;
     "php/Makefile") CONFIG_FILES="$CONFIG_FILES php/Makefile" ;;
+    "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
     "po/stamp-it") CONFIG_COMMANDS="$CONFIG_COMMANDS po/stamp-it" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
