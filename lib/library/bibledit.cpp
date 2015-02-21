@@ -86,7 +86,7 @@ void bibledit_quit_at_midnight ()
 
 
 // Puts an entry in the journal.
-void bibledit_log (const char * message) // Todo
+void bibledit_log (const char * message)
 {
   Database_Logs::log (message);
 }
