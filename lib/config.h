@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define whether it is a client installation */
-#define CLIENT "yes"
+#define CLIENT "no"
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -68,7 +68,7 @@
 #define PACKAGE_VERSION "1.0.73"
 
 /* Define the maximum number of parallel background tasks to run */
-#define PARALLEL_TASKS 1
+#define PARALLEL_TASKS 10
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1

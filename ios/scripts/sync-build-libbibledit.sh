@@ -392,6 +392,11 @@ rm ~/Desktop/libbibledit-x86_64.a
 say Compile for iOS is ready
 
 echo Restore library to default state
+unset IPHONEOS_DEPLOYMENT_TARGET
+unset SYSROOT
+unset TOOLDIR
+unset COMPILEFLAGS
+unset CURLINCLUDE
 pushd ../../lib
 ./configure
 make clean > /dev/null
