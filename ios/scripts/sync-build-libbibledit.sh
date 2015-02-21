@@ -4,7 +4,24 @@
 # Synchronize and build libbibledit on OS X for iOS.
 
 
+# Configure the Bibledit library.
+function configure
+{
+
+# Configure it in client mode,
+# Run only only one parallel task so the interface is more responsive.
+pushd ../../lib
+./configure --enable-client --with-parallel-tasks=1
+echo Clean source.
+make clean > /dev/null
+popd
+
+}
+
+
 # Sychronizes the libbibledit data files in the source tree to iOS and cleans them up.
+
+configure
 
 rsync -av --delete ../../lib/ ../webroot
 
@@ -36,21 +53,6 @@ rm valgrind
 rm -rf .deps
 
 popd
-
-
-# Configure the Bibledit library.
-function configure
-{
-
-# Configure it in client mode,
-# Run only only one parallel task so the interface is more responsive.
-pushd ../../lib
-./configure --enable-client --with-parallel-tasks=1
-echo Clean source.
-make clean > /dev/null
-popd
-
-}
 
 
 # Build libbibledit for one iOS architecure.
