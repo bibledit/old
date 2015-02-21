@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void sigint_handler (int s)
 {
   if (s) {};
-  bibledit_stop_server ();
+  bibledit_stop_library ();
 }
 
 
@@ -35,6 +35,8 @@ int main (int argc, char **argv)
   if (argc) {};
   if (argv[0]) {};
   
+  bibledit_initialize_library ();
+
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   struct sigaction sigIntHandler;
   sigIntHandler.sa_handler = sigint_handler;
@@ -52,16 +54,20 @@ int main (int argc, char **argv)
   free (linkname);
 
   // Start the Bibledit library.
-  bibledit_start_server ();
+  bibledit_start_library ();
   cout << "Listening on http://localhost:" << config_logic_network_port () << endl;
   cout << "Press Ctrl-C to quit" << endl;
   
   // Server should restart itself at midnight.
-  bibledit_quit_at_midnight ();
+  // This is to be sure that any memory leaks don't accumulate too much
+  // in case the Bibledit server runs for months and years.
+  bibledit_set_quit_at_midnight ();
   
-  // Wait till Bibledit it is ready.
+  // Wait till Bibledit is shut down.
   while (bibledit_is_running ()) { };
-  
+
+  bibledit_shutdown_library ();
+
   return EXIT_SUCCESS;
 }
 

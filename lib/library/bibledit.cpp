@@ -31,14 +31,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Get Bibledit's version number.
-const char * bibledit_version_number ()
+const char * bibledit_get_version_number ()
 {
   return config_logic_version ();
 }
 
 
 // Get the port number that Bibledit's web server listens on.
-const char * bibledit_network_port ()
+const char * bibledit_get_network_port ()
 {
   return config_logic_network_port ();
 }
@@ -67,28 +67,33 @@ void bibledit_set_touch_enabled (bool enabled)
 }
 
 
-// Start the Bibledit server.
-void bibledit_start_server () 
-{
-  // Run the web server in a thread.
-  config_globals_worker = new thread (webserver);
-  // Run the timers in a thread.
-  config_globals_timer = new thread (timer_index);
-}
-
-
 // Sets a global flag, so the library will quit at midnight.
-void bibledit_quit_at_midnight ()
+void bibledit_set_quit_at_midnight ()
 {
   Database_Config_General::setJustStarted (true);
   config_globals_quit_at_midnight = true;
 }
 
 
-// Puts an entry in the journal.
-void bibledit_log (const char * message)
+// Initialize library.
+// To be called once during the lifetime of the app.
+void bibledit_initialize_library () // Todo
 {
-  Database_Logs::log (message);
+  xmlInitThreads ();
+  xmlInitParser ();
+}
+
+
+// Start library.
+// Can be called multiple times during the lifetime of the app
+void bibledit_start_library () // Todo
+{
+  // Set running flag.
+  config_globals_running = true;
+  // Run the web server in a thread.
+  config_globals_worker = new thread (webserver);
+  // Run the timers in a thread.
+  config_globals_timer = new thread (timer_index);
 }
 
 
@@ -100,8 +105,9 @@ bool bibledit_is_running ()
 }
 
 
-// Stop the Bibledit server.
-void bibledit_stop_server ()
+// Stop the library.
+// Can be called multiple times during the lifetime of the app
+void bibledit_stop_library () // Todo
 {
   // Clear running flag.
   config_globals_running = false;
@@ -123,8 +129,22 @@ void bibledit_stop_server ()
   config_globals_timer->join ();
   
   // Clear memory.
-  xmlCleanupThreads();
-  xmlCleanupParser();
   delete config_globals_worker;
   delete config_globals_timer;
+}
+
+
+// Shut the library down.
+// To be called exactly once during the lifetime of the app.
+void bibledit_shutdown_library () // Todo
+{
+  xmlCleanupThreads();
+  xmlCleanupParser();
+}
+
+
+// Puts an entry in the journal.
+void bibledit_log (const char * message)
+{
+  Database_Logs::log (message);
 }
