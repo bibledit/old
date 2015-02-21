@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CA0773811A8E80DC0061C5B7 /* develop.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA0773801A8E80DB0061C5B7 /* develop.txt */; };
+		CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B9C181A9906C800FAB064 /* BibleditController.m */; };
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
 		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
 		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
@@ -33,6 +34,8 @@
 
 /* Begin PBXFileReference section */
 		CA0773801A8E80DB0061C5B7 /* develop.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = develop.txt; sourceTree = "<group>"; };
+		CA6B9C171A9906C800FAB064 /* BibleditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditController.h; sourceTree = "<group>"; };
+		CA6B9C181A9906C800FAB064 /* BibleditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditController.m; sourceTree = "<group>"; };
 		CA9ADE011A8A9752000FD430 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = SOURCE_ROOT; };
 		CAB519B31A8A658F00F4ED36 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = lib/libbibledit.a; sourceTree = "<group>"; };
 		CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -128,6 +131,8 @@
 		CEA9296D19B06C9600DA3766 /* Bibledit iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CA6B9C171A9906C800FAB064 /* BibleditController.h */,
+				CA6B9C181A9906C800FAB064 /* BibleditController.m */,
 				CE8E8AE019C49FAE0025EAC2 /* BibleditPaths.h */,
 				CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */,
 				CE8E8AE319C4A4E50025EAC2 /* BibleditInstallation.h */,
@@ -234,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */,
 				CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */,
 				CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */,
 				CEA9298119B06C9600DA3766 /* ViewController.m in Sources */,

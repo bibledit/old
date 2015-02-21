@@ -20,8 +20,8 @@
 #import "ViewController.h"
 #import "BibleditPaths.h"
 #import "BibleditInstallation.h"
-#import "bibledit.h"
-#import <mach/mach.h>
+#import "BibleditController.h"
+// Todo these below can all go out later.
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
@@ -32,134 +32,29 @@
 
 @implementation ViewController
 
-//UIWebView *webview;
-WKWebView *webview;
-NSTimer *timer;
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  
-  @try {
-    
-  }
-  @catch (NSException *exception) {
-    NSLog([exception reason], @"");
-  }
-  @finally {
-  }
-  
-  [self displayWebView];
-  
-  [self runWebserver];
-  
-  [self performSelectorInBackground:@selector(runInstallation) withObject:nil];
-  
-  timer = [NSTimer scheduledTimerWithTimeInterval:600.0 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+
+  [BibleditController bibleditLoaded:self.view];
+
+  [BibleditController bibleditView];
+
+  [self performSelectorInBackground:@selector(install) withObject:nil];
+}
+
+
+- (void)install
+{
+  [BibleditController bibleditInstall];
 }
 
 
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // There is are huge memory leaks in ios UIWebView.
-  // The memory usage keeps creeping up over time when it displays dynamic pages.
-  // iOS sends a few memory warnings after an hour or so, then iOS kills the app.
-  [self logMemoryUsage];
-  bibledit_log ("The device runs low on memory.");
-  // WKWeb​View is new on iOS 8 and uses and leaks far less memory.
-  // It uses the webkit rendering engine, and a faster javascript engine.
-  // The best solution to the above memory problems is to use WKWebView.
-  // That has been implemented.
-}
-
-
-- (void) runInstallation
-{
-  // Display message to user.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], @"setup", @"setup.html", nil];
-    NSString *path = [NSString pathWithComponents:components];
-    [self browseTo:path];
-  });
-  // Run the installation.
-  [BibleditInstallation run];
-  // Open Bibledit-Web main page.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self browseTo:@"http://localhost:8080"];
-  });
-}
-
-
-- (void) runWebserver
-{
-  NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], @"webroot", nil];
-  NSString *path = [NSString pathWithComponents:components];
-  const char * document_root = [path UTF8String];
-  bibledit_set_web_root (document_root);
-  bibledit_start_server ();
-}
-
-
-- (void)browseTo:(NSString*)urlString
-{
-  NSURL *url = [NSURL URLWithString:urlString];
-  NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-  [webview loadRequest:urlRequest];
-}
-
-
-- (void)displayWebView
-{
-  WKWebViewConfiguration *theConfiguration = [[WKWebViewConfiguration alloc] init];
-  webview = [[WKWebView alloc] initWithFrame:self.view.frame configuration:theConfiguration];
-  // webView.navigationDelegate = self;
-  /*
-  webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, [[UIScreen mainScreen] applicationFrame].size.height)];
-  self.view = webview;
-  webview.userInteractionEnabled = YES;
-  */
-}
-
-
-- (void) timerTick:(NSTimer *)incomingTimer
-{
-  [self logMemoryUsage];
-}
-
-
-- (void)logMemoryUsage
-{
-  struct mach_task_basic_info info;
-  mach_msg_type_number_t size = MACH_TASK_BASIC_INFO_COUNT;
-  kern_return_t kerr = task_info (mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&info, &size);
-  if (kerr == KERN_SUCCESS) {
-    NSString *string = [NSString stringWithFormat:@"Memory in use: %lld Mb", info.resident_size / 1024 / 1024];
-    const char * message = [string UTF8String];
-    bibledit_log (message);
-  }
-}
-
-
-- (void)debug
-{
-  NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], nil];
-  NSString *directory = [NSString pathWithComponents:components];
-  NSFileManager *fileManager = [NSFileManager defaultManager];
-  NSDirectoryEnumerator *dirEnumerator = [fileManager enumeratorAtPath:directory];
-  NSString *file;
-  BOOL isDir;
-  while (file = [dirEnumerator nextObject]) {
-    components = [NSArray arrayWithObjects:directory, file, nil];
-    NSString * original = [NSString pathWithComponents:components];
-    if ([fileManager fileExistsAtPath:original isDirectory:&isDir]) {
-      if (isDir) {
-        NSLog(@"%@ is a directory", original);
-      } else {
-        NSLog(@"%@ is a file", original);
-      }
-    }
-  }
+  [BibleditController bibleditMemory];
 }
 
 
