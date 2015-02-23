@@ -22,9 +22,9 @@ UIView * mainUIView = NULL;
 WKWebView *webview;
 
 
-+ (void) bibleditLaunched
++ (void) bibleditAppLaunched
 {
-    NSLog (@"%s", "bibleditLaunched");
+    NSLog (@"%s", "bibleditAppLaunched");
 
     bibledit_initialize_library ();
 
@@ -37,49 +37,49 @@ WKWebView *webview;
 }
 
 
-+ (void) bibleditLoaded:(UIView *)uiview
++ (void) bibleditViewHasLoaded:(UIView *)uiview
 {
-    NSLog (@"%s", "bibleditLoaded");
+    NSLog (@"%s", "bibleditViewHasLoaded");
     mainUIView = uiview;
 }
 
 
-+ (void) bibleditInstall
++ (void) bibleditInstallResources
 {
     // Display message to user.
     dispatch_async(dispatch_get_main_queue(), ^{
         NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], @"setup", @"setup.html", nil];
         NSString *path = [NSString pathWithComponents:components];
         path = [path stringByAppendingString:@"file://"];
-        [BibleditController bibleditBrowse:path];
+        [BibleditController bibleditBrowseTo:path];
     });
     // Run the installation.
     [BibleditInstallation run];
     // Open Bibledit-Web main page.
     dispatch_async(dispatch_get_main_queue(), ^{
-        [BibleditController bibleditBrowse:@"http://localhost:8080"];
+        [BibleditController bibleditBrowseTo:@"http://localhost:8080"];
     });
 }
 
 
-+ (void) bibleditForeground
++ (void) bibleditEnteredForeground
 {
-    NSLog (@"%s", "bibleditForeground");
+    NSLog (@"%s", "bibleditEnteredForeground");
     // Todo bibledit_start_library ();
 }
 
 
-+ (void) bibleditView
++ (void) bibleditOpenWebView
 {
     WKWebViewConfiguration *theConfiguration = [[WKWebViewConfiguration alloc] init];
     webview = [[WKWebView alloc] initWithFrame:mainUIView.frame configuration:theConfiguration];
     [mainUIView addSubview:webview];
 
-    [self bibleditBrowse:@"http://bibledit.org"];
+    [self bibleditBrowseTo:@"http://bibledit.org"]; // Todo
 }
 
 
-+ (void) bibleditBrowse:(NSString*)urlString
++ (void) bibleditBrowseTo:(NSString*)urlString
 {
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
@@ -87,7 +87,7 @@ WKWebView *webview;
 }
 
 
-+ (void) bibleditMemory
++ (void) bibleditReceivedMemoryWarning
 {
     // There are huge memory leaks in UIWebView.
     // The memory usage keeps creeping up over time when it displays dynamic pages.
@@ -110,16 +110,16 @@ WKWebView *webview;
 }
 
 
-+ (void) bibleditBackground
++ (void) bibleditWillEnterBackground
 {
-    NSLog (@"%s", "bibleditBackground");
+    NSLog (@"%s", "bibleditWillEnterBackground");
     // Todo bibledit_stop_library ();
 }
 
 
-+ (void) bibleditTerminates
++ (void) bibleditWillTerminate
 {
-    NSLog (@"%s", "bibleditTerminates");
+    NSLog (@"%s", "bibleditWillTerminate");
     bibledit_shutdown_library ();
 }
 

@@ -10,14 +10,14 @@
 
 @interface BibleditController : NSObject
 
-+ (void) bibleditLaunched;
-+ (void) bibleditLoaded:(UIView *)uiview;
-+ (void) bibleditInstall;
-+ (void) bibleditForeground;
-+ (void) bibleditView;
-+ (void) bibleditBrowse:(NSString*)urlString;
-+ (void) bibleditMemory;
-+ (void) bibleditBackground;
-+ (void) bibleditTerminates;
++ (void) bibleditAppLaunched;
++ (void) bibleditViewHasLoaded:(UIView *)uiview;
++ (void) bibleditInstallResources;
++ (void) bibleditEnteredForeground;
++ (void) bibleditOpenWebView;
++ (void) bibleditBrowseTo:(NSString*)urlString;
++ (void) bibleditReceivedMemoryWarning;
++ (void) bibleditWillEnterBackground;
++ (void) bibleditWillTerminate;
 
 @end

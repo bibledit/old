@@ -21,9 +21,6 @@
 #import "BibleditPaths.h"
 #import "BibleditInstallation.h"
 #import "BibleditController.h"
-// Todo these below can all go out later.
-#import <UIKit/UIKit.h>
-#import <WebKit/WebKit.h>
 
 
 @interface ViewController ()
@@ -37,24 +34,24 @@
 {
   [super viewDidLoad];
 
-  [BibleditController bibleditLoaded:self.view];
+  [BibleditController bibleditViewHasLoaded:self.view];
 
-  [BibleditController bibleditView];
+  [BibleditController bibleditOpenWebView];
 
-  [self performSelectorInBackground:@selector(install) withObject:nil];
+  [self performSelectorInBackground:@selector(installResources) withObject:nil];
 }
 
 
-- (void)install
+- (void)installResources
 {
-  [BibleditController bibleditInstall];
+  [BibleditController bibleditInstallResources];
 }
 
 
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  [BibleditController bibleditMemory];
+  [BibleditController bibleditReceivedMemoryWarning];
 }
 
 
