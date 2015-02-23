@@ -117,6 +117,16 @@ AC_DEFINE([PARALLEL_TASKS], [], [Define the maximum number of parallel backgroun
 AC_DEFINE_UNQUOTED(PARALLEL_TASKS, $PARALLEL_TASKS)
 AC_SUBST(PARALLEL_TASKS)
 
+# Single tab browser mode.
+SINGLE_TAB=no
+AC_ARG_ENABLE(single-tab,
+[  --enable-single-tab Enable single tab browser mode],
+[SINGLE_TAB=yes]
+)
+AC_DEFINE([SINGLE_TAB], [], [Define whether the browser has only one tab for opening pages])
+AC_DEFINE_UNQUOTED(SINGLE_TAB, "$SINGLE_TAB")
+AC_SUBST(SINGLE_TAB)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -128,4 +138,5 @@ Network port                     : ${NETWORK_PORT}
 Client installation              : ${CLIENT}
 Demo installation                : ${DEMO}
 Maximum number of parallel tasks : ${PARALLEL_TASKS}
+Single tab browser mode          : ${SINGLE_TAB}
 "

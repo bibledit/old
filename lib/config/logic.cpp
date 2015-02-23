@@ -58,3 +58,10 @@ int config_logic_max_parallel_tasks ()
 {
   return PARALLEL_TASKS;
 }
+
+
+// Returns whether single tab mode is enable during configure.
+bool config_logic_single_tab ()
+{
+  return (strcmp (SINGLE_TAB, "yes") == 0);
+}
