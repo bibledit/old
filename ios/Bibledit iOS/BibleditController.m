@@ -41,18 +41,17 @@ WKWebView *webview;
 
 + (void) bibleditInstallResources
 {
-    NSLog (@"%s", "install"); // Todo
     // Display message to user.
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], @"setup", @"setup.html", nil];
-        NSString *path = [NSString pathWithComponents:components];
-        path = [path stringByAppendingString:@"file://"];
-        NSLog (path, @""); // Todo
-        [BibleditController bibleditBrowseTo:path];
+        const char * page = bibledit_get_preparation_notice ();
+        NSString *html = [NSString stringWithUTF8String:page];
+        [webview loadHTMLString:html baseURL:nil];
     });
+
     // Run the installation.
     [BibleditInstallation run];
-    // Open Bibledit-Web main page.
+    
+    // Open Bibledit main page.
     dispatch_async(dispatch_get_main_queue(), ^{
         [BibleditController bibleditBrowseTo:@"http://localhost:8080"];
     });

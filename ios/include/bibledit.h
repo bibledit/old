@@ -23,6 +23,7 @@ extern "C" {
 
   const char * bibledit_get_version_number ();
   const char * bibledit_get_network_port ();
+  const char * bibledit_get_preparation_notice ();
   void bibledit_set_web_root (const char * directory);
   void bibledit_set_touch_enabled (bool enabled);
   void bibledit_set_quit_at_midnight ();
