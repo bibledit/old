@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <database/config/general.h>
 #include <database/logs.h>
+#include <setup/index.h>
 
 
 // Get Bibledit's version number.
@@ -41,6 +42,13 @@ const char * bibledit_get_version_number ()
 const char * bibledit_get_network_port ()
 {
   return config_logic_network_port ();
+}
+
+
+// Get the preparation notice embedded html page.
+const char * bibledit_get_preparation_notice ()
+{
+  return setup_installation_notice ();
 }
 
 

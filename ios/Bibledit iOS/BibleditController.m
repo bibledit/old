@@ -24,33 +24,30 @@ WKWebView *webview;
 
 + (void) bibleditAppLaunched
 {
-    NSLog (@"%s", "bibleditAppLaunched");
-
     bibledit_initialize_library ();
 
     NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], @"webroot", nil];
     NSString *path = [NSString pathWithComponents:components];
     const char * document_root = [path UTF8String];
     bibledit_set_web_root (document_root);
-
-    bibledit_start_library ();
 }
 
 
 + (void) bibleditViewHasLoaded:(UIView *)uiview
 {
-    NSLog (@"%s", "bibleditViewHasLoaded");
     mainUIView = uiview;
 }
 
 
 + (void) bibleditInstallResources
 {
+    NSLog (@"%s", "install"); // Todo
     // Display message to user.
     dispatch_async(dispatch_get_main_queue(), ^{
         NSArray *components = [NSArray arrayWithObjects:[BibleditPaths resources], @"setup", @"setup.html", nil];
         NSString *path = [NSString pathWithComponents:components];
         path = [path stringByAppendingString:@"file://"];
+        NSLog (path, @""); // Todo
         [BibleditController bibleditBrowseTo:path];
     });
     // Run the installation.
@@ -64,8 +61,7 @@ WKWebView *webview;
 
 + (void) bibleditEnteredForeground
 {
-    NSLog (@"%s", "bibleditEnteredForeground");
-    // Todo bibledit_start_library ();
+    bibledit_start_library ();
 }
 
 
@@ -74,8 +70,6 @@ WKWebView *webview;
     WKWebViewConfiguration *theConfiguration = [[WKWebViewConfiguration alloc] init];
     webview = [[WKWebView alloc] initWithFrame:mainUIView.frame configuration:theConfiguration];
     [mainUIView addSubview:webview];
-
-    [self bibleditBrowseTo:@"http://bibledit.org"]; // Todo
 }
 
 
@@ -112,18 +106,16 @@ WKWebView *webview;
 
 + (void) bibleditWillEnterBackground
 {
-    NSLog (@"%s", "bibleditWillEnterBackground");
-    // Todo bibledit_stop_library ();
+    // Before the app enters the background, suspend the library, and wait till done.
+    bibledit_stop_library ();
+    while (bibledit_is_running ()) { };
 }
 
 
 + (void) bibleditWillTerminate
 {
-    NSLog (@"%s", "bibleditWillTerminate");
     bibledit_shutdown_library ();
 }
-
-
 
 
 @end
