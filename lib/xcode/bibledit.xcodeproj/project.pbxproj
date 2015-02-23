@@ -735,9 +735,6 @@
 		CAA4D2A51A45A648003ABA25 /* bibledit.pot */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.pot; sourceTree = "<group>"; };
 		CAA4D2A61A45A648003ABA25 /* po-create */ = {isa = PBXFileReference; lastKnownFileType = text; path = "po-create"; sourceTree = "<group>"; };
 		CAA4D2A81A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D2AA1A45A648003ABA25 /* bibleworks2esword.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bibleworks2esword.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2AB1A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
-		CAA4D2AD1A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D2AF1A45A648003ABA25 /* rangy-core.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-core.js"; sourceTree = "<group>"; };
 		CAA4D2B01A45A648003ABA25 /* rangy-cssclassapplier.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-cssclassapplier.js"; sourceTree = "<group>"; };
 		CAA4D2B11A45A648003ABA25 /* rangy-highlighter.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-highlighter.js"; sourceTree = "<group>"; };
@@ -2366,25 +2363,6 @@
 			path = ../processes;
 			sourceTree = "<group>";
 		};
-		CAA4D2A91A45A648003ABA25 /* public */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D2AA1A45A648003ABA25 /* bibleworks2esword.php */,
-				CAA4D2AB1A45A648003ABA25 /* index.php */,
-				CAA4D2AC1A45A648003ABA25 /* scripts */,
-			);
-			name = public;
-			path = ../public;
-			sourceTree = "<group>";
-		};
-		CAA4D2AC1A45A648003ABA25 /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D2AD1A45A648003ABA25 /* index.php */,
-			);
-			path = scripts;
-			sourceTree = "<group>";
-		};
 		CAA4D2AE1A45A648003ABA25 /* rangy */ = {
 			isa = PBXGroup;
 			children = (
@@ -3114,7 +3092,6 @@
 				CAA4D2A01A45A648003ABA25 /* pix */,
 				CAA4D2A41A45A648003ABA25 /* pot */,
 				CAA4D2A71A45A648003ABA25 /* processes */,
-				CAA4D2A91A45A648003ABA25 /* public */,
 				CAA4D2AE1A45A648003ABA25 /* rangy */,
 				CAA4D2B71A45A648003ABA25 /* reconfigure */,
 				CAA4D2B91A45A648003ABA25 /* resource */,
