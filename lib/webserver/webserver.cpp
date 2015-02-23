@@ -233,5 +233,8 @@ void webserver ()
       cerr << "Error accepting connection on socket" << endl;
     }
   }
+  
+  // Close listening socket, freeing it for a possible subsequent server process.
+  close (listenfd);
 }
 

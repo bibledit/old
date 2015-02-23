@@ -36,7 +36,7 @@ void sendreceive_queue_bible (string bible)
 
 // If $minute is negative, it syncs.
 // If $minute >=0, it determines from the settings whether to sync.
-void sendreceive_queue_sync (int minute) // Todo
+void sendreceive_queue_sync (int minute)
 {
   // Send / receive only works in Client mode.
   if (!client_logic_client_enabled ()) return;

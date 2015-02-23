@@ -77,7 +77,7 @@ void bibledit_set_quit_at_midnight ()
 
 // Initialize library.
 // To be called once during the lifetime of the app.
-void bibledit_initialize_library () // Todo
+void bibledit_initialize_library ()
 {
   xmlInitThreads ();
   xmlInitParser ();
@@ -86,7 +86,7 @@ void bibledit_initialize_library () // Todo
 
 // Start library.
 // Can be called multiple times during the lifetime of the app
-void bibledit_start_library () // Todo
+void bibledit_start_library ()
 {
   // Set running flag.
   config_globals_running = true;
@@ -107,7 +107,7 @@ bool bibledit_is_running ()
 
 // Stop the library.
 // Can be called multiple times during the lifetime of the app
-void bibledit_stop_library () // Todo
+void bibledit_stop_library ()
 {
   // Clear running flag.
   config_globals_running = false;
@@ -136,7 +136,7 @@ void bibledit_stop_library () // Todo
 
 // Shut the library down.
 // To be called exactly once during the lifetime of the app.
-void bibledit_shutdown_library () // Todo
+void bibledit_shutdown_library ()
 {
   xmlCleanupThreads();
   xmlCleanupParser();
