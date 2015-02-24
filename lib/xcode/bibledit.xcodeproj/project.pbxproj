@@ -304,8 +304,6 @@
 		CAA4CFBE1A45A647003ABA25 /* libraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libraries.h; sourceTree = "<group>"; };
 		CAA4CFBF1A45A647003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4CFC01A45A647003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CAA4CFC11A45A647003ABA25 /* open.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = open.php; sourceTree = "<group>"; };
-		CAA4CFC21A45A647003ABA25 /* version.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = version.php; sourceTree = "<group>"; };
 		CAA4CFC31A45A647003ABA25 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../config.h; sourceTree = "<group>"; };
 		CAA4CFC81A45A647003ABA25 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; name = configure.ac; path = ../configure.ac; sourceTree = "<group>"; };
 		CAA4CFCE1A45A647003ABA25 /* worker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = worker.cpp; sourceTree = "<group>"; };
@@ -1290,8 +1288,6 @@
 				CAA4CFBE1A45A647003ABA25 /* libraries.h */,
 				CAA4CFBF1A45A647003ABA25 /* logic.cpp */,
 				CAA4CFC01A45A647003ABA25 /* logic.h */,
-				CAA4CFC11A45A647003ABA25 /* open.php */,
-				CAA4CFC21A45A647003ABA25 /* version.php */,
 			);
 			name = config;
 			path = ../config;

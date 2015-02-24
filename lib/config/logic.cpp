@@ -60,7 +60,7 @@ int config_logic_max_parallel_tasks ()
 }
 
 
-// Returns whether single tab mode is enable during configure.
+// Returns whether single tab mode is enable during configure. Todot
 bool config_logic_single_tab ()
 {
   return (strcmp (SINGLE_TAB, "yes") == 0);
