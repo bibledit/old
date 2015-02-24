@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <locale/translate.h>
+#include <assets/view.h>
 
 
 Passage::Passage ()
@@ -398,7 +399,7 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
 string filter_passage_link_for_opening_editor_at (int book, int chapter, string verse)
 {
   string passage = filter_passage_display (book, chapter, verse);
-  string link = "<a href=\"/edit/edit?switchbook=" + convert_to_string (book) + "&switchchapter=" + convert_to_string (chapter) + "&switchverse=" + verse + "\" target=\"_blank\">" + passage + "</a>";
+  string link = "<a href=\"/edit/edit?switchbook=" + convert_to_string (book) + "&switchchapter=" + convert_to_string (chapter) + "&switchverse=" + verse + "\" " + Assets_View::target_conditional_blank () + ">" + passage + "</a>";
   return link;
 }
 

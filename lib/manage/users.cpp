@@ -220,7 +220,7 @@ string manage_users (void * webserver_request)
       bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (user, bible);
       bool writer = (level >= Filter_Roles::translator ());
       tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
-      tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\" target=\"_blank\">" + bible + "</a>");
+      tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\" " + Assets_View::target_conditional_blank () + ">" + bible + "</a>");
       if (writer) {
         tbody.push_back ("<a href=\"?user=" + username + "&readonlytoggle=" + bible + "\">");
         if (readonly) tbody.push_back ("☐"); else tbody.push_back ("☑"); 

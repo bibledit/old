@@ -10,8 +10,9 @@ function configure
 
 # Configure it in client mode,
 # Run only only one parallel task so the interface is more responsive.
+# Enable the single-tab browser.
 pushd ../../lib
-./configure --enable-client --with-parallel-tasks=1
+./configure --enable-client --with-parallel-tasks=1 --enable-single-tab
 echo Clean source.
 make clean > /dev/null
 popd

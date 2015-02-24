@@ -124,7 +124,7 @@ for ($tidied as $line) {
 
 $html = implode ("\n", $filtered_lines);
 
-$html = filter_string_str_replace ('title=', 'target="_blank" title=', $html);
+$html = filter_string_str_replace ('title=', '##targetblank## title=', $html);
 
 $html = filter_string_str_replace ('/abbrev.htm', 'http://biblehub.com/abbrev.htm', $html);
 $html = filter_string_str_replace ('/hebrew/', 'http://biblehub.com/hebrew/', $html);

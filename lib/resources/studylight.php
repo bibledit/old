@@ -50,7 +50,7 @@ function studylight ($directory, book, chapter, verse)
   }
   
   $html = implode ("\n", $relevant_lines);
-  $html += "<p><a href=\"$url\" target=\"_blank\">$url</a></p>\n";
+  $html += "<p><a href=\"$url\" " + Assets_View::target_conditional_blank () + ">$url</a></p>\n";
 
   return $html;
 }

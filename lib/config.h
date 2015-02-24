@@ -71,7 +71,7 @@
 #define PARALLEL_TASKS 10
 
 /* Define whether the browser has only one tab for opening pages */
-#define SINGLE_TAB "no"
+#define SINGLE_TAB "yes"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1

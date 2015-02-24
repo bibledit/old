@@ -40,7 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
       <?php if ($this->live_notes_editor) {
         <a class="opennote" href="$this->notes[$offset]">$this->summaries[$offset]</a>
       <?php } else {
-        <a href="../notes/note?id=$this->notes[$offset]" target="_blank">$this->summaries[$offset]</a>
+        <a href="../notes/note?id=$this->notes[$offset]" ##targetblank##>$this->summaries[$offset]</a>
       <?php }
       </td>
       <td><?php if ($this->subscriptions[$offset]) {<a href="unsubscribe" id="unsubscribe$this->notes[$offset]">[translate("unsubscribe")]</a><?php }</td>
@@ -55,7 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php if ($this->live_notes_editor) {
     <a class="newnote" href="$this->id">translate("Create note")</a>
   <?php } else {
-    <a href="../notes/create?fromchange=$this->id" target="_blank">translate("Create note")</a>
+    <a href="../notes/create?fromchange=$this->id" ##targetblank##>translate("Create note")</a>
   <?php }
 </p>
 <br>

@@ -24,10 +24,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/logs.h>
 #include <flate/flate.h>
+#include <config/logic.h>
 
 
 Assets_View::Assets_View ()
 {
+  // On some installations like on iOS, the browser has only one tab.
+  // Deal with this configuration setting.
+  if (config_logic_single_tab ()) {
+    set_variable ("targetblank", target_conditional_blank ()); // Todo
+    enable_zone ("single_tab");
+  }
 }
 
 
@@ -83,4 +90,15 @@ string Assets_View::render (string tpl1, string tpl2)
   // Get and return the page contents.
   string page = flate.render (tpl);
   return page;
+}
+
+
+// Some browsers can only open one tab.
+// This function returns the code to deal with this.
+string Assets_View::target_conditional_blank ()
+{
+  if (!config_logic_single_tab ()) {
+    return "target=\"_blank\"";
+  }
+  return "";
 }
