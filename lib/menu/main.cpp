@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/index.h>
 #include <client/logic.h>
 #include <sendreceive/index.h>
+#include <search/index.h>
 
 
 /*
@@ -100,11 +101,10 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
 vector <Menu_Main_Item> * Menu_Main::biblemenu ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  int level = request->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (edit_index_acl (webserver_request)) menu->push_back ( { "", "",  translate ("Edit"), bible_edit_menu () } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "search/index",    translate ("Search"),    NULL                    } );
-  if (workbench_index_acl (request)) menu->push_back ( { "", workbench_index_url (), translate ("Workbench"), bible_workbench_menu () } );
+  if (search_index_acl (request)) menu->push_back ( { "", search_index_url (), translate ("Search"), NULL } );
+  if (workbench_index_acl (request)) menu->push_back ( { "", workbench_index_url (), translate ("Workbench"), bible_workbench_menu () } ); // Todo fix.
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    translate ("Checks"),    bible_checks_menu ()    } );
   if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), translate ("Bibles"), NULL} );
   return menu;
