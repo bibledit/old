@@ -30,6 +30,9 @@ WKWebView *webview;
     NSString *path = [NSString pathWithComponents:components];
     const char * document_root = [path UTF8String];
     bibledit_set_web_root (document_root);
+    
+    float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
+    bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
 }
 
 
