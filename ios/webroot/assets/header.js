@@ -25,5 +25,9 @@ $ (document).ready (function () {
         $ (this).addClass ('hover');
       }
     });
+    // Deal with the optional html back button.
+    $ ('#backbutton').click (function () {
+      window.history.back();
+    });
   }
 });

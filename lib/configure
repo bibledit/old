@@ -625,7 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-SINGLE_TAB
+BARE_BROWSER
 PARALLEL_TASKS
 NETWORK_PORT
 CLIENT
@@ -755,7 +755,7 @@ enable_demo
 enable_client
 with_network_port
 with_parallel_tasks
-enable_single_tab
+enable_bare_browser
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1401,7 +1401,7 @@ Optional Features:
   --disable-xmltest       Do not try to compile and run a test LIBXML program
   --enable-demo  Enable demo mode
   --enable-client Enable client mode
-  --enable-single-tab Enable single tab browser mode
+  --enable-bare-browser Enable bare browser mode
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6220,19 +6220,19 @@ _ACEOF
 
 
 
-# Single tab browser mode.
-SINGLE_TAB=no
-# Check whether --enable-single-tab was given.
-if test "${enable_single_tab+set}" = set; then :
-  enableval=$enable_single_tab; SINGLE_TAB=yes
+# Bare browser mode.
+BARE_BROWSER=no
+# Check whether --enable-bare-browser was given.
+if test "${enable_bare_browser+set}" = set; then :
+  enableval=$enable_bare_browser; BARE_BROWSER=yes
 
 fi
 
 
-$as_echo "#define SINGLE_TAB /**/" >>confdefs.h
+$as_echo "#define BARE_BROWSER /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
-#define SINGLE_TAB "$SINGLE_TAB"
+#define BARE_BROWSER "$BARE_BROWSER"
 _ACEOF
 
 
@@ -7723,5 +7723,5 @@ Network port                     : ${NETWORK_PORT}
 Client installation              : ${CLIENT}
 Demo installation                : ${DEMO}
 Maximum number of parallel tasks : ${PARALLEL_TASKS}
-Single tab browser mode          : ${SINGLE_TAB}
+Bare browser mode                : ${BARE_BROWSER}
 "

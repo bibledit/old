@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define whether the expected browser is a bare browser without controls */
+#undef BARE_BROWSER
+
 /* Define whether it is a client installation */
 #undef CLIENT
 
@@ -68,9 +71,6 @@
 
 /* Define the maximum number of parallel background tasks to run */
 #undef PARALLEL_TASKS
-
-/* Define whether the browser has only one tab for opening pages */
-#undef SINGLE_TAB
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

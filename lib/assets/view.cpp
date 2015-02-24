@@ -31,9 +31,9 @@ Assets_View::Assets_View ()
 {
   // On some installations like on iOS, the browser has only one tab.
   // Deal with this configuration setting.
-  if (config_logic_single_tab ()) {
+  if (config_logic_bare_browser ()) {
     set_variable ("targetblank", target_conditional_blank ()); // Todo
-    enable_zone ("single_tab");
+    enable_zone ("bare_browser");
   }
 }
 
@@ -97,7 +97,7 @@ string Assets_View::render (string tpl1, string tpl2)
 // This function returns the code to deal with this.
 string Assets_View::target_conditional_blank ()
 {
-  if (!config_logic_single_tab ()) {
+  if (!config_logic_bare_browser ()) {
     return "target=\"_blank\"";
   }
   return "";
