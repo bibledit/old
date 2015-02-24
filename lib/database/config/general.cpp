@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <config/globals.h>
+#include <administration/timezone.h>
 
 
 Database_Config_General::Database_Config_General ()
@@ -225,7 +227,14 @@ void Database_Config_General::setTimerMinute (string value)
 
 int Database_Config_General::getTimezone ()
 {
-  return getIValue ("timezone", 0);
+  // If the global offset variable is set, that is,
+  // within certain limits, then take that.
+  if ((config_globals_timezone_offset_utc < MINIMUM_TIMEZONE)
+      || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
+    return getIValue ("timezone", 0);
+  }
+  // Else take variable as set in the configuration.
+  return config_globals_timezone_offset_utc;
 }
 void Database_Config_General::setTimezone (int value)
 {

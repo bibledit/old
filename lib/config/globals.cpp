@@ -33,3 +33,4 @@ bool config_globals_mail_receive_running = false;
 bool config_globals_mail_send_running = false;
 bool config_globals_quit_at_midnight = false;
 int config_globals_touch_enabled = 0;
+int config_globals_timezone_offset_utc = 100;

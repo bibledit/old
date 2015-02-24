@@ -63,7 +63,7 @@ int main (int argc, char **argv)
   // in case the Bibledit server runs for months and years.
   bibledit_set_quit_at_midnight ();
   
-  // Wait till Bibledit is shut down.
+Ï  // Wait till Bibledit is shut down.
   while (bibledit_is_running ()) { };
 
   bibledit_shutdown_library ();

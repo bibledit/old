@@ -83,6 +83,13 @@ void bibledit_set_quit_at_midnight ()
 }
 
 
+// Set the timezone in hours as an offset to UTC.
+void bibledit_set_timezone_hours_offset_utc (int hours)
+{
+  config_globals_timezone_offset_utc = hours;
+}
+
+
 // Initialize library.
 // To be called once during the lifetime of the app.
 void bibledit_initialize_library ()

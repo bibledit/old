@@ -27,6 +27,7 @@ extern "C" {
   void bibledit_set_web_root (const char * directory);
   void bibledit_set_touch_enabled (bool enabled);
   void bibledit_set_quit_at_midnight ();
+  void bibledit_set_timezone_hours_offset_utc (int hours);
   void bibledit_initialize_library ();
   void bibledit_start_library ();
   bool bibledit_is_running ();

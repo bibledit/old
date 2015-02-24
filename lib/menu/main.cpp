@@ -47,6 +47,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <sendreceive/index.h>
 #include <search/index.h>
+#include <config/globals.h>
 
 
 /*
@@ -221,22 +222,44 @@ vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
 vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (manage_users_acl (webserver_request)              && !client_logic_client_enabled ()) menu->push_back ( { "", manage_users_url (), translate ("Users"), NULL } );
-  if (manage_indexing_acl (webserver_request))                                              menu->push_back ( { "", manage_indexing_url (), translate ("Indexing"), NULL } );
-  if (administration_language_acl (webserver_request))                                      menu->push_back ( { "", administration_language_url (), translate ("Language"), NULL } );
-  if (administration_timezone_acl (webserver_request))                                      menu->push_back ( { "", administration_timezone_url (), translate ("Timezone"), NULL } );
-  if (email_index_acl (webserver_request)               && !client_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), translate ("Mail"), NULL } );
-  if (styles_indext_acl (webserver_request))                                                menu->push_back ( { "", styles_indext_url (), translate ("Styles"), stylessubmenu () } );
-  if (versification_index_acl (webserver_request))                                          menu->push_back ( { "", versification_index_url (), translate ("Versifications"), NULL } );
+  if (manage_users_acl (webserver_request) && !client_logic_client_enabled ()) {
+    menu->push_back ( { "", manage_users_url (), translate ("Users"), NULL } );
+  }
+  if (manage_indexing_acl (webserver_request)) {
+    menu->push_back ( { "", manage_indexing_url (), translate ("Indexing"), NULL } );
+  }
+  if (administration_language_acl (webserver_request)) {
+    menu->push_back ( { "", administration_language_url (), translate ("Language"), NULL } );
+  }
+  if (administration_timezone_acl (webserver_request)) {
+    if (config_globals_timezone_offset_utc > MINIMUM_TIMEZONE) {
+      if (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE) {
+        menu->push_back ( { "", administration_timezone_url (), translate ("Timezone"), NULL } );
+      }
+    }
+  }
+  if (email_index_acl (webserver_request) && !client_logic_client_enabled ()) {
+    menu->push_back ( { "", email_index_url (), translate ("Mail"), NULL } );
+  }
+  if (styles_indext_acl (webserver_request)) {
+    menu->push_back ( { "", styles_indext_url (), translate ("Styles"), stylessubmenu () } );
+  }
+  if (versification_index_acl (webserver_request)) {
+    menu->push_back ( { "", versification_index_url (), translate ("Versifications"), NULL } );
+  }
   // C++Port if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", translate ("Verse mappings"), NULL } );
-  if (collaboration_index_acl (webserver_request)) menu->push_back ( { "", collaboration_index_url (), translate ("Collaboration"), NULL } );
+  if (collaboration_index_acl (webserver_request)) {
+    menu->push_back ( { "", collaboration_index_url (), translate ("Collaboration"), NULL } );
+  }
   // If the installation is not prepared for Client mode, disable the client menu.
   // But keep the menu item in an open installation.
   bool client_menu = client_index_acl (webserver_request);
   if (!config_logic_client_prepared ()) client_menu = false;
   if (config_logic_demo_enabled ()) client_menu = true;
   if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Client"), NULL } );
-  if (fonts_index_acl (webserver_request)) menu->push_back ( { "", fonts_index_url (), translate ("Fonts"), NULL } );
+  if (fonts_index_acl (webserver_request)) {
+    menu->push_back ( { "", fonts_index_url (), translate ("Fonts"), NULL } );
+  }
   return menu;
 }
 

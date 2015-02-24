@@ -58,12 +58,12 @@ string administration_timezone (void * webserver_request)
     input = filter_string_str_replace ("UTC", "", input);
     int timezone = convert_to_int (input);
     bool clipped = false;
-    if (timezone < -12) {
-      timezone = -12;
+    if (timezone < MINIMUM_TIMEZONE) {
+      timezone = MINIMUM_TIMEZONE;
       clipped = true;
     }
-    if (timezone > +14) {
-      timezone = +14;
+    if (timezone > MAXIMUM_TIMEZONE) {
+      timezone = MAXIMUM_TIMEZONE;
       clipped = true;
     }
     if (clipped) error = translate ("The timezone was clipped");
