@@ -104,7 +104,7 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (edit_index_acl (webserver_request)) menu->push_back ( { "", "",  translate ("Edit"), bible_edit_menu () } );
   if (search_index_acl (request)) menu->push_back ( { "", search_index_url (), translate ("Search"), NULL } );
-  if (workbench_index_acl (request)) menu->push_back ( { "", workbench_index_url (), translate ("Workbench"), bible_workbench_menu () } ); // Todo fix.
+  if (workbench_index_acl (request)) menu->push_back ( { "", "", translate ("Workbench"), bible_workbench_menu () } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    translate ("Checks"),    bible_checks_menu ()    } );
   if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), translate ("Bibles"), NULL} );
   return menu;
