@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define whether the expected browser is a bare browser without controls */
-#define BARE_BROWSER "yes"
+#define BARE_BROWSER "no"
 
 /* Define whether it is a client installation */
 #define CLIENT "no"

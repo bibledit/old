@@ -60,7 +60,7 @@ int config_logic_max_parallel_tasks ()
 }
 
 
-// Returns whether single tab mode is enable during configure. Todot
+// Returns whether bare browser mode is enable during configure.
 bool config_logic_bare_browser ()
 {
   return (strcmp (BARE_BROWSER, "yes") == 0);

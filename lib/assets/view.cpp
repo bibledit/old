@@ -32,7 +32,7 @@ Assets_View::Assets_View ()
   // On some installations like on iOS, the browser has only one tab.
   // Deal with this configuration setting.
   if (config_logic_bare_browser ()) {
-    set_variable ("targetblank", target_conditional_blank ()); // Todo
+    set_variable ("targetblank", target_conditional_blank ());
     enable_zone ("bare_browser");
   }
 }
