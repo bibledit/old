@@ -427,6 +427,12 @@ void test_filters_usfm3 ()
     evaluate (__LINE__, __func__, "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
     evaluate (__LINE__, __func__, "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
     evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
+    string inputusfm =
+      "\\v 9  If we confess our sins, he is faithful and just to forgive\n"
+      "us \\add our\\add* sins, and to cleanse us from all unrighteousness.";
+    string outputusfm = usfm_one_string (inputusfm);
+    string standard = filter_string_str_replace ("\n", " ", inputusfm);
+    evaluate (__LINE__, __func__, standard, outputusfm);
   }
   {
     evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
@@ -445,10 +451,9 @@ void test_filters_usfm3 ()
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
   }
-  { // Todo
-    Database_Styles database_styles = Database_Styles ();
-    database_styles.create ();
-    
+  Database_Styles database_styles = Database_Styles ();
+  database_styles.create ();
+  {
     evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
     vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, import2.size());
@@ -462,6 +467,11 @@ void test_filters_usfm3 ()
     } else evaluate (__LINE__, __func__, "executing tests", "skipping tests");
     
     evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
+  }
+  {
+    string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "1jn.usfm"));
+    vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
+    evaluate (__LINE__, __func__, 6, import.size());
   }
 }
 

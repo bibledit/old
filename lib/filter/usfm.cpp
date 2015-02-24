@@ -57,7 +57,7 @@ string usfm_one_string (string usfm)
       // The line will be appended to the output line.
       // If it does not start with a backslash (\), a space is inserted first.
       size_t pos = line.find ("\\");
-      if (pos == string::npos) {
+      if (pos != 0) {
         if (long_string != "") long_string += " ";
       }
       long_string += line;
