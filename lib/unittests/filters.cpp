@@ -307,54 +307,6 @@ void test_filters_test2 ()
 }
 
 
-void test_filters_test3 ()
-{
-  // Test the USFM filter functions.
-  {
-    evaluate (__LINE__, __func__, "", usfm_one_string (""));
-    evaluate (__LINE__, __func__, "\\id GEN", usfm_one_string ("\\id GEN\n"));
-    evaluate (__LINE__, __func__, "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
-    evaluate (__LINE__, __func__, "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
-    evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
-  }
-  {
-    evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
-    evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
-  }
-  {
-    evaluate (__LINE__, __func__, "", usfm_get_marker (""));
-    evaluate (__LINE__, __func__, "id", usfm_get_marker ("\\id GEN"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add insertion"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*\\add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
-  }
-  {
-    Database_Styles database_styles = Database_Styles ();
-    database_styles.create ();
-
-    evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
-    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, import2.size());
-    if (import2.size () == 2) {
-      evaluate (__LINE__, __func__, 33, import2 [0].book);
-      evaluate (__LINE__, __func__, 0, import2 [0].chapter);
-      evaluate (__LINE__, __func__, "\\id MIC", import2 [0].data);
-      evaluate (__LINE__, __func__, 33, import2 [1].book);
-      evaluate (__LINE__, __func__, 1, import2 [1].chapter);
-      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import2 [1].data);
-    } else evaluate (__LINE__, __func__, "executing tests", "skipping tests");
-
-    evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
-  }
-}
-
-
 void test_filters_test_usfm1 ()
 {
   {
@@ -462,6 +414,54 @@ void test_filters_test_usfm2 ()
     evaluate (__LINE__, __func__, "2b,3", usfm_peek_verse_number ("2b,3"));
     evaluate (__LINE__, __func__, "2b,3,", usfm_peek_verse_number ("2b,3, 4"));
     evaluate (__LINE__, __func__, "2a-3b", usfm_peek_verse_number ("2a-3b And he said"));
+  }
+}
+
+
+void test_filters_usfm3 ()
+{
+  // Test the USFM filter functions.
+  {
+    evaluate (__LINE__, __func__, "", usfm_one_string (""));
+    evaluate (__LINE__, __func__, "\\id GEN", usfm_one_string ("\\id GEN\n"));
+    evaluate (__LINE__, __func__, "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
+    evaluate (__LINE__, __func__, "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
+    evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
+  }
+  {
+    evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
+    evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
+    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
+    evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
+    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
+  }
+  {
+    evaluate (__LINE__, __func__, "", usfm_get_marker (""));
+    evaluate (__LINE__, __func__, "id", usfm_get_marker ("\\id GEN"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add insertion"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*\\add"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
+  }
+  { // Todo
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    
+    evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
+    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
+    evaluate (__LINE__, __func__, 2, import2.size());
+    if (import2.size () == 2) {
+      evaluate (__LINE__, __func__, 33, import2 [0].book);
+      evaluate (__LINE__, __func__, 0, import2 [0].chapter);
+      evaluate (__LINE__, __func__, "\\id MIC", import2 [0].data);
+      evaluate (__LINE__, __func__, 33, import2 [1].book);
+      evaluate (__LINE__, __func__, 1, import2 [1].chapter);
+      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import2 [1].data);
+    } else evaluate (__LINE__, __func__, "executing tests", "skipping tests");
+    
+    evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
 }
 
@@ -2518,7 +2518,7 @@ void test_filters ()
   refresh_sandbox (true);
   test_filters_test1 ();
   test_filters_test2 ();
-  test_filters_test3 ();
+  test_filters_usfm3 ();
   test_filters_test_usfm1 ();
   test_filters_test_usfm2 ();
   test_filters_test5 ();

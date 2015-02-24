@@ -112,6 +112,8 @@ void test_database_config_user ()
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");
     request.session_logic ()->attemptLogin ("username", "password", true);
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
     evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());
@@ -169,7 +171,7 @@ void test_database_config_user ()
     evaluate (__LINE__, __func__, filter_string_date_numerical_year (), request.database_config_user ()->getSprintYear ());
     
     // Test getting a Bible that does not exist: It creates one.
-    evaluate (__LINE__, __func__, "testBible", request.database_config_user ()->getBible ());
+    evaluate (__LINE__, __func__, "Bibledit Sample Bible", request.database_config_user ()->getBible ());
   }
 }
 
