@@ -107,6 +107,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/settings.h>
 #include <sync/bibles.h>
 #include <resource/index.h>
+#include <resource/organize.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -157,6 +158,7 @@ void bootstrap_index (Webserver_Request * request)
   
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);
+  else if ((url == resource_organize_url ()) && resource_organize_acl (request)) request->reply = resource_organize (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);

@@ -200,7 +200,8 @@ libbibledit_a_SOURCES = \
 	sync/setup.cpp \
 	sync/settings.cpp \
 	sync/bibles.cpp \
-	resource/index.cpp
+	resource/index.cpp \
+	resource/organize.cpp
 
 bin_PROGRAMS = server unittest
 
