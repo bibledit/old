@@ -16,38 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+Todo goes out.
 
-
-require_once ("bootstrap/bootstrap");
-
-
-class Resource_Logic
-{
-
-
-  public static function getNames ()
-  {
-    $names = array ();
-
-    // Take Bibles the user has read access to.
-    $bibles = access_bible_bibles ();
-    $names = array_merge ($names, $bibles);
-
-    // Take USFM Resources.
-    $database_usfmresources = Database_UsfmResources::getInstance ();
-    $usfm_resources = $database_usfmresources->getResources ();
-    $names = array_merge ($names, $usfm_resources);
-
-    // Take external Resources.
-    $database_resources = Database_Resources::getInstance ();
-    $resources = $database_resources->getNames ();
-    $names = array_merge ($names, $resources);
-
-    $names = array_unique ($names);
-    sort ($names);
-
-    return $names;
-  }
 
 
   public static function getExternal ($name, book, chapter, verse, $apply_mapping)

@@ -992,6 +992,8 @@
 		CADE4D7D1A9DEF2000F16E49 /* organize.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = organize.cpp; sourceTree = "<group>"; };
 		CADE4D7E1A9DEF2000F16E49 /* organize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = organize.h; sourceTree = "<group>"; };
 		CADE4D7F1A9DF02900F16E49 /* organize.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = organize.html; sourceTree = "<group>"; };
+		CADE4D801A9DF45800F16E49 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CADE4D811A9DF45800F16E49 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAEAA5211A49BA660055F6D5 /* view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = view.cpp; sourceTree = "<group>"; };
 		CAEAA5221A49BA660055F6D5 /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
 		CAEABB161A76A4F7008DBBA4 /* direction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = direction.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -2396,6 +2398,8 @@
 				CADE4D7B1A9DE2FD00F16E49 /* index.h */,
 				CAA4D2C41A45A648003ABA25 /* index.js */,
 				CAA4D2C61A45A648003ABA25 /* logic.php */,
+				CADE4D801A9DF45800F16E49 /* logic.cpp */,
+				CADE4D811A9DF45800F16E49 /* logic.h */,
 				CAA4D2C71A45A648003ABA25 /* manage.js */,
 				CAA4D2C81A45A648003ABA25 /* manage.php */,
 				CAA4D2C91A45A648003ABA25 /* organize.js */,

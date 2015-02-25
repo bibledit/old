@@ -12,9 +12,6 @@
 <h4>translate("Available resources")</h4>
 <p>
 translate("Click to activate:")
-<?php for ($this->selectables as $offset => $selectable) {
-  <?php if ($offset) echo " | "
-  <a href="?add=$selectable">$selectable</a>
-<?php }
+##selectablesblock##
 </p>
 <script type="text/javascript" src="organize.js?##VERSION##"></script>

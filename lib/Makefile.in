@@ -212,7 +212,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
 	client/logic.$(OBJEXT) sync/setup.$(OBJEXT) \
 	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT) \
-	resource/index.$(OBJEXT) resource/organize.$(OBJEXT)
+	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
+	resource/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -637,7 +638,8 @@ libbibledit_a_SOURCES = \
 	sync/settings.cpp \
 	sync/bibles.cpp \
 	resource/index.cpp \
-	resource/organize.cpp
+	resource/organize.cpp \
+	resource/logic.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1443,6 +1445,8 @@ resource/index.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/organize.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+resource/logic.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1729,6 +1733,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/organize.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids2.Po@am__quote@

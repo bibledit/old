@@ -26,6 +26,7 @@
 #include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <resource/logic.h>
 
 
 string resource_organize_url ()
@@ -44,43 +45,38 @@ string resource_organize (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  /* Todo
-   
-   
-   
-  @$add = request->query['add'];
-  if (isset ($add)) {
-    $resources = request->database_config_user()->getActiveResources ();
-    $resources [] = $add;
-    request->database_config_user()->setActiveResources ($resources);
+  
+  if (request->query.count ("add")) {
+    string add = request->query["add"];
+    vector <string> resources = request->database_config_user()->getActiveResources ();
+    resources.push_back (add);
+    request->database_config_user()->setActiveResources (resources);
   }
   
   
-  @$remove = request->query['remove'];
-  if (isset ($remove)) {
-    $resources = request->database_config_user()->getActiveResources ();
-    $key = array_search ($remove, $resources);
-    unset ($resources[$key]);
-    request->database_config_user()->setActiveResources ($resources);
+  if (request->query.count ("remove")) {
+    string remove = request->query["remove"];
+    vector <string> resources = request->database_config_user()->getActiveResources ();
+    resources = filter_string_array_diff (resources, {remove});
+    request->database_config_user()->setActiveResources (resources);
   }
   
   
-  @$resources = request->post ['resources'];
-  if (isset ($resources)) {
-    $resources = explode (",", $resources);
-    request->database_config_user()->setActiveResources ($resources);
+  if (request->post.count ("resources")) {
+    string resources = request->post ["resources"];
+    vector <string> v_resources = filter_string_explode (resources, ',');
+    request->database_config_user()->setActiveResources (v_resources);
+    return "";
   }
-  
   
 
-  */
-  
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.jQueryUIOn ("sortable");
   page = header.run ();
   Assets_View view = Assets_View ();
 
+  
   // Active resources.
   vector <string> active_resources = request->database_config_user()->getActiveResources ();
   string activesblock;
@@ -89,13 +85,19 @@ string resource_organize (void * webserver_request)
   }
   view.set_variable ("activesblock", activesblock);
   
+  
   // The selectable resources are the available ones minus the active ones.
-  /* Todo
-  $available_resources = Resource_Logic::getNames ();
-  $selectable_resources = filter_string_array_diff ($available_resources, $active_resources);
-  $view.set_variable ("selectables = $selectable_resources;
-*/
-   
+  vector <string> available_resources = Resource_Logic::getNames (webserver_request);
+  vector <string> selectable_resources = filter_string_array_diff (available_resources, active_resources);
+  string selectablesblock;
+  for (unsigned int i = 0; i < selectable_resources.size (); i++) {
+    string selectable = selectable_resources [i];
+    if (i) selectablesblock.append (" | ");
+    selectablesblock.append ("<a href=\"?add=" + selectable + "\">" + selectable + "</a>");
+  }
+  view.set_variable ("selectablesblock", selectablesblock);
+  
+  
   page += view.render ("resource", "organize");
   page += Assets_Page::footer ();
   return page;
