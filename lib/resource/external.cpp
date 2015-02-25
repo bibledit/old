@@ -17,23 +17,23 @@
  */
 
 
-#ifndef INCLUDED_RESOURCE_LOGIC_H
-#define INCLUDED_RESOURCE_LOGIC_H
+#include <resource/external.h>
+#include <filter/string.h>
+#include <webserver/request.h>
 
 
-#include <config/libraries.h>
-
-
-class Resource_Logic
+string resource_external_get (string name, int book, int chapter, int verse) // Todo
 {
-public:
-  static vector <string> getNames (void * webserver_request);
-  static string getExternal (void * webserver_request,
-                             string name, int book, int chapter, int verse,
-                             bool apply_mapping);
-  static string getHtml (void * webserver_request, string resource, int book, int chapter, int verse);
-private:
-};
+  /*
+  $database_resources = Database_Resources::getInstance ();
+  $file = $database_resources->getInclude ($name);
+  $output = "";
+  // Pass book, chapter, verse to the included script below.
+  // The script fills the $output variable.
+  include ($file);
+  return $output;
+  */
+  return "not yet implemented";
+}
 
 
-#endif

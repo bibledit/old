@@ -108,6 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/bibles.h>
 #include <resource/index.h>
 #include <resource/organize.h>
+#include <resource/get.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -236,6 +237,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_replacepre2_url ()) && search_replacepre2_acl (request)) request->reply = search_replacepre2 (request);
   else if ((url == search_getids2_url ()) && search_getids2_acl (request)) request->reply = search_getids2 (request);
   else if ((url == search_replacego2_url ()) && search_replacego2_acl (request)) request->reply = search_replacego2 (request);
+  else if ((url == resource_get_url ()) && resource_get_acl (request)) request->reply = resource_get (request);
 
   // Forward the browser to the default home page.
   else {

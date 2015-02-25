@@ -17,23 +17,14 @@
  */
 
 
-#ifndef INCLUDED_RESOURCE_LOGIC_H
-#define INCLUDED_RESOURCE_LOGIC_H
+#ifndef INCLUDED_RESOURCE_EXTERNAL_H
+#define INCLUDED_RESOURCE_EXTERNAL_H
 
 
 #include <config/libraries.h>
 
 
-class Resource_Logic
-{
-public:
-  static vector <string> getNames (void * webserver_request);
-  static string getExternal (void * webserver_request,
-                             string name, int book, int chapter, int verse,
-                             bool apply_mapping);
-  static string getHtml (void * webserver_request, string resource, int book, int chapter, int verse);
-private:
-};
+string resource_external_get (string name, int book, int chapter, int verse);
 
 
 #endif

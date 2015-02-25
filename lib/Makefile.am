@@ -202,7 +202,9 @@ libbibledit_a_SOURCES = \
 	sync/bibles.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
-	resource/logic.cpp
+	resource/logic.cpp \
+	resource/get.cpp \
+	resource/external.cpp
 
 bin_PROGRAMS = server unittest
 
