@@ -48,6 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/index.h>
 #include <search/index.h>
 #include <config/globals.h>
+#include <resource/index.h>
 
 
 /*
@@ -80,11 +81,12 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
   // This is the main menu.
   // It will be visible in the top bar.
   // The last element in the array is the submenu to display on expansion.
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", translate ("Bible"),     biblemenu ()     } );
+  if (edit_index_acl (request)) menu->push_back ( { "", "", translate ("Bible"), biblemenu () } );
   // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Notes"),     notesmenu ()     } );
-  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Resources"), resourcesmenu () } );
+  if (resource_index_acl (request)) menu->push_back ( { "", "", translate ("Resources"), resourcesmenu () } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Changes"),   changesmenu ()   } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", translate ("Planning"),  planningmenu ()  } );
   vector <Menu_Main_Item> *  tools_menu = toolsmenu ();
@@ -163,9 +165,10 @@ vector <Menu_Main_Item> * Menu_Main::notesmenu ()
 
 vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "resource/index", translate ("View"), NULL } );
+  if (resource_index_acl (request)) menu->push_back ( { "", resource_index_url (), translate ("View"), NULL } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "resource/print", translate ("Print"), NULL } );
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "resource/manage", translate ("USFM"), NULL } );
   if (level >= Filter_Roles::admin ())      menu->push_back ( { "", "resource/admin", translate ("External"), NULL } );

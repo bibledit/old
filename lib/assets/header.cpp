@@ -77,13 +77,11 @@ void Assets_Header::setNavigator ()
 
 
 // Display the user's basic stylesheet.css.
-void Assets_Header::setStylesheet () // C++Port
+void Assets_Header::setStylesheet () // Todo test
 {
-  /* 
-    $database_config_user = Database_Config_User::getInstance ();
-    $stylesheet = request->database_config_user()->getStylesheet ();
-    $this->includedStylesheet = $stylesheet;
-   */
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string stylesheet = request->database_config_user()->getStylesheet ();
+  includedStylesheet = stylesheet;
 }
 
 

@@ -199,7 +199,8 @@ libbibledit_a_SOURCES = \
 	client/logic.cpp \
 	sync/setup.cpp \
 	sync/settings.cpp \
-	sync/bibles.cpp
+	sync/bibles.cpp \
+	resource/index.cpp
 
 bin_PROGRAMS = server unittest
 
