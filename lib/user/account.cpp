@@ -36,7 +36,7 @@ string user_account_url ()
 
 bool user_account_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 
 

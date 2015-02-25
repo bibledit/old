@@ -34,7 +34,7 @@ const char * session_logout_url ()
 
 bool session_logout_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 
 
