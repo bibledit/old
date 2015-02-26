@@ -24,33 +24,33 @@ require_once ("../bootstrap/bootstrap");
 // Security: The script runs from the cli SAPI only.
 Filter_Cli::assert ();
 
-
-$database_logs = Database_Logs::getInstance ();
-$database_bibles = Database_Bibles::getInstance ();
-$database_usfmresources = Database_UsfmResources::getInstance ();
-$database_books = Database_Books::getInstance ();
-$database_modifications = Database_Modifications::getInstance ();
-
-
-$resource = Filter_Cli::argument (@$argv, 1);
-Database_Logs::log (translate("Converting USFM Resource to Bible") . ": $resource");
-
-
-request->database_bibles()->createBible ($resource); Disable in client.
-$books = $database_usfmresources->getBooks ($resource);
-for ($books as $book) {
-  $bookname = Database_Books::getEnglishFromId ($book);
-  Database_Logs::log ("$bookname");
-  $chapters = $database_usfmresources->getChapters ($resource, $book);
-  for ($chapters as $chapter) {
-    $usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
-    request->database_bibles()->storeChapter ($resource, $book, $chapter, $usfm);
+  
+  Database_Bibles database_bibles = Database_Bibles ();
+  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+  Database_Modifications database_modifications = Database_Modifications ();
+  
+  
+  $resource = Filter_Cli::argument (@$argv, 1);
+  Database_Logs::log (translate("Converting USFM Resource to Bible") . ": $resource");
+  
+  
+  request->database_bibles()->createBible ($resource); Disable in client.
+  $books = $database_usfmresources->getBooks ($resource);
+  for ($books as $book) {
+    $bookname = Database_Books::getEnglishFromId ($book);
+    Database_Logs::log ("$bookname");
+    $chapters = $database_usfmresources->getChapters ($resource, $book);
+    for ($chapters as $chapter) {
+      $usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
+      request->database_bibles()->storeChapter ($resource, $book, $chapter, $usfm);
+    }
   }
-}
-$database_usfmresources->deleteResource ($resource);
+  $database_usfmresources->deleteResource ($resource);
+  
+  
+  Database_Logs::log (translate("Conversion completed"));
+  
 
-
-Database_Logs::log (translate("Conversion completed"));
 
 
 ?>

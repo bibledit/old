@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/bibles.h>
 #include <demo/logic.h>
 #include <config/logic.h>
+#include <resource/convert2resource.h>
 
 
 mutex mutex_tasks; 
@@ -116,6 +117,8 @@ void tasks_run_one (string filename)
     Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
+  } else if (command == CONVERTBIBLE2RESOURCE) {
+    convert_bible_to_resource (parameter1);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

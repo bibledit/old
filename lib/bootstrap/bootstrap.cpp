@@ -109,6 +109,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
+#include <resource/bible2resource.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -156,6 +157,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == workbench_index_url ()) && workbench_index_acl (request)) request->reply = workbench_index (request);
   else if ((url == workbench_organize_url ()) && workbench_organize_acl (request)) request->reply = workbench_organize (request);
   else if ((url == bible_editing_url ()) && bible_editing_acl (request)) request->reply = bible_editing (request);
+  else if ((url == resource_bible2resource_url ()) && resource_bible2resource_acl (request)) request->reply = resource_bible2resource (request);
   
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);

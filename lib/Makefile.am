@@ -204,7 +204,9 @@ libbibledit_a_SOURCES = \
 	resource/organize.cpp \
 	resource/logic.cpp \
 	resource/get.cpp \
-	resource/external.cpp
+	resource/external.cpp \
+	resource/bible2resource.cpp \
+	resource/convert2resource.cpp
 
 bin_PROGRAMS = server unittest
 
