@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
+#include <filter/passage.h>
 
 
 class Database_Config_User
@@ -131,12 +132,12 @@ public:
   vector <string> getPrintResources ();
   vector <string> getPrintResourcesForUser (string user);
   void setPrintResources (vector <string> values);
-  string getPrintPassageFrom ();
-  string getPrintPassageFromForUser (string user);
-  void setPrintPassageFrom (string value);
-  string getPrintPassageTo ();
-  string getPrintPassageToForUser (string user);
-  void setPrintPassageTo (string value);
+  Passage getPrintPassageFrom ();
+  Passage getPrintPassageFromForUser (string user);
+  void setPrintPassageFrom (Passage value);
+  Passage getPrintPassageTo ();
+  Passage getPrintPassageToForUser (string user);
+  void setPrintPassageTo (Passage value);
   string getSourceXrefBible ();
   void setSourceXrefBible (string bible);
   string getTargetXrefBible ();

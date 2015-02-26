@@ -51,6 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/index.h>
 #include <resource/manage.h>
 #include <resource/admin.h>
+#include <resource/print.h>
 
 
 /*
@@ -87,18 +88,17 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (edit_index_acl (request)) menu->push_back ( { "", "", translate ("Bible"), biblemenu () } );
-  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Notes"),     notesmenu ()     } );
+  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Notes"),     notesmenu () } );
   if (resource_index_acl (request)) menu->push_back ( { "", "", translate ("Resources"), resourcesmenu () } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Changes"),   changesmenu ()   } );
+  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Changes"), changesmenu () } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", translate ("Planning"),  planningmenu ()  } );
   vector <Menu_Main_Item> *  tools_menu = toolsmenu ();
-  if (tools_menu->size ()) {
-                                            menu->push_back ( { "", "", translate ("Tools"),     tools_menu     } );
+  if (tools_menu->size ()) { menu->push_back ( { "", "", translate ("Tools"), tools_menu } );
   } else {
     delete tools_menu;
   }
-  if (level >= Filter_Roles::member ())     menu->push_back ( { "", "", translate ("Settings"),  settingsmenu ()  } );
-                                            menu->push_back ( { "", "", translate ("Help"),      helpmenu ()      } );
+  if (level >= Filter_Roles::member ()) menu->push_back ( { "", "", translate ("Settings"), settingsmenu () } );
+  menu->push_back ( { "", "", translate ("Help"), helpmenu () } );
   return menu;
 }
 
@@ -169,9 +169,8 @@ vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   if (resource_index_acl (request)) menu->push_back ( { "", resource_index_url (), translate ("View"), NULL } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "resource/print", translate ("Print"), NULL } );
+  if (resource_print_acl (request)) menu->push_back ( { "", resource_print_url (), translate ("Print"), NULL } );
   if (resource_manage_acl (request)) menu->push_back ( { "", resource_manage_url (), translate ("USFM"), NULL } );
   if (resource_admin_acl (request)) menu->push_back ( { "", resource_admin_url (), translate ("External"), NULL } );
   return menu;

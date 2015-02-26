@@ -714,31 +714,42 @@ void Database_Config_User::setPrintResources (vector <string> values)
 }
 
 
-string Database_Config_User::getPrintPassageFrom ()
+Passage database_config_user_fix_passage (string value, const char * fallback)
 {
-  return getValue ("print-passage-from", "1.1.1");
-}
-string Database_Config_User::getPrintPassageFromForUser (string user)
-{
-  return getValueForUser (user, "print-passage-from", "1.1.1");
-}
-void Database_Config_User::setPrintPassageFrom (string value)
-{
-  setValue ("print-passage-from", value);
+  vector <string> values = filter_string_explode (value, '.');
+  if (values.size () != 3) values = filter_string_explode (fallback, '.');
+  Passage passage = Passage ("", convert_to_int (values[0]), convert_to_int (values[1]), values[2]);
+  return passage;
 }
 
 
-string Database_Config_User::getPrintPassageTo ()
+Passage Database_Config_User::getPrintPassageFrom ()
 {
-  return getValue ("print-passage-to", "1.1.31");
+  return database_config_user_fix_passage (getValue ("print-passage-from", ""), "1.1.1");
 }
-string Database_Config_User::getPrintPassageToForUser (string user)
+Passage Database_Config_User::getPrintPassageFromForUser (string user)
 {
-  return getValueForUser (user, "print-passage-to", "1.1.31");
+  return database_config_user_fix_passage (getValueForUser (user, "print-passage-from", ""), "1.1.1");
 }
-void Database_Config_User::setPrintPassageTo (string value)
+void Database_Config_User::setPrintPassageFrom (Passage value)
 {
-  setValue ("print-passage-to", value);
+  string s = to_string (value.book) + "." + to_string (value.chapter) + "." + value.verse;
+  setValue ("print-passage-from", s);
+}
+
+
+Passage Database_Config_User::getPrintPassageTo ()
+{
+  return database_config_user_fix_passage (getValue ("print-passage-to", ""), "1.1.31");
+}
+Passage Database_Config_User::getPrintPassageToForUser (string user)
+{
+  return database_config_user_fix_passage (getValueForUser (user, "print-passage-to", ""), "1.1.31");
+}
+void Database_Config_User::setPrintPassageTo (Passage value)
+{
+  string s = to_string (value.book) + "." + to_string (value.chapter) + "." + value.verse;
+  setValue ("print-passage-to", s);
 }
 
 

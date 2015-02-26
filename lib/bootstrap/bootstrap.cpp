@@ -112,6 +112,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/bible2resource.h>
 #include <resource/manage.h>
 #include <resource/admin.h>
+#include <resource/print.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -164,6 +165,7 @@ void bootstrap_index (Webserver_Request * request)
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);
   else if ((url == resource_organize_url ()) && resource_organize_acl (request)) request->reply = resource_organize (request);
+  else if ((url == resource_print_url ()) && resource_print_acl (request)) request->reply = resource_print (request);
   else if ((url == resource_manage_url ()) && resource_manage_acl (request)) request->reply = resource_manage (request);
   else if ((url == resource_admin_url ()) && resource_admin_acl (request)) request->reply = resource_admin (request);
   
