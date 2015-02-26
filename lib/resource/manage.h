@@ -17,23 +17,16 @@
  */
 
 
-#include <resource/external.h>
-#include <filter/string.h>
-#include <webserver/request.h>
+#ifndef INCLUDED_RESOURCE_MANAGE_H
+#define INCLUDED_RESOURCE_MANAGE_H
 
 
-string resource_external_get (string name, int book, int chapter, int verse)
-{
-  /*
-  $database_resources = Database_Resources::getInstance ();
-  $file = $database_resources->getInclude ($name);
-  $output = "";
-  // Pass book, chapter, verse to the included script below.
-  // The script fills the $output variable.
-  include ($file);
-  return $output;
-  */
-  return "not yet implemented";
-}
+#include <config/libraries.h>
 
 
+string resource_manage_url ();
+bool resource_manage_acl (void * webserver_request);
+string resource_manage (void * webserver_request);
+
+
+#endif

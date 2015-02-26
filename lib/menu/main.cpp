@@ -49,6 +49,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/index.h>
 #include <config/globals.h>
 #include <resource/index.h>
+#include <resource/manage.h>
+#include <resource/admin.h>
 
 
 /*
@@ -170,8 +172,8 @@ vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   if (resource_index_acl (request)) menu->push_back ( { "", resource_index_url (), translate ("View"), NULL } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "resource/print", translate ("Print"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "resource/manage", translate ("USFM"), NULL } );
-  if (level >= Filter_Roles::admin ())      menu->push_back ( { "", "resource/admin", translate ("External"), NULL } );
+  if (resource_manage_acl (request)) menu->push_back ( { "", resource_manage_url (), translate ("USFM"), NULL } );
+  if (resource_admin_acl (request)) menu->push_back ( { "", resource_admin_url (), translate ("External"), NULL } );
   return menu;
 }
 

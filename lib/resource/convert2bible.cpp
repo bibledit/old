@@ -17,7 +17,7 @@
  */
 
 
-#include <resource/convert2resource.h>
+#include <resource/convert2bible.h>
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <resource/logic.h>
@@ -28,31 +28,28 @@
 #include <locale/translate.h>
 
 
-void convert_bible_to_resource (string bible)
+void convert_resource_to_bible (string resource)
 {
   Database_Bibles database_bibles = Database_Bibles ();
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   
   
-  Database_Logs::log (translate("Converting Bible to USFM Resource") + ": " + bible, Filter_Roles::manager ());
+  Database_Logs::log (translate("Converting USFM Resource to Bible") + ": " + resource);
   
   
-  vector <int> books = database_bibles.getBooks (bible);
+  database_bibles.createBible (resource);
+  vector <int> books = database_usfmresources.getBooks (resource);
   for (auto & book : books) {
     string bookname = Database_Books::getEnglishFromId (book);
-    Database_Logs::log (bookname, Filter_Roles::manager ());
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    Database_Logs::log (bookname);
+    vector <int> chapters = database_usfmresources.getChapters (resource, book);
     for (auto & chapter : chapters) {
-      string usfm = database_bibles.getChapter (bible, book, chapter);
-      database_usfmresources.storeChapter (bible, book, chapter, usfm);
-      database_bibles.deleteChapter (bible, book, chapter);
+      string usfm = database_usfmresources.getUsfm (resource, book, chapter);
+      database_bibles.storeChapter (resource, book, chapter, usfm);
     }
   }
-  database_bibles.deleteBible (bible);
-  // Any information about user access to this Bible is left untouched,
-  // because this information is useful when the USFM Resource is converted
-  // back to a Bible.
+  database_usfmresources.deleteResource (resource);
   
   
-  Database_Logs::log (translate("Completed"), Filter_Roles::manager ());
+  Database_Logs::log (translate("Conversion completed"));
 }
