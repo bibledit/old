@@ -237,6 +237,7 @@
 		CA80A70D1AA0A9A800C7208F /* jsonlint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jsonlint.c; sourceTree = "<group>"; };
 		CA80A70E1AA0A9A800C7208F /* libjson.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.pc.in; sourceTree = "<group>"; };
 		CA80A70F1AA0A9A800C7208F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA80A7101AA0FF1B00C7208F /* biblehub-john-1-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-john-1-1.html"; sourceTree = "<group>"; };
 		CA82662E1A7FAA330049DFD3 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
 		CA82662F1A7FAA330049DFD3 /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		CA8266301A7FFC9C0049DFD3 /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
@@ -850,11 +851,6 @@
 		CAA4D3971A45A648003ABA25 /* editor.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = editor.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3981A45A648003ABA25 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CAA4D3991A45A648003ABA25 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
-		CAA4D39B1A45A648003ABA25 /* html.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = html.php; sourceTree = "<group>"; };
-		CAA4D39C1A45A648003ABA25 /* htmLawed.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = htmLawed.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D39D1A45A648003ABA25 /* htmLawed_README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = htmLawed_README.txt; sourceTree = "<group>"; };
-		CAA4D39E1A45A648003ABA25 /* htmLawedTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = htmLawedTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D39F1A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D3A61A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAA4D3A71A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D3A81A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = index.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
@@ -900,10 +896,6 @@
 		CAA4D4221A45A648003ABA25 /* qunit-1.14.0.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "qunit-1.14.0.css"; sourceTree = "<group>"; };
 		CAA4D4231A45A648003ABA25 /* qunit-1.14.0.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "qunit-1.14.0.js"; sourceTree = "<group>"; };
 		CAA4D4241A45A648003ABA25 /* tests.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = tests.js; sourceTree = "<group>"; };
-		CAA4D42F1A45A648003ABA25 /* biblehub-text-john-1-1-tidy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-text-john-1-1-tidy.html"; sourceTree = "<group>"; };
-		CAA4D4301A45A648003ABA25 /* biblehub-text-john-1-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-text-john-1-1.html"; sourceTree = "<group>"; };
-		CAA4D4311A45A648003ABA25 /* htmlTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = htmlTest.php; sourceTree = "<group>"; };
-		CAA4D4321A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D4361A45A648003ABA25 /* unittest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = unittest.cpp; sourceTree = "<group>"; };
 		CAA4D4371A45A648003ABA25 /* unittest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unittest.h; sourceTree = "<group>"; };
 		CAA4D4381A45A648003ABA25 /* utilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utilities.cpp; sourceTree = "<group>"; };
@@ -2715,19 +2707,6 @@
 			path = scripts;
 			sourceTree = "<group>";
 		};
-		CAA4D39A1A45A648003ABA25 /* tidy */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D39B1A45A648003ABA25 /* html.php */,
-				CAA4D39C1A45A648003ABA25 /* htmLawed.php */,
-				CAA4D39D1A45A648003ABA25 /* htmLawed_README.txt */,
-				CAA4D39E1A45A648003ABA25 /* htmLawedTest.php */,
-				CAA4D39F1A45A648003ABA25 /* index.php */,
-			);
-			name = tidy;
-			path = ../tidy;
-			sourceTree = "<group>";
-		};
 		CAA4D3A01A45A648003ABA25 /* timer */ = {
 			isa = PBXGroup;
 			children = (
@@ -2783,6 +2762,7 @@
 		CAA4D3C81A45A648003ABA25 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				CA80A7101AA0FF1B00C7208F /* biblehub-john-1-1.html */,
 				CA699A0E1A4EE04300B23E0A /* basic.css */,
 				CA699A0F1A4EE05800B23E0A /* editor.css */,
 				CA699A101A4EE05800B23E0A /* exports.css */,
@@ -2794,7 +2774,6 @@
 				CAA4D41E1A45A648003ABA25 /* onlinebible1.exp */,
 				CAA4D41F1A45A648003ABA25 /* onlinebible2.exp */,
 				CAA4D4201A45A648003ABA25 /* qunit */,
-				CAA4D42E1A45A648003ABA25 /* tidy */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -2861,17 +2840,6 @@
 				CAA4D4241A45A648003ABA25 /* tests.js */,
 			);
 			path = qunit;
-			sourceTree = "<group>";
-		};
-		CAA4D42E1A45A648003ABA25 /* tidy */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D42F1A45A648003ABA25 /* biblehub-text-john-1-1-tidy.html */,
-				CAA4D4301A45A648003ABA25 /* biblehub-text-john-1-1.html */,
-				CAA4D4311A45A648003ABA25 /* htmlTest.php */,
-				CAA4D4321A45A648003ABA25 /* run */,
-			);
-			path = tidy;
 			sourceTree = "<group>";
 		};
 		CAA4D43A1A45A648003ABA25 /* user */ = {
@@ -3121,7 +3089,6 @@
 				CAA4D3731A45A648003ABA25 /* sync */,
 				CAA4D3841A45A648003ABA25 /* tasks */,
 				CAA4D3901A45A648003ABA25 /* text */,
-				CAA4D39A1A45A648003ABA25 /* tidy */,
 				CAA4D3A01A45A648003ABA25 /* timer */,
 				CAA4D3AB1A45A648003ABA25 /* tmp */,
 				CAA4D4A11A45FC70003ABA25 /* TODO */,

@@ -1061,3 +1061,11 @@ string hex2bin (string hex)
   }
   return out;
 }
+
+
+// Tidies up html.
+string html_tidy (string html)
+{
+  html = filter_string_str_replace ("<", "\n<", html);
+  return html;
+}

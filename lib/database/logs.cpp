@@ -112,7 +112,7 @@ void Database_Logs::rotate ()
     struct dirent * direntry;
     while ((direntry = readdir (dir)) != NULL) {
       string name = direntry->d_name;
-      if (name != "." && name != "..") {
+      if (name != "." && name != ".." && name != "gitflag" && name != ".DS_Store") {
         files.push_back (name);
       }
       // Limit the number of entries to avoid getting stuck in them.
@@ -193,7 +193,6 @@ vector <string> Database_Logs::get (int day, string & lastfilename)
     vector <string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size(); i++) {
       string file = files [i];
-      if (file == "gitflag") continue;
       string path = filter_url_create_path (directory, file);
       string contents = filter_url_file_get_contents (path);
       entries.push_back (contents);
@@ -215,9 +214,6 @@ string Database_Logs::getNext (string &filename)
   vector <string> files = filter_url_scandir (directory);
   for (unsigned int i = 0; i < files.size (); i++) {
     string file = files [i];
-    if (file == "gitflag") continue;
-    //cout << file << " " << filename << " " << convert_to_long_long (filename) << endl;
-    
     if (file > filename) {
       filename = file;
       string path = filter_url_create_path (directory, file);

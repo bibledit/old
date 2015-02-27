@@ -229,7 +229,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   // Get the html from the server, and tidy it up.
   string html;
   html = filter_url_http_get (url, html);
-  string tidy = /* Todo Tidy_Html::run */ (html);
+  string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
   
   vector <string> filtered_lines;

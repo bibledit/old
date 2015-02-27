@@ -182,7 +182,6 @@ void test_database_logs ()
   {
     refresh_sandbox (true);
     // Log some items.
-    // Temporarily disable output to stdout to avoid clutter there.
     Database_Logs::log ("description1", 2);
     Database_Logs::log ("description2", 3);
     Database_Logs::log ("description3", 4);

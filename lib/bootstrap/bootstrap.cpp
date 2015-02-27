@@ -123,12 +123,14 @@ void bootstrap_index (Webserver_Request * request)
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
   
-  // Serve graphics, stylesheets, JavaScript.
+  // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")
       || (extension == "png")
       || (extension == "gif")
       || (extension == "css")
       || (extension == "js")
+      || (extension == "ttf")
+      || (extension == "otf")
       ) http_serve_file (request);
   
   // Force setup.

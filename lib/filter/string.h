@@ -90,6 +90,7 @@ vector <string> filter_string_search_needles (string search, string text);
 int filter_string_user_identifier (void * webserver_request);
 string bin2hex (string bin);
 string hex2bin (string hex);
+string html_tidy (string html);
 
 
 #endif

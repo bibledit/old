@@ -4031,3 +4031,13 @@ void test_filter_merge ()
     evaluate (__LINE__, __func__, standard, output);
   }
 }
+
+
+void test_filter_tidy ()
+{
+  string folder = filter_url_create_root_path ("unittests", "tests");
+  string html = filter_url_file_get_contents (filter_url_create_path (folder, "/biblehub-john-1-1.html"));
+  vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
+  evaluate (__LINE__, __func__, 752, tidy.size());
+}
+
