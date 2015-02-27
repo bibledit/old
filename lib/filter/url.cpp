@@ -279,7 +279,7 @@ vector <string> filter_url_scandir (string folder)
     struct dirent * direntry;
     while ((direntry = readdir (dir)) != NULL) {
       string name = direntry->d_name;
-      if (name != "." && name != ".." && name != "gitflag" && name != ".deps" && name != ".dirstamp") {
+      if (name != "." && name != ".." && name != "gitflag" && name != ".deps" && name != ".dirstamp" && name != ".DS_Store") {
         files.push_back (name);
       }
     }
