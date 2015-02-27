@@ -1,23 +1,4 @@
-<?php
-/*
-Copyright (©) 2003-2015 Teus Benschop.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-?>
-<h3>translate("Download resource") "$this->name"</h3>
+<h3>translate("Download resource") "##name##"</h3>
 <p><a href="admin">[translate("back")]</a></p>
 <br>
 <p>
@@ -36,12 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <p>
   translate("Number of verses available offline for this resource:")
-  $this->count
-  <?php if ($this->count) {
-    [<a href="?name=$this->name&clear">translate("clear")</a>]
-  <?php }
+  ##count##
+  <!-- #BEGINZONE count -->
+    [<a href="?name=##name##&clear">translate("clear")</a>]
+  <!-- #ENDZONE count -->
 </p>
-<p><a href="?name=$this->name&download">translate("Start downloading this resource, en view the progress in the Journal.")</a></p>
+<p><a href="?name=##name##&download">translate("Start downloading this resource, en view the progress in the Journal.")</a></p>
 <br>
 <p>
   translate("It takes partial downloads into account, because it only downloads the missing pieces.")

@@ -209,7 +209,8 @@ libbibledit_a_SOURCES = \
 	resource/convert2bible.cpp \
 	resource/manage.cpp \
 	resource/admin.cpp \
-	resource/print.cpp
+	resource/print.cpp \
+	resource/download.cpp
 
 bin_PROGRAMS = server unittest
 

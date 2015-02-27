@@ -55,15 +55,12 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
 }
 
 
-string Resource_Logic::getExternal (void * webserver_request,
-                                    string name, int book, int chapter, int verse,
-                                    bool apply_mapping)
+string Resource_Logic::getExternal (string name, int book, int chapter, int verse, bool apply_mapping)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <Passage> passages;
   if (apply_mapping) {
     Database_Mappings database_mappings = Database_Mappings ();
-    string bible = request->database_config_user()->getBible ();
+    string bible = "test"; // Todo fix. request->database_config_user()->getBible ();
     string bible_mapping = Database_Config_Bible::getVerseMapping (bible);
     string resource_mapping = "English"; // Todo store in exterhal.h database_resources.getMapping (name);
     passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
@@ -118,7 +115,7 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         html.append (database_offlineresources.get (resource, passage.book, passage.chapter, convert_to_int (passage.verse)));
       }
     } else {
-      html = Resource_Logic::getExternal (webserver_request, resource, book, chapter, verse, true);
+      html = Resource_Logic::getExternal (resource, book, chapter, verse, true);
     }
   } else {
     // Nothing found.

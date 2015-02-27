@@ -48,6 +48,7 @@ resource_record resource_table [] =
 };
 
 
+// The number of available external resource scripts.
 unsigned int resource_external_count ()
 {
   return sizeof (resource_table) / sizeof (*resource_table);
@@ -84,5 +85,3 @@ string resource_external_get (string name, int book, int chapter, int verse)
   
   return result;
 }
-
-

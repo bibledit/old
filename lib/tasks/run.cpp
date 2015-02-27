@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/convert2resource.h>
 #include <resource/convert2bible.h>
 #include <resource/print.h>
+#include <resource/download.h>
 
 
 mutex mutex_tasks; 
@@ -125,6 +126,8 @@ void tasks_run_one (string filename)
     convert_resource_to_bible (parameter1);
   } else if (command == PRINTRESOURCES) {
     resource_print_job (parameter1, parameter2, parameter3);
+  } else if (command == DOWNLOADRESOURCE) {
+    resource_download_job (parameter1);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }
