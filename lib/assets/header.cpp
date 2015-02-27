@@ -77,7 +77,7 @@ void Assets_Header::setNavigator ()
 
 
 // Display the user's basic stylesheet.css.
-void Assets_Header::setStylesheet () // Todo test
+void Assets_Header::setStylesheet ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string stylesheet = request->database_config_user()->getStylesheet ();
@@ -144,7 +144,10 @@ string Assets_Header::run ()
   }
   view->set_variable ("head_lines", headlines);
 
-  view->set_variable ("included_stylesheet", includedStylesheet);
+  if (!includedStylesheet.empty ()) {
+    view->enable_zone ("include_stylesheet");
+    view->set_variable ("included_stylesheet", includedStylesheet);
+  }
   if (!includedEditorStylesheet.empty ()) {
     view->enable_zone ("include_editor_stylesheet");
     view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);

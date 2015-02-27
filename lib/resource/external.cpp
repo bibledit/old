@@ -104,7 +104,7 @@ string gbsdigitaal (string url, int verse)
 
 
 // This script fetches the Statenbijbel from the Dutch GBS.
-string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse) // Todo
+string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
 {
   // Books OT: http://gbsdigitaal.nl/Data/Statenvertaling/1.json
   // Books NT: http://gbsdigitaal.nl/Data/Statenvertaling/2.json
@@ -194,7 +194,7 @@ string resource_external_versification (string name)
 
 
 // Returns the versification for the resource.
-string resource_external_mapping (string name) // Todo
+string resource_external_mapping (string name)
 {
   string versification = "English";
   for (unsigned int i = 0; i < resource_external_count (); i++) {
