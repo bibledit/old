@@ -55,21 +55,20 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
 }
 
 
-string Resource_Logic::getExternal (string name, int book, int chapter, int verse, bool apply_mapping)
+string Resource_Logic::getExternal (string bible, string resource, int book, int chapter, int verse, bool apply_mapping)
 {
   vector <Passage> passages;
   if (apply_mapping) {
     Database_Mappings database_mappings = Database_Mappings ();
-    string bible = "test"; // Todo fix. request->database_config_user()->getBible ();
     string bible_mapping = Database_Config_Bible::getVerseMapping (bible);
-    string resource_mapping = "English"; // Todo store in exterhal.h database_resources.getMapping (name);
+    string resource_mapping = resource_external_mapping (resource);
     passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
   } else {
     passages.push_back (Passage ("", book, chapter, to_string (verse)));
   }
   string output;
   for (auto passage : passages) {
-    string html = resource_external_get (name, passage.book, passage.chapter, convert_to_int (passage.verse));
+    string html = resource_external_get (resource, passage.book, passage.chapter, convert_to_int (passage.verse));
     output.append (html);
   }
   return output;
@@ -92,7 +91,6 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
   bool isBible = find (bibles.begin(), bibles.end (), resource) != bibles.end ();
   bool isUsfm = find (usfms.begin (), usfms.end (), resource) != usfms.end ();
   bool isExternal = find (externals.begin (), externals.end (), resource) != externals.end ();
-  cout << resource << " bible " << isBible << " usfm " << isUsfm << " external " << isExternal << endl; // Todo
   if (isBible || isUsfm) {
     string chapter_usfm;
     if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
@@ -106,16 +104,16 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
     html = filter_text.html_text_standard->getInnerHtml ();
   } else if (isExternal) {
     // Use offline copy if it exists, else fetch it online.
+    string bible = request->database_config_user()->getBible ();
     if (database_offlineresources.exists (resource, book, chapter, verse)) {
-      string bible = request->database_config_user()->getBible ();
       string bible_mapping = Database_Config_Bible::getVerseMapping (bible);
-      string resource_mapping = "English"; // Todo use external.h database_resources.getMapping (resource);
+      string resource_mapping = resource_external_mapping (resource);
       vector <Passage> passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
       for (auto& passage : passages) {
         html.append (database_offlineresources.get (resource, passage.book, passage.chapter, convert_to_int (passage.verse)));
       }
     } else {
-      html = Resource_Logic::getExternal (resource, book, chapter, verse, true);
+      html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true);
     }
   } else {
     // Nothing found.

@@ -36,6 +36,7 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <dialog/list.h>
+#include <resource/external.h>
 
 
 string resource_download_url ()
@@ -50,7 +51,7 @@ bool resource_download_acl (void * webserver_request)
 }
 
 
-string resource_download (void * webserver_request) // Todo
+string resource_download (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
@@ -90,14 +91,14 @@ string resource_download (void * webserver_request) // Todo
 }
 
 
-void resource_download_job (string resource) // Todo
+void resource_download_job (string resource)
 {
   Database_Logs::log (resource + ": Download has started", Filter_Roles::manager ());
 
   Database_Versifications database_versifications = Database_Versifications ();
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
   
-  string versification = "English"; // Todo take from elsewhere.
+  string versification = resource_external_versification (resource);
   
   vector <int> books = database_versifications.getBooks (versification);
   for (auto & book : books) {
@@ -113,7 +114,7 @@ void resource_download_job (string resource) // Todo
         if (database_offlineresources.exists (resource, book, chapter, verse)) {
           message += "exists";
         } else {
-          string html = Resource_Logic::getExternal (resource, book, chapter, verse, false);
+          string html = resource_external_get (resource, book, chapter, verse);
           database_offlineresources.store (resource, book, chapter, verse, html);
           message += "size " + to_string (html.length ());
         }

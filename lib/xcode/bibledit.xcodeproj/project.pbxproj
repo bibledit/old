@@ -231,6 +231,12 @@
 		CA80A6FE1AA069FE00C7208F /* download.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = download.cpp; sourceTree = "<group>"; };
 		CA80A6FF1AA069FE00C7208F /* download.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = download.h; sourceTree = "<group>"; };
 		CA80A7001AA069FE00C7208F /* download.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = download.html; sourceTree = "<group>"; };
+		CA80A70A1AA0A9A800C7208F /* documentation */ = {isa = PBXFileReference; lastKnownFileType = text; path = documentation; sourceTree = "<group>"; };
+		CA80A70B1AA0A9A800C7208F /* json.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
+		CA80A70C1AA0A9A800C7208F /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		CA80A70D1AA0A9A800C7208F /* jsonlint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jsonlint.c; sourceTree = "<group>"; };
+		CA80A70E1AA0A9A800C7208F /* libjson.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.pc.in; sourceTree = "<group>"; };
+		CA80A70F1AA0A9A800C7208F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CA82662E1A7FAA330049DFD3 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
 		CA82662F1A7FAA330049DFD3 /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		CA8266301A7FFC9C0049DFD3 /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
@@ -770,19 +776,14 @@
 		CAA4D2DA1A45A648003ABA25 /* Blue_Letter_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Blue_Letter_Bible.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DB1A45A648003ABA25 /* Calvin_Commentaries.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Calvin_Commentaries.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DC1A45A648003ABA25 /* Elberfelder_Bibel.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Elberfelder_Bibel.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2DD1A45A648003ABA25 /* gbsdigitaal.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = gbsdigitaal.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DE1A45A648003ABA25 /* gbsdigitaalplus.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = gbsdigitaalplus.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DF1A45A648003ABA25 /* Hebrew_Westminster_Leningrad.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Hebrew_Westminster_Leningrad.php; sourceTree = "<group>"; };
 		CAA4D2E01A45A648003ABA25 /* Jamieson_Fausset_Brown.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Jamieson_Fausset_Brown.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = John_Gill_Exposition_Whole_Bible.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2E21A45A648003ABA25 /* King_James_Version_GBS.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = King_James_Version_GBS.php; sourceTree = "<group>"; };
 		CAA4D2E31A45A648003ABA25 /* King_James_Version_Plus_GBS.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = King_James_Version_Plus_GBS.php; sourceTree = "<group>"; };
 		CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Matthew_Poole_Annotations.php; sourceTree = "<group>"; };
 		CAA4D2E51A45A648003ABA25 /* NET_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = NET_Bible.php; sourceTree = "<group>"; };
-		CAA4D2E61A45A648003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CAA4D2E71A45A648003ABA25 /* Scrivener.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Scrivener.php; sourceTree = "<group>"; };
-		CAA4D2E81A45A648003ABA25 /* Statenbijbel_GBS.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Statenbijbel_GBS.php; sourceTree = "<group>"; };
-		CAA4D2E91A45A648003ABA25 /* Statenbijbel_GBS_meta.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Statenbijbel_GBS_meta.php; sourceTree = "<group>"; };
 		CAA4D2EA1A45A648003ABA25 /* Statenbijbel_Plus_GBS.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Statenbijbel_Plus_GBS.php; sourceTree = "<group>"; };
 		CAA4D2EB1A45A648003ABA25 /* Statenbijbel_Plus_GBS_meta.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Statenbijbel_Plus_GBS_meta.php; sourceTree = "<group>"; };
 		CAA4D2EC1A45A648003ABA25 /* studylight.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = studylight.php; sourceTree = "<group>"; };
@@ -1065,6 +1066,20 @@
 			);
 			name = client;
 			path = ../client;
+			sourceTree = "<group>";
+		};
+		CA80A7091AA0A9A800C7208F /* json */ = {
+			isa = PBXGroup;
+			children = (
+				CA80A70A1AA0A9A800C7208F /* documentation */,
+				CA80A70B1AA0A9A800C7208F /* json.c */,
+				CA80A70C1AA0A9A800C7208F /* json.h */,
+				CA80A70D1AA0A9A800C7208F /* jsonlint.c */,
+				CA80A70E1AA0A9A800C7208F /* libjson.pc.in */,
+				CA80A70F1AA0A9A800C7208F /* README.md */,
+			);
+			name = json;
+			path = ../json;
 			sourceTree = "<group>";
 		};
 		CAA4CEF51A45A647003ABA25 /* access */ = {
@@ -2434,19 +2449,14 @@
 				CAA4D2DA1A45A648003ABA25 /* Blue_Letter_Bible.php */,
 				CAA4D2DB1A45A648003ABA25 /* Calvin_Commentaries.php */,
 				CAA4D2DC1A45A648003ABA25 /* Elberfelder_Bibel.php */,
-				CAA4D2DD1A45A648003ABA25 /* gbsdigitaal.php */,
 				CAA4D2DE1A45A648003ABA25 /* gbsdigitaalplus.php */,
 				CAA4D2DF1A45A648003ABA25 /* Hebrew_Westminster_Leningrad.php */,
 				CAA4D2E01A45A648003ABA25 /* Jamieson_Fausset_Brown.php */,
 				CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */,
-				CAA4D2E21A45A648003ABA25 /* King_James_Version_GBS.php */,
 				CAA4D2E31A45A648003ABA25 /* King_James_Version_Plus_GBS.php */,
 				CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */,
 				CAA4D2E51A45A648003ABA25 /* NET_Bible.php */,
-				CAA4D2E61A45A648003ABA25 /* README */,
 				CAA4D2E71A45A648003ABA25 /* Scrivener.php */,
-				CAA4D2E81A45A648003ABA25 /* Statenbijbel_GBS.php */,
-				CAA4D2E91A45A648003ABA25 /* Statenbijbel_GBS_meta.php */,
 				CAA4D2EA1A45A648003ABA25 /* Statenbijbel_Plus_GBS.php */,
 				CAA4D2EB1A45A648003ABA25 /* Statenbijbel_Plus_GBS_meta.php */,
 				CAA4D2EC1A45A648003ABA25 /* studylight.php */,
@@ -3078,6 +3088,7 @@
 				CAA4D1791A45A647003ABA25 /* jobs */,
 				CAA4D17D1A45A647003ABA25 /* journal */,
 				CAA4D1861A45A648003ABA25 /* jquery */,
+				CA80A7091AA0A9A800C7208F /* json */,
 				CAA4D19F1A45A648003ABA25 /* kjv */,
 				CAA4D1A31A45A648003ABA25 /* library */,
 				CAA4D1AA1A45A648003ABA25 /* locale */,

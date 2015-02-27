@@ -67,6 +67,23 @@ string filter_string_str_replace (string search, string replace, string subject,
 }
 
 
+// Replaces text that starts with "start" and ends with "end" with "replacement".
+// Returns true if replacement was done.
+bool filter_string_replace_between (string& line, const string& start, const string& end, const string& replacement)
+{
+  bool replacements_done = false;
+  size_t beginpos = line.find (start);
+  size_t endpos = line.find (end);
+  while ((beginpos != string::npos) && (endpos != string::npos) && (endpos > beginpos)) {
+    line.replace (beginpos, endpos - beginpos + end.length (), replacement);
+    beginpos = line.find (start, beginpos + replacement.length ());
+    endpos = line.find (end, beginpos + replacement.length ());
+    replacements_done = true;
+  }
+  return replacements_done;
+}
+
+
 string convert_to_string (unsigned int i)
 {
   ostringstream r;

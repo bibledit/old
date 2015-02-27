@@ -28,7 +28,7 @@ class Resource_Logic
 {
 public:
   static vector <string> getNames (void * webserver_request);
-  static string getExternal (string name, int book, int chapter, int verse, bool apply_mapping);
+  static string getExternal (string bible, string resource, int book, int chapter, int verse, bool apply_mapping);
   static string getHtml (void * webserver_request, string resource, int book, int chapter, int verse);
 private:
 };

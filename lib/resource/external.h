@@ -26,6 +26,8 @@
 
 unsigned int resource_external_count ();
 vector <string> resource_external_names ();
+string resource_external_versification (string name);
+string resource_external_mapping (string name);
 string resource_external_get (string name, int book, int chapter, int verse);
 
 
