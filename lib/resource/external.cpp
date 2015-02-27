@@ -22,18 +22,67 @@
 #include <webserver/request.h>
 
 
+string resource_external_get_one (int book, int chapter, int verse)
+{
+  return "External Resource One " + to_string (book) + " " + to_string (chapter) + " " + to_string (verse);
+}
+
+
+string resource_external_get_two (int book, int chapter, int verse)
+{
+  return "External Resource Two " + to_string (book) + " " + to_string (chapter) + " " + to_string (verse);
+}
+
+
+typedef struct
+{
+  const char *name;
+  string (* func) (int, int, int);
+} resource_record;
+
+
+resource_record resource_table [] =
+{
+  { "External Resource One", & resource_external_get_one },
+  { "External Resource Two", & resource_external_get_two },
+};
+
+
+unsigned int resource_external_count ()
+{
+  return sizeof (resource_table) / sizeof (*resource_table);
+}
+
+
+// Gets the names of the available external resources.
+vector <string> resource_external_names ()
+{
+  vector <string> names;
+  for (unsigned int i = 0; i < resource_external_count (); i++) {
+    names.push_back (resource_table [i].name);
+  }
+  return names;
+}
+
+
 string resource_external_get (string name, int book, int chapter, int verse)
 {
-  /*
-  $database_resources = Database_Resources::getInstance ();
-  $file = $database_resources->getInclude ($name);
-  $output = "";
-  // Pass book, chapter, verse to the included script below.
-  // The script fills the $output variable.
-  include ($file);
-  return $output;
-  */
-  return "not yet implemented";
+  string (* func) (int, int, int) = NULL;
+
+  for (unsigned int i = 0; i < resource_external_count (); i++) {
+    string resource = resource_table [i].name;
+    if (name == resource) {
+      func = resource_table [i].func;
+    }
+  }
+  
+  if (func == NULL) {
+    return "";
+  }
+
+  string result = func (book, chapter, verse);
+  
+  return result;
 }
 
 

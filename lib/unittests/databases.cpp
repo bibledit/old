@@ -44,7 +44,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sprint.h>
 #include <database/mail.h>
 #include <database/navigation.h>
-#include <database/resources.h>
 #include <database/usfmresources.h>
 #include <database/mappings.h>
 #include <database/noteactions.h>
@@ -56,6 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <sync/logic.h>
 #include <styles/logic.h>
+#include <resource/external.h>
 
 
 void test_database_config_general ()
@@ -1836,8 +1836,7 @@ void test_database_navigation ()
 void test_database_resources ()
 {
   refresh_sandbox (true);
-  Database_Resources database_resources = Database_Resources ();
-  vector <string> names = database_resources.getNames ();
+  vector <string> names = resource_external_names ();
   bool hit = false;
   for (auto & name : names) if (name == "Statenbijbel GBS") hit = true;
   evaluate (__LINE__, __func__, true, hit);

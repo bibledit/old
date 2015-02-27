@@ -27,6 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
+#include <resource/external.h>
 
 
 string resource_admin_url ()
@@ -37,7 +38,7 @@ string resource_admin_url ()
 
 bool resource_admin_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 }
 
 
@@ -48,10 +49,20 @@ string resource_admin (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
-  header.jQueryUIOn ("sortable");
+  header.jQueryUIOn ("dialog");
   page = header.run ();
   Assets_View view = Assets_View ();
+
   
+  vector <string> resources = resource_external_names ();
+  string resourceblock;
+  for (auto & resource : resources) {
+    resourceblock.append ("<p>");
+    resourceblock.append ("<a href=\"download?name=" + resource + "\" title=\"" + translate("Download resource") + "\">" + resource + "</a>");
+    resourceblock.append ("</p>\n");
+  }
+  view.set_variable ("resourceblock", resourceblock);
+
   
   page += view.render ("resource", "admin");
   page += Assets_Page::footer ();

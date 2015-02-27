@@ -139,8 +139,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/morphhb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
 	database/offlineresources.$(OBJEXT) database/sprint.$(OBJEXT) \
 	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
-	database/resources.$(OBJEXT) database/usfmresources.$(OBJEXT) \
-	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
+	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
+	database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
@@ -497,7 +497,6 @@ libbibledit_a_SOURCES = \
 	database/sprint.cpp \
 	database/mail.cpp \
 	database/navigation.cpp \
-	database/resources.cpp \
 	database/usfmresources.cpp \
 	database/mappings.cpp \
 	database/noteactions.cpp \
@@ -905,8 +904,6 @@ database/sprint.$(OBJEXT): database/$(am__dirstamp) \
 database/mail.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/navigation.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
-database/resources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/usfmresources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -1674,7 +1671,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/offlineresources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@

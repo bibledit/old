@@ -22,7 +22,6 @@
 #include <access/bible.h>
 #include <database/usfmresources.h>
 #include <database/offlineresources.h>
-#include <database/resources.h>
 #include <database/mappings.h>
 #include <database/config/bible.h>
 #include <filter/string.h>
@@ -46,9 +45,8 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
   names.insert (names.end(), usfm_resources.begin(), usfm_resources.end());
   
   // Take external Resources.
-  Database_Resources database_resources = Database_Resources ();
-  vector <string> resources = database_resources.getNames ();
-  names.insert (names.end (), resources.begin(), resources.end());
+  vector <string> external_resources = resource_external_names ();
+  names.insert (names.end (), external_resources.begin(), external_resources.end());
   
   names = array_unique (names);
   sort (names.begin(), names.end());
@@ -64,11 +62,10 @@ string Resource_Logic::getExternal (void * webserver_request,
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <Passage> passages;
   if (apply_mapping) {
-    Database_Resources database_resources = Database_Resources ();
     Database_Mappings database_mappings = Database_Mappings ();
     string bible = request->database_config_user()->getBible ();
     string bible_mapping = Database_Config_Bible::getVerseMapping (bible);
-    string resource_mapping = database_resources.getMapping (name);
+    string resource_mapping = "English"; // Todo store in exterhal.h database_resources.getMapping (name);
     passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
   } else {
     passages.push_back (Passage ("", book, chapter, to_string (verse)));
@@ -87,14 +84,13 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string html;
   
-  Database_Resources database_resources = Database_Resources ();
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
   Database_Mappings database_mappings = Database_Mappings ();
   
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> usfms = database_usfmresources.getResources ();
-  vector <string> externals = database_resources.getNames ();
+  vector <string> externals = resource_external_names ();
   
   bool isBible = find (bibles.begin(), bibles.end (), resource) != bibles.end ();
   bool isUsfm = find (usfms.begin (), usfms.end (), resource) != usfms.end ();
@@ -116,7 +112,7 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
     if (database_offlineresources.exists (resource, book, chapter, verse)) {
       string bible = request->database_config_user()->getBible ();
       string bible_mapping = Database_Config_Bible::getVerseMapping (bible);
-      string resource_mapping = database_resources.getMapping (resource);
+      string resource_mapping = "English"; // Todo use external.h database_resources.getMapping (resource);
       vector <Passage> passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
       for (auto& passage : passages) {
         html.append (database_offlineresources.get (resource, passage.book, passage.chapter, convert_to_int (passage.verse)));

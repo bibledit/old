@@ -56,7 +56,6 @@ libbibledit_a_SOURCES = \
 	database/sprint.cpp \
 	database/mail.cpp \
 	database/navigation.cpp \
-	database/resources.cpp \
 	database/usfmresources.cpp \
 	database/mappings.cpp \
 	database/noteactions.cpp \

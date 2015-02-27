@@ -27,11 +27,11 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <database/resources.h>
 #include <database/usfmresources.h>
 #include <access/bible.h>
 #include <tasks/logic.h>
 #include <journal/index.h>
+#include <resource/external.h>
 
 
 string resource_bible2resource_url ()
@@ -49,7 +49,6 @@ bool resource_bible2resource_acl (void * webserver_request)
 string resource_bible2resource (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Resources database_resources = Database_Resources ();
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
   
@@ -67,7 +66,7 @@ string resource_bible2resource (void * webserver_request)
   if (find (usfmResources.begin(), usfmResources.end (), bible) != usfmResources.end ()) {
     view.set_variable ("error", translate("A USFM Resource with this name already exists"));
   }
-  vector <string> externalResources = database_resources.getNames ();
+  vector <string> externalResources = resource_external_names ();
   if (find (externalResources.begin(), externalResources.end (), bible) != externalResources.end ()) {
     view.set_variable ("error", translate("An external resource with this name already exists"));
   }
