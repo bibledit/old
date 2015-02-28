@@ -774,12 +774,7 @@
 		CAA4D2CB1A45A648003ABA25 /* print.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = print.js; sourceTree = "<group>"; };
 		CAA4D2D91A45A648003ABA25 /* bibleserver.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bibleserver.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DA1A45A648003ABA25 /* Blue_Letter_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Blue_Letter_Bible.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2DB1A45A648003ABA25 /* Calvin_Commentaries.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Calvin_Commentaries.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DC1A45A648003ABA25 /* Elberfelder_Bibel.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Elberfelder_Bibel.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2E01A45A648003ABA25 /* Jamieson_Fausset_Brown.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Jamieson_Fausset_Brown.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = John_Gill_Exposition_Whole_Bible.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Matthew_Poole_Annotations.php; sourceTree = "<group>"; };
-		CAA4D2EC1A45A648003ABA25 /* studylight.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = studylight.php; sourceTree = "<group>"; };
 		CAA4D2EE1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D2F01A45A648003ABA25 /* createdatabase.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = createdatabase.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2F11A45A648003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -2430,12 +2425,7 @@
 			children = (
 				CAA4D2D91A45A648003ABA25 /* bibleserver.php */,
 				CAA4D2DA1A45A648003ABA25 /* Blue_Letter_Bible.php */,
-				CAA4D2DB1A45A648003ABA25 /* Calvin_Commentaries.php */,
 				CAA4D2DC1A45A648003ABA25 /* Elberfelder_Bibel.php */,
-				CAA4D2E01A45A648003ABA25 /* Jamieson_Fausset_Brown.php */,
-				CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */,
-				CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */,
-				CAA4D2EC1A45A648003ABA25 /* studylight.php */,
 			);
 			name = resources;
 			path = ../resources;

@@ -32,6 +32,7 @@ unsigned int resource_external_count ();
 int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint32_t length);
 string gbs_digitaal_processor (string url, int chapter, int verse);
 string gbs_digitaal_plus_processor (string url, int verse);
+string studylight_processor (string directory, int book, int chapter, int verse);
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse);
 string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int verse);
 string resource_external_get_king_james_version_gbs (int book, int chapter, int verse);
@@ -40,6 +41,10 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
 string resource_external_get_biblehub_scrivener (int book, int chapter, int verse);
 string resource_external_get_biblehub_westminster (int book, int chapter, int verse);
 string resource_external_get_net_bible (int book, int chapter, int verse);
+string resource_external_get_calvin_commentaries (int book, int chapter, int verse);
+string resource_external_get_jamieson_fausset_brown (int book, int chapter, int verse);
+string resource_external_get_john_gill_exposition_whole_bible (int book, int chapter, int verse);
+string resource_external_get_matthew_poole_annotations (int book, int chapter, int verse);
 string resource_external_convert_book_biblehub (int book);
 string resource_external_convert_book_netbible (int book);
 
@@ -66,6 +71,10 @@ resource_record resource_table [] =
   { "Scrivener Greek", "English", "English", & resource_external_get_biblehub_scrivener },
   { "Westminster Hebrew", "English", "English", & resource_external_get_biblehub_westminster },
   { "NET Bible", "English", "English", & resource_external_get_net_bible },
+  { "Calvin Commentaries", "English", "English", & resource_external_get_calvin_commentaries },
+  { "Jamieson Fausset Brown", "English", "English", & resource_external_get_jamieson_fausset_brown },
+  { "John Gill Exposition Whole Bible", "English", "English", & resource_external_get_john_gill_exposition_whole_bible },
+  { "Matthew Poole Annotations", "English", "English", & resource_external_get_matthew_poole_annotations },
 };
 
 
@@ -274,13 +283,47 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
   text = filter_string_str_replace ("  ", " ", text);
   text = filter_string_str_replace ("<br />", "", text);
   text = filter_string_trim (text);
-  // text.insert (0, "<p>$introduction</p>";
 
   // Add new line.
   text += "\n";
 
   // Done.
   return text;
+}
+
+
+// This function commentaries from www.studylight.org.
+string studylight_processor (string directory, int book, int chapter, int verse)
+{
+  // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
+  book--;
+  
+  string url = "http://www.studylight.org/com/" + directory + "/view.cgi?bk=" + to_string (book) + "&ch=" + to_string (chapter);
+  
+  // Get the html from the server, and tidy it up.
+  string error;
+  string html = filter_url_http_get (url, error);
+  string tidy = html_tidy (html);
+  vector <string> tidied = filter_string_explode (tidy, '\n');
+ 
+  vector <string> relevant_lines;
+  bool relevant_flag = false;
+  
+  for (auto & line : tidied) {
+    
+    if (relevant_flag) relevant_lines.push_back (line);
+    
+    size_t pos = line.find ("</div>");
+    if (pos != string::npos) relevant_flag = false;
+    
+    pos = line.find ("name=\"" + to_string (verse) + "\"");
+    if (pos != string::npos) relevant_flag = true;
+  }
+  
+  html = filter_string_implode (relevant_lines, "\n");
+  html += "<p><a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">" + url + "</a></p>\n";
+  
+  return html;
 }
 
 
@@ -383,8 +426,8 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   string url = "http://biblehub.com/interlinear/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
-  string html;
-  html = filter_url_http_get (url, html);
+  string error;
+  string html = filter_url_http_get (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
   
@@ -471,8 +514,8 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   string url = "http://biblehub.com/text/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
-  string html;
-  html = filter_url_http_get (url, html);
+  string error;
+  string html = filter_url_http_get (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
 
@@ -530,8 +573,8 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   string url = "http://biblehub.com/text/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
-  string html;
-  html = filter_url_http_get (url, html);
+  string error;
+  string html = filter_url_http_get (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
   
@@ -588,13 +631,13 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
 // This displays the text and the notes of the NET Bible.
 string resource_external_get_net_bible (int book, int chapter, int verse)
 {
-  string bookname = resource_external_convert_book_biblehub (book);
+  string bookname = resource_external_convert_book_netbible (book);
   
   string url = "https://net.bible.org/resource/netTexts/" + bookname + " " + to_string (chapter) + ":" + to_string (verse);
   url = filter_string_str_replace (" ", "%20", url);
   
-  string text;
-  text = filter_url_http_get (url, text);
+  string error;
+  string text = filter_url_http_get (url, error);
   
   string output = text;
   
@@ -603,8 +646,9 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   url = "https://net.bible.org/resource/netNotes/" + bookname + " " + to_string (chapter) + ":" + to_string (verse);
   url = filter_string_str_replace (" ", "%20", url);
   
-  string notes;
-  notes = filter_url_http_get (url, notes);
+  string notes = filter_url_http_get (url, error);
+  // If notes fail with an error, don't include the note text.
+  if (error.empty ()) notes.clear ();
   
   // The "bibleref" class experiences interference from other resources,
   // so that the reference would become invisible.
@@ -616,6 +660,42 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   output += "\n";
   
   return output;
+}
+
+
+// Calvin Commentaries
+string resource_external_get_calvin_commentaries (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "cal";
+  return studylight_processor (directory, book, chapter, verse);
+}
+
+
+// Jamieson Fausset Brown
+string resource_external_get_jamieson_fausset_brown (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jfb";
+  return studylight_processor (directory, book, chapter, verse);
+}
+
+
+// John Gill Exposition Whole Bible
+string resource_external_get_john_gill_exposition_whole_bible (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "geb";
+  return studylight_processor (directory, book, chapter, verse);
+}
+
+
+// Matthew Poole Annotations
+string resource_external_get_matthew_poole_annotations (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "mpc";
+  return studylight_processor (directory, book, chapter, verse);
 }
 
 
