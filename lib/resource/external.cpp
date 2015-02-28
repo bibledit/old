@@ -484,7 +484,6 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
     <span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.
     </span>
     */
-    // </span><span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.</span></p>
     if (line.find ("Scrivener") != string::npos) hits = 1;
     if (hits == 1) if (line.find ("greek") != string::npos) hits = 2;
     if ((hits == 2) || (hits == 3)) {
@@ -545,7 +544,6 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
      </span>
      <p>
     */
-    // </span><span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.</span></p>
     if (line.find ("Westminster") != string::npos) hits = 1;
     if (hits == 1) if (line.find ("class=\"heb\"") != string::npos) hits = 2;
     if (hits == 2) {
