@@ -38,6 +38,7 @@ string resource_external_get_king_james_version_gbs (int book, int chapter, int 
 string resource_external_get_king_james_version_plus_gbs (int book, int chapter, int verse);
 string resource_external_get_biblehub_interlinear (int book, int chapter, int verse);
 string resource_external_get_biblehub_scrivener (int book, int chapter, int verse);
+string resource_external_get_biblehub_westminster (int book, int chapter, int verse);
 
 typedef struct
 {
@@ -58,7 +59,8 @@ resource_record resource_table [] =
   { "King James Version GBS", "English", "English", & resource_external_get_king_james_version_gbs },
   { "King James Version Plus GBS", "English", "English", & resource_external_get_king_james_version_plus_gbs },
   { "Biblehub Interlinear", "English", "English", & resource_external_get_biblehub_interlinear },
-  { "Scrivener", "English", "English", & resource_external_get_biblehub_scrivener },
+  { "Scrivener Greek", "English", "English", & resource_external_get_biblehub_scrivener },
+  { "Westminster Hebrew", "English", "English", & resource_external_get_biblehub_westminster },
 };
 
 
@@ -472,7 +474,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   html.clear ();
   int hits = 0;
   for (auto & line : tidied) {
-    /* These is the text block we are looking at:
+    /* This is the text block we are looking at:
     <p>
     <span class="versiontext">
     <a href="/tr94/matthew/1.htm">Scrivener's Textus Receptus 1894
@@ -506,6 +508,77 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   "</style>\n";
   
   return stylesheet + "\n" + html;
+}
+
+
+// This displays the Westminster Leningrad Codex from biblehub.com.
+string resource_external_get_biblehub_westminster (int book, int chapter, int verse) // Todo
+{
+  // No New Testament in the Westminster Leningrad Codex.
+  if (book >= 40) {
+    return "";
+  }
+  
+  string bookname = resource_external_convert_book_biblehub (book);
+  
+  // Sample URL:
+  // http://biblehub.com/text/genesis/1-1.htm
+  string url = "http://biblehub.com/text/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
+  
+  // Get the html from the server, and tidy it up.
+  string html;
+  html = filter_url_http_get (url, html);
+  string tidy = html_tidy (html);
+  vector <string> tidied = filter_string_explode (tidy, '\n');
+  
+  html.clear ();
+  int hits = 0;
+  for (auto & line : tidied) {
+    /* This is the text block we are looking at:
+     <div align="right">
+     <span class="versiontext">
+     <a href="/wlc/genesis/1.htm">בראשית 1:1 Hebrew OT: Westminster Leningrad Codex
+     </a>
+     <br>
+     </span>
+     <span class="heb">בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ׃
+     </span>
+     <p>
+    */
+    // </span><span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.</span></p>
+    if (line.find ("Westminster") != string::npos) hits = 1;
+    if (hits == 1) if (line.find ("class=\"heb\"") != string::npos) hits = 2;
+    if (hits == 2) {
+      html.append (line);
+      if (line.find ("</span>") != string::npos) hits = 0;
+    }
+  }
+  
+  if (html.empty ()) return html;
+  
+  // Stylesheet for using web fonts,
+  // because installing fonts on some tablets is very hard.
+  string stylesheet =
+  "<style>\n"
+  "@font-face {\n"
+  "  font-family: \"Ezra SIL\";\n"
+  "src: url(/fonts/SILEOT.ttf);\n"
+  "}\n"
+  ".heb {\n"
+  "  font-family: \"Ezra SIL\";\n"
+  "  font-size: x-large;\n"
+  "}\n"
+  "</style>\n";
+
+  string output = stylesheet;
+  
+  // The following line prevents the Hebrew from floating around the name of the Resource,
+  // which would disturb the order of the words.
+  output += "<p></p>\n";
+  
+  output += html;
+
+  return output;
 }
 
 

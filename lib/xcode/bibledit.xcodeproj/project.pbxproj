@@ -776,7 +776,6 @@
 		CAA4D2DA1A45A648003ABA25 /* Blue_Letter_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Blue_Letter_Bible.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DB1A45A648003ABA25 /* Calvin_Commentaries.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Calvin_Commentaries.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2DC1A45A648003ABA25 /* Elberfelder_Bibel.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Elberfelder_Bibel.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2DF1A45A648003ABA25 /* Hebrew_Westminster_Leningrad.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Hebrew_Westminster_Leningrad.php; sourceTree = "<group>"; };
 		CAA4D2E01A45A648003ABA25 /* Jamieson_Fausset_Brown.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = Jamieson_Fausset_Brown.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = John_Gill_Exposition_Whole_Bible.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Matthew_Poole_Annotations.php; sourceTree = "<group>"; };
@@ -2434,7 +2433,6 @@
 				CAA4D2DA1A45A648003ABA25 /* Blue_Letter_Bible.php */,
 				CAA4D2DB1A45A648003ABA25 /* Calvin_Commentaries.php */,
 				CAA4D2DC1A45A648003ABA25 /* Elberfelder_Bibel.php */,
-				CAA4D2DF1A45A648003ABA25 /* Hebrew_Westminster_Leningrad.php */,
 				CAA4D2E01A45A648003ABA25 /* Jamieson_Fausset_Brown.php */,
 				CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */,
 				CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */,
