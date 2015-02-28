@@ -25,6 +25,41 @@
 #include "assets/view.h"
 
 
+// Local forward declarations:
+
+
+unsigned int resource_external_count ();
+int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint32_t length);
+string gbs_digitaal_processor (string url, int chapter, int verse);
+string gbs_digitaal_plus_processor (string url, int verse);
+string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse);
+string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int verse);
+string resource_external_get_king_james_version_gbs (int book, int chapter, int verse);
+string resource_external_get_king_james_version_plus_gbs (int book, int chapter, int verse);
+string resource_external_get_biblehub_interlinear (int book, int chapter, int verse);
+
+typedef struct
+{
+  const char *name;
+  const char *versification;
+  const char *mapping;
+  string (* func) (int, int, int);
+} resource_record;
+
+
+// Implementation:
+
+
+resource_record resource_table [] =
+{
+  { "Statenbijbel GBS", "Dutch Traditional", "Dutch Traditional", & resource_external_get_statenbijbel_gbs },
+  { "Statenbijbel Plus GBS", "Dutch Traditional", "Dutch Traditional", & resource_external_get_statenbijbel_plus_gbs },
+  { "King James Version GBS", "English", "English", & resource_external_get_king_james_version_gbs },
+  { "King James Version Plus GBS", "English", "English", & resource_external_get_king_james_version_plus_gbs },
+  { "Biblehub Interlinear", "English", "English", & resource_external_get_biblehub_interlinear },
+};
+
+
 int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint32_t length)
 {
   if (length) {};
@@ -44,6 +79,10 @@ int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint
       break;
     }
     case JSON_NULL:
+    {
+      history->push_back ("");
+      break;
+    }
     case JSON_TRUE:
     case JSON_FALSE:
       break;
@@ -52,7 +91,8 @@ int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint
 }
 
 
-string gbsdigitaal (string url, int verse)
+// This function displays the canonical text from gbsdigitaal.nl.
+string gbs_digitaal_processor (string url, int verse)
 {
   string text;
 
@@ -103,6 +143,137 @@ string gbsdigitaal (string url, int verse)
 }
 
 
+// This funcion processes and displays Bible data from gbsdigitaal.nl
+// plus extra content like headers, introductions, cross references, and notes.
+// It is supposed to be called by a more specific script.
+string gbs_digitaal_plus_processor (string url, int chapter, int verse)
+{
+  string text;
+  
+  string json = filter_url_http_get (url, text);
+
+  vector <string> history;
+  
+  json_parser parser;
+  if (json_parser_init (&parser, NULL, gbs_digitaal_json_callback, &history)) {
+    text.append ("Could not initialize");
+  }
+  if (json_parser_string (&parser, json.c_str(), json.length(), NULL)) {
+    text.append ("Could not parse the data");
+  }
+  json_parser_free (&parser);
+  
+  string historyblock;
+  bool collect_notes = false;
+  int text_block_counter = 0;
+  for (unsigned int i = 0; i < history.size (); i++) {
+    // Add possible book title.
+    if (chapter == 0) {
+      if (history[i] == "title") {
+        if (history.size () > i + 1) {
+          text.append (" " + history [i + 1]);
+        }
+      }
+    }
+    // Add possible book summary.
+    if (chapter == 0) {
+      if (history[i] == "summary") {
+        if (history.size () > i + 1) {
+          text.append (" " + history [i + 1]);
+        }
+      }
+    }
+    // Add possible chapter title.
+    if (chapter == 0) {
+      if (history[i] == "headerTitle") {
+        if (history.size () > i + 1) {
+          text.append (" " + history [i + 1]);
+        }
+      }
+    }
+    // Add possible book summary.
+    if (chapter == 0) {
+      if (i > 2) {
+        if (history[i] == "content") {
+          if (history[i-1] == "lines") {
+            if (history.size () > i + 1) {
+              text.append (" " + history [i + 1]);
+            }
+          }
+        }
+      }
+    }
+    // Add the chapter summary located at verse 0.
+    if (verse == 0) {
+      if (i > 2) {
+        if (history[i] == "originalText") {
+          if (history[i-1] == "summary") {
+            if (history.size () > i + 1) {
+              text.append (" " + history [i + 1]);
+            }
+          }
+        }
+      }
+    }
+    // History sequence to get the header above a verse:
+    // text -> <header text> -> isPerikoop -> isHeader -> uid -> 0 -> number -> <verse number>
+    if (history[i] == "text") {
+      if (history.size () > i + 7) {
+        if (history[i+2] == "isPerikoop") {
+          if (history[i+7] == to_string (verse)) {
+            text.append ("<p><i>" + history [i+1] + "</i></p>");
+          }
+        }
+      }
+    }
+    // The history sequence to get the verse text is this:
+    // uid -> 0 -> number -> <verse number> -> text -> "verse text"
+    if (history[i] == "text") {
+      if (i >= 5) {
+        if (history [i - 4] == "uid") {
+          if (history [i - 3] == "0") {
+            if (history [i - 2] == "number") {
+              if (history [i - 1] == to_string (verse)) {
+                if (history.size () > i + 1) {
+                  text.append (" " + history [i + 1]);
+                }
+                // Enable notes collection.
+                collect_notes = true;
+              } else {
+                // Disable notes collection
+                collect_notes = false;
+              }
+            }
+          }
+        }
+      }
+    }
+    // Add notes.
+    if (collect_notes && i && history [i-1] == "originalText") {
+      text.append ("<p>" + history [i] + "</p>");
+    }
+    // Add text of Bible references.
+    if (collect_notes && i && history [i-1] == "text") {
+      if (text_block_counter) text.append ("<p>" + history [i] + "</p>");
+      text_block_counter++;
+    }
+  }
+
+  text = filter_string_str_replace ("\n", " ", text);
+  text = filter_string_str_replace ("\r", " ", text);
+  text = filter_string_str_replace ("\t", "", text);
+  text = filter_string_str_replace ("  ", " ", text);
+  text = filter_string_str_replace ("<br />", "", text);
+  text = filter_string_trim (text);
+  // text.insert (0, "<p>$introduction</p>";
+
+  // Add new line.
+  text += "\n";
+
+  // Done.
+  return text;
+}
+
 
 // This script fetches the Statenbijbel from the Dutch GBS.
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
@@ -121,7 +292,30 @@ string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
   
   string url = "http://gbsdigitaal.nl/Data/Statenvertaling/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
   
-  return gbsdigitaal (url, verse);
+  return gbs_digitaal_processor (url, verse);
+}
+
+
+// This displays the Statenbijbel from the Dutch GBS.
+// It also includes headers, introductions, and notes.
+string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int verse)
+{
+  // Books OT: http://gbsdigitaal.nl/Data/Statenvertaling/1.json
+  // Books NT: http://gbsdigitaal.nl/Data/Statenvertaling/2.json
+  // Genesis intro http://gbsdigitaal.nl/Data/Statenvertaling/1/1/1.json
+  // Genesis 1 http://gbsdigitaal.nl/Data/Statenvertaling/1/1/2.json
+  // Matthew 1 http://gbsdigitaal.nl/Data/Statenvertaling/2/40/2.json
+  
+  // Old (1) or New (2) Testament.
+  int testament = book >= 40 ? 2 : 1;
+  
+  // Introduction is chapter 1 in the URL.
+  // Chapter 1 of the text is chapter 2 in the URL.
+  string urlchapter = to_string (chapter + 1);
+  
+  string url = "http://gbsdigitaal.nl/Data/Statenvertaling/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
+  
+  return gbs_digitaal_plus_processor (url, chapter, verse);
 }
 
 
@@ -142,7 +336,30 @@ string resource_external_get_king_james_version_gbs (int book, int chapter, int 
   
   string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
   
-  return gbsdigitaal (url, verse);
+  return gbs_digitaal_processor (url, verse);
+}
+
+
+// This script displays the Statenbijbel from the Dutch GBS.
+// It also includes headers, introductions, and notes.
+string resource_external_get_king_james_version_plus_gbs (int book, int chapter, int verse)
+{
+  // Books OT: http://gbsdigitaal.nl/Data/Statenvertaling/1.json
+  // Books NT: http://gbsdigitaal.nl/Data/Statenvertaling/2.json
+  // Genesis intro http://gbsdigitaal.nl/Data/Statenvertaling/1/1/1.json
+  // Genesis 1 http://gbsdigitaal.nl/Data/Statenvertaling/1/1/2.json
+  // Matthew 1 http://gbsdigitaal.nl/Data/Statenvertaling/2/40/2.json
+  
+  // Old (1) or New (2) Testament.
+  int testament = book >= 40 ? 2 : 1;
+  
+  // Introduction is chapter 1 in the URL.
+  // Chapter 1 of the text is chapter 2 in the URL.
+  string urlchapter = to_string (chapter + 1);
+  
+  string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
+  
+  return gbs_digitaal_plus_processor (url, chapter, verse);
 }
 
 
@@ -305,23 +522,6 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   
   return output;
 }
-
-
-typedef struct
-{
-  const char *name;
-  const char *versification;
-  const char *mapping;
-  string (* func) (int, int, int);
-} resource_record;
-
-
-resource_record resource_table [] =
-{
-  { "Statenbijbel GBS", "Dutch Traditional", "Dutch Traditional", & resource_external_get_statenbijbel_gbs },
-  { "King James Version GBS", "English", "English", & resource_external_get_king_james_version_gbs },
-  { "Biblehub Interlinear", "English", "English", & resource_external_get_biblehub_interlinear },
-};
 
 
 // The number of available external resource scripts.
