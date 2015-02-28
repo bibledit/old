@@ -781,7 +781,6 @@
 		CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = John_Gill_Exposition_Whole_Bible.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Matthew_Poole_Annotations.php; sourceTree = "<group>"; };
 		CAA4D2E51A45A648003ABA25 /* NET_Bible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = NET_Bible.php; sourceTree = "<group>"; };
-		CAA4D2E71A45A648003ABA25 /* Scrivener.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = Scrivener.php; sourceTree = "<group>"; };
 		CAA4D2EC1A45A648003ABA25 /* studylight.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = studylight.php; sourceTree = "<group>"; };
 		CAA4D2EE1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D2F01A45A648003ABA25 /* createdatabase.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = createdatabase.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
@@ -2440,7 +2439,6 @@
 				CAA4D2E11A45A648003ABA25 /* John_Gill_Exposition_Whole_Bible.php */,
 				CAA4D2E41A45A648003ABA25 /* Matthew_Poole_Annotations.php */,
 				CAA4D2E51A45A648003ABA25 /* NET_Bible.php */,
-				CAA4D2E71A45A648003ABA25 /* Scrivener.php */,
 				CAA4D2EC1A45A648003ABA25 /* studylight.php */,
 			);
 			name = resources;

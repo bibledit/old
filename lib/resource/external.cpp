@@ -37,6 +37,7 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
 string resource_external_get_king_james_version_gbs (int book, int chapter, int verse);
 string resource_external_get_king_james_version_plus_gbs (int book, int chapter, int verse);
 string resource_external_get_biblehub_interlinear (int book, int chapter, int verse);
+string resource_external_get_biblehub_scrivener (int book, int chapter, int verse);
 
 typedef struct
 {
@@ -57,6 +58,7 @@ resource_record resource_table [] =
   { "King James Version GBS", "English", "English", & resource_external_get_king_james_version_gbs },
   { "King James Version Plus GBS", "English", "English", & resource_external_get_king_james_version_plus_gbs },
   { "Biblehub Interlinear", "English", "English", & resource_external_get_biblehub_interlinear },
+  { "Scrivener", "English", "English", & resource_external_get_biblehub_scrivener },
 };
 
 
@@ -451,6 +453,59 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   output += html;
   
   return output;
+}
+
+
+// Filters the Scrivener Greek text from biblehub.com.
+string resource_external_get_biblehub_scrivener (int book, int chapter, int verse)
+{
+  string bookname = resource_external_convert_book_biblehub (book);
+  
+  string url = "http://biblehub.com/text/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
+  
+  // Get the html from the server, and tidy it up.
+  string html;
+  html = filter_url_http_get (url, html);
+  string tidy = html_tidy (html);
+  vector <string> tidied = filter_string_explode (tidy, '\n');
+
+  html.clear ();
+  int hits = 0;
+  for (auto & line : tidied) {
+    /* These is the text block we are looking at:
+    <p>
+    <span class="versiontext">
+    <a href="/tr94/matthew/1.htm">Scrivener's Textus Receptus 1894
+    </a>
+    <br>
+    </span>
+    <span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.
+    </span>
+    */
+    // </span><span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.</span></p>
+    if (line.find ("Scrivener") != string::npos) hits = 1;
+    if (hits == 1) if (line.find ("greek") != string::npos) hits = 2;
+    if ((hits == 2) || (hits == 3)) {
+      html.append (line);
+      hits++;
+    }
+  }
+  
+  if (html.empty ()) return html;
+  
+  string stylesheet =
+  "<style>\n"
+  "@font-face {\n"
+  "  font-family: Cardo;\n"
+  "src: url(/fonts/Cardo-Regular.ttf);\n"
+  "}\n"
+  ".greek {\n"
+  "  font-family: Cardo;\n"
+  "  font-size: large;\n"
+  "}\n"
+  "</style>\n";
+  
+  return stylesheet + "\n" + html;
 }
 
 
