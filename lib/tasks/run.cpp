@@ -143,10 +143,7 @@ void tasks_run_one (string filename)
 void tasks_run_check ()
 {
   // Don't run more than so many tasks.
-  mutex_tasks.lock ();
-  int taskscount = running_tasks;
-  mutex_tasks.unlock ();
-  if (taskscount >= config_logic_max_parallel_tasks ()) return;
+  if (tasks_run_active_count () >= config_logic_max_parallel_tasks ()) return;
   // Get and start first available task.
   vector <string> tasks = filter_url_scandir (tasks_logic_folder ());
   if (tasks.empty ()) return;
@@ -155,3 +152,14 @@ void tasks_run_check ()
   // when the thread object goes out of scope, and no memory is leaked this way.
   task_thread.detach ();
 }
+
+
+int tasks_run_active_count () // Todo
+{
+  int taskscount = 0;
+  mutex_tasks.lock ();
+  taskscount = running_tasks;
+  mutex_tasks.unlock ();
+  return taskscount;
+}
+

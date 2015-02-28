@@ -122,8 +122,12 @@ void timer_index ()
         if (hour == 0) {
           if (minute == 1) {
             if (!Database_Config_General::getJustStarted ()) {
-              Database_Logs::log ("Server restarts itself");
-              exit (0);
+              if (tasks_run_active_count ()) {
+                Database_Logs::log ("Server is due to restart itself but does not because of active jobs");
+              } else {
+                Database_Logs::log ("Server restarts itself");
+                exit (0);
+              }
             }
           }
           // Clear flag in preparation of restart next minute.
