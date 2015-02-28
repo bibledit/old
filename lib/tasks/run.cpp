@@ -131,7 +131,6 @@ void tasks_run_one (string filename)
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }
-  
 
   // Decrease running tasks count.
   mutex_tasks.lock ();
@@ -154,7 +153,7 @@ void tasks_run_check ()
 }
 
 
-int tasks_run_active_count () // Todo
+int tasks_run_active_count ()
 {
   int taskscount = 0;
   mutex_tasks.lock ();
