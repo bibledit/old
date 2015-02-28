@@ -369,77 +369,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   // Sample URL:
   // http://biblehub.com/interlinear/genesis/1-1.htm
  
-  // This array maps the the book identifiers from Bibledit to the book names as used by the website.
-  map <int, string> bookConverter = {
-    make_pair (1, "genesis"),
-    make_pair (2, "exodus"),
-    make_pair (3, "leviticus"),
-    make_pair (4, "numbers"),
-    make_pair (5, "deuteronomy"),
-    make_pair (6, "joshua"),
-    make_pair (7, "judges"),
-    make_pair (8, "ruth"),
-    make_pair (9, "1_samuel"),
-    make_pair (10, "2_samuel"),
-    make_pair (11, "1_kings"),
-    make_pair (12, "2_kings"),
-    make_pair (13, "1_chronicles"),
-    make_pair (14, "2_chronicles"),
-    make_pair (15, "ezra"),
-    make_pair (16, "nehemiah"),
-    make_pair (17, "esther"),
-    make_pair (18, "job"),
-    make_pair (19, "psalms"),
-    make_pair (20, "proverbs"),
-    make_pair (21, "ecclesiastes"),
-    make_pair (22, "songs"),
-    make_pair (23, "isaiah"),
-    make_pair (24, "jeremiah"),
-    make_pair (25, "lamentations"),
-    make_pair (26, "ezekiel"),
-    make_pair (27, "daniel"),
-    make_pair (28, "hosea"),
-    make_pair (29, "joel"),
-    make_pair (30, "amos"),
-    make_pair (31, "obadiah"),
-    make_pair (32, "jonah"),
-    make_pair (33, "micah"),
-    make_pair (34, "nahum"),
-    make_pair (35, "habakkuk"),
-    make_pair (36, "zephaniah"),
-    make_pair (37, "haggai"),
-    make_pair (38, "zechariah"),
-    make_pair (39, "malachi"),
-    make_pair (40, "matthew"),
-    make_pair (41, "mark"),
-    make_pair (42, "luke"),
-    make_pair (43, "john"),
-    make_pair (44, "acts"),
-    make_pair (45, "romans"),
-    make_pair (46, "1_corinthians"),
-    make_pair (47, "2_corinthians"),
-    make_pair (48, "galatians"),
-    make_pair (49, "ephesians"),
-    make_pair (50, "philippians"),
-    make_pair (51, "colossians"),
-    make_pair (52, "1_thessalonians"),
-    make_pair (53, "2_thessalonians"),
-    make_pair (54, "1_timothy"),
-    make_pair (55, "2_timothy"),
-    make_pair (56, "titus"),
-    make_pair (57, "philemon"),
-    make_pair (58, "hebrews"),
-    make_pair (59, "james"),
-    make_pair (60, "1_peter"),
-    make_pair (61, "2_peter"),
-    make_pair (62, "1_john"),
-    make_pair (63, "2_john"),
-    make_pair (64, "3_john"),
-    make_pair (65, "jude"),
-    make_pair (66, "revelation")
-  };
-  
-  string bookname = bookConverter [book];
+  string bookname = resource_external_convert_book_biblehub (book);
   
   string url = "http://biblehub.com/interlinear/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
   
@@ -478,9 +408,9 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   html = filter_string_str_replace ("/hebrewparse.htm", "http://biblehub.com/hebrewparse.htm", html);
   html = filter_string_str_replace ("/greek/", "http://biblehub.com/greek/", html);
   html = filter_string_str_replace ("/grammar/", "http://biblehub.com/grammar/", html);
-  
+  //html = filter_string_str_replace ("height=\"165\"", "", html);
+  html = filter_string_str_replace ("height=\"160\"", "", html);
   html = filter_string_str_replace ("height=\"145\"", "", html);
-  
   html = filter_string_str_replace ("&nbsp;&nbsp;", "&nbsp;", html);
   
   // Stylesheet for using web fonts,
@@ -589,4 +519,79 @@ string resource_external_get (string name, int book, int chapter, int verse)
   string result = func (book, chapter, verse);
   
   return result;
+}
+
+
+string resource_external_convert_book_biblehub (int book)
+{
+  // Map Bibledit books to biblehub.com books.
+  map <int, string> mapping = {
+    make_pair (1, "genesis"),
+    make_pair (2, "exodus"),
+    make_pair (3, "leviticus"),
+    make_pair (4, "numbers"),
+    make_pair (5, "deuteronomy"),
+    make_pair (6, "joshua"),
+    make_pair (7, "judges"),
+    make_pair (8, "ruth"),
+    make_pair (9, "1_samuel"),
+    make_pair (10, "2_samuel"),
+    make_pair (11, "1_kings"),
+    make_pair (12, "2_kings"),
+    make_pair (13, "1_chronicles"),
+    make_pair (14, "2_chronicles"),
+    make_pair (15, "ezra"),
+    make_pair (16, "nehemiah"),
+    make_pair (17, "esther"),
+    make_pair (18, "job"),
+    make_pair (19, "psalms"),
+    make_pair (20, "proverbs"),
+    make_pair (21, "ecclesiastes"),
+    make_pair (22, "songs"),
+    make_pair (23, "isaiah"),
+    make_pair (24, "jeremiah"),
+    make_pair (25, "lamentations"),
+    make_pair (26, "ezekiel"),
+    make_pair (27, "daniel"),
+    make_pair (28, "hosea"),
+    make_pair (29, "joel"),
+    make_pair (30, "amos"),
+    make_pair (31, "obadiah"),
+    make_pair (32, "jonah"),
+    make_pair (33, "micah"),
+    make_pair (34, "nahum"),
+    make_pair (35, "habakkuk"),
+    make_pair (36, "zephaniah"),
+    make_pair (37, "haggai"),
+    make_pair (38, "zechariah"),
+    make_pair (39, "malachi"),
+    make_pair (40, "matthew"),
+    make_pair (41, "mark"),
+    make_pair (42, "luke"),
+    make_pair (43, "john"),
+    make_pair (44, "acts"),
+    make_pair (45, "romans"),
+    make_pair (46, "1_corinthians"),
+    make_pair (47, "2_corinthians"),
+    make_pair (48, "galatians"),
+    make_pair (49, "ephesians"),
+    make_pair (50, "philippians"),
+    make_pair (51, "colossians"),
+    make_pair (52, "1_thessalonians"),
+    make_pair (53, "2_thessalonians"),
+    make_pair (54, "1_timothy"),
+    make_pair (55, "2_timothy"),
+    make_pair (56, "titus"),
+    make_pair (57, "philemon"),
+    make_pair (58, "hebrews"),
+    make_pair (59, "james"),
+    make_pair (60, "1_peter"),
+    make_pair (61, "2_peter"),
+    make_pair (62, "1_john"),
+    make_pair (63, "2_john"),
+    make_pair (64, "3_john"),
+    make_pair (65, "jude"),
+    make_pair (66, "revelation")
+  };
+  return mapping [book];
 }
