@@ -39,6 +39,10 @@ string resource_external_get_king_james_version_plus_gbs (int book, int chapter,
 string resource_external_get_biblehub_interlinear (int book, int chapter, int verse);
 string resource_external_get_biblehub_scrivener (int book, int chapter, int verse);
 string resource_external_get_biblehub_westminster (int book, int chapter, int verse);
+string resource_external_get_net_bible (int book, int chapter, int verse);
+string resource_external_convert_book_biblehub (int book);
+string resource_external_convert_book_netbible (int book);
+
 
 typedef struct
 {
@@ -61,6 +65,7 @@ resource_record resource_table [] =
   { "Biblehub Interlinear", "English", "English", & resource_external_get_biblehub_interlinear },
   { "Scrivener Greek", "English", "English", & resource_external_get_biblehub_scrivener },
   { "Westminster Hebrew", "English", "English", & resource_external_get_biblehub_westminster },
+  { "NET Bible", "English", "English", & resource_external_get_net_bible },
 };
 
 
@@ -511,7 +516,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
 
 
 // This displays the Westminster Leningrad Codex from biblehub.com.
-string resource_external_get_biblehub_westminster (int book, int chapter, int verse) // Todo
+string resource_external_get_biblehub_westminster (int book, int chapter, int verse)
 {
   // No New Testament in the Westminster Leningrad Codex.
   if (book >= 40) {
@@ -576,6 +581,40 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   
   output += html;
 
+  return output;
+}
+
+
+// This displays the text and the notes of the NET Bible.
+string resource_external_get_net_bible (int book, int chapter, int verse)
+{
+  string bookname = resource_external_convert_book_biblehub (book);
+  
+  string url = "https://net.bible.org/resource/netTexts/" + bookname + " " + to_string (chapter) + ":" + to_string (verse);
+  url = filter_string_str_replace (" ", "%20", url);
+  
+  string text;
+  text = filter_url_http_get (url, text);
+  
+  string output = text;
+  
+  output += "\n";
+  
+  url = "https://net.bible.org/resource/netNotes/" + bookname + " " + to_string (chapter) + ":" + to_string (verse);
+  url = filter_string_str_replace (" ", "%20", url);
+  
+  string notes;
+  notes = filter_url_http_get (url, notes);
+  
+  // The "bibleref" class experiences interference from other resources,
+  // so that the reference would become invisible.
+  // Remove this class, and the references will remain visible.
+  notes = filter_string_str_replace ("class=\"bibleref\"", "", notes);
+  
+  output += notes;
+  
+  output += "\n";
+  
   return output;
 }
 
@@ -718,6 +757,81 @@ string resource_external_convert_book_biblehub (int book)
     make_pair (64, "3_john"),
     make_pair (65, "jude"),
     make_pair (66, "revelation")
+  };
+  return mapping [book];
+}
+
+
+string resource_external_convert_book_netbible (int book)
+{
+  // Map Bibledit books to net.bible.com books as used at the web service.
+  map <int, string> mapping = {
+    make_pair (1, "Genesis"),
+    make_pair (2, "Exodus"),
+    make_pair (3, "Leviticus"),
+    make_pair (4, "Numbers"),
+    make_pair (5, "Deuteronomy"),
+    make_pair (6, "Joshua"),
+    make_pair (7, "Judges"),
+    make_pair (8, "Ruth"),
+    make_pair (9, "1 Samuel"),
+    make_pair (10, "2 Samuel"),
+    make_pair (11, "1 Kings"),
+    make_pair (12, "2 Kings"),
+    make_pair (13, "1 Chronicles"),
+    make_pair (14, "2 Chronicles"),
+    make_pair (15, "Ezra"),
+    make_pair (16, "Nehemiah"),
+    make_pair (17, "Esther"),
+    make_pair (18, "Job"),
+    make_pair (19, "Psalms"),
+    make_pair (20, "Proverbs"),
+    make_pair (21, "Ecclesiastes"),
+    make_pair (22, "Song of Solomon"),
+    make_pair (23, "Isaiah"),
+    make_pair (24, "Jeremiah"),
+    make_pair (25, "Lamentations"),
+    make_pair (26, "Ezekiel"),
+    make_pair (27, "Daniel"),
+    make_pair (28, "Hosea"),
+    make_pair (29, "Joel"),
+    make_pair (30, "Amos"),
+    make_pair (31, "Obadiah"),
+    make_pair (32, "Jonah"),
+    make_pair (33, "Micah"),
+    make_pair (34, "Nahum"),
+    make_pair (35, "Habakkuk"),
+    make_pair (36, "Zephaniah"),
+    make_pair (37, "Haggai"),
+    make_pair (38, "Zechariah"),
+    make_pair (39, "Malachi"),
+    make_pair (40, "Matthew"),
+    make_pair (41, "Mark"),
+    make_pair (42, "Luke"),
+    make_pair (43, "John"),
+    make_pair (44, "Acts"),
+    make_pair (45, "Romans"),
+    make_pair (46, "1 Corinthians"),
+    make_pair (47, "2 Corinthians"),
+    make_pair (48, "Galatians"),
+    make_pair (49, "Ephesians"),
+    make_pair (50, "Philippians"),
+    make_pair (51, "Colossians"),
+    make_pair (52, "1 Thessalonians"),
+    make_pair (53, "2 Thessalonians"),
+    make_pair (54, "1 Timothy"),
+    make_pair (55, "2 Timothy"),
+    make_pair (56, "Titus"),
+    make_pair (57, "Philemon"),
+    make_pair (58, "Hebrews"),
+    make_pair (59, "James"),
+    make_pair (60, "1 Peter"),
+    make_pair (61, "2 Peter"),
+    make_pair (62, "1 John"),
+    make_pair (63, "2 John"),
+    make_pair (64, "3 John"),
+    make_pair (65, "Jude"),
+    make_pair (66, "Revelation")
   };
   return mapping [book];
 }
