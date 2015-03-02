@@ -335,7 +335,7 @@ string studylight_processor (string directory, int book, int chapter, int verse)
 
 
 // This filters Bibles from www.bibleserver.com.
-string bibleserver_processor (string directory, int book, int chapter, int verse) // Todo
+string bibleserver_processor (string directory, int book, int chapter, int verse)
 {
   string bookname = resource_external_convert_book_bibleserver (book);
   
@@ -343,7 +343,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
   
   string error;
   string text = filter_url_http_get (url, error);
-  string tidy = html_tidy (text); // Todo
+  string tidy = html_tidy (text);
   vector <string> tidied = filter_string_explode (tidy, '\n');
 
   text.clear ();
@@ -740,7 +740,7 @@ string resource_external_get_matthew_poole_annotations (int book, int chapter, i
 
 
 // Blue Letter Bible.
-string resource_external_get_blue_letter_bible (int book, int chapter, int verse) // Todo
+string resource_external_get_blue_letter_bible (int book, int chapter, int verse)
 {
   if (verse) {};
   
@@ -772,7 +772,7 @@ string resource_external_get_blue_letter_bible (int book, int chapter, int verse
 
 
 // This displays the text of the Elberfelder Bibel.
-string resource_external_get_elberfelder_bibel (int book, int chapter, int verse) // Todo
+string resource_external_get_elberfelder_bibel (int book, int chapter, int verse)
 {
   // The directory on bibleserver.com
   string directory = "ELB";
