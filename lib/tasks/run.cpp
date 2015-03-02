@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/sendreceive.h>
 #include <sendreceive/settings.h>
 #include <sendreceive/bibles.h>
+#include <sendreceive/usfmresources.h>
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <resource/convert2resource.h>
@@ -117,7 +118,7 @@ void tasks_run_one (string filename)
   } else if (command == SYNCEXTERNALRESOURCES) {
     Database_Logs::log ("Not yet implemented: " + command); // externalresources.php
   } else if (command == SYNCUSFMRESOURCES) {
-    Database_Logs::log ("Not yet implemented: " + command); // usfmresources.php
+    sendreceive_usfmresources ();
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
   } else if (command == CONVERTBIBLE2RESOURCE) {

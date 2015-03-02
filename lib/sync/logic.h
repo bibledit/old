@@ -55,11 +55,23 @@ public:
   static const int bibles_get_chapter_checksum = 7;
   static const int bibles_send_chapter = 8;
   static const int bibles_get_chapter = 9;
+  static const int usfmresources_get_total_checksum = 1;
+  static const int usfmresources_get_resources = 2;
+  static const int usfmresources_get_resource_checksum = 3;
+  static const int usfmresources_get_books = 4;
+  static const int usfmresources_get_book_checksum = 5;
+  static const int usfmresources_get_chapters = 6;
+  static const int usfmresources_get_chapter_checksum = 7;
+  static const int usfmresources_get_chapter = 8;
   bool credentials_okay ();
   string settings_checksum ();
   string checksum (const vector <int> & identifiers);
   vector <Sync_Logic_Range> create_range (int start, int end);
   string post (map <string, string> & post, const string& url, string & error);
+  static string usfm_resources_checksum ();
+  static string usfm_resource_checksum (const string& name);
+  static string usfm_resource_book_checksum (const string& name, int book);
+  static string usfm_resource_chapter_checksum (const string& name, int book, int chapter);
 private:
   void * webserver_request;
 };

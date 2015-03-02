@@ -209,9 +209,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
 	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
-	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
-	client/logic.$(OBJEXT) sync/setup.$(OBJEXT) \
-	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT) \
+	sendreceive/usfmresources.$(OBJEXT) demo/logic.$(OBJEXT) \
+	client/index.$(OBJEXT) client/logic.$(OBJEXT) \
+	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT) \
+	sync/bibles.$(OBJEXT) sync/usfmresources.$(OBJEXT) \
 	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
 	resource/logic.$(OBJEXT) resource/get.$(OBJEXT) \
 	resource/external.$(OBJEXT) resource/bible2resource.$(OBJEXT) \
@@ -635,12 +636,14 @@ libbibledit_a_SOURCES = \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
 	sendreceive/bibles.cpp \
+	sendreceive/usfmresources.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
 	sync/setup.cpp \
 	sync/settings.cpp \
 	sync/bibles.cpp \
+	sync/usfmresources.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -1423,6 +1426,8 @@ sendreceive/settings.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/bibles.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/usfmresources.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -1446,6 +1451,8 @@ sync/setup.$(OBJEXT): sync/$(am__dirstamp) \
 sync/settings.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/bibles.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
+sync/usfmresources.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 resource/$(am__dirstamp):
 	@$(MKDIR_P) resource
@@ -1806,6 +1813,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/sendreceive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@
@@ -1823,6 +1831,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@

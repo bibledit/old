@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/mail.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/usfmresources.h>
 #include <config/logic.h>
 #include <trash/handler.h>
 
@@ -149,6 +150,61 @@ string Sync_Logic::settings_checksum ()
 }
 
 
+// Calculates the checksum of all USFM resources.
+string Sync_Logic::usfm_resources_checksum ()
+{
+  vector <string> vchecksum;
+  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+  vector <string> resources = database_usfmresources.getResources ();
+  for (auto & resource : resources) {
+    vchecksum.push_back (usfm_resource_checksum (resource));
+  }
+  string checksum = filter_string_implode (vchecksum, "");
+  checksum = md5 (checksum);
+  return checksum;
+}
+
+
+// Calculates the checksum of USFM resource name.
+string Sync_Logic::usfm_resource_checksum (const string& name)
+{
+  vector <string> vchecksum;
+  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+  vector <int> books = database_usfmresources.getBooks (name);
+  for (auto & book : books) {
+    vchecksum.push_back (to_string (book));
+    vchecksum.push_back (usfm_resource_book_checksum (name, book));
+  }
+  string checksum = filter_string_implode (vchecksum, "");
+  checksum = md5 (checksum);
+  return checksum;
+}
+
+
+// Calculates the checksum of USFM resource name book.
+string Sync_Logic::usfm_resource_book_checksum (const string& name, int book)
+{
+  vector <string> vchecksum;
+  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+  vector <int> chapters = database_usfmresources.getChapters (name, book);
+  for (auto & chapter : chapters) {
+    vchecksum.push_back (to_string (chapter));
+    vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
+  }
+  string checksum = filter_string_implode (vchecksum, "");
+  checksum = md5 (checksum);
+  return checksum;
+}
+
+
+// Calculates the checksum of USFM resource name book chapter.
+string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book, int chapter)
+{
+  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+  int checksum = database_usfmresources.getSize (name, book, chapter);
+  return to_string (checksum);
+}
+
 /* C++Port
 
 
@@ -190,61 +246,6 @@ static public function offline_resource_file_checksum (name, file)
   return checksum;
 }
 
-
-// Calculates the checksum of all USFM resources.
-static public function usfm_resources_checksum ()
-{
-  checksum = array ();
-  database_usfmresources = Database_UsfmResources::getInstance ();
-  resources = database_usfmresources.getResources ();
-  for (resources as resource) {
-    checksum [] = self::usfm_resource_checksum (resource);
-  }
-  checksum = implode ("", checksum);
-  checksum = md5 (checksum);
-  return checksum;    
-}
-
-
-// Calculates the checksum of USFM resource name.
-static public function usfm_resource_checksum (name)
-{
-  checksum = array ();
-  database_usfmresources = Database_UsfmResources::getInstance ();
-  books = database_usfmresources.getBooks (name);
-  for (books as book) {
-    checksum [] = book;
-    checksum [] = self::usfm_resource_book_checksum (name, book);
-  }
-  checksum = implode ("", checksum);
-  checksum = md5 (checksum);
-  return checksum;    
-}
-
-
-// Calculates the checksum of USFM resource name book.
-static public function usfm_resource_book_checksum (name, book)
-{
-  checksum = array ();
-  database_usfmresources = Database_UsfmResources::getInstance ();
-  chapters = database_usfmresources.getChapters (name, book);
-  for (chapters as chapter) {
-    checksum [] = chapter;
-    checksum [] = self::usfm_resource_chapter_checksum (name, book, chapter);
-  }
-  checksum = implode ("", checksum);
-  checksum = md5 (checksum);
-  return checksum;    
-}
-
-
-// Calculates the checksum of USFM resource name book chapter.
-static public function usfm_resource_chapter_checksum (name, book, chapter)
-{
-  database_usfmresources = Database_UsfmResources::getInstance ();
-  checksum = database_usfmresources.getSize (name, book, chapter);
-  return checksum;
-}
 
 */
 

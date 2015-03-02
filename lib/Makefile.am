@@ -193,12 +193,14 @@ libbibledit_a_SOURCES = \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
 	sendreceive/bibles.cpp \
+	sendreceive/usfmresources.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
 	sync/setup.cpp \
 	sync/settings.cpp \
 	sync/bibles.cpp \
+	sync/usfmresources.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
