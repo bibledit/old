@@ -33,6 +33,7 @@ int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint
 string gbs_digitaal_processor (string url, int chapter, int verse);
 string gbs_digitaal_plus_processor (string url, int verse);
 string studylight_processor (string directory, int book, int chapter, int verse);
+string bibleserver_processor (string directory, int book, int chapter, int verse);
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse);
 string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int verse);
 string resource_external_get_king_james_version_gbs (int book, int chapter, int verse);
@@ -45,8 +46,12 @@ string resource_external_get_calvin_commentaries (int book, int chapter, int ver
 string resource_external_get_jamieson_fausset_brown (int book, int chapter, int verse);
 string resource_external_get_john_gill_exposition_whole_bible (int book, int chapter, int verse);
 string resource_external_get_matthew_poole_annotations (int book, int chapter, int verse);
+string resource_external_get_blue_letter_bible (int book, int chapter, int verse);
+string resource_external_get_elberfelder_bibel (int book, int chapter, int verse);
 string resource_external_convert_book_biblehub (int book);
 string resource_external_convert_book_netbible (int book);
+string resource_external_convert_book_blueletterbible (int book);
+string resource_external_convert_book_bibleserver (int book);
 
 
 typedef struct
@@ -75,6 +80,8 @@ resource_record resource_table [] =
   { "Jamieson Fausset Brown", "English", "English", & resource_external_get_jamieson_fausset_brown },
   { "John Gill Exposition Whole Bible", "English", "English", & resource_external_get_john_gill_exposition_whole_bible },
   { "Matthew Poole Annotations", "English", "English", & resource_external_get_matthew_poole_annotations },
+  { "Blue Letter Bible", "English", "English", & resource_external_get_blue_letter_bible },
+  { "Elberfelder Bibel", "English", "English", & resource_external_get_elberfelder_bibel },
 };
 
 
@@ -324,6 +331,39 @@ string studylight_processor (string directory, int book, int chapter, int verse)
   html += "<p><a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">" + url + "</a></p>\n";
   
   return html;
+}
+
+
+// This filters Bibles from www.bibleserver.com.
+string bibleserver_processor (string directory, int book, int chapter, int verse) // Todo
+{
+  string bookname = resource_external_convert_book_bibleserver (book);
+  
+  string url = "http://www.bibleserver.com/text/" + directory + "/" + bookname + to_string (chapter);
+  
+  string error;
+  string text = filter_url_http_get (url, error);
+  string tidy = html_tidy (text); // Todo
+  vector <string> tidied = filter_string_explode (tidy, '\n');
+
+  text.clear ();
+  bool relevant_line = false;
+  for (auto & line : tidied) {
+    size_t pos = line.find ("noscript");
+    if (pos != string::npos) relevant_line = false;
+    if (relevant_line) {
+      if (!text.empty ()) text.append (" ");
+      text.append (line);
+    }
+    pos = line.find ("no=\"" + to_string (verse) + "," + to_string (verse) + "\"");
+    if (pos != string::npos) relevant_line = true;
+  }
+  filter_string_replace_between (text, "<", ">", "");
+  text = filter_string_trim (text);
+  
+  text += "<p><a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">" + url + "</a></p>\n";
+  
+  return text;
 }
 
 
@@ -699,6 +739,47 @@ string resource_external_get_matthew_poole_annotations (int book, int chapter, i
 }
 
 
+// Blue Letter Bible.
+string resource_external_get_blue_letter_bible (int book, int chapter, int verse) // Todo
+{
+  if (verse) {};
+  
+  string bookname = resource_external_convert_book_blueletterbible (book);
+  
+  string output;
+  
+  string url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=$" + to_string (chapter) + "&t=KJV&ss=1";
+  url = filter_string_str_replace (" ", "%20", url);
+  
+  output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">KJV</a>";
+  
+  output += " | ";
+  
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + to_string (chapter) + "&t=WLC";
+  url = filter_string_str_replace (" ", "%20", url);
+  
+  output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">WLC</a>";
+  
+  output += " | ";
+  
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + to_string (chapter) + "&t=mGNT";
+  url = filter_string_str_replace (" ", "%20", url);
+  
+  output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">mGNT</a>";
+
+  return output;
+}
+
+
+// This displays the text of the Elberfelder Bibel.
+string resource_external_get_elberfelder_bibel (int book, int chapter, int verse) // Todo
+{
+  // The directory on bibleserver.com
+  string directory = "ELB";
+  return bibleserver_processor (directory, book, chapter, verse);
+}
+
+
 // The number of available external resource scripts.
 unsigned int resource_external_count ()
 {
@@ -915,3 +996,155 @@ string resource_external_convert_book_netbible (int book)
   };
   return mapping [book];
 }
+
+
+string resource_external_convert_book_blueletterbible (int book)
+{
+  // This array maps the the book identifiers from Bibledit-web
+  // to the book names as used by the blueletterbible.org web service.
+  map <int, string> mapping = {
+    make_pair (1, "Gen"),
+    make_pair (2, "Exd"),
+    make_pair (3, "Lev"),
+    make_pair (4, "Num"),
+    make_pair (5, "Deu"),
+    make_pair (6, "Jos"),
+    make_pair (7, "Jdg"),
+    make_pair (8, "Rth"),
+    make_pair (9, "1Sa"),
+    make_pair (10, "2Sa"),
+    make_pair (11, "1Ki"),
+    make_pair (12, "2Ki"),
+    make_pair (13, "1Ch"),
+    make_pair (14, "2Ch"),
+    make_pair (15, "Ezr"),
+    make_pair (16, "Neh"),
+    make_pair (17, "Est"),
+    make_pair (18, "Job"),
+    make_pair (19, "Psa"),
+    make_pair (20, "Pro"),
+    make_pair (21, "Ecc"),
+    make_pair (22, "Sgs"),
+    make_pair (23, "Isa"),
+    make_pair (24, "Jer"),
+    make_pair (25, "Lam"),
+    make_pair (26, "Eze"),
+    make_pair (27, "Dan"),
+    make_pair (28, "Hsa"),
+    make_pair (29, "Joe"),
+    make_pair (30, "Amo"),
+    make_pair (31, "Oba"),
+    make_pair (32, "Jon"),
+    make_pair (33, "Mic"),
+    make_pair (34, "Nah"),
+    make_pair (35, "Hab"),
+    make_pair (36, "Zep"),
+    make_pair (37, "Hag"),
+    make_pair (38, "Zec"),
+    make_pair (39, "Mal"),
+    make_pair (40, "Mat"),
+    make_pair (41, "Mar"),
+    make_pair (42, "Luk"),
+    make_pair (43, "Jhn"),
+    make_pair (44, "Act"),
+    make_pair (45, "Rom"),
+    make_pair (46, "1Cr"),
+    make_pair (47, "2Cr"),
+    make_pair (48, "Gal"),
+    make_pair (49, "Eph"),
+    make_pair (50, "Phl"),
+    make_pair (51, "Col"),
+    make_pair (52, "1Th"),
+    make_pair (53, "2Th"),
+    make_pair (54, "1Ti"),
+    make_pair (55, "2Ti"),
+    make_pair (56, "Tts"),
+    make_pair (57, "Phm"),
+    make_pair (58, "Hbr"),
+    make_pair (59, "Jam"),
+    make_pair (60, "1Pe"),
+    make_pair (61, "2Pe"),
+    make_pair (62, "1Jo"),
+    make_pair (63, "2Jo"),
+    make_pair (64, "3Jo"),
+    make_pair (65, "Jud"),
+    make_pair (66, "Rev")
+  };
+  return mapping [book];
+}
+
+
+string resource_external_convert_book_bibleserver (int book)
+{
+  // On bibleserver.com, Genesis is "1.Mose", Exodus is "2.Mose", and so on.
+  map <int, string> mapping = {
+    make_pair (1, "1.Mose"),
+    make_pair (2, "2.Mose"),
+    make_pair (3, "3.Mose"),
+    make_pair (4, "4.Mose"),
+    make_pair (5, "5.Mose"),
+    make_pair (6, "Josua"),
+    make_pair (7, "Richter"),
+    make_pair (8, "Rut"),
+    make_pair (9, "1.Samuel"),
+    make_pair (10, "2.Samuel"),
+    make_pair (11, "1.Könige"),
+    make_pair (12, "2.Könige"),
+    make_pair (13, "1.Chronik"),
+    make_pair (14, "2.Chronik"),
+    make_pair (15, "Esra"),
+    make_pair (16, "Nehemia"),
+    make_pair (17, "Esther"),
+    make_pair (18, "Hiob"),
+    make_pair (19, "Psalm"),
+    make_pair (20, "Sprüche"),
+    make_pair (21, "Prediger"),
+    make_pair (22, "Hoheslied"),
+    make_pair (23, "Jesaja"),
+    make_pair (24, "Jeremia"),
+    make_pair (25, "Klagelieder"),
+    make_pair (26, "Hesekiel"),
+    make_pair (27, "Daniel"),
+    make_pair (28, "Hosea"),
+    make_pair (29, "Joel"),
+    make_pair (30, "Amos"),
+    make_pair (31, "Obadja"),
+    make_pair (32, "Jona"),
+    make_pair (33, "Micha"),
+    make_pair (34, "Nahum"),
+    make_pair (35, "Habakuk"),
+    make_pair (36, "Zefanja"),
+    make_pair (37, "Haggai"),
+    make_pair (38, "Sacharja"),
+    make_pair (39, "Maleachi"),
+    make_pair (40, "Matthäus"),
+    make_pair (41, "Markus"),
+    make_pair (42, "Lukas"),
+    make_pair (43, "Johannes"),
+    make_pair (44, "Apostelgeschichte"),
+    make_pair (45, "Römer"),
+    make_pair (46, "1.Korinther"),
+    make_pair (47, "2.Korinther"),
+    make_pair (48, "Galater"),
+    make_pair (49, "Epheser"),
+    make_pair (50, "Philipper"),
+    make_pair (51, "Kolosser"),
+    make_pair (52, "1.Thessalonicher"),
+    make_pair (53, "2.Thessalonicher"),
+    make_pair (54, "1.Timotheus"),
+    make_pair (55, "2.Timotheus"),
+    make_pair (56, "Titus"),
+    make_pair (57, "Philemon"),
+    make_pair (58, "Hebräer"),
+    make_pair (59, "Jakobus"),
+    make_pair (60, "1.Petrus"),
+    make_pair (61, "2.Petrus"),
+    make_pair (62, "1.Johannes"),
+    make_pair (63, "2.Johannes"),
+    make_pair (64, "3.Johannes"),
+    make_pair (65, "Judas"),
+    make_pair (66, "Offenbarung")
+  };
+  return mapping [book];
+}
+
