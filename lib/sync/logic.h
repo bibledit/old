@@ -72,6 +72,9 @@ public:
   static string usfm_resource_checksum (const string& name);
   static string usfm_resource_book_checksum (const string& name, int book);
   static string usfm_resource_chapter_checksum (const string& name, int book, int chapter);
+  static string offline_resources_checksum ();
+  static string offline_resource_checksum (const string& name);
+  static string offline_resource_file_checksum (const string & name, const string & file);
 private:
   void * webserver_request;
 };

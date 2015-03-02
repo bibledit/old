@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <database/usfmresources.h>
+#include <database/offlineresources.h>
 #include <config/logic.h>
 #include <trash/handler.h>
 
@@ -205,17 +206,15 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
   return to_string (checksum);
 }
 
-/* C++Port
-
 
 // Calculates the checksum of all offline resources.
-static public function offline_resources_checksum ()
+string Sync_Logic::offline_resources_checksum ()
 {
-  checksum = "";
-  database_offlineresources = Database_OfflineResources::getInstance ();
-  names = database_offlineresources.names ();
-  for (names as name) {
-    checksum += self::offline_resource_checksum (name);
+  string checksum;
+  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  vector <string> names = database_offlineresources.names ();
+  for (auto & name : names) {
+    checksum += offline_resource_checksum (name);
   }
   checksum = md5 (checksum);
   return checksum;
@@ -223,29 +222,24 @@ static public function offline_resources_checksum ()
 
 
 // Calculates the checksum of offline resource name.
-static public function offline_resource_checksum (name)
+string Sync_Logic::offline_resource_checksum (const string& name)
 {
-  checksum = array ();
-  database_offlineresources = Database_OfflineResources::getInstance ();
-  files = database_offlineresources.files (name);
-  for (files as file) {
-    checksum [] = name;
-    checksum [] = self::offline_resource_file_checksum (name, file);
+  vector <string> checksum;
+  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  vector <string> files = database_offlineresources.files (name);
+  for (auto & file : files) {
+    checksum.push_back (name);
+    checksum.push_back (offline_resource_file_checksum (name, file));
   }
-  checksum = implode ("", checksum);
-  checksum = md5 (checksum);
-  return checksum;    
+  string schecksum = filter_string_implode (checksum, "");
+  schecksum = md5 (schecksum);
+  return schecksum;
 }
 
 
 // Calculates the checksum of offline resource name the file.
-static public function offline_resource_file_checksum (name, file)
+string Sync_Logic::offline_resource_file_checksum (const string& name, const string& file)
 {
-  database_offlineresources = Database_OfflineResources::getInstance ();
-  checksum = database_offlineresources.size (name, file);
-  return checksum;
+  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  return to_string (database_offlineresources.size (name, file));
 }
-
-
-*/
-
