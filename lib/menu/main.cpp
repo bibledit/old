@@ -171,8 +171,10 @@ vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (resource_index_acl (request)) menu->push_back ( { "", resource_index_url (), translate ("View"), NULL } );
   if (resource_print_acl (request)) menu->push_back ( { "", resource_print_url (), translate ("Print"), NULL } );
-  if (resource_manage_acl (request)) menu->push_back ( { "", resource_manage_url (), translate ("USFM"), NULL } );
-  if (resource_admin_acl (request)) menu->push_back ( { "", resource_admin_url (), translate ("External"), NULL } );
+  if (!config_logic_client_prepared ()) {
+    if (resource_manage_acl (request)) menu->push_back ( { "", resource_manage_url (), translate ("USFM"), NULL } );
+    if (resource_admin_acl (request)) menu->push_back ( { "", resource_admin_url (), translate ("External"), NULL } );
+  }
   return menu;
 }
 
@@ -226,7 +228,7 @@ vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
 vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (manage_users_acl (webserver_request) && !client_logic_client_enabled ()) {
+  if (manage_users_acl (webserver_request) && !config_logic_client_prepared ()) {
     menu->push_back ( { "", manage_users_url (), translate ("Users"), NULL } );
   }
   if (manage_indexing_acl (webserver_request)) {
@@ -242,7 +244,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
       }
     }
   }
-  if (email_index_acl (webserver_request) && !client_logic_client_enabled ()) {
+  if (email_index_acl (webserver_request) && !config_logic_client_prepared ()) {
     menu->push_back ( { "", email_index_url (), translate ("Mail"), NULL } );
   }
   if (styles_indext_acl (webserver_request)) {

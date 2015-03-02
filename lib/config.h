@@ -5,7 +5,7 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
