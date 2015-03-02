@@ -105,22 +105,27 @@ void resource_download_job (string resource)
 
     string bookName = Database_Books::getEnglishFromId (book);
 
+    bool downloaded = false;
+    
     vector <int> chapters = database_versifications.getChapters (versification, book, true);
     for (auto & chapter : chapters) {
-      string message = resource + ": " + bookName + " chapter " + to_string (chapter);
+      string message1 = resource + ": " + bookName + " chapter " + to_string (chapter);
+      string message2;
       vector <int> verses = database_versifications.getVerses (versification, book, chapter);
       for (auto & verse : verses) {
-        message += "; verse " + to_string (verse) + ": ";
+        message2 += "; verse " + to_string (verse) + ": ";
         if (database_offlineresources.exists (resource, book, chapter, verse)) {
-          message += "exists";
+          message2 += "exists";
         } else {
           string html = resource_external_get (resource, book, chapter, verse);
           database_offlineresources.store (resource, book, chapter, verse, html);
-          message += "size " + to_string (html.length ());
+          message2 += "size " + to_string (html.length ());
+          downloaded = true;
         }
       }
-      message += "; done";
-      Database_Logs::log (message, Filter_Roles::manager ());
+      message2 += "; done";
+      if (!downloaded) message2 = ": already in cache";
+      Database_Logs::log (message1 + message2, Filter_Roles::manager ());
     }
   }
   
