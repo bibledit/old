@@ -19,7 +19,7 @@
 
 #include <library/locks.h>
 #include <openssl/crypto.h>
-#include <pthread/pthread.h>
+#include <pthread.h>
 
 
 #define MUTEX_TYPE       pthread_mutex_t
