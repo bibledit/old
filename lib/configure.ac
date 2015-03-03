@@ -75,6 +75,8 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
+AC_CHECK_HEADER(pthread.h,AC_DEFINE([HAVE_PTHREAD],[1],[Define whether pthread.h is present]),)
+
 AC_DEFINE([DIRECTORY_SEPARATOR], ["/"], [Define the directory separator as Windows differs from Linux])
 
 # Demo installation.
@@ -88,14 +90,10 @@ AC_DEFINE_UNQUOTED(DEMO, "$DEMO")
 AC_SUBST(DEMO)
 
 # Client installation.
-CLIENT=no
 AC_ARG_ENABLE(client,
   [  --enable-client Enable client mode],
-  [CLIENT=yes]
+  [AC_DEFINE([CLIENT_PREPARED], [1], [Define whether it is a client installation])]
 )
-AC_DEFINE([CLIENT], [], [Define whether it is a client installation])
-AC_DEFINE_UNQUOTED(CLIENT, "$CLIENT")
-AC_SUBST(CLIENT)
 
 # Network port.
 AC_ARG_WITH(network-port,
@@ -132,11 +130,11 @@ AC_OUTPUT(Makefile)
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix              : ${prefix}
-Libgit2                          : ${LIBGIT}
-Network port                     : ${NETWORK_PORT}
-Client installation              : ${CLIENT}
-Demo installation                : ${DEMO}
-Maximum number of parallel tasks : ${PARALLEL_TASKS}
-Bare browser mode                : ${BARE_BROWSER}
+Installation prefix                   : ${prefix}
+Libgit2                               : ${LIBGIT}
+Network port                          : ${NETWORK_PORT}
+Client installation (--enable-client) : ${CLIENT_PREPARED}
+Demo installation   (--enable-demo)   : ${DEMO}
+Maximum number of parallel tasks      : ${PARALLEL_TASKS}
+Bare browser mode                     : ${BARE_BROWSER}
 "

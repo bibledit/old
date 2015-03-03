@@ -134,7 +134,6 @@ database/offlineresources.cpp
 database/sprint.cpp
 database/mail.cpp
 database/navigation.cpp
-database/resources.cpp
 database/usfmresources.cpp
 database/mappings.cpp
 database/noteactions.cpp
@@ -284,6 +283,8 @@ sync/bibles.cpp
 CFILES=(
 
 webserver/io.c
+json/json.c
+library/locks.c
 
 )
 

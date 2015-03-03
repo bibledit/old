@@ -42,7 +42,10 @@ const char * config_logic_network_port ()
 // Returns whether client mode is enabled during configure.
 bool config_logic_client_prepared ()
 {
-  return (strcmp (CLIENT, "yes") == 0);
+#ifdef CLIENT_PREPARED
+  return true;
+#endif
+  return false;
 }
 
 

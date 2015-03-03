@@ -72,6 +72,7 @@ function resourceGet (i)
       navigationSetup ();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      if (textStatus == "abort") return;
       var i = Number (this);
       resourceGet (i);
     },
@@ -90,7 +91,6 @@ function resourceGet (i)
 // Aborting pending requests makes the interface more responsive.
 $.ajaxRequests.abortAll = function () {
   $ (this).each (function (idx, jqXHR) { 
-    console.log (jqXHR);
     jqXHR.abort ();
   });
   $.ajaxRequests.length = 0

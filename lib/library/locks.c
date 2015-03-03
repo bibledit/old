@@ -18,6 +18,8 @@
 
 
 #include <library/locks.h>
+#include <config.h>
+#ifdef HAVE_PTHREAD
 #include <openssl/crypto.h>
 #include <pthread.h>
 
@@ -49,12 +51,16 @@ static unsigned long id_function(void)
 }
 
 
+#endif
+
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 
-void thread_setup () // Todo
+void thread_setup ()
 {
+#ifdef HAVE_PTHREAD
   mutex_buf = malloc (CRYPTO_num_locks () * sizeof(MUTEX_TYPE));
   if (!mutex_buf) return;
   int i;
@@ -62,11 +68,13 @@ void thread_setup () // Todo
     MUTEX_SETUP (mutex_buf[i]);
   CRYPTO_set_id_callback (id_function);
   CRYPTO_set_locking_callback (locking_function);
+#endif
 }
 
 
-void thread_cleanup () // Todo
+void thread_cleanup ()
 {
+#ifdef HAVE_PTHREAD
   if (!mutex_buf) return;
   CRYPTO_set_id_callback (NULL);
   CRYPTO_set_locking_callback (NULL);
@@ -75,6 +83,7 @@ void thread_cleanup () // Todo
     MUTEX_CLEANUP (mutex_buf[i]);
   free (mutex_buf);
   mutex_buf = NULL;
+#endif
 }
 
 
