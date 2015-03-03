@@ -90,10 +90,15 @@ AC_DEFINE_UNQUOTED(DEMO, "$DEMO")
 AC_SUBST(DEMO)
 
 # Client installation.
+CLIENT=no
 AC_ARG_ENABLE(client,
   [  --enable-client Enable client mode],
   [AC_DEFINE([CLIENT_PREPARED], [1], [Define whether it is a client installation])]
+  CLIENT=yes
 )
+AC_DEFINE([CLIENT], [], [Define whether it is prepared as a client installation])
+AC_DEFINE_UNQUOTED(CLIENT, "$CLIENT")
+AC_SUBST(CLIENT)
 
 # Network port.
 AC_ARG_WITH(network-port,
@@ -133,7 +138,7 @@ Bibledit $VERSION configuration summary:
 Installation prefix                   : ${prefix}
 Libgit2                               : ${LIBGIT}
 Network port                          : ${NETWORK_PORT}
-Client installation (--enable-client) : ${CLIENT_PREPARED}
+Client installation (--enable-client) : ${CLIENT}
 Demo installation   (--enable-demo)   : ${DEMO}
 Maximum number of parallel tasks      : ${PARALLEL_TASKS}
 Bare browser mode                     : ${BARE_BROWSER}

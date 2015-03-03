@@ -628,6 +628,7 @@ LIBOBJS
 BARE_BROWSER
 PARALLEL_TASKS
 NETWORK_PORT
+CLIENT
 DEMO
 OPENSSL_LIBS
 OPENSSL_CFLAGS
@@ -6174,13 +6175,23 @@ _ACEOF
 
 
 # Client installation.
+CLIENT=no
 # Check whether --enable-client was given.
 if test "${enable_client+set}" = set; then :
   enableval=$enable_client;
 $as_echo "#define CLIENT_PREPARED 1" >>confdefs.h
 
+  CLIENT=yes
 
 fi
+
+
+$as_echo "#define CLIENT /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define CLIENT "$CLIENT"
+_ACEOF
+
 
 
 # Network port.
@@ -7721,7 +7732,7 @@ Bibledit $VERSION configuration summary:
 Installation prefix                   : ${prefix}
 Libgit2                               : ${LIBGIT}
 Network port                          : ${NETWORK_PORT}
-Client installation (--enable-client) : ${CLIENT_PREPARED}
+Client installation (--enable-client) : ${CLIENT}
 Demo installation   (--enable-demo)   : ${DEMO}
 Maximum number of parallel tasks      : ${PARALLEL_TASKS}
 Bare browser mode                     : ${BARE_BROWSER}
