@@ -208,7 +208,7 @@ void Database_OfflineResources::save (const string & name, string file, const st
 }
 
 
-// Returns the raw contents of an entire database in resource name file file.
+// Returns the raw contents of an entire database in resource $name file $file.
 string Database_OfflineResources::load (const string & name, const string & file)
 {
   string path = filter_url_create_path (resourceFolder (name), file);

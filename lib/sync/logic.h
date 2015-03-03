@@ -63,6 +63,12 @@ public:
   static const int usfmresources_get_chapters = 6;
   static const int usfmresources_get_chapter_checksum = 7;
   static const int usfmresources_get_chapter = 8;
+  static const int offlineresources_get_total_checksum = 1;
+  static const int offlineresources_get_resources = 2;
+  static const int offlineresources_get_resource_checksum = 3;
+  static const int offlineresources_get_files = 4;
+  static const int offlineresources_get_file_checksum = 5;
+  static const int offlineresources_get_file = 6;
   bool credentials_okay ();
   string settings_checksum ();
   string checksum (const vector <int> & identifiers);

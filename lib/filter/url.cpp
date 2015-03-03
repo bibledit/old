@@ -411,7 +411,7 @@ string filter_url_http_get (string url, string& error)
     curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
-    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
     CURLcode res = curl_easy_perform (curl);
     if (res == CURLE_OK) {
