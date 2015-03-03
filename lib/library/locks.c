@@ -57,7 +57,8 @@ void thread_setup () // Todo
 {
   mutex_buf = malloc (CRYPTO_num_locks () * sizeof(MUTEX_TYPE));
   if (!mutex_buf) return;
-  for (int i = 0;  i < CRYPTO_num_locks ();  i++)
+  int i;
+  for (i = 0;  i < CRYPTO_num_locks ();  i++)
     MUTEX_SETUP (mutex_buf[i]);
   CRYPTO_set_id_callback (id_function);
   CRYPTO_set_locking_callback (locking_function);
@@ -69,7 +70,8 @@ void thread_cleanup () // Todo
   if (!mutex_buf) return;
   CRYPTO_set_id_callback (NULL);
   CRYPTO_set_locking_callback (NULL);
-  for (int i = 0;  i < CRYPTO_num_locks ();  i++)
+  int i;
+  for (i = 0;  i < CRYPTO_num_locks ();  i++)
     MUTEX_CLEANUP (mutex_buf[i]);
   free (mutex_buf);
   mutex_buf = NULL;
