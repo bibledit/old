@@ -112,20 +112,21 @@ libbibledit_a_AR = $(AR) $(ARFLAGS)
 libbibledit_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
-	webserver/webserver.$(OBJEXT) webserver/http.$(OBJEXT) \
-	webserver/request.$(OBJEXT) webserver/io.$(OBJEXT) \
-	bootstrap/bootstrap.$(OBJEXT) filter/url.$(OBJEXT) \
-	filter/string.$(OBJEXT) filter/roles.$(OBJEXT) \
-	filter/md5.$(OBJEXT) filter/usfm.$(OBJEXT) \
-	filter/archive.$(OBJEXT) filter/text.$(OBJEXT) \
-	filter/passage.$(OBJEXT) filter/customcss.$(OBJEXT) \
-	filter/bibleworks.$(OBJEXT) filter/git.$(OBJEXT) \
-	filter/diff.$(OBJEXT) filter/abbreviations.$(OBJEXT) \
-	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
-	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	library/locks.$(OBJEXT) webserver/webserver.$(OBJEXT) \
+	webserver/http.$(OBJEXT) webserver/request.$(OBJEXT) \
+	webserver/io.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
+	filter/url.$(OBJEXT) filter/string.$(OBJEXT) \
+	filter/roles.$(OBJEXT) filter/md5.$(OBJEXT) \
+	filter/usfm.$(OBJEXT) filter/archive.$(OBJEXT) \
+	filter/text.$(OBJEXT) filter/passage.$(OBJEXT) \
+	filter/customcss.$(OBJEXT) filter/bibleworks.$(OBJEXT) \
+	filter/git.$(OBJEXT) filter/diff.$(OBJEXT) \
+	filter/abbreviations.$(OBJEXT) filter/shell.$(OBJEXT) \
+	filter/merge.$(OBJEXT) flate/flate.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
 	database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
@@ -447,6 +448,7 @@ top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libbibledit.a
 libbibledit_a_SOURCES = \
 	library/bibledit.cpp \
+	library/locks.c \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
 	webserver/request.cpp \
@@ -740,6 +742,8 @@ library/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) library/$(DEPDIR)
 	@: > library/$(DEPDIR)/$(am__dirstamp)
 library/bibledit.$(OBJEXT): library/$(am__dirstamp) \
+	library/$(DEPDIR)/$(am__dirstamp)
+library/locks.$(OBJEXT): library/$(am__dirstamp) \
 	library/$(DEPDIR)/$(am__dirstamp)
 webserver/$(am__dirstamp):
 	@$(MKDIR_P) webserver
@@ -1771,6 +1775,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@json/$(DEPDIR)/json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/locks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/indexing.Po@am__quote@

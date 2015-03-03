@@ -2,6 +2,7 @@ noinst_LIBRARIES = libbibledit.a
 
 libbibledit_a_SOURCES = \
 	library/bibledit.cpp \
+	library/locks.c \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
 	webserver/request.cpp \

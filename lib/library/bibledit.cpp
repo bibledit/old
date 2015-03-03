@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <setup/index.h>
+#include <library/locks.h>
+#include <curl/curl.h>
 
 
 // Get Bibledit's version number.
@@ -94,6 +96,13 @@ void bibledit_set_timezone_hours_offset_utc (int hours)
 // To be called once during the lifetime of the app.
 void bibledit_initialize_library ()
 {
+  // Must initialize libcurl before any threads are started.
+  curl_global_init (CURL_GLOBAL_ALL);
+  
+  // Thread locking.
+  thread_setup ();
+  
+  // Initialize libxml2.
   xmlInitThreads ();
   xmlInitParser ();
 }
@@ -153,8 +162,12 @@ void bibledit_stop_library ()
 // To be called exactly once during the lifetime of the app.
 void bibledit_shutdown_library ()
 {
+  // Libxml2.
   xmlCleanupThreads();
   xmlCleanupParser();
+  
+  // Remove thread locks.
+  thread_cleanup ();
 }
 
 
