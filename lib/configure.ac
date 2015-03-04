@@ -150,8 +150,8 @@ Installation prefix                   : ${prefix}
 Libgit2                               : ${LIBGIT}
 Network port                          : ${NETWORK_PORT}
 Client installation (--enable-client) : ${CLIENT}
-Demo installation   (--enable-demo)   : ${DEMO}
+Demo installation (--enable-demo)     : ${DEMO}
 Maximum number of parallel tasks      : ${PARALLEL_TASKS}
 Bare browser mode                     : ${BARE_BROWSER}
-Build for iOS          (--enable-ios) : ${IOS}
+Build for iOS (--enable-ios)          : ${IOS}
 "

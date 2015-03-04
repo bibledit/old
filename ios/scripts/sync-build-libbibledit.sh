@@ -181,7 +181,6 @@ bible/css.cpp
 bible/editing.cpp
 notes/logic.cpp
 trash/handler.cpp
-sync/logic.cpp
 help/index.cpp
 confirm/worker.cpp
 email/index.cpp
@@ -271,12 +270,29 @@ sendreceive/index.cpp
 sendreceive/sendreceive.cpp
 sendreceive/settings.cpp
 sendreceive/bibles.cpp
+sendreceive/usfmresources.cpp
+sendreceive/externalresources.cpp
 demo/logic.cpp
 client/index.cpp
 client/logic.cpp
 sync/setup.cpp
 sync/settings.cpp
 sync/bibles.cpp
+sync/logic.cpp
+sync/externalresources.cpp
+sync/usfmresources.cpp
+resource/admin.cpp
+resource/bible2resource.cpp
+resource/download.cpp
+resource/logic.cpp
+resource/external.cpp
+resource/manage.cpp
+resource/convert2bible.cpp
+resource/get.cpp
+resource/organize.cpp
+resource/convert2resource.cpp
+resource/index.cpp
+resource/print.cpp
 
 )
 
