@@ -19,7 +19,7 @@
 
 #include <library/locks.h>
 #include <config.h>
-#ifdef HAVE_PTHREAD
+#ifndef HAVE_IOS
 #include <openssl/crypto.h>
 #include <pthread.h>
 
@@ -60,7 +60,7 @@ static unsigned long id_function(void)
 
 void thread_setup ()
 {
-#ifdef HAVE_PTHREAD
+#ifndef HAVE_IOS
   mutex_buf = malloc (CRYPTO_num_locks () * sizeof(MUTEX_TYPE));
   if (!mutex_buf) return;
   int i;
@@ -74,7 +74,7 @@ void thread_setup ()
 
 void thread_cleanup ()
 {
-#ifdef HAVE_PTHREAD
+#ifndef HAVE_IOS
   if (!mutex_buf) return;
   CRYPTO_set_id_callback (NULL);
   CRYPTO_set_locking_callback (NULL);

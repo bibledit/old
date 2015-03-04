@@ -26,7 +26,7 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define whether to build for iOS */
-#define HAVE_IOS 1
+/* #undef HAVE_IOS */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
@@ -56,7 +56,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether it is to be built for iOS */
-#define IOS "yes"
+#define IOS "no"
 
 /* Define the network port number */
 #define NETWORK_PORT "8080"
