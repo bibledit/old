@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.82],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0.83],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -130,6 +130,17 @@ AC_DEFINE([BARE_BROWSER], [], [Define whether the expected browser is a bare bro
 AC_DEFINE_UNQUOTED(BARE_BROWSER, "$BARE_BROWSER")
 AC_SUBST(BARE_BROWSER)
 
+# Build for iOS.
+IOS=no
+AC_ARG_ENABLE(ios,
+  [  --enable-ios Enable iOS],
+  [AC_DEFINE([HAVE_IOS], [1], [Define whether to build for iOS])]
+  IOS=yes
+)
+AC_DEFINE([IOS], [], [Define whether it is to be built for iOS])
+AC_DEFINE_UNQUOTED(IOS, "$IOS")
+AC_SUBST(IOS)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -142,4 +153,5 @@ Client installation (--enable-client) : ${CLIENT}
 Demo installation   (--enable-demo)   : ${DEMO}
 Maximum number of parallel tasks      : ${PARALLEL_TASKS}
 Bare browser mode                     : ${BARE_BROWSER}
+Build for iOS          (--enable-ios) : ${IOS}
 "

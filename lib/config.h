@@ -5,10 +5,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "yes"
+#define CLIENT "no"
 
 /* Define whether it is a client installation */
-#define CLIENT_PREPARED 1
+/* #undef CLIENT_PREPARED */
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -24,6 +24,9 @@
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
+
+/* Define whether to build for iOS */
+#define HAVE_IOS 1
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
@@ -52,6 +55,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define whether it is to be built for iOS */
+#define IOS "yes"
+
 /* Define the network port number */
 #define NETWORK_PORT "8080"
 
@@ -65,7 +71,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.82"
+#define PACKAGE_STRING "bibledit 1.0.83"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -74,7 +80,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.82"
+#define PACKAGE_VERSION "1.0.83"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
@@ -83,4 +89,4 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.0.82"
+#define VERSION "1.0.83"
