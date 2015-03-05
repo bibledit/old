@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <setup/index.h>
+#include <setup/logic.h>
 #include <library/locks.h>
 #include <curl/curl.h>
 
@@ -114,6 +115,8 @@ void bibledit_start_library ()
 {
   // Set running flag.
   config_globals_running = true;
+  // Initialize data.
+  setup_conditionally ();
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
   // Run the timers in a thread.

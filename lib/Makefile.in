@@ -150,27 +150,27 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	session/signup.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
-	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
-	styles/indext.$(OBJEXT) styles/indexm.$(OBJEXT) \
-	styles/sheetm.$(OBJEXT) styles/view.$(OBJEXT) \
-	styles/css.$(OBJEXT) styles/sheets.$(OBJEXT) \
-	text/text.$(OBJEXT) esword/text.$(OBJEXT) \
-	onlinebible/text.$(OBJEXT) html/text.$(OBJEXT) \
-	odf/text.$(OBJEXT) timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
-	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
-	bible/logic.$(OBJEXT) bible/manage.$(OBJEXT) \
-	bible/settings.$(OBJEXT) bible/book.$(OBJEXT) \
-	bible/chapter.$(OBJEXT) bible/import_usfm.$(OBJEXT) \
-	bible/import_bibleworks.$(OBJEXT) bible/import_task.$(OBJEXT) \
-	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
-	bible/css.$(OBJEXT) bible/editing.$(OBJEXT) \
-	notes/logic.$(OBJEXT) trash/handler.$(OBJEXT) \
-	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
+	styles/logic.$(OBJEXT) styles/indext.$(OBJEXT) \
+	styles/indexm.$(OBJEXT) styles/sheetm.$(OBJEXT) \
+	styles/view.$(OBJEXT) styles/css.$(OBJEXT) \
+	styles/sheets.$(OBJEXT) text/text.$(OBJEXT) \
+	esword/text.$(OBJEXT) onlinebible/text.$(OBJEXT) \
+	html/text.$(OBJEXT) odf/text.$(OBJEXT) timer/index.$(OBJEXT) \
+	tasks/logic.$(OBJEXT) tasks/run.$(OBJEXT) \
+	config/logic.$(OBJEXT) bible/logic.$(OBJEXT) \
+	bible/manage.$(OBJEXT) bible/settings.$(OBJEXT) \
+	bible/book.$(OBJEXT) bible/chapter.$(OBJEXT) \
+	bible/import_usfm.$(OBJEXT) bible/import_bibleworks.$(OBJEXT) \
+	bible/import_task.$(OBJEXT) bible/abbreviations.$(OBJEXT) \
+	bible/order.$(OBJEXT) bible/css.$(OBJEXT) \
+	bible/editing.$(OBJEXT) notes/logic.$(OBJEXT) \
+	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
+	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -520,6 +520,7 @@ libbibledit_a_SOURCES = \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
+	setup/logic.cpp \
 	journal/index.cpp \
 	styles/logic.cpp \
 	styles/indext.cpp \
@@ -970,6 +971,8 @@ setup/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) setup/$(DEPDIR)
 	@: > setup/$(DEPDIR)/$(am__dirstamp)
 setup/index.$(OBJEXT): setup/$(am__dirstamp) \
+	setup/$(DEPDIR)/$(am__dirstamp)
+setup/logic.$(OBJEXT): setup/$(am__dirstamp) \
 	setup/$(DEPDIR)/$(am__dirstamp)
 journal/$(am__dirstamp):
 	@$(MKDIR_P) journal
@@ -1835,6 +1838,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/signup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indexm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indext.Po@am__quote@

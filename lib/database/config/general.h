@@ -68,8 +68,10 @@ public:
   static void setServerPort (int value);
   static int getRepeatSendReceive ();
   static void setRepeatSendReceive (int value);
-  static string getInstalledVersion ();
-  static void setInstalledVersion (string value);
+  static string getInstalledInterfaceVersion ();
+  static void setInstalledInterfaceVersion (string value);
+  static string getInstalledDatabaseVersion ();
+  static void setInstalledDatabaseVersion (string value);
   static bool getJustStarted ();
   static void setJustStarted (bool value);
 private:

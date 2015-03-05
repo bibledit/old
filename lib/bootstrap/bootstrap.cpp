@@ -141,7 +141,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
   
   // Force setup.
-  else if (config_logic_version () != Database_Config_General::getInstalledVersion ()) request->reply = setup_index (request);
+  else if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) request->reply = setup_index (request);
 
   // Home page.
   else if ((url == index_index_url ()) && index_index_acl (request)) request->reply = index_index (request);

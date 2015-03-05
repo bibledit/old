@@ -73,6 +73,7 @@ libbibledit_a_SOURCES = \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
+	setup/logic.cpp \
 	journal/index.cpp \
 	styles/logic.cpp \
 	styles/indext.cpp \

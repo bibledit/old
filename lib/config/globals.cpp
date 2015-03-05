@@ -28,7 +28,6 @@ bool config_globals_client_prepared = false;
 bool config_globals_running = true;
 thread * config_globals_worker = NULL;
 thread * config_globals_timer = NULL;
-bool config_globals_setup_running = false;
 bool config_globals_mail_receive_running = false;
 bool config_globals_mail_send_running = false;
 bool config_globals_quit_at_midnight = false;

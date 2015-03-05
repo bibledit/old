@@ -24,25 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <database/config/general.h>
-#include <database/logs.h>
-#include <database/commits.h>
-#include <database/confirm.h>
-#include <database/jobs.h>
-#include <database/sprint.h>
-#include <database/mail.h>
-#include <database/navigation.h>
-#include <database/mappings.h>
-#include <database/noteactions.h>
-#include <database/versifications.h>
-#include <database/modifications.h>
-#include <database/notes.h>
-#include <database/volatile.h>
-#include <config/globals.h>
 #include <index/index.h>
-#include <styles/sheets.h>
 #include <demo/logic.h>
 #include <config/logic.h>
+#include <database/config/general.h>
 
 
 // Returns data for page indicating Bibledit is installing its data.
@@ -90,91 +75,14 @@ const char *  setup_installation_notice ()
 }
 
 
-void setup_write_access ()
-{
-  vector <string> folders = {"exports", "git", "revisions", "dyncss", "databases", "bibles", "downloads", "fonts", "logbook", "tmp"};
-  for (auto folder : folders) {
-    string path = filter_url_create_root_path (folder);
-    if (!filter_url_get_write_permission (path)) {
-      filter_url_set_write_permission (path);
-    }
-  }
-}
-
-
-void setup_initialize_data ()
-{
-  // If the setup is already running, bail out.
-  // This situation may happen if a user keeps refreshing the setup page.
-  if (config_globals_setup_running) return;
-  // Set flag that setup is now running.
-  config_globals_setup_running = true;
-
-  // Do the database setup.
-  Webserver_Request request;
-  request.database_users ()->create ();
-  request.database_users ()->upgrade ();
-  Database_Logs database_logs = Database_Logs ();
-  database_logs.create ();
-  request.database_styles ()->create ();
-  request.database_search ()->create ();
-  request.database_bibleactions ()->create ();
-  request.database_check ()->create ();
-  Database_Commits database_commits = Database_Commits ();
-  database_commits.create ();  
-  Database_Confirm database_confirm = Database_Confirm ();
-  database_confirm.create ();
-  Database_Jobs database_jobs = Database_Jobs ();
-  database_jobs.create ();
-  Database_Sprint database_sprint = Database_Sprint ();
-  database_sprint.create ();
-  Database_Mail database_mail = Database_Mail (&request);
-  database_mail.create ();
-  Database_Navigation database_navigation = Database_Navigation ();
-  database_navigation.create ();
-  Database_Mappings database_mappings = Database_Mappings ();
-  database_mappings.create1 ();
-  database_mappings.defaults ();
-  database_mappings.create2 ();
-  database_mappings.optimize ();
-  Database_NoteActions database = Database_NoteActions ();
-  database.create ();
-  Database_Versifications database_versifications = Database_Versifications ();
-  database_versifications.create ();
-  database_versifications.defaults ();
-  Database_Modifications database_modifications = Database_Modifications ();
-  database_modifications.create ();
-  Database_Notes database_notes = Database_Notes (&request);
-  database_notes.create ();
-  Database_Volatile database_volatile = Database_Volatile ();
-  database_volatile.create ();
-  
-  // Create stylesheets.
-  styles_sheets_create_all ();
-  
-  // Create sample Bible if there's no Bible yet.
-  vector <string> bibles = request.database_bibles()->getBibles ();
-  if (bibles.empty ()) demo_create_sample_bible (&request);
-
-  // Clear setup flag.
-  config_globals_setup_running = false;
-}
-
-
 string setup_index (void * webserver_request)
 {
-  // Ensure write access to certain folders.
-  setup_write_access ();
-  
-  // Create or upgrade the databases.
-  new thread (setup_initialize_data);
-  
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   // In client mode, do not display the page for entering the admin's details.
   if (config_logic_client_prepared ()) {
     redirect_browser (request, index_index_url ());
-    Database_Config_General::setInstalledVersion (config_logic_version ());
+    Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
     return "";
   }
 
@@ -196,7 +104,7 @@ string setup_index (void * webserver_request)
       if (errors.empty()) {
         request->database_users ()->removeUser (admin_username);
         request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
-        Database_Config_General::setInstalledVersion (config_logic_version ());
+        Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
         redirect_browser (request, index_index_url ());
       } else {
         view.enable_zone ("errors");
@@ -229,7 +137,7 @@ string setup_index (void * webserver_request)
     view.set_variable ("readonly", "readonly");
     // If the admin's are already there, then the setup has completed.
     // The automatic page refresh will kick in, and navigate to the main screen.
-    Database_Config_General::setInstalledVersion (config_logic_version ());
+    Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
   }
 
   return view.render ("setup", "index");
