@@ -28,8 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_OfflineResources
 {
 public:
-  Database_OfflineResources ();
-  ~Database_OfflineResources ();
   void erase (string name);
   void store (string name, int book, int chapter, int verse, string html);
   void healthy (string file);
@@ -42,6 +40,10 @@ public:
   void unlink (const string & name, string file);
   void save (const string & name, string file, const string & contents);
   string load (const string & name, const string & file);
+  static string databases ();
+  static string offlineresources ();
+  static string httpget (const string & name, const string & file);
+  string filepath (const string & name, const string & file);
 private:
   string mainFolder ();
   string resourceFolder (string name);

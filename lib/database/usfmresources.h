@@ -27,8 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_UsfmResources
 {
 public:
-  Database_UsfmResources ();
-  ~Database_UsfmResources ();
   vector <string> getResources ();
   void deleteResource (const string& name);
   void deleteBook (const string& name, int book);

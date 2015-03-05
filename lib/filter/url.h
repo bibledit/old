@@ -62,6 +62,7 @@ string filter_url_build_http_query (string url, const string& parameter, const s
 string filter_url_http_get (string url, string& error);
 string filter_url_http_post (string url, map <string, string> values, string& error);
 string filter_url_http_response_code_text (int code);
+void filter_url_download_file (string url, string filename, string& error);
 
 
 #endif

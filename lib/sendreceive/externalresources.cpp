@@ -152,15 +152,26 @@ void sendreceive_externalresources ()
       
       // Download the file from the server, and store it locally on the client.
       Database_Logs::log ("Downloading external resource " + resource + " " + file, Filter_Roles::translator ());
-      post ["a"] = to_string (Sync_Logic::offlineresources_get_file);
+      // Create directory by saving empty file.
+      database_offlineresources.save (resource, file, "");
+      // Obtain url for file to download from server.
+      post ["a"] = to_string (Sync_Logic::offlineresources_get_file_filename);
       post ["r"] = resource;
       post ["f"] = file;
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
+        Database_Logs::log ("Failure downloading external resource file name", Filter_Roles::translator ());
+        return;
+      }
+      string url = client_logic_url (address, port, response);
+      // Local file path where to save resource.
+      string filepath = database_offlineresources.filepath (resource, file);
+      // Download and save file locally.
+      filter_url_download_file (url, filepath, error);
+      if (!error.empty ()) {
         Database_Logs::log ("Failure downloading external resource file", Filter_Roles::translator ());
         return;
       }
-      database_offlineresources.save (resource, file, hex2bin (response));
     }
   }
   

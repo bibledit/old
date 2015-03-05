@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/password.h>
 #include <session/signup.h>
 #include <database/config/general.h>
+#include <database/offlineresources.h>
 #include <setup/index.h>
 #include <journal/index.h>
 #include <config/logic.h>
@@ -133,7 +134,11 @@ void bootstrap_index (Webserver_Request * request)
       || (extension == "js")
       || (extension == "ttf")
       || (extension == "otf")
+      || (extension == "otf")
       ) http_serve_file (request);
+  
+  // Serve offline resources.
+  else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
   
   // Force setup.
   else if (config_logic_version () != Database_Config_General::getInstalledVersion ()) request->reply = setup_index (request);

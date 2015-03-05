@@ -31,16 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // so that only one script writes to the database at any time.
 
 
-Database_OfflineResources::Database_OfflineResources ()
-{
-}
-
-
-Database_OfflineResources::~Database_OfflineResources ()
-{
-}
-
-
 void Database_OfflineResources::erase (string name)
 {
   string path = resourceFolder (name);
@@ -217,9 +207,37 @@ string Database_OfflineResources::load (const string & name, const string & file
 }
 
 
+// Returns "databases": part of path.
+string Database_OfflineResources::databases ()
+{
+  return "databases";
+}
+
+
+// Returns "offlineresources": part of path.
+string Database_OfflineResources::offlineresources ()
+{
+  return "offlineresources";
+}
+
+
+// Returns the filename to get via http in order to get the $file.
+string Database_OfflineResources::httpget (const string & name, const string & file)
+{
+  return "/" + filter_url_create_path (databases (), offlineresources (), name, file);
+}
+
+
+// Returns the filename of resource $name and file $file in local storage.
+string Database_OfflineResources::filepath (const string & name, const string & file)
+{
+  return filter_url_create_path (resourceFolder (name), file);
+}
+
+
 string Database_OfflineResources::mainFolder ()
 {
-  return filter_url_create_root_path ("databases", "offlineresources");
+  return filter_url_create_root_path (databases (), offlineresources ());
 }
 
 

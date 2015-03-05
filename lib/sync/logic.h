@@ -69,6 +69,7 @@ public:
   static const int offlineresources_get_files = 4;
   static const int offlineresources_get_file_checksum = 5;
   static const int offlineresources_get_file = 6;
+  static const int offlineresources_get_file_filename = 7;
   bool credentials_okay ();
   string settings_checksum ();
   string checksum (const vector <int> & identifiers);

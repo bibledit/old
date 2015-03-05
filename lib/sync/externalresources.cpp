@@ -81,6 +81,10 @@ string sync_externalresources (void * webserver_request)
     return bin2hex (database_offlineresources.load (resource, file));
   }
   
+  else if (action == Sync_Logic::offlineresources_get_file_filename) {
+    return database_offlineresources.httpget (filter_url_urlencode (resource), file);
+  }
+  
   // Bad request. Delay flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   request->response_code = 400;

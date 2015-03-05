@@ -27,16 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // That is resilient enough.
 
 
-Database_UsfmResources::Database_UsfmResources ()
-{
-}
-
-
-Database_UsfmResources::~Database_UsfmResources ()
-{
-}
-
-
 string Database_UsfmResources::mainFolder ()
 {
   return filter_url_create_root_path ("databases", "usfmresources");
@@ -135,5 +125,3 @@ int Database_UsfmResources::getSize (const string& name, int book, int chapter)
   string file = chapterFile (name, book, chapter);
   return filter_url_filesize (file);
 }
-
-

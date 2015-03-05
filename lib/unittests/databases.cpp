@@ -1442,17 +1442,23 @@ void test_database_offlineresourcese ()
   
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     vector <string> files = database_offlineresources.files ("phpunit");
-    evaluate (__LINE__, __func__,  {"1.sqlite"}, files);
+    evaluate (__LINE__, __func__, {"1.sqlite"}, files);
     
     database_offlineresources.unlink ("phpunit", "2");
     
     files = database_offlineresources.files ("phpunit");
-    evaluate (__LINE__, __func__,  {"1.sqlite"}, files);
+    evaluate (__LINE__, __func__, {"1.sqlite"}, files);
   
     database_offlineresources.unlink ("phpunit", "1.sqlite");
     
     files = database_offlineresources.files ("phpunit");
-    evaluate (__LINE__, __func__,  {}, files);
+    evaluate (__LINE__, __func__, {}, files);
+  }
+  // Test http get
+  {
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    string http = database_offlineresources.httpget ("ResourceName", "1.sqlite");
+    evaluate (__LINE__, __func__, "/databases/offlineresources/ResourceName/1.sqlite", http);
   }
 }
 

@@ -536,3 +536,32 @@ string filter_url_http_response_code_text (int code)
   }
   return text;
 }
+
+
+// Downloads the file at $url, and stores it at $filename.
+void filter_url_download_file (string url, string filename, string& error)
+{
+  CURL *curl = curl_easy_init ();
+  if (curl) {
+    curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+    FILE* file = fopen (filename.c_str(), "w");
+    curl_easy_setopt (curl, CURLOPT_WRITEDATA, file);
+    curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
+    // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    CURLcode res = curl_easy_perform (curl);
+    if (res == CURLE_OK) {
+      error.clear ();
+      long http_code = 0;
+      curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+      if (http_code != 200) {
+        error.append ("http code " + convert_to_string ((int)http_code));
+      }
+    } else {
+      error = curl_easy_strerror (res);
+    }
+    curl_easy_cleanup (curl);
+    fclose (file);
+  }
+}
+
