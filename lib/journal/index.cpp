@@ -44,10 +44,10 @@ bool journal_index_acl (void * webserver_request)
 string render_journal_entry (string entry)
 {
   // Remove the user's level.
-  entry = entry.substr (2);
+  entry.erase (0, 2);
   // Extract and remove the seconds since the Unix epoch.
   time_t seconds = convert_to_int (entry);
-  entry = entry.substr (11);
+  entry.erase (0, 11);
   // Localize the seconds.
   seconds = filter_string_date_local_seconds (seconds);
   // Sanitize HTML.
