@@ -57,13 +57,18 @@ void sendreceive_sendreceive (string bible)
   filter_git_sync_bible_to_git (&request, bible, directory);
   
 
-  // Log the status of the repository, something like "git status".
+  // Log the status of the repository: "git status".
   // Set a flag indicating whether there are local changes available.
   bool localchanges = false;
   if (success) {
-    vector <string> paths = filter_git_status (directory);
-    for (auto & path : paths) Database_Logs::log (path, Filter_Roles::translator ());
-    localchanges = !paths.empty ();
+    vector <string> lines = filter_git_status (directory);
+    for (auto & line : lines) {
+      Passage passage = filter_git_get_passage (line);
+      if (passage.book) {
+        Database_Logs::log (line, Filter_Roles::translator ());
+        localchanges = true;
+      }
+    }
   }
   
   
@@ -114,7 +119,7 @@ void sendreceive_sendreceive (string bible)
       }
     }
     if (conflict) {
-      logs.push_back ("Bibledit will resolve the conflicts.");
+      Database_Logs::log ("Bibledit will resolve the conflicts.", Filter_Roles::translator ());
       filter_git_resolve_conflicts (directory, paths_resolved_conflicts, error);
       if (!error.empty ()) Database_Logs::log (error, Filter_Roles::translator ());
       vector <string> messages;
@@ -145,7 +150,7 @@ void sendreceive_sendreceive (string bible)
   if (success) {
     pull_messages.insert (pull_messages.end (), paths_resolved_conflicts.begin (), paths_resolved_conflicts.end());
     for (auto & pull_message : pull_messages) {
-      Passage passage = filter_git_get_pull_passage (pull_message);
+      Passage passage = filter_git_get_passage (pull_message);
       if (passage.book) {
         int book = passage.book;
         int chapter = passage.chapter;

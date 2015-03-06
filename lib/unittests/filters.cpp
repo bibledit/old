@@ -3559,25 +3559,36 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  // Get Pull Passage
+  // Get Git Passage
   {
-    Passage passage = filter_git_get_pull_passage ("From https://github.com/joe/test");
+    Passage passage = filter_git_get_passage ("From https://github.com/joe/test");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage ("   443579b..90dcb57  master     -> origin/master");
+
+    passage = filter_git_get_passage ("   443579b..90dcb57  master     -> origin/master");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage ("Updating 443579b..90dcb57");
+
+    passage = filter_git_get_passage ("Updating 443579b..90dcb57");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage ("Fast-forward");
+    
+    passage = filter_git_get_passage ("Fast-forward");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage (" Genesis/3/data | 2 +-");
+    
+    passage = filter_git_get_passage (" Genesis/3/data | 2 +-");
     Passage standard = Passage ("", 1, 3, "");
     evaluate (__LINE__, __func__, true, standard.equal (passage));
-    passage = filter_git_get_pull_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
+    
+    passage = filter_git_get_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage (" delete mode 100644 Leviticus/1/data");
+    
+    passage = filter_git_get_passage (" delete mode 100644 Leviticus/1/data");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage (" Revelation/3/data | 2 +-");
+    
+    passage = filter_git_get_passage (" Revelation/3/data | 2 +-");
     standard = Passage ("", 66, 3, "");
+    evaluate (__LINE__, __func__, true, standard.equal (passage));
+    
+    passage = filter_git_get_passage ("	modified:   Exodus/3/data");
+    standard = Passage ("", 2, 3, "");
     evaluate (__LINE__, __func__, true, standard.equal (passage));
   }
   

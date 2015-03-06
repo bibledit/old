@@ -710,9 +710,10 @@ void filter_git_config_set_string (string repository, string name, string value)
 // This filter takes a $line of the output of the git pull command.
 // It tries to interpret it to find a passage that would have been updated.
 // If a valid book and chapter are found, it returns them.
-Passage filter_git_get_pull_passage (string line)
+Passage filter_git_get_passage (string line)
 {
-  // Sample lines:
+  // Sample lines for git pull:
+
   // "From https://github.com/joe/test"
   // "   443579b..90dcb57  master     -> origin/master"
   // "Updating 443579b..90dcb57"
@@ -721,9 +722,23 @@ Passage filter_git_get_pull_passage (string line)
   // " 1 file changed, 1 insertion(+), 1 deletion(-)"
   // " delete mode 100644 Leviticus/1/data"
   // " create mode 100644 Leviticus/2/data"
+
+  // Sample lines for git status:
+
+  // On branch master
+  // Your branch is up-to-date with 'origin/master'.
+  
+  // Changes not staged for commit:
+  //   (use "git add <file>..." to update what will be committed)
+  //   (use "git checkout -- <file>..." to discard changes in working directory)
+  //      modified:   Genesis/1/data
+  // no changes added to commit (use "git add" and/or "git commit -a")
+  
   Passage passage;
   vector <string> bits = filter_string_explode (line, '/');
   if (bits.size () == 3) {
+    size_t pos = bits [0].find (":");
+    if (pos != string::npos) bits [0].erase (0, pos + 1);
     string bookname = filter_string_trim (bits [0]);
     int book = Database_Books::getIdFromEnglish (bookname);
     if (book) {
