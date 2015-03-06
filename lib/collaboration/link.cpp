@@ -88,22 +88,7 @@ void collaboration_link (string object, int jobid, string direction)
   // Set some configuration values.
   if (result) {
     success.push_back (translate ("Configure copied data"));
-
-    // Switch rename detection off.
-    // This is necessary for the consultation notes, since git has been seen to "detect" spurious renames.
-    filter_git_config_set_int (path, "diff.renamelimit", 0);
-    filter_git_config_set_bool (path, "diff.renames", false);
-
-    // Recent versions of git ask the user to set the default pushing method.
-    filter_git_config_set_string (path, "push.default", "matching");
-    
-    // On some machines the mail name and address are not set properly; therefore these are set here.
-    string mail_name = Database_Config_General::getSiteMailName();
-    if (mail_name.empty ()) mail_name = "Bibledit";
-    filter_git_config_set_string (path, "user.name", mail_name);
-    string mail_address = Database_Config_General::getSiteMailAddress();
-    if (mail_address.empty ()) mail_address = "bibledit-web@bibledit.org";
-    filter_git_config_set_string (path, "user.email", mail_address);
+    filter_git_config (path);
   }
   
   // Store a temporal file for trying whether Bibledit has write access.

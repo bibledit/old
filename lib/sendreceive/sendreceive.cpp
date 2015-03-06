@@ -53,6 +53,10 @@ void sendreceive_sendreceive (string bible)
   string error;
   
   
+  // Configure the repository to prevent errors, just to be sure.
+  filter_git_config (directory);
+
+  
   // Synchronize the Bible from the database to the local git repository.
   filter_git_sync_bible_to_git (&request, bible, directory);
   

@@ -25,6 +25,7 @@
 #include <database/logs.h>
 #include <database/books.h>
 #include <database/jobs.h>
+#include <database/config/general.h>
 #include <config.h>
 #ifdef HAVE_GIT
 #include <git2.h>
@@ -1014,4 +1015,35 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
   // Done.
   return (result == 0);
 }
+
+
+// Configure the $repository: Make certain settings.
+void filter_git_config (string repository) // Todo
+{
+  // At times there's a stale index.lock file that prevents any collaboration.
+  // This is to be removed.
+  string index_lock = filter_url_create_path (repository, ".git", "index.lock");
+  if (file_exists (index_lock)) {
+    Database_Logs::log ("Cleaning out index lock " + index_lock);
+    filter_url_unlink (index_lock);
+  }
+
+  // On some machines the mail name and address are not set properly; therefore these are set here.
+  string user = Database_Config_General::getSiteMailName ();
+  if (user.empty ()) user = "Bibledit";
+  filter_git_config_set_string (repository, "user.name", user);
+  
+  string mail = Database_Config_General::getSiteMailAddress ();
+  if (mail.empty ()) mail = "bibledit@bibledit.org";
+  filter_git_config_set_string (repository, "user.email", mail);
+
+  // Switch rename detection off.
+  // This is for the consultation notes, since git has been seen to falsely "detect" renames.
+  filter_git_config_set_int (repository, "diff.renamelimit", 0);
+  filter_git_config_set_bool (repository, "diff.renames", false);
+
+  // Current versions of git ask the user to set the default push method.
+  filter_git_config_set_string (repository, "push.default", "matching");
+}
+
 

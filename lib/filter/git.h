@@ -43,7 +43,7 @@ vector <string> filter_git_status (string repository);
 bool filter_git_pull (string repository, vector <string> & messages);
 bool filter_git_push (string repository, vector <string> & messages, bool all = false);
 bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error);
-
+void filter_git_config (string repository);
 
 
 #endif
