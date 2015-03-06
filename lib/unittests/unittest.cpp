@@ -266,7 +266,7 @@ int main (int argc, char **argv)
   config_globals_unit_testing = true;
   
   // Todo
-  test_database_offlineresourcese (); test_database_usfmresources (); exit (0);
+  test_filter_git (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -318,7 +318,7 @@ int main (int argc, char **argv)
   test_editor_roundtrip ();
   test_filter_markup ();
   test_workbench_logic ();
-  // test_filter_git ();
+  test_filter_git ();
   test_filter_merge ();
   test_filter_tidy ();
 

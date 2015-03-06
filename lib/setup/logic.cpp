@@ -69,7 +69,7 @@ void setup_write_access ()
 }
 
 
-void setup_initialize_data () // Todo
+void setup_initialize_data ()
 {
   // Do the database setup.
   Webserver_Request request;

@@ -57,6 +57,13 @@ string filter_git_check_error (int result)
 }
 
 
+void filter_git_check_error (string data)
+{
+  vector <string> lines = filter_string_explode (data, '\n');
+  for (auto & line : lines) Database_Logs::log (line);
+}
+
+
 // Runs the equivalent of "git init".
 bool filter_git_init (string directory, bool bare)
 {
@@ -69,9 +76,13 @@ bool filter_git_init (string directory, bool bare)
   git_threads_shutdown ();
   return (result == 0);
 #else
-  if (bare) {};
-  if (directory.empty ()) {};
-  return false;
+  vector <string> parameters = {"init"};
+  if (bare) parameters.push_back ("--bare");
+  string output, error;
+  int result = filter_shell_run (directory, "git", parameters, output, error);
+  filter_git_check_error (output);
+  filter_git_check_error (error);
+  return (result == 0);
 #endif
 }
 
@@ -281,8 +292,9 @@ static int cred_acquire_cb (git_cred **out, const char * url, const char * usern
 // Returns true if the git repository at "url" is online.
 bool filter_git_remote_read (string url, string & error)
 {
-#ifdef HAVE_GIT
   int result = 0;
+
+#ifdef HAVE_GIT
   git_threads_init ();
   
   // Before running the actual test create an instance of a local repository.
@@ -341,12 +353,14 @@ bool filter_git_remote_read (string url, string & error)
   if (repo) git_repository_free (repo);
   git_threads_shutdown ();
 
-  return (result == 0);
 #else
-  url.clear ();
-  error = filter_git_disabled ();
-  return false;
+  string output;
+  result = filter_shell_run ("", "git", {"ls-remote", url}, output, error);
+  filter_git_check_error (output);
+  filter_git_check_error (error);
 #endif
+
+  return (result == 0);
 }
 
 
@@ -397,14 +411,16 @@ static void checkout_progress (const char *path, size_t cur, size_t tot, void *p
 
 bool filter_git_remote_clone (string url, string path, int jobid, string & error)
 {
-#ifdef HAVE_GIT
   // Clear a possible existing git repository directory.
   filter_url_rmdir (path);
+
+  git_progress_data pd = {0, 0};
+  pd.job_identifier = jobid;
+
+#ifdef HAVE_GIT
   
   git_threads_init ();
   
-  git_progress_data pd = {0, 0};
-  pd.job_identifier = jobid;
   git_repository *cloned_repo = NULL;
   git_clone_options clone_opts;
   git_clone_init_options (&clone_opts, GIT_CLONE_OPTIONS_VERSION);
@@ -431,11 +447,12 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
   
   return (result == 0);
 #else
-  url.clear ();
-  path.clear ();
-  if (jobid) {};
-  error = filter_git_disabled ();
-  return false;
+  string output;
+  int result = filter_shell_run ("", "git", {"clone", url, path}, output, error);
+  filter_git_check_error (output);
+  filter_git_check_error (error);
+  error.clear ();
+  return (result == 0);
 #endif
 }
 
@@ -495,22 +512,26 @@ bool filter_git_add_remove_all (string repository, string & error)
 
   return (result == 0);
 #else
-  repository.clear ();
-  error = filter_git_disabled ();
-  return false;
+  string output;
+  int result = filter_shell_run (repository, "git", {"add", "--all", "."}, output, error);
+  filter_git_check_error (output);
+  filter_git_check_error (error);
+  return (result == 0);
 #endif
 }
 
 
 bool filter_git_commit (string repository, string user, string email, string message, string & error)
 {
+  int result = 0;
+  
 #ifdef HAVE_GIT
   // Initialize the git system.
   git_threads_init();
 
   // Open the git repository.
   git_repository * repo = NULL;
-  int result = git_repository_open (&repo, repository.c_str());
+  result = git_repository_open (&repo, repository.c_str());
   if (result != 0) {
     error = filter_git_check_error (result);
   }
@@ -590,15 +611,15 @@ bool filter_git_commit (string repository, string user, string email, string mes
   if (repo) git_repository_free (repo);
   git_threads_shutdown();
 
-  return (result == 0);
 #else
-  repository.clear ();
   user.clear ();
   email.clear ();
-  message.clear ();
-  error = filter_git_disabled ();
-  return false;
+  string output;
+  result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, output, error);
+  filter_git_check_error (error);
 #endif
+
+  return (result == 0);
 }
 
 
@@ -634,9 +655,8 @@ void filter_git_config_set_bool (string repository, string name, bool value)
   if (cfg) git_config_free (cfg);
   if (repo) git_repository_free (repo);
 #else
-  repository.clear ();
-  name.clear ();
-  if (value) {};
+  string svalue = value ? "true" : "false";
+  filter_git_config_set_string (repository, name, svalue);
 #endif
 }
 
@@ -658,9 +678,8 @@ void filter_git_config_set_int (string repository, string name, int value)
   if (cfg) git_config_free (cfg);
   if (repo) git_repository_free (repo);
 #else
-  repository.clear ();
-  name.clear ();
-  if (value) {};
+  string svalue = to_string (value);
+  filter_git_config_set_string (repository, name, svalue);
 #endif
 }
 
@@ -682,9 +701,8 @@ void filter_git_config_set_string (string repository, string name, string value)
   if (cfg) git_config_free (cfg);
   if (repo) git_repository_free (repo);
 #else
-  repository.clear ();
-  name.clear ();
-  value.clear ();
+  string output, error;
+  filter_shell_run (repository, "git", {"config", name, value}, output, error);
 #endif
 }
 
@@ -728,8 +746,9 @@ Passage filter_git_get_pull_passage (string line)
 // All changed files will be returned.
 vector <string> filter_git_status (string repository)
 {
-#ifdef HAVE_GIT
   vector <string> paths;
+
+#ifdef HAVE_GIT
   
   int result = 0;
   
@@ -780,11 +799,14 @@ vector <string> filter_git_status (string repository)
   if (status) git_status_list_free (status);
   if (repo) git_repository_free (repo);
   
-  return paths;
 #else
-  repository.clear ();
-  return {};
+  string output, error;
+  filter_shell_run (repository, "git", {"status"}, output, error);
+  filter_git_check_error (error);
+  paths = filter_string_explode (output, '\n');
 #endif
+
+  return paths;
 }
 
 
@@ -826,9 +848,10 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
 // It returns true on success, that is, no errors occurred.
 bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error)
 {
-#ifdef HAVE_GIT
   int result = 0;
   paths.clear();
+
+#ifdef HAVE_GIT
 
   // Open the repository.
   git_repository * repo = NULL;
@@ -929,13 +952,51 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
   if (index) git_index_free (index);
   if (repo) git_repository_free (repo);
 
+#else
+
+  // Get the unmerged paths.
+  vector <string> unmerged_paths;
+  vector <string> lines = filter_git_status (repository);
+  for (auto & line : lines) {
+    if (line.find ("both modified:") != string::npos) {
+      line = filter_string_trim (line);
+      line.erase (0, 15);
+      line = filter_string_trim (line);
+      unmerged_paths.push_back (line);
+    }
+  }
+  
+  // Deal with each unmerged path.
+  for (auto & unmerged_path : unmerged_paths) {
+
+    string common_ancestor;
+    filter_shell_run (repository, "git", {"show", ":1:" + unmerged_path}, common_ancestor, error);
+
+    string head_version;
+    filter_shell_run (repository, "git", {"show", ":2:" + unmerged_path}, head_version, error);
+    
+    string merge_head_version;
+    filter_shell_run (repository, "git", {"show", ":3:" + unmerged_path}, merge_head_version, error);
+    
+    string mergeBase (common_ancestor);
+    string userData (head_version);
+    string serverData (merge_head_version);
+    
+    string mergedData = filter_merge_run (mergeBase, userData, serverData);
+    mergedData = filter_string_trim (mergedData);
+    filter_url_file_put_contents (filter_url_create_path (repository, unmerged_path), mergedData);
+    
+    paths.push_back (unmerged_path);
+  }
+
+  if (!unmerged_paths.empty ()) {
+    vector <string> messages;
+    filter_git_commit (repository, "Bibledit fixed merge conflicts", messages);
+  }
+  
+#endif
+
   // Done.
   return (result == 0);
-#else
-  repository.clear ();
-  paths.clear ();
-  error = filter_git_disabled ();
-  return false;
-#endif
 }
 

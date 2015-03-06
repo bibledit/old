@@ -3161,8 +3161,11 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   request->database_search()->create ();
   request->database_bibles()->createBible (bible);
 
-  filter_git_init (repository);
-  filter_git_init (newrepository);
+  bool result;
+  result = filter_git_init (repository);
+  evaluate (__LINE__, __func__, true, result);
+  result = filter_git_init (newrepository);
+  evaluate (__LINE__, __func__, true, result);
   
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
@@ -3255,6 +3258,9 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
     evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
     evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+
+    // Remove generated journal entries.
+    refresh_sandbox (false);
   }
 
   // Sync Bible To Git 2
@@ -3276,6 +3282,9 @@ void test_filter_git ()
     
     string data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    
+    // Remove generated journal entries.
+    refresh_sandbox (false);
   }
   
   // Sync Bible To Git 3
@@ -3306,6 +3315,9 @@ void test_filter_git ()
     
     data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    
+    // Remove generated journal entries.
+    refresh_sandbox (false);
   }
   
   // Sync Git To Bible Add Chapters
@@ -3373,7 +3385,6 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  
   // Sync Git Chapter To Bible Add Chapters ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
@@ -3408,7 +3419,6 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  
   // Sync Git Chapter To Bible Delete Chapters
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
@@ -3442,7 +3452,6 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  
   // Sync Git Chapter To Bible Update Chapters
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
@@ -3474,8 +3483,15 @@ void test_filter_git ()
   // Setting values in the configuration.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    filter_git_config_set_bool (repository, "foo.setting", false);
-    filter_git_config_set_int (repository, "bar.setting", 11);
+    filter_git_config_set_bool (repository, "foo.bar", false);
+    filter_git_config_set_int (repository, "bar.baz", 11);
+    string path = filter_url_create_path (repository, ".git", "config");
+    string contents = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, true, contents.find ("[foo]") != string::npos);
+    evaluate (__LINE__, __func__, true, contents.find ("[bar]") != string::npos);
+    evaluate (__LINE__, __func__, true, contents.find ("bar = false") != string::npos);
+    evaluate (__LINE__, __func__, true, contents.find ("baz = 11") != string::npos);
+    refresh_sandbox (false);
   }
 
   // Test of basic git operations in combination with a remote repository.
@@ -3535,9 +3551,12 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, 2, messages.size());
 
     // Pull from remote repository.
-    success = filter_git_push (clonedrepository, messages);
+    success = filter_git_pull (clonedrepository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, {"Everything up-to-date"}, messages);
+    evaluate (__LINE__, __func__, {"Already up-to-date."}, messages);
+
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
   
   // Get Pull Passage
@@ -3571,7 +3590,9 @@ void test_filter_git ()
 
     // There should be three modified paths.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "Psalms/") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "Song of Solomon/") != paths.end());
 
     // Add the files to the index.
     string error;
@@ -3580,7 +3601,10 @@ void test_filter_git ()
 
     // There should still be three paths.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Psalms/0/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Psalms/11/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Song of Solomon/2/data") != paths.end());
     
     // Commit the index.
     filter_git_commit (repository, "user", "email", "unittest", error);
@@ -3588,14 +3612,16 @@ void test_filter_git ()
 
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {}, paths);
+    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working directory clean"}, paths);
 
     // Remove both Psalms chapters.
     filter_url_rmdir (filter_url_create_path (repository, "Psalms"));
 
     // There should be two modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/0/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
 
     // Add / remove the files to the index.
     filter_git_add_remove_all (repository, error);
@@ -3603,7 +3629,9 @@ void test_filter_git ()
     
     // There should still be two paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/0/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
     
     // Commit the index.
     filter_git_commit (repository, "user", "email", "unittest", error);
@@ -3611,7 +3639,10 @@ void test_filter_git ()
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {}, paths);
+    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working directory clean"}, paths);
+
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
   
   // Test git's internal conflict resolution.
@@ -3701,7 +3732,11 @@ void test_filter_git ()
     "\\mt OF PSALMS\n";
     contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
     evaluate (__LINE__, __func__, standard, contents);
+    
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
+
   {
     refresh_sandbox (true);
     string error;
@@ -3788,21 +3823,25 @@ void test_filter_git ()
     "Line two 2 two 2 two\n"
     "Line three 3 three 3 three";
     evaluate (__LINE__, __func__, standard, contents);
+
     // The status still displays the file as in conflict.
-    messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
+    // messages = filter_git_status (repository);
+    // evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
 
     // Commit and push the result.
     success = filter_git_commit (repository, "message", messages);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 1, messages.size());
+    evaluate (__LINE__, __func__, false, success);
+    evaluate (__LINE__, __func__, 5, messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, 2, messages.size());
     
     // Status up-to-date.
     messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {}, messages);
+    evaluate (__LINE__, __func__, 4, messages.size ());
+
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
 }
 
