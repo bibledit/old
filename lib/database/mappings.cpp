@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Resilience: It is normally not written to, so corruption is unlikely.
 
 
-Database_Mappings::Database_Mappings () // Todo
+Database_Mappings::Database_Mappings ()
 {
 }
 

@@ -627,16 +627,6 @@
 		CAA4D1E21A45A648003ABA25 /* users.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = users.cpp; sourceTree = "<group>"; };
 		CAA4D1E31A45A648003ABA25 /* users.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = users.h; sourceTree = "<group>"; };
 		CAA4D1E41A45A648003ABA25 /* users.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = users.html; sourceTree = "<group>"; };
-		CAA4D1E61A45A648003ABA25 /* Dutch_Traditional.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dutch_Traditional.txt; sourceTree = "<group>"; };
-		CAA4D1E71A45A648003ABA25 /* English.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = English.txt; sourceTree = "<group>"; };
-		CAA4D1E81A45A648003ABA25 /* French_Louise_Segond.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = French_Louise_Segond.txt; sourceTree = "<group>"; };
-		CAA4D1EB1A45A648003ABA25 /* map.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = map.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D1EC1A45A648003ABA25 /* Russian_Canonical.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Russian_Canonical.txt; sourceTree = "<group>"; };
-		CAA4D1ED1A45A648003ABA25 /* Russian_Orthodox.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Russian_Orthodox.txt; sourceTree = "<group>"; };
-		CAA4D1EE1A45A648003ABA25 /* Russian_Protestant.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Russian_Protestant.txt; sourceTree = "<group>"; };
-		CAA4D1F21A45A648003ABA25 /* Septuagint.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Septuagint.txt; sourceTree = "<group>"; };
-		CAA4D1F31A45A648003ABA25 /* Spanish.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Spanish.txt; sourceTree = "<group>"; };
-		CAA4D1F41A45A648003ABA25 /* Vulgate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vulgate.txt; sourceTree = "<group>"; };
 		CAA4D1FC1A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D1FD1A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAA4D1FE1A45A648003ABA25 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -2103,22 +2093,12 @@
 		CAA4D1E51A45A648003ABA25 /* mapping */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D1E61A45A648003ABA25 /* Dutch_Traditional.txt */,
-				CAA4D1E71A45A648003ABA25 /* English.txt */,
-				CAA4D1E81A45A648003ABA25 /* French_Louise_Segond.txt */,
 				CA0D29551AAA4E6E009B9D40 /* index.cpp */,
 				CA0D29561AAA4E6E009B9D40 /* index.h */,
 				CA0D29571AAA4E6E009B9D40 /* index.html */,
 				CA0D29581AAA4E7A009B9D40 /* map.cpp */,
 				CA0D29591AAA4E7A009B9D40 /* map.h */,
 				CA0D295A1AAA4E7A009B9D40 /* map.html */,
-				CAA4D1EB1A45A648003ABA25 /* map.php */,
-				CAA4D1EC1A45A648003ABA25 /* Russian_Canonical.txt */,
-				CAA4D1ED1A45A648003ABA25 /* Russian_Orthodox.txt */,
-				CAA4D1EE1A45A648003ABA25 /* Russian_Protestant.txt */,
-				CAA4D1F21A45A648003ABA25 /* Septuagint.txt */,
-				CAA4D1F31A45A648003ABA25 /* Spanish.txt */,
-				CAA4D1F41A45A648003ABA25 /* Vulgate.txt */,
 			);
 			name = mapping;
 			path = ../mapping;

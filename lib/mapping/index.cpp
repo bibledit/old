@@ -50,7 +50,10 @@ string mapping_index (void * webserver_request)
   page = Assets_Page::header (translate ("Verse Mappings"), webserver_request, "");
   
   Assets_View view = Assets_View ();
+  string error;
+  string success;
 
+  // Create new verse mapping.
   if (request->query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Enter a name for the new verse mapping"), "", "new", "");
     page += dialog_entry.run ();
@@ -60,12 +63,31 @@ string mapping_index (void * webserver_request)
     string name = request->post ["entry"];
     vector <string> mappings = database_mappings.names ();
     if (find (mappings.begin(), mappings.end(), name) != mappings.end ()) {
-      Assets_Page::error (translate("This verse mapping already exists"));
+      error = translate("This verse mapping already exists");
     } else {
       database_mappings.create (name);
     }
   }
 
+  // Delete verse mapping.
+  string name = request->query ["name"];
+  if (request->query.count ("delete")) {
+    string confirm = request->query ["confirm"];
+    if (confirm == "") {
+      Dialog_Yes dialog_yes = Dialog_Yes ("index", translate("Would you like to delete this verse mapping?"));
+      dialog_yes.add_query ("name", name);
+      dialog_yes.add_query ("delete", "1");
+      page += dialog_yes.run ();
+      return page;
+    } if (confirm == "yes") {
+      database_mappings.erase (name);
+      success = translate ("The verse mapping was deleted");
+    }
+  }
+  
+  view.set_variable ("error", error);
+  view.set_variable ("success", success);
+  
   string mappingsblock;
   vector <string> mappings = database_mappings.names ();
   for (auto & mapping : mappings) {

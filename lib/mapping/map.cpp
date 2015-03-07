@@ -43,14 +43,28 @@ bool mapping_map_acl (void * webserver_request)
 string mapping_map (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Database_Mappings database_mappings;
   
   string page;
   
-  page = Assets_Page::header (translate ("mappings"), webserver_request, "");
+  page = Assets_Page::header (translate ("Verse mappings"), webserver_request, "");
   
   Assets_View view = Assets_View ();
+  string success;
   
-  //view.set_variable ("systemblock", systemblock);
+  string name = request->query["name"];
+  view.set_variable ("name", name);
+
+  if (request->post.count ("submit")) {
+    string data = request->post["data"];
+    database_mappings.import (name, data);
+    success = translate("The verse mapping was saved");
+  }
+
+  view.set_variable ("success", success);
+
+  string data = database_mappings.output (name);
+  view.set_variable ("data", data);
   
   page += view.render ("mapping", "map");
   
