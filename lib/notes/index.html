@@ -1,0 +1,17 @@
+<p>
+  translate("Notes")
+  |
+  <a href="select">[translate("select")]</a>
+  <!-- #BEGINZONE update -->
+  <?php if ($this->level >= 5) {
+    |
+    [<a href="bulk">translate("update")</a>]
+  <?php }
+  <!-- #ENDZONE update -->
+  |
+  <a href="create">translate("Create note")</a>
+</p>
+<br>
+<div id="noteslist"><img src="/pix/loading.gif"></div>
+<script type="text/javascript" src="index.js?##VERSION##"></script>
+<script type="text/javascript" src="poll.js?##VERSION##"></script>
