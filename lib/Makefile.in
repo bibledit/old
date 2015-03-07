@@ -165,12 +165,27 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	bible/import_task.$(OBJEXT) bible/abbreviations.$(OBJEXT) \
 	bible/order.$(OBJEXT) bible/css.$(OBJEXT) \
 	bible/editing.$(OBJEXT) notes/logic.$(OBJEXT) \
-	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
-	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
-	email/index.$(OBJEXT) email/send.$(OBJEXT) \
-	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
-	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
-	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
+	notes/actions.$(OBJEXT) notes/clean.$(OBJEXT) \
+	notes/import1.$(OBJEXT) notes/note.$(OBJEXT) \
+	notes/status-1.$(OBJEXT) notes/assign-1.$(OBJEXT) \
+	notes/cleancli.$(OBJEXT) notes/import2.$(OBJEXT) \
+	notes/notes.$(OBJEXT) notes/status-n.$(OBJEXT) \
+	notes/assign-n.$(OBJEXT) notes/click.$(OBJEXT) \
+	notes/import3.$(OBJEXT) notes/poll.$(OBJEXT) \
+	notes/summary.$(OBJEXT) notes/bible-1.$(OBJEXT) \
+	notes/comment.$(OBJEXT) notes/import4.$(OBJEXT) \
+	notes/select.$(OBJEXT) notes/unassign-n.$(OBJEXT) \
+	notes/bible-n.$(OBJEXT) notes/create.$(OBJEXT) \
+	notes/importcli.$(OBJEXT) notes/severity-1.$(OBJEXT) \
+	notes/verses.$(OBJEXT) notes/bulk.$(OBJEXT) \
+	notes/editsource.$(OBJEXT) notes/index.$(OBJEXT) \
+	notes/severity-n.$(OBJEXT) trash/handler.$(OBJEXT) \
+	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
+	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
+	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
+	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
+	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
+	administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -552,6 +567,35 @@ libbibledit_a_SOURCES = \
 	bible/css.cpp \
 	bible/editing.cpp \
 	notes/logic.cpp \
+	notes/actions.cpp \
+	notes/clean.cpp \
+	notes/import1.cpp \
+	notes/note.cpp \
+	notes/status-1.cpp \
+	notes/assign-1.cpp \
+	notes/cleancli.cpp \
+	notes/import2.cpp \
+	notes/notes.cpp \
+	notes/status-n.cpp \
+	notes/assign-n.cpp \
+	notes/click.cpp \
+	notes/import3.cpp \
+	notes/poll.cpp \
+	notes/summary.cpp \
+	notes/bible-1.cpp \
+	notes/comment.cpp \
+	notes/import4.cpp \
+	notes/select.cpp \
+	notes/unassign-n.cpp \
+	notes/bible-n.cpp \
+	notes/create.cpp \
+	notes/importcli.cpp \
+	notes/severity-1.cpp \
+	notes/verses.cpp \
+	notes/bulk.cpp \
+	notes/editsource.cpp \
+	notes/index.cpp \
+	notes/severity-n.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \
@@ -1101,6 +1145,64 @@ notes/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) notes/$(DEPDIR)
 	@: > notes/$(DEPDIR)/$(am__dirstamp)
 notes/logic.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/actions.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/clean.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/import1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/note.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/status-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/assign-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/cleancli.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/import2.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/notes.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/status-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/assign-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/click.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/import3.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/poll.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/summary.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/bible-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/comment.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/import4.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/select.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/unassign-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/bible-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/create.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/importcli.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/severity-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/verses.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/bulk.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/editsource.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/index.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/severity-n.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 trash/$(am__dirstamp):
 	@$(MKDIR_P) trash
@@ -1806,7 +1908,36 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/poll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/update.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/actions.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bible-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bible-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bulk.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/clean.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/cleancli.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/click.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/comment.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/create.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/editsource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/import1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/import2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/import3.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/import4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/importcli.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/note.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/notes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/poll.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/select.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/severity-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/severity-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/status-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/status-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/summary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/unassign-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/verses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@odf/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@onlinebible/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po@am__quote@

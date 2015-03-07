@@ -104,6 +104,35 @@ libbibledit_a_SOURCES = \
 	bible/css.cpp \
 	bible/editing.cpp \
 	notes/logic.cpp \
+	notes/actions.cpp \
+	notes/clean.cpp \
+	notes/import1.cpp \
+	notes/note.cpp \
+	notes/status-1.cpp \
+	notes/assign-1.cpp \
+	notes/cleancli.cpp \
+	notes/import2.cpp \
+	notes/notes.cpp \
+	notes/status-n.cpp \
+	notes/assign-n.cpp \
+	notes/click.cpp \
+	notes/import3.cpp \
+	notes/poll.cpp \
+	notes/summary.cpp \
+	notes/bible-1.cpp \
+	notes/comment.cpp \
+	notes/import4.cpp \
+	notes/select.cpp \
+	notes/unassign-n.cpp \
+	notes/bible-n.cpp \
+	notes/create.cpp \
+	notes/importcli.cpp \
+	notes/severity-1.cpp \
+	notes/verses.cpp \
+	notes/bulk.cpp \
+	notes/editsource.cpp \
+	notes/index.cpp \
+	notes/severity-n.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \
