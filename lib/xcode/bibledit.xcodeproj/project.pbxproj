@@ -40,6 +40,12 @@
 		CA06BDEF1A5722FA00A051FF /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CA06BDF01A572DE400A051FF /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA06BDF11A572DE400A051FF /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
+		CA0D29551AAA4E6E009B9D40 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CA0D29561AAA4E6E009B9D40 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CA0D29571AAA4E6E009B9D40 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		CA0D29581AAA4E7A009B9D40 /* map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = map.cpp; sourceTree = "<group>"; };
+		CA0D29591AAA4E7A009B9D40 /* map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
+		CA0D295A1AAA4E7A009B9D40 /* map.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = map.html; sourceTree = "<group>"; };
 		CA1240231A55D6BB002C4752 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		CA1240241A55D6BB002C4752 /* CONTRIBUTORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = CONTRIBUTORS; sourceTree = "<group>"; };
 		CA1240251A55D6BB002C4752 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
@@ -624,14 +630,10 @@
 		CAA4D1E61A45A648003ABA25 /* Dutch_Traditional.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dutch_Traditional.txt; sourceTree = "<group>"; };
 		CAA4D1E71A45A648003ABA25 /* English.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = English.txt; sourceTree = "<group>"; };
 		CAA4D1E81A45A648003ABA25 /* French_Louise_Segond.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = French_Louise_Segond.txt; sourceTree = "<group>"; };
-		CAA4D1E91A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = index.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D1EA1A45A648003ABA25 /* logic.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = logic.php; sourceTree = "<group>"; };
 		CAA4D1EB1A45A648003ABA25 /* map.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = map.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1EC1A45A648003ABA25 /* Russian_Canonical.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Russian_Canonical.txt; sourceTree = "<group>"; };
 		CAA4D1ED1A45A648003ABA25 /* Russian_Orthodox.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Russian_Orthodox.txt; sourceTree = "<group>"; };
 		CAA4D1EE1A45A648003ABA25 /* Russian_Protestant.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Russian_Protestant.txt; sourceTree = "<group>"; };
-		CAA4D1F01A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = index.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D1F11A45A648003ABA25 /* map.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = map.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1F21A45A648003ABA25 /* Septuagint.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Septuagint.txt; sourceTree = "<group>"; };
 		CAA4D1F31A45A648003ABA25 /* Spanish.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Spanish.txt; sourceTree = "<group>"; };
 		CAA4D1F41A45A648003ABA25 /* Vulgate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vulgate.txt; sourceTree = "<group>"; };
@@ -2104,28 +2106,22 @@
 				CAA4D1E61A45A648003ABA25 /* Dutch_Traditional.txt */,
 				CAA4D1E71A45A648003ABA25 /* English.txt */,
 				CAA4D1E81A45A648003ABA25 /* French_Louise_Segond.txt */,
-				CAA4D1E91A45A648003ABA25 /* index.php */,
-				CAA4D1EA1A45A648003ABA25 /* logic.php */,
+				CA0D29551AAA4E6E009B9D40 /* index.cpp */,
+				CA0D29561AAA4E6E009B9D40 /* index.h */,
+				CA0D29571AAA4E6E009B9D40 /* index.html */,
+				CA0D29581AAA4E7A009B9D40 /* map.cpp */,
+				CA0D29591AAA4E7A009B9D40 /* map.h */,
+				CA0D295A1AAA4E7A009B9D40 /* map.html */,
 				CAA4D1EB1A45A648003ABA25 /* map.php */,
 				CAA4D1EC1A45A648003ABA25 /* Russian_Canonical.txt */,
 				CAA4D1ED1A45A648003ABA25 /* Russian_Orthodox.txt */,
 				CAA4D1EE1A45A648003ABA25 /* Russian_Protestant.txt */,
-				CAA4D1EF1A45A648003ABA25 /* scripts */,
 				CAA4D1F21A45A648003ABA25 /* Septuagint.txt */,
 				CAA4D1F31A45A648003ABA25 /* Spanish.txt */,
 				CAA4D1F41A45A648003ABA25 /* Vulgate.txt */,
 			);
 			name = mapping;
 			path = ../mapping;
-			sourceTree = "<group>";
-		};
-		CAA4D1EF1A45A648003ABA25 /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D1F01A45A648003ABA25 /* index.php */,
-				CAA4D1F11A45A648003ABA25 /* map.php */,
-			);
-			path = scripts;
 			sourceTree = "<group>";
 		};
 		CAA4D1F51A45A648003ABA25 /* menu */ = {

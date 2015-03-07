@@ -217,7 +217,9 @@ libbibledit_a_SOURCES = \
 	resource/admin.cpp \
 	resource/print.cpp \
 	resource/download.cpp \
-	json/json.c
+	json/json.c \
+	mapping/index.cpp \
+	mapping/map.cpp
 
 bin_PROGRAMS = server unittest
 

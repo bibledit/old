@@ -18,8 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <menu/main.h>
-#include <string>
-#include <vector>
 #include <locale/translate.h>
 #include <libxml/xmlwriter.h>
 #include <menu/logic.h>
@@ -52,6 +50,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/manage.h>
 #include <resource/admin.h>
 #include <resource/print.h>
+#include <mapping/index.h>
 
 
 /*
@@ -77,6 +76,7 @@ Menu_Main::Menu_Main (void * webserver_request_in)
 Menu_Main::~Menu_Main ()
 {
 }
+
 
 // C++Port use the page's access control function for determining whether to include the page.
 vector <Menu_Main_Item> * Menu_Main::mainmenu ()
@@ -238,10 +238,12 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
     menu->push_back ( { "", administration_language_url (), translate ("Language"), NULL } );
   }
   if (administration_timezone_acl (webserver_request)) {
-    if (config_globals_timezone_offset_utc > MINIMUM_TIMEZONE) {
-      if (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE) {
+    // Display menu to set the site's timezone only in case the calling program has not yet set this zone in the library.
+    // So for example the app for iOS can set the timezone from the device, and in case this has been done,
+    // then the user no longer can set it through Bibledit.
+    if    ((config_globals_timezone_offset_utc < MINIMUM_TIMEZONE)
+        || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
         menu->push_back ( { "", administration_timezone_url (), translate ("Timezone"), NULL } );
-      }
     }
   }
   if (email_index_acl (webserver_request) && !config_logic_client_prepared ()) {
@@ -253,7 +255,9 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (versification_index_acl (webserver_request)) {
     menu->push_back ( { "", versification_index_url (), translate ("Versifications"), NULL } );
   }
-  // C++Port if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", translate ("Verse mappings"), NULL } );
+  if (mapping_index_acl (webserver_request)) {
+    menu->push_back ( { "", mapping_index_url (), translate ("Verse mappings"), NULL } );
+  }
   if (collaboration_index_acl (webserver_request)) {
     menu->push_back ( { "", collaboration_index_url (), translate ("Collaboration"), NULL } );
   }

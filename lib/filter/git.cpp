@@ -1018,7 +1018,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
 
 
 // Configure the $repository: Make certain settings.
-void filter_git_config (string repository) // Todo
+void filter_git_config (string repository)
 {
   // At times there's a stale index.lock file that prevents any collaboration.
   // This is to be removed.
@@ -1045,5 +1045,3 @@ void filter_git_config (string repository) // Todo
   // Current versions of git ask the user to set the default push method.
   filter_git_config_set_string (repository, "push.default", "matching");
 }
-
-

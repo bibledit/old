@@ -117,6 +117,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/admin.h>
 #include <resource/print.h>
 #include <resource/download.h>
+#include <mapping/index.h>
+#include <mapping/map.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -201,6 +203,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == collaboration_index_url ()) && collaboration_index_acl (request)) request->reply = collaboration_index (request);
   else if ((url == client_index_url ()) && client_index_acl (request)) request->reply = client_index (request);
   else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
+  else if ((url == mapping_index_url ()) && mapping_index_acl (request)) request->reply = mapping_index (request);
+  else if ((url == mapping_map_url ()) && mapping_map_acl (request)) request->reply = mapping_map (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);
