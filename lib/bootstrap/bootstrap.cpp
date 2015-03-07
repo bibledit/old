@@ -119,6 +119,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/download.h>
 #include <mapping/index.h>
 #include <mapping/map.h>
+#include <notes/index.h>
+#include <notes/poll.h>
+#include <notes/notes.h>
+#include <notes/create.h>
+#include <notes/select.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -173,6 +178,11 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == workbench_organize_url ()) && workbench_organize_acl (request)) request->reply = workbench_organize (request);
   else if ((url == bible_editing_url ()) && bible_editing_acl (request)) request->reply = bible_editing (request);
   else if ((url == resource_bible2resource_url ()) && resource_bible2resource_acl (request)) request->reply = resource_bible2resource (request);
+  
+  // Notes menu.
+  else if ((url == notes_index_url ()) && notes_index_acl (request)) request->reply = notes_index (request);
+  else if ((url == notes_create_url ()) && notes_create_acl (request)) request->reply = notes_create (request);
+  else if ((url == notes_select_url ()) && notes_select_acl (request)) request->reply = notes_select (request);
   
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);
@@ -263,6 +273,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == search_getids2_url ()) && search_getids2_acl (request)) request->reply = search_getids2 (request);
   else if ((url == search_replacego2_url ()) && search_replacego2_acl (request)) request->reply = search_replacego2 (request);
   else if ((url == resource_get_url ()) && resource_get_acl (request)) request->reply = resource_get (request);
+  else if ((url == notes_poll_url ()) && notes_poll_acl (request)) request->reply = notes_poll (request);
+  else if ((url == notes_notes_url ()) && notes_notes_acl (request)) request->reply = notes_notes (request);
 
   // Forward the browser to the default home page.
   else {

@@ -42,6 +42,33 @@ Notes_Logic::~Notes_Logic ()
 }
 
 
+// Create a consultation note.
+// $bible: The notes's Bible.
+// $book, $chapter, $verse: The note's passage.
+// $summary: The note's summary.
+// $contents: The note's contents.
+// $raw: Import $contents as it is.
+// It returns the $identifier of this new note.
+int Notes_Logic::createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw)
+{
+  summary = filter_string_str_replace ("\n", "", summary);
+  Database_Notes database_notes = Database_Notes (webserver_request);
+  int note_id = database_notes.storeNewNote (bible, book, chapter, verse, summary, contents, raw);
+  if (client_logic_client_enabled ()) {
+    // Client: record the action in the database.
+    Database_NoteActions database_noteactions;
+    /* Todo
+    $data = Filter_Client::createNoteEncode ($bible, $book, $chapter, $verse, $summary, $contents, $raw);
+    $database_noteactions->record ($session_logic->currentUser (), $note_id, self::noteActionCreate, $data);
+    */
+  } else {
+    // Server: do the notifications.
+    handlerNewNote (note_id);
+  }
+  return note_id;
+}
+
+
 // Add a comment to an exiting note identified by identifier.
 void Notes_Logic::addComment (int identifier, const string& comment)
 {

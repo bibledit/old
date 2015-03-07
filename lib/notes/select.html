@@ -1,58 +1,39 @@
-<?php
-/*
-Copyright (©) 2003-2015 Teus Benschop.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-?>
-<h1>translate("Select Notes")</h1>
+<h2>translate("Select Notes")</h2>
 <p>
-translate("Select notes that refer to:")
-  <a <?php if ($this->passageselector == 3) {class="active"<?php } href="select?passageselector=3">translate("any passage")</a>
+  translate("Select notes that refer to:")
+  <a ##passageselector3## href="select?passageselector=3">translate("any passage")</a>
   |
-  <a <?php if ($this->passageselector == 0) {class="active"<?php } href="select?passageselector=0">translate("the current verse")</a>
+  <a ##passageselector0## href="select?passageselector=0">translate("the current verse")</a>
   |
-  <a <?php if ($this->passageselector == 1) {class="active"<?php } href="select?passageselector=1">translate("the current chapter")</a>
+  <a ##passageselector1## href="select?passageselector=1">translate("the current chapter")</a>
   |
-  <a <?php if ($this->passageselector == 2) {class="active"<?php } href="select?passageselector=2">translate("the current book")</a>
+  <a ##passageselector2## href="select?passageselector=2">translate("the current book")</a>
 </p>
 <p>
-translate("Select notes that have been edited:")
-  <a <?php if ($this->editselector == 0) {class="active"<?php } href="select?editselector=0">translate("at any time")</a>
+  translate("Select notes that have been edited:")
+  <a ##editselector0## href="select?editselector=0">translate("at any time")</a>
   |
-  <a <?php if ($this->editselector == 1) {class="active"<?php } href="select?editselector=1">translate("during the last 30 days")</a>
+  <a ##editselector1## href="select?editselector=1">translate("during the last 30 days")</a>
   |
-  <a <?php if ($this->editselector == 2) {class="active"<?php } href="select?editselector=2">translate("during the last 7 days")</a>
+  <a ##editselector2## href="select?editselector=2">translate("during the last 7 days")</a>
   |
-  <a <?php if ($this->editselector == 3) {class="active"<?php } href="select?editselector=3">translate("since yesterday")</a>
+  <a ##editselector3## href="select?editselector=3">translate("since yesterday")</a>
   |
-  <a <?php if ($this->editselector == 4) {class="active"<?php } href="select?editselector=4">translate("today")</a>
+  <a ##editselector4## href="select?editselector=4">translate("today")</a>
 </p>
 <p>
 translate("Select notes that have not been edited for:")
-  <a <?php if ($this->noneditselector == 0) {class="active"<?php } href="select?noneditselector=0">translate("any time")</a>
+  <a ##noneditselector0## href="select?noneditselector=0">translate("any time")</a>
   |
-  <a <?php if ($this->noneditselector == 1) {class="active"<?php } href="select?noneditselector=1">translate("a day")</a>
+  <a ##noneditselector1## href="select?noneditselector=1">translate("a day")</a>
   |
-  <a <?php if ($this->noneditselector == 2) {class="active"<?php } href="select?noneditselector=2">translate("two days")</a>
+  <a ##noneditselector2## href="select?noneditselector=2">translate("two days")</a>
   |
-  <a <?php if ($this->noneditselector == 3) {class="active"<?php } href="select?noneditselector=3">translate("a week")</a>
+  <a ##noneditselector3## href="select?noneditselector=3">translate("a week")</a>
   |
-  <a <?php if ($this->noneditselector == 4) {class="active"<?php } href="select?noneditselector=4">translate("a month")</a>
+  <a ##noneditselector4## href="select?noneditselector=4">translate("a month")</a>
   |
-  <a <?php if ($this->noneditselector == 5) {class="active"<?php } href="select?noneditselector=5">translate("a year")</a>
+  <a ##noneditselector5## href="select?noneditselector=5">translate("a year")</a>
 </p>
 <p>
 translate("Select notes that have a certain status:")

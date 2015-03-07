@@ -55,6 +55,7 @@ public:
   static const int noteActionUnmarkDeletion = 13;
   static const int noteActionDelete = 14;
   static const int noteActionGet = 15;
+  int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   void addComment (int identifier, const string& comment);
   void setSummary (int identifier, const string& summary);
   void subscribe (int identifier);

@@ -51,6 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/admin.h>
 #include <resource/print.h>
 #include <mapping/index.h>
+#include <notes/index.h>
 
 
 /*
@@ -88,7 +89,7 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (edit_index_acl (request)) menu->push_back ( { "", "", translate ("Bible"), biblemenu () } );
-  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Notes"),     notesmenu () } );
+  if (notes_index_acl (request)) menu->push_back ( { "", "", translate ("Notes"), notesmenu () } );
   if (resource_index_acl (request)) menu->push_back ( { "", "", translate ("Resources"), resourcesmenu () } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Changes"), changesmenu () } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", translate ("Planning"),  planningmenu ()  } );
@@ -156,11 +157,11 @@ vector <Menu_Main_Item> * Menu_Main::bible_checks_menu ()
 vector <Menu_Main_Item> * Menu_Main::notesmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "notes/index", translate ("List"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/editsource", translate ("Edit"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/clean", translate ("Checks"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/import1", translate ("Import"), NULL } );
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  if (notes_index_acl (request)) menu->push_back ( { "", notes_index_url (), translate ("List"), NULL } );
+  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/editsource", translate ("Edit"), NULL } );
+  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/clean", translate ("Checks"), NULL } );
+  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/import1", translate ("Import"), NULL } );
   return menu;
 }
 
