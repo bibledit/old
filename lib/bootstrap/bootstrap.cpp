@@ -124,6 +124,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/notes.h>
 #include <notes/create.h>
 #include <notes/select.h>
+#include <notes/note.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -275,6 +276,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_get_url ()) && resource_get_acl (request)) request->reply = resource_get (request);
   else if ((url == notes_poll_url ()) && notes_poll_acl (request)) request->reply = notes_poll (request);
   else if ((url == notes_notes_url ()) && notes_notes_acl (request)) request->reply = notes_notes (request);
+  else if ((url == notes_note_url ()) && notes_note_acl (request)) request->reply = notes_note (request);
 
   // Forward the browser to the default home page.
   else {

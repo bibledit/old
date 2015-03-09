@@ -965,7 +965,6 @@
 		CABB91B11AAB1CAA00D500FF /* note.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = note.cpp; sourceTree = "<group>"; };
 		CABB91B21AAB1CAA00D500FF /* note.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = note.h; sourceTree = "<group>"; };
 		CABB91B31AAB1CAA00D500FF /* note.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = note.html; sourceTree = "<group>"; };
-		CABB91B41AAB1CAA00D500FF /* note.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = note.php; sourceTree = "<group>"; };
 		CABB91B51AAB1CAA00D500FF /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CABB91B61AAB1CAA00D500FF /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
 		CABB91B91AAB1CAA00D500FF /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
@@ -2325,7 +2324,6 @@
 				CABB91B11AAB1CAA00D500FF /* note.cpp */,
 				CABB91B21AAB1CAA00D500FF /* note.h */,
 				CABB91B31AAB1CAA00D500FF /* note.html */,
-				CABB91B41AAB1CAA00D500FF /* note.php */,
 				CABB91B51AAB1CAA00D500FF /* notes.cpp */,
 				CABB91B61AAB1CAA00D500FF /* notes.h */,
 				CABB91B91AAB1CAA00D500FF /* poll.cpp */,
