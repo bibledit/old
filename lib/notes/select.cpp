@@ -57,6 +57,7 @@ string notes_select (void * webserver_request)
   page += header.run();
   
   Assets_View view = Assets_View ();
+  string success;
   
   
   if (request->query.count ("passageselector")) {
@@ -76,20 +77,18 @@ string notes_select (void * webserver_request)
   if (request->query.count ("noneditselector")) {
     int non_edit_selector = convert_to_int (request->query["noneditselector"]);
     if ((non_edit_selector < 0) || (non_edit_selector > 5)) non_edit_selector = 0;
-    request->database_config_user()->setConsultationNotesNonEditSelector(non_edit_selector);
+    request->database_config_user()->setConsultationNotesNonEditSelector (non_edit_selector);
   }
   
   
-  /* Todo
-  
-  @status_selector = request->query["statusselector"];
-  if (isset (status_selector)) {
-    request->database_config_user()->setConsultationNotesStatusSelector(status_selector);
+  if (request->query.count ("statusselector")) {
+    string status_selector = request->query["statusselector"];
+    request->database_config_user()->setConsultationNotesStatusSelector (status_selector);
   }
   
   
-  @bible_selector = request->query["bibleselector"];
-  if (isset (bible_selector)) {
+  if (request->query.count ("bibleselector")) {
+    string bible_selector = request->query["bibleselector"];
     request->database_config_user()->setConsultationNotesBibleSelector (bible_selector);
     // Also set the active Bible for the user.
     if (bible_selector != "") {
@@ -98,158 +97,170 @@ string notes_select (void * webserver_request)
   }
   
   
-  @assignment_selector = request->query["assignmentselector"];
-  if (isset (assignment_selector)) {
+  if (request->query.count ("assignmentselector")) {
+    string assignment_selector = request->query["assignmentselector"];
     request->database_config_user()->setConsultationNotesAssignmentSelector(assignment_selector);
   }
   
   
-  @subscription_selector = request->query["subscriptionselector"];
-  if (isset (subscription_selector)) {
-    if (subscription_selector == 1) subscription_selector = 1; else subscription_selector = 0;
-    request->database_config_user()->setConsultationNotesSubscriptionSelector(subscription_selector);
+  if (request->query.count ("subscriptionselector")) {
+    bool subscription_selector = convert_to_bool (request->query["subscriptionselector"]);
+    request->database_config_user()->setConsultationNotesSubscriptionSelector (subscription_selector);
   }
   
   
-  @severity_selector = request->query["severityselector"];
-  if (isset (severity_selector)) {
-    request->database_config_user()->setConsultationNotesSeveritySelector(severity_selector);
+  if (request->query.count ("severityselector")) {
+    int severity_selector = convert_to_int (request->query["severityselector"]);
+    request->database_config_user()->setConsultationNotesSeveritySelector (severity_selector);
   }
   
   
-  @text_selector = request->query["textselector"];
-  if (isset (text_selector)) {
+  if (request->query.count ("textselector")) {
+    int text_selector = convert_to_int (request->query["textselector"]);
     request->database_config_user()->setConsultationNotesTextSelector (text_selector);
-    @search_text = request->post["text"];
-    if (isset (search_text)) {
-      request->database_config_user()->setConsultationNotesSearchText (search_text);
-      Assets_Page::success (translate("Search text saved"));
-    }
+  }
+  if (request->post.count ("text")) {
+    string search_text = request->post["text"];
+    request->database_config_user()->setConsultationNotesSearchText (search_text);
+    success = translate("Search text saved");
   }
   
   
-  @passage_inclusion_selector = request->query["passageinclusionyselector"];
-  if (isset (passage_inclusion_selector)) {
+  if (request->query.count ("passageinclusionselector")) {
+    int passage_inclusion_selector = convert_to_int (request->query["passageinclusionselector"]);
     request->database_config_user()->setConsultationNotesPassageInclusionSelector (passage_inclusion_selector);
   }
   
   
-  @text_inclusion_selector = request->query["textinclusionyselector"];
-  if (isset (text_inclusion_selector)) {
+  if (request->query.count ("textinclusionselector")) {
+    int text_inclusion_selector = convert_to_int (request->query["textinclusionselector"]);
     request->database_config_user()->setConsultationNotesTextInclusionSelector (text_inclusion_selector);
   }
   
   
-  view = new Assets_View (__FILE__);
-  */
-  
-  
   string active_class = "class=\"active\"";
   
-  string passage_selector = to_string (request->database_config_user()->getConsultationNotesPassageSelector());
-  view.set_variable ("passageselector" + passage_selector, active_class);
+  
+  int passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
+  view.set_variable ("passageselector" + to_string (passage_selector), active_class);
 
-  string edit_selector = to_string (request->database_config_user()->getConsultationNotesEditSelector());
-  view.set_variable ("editselector" + edit_selector, active_class);
   
-  string non_edit_selector = to_string (request->database_config_user()->getConsultationNotesNonEditSelector());
-  view.set_variable ("noneditselector" + non_edit_selector, active_class);
+  int edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
+  view.set_variable ("editselector" + to_string (edit_selector), active_class);
+  
+  
+  int non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
+  view.set_variable ("noneditselector" + to_string (non_edit_selector), active_class);
+  
+  
+  string status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
+  if (status_selector.empty ()) view.set_variable ("anystatus", active_class);
+  vector <Database_Notes_Text> possible_statuses = database_notes.getPossibleStatuses ();
+  string statusblock;
+  for (Database_Notes_Text possible_status : possible_statuses) {
+    statusblock.append (" | ");
+    statusblock.append ("<a ");
+    if (status_selector == possible_status.raw) statusblock.append (active_class);
+    statusblock.append (" href=\"select?statusselector=" + possible_status.raw + "\">");
+    statusblock.append (possible_status.localized);
+    statusblock.append ("</a>");
+  }
+  view.set_variable ("statusblock", statusblock);
+  
+
+  // The information about available Bibles could be gathered from the notes database.
+  // But multiple teams can be hosted, the information about available Bibles
+  // is gathered from the Bibles the user has access to.
+  string bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
+  if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
+  string bibleblock;
+  vector <string> bibles = access_bible_bibles (webserver_request);
+  for (auto bible : bibles) {
+    bibleblock.append (" | ");
+    bibleblock.append ("<a ");
+    if (bible_selector == bible) bibleblock.append (active_class);
+    bibleblock.append (" href=\"select?bibleselector=" + bible + "\">" + bible + "</a>");
+  }
+  view.set_variable ("bibleblock", bibleblock);
+  
+
+  string assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
+  if (assignment_selector.empty ()) view.set_variable ("anyassignee", active_class);
+  string assigneeblock;
+  vector <string> assignees = database_notes.getAllAssignees (bibles);
+  for (auto assignee : assignees) {
+    assigneeblock.append (" | ");
+    assigneeblock.append ("<a ");
+    if (assignment_selector == assignee) assigneeblock.append (active_class);
+    assigneeblock.append (" href=\"select?assignmentselector=" + assignee + "\">" + assignee + "</a>");
+  }
+  view.set_variable ("assigneeblock", assigneeblock);
+  if (assignment_selector != "") {
+    if (find (bibles.begin(), bibles.end (), assignment_selector) == bibles.end ()) {
+      view.enable_zone ("nonexistingassignee");
+      view.set_variable ("assignmentselector", assignment_selector);
+    }
+  }
+  
+  
+  bool subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
+  view.set_variable ("subscriptionselector" + to_string (subscription_selector), active_class);
+
+
+  int severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector ();
+  if (severity_selector < 0) view.set_variable ("anyseverity", active_class);
+  string severityblock;
+  vector <Database_Notes_Text> severities = database_notes.getPossibleSeverities();
+  for (int i = 0; i < (int)severities.size (); i++) {
+    severityblock.append (" | ");
+    severityblock.append ("<a ");
+    if (severity_selector == i) severityblock.append (active_class);
+    severityblock.append ("href=\"select?severityselector=" + to_string (i) + "\">" + severities[i].localized + "</a>");
+  }
+  view.set_variable ("severityblock", severityblock);
+
+  
+  int text_selector = request->database_config_user()->getConsultationNotesTextSelector();
+  view.set_variable ("textselector" + to_string (text_selector), active_class);
+  if (text_selector == 1) view.enable_zone ("textselection");
+  string search_text = request->database_config_user()->getConsultationNotesSearchText();
+  view.set_variable ("searchtext", search_text);
+
+
+  int passage_inclusion_selector = request->database_config_user()->getConsultationNotesPassageInclusionSelector();
+  view.set_variable ("passageinclusionselector" + to_string (passage_inclusion_selector), active_class);
                      
+                     
+  int text_inclusion_selector = request->database_config_user()->getConsultationNotesTextInclusionSelector();
+  view.set_variable ("textinclusionselector" + to_string (text_inclusion_selector), active_class);
+                                        
+
+  // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
+  if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
   
-  /* Todo
   
-   
-                                                              possible_statuses = database_notes->getPossibleStatuses();
-                                                              for (possible_statuses as possible_status) {
-                                                                status_ids [] = possible_status[0];
-                                                                status_localizations [] = possible_status[1];
-                                                              }
-                                                              view.set_variable ("statusids = status_ids;
-                                                                                  view.set_variable ("statuslocs = status_localizations;
-                                                                                                      
-                                                                                                      
-                                                                                                      status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
-                                                                                                      view.set_variable ("statusselector = status_selector;
-                                                                                                                          
-                                                                                                                          
-                                                                                                                          // The information about available Bibles could be gathered from the notes database.
-                                                                                                                          // But multiple teams can be hosted, the information about available Bibles
-                                                                                                                          // is gathered from the Bibles the user has access to.
-                                                                                                                          bibles = access_bible_bibles ();
-                                                                                                                          view.set_variable ("bibles = bibles;
-                                                                                                                                              
-                                                                                                                                              
-                                                                                                                                              bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
-                                                                                                                                              view.set_variable ("bibleselector = bible_selector;
-                                                                                                                                                                  
-                                                                                                                                                                  
-                                                                                                                                                                  assignees = database_notes->getAllAssignees (bibles);
-                                                                                                                                                                  view.set_variable ("assignees = assignees;
-                                                                                                                                                                                      if (assignment_selector != "") {
-                                                                                                                                                                                        if (!in_array (assignment_selector, assignees)) {
-                                                                                                                                                                                          view.set_variable ("nonexistingassignee = true;
-                                                                                                                                                                                                              }
-                                                                                                                                                                                                              }
-                                                                                                                                                                                                              
-                                                                                                                                                                                                              
-                                                                                                                                                                                                              assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
-                                                                                                                                                                                                              view.set_variable ("assignmentselector = assignment_selector;
-                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                  subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
-                                                                                                                                                                                                                                  view.set_variable ("subscriptionselector = subscription_selector;
-                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                      view.set_variable ("severities = database_notes->getPossibleSeverities();
-                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                          severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector();
-                                                                                                                                                                                                                                                                          view.set_variable ("severityselector = severity_selector;
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              text_selector = request->database_config_user()->getConsultationNotesTextSelector();
-                                                                                                                                                                                                                                                                                              view.set_variable ("textselector = text_selector;
-                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                                  search_text = request->database_config_user()->getConsultationNotesSearchText();
-                                                                                                                                                                                                                                                                                                                  view.set_variable ("searchtext = filter_string_sanitize_html (search_text);
-                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                                      passage_inclusion_selector = request->database_config_user()->getConsultationNotesPassageInclusionSelector();
-                                                                                                                                                                                                                                                                                                                                      view.set_variable ("passageinclusionselector = passage_inclusion_selector;
-                                                                                                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                                                                                                          text_inclusion_selector = request->database_config_user()->getConsultationNotesTextInclusionSelector();
-                                                                                                                                                                                                                                                                                                                                                          view.set_variable ("textinclusionselector = text_inclusion_selector;
-                                                                                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                              // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-                                                                                                                                                                                                                                                                                                                                                                              if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles = NULL;
-                                                                                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                              book = Ipc_Focus::getBook ();
-                                                                                                                                                                                                                                                                                                                                                                              chapter = Ipc_Focus::getChapter ();
-                                                                                                                                                                                                                                                                                                                                                                              verse = Ipc_Focus::getVerse ();
-                                                                                                                                                                                                                                                                                                                                                                              identifiers = database_notes->selectNotes (bibles, book, chapter, verse,
-                                                                                                                                                                                                                                                                                                                                                                                                                           passage_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           edit_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           non_edit_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           status_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           bible_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           assignment_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           subscription_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           severity_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           text_selector,
-                                                                                                                                                                                                                                                                                                                                                                                                                           search_text,
-                                                                                                                                                                                                                                                                                                                                                                                                                           NULL);
-                                                                                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                              count = count (identifiers);
-                                                                                                                                                                                                                                                                                                                                                                              view.set_variable ("count = count;
-                                                                                                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                                                                                                                  
-*/
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+  int verse = Ipc_Focus::getVerse (webserver_request);
+  vector <int> identifiers = database_notes.selectNotes (bibles,
+                                                         book,
+                                                         chapter,
+                                                         verse,
+                                                         passage_selector,
+                                                         edit_selector,
+                                                         non_edit_selector,
+                                                         status_selector,
+                                                         bible_selector,
+                                                         assignment_selector,
+                                                         bool (subscription_selector),
+                                                         severity_selector,
+                                                         text_selector,
+                                                         search_text,
+                                                         0);
+  view.set_variable ("count", to_string (identifiers.size()));
+
   
+  view.set_variable ("success", success);
   
   
   page += view.render ("notes", "select");

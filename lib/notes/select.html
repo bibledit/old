@@ -1,4 +1,5 @@
 <h2>translate("Select Notes")</h2>
+<p class="success">##success##</p>
 <p>
   translate("Select notes that refer to:")
   <a ##passageselector3## href="select?passageselector=3">translate("any passage")</a>
@@ -37,66 +38,55 @@ translate("Select notes that have not been edited for:")
 </p>
 <p>
 translate("Select notes that have a certain status:")
-  <a <?php if ($this->statusselector == "") {class="active"<?php } href="select?statusselector=">translate("Any")</a>
-  <?php for ($this->statusids as $offset => $statusid) {
-    |
-    <a <?php if ($this->statusselector == $statusid) {class="active"<?php } href="select?statusselector=$this->statusids[$offset]">$this->statuslocs[$offset]</a>
-  <?php }
+  <a ##anystatus## href="select?statusselector=">translate("Any")</a>
+  ##statusblock##
 </p>
 <p>
 translate("Select notes that belong to:")
-  <a <?php if ($this->bibleselector == "") {class="active"<?php } href="select?bibleselector=">translate("any Bible")</a>
-  <?php for ($this->bibles as $offset => $bible) {
-    |
-    <a <?php if ($this->bibleselector == $bible) {class="active"<?php } href="select?bibleselector=$this->bibles[$offset]">$this->bibles[$offset]</a>
-  <?php }
+  <a ##anybible## href="select?bibleselector=">translate("any Bible")</a>
+  ##bibleblock##
 </p>
 <p>
 translate("Select notes that have been assigned to somebody:")
-  <a <?php if ($this->assignmentselector == "") {class="active"<?php } href="select?assignmentselector=">translate("do not care about this")</a>
-  <?php for ($this->assignees as $offset => $assignee) {
-    |
-    <a <?php if ($this->assignmentselector == $assignee) {class="active"<?php } href="select?assignmentselector=$this->assignees[$offset]">$this->assignees[$offset]</a>
-  <?php }
-  <?php if ($this->nonexistingassignee) {
-    translate("Currently looking for notes assigned to:") $this->assignmentselector
-  <?php }
+  <a ##anyassignee## href="select?assignmentselector=">translate("do not care about this")</a>
+  ##assigneeblock##
+  <!-- #BEGINZONE nonexistingassignee -->
+  | translate("Currently looking for notes assigned to:") ##assignmentselector##
+  <!-- #ENDZONE nonexistingassignee -->
 </p>
 <p>
 translate("Select notes by subscription:")
-  <a <?php if ($this->subscriptionselector == 0) {class="active"<?php } href="select?subscriptionselector=0">translate("do not care about this")</a>
+  <a ##subscriptionselector0## href="select?subscriptionselector=0">translate("do not care about this")</a>
   |
-  <a <?php if ($this->subscriptionselector == 1) {class="active"<?php } href="select?subscriptionselector=1">translate("notes I am subscribed to")</a>
+  <a ##subscriptionselector1## href="select?subscriptionselector=1">translate("notes I am subscribed to")</a>
 </p>
+<p>
 translate("Select notes that have a severity of:")
-  <a <?php if ($this->severityselector == -1) {class="active"<?php } href="select?severityselector=-1">translate("Any")</a>
-  <?php for ($this->severities as $offset => $severity) {
-    |
-    <a <?php if ($this->severityselector == $severity[0]) {class="active"<?php } href="select?severityselector=$this->severities[$offset][0]">$this->severities[$offset][1]</a>
-  <?php }
+  <a ##anyseverity## href="select?severityselector=-1">translate("Any")</a>
+  ##severityblock##
 </p>
-</p>
-<form action="select?textselector=1" name="text" method="post">
-translate("Select notes that contain text:")
-  <a <?php if ($this->textselector == 0) {class="active"<?php } href="select?textselector=0">translate("Any")</a>
+<form action="select" name="text" method="post">
+  translate("Select notes that contain text:")
+  <a ##textselector0## href="select?textselector=0">translate("Any")</a>
   |
-  <a <?php if ($this->textselector == 1) {class="active"<?php } href="select?textselector=1">translate("Specific text or words:")</a>
-  <?php if ($this->textselector == 1) {
-      <input type="text" name="text" value="$this->searchtext" />
-      <input type="submit" name="save" value=translate("Save") />
-  <?php }
+  <a ##textselector1## href="select?textselector=1">translate("Specific text or words:")</a>
+  <!-- #BEGINZONE textselection -->
+  <input type="text" name="text" value="##searchtext##" />
+  <input type="submit" name="save" value=translate("Save") />
+  <!-- #ENDZONE textselection -->
 </form>
-</p>
 <br>
-<p>translate("Number of notes selected:") $this->count</p>
+<p>translate("Number of notes selected:") ##count##</p>
 <br>
-translate("Passage inclusion:")
-  <a <?php if ($this->passageinclusionselector == 0) {class="active"<?php } href="select?passageinclusionyselector=0">translate("Do not include the passage text")</a>
-  <a <?php if ($this->passageinclusionselector == 1) {class="active"<?php } href="select?passageinclusionyselector=1">translate("Include the passage text")</a>
+<p>
+  translate("Passage inclusion:")
+  <a ##passageinclusionselector0## href="select?passageinclusionselector=0">translate("Do not include the passage text")</a>
+  <a ##passageinclusionselector1## href="select?passageinclusionselector=1">translate("Include the passage text")</a>
 </p>
-translate("Text inclusion:")
-  <a <?php if ($this->textinclusionselector == 0) {class="active"<?php } href="select?textinclusionyselector=0">translate("Do not include the note text")</a>
-  <a <?php if ($this->textinclusionselector == 1) {class="active"<?php } href="select?textinclusionyselector=1">translate("Include the note text")</a>
+<p>
+  translate("Text inclusion:")
+  <a ##textinclusionselector0## href="select?textinclusionselector=0">translate("Do not include the note text")</a>
+  <a ##textinclusionselector1## href="select?textinclusionselector=1">translate("Include the note text")</a>
 </p>
 <h3><a href="index">translate("Display the notes list")</a></h3>
 <script type="text/javascript" src="poll.js?##VERSION##"></script>

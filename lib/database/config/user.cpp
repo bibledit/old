@@ -377,12 +377,12 @@ void Database_Config_User::setConsultationNotesAssignmentSelector (string value)
 }
 
 
-// 0: don't care; 1: subscribed.
-int Database_Config_User::getConsultationNotesSubscriptionSelector ()
+// false: don't care; true: subscribed.
+bool Database_Config_User::getConsultationNotesSubscriptionSelector ()
 {
-  return getValue ("consultation-notes-subscription-selector", 0);
+  return getValue ("consultation-notes-subscription-selector", false);
 }
-void Database_Config_User::setConsultationNotesSubscriptionSelector (int value)
+void Database_Config_User::setConsultationNotesSubscriptionSelector (bool value)
 {
   setValue ("consultation-notes-subscription-selector", value);
 }

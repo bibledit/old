@@ -64,8 +64,8 @@ public:
   void setConsultationNotesBibleSelector (string value);
   string getConsultationNotesAssignmentSelector ();
   void setConsultationNotesAssignmentSelector (string value);
-  int getConsultationNotesSubscriptionSelector ();
-  void setConsultationNotesSubscriptionSelector (int value);
+  bool getConsultationNotesSubscriptionSelector ();
+  void setConsultationNotesSubscriptionSelector (bool value);
   int getConsultationNotesSeveritySelector ();
   void setConsultationNotesSeveritySelector (int value);
   int getConsultationNotesTextSelector ();

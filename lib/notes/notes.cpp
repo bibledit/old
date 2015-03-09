@@ -61,7 +61,7 @@ string notes_notes (void * webserver_request)
   string status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
   string bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
   string assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
-  int subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
+  bool subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
   int severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector();
   int text_selector = request->database_config_user()->getConsultationNotesTextSelector();
   string search_text = request->database_config_user()->getConsultationNotesSearchText();
@@ -81,7 +81,6 @@ string notes_notes (void * webserver_request)
 
   
   string notesblock;
-  cout << identifiers.size () << endl; // Todo
   for (auto & identifier : identifiers) {
 
     string summary = database_notes.getSummary (identifier);

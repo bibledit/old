@@ -213,7 +213,7 @@ void Database_Notes::optimize ()
 }
 
 
-void Database_Notes::sync () // 
+void Database_Notes::sync ()
 {
   string mainfolder = mainFolder ();
 
@@ -737,14 +737,16 @@ vector <int> Database_Notes::selectNotes (vector <string> bibles, int book, int 
     bibles.clear ();
     bibles.push_back (bible_selector);
   }
-  query.append (" AND (bible = '' ");
-  for (auto bible : bibles) {
-    bible = database_sqlite_no_sql_injection (bible);
-    query.append (" OR bible = '");
-    query.append (bible);
-    query.append ("' ");
+  if (!bibles.empty ()) {
+    query.append (" AND (bible = '' ");
+    for (auto bible : bibles) {
+      bible = database_sqlite_no_sql_injection (bible);
+      query.append (" OR bible = '");
+      query.append (bible);
+      query.append ("' ");
+    }
+    query.append (" ) ");
   }
-  query.append (" ) ");
   // Consider note assignment constraints.
   if (assignment_selector != "") {
     assignment_selector = database_sqlite_no_sql_injection (assignment_selector);
