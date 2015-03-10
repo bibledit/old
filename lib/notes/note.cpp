@@ -79,17 +79,6 @@ string notes_note (void * webserver_request)
   }
   
   
-  /* Todo
-  
-   
-   
-   Todo fix flate for situation that variable contains ##: Fix is this:
-   1. It should really start and end with ##.
-   2. Irregular forms of ## are not affected.
-   3. Write unit tests for the above.
-
-   */
-
   view.set_variable ("id", to_string (id));
   
 

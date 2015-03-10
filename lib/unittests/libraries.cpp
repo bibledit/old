@@ -188,14 +188,16 @@ void test_empty_folders ()
 }
 
 
-void test_flate ()
+void test_flate () // Todo
 {
   // Test for the flate2 template engine.
-  string tpl = filter_url_create_root_path ("unittests", "tests", "flate1.html");
+  string tpl1 = filter_url_create_root_path ("unittests", "tests", "flate1.html");
+  string tpl2 = filter_url_create_root_path ("unittests", "tests", "flate2.html");
   Flate flate;
   string desired;
   string actual;
 
+  /* Todo
   flate = Flate ();
   desired = 
     "line 1\n"
@@ -203,7 +205,7 @@ void test_flate ()
     "line 6\n"
     "LocalizeOne\n"
     "LocalizeTwo";
-  actual = filter_string_trim (flate.render (tpl));
+  actual = filter_string_trim (flate.render (tpl1));
   evaluate (__LINE__, __func__, desired, actual);
 
   flate = Flate ();
@@ -224,7 +226,7 @@ void test_flate ()
     "line 6\n"
     "LocalizeOne\n"
     "LocalizeTwo";
-  actual = filter_string_trim (flate.render (tpl));
+  actual = filter_string_trim (flate.render (tpl1));
   evaluate (__LINE__, __func__, desired, actual);
 
   flate = Flate ();
@@ -247,7 +249,21 @@ void test_flate ()
     "line 6\n"
     "LocalizeOne\n"
     "LocalizeTwo";
-  actual = filter_string_trim (flate.render (tpl));
+  actual = filter_string_trim (flate.render (tpl1));
+  evaluate (__LINE__, __func__, desired, actual);
+   */
+  
+  // Test situation that a variable contains dashes (#).
+  // This should work correctly.
+  flate = Flate ();
+  flate.set_variable ("one", "one##one");
+  flate.set_variable ("two", "two####two");
+  flate.set_variable ("three", "three######three");
+  desired =
+  "one##one\n"
+  "two####two\n"
+  "three######three";
+  actual = filter_string_trim (flate.render (tpl2));
   evaluate (__LINE__, __func__, desired, actual);
 }
 

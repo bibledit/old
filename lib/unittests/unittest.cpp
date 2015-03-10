@@ -266,7 +266,7 @@ int main (int argc, char **argv)
   config_globals_unit_testing = true;
   
   // Todo
-  test_filter_git (); exit (0);
+  test_flate (); exit (0);
   
   // Run the tests.
   test_database_config_general ();

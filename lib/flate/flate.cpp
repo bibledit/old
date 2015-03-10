@@ -110,17 +110,29 @@ void Flate::process_variables (string& rendering)
   // Iterate through the contents till all variables have been dealt with.
   while ((position != string::npos) && (iterations < 1000)) {
     iterations++;
+    bool correct = true;
+    // Check that this is a correct position: It should not have hashes nearby.
+    if (correct) if (position > 0) if (rendering.substr (position - 1, 1) == "#") {
+      correct = false;
+    }
+    if (correct) if (position < rendering.size ()) if (rendering.substr (position + 2, 1) == "#") {
+      correct = false;
+    }
     // Position where the variable ends.
     size_t pos = rendering.find ("##", position + 1);
     if (pos == string::npos) pos = position + 4;
     // Name for the variable zone.
     string name = rendering.substr (position + 2, pos - position - 2);
-    // Take the variable out.
-    rendering.erase (position, name.length () + 4);
-    // Insert the replacement.
-    rendering.insert (position, variables [name]);
+    // No new line in the variable name.
+    if (correct) if (name.find ("\n") != string::npos) correct = false;
+    if (correct) {
+      // Take the variable out.
+      rendering.erase (position, name.length () + 4);
+      // Insert the replacement.
+      rendering.insert (position, variables [name]);
+    }
     // Next zone.
-    position = rendering.find ("##");
+    position = rendering.find ("##", position + 1);
   }
 }
 

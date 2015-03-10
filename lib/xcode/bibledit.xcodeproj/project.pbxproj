@@ -46,6 +46,7 @@
 		CA0D29581AAA4E7A009B9D40 /* map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = map.cpp; sourceTree = "<group>"; };
 		CA0D29591AAA4E7A009B9D40 /* map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
 		CA0D295A1AAA4E7A009B9D40 /* map.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = map.html; sourceTree = "<group>"; };
+		CA0FFD3B1AAF076700A174A5 /* flate2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = flate2.html; sourceTree = "<group>"; };
 		CA1240231A55D6BB002C4752 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		CA1240241A55D6BB002C4752 /* CONTRIBUTORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = CONTRIBUTORS; sourceTree = "<group>"; };
 		CA1240251A55D6BB002C4752 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
@@ -2813,6 +2814,7 @@
 				CAA4D3C91A45A648003ABA25 /* checks */,
 				CAA4D3FA1A45A648003ABA25 /* filter */,
 				CAA4D4161A45A648003ABA25 /* flate1.html */,
+				CA0FFD3B1AAF076700A174A5 /* flate2.html */,
 				CAA4D41A1A45A648003ABA25 /* ipc */,
 				CAA4D41D1A45A648003ABA25 /* notes.sqlite.damaged */,
 				CAA4D41E1A45A648003ABA25 /* onlinebible1.exp */,
