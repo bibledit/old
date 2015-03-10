@@ -44,7 +44,9 @@
 void setup_conditionally ()
 {
   if (config_logic_version () == Database_Config_General::getInstalledDatabaseVersion ()) return;
-    
+  
+  cout << "Initializing data" << endl;
+  
   // Ensure write access to certain folders.
   setup_write_access ();
   
