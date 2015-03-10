@@ -131,6 +131,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/status-1.h>
 #include <notes/verses.h>
 #include <notes/severity-1.h>
+#include <notes/bible-1.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -197,6 +198,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_status_1_url ()) && notes_status_1_acl (request)) request->reply = notes_status_1 (request);
   else if ((url == notes_verses_url ()) && notes_verses_acl (request)) request->reply = notes_verses (request);
   else if ((url == notes_severity_1_url ()) && notes_severity_1_acl (request)) request->reply = notes_severity_1 (request);
+  else if ((url == notes_bible_1_url ()) && notes_bible_1_acl (request)) request->reply = notes_bible_1 (request);
 
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);
