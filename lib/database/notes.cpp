@@ -1360,10 +1360,10 @@ vector <Database_Notes_Text> Database_Notes::getPossibleSeverities ()
 {
   vector <string> standard = standard_severities ();
   vector <Database_Notes_Text> severities;
-  for (auto & value : standard) {
+  for (unsigned int i = 0; i < standard.size(); i++) {
     Database_Notes_Text severity;
-    severity.raw = value;
-    severity.localized = translate (value.c_str());
+    severity.raw = to_string (i);
+    severity.localized = translate (standard[i].c_str());
     severities.push_back (severity);
   }
   return severities;

@@ -126,6 +126,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/select.h>
 #include <notes/note.h>
 #include <notes/comment.h>
+#include <notes/actions.h>
+#include <notes/assign-1.h>
+#include <notes/status-1.h>
+#include <notes/verses.h>
+#include <notes/severity-1.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -185,7 +190,14 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_index_url ()) && notes_index_acl (request)) request->reply = notes_index (request);
   else if ((url == notes_create_url ()) && notes_create_acl (request)) request->reply = notes_create (request);
   else if ((url == notes_select_url ()) && notes_select_acl (request)) request->reply = notes_select (request);
-  
+  else if ((url == notes_note_url ()) && notes_note_acl (request)) request->reply = notes_note (request);
+  else if ((url == notes_comment_url ()) && notes_comment_acl (request)) request->reply = notes_comment (request);
+  else if ((url == notes_actions_url ()) && notes_actions_acl (request)) request->reply = notes_actions (request);
+  else if ((url == notes_assign_1_url ()) && notes_assign_1_acl (request)) request->reply = notes_assign_1 (request);
+  else if ((url == notes_status_1_url ()) && notes_status_1_acl (request)) request->reply = notes_status_1 (request);
+  else if ((url == notes_verses_url ()) && notes_verses_acl (request)) request->reply = notes_verses (request);
+  else if ((url == notes_severity_1_url ()) && notes_severity_1_acl (request)) request->reply = notes_severity_1 (request);
+
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);
   else if ((url == resource_organize_url ()) && resource_organize_acl (request)) request->reply = resource_organize (request);
@@ -277,8 +289,6 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_get_url ()) && resource_get_acl (request)) request->reply = resource_get (request);
   else if ((url == notes_poll_url ()) && notes_poll_acl (request)) request->reply = notes_poll (request);
   else if ((url == notes_notes_url ()) && notes_notes_acl (request)) request->reply = notes_notes (request);
-  else if ((url == notes_note_url ()) && notes_note_acl (request)) request->reply = notes_note (request);
-  else if ((url == notes_comment_url ()) && notes_comment_acl (request)) request->reply = notes_comment (request);
 
   // Forward the browser to the default home page.
   else {
