@@ -37,7 +37,7 @@ public:
   void setEditorStylesheet ();
   void setSearchQuery (string query);
   bool displayTopbar ();
-  void refresh (int seconds);
+  void refresh (int seconds, string url = "");
   string run ();
 private:
   Assets_View * view;

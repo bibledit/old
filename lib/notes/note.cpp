@@ -52,14 +52,15 @@ string notes_note (void * webserver_request)
   Database_Notes database_notes = Database_Notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   
+  
   string page;
   Assets_Header header = Assets_Header (translate("Note"), request);
 
   
-  // After adding a comment to a note it returns to the note.
-  // When doing nothing for several seconds, the browser then returns to the list of notes.
+  // After adding a comment to a note, when doing nothing for several seconds,
+  // the browser then returns to the list of notes.
   if (request->query.count ("temporal")) {
-    // Todo header.addHeadLine ("<META HTTP-EQUIV="refresh" CONTENT="5;URL=index">"); // Todo test it Todo use existing function, expanded with the URL: Function refresh.
+    header.refresh (5, "index");
   }
 
   

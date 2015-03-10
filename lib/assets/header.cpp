@@ -114,9 +114,11 @@ bool Assets_Header::displayTopbar ()
 
 
 // Sets the page to refresh after "seconds".
-void Assets_Header::refresh (int seconds)
+void Assets_Header::refresh (int seconds, string url)
 {
-  string headline = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"" + convert_to_string (seconds) + "\">";
+  string content = convert_to_string (seconds);
+  if (!url.empty ()) content.append (";URL=" + url);
+  string headline = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"" + content + "\">";
   headLines.push_back (headline);
 }
 
