@@ -974,14 +974,12 @@
 		CABB91C51AAB1CAA00D500FF /* severity-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "severity-n.cpp"; sourceTree = "<group>"; };
 		CABB91C61AAB1CAA00D500FF /* severity-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "severity-n.h"; sourceTree = "<group>"; };
 		CABB91C71AAB1CAA00D500FF /* severity-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "severity-n.html"; sourceTree = "<group>"; };
-		CABB91C81AAB1CAA00D500FF /* severity-n.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "severity-n.php"; sourceTree = "<group>"; };
 		CABB91C91AAB1CAA00D500FF /* status-1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "status-1.cpp"; sourceTree = "<group>"; };
 		CABB91CA1AAB1CAA00D500FF /* status-1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "status-1.h"; sourceTree = "<group>"; };
 		CABB91CB1AAB1CAA00D500FF /* status-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "status-1.html"; sourceTree = "<group>"; };
 		CABB91CD1AAB1CAA00D500FF /* status-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "status-n.cpp"; sourceTree = "<group>"; };
 		CABB91CE1AAB1CAA00D500FF /* status-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "status-n.h"; sourceTree = "<group>"; };
 		CABB91CF1AAB1CAA00D500FF /* status-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "status-n.html"; sourceTree = "<group>"; };
-		CABB91D01AAB1CAA00D500FF /* status-n.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "status-n.php"; sourceTree = "<group>"; };
 		CABB91D11AAB1CAA00D500FF /* summary.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = summary.cpp; sourceTree = "<group>"; };
 		CABB91D21AAB1CAA00D500FF /* summary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = summary.h; sourceTree = "<group>"; };
 		CABB91D31AAB1CAA00D500FF /* summary.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = summary.html; sourceTree = "<group>"; };
@@ -2323,14 +2321,12 @@
 				CABB91C51AAB1CAA00D500FF /* severity-n.cpp */,
 				CABB91C61AAB1CAA00D500FF /* severity-n.h */,
 				CABB91C71AAB1CAA00D500FF /* severity-n.html */,
-				CABB91C81AAB1CAA00D500FF /* severity-n.php */,
 				CABB91C91AAB1CAA00D500FF /* status-1.cpp */,
 				CABB91CA1AAB1CAA00D500FF /* status-1.h */,
 				CABB91CB1AAB1CAA00D500FF /* status-1.html */,
 				CABB91CD1AAB1CAA00D500FF /* status-n.cpp */,
 				CABB91CE1AAB1CAA00D500FF /* status-n.h */,
 				CABB91CF1AAB1CAA00D500FF /* status-n.html */,
-				CABB91D01AAB1CAA00D500FF /* status-n.php */,
 				CABB91D11AAB1CAA00D500FF /* summary.cpp */,
 				CABB91D21AAB1CAA00D500FF /* summary.h */,
 				CABB91D31AAB1CAA00D500FF /* summary.html */,

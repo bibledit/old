@@ -131,8 +131,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/assign-n.h>
 #include <notes/unassign-n.h>
 #include <notes/status-1.h>
+#include <notes/status-n.h>
 #include <notes/verses.h>
 #include <notes/severity-1.h>
+#include <notes/severity-n.h>
 #include <notes/bible-1.h>
 #include <notes/bulk.h>
 
@@ -201,8 +203,10 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_assign_n_url ()) && notes_assign_n_acl (request)) request->reply = notes_assign_n (request);
   else if ((url == notes_unassign_n_url ()) && notes_unassign_n_acl (request)) request->reply = notes_unassign_n (request);
   else if ((url == notes_status_1_url ()) && notes_status_1_acl (request)) request->reply = notes_status_1 (request);
+  else if ((url == notes_status_n_url ()) && notes_status_n_acl (request)) request->reply = notes_status_n (request);
   else if ((url == notes_verses_url ()) && notes_verses_acl (request)) request->reply = notes_verses (request);
   else if ((url == notes_severity_1_url ()) && notes_severity_1_acl (request)) request->reply = notes_severity_1 (request);
+  else if ((url == notes_severity_n_url ()) && notes_severity_n_acl (request)) request->reply = notes_severity_n (request);
   else if ((url == notes_bible_1_url ()) && notes_bible_1_acl (request)) request->reply = notes_bible_1 (request);
   else if ((url == notes_bulk_url ()) && notes_bulk_acl (request)) request->reply = notes_bulk (request);
 
