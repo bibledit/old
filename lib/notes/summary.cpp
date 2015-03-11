@@ -1,1 +1,1 @@
-// Todo
+void notes_summary () {};
