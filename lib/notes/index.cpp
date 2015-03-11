@@ -86,6 +86,9 @@ string notes_index (void * webserver_request)
     }
   }
 
+  int level = request->session_logic ()->currentLevel ();
+  if (level >= Filter_Roles::manager ()) view.enable_zone ("update");
+  
   page += view.render ("notes", "index");
   
   page += Assets_Page::footer ();

@@ -911,7 +911,6 @@
 		CABB917B1AAB1CAA00D500FF /* bulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bulk.cpp; sourceTree = "<group>"; };
 		CABB917C1AAB1CAA00D500FF /* bulk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bulk.h; sourceTree = "<group>"; };
 		CABB917D1AAB1CAA00D500FF /* bulk.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bulk.html; sourceTree = "<group>"; };
-		CABB917E1AAB1CAA00D500FF /* bulk.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = bulk.php; sourceTree = "<group>"; };
 		CABB917F1AAB1CAA00D500FF /* clean.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clean.cpp; sourceTree = "<group>"; };
 		CABB91801AAB1CAA00D500FF /* clean.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
 		CABB91811AAB1CAA00D500FF /* clean.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = clean.html; sourceTree = "<group>"; };
@@ -2263,7 +2262,6 @@
 				CABB917B1AAB1CAA00D500FF /* bulk.cpp */,
 				CABB917C1AAB1CAA00D500FF /* bulk.h */,
 				CABB917D1AAB1CAA00D500FF /* bulk.html */,
-				CABB917E1AAB1CAA00D500FF /* bulk.php */,
 				CABB917F1AAB1CAA00D500FF /* clean.cpp */,
 				CABB91801AAB1CAA00D500FF /* clean.h */,
 				CABB91811AAB1CAA00D500FF /* clean.html */,
