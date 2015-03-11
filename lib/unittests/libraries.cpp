@@ -188,7 +188,7 @@ void test_empty_folders ()
 }
 
 
-void test_flate () // Todo
+void test_flate ()
 {
   // Test for the flate2 template engine.
   string tpl1 = filter_url_create_root_path ("unittests", "tests", "flate1.html");
@@ -197,7 +197,6 @@ void test_flate () // Todo
   string desired;
   string actual;
 
-  /* Todo
   flate = Flate ();
   desired = 
     "line 1\n"
@@ -251,7 +250,6 @@ void test_flate () // Todo
     "LocalizeTwo";
   actual = filter_string_trim (flate.render (tpl1));
   evaluate (__LINE__, __func__, desired, actual);
-   */
   
   // Test situation that a variable contains dashes (#).
   // This should work correctly.
