@@ -906,7 +906,6 @@
 		CABB91771AAB1CAA00D500FF /* bible-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "bible-n.cpp"; sourceTree = "<group>"; };
 		CABB91781AAB1CAA00D500FF /* bible-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bible-n.h"; sourceTree = "<group>"; };
 		CABB91791AAB1CAA00D500FF /* bible-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "bible-n.html"; sourceTree = "<group>"; };
-		CABB917A1AAB1CAA00D500FF /* bible-n.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "bible-n.php"; sourceTree = "<group>"; };
 		CABB917B1AAB1CAA00D500FF /* bulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bulk.cpp; sourceTree = "<group>"; };
 		CABB917C1AAB1CAA00D500FF /* bulk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bulk.h; sourceTree = "<group>"; };
 		CABB917D1AAB1CAA00D500FF /* bulk.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bulk.html; sourceTree = "<group>"; };
@@ -2253,7 +2252,6 @@
 				CABB91771AAB1CAA00D500FF /* bible-n.cpp */,
 				CABB91781AAB1CAA00D500FF /* bible-n.h */,
 				CABB91791AAB1CAA00D500FF /* bible-n.html */,
-				CABB917A1AAB1CAA00D500FF /* bible-n.php */,
 				CABB917B1AAB1CAA00D500FF /* bulk.cpp */,
 				CABB917C1AAB1CAA00D500FF /* bulk.h */,
 				CABB917D1AAB1CAA00D500FF /* bulk.html */,

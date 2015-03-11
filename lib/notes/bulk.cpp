@@ -217,6 +217,7 @@ string notes_bulk (void * webserver_request)
     string confirm = request->query["confirm"];
     if (confirm != "yes") {
       Dialog_Yes dialog_yes = Dialog_Yes ("bulk", translate("Would you like to delete the notes?"));
+      dialog_yes.add_query ("delete", "");
       page += dialog_yes.run ();
       return page;
     } else {

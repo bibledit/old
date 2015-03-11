@@ -136,6 +136,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/severity-1.h>
 #include <notes/severity-n.h>
 #include <notes/bible-1.h>
+#include <notes/bible-n.h>
 #include <notes/bulk.h>
 
 
@@ -208,6 +209,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_severity_1_url ()) && notes_severity_1_acl (request)) request->reply = notes_severity_1 (request);
   else if ((url == notes_severity_n_url ()) && notes_severity_n_acl (request)) request->reply = notes_severity_n (request);
   else if ((url == notes_bible_1_url ()) && notes_bible_1_acl (request)) request->reply = notes_bible_1 (request);
+  else if ((url == notes_bible_n_url ()) && notes_bible_n_acl (request)) request->reply = notes_bible_n (request);
   else if ((url == notes_bulk_url ()) && notes_bulk_acl (request)) request->reply = notes_bulk (request);
 
   // Resources menu.
