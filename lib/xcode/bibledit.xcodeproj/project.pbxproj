@@ -981,7 +981,6 @@
 		CABB91D11AAB1CAA00D500FF /* summary.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = summary.cpp; sourceTree = "<group>"; };
 		CABB91D21AAB1CAA00D500FF /* summary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = summary.h; sourceTree = "<group>"; };
 		CABB91D31AAB1CAA00D500FF /* summary.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = summary.html; sourceTree = "<group>"; };
-		CABB91D41AAB1CAA00D500FF /* summary.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = summary.php; sourceTree = "<group>"; };
 		CABB91D51AAB1CAA00D500FF /* unassign-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "unassign-n.cpp"; sourceTree = "<group>"; };
 		CABB91D61AAB1CAA00D500FF /* unassign-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "unassign-n.h"; sourceTree = "<group>"; };
 		CABB91D71AAB1CAA00D500FF /* unassign-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "unassign-n.html"; sourceTree = "<group>"; };
@@ -2326,7 +2325,6 @@
 				CABB91D11AAB1CAA00D500FF /* summary.cpp */,
 				CABB91D21AAB1CAA00D500FF /* summary.h */,
 				CABB91D31AAB1CAA00D500FF /* summary.html */,
-				CABB91D41AAB1CAA00D500FF /* summary.php */,
 				CABB91D51AAB1CAA00D500FF /* unassign-n.cpp */,
 				CABB91D61AAB1CAA00D500FF /* unassign-n.h */,
 				CABB91D71AAB1CAA00D500FF /* unassign-n.html */,

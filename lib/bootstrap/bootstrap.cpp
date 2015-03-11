@@ -139,6 +139,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/bible-n.h>
 #include <notes/bulk.h>
 #include <notes/editsource.h>
+#include <notes/summary.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -213,6 +214,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_bible_n_url ()) && notes_bible_n_acl (request)) request->reply = notes_bible_n (request);
   else if ((url == notes_bulk_url ()) && notes_bulk_acl (request)) request->reply = notes_bulk (request);
   else if ((url == notes_editsource_url ()) && notes_editsource_acl (request)) request->reply = notes_editsource (request);
+  else if ((url == notes_summary_url ()) && notes_summary_acl (request)) request->reply = notes_summary (request);
 
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);

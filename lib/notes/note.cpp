@@ -87,6 +87,11 @@ string notes_note (void * webserver_request)
   view.set_variable ("summary", summary);
 
 
+  if (request->session_logic ()->currentLevel () >= Filter_Roles::manager ()) {
+    view.enable_zone ("editlevel");
+  }
+  
+  
   string content = database_notes.getContents (id);
   view.set_variable ("content", content);
 
