@@ -128,6 +128,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/comment.h>
 #include <notes/actions.h>
 #include <notes/assign-1.h>
+#include <notes/assign-n.h>
+#include <notes/unassign-n.h>
 #include <notes/status-1.h>
 #include <notes/verses.h>
 #include <notes/severity-1.h>
@@ -196,6 +198,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_comment_url ()) && notes_comment_acl (request)) request->reply = notes_comment (request);
   else if ((url == notes_actions_url ()) && notes_actions_acl (request)) request->reply = notes_actions (request);
   else if ((url == notes_assign_1_url ()) && notes_assign_1_acl (request)) request->reply = notes_assign_1 (request);
+  else if ((url == notes_assign_n_url ()) && notes_assign_n_acl (request)) request->reply = notes_assign_n (request);
+  else if ((url == notes_unassign_n_url ()) && notes_unassign_n_acl (request)) request->reply = notes_unassign_n (request);
   else if ((url == notes_status_1_url ()) && notes_status_1_acl (request)) request->reply = notes_status_1 (request);
   else if ((url == notes_verses_url ()) && notes_verses_acl (request)) request->reply = notes_verses (request);
   else if ((url == notes_severity_1_url ()) && notes_severity_1_acl (request)) request->reply = notes_severity_1 (request);

@@ -900,7 +900,6 @@
 		CABB916F1AAB1CAA00D500FF /* assign-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "assign-n.cpp"; sourceTree = "<group>"; };
 		CABB91701AAB1CAA00D500FF /* assign-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "assign-n.h"; sourceTree = "<group>"; };
 		CABB91711AAB1CAA00D500FF /* assign-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "assign-n.html"; sourceTree = "<group>"; };
-		CABB91721AAB1CAA00D500FF /* assign-n.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "assign-n.php"; sourceTree = "<group>"; };
 		CABB91731AAB1CAA00D500FF /* bible-1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "bible-1.cpp"; sourceTree = "<group>"; };
 		CABB91741AAB1CAA00D500FF /* bible-1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bible-1.h"; sourceTree = "<group>"; };
 		CABB91751AAB1CAA00D500FF /* bible-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "bible-1.html"; sourceTree = "<group>"; };
@@ -990,7 +989,6 @@
 		CABB91D51AAB1CAA00D500FF /* unassign-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "unassign-n.cpp"; sourceTree = "<group>"; };
 		CABB91D61AAB1CAA00D500FF /* unassign-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "unassign-n.h"; sourceTree = "<group>"; };
 		CABB91D71AAB1CAA00D500FF /* unassign-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "unassign-n.html"; sourceTree = "<group>"; };
-		CABB91D81AAB1CAA00D500FF /* unassign-n.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = "unassign-n.php"; sourceTree = "<group>"; };
 		CABB91D91AAB1CAA00D500FF /* verses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verses.cpp; sourceTree = "<group>"; };
 		CABB91DA1AAB1CAA00D500FF /* verses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verses.h; sourceTree = "<group>"; };
 		CABB91DB1AAB1CAA00D500FF /* verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = verses.html; sourceTree = "<group>"; };
@@ -2251,7 +2249,6 @@
 				CABB916F1AAB1CAA00D500FF /* assign-n.cpp */,
 				CABB91701AAB1CAA00D500FF /* assign-n.h */,
 				CABB91711AAB1CAA00D500FF /* assign-n.html */,
-				CABB91721AAB1CAA00D500FF /* assign-n.php */,
 				CABB91731AAB1CAA00D500FF /* bible-1.cpp */,
 				CABB91741AAB1CAA00D500FF /* bible-1.h */,
 				CABB91751AAB1CAA00D500FF /* bible-1.html */,
@@ -2341,7 +2338,6 @@
 				CABB91D51AAB1CAA00D500FF /* unassign-n.cpp */,
 				CABB91D61AAB1CAA00D500FF /* unassign-n.h */,
 				CABB91D71AAB1CAA00D500FF /* unassign-n.html */,
-				CABB91D81AAB1CAA00D500FF /* unassign-n.php */,
 				CABB91D91AAB1CAA00D500FF /* verses.cpp */,
 				CABB91DA1AAB1CAA00D500FF /* verses.h */,
 				CABB91DB1AAB1CAA00D500FF /* verses.html */,

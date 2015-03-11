@@ -196,7 +196,7 @@ string notes_select (void * webserver_request)
   }
   view.set_variable ("assigneeblock", assigneeblock);
   if (assignment_selector != "") {
-    if (find (bibles.begin(), bibles.end (), assignment_selector) == bibles.end ()) {
+    if (find (assignees.begin(), assignees.end (), assignment_selector) == bibles.end ()) {
       view.enable_zone ("nonexistingassignee");
       view.set_variable ("assignmentselector", assignment_selector);
     }
