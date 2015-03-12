@@ -17,12 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-
-require_once ("../bootstrap/bootstrap");
-
-
-// Security: The script runs from the cli SAPI only.
-Filter_Cli::assert ();
+Todo port it.
 
 
 $database_logs = Database_Logs::getInstance ();
@@ -32,16 +27,6 @@ $database_notes = Database_Notes::getInstance ();
 $database_noteactions = Database_NoteActions::getInstance ();
 $database_users = Database_Users::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
-
-
-Database_Logs::log (translate("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
-
-
-$response = client_logic_connection_setup ();
-if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  Database_Logs::log (translate("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
-  die;
-}
 
 
 $address = Database_Config_General::getServerAddress ();
@@ -148,13 +133,6 @@ for ($notes as $note) {
 
   }
 }
-
-
-// After all note actions have been sent to the server, and the notes updated on the client,
-// the client will now sync its notes with the server's notes.
-$lowId = Notes_Logic::lowNoteIdentifier;
-$highId = Notes_Logic::highNoteIdentifier;
-tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes", "$lowId", "$highId"));
 
 
 ?>

@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/bibles.h>
 #include <sendreceive/usfmresources.h>
 #include <sendreceive/externalresources.h>
+#include <sendreceive/notes.h>
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <resource/convert2resource.h>
@@ -111,7 +112,9 @@ void tasks_run_one (string filename)
   } else if (command == SENDRECEIVEBIBLES) {
     sendreceive_sendreceive (parameter1);
   } else if (command == SYNCNOTES) {
-    Database_Logs::log ("Not yet implemented: " + command); // syncnotes.php
+    sendreceive_notes ();
+  } else if (command == DOWNLOADNOTES) {
+    sendreceive_notes_download (convert_to_int (parameter1), convert_to_int (parameter2));
   } else if (command == SYNCBIBLES) {
     sendreceive_bibles ();
   } else if (command == SYNCSETTINGS) {

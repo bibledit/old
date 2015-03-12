@@ -938,9 +938,10 @@ void Database_Notes::setSubscribers (int identifier, vector <string> subscribers
   }
   string subscriberstring = filter_string_implode (subscribers, "\n");
   
-  // Store them in the filesystem.
+  // Store them in the filesystem, and remove the file if there's no data to store.
   string file = subscriptionsFile (identifier);
-  filter_url_file_put_contents (file, subscriberstring);
+  if (subscriberstring.empty ()) filter_url_unlink (file);
+  else filter_url_file_put_contents (file, subscriberstring);
   
   // Store them in the database as well.
   SqliteSQL sql;
@@ -1054,9 +1055,10 @@ void Database_Notes::setAssignees (int identifier, vector <string> assignees)
   }
   string assignees_string = filter_string_implode (assignees, "\n");
 
-  // Store the assignees in the filesystem.
+  // Store the assignees in the filesystem, or remove the file if there's no data to store.
   string file = assignedFile (identifier);
-  filter_url_file_put_contents (file, assignees_string);
+  if (assignees_string.empty ()) filter_url_unlink (file);
+  else filter_url_file_put_contents (file, assignees_string);
 
   // Store the assignees in the database also.
   SqliteSQL sql;
@@ -1115,9 +1117,10 @@ string Database_Notes::getBible (int identifier)
 
 void Database_Notes::setBible (int identifier, const string& bible)
 {
-  // Write the bible to the filesystem.
+  // Write the bible to the filesystem, or remove the bible in case there's no data to store.
   string file = bibleFile (identifier);
-  filter_url_file_put_contents (file, bible);
+  if (bible.empty ()) filter_url_unlink (file);
+  else filter_url_file_put_contents (file, bible);
 
   // Update the database also.
   SqliteSQL sql;
@@ -1205,8 +1208,8 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
   // Format the passages.
   string line;
   for (auto & passage : passages) {
+    if (!line.empty ()) line.append ("\n");
     line.append (encodePassage (passage.book, passage.chapter, convert_to_int (passage.verse)));
-    line.append ("\n");
   }
 
   // Store the authoritative copy in the filesystem.

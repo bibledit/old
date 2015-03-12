@@ -107,6 +107,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/setup.h>
 #include <sync/settings.h>
 #include <sync/bibles.h>
+#include <sync/notes.h>
 #include <sync/usfmresources.h>
 #include <sync/externalresources.h>
 #include <resource/index.h>
@@ -277,6 +278,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == sync_setup_url ()) && sync_setup_acl (request)) request->reply = sync_setup (request);
   else if ((url == sync_settings_url ()) && sync_settings_acl (request)) request->reply = sync_settings (request);
   else if ((url == sync_bibles_url ()) && sync_bibles_acl (request)) request->reply = sync_bibles (request);
+  else if ((url == sync_notes_url ()) && sync_notes_acl (request)) request->reply = sync_notes (request);
   else if ((url == sync_usfmresources_url ()) && sync_usfmresources_acl (request)) request->reply = sync_usfmresources (request);
   else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
   

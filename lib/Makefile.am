@@ -226,6 +226,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/bibles.cpp \
 	sendreceive/usfmresources.cpp \
 	sendreceive/externalresources.cpp \
+	sendreceive/notes.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -234,6 +235,7 @@ libbibledit_a_SOURCES = \
 	sync/bibles.cpp \
 	sync/usfmresources.cpp \
 	sync/externalresources.cpp \
+	sync/notes.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
