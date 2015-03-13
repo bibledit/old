@@ -36,6 +36,7 @@
 #include <checksum/logic.h>
 #include <access/bible.h>
 #include <bible/logic.h>
+#include <notes/logic.h>
 
 
 string sync_notes_url ()
@@ -55,7 +56,8 @@ string sync_notes (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
   Database_Notes database_notes = Database_Notes (&request);
-  
+  Notes_Logic notes_logic = Notes_Logic (&request);
+
 
   // Bail out if the notes databases are not available or in good shape.
   bool available = true;
@@ -87,6 +89,7 @@ string sync_notes (void * webserver_request)
       return "";
     }
   }
+  request->session_logic ()->setUsername (user);
   
   
   // Note lower and upper limits.
@@ -95,7 +98,8 @@ string sync_notes (void * webserver_request)
 
   
   int identifier = convert_to_int (request->post ["i"]);
-
+  string content = request->post ["c"];
+  
   
   switch (action) {
     case Sync_Logic::notes_get_total:
@@ -172,43 +176,146 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_put_create:
     {
-      return ""; // Todo
+      // Create the note on the server.
+      int server_id = notes_logic.createNote ("", 1, 1, 1, "<empty>", "<empty>", false);
+      // Update the note identifier on the server to be same as on the client.
+      database_notes.setIdentifier (server_id, identifier);
+      // Update search field.
+      database_notes.updateSearchFields (identifier);
+      //Done.
+      return "";
     }
     case Sync_Logic::notes_put_summary:
     {
-      return ""; // Todo
+      // Set the summary of the note on the server.
+      notes_logic.setSummary (identifier, content);
+      // Update search field.
+      database_notes.updateSearchFields (identifier);
+      // Info.
+      Database_Logs::log ("Client created or updated a note on the server: " + content, Filter_Roles::manager ());
+      // Done.
+      return "";
     }
     case Sync_Logic::notes_put_contents:
     {
-      return ""; // Todo
+      // Set the note's contents on the server.
+      database_notes.setContents (identifier, content);
+      // Update search field.
+      database_notes.updateSearchFields (identifier);
+      // Done.
+      return "";
     }
-    case Sync_Logic::notes_put_subscribers:
+    case Sync_Logic::notes_put_comment:
     {
-      return ""; // Todo
+      // Add the comment to the note on the server.
+      notes_logic.addComment (identifier, content);
+      // Update search field.
+      database_notes.updateSearchFields (identifier);
+      // Info.
+      Database_Logs::log ("Client added comment to note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
     }
-    case Sync_Logic::notes_put_assignees:
+    case Sync_Logic::notes_put_subscribe:
     {
-      return ""; // Todo
+      // Subscribe to the note on the server.
+      database_notes.subscribeUser (identifier, user);
+      // Info.
+      Database_Logs::log ("Client subscribed to note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
+    }
+    case Sync_Logic::notes_put_unsubscribe:
+    {
+      // Unsubscribe from the note on the server.
+      database_notes.unsubscribeUser (identifier, user);
+      // Info.
+      Database_Logs::log ("Client unsubscribed from note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
+    }
+    case Sync_Logic::notes_put_assign:
+    {
+      // Assign user to the note on the server.
+      notes_logic.assignUser (identifier, content);
+      // Info
+      Database_Logs::log ("Client assigned the note to a user on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
+    }
+    case Sync_Logic::notes_put_unassign:
+    {
+      // Unassign the user from the note on the server.
+      notes_logic.unassignUser (identifier, content);
+      // Info.
+      Database_Logs::log ("Client unassigned a user from the note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
     }
     case Sync_Logic::notes_put_status:
     {
-      return ""; // Todo
+      // Set the status for a note on the server.
+      notes_logic.setStatus (identifier, content);
+      // Info.
+      Database_Logs::log ("Client set the note status on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
     }
     case Sync_Logic::notes_put_passages:
     {
-      return ""; // Todo
+      // Unserialize the passages.
+      vector <string> lines = filter_string_explode (content, '\n');
+      vector <Passage> passages;
+      for (auto & line : lines) {
+        passages.push_back (filter_integer_to_passage (convert_to_int (line)));
+      }
+      // Set the passages for a note on the server.
+      notes_logic.setPassages (identifier, passages);
+      // Done.
+      return "";
     }
     case Sync_Logic::notes_put_severity:
     {
-      return ""; // Todo
+      // Set the severity for a note on the server.
+      notes_logic.setRawSeverity (identifier, convert_to_int (content));
+      // Info
+      Database_Logs::log ("Client set the severity for a note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
     }
     case Sync_Logic::notes_put_bible:
     {
-      return ""; // Todo
+      // Set the Bible for a note on the server.
+      notes_logic.setBible (identifier, content);
+      // Done.
+      return "";
     }
-    case Sync_Logic::notes_put_modified:
+    case Sync_Logic::notes_put_mark_delete:
     {
-      return ""; // Todo
+      // Mark note on server for deletion.
+      notes_logic.markForDeletion (identifier);
+      // Info.
+      Database_Logs::log ("Client marked a note on server for deletion: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
+    }
+    case Sync_Logic::notes_put_unmark_delete:
+    {
+      // Unmark note on server for deletion.
+      notes_logic.unmarkForDeletion (identifier);
+      // Info.
+      Database_Logs::log ("Client unmarked a note on server for deletion: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Done.
+      return "";
+    }
+    case Sync_Logic::notes_put_delete:
+    {
+      // Info to be given before the note is deleted, else the info is lost.
+      Database_Logs::log ("Client deleted a note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Delete note on server.
+      notes_logic.erase (identifier);
+      // Done.
+      return "";
     }
   }
   

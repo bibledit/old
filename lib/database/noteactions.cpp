@@ -29,16 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Remove the database file, and re-run setup to correct the problem.
 
 
-Database_NoteActions::Database_NoteActions ()
-{
-}
-
-
-Database_NoteActions::~Database_NoteActions ()
-{
-}
-
-
 sqlite3 * Database_NoteActions::connect ()
 {
   return database_sqlite_connect ("noteactions");
@@ -102,7 +92,7 @@ vector <int> Database_NoteActions::getNotes ()
 {
   vector <int> notes;
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, "SELECT DISTINCT note FROM noteactions ORDER BY timestamp;") ["note"];
+  vector <string> result = database_sqlite_query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
   database_sqlite_disconnect (db);
   for (auto & note : result) {
     notes.push_back (convert_to_int (note));
@@ -117,7 +107,7 @@ vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid, username, timestamp, action, content FROM noteactions WHERE note =");
   sql.add (note);
-  sql.add ("ORDER BY timestamp;");
+  sql.add ("ORDER BY rowid;");
   sqlite3 * db = connect ();
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);

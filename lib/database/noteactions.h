@@ -40,8 +40,6 @@ public:
 class Database_NoteActions
 {
 public:
-  Database_NoteActions ();
-  ~Database_NoteActions ();
   void create ();
   void clear ();
   void optimize ();

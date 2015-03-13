@@ -33,28 +33,11 @@ public:
   ~Notes_Logic ();
   static const int lowNoteIdentifier  = 100000000;
   static const int highNoteIdentifier = 999999999;
-  // Note notify definitions.
   static const int notifyNoteNew = 1;
   static const int notifyNoteComment = 2;
   static const int notifyNoteUpdate = 3;
   static const int notifyNoteDelete = 4;
   static const int notifyMarkNoteForDeletion = 5;
-  // Definitions for note actions.
-  static const int noteActionCreate = 1;
-  static const int noteActionComment = 2;
-  static const int noteActionSummary = 3;
-  static const int noteActionSubscribe = 4;
-  static const int noteActionUnsubscribe = 5;
-  static const int noteActionAssign = 6;
-  static const int noteActionUnassign = 7;
-  static const int noteActionStatus = 8;
-  static const int noteActionPassage = 9;
-  static const int noteActionSeverity = 10;
-  static const int noteActionBible = 11;
-  static const int noteActionMarkDeletion = 12;
-  static const int noteActionUnmarkDeletion = 13;
-  static const int noteActionDelete = 14;
-  static const int noteActionGet = 15;
   int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   void addComment (int identifier, const string& comment);
   void setSummary (int identifier, const string& summary);

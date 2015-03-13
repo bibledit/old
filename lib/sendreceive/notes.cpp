@@ -27,6 +27,7 @@
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/notes.h>
+#include <database/noteactions.h>
 #include <database/logs.h>
 #include <client/logic.h>
 #include <locale/translate.h>
@@ -40,11 +41,14 @@
 
 void sendreceive_notes ()
 {
-  Database_Logs::log (translate("Notes: Send/receive"), Filter_Roles::translator ());
-  
-  
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
+  Database_Notes database_notes = Database_Notes (&request);
+  Database_NoteActions database_noteactions = Database_NoteActions ();
+  Notes_Logic notes_logic = Notes_Logic (&request);
+  
+  
+  Database_Logs::log (translate("Notes: Send/receive"), Filter_Roles::translator ());
   
   
   string response = client_logic_connection_setup ();
@@ -63,14 +67,16 @@ void sendreceive_notes ()
   }
   string user = users [0];
   request.session_logic ()->setUsername (user);
-  string password = request.database_users ()->getmd5 (user);
   
   
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
   map <string, string> post;
   post ["u"] = bin2hex (user);
-  post ["p"] = password;
+  post ["p"] = request.database_users ()->getmd5 (user);
+  post ["l"] = to_string (request.database_users ()->getUserLevel (user));
+
+  
   // Error variable.
   string error;
   
@@ -82,12 +88,121 @@ void sendreceive_notes ()
   
   
   // Check on communication errors to be careful that there will be no loss of notes data on the client.
-  bool communication_errors = false;
-  
+  // While sending updates for a certai note identifier,
+  // make sure to take the most recent update if there's more than one in the database for that identifier.
 
   
-  // Todo while sending, e.g. a content update for a certain identifier, make sure to take the most recent
-  // content update if there's more than one in the database. And this applies to all relevant updates.
+  // Go through all notes which have actions recorded for them.
+  // While sending note actions, the database method to retrieve them
+  // keeps the sequence of the actions as they occurred,
+  // as later updates can undo or affect earlier updates.
+  vector <int> notes = database_noteactions.getNotes ();
+  for (auto note : notes) {
+  
+  
+    string summary = database_notes.getSummary (note);
+    if (summary.empty ()) summary = "<deleted>";
+    Database_Logs::log (translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
+
+    
+    // Get all the actions for the current note.
+    vector <Database_Note_Action> note_actions = database_noteactions.getNoteData (note);
+    
+    /* Todo port it.
+    
+    $note_request_added = false;
+    
+    // Add a final action to get the updated note from the server.
+    if (!empty ($note_actions)) {
+      $get_action = $note_actions [0];
+      $get_action ['rowid'] = 0;
+      $get_action ['action'] = Notes_Logic::noteActionGet;
+      $get_action ['content'] = "";
+      $note_actions [] = $get_action;
+    }
+     */
+    
+    // Deal with the note actions for this note.
+    for (auto note_action : note_actions) {
+      
+      int rowid = note_action.rowid;
+      string username = note_action.username;
+      //int timestamp = note_action.timestamp;
+      int action = note_action.action;
+      string content = note_action.content;
+      
+      // When requesting the updated note, check that it exists at all on the client.
+      /* Todo
+      if ($action == Notes_Logic::noteActionGet) {
+        if (!database_notes.identifierExists ($note)) continue;
+      }
+       */
+
+      
+      // Generate a POST request.
+      post ["i"] = to_string (note);
+      post ["a"] = to_string (action);
+      switch (action) {
+        case Sync_Logic::notes_put_create: break;
+        case Sync_Logic::notes_put_summary:
+        {
+          content = database_notes.getSummary (note);
+          break;
+        }
+        case Sync_Logic::notes_put_contents: break;
+        case Sync_Logic::notes_put_comment: break;
+        case Sync_Logic::notes_put_subscribe: break;
+        case Sync_Logic::notes_put_unsubscribe: break;
+        case Sync_Logic::notes_put_assign: break;
+        case Sync_Logic::notes_put_unassign: break;
+        case Sync_Logic::notes_put_status:
+        {
+          content = database_notes.getRawStatus (note);
+          break;
+        }
+        case Sync_Logic::notes_put_passages:
+        {
+          vector <Passage> passages = database_notes.getPassages (note);
+          vector <string> lines;
+          for (auto & passage : passages) {
+            lines.push_back (to_string (filter_passage_to_integer (passage)));
+          }
+          content = filter_string_implode (lines, "\n");
+          break;
+        }
+        case Sync_Logic::notes_put_severity:
+        {
+          content = to_string (database_notes.getRawSeverity (note));
+          break;
+        }
+        case Sync_Logic::notes_put_bible:
+        {
+          content = database_notes.getBible (note);
+          break;
+        }
+        case Sync_Logic::notes_put_mark_delete: break;
+        case Sync_Logic::notes_put_unmark_delete: break;
+        case Sync_Logic::notes_put_delete: break;
+      }
+      post ["c"] = content;
+      cout << "note " << note << " action " << action << endl; // Todo
+      cout << "payload: " << content << endl; // Todo
+
+      
+      // Send the request off and receive the response.
+      response = sync_logic.post (post, url, error);
+      if (!error.empty ()) {
+        Database_Logs::log ("Notes: Failure sending note: " + error, Filter_Roles::translator ());
+        return;
+      }
+      cout << "response: " << response << endl; // Todo
+
+      
+      // Delete this note action because it has been dealt with.
+      database_noteactions.erase (rowid);
+    }
+  }
+  
   
   // After all note actions have been sent to the server, and the notes updated on the client,
   // the client will now sync its notes with the server's notes.

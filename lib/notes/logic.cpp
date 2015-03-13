@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <trash/handler.h>
 #include <locale/translate.h>
 #include <client/logic.h>
+#include <sync/logic.h>
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)
@@ -57,10 +58,12 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     Database_NoteActions database_noteactions;
-    /* Todo
-    $data = Filter_Client::createNoteEncode ($bible, $book, $chapter, $verse, $summary, $contents, $raw);
-    $database_noteactions->record ($session_logic->currentUser (), $note_id, self::noteActionCreate, $data);
-    */
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create, "");
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_summary, "");
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, contents);
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_bible, "");
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_passages, "");
   } else {
     // Server: do the notifications.
     handlerNewNote (note_id);
@@ -81,7 +84,7 @@ void Notes_Logic::addComment (int identifier, const string& comment)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionComment, comment);
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_comment, comment);
   } else {
     // Server: do the notifications.
     handlerAddComment (identifier);
@@ -97,7 +100,7 @@ void Notes_Logic::setSummary (int identifier, const string& summary)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionSummary, summary);
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_summary, "");
   } else {
     // Server: do nothing extra.
   }
@@ -112,7 +115,7 @@ void Notes_Logic::subscribe (int identifier)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionSubscribe, "");
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_subscribe, "");
   } else {
     // Server: do nothing extra.
   }
@@ -127,7 +130,7 @@ void Notes_Logic::unsubscribe (int identifier)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionUnsubscribe, "");
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_unsubscribe, "");
   } else {
     // Server: do nothing extra.
   }
@@ -141,7 +144,7 @@ void Notes_Logic::assignUser (int identifier, const string& user)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionAssign, user);
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_assign, user);
   } else {
     // Server: do the notifications.
     // Assign logic comes before the database action in this particular case.
@@ -159,7 +162,7 @@ void Notes_Logic::unassignUser (int identifier, const string& user)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionUnassign, user);
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_unassign, user);
   } else {
     // Server: do nothing extra.
   }
@@ -174,7 +177,7 @@ void Notes_Logic::setStatus (int identifier, const string& status)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionStatus, status);
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_status, "");
   } else {
     // Server: do nothing extra.
   }
@@ -190,12 +193,7 @@ void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    vector <string> passagetexts;
-    for (Passage passage : passages) {
-      passagetexts.push_back (passage.to_text ());
-    }
-    string serialization = filter_string_implode (passagetexts, "|");
-    database_noteactions.record (user, identifier, noteActionPassage, serialization);
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_passages, "");
   } else {
     // Server: do nothing extra.
   }
@@ -211,7 +209,7 @@ void Notes_Logic::setRawSeverity (int identifier, int severity)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionSeverity, convert_to_string (severity));
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_severity, "");
   } else {
     // Server: do nothing extra.
   }
@@ -227,7 +225,7 @@ void Notes_Logic::setBible (int identifier, const string& bible)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionBible, bible);
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_bible, "");
   } else {
     // Server: do nothing extra.
   }
@@ -243,7 +241,7 @@ void Notes_Logic::markForDeletion (int identifier)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionMarkDeletion, "");
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_mark_delete, "");
   } else {
     // Server: notifications.
     handlerMarkNoteForDeletion (identifier);
@@ -259,7 +257,7 @@ void Notes_Logic::unmarkForDeletion (int identifier)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionUnmarkDeletion, "");
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_unmark_delete, "");
   } else {
     // Server: do nothing extra.
   }
@@ -273,7 +271,7 @@ void Notes_Logic::erase (int identifier)
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, noteActionDelete, "");
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_delete, "");
   } else {
     // Server: notification.
     handlerDeleteNote (identifier);

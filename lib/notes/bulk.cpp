@@ -227,7 +227,7 @@ string notes_bulk (void * webserver_request)
         database_notes.erase (identifier);
       }
       success = translate("The notes were deleted");
-      Database_Logs::log ("Notes deleted: identifierlist", true);
+      Database_Logs::log ("Notes deleted: " + identifierlist);
     }
   }
   
