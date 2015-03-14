@@ -35,9 +35,8 @@ public:
   static const int highNoteIdentifier = 999999999;
   static const int notifyNoteNew = 1;
   static const int notifyNoteComment = 2;
-  static const int notifyNoteUpdate = 3;
-  static const int notifyNoteDelete = 4;
-  static const int notifyMarkNoteForDeletion = 5;
+  static const int notifyNoteDelete = 3;
+  static const int notifyMarkNoteForDeletion = 4;
   int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   void addComment (int identifier, const string& comment);
   void setSummary (int identifier, const string& summary);
@@ -54,7 +53,6 @@ public:
   void erase (int identifier);
   void handlerNewNote (int identifier);
   void handlerAddComment (int identifier);
-  void handlerUpdateNote (int identifier);
   void handlerAssignNote (int identifier, const string& user);
   void handlerMarkNoteForDeletion (int identifier);
   void handlerDeleteNote (int identifier);

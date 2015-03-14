@@ -56,7 +56,7 @@ string sync_notes (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
   Database_Notes database_notes = Database_Notes (&request);
-  Notes_Logic notes_logic = Notes_Logic (&request);
+  Notes_Logic notes_logic = Notes_Logic (webserver_request);
 
 
   // Bail out if the notes databases are not available or in good shape.
@@ -76,7 +76,7 @@ string sync_notes (void * webserver_request)
 
   
   // Check on the credentials when the clients sends data to the server to be stored there.
-  if (action >= Sync_Logic::notes_put_create) {
+  if (action >= Sync_Logic::notes_put_create_initiate) {
     if (!sync_logic.credentials_okay ()) return "";
   }
 
@@ -173,15 +173,22 @@ string sync_notes (void * webserver_request)
     {
       return to_string (database_notes.getModified (identifier));
     }
-    case Sync_Logic::notes_put_create:
+    case Sync_Logic::notes_put_create_initiate:
     {
       // Create the note on the server.
-      int server_id = notes_logic.createNote ("", 1, 1, 1, "<empty>", "<empty>", false);
+      int server_id = database_notes.storeNewNote ("", 1, 1, 1, "<empty>", "<empty>", false);
       // Update the note identifier on the server to be same as on the client.
       database_notes.setIdentifier (server_id, identifier);
       // Update search field.
       database_notes.updateSearchFields (identifier);
-      //Done.
+      // Done.
+      return "";
+    }
+    case Sync_Logic::notes_put_create_complete: // Todo do the notifications.
+    {
+      // Do notifications.
+      notes_logic.handlerNewNote (identifier);
+      // Done.
       return "";
     }
     case Sync_Logic::notes_put_summary:
@@ -204,7 +211,7 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_comment:
+    case Sync_Logic::notes_put_comment: // Todo do the notifications.
     {
       // Add the comment to the note on the server.
       notes_logic.addComment (identifier, content);
@@ -212,6 +219,8 @@ string sync_notes (void * webserver_request)
       database_notes.updateSearchFields (identifier);
       // Info.
       Database_Logs::log ("Client added comment to note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Notifications.
+      notes_logic.handlerAddComment (identifier);
       // Done.
       return "";
     }
@@ -239,6 +248,8 @@ string sync_notes (void * webserver_request)
       notes_logic.assignUser (identifier, content);
       // Info
       Database_Logs::log ("Client assigned the note to a user on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Notifications.
+      notes_logic.handlerAssignNote (identifier, content);
       // Done.
       return "";
     }
@@ -289,12 +300,14 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_mark_delete:
+    case Sync_Logic::notes_put_mark_delete: // Todo do the trash handler or similar, see server code for this.
     {
       // Mark note on server for deletion.
       notes_logic.markForDeletion (identifier);
       // Info.
       Database_Logs::log ("Client marked a note on server for deletion: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
+      // Notifications.
+      notes_logic.handlerMarkNoteForDeletion (identifier);
       // Done.
       return "";
     }
@@ -307,12 +320,14 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_delete:
+    case Sync_Logic::notes_put_delete: // Todo do the trash handler or similar, see server code.
     {
       // Info to be given before the note is deleted, else the info is lost.
       Database_Logs::log ("Client deleted a note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
       // Delete note on server.
       notes_logic.erase (identifier);
+      // Notifications.
+      notes_logic.handlerDeleteNote (identifier);
       // Done.
       return "";
     }

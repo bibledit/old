@@ -143,7 +143,8 @@ void sendreceive_notes ()
       post ["i"] = to_string (note);
       post ["a"] = to_string (action);
       switch (action) {
-        case Sync_Logic::notes_put_create: break;
+        case Sync_Logic::notes_put_create_initiate: break;
+        case Sync_Logic::notes_put_create_complete: break;
         case Sync_Logic::notes_put_summary:
         {
           content = database_notes.getSummary (note);

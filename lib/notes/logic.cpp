@@ -59,15 +59,16 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
     // Client: record the action in the database.
     Database_NoteActions database_noteactions;
     Webserver_Request * request = (Webserver_Request *) webserver_request;
-    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create, "");
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_initiate, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_summary, "");
     // The contents to submit to the server, take it from the database, as it was updated in the logic above.
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, database_notes.getContents (note_id));
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_bible, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_passages, "");
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_complete, "");
   } else {
     // Server: do the notifications.
-    handlerNewNote (note_id);
+    handlerNewNote (note_id); // Todo use for server also.
   }
   return note_id;
 }
@@ -88,7 +89,7 @@ void Notes_Logic::addComment (int identifier, const string& comment)
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_comment, comment);
   } else {
     // Server: do the notifications.
-    handlerAddComment (identifier);
+    handlerAddComment (identifier); // Todo use for server also.
   }
 }
 
@@ -151,7 +152,7 @@ void Notes_Logic::assignUser (int identifier, const string& user)
     // Assign logic comes before the database action in this particular case.
     handlerAssignNote (identifier, user);
   }
-  database_notes.assignUser (identifier, user);
+  database_notes.assignUser (identifier, user); // Todo use for server also.
 }
 
 
@@ -245,7 +246,7 @@ void Notes_Logic::markForDeletion (int identifier)
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_mark_delete, "");
   } else {
     // Server: notifications.
-    handlerMarkNoteForDeletion (identifier);
+    handlerMarkNoteForDeletion (identifier); // Todo use for server also.
   }
 }
 
@@ -275,7 +276,7 @@ void Notes_Logic::erase (int identifier)
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_delete, "");
   } else {
     // Server: notification.
-    handlerDeleteNote (identifier);
+    handlerDeleteNote (identifier); // Todo use for server also.
   }
   trash_consultation_note (webserver_request, identifier);
   database_notes.erase (identifier);
@@ -297,12 +298,6 @@ void Notes_Logic::handlerAddComment (int identifier)
   if (status == "Done") {
     database_notes.setStatus (identifier, "Reopened");
   }
-}
-
-
-void Notes_Logic::handlerUpdateNote (int identifier)
-{
-  notifyUsers (identifier, notifyNoteUpdate);
 }
 
 
@@ -355,7 +350,6 @@ void Notes_Logic::notifyUsers (int identifier, int notification) // Todo
   if (notification != notifyMarkNoteForDeletion) {
 
     // Whether current user gets subscribed to the note.
-    cout << request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe () << endl; // Todo
     if (request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
       database_notes.subscribe (identifier);
     }
@@ -422,7 +416,6 @@ void Notes_Logic::notifyUsers (int identifier, int notification) // Todo
   switch (notification) {
     case notifyNoteNew             : label = translate("New");                 break;
     case notifyNoteComment         : label = translate("Comment");             break;
-    case notifyNoteUpdate          : label = translate("Updated");             break;
     case notifyNoteDelete          : label = translate("Deleted");             break;
     case notifyMarkNoteForDeletion : label = translate("Marked for deletion"); break;
   }
@@ -644,10 +637,6 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
 
 string Notes_Logic::generalBibleName ()
 {
-  string name;
-  name.append ("[");
-  name.append (translate("no Bible"));
-  name.append ("]");
-  return name;
+  return "[" + translate("no Bible") + "]";
 }
 
