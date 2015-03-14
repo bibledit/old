@@ -109,7 +109,6 @@ void email_receive () // Todo
   // Email count.
   string error;
   int emailcount = email_receive_count (error);
-  cout << "mails "  << emailcount << endl; // Todo
   // Messages start at number 1 instead of 0.
   for (int i = 1; i <= emailcount; i++) {
 
@@ -125,7 +124,6 @@ void email_receive () // Todo
       string from;
       string subject;
       email_dissect (body, from, subject);
-      cout << subject << endl; // Todo
   
       Database_Logs::log ("Processing email from " + from + " with subject " + subject);
 

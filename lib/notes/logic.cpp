@@ -547,10 +547,10 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
 }
 
 
-// handleEmailNew - handles an email received from from with subject subject and body body.
+// handleEmailNew - handles an email received from $from with subject $subject and body $body.
 // Returns true if the mail was processed, else false.
 // The email is considered to have been processed if it created a new Consultation Note.
-bool Notes_Logic::handleEmailNew (string from, string subject, string body) // Todo
+bool Notes_Logic::handleEmailNew (string from, string subject, string body)
 {
   // Webserver request.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -558,20 +558,15 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body) // T
   string originalSubject = subject;
   // Check that the subject indicates that a new consultation note is to be created.
   size_t pos = unicode_string_casefold (subject).find ("new note");
-  cout << unicode_string_casefold (subject) << endl; // Todo
-  cout << pos << endl; // Todo
   if (pos == string::npos) return false;
   // There is a new note. Remove that bit from the subject.
-  subject = subject.substr (0, pos) + subject.substr (pos + 8);
+  if (pos > 0) subject.erase (0, pos + 8);
   // Clean the subject line.
   subject = filter_string_trim (subject);
   subject = filter_string_str_replace (".", " ", subject);
   subject = filter_string_str_replace (":", " ", subject);
+  subject = filter_string_str_replace ("   ", " ", subject);
   subject = filter_string_str_replace ("  ", " ", subject);
-  subject = filter_string_str_replace ("  ", " ", subject);
-  subject = filter_string_str_replace ("  ", " ", subject);
-  subject = filter_string_str_replace ("  ", " ", subject);
-  cout << subject << endl; // Todo
   // Check that the from address of the email belongs to an existing user.
   from = filter_string_extract_email (from);
   if (!request->database_users()->emailExists (from)) return false;
@@ -587,11 +582,11 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body) // T
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {
-    chapter = convert_to_int (subjectlines[1]);
+    chapter = convert_to_int (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {
-    verse = convert_to_int (subjectlines[2]);
+    verse = convert_to_int (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   summary = filter_string_implode (subjectlines, " ");
@@ -612,7 +607,6 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body) // T
   }
   // Mail user if the note could not be posted.
   Database_Mail database_mail = Database_Mail (webserver_request);
-  cout << noteCheck << endl; // Todo
   if (noteCheck != "") {
     subject = translate("Your new note could not be posted");
     database_mail.send (username, subject  + ": " + originalSubject, noteCheck);
@@ -623,10 +617,9 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body) // T
   // Post the note.
   string sessionuser = request->session_logic()->currentUser ();
   request->session_logic()->setUsername (username);
-  cout << request->session_logic()->currentUser () << endl; // Todo
   Database_Notes database_notes = Database_Notes(webserver_request);
-  int identifier = database_notes.storeNewNote ("", book, chapter, verse, summary, body, false);
-  cout << summary << " " << body << " " << identifier << endl; // Todo
+  string bible = request->database_config_user()->getBible ();
+  int identifier = database_notes.storeNewNote (bible, book, chapter, verse, summary, body, false);
   handlerNewNote (identifier);
   request->session_logic()->setUsername (sessionuser);
   // Mail confirmation to the username.

@@ -78,7 +78,6 @@ void timer_index ()
       if ((!client) && ((minute % 5) == 0)) {
         tasks_logic_queue (RECEIVEEMAIL);
       }
-      tasks_logic_queue (RECEIVEEMAIL); // Todo
 
       // At the sixth minute after every full hour rotate the journal.
       if (minute == 6) tasks_logic_queue (ROTATEJOURNAL);
