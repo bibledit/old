@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <confirm/worker.h>
+#include <notes/logic.h>
 
 
 // Dissects a raw email.
@@ -96,7 +97,7 @@ void email_dissect (string & body, string & from, string & subject)
 }
 
 
-void email_receive ()
+void email_receive () // Todo
 {
   // One email receiver runs at a time.
   if (config_globals_mail_receive_running) return;
@@ -108,11 +109,13 @@ void email_receive ()
   // Email count.
   string error;
   int emailcount = email_receive_count (error);
+  cout << "mails "  << emailcount << endl; // Todo
   // Messages start at number 1 instead of 0.
   for (int i = 1; i <= emailcount; i++) {
 
     Webserver_Request request;
     Confirm_Worker confirm_worker = Confirm_Worker (&request);
+    Notes_Logic notes_logic = Notes_Logic (&request);
     
     error.clear ();
     string body = email_receive_message (error);
@@ -122,18 +125,16 @@ void email_receive ()
       string from;
       string subject;
       email_dissect (body, from, subject);
+      cout << subject << endl; // Todo
   
       Database_Logs::log ("Processing email from " + from + " with subject " + subject);
 
-      // C++Port $notes_logic = Notes_Logic::getInstance ();
       if (confirm_worker.handleEmail (from, subject, body)) {
       }
-      /* C++Port
-      else if ($notes_logic->handleEmailComment ($from, $subject, $body)) {
+      else if (notes_logic.handleEmailComment (from, subject, body)) {
       }
-      else if ($notes_logic->handleEmailNew ($from, $subject, $body)) {
+      else if (notes_logic.handleEmailNew (from, subject, body)) {
       }
-      */
       else {
         Database_Logs::log ("Could not allocate email from " + from + ", subject " + subject);
         Database_Logs::log (body);

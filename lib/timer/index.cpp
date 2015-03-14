@@ -75,7 +75,10 @@ void timer_index ()
 
       // Check for new mail every five minutes.
       // Do not check more often with gmail else the account may be shut down.
-      if (!client && ((minute % 5) == 0)) tasks_logic_queue (RECEIVEEMAIL);
+      if ((!client) && ((minute % 5) == 0)) {
+        tasks_logic_queue (RECEIVEEMAIL);
+      }
+      tasks_logic_queue (RECEIVEEMAIL); // Todo
 
       // At the sixth minute after every full hour rotate the journal.
       if (minute == 6) tasks_logic_queue (ROTATEJOURNAL);

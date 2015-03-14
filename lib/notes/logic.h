@@ -57,12 +57,12 @@ public:
   void handlerMarkNoteForDeletion (int identifier);
   void handlerDeleteNote (int identifier);
   bool handleEmailNew (string from, string subject, string body);
+  bool handleEmailComment (string from, string subject, string body);
   string generalBibleName ();
 private:
   void * webserver_request;
   void notifyUsers (int identifier, int notification);
   void emailUsers (int identifier, const string& label, const vector <string> & users, bool postpone);
-  bool handleEmailComment (string from, string subject, string body);
 };
 
 
