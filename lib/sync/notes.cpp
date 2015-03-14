@@ -100,7 +100,6 @@ string sync_notes (void * webserver_request)
   int identifier = convert_to_int (request->post ["i"]);
   string content = request->post ["c"];
   
-  
   switch (action) {
     case Sync_Logic::notes_get_total:
     {

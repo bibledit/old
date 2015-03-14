@@ -185,8 +185,6 @@ void sendreceive_notes ()
         case Sync_Logic::notes_put_delete: break;
       }
       post ["c"] = content;
-      cout << "note " << note << " action " << action << endl; // Todo
-      cout << "payload: " << content << endl; // Todo
 
       
       // Send the request off and receive the response.
@@ -195,7 +193,6 @@ void sendreceive_notes ()
         Database_Logs::log ("Notes: Failure sending note: " + error, Filter_Roles::translator ());
         return;
       }
-      cout << "response: " << response << endl; // Todo
 
       
       // Delete this note action because it has been dealt with.

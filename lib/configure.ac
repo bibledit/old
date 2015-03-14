@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.91],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0.92],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -146,12 +146,12 @@ AC_OUTPUT(Makefile)
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix                   : ${prefix}
-Libgit2                               : ${LIBGIT}
-Network port                          : ${NETWORK_PORT}
-Client installation (--enable-client) : ${CLIENT}
-Demo installation (--enable-demo)     : ${DEMO}
-Maximum number of parallel tasks      : ${PARALLEL_TASKS}
-Bare browser mode                     : ${BARE_BROWSER}
-Build for iOS (--enable-ios)          : ${IOS}
+Installation prefix                                        : ${prefix}
+Libgit2                                                    : ${LIBGIT}
+Network port (--with-network-port=n)                       : ${NETWORK_PORT}
+Client installation (--enable-client)                      : ${CLIENT}
+Demo installation (--enable-demo)                          : ${DEMO}
+Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
+Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
+Build for iOS (--enable-ios)                               : ${IOS}
 "

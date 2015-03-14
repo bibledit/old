@@ -42,7 +42,7 @@ bool notes_poll_acl (void * webserver_request)
 string notes_poll (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
+  if (request) {};
   /* Todo
   $ipc_notes = Ipc_Notes::getInstance();
   $action = request->query ['action'];

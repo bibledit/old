@@ -61,7 +61,8 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
     Webserver_Request * request = (Webserver_Request *) webserver_request;
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_summary, "");
-    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, contents);
+    // The contents to submit to the server, take it from the database, as it was updated in the logic above.
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, database_notes.getContents (note_id));
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_bible, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_passages, "");
   } else {
@@ -337,12 +338,12 @@ void Notes_Logic::handlerDeleteNote (int identifier)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notifyUsers (int identifier, int notification)
+void Notes_Logic::notifyUsers (int identifier, int notification) // Todo
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
 
-  // Databases.
+  // Data objects.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Notes database_notes = Database_Notes (webserver_request);
   
@@ -354,6 +355,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   if (notification != notifyMarkNoteForDeletion) {
 
     // Whether current user gets subscribed to the note.
+    cout << request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe () << endl; // Todo
     if (request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
       database_notes.subscribe (identifier);
     }
@@ -370,7 +372,6 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
         }
       }
     }
-
   }
 
   // The recipients who receive a notification by email.

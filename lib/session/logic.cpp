@@ -90,7 +90,10 @@ void Session_Logic::Open ()
   if (clientAccess ()) return;
 
   string address = remoteAddress ();
-  string agent = ((Webserver_Request *) webserver_request)->user_agent;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  // Work around a weird bug on OS X where the user_agent's size is 140735294083184 leading to a crash.
+  if (request->user_agent.size () > 10000) return;
+  string agent = request->user_agent;
   string finger_print = fingerprint ();
   Database_Users database_users = Database_Users ();
   string username = database_users.getUsername (address, agent, finger_print);

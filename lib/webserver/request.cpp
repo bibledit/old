@@ -24,7 +24,7 @@ Webserver_Request::Webserver_Request ()
 {
   get = "/index";
   is_post = false;
-  user_agent = "Browser/1.0";
+  user_agent.assign ("Browser/1.0");
   accept_language = "en-US";
   content_length = 0;
   response_code = 200;

@@ -50,19 +50,20 @@ string Database_Config_User::file (string user, const char * key)
 
 string Database_Config_User::getValue (const char * key, const char * default_value)
 {
-  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string user = request->session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
 }
 
 
-bool Database_Config_User::getValue (const char * key, bool default_value)
+bool Database_Config_User::getBValue (const char * key, bool default_value)
 {
   string value = getValue (key, convert_to_string (default_value).c_str());
   return convert_to_bool (value);
 }
 
 
-int Database_Config_User::getValue (const char * key, int default_value)
+int Database_Config_User::getIValue (const char * key, int default_value)
 {
   string value = getValue (key, convert_to_string (default_value).c_str());
   return convert_to_int (value);
@@ -79,14 +80,14 @@ string Database_Config_User::getValueForUser (string user, const char * key, con
 }
 
 
-bool Database_Config_User::getValueForUser (string user, const char * key, bool default_value)
+bool Database_Config_User::getBValueForUser (string user, const char * key, bool default_value)
 {
   string value = getValueForUser (user, key, convert_to_string (default_value).c_str());
   return convert_to_bool (value);
 }
 
 
-int Database_Config_User::getValueForUser (string user, const char * key, int default_value)
+int Database_Config_User::getIValueForUser (string user, const char * key, int default_value)
 {
   string value = getValueForUser (user, key, convert_to_string (default_value).c_str());
   return convert_to_int (value);
@@ -103,13 +104,13 @@ void Database_Config_User::setValue (const char * key, string value)
 }
 
 
-void Database_Config_User::setValue (const char * key, bool value)
+void Database_Config_User::setBValue (const char * key, bool value)
 {
   setValue (key, convert_to_string (value));
 }
 
 
-void Database_Config_User::setValue (const char * key, int value)
+void Database_Config_User::setIValue (const char * key, int value)
 {
   setValue (key, convert_to_string (value));
 }
@@ -234,113 +235,113 @@ void Database_Config_User::setBible (string bible)
 
 bool Database_Config_User::getSubscribeToConsultationNotesEditedByMe ()
 {
-  return getValue ("subscribe-to-consultation-notes-edited-by-me", false);
+  return getBValue ("subscribe-to-consultation-notes-edited-by-me", false);
 }
 void Database_Config_User::setSubscribeToConsultationNotesEditedByMe (bool value)
 {
-  setValue ("subscribe-to-consultation-notes-edited-by-me", value);
+  setBValue ("subscribe-to-consultation-notes-edited-by-me", value);
 }
 
 
 bool Database_Config_User::getNotifyMeOfAnyConsultationNotesEdits ()
 {
-  return getValue ("notify-me-of-any-consultation-notes-edits", false);
+  return getBValue ("notify-me-of-any-consultation-notes-edits", false);
 }
 bool Database_Config_User::getNotifyUserOfAnyConsultationNotesEdits (string username)
 {
-  return getValueForUser (username, "notify-me-of-any-consultation-notes-edits", false);
+  return getBValueForUser (username, "notify-me-of-any-consultation-notes-edits", false);
 }
 void Database_Config_User::setNotifyMeOfAnyConsultationNotesEdits (bool value){
-  setValue ("notify-me-of-any-consultation-notes-edits", value);
+  setBValue ("notify-me-of-any-consultation-notes-edits", value);
 }
 
 
 bool Database_Config_User::getSubscribedConsultationNoteNotification ()
 {
-  return getValue ("subscribed-consultation-note-notification", true);
+  return getBValue ("subscribed-consultation-note-notification", true);
 }
 bool Database_Config_User::getUserSubscribedConsultationNoteNotification (string username)
 {
-  return getValueForUser (username, "subscribed-consultation-note-notification", true);
+  return getBValueForUser (username, "subscribed-consultation-note-notification", true);
 }
 void Database_Config_User::setSubscribedConsultationNoteNotification (bool value)
 {
-  setValue ("subscribed-consultation-note-notification", value);
+  setBValue ("subscribed-consultation-note-notification", value);
 }
 
 
 bool Database_Config_User::getAssignedToConsultationNotesChanges ()
 {
-  return getValue ("get-assigned-to-consultation-notes-changes", false);
+  return getBValue ("get-assigned-to-consultation-notes-changes", false);
 }
 bool Database_Config_User::getUserAssignedToConsultationNotesChanges (string username)
 {
-  return getValueForUser (username, "get-assigned-to-consultation-notes-changes", false);
+  return getBValueForUser (username, "get-assigned-to-consultation-notes-changes", false);
 }
 void Database_Config_User::setAssignedToConsultationNotesChanges (bool value)
 {
-  setValue ("get-assigned-to-consultation-notes-changes", value);
+  setBValue ("get-assigned-to-consultation-notes-changes", value);
 }
 
 
 bool Database_Config_User::getGenerateChangeNotifications ()
 {
-  return getValue ("generate-change-notifications", false);
+  return getBValue ("generate-change-notifications", false);
 }
 bool Database_Config_User::getUserGenerateChangeNotifications (string username)
 {
-  return getValueForUser (username, "generate-change-notifications", false);
+  return getBValueForUser (username, "generate-change-notifications", false);
 }
 void Database_Config_User::setGenerateChangeNotifications (bool value)
 {
-  setValue ("generate-change-notifications", value);
+  setBValue ("generate-change-notifications", value);
 }
 
 
 bool Database_Config_User::getAssignedConsultationNoteNotification ()
 {
-  return getValue ("assigned-consultation-note-notification", true);
+  return getBValue ("assigned-consultation-note-notification", true);
 }
 bool Database_Config_User::getUserAssignedConsultationNoteNotification (string username)
 {
-  return getValueForUser (username, "assigned-consultation-note-notification", true);
+  return getBValueForUser (username, "assigned-consultation-note-notification", true);
 }
 void Database_Config_User::setAssignedConsultationNoteNotification (bool value)
 {
-  setValue ("assigned-consultation-note-notification", value);
+  setBValue ("assigned-consultation-note-notification", value);
 }
 
 
 // 0: current verse; 1: current chapter; 2: current book; 3: any passage.
 int Database_Config_User::getConsultationNotesPassageSelector ()
 {
-  return getValue ("consultation-notes-passage-selector", 0);
+  return getIValue ("consultation-notes-passage-selector", 0);
 }
 void Database_Config_User::setConsultationNotesPassageSelector (int value)
 {
-  setValue ("consultation-notes-passage-selector", value);
+  setIValue ("consultation-notes-passage-selector", value);
 }
 
 
 // 0: any time; 1: last 30 days; 2: last 7 days; 3: since yesterday; 4: today.
 int Database_Config_User::getConsultationNotesEditSelector ()
 {
-  return getValue ("consultation-notes-edit-selector", 0);
+  return getIValue ("consultation-notes-edit-selector", 0);
 }
 void Database_Config_User::setConsultationNotesEditSelector (int value)
 {
-  setValue ("consultation-notes-edit-selector", value);
+  setIValue ("consultation-notes-edit-selector", value);
 }
 
 
 // 0: don't care; 1: for last 30 days; 2: for last 7 days; 3: since yesterday; 4: today.
 int Database_Config_User::getConsultationNotesNonEditSelector ()
 {
-  return getValue ("consultation-notes-non-edit-selector", 0);
+  return getIValue ("consultation-notes-non-edit-selector", 0);
 }
 void Database_Config_User::setConsultationNotesNonEditSelector (int value)
 {
-  setValue ("consultation-notes-non-edit-selector", value);
+  setIValue ("consultation-notes-non-edit-selector", value);
 }
 
 
@@ -380,31 +381,31 @@ void Database_Config_User::setConsultationNotesAssignmentSelector (string value)
 // false: don't care; true: subscribed.
 bool Database_Config_User::getConsultationNotesSubscriptionSelector ()
 {
-  return getValue ("consultation-notes-subscription-selector", false);
+  return getBValue ("consultation-notes-subscription-selector", false);
 }
 void Database_Config_User::setConsultationNotesSubscriptionSelector (bool value)
 {
-  setValue ("consultation-notes-subscription-selector", value);
+  setBValue ("consultation-notes-subscription-selector", value);
 }
 
 
 int Database_Config_User::getConsultationNotesSeveritySelector ()
 {
-  return getValue ("consultation-notes-severity-selector", -1);
+  return getIValue ("consultation-notes-severity-selector", -1);
 }
 void Database_Config_User::setConsultationNotesSeveritySelector (int value)
 {
-  setValue ("consultation-notes-severity-selector", value);
+  setIValue ("consultation-notes-severity-selector", value);
 }
 
 
 int Database_Config_User::getConsultationNotesTextSelector ()
 {
-  return getValue ("consultation-notes-text-selector", 0);
+  return getIValue ("consultation-notes-text-selector", 0);
 }
 void Database_Config_User::setConsultationNotesTextSelector (int value)
 {
-  setValue ("consultation-notes-text-selector", value);
+  setIValue ("consultation-notes-text-selector", value);
 }
 
 
@@ -420,147 +421,147 @@ void Database_Config_User::setConsultationNotesSearchText (string value)
 
 int Database_Config_User::getConsultationNotesPassageInclusionSelector ()
 {
-  return getValue ("consultation-notes-passage-inclusion-selector", 0);
+  return getIValue ("consultation-notes-passage-inclusion-selector", 0);
 }
 void Database_Config_User::setConsultationNotesPassageInclusionSelector (int value)
 {
-  setValue ("consultation-notes-passage-inclusion-selector", value);
+  setIValue ("consultation-notes-passage-inclusion-selector", value);
 }
 
 
 int Database_Config_User::getConsultationNotesTextInclusionSelector ()
 {
-  return getValue ("consultation-notes-text-inclusion-selector", 0);
+  return getIValue ("consultation-notes-text-inclusion-selector", 0);
 }
 void Database_Config_User::setConsultationNotesTextInclusionSelector (int value)
 {
-  setValue ("consultation-notes-text-inclusion-selector", value);
+  setIValue ("consultation-notes-text-inclusion-selector", value);
 }
 
 
 bool Database_Config_User::getBibleChangesNotification ()
 {
-  return getValue ("bible-changes-notification", false);
+  return getBValue ("bible-changes-notification", false);
 }
 bool Database_Config_User::getUserBibleChangesNotification (string username)
 {
-  return getValueForUser (username, "bible-changes-notification", false);
+  return getBValueForUser (username, "bible-changes-notification", false);
 }
 void Database_Config_User::setBibleChangesNotification (bool value)
 {
-  setValue ("bible-changes-notification", value);
+  setBValue ("bible-changes-notification", value);
 }
 
 
 bool Database_Config_User::getDeletedConsultationNoteNotification ()
 {
-  return getValue ("deleted-consultation-note-notification", false);
+  return getBValue ("deleted-consultation-note-notification", false);
 }
 bool Database_Config_User::getUserDeletedConsultationNoteNotification (string username)
 {
-  return getValueForUser (username, "deleted-consultation-note-notification", false);
+  return getBValueForUser (username, "deleted-consultation-note-notification", false);
 }
 void Database_Config_User::setDeletedConsultationNoteNotification (bool value)
 {
-  setValue ("deleted-consultation-note-notification", value);
+  setBValue ("deleted-consultation-note-notification", value);
 }
 
 
 bool Database_Config_User::getBibleChecksNotification ()
 {
-  return getValue ("bible-checks-notification", false);
+  return getBValue ("bible-checks-notification", false);
 }
 bool Database_Config_User::getUserBibleChecksNotification (string username)
 {
-  return getValueForUser (username, "bible-checks-notification", false);
+  return getBValueForUser (username, "bible-checks-notification", false);
 }
 void Database_Config_User::setBibleChecksNotification (bool value)
 {
-  setValue ("bible-checks-notification", value);
+  setBValue ("bible-checks-notification", value);
 }
 
 
 bool Database_Config_User::getPendingChangesNotification ()
 {
-  return getValue ("pending-changes-notification", false);
+  return getBValue ("pending-changes-notification", false);
 }
 bool Database_Config_User::getUserPendingChangesNotification (string username)
 {
-  return getValueForUser (username, "pending-changes-notification", false);
+  return getBValueForUser (username, "pending-changes-notification", false);
 }
 void Database_Config_User::setPendingChangesNotification (bool value)
 {
-  setValue ("pending-changes-notification", value);
+  setBValue ("pending-changes-notification", value);
 }
 
 
 bool Database_Config_User::getUserChangesNotification ()
 {
-  return getValue ("user-changes-notification", false);
+  return getBValue ("user-changes-notification", false);
 }
 bool Database_Config_User::getUserUserChangesNotification (string username)
 {
-  return getValueForUser (username, "user-changes-notification", false);
+  return getBValueForUser (username, "user-changes-notification", false);
 }
 void Database_Config_User::setUserChangesNotification (bool value)
 {
-  setValue ("user-changes-notification", value);
+  setBValue ("user-changes-notification", value);
 }
 
 
 bool Database_Config_User::getAssignedNotesStatisticsNotification ()
 {
-  return getValue ("assigned-notes-statistics-notification", false);
+  return getBValue ("assigned-notes-statistics-notification", false);
 }
 bool Database_Config_User::getUserAssignedNotesStatisticsNotification (string username)
 {
-  return getValueForUser (username, "assigned-notes-statistics-notification", false);
+  return getBValueForUser (username, "assigned-notes-statistics-notification", false);
 }
 void Database_Config_User::setAssignedNotesStatisticsNotification (bool value)
 {
-  setValue ("assigned-notes-statistics-notification", value);
+  setBValue ("assigned-notes-statistics-notification", value);
 }
 
 
 bool Database_Config_User::getSubscribedNotesStatisticsNotification ()
 {
-  return getValue ("subscribed-notes-statistics-notification", false);
+  return getBValue ("subscribed-notes-statistics-notification", false);
 }
 bool Database_Config_User::getUserSubscribedNotesStatisticsNotification (string username)
 {
-  return getValueForUser (username, "subscribed-notes-statistics-notification", false);
+  return getBValueForUser (username, "subscribed-notes-statistics-notification", false);
 }
 void Database_Config_User::setSubscribedNotesStatisticsNotification (bool value)
 {
-  setValue ("subscribed-notes-statistics-notification", value);
+  setBValue ("subscribed-notes-statistics-notification", value);
 }
 
 
 bool Database_Config_User::getNotifyMeOfMyPosts ()
 {
-  return getValue ("notify-me-of-my-posts", true);
+  return getBValue ("notify-me-of-my-posts", true);
 }
 bool Database_Config_User::getUserNotifyMeOfMyPosts (string username)
 {
-  return getValueForUser (username, "notify-me-of-my-posts", true);
+  return getBValueForUser (username, "notify-me-of-my-posts", true);
 }
 void Database_Config_User::setNotifyMeOfMyPosts (bool value)
 {
-  setValue ("notify-me-of-my-posts", value);
+  setBValue ("notify-me-of-my-posts", value);
 }
 
 
 bool Database_Config_User::getSuppressMailFromYourUpdatesNotes ()
 {
-  return getValue ("suppress-mail-my-updated-notes", false);
+  return getBValue ("suppress-mail-my-updated-notes", false);
 }
 bool Database_Config_User::getUserSuppressMailFromYourUpdatesNotes (string username)
 {
-  return getValueForUser (username, "suppress-mail-my-updated-notes", false);
+  return getBValueForUser (username, "suppress-mail-my-updated-notes", false);
 }
 void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 {
-  setValue ("suppress-mail-my-updated-notes", value);
+  setBValue ("suppress-mail-my-updated-notes", value);
 }
 
 
@@ -590,11 +591,11 @@ const char * Database_Config_User::keySprintMonth ()
 }
 int Database_Config_User::getSprintMonth ()
 {
-  return getValue (keySprintMonth (), filter_string_date_numerical_month ());
+  return getBValue (keySprintMonth (), filter_string_date_numerical_month ());
 }
 void Database_Config_User::setSprintMonth (int value)
 {
-  setValue (keySprintMonth (), value);
+  setBValue (keySprintMonth (), value);
 }
 
 
@@ -604,39 +605,39 @@ const char * Database_Config_User::keySprintYear ()
 }
 int Database_Config_User::getSprintYear ()
 {
-  return getValue (keySprintYear (), filter_string_date_numerical_year ());
+  return getBValue (keySprintYear (), filter_string_date_numerical_year ());
 }
 void Database_Config_User::setSprintYear (int value)
 {
-  setValue (keySprintYear (), value);
+  setBValue (keySprintYear (), value);
 }
 
 
 bool Database_Config_User::getSprintProgressNotification ()
 {
-  return getValue ("sprint-progress-notification", false);
+  return getBValue ("sprint-progress-notification", false);
 }
 bool Database_Config_User::getUserSprintProgressNotification (string username)
 {
-  return getValueForUser (username, "sprint-progress-notification", false);
+  return getBValueForUser (username, "sprint-progress-notification", false);
 }
 void Database_Config_User::setSprintProgressNotification (bool value)
 {
-  setValue ("sprint-progress-notification", value);
+  setBValue ("sprint-progress-notification", value);
 }
 
 
 bool Database_Config_User::getUserChangesNotificationsOnline ()
 {
-  return getValue ("user-changes-notifications-online", false);
+  return getBValue ("user-changes-notifications-online", false);
 }
 bool Database_Config_User::getUserUserChangesNotificationsOnline (string username)
 {
-  return getValueForUser (username, "user-changes-notifications-online", false);
+  return getBValueForUser (username, "user-changes-notifications-online", false);
 }
 void Database_Config_User::setUserChangesNotificationsOnline (bool value)
 {
-  setValue ("user-changes-notifications-online", value);
+  setBValue ("user-changes-notifications-online", value);
 }
 
 
@@ -682,11 +683,11 @@ void Database_Config_User::setActiveWorkbench (string value)
 
 bool Database_Config_User::getPostponeNewNotesMails ()
 {
-  return getValue ("postpone-new-notes-mails", false);
+  return getBValue ("postpone-new-notes-mails", false);
 }
 void Database_Config_User::setPostponeNewNotesMails (bool value)
 {
-  setValue ("postpone-new-notes-mails", value);
+  setBValue ("postpone-new-notes-mails", value);
 }
 
 
@@ -775,31 +776,31 @@ void Database_Config_User::setTargetXrefBible (string bible)
 
 int Database_Config_User::getFocusedBook ()
 {
-  return getValue ("focused-book", 1);
+  return getIValue ("focused-book", 1);
 }
 void Database_Config_User::setFocusedBook (int book)
 {
-  setValue ("focused-book", book);
+  setIValue ("focused-book", book);
 }
 
 
 int Database_Config_User::getFocusedChapter ()
 {
-  return getValue ("focused-chapter", 1);
+  return getIValue ("focused-chapter", 1);
 }
 void Database_Config_User::setFocusedChapter (int chapter)
 {
-  setValue ("focused-chapter", chapter);
+  setIValue ("focused-chapter", chapter);
 }
 
 
 int Database_Config_User::getFocusedVerse ()
 {
-  return getValue ("focused-verse", 1);
+  return getIValue ("focused-verse", 1);
 }
 void Database_Config_User::setFocusedVerse (int verse)
 {
-  setValue ("focused-verse", verse);
+  setIValue ("focused-verse", verse);
 }
 
 

@@ -99,7 +99,8 @@ void bibledit_initialize_library ()
 {
   // Must initialize libcurl before any threads are started.
   curl_global_init (CURL_GLOBAL_ALL);
-  
+  //cout << curl_version () << endl;
+
   // Thread locking.
   thread_setup ();
   
