@@ -55,37 +55,37 @@ string user_notifications (void * webserver_request)
   if (request->query.count ("editednotessubscriptiontoggle")) {
     database_config_user.setSubscribeToConsultationNotesEditedByMe (!database_config_user.getSubscribeToConsultationNotesEditedByMe ());
   }
-  view.set_variable ("edited_notes_subscription", get_tick_box (!database_config_user.getSubscribeToConsultationNotesEditedByMe ()));
+  view.set_variable ("edited_notes_subscription", get_tick_box (database_config_user.getSubscribeToConsultationNotesEditedByMe ()));
   
   if (request->query.count ("anynotessubscriptiontoggle")) {
     database_config_user.setNotifyMeOfAnyConsultationNotesEdits(!database_config_user.getNotifyMeOfAnyConsultationNotesEdits());
   }
-  view.set_variable ("any_notes_subscription", get_tick_box (!database_config_user.getNotifyMeOfAnyConsultationNotesEdits ()));
+  view.set_variable ("any_notes_subscription", get_tick_box (database_config_user.getNotifyMeOfAnyConsultationNotesEdits ()));
   
   if (request->query.count ("emailconfirmationyourpoststoggle")) {
     database_config_user.setNotifyMeOfMyPosts (!database_config_user.getNotifyMeOfMyPosts ());
   }
-  view.set_variable ("email_confirmation_your_posts", get_tick_box (!database_config_user.getNotifyMeOfMyPosts ()));
+  view.set_variable ("email_confirmation_your_posts", get_tick_box (database_config_user.getNotifyMeOfMyPosts ()));
   
   if (request->query.count ("subscribednotenotificationtoggle")) {
     database_config_user.setSubscribedConsultationNoteNotification(!database_config_user.getSubscribedConsultationNoteNotification());
   }
-  view.set_variable ("subscription_notification", get_tick_box (!database_config_user.getSubscribedConsultationNoteNotification ()));
+  view.set_variable ("subscription_notification", get_tick_box (database_config_user.getSubscribedConsultationNoteNotification ()));
   
   if (request->query.count ("notesassignmenttoggle")) {
     database_config_user.setAssignedToConsultationNotesChanges(!database_config_user.getAssignedToConsultationNotesChanges());
   }
-  view.set_variable ("notes_assignment", get_tick_box (!database_config_user.getAssignedToConsultationNotesChanges ()));
+  view.set_variable ("notes_assignment", get_tick_box (database_config_user.getAssignedToConsultationNotesChanges ()));
   
   if (request->query.count ("assignednotenotificationtoggle")) {
     database_config_user.setAssignedConsultationNoteNotification(!database_config_user.getAssignedConsultationNoteNotification());
   }
-  view.set_variable ("assignment_notification", get_tick_box (!database_config_user.getAssignedConsultationNoteNotification ()));
+  view.set_variable ("assignment_notification", get_tick_box (database_config_user.getAssignedConsultationNoteNotification ()));
   
   if (request->query.count ("suppressemailsfromnotesyouupdatedtoggle")) {
     database_config_user.setSuppressMailFromYourUpdatesNotes (!database_config_user.getSuppressMailFromYourUpdatesNotes ());
   }
-  view.set_variable ("suppress_mails_from_your_updates", get_tick_box (!database_config_user.getSuppressMailFromYourUpdatesNotes ()));
+  view.set_variable ("suppress_mails_from_your_updates", get_tick_box (database_config_user.getSuppressMailFromYourUpdatesNotes ()));
   
   if (request->query.count ("assignednotesnotificationtoggle")) {
     database_config_user.setAssignedNotesStatisticsNotification (!database_config_user.getAssignedNotesStatisticsNotification ());
