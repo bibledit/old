@@ -31,6 +31,7 @@ string demo_client_warning ();
 void demo_clean_data ();
 string demo_sample_bible_name ();
 void demo_create_sample_bible (void * webserver_request);
+void demo_create_sample_notes (void * webserver_request);
 
 
 #endif

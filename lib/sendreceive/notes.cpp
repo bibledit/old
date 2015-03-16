@@ -97,30 +97,21 @@ void sendreceive_notes ()
   // keeps the sequence of the actions as they occurred,
   // as later updates can undo or affect earlier updates.
   vector <int> notes = database_noteactions.getNotes ();
-  for (auto note : notes) {
+  for (auto identifier : notes) {
   
   
-    string summary = database_notes.getSummary (note);
+    string summary = database_notes.getSummary (identifier);
     if (summary.empty ()) summary = "<deleted>";
     Database_Logs::log (translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
 
     
     // Get all the actions for the current note.
-    vector <Database_Note_Action> note_actions = database_noteactions.getNoteData (note);
+    vector <Database_Note_Action> note_actions = database_noteactions.getNoteData (identifier);
     
-    /* Todo port it.
     
-    $note_request_added = false;
-    
-    // Add a final action to get the updated note from the server.
-    if (!empty ($note_actions)) {
-      $get_action = $note_actions [0];
-      $get_action ['rowid'] = 0;
-      $get_action ['action'] = Notes_Logic::noteActionGet;
-      $get_action ['content'] = "";
-      $note_actions [] = $get_action;
-    }
-     */
+    // Due to some updates sent out here, record final actions to get the updated note from the server. Todo
+    map <int, bool> final_get_actions;
+
     
     // Deal with the note actions for this note.
     for (auto note_action : note_actions) {
@@ -131,23 +122,16 @@ void sendreceive_notes ()
       int action = note_action.action;
       string content = note_action.content;
       
-      // When requesting the updated note, check that it exists at all on the client.
-      /* Todo
-      if ($action == Notes_Logic::noteActionGet) {
-        if (!database_notes.identifierExists ($note)) continue;
-      }
-       */
-
       
       // Generate a POST request.
-      post ["i"] = to_string (note);
+      post ["i"] = to_string (identifier);
       post ["a"] = to_string (action);
       switch (action) {
         case Sync_Logic::notes_put_create_initiate: break;
         case Sync_Logic::notes_put_create_complete: break;
         case Sync_Logic::notes_put_summary:
         {
-          content = database_notes.getSummary (note);
+          content = database_notes.getSummary (identifier);
           break;
         }
         case Sync_Logic::notes_put_contents: break;
@@ -158,12 +142,12 @@ void sendreceive_notes ()
         case Sync_Logic::notes_put_unassign: break;
         case Sync_Logic::notes_put_status:
         {
-          content = database_notes.getRawStatus (note);
+          content = database_notes.getRawStatus (identifier);
           break;
         }
         case Sync_Logic::notes_put_passages:
         {
-          vector <Passage> passages = database_notes.getPassages (note);
+          vector <Passage> passages = database_notes.getPassages (identifier);
           vector <string> lines;
           for (auto & passage : passages) {
             lines.push_back (to_string (filter_passage_to_integer (passage)));
@@ -173,12 +157,12 @@ void sendreceive_notes ()
         }
         case Sync_Logic::notes_put_severity:
         {
-          content = to_string (database_notes.getRawSeverity (note));
+          content = to_string (database_notes.getRawSeverity (identifier));
           break;
         }
         case Sync_Logic::notes_put_bible:
         {
-          content = database_notes.getBible (note);
+          content = database_notes.getBible (identifier);
           break;
         }
         case Sync_Logic::notes_put_mark_delete: break;
@@ -198,6 +182,77 @@ void sendreceive_notes ()
       
       // Delete this note action because it has been dealt with.
       database_noteactions.erase (rowid);
+      
+
+      // Add final note actions depending on what was updated.
+      switch (action) {
+        case Sync_Logic::notes_put_create_initiate: break;
+        case Sync_Logic::notes_put_create_complete:
+        {
+          int i = Sync_Logic::notes_get_contents;
+          final_get_actions [i] = true;
+          i = Sync_Logic::notes_get_subscribers;
+          final_get_actions [i] = true;
+          i = Sync_Logic::notes_get_assignees;
+          final_get_actions [i] = true;
+          i = Sync_Logic::notes_get_modified;
+          final_get_actions [i] = true;
+          break;
+        }
+        case Sync_Logic::notes_put_summary: break;
+        case Sync_Logic::notes_put_contents: break;
+        case Sync_Logic::notes_put_comment:
+        {
+          int i = Sync_Logic::notes_get_contents;
+          final_get_actions [i] = true;
+          i = Sync_Logic::notes_get_subscribers;
+          final_get_actions [i] = true;
+          i = Sync_Logic::notes_get_assignees;
+          final_get_actions [i] = true;
+          i = Sync_Logic::notes_get_modified;
+          final_get_actions [i] = true;
+          break;
+        }
+        case Sync_Logic::notes_put_subscribe: break;
+        case Sync_Logic::notes_put_unsubscribe: break;
+        case Sync_Logic::notes_put_assign: break;
+        case Sync_Logic::notes_put_unassign: break;
+        case Sync_Logic::notes_put_status: break;
+        case Sync_Logic::notes_put_passages: break;
+        case Sync_Logic::notes_put_severity: break;
+        case Sync_Logic::notes_put_bible: break;
+        case Sync_Logic::notes_put_mark_delete: break;
+        case Sync_Logic::notes_put_unmark_delete: break;
+        case Sync_Logic::notes_put_delete: break;
+      }
+    }
+    
+    
+    // Deal with the extra, added, note actions. // Todo
+    for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
+      map <string, string> post;
+      post ["u"] = bin2hex (user);
+      post ["i"] = to_string (identifier);
+      post ["a"] = to_string (action);
+      response = sync_logic.post (post, url, error);
+      if (error.empty ()) {
+        if (action == Sync_Logic::notes_get_contents) {
+          if (response != database_notes.getContents (identifier)) {
+            database_notes.setContents (identifier, response);
+          }
+        }
+        if (action == Sync_Logic::notes_get_subscribers) {
+          vector <string> subscribers = filter_string_explode (response, '\n');
+          database_notes.setSubscribers (identifier, subscribers);
+        }
+        if (action == Sync_Logic::notes_get_assignees) {
+          vector <string> assignees = filter_string_explode (response, '\n');
+          database_notes.setAssignees (identifier, assignees);
+        }
+        if (action == Sync_Logic::notes_get_modified) {
+          database_notes.setModified (identifier, convert_to_int (response));
+        }
+      }
     }
   }
   

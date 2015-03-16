@@ -96,7 +96,7 @@ string notes_create (void * webserver_request)
   
  
   
-  /* Todo
+  /* C++Port
 
   
   // This script can be called from a change notification.

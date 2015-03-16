@@ -92,8 +92,6 @@ void email_dissect (string & body, string & from, string & subject)
       }
     }
   }
-
-
 }
 
 

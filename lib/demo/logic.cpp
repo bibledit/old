@@ -27,6 +27,7 @@
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>
+#include <database/notes.h>
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <styles/logic.h>
@@ -84,7 +85,7 @@ string demo_client_warning ()
 
 
 // Cleans and resets the data in the Bibledit installation.
-void demo_clean_data () // Todo
+void demo_clean_data ()
 {
   Database_Logs::log ("Cleaning up the demo data");
 
@@ -168,6 +169,10 @@ void demo_clean_data () // Todo
       Bible_Logic::deleteBible (bible);
     }
   }
+  
+  
+  // Create sample notes.
+  demo_create_sample_notes (&request);
 }
 
 
@@ -178,7 +183,7 @@ string demo_sample_bible_name ()
 }
 
 
-// Creates a sample Bible
+// Creates a sample Bible.
 void demo_create_sample_bible (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -202,4 +207,17 @@ void demo_create_sample_bible (void * webserver_request)
   
   // Set the sample Bible to viewable by all users.
   Database_Config_Bible::setViewableByAllUsers (demo_sample_bible_name (), true);
+}
+
+
+// Create sample notes.
+void demo_create_sample_notes (void * webserver_request)
+{
+  Database_Notes database_notes = Database_Notes (webserver_request);
+  vector <int> identifiers = database_notes.getIdentifiers ();
+  if (identifiers.size () < 10) {
+    for (unsigned int i = 1; i <= 10; i++) {
+      database_notes.storeNewNote (demo_sample_bible_name (), i, i, i, "Sample Note " + to_string (i), "Sample Contents for note " + to_string (i), false);
+    }
+  }
 }
