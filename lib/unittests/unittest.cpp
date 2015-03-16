@@ -266,7 +266,7 @@ int main (int argc, char **argv)
   config_globals_unit_testing = true;
   
   // Todo
-  test_database_notes (); exit (0);
+  test_ipc_notes (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -321,6 +321,7 @@ int main (int argc, char **argv)
   test_filter_git ();
   test_filter_merge ();
   test_filter_tidy ();
+  test_ipc_notes ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

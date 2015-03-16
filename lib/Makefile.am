@@ -179,6 +179,7 @@ libbibledit_a_SOURCES = \
 	navigation/update.cpp \
 	navigation/poll.cpp \
 	ipc/focus.cpp \
+	ipc/notes.cpp \
 	checksum/logic.cpp \
 	editusfm/focus.cpp \
 	editusfm/id.cpp \

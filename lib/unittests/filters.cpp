@@ -4091,3 +4091,65 @@ void test_filter_tidy ()
   evaluate (__LINE__, __func__, 752, tidy.size());
 }
 
+
+void test_ipc_notes () // Todo
+{
+  /* Todo
+  protected function setUp ()
+  {
+    $this->tearDown ();
+    $session_logic = Session_Logic::getInstance ();
+    request->session_logic ()->setUsername ("phpunit");
+  }
+  
+  
+  protected function tearDown ()
+  {
+    
+    request->database_ipc()->trim ();
+    $session_logic = Session_Logic::getInstance ();
+    request->session_logic ()->setUsername ("");
+  }
+  
+  
+  public function testNone ()
+  {
+    $ipc_notes = Ipc_Notes::getInstance ();
+    $data = $ipc_notes->get ();
+    $this->assertNull ($data);
+  }
+  
+  
+  public function testOpen ()
+  {
+    $ipc_notes = Ipc_Notes::getInstance ();
+    $ipc_notes->open (123456789);
+    $identifier = $ipc_notes->get ();
+    $this->assertEquals (123456789, $identifier);
+  }
+  
+  
+  public function testDeleteOne ()
+  {
+    $ipc_notes = Ipc_Notes::getInstance ();
+    $ipc_notes->open (123456789);
+    $ipc_notes->delete ();
+    $identifier = $ipc_notes->get ();
+    $this->assertNull ($identifier);
+  }
+  
+  
+  public function testDeleteTwo ()
+  {
+    $ipc_notes = Ipc_Notes::getInstance ();
+    $ipc_notes->open (123456789);
+    $ipc_notes->open (123456789);
+    $ipc_notes->delete ();
+    $data = $ipc_notes->get ();
+    $this->assertNull ($data);
+    $ipc_notes->delete ();
+    $data = $ipc_notes->get ();
+    $this->assertNull ($data);
+  }
+  */
+}
