@@ -109,7 +109,7 @@ void sendreceive_notes ()
     vector <Database_Note_Action> note_actions = database_noteactions.getNoteData (identifier);
     
     
-    // Due to some updates sent out here, record final actions to get the updated note from the server. Todo
+    // Due to some updates sent out here, record final actions to get the updated note from the server.
     map <int, bool> final_get_actions;
 
     

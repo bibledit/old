@@ -68,7 +68,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_complete, "");
   } else {
     // Server: do the notifications.
-    handlerNewNote (note_id); // Todo use for server also.
+    handlerNewNote (note_id);
   }
   return note_id;
 }
@@ -89,7 +89,7 @@ void Notes_Logic::addComment (int identifier, const string& comment)
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_comment, comment);
   } else {
     // Server: do the notifications.
-    handlerAddComment (identifier); // Todo use for server also.
+    handlerAddComment (identifier);
   }
 }
 
@@ -152,7 +152,7 @@ void Notes_Logic::assignUser (int identifier, const string& user)
     // Assign logic comes before the database action in this particular case.
     handlerAssignNote (identifier, user);
   }
-  database_notes.assignUser (identifier, user); // Todo use for server also.
+  database_notes.assignUser (identifier, user);
 }
 
 
@@ -246,7 +246,7 @@ void Notes_Logic::markForDeletion (int identifier)
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_mark_delete, "");
   } else {
     // Server: notifications.
-    handlerMarkNoteForDeletion (identifier); // Todo use for server also.
+    handlerMarkNoteForDeletion (identifier);
   }
 }
 
@@ -276,7 +276,7 @@ void Notes_Logic::erase (int identifier)
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_delete, "");
   } else {
     // Server: notification.
-    handlerDeleteNote (identifier); // Todo use for server also.
+    handlerDeleteNote (identifier);
   }
   trash_consultation_note (webserver_request, identifier);
   database_notes.erase (identifier);
@@ -333,7 +333,7 @@ void Notes_Logic::handlerDeleteNote (int identifier)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notifyUsers (int identifier, int notification) // Todo
+void Notes_Logic::notifyUsers (int identifier, int notification)
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
