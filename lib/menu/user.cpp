@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/notifications.h>
 #include <user/account.h>
 #include <client/logic.h>
+#include <config/logic.h>
 
 
 // This generates a user menu.
@@ -74,11 +75,12 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
   // Take access control into account.
 
   bool client = client_logic_client_enabled ();
+  bool demo = config_logic_demo_enabled ();
 
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
-  if (!client) if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), translate ("Logout"), NULL } );
+  if (!(client || demo)) if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), translate ("Logout"), NULL } );
   if (user_notifications_acl (webserver_request)) menu->push_back ( { "", user_notifications_url (), translate ("Notifications"), NULL } );
-  if (!client) if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), translate ("Account"), NULL } );
+  if (!(client || demo)) if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), translate ("Account"), NULL } );
   return menu;
 }
 

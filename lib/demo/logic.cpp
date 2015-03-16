@@ -84,7 +84,7 @@ string demo_client_warning ()
 
 
 // Cleans and resets the data in the Bibledit installation.
-void demo_clean_data ()
+void demo_clean_data () // Todo
 {
   Database_Logs::log ("Cleaning up the demo data");
 
