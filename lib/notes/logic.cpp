@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <sync/logic.h>
+#include <notes/note.h>
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)
@@ -451,7 +452,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
 
   // Include a link to the note on the site.
   contents.append ("<br>\n");
-  string link = Database_Config_General::getSiteURL () + "/notes/note?id=" + convert_to_string (identifier);
+  string link = Database_Config_General::getSiteURL () + notes_note_url () + "?id=" + convert_to_string (identifier);
   contents.append ("<p><a href=\"");
   contents.append (link);
   contents.append ("\">View or respond online</a></p>\n");

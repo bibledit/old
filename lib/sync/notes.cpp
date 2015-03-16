@@ -184,7 +184,7 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_create_complete: // Todo do the notifications.
+    case Sync_Logic::notes_put_create_complete:
     {
       // Do notifications.
       notes_logic.handlerNewNote (identifier);
@@ -211,7 +211,7 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_comment: // Todo do the notifications.
+    case Sync_Logic::notes_put_comment:
     {
       // Add the comment to the note on the server.
       notes_logic.addComment (identifier, content);
@@ -300,7 +300,7 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_mark_delete: // Todo do the trash handler or similar, see server code for this.
+    case Sync_Logic::notes_put_mark_delete:
     {
       // Mark note on server for deletion.
       notes_logic.markForDeletion (identifier);
@@ -320,14 +320,14 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_delete: // Todo do the trash handler or similar, see server code.
+    case Sync_Logic::notes_put_delete:
     {
       // Info to be given before the note is deleted, else the info is lost.
       Database_Logs::log ("Client deleted a note on server: " + database_notes.getSummary (identifier), Filter_Roles::manager ());
-      // Delete note on server.
-      notes_logic.erase (identifier);
       // Notifications.
       notes_logic.handlerDeleteNote (identifier);
+      // Delete note on server.
+      notes_logic.erase (identifier);
       // Done.
       return "";
     }

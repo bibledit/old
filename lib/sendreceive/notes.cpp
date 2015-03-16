@@ -228,7 +228,7 @@ void sendreceive_notes ()
     }
     
     
-    // Deal with the extra, added, note actions. // Todo
+    // Deal with the extra, added, note actions.
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
       map <string, string> post;
       post ["u"] = bin2hex (user);
@@ -391,7 +391,10 @@ void sendreceive_notes_download (int lowId, int highId)
   vector <string> server_checksums;
   vresponse = filter_string_explode (response, '\n');
   for (size_t i = 0; i < vresponse.size (); i++) {
-    if (i % 2 == 0) server_identifiers.push_back (convert_to_int (vresponse [i]));
+    if (i % 2 == 0) {
+      int identifier = convert_to_int (vresponse [i]);
+      if (identifier > 0) server_identifiers.push_back (identifier);
+    }
     else server_checksums.push_back (vresponse [i]);
   }
   
