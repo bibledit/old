@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Deals with the consultation notes stuff.
 
 
-class Ipc_Notes
+class Ipc_Notes // Todo port it.
 {
   private static $instance;
   private function __construct() {

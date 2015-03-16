@@ -25,6 +25,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
+// Todo #include <ipc/notes.h>
 
 
 string notes_poll_url ()
@@ -39,12 +40,10 @@ bool notes_poll_acl (void * webserver_request)
 }
 
 
-string notes_poll (void * webserver_request)
+string notes_poll (void * webserver_request) // Todo
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  if (request) {};
-  /* Todo
-  $ipc_notes = Ipc_Notes::getInstance();
+  /*
+  Ipc_Notes ipc_notes = Ipc_Notes (webserver_request);
   $action = request->query ['action'];
   if ($action == "alive") {
     $ipc_notes->alive (true);
@@ -57,6 +56,6 @@ string notes_poll (void * webserver_request)
   } else if ($action == "unload") {
     $ipc_notes->alive (false);
   }
-*/
   return "";
+  */
 }

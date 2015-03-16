@@ -591,11 +591,11 @@ const char * Database_Config_User::keySprintMonth ()
 }
 int Database_Config_User::getSprintMonth ()
 {
-  return getBValue (keySprintMonth (), filter_string_date_numerical_month ());
+  return getIValue (keySprintMonth (), filter_string_date_numerical_month ());
 }
 void Database_Config_User::setSprintMonth (int value)
 {
-  setBValue (keySprintMonth (), value);
+  setIValue (keySprintMonth (), value);
 }
 
 
@@ -605,11 +605,11 @@ const char * Database_Config_User::keySprintYear ()
 }
 int Database_Config_User::getSprintYear ()
 {
-  return getBValue (keySprintYear (), filter_string_date_numerical_year ());
+  return getIValue (keySprintYear (), filter_string_date_numerical_year ());
 }
 void Database_Config_User::setSprintYear (int value)
 {
-  setBValue (keySprintYear (), value);
+  setIValue (keySprintYear (), value);
 }
 
 

@@ -95,7 +95,7 @@ void email_dissect (string & body, string & from, string & subject)
 }
 
 
-void email_receive () // Todo
+void email_receive ()
 {
   // One email receiver runs at a time.
   if (config_globals_mail_receive_running) return;
