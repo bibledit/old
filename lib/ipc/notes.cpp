@@ -66,7 +66,6 @@ bool Ipc_Notes::alive (void * webserver_request, bool set, bool alive)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
-  
   if (set) {
     request->database_ipc()->storeMessage (user, "", "notesalive", convert_to_string (alive));
   } else {
