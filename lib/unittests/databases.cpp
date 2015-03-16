@@ -3169,7 +3169,7 @@ void test_database_notes ()
       rawseverities.push_back (severity.raw);
       localizedseverities.push_back (severity.localized);
     }
-    evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, rawseverities);
+    evaluate (__LINE__, __func__, {"0", "1", "2", "3", "4", "5"}, rawseverities);
     evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);
   }
   // Modified
