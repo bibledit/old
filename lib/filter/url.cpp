@@ -412,7 +412,19 @@ string filter_url_http_get (string url, string& error)
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    // Because a Bibledit client should work even over very bad networks,
+    // pass some options to curl so it properly deals with such networks.
+    // There is a timeout on establishing a connection.
+    // There is a also a transfer timeout for normal speeds.
+    // And there is also a shorter transfer timeout for very low speeds,
+    // because very low speeds indicate a stalled conection.
+    // Without these timeouts, the Bibledit client will fail to schedule new sync tasks,
+    // because it still waits on stalled sync operatios to finish, which would never happen without those timeouts.
     curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_easy_setopt (curl, CURLOPT_TIMEOUT, 600);
+    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);
+    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 10);
+    curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1L);
     CURLcode res = curl_easy_perform (curl);
     if (res == CURLE_OK) {
       error.clear ();
@@ -460,7 +472,12 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     // Further options.
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    // Timeouts for very bad networks, see the GET routine above for an explanation.
     curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_easy_setopt (curl, CURLOPT_TIMEOUT, 600);
+    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);
+    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 10);
+    curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1L);
     // Perform the request.
     CURLcode res = curl_easy_perform (curl);
     // Result check.
