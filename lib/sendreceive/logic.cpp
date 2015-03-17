@@ -60,14 +60,13 @@ void sendreceive_queue_sync (int minute)
   if (minute < 0) {
     // Only queue the sync tasks if none are running at the moment.
     if (sendreceive_sync_queued ()) {
-      Database_Logs::log ("Not scheduling sync tasks, because the previous ones have not yet finished");
-    } else {
-      tasks_logic_queue (SYNCNOTES);
-      tasks_logic_queue (SYNCBIBLES);
-      tasks_logic_queue (SYNCSETTINGS);
-      tasks_logic_queue (SYNCEXTERNALRESOURCES);
-      tasks_logic_queue (SYNCUSFMRESOURCES);
+      Database_Logs::log ("Some sync actions are still running");
     }
+    tasks_logic_queue (SYNCNOTES);
+    tasks_logic_queue (SYNCBIBLES);
+    tasks_logic_queue (SYNCSETTINGS);
+    tasks_logic_queue (SYNCEXTERNALRESOURCES);
+    tasks_logic_queue (SYNCUSFMRESOURCES);
   }
 }
 

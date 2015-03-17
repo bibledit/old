@@ -36,14 +36,27 @@
 #include <database/books.h>
 
 
+mutex mutex_sendreceive_usfmresources;
+bool sendreceive_usfmresources_running = false;
+
+
 void sendreceive_usfmresources ()
 {
+  mutex_sendreceive_usfmresources.lock ();
+  bool bail_out = sendreceive_usfmresources_running;
+  mutex_sendreceive_usfmresources.unlock ();
+  if (bail_out) return;
+  mutex_sendreceive_usfmresources.lock ();
+  sendreceive_usfmresources_running = true;
+  mutex_sendreceive_usfmresources.unlock ();
+  
+  
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
 
   
-  Database_Logs::log (translate("Synchronizing USFM resources"), Filter_Roles::translator ());
+  Database_Logs::log (translate("USFM resources: Synchronizing"), Filter_Roles::translator ());
   
  
   string address = Database_Config_General::getServerAddress ();
@@ -62,12 +75,12 @@ void sendreceive_usfmresources ()
   post ["a"] = to_string (Sync_Logic::usfmresources_get_total_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("USFM Resources: Failure getting total checksum: " + error, Filter_Roles::translator ());
+    Database_Logs::log ("USFM resources: Failure getting total checksum: " + error, Filter_Roles::translator ());
     return;
   }
   string checksum = Sync_Logic::usfm_resources_checksum ();
   if (response == checksum) {
-    Database_Logs::log ("The USFM resources are up to date", Filter_Roles::translator ());
+    Database_Logs::log ("USFM resources: Up to date", Filter_Roles::translator ());
     return;
   }
   
@@ -76,7 +89,7 @@ void sendreceive_usfmresources ()
   post ["a"] = to_string (Sync_Logic::usfmresources_get_resources);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("USFM Resources: Failure getting resources: " + error, Filter_Roles::translator ());
+    Database_Logs::log ("USFM resources: Failure getting resources: " + error, Filter_Roles::translator ());
     return;
   }
   vector <string> server_resources = filter_string_explode (response, '\n');
@@ -101,7 +114,7 @@ void sendreceive_usfmresources ()
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("USFM Resources: Failure getting checksum of resource: " + error, Filter_Roles::translator ());
+      Database_Logs::log ("USFM resources: Failure getting checksum of resource: " + error, Filter_Roles::translator ());
       return;
     }
     checksum = Sync_Logic::usfm_resource_checksum (resource);
@@ -115,7 +128,7 @@ void sendreceive_usfmresources ()
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("USFM Resources: Failure getting books of resource: " + error, Filter_Roles::translator ());
+      Database_Logs::log ("USFM resources: Failure getting books of resource: " + error, Filter_Roles::translator ());
       return;
     }
     vector <int> server_books;
@@ -143,7 +156,7 @@ void sendreceive_usfmresources ()
       post ["b"] = to_string (book);
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        Database_Logs::log ("USFM Resources: Failure getting checksum of resoource book: " + error, Filter_Roles::translator ());
+        Database_Logs::log ("USFM resources: Failure getting checksum of resoource book: " + error, Filter_Roles::translator ());
         return;
       }
       checksum = Sync_Logic::usfm_resource_book_checksum (resource, book);
@@ -153,7 +166,7 @@ void sendreceive_usfmresources ()
       
       
       string bookname = Database_Books::getEnglishFromId (book);
-      Database_Logs::log ("USFM Resources: Synchronizing " + resource + " " + bookname, Filter_Roles::translator ());
+      Database_Logs::log ("USFM resources: Synchronizing " + resource + " " + bookname, Filter_Roles::translator ());
       
       
       // Retrieve a list of chapters in the $book from the server.
@@ -162,7 +175,7 @@ void sendreceive_usfmresources ()
       post ["b"] = to_string (book);
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        Database_Logs::log ("USFM Resources: Failure getting chapters of resoource book: " + error, Filter_Roles::translator ());
+        Database_Logs::log ("USFM resources: Failure getting chapters of resoource book: " + error, Filter_Roles::translator ());
         return;
       }
       vector <int> server_chapters;
@@ -189,7 +202,7 @@ void sendreceive_usfmresources ()
         post ["c"] = to_string (chapter);
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
-          Database_Logs::log ("USFM Resources: Failure getting checksum of resoource chapter: " + error, Filter_Roles::translator ());
+          Database_Logs::log ("USFM resources: Failure getting checksum of resoource chapter: " + error, Filter_Roles::translator ());
           return;
         }
         checksum = Sync_Logic::usfm_resource_chapter_checksum (resource, book, chapter);
@@ -205,7 +218,7 @@ void sendreceive_usfmresources ()
         post ["c"] = to_string (chapter);
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
-          Database_Logs::log ("USFM Resources: Failure downloading resoource chapter: " + error, Filter_Roles::translator ());
+          Database_Logs::log ("USFM resources: Failure downloading resoource chapter: " + error, Filter_Roles::translator ());
           return;
         }
         database_usfmresources.storeChapter (resource, book, chapter, response);
@@ -215,5 +228,10 @@ void sendreceive_usfmresources ()
 
   
   // Done.
-  Database_Logs::log ("The USFM resources are now up to date", Filter_Roles::translator ());
+  Database_Logs::log ("USFM resources: Now up to date", Filter_Roles::translator ());
+  
+  
+  mutex_sendreceive_usfmresources.lock ();
+  sendreceive_usfmresources_running = false;
+  mutex_sendreceive_usfmresources.unlock ();
 }

@@ -39,8 +39,21 @@
 #include <notes/logic.h>
 
 
+mutex mutex_sendreceive_notes;
+bool sendreceive_notes_running = false;
+
+
 void sendreceive_notes ()
 {
+  mutex_sendreceive_notes.lock ();
+  bool bail_out = sendreceive_notes_running;
+  mutex_sendreceive_notes.unlock ();
+  if (bail_out) return;
+  mutex_sendreceive_notes.lock ();
+  sendreceive_notes_running = true;
+  mutex_sendreceive_notes.unlock ();
+  
+  
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
   Database_Notes database_notes = Database_Notes (&request);
@@ -259,9 +272,11 @@ void sendreceive_notes ()
   
   // After all note actions have been sent to the server, and the notes updated on the client,
   // the client will now sync its notes with the server's notes.
-  int lowId = Notes_Logic::lowNoteIdentifier;
-  int highId = Notes_Logic::highNoteIdentifier;
-  tasks_logic_queue (DOWNLOADNOTES, { to_string (lowId), to_string (highId) });
+  if (tasks_logic_queued (DOWNLOADNOTES).empty ()) {
+    int lowId = Notes_Logic::lowNoteIdentifier;
+    int highId = Notes_Logic::highNoteIdentifier;
+    tasks_logic_queue (DOWNLOADNOTES, { to_string (lowId), to_string (highId) });
+  }
 }
 
 
@@ -527,4 +542,9 @@ void sendreceive_notes_download (int lowId, int highId)
 
     database_notes.getChecksum (identifier);
   }
+  
+  
+  mutex_sendreceive_notes.lock ();
+  sendreceive_notes_running = false;
+  mutex_sendreceive_notes.unlock ();
 }

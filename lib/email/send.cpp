@@ -119,7 +119,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-string email_send (string to_mail, string to_name, string subject, string body) // Todo
+string email_send (string to_mail, string to_name, string subject, string body)
 {
   string from_mail = Database_Config_General::getSiteMailAddress ();
   string from_name = Database_Config_General::getSiteMailName ();

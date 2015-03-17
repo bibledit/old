@@ -111,11 +111,10 @@ string sendreceive_index (void * webserver_request)
   
   if (request->query.count ("runsync")) {
     if (sendreceive_sync_queued ()) {
-      view.set_variable ("successsync", translate("Still sending and receiving from the last time."));
-    } else {
-      sendreceive_queue_sync (-1);
-      view.set_variable ("successsync", translate("Will send and receive."));
+      view.set_variable ("errorsync", translate("Still sending and receiving from the last time."));
     }
+    sendreceive_queue_sync (-1);
+    view.set_variable ("successsync", translate("Will send and receive."));
   }
   
   

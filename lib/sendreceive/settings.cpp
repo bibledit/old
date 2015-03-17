@@ -34,8 +34,21 @@
 #include <sync/settings.h>
 
 
+mutex mutex_sendreceive_settings;
+bool sendreceive_settings_running = false;
+
+
 void sendreceive_settings ()
 {
+  mutex_sendreceive_settings.lock ();
+  bool bail_out = sendreceive_settings_running;
+  mutex_sendreceive_settings.unlock ();
+  if (bail_out) return;
+  mutex_sendreceive_settings.lock ();
+  sendreceive_settings_running = true;
+  mutex_sendreceive_settings.unlock ();
+  
+  
   Database_Logs::log (translate("Settings: Send/Receive"), Filter_Roles::translator ());
   
   Webserver_Request request;
@@ -154,5 +167,10 @@ void sendreceive_settings ()
   
   // Done.
   Database_Logs::log ("Settings: Ready", Filter_Roles::translator ());
+  
+  
+  mutex_sendreceive_settings.lock ();
+  sendreceive_settings_running = false;
+  mutex_sendreceive_settings.unlock ();
 }
 

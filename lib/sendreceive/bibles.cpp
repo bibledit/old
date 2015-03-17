@@ -38,8 +38,21 @@
 #include <bible/logic.h>
 
 
+mutex mutex_sendreceive_bibles;
+bool sendreceive_bibles_running = false;
+
+
 void sendreceive_bibles ()
 {
+  mutex_sendreceive_bibles.lock ();
+  bool bail_out = sendreceive_bibles_running;
+  mutex_sendreceive_bibles.unlock ();
+  if (bail_out) return;
+  mutex_sendreceive_bibles.lock ();
+  sendreceive_bibles_running = true;
+  mutex_sendreceive_bibles.unlock ();
+
+  
   Database_Logs::log (translate("Bibles: Send/Receive"), Filter_Roles::translator ());
   
   
@@ -435,4 +448,9 @@ void sendreceive_bibles ()
   
   // Done.
   Database_Logs::log ("Bibles: Ready", Filter_Roles::translator ());
+
+  
+  mutex_sendreceive_bibles.lock ();
+  sendreceive_bibles_running = false;
+  mutex_sendreceive_bibles.unlock ();
 }
