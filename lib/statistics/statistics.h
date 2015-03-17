@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-void notes_statistics ();
+void statistics_statistics ();
 
 
 #endif

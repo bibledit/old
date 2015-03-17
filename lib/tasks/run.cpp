@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/convert2bible.h>
 #include <resource/print.h>
 #include <resource/download.h>
-#include <notes/statistics.h>
+#include <statistics/statistics.h>
 
 
 mutex mutex_tasks; 
@@ -135,7 +135,7 @@ void tasks_run_one (string filename)
   } else if (command == DOWNLOADRESOURCE) {
     resource_download_job (parameter1);
   } else if (command == NOTESSTATISTICS) {
-    notes_statistics ();
+    statistics_statistics ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

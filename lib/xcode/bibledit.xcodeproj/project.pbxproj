@@ -181,8 +181,9 @@
 		CA4694581A588D1800635799 /* offset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = offset.h; sourceTree = "<group>"; };
 		CA46945A1A588D1800635799 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
 		CA46945B1A588D1800635799 /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
-		CA4E47F11AB8542D0021C61E /* statistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = statistics.cpp; sourceTree = "<group>"; };
-		CA4E47F21AB8542D0021C61E /* statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
+		CA4E47F41AB875C30021C61E /* statistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = statistics.cpp; sourceTree = "<group>"; };
+		CA4E47F51AB875C30021C61E /* statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
+		CA4E47F61AB875C30021C61E /* statistics.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = statistics.o; sourceTree = "<group>"; };
 		CA5856E21A7BE374002BB283 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA5856E31A7BE374002BB283 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA5856E41A7BE374002BB283 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = index.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1064,6 +1065,17 @@
 			);
 			name = dtl;
 			path = ../dtl;
+			sourceTree = "<group>";
+		};
+		CA4E47F31AB875C30021C61E /* statistics */ = {
+			isa = PBXGroup;
+			children = (
+				CA4E47F41AB875C30021C61E /* statistics.cpp */,
+				CA4E47F51AB875C30021C61E /* statistics.h */,
+				CA4E47F61AB875C30021C61E /* statistics.o */,
+			);
+			name = statistics;
+			path = ../statistics;
 			sourceTree = "<group>";
 		};
 		CA5856E11A7BE373002BB283 /* client */ = {
@@ -2317,8 +2329,6 @@
 				CABB91C51AAB1CAA00D500FF /* severity-n.cpp */,
 				CABB91C61AAB1CAA00D500FF /* severity-n.h */,
 				CABB91C71AAB1CAA00D500FF /* severity-n.html */,
-				CA4E47F11AB8542D0021C61E /* statistics.cpp */,
-				CA4E47F21AB8542D0021C61E /* statistics.h */,
 				CABB91C91AAB1CAA00D500FF /* status-1.cpp */,
 				CABB91CA1AAB1CAA00D500FF /* status-1.h */,
 				CABB91CB1AAB1CAA00D500FF /* status-1.html */,
@@ -3092,6 +3102,7 @@
 				CAA4D3471A45A648003ABA25 /* setup */,
 				CAA4D3521A45A648003ABA25 /* sprint */,
 				CAA4D3581A45A648003ABA25 /* sqlite */,
+				CA4E47F31AB875C30021C61E /* statistics */,
 				CAA4D35E1A45A648003ABA25 /* styles */,
 				CAA4D3731A45A648003ABA25 /* sync */,
 				CAA4D3841A45A648003ABA25 /* tasks */,

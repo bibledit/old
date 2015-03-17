@@ -17,7 +17,7 @@
  */
 
 
-#include <notes/statistics.h>
+#include <statistics/statistics.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/roles.h>
@@ -32,7 +32,7 @@
 #include <client/logic.h>
 
 
-void notes_statistics ()
+void statistics_statistics ()
 {
   Webserver_Request request;
   Database_Mail database_mail = Database_Mail (&request);

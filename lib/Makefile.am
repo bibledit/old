@@ -133,7 +133,6 @@ libbibledit_a_SOURCES = \
 	notes/editsource.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
-	notes/statistics.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \
@@ -252,7 +251,8 @@ libbibledit_a_SOURCES = \
 	resource/download.cpp \
 	json/json.c \
 	mapping/index.cpp \
-	mapping/map.cpp
+	mapping/map.cpp \
+	statistics/statistics.cpp
 
 bin_PROGRAMS = server unittest
 
