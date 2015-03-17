@@ -38,8 +38,6 @@ void Ipc_Notes::open (void * webserver_request, int identifier)
 int Ipc_Notes::get (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  // Todo check why this is not needed. string user = request->session_logic()->currentUser ();
-  // Todo Database_Ipc_Message data = request->database_ipc()->getNote (user);
   Database_Ipc_Message data = request->database_ipc()->getNote ();
   return convert_to_int (data.message);
 }
@@ -48,8 +46,6 @@ int Ipc_Notes::get (void * webserver_request)
 void Ipc_Notes::erase (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  // string user = request->session_logic()->currentUser ();
-  // Todo check on this $data = request->database_ipc()->getNote ($user);
   Database_Ipc_Message data = request->database_ipc()->getNote ();
   int counter = 0;
   while (data.id && (counter < 100)) {

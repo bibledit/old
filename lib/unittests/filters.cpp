@@ -4093,7 +4093,7 @@ void test_filter_tidy ()
 }
 
 
-void test_ipc_notes () // Todo
+void test_ipc_notes ()
 {
   // Initialize.
   refresh_sandbox (true);
