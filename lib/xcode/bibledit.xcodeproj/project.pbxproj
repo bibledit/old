@@ -812,8 +812,6 @@
 		CAA4D4141A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D4151A45A648003ABA25 /* stringTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = stringTest.php; sourceTree = "<group>"; };
 		CAA4D4161A45A648003ABA25 /* flate1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = flate1.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAA4D41B1A45A648003ABA25 /* notesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = notesTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D41C1A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D41D1A45A648003ABA25 /* notes.sqlite.damaged */ = {isa = PBXFileReference; lastKnownFileType = file; path = notes.sqlite.damaged; sourceTree = "<group>"; };
 		CAA4D41E1A45A648003ABA25 /* onlinebible1.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = onlinebible1.exp; sourceTree = "<group>"; };
 		CAA4D41F1A45A648003ABA25 /* onlinebible2.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = onlinebible2.exp; sourceTree = "<group>"; };
@@ -2787,7 +2785,6 @@
 				CAA4D3FA1A45A648003ABA25 /* filter */,
 				CAA4D4161A45A648003ABA25 /* flate1.html */,
 				CA0FFD3B1AAF076700A174A5 /* flate2.html */,
-				CAA4D41A1A45A648003ABA25 /* ipc */,
 				CAA4D41D1A45A648003ABA25 /* notes.sqlite.damaged */,
 				CAA4D41E1A45A648003ABA25 /* onlinebible1.exp */,
 				CAA4D41F1A45A648003ABA25 /* onlinebible2.exp */,
@@ -2838,15 +2835,6 @@
 				CAA4D4091A45A648003ABA25 /* verses_old.usfm */,
 			);
 			path = diffStandards;
-			sourceTree = "<group>";
-		};
-		CAA4D41A1A45A648003ABA25 /* ipc */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D41B1A45A648003ABA25 /* notesTest.php */,
-				CAA4D41C1A45A648003ABA25 /* run */,
-			);
-			path = ipc;
 			sourceTree = "<group>";
 		};
 		CAA4D4201A45A648003ABA25 /* qunit */ = {

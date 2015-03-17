@@ -101,7 +101,7 @@ void test_database_config_bible ()
 }
 
 
-void test_database_config_user () // Todo fix tests.
+void test_database_config_user ()
 {
   // Tests for Database_Config_User.
   {
