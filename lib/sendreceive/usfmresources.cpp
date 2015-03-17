@@ -40,6 +40,14 @@ mutex mutex_sendreceive_usfmresources;
 bool sendreceive_usfmresources_running = false;
 
 
+void sendreceive_usfmresources_done ()
+{
+  mutex_sendreceive_usfmresources.lock ();
+  sendreceive_usfmresources_running = false;
+  mutex_sendreceive_usfmresources.unlock ();
+}
+
+
 void sendreceive_usfmresources ()
 {
   mutex_sendreceive_usfmresources.lock ();
@@ -76,11 +84,13 @@ void sendreceive_usfmresources ()
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("USFM resources: Failure getting total checksum: " + error, Filter_Roles::translator ());
+    sendreceive_usfmresources_done ();
     return;
   }
   string checksum = Sync_Logic::usfm_resources_checksum ();
   if (response == checksum) {
     Database_Logs::log ("USFM resources: Up to date", Filter_Roles::translator ());
+    sendreceive_usfmresources_done ();
     return;
   }
   
@@ -90,6 +100,7 @@ void sendreceive_usfmresources ()
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("USFM resources: Failure getting resources: " + error, Filter_Roles::translator ());
+    sendreceive_usfmresources_done ();
     return;
   }
   vector <string> server_resources = filter_string_explode (response, '\n');
@@ -115,6 +126,7 @@ void sendreceive_usfmresources ()
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log ("USFM resources: Failure getting checksum of resource: " + error, Filter_Roles::translator ());
+      sendreceive_usfmresources_done ();
       return;
     }
     checksum = Sync_Logic::usfm_resource_checksum (resource);
@@ -129,6 +141,7 @@ void sendreceive_usfmresources ()
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log ("USFM resources: Failure getting books of resource: " + error, Filter_Roles::translator ());
+      sendreceive_usfmresources_done ();
       return;
     }
     vector <int> server_books;
@@ -157,6 +170,7 @@ void sendreceive_usfmresources ()
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
         Database_Logs::log ("USFM resources: Failure getting checksum of resoource book: " + error, Filter_Roles::translator ());
+        sendreceive_usfmresources_done ();
         return;
       }
       checksum = Sync_Logic::usfm_resource_book_checksum (resource, book);
@@ -176,6 +190,7 @@ void sendreceive_usfmresources ()
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
         Database_Logs::log ("USFM resources: Failure getting chapters of resoource book: " + error, Filter_Roles::translator ());
+        sendreceive_usfmresources_done ();
         return;
       }
       vector <int> server_chapters;
@@ -203,6 +218,7 @@ void sendreceive_usfmresources ()
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
           Database_Logs::log ("USFM resources: Failure getting checksum of resoource chapter: " + error, Filter_Roles::translator ());
+          sendreceive_usfmresources_done ();
           return;
         }
         checksum = Sync_Logic::usfm_resource_chapter_checksum (resource, book, chapter);
@@ -219,6 +235,7 @@ void sendreceive_usfmresources ()
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
           Database_Logs::log ("USFM resources: Failure downloading resoource chapter: " + error, Filter_Roles::translator ());
+          sendreceive_usfmresources_done ();
           return;
         }
         database_usfmresources.storeChapter (resource, book, chapter, response);
@@ -229,9 +246,5 @@ void sendreceive_usfmresources ()
   
   // Done.
   Database_Logs::log ("USFM resources: Now up to date", Filter_Roles::translator ());
-  
-  
-  mutex_sendreceive_usfmresources.lock ();
-  sendreceive_usfmresources_running = false;
-  mutex_sendreceive_usfmresources.unlock ();
+  sendreceive_usfmresources_done ();
 }

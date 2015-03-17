@@ -38,6 +38,14 @@ mutex mutex_sendreceive_settings;
 bool sendreceive_settings_running = false;
 
 
+void sendreceive_settings_done ()
+{
+  mutex_sendreceive_settings.lock ();
+  sendreceive_settings_running = false;
+  mutex_sendreceive_settings.unlock ();
+}
+
+
 void sendreceive_settings ()
 {
   mutex_sendreceive_settings.lock ();
@@ -58,6 +66,7 @@ void sendreceive_settings ()
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (translate("Failure sending and receiving Settings"), Filter_Roles::translator ());
+    sendreceive_settings_done ();
     return;
   }
 
@@ -65,6 +74,7 @@ void sendreceive_settings ()
   vector <string> users = request.database_users ()->getUsers ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
+    sendreceive_settings_done ();
     return;
   }
   string user = users [0];
@@ -130,11 +140,13 @@ void sendreceive_settings ()
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure synchronizing Settings while requesting totals", Filter_Roles::translator ());
+    sendreceive_settings_done ();
     return;
   }
   string checksum = sync_logic.settings_checksum ();
   if (response == checksum) {
     Database_Logs::log ("Settings: Up to date", Filter_Roles::translator ());
+    sendreceive_settings_done ();
     return;
   }
 
@@ -145,6 +157,7 @@ void sendreceive_settings ()
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench URLS", Filter_Roles::translator ());
+    sendreceive_settings_done ();
     return;
   }
   request.database_config_user()->setWorkbenchURLs (response);
@@ -153,6 +166,7 @@ void sendreceive_settings ()
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench widths", Filter_Roles::translator ());
+    sendreceive_settings_done ();
     return;
   }
   request.database_config_user()->setWorkbenchWidths (response);
@@ -161,16 +175,13 @@ void sendreceive_settings ()
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench heights", Filter_Roles::translator ());
+    sendreceive_settings_done ();
     return;
   }
   request.database_config_user()->setWorkbenchHeights (response);
   
   // Done.
   Database_Logs::log ("Settings: Ready", Filter_Roles::translator ());
-  
-  
-  mutex_sendreceive_settings.lock ();
-  sendreceive_settings_running = false;
-  mutex_sendreceive_settings.unlock ();
+  sendreceive_settings_done ();
 }
 

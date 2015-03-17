@@ -43,6 +43,14 @@ mutex mutex_sendreceive_notes;
 bool sendreceive_notes_running = false;
 
 
+void sendreceive_notes_done ()
+{
+  mutex_sendreceive_notes.lock ();
+  sendreceive_notes_running = false;
+  mutex_sendreceive_notes.unlock ();
+}
+
+
 void sendreceive_notes ()
 {
   mutex_sendreceive_notes.lock ();
@@ -68,6 +76,7 @@ void sendreceive_notes ()
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (translate("Notes: Failure to initiate connection"), Filter_Roles::translator ());
+    sendreceive_notes_done ();
     return;
   }
   
@@ -76,6 +85,7 @@ void sendreceive_notes ()
   vector <string> users = request.database_users ()->getUsers ();
   if (users.empty ()) {
     Database_Logs::log (translate("Notes: No local user found"), Filter_Roles::translator ());
+    sendreceive_notes_done ();
     return;
   }
   string user = users [0];
@@ -189,6 +199,7 @@ void sendreceive_notes ()
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
         Database_Logs::log ("Notes: Failure sending note: " + error, Filter_Roles::translator ());
+        sendreceive_notes_done ();
         return;
       }
 
@@ -277,6 +288,7 @@ void sendreceive_notes ()
     int highId = Notes_Logic::highNoteIdentifier;
     tasks_logic_queue (DOWNLOADNOTES, { to_string (lowId), to_string (highId) });
   }
+  sendreceive_notes_done ();
 }
 
 
@@ -542,9 +554,4 @@ void sendreceive_notes_download (int lowId, int highId)
 
     database_notes.getChecksum (identifier);
   }
-  
-  
-  mutex_sendreceive_notes.lock ();
-  sendreceive_notes_running = false;
-  mutex_sendreceive_notes.unlock ();
 }

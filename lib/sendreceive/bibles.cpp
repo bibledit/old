@@ -42,6 +42,14 @@ mutex mutex_sendreceive_bibles;
 bool sendreceive_bibles_running = false;
 
 
+void send_receive_bibles_done ()
+{
+  mutex_sendreceive_bibles.lock ();
+  sendreceive_bibles_running = false;
+  mutex_sendreceive_bibles.unlock ();
+}
+
+
 void sendreceive_bibles ()
 {
   mutex_sendreceive_bibles.lock ();
@@ -64,6 +72,7 @@ void sendreceive_bibles ()
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (translate("Bibles: Failure to initiate connection"), Filter_Roles::translator ());
+    send_receive_bibles_done ();
     return;
   }
   
@@ -72,6 +81,7 @@ void sendreceive_bibles ()
   vector <string> users = request.database_users ()->getUsers ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
+    send_receive_bibles_done ();
     return;
   }
   string user = users [0];
@@ -213,6 +223,7 @@ void sendreceive_bibles ()
   // The client only downloads changes from the server after it has sent all local edits successfully.
   if (communication_errors) {
     Database_Logs::log ("Bibles: Not downloading changes from the server due to communication errors", Filter_Roles::translator ());
+    send_receive_bibles_done ();
     return;
   }
 
@@ -229,10 +240,12 @@ void sendreceive_bibles ()
   string server_checksum = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (translate("Bibles: Failure getting total checksum") + ": " + error, Filter_Roles::translator ());
+    send_receive_bibles_done ();
     return;
   }
   if (client_checksum == server_checksum) {
     Database_Logs::log (translate("Bibles: Up to date"), Filter_Roles::translator ());
+    send_receive_bibles_done ();
     return;
   }
   
@@ -245,6 +258,7 @@ void sendreceive_bibles ()
   vector <string> v_server_bibles = filter_string_explode (server_bibles, '\n');
   if (!error.empty () || v_server_bibles.empty ()) {
     Database_Logs::log (translate("Bibles: Failure getting list of Bibles"), Filter_Roles::translator ());
+    send_receive_bibles_done ();
     return;
   }
   // Verify the checksum of the list of Bibles to be sure that the data is valid.
@@ -256,6 +270,7 @@ void sendreceive_bibles ()
   string message_checksum = Checksum_Logic::get (v_server_bibles);
   if (server_checksum != message_checksum) {
     Database_Logs::log (translate("Bibles: Checksum error while receiving list of Bibles"), Filter_Roles::translator ());
+    send_receive_bibles_done ();
     return;
   }
   Database_Logs::log (translate("Bibles") + ": " + filter_string_implode (v_server_bibles, ", "), Filter_Roles::translator ());
@@ -448,9 +463,5 @@ void sendreceive_bibles ()
   
   // Done.
   Database_Logs::log ("Bibles: Ready", Filter_Roles::translator ());
-
-  
-  mutex_sendreceive_bibles.lock ();
-  sendreceive_bibles_running = false;
-  mutex_sendreceive_bibles.unlock ();
+  send_receive_bibles_done ();
 }
