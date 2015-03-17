@@ -25,7 +25,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
-// Todo #include <ipc/notes.h>
+#include <ipc/notes.h>
 
 
 string notes_poll_url ()
@@ -40,22 +40,20 @@ bool notes_poll_acl (void * webserver_request)
 }
 
 
-string notes_poll (void * webserver_request) // Todo
+string notes_poll (void * webserver_request)
 {
-  /*
-  Ipc_Notes ipc_notes = Ipc_Notes (webserver_request);
-  $action = request->query ['action'];
-  if ($action == "alive") {
-    $ipc_notes->alive (true);
-    $identifier = $ipc_notes->get ();
-    if ($identifier) {
-      $ipc_notes->delete ();
-      $url = "note?id=$identifier";
-      echo $url;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string action = request->query ["action"];
+  if (action == "alive") {
+    Ipc_Notes::alive (webserver_request, true, true);
+    int identifier = Ipc_Notes::get (webserver_request);
+    if (identifier) {
+      Ipc_Notes::erase (webserver_request);
+      string url = "note?id=" + to_string (identifier);
+      return url;
     }
-  } else if ($action == "unload") {
-    $ipc_notes->alive (false);
+  } else if (action == "unload") {
+    Ipc_Notes::alive (webserver_request, true, false);
   }
   return "";
-  */
 }

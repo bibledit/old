@@ -179,13 +179,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	notes/importcli.$(OBJEXT) notes/severity-1.$(OBJEXT) \
 	notes/verses.$(OBJEXT) notes/bulk.$(OBJEXT) \
 	notes/editsource.$(OBJEXT) notes/index.$(OBJEXT) \
-	notes/severity-n.$(OBJEXT) trash/handler.$(OBJEXT) \
-	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	notes/severity-n.$(OBJEXT) notes/statistics.$(OBJEXT) \
+	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
+	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -598,6 +598,7 @@ libbibledit_a_SOURCES = \
 	notes/editsource.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
+	notes/statistics.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \
@@ -1208,6 +1209,8 @@ notes/editsource.$(OBJEXT): notes/$(am__dirstamp) \
 notes/index.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/severity-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/statistics.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 trash/$(am__dirstamp):
 	@$(MKDIR_P) trash
@@ -1944,6 +1947,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/severity-1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/severity-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/statistics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/status-1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/status-n.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/summary.Po@am__quote@

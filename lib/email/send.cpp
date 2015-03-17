@@ -119,7 +119,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-string email_send (string to_mail, string to_name, string subject, string body)
+string email_send (string to_mail, string to_name, string subject, string body) // Todo
 {
   string from_mail = Database_Config_General::getSiteMailAddress ();
   string from_name = Database_Config_General::getSiteMailName ();
@@ -147,14 +147,34 @@ string email_send (string to_mail, string to_name, string subject, string body)
   payload_text.push_back (payload);
   payload = "Subject: " + subject + "\n";
   payload_text.push_back (payload);
+  payload_text.push_back ("Mime-version: 1.0\n");
+  payload_text.push_back ("Content-Type: multipart/alternative; boundary=\"------------010001060501040600060905\"");
   // Empty line to divide headers from body, see RFC5322.
   payload_text.push_back ("\n");
-  // Body here.
+  // Plain text part.
+  payload_text.push_back ("--------------010001060501040600060905\n");
+  payload_text.push_back ("Content-Type: text/plain; charset=utf-8\n");
+  payload_text.push_back ("Content-Transfer-Encoding: 7bit\n");
+  payload_text.push_back ("\n");
+  payload_text.push_back ("Bibledit plain text message.\n");
+  payload_text.push_back ("--------------010001060501040600060905\n");
+  payload_text.push_back ("Content-Type: text/html; charset=\"utf-8\"\n");
+  payload_text.push_back ("Content-Transfer-Encoding: 8bit\n");
+  payload_text.push_back ("\n");
+  payload_text.push_back ("<!DOCTYPE html>\n");
+  payload_text.push_back ("<html>\n");
+  payload_text.push_back ("<head>\n");
+  payload_text.push_back ("<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></meta>\n");
+  payload_text.push_back ("<meta charset=\"utf-8\" />\n");
+  payload_text.push_back ("</head>\n");
+  payload_text.push_back ("<body>\n");
   vector <string> bodylines = filter_string_explode (body, '\n');
   for (auto & line : bodylines) {
     if (filter_string_trim (line).empty ()) payload_text.push_back (" ");
     else payload_text.push_back (line);
   }
+  payload_text.push_back ("</body>");
+  payload_text.push_back ("</html>\n");
   // Empty line.
   payload_text.push_back ("\n");
 

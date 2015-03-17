@@ -133,6 +133,7 @@ libbibledit_a_SOURCES = \
 	notes/editsource.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
+	notes/statistics.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \

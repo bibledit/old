@@ -137,7 +137,7 @@ $view.set_variable ("timestamp = $timestamp;
 
 
 // Whether there's a live notes editor available.
-$live_notes_editor = $ipc_notes->alive ();
+$live_notes_editor = $ipc_notes->alive (webserver_request, false);
 $view.set_variable ("live_notes_editor = $live_notes_editor;
 
 
