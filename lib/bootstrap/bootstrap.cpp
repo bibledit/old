@@ -141,6 +141,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/bulk.h>
 #include <notes/editsource.h>
 #include <notes/summary.h>
+#include <changes/changes.h>
+#include <changes/change.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -227,6 +229,8 @@ void bootstrap_index (Webserver_Request * request)
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
+  else if ((url == changes_changes_url ()) && changes_changes_acl (request)) request->reply = changes_changes (request);
+  else if ((url == changes_change_url ()) && changes_change_acl (request)) request->reply = changes_change (request);
 
   // Tools menu.
   else if ((url == sendreceive_index_url ()) && sendreceive_index_acl (request)) request->reply = sendreceive_index (request);

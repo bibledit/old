@@ -1,43 +1,16 @@
-<?php
-/*
-Copyright (©) 2003-2015 Teus Benschop.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-?>
 <h3><span id="count"></span> translate("Change Notifications")</h3>
 <p>
   translate("View")
-  <a href="changes" <?php if ($this->filter == 0) echo 'class="active"'>translate("all")</a>
+  <a href="changes" ##filter0##>translate("all")</a>
   |
-  <a href="changes?filter=personal" <?php if ($this->filter == 1) echo 'class="active"'>translate("personal")</a>
+  <a href="changes?filter=personal" ##filter1##>translate("personal")</a>
   |
-  <a href="changes?filter=team" <?php if ($this->filter == 2) echo 'class="active"'>translate("team")</a>
+  <a href="changes?filter=team" ##filter2##>translate("team")</a>
   -
   <a href="#help">[translate("help")]</a>
 </p>
 <br>
-<?php for ($this->modifications as $offset => $modification) {
-  <div id="entry$this->ids[$offset]">
-    <a href="expand" id="expand$this->ids[$offset]"> ⊞ </a>
-    <a href="remove" id="remove$this->ids[$offset]"> ✗ </a>
-    $this->links[$offset]
-    <span style="font-family:monospace;font-size:125%;">$this->categories[$offset]</span>
-    $this->modifications[$offset]
-  </div>
-<?php }
+##textblock##
 <br>
 <a id="help"></a>
 <p>translate("This page lists the change notifications.")</p>
@@ -85,17 +58,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <br>
 <p>
-  translate('You can view "all" the change notifications.')
-  translate('You can also view only your "personal" change proposals, plus the changes of the team that could affect your change proposals.')
-  translate('Or you can view the change notifications of the "team".')
+  translate("You can view 'all' the change notifications.")
+  translate("You can also view only your 'personal' change proposals, plus the changes of the team that could affect your change proposals.")
+  translate("Or you can view the change notifications of the 'team'.")
 </p>
 <br>
 <p>
   <a href="?match">translate("Automatically remove personal change proposals and their matching change notifications.")</a>
 </p>
-<script>
-$this->script;
-</script>
+<script>##script##</script>
 <script type="text/javascript" src="changes.js?##VERSION##"></script>
-<script type="text/javascript" src="../navigation/nav.js?##VERSION##"></script>
-<script type="text/javascript" src="../notes/click.js?##VERSION##"></script>
+<script type="text/javascript" src="/navigation/nav.js?##VERSION##"></script>
+<script type="text/javascript" src="/notes/click.js?##VERSION##"></script>

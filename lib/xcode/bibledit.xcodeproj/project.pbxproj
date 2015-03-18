@@ -984,12 +984,10 @@
 		CAC949A11AB9998300171978 /* change.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = change.cpp; sourceTree = "<group>"; };
 		CAC949A21AB9998300171978 /* change.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = change.h; sourceTree = "<group>"; };
 		CAC949A31AB9998300171978 /* change.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = change.html; sourceTree = "<group>"; };
-		CAC949A41AB9998300171978 /* change.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = change.php; sourceTree = "<group>"; };
 		CAC949A51AB9998300171978 /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
 		CAC949A61AB9998300171978 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
 		CAC949A71AB9998300171978 /* changes.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = changes.html; sourceTree = "<group>"; };
 		CAC949A81AB9998300171978 /* changes.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = changes.js; sourceTree = "<group>"; };
-		CAC949A91AB9998300171978 /* changes.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = changes.php; sourceTree = "<group>"; };
 		CAC949AA1AB9998300171978 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAC949AB1AB9998300171978 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAC949AD1AB9998300171978 /* manage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = manage.cpp; sourceTree = "<group>"; };
@@ -1254,12 +1252,10 @@
 				CAC949A11AB9998300171978 /* change.cpp */,
 				CAC949A21AB9998300171978 /* change.h */,
 				CAC949A31AB9998300171978 /* change.html */,
-				CAC949A41AB9998300171978 /* change.php */,
 				CAC949A51AB9998300171978 /* changes.cpp */,
 				CAC949A61AB9998300171978 /* changes.h */,
 				CAC949A71AB9998300171978 /* changes.html */,
 				CAC949A81AB9998300171978 /* changes.js */,
-				CAC949A91AB9998300171978 /* changes.php */,
 				CAC949AA1AB9998300171978 /* logic.cpp */,
 				CAC949AB1AB9998300171978 /* logic.h */,
 				CAC949AD1AB9998300171978 /* manage.cpp */,

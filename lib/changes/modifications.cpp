@@ -97,7 +97,7 @@ void changes_process_identifiers (Webserver_Request * request,
 
 void changes_modifications ()
 {
-  Database_Logs::log ("Change notifications: Generating lists", Filter_Roles::translator ());
+  Database_Logs::log ("Change notifications: Generating", Filter_Roles::translator ());
 
   
   // Data objects.
@@ -116,7 +116,7 @@ void changes_modifications ()
   // It runs before the team changes.
   // This produces the desired order of the notifications in the GUI.
   vector <string> users = database_modifications.getUserUsernames ();
-  if (!users.empty ()) Database_Logs::log ("Change notifications: Generating lists per user", Filter_Roles::translator ());
+  if (!users.empty ()) Database_Logs::log ("Change notifications: Per user", Filter_Roles::translator ());
   for (auto user : users) {
     
     // Go through the Bibles changed by the current user.
@@ -255,7 +255,7 @@ void changes_modifications ()
     for (auto book : books) {
       vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
       for (auto chapter : chapters) {
-        Database_Logs::log (bible + " " + filter_passage_display (book, chapter, "") + " Listing changes", Filter_Roles::translator ());
+        Database_Logs::log ("Change notifications: " + bible + " " + filter_passage_display (book, chapter, ""), Filter_Roles::translator ());
         string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
         string new_chapter_usfm = request.database_bibles()->getChapter (bible, book, chapter);
         vector <int> old_verse_numbers = usfm_get_verse_numbers (old_chapter_usfm);
