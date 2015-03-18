@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <sendreceive/logic.h>
 #include <client/logic.h>
+#include <changes/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -95,6 +96,16 @@ void timer_index ()
         sendreceive_queue_all (sendreceive);
       }
       
+      // Deal with the changes in the Bible made per user.
+      // Deal with notifications for the daily changes in the Bibles.
+      // This takes a few minutes on a production machine with two Bibles and changes in several chapters.
+      if (!client) {
+        if ((hour == 0) && (minute == 20)) {
+          changes_logic_start ();
+        }
+      }
+      changes_logic_start (); // Todo out.
+
       // Database maintenance and trimming.
       // It takes a few minutes on a production machine.
       if ((hour == 0) && (minute == 50)) {

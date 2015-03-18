@@ -19,16 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
   
-// Deal with the changes in the Bible made per user.
-// Deal with notifications for the daily changes in the Bibles.
-// This takes a few minutes on a production machine with two Bibles and changes in several chapters.
-if (!$client) {
-  if (($hour == 0) && ($minute == 20)) {
-    Changes_Logic::start ();
-  }
-}
-
-
 // Run the checks on the Bibles.
 // This takes 15 minutes on a production machine with two Bibles.
 if (!$client) {

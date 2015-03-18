@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/print.h>
 #include <resource/download.h>
 #include <statistics/statistics.h>
+#include <changes/modifications.h>
 
 
 mutex mutex_tasks; 
@@ -136,6 +137,8 @@ void tasks_run_one (string filename)
     resource_download_job (parameter1);
   } else if (command == NOTESSTATISTICS) {
     statistics_statistics ();
+  } else if (command == GENERATECHANGES) {
+    changes_modifications ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

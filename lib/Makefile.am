@@ -252,7 +252,12 @@ libbibledit_a_SOURCES = \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \
-	statistics/statistics.cpp
+	statistics/statistics.cpp \
+	changes/change.cpp \
+	changes/changes.cpp \
+	changes/logic.cpp \
+	changes/manage.cpp \
+	changes/modifications.cpp
 
 bin_PROGRAMS = server unittest
 
