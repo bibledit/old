@@ -55,6 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/editsource.h>
 #include <changes/changes.h>
 #include <journal/index.h>
+#include <changes/manage.h>
 
 
 /*
@@ -187,8 +188,8 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (changes_changes_acl (webserver_request)) menu->push_back ( { "", changes_changes_url (), translate ("Notifications"), NULL } );
-  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "revisions", translate ("Download"), NULL } );
-  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "changes/manage", translate ("Manage"), NULL } );
+  // Todo if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "revisions", translate ("Download"), NULL } );
+  if (changes_manage_acl (webserver_request)) menu->push_back ( { "", changes_manage_url (), translate ("Manage"), NULL } );
   if (journal_index_acl (webserver_request)) menu->push_back ( { "", journal_index_url (), translate ("Journal"), NULL } );
   return menu;
 }

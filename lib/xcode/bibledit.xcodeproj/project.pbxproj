@@ -993,7 +993,6 @@
 		CAC949AD1AB9998300171978 /* manage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = manage.cpp; sourceTree = "<group>"; };
 		CAC949AE1AB9998300171978 /* manage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manage.h; sourceTree = "<group>"; };
 		CAC949AF1AB9998300171978 /* manage.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = manage.html; sourceTree = "<group>"; };
-		CAC949B01AB9998300171978 /* manage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = manage.php; sourceTree = "<group>"; };
 		CAC949B11AB9998300171978 /* modifications.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = modifications.cpp; sourceTree = "<group>"; };
 		CAC949B21AB9998300171978 /* modifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = modifications.h; sourceTree = "<group>"; };
 		CAC9F0661A5554B200D98092 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -1261,7 +1260,6 @@
 				CAC949AD1AB9998300171978 /* manage.cpp */,
 				CAC949AE1AB9998300171978 /* manage.h */,
 				CAC949AF1AB9998300171978 /* manage.html */,
-				CAC949B01AB9998300171978 /* manage.php */,
 				CAC949B11AB9998300171978 /* modifications.cpp */,
 				CAC949B21AB9998300171978 /* modifications.h */,
 			);
