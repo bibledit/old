@@ -142,7 +142,7 @@ void timer_index ()
       }
       
       // Email notes statistics to the users.
-      if (client) {
+      if (!client) {
         if ((hour == 3) && (minute == 0)) {
           tasks_logic_queue (NOTESSTATISTICS);
         }
