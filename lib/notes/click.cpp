@@ -56,9 +56,8 @@ string notes_click (void * webserver_request)
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   
   
-  if (request->query.count ("open")) { // Todo test.
+  if (request->query.count ("open")) {
     string open = request->query ["open"];
-    cout << open << endl; // Todo
     open = filter_url_basename (open);
     int iopen = convert_to_int (open);
     if (database_notes.identifierExists (iopen)) {

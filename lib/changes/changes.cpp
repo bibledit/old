@@ -85,7 +85,7 @@ string changes_changes (void * webserver_request)
       Navigation_Passage::recordHistory (request, passage.book, passage.chapter, convert_to_int (passage.verse));
     }
     // Set the correct default Bible for the user.
-    string bible = database_modifications.getNotificationBible (id); // Todo
+    string bible = database_modifications.getNotificationBible (id);
     if (!bible.empty ()) request->database_config_user()->setBible (bible);
     return "";
   }
