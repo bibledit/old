@@ -145,6 +145,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/changes.h>
 #include <changes/change.h>
 #include <changes/manage.h>
+#include <index/listing.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -281,6 +282,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == collaboration_secure_url ()) && collaboration_secure_acl (request)) request->reply = collaboration_secure (request);
   else if ((url == collaboration_direction_url ()) && collaboration_direction_acl (request)) request->reply = collaboration_direction (request);
 
+  // Downloads
+  else if ((url == index_listing_url (url)) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
+  
   // Client calls.
   else if ((url == sync_setup_url ()) && sync_setup_acl (request)) request->reply = sync_setup (request);
   else if ((url == sync_settings_url ()) && sync_settings_acl (request)) request->reply = sync_settings (request);

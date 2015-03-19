@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2015 Teus Benschop.
 
@@ -16,11 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap");
-page_access_level (Filter_Roles::admin ());
-$header = new Assets_Header (translate("Test"));
-$header->run ();
-$view = new Assets_View (__FILE__);
-$view->render ("test");
-Assets_Page::footer ();
-?>
+
+
+#ifndef INCLUDED_INDEX_LISTING_H
+#define INCLUDED_INDEX_LISTING_H
+
+
+#include <config/libraries.h>
+
+
+string index_listing_url (string url);
+bool index_listing_acl (void * webserver_request, string url);
+string index_listing (void * webserver_request, string url);
+
+
+#endif

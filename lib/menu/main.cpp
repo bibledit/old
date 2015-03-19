@@ -56,6 +56,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/changes.h>
 #include <journal/index.h>
 #include <changes/manage.h>
+#include <index/listing.h>
 
 
 /*
@@ -164,8 +165,8 @@ vector <Menu_Main_Item> * Menu_Main::notesmenu ()
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   if (notes_index_acl (request)) menu->push_back ( { "", notes_index_url (), translate ("List"), NULL } );
   if (notes_editsource_acl (request)) menu->push_back ( { "", notes_editsource_url (), translate ("Edit"), NULL } );
-  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/clean", translate ("Checks"), NULL } );
-  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/import1", translate ("Import"), NULL } );
+  // if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/clean", translate ("Checks"), NULL } );
+  // if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/import1", translate ("Import"), NULL } );
   return menu;
 }
 
@@ -188,7 +189,7 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (changes_changes_acl (webserver_request)) menu->push_back ( { "", changes_changes_url (), translate ("Notifications"), NULL } );
-  // Todo if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "revisions", translate ("Download"), NULL } );
+  if (index_listing_acl (webserver_request, "revisions")) menu->push_back ( { "", index_listing_url ("revisions"), translate ("Download"), NULL } );
   if (changes_manage_acl (webserver_request)) menu->push_back ( { "", changes_manage_url (), translate ("Manage"), NULL } );
   if (journal_index_acl (webserver_request)) menu->push_back ( { "", journal_index_url (), translate ("Journal"), NULL } );
   return menu;

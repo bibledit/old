@@ -26,6 +26,8 @@
 
 string filter_diff_diff (string oldstring, string newstring);
 int filter_diff_similarity (string oldstring, string newstring);
+void filter_diff_produce_verse_level (string bible, string directory);
+void filter_diff_run_file (string oldfile, string newfile, string outputfile);
 
 
 #endif

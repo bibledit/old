@@ -125,8 +125,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/merge.$(OBJEXT) flate/flate.$(OBJEXT) \
 	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
 	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
-	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
 	database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
@@ -496,6 +496,7 @@ libbibledit_a_SOURCES = \
 	assets/page.cpp \
 	assets/header.cpp \
 	index/index.cpp \
+	index/listing.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
@@ -893,6 +894,8 @@ index/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) index/$(DEPDIR)
 	@: > index/$(DEPDIR)/$(am__dirstamp)
 index/index.$(OBJEXT): index/$(am__dirstamp) \
+	index/$(DEPDIR)/$(am__dirstamp)
+index/listing.$(OBJEXT): index/$(am__dirstamp) \
 	index/$(DEPDIR)/$(am__dirstamp)
 config/$(am__dirstamp):
 	@$(MKDIR_P) config
@@ -1940,6 +1943,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/listing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ipc/$(DEPDIR)/focus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ipc/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@jobs/$(DEPDIR)/index.Po@am__quote@

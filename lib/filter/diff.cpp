@@ -19,7 +19,19 @@
 
 #include <filter/diff.h>
 #include <filter/string.h>
+#include <filter/text.h>
+#include <filter/usfm.h>
+#include <filter/url.h>
 #include <dtl/dtl.hpp>
+#include <webserver/request.h>
+#include <database/modifications.h>
+#include <database/books.h>
+#include <database/config/bible.h>
+#include <html/text.h>
+#include <text/text.h>
+#include <locale/translate.h>
+
+
 using dtl::Diff;
 
 
@@ -113,4 +125,90 @@ int filter_diff_similarity (string oldstring, string newstring)
   // Calculate the percentage similarity.
   int percentage = round (100 * ((float) similar_count / (float) element_count));
   return percentage;
+}
+
+
+// This filter produces files in USFM, html and text format.
+// The text files are to be used for showing the differences between them.
+// The files contain all verses that differ.
+// $bible: The Bible to go through.
+// $directory: The existing directory where to put the files.
+// Two files are created: verses_old.usfm and verses_new.usfm.
+// The book chapter.verse precede each verse.
+void filter_diff_produce_verse_level (string bible, string directory)
+{
+  Webserver_Request request;
+  Database_Modifications database_modifications = Database_Modifications ();
+  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  
+  vector <string> old_vs_usfm;
+  vector <string> new_vs_usfm;
+  
+  Filter_Text filter_text_old = Filter_Text (bible);
+  filter_text_old.html_text_standard = new Html_Text (translate("Bible"));
+  filter_text_old.text_text = new Text_Text ();
+  Filter_Text filter_text_new = Filter_Text (bible);
+  filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
+  filter_text_new.text_text = new Text_Text ();
+  
+  vector <int> books = database_modifications.getTeamDiffBooks (bible);
+  for (auto book : books) {
+    string bookname = Database_Books::getEnglishFromId (book);
+    vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
+    for (auto chapter : chapters) {
+      // Go through the combined verse numbers in the old and new chapter.
+      string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
+      string new_chapter_usfm = request.database_bibles()->getChapter (bible, book, chapter);
+      vector <int> old_verse_numbers = usfm_get_verse_numbers (old_chapter_usfm);
+      vector <int> new_verse_numbers = usfm_get_verse_numbers (new_chapter_usfm);
+      vector <int> verses = old_verse_numbers;
+      verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
+      verses = array_unique (verses);
+      sort (verses.begin(), verses.end());
+      for (auto verse : verses) {
+        string old_verse_text = usfm_get_verse_text (old_chapter_usfm, verse);
+        string new_verse_text = usfm_get_verse_text (new_chapter_usfm, verse);
+        if (old_verse_text != new_verse_text) {
+          string usfmCode = "\\p " + bookname + " " + to_string (chapter) + "." + to_string (verse) + " " + old_verse_text;
+          old_vs_usfm.push_back (usfmCode);
+          filter_text_old.addUsfmCode (usfmCode);
+          usfmCode = "\\p " + bookname + " " + to_string (chapter) + "." + to_string (verse) + " " + new_verse_text;
+          new_vs_usfm.push_back (usfmCode);
+          filter_text_new.addUsfmCode (usfmCode);
+        }
+      }
+    }
+  }
+  
+  filter_url_file_put_contents (filter_url_create_path (directory, "verses_old.usfm"), filter_string_implode (old_vs_usfm, "\n"));
+  filter_url_file_put_contents (filter_url_create_path (directory, "verses_new.usfm"), filter_string_implode (new_vs_usfm, "\n"));
+  filter_text_old.run (stylesheet);
+  filter_text_new.run (stylesheet);
+  filter_text_old.html_text_standard->save (filter_url_create_path (directory, "verses_old.html"));
+  filter_text_new.html_text_standard->save (filter_url_create_path (directory, "verses_new.html"));
+  filter_text_old.text_text->save (filter_url_create_path (directory, "verses_old.txt"));
+  filter_text_new.text_text->save (filter_url_create_path (directory, "verses_new.txt"));
+}
+
+
+/**
+ * This filter runs a diff.
+ * $oldfile: The name of the old file for input.
+ * $newfile: The name of the new file for input.
+ * $outputfile: The name of the output file
+ */
+void filter_diff_run_file (string oldfile, string newfile, string outputfile)
+{
+  string oldstring = filter_url_file_get_contents (oldfile);
+  string newstring = filter_url_file_get_contents (newfile);
+  
+  string differences = filter_diff_diff (oldstring, newstring);
+  
+  vector <string> lines = filter_string_explode (differences, '\n');
+  for (auto & line : lines) {
+    line = "<p>" + line + "</p>";
+  }
+  differences = filter_string_implode (lines, "\n");
+  
+  filter_url_file_put_contents (outputfile, differences);
 }

@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <database/modifications.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -50,6 +51,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <styles/css.h>
 #include <ipc/notes.h>
+#include <client/logic.h>
+#include <bible/logic.h>
 
 
 void test_filters_test1 ()
@@ -3008,6 +3011,62 @@ void test_filter_diff ()
     "\\v 46 Vachaziva kuti ndini Jehovha wavo, wakavabudisa panyika kuti ndigare pakati pavo; ndini Jehovha Mwari wavo.\n";
     int similarity = filter_diff_similarity (first, second);
     evaluate (__LINE__, __func__, 94, similarity);
+  }
+  {
+    refresh_sandbox (true);
+    Webserver_Request request;
+    Database_Modifications database_modifications = Database_Modifications ();
+
+    request.database_search ()->create ();
+    client_logic_enable_client (false);
+    database_modifications.truncateTeams ();
+    
+    string temporary_folder = filter_url_tempfile ();
+    filter_url_mkdir (temporary_folder);
+    
+    request.database_bibles()->createBible ("phpunit");
+    Bible_Logic::storeChapter ("phpunit", 1, 2, "old chapter text");
+    database_modifications.truncateTeams ();
+    Bible_Logic::storeChapter ("phpunit", 1, 2, "new chapter text");
+
+    filter_diff_produce_verse_level ("phpunit", temporary_folder);
+
+    string path, standard, output;
+
+    path = filter_url_create_path ("unittests", "tests", "verses_old.usfm");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_old.usfm");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    path = filter_url_create_path ("unittests", "tests", "verses_new.usfm");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_new.usfm");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+
+    path = filter_url_create_path ("unittests", "tests", "verses_old.txt");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_old.txt");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    path = filter_url_create_path ("unittests", "tests", "verses_new.txt");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_new.txt");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    string oldfile = filter_url_create_path (temporary_folder, "verses_old.usfm");
+    string newfile = filter_url_create_path (temporary_folder, "verses_new.usfm");
+    string outputfile = filter_url_create_path (temporary_folder, "changed_verses.html");
+    filter_diff_run_file (oldfile, newfile, outputfile);
+
+    path = filter_url_create_path ("unittests", "tests", "changed_verses.html");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "changed_verses.html");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
   }
 }
 

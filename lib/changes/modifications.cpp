@@ -229,12 +229,12 @@ void changes_modifications ()
     
     
     // Produce the USFM and html files.
-    // Todo port it. Filter_Diff::produceVerseLevel ($bible, $directory);
+    filter_diff_produce_verse_level (bible, directory);
     
     
-    // Create online page with changed verses.
+    // Create online page with changed verses. // Todo test it in the downloader.
     string versesoutputfile = filter_url_create_path (directory, "changed_verses.html");
-    // Todo port it. Filter_Diff::runDiffFile ("$directory/verses_old.txt", "$directory/verses_new.txt", $versesoutputfile);
+    filter_diff_run_file (filter_url_create_path (directory, "verses_old.txt"), filter_url_create_path (directory, "verses_new.txt"), versesoutputfile);
     
     
     // Email users.
