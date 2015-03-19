@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <notes/index.h>
+#include <database/modifications.h>
 
 
 string notes_create_url ()
@@ -93,30 +94,25 @@ string notes_create (void * webserver_request)
     return "";
   }
   
-  
- 
-  
-  /* C++Port
 
-  
   // This script can be called from a change notification.
   // It will then create a note based on that change notification.
-  @$fromchange = request->query ["fromchange"];
-  if (isset ($fromchange)) {
-    $database_modifications = Database_Modifications::getInstance ();
-    $database_bibles = Database_Bibles::getInstance ();
-    $bible = $database_modifications->getNotificationBible ($fromchange);
-    $summary = translate("Query about a change in the text");
-    $contents = "<p>" . translate("Old text:") . "</p>";
-    $contents += $database_modifications->getNotificationOldText ($fromchange);
-    $contents += "<p>" .  translate("Change:") . "</p>";
-    $contents += "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
-    $contents += "<p>" . translate("New text:") . "</p>";
-    $contents += $database_modifications->getNotificationNewText ($fromchange);
-    $view.set_variable ("summary = $summary;
-    $view.set_variable ("contents = $contents;
+  if (request->query.count ("fromchange")) {
+    int fromchange = convert_to_int (request->query ["fromchange"]);
+    Database_Modifications database_modifications = Database_Modifications ();
+    string bible = database_modifications.getNotificationBible (fromchange);
+    string summary = translate("Query about a change in the text");
+    string contents = "<p>" + translate("Old text:") + "</p>";
+    contents += database_modifications.getNotificationOldText (fromchange);
+    contents += "<p>" +  translate("Change:") + "</p>";
+    contents += "<p>" + database_modifications.getNotificationModification (fromchange) + "</p>";
+    contents += "<p>" + translate("New text:") + "</p>";
+    contents += database_modifications.getNotificationNewText (fromchange);
+    view.set_variable ("summary", summary);
+    view.set_variable ("contents", contents);
   }
-                                                                                                                                                */
+
+  
   view.set_variable ("bible", bible);
   view.set_variable ("book", to_string (book));
   view.set_variable ("chapter", to_string (chapter));

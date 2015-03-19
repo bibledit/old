@@ -57,25 +57,28 @@ string changes_change (void * webserver_request)
   Notes_Logic notes_logic = Notes_Logic (request);
 
   
-  // Note unsubscribe handler. Todo test.
-  if (request->post.count ("unsubscribe")) { // Todo
+  // Note unsubscribe handler.
+  if (request->post.count ("unsubscribe")) {
     string unsubscribe = request->post["unsubscribe"];
+    unsubscribe.erase (0, 11);
     database_notes.unsubscribe (convert_to_int (unsubscribe));
     return "";
   }
   
   
-  // Note unassign handler. Todo test
-  if (request->post.count ("unassign")) { // Todo
+  // Note unassign handler.
+  if (request->post.count ("unassign")) {
     string unassign = request->post["unassign"];
+    unassign.erase (0, 8);
     notes_logic.unassignUser (convert_to_int (unassign), request->session_logic()->currentUser ());
     return "";
   }
   
   
   // Note mark for deletion handler.
-  if (request->post.count("delete")) { // Todo
+  if (request->post.count("delete")) {
     string erase = request->post["delete"];
+    erase.erase (0, 6);
     int identifier = convert_to_int (erase);
     notes_logic.markForDeletion (identifier);
     return "";
@@ -86,11 +89,10 @@ string changes_change (void * webserver_request)
   Assets_View view = Assets_View ();
   string username = request->session_logic()->currentUser ();
   int level = request->session_logic ()->currentLevel ();
-  //view.set_variable ("level", level); // Todo test it.
-                      
+  
                       
   // The identifier of the change notification.
-  int id = convert_to_int (request->query ["get"]); // Todo
+  int id = convert_to_int (request->query ["get"]);
   view.set_variable ("id", to_string (id));
                       
                       
@@ -143,7 +145,7 @@ string changes_change (void * webserver_request)
   
   
   // Whether there"s a live notes editor available.
-  bool live_notes_editor = Ipc_Notes::alive (webserver_request, false); // Todo
+  bool live_notes_editor = Ipc_Notes::alive (webserver_request, false);
   if (live_notes_editor) view.enable_zone ("alive");
   else view.enable_zone ("dead");
 

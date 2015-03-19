@@ -141,6 +141,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/bulk.h>
 #include <notes/editsource.h>
 #include <notes/summary.h>
+#include <notes/click.h>
 #include <changes/changes.h>
 #include <changes/change.h>
 #include <changes/manage.h>
@@ -315,6 +316,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_get_url ()) && resource_get_acl (request)) request->reply = resource_get (request);
   else if ((url == notes_poll_url ()) && notes_poll_acl (request)) request->reply = notes_poll (request);
   else if ((url == notes_notes_url ()) && notes_notes_acl (request)) request->reply = notes_notes (request);
+  else if ((url == notes_click_url ()) && notes_click_acl (request)) request->reply = notes_click (request);
 
   // Forward the browser to the default home page.
   else {

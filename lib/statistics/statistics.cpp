@@ -40,7 +40,7 @@ void statistics_statistics ()
   Database_Notes database_notes = Database_Notes (&request);
   
   
-  Database_Logs::log (translate("Sending notes statistics to users"), Filter_Roles::manager ());
+  Database_Logs::log (translate("Sending statistics"), Filter_Roles::manager ());
 
   
   string siteUrl = Database_Config_General::getSiteURL ();
