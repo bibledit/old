@@ -35,6 +35,7 @@
 #include <trash/handler.h>
 #include <ipc/focus.h>
 #include <access/user.h>
+#include <changes/logic.h>
 
 
 string changes_manage_url ()
@@ -68,7 +69,13 @@ string changes_manage (void * webserver_request)
     database_modifications.clearNotificationsUser (clear);
   }
   
-
+  
+  if (request->query.count("generate")) {
+    changes_logic_start ();
+    view.set_variable ("success", translate ("Will generate lists of changes"));
+  }
+  
+  
   string datablock;
   vector <string> users = access_user_assignees (webserver_request);
   for (auto user : users) {
