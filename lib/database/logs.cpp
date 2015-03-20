@@ -49,7 +49,7 @@ void Database_Logs::log (string description, int level)
   // Truncate long entry.
   int length = description.length ();
   if (length > 1000) {
-    description.erase (100);
+    description.erase (1000);
     description.append ("... This entry was too large and has been truncated: " + convert_to_string (length) + " bytes");
   }
   // Save this logbook entry to a filename with seconds and microseconds.
