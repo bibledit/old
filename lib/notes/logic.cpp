@@ -461,14 +461,15 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   contents.append (mailto);
   contents.append ("\">Respond by email</a></p>\n");
 
-  // Deal with possible postponing email till 9 PM.
+  // Deal with possible postponing email till 9 PM. Todo
   int timestamp = filter_string_date_seconds_since_epoch ();
   if (postpone) {
-    int postponedtime = timestamp;
-    postponedtime -= filter_string_date_numerical_hour (timestamp) * 3600;
-    postponedtime -= filter_string_date_numerical_minute (timestamp);
-    postponedtime += 21 * 3600;;
-    if (postponedtime > timestamp) timestamp = postponedtime;
+    int localseconds = filter_string_date_local_seconds (timestamp);
+    float localhour = filter_string_date_numerical_hour (localseconds) + (float) filter_string_date_numerical_minute (localseconds) / 60;
+    if (localhour < 19) {
+      float difference = 19 - localhour;
+      timestamp += (3600 * difference);
+    }
   }
 
   // Send (but not in client mode).
