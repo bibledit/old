@@ -64,7 +64,7 @@ string changes_manage (void * webserver_request)
   
   
   if (request->query.count("clear")) {
-    string clear = request->query["clear"]; // Todo improve it.
+    string clear = request->query["clear"];
     // This may take time in case there are many change notifications to clear.
     database_modifications.clearNotificationsUser (clear);
   }

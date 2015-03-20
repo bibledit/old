@@ -90,7 +90,7 @@ void Database_Mail::trim ()
 // subject: The subject.
 // body: The body.
 // time: Normally not given, but if given, it indicates the time stamp for sending this email.
-void Database_Mail::send (string to, string subject, string body, int time) // Todo
+void Database_Mail::send (string to, string subject, string body, int time)
 {
   if (time == 0) time = filter_string_date_seconds_since_epoch ();
   SqliteSQL sql = SqliteSQL ();
@@ -189,19 +189,8 @@ Database_Mail_Item Database_Mail::get (int id)
 
 
 // Get ids of all mails ready for sending.
-vector <int> Database_Mail::getMailsToSend () // Todo
+vector <int> Database_Mail::getMailsToSend ()
 {
-  { // Todo temporal.
-    int timestamp = filter_string_date_seconds_since_epoch ();
-    SqliteSQL sql = SqliteSQL ();
-    sqlite3 * db = connect ();
-    vector <string> result = database_sqlite_query (db, "SELECT timestamp FROM mail") ["timestamp"];
-    database_sqlite_disconnect (db);
-    for (auto t : result) {
-      string s = "current: " + to_string (timestamp) + ", mail: " + t + ", difference: " + to_string ((float)(timestamp - convert_to_int (t)) / (float)3600) + " hours"; // Todo
-      Database_Logs::log (s); // Todo
-    }
-  }
   vector <int> ids;
   int timestamp = filter_string_date_seconds_since_epoch ();
   SqliteSQL sql = SqliteSQL ();

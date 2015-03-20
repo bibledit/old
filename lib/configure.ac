@@ -1,5 +1,7 @@
 AC_INIT([bibledit], [1.0.97],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
+AC_CANONICAL_BUILD
+
 AC_PROG_CC
 AC_PROG_CXX
 AC_LANG([C++])
@@ -7,6 +9,7 @@ AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_PROG_RANLIB
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADER(config.h)
+
 
 AC_PATH_PROG(GZIP_PATH, gzip, no)
 if test x$GZIP_PATH = xno; then

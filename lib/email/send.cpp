@@ -121,6 +121,10 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // In case of failure, it returns the error message.
 string email_send (string to_mail, string to_name, string subject, string body)
 {
+  // Truncate huge emails because libcurl crashes on it.
+  int length = body.length ();
+  if (length > 100000) body = "This email was " + to_string (length) + " bytes long. It could not be sent. The data it refers to will be available from Bibledit online.";
+  
   string from_mail = Database_Config_General::getSiteMailAddress ();
   string from_name = Database_Config_General::getSiteMailName ();
   
