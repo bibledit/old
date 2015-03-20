@@ -52,9 +52,8 @@ string index_listing (void * webserver_request, string url)
   string page;
   page = Assets_Page::header ("Bibledit", webserver_request, "");
   Assets_View view = Assets_View ();
-  url = filter_url_create_path ("", url);
   url = filter_url_urldecode (url);
-  cout << url << endl; // Todo
+  url = filter_url_create_path ("", url);
   view.set_variable ("url", url);
   string parent = filter_url_dirname (url);
   if (parent.length () > 1) {
@@ -66,17 +65,18 @@ string index_listing (void * webserver_request, string url)
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
       string path = filter_url_create_path (directory, file);
-      string line = "<tr>";
+      string line;
+      line.append ("<tr>");
       line.append ("<td>");
       line.append ("<a href=\"" + filter_url_create_path (url, file) + "\">");
       line.append (file);
       line.append ("</a>");
       line.append ("</td>");
+      line.append ("<td>");
       if (!filter_url_is_dir (path)) {
-        line.append ("<td>");
         line.append (to_string (filter_url_filesize (path)));
-        line.append ("</td>");
       }
+      line.append ("</td>");
       line.append ("</tr>");
       file = line;
     }
@@ -88,9 +88,8 @@ string index_listing (void * webserver_request, string url)
     }
     view.set_variable ("listing", listing);
   } else {
-    return "";
-    // Todo http://stackoverflow.com/questions/386845/http-headers-for-file-downloads
-    // Send as octet stream, plus a few headers, so every browser downloads the file and saves it to file.
+    string filename = filter_url_create_root_path (url);
+    return filter_url_file_get_contents (filename);
   }
   page += view.render ("index", "listing");
   page += Assets_Page::footer ();

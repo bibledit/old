@@ -181,10 +181,14 @@ void http_assemble_response (Webserver_Request * request)
   else if (extension == "jpeg")   content_type = "image/png";
   else if (extension == "svg")    content_type = "image/svg+xml";
   else if (extension == "txt")    content_type = "text/plain";
+  else if (extension == "usfm")   content_type = "text/plain";
   else if (extension == "otf")    content_type = "font/opentype";
   else if (extension == "ttf")    content_type = "application/x-font-ttf";
   else if (extension == "sqlite") content_type = "application/octet-stream";
-  else                            content_type = "text/html";
+  else if (extension == "htm")    content_type = "text/html";
+  else if (extension == "html")   content_type = "text/html";
+  else if (extension == "")       content_type = "text/html";
+  else                            content_type = "application/octet-stream";
 
   // Assemble the complete response for the browser.
   vector <string> response;

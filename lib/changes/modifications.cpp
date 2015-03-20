@@ -215,15 +215,15 @@ void changes_modifications ()
     string timepath;
     timepath.append (to_string (filter_string_date_numerical_year ()));
     timepath.append ("-");
-    timepath.append (to_string (filter_string_date_numerical_month ()));
+    timepath.append (filter_string_fill (to_string (filter_string_date_numerical_month ()), 2, '0'));
     timepath.append ("-");
-    timepath.append (to_string (filter_string_date_numerical_day (seconds)));
-    timepath.append ("_");
-    timepath.append (to_string (filter_string_date_numerical_hour (seconds)));
+    timepath.append (filter_string_fill (to_string (filter_string_date_numerical_day (seconds)), 2, '0'));
+    timepath.append (" ");
+    timepath.append (filter_string_fill (to_string (filter_string_date_numerical_hour (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (to_string (filter_string_date_numerical_minute (seconds)));
+    timepath.append (filter_string_fill (to_string (filter_string_date_numerical_minute (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (to_string (filter_string_date_numerical_second (seconds)));
+    timepath.append (filter_string_fill (to_string (filter_string_date_numerical_second (seconds)), 2, '0'));
     string directory = filter_url_create_root_path ("revisions", bible, timepath);
     filter_url_mkdir (directory);
     
@@ -232,7 +232,7 @@ void changes_modifications ()
     filter_diff_produce_verse_level (bible, directory);
     
     
-    // Create online page with changed verses. // Todo test it in the downloader.
+    // Create online page with changed verses.
     string versesoutputfile = filter_url_create_path (directory, "changed_verses.html");
     filter_diff_run_file (filter_url_create_path (directory, "verses_old.txt"), filter_url_create_path (directory, "verses_new.txt"), versesoutputfile);
     
