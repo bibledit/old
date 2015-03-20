@@ -104,7 +104,6 @@ void timer_index ()
           changes_logic_start ();
         }
       }
-      changes_logic_start (); // Todo out.
 
       // Database maintenance and trimming.
       // It takes a few minutes on a production machine.
