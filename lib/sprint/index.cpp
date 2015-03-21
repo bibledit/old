@@ -90,8 +90,8 @@ string sprint_index (void * webserver_request)
   
   
   if (request->query.count ("currentprint")) {
-    request->database_config_user()->setSprintMonth (filter_string_date_numerical_month ());
-    request->database_config_user()->setSprintYear (filter_string_date_numerical_year ());
+    request->database_config_user()->setSprintMonth (filter_date_numerical_month ());
+    request->database_config_user()->setSprintYear (filter_date_numerical_year ());
   }
   
   

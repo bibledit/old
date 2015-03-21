@@ -65,7 +65,7 @@ string edit_edit (void * webserver_request)
   
   // Check whether a Bible editor is alive.
   int timestamp = request->database_ipc()->getBibleAlive ();
-  bool alive = (timestamp > (filter_string_date_seconds_since_epoch () - 5));
+  bool alive = (timestamp > (filter_date_seconds_since_epoch () - 5));
   
   
   if (alive) {

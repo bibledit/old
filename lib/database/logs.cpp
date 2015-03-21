@@ -54,8 +54,8 @@ void Database_Logs::log (string description, int level)
     description.append ("... This entry was too large and has been truncated: " + convert_to_string (length) + " bytes");
   }
   // Save this logbook entry to a filename with seconds and microseconds.
-  string seconds = convert_to_string (filter_string_date_seconds_since_epoch ());
-  string time = seconds + filter_string_fill (convert_to_string (filter_string_date_numerical_microseconds ()), 8, '0');
+  string seconds = convert_to_string (filter_date_seconds_since_epoch ());
+  string time = seconds + filter_string_fill (convert_to_string (filter_date_numerical_microseconds ()), 8, '0');
   string file = filter_url_create_path (folder (), time);
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
@@ -153,7 +153,7 @@ void Database_Logs::rotate ()
   }
 
   // Remove records older than five days from the database.
-  string timestamp = convert_to_string (filter_string_date_seconds_since_epoch () - (6 * 86400));
+  string timestamp = convert_to_string (filter_date_seconds_since_epoch () - (6 * 86400));
   string sql = "DELETE FROM logs WHERE timestamp < " + timestamp + ";";
   database_sqlite_exec (db, sql);
 
@@ -183,7 +183,7 @@ void Database_Logs::rotate ()
 vector <string> Database_Logs::get (int day, string & lastfilename)
 {
   // A day is considered a period of 24 hours starting now.
-  int firstsecond = filter_string_date_seconds_since_epoch () - ((day + 1) * 86400);
+  int firstsecond = filter_date_seconds_since_epoch () - ((day + 1) * 86400);
   int lastsecond = firstsecond + 86400;
   lastfilename = convert_to_string (lastsecond) + "00000000";
 

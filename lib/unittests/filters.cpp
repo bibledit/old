@@ -263,16 +263,16 @@ void test_filters_test2 ()
   }
   {
     // Test the date and time related functions.
-    int month = filter_string_date_numerical_month ();
+    int month = filter_date_numerical_month ();
     if ((month < 1) || (month > 12)) evaluate (__LINE__, __func__, "current month", convert_to_string (month));
-    int year = filter_string_date_numerical_year ();
+    int year = filter_date_numerical_year ();
     if ((year < 2014) || (year > 2050)) evaluate (__LINE__, __func__, "current year", convert_to_string (year));
     struct timeval tv;
     gettimeofday (&tv, NULL);
     int reference_second = tv.tv_sec;
-    int actual_second = filter_string_date_seconds_since_epoch ();
+    int actual_second = filter_date_seconds_since_epoch ();
     if (abs (actual_second - reference_second) > 1) evaluate (__LINE__, __func__, reference_second, actual_second);
-    int usecs = filter_string_date_numerical_microseconds ();
+    int usecs = filter_date_numerical_microseconds ();
     if ((usecs < 0) || (usecs > 1000000)) evaluate (__LINE__, __func__, "0-1000000", convert_to_string (usecs));
   }
   {
@@ -4190,4 +4190,75 @@ void test_ipc_notes ()
   Ipc_Notes::erase (&request);
   identifier = Ipc_Notes::get (&request);
   evaluate (__LINE__, __func__, 0, identifier);
+}
+
+
+void test_filter_date () // Todo
+{
+  // First Working Day Of Month
+  {
+    // Sunday the 1st.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (1, 0));
+    // Monday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 1));
+    // Tuesday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 2));
+    // Wednesday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 3));
+    // Thirsday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 4));
+    // Friday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 5));
+    // Saturday the 1st.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (1, 6));
+    // Sunday the 2nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (2, 0));
+    // Monday the 2nd.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (2, 1));
+    // Tuesday the 2nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (2, 2));
+    // Sunday the 3nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (3, 0));
+    // Monday the 3nd.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (3, 1));
+    // Tuesday the 3nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (3, 2));
+    // Sunday the 4nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (4, 0));
+    // Monday the 4nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (4, 1));
+    // Tuesday the 4nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (4, 2));
+  }
+  // tLast Business Day Of Month
+  {
+    evaluate (__LINE__, __func__, 30, filter_date_get_last_business_day_of_month (2013, 9));
+  }
+  
+  /* // Todo
+  
+    $this->assertEquals (31, filter_date_get_last_business_day_of_month (2013, 10));
+    $this->assertEquals (29, filter_date_get_last_business_day_of_month (2013, 11));
+    $this->assertEquals (31, filter_date_get_last_business_day_of_month (2013, 12));
+    $this->assertEquals (31, filter_date_get_last_business_day_of_month (2014, 1));
+    $this->assertEquals (28, filter_date_get_last_business_day_of_month (2014, 2));
+    $this->assertEquals (31, filter_date_get_last_business_day_of_month (2014, 3));
+    $this->assertEquals (30, filter_date_get_last_business_day_of_month (2014, 4));
+    $this->assertEquals (30, filter_date_get_last_business_day_of_month (2014, 5));
+    $this->assertEquals (30, filter_date_get_last_business_day_of_month (2014, 6));
+  
+  
+  public function testIsBusinessDay ()
+  {
+    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 1));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 2));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 3));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 4));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 5));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 6));
+    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 7));
+    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 8));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 30));
+  }
+  */
 }

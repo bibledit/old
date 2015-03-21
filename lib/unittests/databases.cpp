@@ -133,7 +133,7 @@ void test_database_config_user ()
     
     // Testing the Sprint month and its trim () function.
     // It should get today's month.
-    int month = filter_string_date_numerical_month ();
+    int month = filter_date_numerical_month ();
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
     // Set the sprint month to another month value: It should get this value back from the database.
     int newmonth = 123;
@@ -148,8 +148,8 @@ void test_database_config_user ()
     struct stat foo;
     struct utimbuf new_times;
     stat (filename.c_str(), &foo);
-    new_times.actime = filter_string_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
-    new_times.modtime = filter_string_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
+    new_times.actime = filter_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
+    new_times.modtime = filter_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
     utime (filename.c_str(), &new_times);
     request.database_config_user ()->trim ();
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
@@ -169,7 +169,7 @@ void test_database_config_user ()
     request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
     evaluate (__LINE__, __func__, "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
     
-    evaluate (__LINE__, __func__, filter_string_date_numerical_year (), request.database_config_user ()->getSprintYear ());
+    evaluate (__LINE__, __func__, filter_date_numerical_year (), request.database_config_user ()->getSprintYear ());
     
     // Test getting a Bible that does not exist: It creates one.
     evaluate (__LINE__, __func__, "Bibledit Sample Bible", request.database_config_user ()->getBible ());
@@ -212,7 +212,7 @@ void test_database_logs ()
     refresh_sandbox (true);
     Database_Logs database_logs = Database_Logs ();
     database_logs.create ();
-    int now = filter_string_date_seconds_since_epoch ();
+    int now = filter_date_seconds_since_epoch ();
     int min1days = now - 86400 - 10;
     int min2days = min1days - 86400;
     int min3days = min2days - 86400;
@@ -284,7 +284,7 @@ void test_database_logs ()
     refresh_sandbox (true);
     Database_Logs::log ("description");
     Database_Logs database_logs = Database_Logs ();
-    int second = filter_string_date_seconds_since_epoch ();
+    int second = filter_date_seconds_since_epoch ();
     string filename = convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;
@@ -400,7 +400,7 @@ void test_database_users ()
     evaluate (__LINE__, __func__, 0, database_users.getTimestamp (username));
     database_users.pingTimestamp (username);
     int timestamp = database_users.getTimestamp (username);
-    int second = filter_string_date_seconds_since_epoch ();
+    int second = filter_date_seconds_since_epoch ();
     if ((timestamp != second) && (timestamp != second + 1)) evaluate (__LINE__, __func__, second, timestamp);
   }
   // Test touch-enabled settings.
@@ -1650,7 +1650,7 @@ void test_database_navigation ()
     database.create ();
 
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
 
     // Record one entry. As a result there should be no previous entry.
     database.record (time, "phpunit", 1, 2, 3);
@@ -1693,7 +1693,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record one entry, and another 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1709,7 +1709,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record one entry, and another 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1725,7 +1725,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record three entries, each one 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1743,7 +1743,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record five entries, each one 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1775,7 +1775,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record several entries, all spaced apart by 6 seconds.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1796,7 +1796,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Record two entries at an interval.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
     database.record (time, "phpunit", 4, 5, 6);
@@ -2163,7 +2163,7 @@ void test_database_noteactions ()
     database.record ("phpunit3", 3, 4, "content5");
     vector <Database_Note_Action> data = database.getNoteData (2);
     evaluate (__LINE__, __func__, 2, data.size());
-    int now = filter_string_date_seconds_since_epoch ();
+    int now = filter_date_seconds_since_epoch ();
     evaluate (__LINE__, __func__, 1, data[0].rowid);
     evaluate (__LINE__, __func__, "phpunit1", data[0].username);
     if ((data[0].timestamp < now - 1) || (data[0].timestamp > now + 2)) evaluate (__LINE__, __func__, now, data[0].timestamp);
@@ -2381,7 +2381,7 @@ void test_database_modifications_user ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     int time = database_modifications.getUserTimestamp ("phpunit1", "bible", 1, 2, 4);
-    int currenttime = filter_string_date_seconds_since_epoch ();
+    int currenttime = filter_date_seconds_since_epoch ();
     if ((time < currenttime) || (time > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, time);
   }
 }
@@ -2677,7 +2677,7 @@ void test_database_modifications_notifications ()
     // Set the time back, re-index, filter_string_trim, and check one entry's gone.
     string file = database_modifications.notificationTimeFile (1);
     database_modifications.indexTrimAllNotifications ();
-    filter_url_file_put_contents (file, convert_to_string (filter_string_date_seconds_since_epoch () - 7776001));
+    filter_url_file_put_contents (file, convert_to_string (filter_date_seconds_since_epoch () - 7776001));
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {2}, ids);
@@ -2729,10 +2729,10 @@ void test_database_modifications_notifications ()
     database_modifications.create ();
 
     int timestamp = database_modifications.getNotificationTimeStamp (0);
-    int currenttime = filter_string_date_seconds_since_epoch ();
+    int currenttime = filter_date_seconds_since_epoch ();
     if ((timestamp < currenttime) || (timestamp > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, timestamp);
 
-    int time = filter_string_date_seconds_since_epoch () - 21600;
+    int time = filter_date_seconds_since_epoch () - 21600;
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     timestamp = database_modifications.getNotificationTimeStamp (1);
@@ -3183,7 +3183,7 @@ void test_database_notes ()
     database_notes.create ();
 
     request.session_logic()->setUsername ("PHPUnit");
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
 
     // Create note.
     int identifier = database_notes.storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);

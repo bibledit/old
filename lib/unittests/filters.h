@@ -36,6 +36,7 @@ void test_filter_git ();
 void test_filter_merge ();
 void test_filter_tidy ();
 void test_ipc_notes ();
+void test_filter_date ();
 
 
 #endif

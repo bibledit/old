@@ -28,7 +28,7 @@
 void tmp_tmp ()
 {
   Database_Logs::log ("Removing expired temporal files", Filter_Roles::admin ());
-  int expired = filter_string_date_seconds_since_epoch () - (3600 * 24 * 3);
+  int expired = filter_date_seconds_since_epoch () - (3600 * 24 * 3);
   string directory = filter_url_create_root_path ("tmp");
   vector <string> names = filter_url_scandir (directory);
   for (auto & name : names) {

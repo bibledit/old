@@ -47,7 +47,7 @@ string edit_id (void * webserver_request)
   // Update the timestamp indicating that the Bible editor is alive.
   string user = request->session_logic()->currentUser ();
   Database_Ipc database_ipc = Database_Ipc (request);
-  database_ipc.storeMessage (user, "", "biblealive", convert_to_string (filter_string_date_seconds_since_epoch ()));
+  database_ipc.storeMessage (user, "", "biblealive", convert_to_string (filter_date_seconds_since_epoch ()));
   
   
   string bible = request->query ["bible"];

@@ -318,7 +318,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
   if (!file_exists (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   string timeFile = userTimeFile (username, bible, book, chapter, newID);
-  filter_url_file_put_contents (timeFile, convert_to_string (filter_string_date_seconds_since_epoch ()));
+  filter_url_file_put_contents (timeFile, convert_to_string (filter_date_seconds_since_epoch ()));
   string oldIDFile = userOldIDFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (oldIDFile, convert_to_string (oldID));
   string oldTextFile = userOldTextFile (username, bible, book, chapter, newID);
@@ -412,7 +412,7 @@ int Database_Modifications::getUserTimestamp (const string& username, const stri
   string contents = filter_url_file_get_contents (file);
   int time = convert_to_int (contents);
   if (time > 0) return time;
-  return filter_string_date_seconds_since_epoch ();
+  return filter_date_seconds_since_epoch ();
 }
 
 
@@ -503,7 +503,7 @@ void Database_Modifications::recordNotification (const vector <string> & users, 
   // Normally this function is called just after midnight.
   // It would then put the current time on changes made the day before.
   // Make a correction for that by subtracting 6 hours.
-  int timestamp = filter_string_date_seconds_since_epoch () - 21600;
+  int timestamp = filter_date_seconds_since_epoch () - 21600;
   for (auto & user : users) {
     int identifier = getNextAvailableNotificationIdentifier ();
     filter_url_mkdir (notificationIdentifierFolder (identifier));
@@ -536,7 +536,7 @@ void Database_Modifications::indexTrimAllNotifications ()
   create ();
 
   // Change notifications expire after 30 days.
-  int expiry_time = filter_string_date_seconds_since_epoch () - 2592000;
+  int expiry_time = filter_date_seconds_since_epoch () - 2592000;
 
   // Database: Connect and speed it up.
   sqlite3 * db = connect ();
@@ -758,7 +758,7 @@ int Database_Modifications::getNotificationTimeStamp (int id)
   sqlite3 * db = connect ();
   vector <string> timestamps = database_sqlite_query (db, sql.sql) ["timestamp"];
   database_sqlite_disconnect (db);
-  int time = filter_string_date_seconds_since_epoch ();
+  int time = filter_date_seconds_since_epoch ();
   for (auto & stamp : timestamps) {
     time = convert_to_int (stamp);
   }

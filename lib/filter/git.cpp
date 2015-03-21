@@ -375,7 +375,7 @@ typedef struct git_progress_data {
 static int fetch_progress (const git_transfer_progress *stats, void *payload)
 {
   git_progress_data *pd = (git_progress_data*) payload;
-  int seconds = filter_string_date_seconds_since_epoch ();
+  int seconds = filter_date_seconds_since_epoch ();
   if (seconds != pd->seconds) {
     size_t received_kilo_bytes = stats->received_bytes / 1048;
     int percentage = round (100 * stats->received_objects / stats->total_objects);
@@ -396,7 +396,7 @@ static int fetch_progress (const git_transfer_progress *stats, void *payload)
 static void checkout_progress (const char *path, size_t cur, size_t tot, void *payload)
 {
   git_progress_data *pd = (git_progress_data*) payload;
-  int seconds = filter_string_date_seconds_since_epoch ();
+  int seconds = filter_date_seconds_since_epoch ();
   if (seconds != pd->seconds) {
     int percentage = round (100 * cur / tot);
     if (pd->job_identifier) {
@@ -553,7 +553,7 @@ bool filter_git_commit (string repository, string user, string email, string mes
 
   // Create a signature.
   git_signature * signature = NULL;
-  time_t ctime = filter_string_date_seconds_since_epoch ();
+  time_t ctime = filter_date_seconds_since_epoch ();
   if (result == 0) {
     git_signature_new ((git_signature **)&signature, user.c_str(), email.c_str(), ctime, 0);
     error = filter_git_check_error (result);

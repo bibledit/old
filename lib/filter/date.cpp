@@ -22,7 +22,7 @@
 
 
 // Gets the second within the minute from the seconds since the Unix epoch.
-int filter_string_date_numerical_second (int seconds)
+int filter_date_numerical_second (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -32,7 +32,7 @@ int filter_string_date_numerical_second (int seconds)
 
 
 // Gets the minute within the hour from the seconds since the Unix epoch.
-int filter_string_date_numerical_minute (int seconds)
+int filter_date_numerical_minute (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -42,7 +42,7 @@ int filter_string_date_numerical_minute (int seconds)
 
 
 // Gets the hour within the day from the seconds since the Unix epoch.
-int filter_string_date_numerical_hour (int seconds)
+int filter_date_numerical_hour (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -52,7 +52,7 @@ int filter_string_date_numerical_hour (int seconds)
 
 
 // The numerical day of the month from 1 to 31.
-int filter_string_date_numerical_month_day (int seconds)
+int filter_date_numerical_month_day (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -62,7 +62,7 @@ int filter_string_date_numerical_month_day (int seconds)
 
 
 // The numerical day of the week: 0 (for Sunday) through 6 (for Saturday)
-int filter_string_date_numerical_week_day (int seconds) // Todo
+int filter_date_numerical_week_day (int seconds) // Todo
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -73,7 +73,7 @@ int filter_string_date_numerical_week_day (int seconds) // Todo
 
 // A C++ equivalent for PHP's date ("n") function.
 // Numeric representation of a month: 1 through 12.
-int filter_string_date_numerical_month ()
+int filter_date_numerical_month ()
 {
   auto now = chrono::system_clock::now ();
   time_t tt = chrono::system_clock::to_time_t (now);
@@ -90,7 +90,7 @@ int filter_string_date_numerical_month ()
 
 // A C++ equivalent for PHP's date ("Y") function.
 // A full numeric representation of a year, 4 digits: 2014.
-int filter_string_date_numerical_year ()
+int filter_date_numerical_year ()
 {
   auto now = chrono::system_clock::now ();
   time_t tt = chrono::system_clock::to_time_t (now);
@@ -107,7 +107,7 @@ int filter_string_date_numerical_year ()
 
 
 // This function gives the number of microseconds within the current second.
-int filter_string_date_numerical_microseconds ()
+int filter_date_numerical_microseconds ()
 {
   auto now = chrono::system_clock::now ();
   auto duration = now.time_since_epoch ();
@@ -118,7 +118,7 @@ int filter_string_date_numerical_microseconds ()
 
 
 // This function returns the seconds since the Unix epoch, which is 1 January 1970 UTC.
-int filter_string_date_seconds_since_epoch ()
+int filter_date_seconds_since_epoch ()
 {
   auto now = chrono::system_clock::now ();
   auto duration = now.time_since_epoch ();
@@ -130,7 +130,7 @@ int filter_string_date_seconds_since_epoch ()
 // This function takes the "seconds" parameter,
 // corrects it according to the local timezone,
 // and returns it.
-int filter_string_date_local_seconds (int seconds)
+int filter_date_local_seconds (int seconds)
 {
   int offset = Database_Config_General::getTimezone ();
   seconds += (offset * 3600);
@@ -157,6 +157,9 @@ bool filter_date_is_first_working_day_of_month (int monthday, int weekday) // To
 
 int filter_date_get_last_business_day_of_month (int year, int month) // Todo test.
 {
+  int seconds = filter_date_seconds_since_epoch ();
+  seconds = filter_date_local_seconds (seconds);
+
   /* Todo
   $time = mktime (0, 0, 0, $month, 1, $year);
   $lastday = date ("t", $time);

@@ -322,7 +322,7 @@ void Navigation_Passage::recordHistory (void * webserver_request, int book, int 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
   Database_Navigation database_navigation = Database_Navigation ();
-  database_navigation.record (filter_string_date_seconds_since_epoch (), user, book, chapter, verse);
+  database_navigation.record (filter_date_seconds_since_epoch (), user, book, chapter, verse);
 }
 
 

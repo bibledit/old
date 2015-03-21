@@ -790,7 +790,6 @@
 		CAA4D3CC1A45A648003ABA25 /* usfmTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = usfmTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3CD1A45A648003ABA25 /* versesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versesTest.php; sourceTree = "<group>"; };
 		CAA4D3CE1A45A648003ABA25 /* versificationTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versificationTest.php; sourceTree = "<group>"; };
-		CAA4D4011A45A648003ABA25 /* datetimeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = datetimeTest.php; sourceTree = "<group>"; };
 		CAA4D40B1A45A648003ABA25 /* fileTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = fileTest.php; sourceTree = "<group>"; };
 		CAA4D40C1A45A648003ABA25 /* hexTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hexTest.php; sourceTree = "<group>"; };
 		CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hyphenateTest.php; sourceTree = "<group>"; };
@@ -2801,7 +2800,6 @@
 		CAA4D3FA1A45A648003ABA25 /* filter */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D4011A45A648003ABA25 /* datetimeTest.php */,
 				CAA4D40B1A45A648003ABA25 /* fileTest.php */,
 				CAA4D40C1A45A648003ABA25 /* hexTest.php */,
 				CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */,

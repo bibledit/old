@@ -50,15 +50,15 @@ string render_journal_entry (string entry)
   time_t seconds = convert_to_int (entry);
   entry.erase (0, 11);
   // Localize the seconds.
-  seconds = filter_string_date_local_seconds (seconds);
+  seconds = filter_date_local_seconds (seconds);
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
   // Convert the seconds into a human readable time.
-  string timestamp = filter_string_fill (convert_to_string (filter_string_date_numerical_hour (seconds)), 2, '0');
+  string timestamp = filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0');
   timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter_string_date_numerical_minute (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter_string_date_numerical_second (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
   // Done.
   return timestamp + " | " + entry;
 }

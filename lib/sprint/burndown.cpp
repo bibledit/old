@@ -37,12 +37,12 @@
 // If $mail is false, it decides on its own whether to mail the chart to the users.
 void sprint_burndown (string bible, bool email)
 {
-  int year = filter_string_date_numerical_year ();
-  int month = filter_string_date_numerical_month ();
-  int localseconds = filter_string_date_local_seconds (filter_string_date_seconds_since_epoch ());
-  int monthday = filter_string_date_numerical_month_day (localseconds); // 1 to 31.
-  int weekday = filter_string_date_numerical_week_day (localseconds); // 0 (for Sunday) through 6 (for Saturday).
-  int hour = filter_string_date_numerical_hour (localseconds);
+  int year = filter_date_numerical_year ();
+  int month = filter_date_numerical_month ();
+  int localseconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
+  int monthday = filter_date_numerical_month_day (localseconds); // 1 to 31.
+  int weekday = filter_date_numerical_week_day (localseconds); // 0 (for Sunday) through 6 (for Saturday).
+  int hour = filter_date_numerical_hour (localseconds);
   bool sprintstart = false;
   bool sprintfinish = false;
   
@@ -50,12 +50,12 @@ void sprint_burndown (string bible, bool email)
   // Every Friday at 2 PM (14:00h) it sends email about the sprint progress.
   if ((weekday == 5) && (hour == 14)) email = true;
   // On the first business day of the month, at 10 AM, send email about the start of the sprint.
-  // Todo oif (Filter_Datetime::isFirstWorkingDayOfMonth ($monthday, $weekday) && ($hour == 10)) {
+  // Todo oif (filter_date_is_first_working_day_of_month ($monthday, $weekday) && ($hour == 10)) {
     email = true;
     sprintstart = true;
   // }
   // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint.
-  // Todo if (($monthday == Filter_Datetime::getLastBusinessDayOfMonth ($year, $month)) && ($hour == 14)) {
+  // Todo if (($monthday == filter_date_get_last_business_day_of_month ($year, $month)) && ($hour == 14)) {
     email = true;
     sprintfinish = true;
   //}
