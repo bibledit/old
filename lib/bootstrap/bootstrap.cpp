@@ -146,6 +146,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/change.h>
 #include <changes/manage.h>
 #include <index/listing.h>
+#include <sprint/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -236,6 +237,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == changes_change_url ()) && changes_change_acl (request)) request->reply = changes_change (request);
   else if ((url == changes_manage_url ()) && changes_manage_acl (request)) request->reply = changes_manage (request);
 
+  // Planning menu.
+  else if ((url == sprint_index_url ()) && sprint_index_acl (request)) request->reply = sprint_index (request);
+  
   // Tools menu.
   else if ((url == sendreceive_index_url ()) && sendreceive_index_acl (request)) request->reply = sendreceive_index (request);
   

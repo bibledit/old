@@ -20,8 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/notes.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <database/sqlite.h>
+#include <filter/date.h>
 #include <filter/md5.h>
+#include <database/sqlite.h>
 #include <notes/logic.h>
 #include <locale/translate.h>
 #include <locale/translate.h>
@@ -520,7 +521,7 @@ string Database_Notes::assembleContents (int identifier, string contents)
   string new_contents;
   new_contents = getContents (identifier);
   int time = filter_string_date_seconds_since_epoch ();
-  string datetime = convert_to_string (filter_string_date_numerical_day (time)) + "/" + convert_to_string (filter_string_date_numerical_month()) + "/" + convert_to_string (filter_string_date_numerical_year ());
+  string datetime = convert_to_string (filter_string_date_numerical_month_day (time)) + "/" + convert_to_string (filter_string_date_numerical_month()) + "/" + convert_to_string (filter_string_date_numerical_year ());
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   new_contents.append ("<p>");
   new_contents.append (user);

@@ -23,6 +23,7 @@ libbibledit_a_SOURCES = \
 	filter/abbreviations.cpp \
 	filter/shell.cpp \
 	filter/merge.cpp \
+	filter/date.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -258,7 +259,9 @@ libbibledit_a_SOURCES = \
 	changes/changes.cpp \
 	changes/logic.cpp \
 	changes/manage.cpp \
-	changes/modifications.cpp
+	changes/modifications.cpp \
+	sprint/burndown.cpp \
+	sprint/index.cpp
 
 bin_PROGRAMS = server unittest
 

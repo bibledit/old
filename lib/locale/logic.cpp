@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <locale/logic.h>
+#include <locale/translate.h>
 
 
 // Filters out the default language.
@@ -28,4 +29,24 @@ string locale_logic_filter_default_language (string localization)
   return localization;
 }
 
+
+// Takes a month from 1 to 12, and returns its localized name.
+string locale_logic_month (int month)
+{
+  switch (month) {
+    case 1:  return translate ("January");
+    case 2:  return translate ("February");
+    case 3:  return translate ("March");
+    case 4:  return translate ("April");
+    case 5:  return translate ("May");
+    case 6:  return translate ("June");
+    case 7:  return translate ("July");
+    case 8:  return translate ("August");
+    case 9:  return translate ("September");
+    case 10: return translate ("October");
+    case 11: return translate ("November");
+    case 12: return translate ("December");
+  }
+  return translate ("Month") + " " + to_string (month);
+}
 

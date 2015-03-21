@@ -23,6 +23,7 @@
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/url.h>
+#include <filter/date.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <navigation/passage.h>

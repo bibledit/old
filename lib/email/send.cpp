@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/md5.h>
+#include <filter/date.h>
 #include <curl/curl.h>
 #include <config/globals.h>
 
@@ -138,7 +139,7 @@ string email_send (string to_mail, string to_name, string subject, string body)
   int seconds = filter_string_date_seconds_since_epoch ();
   payload_text.clear();
   string payload;
-  payload = "Date: " + convert_to_string (filter_string_date_numerical_year ()) + "/" + convert_to_string (filter_string_date_numerical_month ()) + "/" + convert_to_string (filter_string_date_numerical_day (seconds)) + " " + convert_to_string (filter_string_date_numerical_hour (seconds)) + ":" + convert_to_string (filter_string_date_numerical_minute (seconds)) + "\n";
+  payload = "Date: " + convert_to_string (filter_string_date_numerical_year ()) + "/" + convert_to_string (filter_string_date_numerical_month ()) + "/" + convert_to_string (filter_string_date_numerical_month_day (seconds)) + " " + convert_to_string (filter_string_date_numerical_hour (seconds)) + ":" + convert_to_string (filter_string_date_numerical_minute (seconds)) + "\n";
   payload_text.push_back (payload);
   payload = "To: <" + to_mail + "> " + to_name + "\n";
   payload_text.push_back (payload);

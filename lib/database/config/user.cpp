@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <demo/logic.h>
 #include <styles/logic.h>
+#include <filter/date.h>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)

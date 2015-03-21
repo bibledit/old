@@ -20,6 +20,7 @@
 #include <navigation/passage.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
+#include <filter/date.h>
 #include <database/versifications.h>
 #include <database/navigation.h>
 #include <database/books.h>

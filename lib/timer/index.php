@@ -28,16 +28,6 @@ if (!$client) {
 }
 
 
-// Sprint burndown.
-// It runs every hour.
-// The script itself determines what to do at which hour of the day or day of the week or day of the month.
-if (!$client) {
-  if ($minute == 5) {
-    Sprint_Logic::burndown ("", false);
-  }
-}
-
-
 // Export the Bibles to the various output formats.
 // This may take an hour on a production machine.
 if (($hour == 1) && ($minute == 10)) {

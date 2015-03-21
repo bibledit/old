@@ -49,6 +49,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define DOWNLOADRESOURCE "downloadresource"
 #define NOTESSTATISTICS "notesstatistics"
 #define GENERATECHANGES "generatechanges"
+#define SPRINTBURNDOWN "sprintburndown"
 
 
 string tasks_logic_folder ();

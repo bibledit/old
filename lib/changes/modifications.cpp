@@ -25,6 +25,7 @@
 #include <filter/text.h>
 #include <filter/diff.h>
 #include <filter/passage.h>
+#include <filter/date.h>
 #include <html/text.h>
 #include <text/text.h>
 #include <database/logs.h>
@@ -217,7 +218,7 @@ void changes_modifications ()
     timepath.append ("-");
     timepath.append (filter_string_fill (to_string (filter_string_date_numerical_month ()), 2, '0'));
     timepath.append ("-");
-    timepath.append (filter_string_fill (to_string (filter_string_date_numerical_day (seconds)), 2, '0'));
+    timepath.append (filter_string_fill (to_string (filter_string_date_numerical_month_day (seconds)), 2, '0'));
     timepath.append (" ");
     timepath.append (filter_string_fill (to_string (filter_string_date_numerical_hour (seconds)), 2, '0'));
     timepath.append (":");

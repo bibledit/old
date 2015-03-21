@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/abbreviations.h>
 #include <filter/git.h>
 #include <filter/merge.h>
+#include <filter/date.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>

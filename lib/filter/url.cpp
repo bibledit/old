@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/UriCodec.cpp>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <config/logic.h>
 #include <curl/curl.h>
 #include <config.h>

@@ -24,9 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
+#include <filter/roles.h>
 #include <database/logs.h>
 #include <locale/translate.h>
-#include <filter/roles.h>
 
 
 const char * journal_index_url ()

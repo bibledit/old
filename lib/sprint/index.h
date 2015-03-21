@@ -17,27 +17,16 @@
  */
 
 
-#include <tmp/tmp.h>
-#include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/date.h>
-#include <database/logs.h>
+#ifndef INCLUDED_SPRINT_INDEX_H
+#define INCLUDED_SPRINT_INDEX_H
 
 
-void tmp_tmp ()
-{
-  Database_Logs::log ("Removing expired temporal files", Filter_Roles::admin ());
-  int expired = filter_string_date_seconds_since_epoch () - (3600 * 24 * 3);
-  string directory = filter_url_create_root_path ("tmp");
-  vector <string> names = filter_url_scandir (directory);
-  for (auto & name : names) {
-    if (name.find ("tmp.") == 0) continue;
-    string filename = filter_url_create_path (directory, name);
-    int mtime = filter_url_filemtime (filename);
-    if (mtime < expired) {
-      filter_url_rmdir (filename);
-      filter_url_unlink (filename);
-    }
-  }
-}
+#include <config/libraries.h>
+
+
+string sprint_index_url ();
+bool sprint_index_acl (void * webserver_request);
+string sprint_index (void * webserver_request);
+
+
+#endif

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <webserver/request.h>
 #include <database/logs.h>
+#include <filter/date.h>
 
 
 // Handles mail sent from Bibledit to the users.

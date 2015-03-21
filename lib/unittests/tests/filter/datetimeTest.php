@@ -22,18 +22,7 @@ class filterDatetimeTest extends PHPUnit_Framework_TestCase
 {
 
 
-  public function setUp ()
-  {
-    $this->tearDown ();
-  }
-
-  
-  public function tearDown ()
-  {
-  }
-
-
-  public function testFirstWorkingDayOfMonth ()
+  public function testFirstWorkingDayOfMonth () // Todo
   {
     // Sunday the 1st.
     $this->assertFalse (Filter_Datetime::isFirstWorkingDayOfMonth (1, 0));

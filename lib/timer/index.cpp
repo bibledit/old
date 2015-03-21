@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <config/globals.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <tasks/run.h>
 #include <config/logic.h>
@@ -129,6 +130,15 @@ void timer_index ()
         }
       }
       
+      // Sprint burndown.
+      // It runs every hour.
+      // The script itself determines what to do at which hour of the day or day of the week or day of the month.
+      if (!client) {
+        if (minute == 5) {
+          tasks_logic_queue (SPRINTBURNDOWN);
+        }
+      }
+
       // Quit at midnight if flag is set.
       if (config_globals_quit_at_midnight) {
         if (hour == 0) {

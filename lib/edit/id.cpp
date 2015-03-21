@@ -21,6 +21,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
+#include <filter/date.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <database/ipc.h>

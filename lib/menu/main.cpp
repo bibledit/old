@@ -57,6 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <journal/index.h>
 #include <changes/manage.h>
 #include <index/listing.h>
+#include <sprint/index.h>
 
 
 /*
@@ -97,9 +98,15 @@ vector <Menu_Main_Item> * Menu_Main::mainmenu ()
   if (notes_index_acl (request)) menu->push_back ( { "", "", translate ("Notes"), notesmenu () } );
   if (resource_index_acl (request)) menu->push_back ( { "", "", translate ("Resources"), resourcesmenu () } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "", translate ("Changes"), changesmenu () } );
-  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "", translate ("Planning"),  planningmenu ()  } );
+  vector <Menu_Main_Item> *  planning_menu = planningmenu ();
+  if (planning_menu->size ()) {
+    menu->push_back ( { "", "", translate ("Planning"),  planning_menu } );
+  } else {
+    delete planning_menu;
+  }
   vector <Menu_Main_Item> *  tools_menu = toolsmenu ();
-  if (tools_menu->size ()) { menu->push_back ( { "", "", translate ("Tools"), tools_menu } );
+  if (tools_menu->size ()) {
+    menu->push_back ( { "", "", translate ("Tools"), tools_menu } );
   } else {
     delete tools_menu;
   }
@@ -199,8 +206,7 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
 vector <Menu_Main_Item> * Menu_Main::planningmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "sprint/index", translate ("Sprint"), NULL } );
+  if (sprint_index_acl (webserver_request)) menu->push_back ( { "", sprint_index_url (), translate ("Sprint"), NULL } );
   return menu;
 }
 
