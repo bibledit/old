@@ -29,14 +29,16 @@ int filter_date_numerical_minute (int seconds);
 int filter_date_numerical_hour (int seconds);
 int filter_date_numerical_month_day (int seconds);
 int filter_date_numerical_week_day (int seconds);
-int filter_date_numerical_month ();
-int filter_date_numerical_year ();
+int filter_date_numerical_month (int seconds);
+int filter_date_numerical_year (int seconds);
 int filter_date_numerical_microseconds ();
 int filter_date_seconds_since_epoch ();
 int filter_date_local_seconds (int seconds);
 bool filter_date_is_first_working_day_of_month (int monthday, int weekday);
 int filter_date_get_last_business_day_of_month (int year, int month);
 bool filter_date_is_business_day (int year, int month, int day);
+void filter_date_get_previous_month (int & month, int & year);
+void filter_date_get_next_month (int & month, int & year);
 
 
 #endif

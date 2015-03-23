@@ -592,7 +592,7 @@ const char * Database_Config_User::keySprintMonth ()
 }
 int Database_Config_User::getSprintMonth ()
 {
-  return getIValue (keySprintMonth (), filter_date_numerical_month ());
+  return getIValue (keySprintMonth (), filter_date_numerical_month (filter_date_seconds_since_epoch ()));
 }
 void Database_Config_User::setSprintMonth (int value)
 {
@@ -606,7 +606,7 @@ const char * Database_Config_User::keySprintYear ()
 }
 int Database_Config_User::getSprintYear ()
 {
-  return getIValue (keySprintYear (), filter_date_numerical_year ());
+  return getIValue (keySprintYear (), filter_date_numerical_year (filter_date_seconds_since_epoch ()));
 }
 void Database_Config_User::setSprintYear (int value)
 {

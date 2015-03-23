@@ -37,9 +37,9 @@
 // If $mail is false, it decides on its own whether to mail the chart to the users.
 void sprint_burndown (string bible, bool email)
 {
-  int year = filter_date_numerical_year ();
-  int month = filter_date_numerical_month ();
   int localseconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
+  int year = filter_date_numerical_year (localseconds);
+  int month = filter_date_numerical_month (localseconds);
   int monthday = filter_date_numerical_month_day (localseconds); // 1 to 31.
   int weekday = filter_date_numerical_week_day (localseconds); // 0 (for Sunday) through 6 (for Saturday).
   int hour = filter_date_numerical_hour (localseconds);

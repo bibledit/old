@@ -48,26 +48,6 @@ bool sprint_index_acl (void * webserver_request)
 }
 
 
-void sprint_index_previous_month (int & month, int & year)
-{
-  month--;
-  if (month <= 0) {
-    month = 12;
-    year--;
-  }
-}
-
-
-void sprint_index_next_month (int & month, int & year)
-{
-  month++;
-  if (month > 12) {
-    month = 1;
-    year++;
-  }
-}
-
-
 string sprint_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -83,22 +63,22 @@ string sprint_index (void * webserver_request)
   if (request->query.count ("previoussprint")) {
     int month = request->database_config_user()->getSprintMonth ();
     int year = request->database_config_user()->getSprintYear ();
-    sprint_index_previous_month (month, year);
+    filter_date_get_previous_month (month, year);
     request->database_config_user()->setSprintMonth (month);
     request->database_config_user()->setSprintYear (year);
   }
   
   
   if (request->query.count ("currentprint")) {
-    request->database_config_user()->setSprintMonth (filter_date_numerical_month ());
-    request->database_config_user()->setSprintYear (filter_date_numerical_year ());
+    request->database_config_user()->setSprintMonth (filter_date_numerical_month (filter_date_seconds_since_epoch ()));
+    request->database_config_user()->setSprintYear (filter_date_numerical_year (filter_date_seconds_since_epoch ()));
   }
   
   
   if (request->query.count ("nextsprint")) {
     int month = request->database_config_user()->getSprintMonth ();
     int year = request->database_config_user()->getSprintYear ();
-    sprint_index_next_month (month, year);
+    filter_date_get_next_month (month, year);
     request->database_config_user()->setSprintMonth (month);
     request->database_config_user()->setSprintYear (year);
   }
@@ -151,14 +131,14 @@ string sprint_index (void * webserver_request)
   
   
   if (request->query.count ("moveback")) { // Todo test it.
-    sprint_index_previous_month (month, year);
+    filter_date_get_previous_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the previous sprint"));
   }
                         
                         
   if (request->query.count ("moveforward")) { // Todo test.
-    sprint_index_next_month (month, year);
+    filter_date_get_next_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the next sprint"));
   }

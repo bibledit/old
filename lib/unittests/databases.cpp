@@ -133,7 +133,7 @@ void test_database_config_user ()
     
     // Testing the Sprint month and its trim () function.
     // It should get today's month.
-    int month = filter_date_numerical_month ();
+    int month = filter_date_numerical_month (filter_date_seconds_since_epoch ());
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
     // Set the sprint month to another month value: It should get this value back from the database.
     int newmonth = 123;
@@ -169,7 +169,7 @@ void test_database_config_user ()
     request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
     evaluate (__LINE__, __func__, "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
     
-    evaluate (__LINE__, __func__, filter_date_numerical_year (), request.database_config_user ()->getSprintYear ());
+    evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
     
     // Test getting a Bible that does not exist: It creates one.
     evaluate (__LINE__, __func__, "Bibledit Sample Bible", request.database_config_user ()->getBible ());

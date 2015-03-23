@@ -214,9 +214,9 @@ void changes_modifications ()
     // The files get stored at http://site.org:<port>/revisions/<Bible>/<date>
     int seconds = filter_date_seconds_since_epoch ();
     string timepath;
-    timepath.append (to_string (filter_date_numerical_year ()));
+    timepath.append (to_string (filter_date_numerical_year (seconds)));
     timepath.append ("-");
-    timepath.append (filter_string_fill (to_string (filter_date_numerical_month ()), 2, '0'));
+    timepath.append (filter_string_fill (to_string (filter_date_numerical_month (seconds)), 2, '0'));
     timepath.append ("-");
     timepath.append (filter_string_fill (to_string (filter_date_numerical_month_day (seconds)), 2, '0'));
     timepath.append (" ");

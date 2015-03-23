@@ -62,7 +62,7 @@ int filter_date_numerical_month_day (int seconds)
 
 
 // The numerical day of the week: 0 (for Sunday) through 6 (for Saturday)
-int filter_date_numerical_week_day (int seconds) // Todo
+int filter_date_numerical_week_day (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -73,16 +73,10 @@ int filter_date_numerical_week_day (int seconds) // Todo
 
 // A C++ equivalent for PHP's date ("n") function.
 // Numeric representation of a month: 1 through 12.
-int filter_date_numerical_month ()
+int filter_date_numerical_month (int seconds)
 {
-  auto now = chrono::system_clock::now ();
-  time_t tt = chrono::system_clock::to_time_t (now);
-#ifdef WIN32
-  tm utc_tm;
-  gmtime_s(&utc_tm, &tt);
-#else
+  time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
-#endif
   int month = utc_tm.tm_mon + 1;
   return month;
 }
@@ -90,16 +84,10 @@ int filter_date_numerical_month ()
 
 // A C++ equivalent for PHP's date ("Y") function.
 // A full numeric representation of a year, 4 digits: 2014.
-int filter_date_numerical_year ()
+int filter_date_numerical_year (int seconds)
 {
-  auto now = chrono::system_clock::now ();
-  time_t tt = chrono::system_clock::to_time_t (now);
-#ifdef WIN32
-  tm utc_tm;
-  gmtime_s(&utc_tm, &tt);
-#else
+  time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
-#endif
   // Get years since 1900, and correct to get years since birth of Christ.
   int year = utc_tm.tm_year + 1900;
   return year;
@@ -157,19 +145,37 @@ bool filter_date_is_first_working_day_of_month (int monthday, int weekday) // To
 
 int filter_date_get_last_business_day_of_month (int year, int month) // Todo test.
 {
+  // Get the local seconds.
   int seconds = filter_date_seconds_since_epoch ();
   seconds = filter_date_local_seconds (seconds);
 
-  /* Todo
-  $time = mktime (0, 0, 0, $month, 1, $year);
-  $lastday = date ("t", $time);
-  $time = mktime (0, 0, 0, $month, $lastday, $year);
-  $lastweekday = date ("w", $time);
-  if ($lastweekday == 0) $lastday -= 2;
-  if ($lastweekday == 6) $lastday--;
-  return $lastday;
-   */
-  return 30;
+  // Go back a few years before the requested year.
+  int diff = year - filter_date_numerical_year (seconds);
+  seconds += diff * 3600 * 24 * 365 * 2;
+  
+  bool month_ok = false;
+  bool past_month = false;
+  int day = 31;
+  do {
+    // Next day.
+    seconds += (3600 * 24);
+    
+    int mymonthday = filter_date_numerical_month_day (seconds);
+    int myweekday = filter_date_numerical_week_day (seconds);
+    int mymonth = filter_date_numerical_month (seconds);
+    int myyear = filter_date_numerical_year (seconds);
+
+    if ((year == myyear) && (month == mymonth)) {
+      month_ok = true;
+      if ((myweekday == 1) || (myweekday == 2) || (myweekday == 3) || (myweekday == 4) || (myweekday == 5)) {
+        day = mymonthday;
+      }
+    } else {
+      if (month_ok) past_month = true;
+    }
+  } while (!past_month);
+  
+  return day;
 }
 
 
@@ -183,3 +189,22 @@ bool filter_date_is_business_day (int year, int month, int day) // Todo test.
   return false;
 }
 
+
+void filter_date_get_previous_month (int & month, int & year)
+{
+  month--;
+  if (month <= 0) {
+    month = 12;
+    year--;
+  }
+}
+
+
+void filter_date_get_next_month (int & month, int & year)
+{
+  month++;
+  if (month > 12) {
+    month = 1;
+    year++;
+  }
+}

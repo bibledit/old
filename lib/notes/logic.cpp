@@ -522,7 +522,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
     username = filter_string_str_replace (".", " ", username);
   }
   // Clean the email's body.
-  string year = convert_to_string (filter_date_numerical_year ());
+  string year = convert_to_string (filter_date_numerical_year (filter_date_seconds_since_epoch ()));
   string sender = Database_Config_General::getSiteMailName();
   body = filter_string_extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,
