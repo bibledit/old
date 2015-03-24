@@ -193,7 +193,7 @@ string sprint_create_burndown_chart (string bible, int year, int month) // Todo
   $history = $database_sprint->getHistory ($bible, $year, $month);
   $data = array ();
   for ($day = 1; $day <= $days_in_month; $day++) {
-    if (Filter_Datetime::isBusinessDay ($year, $month, $day)) {
+    if (filter_date_is_business_day ($year, $month, $day)) {
       $data [$day] = "";
       for ($history as $item) {
         if ($day == $item ['day']) {

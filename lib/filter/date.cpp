@@ -126,7 +126,7 @@ int filter_date_local_seconds (int seconds)
 }
 
 
-bool filter_date_is_first_working_day_of_month (int monthday, int weekday) // Todo test.
+bool filter_date_is_first_working_day_of_month (int monthday, int weekday)
 {
   if (monthday == 1) {
     if (weekday == 1) return true;
@@ -143,7 +143,7 @@ bool filter_date_is_first_working_day_of_month (int monthday, int weekday) // To
 }
 
 
-int filter_date_get_last_business_day_of_month (int year, int month) // Todo test.
+int filter_date_get_last_business_day_of_month (int year, int month)
 {
   // Get the local seconds.
   int seconds = filter_date_seconds_since_epoch ();
@@ -179,13 +179,35 @@ int filter_date_get_last_business_day_of_month (int year, int month) // Todo tes
 }
 
 
-bool filter_date_is_business_day (int year, int month, int day) // Todo test.
+bool filter_date_is_business_day (int year, int month, int day)
 {
-  /* Todo
-  $time = mktime (0, 0, 0, $month, $day, $year);
-  $weekday = date ("w", $time);
-  return in_array ($weekday, array (1, 2, 3, 4, 5));
-   */
+  // Get the local seconds.
+  int seconds = filter_date_seconds_since_epoch ();
+  seconds = filter_date_local_seconds (seconds);
+  
+  // Go back a few years before the requested year.
+  int diff = year - filter_date_numerical_year (seconds);
+  seconds += diff * 3600 * 24 * 365 * 2;
+
+  int iterations = 0;
+  do {
+    // Next day.
+    seconds += (3600 * 24);
+    
+    int mymonthday = filter_date_numerical_month_day (seconds);
+    int myweekday = filter_date_numerical_week_day (seconds);
+    int mymonth = filter_date_numerical_month (seconds);
+    int myyear = filter_date_numerical_year (seconds);
+    
+    if ((year == myyear) && (month == mymonth) && (day == mymonthday)) {
+      if ((myweekday == 1) || (myweekday == 2) || (myweekday == 3) || (myweekday == 4) || (myweekday == 5)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  } while (iterations < 1000);
+
   return false;
 }
 

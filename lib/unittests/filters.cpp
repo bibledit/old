@@ -4243,22 +4243,16 @@ void test_filter_date () // Todo
     evaluate (__LINE__, __func__, 30, filter_date_get_last_business_day_of_month (2014, 5));
     evaluate (__LINE__, __func__, 30, filter_date_get_last_business_day_of_month (2014, 6));
   }
-  
-  /* // Todo
-  
-  
-  
-  public function testIsBusinessDay ()
+  // Is Business Day
   {
-    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 1));
-    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 2));
-    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 3));
-    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 4));
-    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 5));
-    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 6));
-    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 7));
-    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 8));
-    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 30));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 1));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 2));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 3));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 4));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 5));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 6));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 7));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 8));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 30));
   }
-  */
 }
