@@ -210,7 +210,7 @@ string sprint_index (void * webserver_request)
   view.set_variable ("tasks", tasks);
 
   
-  // Todo view.set_variable ("chart", Sprint_Logic::createTextBasedBurndownChart (bible, year, month));
+  view.set_variable ("chart", sprint_create_burndown_chart (bible, year, month));
                                                                                                                                                                                                                   
 
   page += view.render ("sprint", "index");

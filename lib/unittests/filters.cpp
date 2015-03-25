@@ -4193,7 +4193,7 @@ void test_ipc_notes ()
 }
 
 
-void test_filter_date () // Todo
+void test_filter_date ()
 {
   // First Working Day Of Month
   {
@@ -4254,5 +4254,34 @@ void test_filter_date () // Todo
     evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 7));
     evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 8));
     evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 30));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2015, 3, 1));
+  }
+  // Seonds since Unix epoch.
+  {
+    int year, month, day, seconds;
+
+    year = 2011;
+    month = 2;
+    day = 5;
+    seconds = filter_date_seconds_since_epoch (year, month, day);
+    evaluate (__LINE__, __func__, year, filter_date_numerical_year (seconds));
+    evaluate (__LINE__, __func__, month, filter_date_numerical_month (seconds));
+    evaluate (__LINE__, __func__, day, filter_date_numerical_month_day (seconds));
+
+    year = 2015;
+    month = 3;
+    day = 15;
+    seconds = filter_date_seconds_since_epoch (year, month, day);
+    evaluate (__LINE__, __func__, year, filter_date_numerical_year (seconds));
+    evaluate (__LINE__, __func__, month, filter_date_numerical_month (seconds));
+    evaluate (__LINE__, __func__, day, filter_date_numerical_month_day (seconds));
+    
+    year = 2030;
+    month = 12;
+    day = 31;
+    seconds = filter_date_seconds_since_epoch (year, month, day);
+    evaluate (__LINE__, __func__, year, filter_date_numerical_year (seconds));
+    evaluate (__LINE__, __func__, month, filter_date_numerical_month (seconds));
+    evaluate (__LINE__, __func__, day, filter_date_numerical_month_day (seconds));
   }
 }

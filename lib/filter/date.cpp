@@ -115,6 +115,22 @@ int filter_date_seconds_since_epoch ()
 }
 
 
+// Returns the seconds since the Unix epoch for $year and $month and $day.
+int filter_date_seconds_since_epoch (int year, int month, int day)
+{
+  int seconds = 0;
+  bool done = false;
+  do {
+    seconds += 86400;
+    int myyear = filter_date_numerical_year (seconds);
+    int mymonth = filter_date_numerical_month (seconds);
+    int myday = filter_date_numerical_month_day (seconds);
+    done = ((year == myyear) && (month == mymonth) && (day == myday));
+  } while (!done);
+  return seconds;
+}
+
+
 // This function takes the "seconds" parameter,
 // corrects it according to the local timezone,
 // and returns it.
@@ -145,69 +161,30 @@ bool filter_date_is_first_working_day_of_month (int monthday, int weekday)
 
 int filter_date_get_last_business_day_of_month (int year, int month)
 {
-  // Get the local seconds.
-  int seconds = filter_date_seconds_since_epoch ();
-  seconds = filter_date_local_seconds (seconds);
-
-  // Go back a few years before the requested year.
-  int diff = year - filter_date_numerical_year (seconds);
-  seconds += diff * 3600 * 24 * 365 * 2;
-  
-  bool month_ok = false;
-  bool past_month = false;
-  int day = 31;
+  int myyear = year;
+  int mymonth = month;
+  filter_date_get_next_month (mymonth, myyear);
+  int seconds = filter_date_seconds_since_epoch (myyear, mymonth, 1);
+  int iterations = 0;
   do {
-    // Next day.
-    seconds += (3600 * 24);
-    
-    int mymonthday = filter_date_numerical_month_day (seconds);
-    int myweekday = filter_date_numerical_week_day (seconds);
-    int mymonth = filter_date_numerical_month (seconds);
-    int myyear = filter_date_numerical_year (seconds);
-
-    if ((year == myyear) && (month == mymonth)) {
-      month_ok = true;
-      if ((myweekday == 1) || (myweekday == 2) || (myweekday == 3) || (myweekday == 4) || (myweekday == 5)) {
-        day = mymonthday;
-      }
-    } else {
-      if (month_ok) past_month = true;
+    seconds -= 86400;
+    int weekday = filter_date_numerical_week_day (seconds);
+    if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5)) {
+      return filter_date_numerical_month_day (seconds);
     }
-  } while (!past_month);
-  
-  return day;
+    iterations++;
+  } while (iterations < 10);
+  return 28;
 }
 
 
 bool filter_date_is_business_day (int year, int month, int day)
 {
-  // Get the local seconds.
-  int seconds = filter_date_seconds_since_epoch ();
-  seconds = filter_date_local_seconds (seconds);
-  
-  // Go back a few years before the requested year.
-  int diff = year - filter_date_numerical_year (seconds);
-  seconds += diff * 3600 * 24 * 365 * 2;
-
-  int iterations = 0;
-  do {
-    // Next day.
-    seconds += (3600 * 24);
-    
-    int mymonthday = filter_date_numerical_month_day (seconds);
-    int myweekday = filter_date_numerical_week_day (seconds);
-    int mymonth = filter_date_numerical_month (seconds);
-    int myyear = filter_date_numerical_year (seconds);
-    
-    if ((year == myyear) && (month == mymonth) && (day == mymonthday)) {
-      if ((myweekday == 1) || (myweekday == 2) || (myweekday == 3) || (myweekday == 4) || (myweekday == 5)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  } while (iterations < 1000);
-
+  int seconds = filter_date_seconds_since_epoch (year, month, day);
+  int weekday = filter_date_numerical_week_day (seconds);
+  if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5)) {
+    return true;
+  }
   return false;
 }
 

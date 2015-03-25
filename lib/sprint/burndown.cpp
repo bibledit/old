@@ -26,9 +26,11 @@
 #include <locale/logic.h>
 #include <database/sprint.h>
 #include <database/logs.h>
+#include <database/mail.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <access/bible.h>
+#include <client/logic.h>
 
 
 // This function runs the sprint burndown history logger for $bible.
@@ -47,18 +49,18 @@ void sprint_burndown (string bible, bool email)
   bool sprintfinish = false;
   
 
-  // Every Friday at 2 PM (14:00h) it sends email about the sprint progress.
+  // Every Friday at 2 PM (14:00h) it sends email about the sprint progress. Todo test it.
   if ((weekday == 5) && (hour == 14)) email = true;
   // On the first business day of the month, at 10 AM, send email about the start of the sprint.
-  // Todo oif (filter_date_is_first_working_day_of_month ($monthday, $weekday) && ($hour == 10)) {
+  if (filter_date_is_first_working_day_of_month (monthday, weekday) && (hour == 10)) {
     email = true;
     sprintstart = true;
-  // }
-  // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint.
-  // Todo if (($monthday == filter_date_get_last_business_day_of_month ($year, $month)) && ($hour == 14)) {
+  }
+  // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint. Todo test it.
+  if ((monthday == filter_date_get_last_business_day_of_month (year, month)) && (hour == 14)) {
     email = true;
     sprintfinish = true;
-  //}
+  }
   
   
   // Determine what to do, or to quit.
@@ -69,102 +71,94 @@ void sprint_burndown (string bible, bool email)
 
   Database_Logs::log ("Updating Sprint information", Filter_Roles::manager ());
 
-  
-  /* Todo
-  
-  
-  $database_config_bible = Database_Config_Bible::getInstance ();
-  $database_config_user = Database_Config_User::getInstance ();
-  $database_users = Database_Users::getInstance ();
-  $database_mail = Database_Mail::getInstance ();
-  $database_sprint = Database_Sprint::getInstance ();
-  $database_bibles = Database_Bibles::getInstance ();
-  
-  
-  
+  Webserver_Request request;
+  Database_Mail database_mail = Database_Mail (&request);
+  Database_Sprint database_sprint = Database_Sprint ();
+
   
   // Determine year / month / day of the current sprint.
   // If this script runs from midnight till early morning,
   // it applies to the day before.
   // If the script runs during the day, it applies to today.
-  $year = date ("Y");
-  $month = date ("n");
-  $day = date ("j");
-  $hour = date ("G");
-  $time = mktime ($hour - 6, 0, 0, $month, $day, $year);
-  $year = date ("Y", $time);
-  $month = date ("n", $time);
-  $day = date ("j", $time);
+  if (hour <= 6) {
+    localseconds -= (3600 * 6);
+  }
+  year = filter_date_numerical_year (localseconds);
+  month = filter_date_numerical_month (localseconds);
+  monthday = filter_date_numerical_month_day (localseconds); // 1 to 31.
   
   
-  $bibles = array ($bible);
-  if ($bible == "") {
-    $bibles = request->database_bibles()->getBibles ();
+  vector <string> bibles = {bible};
+  if (bible == "") {
+    bibles = request.database_bibles()->getBibles ();
   }
   
-  
-  for ($bibles as $bible) {
-    
+
+  for (auto bible : bibles) {
+
     
     // Get the total number of tasks for this sprint,
     // and the average percentage of completion of them,
     // and store this information in the sprint history table.
-    $ids = $database_sprint->getTasks ($bible, $year, $month);
-    $percentages = array ();
-    for ($ids as $id) {
-      $percentages [] = $database_sprint->getComplete ($id);
+    vector <int> ids = database_sprint.getTasks (bible, year, month);
+    vector <int> percentages;
+    for (auto id : ids) {
+      percentages.push_back (database_sprint.getComplete (id));
     }
-    $tasks = count ($ids);
-    if ($tasks == 0) {
-      $complete = 0;
-    } else {
-      $complete = array_sum ($percentages) / $tasks;
-      $complete = intval ($complete);
+    int tasks = ids.size ();
+    int complete = 0;
+    if (tasks != 0) {
+      for (auto percentage : percentages) complete += percentage;
+      complete = round ((float) complete / (float) tasks);
     }
-    $database_sprint->logHistory ($bible, $year, $month, $day, $tasks, $complete);
+    database_sprint.logHistory (bible, year, month, monthday, tasks, complete);
     
     
     // Send email if requested.
-    if ($email) {
-      if ($tasks) {
+    if (email) {
+      if (tasks) {
         // Only mail if the current sprint contains tasks.
-        $categories = Database_Config_Bible::getSprintTaskCompletionCategories ($bible);
-        $categories = explode ("\n", $categories);
-        $category_count = count ($categories);
-        $category_percentage = intval (100 / $category_count);
-        $users = request->database_users ()->getUsers ();
-        for ($users as $user) {
-          if (!access_bible_write ($bible, $user)) continue;
-          if (request->database_config_user()->getUserSprintProgressNotification ($user)) {
+        string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
+        vector <string> categories = filter_string_explode (scategories, '\n');
+        int category_count = categories.size();
+        int category_percentage = round (100 / category_count);
+        vector <string> users = request.database_users ()->getUsers ();
+        for (auto user : users) {
+          if (!access_bible_write (&request, bible, user)) continue;
+          if (request.database_config_user()->getUserSprintProgressNotification (user)) {
             
-            $subject = translate("Team's progress in Sprint");
-            if ($sprintstart) $subject = translate("Sprint has started");
-            if ($sprintfinish) $subject = translate("Sprint has finished");
-            $subject +=  " | " . $bible;
+            string subject = translate("Team's progress in Sprint");
+            if (sprintstart) subject = translate("Sprint has started");
+            if (sprintfinish) subject = translate("Sprint has finished");
+            subject +=  " | " + bible;
             
-            $body = array ();
+            vector <string> body;
             
-            $body [] = "<h3>" . translate("Sprint Planning and Team's Progress") . " | $bible</h3>";
-            $body [] = "<table>";
-            $tasks = $database_sprint->getTasks ($bible, $year, $month);
-            for ($tasks as $id) {
-              $body [] = "<tr>";
-              $title = $database_sprint->getTitle ($id);
-              $body [] = "<td>" . $title . "</td>";
-              $complete = $database_sprint->getComplete ($id);
-              $text = str_repeat ("▓", intval ($complete / $category_percentage)) . str_repeat ("▁", $category_count - intval ($complete / $category_percentage));
-              $body [] = "<td>" . $text . "</td>";
-              $body [] = "</tr>";
+            body.push_back ("<h3>" + translate("Sprint Planning and Team's Progress") + " | " + bible + "</h3>");
+            body.push_back ("<table>");
+            vector <int> tasks = database_sprint.getTasks (bible, year, month);
+            for (auto id : tasks) {
+              body.push_back ("<tr>");
+              string title = database_sprint.getTitle (id);
+              body.push_back ("<td>" + title + "</td>");
+              int complete = database_sprint.getComplete (id);
+              string text;
+              for (int i = 0; i < round (complete / category_percentage); i++) text.append ("▓");
+              for (int i = 0; i < category_count - round (complete / category_percentage); i++) text.append ("▁");
+              // $text = str_repeat ("▓", intval ($complete / $category_percentage)) . str_repeat ("▁", $category_count - intval ($complete / $category_percentage)); Todo out later.
+              body.push_back ("<td>" + text + "</td>");
+              body.push_back ("</tr>");
             }
-            $body [] = "</table>";
+            body.push_back ("</table>");
             
-            $body [] = "<h3>" . translate("Sprint Burndown Chart - Remaining Tasks") . "</h3>";
-            $burndownchart = Sprint_Logic::createTextBasedBurndownChart ($bible, $year, $month);
-            $body [] = "<p>$burndownchart</p>";
+            body.push_back ("<h3>" + translate("Sprint Burndown Chart - Remaining Tasks") + "</h3>");
+            string burndownchart = sprint_create_burndown_chart (bible, year, month);
+            cout << burndownchart << endl; // Todo
+            body.push_back ("<p>" + burndownchart + "</p>");
             
-            if (count ($body) > 0) {
-              $body = implode ("\n", $body);
-              if (!client_logic_client_enabled ()) $database_mail->send ($user, $subject, $body);
+            if (!body.empty ()) {
+              string mailbody = filter_string_implode (body, "\n");
+              if (!client_logic_client_enabled ()) database_mail.send (user, subject, mailbody);
             }
             
           }
@@ -176,65 +170,85 @@ void sprint_burndown (string bible, bool email)
       }
     }
   }
-   */
 }
 
 
 // This function creates a text-based burndown chart for sprint $bible / $year / $month.
 string sprint_create_burndown_chart (string bible, int year, int month) // Todo
 {
-  /* Todo
-  // Number of days in the month for on the X-axis.
-  $time = mktime (0, 0, 0, $month, 15, $year);
-  $days_in_month = date ("t", $time);
+  // Get the local seconds.
+  int seconds = filter_date_seconds_since_epoch ();
+  seconds = filter_date_local_seconds (seconds);
+  
+  // Go back a few years before the current year.
+  seconds -= (3600 * 24 * 365 * 2);
+
+  // The days in the month for on the X-axis.
+  vector <int> days_in_month;
+  int iterations = 0;
+  do {
+    // Next day.
+    seconds += (3600 * 24);
+    
+    int myyear = filter_date_numerical_year (seconds);
+    int mymonth = filter_date_numerical_month (seconds);
+    int myday = filter_date_numerical_month_day (seconds);
+    // cout << myyear << " " << mymonth << " " << myday << endl; // Todo
+    if (myyear == year) if (mymonth == month) days_in_month.push_back (myday);
+
+    iterations++;
+  } while (iterations < 1000);
   
   // Assemble history of this sprint.
-  $database_sprint = Database_Sprint::getInstance ();
-  $history = $database_sprint->getHistory ($bible, $year, $month);
-  $data = array ();
-  for ($day = 1; $day <= $days_in_month; $day++) {
-    if (filter_date_is_business_day ($year, $month, $day)) {
-      $data [$day] = "";
-      for ($history as $item) {
-        if ($day == $item ['day']) {
-          $tasks = $item ['tasks'];
-          $complete = $item ['complete'];
-          $tasks = $tasks * (100 - $complete) / 100;
-          $tasks = intval ($tasks);
-          $data [$day] = $tasks;
+  Database_Sprint database_sprint = Database_Sprint ();
+  vector <Database_Sprint_Item> history = database_sprint.getHistory (bible, year, month);
+  map <int, int> data;
+  for (auto day : days_in_month) {
+    cout << year << endl; // Todo
+    cout << month << endl; // Todo
+    cout << day << endl; // Todo
+    if (filter_date_is_business_day (year, month, day)) {
+      data [day] = 0;
+      for (auto item : history) {
+        if (day == item.day) {
+          int tasks = item.tasks;
+          int complete = item.complete;
+          tasks = round (tasks * (100 - complete) / 100);
+          data [day] = tasks;
         }
       }
     }
   }
-  unset ($item);
   
-  $lines = array ();
-  lines.push_back ('<table style="text-align:center;">';
-                   lines.push_back ('<tr style="vertical-align: bottom;">';
-                                    for ($data as $day => $tasks) {
-                                      $text = str_repeat ("▓<br>", intval ($tasks));
-                                      lines.push_back ("<td>$text</td>";
-                                                       }
-                                                       lines.push_back ("</tr>";
-                                                                        
-                                                                        // Write number of days along the x-axis.
-                                                                        lines.push_back ('<tr>';
-                                                                                         for ($data as $day => $tasks) {
-                                                                                           lines.push_back ("<td style=\"width:1em\">$day</td>";
-                                                                                                            }
-                                                                                                            lines.push_back ("</tr>";
-                                                                                                                             
-                                                                                                                             // Write "days" below the x-axis.
-                                                                                                                             lines.push_back ('<tr>';
-                                                                                                                                              $columncount = count ($data);
-                                                                                                                                              $text = translate("days");
-                                                                                                                                              lines.push_back ("<td colspan=\"$columncount\">$text</td>";
-                                                                                                                                                               lines.push_back ("</tr>";
-                                                                                                                                                                                
-                                                                                                                                                                                lines.push_back ("</table>";
-                                                                                                                                                                                                 
-                                                                                                                                                                                                 $chart = implode ("\n", $lines);
-                                                                                                                                                                                                 return $chart;
-*/
+  vector <string> lines;
+  lines.push_back ("<table style=\"text-align:center;\">");
+  lines.push_back ("<tr style=\"vertical-align: bottom;\">");
+  for (auto element : data) {
+    int tasks = element.second;
+    string text;
+    for (int i = 0; i < tasks; i++) text.append ("▓<br>");
+    lines.push_back ("<td>" + text + "</td>");
+  }
+  lines.push_back ("</tr>");
+  
+  // Write number of days along the x-axis.
+  lines.push_back ("<tr>");
+  for (auto element : data) {
+    int day = element.first;
+    lines.push_back ("<td style=\"width:1em\">" + to_string (day) + "</td>");
+  }
+  lines.push_back ("</tr>");
+                                      
+  // Write "days" below the x-axis.
+  lines.push_back ("<tr>");
+  int columncount = data.size ();
+  string text = translate("days");
+  lines.push_back ("<td colspan=\"" + to_string (columncount) + "\">" + text + "</td>");
+  lines.push_back ("</tr>");
+                                    
+  lines.push_back ("</table>");
+                                                                      
+  string chart = filter_string_implode (lines, "\n");
+  return chart;
 }
 
