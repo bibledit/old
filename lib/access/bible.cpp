@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool access_bible_read (void * webserver_request, string & bible, string user) // C++Port test it.
+bool access_bible_read (void * webserver_request, string & bible, string user)
 {
   if (client_logic_client_enabled ()) {
     // Client: User has access to all Bibles.
@@ -48,7 +48,7 @@ bool access_bible_read (void * webserver_request, string & bible, string user) /
 
 // Returns true if the user has write access to the bible.
 // If no user is given, it takes the currently logged-in user.
-bool access_bible_write (void * webserver_request, string & bible, string user) // C++Port test it.
+bool access_bible_write (void * webserver_request, string & bible, string user)
 {
   if (client_logic_client_enabled ()) {
     // Client: User has access to all Bibles.
@@ -68,7 +68,7 @@ bool access_bible_write (void * webserver_request, string & bible, string user) 
 
 // Returns an array of Bibles the user has read access to.
 // If no user is given, it takes the currently logged-in user.
-vector <string> access_bible_bibles (void * webserver_request, string user) // C++Port test it.
+vector <string> access_bible_bibles (void * webserver_request, string user)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <string> allbibles = request->database_bibles ()->getBibles ();
@@ -85,7 +85,7 @@ vector <string> access_bible_bibles (void * webserver_request, string user) // C
 // This function clamps bible.
 // It returns bible if the currently logged-in user has access to it.
 // Else it returns another accessible bible or "".
-string access_bible_clamp (void * webserver_request, string bible) // C++Port test it.
+string access_bible_clamp (void * webserver_request, string bible)
 {
   if (!access_bible_read (webserver_request, bible)) {
     bible = "";
