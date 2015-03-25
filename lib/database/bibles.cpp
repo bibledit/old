@@ -164,7 +164,7 @@ vector <int> Database_Bibles::getBooks (string bible)
     if (filter_string_is_numeric (book)) books.push_back (convert_to_int (book));
   }
 
-  // Sort the books according to the sequence defined in the books database. C++Port
+  // Sort the books according to the sequence defined in the books database.
   vector <int> sequence;
   for (auto & book : books) {
     sequence.push_back (Database_Books::getSequenceFromId (book));

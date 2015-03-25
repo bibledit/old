@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/sqlite.h>
 #include <filter/string.h>
+#include <filter/diff.h>
 #include <locale/translate.h>
 
 
@@ -246,18 +247,28 @@ Tries to interprete $text as the name of a Bible book.
 Returns the book's identifier if it succeeds.
 If it fails, it returns 0.
 */
-int Database_Books::getIdLikeText (string text) // C++Port improve on it later.
+int Database_Books::getIdLikeText (string text)
 {
-  int id;
-  id = getIdFromEnglish (text);
-  if (id > 0) return id;
-  id = getIdFromOsis (text);
-  if (id > 0) return id;
-  id = getIdFromUsfm (text);
-  if (id > 0) return id;
-  id = getIdFromBibleworks (text);
-  if (id > 0) return id;
-  return 0;
+  // Go through all known book names and abbreviations.
+  // Note how much the $text differs from the known names.
+  // Then return the best match.
+  vector <int> ids;
+  vector <int> similarities;
+  for (unsigned int i = 0; i < data_count(); i++) {
+    int id = books_table[i].id;
+    ids.push_back (id);
+    similarities.push_back (filter_diff_similarity (text, books_table[i].english));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_similarity (text, books_table[i].osis));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_similarity (text, books_table[i].usfm));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_similarity (text, books_table[i].bibleworks));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_similarity (text, books_table[i].onlinebible));
+  }
+  quick_sort (similarities, ids, 0, ids.size());
+  return ids.back ();
 }
 
 

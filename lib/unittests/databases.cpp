@@ -648,6 +648,8 @@ void test_database_books ()
   evaluate (__LINE__, __func__, 13, Database_Books::getIdFromOsis ("1Chr"));
   evaluate (__LINE__, __func__, 12, Database_Books::getIdFromBibleworks ("2Ki"));
   evaluate (__LINE__, __func__, 12, Database_Books::getIdLikeText ("2Ki"));
+  evaluate (__LINE__, __func__, 14, Database_Books::getIdLikeText ("2Chron"));
+  evaluate (__LINE__, __func__, 1, Database_Books::getIdLikeText ("Genes"));
   evaluate (__LINE__, __func__, 12, Database_Books::getIdFromOnlinebible ("2Ki"));
   evaluate (__LINE__, __func__, "De", Database_Books::getOnlinebibleFromId (5));
   evaluate (__LINE__, __func__, "5", Database_Books::getSequenceFromId (5));
