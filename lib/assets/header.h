@@ -31,7 +31,6 @@ public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
   void jQueryUIOn (string subset = "");
-  void setLogin ();
   void setNavigator ();
   void setStylesheet ();
   void setEditorStylesheet ();

@@ -58,17 +58,6 @@ void Assets_Header::jQueryUIOn (string subset)
 }
 
 
-// Adds logic to the header allowing to redirect the user to the original
-// URL after successful login.
-void Assets_Header::setLogin () // C++Port
-{
-  /* 
-    $request = $_SERVER['REQUEST_URI'];
-    $this->view.set_variable ("request = $request; Update to this->request.
-   */
-}
-
-
 // Display the passage navigator.
 void Assets_Header::setNavigator ()
 {

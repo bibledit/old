@@ -336,9 +336,6 @@
 		CAA4CF781A45A647003ABA25 /* create.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = create.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CF7F1A45A647003ABA25 /* bootstrap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bootstrap.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4CF801A45A647003ABA25 /* bootstrap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bootstrap.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CAA4CF811A45A647003ABA25 /* bootstrap.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bootstrap.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4CF821A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
-		CAA4CF841A45A647003ABA25 /* privileges.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = privileges.php; sourceTree = "<group>"; };
 		CAA4CF971A45A647003ABA25 /* checkcli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = checkcli.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CF981A45A647003ABA25 /* headers.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = headers.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CF991A45A647003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
@@ -1222,20 +1219,9 @@
 			children = (
 				CAA4CF7F1A45A647003ABA25 /* bootstrap.cpp */,
 				CAA4CF801A45A647003ABA25 /* bootstrap.h */,
-				CAA4CF811A45A647003ABA25 /* bootstrap.php */,
-				CAA4CF821A45A647003ABA25 /* index.php */,
-				CAA4CF831A45A647003ABA25 /* scripts */,
 			);
 			name = bootstrap;
 			path = ../bootstrap;
-			sourceTree = "<group>";
-		};
-		CAA4CF831A45A647003ABA25 /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4CF841A45A647003ABA25 /* privileges.php */,
-			);
-			path = scripts;
 			sourceTree = "<group>";
 		};
 		CAA4CF861A45A647003ABA25 /* changes */ = {
