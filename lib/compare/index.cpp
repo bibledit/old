@@ -29,6 +29,7 @@
 #include <access/bible.h>
 #include <tasks/logic.h>
 #include <database/jobs.h>
+#include <database/usfmresources.h>
 #include <jobs/index.h>
 
 
@@ -70,14 +71,14 @@ string compare_index (void * webserver_request)
   // Names of the Bibles and the USFM Resources.
   vector <string> names;
   
-  vector <string> bibles = request->database_bibles ()->getBibles ();
-  names.insert (names.begin (), bibles.begin (), bibles.end());
+  names = request->database_bibles ()->getBibles ();
 
-  /* C++Port
-  $database_usfmresources = Database_UsfmResources::getInstance ();
-  $usfm_resources = $database_usfmresources->getResources ();
-  $names = array_merge ($names, $usfm_resources);
-  */
+  Database_UsfmResources database_usfmresources;
+  vector <string> usfm_resources = database_usfmresources.getResources ();
+  names.insert (names.end (), usfm_resources.begin(), usfm_resources.end ());
+
+  sort (names.begin (), names.end ());
+  
   names = filter_string_array_diff (names, {bible});
   string bibleblock;
   for (auto & name : names) {
