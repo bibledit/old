@@ -151,15 +151,13 @@ string manage_users (void * webserver_request)
   if (request->query.count ("addbible")) {
     string addbible = request->query["addbible"];
     if (addbible == "") {
-      /* C++Port
-      dialog_list = new Dialog_List (NULL, translate("Would you like to grant user user access to a Bible?"), "", "");
-      for (accessibleBibles as bible) {
-        parameter = "?user=user&addbible=bible";
-        dialog_list.add_row (bible, parameter);
+      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), "", "");
+      dialog_list.add_query ("user", user);
+      for (auto bible : accessibleBibles) {
+        dialog_list.add_row (bible, "addbible", bible);
       }
-      dialog_list.run ();
-      die;
-      */
+      page += dialog_list.run ();
+      return page;
     } else {
       Assets_Page::success (translate("The user has become a member of the translation team that works on this Bible"));
       request->database_users ()->grantAccess2Bible (user, addbible);
@@ -228,8 +226,8 @@ string manage_users (void * webserver_request)
         tbody.push_back ("</a>");
       }
       tbody.push_back ("|");
-      tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">➕</a>");
     }
+    tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">➕</a>");
     tbody.push_back ("</td>");
     tbody.push_back ("</tr>");
   }
