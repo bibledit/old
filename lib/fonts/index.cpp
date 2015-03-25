@@ -70,10 +70,9 @@ string fonts_index (void * webserver_request)
   }
   
 
-  // Upload a font. Todo implement it.
+  // Upload a font.
+  // It may take time in case the file is large or the network is slow.
   if (request->post.count ("upload")) {
-    for (auto element : request->post) cout << element.first << " " << element.second.size () << endl; // Todo
-    // Upload may take time in case the file is large or the network is slow.
     string filename = request->post ["filename"];
     string path = filter_url_create_root_path ("fonts", filename);
     string data = request->post ["data"];
