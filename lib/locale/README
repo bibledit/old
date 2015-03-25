@@ -19,7 +19,7 @@ Script to update translations from Launchpad.
 
 #!/bin/bash
 
-# Download and integrate translation strings into Bibledit-Web.
+# Download and integrate translation strings into Bibledit.
 # Download translations in MO format from launchpad.net, 
 # and store these in ~/documents/dev/bibledit/web/web/locale
 # The script will unpack and integrate these. 
@@ -40,7 +40,7 @@ cd
 
 
 Testing the gettext system.
-Presuming that Bibledit-Web is installed in /var/www/bibledit-web,
+Presuming that Bibledit is installed in /var/www/bibledit-web,
 run these few lines in the shell: 
 
 export LANGUAGE=nl

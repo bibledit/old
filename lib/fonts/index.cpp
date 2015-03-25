@@ -48,13 +48,12 @@ string fonts_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
-  
   page = Assets_Page::header (translate ("Fonts"), webserver_request, "");
-  
   Assets_View view = Assets_View ();
+  string success;
 
   
-  // Delete a font if it is not in use. C++Port Test the 'not-in-use" bit.
+  // Delete a font if it is not in use. Todo Test the 'not-in-use" bit.
   if (request->query.count ("delete")) {
     string del = request->query ["delete"];
     string font = filter_url_basename (del);
@@ -66,23 +65,20 @@ string fonts_index (void * webserver_request)
     if (!font_in_use) {
       Fonts_Logic::erase (font);
     } else {
-      page += Assets_Page::error (translate("The font could not be deleted because it is in use.")); // C++Port Test it.
+      page += Assets_Page::error (translate("The font could not be deleted because it is in use.")); // Todo Test it.
     }
   }
   
 
-  // Upload a font. C++Port implement it.
+  // Upload a font. Todo implement it.
   if (request->post.count ("upload")) {
+    for (auto element : request->post) cout << element.first << " " << element.second.size () << endl; // Todo
     // Upload may take time in case the file is large or the network is slow.
-    /*
-    filename = _FILES["data"]["name"];
-    tmpfile = _FILES["data"]["tmp_name"];
-    if (move_uploaded_file (tmpfile, filename)) {
-      Assets_Page::success (translate("The font has been uploaded."));
-    } else {
-      Assets_Page::error (Filter_Upload::error2text (_FILES["data"]["error"]));
-    }
-    */
+    string filename = request->post ["filename"];
+    string path = filter_url_create_root_path ("fonts", filename);
+    string data = request->post ["data"];
+    filter_url_file_put_contents (path, data);
+    success = translate("The font has been uploaded.");
   }
   
 
@@ -97,6 +93,7 @@ string fonts_index (void * webserver_request)
   }
   
   view.set_variable ("fontsblock", filter_string_implode (fontsblock, "\n"));
+  view.set_variable ("success", success);
   
   page += view.render ("fonts", "index");
   
