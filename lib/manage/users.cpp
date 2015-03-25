@@ -215,13 +215,13 @@ string manage_users (void * webserver_request)
     vector <string> userBiblesIntersec;
     set_intersection (userBibles.begin(), userBibles.end(), accessibleBibles.begin(), accessibleBibles.end(), back_inserter(userBiblesIntersec));
     for (auto & bible : userBiblesIntersec) {
-      bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (user, bible);
+      bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (username, bible);
       bool writer = (level >= Filter_Roles::translator ());
       tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
       tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\" " + Assets_View::target_conditional_blank () + ">" + bible + "</a>");
       if (writer) {
         tbody.push_back ("<a href=\"?user=" + username + "&readonlytoggle=" + bible + "\">");
-        if (readonly) tbody.push_back ("☐"); else tbody.push_back ("☑"); 
+        if (readonly) tbody.push_back ("☐"); else tbody.push_back ("☑");
         tbody.push_back ("✍");
         tbody.push_back ("</a>");
       }
