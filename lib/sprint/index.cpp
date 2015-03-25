@@ -98,14 +98,14 @@ string sprint_index (void * webserver_request)
   }
   
   
-  if (request->query.count ("mail")) { // Todo
+  if (request->query.count ("mail")) {
     string mail = request->query ["mail"];
     sprint_burndown (bible, true);
     view.set_variable ("success", translate("The information was mailed to the subscribers"));
   }
   
   
-  if (request->query.count ("bible")) { // Todo test.
+  if (request->query.count ("bible")) {
     bible = request->query ["bible"];
     if (bible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
@@ -130,14 +130,14 @@ string sprint_index (void * webserver_request)
   int id = convert_to_int (request->query ["id"]);
   
   
-  if (request->query.count ("moveback")) { // Todo test it.
+  if (request->query.count ("moveback")) {
     filter_date_get_previous_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the previous sprint"));
   }
                         
                         
-  if (request->query.count ("moveforward")) { // Todo test.
+  if (request->query.count ("moveforward")) {
     filter_date_get_next_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the next sprint"));
@@ -179,7 +179,7 @@ string sprint_index (void * webserver_request)
   
   
   string tasks;
-  vector <int> vtasks = database_sprint.getTasks (bible, year, month); // Todo
+  vector <int> vtasks = database_sprint.getTasks (bible, year, month);
   for (auto & id : vtasks) {
     string title = filter_string_sanitize_html (database_sprint.getTitle (id));
     int percentage = database_sprint.getComplete (id);

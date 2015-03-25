@@ -120,12 +120,15 @@ int filter_date_seconds_since_epoch (int year, int month, int day)
 {
   int seconds = 0;
   bool done = false;
+  bool hit = false;
   do {
     seconds += 86400;
     int myyear = filter_date_numerical_year (seconds);
     int mymonth = filter_date_numerical_month (seconds);
     int myday = filter_date_numerical_month_day (seconds);
+    if ((year == myyear) && (month == mymonth)) hit = true;
     done = ((year == myyear) && (month == mymonth) && (day == myday));
+    if (hit) if (month != mymonth) done = true;
   } while (!done);
   return seconds;
 }

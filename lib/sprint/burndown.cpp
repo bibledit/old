@@ -49,14 +49,14 @@ void sprint_burndown (string bible, bool email)
   bool sprintfinish = false;
   
 
-  // Every Friday at 2 PM (14:00h) it sends email about the sprint progress. Todo test it.
+  // Every Friday at 2 PM (14:00h) it sends email about the sprint progress.
   if ((weekday == 5) && (hour == 14)) email = true;
   // On the first business day of the month, at 10 AM, send email about the start of the sprint.
   if (filter_date_is_first_working_day_of_month (monthday, weekday) && (hour == 10)) {
     email = true;
     sprintstart = true;
   }
-  // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint. Todo test it.
+  // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint.
   if ((monthday == filter_date_get_last_business_day_of_month (year, month)) && (hour == 14)) {
     email = true;
     sprintfinish = true;
@@ -145,7 +145,6 @@ void sprint_burndown (string bible, bool email)
               string text;
               for (int i = 0; i < round (complete / category_percentage); i++) text.append ("▓");
               for (int i = 0; i < category_count - round (complete / category_percentage); i++) text.append ("▁");
-              // $text = str_repeat ("▓", intval ($complete / $category_percentage)) . str_repeat ("▁", $category_count - intval ($complete / $category_percentage)); Todo out later.
               body.push_back ("<td>" + text + "</td>");
               body.push_back ("</tr>");
             }
@@ -153,7 +152,6 @@ void sprint_burndown (string bible, bool email)
             
             body.push_back ("<h3>" + translate("Sprint Burndown Chart - Remaining Tasks") + "</h3>");
             string burndownchart = sprint_create_burndown_chart (bible, year, month);
-            cout << burndownchart << endl; // Todo
             body.push_back ("<p>" + burndownchart + "</p>");
             
             if (!body.empty ()) {
@@ -174,48 +172,34 @@ void sprint_burndown (string bible, bool email)
 
 
 // This function creates a text-based burndown chart for sprint $bible / $year / $month.
-string sprint_create_burndown_chart (string bible, int year, int month) // Todo
+string sprint_create_burndown_chart (string bible, int year, int month)
 {
-  // Get the local seconds.
-  int seconds = filter_date_seconds_since_epoch ();
-  seconds = filter_date_local_seconds (seconds);
+  // Get the seconds for the first of the month.
+  int seconds = filter_date_seconds_since_epoch (year, month, 1);
   
-  // Go back a few years before the current year.
-  seconds -= (3600 * 24 * 365 * 2);
-
-  // The days in the month for on the X-axis.
+  // The business days in the month for on the X-axis.
   vector <int> days_in_month;
-  int iterations = 0;
-  do {
-    // Next day.
-    seconds += (3600 * 24);
-    
-    int myyear = filter_date_numerical_year (seconds);
+  for (unsigned int day = 1; day <= 31; day++) {
     int mymonth = filter_date_numerical_month (seconds);
-    int myday = filter_date_numerical_month_day (seconds);
-    // cout << myyear << " " << mymonth << " " << myday << endl; // Todo
-    if (myyear == year) if (mymonth == month) days_in_month.push_back (myday);
-
-    iterations++;
-  } while (iterations < 1000);
+    if (mymonth == month) {
+      if (filter_date_is_business_day (year, month, day)) {
+        days_in_month.push_back (day);
+      }
+    }
+  }
   
   // Assemble history of this sprint.
   Database_Sprint database_sprint = Database_Sprint ();
   vector <Database_Sprint_Item> history = database_sprint.getHistory (bible, year, month);
   map <int, int> data;
   for (auto day : days_in_month) {
-    cout << year << endl; // Todo
-    cout << month << endl; // Todo
-    cout << day << endl; // Todo
-    if (filter_date_is_business_day (year, month, day)) {
-      data [day] = 0;
-      for (auto item : history) {
-        if (day == item.day) {
-          int tasks = item.tasks;
-          int complete = item.complete;
-          tasks = round (tasks * (100 - complete) / 100);
-          data [day] = tasks;
-        }
+    data [day] = 0;
+    for (auto item : history) {
+      if (day == item.day) {
+        int tasks = item.tasks;
+        int complete = item.complete;
+        tasks = round (tasks * (100 - complete) / 100);
+        data [day] = tasks;
       }
     }
   }

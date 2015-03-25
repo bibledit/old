@@ -4255,6 +4255,8 @@ void test_filter_date ()
     evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 8));
     evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 30));
     evaluate (__LINE__, __func__, false, filter_date_is_business_day (2015, 3, 1));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2015, 2, 32));
+    
   }
   // Seonds since Unix epoch.
   {
