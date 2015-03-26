@@ -246,7 +246,15 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	statistics/statistics.$(OBJEXT) changes/change.$(OBJEXT) \
 	changes/changes.$(OBJEXT) changes/logic.$(OBJEXT) \
 	changes/manage.$(OBJEXT) changes/modifications.$(OBJEXT) \
-	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT)
+	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT) \
+	checks/run.$(OBJEXT) checks/headers.$(OBJEXT) \
+	checks/index.$(OBJEXT) checks/logic.$(OBJEXT) \
+	checks/sentences.$(OBJEXT) checks/settings.$(OBJEXT) \
+	checks/settingspatterns.$(OBJEXT) \
+	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
+	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
+	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
+	consistency/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -736,7 +744,21 @@ libbibledit_a_SOURCES = \
 	changes/manage.cpp \
 	changes/modifications.cpp \
 	sprint/burndown.cpp \
-	sprint/index.cpp
+	sprint/index.cpp \
+	checks/run.cpp \
+	checks/headers.cpp \
+	checks/index.cpp \
+	checks/logic.cpp \
+	checks/sentences.cpp \
+	checks/settings.cpp \
+	checks/settingspatterns.cpp \
+	checks/settingssentences.cpp \
+	checks/space.cpp \
+	checks/suppress.cpp \
+	checks/usfm.cpp \
+	checks/verses.cpp \
+	checks/versification.cpp \
+	consistency/index.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1691,6 +1713,46 @@ sprint/burndown.$(OBJEXT): sprint/$(am__dirstamp) \
 	sprint/$(DEPDIR)/$(am__dirstamp)
 sprint/index.$(OBJEXT): sprint/$(am__dirstamp) \
 	sprint/$(DEPDIR)/$(am__dirstamp)
+checks/$(am__dirstamp):
+	@$(MKDIR_P) checks
+	@: > checks/$(am__dirstamp)
+checks/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) checks/$(DEPDIR)
+	@: > checks/$(DEPDIR)/$(am__dirstamp)
+checks/run.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/headers.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/index.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/logic.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/sentences.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/settings.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/settingspatterns.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/settingssentences.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/space.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/suppress.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/usfm.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/verses.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/versification.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+consistency/$(am__dirstamp):
+	@$(MKDIR_P) consistency
+	@: > consistency/$(am__dirstamp)
+consistency/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) consistency/$(DEPDIR)
+	@: > consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/index.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1780,12 +1842,14 @@ mostlyclean-compile:
 	-rm -f book/*.$(OBJEXT)
 	-rm -f bootstrap/*.$(OBJEXT)
 	-rm -f changes/*.$(OBJEXT)
+	-rm -f checks/*.$(OBJEXT)
 	-rm -f checksum/*.$(OBJEXT)
 	-rm -f client/*.$(OBJEXT)
 	-rm -f collaboration/*.$(OBJEXT)
 	-rm -f compare/*.$(OBJEXT)
 	-rm -f config/*.$(OBJEXT)
 	-rm -f confirm/*.$(OBJEXT)
+	-rm -f consistency/*.$(OBJEXT)
 	-rm -f database/*.$(OBJEXT)
 	-rm -f database/config/*.$(OBJEXT)
 	-rm -f demo/*.$(OBJEXT)
@@ -1866,6 +1930,19 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/manage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/modifications.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/headers.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/run.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/sentences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/settingspatterns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/settingssentences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/space.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/suppress.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/verses.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checksum/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/logic.Po@am__quote@
@@ -1881,6 +1958,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@confirm/$(DEPDIR)/worker.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
@@ -2412,6 +2490,8 @@ distclean-generic:
 	-rm -f bootstrap/$(am__dirstamp)
 	-rm -f changes/$(DEPDIR)/$(am__dirstamp)
 	-rm -f changes/$(am__dirstamp)
+	-rm -f checks/$(DEPDIR)/$(am__dirstamp)
+	-rm -f checks/$(am__dirstamp)
 	-rm -f checksum/$(DEPDIR)/$(am__dirstamp)
 	-rm -f checksum/$(am__dirstamp)
 	-rm -f client/$(DEPDIR)/$(am__dirstamp)
@@ -2424,6 +2504,8 @@ distclean-generic:
 	-rm -f config/$(am__dirstamp)
 	-rm -f confirm/$(DEPDIR)/$(am__dirstamp)
 	-rm -f confirm/$(am__dirstamp)
+	-rm -f consistency/$(DEPDIR)/$(am__dirstamp)
+	-rm -f consistency/$(am__dirstamp)
 	-rm -f database/$(DEPDIR)/$(am__dirstamp)
 	-rm -f database/$(am__dirstamp)
 	-rm -f database/config/$(DEPDIR)/$(am__dirstamp)
@@ -2535,7 +2617,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -2583,7 +2665,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

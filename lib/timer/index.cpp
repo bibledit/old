@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/logic.h>
 #include <client/logic.h>
 #include <changes/logic.h>
+#include <checks/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -106,6 +107,15 @@ void timer_index ()
         }
       }
 
+      // Run the checks on the Bibles.
+      // This takes 15 minutes on a production machine with two Bibles.
+      if (!client) {
+        if ((hour == 0) && (minute == 30)) {
+          checks_logic_start_all ();
+        }
+      }
+      
+      
       // Database maintenance and trimming.
       // It takes a few minutes on a production machine.
       if ((hour == 0) && (minute == 50)) {

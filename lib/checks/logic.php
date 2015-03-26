@@ -21,27 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("bootstrap/bootstrap");
 
 
-class Checks_Logic
-{
-
-
-  static public function startAll ()
-  {
-    $database_bibles = Database_Bibles::getInstance ();
-    $bibles = request->database_bibles()->getBibles ();
-    for ($bibles as $bible) {
-      self::start ($bible);
-    }
-  }
-
-
-  static public function start ($bible)
-  {
-    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/checkcli", $bible));
-  }
-
-
-}
 
 
 ?>

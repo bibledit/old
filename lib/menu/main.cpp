@@ -58,6 +58,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/manage.h>
 #include <index/listing.h>
 #include <sprint/index.h>
+#include <checks/index.h>
+#include <checks/settings.h>
+#include <consistency/index.h>
 
 
 /*
@@ -110,7 +113,7 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
   if (bible_edit_menu ()) menu->push_back ( { "", "",  translate ("Edit"), bible_edit_menu () } );
   if (search_index_acl (request)) menu->push_back ( { "", search_index_url (), translate ("Search"), NULL } );
   if (bible_workbench_menu ()) menu->push_back ( { "", "", translate ("Workbench"), bible_workbench_menu () } );
-  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index", translate ("Checks"),    bible_checks_menu () } );
+  if (checks_index_acl (request)) menu->push_back ( { "", checks_index_url (), translate ("Checks"), bible_checks_menu () } );
   if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), translate ("Bibles"), NULL} );
   if (menu->size ()) return menu;
   delete menu;
@@ -149,12 +152,11 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
 }
 
 
-vector <Menu_Main_Item> * Menu_Main::bible_checks_menu () // C++Port
+vector <Menu_Main_Item> * Menu_Main::bible_checks_menu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "checks/settings", translate ("Manage"), NULL } );
-  if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "consistency/index", translate ("Consistency"), NULL } );
+  if (checks_settings_acl (webserver_request)) menu->push_back ( { "", checks_settings_url (), translate ("Manage"), NULL } );
+  if (consistency_index_acl (webserver_request)) menu->push_back ( { "", consistency_index_url (), translate ("Consistency"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;

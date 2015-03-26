@@ -261,7 +261,21 @@ libbibledit_a_SOURCES = \
 	changes/manage.cpp \
 	changes/modifications.cpp \
 	sprint/burndown.cpp \
-	sprint/index.cpp
+	sprint/index.cpp \
+	checks/run.cpp \
+	checks/headers.cpp \
+	checks/index.cpp \
+	checks/logic.cpp \
+	checks/sentences.cpp \
+	checks/settings.cpp \
+	checks/settingspatterns.cpp \
+	checks/settingssentences.cpp \
+	checks/space.cpp \
+	checks/suppress.cpp \
+	checks/usfm.cpp \
+	checks/verses.cpp \
+	checks/versification.cpp \
+	consistency/index.cpp
 
 bin_PROGRAMS = server unittest
 

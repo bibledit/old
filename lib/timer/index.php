@@ -18,15 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-  
-// Run the checks on the Bibles.
-// This takes 15 minutes on a production machine with two Bibles.
-if (!$client) {
-  if (($hour == 0) && ($minute == 30)) {
-    Checks_Logic::startAll ();
-  }
-}
-
 
 // Export the Bibles to the various output formats.
 // This may take an hour on a production machine.

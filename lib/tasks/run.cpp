@@ -47,6 +47,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <statistics/statistics.h>
 #include <changes/modifications.h>
 #include <sprint/burndown.h>
+#include <checks/run.h>
 
 
 mutex mutex_tasks; 
@@ -141,6 +142,8 @@ void tasks_run_one (string filename)
     changes_modifications ();
   } else if (command == SPRINTBURNDOWN) {
     sprint_burndown ("", false);
+  } else if (command == CHECKBIBLE) {
+    checks_run (parameter1);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

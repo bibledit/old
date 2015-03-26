@@ -1,125 +1,103 @@
-<?php
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2015 Teus Benschop.
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+#include <checks/sentences.h>
+#include <webserver/request.h>
+#include <filter/string.h>
 
 
-class Checks_Sentences
+Checks_Sentences::Checks_Sentences ()
 {
-  // Sentence structure parameters.
-  private $capitals;
-  private $small_letters;
-  private $end_marks;
-  private $center_marks;
-  private $disregards;
-  private $names;
-
-  // State.
-  private $verseNumber;
-  private $currentPosition;
-  private $withinSentence;
-
-  // Grapheme analysis.
-  private $grapheme;
-  private $isSpace;
-  private $spacePosition;
-  private $isCapital;
-  private $capitalPosition;
-  private $isSmallLetter;
-  private $smallLetterPosition;
-  private $isEndMark;
-  private $endMarkPosition;
-  private $isCenterMark;
-  private $centerMarkPosition;
-  private $punctuationMarkPosition;
-  private $previousMarkPosition;
-
-  // Context.
-  private $fullText;
-
-  // Results of the checks.
-  private $checkingResults;
-  const displayGraphemeOnly = 1;
-  const displayContext = 2;
-  const skipNames = 3;
+}
 
 
-  public function enterCapitals ($capitals)
-  {
-    $this->capitals = explode (" ", $capitals);
-  }
-
-  public function enterSmallLetters ($small_letters)
-  {
-    $this->small_letters = explode (" ", $small_letters);
-  }
-
-  public function enterEndMarks ($end_marks)
-  {
-    $this->end_marks = explode (" ", $end_marks);
-  }
+Checks_Sentences::~Checks_Sentences ()
+{
+}
 
 
-  public function enterCenterMarks ($center_marks)
-  {
-    $this->center_marks = explode (" ", $center_marks);
-  }
+void Checks_Sentences::enterCapitals (string capitals_in)
+{
+  capitals = filter_string_explode (capitals_in, ' ');
+}
 
 
-  public function enterDisregards ($disregards)
-  {
-    $this->disregards = explode (" ", $disregards);
-  }
+void Checks_Sentences::enterSmallLetters (string small_letters_in)
+{
+  small_letters = filter_string_explode (small_letters_in, ' ');
+}
 
 
-  public function enterNames ($names)
-  {
-    $this->names = array ();
-    $names = filter_string_str_replace ("\n", " ", $names);
-    $names = explode (" ", $names);
-    for ($names as $name) {
-      if ($name != "") {
-        // Limit the length to the left of the suffix in the test.
-        $name = unicode_string_substr ($name, 0, 11);
-        $this->names [] = $name;
-      }
+void Checks_Sentences::enterEndMarks (string end_marks_in)
+{
+  end_marks = filter_string_explode (end_marks_in, ' ');
+}
+
+
+void Checks_Sentences::enterCenterMarks (string center_marks_in)
+{
+  center_marks = filter_string_explode (center_marks_in, ' ');
+}
+
+
+void Checks_Sentences::enterDisregards (string disregards_in)
+{
+  disregards = filter_string_explode (disregards_in, ' ');
+}
+
+
+void Checks_Sentences::enterNames (string names_in)
+{
+  names.clear ();
+  names_in = filter_string_str_replace ("\n", " ", names_in);
+  names = filter_string_explode (names_in, ' ');
+  for (auto name : names) {
+    if (name != "") {
+      // Limit the length to the left of the suffix in the test.
+      name = unicode_string_substr (name, 0, 11);
+      names.push_back (name);
     }
   }
+}
 
 
-  public function initialize ()
-  {
-    $this->currentPosition = 0;
-    $this->spacePosition = 0;
-    $this->capitalPosition = 0;
-    $this->smallLetterPosition = 0;
-    $this->endMarkPosition = 0;
-    $this->centerMarkPosition = 0;
-    $this->punctuationMarkPosition = 0;
-    $this->previousMarkPosition = 0;
-    $this->checkingResults = array ();
-    $this->fullText = "";
-  }
+void Checks_Sentences::initialize ()
+{
+  currentPosition = 0;
+  spacePosition = 0;
+  capitalPosition = 0;
+  smallLetterPosition = 0;
+  endMarkPosition = 0;
+  centerMarkPosition = 0;
+  punctuationMarkPosition = 0;
+  previousMarkPosition = 0;
+  checkingResults.clear ();
+  fullText.clear ();
+}
 
 
+
+/* Todo port
   public function check ($texts)
   {
     if (!is_array ($texts)) return;
-
+    
     $verse_numbers = array ();
     $graphemes = array ();
     $iterations = 0;
@@ -145,7 +123,7 @@ class Checks_Sentences
       // Next iteration.
       $iterations++;
     }
-
+    
     // Go through the graphemes.
     $graphemeCount = count ($graphemes);
     for ($i = 0; $i < $graphemeCount; $i++) {
@@ -159,10 +137,10 @@ class Checks_Sentences
       $this->checkUnknownCharacter ();
       $this->checkGrapheme ();
     }
-
+    
   }
-
-
+  
+  
   private function checkGrapheme ()
   {
     // Handle a capital after a comma: ... He said, Go ...
@@ -171,52 +149,52 @@ class Checks_Sentences
         if ($this->currentPosition == $this->spacePosition + 1)
           if ($this->currentPosition == $this->centerMarkPosition + 2)
             $this->addResult ("Capital follows mid-sentence punctuation mark", Checks_Sentences::skipNames);
-
-
+    
+    
     // Handle a small letter straight after mid-sentence punctuation: ... He said,go ...
     if ($this->isSmallLetter)
       if ($this->centerMarkPosition > 0)
         if ($this->currentPosition == $this->centerMarkPosition + 1)
           $this->addResult ("Small letter follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
-
-
+    
+    
     // Handle a capital straight after mid-sentence punctuation: ... He said,Go ...
     if ($this->isCapital)
       if ($this->centerMarkPosition > 0)
         if ($this->currentPosition == $this->centerMarkPosition + 1)
           $this->addResult ("Capital follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
-
-
+    
+    
     // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
     if (($this->isSmallLetter) || ($this->isCapital))
       if ($this->endMarkPosition > 0)
         if ($this->currentPosition == $this->endMarkPosition + 1)
           $this->addResult ("A letter follows straight after an end-sentence punctuation mark", Checks_Sentences::displayContext);
-
-
+    
+    
     // Handle case of no capital after end-sentence punctuation: He did that. he went.
     if ($this->isSmallLetter)
       if ($this->endMarkPosition > 0)
         if ($this->currentPosition == $this->endMarkPosition + 2)
           $this->addResult ("No capital after an end-sentence punctuation mark", Checks_Sentences::displayContext);
-
-
+    
+    
     // Handle two punctuation marks in sequence.
     if ($this->isEndMark || $this->isCenterMark)
       if ($this->currentPosition == $this->previousMarkPosition + 1)
         $this->addResult ("Two punctuation marks in sequence", Checks_Sentences::displayContext);
-
+    
   }
-
-
+  
+  
   public function paragraphs ($texts, $paragraphs)
   {
     if (!is_array ($texts)) return;
     if (!is_array ($paragraphs)) return;
-
+    
     $verses = array ();
     $graphemes = array ();
-
+    
     // Put the UTF-8 text into the arrays of verses and graphemes.
     for ($texts as $verse => $text) {
       $count = unicode_string_length ($text);
@@ -226,7 +204,7 @@ class Checks_Sentences
         $graphemes [] = $grapheme;
       }
     }
-
+    
     // Correct the positions where the paragraphs start.
     for ($i = 1; $i < count ($paragraphs); $i++) {
       $offset = $paragraphs [$i];
@@ -238,9 +216,9 @@ class Checks_Sentences
         }
       }
     }
-
+    
     $paragraphCount = count ($paragraphs);
-
+    
     // Go through the paragraphs to see whether they start with capitals.
     for ($i = 0; $i < $paragraphCount; $i++) {
       $offset = $paragraphs [$i];
@@ -251,7 +229,7 @@ class Checks_Sentences
         $this->checkingResults [] = array ($verse => "Paragraph does not start with a capital" . ": " . $grapheme);
       }
     }
-
+    
     // Go through the paragraphs to see whether they end with proper punctuation.
     for ($i = 0; $i < $paragraphCount; $i++) {
       if ($i < ($paragraphCount - 1)) {
@@ -268,90 +246,87 @@ class Checks_Sentences
         $this->checkingResults [] = array ($verse => "Paragraph does not end with an end marker" . ": " . $grapheme);
       }
     }
-
+    
   }
-
-
-  public function getResults ()
-  {
-    return $this->checkingResults;
-  }
-
-
-  private function addResult ($text, $modifier)
-  {
-    // Get previous and next text fragment.
-    $start = $this->currentPosition - 10;
-    if ($start < 0) $start = 0;
-    $previousFragment = unicode_string_substr ($this->fullText, $start, $this->currentPosition - $start - 1);
-    $nextFragment = unicode_string_substr ($this->fullText, $this->currentPosition, 10);
-    if ($nextFragment === false) $nextFragment = "";
-    // Check whether the result can be skipped due to a name being involved.
-    if ($modifier == 3) {
-      $haystack = $this->grapheme . $nextFragment;
-      for ($this->names as $name) {
-        if (strpos ($haystack, $name) === 0) return;
-      }
-    }
-    // Assemble text for checking result.
-    if ($modifier == 1) {
-      $text += ": " . $this->grapheme;
-    }
-    if (($modifier == 2) || ($modifier == 3)) {
-      $text += ": " . $previousFragment . $this->grapheme . $nextFragment;
-    }
-    // Store checking result.
-    $this->checkingResults [] = array ($this->verseNumber => $text);
-  }
-
-
-  private function checkUnknownCharacter ()
-  {
-    if ($this->isSpace) return;
-    if ($this->isCapital) return;
-    if ($this->isSmallLetter) return;
-    if ($this->isEndMark) return;
-    if ($this->isCenterMark) return;
-    $this->addResult ("Unknown character", Checks_Sentences::displayGraphemeOnly);
-  }
-
-
-  private function analyzeGrapheme ()
-  {
-    $this->currentPosition++;
-
-    $this->isSpace = ($this->grapheme == " ");
-    if ($this->isSpace) {
-      $this->spacePosition = $this->currentPosition;
-    }
-
-    $this->isCapital = in_array ($this->grapheme, $this->capitals);
-    if ($this->isCapital) {
-      $this->capitalPosition = $this->currentPosition;
-    }
-
-    $this->isSmallLetter = in_array ($this->grapheme, $this->small_letters);
-    if ($this->isSmallLetter) {
-      $this->smallLetterPosition = $this->currentPosition;
-    }
-
-    $this->isEndMark = in_array ($this->grapheme, $this->end_marks);
-    if ($this->isEndMark) {
-      $this->endMarkPosition = $this->currentPosition;
-      $this->previousMarkPosition = $this->punctuationMarkPosition;
-      $this->punctuationMarkPosition = $this->currentPosition;
-    }
-
-    $this->isCenterMark = in_array ($this->grapheme, $this->center_marks);
-    if ($this->isCenterMark) {
-      $this->centerMarkPosition = $this->currentPosition;
-      $this->previousMarkPosition = $this->punctuationMarkPosition;
-      $this->punctuationMarkPosition = $this->currentPosition;
-    }
-  }
-
-
+  
+  
+ 
+  
+}
+*/
+vector <pair<int, string>> Checks_Sentences::getResults ()
+{
+  return checkingResults;
 }
 
 
-?>
+void Checks_Sentences::addResult (string text, int modifier)
+{
+  // Get previous and next text fragment.
+  int start = currentPosition - 10;
+  if (start < 0) start = 0;
+  string previousFragment = unicode_string_substr (fullText, start, currentPosition - start - 1);
+  string nextFragment = unicode_string_substr (fullText, currentPosition, 10);
+  // Check whether the result can be skipped due to a name being involved.
+  if (modifier == 3) {
+    string haystack = grapheme + nextFragment;
+    for (auto name : names) {
+      if (haystack.find (name) == 0) return;
+    }
+  }
+  // Assemble text for checking result.
+  if (modifier == 1) {
+    text += ": " + grapheme;
+  }
+  if ((modifier == 2) || (modifier == 3)) {
+    text += ": " + previousFragment + grapheme + nextFragment;
+  }
+  // Store checking result.
+  checkingResults.push_back (make_pair (verseNumber, text));
+}
+
+
+void Checks_Sentences::checkUnknownCharacter ()
+{
+  if (isSpace) return;
+  if (isCapital) return;
+  if (isSmallLetter) return;
+  if (isEndMark) return;
+  if (isCenterMark) return;
+  addResult ("Unknown character", Checks_Sentences::displayGraphemeOnly);
+}
+
+
+void Checks_Sentences::analyzeGrapheme ()
+{
+  currentPosition++;
+  
+  isSpace = (grapheme == " ");
+  if (isSpace) {
+    spacePosition = currentPosition;
+  }
+  
+  isCapital = find (capitals.begin (), capitals.end (), grapheme) != capitals.end ();
+  if (isCapital) {
+    capitalPosition = currentPosition;
+  }
+  
+  isSmallLetter = find (small_letters.begin(), small_letters.end(), grapheme) != small_letters.end ();
+  if (isSmallLetter) {
+    smallLetterPosition = currentPosition;
+  }
+  
+  isEndMark = find (end_marks.begin (), end_marks.end (), grapheme) != end_marks.end ();
+  if (isEndMark) {
+    endMarkPosition = currentPosition;
+    previousMarkPosition = punctuationMarkPosition;
+    punctuationMarkPosition = currentPosition;
+  }
+  
+  isCenterMark = find (center_marks.begin (), center_marks.end (), grapheme) != center_marks.end();
+  if (isCenterMark) {
+    centerMarkPosition = currentPosition;
+    previousMarkPosition = punctuationMarkPosition;
+    punctuationMarkPosition = currentPosition;
+  }
+}

@@ -147,6 +147,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/manage.h>
 #include <index/listing.h>
 #include <sprint/index.h>
+#include <checks/index.h>
+#include <checks/settings.h>
+#include <consistency/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -202,6 +205,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == workbench_organize_url ()) && workbench_organize_acl (request)) request->reply = workbench_organize (request);
   else if ((url == bible_editing_url ()) && bible_editing_acl (request)) request->reply = bible_editing (request);
   else if ((url == resource_bible2resource_url ()) && resource_bible2resource_acl (request)) request->reply = resource_bible2resource (request);
+  else if ((url == checks_index_url ()) && checks_index_acl (request)) request->reply = checks_index (request);
+  else if ((url == checks_settings_url ()) && checks_settings_acl (request)) request->reply = checks_settings (request);
+  else if ((url == consistency_index_url ()) && consistency_index_acl (request)) request->reply = consistency_index (request);
   
   // Notes menu.
   else if ((url == notes_index_url ()) && notes_index_acl (request)) request->reply = notes_index (request);

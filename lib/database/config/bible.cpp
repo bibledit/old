@@ -98,93 +98,93 @@ void Database_Config_Bible::setViewableByAllUsers (string bible, bool value)
 }
 
 
-string Database_Config_Bible::getCheckDoubleSpacesUsfm (string bible) 
+bool Database_Config_Bible::getCheckDoubleSpacesUsfm (string bible)
 {
-  return getValue (bible, "double-spaces-usfm", "");
+  return getBValue (bible, "double-spaces-usfm", false);
 }
-void Database_Config_Bible::setCheckDoubleSpacesUsfm (string bible, string value)
+void Database_Config_Bible::setCheckDoubleSpacesUsfm (string bible, bool value)
 {
-  setValue (bible, "double-spaces-usfm", value);
-}
-
-
-string Database_Config_Bible::getCheckFullStopInHeadings (string bible) 
-{
-  return getValue (bible, "full-stop-headings", "");
-}
-void Database_Config_Bible::setCheckFullStopInHeadings (string bible, string value) 
-{
-  setValue (bible, "full-stop-headings", value);
+  setBValue (bible, "double-spaces-usfm", value);
 }
 
 
-string Database_Config_Bible::getCheckSpaceBeforePunctuation (string bible) 
+bool Database_Config_Bible::getCheckFullStopInHeadings (string bible)
 {
-  return getValue (bible, "space-before-punctuation", "");
+  return getBValue (bible, "full-stop-headings", false);
 }
-void Database_Config_Bible::setCheckSpaceBeforePunctuation (string bible, string value) 
+void Database_Config_Bible::setCheckFullStopInHeadings (string bible, bool value)
 {
-  setValue (bible, "space-before-punctuation", value);
-}
-
-
-string Database_Config_Bible::getCheckSentenceStructure (string bible) 
-{
-  return getValue (bible, "sentence-structure", "");
-}
-void Database_Config_Bible::setCheckSentenceStructure (string bible, string value) 
-{
-  setValue (bible, "sentence-structure", value);
+  setBValue (bible, "full-stop-headings", value);
 }
 
 
-string Database_Config_Bible::getCheckParagraphStructure (string bible) 
+bool Database_Config_Bible::getCheckSpaceBeforePunctuation (string bible)
 {
-  return getValue (bible, "paragraph-structure", "");
+  return getBValue (bible, "space-before-punctuation", false);
 }
-void Database_Config_Bible::setCheckParagraphStructure (string bible, string value)
+void Database_Config_Bible::setCheckSpaceBeforePunctuation (string bible, bool value)
 {
-  setValue (bible, "paragraph-structure", value);
-}
-
-
-string Database_Config_Bible::getCheckChaptesVersesVersification (string bible) 
-{
-  return getValue (bible, "check-chapters-verses-versification", "");
-}
-void Database_Config_Bible::setCheckChaptesVersesVersification (string bible, string value) 
-{
-  setValue (bible, "check-chapters-verses-versification", value);
+  setBValue (bible, "space-before-punctuation", value);
 }
 
 
-string Database_Config_Bible::getCheckWellFormedUsfm (string bible)
+bool Database_Config_Bible::getCheckSentenceStructure (string bible)
 {
-  return getValue (bible, "check-well-formed-usfm", "");
+  return getBValue (bible, "sentence-structure", false);
 }
-void Database_Config_Bible::setCheckWellFormedUsfm (string bible, string value)
+void Database_Config_Bible::setCheckSentenceStructure (string bible, bool value)
 {
-  setValue (bible, "check-well-formed-usfm", value);
-}
-
-
-string Database_Config_Bible::getCheckMissingPunctuationEndVerse (string bible) 
-{
-  return getValue (bible, "missing-punctuation-end-verse", "");
-}
-void Database_Config_Bible::setCheckMissingPunctuationEndVerse (string bible, string value) 
-{
-  setValue (bible, "missing-punctuation-end-verse", value);
+  setBValue (bible, "sentence-structure", value);
 }
 
 
-string Database_Config_Bible::getCheckPatterns (string bible)
+bool Database_Config_Bible::getCheckParagraphStructure (string bible)
 {
-  return getValue (bible, "check_patterns", "");
+  return getBValue (bible, "paragraph-structure", false);
 }
-void Database_Config_Bible::setCheckPatterns (string bible, string value) 
+void Database_Config_Bible::setCheckParagraphStructure (string bible, bool value)
 {
-  setValue (bible, "check_patterns", value);
+  setBValue (bible, "paragraph-structure", value);
+}
+
+
+bool Database_Config_Bible::getCheckChaptesVersesVersification (string bible)
+{
+  return getBValue (bible, "check-chapters-verses-versification", false);
+}
+void Database_Config_Bible::setCheckChaptesVersesVersification (string bible, bool value)
+{
+  setBValue (bible, "check-chapters-verses-versification", value);
+}
+
+
+bool Database_Config_Bible::getCheckWellFormedUsfm (string bible)
+{
+  return getBValue (bible, "check-well-formed-usfm", false);
+}
+void Database_Config_Bible::setCheckWellFormedUsfm (string bible, bool value)
+{
+  setBValue (bible, "check-well-formed-usfm", value);
+}
+
+
+bool Database_Config_Bible::getCheckMissingPunctuationEndVerse (string bible)
+{
+  return getBValue (bible, "missing-punctuation-end-verse", false);
+}
+void Database_Config_Bible::setCheckMissingPunctuationEndVerse (string bible, bool value)
+{
+  setBValue (bible, "missing-punctuation-end-verse", value);
+}
+
+
+bool Database_Config_Bible::getCheckPatterns (string bible)
+{
+  return getBValue (bible, "check_patterns", false);
+}
+void Database_Config_Bible::setCheckPatterns (string bible, bool value)
+{
+  setBValue (bible, "check_patterns", value);
 }
 
 
