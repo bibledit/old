@@ -50,7 +50,7 @@ string administration_language (void * webserver_request)
 
   Assets_View view = Assets_View ();
 
-/* C++Port
+/*
   database_config_general = Database_Config_General::getInstance ();
 
   @language =  _GET['language'];
