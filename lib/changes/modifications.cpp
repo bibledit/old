@@ -304,8 +304,6 @@ void changes_modifications ()
         database_modifications.deleteTeamDiffChapter (bible, book, chapter);
       }
     }
-    
-    
   }
   
   

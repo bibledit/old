@@ -2883,6 +2883,23 @@ void test_filter_diff ()
     string standard = "<span style=\"font-weight: bold;\">and</span> this is <span style=\"text-decoration: line-through;\">really</span> <span style=\"text-decoration: line-through;\">old</span> <span style=\"font-weight: bold;\">new</span> text";
     evaluate (__LINE__, __func__, standard, output);
   }
+  // Diff with new lines in the text.
+  {
+    string oldtext =
+    "Genesis 1.1 1 In the beginning God created the heavens and the earth.\n"
+    "Genesis 1.2 2 And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
+    "Genesis 1.3 3 And God said, Let there be light: and there was light.\n";
+    
+    string newtext =
+    "Genesis 1.1 1 In the beginning God created the heaven and the earth.\n"
+    "Genesis 1.2 2 And the earth was without form and void and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
+    "Genesis 1.3 3 And God said: \"Let there be light\". And there was light.\n";
+    
+    string output = filter_diff_diff (oldtext, newtext);
+    
+    string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "diff.txt"));
+    evaluate (__LINE__, __func__, standard, output);
+  }
   // Similarity 1.
   {
     int similarity = filter_diff_similarity ("Old text", "New text");

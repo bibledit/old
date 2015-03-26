@@ -45,6 +45,11 @@ string filter_diff_diff (string oldstring, string newstring)
   typedef string elem;
   typedef vector <string> sequence;
 
+  // Save the new lines.
+  string newline = " newline_newline_newline ";
+  oldstring = filter_string_str_replace ("\n", newline, oldstring);
+  newstring = filter_string_str_replace ("\n", newline, newstring);
+  
   // Split the input up into words.
   // It compares with word granularity.
   sequence oldvector = filter_string_explode (oldstring, ' ');
@@ -59,7 +64,7 @@ string filter_diff_diff (string oldstring, string newstring)
   d.printSES (result);
   
   // Add html markup for bold and strikethrough.
-  vector <string> output = filter_string_explode (result.str(), '\n');
+  vector <string> output = filter_string_explode (result.str (), '\n');
   for (auto & line : output) {
     if (line.empty ()) continue;
     char indicator = line.front ();
@@ -74,8 +79,12 @@ string filter_diff_diff (string oldstring, string newstring)
     }
   }
   
-  // Result.
+  // Resulting html.
   string html = filter_string_implode (output, " ");
+  
+  // Restore the new lines.
+  html = filter_string_str_replace (filter_string_trim (newline), "\n", html);
+  
   return html;
 }
 
@@ -201,7 +210,7 @@ void filter_diff_run_file (string oldfile, string newfile, string outputfile)
 {
   string oldstring = filter_url_file_get_contents (oldfile);
   string newstring = filter_url_file_get_contents (newfile);
-  
+
   string differences = filter_diff_diff (oldstring, newstring);
   
   vector <string> lines = filter_string_explode (differences, '\n');
