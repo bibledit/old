@@ -183,7 +183,8 @@ void http_assemble_response (Webserver_Request * request)
   else if (extension == "txt")    content_type = "text/plain";
   else if (extension == "usfm")   content_type = "text/plain";
   else if (extension == "otf")    content_type = "font/opentype";
-  else if (extension == "ttf")    content_type = "application/x-font-ttf";
+  else if (extension == "ttf")    content_type = "application/font-sfnt";
+  else if (extension == "woff")   content_type = "application/font-woff";
   else if (extension == "sqlite") content_type = "application/octet-stream";
   else if (extension == "htm")    content_type = "text/html";
   else if (extension == "html")   content_type = "text/html";

@@ -165,6 +165,7 @@ void bootstrap_index (Webserver_Request * request)
       || (extension == "ttf")
       || (extension == "otf")
       || (extension == "otf")
+      || (extension == "woff")
       ) http_serve_file (request);
   
   // Serve offline resources.

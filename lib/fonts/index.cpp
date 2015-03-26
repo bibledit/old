@@ -53,7 +53,7 @@ string fonts_index (void * webserver_request)
   string success;
 
   
-  // Delete a font if it is not in use. Todo Test the 'not-in-use" bit.
+  // Delete a font if it is not in use.
   if (request->query.count ("delete")) {
     string del = request->query ["delete"];
     string font = filter_url_basename (del);
@@ -65,7 +65,7 @@ string fonts_index (void * webserver_request)
     if (!font_in_use) {
       Fonts_Logic::erase (font);
     } else {
-      page += Assets_Page::error (translate("The font could not be deleted because it is in use.")); // Todo Test it.
+      page += Assets_Page::error (translate("The font could not be deleted because it is in use."));
     }
   }
   
