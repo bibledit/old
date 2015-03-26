@@ -55,7 +55,7 @@ void search_reindex_bibles ()
   vector <string> bibles = request.database_bibles ()->getBibles ();
   vector <string> searchBibles = request.database_search ()->getBibles ();
   for (auto & searchBible : searchBibles) {
-    if (find (bibles.begin(), bibles.end(), searchBible) == bibles.end ()) { // C++Port Test.
+    if (find (bibles.begin(), bibles.end(), searchBible) == bibles.end ()) {
       request.database_search ()->deleteBible (searchBible);
     } else {
   
@@ -63,7 +63,7 @@ void search_reindex_bibles ()
       vector <int> books = request.database_bibles ()->getBooks (searchBible);
       vector <int> searchBooks = request.database_search ()->getBooks (searchBible);
       for (auto searchBook : searchBooks) {
-        if (find (books.begin(), books.end(), searchBook) == books.end()) { // C++Port Test.
+        if (find (books.begin(), books.end(), searchBook) == books.end()) {
           request.database_search ()->deleteBook (searchBible, searchBook);
         } else {
           

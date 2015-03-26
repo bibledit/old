@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // This function returns users assigned to the logged-in user.
-vector <string> access_user_assignees (void * webserver_request)  // C++Port test it.
+vector <string> access_user_assignees (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
