@@ -38,6 +38,8 @@ public:
   void initialize ();
   vector <pair<int, string>> getResults ();
   void check (map <int, string> texts);
+  void paragraphs (map <int, string> texts, vector <int> paragraphs);
+
 private:
   // Sentence structure parameters.
   vector <string> capitals;
@@ -80,7 +82,6 @@ private:
   void checkUnknownCharacter ();
   void analyzeGrapheme ();
   void checkGrapheme ();
-  void paragraphs (map <int, string> texts, vector <int> paragraphs);
 };
 
 

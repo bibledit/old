@@ -38,6 +38,7 @@ void evaluate (int line, string func, map <int, string> desired, map <int, strin
 void evaluate (int line, string func, map <string, int> desired, map <string, int> actual);
 void evaluate (int line, string func, map <int, int> desired, map <int, int> actual);
 void evaluate (int line, string func, map <string, string> desired, map <string, string> actual);
+void evaluate (int line, string func, vector <pair<int, string>> desired, vector <pair<int, string>> actual);
 
 
 #endif

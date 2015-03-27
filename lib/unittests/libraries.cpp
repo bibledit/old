@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <client/logic.h>
 #include <styles/logic.h>
+#include <checks/sentences.h>
 
 
 void test_sqlite ()
@@ -1628,5 +1629,152 @@ void test_client_logic ()
     "line1\n"
     "line2";
     evaluate (__LINE__, __func__, standard, contents);
+  }
+}
+
+
+Checks_Sentences test_check_sentences_setup ()
+{
+  Checks_Sentences check;
+  check.enterCapitals ("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
+  check.enterSmallLetters ("a b c d e f g h i j k l m n o p q r s t u v w x y z");
+  check.enterEndMarks (". ! ? :");
+  check.enterCenterMarks (", ;");
+  check.enterDisregards ("( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
+  check.enterNames ("Nkosi Longnamelongnamelongname");
+  check.initialize ();
+  return check;
+}
+
+
+void test_check_sentences () // Todo
+{
+  // Test Unknown Character
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({make_pair (1, "Abc ζ abc.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {make_pair (1, "Unknown character: ζ")};
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Capital After Mid Sentence Punctuation Mark
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({make_pair (2, "He said, Go.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {make_pair (2, "Capital follows mid-sentence punctuation mark: He said, Go.")};
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Capital Straight After Mid Sentence Punctuation Mark
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({make_pair (2, "He said,Go.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = { make_pair (2, "Capital follows straight after a mid-sentence punctuation mark: He said,Go.")};
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Small Letter Straight After Mid Sentence Punctuation Mark
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({make_pair (2, "He said,go.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = { make_pair (2, "Small letter follows straight after a mid-sentence punctuation mark: He said,go.")};
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Two Verses Okay
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({ make_pair (17, "Jezus kwam naar de wereld,"), make_pair (18, "dat hij zou lijden.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard;
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Name After Comma Several Verses Okay
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({
+      make_pair (17, "Kwasekusithi esebakhuphele ngaphandle, yathi: Baleka ngenxa yempilo yakho, ungakhangeli ngemva kwakho, ungemi egcekeni lonke; balekela entabeni hlezi ubhujiswe."),
+      make_pair (18, "ULothi wasesithi kuwo: Kakungabi njalo, Nkosi yami."),
+      make_pair (19, "Khangela-ke, inceku yakho ithole umusa emehlweni akho, ukhulisile isihawu sakho, osenze kimi, ukugcina uphila umphefumulo wami; kodwa mina ngingeke ngiphephele entabeni, hlezi ububi bunamathele kimi, besengisifa."),
+      make_pair (20, "Khangela-ke, lumuzi useduze ukubalekela kuwo; futhi umncinyane. Ngicela ngibalekele kuwo (kambe kawumncinyane?) Lomphefumulo wami uphile."),
+      make_pair (21, "Yasisithi kuye: Khangela, ngibemukele ubuso bakho lakulolu udaba, ukuze ngingawuchithi umuzi okhulume ngawo."),
+      make_pair (22, "Phangisa, balekela kuwo; ngoba ngingeze ngenza ulutho uze ufike kuwo. Ngakho babiza ibizo lomuzi ngokuthi yiZowari.")
+    });
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard;
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Long Name
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({make_pair (17, "O, Longnamelongnamelongname.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard;
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test No Space After Full Stop
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({ make_pair (2, "He did that.He went.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {
+      make_pair (2, "A letter follows straight after an end-sentence punctuation mark: did that.He went."),
+      make_pair (2, "No capital after an end-sentence punctuation mark: id that.He went.")
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Capital Full Stop
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({ make_pair (2, "He did that. he went.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = { make_pair (2, "No capital after an end-sentence punctuation mark: id that. he went.")};
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Paragraph One
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.paragraphs ({ make_pair (1, "he said")}, {0});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {
+                       make_pair (1, "Paragraph does not start with a capital: h"),
+                       make_pair (1, "Paragraph does not end with an end marker: d")
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Paragraph Two
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.paragraphs ({ make_pair (1, "εὐθέως")}, {0});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {
+                       make_pair (1, "Paragraph does not start with a capital: ε"),
+                       make_pair (1, "Paragraph does not end with an end marker: ς")
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Paragraph Three
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.paragraphs ({ make_pair (1, "Immediately εὐθέως.")}, {0});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard;
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test  Two Punctuation Marks One
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({ make_pair (2, "He did that..")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = { make_pair (2, "Two punctuation marks in sequence: did that..")};
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  // Test Two Punctuation Marks Two
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.check ({ make_pair (2, "He did ;. That.")});
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = { make_pair (2, "Two punctuation marks in sequence: He did ;. That.")};
+    evaluate (__LINE__, __func__, standard, results);
   }
 }

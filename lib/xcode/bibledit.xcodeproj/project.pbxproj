@@ -806,8 +806,6 @@
 		CAA4D3C51A45A648003ABA25 /* libraries.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = libraries.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D3C61A45A648003ABA25 /* libraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libraries.h; sourceTree = "<group>"; };
 		CAA4D3C71A45A648003ABA25 /* stress */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = stress; sourceTree = "<group>"; };
-		CAA4D3CA1A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
-		CAA4D3CB1A45A648003ABA25 /* sentencesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = sentencesTest.php; sourceTree = "<group>"; };
 		CAA4D3CC1A45A648003ABA25 /* usfmTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = usfmTest.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D3CD1A45A648003ABA25 /* versesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versesTest.php; sourceTree = "<group>"; };
 		CAA4D3CE1A45A648003ABA25 /* versificationTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versificationTest.php; sourceTree = "<group>"; };
@@ -2806,8 +2804,6 @@
 		CAA4D3C91A45A648003ABA25 /* checks */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D3CA1A45A648003ABA25 /* run */,
-				CAA4D3CB1A45A648003ABA25 /* sentencesTest.php */,
 				CAA4D3CC1A45A648003ABA25 /* usfmTest.php */,
 				CAA4D3CD1A45A648003ABA25 /* versesTest.php */,
 				CAA4D3CE1A45A648003ABA25 /* versificationTest.php */,

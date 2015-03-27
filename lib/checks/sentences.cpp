@@ -22,7 +22,7 @@
 #include <filter/string.h>
 
 
-Checks_Sentences::Checks_Sentences () // Todo unit tests.
+Checks_Sentences::Checks_Sentences ()
 {
 }
 
@@ -66,8 +66,8 @@ void Checks_Sentences::enterNames (string names_in)
 {
   names.clear ();
   names_in = filter_string_str_replace ("\n", " ", names_in);
-  names = filter_string_explode (names_in, ' ');
-  for (auto name : names) {
+  vector <string> names2 = filter_string_explode (names_in, ' ');
+  for (auto name : names2) {
     if (name != "") {
       // Limit the length to the left of the suffix in the test.
       name = unicode_string_substr (name, 0, 11);
