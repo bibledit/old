@@ -37,7 +37,7 @@ public:
   void enterNames (string names_in);
   void initialize ();
   vector <pair<int, string>> getResults ();
-
+  void check (map <int, string> texts);
 private:
   // Sentence structure parameters.
   vector <string> capitals;
@@ -79,6 +79,8 @@ private:
   void addResult (string text, int modifier);
   void checkUnknownCharacter ();
   void analyzeGrapheme ();
+  void checkGrapheme ();
+  void paragraphs (map <int, string> texts, vector <int> paragraphs);
 };
 
 

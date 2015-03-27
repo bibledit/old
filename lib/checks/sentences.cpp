@@ -22,7 +22,7 @@
 #include <filter/string.h>
 
 
-Checks_Sentences::Checks_Sentences ()
+Checks_Sentences::Checks_Sentences () // Todo unit tests.
 {
 }
 
@@ -92,168 +92,168 @@ void Checks_Sentences::initialize ()
 }
 
 
+void Checks_Sentences::check (map <int, string> texts)
+{
+  vector <int> verse_numbers;
+  vector <string> graphemes;
+  int iterations = 0;
+  for (auto element : texts) {
+    int verse = element.first;
+    string text = element.second;
+    // For the second and subsequent verse_numbers, add a space to the text,
+    // because this is what is supposed to happen in USFM.
+    if (iterations > 0) {
+      verse_numbers.push_back (verse);
+      graphemes.push_back (" ");
+      fullText += " ";
+    }
+    // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
+    int count = unicode_string_length (text);
+    for (int i = 0; i < count; i++) {
+      grapheme = unicode_string_substr (text, i, 1);
+      // Skip graphemes to be disregarded.
+      if (find (disregards.begin(), disregards.end (), grapheme) != disregards.end()) continue;
+      // Store verse numbers and graphemes.
+      verse_numbers.push_back (verse);
+      graphemes.push_back (grapheme);
+      fullText += grapheme;
+    }
+    // Next iteration.
+    iterations++;
+  }
+  
+  // Go through the graphemes.
+  int graphemeCount = graphemes.size ();
+  for (int i = 0; i < graphemeCount; i++) {
+    // Store current verse number in the object.
+    verseNumber = verse_numbers [i];
+    // Get the current grapheme.
+    grapheme = graphemes [i];
+    // Analyze the grapheme.
+    analyzeGrapheme ();
+    // Run the checks.
+    checkUnknownCharacter ();
+    checkGrapheme ();
+  }
+}
 
-/* Todo port
-  public function check ($texts)
-  {
-    if (!is_array ($texts)) return;
-    
-    $verse_numbers = array ();
-    $graphemes = array ();
-    $iterations = 0;
-    for ($texts as $verse => $text) {
-      // For the second and subsequent verse_numbers, add a space to the text,
-      // because this is what is supposed to happen in USFM.
-      if ($iterations > 0) {
-        $verse_numbers [] = $verse;
-        $graphemes [] = " ";
-        $this->fullText += " ";
-      }
-      // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
-      $count = unicode_string_length ($text);
-      for ($i = 0; $i < $count; $i++) {
-        $grapheme = unicode_string_substr ($text, $i, 1);
-        // Skip graphemes to be disregarded.
-        if (in_array ($grapheme, $this->disregards)) continue;
-        // Store verse numbers and graphemes.
-        $verse_numbers [] = $verse;
-        $graphemes [] = $grapheme;
-        $this->fullText += $grapheme;
-      }
-      // Next iteration.
-      $iterations++;
-    }
-    
-    // Go through the graphemes.
-    $graphemeCount = count ($graphemes);
-    for ($i = 0; $i < $graphemeCount; $i++) {
-      // Store current verse number in the object.
-      $this->verseNumber = $verse_numbers [$i];
-      // Get the current grapheme.
-      $this->grapheme = $graphemes [$i];
-      // Analyze the grapheme.
-      $this->analyzeGrapheme ();
-      // Run the checks.
-      $this->checkUnknownCharacter ();
-      $this->checkGrapheme ();
-    }
-    
-  }
+
+void Checks_Sentences::checkGrapheme ()
+{
+  // Handle a capital after a comma: ... He said, Go ...
+  if (this->isCapital)
+    if (this->spacePosition > 0)
+      if (this->currentPosition == this->spacePosition + 1)
+        if (this->currentPosition == this->centerMarkPosition + 2)
+          this->addResult ("Capital follows mid-sentence punctuation mark", Checks_Sentences::skipNames);
   
   
-  private function checkGrapheme ()
-  {
-    // Handle a capital after a comma: ... He said, Go ...
-    if ($this->isCapital)
-      if ($this->spacePosition > 0)
-        if ($this->currentPosition == $this->spacePosition + 1)
-          if ($this->currentPosition == $this->centerMarkPosition + 2)
-            $this->addResult ("Capital follows mid-sentence punctuation mark", Checks_Sentences::skipNames);
-    
-    
-    // Handle a small letter straight after mid-sentence punctuation: ... He said,go ...
-    if ($this->isSmallLetter)
-      if ($this->centerMarkPosition > 0)
-        if ($this->currentPosition == $this->centerMarkPosition + 1)
-          $this->addResult ("Small letter follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
-    
-    
-    // Handle a capital straight after mid-sentence punctuation: ... He said,Go ...
-    if ($this->isCapital)
-      if ($this->centerMarkPosition > 0)
-        if ($this->currentPosition == $this->centerMarkPosition + 1)
-          $this->addResult ("Capital follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
-    
-    
-    // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
-    if (($this->isSmallLetter) || ($this->isCapital))
-      if ($this->endMarkPosition > 0)
-        if ($this->currentPosition == $this->endMarkPosition + 1)
-          $this->addResult ("A letter follows straight after an end-sentence punctuation mark", Checks_Sentences::displayContext);
-    
-    
-    // Handle case of no capital after end-sentence punctuation: He did that. he went.
-    if ($this->isSmallLetter)
-      if ($this->endMarkPosition > 0)
-        if ($this->currentPosition == $this->endMarkPosition + 2)
-          $this->addResult ("No capital after an end-sentence punctuation mark", Checks_Sentences::displayContext);
-    
-    
-    // Handle two punctuation marks in sequence.
-    if ($this->isEndMark || $this->isCenterMark)
-      if ($this->currentPosition == $this->previousMarkPosition + 1)
-        $this->addResult ("Two punctuation marks in sequence", Checks_Sentences::displayContext);
-    
-  }
+  // Handle a small letter straight after mid-sentence punctuation: ... He said,go ...
+  if (this->isSmallLetter)
+    if (this->centerMarkPosition > 0)
+      if (this->currentPosition == this->centerMarkPosition + 1)
+        this->addResult ("Small letter follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
   
   
-  public function paragraphs ($texts, $paragraphs)
-  {
-    if (!is_array ($texts)) return;
-    if (!is_array ($paragraphs)) return;
-    
-    $verses = array ();
-    $graphemes = array ();
-    
-    // Put the UTF-8 text into the arrays of verses and graphemes.
-    for ($texts as $verse => $text) {
-      $count = unicode_string_length ($text);
-      for ($i = 0; $i < $count; $i++) {
-        $grapheme = unicode_string_substr ($text, $i, 1);
-        $verses [] = $verse;
-        $graphemes [] = $grapheme;
-      }
-    }
-    
-    // Correct the positions where the paragraphs start.
-    for ($i = 1; $i < count ($paragraphs); $i++) {
-      $offset = $paragraphs [$i];
-      $paragraphVerse = $verses [$offset];
-      @$twoVersesBack = $verses [$offset - 2];
-      if ($paragraphVerse != $twoVersesBack) {
-        for ($i2 = $i; $i2 < count ($paragraphs); $i2++) {
-          $paragraphs [$i2] = $paragraphs [$i2] - 1;
-        }
-      }
-    }
-    
-    $paragraphCount = count ($paragraphs);
-    
-    // Go through the paragraphs to see whether they start with capitals.
-    for ($i = 0; $i < $paragraphCount; $i++) {
-      $offset = $paragraphs [$i];
-      @$verse = $verses [$offset];
-      @$grapheme = $graphemes [$offset];
-      $isCapital = in_array ($grapheme, $this->capitals);
-      if (!$isCapital) {
-        $this->checkingResults [] = array ($verse => "Paragraph does not start with a capital" . ": " . $grapheme);
-      }
-    }
-    
-    // Go through the paragraphs to see whether they end with proper punctuation.
-    for ($i = 0; $i < $paragraphCount; $i++) {
-      if ($i < ($paragraphCount - 1)) {
-        $offset = $paragraphs [$i + 1];
-      } else {
-        $offset = count ($graphemes);
-      }
-      $offset--;
-      @$verse = $verses [$offset];
-      @$grapheme = $graphemes [$offset];
-      @$previousGrapheme = $graphemes [$offset - 1];
-      $isEndMark = in_array ($grapheme, $this->end_marks) || in_array ($previousGrapheme, $this->end_marks);
-      if (!$isEndMark) {
-        $this->checkingResults [] = array ($verse => "Paragraph does not end with an end marker" . ": " . $grapheme);
-      }
-    }
-    
-  }
+  // Handle a capital straight after mid-sentence punctuation: ... He said,Go ...
+  if (this->isCapital)
+    if (this->centerMarkPosition > 0)
+      if (this->currentPosition == this->centerMarkPosition + 1)
+        this->addResult ("Capital follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
   
   
- 
+  // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
+  if ((this->isSmallLetter) || (this->isCapital))
+    if (this->endMarkPosition > 0)
+      if (this->currentPosition == this->endMarkPosition + 1)
+        this->addResult ("A letter follows straight after an end-sentence punctuation mark", Checks_Sentences::displayContext);
+  
+  
+  // Handle case of no capital after end-sentence punctuation: He did that. he went.
+  if (this->isSmallLetter)
+    if (this->endMarkPosition > 0)
+      if (this->currentPosition == this->endMarkPosition + 2)
+        this->addResult ("No capital after an end-sentence punctuation mark", Checks_Sentences::displayContext);
+  
+  
+  // Handle two punctuation marks in sequence.
+  if (this->isEndMark || this->isCenterMark)
+    if (this->currentPosition == this->previousMarkPosition + 1)
+      this->addResult ("Two punctuation marks in sequence", Checks_Sentences::displayContext);
   
 }
-*/
+
+
+void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragraphs)
+{
+  vector <int> verses;
+  vector <string> graphemes;
+  
+  // Put the UTF-8 text into the arrays of verses and graphemes.
+  for (auto element : texts) {
+    int verse = element.first;
+    string text = element.second;
+    int count = unicode_string_length (text);
+    for (int i = 0; i < count; i++) {
+      string grapheme = unicode_string_substr (text, i, 1);
+      verses.push_back (verse);
+      graphemes.push_back (grapheme);
+    }
+  }
+  
+  // Correct the positions where the paragraphs start.
+  for (unsigned int i = 1; i < paragraphs.size(); i++) {
+    unsigned int offset = paragraphs [i];
+    int paragraphVerse = 0;
+    if (offset < verses.size()) paragraphVerse = verses [offset];
+    int twoVersesBack = 0;
+    if ((offset - 2) < verses.size ()) twoVersesBack = verses [offset - 2];
+    if (paragraphVerse != twoVersesBack) {
+      for (unsigned int i2 = i; i2 < paragraphs.size(); i2++) {
+        paragraphs [i2] = paragraphs [i2] - 1;
+      }
+    }
+  }
+  
+  int paragraphCount = paragraphs.size();
+  
+  // Go through the paragraphs to see whether they start with capitals.
+  for (int i = 0; i < paragraphCount; i++) {
+    unsigned int offset = paragraphs [i];
+    int verse = 0;
+    if (offset < verses.size()) verse = verses [offset];
+    string grapheme;
+    if (offset < graphemes.size ()) grapheme = graphemes [offset];
+    isCapital = find (capitals.begin(), capitals.end(), grapheme) != capitals.end ();
+    if (!isCapital) {
+      checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + grapheme));
+    }
+  }
+  
+  // Go through the paragraphs to see whether they end with proper punctuation.
+  for (int i = 0; i < paragraphCount; i++) {
+    unsigned int offset = 0;
+    if (i < (paragraphCount - 1)) {
+      offset = paragraphs [i + 1];
+    } else {
+      offset = graphemes.size();
+    }
+    offset--;
+    int verse = 0;
+    if (offset < verses.size()) verse = verses [offset];
+    string grapheme;
+    if (offset < graphemes.size ()) grapheme = graphemes [offset];
+    string previousGrapheme;
+    if (offset) previousGrapheme = graphemes [offset - 1];
+    isEndMark = in_array (grapheme, this->end_marks) || in_array (previousGrapheme, this->end_marks);
+    if (!isEndMark) {
+      checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme));
+    }
+  }
+  
+}
+
+
 vector <pair<int, string>> Checks_Sentences::getResults ()
 {
   return checkingResults;
