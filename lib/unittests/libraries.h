@@ -37,6 +37,7 @@ void test_editor_roundtrip ();
 void test_workbench_logic ();
 void test_client_logic ();
 void test_check_sentences ();
+void test_check_versification ();
 
 
 #endif
