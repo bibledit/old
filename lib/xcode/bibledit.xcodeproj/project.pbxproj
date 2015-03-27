@@ -51,7 +51,6 @@
 		CA05B0211AC448FE00488ECE /* verses.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = verses.php; sourceTree = "<group>"; };
 		CA05B0221AC448FE00488ECE /* versification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = versification.cpp; sourceTree = "<group>"; };
 		CA05B0231AC448FE00488ECE /* versification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = versification.h; sourceTree = "<group>"; };
-		CA05B0241AC448FE00488ECE /* versification.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versification.php; sourceTree = "<group>"; };
 		CA05B0251AC4505400488ECE /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA05B0261AC4505400488ECE /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA05B0271AC4505400488ECE /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1311,7 +1310,6 @@
 				CA05B0211AC448FE00488ECE /* verses.php */,
 				CA05B0221AC448FE00488ECE /* versification.cpp */,
 				CA05B0231AC448FE00488ECE /* versification.h */,
-				CA05B0241AC448FE00488ECE /* versification.php */,
 			);
 			name = checks;
 			path = ../checks;
