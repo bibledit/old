@@ -29,6 +29,7 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <client/logic.h>
+#include <checks/sentences.h>
 
 
 void checks_run (string bible) // Todo
@@ -55,16 +56,16 @@ void checks_run (string bible) // Todo
   bool check_space_before_punctuation = Database_Config_Bible::getCheckSpaceBeforePunctuation (bible);
   bool check_sentence_structure = Database_Config_Bible::getCheckSentenceStructure (bible);
   bool check_paragraph_structure = Database_Config_Bible::getCheckParagraphStructure (bible);
+  Checks_Sentences checks_sentences;
+  checks_sentences.enterCapitals (Database_Config_Bible::getSentenceStructureCapitals (bible));
+  checks_sentences.enterSmallLetters (Database_Config_Bible::getSentenceStructureSmallLetters (bible));
+  string end_marks = Database_Config_Bible::getSentenceStructureEndPunctuation (bible);
+  checks_sentences.enterEndMarks (end_marks);
+  string center_marks = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
+  checks_sentences.enterCenterMarks (center_marks);
+  checks_sentences.enterDisregards (Database_Config_Bible::getSentenceStructureDisregards (bible));
+  checks_sentences.enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
   /* Todo
-  $checks_sentences = new Checks_Sentences ();
-  $checks_sentences->enterCapitals (Database_Config_Bible::getSentenceStructureCapitals (bible));
-  $checks_sentences->enterSmallLetters (Database_Config_Bible::getSentenceStructureSmallLetters (bible));
-  $end_marks = Database_Config_Bible::getSentenceStructureEndPunctuation (bible);
-  $checks_sentences->enterEndMarks ($end_marks);
-  $center_marks = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
-  $checks_sentences->enterCenterMarks ($center_marks);
-  $checks_sentences->enterDisregards (Database_Config_Bible::getSentenceStructureDisregards (bible));
-  $checks_sentences->enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
   $check_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
   $check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm (bible);
   $checks_usfm = new Checks_Usfm (bible);
@@ -117,10 +118,10 @@ void checks_run (string bible) // Todo
       
       
       if ($check_sentence_structure || $check_paragraph_structure) {
-        $checks_sentences->initialize ();
-        if ($check_sentence_structure) $checks_sentences->check ($verses_text);
-        if ($check_paragraph_structure) $checks_sentences->paragraphs ($verses_text, $filter_text->paragraph_start_positions);
-        $results = $checks_sentences->getResults ();
+        checks_sentences.initialize ();
+        if ($check_sentence_structure) checks_sentences.check ($verses_text);
+        if ($check_paragraph_structure) checks_sentences.paragraphs ($verses_text, $filter_text->paragraph_start_positions);
+        $results = checks_sentences.getResults ();
         for ($results as $result) {
           $verse = array_keys ($result);
           $verse = $verse [0];
