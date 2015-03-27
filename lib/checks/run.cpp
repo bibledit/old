@@ -26,10 +26,13 @@
 #include <database/config/bible.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/usfm.h>
+#include <filter/text.h>
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <client/logic.h>
 #include <checks/sentences.h>
+#include <checks/versification.h>
 
 
 void checks_run (string bible) // Todo
@@ -65,72 +68,71 @@ void checks_run (string bible) // Todo
   checks_sentences.enterCenterMarks (center_marks);
   checks_sentences.enterDisregards (Database_Config_Bible::getSentenceStructureDisregards (bible));
   checks_sentences.enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
-  /* Todo
-  $check_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
-  $check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm (bible);
-  $checks_usfm = new Checks_Usfm (bible);
-  $check_missing_punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse (bible);
-  $check_patterns = Database_Config_Bible::getCheckPatterns (bible);
-  $checking_patterns = Database_Config_Bible::getCheckingPatterns (bible);
-  $checking_patterns = Filter_String::string2array ($checking_patterns);
-  $checking_patterns = array_filter ($checking_patterns, 'strlen');
+  bool check_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
+  bool check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm (bible);
+  // Todo $checks_usfm = new Checks_Usfm (bible);
+  bool check_missing_punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse (bible);
+  bool check_patterns = Database_Config_Bible::getCheckPatterns (bible);
+  string s_checking_patterns = Database_Config_Bible::getCheckingPatterns (bible);
+  vector <string> checking_patterns = filter_string_explode (s_checking_patterns, '\n');
+  // Todo $checking_patterns = array_filter ($checking_patterns, 'strlen');
+  
+  vector <int> books = request.database_bibles()->getBooks (bible);
+  if (check_versification) Checks_Versification::books (bible, books);
   
   
-  $books = request.database_bibles()->getBooks (bible);
-  if ($check_versification) Checks_Versification::books (bible, books);
-  
-  
-  for ($books as $book) {
+  for (auto book : books) {
     
     
-    $chapters = request.database_bibles()->getChapters (bible, book);
-    if ($check_versification) Checks_Versification::chapters (bible, book, chapters);
+    vector <int> chapters = request.database_bibles()->getChapters (bible, book);
+    if (check_versification) Checks_Versification::chapters (bible, book, chapters);
     
     
-    for ($chapters as $chapter) {
-      $chapterUsfm = request.database_bibles()->getChapter (bible, book, chapter);
+    for (auto chapter : chapters) {
+      string chapterUsfm = request.database_bibles()->getChapter (bible, book, chapter);
       
       
-      $verses = usfm_get_verse_numbers ($chapterUsfm);
-      if ($check_versification) Checks_Versification::verses (bible, book, chapter, verses);
+      vector <int> verses = usfm_get_verse_numbers (chapterUsfm);
+      if (check_versification) Checks_Versification::verses (bible, book, chapter, verses);
       
       
-      for ($verses as $verse) {
-        $verseUsfm = usfm_get_verse_text ($chapterUsfm, $verse);
-        if ($check_double_spaces_usfm) {
-          Checks_Space::doubleSpaceUsfm (bible, book, chapter, verse, $verseUsfm);
+      for (auto verse : verses) {
+        string verseUsfm = usfm_get_verse_text (chapterUsfm, verse);
+        if (check_double_spaces_usfm) {
+          // Todo Checks_Space::doubleSpaceUsfm (bible, book, chapter, verse, $verseUsfm);
         }
       }
       
       
-      $filter_text = new Filter_Text (bible);
-      $filter_text->initializeHeadingsAndTextPerVerse ();
-      $filter_text->addUsfmCode ($chapterUsfm);
-      $filter_text->run ($stylesheet);
-      $verses_headings = $filter_text->verses_headings;
-      $verses_text = $filter_text->getVersesText ();
-      if ($check_full_stop_in_headings) {
-        Checks_Headers::noPunctuationAtEnd (bible, book, chapter, verses_headings, $center_marks, $end_marks);
+      Filter_Text filter_text = Filter_Text (bible);
+      filter_text.initializeHeadingsAndTextPerVerse ();
+      filter_text.addUsfmCode (chapterUsfm);
+      filter_text.run (stylesheet);
+      map <int, string>  verses_headings = filter_text.verses_headings;
+      map <int, string> verses_text = filter_text.getVersesText ();
+      if (check_full_stop_in_headings) {
+        // Todo Checks_Headers::noPunctuationAtEnd (bible, book, chapter, verses_headings, $center_marks, $end_marks);
       }
-      if ($check_space_before_punctuation) {
-        Checks_Space::spaceBeforePunctuation (bible, book, chapter, verses_text);
+      if (check_space_before_punctuation) {
+        // Todo Checks_Space::spaceBeforePunctuation (bible, book, chapter, verses_text);
       }
       
       
-      if ($check_sentence_structure || $check_paragraph_structure) {
+      if (check_sentence_structure || check_paragraph_structure) {
         checks_sentences.initialize ();
-        if ($check_sentence_structure) checks_sentences.check ($verses_text);
-        if ($check_paragraph_structure) checks_sentences.paragraphs ($verses_text, $filter_text->paragraph_start_positions);
-        $results = checks_sentences.getResults ();
-        for ($results as $result) {
-          $verse = array_keys ($result);
-          $verse = $verse [0];
-          $database_check->recordOutput (bible, book, chapter, verse, $result[$verse]);
+        if (check_sentence_structure) checks_sentences.check (verses_text);
+        if (check_paragraph_structure) checks_sentences.paragraphs (verses_text, filter_text.paragraph_start_positions);
+        vector <pair<int, string>> results = checks_sentences.getResults ();
+        for (auto result : results) {
+          int verse = result.first;
+          string msg = result.second;
+          database_check.recordOutput (bible, book, chapter, verse, msg);
         }
       }
       
       
-      if ($check_well_formed_usfm) {
+      if (check_well_formed_usfm) {
+        /* Todo
         $checks_usfm->initialize ();
         $checks_usfm->check ($chapterUsfm);
         $checks_usfm->finalize ();
@@ -140,21 +142,21 @@ void checks_run (string bible) // Todo
           $verse = $verse [0];
           $database_check->recordOutput (bible, book, chapter, verse, $result[$verse]);
         }
+         */
       }
       
       
-      if ($check_missing_punctuation_end_verse) {
-        Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, $center_marks, $end_marks);
+      if (check_missing_punctuation_end_verse) {
+        // Todo Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, $center_marks, $end_marks);
       }
       
       
-      if ($check_patterns) {
-        Checks_Verses::patterns (bible, book, chapter, verses_text, $checking_patterns);
+      if (check_patterns) {
+        // Todo Checks_Verses::patterns (bible, book, chapter, verses_text, $checking_patterns);
       }
       
     }
   }
-  */
   
   // Identifier for this bible.
   int bibleID = request.database_bibles()->getID (bible);
