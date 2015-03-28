@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/sentences.h>
 #include <checks/versification.h>
 #include <checks/usfm.h>
+#include <checks/verses.h>
 
 
 void test_sqlite ()
@@ -2277,4 +2278,94 @@ void test_check_usfm ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
+}
+
+
+void test_check_verses () // Todo
+{
+  refresh_sandbox (true);
+  Database_Check database_check;
+  database_check.create ();
+  // Test Missing Punctuation At End1
+  {
+    map <int, string> verses = {
+      make_pair (2, "He said."),
+      make_pair (3, "He didn't say"),
+      make_pair (4, "He said.")
+    };
+    Checks_Verses::missingPunctuationAtEnd ("1", 1, 1, verses, ", ;", ". ! ? :");
+    vector <Database_Check_Hit> results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 1, results.size());
+    if (results.size ()) {
+      Database_Check_Hit hit = results[0];
+      evaluate (__LINE__, __func__, 1, hit.rowid);
+      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, 1, hit.book);
+      evaluate (__LINE__, __func__, 1, hit.chapter);
+      evaluate (__LINE__, __func__, 3, hit.verse);
+      evaluate (__LINE__, __func__, "No punctuation at end of verse: y", hit.data);
+    }
+  }
+  database_check.truncateOutput ("");
+  // Test Pattern1
+  {
+    map <int, string> verses = {
+      make_pair (2, "He said."),
+      make_pair (3, "He didn't say"),
+      make_pair (4, "He said.")
+    };
+    Checks_Verses::patterns ("1", 1, 1, verses, {"did"});
+    vector <Database_Check_Hit> results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 1, results.size());
+    if (results.size ()) {
+      Database_Check_Hit hit = results[0];
+      evaluate (__LINE__, __func__, 1, hit.rowid);
+      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, 1, hit.book);
+      evaluate (__LINE__, __func__, 1, hit.chapter);
+      evaluate (__LINE__, __func__, 3, hit.verse);
+      evaluate (__LINE__, __func__, "Pattern found in text: did", hit.data);
+    }
+  }
+  database_check.truncateOutput ("");
+  // Test Pattern2
+  {
+    map <int, string> verses = {
+      make_pair (2, "He said."),
+      make_pair (3, "He didn't say"),
+      make_pair (4, "He said.")
+    };
+    Checks_Verses::patterns ("1", 1, 1, verses, {"Did"});
+    vector <Database_Check_Hit> results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 0, results.size());
+  }
+  database_check.truncateOutput ("");
+  // Test Pattern3
+  {
+    map <int, string> verses = {
+      make_pair (2, "He said."),
+      make_pair (3, "He didn't say"),
+      make_pair (4, "He said.")
+    };
+    Checks_Verses::patterns ("1", 1, 1, verses, {"said"});
+    vector <Database_Check_Hit> results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 2, results.size());
+    if (results.size () == 2) {
+      Database_Check_Hit hit = results[0];
+      evaluate (__LINE__, __func__, 1, hit.rowid);
+      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, 1, hit.book);
+      evaluate (__LINE__, __func__, 1, hit.chapter);
+      evaluate (__LINE__, __func__, 2, hit.verse);
+      evaluate (__LINE__, __func__, "Pattern found in text: said", hit.data);
+      hit = results[1];
+      evaluate (__LINE__, __func__, 2, hit.rowid);
+      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, 1, hit.book);
+      evaluate (__LINE__, __func__, 1, hit.chapter);
+      evaluate (__LINE__, __func__, 4, hit.verse);
+      evaluate (__LINE__, __func__, "Pattern found in text: said", hit.data);
+    }
+  }
+  database_check.truncateOutput ("");
 }

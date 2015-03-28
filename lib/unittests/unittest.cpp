@@ -266,7 +266,7 @@ int main (int argc, char **argv)
   config_globals_unit_testing = true;
   
   // Todo
-  test_check_usfm (); exit (0);
+  test_check_verses (); exit (0);
   
   // Run the tests.
   test_database_config_general ();

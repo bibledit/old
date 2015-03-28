@@ -801,7 +801,6 @@
 		CAA4D3C51A45A648003ABA25 /* libraries.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = libraries.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D3C61A45A648003ABA25 /* libraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libraries.h; sourceTree = "<group>"; };
 		CAA4D3C71A45A648003ABA25 /* stress */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = stress; sourceTree = "<group>"; };
-		CAA4D3CD1A45A648003ABA25 /* versesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = versesTest.php; sourceTree = "<group>"; };
 		CAA4D40B1A45A648003ABA25 /* fileTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = fileTest.php; sourceTree = "<group>"; };
 		CAA4D40C1A45A648003ABA25 /* hexTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hexTest.php; sourceTree = "<group>"; };
 		CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hyphenateTest.php; sourceTree = "<group>"; };
@@ -2777,7 +2776,6 @@
 				CA699A0E1A4EE04300B23E0A /* basic.css */,
 				CA699A0F1A4EE05800B23E0A /* editor.css */,
 				CA699A101A4EE05800B23E0A /* exports.css */,
-				CAA4D3C91A45A648003ABA25 /* checks */,
 				CAA4D3FA1A45A648003ABA25 /* filter */,
 				CAA4D4161A45A648003ABA25 /* flate1.html */,
 				CA0FFD3B1AAF076700A174A5 /* flate2.html */,
@@ -2787,14 +2785,6 @@
 				CAA4D4201A45A648003ABA25 /* qunit */,
 			);
 			path = tests;
-			sourceTree = "<group>";
-		};
-		CAA4D3C91A45A648003ABA25 /* checks */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D3CD1A45A648003ABA25 /* versesTest.php */,
-			);
-			path = checks;
 			sourceTree = "<group>";
 		};
 		CAA4D3FA1A45A648003ABA25 /* filter */ = {
