@@ -30,7 +30,7 @@
 #include <client/logic.h>
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
-#include <config/logic.h>
+#include <access/bible.h>
 
 
 string checks_suppress_url ()
@@ -41,18 +41,59 @@ string checks_suppress_url ()
 
 bool checks_suppress_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
 string checks_suppress (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Database_Check database_check;
   
   
   string page;
-  page = Assets_Page::header (translate ("checks mode"), webserver_request, "");
+  page = Assets_Page::header (translate ("Suppressed check results"), webserver_request, "");
   Assets_View view = Assets_View ();
+  
+  
+  if (request->query.count ("release")) {
+    int release = convert_to_int (request->query["release"]);
+    database_check.release (release);
+    view.set_variable ("success", translate("The check result will no longer be suppressed."));
+  }
+  
+                        
+  // Get the Bibles the user has write-access to.
+  vector <int> bibleIDs;
+  vector <string> bibles = request->database_bibles()->getBibles ();
+  for (auto bible : bibles) {
+    if (access_bible_write (webserver_request, bible)) {
+      int id = request->database_bibles()->getID (bible);
+      bibleIDs.push_back (id);
+    }
+  }
+  
+  
+  string block;
+  vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
+  for (auto suppression : suppressions) {
+    int bibleID = suppression.bible;
+    // Only display entries for Bibles the user has write access to.
+    if (in_array (bibleID, bibleIDs)) {
+      int id = suppression.rowid;
+      string bible = filter_string_sanitize_html (request->database_bibles()->getName (bibleID));
+      string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, to_string (suppression.verse))});
+      string result = filter_string_sanitize_html (suppression.data);
+      result.insert (0, bible + " " + passage + " ");
+      block.append ("<p style=\"color:grey;\">\n");
+      block.append ("<a href=\"suppress?release=" + to_string (id) + "\">\n");
+      block.append ("✗\n");
+      block.append ("</a>\n");
+      block.append (result + "\n");
+      block.append ("</p>\n");
+    }
+  }
+  view.set_variable ("block", block);
   
   
   page += view.render ("checks", "suppress");

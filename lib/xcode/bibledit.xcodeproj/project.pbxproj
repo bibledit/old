@@ -38,7 +38,6 @@
 		CA05B0181AC448FE00488ECE /* suppress.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = suppress.cpp; sourceTree = "<group>"; };
 		CA05B0191AC448FE00488ECE /* suppress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = suppress.h; sourceTree = "<group>"; };
 		CA05B01A1AC448FE00488ECE /* suppress.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = suppress.html; sourceTree = "<group>"; };
-		CA05B01B1AC448FE00488ECE /* suppress.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = suppress.php; sourceTree = "<group>"; };
 		CA05B01C1AC448FE00488ECE /* usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfm.cpp; sourceTree = "<group>"; };
 		CA05B01D1AC448FE00488ECE /* usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm.h; sourceTree = "<group>"; };
 		CA05B01F1AC448FE00488ECE /* verses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verses.cpp; sourceTree = "<group>"; };
@@ -1288,7 +1287,6 @@
 				CA05B0181AC448FE00488ECE /* suppress.cpp */,
 				CA05B0191AC448FE00488ECE /* suppress.h */,
 				CA05B01A1AC448FE00488ECE /* suppress.html */,
-				CA05B01B1AC448FE00488ECE /* suppress.php */,
 				CA05B01C1AC448FE00488ECE /* usfm.cpp */,
 				CA05B01D1AC448FE00488ECE /* usfm.h */,
 				CA05B01F1AC448FE00488ECE /* verses.cpp */,

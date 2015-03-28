@@ -152,6 +152,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/settingspatterns.h>
 #include <checks/settingssentences.h>
 #include <consistency/index.h>
+#include <checks/suppress.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -296,6 +297,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == collaboration_direction_url ()) && collaboration_direction_acl (request)) request->reply = collaboration_direction (request);
   else if ((url == checks_settingspatterns_url ()) && checks_settingspatterns_acl (request)) request->reply = checks_settingspatterns (request);
   else if ((url == checks_settingssentences_url ()) && checks_settingssentences_acl (request)) request->reply = checks_settingssentences (request);
+  else if ((url == checks_suppress_url ()) && checks_suppress_acl (request)) request->reply = checks_suppress (request);
 
   // Downloads
   else if ((url == index_listing_url (url)) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
