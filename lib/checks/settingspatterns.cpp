@@ -21,16 +21,10 @@
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/md5.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <database/config/general.h>
-#include <client/logic.h>
-#include <demo/logic.h>
-#include <sendreceive/logic.h>
-#include <config/logic.h>
+#include <database/config/bible.h>
+#include <access/bible.h>
 
 
 string checks_settingspatterns_url ()
@@ -41,7 +35,7 @@ string checks_settingspatterns_url ()
 
 bool checks_settingspatterns_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 }
 
 
@@ -51,10 +45,24 @@ string checks_settingspatterns (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header (translate ("checks mode"), webserver_request, "");
+  page = Assets_Page::header (translate ("Patterns"), webserver_request, "");
   Assets_View view = Assets_View ();
   
   
+  string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  
+  
+  if (request->post.count ("patterns")) {
+    string patterns = request->post ["patterns"];
+    if (!bible.empty ()) Database_Config_Bible::setCheckingPatterns (bible, patterns);
+    view.set_variable ("success", translate("The patterns were saved"));
+  }
+  
+  
+  view.set_variable ("bible", bible);
+  view.set_variable ("patterns", Database_Config_Bible::getCheckingPatterns (bible));
+                                          
+                                          
   page += view.render ("checks", "settingspatterns");
   page += Assets_Page::footer ();
   return page;

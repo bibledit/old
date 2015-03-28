@@ -30,11 +30,9 @@
 		CA05B00D1AC448FE00488ECE /* settingspatterns.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settingspatterns.cpp; sourceTree = "<group>"; };
 		CA05B00E1AC448FE00488ECE /* settingspatterns.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settingspatterns.h; sourceTree = "<group>"; };
 		CA05B00F1AC448FE00488ECE /* settingspatterns.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = settingspatterns.html; sourceTree = "<group>"; };
-		CA05B0101AC448FE00488ECE /* settingspatterns.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = settingspatterns.php; sourceTree = "<group>"; };
 		CA05B0111AC448FE00488ECE /* settingssentences.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settingssentences.cpp; sourceTree = "<group>"; };
 		CA05B0121AC448FE00488ECE /* settingssentences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settingssentences.h; sourceTree = "<group>"; };
 		CA05B0131AC448FE00488ECE /* settingssentences.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = settingssentences.html; sourceTree = "<group>"; };
-		CA05B0141AC448FE00488ECE /* settingssentences.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = settingssentences.php; sourceTree = "<group>"; };
 		CA05B0151AC448FE00488ECE /* space.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = space.cpp; sourceTree = "<group>"; };
 		CA05B0161AC448FE00488ECE /* space.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = space.h; sourceTree = "<group>"; };
 		CA05B0181AC448FE00488ECE /* suppress.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = suppress.cpp; sourceTree = "<group>"; };
@@ -1282,11 +1280,9 @@
 				CA05B00D1AC448FE00488ECE /* settingspatterns.cpp */,
 				CA05B00E1AC448FE00488ECE /* settingspatterns.h */,
 				CA05B00F1AC448FE00488ECE /* settingspatterns.html */,
-				CA05B0101AC448FE00488ECE /* settingspatterns.php */,
 				CA05B0111AC448FE00488ECE /* settingssentences.cpp */,
 				CA05B0121AC448FE00488ECE /* settingssentences.h */,
 				CA05B0131AC448FE00488ECE /* settingssentences.html */,
-				CA05B0141AC448FE00488ECE /* settingssentences.php */,
 				CA05B0151AC448FE00488ECE /* space.cpp */,
 				CA05B0161AC448FE00488ECE /* space.h */,
 				CA05B0181AC448FE00488ECE /* suppress.cpp */,

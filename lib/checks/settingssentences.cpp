@@ -27,10 +27,12 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
 #include <client/logic.h>
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
 #include <config/logic.h>
+#include <access/bible.h>
 
 
 string checks_settingssentences_url ()
@@ -41,7 +43,7 @@ string checks_settingssentences_url ()
 
 bool checks_settingssentences_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 }
 
 
@@ -51,8 +53,56 @@ string checks_settingssentences (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header (translate ("checks mode"), webserver_request, "");
+  page = Assets_Page::header (translate ("Sentence Structure"), webserver_request, "");
   Assets_View view = Assets_View ();
+  
+  
+  string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  
+  
+  if (request->post.count ("capitals")) {
+    Database_Config_Bible::setSentenceStructureCapitals (bible, request->post["capitals"]);
+    view.set_variable ("success", translate("The capitals were stored"));
+  }
+  
+  
+  if (request->post.count ("smallletters")) {
+    Database_Config_Bible::setSentenceStructureSmallLetters (bible, request->post["smallletters"]);
+    view.set_variable ("success", translate("The small letters were stored"));
+  }
+  
+  
+  if (request->post.count ("endpunctuationmarks")) {
+    Database_Config_Bible::setSentenceStructureEndPunctuation (bible, request->post["endpunctuationmarks"]);
+    view.set_variable ("success", translate("The punctuation marks at the ends of sentences were stored"));
+  }
+  
+  
+  if (request->post.count ("middlepunctuationmarks")) {
+    Database_Config_Bible::setSentenceStructureMiddlePunctuation (bible, request->post["middlepunctuationmarks"]);
+    view.set_variable ("success", translate("The punctuation marks within the sentences were stored"));
+  }
+  
+  
+  if (request->post.count ("disregards")) {
+    Database_Config_Bible::setSentenceStructureDisregards (bible, request->post["disregards"]);
+    view.set_variable ("success", translate("The characters that should be disregarded within the sentences were stored"));
+  }
+  
+  
+  if (request->post.count ("names")) {
+    Database_Config_Bible::setSentenceStructureNames (bible, request->post["names"]);
+    view.set_variable ("success", translate("The names that may occur after mid-sentence punctuation were stored"));
+  }
+  
+                       
+  view.set_variable ("bible", bible);
+  view.set_variable ("capitals", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureCapitals (bible)));
+  view.set_variable ("smallletters", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureSmallLetters (bible)));
+  view.set_variable ("endpunctuationmarks", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureEndPunctuation (bible)));
+  view.set_variable ("middlepunctuationmarks", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible)));
+  view.set_variable ("disregards", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards (bible)));
+  view.set_variable ("names", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames (bible)));
   
   
   page += view.render ("checks", "settingssentences");

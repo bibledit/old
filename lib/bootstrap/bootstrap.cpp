@@ -149,6 +149,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sprint/index.h>
 #include <checks/index.h>
 #include <checks/settings.h>
+#include <checks/settingspatterns.h>
+#include <checks/settingssentences.h>
 #include <consistency/index.h>
 
 
@@ -292,6 +294,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == collaboration_password_url ()) && collaboration_password_acl (request)) request->reply = collaboration_password (request);
   else if ((url == collaboration_secure_url ()) && collaboration_secure_acl (request)) request->reply = collaboration_secure (request);
   else if ((url == collaboration_direction_url ()) && collaboration_direction_acl (request)) request->reply = collaboration_direction (request);
+  else if ((url == checks_settingspatterns_url ()) && checks_settingspatterns_acl (request)) request->reply = checks_settingspatterns (request);
+  else if ((url == checks_settingssentences_url ()) && checks_settingssentences_acl (request)) request->reply = checks_settingssentences (request);
 
   // Downloads
   else if ((url == index_listing_url (url)) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
