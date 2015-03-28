@@ -57,14 +57,14 @@ string checks_index (void * webserver_request)
   Assets_View view = Assets_View ();
   
   
-  if (request->query.count ("approve")) { // Todo test it.
+  if (request->query.count ("approve")) {
     int approve = convert_to_int (request->query["approve"]);
     database_check.approve (approve);
     view.set_variable ("success", translate("The entry was approved and suppressed."));
   }
   
                         
-  if (request->query.count ("delete")) { // Todo test it.
+  if (request->query.count ("delete")) {
     int erase = convert_to_int (request->query["delete"]);
     database_check.erase (erase);
     view.set_variable ("success", translate("The entry was deleted for just now."));
