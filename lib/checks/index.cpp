@@ -98,12 +98,14 @@ string checks_index (void * webserver_request)
       resultblock.append ("<a href=\"index?approve=" + to_string (id) + "\"> ✔ </a>\n");
       resultblock.append ("<a href=\"index?delete=" + to_string (id) + "\"> ✗ </a>\n");
       resultblock.append (bible);
+      resultblock.append (" ");
       resultblock.append (link);
+      resultblock.append (" ");
       resultblock.append (information);
       resultblock.append ("</p>\n");
     }
   }
-  view.set_variable ("resultblock", resultblock); // Todo test it.
+  view.set_variable ("resultblock", resultblock);
 
 
   page += view.render ("checks", "index");

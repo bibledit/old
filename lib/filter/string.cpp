@@ -410,6 +410,13 @@ string unicode_string_casefold (string s)
 }
 
 
+string unicode_string_uppercase (string s)
+{
+  transform (s.begin(), s.end (), s.begin(), ::toupper);
+  return s;
+}
+
+
 // Returns true if string "s" is valid UTF8 encoded.
 bool unicode_string_is_valid (string s)
 {

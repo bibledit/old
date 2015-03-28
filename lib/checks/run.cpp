@@ -33,6 +33,9 @@
 #include <client/logic.h>
 #include <checks/sentences.h>
 #include <checks/versification.h>
+#include <checks/headers.h>
+#include <checks/space.h>
+#include <checks/usfm.h>
 
 
 void checks_run (string bible) // Todo
@@ -70,7 +73,7 @@ void checks_run (string bible) // Todo
   checks_sentences.enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
   bool check_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
   bool check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm (bible);
-  // Todo $checks_usfm = new Checks_Usfm (bible);
+  Checks_Usfm checks_usfm = Checks_Usfm (bible);
   bool check_missing_punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse (bible);
   bool check_patterns = Database_Config_Bible::getCheckPatterns (bible);
   string s_checking_patterns = Database_Config_Bible::getCheckingPatterns (bible);
@@ -99,7 +102,7 @@ void checks_run (string bible) // Todo
       for (auto verse : verses) {
         string verseUsfm = usfm_get_verse_text (chapterUsfm, verse);
         if (check_double_spaces_usfm) {
-          // Todo Checks_Space::doubleSpaceUsfm (bible, book, chapter, verse, $verseUsfm);
+          Checks_Space::doubleSpaceUsfm (bible, book, chapter, verse, verseUsfm);
         }
       }
       
@@ -111,10 +114,10 @@ void checks_run (string bible) // Todo
       map <int, string>  verses_headings = filter_text.verses_headings;
       map <int, string> verses_text = filter_text.getVersesText ();
       if (check_full_stop_in_headings) {
-        // Todo Checks_Headers::noPunctuationAtEnd (bible, book, chapter, verses_headings, $center_marks, $end_marks);
+        Checks_Headers::noPunctuationAtEnd (bible, book, chapter, verses_headings, center_marks, end_marks);
       }
       if (check_space_before_punctuation) {
-        // Todo Checks_Space::spaceBeforePunctuation (bible, book, chapter, verses_text);
+        Checks_Space::spaceBeforePunctuation (bible, book, chapter, verses_text);
       }
       
       
@@ -129,23 +132,21 @@ void checks_run (string bible) // Todo
           database_check.recordOutput (bible, book, chapter, verse, msg);
         }
       }
-      
-      
+
+
       if (check_well_formed_usfm) {
-        /* Todo
-        $checks_usfm->initialize ();
-        $checks_usfm->check ($chapterUsfm);
-        $checks_usfm->finalize ();
-        $results = $checks_usfm->getResults ();
-        for ($results as $result) {
-          $verse = array_keys ($result);
-          $verse = $verse [0];
-          $database_check->recordOutput (bible, book, chapter, verse, $result[$verse]);
+        checks_usfm.initialize ();
+        checks_usfm.check (chapterUsfm);
+        checks_usfm.finalize ();
+        vector <pair<int, string>>  results = checks_usfm.getResults ();
+        for (auto element : results) {
+          int verse = element.first;
+          string msg = element.second;
+          database_check.recordOutput (bible, book, chapter, verse, msg);
         }
-         */
       }
-      
-      
+
+
       if (check_missing_punctuation_end_verse) {
         // Todo Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, $center_marks, $end_marks);
       }

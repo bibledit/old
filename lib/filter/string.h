@@ -58,6 +58,7 @@ string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 size_t unicode_string_strpos (string haystack, string needle, size_t offset = 0);
 size_t unicode_string_strpos_case_insensitive (string haystack, string needle, size_t offset = 0);
 string unicode_string_casefold (string s);
+string unicode_string_uppercase (string s);
 bool unicode_string_is_valid (string s);
 int filter_string_rand (int floor, int ceiling);
 string filter_string_html2text (string html);

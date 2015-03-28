@@ -33,7 +33,7 @@ class Checks_Verses
       $lastCharacter = substr ($text, -1, 1);
       if (in_array ($lastCharacter, $centermarks)) continue;
       if (in_array ($lastCharacter, $endmarks)) continue;
-      $database_check->recordOutput (bible, book, chapter, verse, "No punctuation at end of verse:" . " " . $lastCharacter);
+      database_check.recordOutput (bible, book, chapter, verse, "No punctuation at end of verse:" . " " . $lastCharacter);
     }
   }
 
@@ -46,7 +46,7 @@ class Checks_Verses
     for ($verses as $verse => $text) {
       for ($patterns as $pattern) {
         if (strpos ($text, $pattern) !== false) {
-          $database_check->recordOutput (bible, book, chapter, verse, "Pattern found in text:" . " " . $pattern);
+          database_check.recordOutput (bible, book, chapter, verse, "Pattern found in text:" . " " . $pattern);
         }
       }
     }

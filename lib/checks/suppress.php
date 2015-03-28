@@ -32,7 +32,7 @@ $view = new Assets_View (__FILE__);
 
 @$release = request->query['release'];
 if (isset($release)) {
-  $database_check->release ($release);
+  database_check.release ($release);
   $view.set_variable ("success = translate("The check result will no longer be suppressed.");
 }
 
@@ -50,7 +50,7 @@ for ($bibles as $bible) {
 
 $ids = array ();
 $data = array ();
-$suppressions = $database_check->getSuppressions ();
+$suppressions = database_check.getSuppressions ();
 for ($suppressions as $suppression) {
   $bibleID = $suppression['bible'];
   // Only display entries for Bibles the user has write access to.

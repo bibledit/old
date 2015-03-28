@@ -38,6 +38,7 @@ void test_workbench_logic ();
 void test_client_logic ();
 void test_check_sentences ();
 void test_check_versification ();
+void test_check_usfm ();
 
 
 #endif
