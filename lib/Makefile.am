@@ -275,7 +275,10 @@ libbibledit_a_SOURCES = \
 	checks/usfm.cpp \
 	checks/verses.cpp \
 	checks/versification.cpp \
-	consistency/index.cpp
+	consistency/index.cpp \
+	consistency/input.cpp \
+	consistency/logic.cpp \
+	consistency/poll.cpp
 
 bin_PROGRAMS = server unittest
 

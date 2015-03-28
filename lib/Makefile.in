@@ -254,7 +254,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
 	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
-	consistency/index.$(OBJEXT)
+	consistency/index.$(OBJEXT) consistency/input.$(OBJEXT) \
+	consistency/logic.$(OBJEXT) consistency/poll.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -758,7 +759,10 @@ libbibledit_a_SOURCES = \
 	checks/usfm.cpp \
 	checks/verses.cpp \
 	checks/versification.cpp \
-	consistency/index.cpp
+	consistency/index.cpp \
+	consistency/input.cpp \
+	consistency/logic.cpp \
+	consistency/poll.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1753,6 +1757,12 @@ consistency/$(DEPDIR)/$(am__dirstamp):
 	@: > consistency/$(DEPDIR)/$(am__dirstamp)
 consistency/index.$(OBJEXT): consistency/$(am__dirstamp) \
 	consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/input.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/logic.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/poll.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1959,6 +1969,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@confirm/$(DEPDIR)/worker.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/input.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/poll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@

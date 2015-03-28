@@ -27,10 +27,13 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <database/usfmresources.h>
 #include <client/logic.h>
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
 #include <config/logic.h>
+#include <dialog/list.h>
+#include <resource/logic.h>
 
 
 string consistency_index_url ()
@@ -41,19 +44,57 @@ string consistency_index_url ()
 
 bool consistency_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
 string consistency_index (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Database_UsfmResources database_usfmresources;
 
   
   string page;
-  page = Assets_Page::header (translate ("consistency mode"), webserver_request, "");
+  page = Assets_Page::header (translate ("Consistency"), webserver_request, "");
   Assets_View view = Assets_View ();
+
   
+  if (request->query.count ("add")) {
+    string add = request->query ["add"];
+    if (add == "") {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Would you like to add a Resource?"), "", "");
+      vector <string> resources = Resource_Logic::getNames (webserver_request);
+      for (auto resource : resources) {
+        dialog_list.add_row (resource, "add", resource);
+      }
+      page += dialog_list.run();
+      return page;
+    } else {
+      vector <string> resources = request->database_config_user()->getConsistencyResources ();
+      resources.push_back (add);
+      request->database_config_user()->setConsistencyResources (resources);
+    }
+  }
+  
+  
+  if (request->query.count ("remove")) {
+    string remove = request->query ["remove"];
+    vector <string> resources = request->database_config_user()->getConsistencyResources ();
+    resources = filter_string_array_diff (resources, {remove});
+    request->database_config_user()->setConsistencyResources (resources);
+  }
+  
+  
+  string resourceblock;
+  vector <string> resources = request->database_config_user()->getConsistencyResources ();
+  for (auto resource : resources) {
+    resourceblock.append (resource);
+    resourceblock.append ("\n");
+    resourceblock.append ("<a href=\"?remove=" + resource + "\">[" + translate("remove") + "]</a>");
+    resourceblock.append (" | ");
+  }
+  view.set_variable ("resourceblock", resourceblock);
+
   
   page += view.render ("consistency", "index");
   page += Assets_Page::footer ();
