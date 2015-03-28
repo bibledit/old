@@ -2281,7 +2281,7 @@ void test_check_usfm ()
 }
 
 
-void test_check_verses () // Todo
+void test_check_verses ()
 {
   refresh_sandbox (true);
   Database_Check database_check;

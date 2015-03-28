@@ -36,9 +36,10 @@
 #include <checks/headers.h>
 #include <checks/space.h>
 #include <checks/usfm.h>
+#include <checks/verses.h>
 
 
-void checks_run (string bible) // Todo
+void checks_run (string bible)
 {
   Webserver_Request request;
   Database_Check database_check;
@@ -78,7 +79,7 @@ void checks_run (string bible) // Todo
   bool check_patterns = Database_Config_Bible::getCheckPatterns (bible);
   string s_checking_patterns = Database_Config_Bible::getCheckingPatterns (bible);
   vector <string> checking_patterns = filter_string_explode (s_checking_patterns, '\n');
-  // Todo $checking_patterns = array_filter ($checking_patterns, 'strlen');
+
   
   vector <int> books = request.database_bibles()->getBooks (bible);
   if (check_versification) Checks_Versification::books (bible, books);
@@ -148,12 +149,12 @@ void checks_run (string bible) // Todo
 
 
       if (check_missing_punctuation_end_verse) {
-        // Todo Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, $center_marks, $end_marks);
+        Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, center_marks, end_marks);
       }
       
       
       if (check_patterns) {
-        // Todo Checks_Verses::patterns (bible, book, chapter, verses_text, $checking_patterns);
+        Checks_Verses::patterns (bible, book, chapter, verses_text, checking_patterns);
       }
       
     }

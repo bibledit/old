@@ -63,6 +63,7 @@ void Checks_Verses::patterns (string bible, int book, int chapter, map <int, str
     int verse = element.first;
     string text = element.second;
     for (auto pattern : patterns) {
+      if (pattern.empty ()) continue;
       if (text.find (pattern) != string::npos) {
         database_check.recordOutput (bible, book, chapter, verse, "Pattern found in text: " + pattern);
       }
