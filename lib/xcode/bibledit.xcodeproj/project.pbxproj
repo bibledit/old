@@ -389,9 +389,6 @@
 		CAA4CFCE1A45A647003ABA25 /* worker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = worker.cpp; sourceTree = "<group>"; };
 		CAA4CFCF1A45A647003ABA25 /* worker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = worker.h; sourceTree = "<group>"; };
 		CAA4CFD11A45A647003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CAA4CFD31A45A647003ABA25 /* input.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = input.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4CFD41A45A647003ABA25 /* logic.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = logic.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4CFD51A45A647003ABA25 /* poll.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = poll.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CFD91A45A647003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4CFDC1A45A647003ABA25 /* editor.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = editor.css; sourceTree = "<group>"; };
 		CAA4CFDD1A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
@@ -1357,13 +1354,10 @@
 				CA05B0271AC4505400488ECE /* index.html */,
 				CA180F221AC7152D006CA48B /* input.cpp */,
 				CA180F231AC7152D006CA48B /* input.h */,
-				CAA4CFD31A45A647003ABA25 /* input.php */,
 				CA180F241AC71539006CA48B /* logic.cpp */,
 				CA180F251AC71539006CA48B /* logic.h */,
-				CAA4CFD41A45A647003ABA25 /* logic.php */,
 				CA180F261AC71542006CA48B /* poll.cpp */,
 				CA180F271AC71542006CA48B /* poll.h */,
-				CAA4CFD51A45A647003ABA25 /* poll.php */,
 			);
 			name = consistency;
 			path = ../consistency;
