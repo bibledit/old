@@ -418,83 +418,83 @@ void Database_Config_Bible::setBookAbbreviations (string bible, string value)
 }
 
 
-string Database_Config_Bible::getExportWebDuringNight (string bible)
+bool Database_Config_Bible::getExportWebDuringNight (string bible)
 {
-  return getValue (bible, "export-web-during-night", "");
+  return getBValue (bible, "export-web-during-night", false);
 }
-void Database_Config_Bible::setExportWebDuringNight (string bible, string value) 
+void Database_Config_Bible::setExportWebDuringNight (string bible, bool value)
 {
-  setValue (bible, "export-web-during-night", value);
-}
-
-
-string Database_Config_Bible::getExportHtmlDuringNight (string bible)
-{
-  return getValue (bible, "export-html-during-night", "");
-}
-void Database_Config_Bible::setExportHtmlDuringNight (string bible, string value) 
-{
-  setValue (bible, "export-html-during-night", value);
+  setBValue (bible, "export-web-during-night", value);
 }
 
 
-string Database_Config_Bible::getExportUsfmDuringNight (string bible)
+bool Database_Config_Bible::getExportHtmlDuringNight (string bible)
 {
-  return getValue (bible, "export-usfm-during-night", "");
+  return getBValue (bible, "export-html-during-night", false);
 }
-void Database_Config_Bible::setExportUsfmDuringNight (string bible, string value) 
+void Database_Config_Bible::setExportHtmlDuringNight (string bible, bool value)
 {
-  setValue (bible, "export-usfm-during-night", value);
-}
-
-
-string Database_Config_Bible::getExportTextDuringNight (string bible)
-{
-  return getValue (bible, "export-text-during-night", "");
-}
-void Database_Config_Bible::setExportTextDuringNight (string bible, string value) 
-{
-  setValue (bible, "export-text-during-night", value);
+  setBValue (bible, "export-html-during-night", value);
 }
 
 
-string Database_Config_Bible::getExportOdtDuringNight (string bible)
+bool Database_Config_Bible::getExportUsfmDuringNight (string bible)
 {
-  return getValue (bible, "export-odt-during-night", "");
+  return getBValue (bible, "export-usfm-during-night", false);
 }
-void Database_Config_Bible::setExportOdtDuringNight (string bible, string value) 
+void Database_Config_Bible::setExportUsfmDuringNight (string bible, bool value)
 {
-  setValue (bible, "export-odt-during-night", value);
-}
-
-
-string Database_Config_Bible::getGenerateInfoDuringNight (string bible)
-{
-  return getValue (bible, "generate-info-during-night", "");
-}
-void Database_Config_Bible::setGenerateInfoDuringNight (string bible, string value) 
-{
-  setValue (bible, "generate-info-during-night", value);
+  setBValue (bible, "export-usfm-during-night", value);
 }
 
 
-string Database_Config_Bible::getExportESwordDuringNight (string bible)
+bool Database_Config_Bible::getExportTextDuringNight (string bible)
 {
-  return getValue (bible, "export-esword-during-night", "");
+  return getBValue (bible, "export-text-during-night", false);
 }
-void Database_Config_Bible::setExportESwordDuringNight (string bible, string value) 
+void Database_Config_Bible::setExportTextDuringNight (string bible, bool value)
 {
-  setValue (bible, "export-esword-during-night", value);
+  setBValue (bible, "export-text-during-night", value);
 }
 
 
-string Database_Config_Bible::getExportOnlineBibleDuringNight (string bible)
+bool Database_Config_Bible::getExportOdtDuringNight (string bible)
 {
-  return getValue (bible, "export-onlinebible-during-night", "");
+  return getBValue (bible, "export-odt-during-night", false);
 }
-void Database_Config_Bible::setExportOnlineBibleDuringNight (string bible, string value) 
+void Database_Config_Bible::setExportOdtDuringNight (string bible, bool value)
 {
-  setValue (bible, "export-onlinebible-during-night", value);
+  setBValue (bible, "export-odt-during-night", value);
+}
+
+
+bool Database_Config_Bible::getGenerateInfoDuringNight (string bible)
+{
+  return getBValue (bible, "generate-info-during-night", false);
+}
+void Database_Config_Bible::setGenerateInfoDuringNight (string bible, bool value)
+{
+  setBValue (bible, "generate-info-during-night", value);
+}
+
+
+bool Database_Config_Bible::getExportESwordDuringNight (string bible)
+{
+  return getBValue (bible, "export-esword-during-night", false);
+}
+void Database_Config_Bible::setExportESwordDuringNight (string bible, bool value)
+{
+  setBValue (bible, "export-esword-during-night", value);
+}
+
+
+bool Database_Config_Bible::getExportOnlineBibleDuringNight (string bible)
+{
+  return getBValue (bible, "export-onlinebible-during-night", false);
+}
+void Database_Config_Bible::setExportOnlineBibleDuringNight (string bible, bool value)
+{
+  setBValue (bible, "export-onlinebible-during-night", value);
 }
 
 
@@ -508,23 +508,23 @@ void Database_Config_Bible::setExportPassword (string bible, string value)
 }
 
 
-string Database_Config_Bible::getSecureUsfmExport (string bible)
+bool Database_Config_Bible::getSecureUsfmExport (string bible)
 {
-  return getValue (bible, "secure-usfm-export", "");
+  return getBValue (bible, "secure-usfm-export", false);
 }
-void Database_Config_Bible::setSecureUsfmExport (string bible, string value) 
+void Database_Config_Bible::setSecureUsfmExport (string bible, bool value)
 {
-  setValue (bible, "secure-usfm-export", value);
+  setBValue (bible, "secure-usfm-export", value);
 }
 
 
-string Database_Config_Bible::getSecureOdtExport (string bible)
+bool Database_Config_Bible::getSecureOdtExport (string bible)
 {
-  return getValue (bible, "secure-odt-export", "");
+  return getBValue (bible, "secure-odt-export", false);
 }
-void Database_Config_Bible::setSecureOdtExport (string bible, string value) 
+void Database_Config_Bible::setSecureOdtExport (string bible, bool value)
 {
-  setValue (bible, "secure-odt-export", value);
+  setBValue (bible, "secure-odt-export", value);
 }
 
 

@@ -51,6 +51,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define GENERATECHANGES "generatechanges"
 #define SPRINTBURNDOWN "sprintburndown"
 #define CHECKBIBLE "checkbible"
+#define EXPORTALL "exportall"
+#define EXPORTTEXTUSFM "exporttextusfm"
+#define EXPORTUSFM "exportusfm"
+#define EXPORTODT "exportodt"
+#define EXPORTINFO "exportinfo"
+#define EXPORTHTML "exporthtml"
+#define EXPORTWEBMAIN "exportwebmain"
+#define EXPORTWEBINDEX "exportwebindex"
+#define EXPORTONLINEBIBLE "exportonlinebible"
+#define EXPORTESWORD "exportesword"
 
 
 string tasks_logic_folder ();

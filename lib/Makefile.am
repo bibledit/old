@@ -278,7 +278,19 @@ libbibledit_a_SOURCES = \
 	consistency/index.cpp \
 	consistency/input.cpp \
 	consistency/logic.cpp \
-	consistency/poll.cpp
+	consistency/poll.cpp \
+	manage/exports.cpp \
+	export/esword.cpp \
+	export/html.cpp \
+	export/index.cpp \
+	export/info.cpp \
+	export/logic.cpp \
+	export/odt.cpp \
+	export/onlinebible.cpp \
+	export/textusfm.cpp \
+	export/usfm.cpp \
+	export/web.cpp \
+	export/web0.cpp
 
 bin_PROGRAMS = server unittest
 

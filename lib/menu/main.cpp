@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/index.h>
 #include <checks/settings.h>
 #include <consistency/index.h>
+#include <manage/exports.h>
 
 
 /*
@@ -220,7 +221,7 @@ vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), translate ("Sync"), NULL } );
-  // C++Port if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "exports", translate ("Exports"), exportssubmenu () } );
+  if (index_listing_acl (webserver_request, "exports")) menu->push_back ( { "", index_listing_url ("exports"), translate ("Exports"), exportssubmenu () } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "manage/hyphenation", translate ("Hyphenation"), NULL } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "xrefs/index", translate ("Cross references"), NULL } );
   // C++Port if (level >= Filter_Roles::admin ()) menu->push_back ( { "", "phpliteadmin/index", translate ("phpLiteAdmin"), NULL } );
@@ -230,11 +231,10 @@ vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 }
 
 
-vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
+vector <Menu_Main_Item> * Menu_Main::exportssubmenu () // Todo
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::manager ()) menu->push_back ( { "", "manage/exports", translate ("Manage"), NULL } );
+  if (manage_exports_acl (webserver_request)) menu->push_back ( { "", manage_exports_url (), translate ("Manage"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;
