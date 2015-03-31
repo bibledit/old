@@ -17,28 +17,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_LIBRARIES_H
-#define INCLUDED_UNITTESTS_LIBRARIES_H
+#ifndef INCLUDED_HTML_HEADER_H
+#define INCLUDED_HTML_HEADER_H
 
 
 #include <config/libraries.h>
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#include <database/styles.h>
 
 
-void test_sqlite ();
-void test_session_logic ();
-void test_empty_folders ();
-void test_flate ();
-void test_checksum_logic ();
-void test_store_bible_data ();
-void test_editor_export ();
-void test_editor_import ();
-void test_editor_roundtrip ();
-void test_workbench_logic ();
-void test_client_logic ();
-void test_check_sentences ();
-void test_check_versification ();
-void test_check_usfm ();
-void test_check_verses ();
+class Html_Header
+{
+public:
+  Html_Header (void * html_text);
+  ~Html_Header ();
+  void searchBackLink (string url, string text);
+  void create (const vector <string> & breadcrumbs);
+private:
+  void * htmlText;
+  string searchBackLinkUrl;
+  string searchBackLinkText;
+};
 
 
 #endif
+

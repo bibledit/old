@@ -333,7 +333,7 @@ xmlNodePtr Html_Text::newTableRow (xmlNodePtr tableElement)
 
 // This adds a new data cell to an existing $tableRowElement.
 // Returns: The new $tableDataElement.
-xmlNodePtr newTableData (xmlNodePtr tableRowElement, bool alignRight = false)
+xmlNodePtr Html_Text::newTableData (xmlNodePtr tableRowElement, bool alignRight)
 {
   xmlNodePtr tableDataElement = xmlNewNode (NULL, BAD_CAST "td");
   if (alignRight) xmlNewProp (tableDataElement, BAD_CAST "align", BAD_CAST "right");

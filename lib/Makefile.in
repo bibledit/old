@@ -158,36 +158,36 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	styles/view.$(OBJEXT) styles/css.$(OBJEXT) \
 	styles/sheets.$(OBJEXT) text/text.$(OBJEXT) \
 	esword/text.$(OBJEXT) onlinebible/text.$(OBJEXT) \
-	html/text.$(OBJEXT) odf/text.$(OBJEXT) timer/index.$(OBJEXT) \
-	tasks/logic.$(OBJEXT) tasks/run.$(OBJEXT) \
-	config/logic.$(OBJEXT) bible/logic.$(OBJEXT) \
-	bible/manage.$(OBJEXT) bible/settings.$(OBJEXT) \
-	bible/book.$(OBJEXT) bible/chapter.$(OBJEXT) \
-	bible/import_usfm.$(OBJEXT) bible/import_bibleworks.$(OBJEXT) \
-	bible/import_task.$(OBJEXT) bible/abbreviations.$(OBJEXT) \
-	bible/order.$(OBJEXT) bible/css.$(OBJEXT) \
-	bible/editing.$(OBJEXT) notes/logic.$(OBJEXT) \
-	notes/actions.$(OBJEXT) notes/clean.$(OBJEXT) \
-	notes/import1.$(OBJEXT) notes/note.$(OBJEXT) \
-	notes/status-1.$(OBJEXT) notes/assign-1.$(OBJEXT) \
-	notes/cleancli.$(OBJEXT) notes/import2.$(OBJEXT) \
-	notes/notes.$(OBJEXT) notes/status-n.$(OBJEXT) \
-	notes/assign-n.$(OBJEXT) notes/click.$(OBJEXT) \
-	notes/import3.$(OBJEXT) notes/poll.$(OBJEXT) \
-	notes/summary.$(OBJEXT) notes/bible-1.$(OBJEXT) \
-	notes/comment.$(OBJEXT) notes/import4.$(OBJEXT) \
-	notes/select.$(OBJEXT) notes/unassign-n.$(OBJEXT) \
-	notes/bible-n.$(OBJEXT) notes/create.$(OBJEXT) \
-	notes/importcli.$(OBJEXT) notes/severity-1.$(OBJEXT) \
-	notes/verses.$(OBJEXT) notes/bulk.$(OBJEXT) \
-	notes/editsource.$(OBJEXT) notes/index.$(OBJEXT) \
-	notes/severity-n.$(OBJEXT) trash/handler.$(OBJEXT) \
-	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	html/text.$(OBJEXT) html/header.$(OBJEXT) odf/text.$(OBJEXT) \
+	timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
+	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
+	bible/logic.$(OBJEXT) bible/manage.$(OBJEXT) \
+	bible/settings.$(OBJEXT) bible/book.$(OBJEXT) \
+	bible/chapter.$(OBJEXT) bible/import_usfm.$(OBJEXT) \
+	bible/import_bibleworks.$(OBJEXT) bible/import_task.$(OBJEXT) \
+	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
+	bible/css.$(OBJEXT) bible/editing.$(OBJEXT) \
+	notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
+	notes/clean.$(OBJEXT) notes/import1.$(OBJEXT) \
+	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
+	notes/assign-1.$(OBJEXT) notes/cleancli.$(OBJEXT) \
+	notes/import2.$(OBJEXT) notes/notes.$(OBJEXT) \
+	notes/status-n.$(OBJEXT) notes/assign-n.$(OBJEXT) \
+	notes/click.$(OBJEXT) notes/import3.$(OBJEXT) \
+	notes/poll.$(OBJEXT) notes/summary.$(OBJEXT) \
+	notes/bible-1.$(OBJEXT) notes/comment.$(OBJEXT) \
+	notes/import4.$(OBJEXT) notes/select.$(OBJEXT) \
+	notes/unassign-n.$(OBJEXT) notes/bible-n.$(OBJEXT) \
+	notes/create.$(OBJEXT) notes/importcli.$(OBJEXT) \
+	notes/severity-1.$(OBJEXT) notes/verses.$(OBJEXT) \
+	notes/bulk.$(OBJEXT) notes/editsource.$(OBJEXT) \
+	notes/index.$(OBJEXT) notes/severity-n.$(OBJEXT) \
+	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
+	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -578,6 +578,7 @@ libbibledit_a_SOURCES = \
 	esword/text.cpp \
 	onlinebible/text.cpp \
 	html/text.cpp \
+	html/header.cpp \
 	odf/text.cpp \
 	timer/index.cpp \
 	tasks/logic.cpp \
@@ -1153,6 +1154,8 @@ html/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) html/$(DEPDIR)
 	@: > html/$(DEPDIR)/$(am__dirstamp)
 html/text.$(OBJEXT): html/$(am__dirstamp) \
+	html/$(DEPDIR)/$(am__dirstamp)
+html/header.$(OBJEXT): html/$(am__dirstamp) \
 	html/$(DEPDIR)/$(am__dirstamp)
 odf/$(am__dirstamp):
 	@$(MKDIR_P) odf
@@ -2116,6 +2119,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fonts/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@fonts/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/header.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/listing.Po@am__quote@

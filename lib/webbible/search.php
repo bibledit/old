@@ -107,7 +107,7 @@ for ($ids as $id) {
 
 
   // The URL.
-  $url = "../exports/$bible/web/" . Filter_Paths::htmlFileNameBible ("", $book, $chapter);
+  $url = "../exports/$bible/web/" . filter_url_html_file_name_bible ("", $book, $chapter);
 
 
   // Output title and URL.

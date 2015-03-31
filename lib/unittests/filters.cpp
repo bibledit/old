@@ -4304,3 +4304,17 @@ void test_filter_date ()
     evaluate (__LINE__, __func__, day, filter_date_numerical_month_day (seconds));
   }
 }
+
+
+void test_filter_url ()
+{
+  evaluate (__LINE__, __func__, "index.html", filter_url_html_file_name_bible ());
+  evaluate (__LINE__, __func__, "path/index.html", filter_url_html_file_name_bible ("path"));
+  evaluate (__LINE__, __func__, "path/01-Genesis.html", filter_url_html_file_name_bible ("path", 1));
+  evaluate (__LINE__, __func__, "01-Genesis.html", filter_url_html_file_name_bible ("", 1));
+  evaluate (__LINE__, __func__, "path/11-1Kings.html", filter_url_html_file_name_bible ("path", 11));
+  evaluate (__LINE__, __func__, "path/22-SongofSolomon-000.html", filter_url_html_file_name_bible ("path", 22, 0));
+  evaluate (__LINE__, __func__, "path/33-Micah-333.html", filter_url_html_file_name_bible ("path", 33, 333));
+  evaluate (__LINE__, __func__, "33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
+}
+

@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <curl/curl.h>
 #include <config.h>
+#include <database/books.h>
 
 
 // Gets the base URL of current Bibledit installation.
@@ -582,4 +583,43 @@ void filter_url_download_file (string url, string filename, string& error)
     fclose (file);
   }
 }
+
+
+/*
+ * The function returns the filename for a html file for a Bible.
+ * $path    - The path where to store the files.
+ * $book    - The book identifier.
+ * $chapter - The chapter number.
+ */
+string filter_url_html_file_name_bible (string path, int book, int chapter)
+{
+  string filename;
+  
+  // If a path is given, prefix it.
+  if (path != "") {
+    filename = path + "/";
+  }
+  
+  // No book ID given: Return the name for the index file for the Bible.
+  if (book == 0) {
+    filename += "index.html";
+    return filename;
+  }
+  
+  // Add the name for the book. No spaces.
+  filename += filter_string_fill (to_string (book), 2, '0');
+  string sbook = Database_Books::getEnglishFromId (book);
+  sbook = filter_string_str_replace (" ", "", sbook);
+  filename += '-' + sbook;
+  
+  // Chapter given: Provide name for the chaper.
+  if (chapter >= 0) {
+    filename += '-' + filter_string_fill (to_string (chapter), 3, '0');
+  }
+  
+  filename += ".html";
+  
+  return filename;
+}
+
 

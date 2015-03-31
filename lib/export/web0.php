@@ -64,8 +64,8 @@ $backLinkPath = Export_Logic::webBackLinkDirectory ($bible);
 $html_text_rich_bible_index = new Html_Text ($bible);
 // On top are the breadcrumbs, starting with a clickable Bible name.
 $htmlHeader = new Html_Header ($html_text_rich_bible_index);
-$htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible (), translate("Go back to Bible"));
-$htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
+$htmlHeader->searchBackLink ($backLinkPath . filter_url_html_file_name_bible (), translate("Go back to Bible"));
+$htmlHeader->create (array (array ($bible, filter_url_html_file_name_bible ())));
 
 
 // Prepare for the list of books in de html index file.
@@ -77,7 +77,7 @@ $html_text_rich_bible_index->addText (" |");
 $books = request->database_bibles()->getBooks ($bible);
 for ($books as $book) {
   // Add this book to the main web index.
-  $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement,  Filter_Paths::htmlFileNameBible ("", $book), "", Database_Books::getEnglishFromId ($book), "", " " . Database_Books::getEnglishFromId ($book) . " ");
+  $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement,  filter_url_html_file_name_bible ("", $book), "", Database_Books::getEnglishFromId ($book), "", " " . Database_Books::getEnglishFromId ($book) . " ");
   $html_text_rich_bible_index->addText ("|");
 }
 

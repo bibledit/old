@@ -88,6 +88,7 @@ libbibledit_a_SOURCES = \
 	esword/text.cpp \
 	onlinebible/text.cpp \
 	html/text.cpp \
+	html/header.cpp \
 	odf/text.cpp \
 	timer/index.cpp \
 	tasks/logic.cpp \
