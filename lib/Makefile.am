@@ -290,8 +290,7 @@ libbibledit_a_SOURCES = \
 	export/onlinebible.cpp \
 	export/textusfm.cpp \
 	export/usfm.cpp \
-	export/web.cpp \
-	export/web0.cpp
+	export/web.cpp
 
 bin_PROGRAMS = server unittest
 

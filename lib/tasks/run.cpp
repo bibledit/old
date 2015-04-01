@@ -145,8 +145,10 @@ void tasks_run_one (string filename)
     sprint_burndown ("", false);
   } else if (command == CHECKBIBLE) {
     checks_run (parameter1);
-  } else if (command == EXPORTHTML) {
-    export_web (parameter1, convert_to_int (parameter2));
+  } else if (command == EXPORTWEBMAIN) {
+    export_web_book (parameter1, convert_to_int (parameter2));
+  } else if (command == EXPORTWEBINDEX) {
+    export_web_index (parameter1);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

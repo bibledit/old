@@ -33,9 +33,10 @@
 #include <html/text.h>
 #include <html/header.h>
 #include <locale/translate.h>
+#include <styles/sheets.h>
 
 
-void export_web (string bible, int book)
+void export_web_book (string bible, int book)
 {
   Database_Bibles database_bibles;
 
@@ -69,7 +70,7 @@ void export_web (string bible, int book)
   Html_Text html_text_rich_book_index = Html_Text (bibleBookText);
   Html_Header htmlHeader = Html_Header (&html_text_rich_book_index);
   htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
-  // Todo htmlHeader->create (array (array (bible, filter_url_html_file_name_bible ()), array (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()) ));
+  htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()) });
   html_text_rich_book_index.newParagraph ("navigationbar");
   html_text_rich_book_index.addText ("|");
   
@@ -93,7 +94,7 @@ void export_web (string bible, int book)
     // Create breadcrumbs for the chapter.
     Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);
     htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + to_string (chapter));
-    // Todo htmlHeader.create (array (array (bible, filter_url_html_file_name_bible ()), array (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()), array (chapter, filter_url_html_file_name_bible ("", book))));
+    htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()), make_pair (to_string (chapter), filter_url_html_file_name_bible ("", book))});
     
     // Create interlinked html for the chapter.
     filter_text_chapter.run (stylesheet);
@@ -104,9 +105,75 @@ void export_web (string bible, int book)
   }
   
   
-  // Save the book index. Todo give the index a new name so it sorts at the top of the chapters.
+  // Save the book index.
   html_text_rich_book_index.save (filter_url_html_file_name_bible (directory, book));
   
   
   Database_Logs::log (translate("Exported to web") + " " + bible + " " + Export_Logic::baseBookFileName (book), Filter_Roles::translator ());
+}
+
+
+void export_web_index (string bible) // Todo
+{
+  // Create folders for the web export.
+  string directory = Export_Logic::webDirectory (bible);
+  if (!file_exists (directory)) filter_url_mkdir (directory);
+  
+  
+  // Filenames for the web file and stylesheet.
+  string indexFile = filter_url_create_path (directory, "index.html");
+  string index00 = filter_url_create_path (directory, "00_index.html");
+  string filecss = filter_url_create_path (directory, "stylesheet.css");
+  
+  
+  Database_Bibles database_bibles;
+  
+  
+  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  
+  
+  // Create stylesheet.
+  Styles_Sheets styles_sheets;
+  styles_sheets.create (stylesheet, filecss, false, bible);
+  
+  
+  string backLinkPath = Export_Logic::webBackLinkDirectory (bible);
+  
+  
+  // Main index file.
+  Html_Text html_text_rich_bible_index = Html_Text (bible);
+  // On top are the breadcrumbs, starting with a clickable Bible name.
+  Html_Header htmlHeader = Html_Header (&html_text_rich_bible_index);
+  htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
+  htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ())});
+  
+  
+  // Prepare for the list of books in de html index file.
+  html_text_rich_bible_index.newParagraph ("navigationbar");
+  html_text_rich_bible_index.addText (" |");
+  
+  
+  // Go through the Bible books.
+  vector <int> books = database_bibles.getBooks (bible);
+  for (auto book : books) {
+    // Add this book to the main web index.
+    html_text_rich_bible_index.addLink (html_text_rich_bible_index.currentPDomElement,  filter_url_html_file_name_bible ("", book), "", Database_Books::getEnglishFromId (book), "", " " + Database_Books::getEnglishFromId (book) + " ");
+    html_text_rich_bible_index.addText ("|");
+  }
+  
+  
+  // Save index file for the interlinked web export.
+  Database_Logs::log ("exports: Create index file for interlinked Web");
+  html_text_rich_bible_index.save (indexFile);
+  html_text_rich_bible_index.save (index00);
+  
+  
+  // Lens image supporting search.
+  string lenspath = filter_url_create_root_path ("webbible", "lens.png");
+  string contents = filter_url_file_get_contents (lenspath);
+  lenspath = filter_url_create_path (directory, "lens.png");
+  filter_url_file_put_contents (lenspath, contents);
+
+  
+  Database_Logs::log (translate("Web export index") + " bible", Filter_Roles::translator ());
 }

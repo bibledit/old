@@ -60,23 +60,23 @@ void Styles_Sheets::recreate ()
   vector <string> stylesheets = database_styles.getSheets ();
   for (auto & stylesheet : stylesheets) {
     string path = get_location (stylesheet, false);
-    create (stylesheet, path, false, false);
+    create (stylesheet, path, false, "");
     path = get_location (stylesheet, true);
-    create (stylesheet, path, true, false);
+    create (stylesheet, path, true, "");
   }
 }
 
 
-void Styles_Sheets::create (string stylesheet, string path, bool editor, bool export_bible)
+void Styles_Sheets::create (string stylesheet, string path, bool editor, string export_bible) // Todo striing for last.
 {
   Webserver_Request request;
   Styles_Css styles_css = Styles_Css (&request, stylesheet);
   if (editor) {
     styles_css.editor ();
   }
-  if (export_bible) {
+  if (!export_bible.empty ()) {
     styles_css.exports ();
-    //styles_css.customize (export_bible); // C++Later : See how the Bible as a string comes in here, and what it does.
+    styles_css.customize (export_bible); // Todo : See how the Bible as a string comes in here, and what it does.
     styles_css.customize ("");
   }
   styles_css.generate ();

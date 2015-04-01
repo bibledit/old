@@ -50,7 +50,7 @@ void Html_Header::searchBackLink (string url, string text)
 }
 
 
-void Html_Header::create (const vector <string> & breadcrumbs)
+void Html_Header::create (const map <string, string> & breadcrumbs)
 {
   Html_Text * html_text = (Html_Text *) htmlText;
   xmlNodePtr tableElement = html_text->newTable ();
@@ -64,7 +64,7 @@ void Html_Header::create (const vector <string> & breadcrumbs)
       xmlAddChild (spanElement, textnode);
       xmlAddChild (tableDataElement, spanElement);
     }
-    // Todo html_text->addLink (tableDataElement, breadcrumb [1], "", breadcrumb [0], "", ' ' . breadcrumb [0] . ' ');
+    html_text->addLink (tableDataElement, breadcrumb.second, "", breadcrumb.first, "", ' ' + breadcrumb.first + ' ');
     crumbAdded = true;
   }
   tableDataElement = html_text->newTableData (tableRowElement, true);

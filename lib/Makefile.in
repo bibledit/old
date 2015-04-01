@@ -261,7 +261,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	export/info.$(OBJEXT) export/logic.$(OBJEXT) \
 	export/odt.$(OBJEXT) export/onlinebible.$(OBJEXT) \
 	export/textusfm.$(OBJEXT) export/usfm.$(OBJEXT) \
-	export/web.$(OBJEXT) export/web0.$(OBJEXT)
+	export/web.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -780,8 +780,7 @@ libbibledit_a_SOURCES = \
 	export/onlinebible.cpp \
 	export/textusfm.cpp \
 	export/usfm.cpp \
-	export/web.cpp \
-	export/web0.cpp
+	export/web.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1812,8 +1811,6 @@ export/usfm.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
 export/web.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
-export/web0.$(OBJEXT): export/$(am__dirstamp) \
-	export/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2098,7 +2095,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/textusfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/web.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/web0.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/abbreviations.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/archive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/bibleworks.Po@am__quote@
