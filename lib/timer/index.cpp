@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <changes/logic.h>
 #include <checks/logic.h>
+#include <export/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -120,6 +121,12 @@ void timer_index ()
       // It takes a few minutes on a production machine.
       if ((hour == 0) && (minute == 50)) {
         tasks_logic_queue (MAINTAINDATABASE);
+      }
+      
+      // Export the Bibles to the various output formats.
+      // This may take an hour on a production machine.
+      if ((hour == 1) && (minute == 10)) {
+        Export_Logic::scheduleAll ();
       }
       
       // Delete temporal files older than a few days.

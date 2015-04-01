@@ -67,7 +67,7 @@ void Styles_Sheets::recreate ()
 }
 
 
-void Styles_Sheets::create (string stylesheet, string path, bool editor, string export_bible) // Todo striing for last.
+void Styles_Sheets::create (string stylesheet, string path, bool editor, string export_bible)
 {
   Webserver_Request request;
   Styles_Css styles_css = Styles_Css (&request, stylesheet);
@@ -76,7 +76,7 @@ void Styles_Sheets::create (string stylesheet, string path, bool editor, string 
   }
   if (!export_bible.empty ()) {
     styles_css.exports ();
-    styles_css.customize (export_bible); // Todo : See how the Bible as a string comes in here, and what it does.
+    styles_css.customize (export_bible);
     styles_css.customize ("");
   }
   styles_css.generate ();

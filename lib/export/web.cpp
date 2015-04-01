@@ -113,7 +113,7 @@ void export_web_book (string bible, int book)
 }
 
 
-void export_web_index (string bible) // Todo
+void export_web_index (string bible)
 {
   // Create folders for the web export.
   string directory = Export_Logic::webDirectory (bible);
@@ -163,7 +163,6 @@ void export_web_index (string bible) // Todo
   
   
   // Save index file for the interlinked web export.
-  Database_Logs::log ("exports: Create index file for interlinked Web");
   html_text_rich_bible_index.save (indexFile);
   html_text_rich_bible_index.save (index00);
   
@@ -175,5 +174,5 @@ void export_web_index (string bible) // Todo
   filter_url_file_put_contents (lenspath, contents);
 
   
-  Database_Logs::log (translate("Web export index") + " bible", Filter_Roles::translator ());
+  Database_Logs::log (translate("Exported to web") + " " + bible + " Index", Filter_Roles::translator ());
 }

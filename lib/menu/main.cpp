@@ -231,7 +231,7 @@ vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 }
 
 
-vector <Menu_Main_Item> * Menu_Main::exportssubmenu () // Todo
+vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (manage_exports_acl (webserver_request)) menu->push_back ( { "", manage_exports_url (), translate ("Manage"), NULL } );
