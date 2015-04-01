@@ -50,6 +50,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/run.h>
 #include <export/index.h>
 #include <export/web.h>
+#include <export/html.h>
 
 
 mutex mutex_tasks; 
@@ -152,6 +153,8 @@ void tasks_run_one (string filename)
     export_web_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTWEBINDEX) {
     export_web_index (parameter1);
+  } else if (command == EXPORTHTML) {
+    export_html_book (parameter1, convert_to_int (parameter2));
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }
