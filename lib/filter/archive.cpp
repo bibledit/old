@@ -49,10 +49,12 @@ string filter_archive_zip_file (string filename)
 string filter_archive_zip_folder (string folder)
 {
   if (!file_exists (folder)) return "";
+  cout << folder << endl; // Todo perhaps to remove the ./ bit if a path starts with it.
   string zippedfile = filter_url_tempfile () + ".zip";
   string logfile = filter_url_tempfile () + ".log";
   folder = filter_url_escape_shell_argument (folder);
   string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
+  cout << command << endl; // Todo
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
