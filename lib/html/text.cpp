@@ -53,7 +53,7 @@ Html_Text::Html_Text (string title)
 
   node = xmlNewNode (NULL, BAD_CAST "title");
   xmlAddChild (headDomNode, node);
-  textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (title).c_str());
+  textnode = xmlNewText(BAD_CAST title.c_str());
   xmlAddChild (node, textnode);
 
   // <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -108,7 +108,6 @@ void Html_Text::addText (string text, xmlNodePtr domNode)
   if (text != "") {
     if (!currentPDomElement) newParagraph ();
     xmlNodePtr spanDomElement = xmlNewNode (NULL, BAD_CAST "span");
-    // xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str()); Todo
     xmlNodePtr textnode = xmlNewText(BAD_CAST text.c_str());
     xmlAddChild (spanDomElement, textnode);
     xmlAddChild (currentPDomElement, spanDomElement);
@@ -220,7 +219,7 @@ void Html_Text::addNoteText (string text)
   if (text != "") {
     if (!notePDomElement) addNote ("?", "");
     xmlNodePtr spanDomElement = xmlNewNode (NULL, BAD_CAST "span");
-    xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
+    xmlNodePtr textnode = xmlNewText(BAD_CAST text.c_str());
     xmlAddChild (spanDomElement, textnode);
     xmlAddChild (notePDomElement, spanDomElement);
     if (!currentNoteTextStyle.empty ()) {
@@ -254,7 +253,7 @@ void Html_Text::addLink (xmlNodePtr domNode, string reference, string identifier
   xmlNewProp (aDomElement, BAD_CAST "id", BAD_CAST identifier.c_str());
   if (!title.empty ()) xmlNewProp (aDomElement, BAD_CAST "title", BAD_CAST title.c_str());
   if (style != "") xmlNewProp (aDomElement, BAD_CAST "class", BAD_CAST style.c_str());
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
+  xmlNodePtr textnode = xmlNewText(BAD_CAST text.c_str());
   xmlAddChild (aDomElement, textnode);
 }
 
@@ -351,7 +350,7 @@ void Html_Text::newNamedHeading (string style, string text, bool hide)
   if (hide) {};
   xmlNodePtr textHDomElement = xmlNewNode (NULL, BAD_CAST style.c_str());
   xmlAddChild (bodyDomNode, textHDomElement);
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
+  xmlNodePtr textnode = xmlNewText(BAD_CAST text.c_str());
   xmlAddChild (textHDomElement, textnode);
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
   currentPDomElement = NULL;
