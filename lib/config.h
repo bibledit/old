@@ -28,6 +28,9 @@
 /* Define whether to build for iOS */
 /* #undef HAVE_IOS */
 
+/* Define whether libproc.h is present */
+#define HAVE_LIBPROC 1
+
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 

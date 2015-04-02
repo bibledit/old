@@ -320,6 +320,12 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setExportPassword (bible, password);
     view.set_variable ("success", translate("The password for securing exports was saved."));
   }
+  // If the password is needed, but not set, set a default password.
+  if (Database_Config_Bible::getSecureUsfmExport (bible) || Database_Config_Bible::getSecureOdtExport (bible)) {
+    if (Database_Config_Bible::getExportPassword (bible).empty ()) {
+      Database_Config_Bible::setExportPassword (bible, "password");
+    }
+  }
   view.set_variable ("password", Database_Config_Bible::getExportPassword (bible));
                      
 

@@ -6203,6 +6203,15 @@ fi
 
 
 
+ac_fn_cxx_check_header_mongrel "$LINENO" "libproc.h" "ac_cv_header_libproc_h" "$ac_includes_default"
+if test "x$ac_cv_header_libproc_h" = xyes; then :
+
+$as_echo "#define HAVE_LIBPROC 1" >>confdefs.h
+
+fi
+
+
+
 
 $as_echo "#define DIRECTORY_SEPARATOR \"/\"" >>confdefs.h
 

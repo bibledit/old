@@ -96,10 +96,8 @@ void export_usfm (string bible)
   // Compress USFM files into one zip file.
   string zipfile = filter_url_create_path (usfmDirectoryFull, Export_Logic::baseBookFileName (0) + ".zip");
   filter_url_unlink (zipfile);
-  cout << usfmDirectoryFull << endl; // Todo
   string archive = filter_archive_zip_folder (usfmDirectoryFull);
   filter_url_rename (archive, zipfile);
-  cout << archive << endl; // Todo
   
   
   if (Database_Config_Bible::getSecureUsfmExport (bible)) {
@@ -112,7 +110,7 @@ void export_usfm (string bible)
     for (auto file : files) {
       if (file != basefile) filter_url_unlink (filter_url_create_path (usfmDirectoryFull, file));
     }
-    string password = filter_url_escape_shell_argument (Database_Config_Bible::getExportPassword (bible));
+    string password = Database_Config_Bible::getExportPassword (bible);
     string output, error;
     filter_shell_run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", basefile}, output, error);
     filter_url_unlink (zipfile);

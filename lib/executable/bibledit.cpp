@@ -21,6 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/url.h>
 #include <config/logic.h>
+#include <unistd.h>
+#include <config.h>
+#ifdef HAVE_LIBPROC
+#include <libproc.h>
+#endif
 
 
 void sigint_handler (int s)
@@ -45,13 +50,28 @@ int main (int argc, char **argv)
   sigaction (SIGINT, &sigIntHandler, NULL);
 
   // Get the executable path and base the document root on it.
-  // Mac OS X: NSGetExecutablePath()
-  char *linkname = (char *) malloc (256);
-  memset (linkname, 0, 256); // valgrind uninitialized value(s)
-  ssize_t r = readlink ("/proc/self/exe", linkname, 256);
-  if (r) {};
-  bibledit_set_web_root (filter_url_dirname (linkname).c_str());
-  free (linkname);
+  {
+    // The following works on Linux but not on Mac OS X:
+    char *linkname = (char *) malloc (256);
+    memset (linkname, 0, 256); // valgrind uninitialized value(s)
+    ssize_t r = readlink ("/proc/self/exe", linkname, 256);
+    if (r) {};
+    bibledit_set_web_root (filter_url_dirname (linkname).c_str());
+    free (linkname);
+  }
+  {
+#ifdef HAVE_LIBPROC
+    // The following works on Linux plus on Mac OS X:
+    int ret;
+    pid_t pid;
+    char pathbuf [2048];
+    pid = getpid ();
+    ret = proc_pidpath (pid, pathbuf, sizeof (pathbuf));
+    if (ret > 0 ) {
+      bibledit_set_web_root (filter_url_dirname (pathbuf).c_str());
+    }
+#endif
+  }
 
   // Start the Bibledit library.
   bibledit_start_library ();

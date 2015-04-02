@@ -74,7 +74,6 @@ void bibledit_set_touch_enabled (bool enabled)
   // so set it greater than or smaller than zero to have effect.
   if (enabled) config_globals_touch_enabled = 1;
   else config_globals_touch_enabled = -1;
-
 }
 
 

@@ -31,7 +31,8 @@ string filter_shell_escape_argument (string argument)
 }
 
 
-int filter_shell_run (string directory, string command, const vector <string> parameters, string & output, string & error)
+int filter_shell_run (string directory, string command, const vector <string> parameters,
+                      string & output, string & error)
 {
   command = filter_shell_escape_argument (command);
   if (!directory.empty ()) {
@@ -42,9 +43,7 @@ int filter_shell_run (string directory, string command, const vector <string> pa
     parameter = filter_shell_escape_argument (parameter);
     command.append (" " + parameter);
   }
-  // The process changes directory, so the output pipes need to be in a well-known directory,
-  // rather than in a relative directory name, like "./tmp/pipe.out".
-  string pipe = filter_url_tempfile ("/tmp");
+  string pipe = filter_url_tempfile ();
   string stdout = pipe + ".out";
   string stderr = pipe + ".err";
   command.append (" > " + stdout);
