@@ -270,7 +270,7 @@ void test_database_logs ()
     vector <string> result = database_logs.get (0, s);
     if (result.size () == 1) {
       string s = result[0];
-      size_t pos = s.find ("This entry was too large and has been truncated: 10013 bytes");
+      size_t pos = s.find ("This entry was too large and has been truncated: 10000 bytes");
       if (pos == string::npos) {
         error_message (__LINE__, __func__, "Should be truncated", s);
       }

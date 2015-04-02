@@ -1598,8 +1598,9 @@ void test_client_logic ()
     bool enabled = client_logic_client_enabled ();
     evaluate (__LINE__, __func__, false, enabled);
     client_logic_enable_client (true);
+    // When a client is disabled in config.h, it remains disabled, no matter the setting in the database.
     enabled = client_logic_client_enabled ();
-    evaluate (__LINE__, __func__, true, enabled);
+    evaluate (__LINE__, __func__, false, enabled);
     client_logic_enable_client (false);
     enabled = client_logic_client_enabled ();
     evaluate (__LINE__, __func__, false, enabled);

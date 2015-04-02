@@ -2243,8 +2243,8 @@ void test_filters_passage2 ()
   // InterpretBookPartialNames.
   {
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("G"));
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("g"));
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("ge"));
+    evaluate (__LINE__, __func__, 37, filter_passage_interpret_book ("g"));
+    evaluate (__LINE__, __func__, 3, filter_passage_interpret_book ("ge"));
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("gene"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1 Cori"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1 cori"));
@@ -2297,7 +2297,7 @@ void test_filters_passage2 ()
     output = filter_passage_interpret_passage (currentPassage, "");
     evaluate (__LINE__, __func__, true, standard.equal (output));
 
-    standard = Passage ("", 0, 1, "1");
+    standard = Passage ("", 1, 1, "1");
     output = filter_passage_interpret_passage (currentPassage, "Genesis Exodus");
     evaluate (__LINE__, __func__, true, standard.equal (output));
 
