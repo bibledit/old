@@ -109,7 +109,7 @@ void export_web_book (string bible, int book)
   html_text_rich_book_index.save (filter_url_html_file_name_bible (directory, book));
   
   
-  Database_Logs::log (translate("Exported to web") + " " + bible + " " + Export_Logic::baseBookFileName (book), Filter_Roles::translator ());
+  Database_Logs::log (translate("Exported to web") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }
 
 
@@ -174,5 +174,5 @@ void export_web_index (string bible)
   filter_url_file_put_contents (lenspath, contents);
 
   
-  Database_Logs::log (translate("Exported to web") + " " + bible + " Index", Filter_Roles::translator ());
+  Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", Filter_Roles::translator ());
 }

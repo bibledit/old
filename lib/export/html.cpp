@@ -95,5 +95,5 @@ void export_html_book (string bible, int book)
   filter_text.html_text_standard->save (filename);
   
   
-  Database_Logs::log (translate("Exported to html") + " " + bible + " " + Export_Logic::baseBookFileName (book), Filter_Roles::translator ());
+  Database_Logs::log (translate("Exported to html") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }

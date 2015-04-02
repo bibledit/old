@@ -117,5 +117,5 @@ void export_usfm (string bible)
   }
   
   
-  Database_Logs::log (bible + ": " + translate("Exported to USFM"), Filter_Roles::translator ());
+  Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + translate("All books"), Filter_Roles::translator ());
 }

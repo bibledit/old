@@ -116,5 +116,5 @@ void export_text_usfm_book (string bible, int book) // Todo
   filter_text_book.text_text->save (textFilename);
   
   
-  Database_Logs::log (bible + " " + Export_Logic::baseBookFileName (book) + ": " + translate("Exported to basic USFM and text"), Filter_Roles::translator ());
+  Database_Logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }
