@@ -108,7 +108,8 @@ void Html_Text::addText (string text, xmlNodePtr domNode)
   if (text != "") {
     if (!currentPDomElement) newParagraph ();
     xmlNodePtr spanDomElement = xmlNewNode (NULL, BAD_CAST "span");
-    xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
+    // xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str()); Todo
+    xmlNodePtr textnode = xmlNewText(BAD_CAST text.c_str());
     xmlAddChild (spanDomElement, textnode);
     xmlAddChild (currentPDomElement, spanDomElement);
     if (!currentTextStyle.empty ()) {
