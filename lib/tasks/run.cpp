@@ -52,6 +52,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/web.h>
 #include <export/html.h>
 #include <export/usfm.h>
+#include <export/textusfm.h>
 
 
 mutex mutex_tasks; 
@@ -158,6 +159,8 @@ void tasks_run_one (string filename)
     export_html_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTUSFM) {
     export_usfm (parameter1);
+  } else if (command == EXPORTTEXTUSFM) {
+    export_text_usfm_book (parameter1, convert_to_int (parameter2));
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

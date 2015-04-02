@@ -1009,7 +1009,6 @@
 		CAD4433B1AC95BC60005B8F6 /* onlinebible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = onlinebible.php; sourceTree = "<group>"; };
 		CAD4433C1AC95BC60005B8F6 /* textusfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = textusfm.cpp; sourceTree = "<group>"; };
 		CAD4433D1AC95BC60005B8F6 /* textusfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = textusfm.h; sourceTree = "<group>"; };
-		CAD4433E1AC95BC60005B8F6 /* textusfm.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = textusfm.php; sourceTree = "<group>"; };
 		CAD4433F1AC95BC60005B8F6 /* usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfm.cpp; sourceTree = "<group>"; };
 		CAD443401AC95BC60005B8F6 /* usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm.h; sourceTree = "<group>"; };
 		CAD443411AC95BC60005B8F6 /* usfm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = usfm.html; sourceTree = "<group>"; };
@@ -1796,7 +1795,6 @@
 				CAD4433B1AC95BC60005B8F6 /* onlinebible.php */,
 				CAD4433C1AC95BC60005B8F6 /* textusfm.cpp */,
 				CAD4433D1AC95BC60005B8F6 /* textusfm.h */,
-				CAD4433E1AC95BC60005B8F6 /* textusfm.php */,
 				CAD4433F1AC95BC60005B8F6 /* usfm.cpp */,
 				CAD443401AC95BC60005B8F6 /* usfm.h */,
 				CAD443411AC95BC60005B8F6 /* usfm.html */,
