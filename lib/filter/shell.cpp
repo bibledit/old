@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/shell.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <database/logs.h>
 
 
 string filter_shell_escape_argument (string argument)
@@ -31,8 +32,11 @@ string filter_shell_escape_argument (string argument)
 }
 
 
+// Runs shell $command in folder $directory, with $parameters.
+// If $output and $error are non-NULL, that is where the output of the shell command goes.
+// If they are NULL, the output of the shell command goes to the Journal.
 int filter_shell_run (string directory, string command, const vector <string> parameters,
-                      string & output, string & error)
+                      string * output, string * error)
 {
   command = filter_shell_escape_argument (command);
   if (!directory.empty ()) {
@@ -49,8 +53,18 @@ int filter_shell_run (string directory, string command, const vector <string> pa
   command.append (" > " + stdout);
   command.append (" 2> " + stderr);
   int result = system (command.c_str());
-  output = filter_url_file_get_contents (stdout);
-  error = filter_url_file_get_contents (stderr);
+  string contents = filter_url_file_get_contents (stdout);
+  if (output) {
+    output->assign (contents);
+  } else {
+    Database_Logs::log (contents);
+  }
+  contents = filter_url_file_get_contents (stderr);
+  if (error) {
+    error->assign (contents);
+  } else {
+    Database_Logs::log (contents);
+  }
   filter_url_unlink (stdout);
   filter_url_unlink (stderr);
   return result;

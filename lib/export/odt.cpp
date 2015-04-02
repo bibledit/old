@@ -34,7 +34,7 @@
 #include <styles/sheets.h>
 
 
-void export_odt_book (string bible, int book) // Todo
+void export_odt_book (string bible, int book)
 {
   // Create folders for the OpenDocument export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "opendocument");
@@ -100,34 +100,31 @@ void export_odt_book (string bible, int book) // Todo
   // Securing the OpenDocument export implies that the exported files are zipped and secured with a password.
   // It uses the external zip binary.
   bool secure = Database_Config_Bible::getSecureOdtExport (bible);
-  string password = filter_url_escape_shell_argument (Database_Config_Bible::getExportPassword (bible));
-  directory = filter_url_escape_shell_argument (directory);
-  /* Todo
-  basefile = filter_url_escape_shell_argument (basename (standardFilename));
-  @unlink ("standardFilename.zip");
+  string password = Database_Config_Bible::getExportPassword (bible);
+  string basefile = filter_url_basename (standardFilename);
+  filter_url_unlink (standardFilename + ".zip");
   if (secure) {
-    command = "cd directory; zip -P password basefile.zip basefile; rm basefile";
-    Tasks_Logic::save (command);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_url_unlink (standardFilename);
   }
-  basefile = filter_url_escape_shell_argument (basename (textOnlyFilename));
-  @unlink ("textOnlyFilename.zip");
+  basefile = filter_url_basename (textOnlyFilename);
+  filter_url_unlink (textOnlyFilename + ".zip");
   if (secure) {
-    command = "cd directory; zip -P password basefile.zip basefile; rm basefile";
-    Tasks_Logic::save (command);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_url_unlink (textOnlyFilename);
   }
-  basefile = filter_url_escape_shell_argument (basename (textAndCitationsFilename));
-  @unlink ("textAndCitationsFilename.zip");
+  basefile = filter_url_basename (textAndCitationsFilename);
+  filter_url_unlink (textAndCitationsFilename + ".zip");
   if (secure) {
-    command = "cd directory; zip -P password basefile.zip basefile; rm basefile";
-    Tasks_Logic::save (command);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_url_unlink (textAndCitationsFilename);
   }
-  basefile = filter_url_escape_shell_argument (basename (notesFilename));
-  @unlink ("notesFilename.zip");
+  basefile = filter_url_basename (notesFilename);
+  filter_url_unlink (notesFilename + ".zip");
   if (secure) {
-    command = "cd directory; zip -P password basefile.zip basefile; rm basefile";
-    Tasks_Logic::save (command);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_url_unlink (notesFilename);
   }
-   */
   
   
   Database_Logs::log (translate("Exported to OpenDocument files") + " " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());

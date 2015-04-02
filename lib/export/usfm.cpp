@@ -112,7 +112,7 @@ void export_usfm (string bible)
     }
     string password = Database_Config_Bible::getExportPassword (bible);
     string output, error;
-    filter_shell_run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", basefile}, output, error);
+    filter_shell_run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", basefile}, &output, &error);
     filter_url_unlink (zipfile);
   }
   

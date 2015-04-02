@@ -80,7 +80,7 @@ bool filter_git_init (string directory, bool bare)
   vector <string> parameters = {"init"};
   if (bare) parameters.push_back ("--bare");
   string output, error;
-  int result = filter_shell_run (directory, "git", parameters, output, error);
+  int result = filter_shell_run (directory, "git", parameters, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
   return (result == 0);
@@ -356,7 +356,7 @@ bool filter_git_remote_read (string url, string & error)
 
 #else
   string output;
-  result = filter_shell_run ("", "git", {"ls-remote", url}, output, error);
+  result = filter_shell_run ("", "git", {"ls-remote", url}, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
 #endif
@@ -449,7 +449,7 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
   return (result == 0);
 #else
   string output;
-  int result = filter_shell_run ("", "git", {"clone", url, path}, output, error);
+  int result = filter_shell_run ("", "git", {"clone", url, path}, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
   error.clear ();
@@ -514,7 +514,7 @@ bool filter_git_add_remove_all (string repository, string & error)
   return (result == 0);
 #else
   string output;
-  int result = filter_shell_run (repository, "git", {"add", "--all", "."}, output, error);
+  int result = filter_shell_run (repository, "git", {"add", "--all", "."}, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
   return (result == 0);
@@ -616,7 +616,7 @@ bool filter_git_commit (string repository, string user, string email, string mes
   user.clear ();
   email.clear ();
   string output;
-  result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, output, error);
+  result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, &output, &error);
   filter_git_check_error (error);
 #endif
 
@@ -629,7 +629,7 @@ bool filter_git_commit (string repository, string user, string email, string mes
 bool filter_git_commit (string repository, string message, vector <string> & messages)
 {
   string out, err;
-  int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, out, err);
+  int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, &out, &err);
   out = filter_string_trim (out);
   err = filter_string_trim (err);
   messages = filter_string_explode (out, '\n');
@@ -703,7 +703,7 @@ void filter_git_config_set_string (string repository, string name, string value)
   if (repo) git_repository_free (repo);
 #else
   string output, error;
-  filter_shell_run (repository, "git", {"config", name, value}, output, error);
+  filter_shell_run (repository, "git", {"config", name, value}, &output, &error);
 #endif
 }
 
@@ -817,7 +817,7 @@ vector <string> filter_git_status (string repository)
   
 #else
   string output, error;
-  filter_shell_run (repository, "git", {"status"}, output, error);
+  filter_shell_run (repository, "git", {"status"}, &output, &error);
   filter_git_check_error (error);
   paths = filter_string_explode (output, '\n');
 #endif
@@ -831,7 +831,7 @@ vector <string> filter_git_status (string repository)
 bool filter_git_pull (string repository, vector <string> & messages)
 {
   string out, err;
-  int result = filter_shell_run (repository, "git", {"pull"}, out, err);
+  int result = filter_shell_run (repository, "git", {"pull"}, &out, &err);
   out = filter_string_trim (out);
   err = filter_string_trim (err);
   messages = filter_string_explode (out, '\n');
@@ -848,7 +848,7 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
   string out, err;
   vector <string> parameters = {"push"};
   if (all) parameters.push_back ("--all");
-  int result = filter_shell_run (repository, "git", parameters, out, err);
+  int result = filter_shell_run (repository, "git", parameters, &out, &err);
   out = filter_string_trim (out);
   err = filter_string_trim (err);
   messages = filter_string_explode (out, '\n');
@@ -986,13 +986,13 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
   for (auto & unmerged_path : unmerged_paths) {
 
     string common_ancestor;
-    filter_shell_run (repository, "git", {"show", ":1:" + unmerged_path}, common_ancestor, error);
+    filter_shell_run (repository, "git", {"show", ":1:" + unmerged_path}, &common_ancestor, &error);
 
     string head_version;
-    filter_shell_run (repository, "git", {"show", ":2:" + unmerged_path}, head_version, error);
+    filter_shell_run (repository, "git", {"show", ":2:" + unmerged_path}, &head_version, &error);
     
     string merge_head_version;
-    filter_shell_run (repository, "git", {"show", ":3:" + unmerged_path}, merge_head_version, error);
+    filter_shell_run (repository, "git", {"show", ":3:" + unmerged_path}, &merge_head_version, &error);
     
     string mergeBase (common_ancestor);
     string userData (head_version);
