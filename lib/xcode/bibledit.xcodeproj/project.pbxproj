@@ -1003,7 +1003,6 @@
 		CAD443341AC95BC60005B8F6 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAD443361AC95BC60005B8F6 /* odt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = odt.cpp; sourceTree = "<group>"; };
 		CAD443371AC95BC60005B8F6 /* odt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = odt.h; sourceTree = "<group>"; };
-		CAD443381AC95BC60005B8F6 /* odt.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = odt.php; sourceTree = "<group>"; };
 		CAD443391AC95BC60005B8F6 /* onlinebible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = onlinebible.cpp; sourceTree = "<group>"; };
 		CAD4433A1AC95BC60005B8F6 /* onlinebible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = onlinebible.h; sourceTree = "<group>"; };
 		CAD4433B1AC95BC60005B8F6 /* onlinebible.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = onlinebible.php; sourceTree = "<group>"; };
@@ -1789,7 +1788,6 @@
 				CAD443341AC95BC60005B8F6 /* logic.h */,
 				CAD443361AC95BC60005B8F6 /* odt.cpp */,
 				CAD443371AC95BC60005B8F6 /* odt.h */,
-				CAD443381AC95BC60005B8F6 /* odt.php */,
 				CAD443391AC95BC60005B8F6 /* onlinebible.cpp */,
 				CAD4433A1AC95BC60005B8F6 /* onlinebible.h */,
 				CAD4433B1AC95BC60005B8F6 /* onlinebible.php */,
