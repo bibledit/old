@@ -57,6 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/info.h>
 #include <export/esword.h>
 #include <export/onlinebible.h>
+#include <manage/hyphenate.h>
 
 
 mutex mutex_tasks; 
@@ -173,6 +174,8 @@ void tasks_run_one (string filename)
     export_esword (parameter1);
   } else if (command == EXPORTONLINEBIBLE) {
     export_onlinebible (parameter1);
+  } else if (command == HYPHENATE) {
+    manage_hyphenate (parameter1, parameter2);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

@@ -62,6 +62,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/settings.h>
 #include <consistency/index.h>
 #include <manage/exports.h>
+#include <manage/hyphenation.h>
 
 
 /*
@@ -222,9 +223,8 @@ vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), translate ("Sync"), NULL } );
   if (index_listing_acl (webserver_request, "exports")) menu->push_back ( { "", index_listing_url ("exports"), translate ("Exports"), exportssubmenu () } );
-  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "manage/hyphenation", translate ("Hyphenation"), NULL } );
+  if (manage_hyphenation_acl (webserver_request)) menu->push_back ( { "", manage_hyphenation_url (), translate ("Hyphenation"), NULL } );
   // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "xrefs/index", translate ("Cross references"), NULL } );
-  // C++Port if (level >= Filter_Roles::admin ()) menu->push_back ( { "", "phpliteadmin/index", translate ("phpLiteAdmin"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;

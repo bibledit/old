@@ -497,7 +497,6 @@
 		CAA4D0E51A45A647003ABA25 /* archive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = archive.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D0F11A45A647003ABA25 /* folders.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = folders.php; sourceTree = "<group>"; };
 		CAA4D0F31A45A647003ABA25 /* hex.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hex.php; sourceTree = "<group>"; };
-		CAA4D0F41A45A647003ABA25 /* hyphenate.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hyphenate.php; sourceTree = "<group>"; };
 		CAA4D0F51A45A647003ABA25 /* java.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = java.php; sourceTree = "<group>"; };
 		CAA4D0F71A45A647003ABA25 /* md5.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
 		CAA4D0F81A45A647003ABA25 /* md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
@@ -625,8 +624,6 @@
 		CAA4D1CB1A45A648003ABA25 /* zh_TW.po */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = zh_TW.po; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D1CD1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D1CF1A45A648003ABA25 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = Makefile.am; path = ../Makefile.am; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
-		CAA4D1D81A45A648003ABA25 /* hyphenate.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = hyphenate.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D1D91A45A648003ABA25 /* hyphenation.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = hyphenation.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1DA1A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D1DB1A45A648003ABA25 /* indexing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indexing.cpp; sourceTree = "<group>"; };
 		CAA4D1DC1A45A648003ABA25 /* indexing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indexing.h; sourceTree = "<group>"; };
@@ -1060,6 +1057,10 @@
 		CAFE132E1A497AB200F0DB35 /* yes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = yes.cpp; sourceTree = "<group>"; };
 		CAFE132F1A497AB200F0DB35 /* yes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yes.h; sourceTree = "<group>"; };
 		CAFE13301A497B9800F0DB35 /* yes.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = yes.html; sourceTree = "<group>"; };
+		CAFEED031ACE961800D53BF3 /* hyphenation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hyphenation.cpp; sourceTree = "<group>"; };
+		CAFEED041ACE961800D53BF3 /* hyphenation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hyphenation.h; sourceTree = "<group>"; };
+		CAFEED051ACEA5E200D53BF3 /* hyphenate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hyphenate.cpp; sourceTree = "<group>"; };
+		CAFEED061ACEA5E200D53BF3 /* hyphenate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hyphenate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -1825,7 +1826,6 @@
 				CA442D021A553DA6006374D3 /* git.cpp */,
 				CA442D031A553DA6006374D3 /* git.h */,
 				CAA4D0F31A45A647003ABA25 /* hex.php */,
-				CAA4D0F41A45A647003ABA25 /* hyphenate.php */,
 				CAA4D0F51A45A647003ABA25 /* java.php */,
 				CAA4D0F71A45A647003ABA25 /* md5.cpp */,
 				CAA4D0F81A45A647003ABA25 /* md5.h */,
@@ -2126,8 +2126,10 @@
 				CAD443251AC95A840005B8F6 /* exports.cpp */,
 				CAD443491AC9650B0005B8F6 /* exports.html */,
 				CAD443261AC95A840005B8F6 /* exports.h */,
-				CAA4D1D81A45A648003ABA25 /* hyphenate.php */,
-				CAA4D1D91A45A648003ABA25 /* hyphenation.php */,
+				CAFEED051ACEA5E200D53BF3 /* hyphenate.cpp */,
+				CAFEED061ACEA5E200D53BF3 /* hyphenate.h */,
+				CAFEED031ACE961800D53BF3 /* hyphenation.cpp */,
+				CAFEED041ACE961800D53BF3 /* hyphenation.h */,
 				CAD4434A1AC965130005B8F6 /* hyphenation.html */,
 				CAA4D1DA1A45A648003ABA25 /* index.php */,
 				CAD4434B1AC9651E0005B8F6 /* index.html */,

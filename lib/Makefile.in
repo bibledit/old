@@ -187,7 +187,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	email/index.$(OBJEXT) email/send.$(OBJEXT) \
 	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
 	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
-	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
+	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
+	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
+	administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -256,12 +258,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
 	consistency/index.$(OBJEXT) consistency/input.$(OBJEXT) \
 	consistency/logic.$(OBJEXT) consistency/poll.$(OBJEXT) \
-	manage/exports.$(OBJEXT) export/esword.$(OBJEXT) \
-	export/html.$(OBJEXT) export/index.$(OBJEXT) \
-	export/info.$(OBJEXT) export/logic.$(OBJEXT) \
-	export/odt.$(OBJEXT) export/onlinebible.$(OBJEXT) \
-	export/textusfm.$(OBJEXT) export/usfm.$(OBJEXT) \
-	export/web.$(OBJEXT)
+	export/esword.$(OBJEXT) export/html.$(OBJEXT) \
+	export/index.$(OBJEXT) export/info.$(OBJEXT) \
+	export/logic.$(OBJEXT) export/odt.$(OBJEXT) \
+	export/onlinebible.$(OBJEXT) export/textusfm.$(OBJEXT) \
+	export/usfm.$(OBJEXT) export/web.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -637,6 +638,9 @@ libbibledit_a_SOURCES = \
 	user/account.cpp \
 	manage/indexing.cpp \
 	manage/users.cpp \
+	manage/exports.cpp \
+	manage/hyphenation.cpp \
+	manage/hyphenate.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -770,7 +774,6 @@ libbibledit_a_SOURCES = \
 	consistency/input.cpp \
 	consistency/logic.cpp \
 	consistency/poll.cpp \
-	manage/exports.cpp \
 	export/esword.cpp \
 	export/html.cpp \
 	export/index.cpp \
@@ -1343,6 +1346,12 @@ manage/indexing.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/users.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
+manage/exports.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/hyphenation.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/hyphenate.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
 administration/$(am__dirstamp):
 	@$(MKDIR_P) administration
 	@: > administration/$(am__dirstamp)
@@ -1783,8 +1792,6 @@ consistency/logic.$(OBJEXT): consistency/$(am__dirstamp) \
 	consistency/$(DEPDIR)/$(am__dirstamp)
 consistency/poll.$(OBJEXT): consistency/$(am__dirstamp) \
 	consistency/$(DEPDIR)/$(am__dirstamp)
-manage/exports.$(OBJEXT): manage/$(am__dirstamp) \
-	manage/$(DEPDIR)/$(am__dirstamp)
 export/$(am__dirstamp):
 	@$(MKDIR_P) export
 	@: > export/$(am__dirstamp)
@@ -2129,6 +2136,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/exports.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/indexing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/users.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@

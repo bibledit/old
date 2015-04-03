@@ -147,6 +147,9 @@ libbibledit_a_SOURCES = \
 	user/account.cpp \
 	manage/indexing.cpp \
 	manage/users.cpp \
+	manage/exports.cpp \
+	manage/hyphenation.cpp \
+	manage/hyphenate.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -280,7 +283,6 @@ libbibledit_a_SOURCES = \
 	consistency/input.cpp \
 	consistency/logic.cpp \
 	consistency/poll.cpp \
-	manage/exports.cpp \
 	export/esword.cpp \
 	export/html.cpp \
 	export/index.cpp \

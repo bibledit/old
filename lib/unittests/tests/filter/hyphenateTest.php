@@ -42,7 +42,7 @@ class filterHyphenateTest extends PHPUnit_Framework_TestCase
   }
 
 
-  public function testOne()
+  public function testOne() // Todo port the test.
   {
 $input = <<<'EOD'
 \s \nd UNkulunkulu\nd* u\add ba\add*xwayisa ngokulunga okungokwabantu 文字ab化け
