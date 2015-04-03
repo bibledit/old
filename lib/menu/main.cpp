@@ -63,6 +63,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <consistency/index.h>
 #include <manage/exports.h>
 #include <manage/hyphenation.h>
+#include <xrefs/index.h>
 
 
 /*
@@ -171,8 +172,6 @@ vector <Menu_Main_Item> * Menu_Main::notesmenu ()
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   if (notes_index_acl (request)) menu->push_back ( { "", notes_index_url (), translate ("List"), NULL } );
   if (notes_editsource_acl (request)) menu->push_back ( { "", notes_editsource_url (), translate ("Edit"), NULL } );
-  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/clean", translate ("Checks"), NULL } );
-  // C++Port if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "notes/import1", translate ("Import"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;
@@ -224,7 +223,7 @@ vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
   if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), translate ("Sync"), NULL } );
   if (index_listing_acl (webserver_request, "exports")) menu->push_back ( { "", index_listing_url ("exports"), translate ("Exports"), exportssubmenu () } );
   if (manage_hyphenation_acl (webserver_request)) menu->push_back ( { "", manage_hyphenation_url (), translate ("Hyphenation"), NULL } );
-  // C++Port if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "xrefs/index", translate ("Cross references"), NULL } );
+  if (xrefs_index_acl (webserver_request)) menu->push_back ( { "", xrefs_index_url (), translate ("Cross references"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;

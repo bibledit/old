@@ -292,7 +292,18 @@ libbibledit_a_SOURCES = \
 	export/onlinebible.cpp \
 	export/textusfm.cpp \
 	export/usfm.cpp \
-	export/web.cpp
+	export/web.cpp \
+	xrefs/clear.cpp \
+	xrefs/extract.cpp \
+	xrefs/help.cpp \
+	xrefs/index.cpp \
+	xrefs/insert.cpp \
+	xrefs/interpret.cpp \
+	xrefs/move.cpp \
+	xrefs/next.cpp \
+	xrefs/source.cpp \
+	xrefs/target.cpp \
+	xrefs/translate.cpp
 
 bin_PROGRAMS = server unittest
 
