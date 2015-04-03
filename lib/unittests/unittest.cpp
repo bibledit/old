@@ -265,8 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // Todo
-  test_hyphenate (); exit (0);
+  // test_filter_date (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -329,7 +328,8 @@ int main (int argc, char **argv)
   test_check_versification ();
   test_check_usfm ();
   test_filter_url  ();
-
+  test_hyphenate ();
+  
   // Output possible journal entries.
   refresh_sandbox (true);
   
