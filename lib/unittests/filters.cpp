@@ -4212,40 +4212,40 @@ void test_ipc_notes ()
 
 void test_filter_date ()
 {
-  // First Working Day Of Month
+  // First Business Day Of Month
   {
     // Sunday the 1st.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (1, 0));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (1, 0));
     // Monday the 1st.
-    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 1));
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 1));
     // Tuesday the 1st.
-    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 2));
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 2));
     // Wednesday the 1st.
-    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 3));
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 3));
     // Thirsday the 1st.
-    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 4));
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 4));
     // Friday the 1st.
-    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (1, 5));
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 5));
     // Saturday the 1st.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (1, 6));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (1, 6));
     // Sunday the 2nd.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (2, 0));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (2, 0));
     // Monday the 2nd.
-    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (2, 1));
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (2, 1));
     // Tuesday the 2nd.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (2, 2));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (2, 2));
     // Sunday the 3nd.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (3, 0));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (3, 0));
     // Monday the 3nd.
-    evaluate (__LINE__, __func__, true, filter_date_is_first_working_day_of_month (3, 1));
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (3, 1));
     // Tuesday the 3nd.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (3, 2));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (3, 2));
     // Sunday the 4nd.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (4, 0));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (4, 0));
     // Monday the 4nd.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (4, 1));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (4, 1));
     // Tuesday the 4nd.
-    evaluate (__LINE__, __func__, false, filter_date_is_first_working_day_of_month (4, 2));
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (4, 2));
   }
   // Last Business Day Of Month
   {
