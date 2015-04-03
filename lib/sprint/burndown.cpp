@@ -37,7 +37,7 @@
 // If no $bible is passed, it will do all Bibles.
 // If $mail is true, it will mail the burndown chart to the subscribed users.
 // If $mail is false, it decides on its own whether to mail the chart to the users.
-void sprint_burndown (string bible, bool email) // Todo
+void sprint_burndown (string bible, bool email)
 {
   int localseconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
   int year = filter_date_numerical_year (localseconds);
@@ -47,16 +47,15 @@ void sprint_burndown (string bible, bool email) // Todo
   int hour = filter_date_numerical_hour (localseconds);
   bool sprintstart = false;
   bool sprintfinish = false;
-  
 
   // Every Friday at 2 PM (14:00h) it sends email about the sprint progress.
   if ((weekday == 5) && (hour == 14)) email = true;
-  // On the first business day of the month, at 10 AM, send email about the start of the sprint. Todo
+  // On the first business day of the month, at 10 AM, send email about the start of the sprint.
   if (filter_date_is_first_business_day_of_month (monthday, weekday) && (hour == 10)) {
     email = true;
     sprintstart = true;
   }
-  // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint. Todo
+  // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint.
   if ((monthday == filter_date_get_last_business_day_of_month (year, month)) && (hour == 14)) {
     email = true;
     sprintfinish = true;

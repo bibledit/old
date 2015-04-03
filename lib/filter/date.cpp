@@ -145,7 +145,7 @@ int filter_date_local_seconds (int seconds)
 }
 
 
-bool filter_date_is_first_business_day_of_month (int monthday, int weekday) // Todo
+bool filter_date_is_first_business_day_of_month (int monthday, int weekday)
 {
   if (monthday == 1) {
     if (weekday == 1) return true;
@@ -162,7 +162,7 @@ bool filter_date_is_first_business_day_of_month (int monthday, int weekday) // T
 }
 
 
-int filter_date_get_last_business_day_of_month (int year, int month) // Todo
+int filter_date_get_last_business_day_of_month (int year, int month)
 {
   int myyear = year;
   int mymonth = month;
