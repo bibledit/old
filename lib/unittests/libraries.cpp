@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/versification.h>
 #include <checks/usfm.h>
 #include <checks/verses.h>
+#include <manage/hyphenate.h>
 
 
 void test_sqlite ()
@@ -2369,4 +2370,19 @@ void test_check_verses ()
     }
   }
   database_check.truncateOutput ("");
+}
+
+
+void test_hyphenate () // Todo
+{
+  vector <string> firstset = {"a", "e", "i", "o", "u"};
+  vector <string> secondset = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"};
+  string input =
+  "\\s \\nd UNkulunkulu\\nd* u\\add ba\\add*xwayisa ngokulunga okungokwabantu 文字ab化け\n"
+  "\\s Ukulunga okuku\\nd Kristu\\nd* אבabגד kuyinzuzo אבגד ab";
+  string output = hyphenate_at_transition (firstset, secondset, input);
+  string standard =
+  "\\s \\nd UNku­lu­nku­lu\\nd* u\\add ba\\add*­xwa­yi­sa ngo­ku­lu­nga oku­ngo­kwa­ba­ntu 文字a­b化け\n"
+  "\\s Uku­lu­nga oku­ku\\nd Kri­stu\\nd* אבa­bגד ku­yi­nzu­zo אבגד ab";
+  evaluate (__LINE__, __func__, standard, output);
 }

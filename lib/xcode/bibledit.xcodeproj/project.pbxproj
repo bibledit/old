@@ -783,7 +783,6 @@
 		CAA4D3C71A45A648003ABA25 /* stress */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = stress; sourceTree = "<group>"; };
 		CAA4D40B1A45A648003ABA25 /* fileTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = fileTest.php; sourceTree = "<group>"; };
 		CAA4D40C1A45A648003ABA25 /* hexTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hexTest.php; sourceTree = "<group>"; };
-		CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = hyphenateTest.php; sourceTree = "<group>"; };
 		CAA4D4111A45A648003ABA25 /* notesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = notesTest.php; sourceTree = "<group>"; };
 		CAA4D4121A45A648003ABA25 /* numericTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = numericTest.php; sourceTree = "<group>"; };
 		CAA4D4151A45A648003ABA25 /* stringTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = stringTest.php; sourceTree = "<group>"; };
@@ -2811,7 +2810,6 @@
 			children = (
 				CAA4D40B1A45A648003ABA25 /* fileTest.php */,
 				CAA4D40C1A45A648003ABA25 /* hexTest.php */,
-				CAA4D40E1A45A648003ABA25 /* hyphenateTest.php */,
 				CAA4D4111A45A648003ABA25 /* notesTest.php */,
 				CAA4D4121A45A648003ABA25 /* numericTest.php */,
 				CAA4D4151A45A648003ABA25 /* stringTest.php */,
