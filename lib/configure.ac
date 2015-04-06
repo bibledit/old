@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.111],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[1.0.113],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 
