@@ -38,7 +38,7 @@ const char * journal_index_url ()
 
 bool journal_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 

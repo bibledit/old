@@ -142,9 +142,12 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   // Start building the Workbench menu.
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   // Add the available configured Workbenches to the menu.
-  vector <string> workbenches = workbenchGetWorkbenches (request);
-  for (unsigned int i = 0; i < workbenches.size(); i++) {
-    menu->push_back ( {"", workbench_index_url () + "?bench=" + to_string (i), workbenches[i], NULL});
+  // The user's role should be sufficiently high.
+  if (workbench_organize_acl (request)) {
+    vector <string> workbenches = workbenchGetWorkbenches (request);
+    for (unsigned int i = 0; i < workbenches.size(); i++) {
+      menu->push_back ( {"", workbench_index_url () + "?bench=" + to_string (i), workbenches[i], NULL});
+    }
   }
   // Finally add the Workbench Organizer.
   if (workbench_organize_acl (request)) menu->push_back ( { "", workbench_organize_url (), translate ("Organize"), NULL } );
