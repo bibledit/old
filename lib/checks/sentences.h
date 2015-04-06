@@ -52,7 +52,6 @@ private:
   // State.
   int verseNumber;
   int currentPosition;
-  bool withinSentence;
   
   // Grapheme analysis.
   string grapheme;
