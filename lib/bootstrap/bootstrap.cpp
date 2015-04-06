@@ -166,6 +166,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <xrefs/translate.h>
 #include <xrefs/clear.h>
 #include <xrefs/insert.h>
+#include <xrefs/move.h>
+#include <xrefs/next.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -364,6 +366,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == consistency_input_url ()) && consistency_input_acl (request)) request->reply = consistency_input (request);
   else if ((url == xrefs_source_url ()) && xrefs_source_acl (request)) request->reply = xrefs_source (request);
   else if ((url == xrefs_target_url ()) && xrefs_target_acl (request)) request->reply = xrefs_target (request);
+  else if ((url == xrefs_move_url ()) && xrefs_move_acl (request)) request->reply = xrefs_move (request);
+  else if ((url == xrefs_next_url ()) && xrefs_next_acl (request)) request->reply = xrefs_next (request);
 
   // Forward the browser to the default home page.
   else {

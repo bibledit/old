@@ -3089,7 +3089,7 @@ void test_filter_diff ()
 }
 
 
-void test_filter_abbreviations () // Todo
+void test_filter_abbreviations ()
 {
   // Read ()
   {

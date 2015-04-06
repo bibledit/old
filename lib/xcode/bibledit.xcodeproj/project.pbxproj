@@ -1062,10 +1062,8 @@
 		CAFEED1E1ACEE12300D53BF3 /* interpret.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = interpret.html; sourceTree = "<group>"; };
 		CAFEED201ACEE12300D53BF3 /* move.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = move.cpp; sourceTree = "<group>"; };
 		CAFEED211ACEE12300D53BF3 /* move.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = move.h; sourceTree = "<group>"; };
-		CAFEED221ACEE12300D53BF3 /* move.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = move.php; sourceTree = "<group>"; };
 		CAFEED231ACEE12300D53BF3 /* next.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = next.cpp; sourceTree = "<group>"; };
 		CAFEED241ACEE12300D53BF3 /* next.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = next.h; sourceTree = "<group>"; };
-		CAFEED251ACEE12300D53BF3 /* next.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = next.php; sourceTree = "<group>"; };
 		CAFEED261ACEE12300D53BF3 /* source.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = source.cpp; sourceTree = "<group>"; };
 		CAFEED271ACEE12300D53BF3 /* source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = source.h; sourceTree = "<group>"; };
 		CAFEED291ACEE12300D53BF3 /* target.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = target.cpp; sourceTree = "<group>"; };
@@ -2987,10 +2985,8 @@
 				CAFEED1E1ACEE12300D53BF3 /* interpret.html */,
 				CAFEED201ACEE12300D53BF3 /* move.cpp */,
 				CAFEED211ACEE12300D53BF3 /* move.h */,
-				CAFEED221ACEE12300D53BF3 /* move.php */,
 				CAFEED231ACEE12300D53BF3 /* next.cpp */,
 				CAFEED241ACEE12300D53BF3 /* next.h */,
-				CAFEED251ACEE12300D53BF3 /* next.php */,
 				CAFEED261ACEE12300D53BF3 /* source.cpp */,
 				CAFEED271ACEE12300D53BF3 /* source.h */,
 				CAFEED291ACEE12300D53BF3 /* target.cpp */,
