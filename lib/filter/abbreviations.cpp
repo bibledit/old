@@ -22,13 +22,12 @@
 #include <filter/string.h>
 
 
-// This function reads the $data for the abbreviations per Bible.
-// It then transforms that data into an array of abbreviation => book identifier.
-// It returns that array.
-map <string, int> filter_abbreviations_read (string data)
+// This function reads the $data for the Bible book abbreviations.
+// It then transforms that data into pairs of <book identifier, abbreviation>.
+// It returns them as a vector.
+vector <pair <int, string> > filter_abbreviations_read (string data)
 {
-  map <string, int> output;
-  
+  vector <pair <int, string> > output;
   vector <string> v_data = filter_string_explode (data, '\n');
   for (string & entry : v_data) {
     if (entry.empty ()) continue;
@@ -40,11 +39,8 @@ map <string, int> filter_abbreviations_read (string data)
     if (book == 0) continue;
     string abbrev = filter_string_trim (v_entry [1]);
     if (abbrev == "") continue;
-    // Array (book => abbrev) does not support multiple abbreviations for one book,
-    // but array (abbrev => book) does.
-    output [abbrev] = book;
+    output.push_back (make_pair (book, abbrev));
   }
-  
   return output;
 }
 
@@ -56,7 +52,7 @@ map <string, int> filter_abbreviations_read (string data)
 // It presents everything for display to the user for editing and update.
 string filter_abbreviations_display (string data)
 {
-  map <string, int> m_data = filter_abbreviations_read (data);
+  vector <pair <int, string> > v_data = filter_abbreviations_read (data);
   
   vector <string> v_output;
   
@@ -64,9 +60,9 @@ string filter_abbreviations_display (string data)
   vector <int> books = Database_Books::getIDs ();
   for (int book : books) {
     bool found = false;
-    for (auto element : m_data) {
-      string abbreviation = element.first;
-      int bookId = element.second;
+    for (auto element : v_data) {
+      int bookId = element.first;
+      string abbreviation = element.second;
       if (book == bookId) {
         v_output.push_back (Database_Books::getEnglishFromId (book) + " = " + abbreviation);
         found = true;
@@ -79,4 +75,44 @@ string filter_abbreviations_display (string data)
   
   // Get data as a string for display.
   return filter_string_implode (v_output, "\n");
+}
+
+
+// Add $fullname and $abbreviation to the $existing abbreviations.
+// Return the result.
+string filter_abbreviations_add (string existing, string fullname, string abbreviation)
+{
+  existing = filter_abbreviations_display (existing);
+  existing += "\n" + fullname + " = " + abbreviation;
+  return existing;
+}
+
+
+// Sorts the $abbreviations, so that the longer abbrivations come first,
+// and the shorter ones follow.
+// It returns the sorted vector.
+vector <pair <int, string> > filter_abbreviations_sort (vector <pair <int, string> > abbreviations)
+{
+  vector <string> abbrevs;
+  vector <unsigned int> lengths;
+  for (auto & element : abbreviations) {
+    string abbrev = element.second;
+    abbrevs.push_back (abbrev);
+    int length = unicode_string_length (abbrev);
+    lengths.push_back (length);
+  }
+  quick_sort (lengths, abbrevs, 0, lengths.size ());
+  reverse (abbrevs.begin (), abbrevs.end ());
+
+  vector <pair <int, string> > output;
+  for (unsigned int i = 0; i < abbrevs.size (); i++) {
+    string abbrev = abbrevs [i];
+    for (auto & element : abbreviations) {
+      if (element.second == abbrev) {
+        int book = element.first;
+        output.push_back (make_pair (book, abbrev));
+      }
+    }
+  }
+  return output;
 }

@@ -3089,7 +3089,7 @@ void test_filter_diff ()
 }
 
 
-void test_filter_abbreviations ()
+void test_filter_abbreviations () // Todo
 {
   // Read ()
   {
@@ -3104,8 +3104,8 @@ void test_filter_abbreviations ()
     "\n"
     "Joshua =\n"
     "\n";
-    map <string, int> output = filter_abbreviations_read (input);
-    map <string, int> standard = { make_pair ("Ps.", 19), make_pair ("Exod.", 2), make_pair ("Psa.", 19) };
+    vector <pair <int, string> > output = filter_abbreviations_read (input);
+    vector <pair <int, string> > standard = { make_pair (19, "Ps."), make_pair (2, "Exod."), make_pair (19, "Psa.") };
     evaluate (__LINE__, __func__, standard, output);
   }
   // Display ()
@@ -3186,6 +3186,15 @@ void test_filter_abbreviations ()
     "Front Matter = \n"
     "Back Matter = \n"
     "Other Material = ";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Read 
+  {
+    vector <pair <int, string> > input =
+      { make_pair (1, "One"), make_pair (2, "Two"), make_pair (2, "Two."), make_pair (3, "3") };
+    vector <pair <int, string> > output = filter_abbreviations_sort (input);
+    vector <pair <int, string> > standard =
+      { make_pair (2, "Two."), make_pair (1, "One"), make_pair (2, "Two"), make_pair (3, "3") };
     evaluate (__LINE__, __func__, standard, output);
   }
 }

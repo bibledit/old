@@ -158,6 +158,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/exports.h>
 #include <manage/hyphenation.h>
 #include <xrefs/index.h>
+#include <xrefs/source.h>
+#include <xrefs/target.h>
+#include <xrefs/help.h>
+#include <xrefs/extract.h>
+#include <xrefs/interpret.h>
+#include <xrefs/translate.h>
+#include <xrefs/clear.h>
+#include <xrefs/insert.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -286,7 +294,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == user_notifications_url ()) && user_notifications_acl (request)) request->reply = user_notifications (request);
   else if ((url == user_account_url ()) && user_account_acl (request)) request->reply = user_account (request);
 
-  // Items not in any menu.
+  // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);
   else if ((url == search_search_url ()) && search_search_acl (request)) request->reply = search_search (request);
   else if ((url == search_select_url ()) && search_select_acl (request)) request->reply = search_select (request);
@@ -306,6 +314,12 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == checks_settingspatterns_url ()) && checks_settingspatterns_acl (request)) request->reply = checks_settingspatterns (request);
   else if ((url == checks_settingssentences_url ()) && checks_settingssentences_acl (request)) request->reply = checks_settingssentences (request);
   else if ((url == checks_suppress_url ()) && checks_suppress_acl (request)) request->reply = checks_suppress (request);
+  else if ((url == xrefs_help_url ()) && xrefs_help_acl (request)) request->reply = xrefs_help (request);
+  else if ((url == xrefs_extract_url ()) && xrefs_extract_acl (request)) request->reply = xrefs_extract (request);
+  else if ((url == xrefs_interpret_url ()) && xrefs_interpret_acl (request)) request->reply = xrefs_interpret (request);
+  else if ((url == xrefs_translate_url ()) && xrefs_translate_acl (request)) request->reply = xrefs_translate (request);
+  else if ((url == xrefs_clear_url ()) && xrefs_clear_acl (request)) request->reply = xrefs_clear (request);
+  else if ((url == xrefs_insert_url ()) && xrefs_insert_acl (request)) request->reply = xrefs_insert (request);
 
   // Downloads
   else if ((url == index_listing_url (url)) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
@@ -348,6 +362,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_click_url ()) && notes_click_acl (request)) request->reply = notes_click (request);
   else if ((url == consistency_poll_url ()) && consistency_poll_acl (request)) request->reply = consistency_poll (request);
   else if ((url == consistency_input_url ()) && consistency_input_acl (request)) request->reply = consistency_input (request);
+  else if ((url == xrefs_source_url ()) && xrefs_source_acl (request)) request->reply = xrefs_source (request);
+  else if ((url == xrefs_target_url ()) && xrefs_target_acl (request)) request->reply = xrefs_target (request);
 
   // Forward the browser to the default home page.
   else {

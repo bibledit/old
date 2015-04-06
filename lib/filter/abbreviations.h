@@ -24,8 +24,10 @@
 #include <config/libraries.h>
 
 
-map <string, int> filter_abbreviations_read (string data);
+vector <pair <int, string> > filter_abbreviations_read (string data);
 string filter_abbreviations_display (string data);
+string filter_abbreviations_add (string existing, string fullname, string abbreviation);
+vector <pair <int, string> > filter_abbreviations_sort (vector <pair <int, string> > abbreviations);
 
 
 #endif

@@ -79,49 +79,43 @@ string xrefs_index (void * webserver_request)
   }
   
   
-  @target = request->query["target"];
-  if (isset (target)) {
+  if (request->query.count ("target")) {
+    string target = request->query["target"];
     if (target == "") {
-      dialog_list = new Dialog_List2 (translate("Select which Bible to insert the cross references into"));
-      bibles = access_bible_bibles ();
-      for (bibles as bible) {
-        if (access_bible_write (bible)) {
-          dialog_list->add_row (bible, "&target=bible");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to insert the cross references into"), "", "");
+      vector <string> bibles = access_bible_bibles (webserver_request);
+      for (auto bible : bibles) {
+        if (access_bible_write (webserver_request, bible)) {
+          dialog_list.add_row (bible, "target", bible);
         }
       }
-      dialog_list->run();
+      page += dialog_list.run();
+      return page;
     } else {
       request->database_config_user()->setTargetXrefBible (target);
     }
   }
   
   
-  source = request->database_config_user()->getSourceXrefBible ();
-  if (!access_bible_read (source)) {
+  string source = request->database_config_user()->getSourceXrefBible ();
+  if (!access_bible_read (webserver_request, source)) {
     source = "";
     request->database_config_user()->setSourceXrefBible (source);
   }
-  target = request->database_config_user()->getTargetXrefBible ();
-  if (!access_bible_write (target)) {
+  string target = request->database_config_user()->getTargetXrefBible ();
+  if (!access_bible_write (webserver_request, target)) {
     target = "";
     request->database_config_user()->setTargetXrefBible (target);
   }
-  if (source == "") source = "--";
-  if (target == "") target = "--";
-  view.set_variable ("source = source;
-                      view.set_variable ("target = target;
+  if (source == "") source = "[" + translate ("select") + "]";
+  if (target == "") target = "[" + translate ("select") + "]";
+  view.set_variable ("source", source);
+  view.set_variable ("target", target);
                                           
                                           
-                                          view.set_variable ("success = success;
-                                                              view.set_variable ("error = error;
-                                                                                  
-                                                                                  
-                                                                                  view->render ("index");
-                                                                                  
-                                                                                  
-                                                                                  Assets_Page::footer ();
-
-  
+  view.set_variable ("success", success);
+  view.set_variable ("error", error);
+                                        
   
   page += view.render ("xrefs", "index");
   page += Assets_Page::footer ();
