@@ -51,7 +51,7 @@ bool xrefs_translate_acl (void * webserver_request)
 }
 
 
-string xrefs_translate (void * webserver_request) // Todo working here.
+string xrefs_translate (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -73,29 +73,27 @@ string xrefs_translate (void * webserver_request) // Todo working here.
   }
   
   
-  /* Todo
   string abbrevs = Database_Config_Bible::getBookAbbreviations (sourceBible);
-  map <string, int> sourceAbbreviations = filter_abbreviations_read (abbrevs);
-  vector <string> v_sourceAbbreviations;
-  for (auto element : sourceAbbreviations) v_sourceAbbreviations.push_back (element.first);
-  for (auto element : v_sourceAbbreviations) cout << element << endl; // Todo
-  
+  vector <pair <int, string> > sourceAbbreviations = filter_abbreviations_read (abbrevs);
+  vector <int> sourceBooks;
+  for (auto element : sourceAbbreviations) sourceBooks.push_back (element.first);
+
   
   abbrevs = Database_Config_Bible::getBookAbbreviations (targetBible);
-  map <string, int> targetAbbreviations = filter_abbreviations_read (abbrevs);
-  vector <string> v_targetAbbreviations;
-  for (auto element : targetAbbreviations) v_targetAbbreviations.push_back (element.first);
+  vector <pair <int, string> > targetAbbreviations = filter_abbreviations_read (abbrevs);
+  vector <int> targetBooks;
+  for (auto element : targetAbbreviations) targetBooks.push_back (element.first);
   
   
-  vector <string> unknown_abbreviations = filter_string_array_diff (v_sourceAbbreviations, v_targetAbbreviations);
-  unknown_abbreviations = array_unique (unknown_abbreviations);
+  vector <int> unknown_books = filter_string_array_diff (sourceBooks, targetBooks);
+  unknown_books = array_unique (unknown_books);
   
   
-  if (unknown_abbreviations.empty ()) {
+  if (unknown_books.empty ()) {
     redirect_browser (request, xrefs_clear_url ());
     return "";
   }
-*/
+
 
   string page;
   Assets_Header header = Assets_Header (translate("Cross references"), webserver_request);
@@ -103,10 +101,11 @@ string xrefs_translate (void * webserver_request) // Todo working here.
   Assets_View view = Assets_View ();
   
   
-  // Todo view.set_variable ("remaining", to_string (unknown_abbreviations.size () - 1));
+  view.set_variable ("remaining", to_string (unknown_books.size () - 1));
                       
-                      
-  // Todo view.set_variable ("bookname", unknown_abbreviations [0]);
+  
+  string bookname = Database_Books::getEnglishFromId (unknown_books [0]);
+  view.set_variable ("bookname", bookname);
   
   
   page += view.render ("xrefs", "translate");

@@ -65,44 +65,32 @@ string xrefs_insert (void * webserver_request)
   int chapter = Ipc_Focus::getChapter (webserver_request);
   
   
-  // Retrieve all abbreviations for the source Bible, sort them, longest first. Todo test sorting.
+  // Retrieve all abbreviations for the source Bible, sort them, longest first.
   // The replace routines replaces the longer strings first,
   // to be sure that no partial book abbreviations will be replaced before a fuller abbeviation.
-  string s_abbrevs = Database_Config_Bible::getBookAbbreviations (sourceBible);
-  vector <pair <int, string> > m_sourceAbbreviations = filter_abbreviations_read (s_abbrevs);
-  vector <string> v_sourceAbbreviations;
-  vector <unsigned int> lengths;
-  for (auto element : m_sourceAbbreviations) {
-    string abbrev = element.second;
-    v_sourceAbbreviations.push_back (abbrev);
-    int length = unicode_string_length (abbrev);
-    lengths.push_back (length);
-  }
-  quick_sort (lengths, v_sourceAbbreviations, 0, lengths.size ());
-  reverse (v_sourceAbbreviations.begin (), v_sourceAbbreviations.end ());
-
+  string abbrevs = Database_Config_Bible::getBookAbbreviations (sourceBible);
+  vector <pair <int, string> > sourceAbbreviations = filter_abbreviations_read (abbrevs);
+  sourceAbbreviations = filter_abbreviations_sort (sourceAbbreviations);
   
-  s_abbrevs = Database_Config_Bible::getBookAbbreviations (targetBible);
-  vector <pair <int, string> > targetAbbreviations = filter_abbreviations_read (s_abbrevs);
+  
+  abbrevs = Database_Config_Bible::getBookAbbreviations (targetBible);
+  vector <pair <int, string> > targetAbbreviations = filter_abbreviations_read (abbrevs);
 
 
-  /* Todo
   // Create array with book abbreviations to find, and one with their matching replacements.
   vector <string> find;
   vector <string> replace;
-  for (auto sourceAbbreviation : v_sourceAbbreviations) {
-    find.push_back (sourceAbbreviation);
-    int book = 0;
+  for (auto & element : sourceAbbreviations) {
+    int sourceBook = element.first;
+    string sourceAbbrev = element.second;
     for (auto & element : targetAbbreviations) {
-      
+      int targetBook = element.first;
+      string targetAbbrev = element.second;
+      if (sourceBook == targetBook) {
+        find.push_back (sourceAbbrev);
+        replace.push_back (targetAbbrev);
+      }
     }
-    
-    m_sourceAbbreviations [sourceAbbreviation];
-    string target = sourceAbbreviation;
-    for (auto element : targetAbbreviations) {
-      if (element.second == bk) target = element.first;
-    }
-    replace.push_back (target);
   }
   
   
@@ -132,43 +120,43 @@ string xrefs_insert (void * webserver_request)
     usfmMap [verse] = usfm_get_verse_text (usfmString, verse);
   }
   
-
+  
   // Go through each verse, through each note within that verse,
   // look at source location, define target location, and insert the xref.
   for (int verse : verses) {
     
     
     // Gather array of cross references for this verse, if any.
-    xrefs = array ();
-    reset (allxrefs);
-    for (allxrefs as xref) {
-      if (xref ['verse'] == verse) {
-        xrefs [] = array (xref ['offset'], xref ['text']);
+    vector <UsfmNote> notes;
+    for (unsigned int i = 0; i < allxrefs.size () - 2; i += 3) {
+      if (verse == convert_to_int (allxrefs[i])) {
+        int offset = convert_to_int (allxrefs [i + 1]);
+        string text = allxrefs [i + 2];
+        UsfmNote note = UsfmNote (offset, text);
+        notes.push_back (note);
       }
     }
-    if (empty (xrefs)) continue;
-    
+    if (notes.empty ()) continue;
+  
     
     // Get the USFM for the current verse in the target Bible, if any.
-    if (!isset (usfmArray [verse])) continue;
-    usfm = usfmArray [verse];
+    if (usfmMap.count (verse) == 0) continue;
+    string usfm = usfmMap [verse];
     
     
     // Get the length of the text of the verse in the source Bible without the xrefs.
     // Get the ratio for positioning the xrefs by comparing the lengths of source and target verse text.
-    sourceUsfm = request->database_bibles()->getChapter (sourceBible, book, chapter);
+    string sourceUsfm = request->database_bibles()->getChapter (sourceBible, book, chapter);
     sourceUsfm = usfm_get_verse_text (sourceUsfm, verse);
-    sourceUsfm = Filter_Usfm::removeNotes (sourceUsfm, array ("x"));
-    sourceLength = unicode_string_length (sourceUsfm);
-    targetLength = unicode_string_length (usfm);
-    ratio = targetLength / sourceLength;
+    sourceUsfm = usfm_remove_notes (sourceUsfm, {"x"});
+    float sourceLength = unicode_string_length (sourceUsfm);
+    float targetLength = unicode_string_length (usfm);
+    float ratio = targetLength / sourceLength;
     
     
     // Insert the notes.
-    usfm = Filter_Usfm::insertNotes (usfm, xrefs, ratio);
-    usfmArray [verse] = usfm;
-    
-    
+    usfm = usfm_insert_notes (usfm, notes, ratio);
+    usfmMap [verse] = usfm;
   }
 
   
@@ -178,7 +166,6 @@ string xrefs_insert (void * webserver_request)
     usfm.append (element.second);
   }
   Bible_Logic::storeChapter (targetBible, book, chapter, usfm);
-   */
 
   
   string page;

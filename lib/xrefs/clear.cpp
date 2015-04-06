@@ -18,6 +18,7 @@
 
 
 #include <xrefs/clear.h>
+#include <xrefs/insert.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -84,7 +85,7 @@ string xrefs_clear (void * webserver_request)
   
   
   if (xrefs.empty ()) {
-    redirect_browser (request, "xrefs/insert"); // Todo
+    redirect_browser (request, xrefs_insert_url ());
     return "";
   }
 
