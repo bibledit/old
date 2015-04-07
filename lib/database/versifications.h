@@ -46,16 +46,6 @@ public:
   vector <int> getVerses (const string& name, int book, int chapter);
 private:
   sqlite3 * connect ();
-  void RussianCanonical (sqlite3 * db, const string& sql);
-  void DutchTraditional (sqlite3 * db, const string& sql);
-  void Vulgate (sqlite3 * db, const string& sql);
-  void RussianProtestant (sqlite3 * db, const string& sql);
-  void RussianOrthodox (sqlite3 * db, const string& sql);
-  void Septuagint (sqlite3 * db, const string& sql);
-  void English (sqlite3 * db, const string& sql);
-  void Spanish (sqlite3 * db, const string& sql);
-  void Original (sqlite3 * db, const string& sql);
-  void StatenBible (sqlite3 * db, const string& sql);
 };
 
 

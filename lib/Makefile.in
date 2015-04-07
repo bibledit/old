@@ -198,34 +198,34 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
 	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
 	fonts/index.$(OBJEXT) versification/index.$(OBJEXT) \
-	versification/system.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	editverse/id.$(OBJEXT) editverse/load.$(OBJEXT) \
-	editverse/save.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
-	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
-	editusfm/id.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/export.$(OBJEXT) editor/import.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
-	search/search.$(OBJEXT) search/index.$(OBJEXT) \
-	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
-	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
-	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
-	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
-	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
-	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
-	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
-	workbench/logic.$(OBJEXT) workbench/organize.$(OBJEXT) \
-	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
-	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
-	sendreceive/sendreceive.$(OBJEXT) \
+	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editverse/id.$(OBJEXT) \
+	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/id.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/export.$(OBJEXT) \
+	editor/import.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) search/search.$(OBJEXT) \
+	search/index.$(OBJEXT) search/select.$(OBJEXT) \
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
+	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
+	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
+	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
+	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
+	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
+	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
+	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
+	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
+	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/usfmresources.$(OBJEXT) \
 	sendreceive/externalresources.$(OBJEXT) \
@@ -662,6 +662,7 @@ libbibledit_a_SOURCES = \
 	fonts/index.cpp \
 	versification/index.cpp \
 	versification/system.cpp \
+	versification/logic.cpp \
 	book/create.cpp \
 	compare/index.cpp \
 	compare/compare.cpp \
@@ -1438,6 +1439,8 @@ versification/$(DEPDIR)/$(am__dirstamp):
 versification/index.$(OBJEXT): versification/$(am__dirstamp) \
 	versification/$(DEPDIR)/$(am__dirstamp)
 versification/system.$(OBJEXT): versification/$(am__dirstamp) \
+	versification/$(DEPDIR)/$(am__dirstamp)
+versification/logic.$(OBJEXT): versification/$(am__dirstamp) \
 	versification/$(DEPDIR)/$(am__dirstamp)
 book/$(am__dirstamp):
 	@$(MKDIR_P) book
@@ -2281,6 +2284,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/account.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/notifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/system.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/io.Po@am__quote@

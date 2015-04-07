@@ -168,6 +168,7 @@ libbibledit_a_SOURCES = \
 	fonts/index.cpp \
 	versification/index.cpp \
 	versification/system.cpp \
+	versification/logic.cpp \
 	book/create.cpp \
 	compare/index.cpp \
 	compare/compare.cpp \
