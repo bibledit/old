@@ -299,7 +299,8 @@ libbibledit_a_SOURCES = \
 	xrefs/next.cpp \
 	xrefs/source.cpp \
 	xrefs/target.cpp \
-	xrefs/translate.cpp
+	xrefs/translate.cpp \
+	webbible/search.cpp
 
 bin_PROGRAMS = server unittest
 

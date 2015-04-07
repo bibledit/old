@@ -34,7 +34,7 @@ public:
   Html_Header (void * html_text);
   ~Html_Header ();
   void searchBackLink (string url, string text);
-  void create (const map <string, string> & breadcrumbs);
+  void create (const vector <pair <string, string> > & breadcrumbs);
 private:
   void * htmlText;
   string searchBackLinkUrl;

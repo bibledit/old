@@ -50,7 +50,7 @@ void Html_Header::searchBackLink (string url, string text)
 }
 
 
-void Html_Header::create (const map <string, string> & breadcrumbs)
+void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
 {
   Html_Text * html_text = (Html_Text *) htmlText;
   xmlNodePtr tableElement = html_text->newTable ();
