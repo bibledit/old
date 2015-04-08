@@ -70,7 +70,7 @@ void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
   tableDataElement = html_text->newTableData (tableRowElement, true);
   xmlNodePtr formElement = xmlNewNode (NULL, BAD_CAST "form");
   xmlAddChild (tableDataElement, formElement);
-  xmlNewProp (formElement, BAD_CAST "action", BAD_CAST "../../../webbible/search");
+  xmlNewProp (formElement, BAD_CAST "action", BAD_CAST "/webbible/search");
   xmlNewProp (formElement, BAD_CAST "method", BAD_CAST "GET");
   xmlNewProp (formElement, BAD_CAST "name", BAD_CAST "search");
   xmlNewProp (formElement, BAD_CAST "id", BAD_CAST "search");

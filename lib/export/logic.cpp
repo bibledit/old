@@ -156,7 +156,7 @@ string Export_Logic::webDirectory (string bible)
 
 string Export_Logic::webBackLinkDirectory (string bible)
 {
-  return "../exports/" + bible + "/web/";
+  return "/exports/" + bible + "/web/";
 }
 
 

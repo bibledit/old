@@ -168,6 +168,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <xrefs/insert.h>
 #include <xrefs/move.h>
 #include <xrefs/next.h>
+#include <webbible/search.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -322,6 +323,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_translate_url ()) && xrefs_translate_acl (request)) request->reply = xrefs_translate (request);
   else if ((url == xrefs_clear_url ()) && xrefs_clear_acl (request)) request->reply = xrefs_clear (request);
   else if ((url == xrefs_insert_url ()) && xrefs_insert_acl (request)) request->reply = xrefs_insert (request);
+  else if ((url == webbible_search_url ()) && webbible_search_acl (request)) request->reply = webbible_search (request);
 
   // Downloads
   else if ((url == index_listing_url (url)) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
