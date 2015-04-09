@@ -33,6 +33,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define whether to build for OS X */
+#undef HAVE_OSX
+
 /* Define whether pthread.h is present */
 #undef HAVE_PTHREAD
 
@@ -62,6 +65,9 @@
 
 /* Define the network port number */
 #undef NETWORK_PORT
+
+/* Define whether it is to be built for OS X */
+#undef OSX
 
 /* Name of package */
 #undef PACKAGE

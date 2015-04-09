@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.114],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.115],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 
@@ -146,6 +146,17 @@ AC_DEFINE([IOS], [], [Define whether it is to be built for iOS])
 AC_DEFINE_UNQUOTED(IOS, "$IOS")
 AC_SUBST(IOS)
 
+# Build for OS X.
+OSX=no
+AC_ARG_ENABLE(osx,
+[  --enable-osx Enable OS X],
+[AC_DEFINE([HAVE_OSX], [1], [Define whether to build for OS X])]
+OSX=yes
+)
+AC_DEFINE([OSX], [], [Define whether it is to be built for OS X])
+AC_DEFINE_UNQUOTED(OSX, "$OSX")
+AC_SUBST(OSX)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -159,4 +170,5 @@ Demo installation (--enable-demo)                          : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
 Build for iOS (--enable-ios)                               : ${IOS}
+Build for OS X (--enable-osx)                              : ${OSX}
 "

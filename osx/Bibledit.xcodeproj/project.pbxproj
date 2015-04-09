@@ -11,10 +11,19 @@
 		CA8896E61AD55A57002EDC47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E51AD55A57002EDC47 /* main.m */; };
 		CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E81AD55A57002EDC47 /* ViewController.m */; };
 		CA8896EE1AD55A57002EDC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA8896EC1AD55A57002EDC47 /* Main.storyboard */; };
+		CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */; };
+		CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA941AD6C9CB00259D3E /* libz.dylib */; };
+		CA9AEA971AD6C9D400259D3E /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA961AD6C9D400259D3E /* libcurl.dylib */; };
+		CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA981AD6C9DC00259D3E /* libc++.dylib */; };
+		CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */; };
+		CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9AEA9C1AD6CB2200259D3E /* webroot */; };
 		CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC03BD81AD58BD100686640 /* Images.xcassets */; };
+		CAFC9ECA1AD6BF5F00AB49D8 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		CAFC9ECC1AD6C24300AB49D8 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA64A1BB1AD5A844003865C6 /* sync-build-libbibledit.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "sync-build-libbibledit.sh"; path = "scripts/sync-build-libbibledit.sh"; sourceTree = SOURCE_ROOT; };
 		CA8896DD1AD55A57002EDC47 /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA8896E11AD55A57002EDC47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA8896E21AD55A57002EDC47 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -23,7 +32,16 @@
 		CA8896E71AD55A57002EDC47 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		CA8896E81AD55A57002EDC47 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CA8896ED1AD55A57002EDC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		CA9AEA941AD6C9CB00259D3E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CA9AEA961AD6C9D400259D3E /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
+		CA9AEA981AD6C9DC00259D3E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		CA9AEA9C1AD6CB2200259D3E /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
 		CAC03BD81AD58BD100686640 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
+		CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
+		CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +49,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */,
+				CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */,
+				CA9AEA971AD6C9D400259D3E /* libcurl.dylib in Frameworks */,
+				CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */,
+				CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */,
+				CAFC9ECC1AD6C24300AB49D8 /* libcrypto.dylib in Frameworks */,
+				CAFC9ECA1AD6BF5F00AB49D8 /* libbibledit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +65,14 @@
 		CA8896D41AD55A57002EDC47 = {
 			isa = PBXGroup;
 			children = (
+				CA9AEA9C1AD6CB2200259D3E /* webroot */,
+				CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */,
+				CA9AEA981AD6C9DC00259D3E /* libc++.dylib */,
+				CA9AEA961AD6C9D400259D3E /* libcurl.dylib */,
+				CA9AEA941AD6C9CB00259D3E /* libz.dylib */,
+				CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */,
+				CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */,
+				CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */,
 				CA8896DF1AD55A57002EDC47 /* Bibledit */,
 				CA8896DE1AD55A57002EDC47 /* Products */,
 			);
@@ -61,7 +94,9 @@
 				CA8896E71AD55A57002EDC47 /* ViewController.h */,
 				CA8896E81AD55A57002EDC47 /* ViewController.m */,
 				CA8896EC1AD55A57002EDC47 /* Main.storyboard */,
+				CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */,
 				CAC03BD81AD58BD100686640 /* Images.xcassets */,
+				CA64A1BB1AD5A844003865C6 /* sync-build-libbibledit.sh */,
 				CA8896E01AD55A57002EDC47 /* Supporting Files */,
 			);
 			path = Bibledit;
@@ -134,6 +169,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */,
 				CA8896EE1AD55A57002EDC47 /* Main.storyboard in Resources */,
 				CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */,
 			);
@@ -249,6 +285,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Bibledit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/webroot",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -260,6 +300,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Bibledit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/webroot",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
