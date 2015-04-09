@@ -1,0 +1,22 @@
+Bibledit for OS X
+
+Introduction
+
+Bibledit has been working on OS X in various forms:
+* Bibledit-Gtk written for Linux and ported to Mac OS X.
+* Bibledit-Web written in PHP and adapted to run on Mac OS X.
+
+The current port of Bibledit for OS X consists of the following parts:
+* A native Bibledit OS X app.
+* The bibledit library written in C++, compiled for OS X.
+* The system web browser displaying pages through the bibledit library. 
+
+The bibledit library depends on libcurl. Bibledit should be linked with some version of libcurl. Not all versions of libcurl work equally well.
+* OS X 10.10 SDK libcurl.dylib: It initially works but after a few minutes of synchronizing with a Bibledit server it starts to time out, and stops working.
+* Macports /opt/local/lib/libcurl.4.dylib: Works well.
+* OS X 10.10 SDK libcurl.4.dylib: Works well.
+
+Distributing the app.
+https://developer.apple.com/library/mac/documentation/Porting/Conceptual/PortingUnix/distributing/distibuting.html
+
+

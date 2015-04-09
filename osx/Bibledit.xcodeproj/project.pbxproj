@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA4DA80A1AD7098900436C03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA8896EC1AD55A57002EDC47 /* Main.storyboard */; };
 		CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E31AD55A57002EDC47 /* AppDelegate.m */; };
 		CA8896E61AD55A57002EDC47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E51AD55A57002EDC47 /* main.m */; };
 		CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E81AD55A57002EDC47 /* ViewController.m */; };
-		CA8896EE1AD55A57002EDC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA8896EC1AD55A57002EDC47 /* Main.storyboard */; };
 		CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */; };
 		CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA941AD6C9CB00259D3E /* libz.dylib */; };
-		CA9AEA971AD6C9D400259D3E /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA961AD6C9D400259D3E /* libcurl.dylib */; };
 		CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA981AD6C9DC00259D3E /* libc++.dylib */; };
 		CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */; };
 		CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9AEA9C1AD6CB2200259D3E /* webroot */; };
+		CAA990BB1AD6F27D008E6695 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAA990BA1AD6F27D008E6695 /* libcurl.4.dylib */; };
 		CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC03BD81AD58BD100686640 /* Images.xcassets */; };
 		CAFC9ECA1AD6BF5F00AB49D8 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		CAFC9ECC1AD6C24300AB49D8 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */; };
@@ -38,6 +38,8 @@
 		CA9AEA981AD6C9DC00259D3E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CA9AEA9C1AD6CB2200259D3E /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
+		CAA990B81AD6EE37008E6695 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../../opt/local/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		CAA990BA1AD6F27D008E6695 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = usr/lib/libcurl.4.dylib; sourceTree = SDKROOT; };
 		CAC03BD81AD58BD100686640 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
 		CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
@@ -49,9 +51,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAA990BB1AD6F27D008E6695 /* libcurl.4.dylib in Frameworks */,
 				CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */,
 				CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */,
-				CA9AEA971AD6C9D400259D3E /* libcurl.dylib in Frameworks */,
 				CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */,
 				CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */,
 				CAFC9ECC1AD6C24300AB49D8 /* libcrypto.dylib in Frameworks */,
@@ -65,6 +67,8 @@
 		CA8896D41AD55A57002EDC47 = {
 			isa = PBXGroup;
 			children = (
+				CAA990BA1AD6F27D008E6695 /* libcurl.4.dylib */,
+				CAA990B81AD6EE37008E6695 /* libcurl.4.dylib */,
 				CA9AEA9C1AD6CB2200259D3E /* webroot */,
 				CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */,
 				CA9AEA981AD6C9DC00259D3E /* libc++.dylib */,
@@ -169,8 +173,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA4DA80A1AD7098900436C03 /* Main.storyboard in Resources */,
 				CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */,
-				CA8896EE1AD55A57002EDC47 /* Main.storyboard in Resources */,
 				CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,6 +292,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/webroot",
+					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -303,6 +308,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/webroot",
+					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

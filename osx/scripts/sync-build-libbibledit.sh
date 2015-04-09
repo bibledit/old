@@ -60,6 +60,8 @@ rm valgrind
 find . -name ".deps" -exec rm -r "{}" \; > /dev/null 2>&1
 find . -name ".dirstamp" -delete
 rm Makefile*
+rm server
+rm stamp-h1
 
 
 popd

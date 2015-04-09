@@ -16,28 +16,23 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    
     bibledit_initialize_library ();
 
-    /* Todo
-    NSArray *components = [NSArray arrayWithObjects:[BibleditPaths documents], @"webroot", nil];
+    NSArray *components = [NSArray arrayWithObjects:[[NSBundle mainBundle] bundlePath], @"Contents", @"Resources", @"webroot", nil];
     NSString *path = [NSString pathWithComponents:components];
     const char * document_root = [path UTF8String];
     bibledit_set_web_root (document_root);
-    
+
     float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
     bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
-
+    
     bibledit_start_library ();
-    */
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    /* Todo
     bibledit_stop_library ();
     while (bibledit_is_running ()) { };
     bibledit_shutdown_library ();
-     */
 }
 
 @end
