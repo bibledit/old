@@ -16,7 +16,13 @@ The bibledit library depends on libcurl. Bibledit should be linked with some ver
 * Macports /opt/local/lib/libcurl.4.dylib: Works well.
 * OS X 10.10 SDK libcurl.4.dylib: Works well.
 
-Distributing the app.
-https://developer.apple.com/library/mac/documentation/Porting/Conceptual/PortingUnix/distributing/distibuting.html
+Building the app for distribution:
+Rename /opt/local to something else so it cannot link against any of those libraries.
+Copy the Bibledit product from Xcode to another location.
 
-
+Distributing the app:
+Create a dmg in Disk Utility.
+Add Bibledit.app to it.
+Set the correct background image, and view options.
+Create a link to /Applications, and add this link.
+Convert the dmg to read-only.
