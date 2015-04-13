@@ -116,7 +116,6 @@ void timer_index ()
         }
       }
       
-      
       // Database maintenance and trimming.
       // It takes a few minutes on a production machine.
       if ((hour == 0) && (minute == 50)) {

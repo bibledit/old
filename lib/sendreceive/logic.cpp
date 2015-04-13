@@ -61,12 +61,13 @@ void sendreceive_queue_sync (int minute)
     // Only queue the sync tasks if none are running at the moment.
     if (sendreceive_sync_queued ()) {
       Database_Logs::log ("Some sync actions are still running");
+    } else {
+      tasks_logic_queue (SYNCNOTES);
+      tasks_logic_queue (SYNCBIBLES);
+      tasks_logic_queue (SYNCSETTINGS);
+      tasks_logic_queue (SYNCEXTERNALRESOURCES);
+      tasks_logic_queue (SYNCUSFMRESOURCES);
     }
-    tasks_logic_queue (SYNCNOTES);
-    tasks_logic_queue (SYNCBIBLES);
-    tasks_logic_queue (SYNCSETTINGS);
-    tasks_logic_queue (SYNCEXTERNALRESOURCES);
-    tasks_logic_queue (SYNCUSFMRESOURCES);
   }
 }
 
@@ -75,12 +76,12 @@ void sendreceive_queue_sync (int minute)
 // Returns the result as a boolean.
 bool sendreceive_sync_queued ()
 {
-  if (!tasks_logic_queued (SYNCNOTES).empty ()) return true;
-  if (!tasks_logic_queued (DOWNLOADNOTES).empty ()) return true;
-  if (!tasks_logic_queued (SYNCBIBLES).empty ()) return true;
-  if (!tasks_logic_queued (SYNCSETTINGS).empty ()) return true;
-  if (!tasks_logic_queued (SYNCEXTERNALRESOURCES).empty ()) return true;
-  if (!tasks_logic_queued (SYNCUSFMRESOURCES).empty ()) return true;
+  if (tasks_logic_queued (SYNCNOTES)) return true;
+  if (tasks_logic_queued (DOWNLOADNOTES)) return true;
+  if (tasks_logic_queued (SYNCBIBLES)) return true;
+  if (tasks_logic_queued (SYNCSETTINGS)) return true;
+  if (tasks_logic_queued (SYNCEXTERNALRESOURCES)) return true;
+  if (tasks_logic_queued (SYNCUSFMRESOURCES)) return true;
   return false;
 }
 

@@ -283,7 +283,7 @@ void sendreceive_notes ()
   
   // After all note actions have been sent to the server, and the notes updated on the client,
   // the client will now sync its notes with the server's notes.
-  if (tasks_logic_queued (DOWNLOADNOTES).empty ()) {
+  if (!tasks_logic_queued (DOWNLOADNOTES)) {
     int lowId = Notes_Logic::lowNoteIdentifier;
     int highId = Notes_Logic::highNoteIdentifier;
     tasks_logic_queue (DOWNLOADNOTES, { to_string (lowId), to_string (highId) });

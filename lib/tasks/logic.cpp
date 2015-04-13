@@ -53,10 +53,10 @@ void tasks_logic_queue (string command, vector <string> parameters)
 }
 
 
-// If $command is queued as a task, the function will return the name of the file that contains the task.
-// Else it returns an empty string.
+// If $command is queued as a task, the function returns true.
+// Else it returns false.
 // The $command may also be part of a queued task.
-string tasks_logic_queued (string command)
+bool tasks_logic_queued (string command)
 {
   command = filter_string_trim (command);
   vector <string> files = filter_url_scandir (tasks_logic_folder ());
@@ -64,9 +64,9 @@ string tasks_logic_queued (string command)
     string contents = filter_url_file_get_contents (filter_url_create_path (tasks_logic_folder (), file));
     contents = filter_string_trim (contents);
     if (contents.find (command) != string::npos) {
-      return file;
+      return true;
     }
   }
-  return "";
+  return false;
 }
 

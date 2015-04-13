@@ -16,8 +16,13 @@
 		CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA981AD6C9DC00259D3E /* libc++.dylib */; };
 		CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */; };
 		CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9AEA9C1AD6CB2200259D3E /* webroot */; };
-		CAA367271AD7FBE800AF8F39 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAA367261AD7FBE800AF8F39 /* libcurl.4.dylib */; };
 		CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC03BD81AD58BD100686640 /* Images.xcassets */; };
+		CAFC35511AD9A592005A7882 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35501AD9A592005A7882 /* libcurl.a */; };
+		CAFC35531AD9A6D0005A7882 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35521AD9A6D0005A7882 /* libssl.a */; };
+		CAFC35551AD9A72B005A7882 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35541AD9A72B005A7882 /* libcrypto.a */; };
+		CAFC35571AD9A76B005A7882 /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35561AD9A76B005A7882 /* libidn.a */; };
+		CAFC35591AD9A7B9005A7882 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35581AD9A7B9005A7882 /* libiconv.a */; };
+		CAFC355B1AD9A825005A7882 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC355A1AD9A825005A7882 /* libintl.a */; };
 		CAFC9ECA1AD6BF5F00AB49D8 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		CAFC9ECC1AD6C24300AB49D8 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
@@ -37,8 +42,13 @@
 		CA9AEA981AD6C9DC00259D3E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CA9AEA9C1AD6CB2200259D3E /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
-		CAA367261AD7FBE800AF8F39 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = usr/lib/libcurl.4.dylib; sourceTree = SDKROOT; };
 		CAC03BD81AD58BD100686640 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CAFC35501AD9A592005A7882 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = lib/libcurl.a; sourceTree = "<group>"; };
+		CAFC35521AD9A6D0005A7882 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
+		CAFC35541AD9A72B005A7882 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
+		CAFC35561AD9A76B005A7882 /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = lib/libidn.a; sourceTree = "<group>"; };
+		CAFC35581AD9A7B9005A7882 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = lib/libiconv.a; sourceTree = "<group>"; };
+		CAFC355A1AD9A825005A7882 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = lib/libintl.a; sourceTree = "<group>"; };
 		CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
 		CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
 		CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
@@ -49,7 +59,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAA367271AD7FBE800AF8F39 /* libcurl.4.dylib in Frameworks */,
+				CAFC355B1AD9A825005A7882 /* libintl.a in Frameworks */,
+				CAFC35591AD9A7B9005A7882 /* libiconv.a in Frameworks */,
+				CAFC35571AD9A76B005A7882 /* libidn.a in Frameworks */,
+				CAFC35551AD9A72B005A7882 /* libcrypto.a in Frameworks */,
+				CAFC35531AD9A6D0005A7882 /* libssl.a in Frameworks */,
+				CAFC35511AD9A592005A7882 /* libcurl.a in Frameworks */,
 				CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */,
 				CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */,
 				CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */,
@@ -65,7 +80,12 @@
 		CA8896D41AD55A57002EDC47 = {
 			isa = PBXGroup;
 			children = (
-				CAA367261AD7FBE800AF8F39 /* libcurl.4.dylib */,
+				CAFC355A1AD9A825005A7882 /* libintl.a */,
+				CAFC35581AD9A7B9005A7882 /* libiconv.a */,
+				CAFC35561AD9A76B005A7882 /* libidn.a */,
+				CAFC35541AD9A72B005A7882 /* libcrypto.a */,
+				CAFC35521AD9A6D0005A7882 /* libssl.a */,
+				CAFC35501AD9A592005A7882 /* libcurl.a */,
 				CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */,
 				CA9AEA981AD6C9DC00259D3E /* libc++.dylib */,
 				CA9AEA941AD6C9CB00259D3E /* libz.dylib */,
@@ -288,7 +308,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/webroot",
-					/opt/local/lib,
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -304,7 +324,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/webroot",
-					/opt/local/lib,
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
