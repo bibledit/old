@@ -37,6 +37,7 @@ Building the app for distribution:
 Rename /opt/local to something else so it cannot link against any of those libraries.
 Copy the Bibledit product from Xcode to another location.
 
+
 Distributing the app:
 Create a dmg in Disk Utility.
 Add Bibledit.app to it.
