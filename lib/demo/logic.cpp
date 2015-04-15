@@ -73,8 +73,6 @@ string demo_client_warning ()
     if (address == demo_address ()) {
       int port = Database_Config_General::getServerPort ();
       if (port == demo_port ()) {
-        warning = translate("Warning:");
-        warning.append (" ");
         warning.append (translate("You are connected to a public demo server."));
         warning.append (" ");
         warning.append (translate("Everybody can modify the data on that server."));
