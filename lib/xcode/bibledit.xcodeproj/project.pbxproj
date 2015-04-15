@@ -628,7 +628,7 @@
 		CAA4D2081A45A648003ABA25 /* 2Kgs.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 2Kgs.xml; sourceTree = "<group>"; };
 		CAA4D2091A45A648003ABA25 /* 2Sam.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 2Sam.xml; sourceTree = "<group>"; };
 		CAA4D20A1A45A648003ABA25 /* Amos.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Amos.xml; sourceTree = "<group>"; };
-		CAA4D20B1A45A648003ABA25 /* createdatabase.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = createdatabase.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
+		CAA4D20B1A45A648003ABA25 /* 0convert.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = 0convert.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D20C1A45A648003ABA25 /* Dan.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Dan.xml; sourceTree = "<group>"; };
 		CAA4D20D1A45A648003ABA25 /* Deut.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Deut.xml; sourceTree = "<group>"; };
 		CAA4D20E1A45A648003ABA25 /* Eccl.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Eccl.xml; sourceTree = "<group>"; };
@@ -657,7 +657,7 @@
 		CAA4D2251A45A648003ABA25 /* Obad.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Obad.xml; sourceTree = "<group>"; };
 		CAA4D2261A45A648003ABA25 /* Prov.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Prov.xml; sourceTree = "<group>"; };
 		CAA4D2271A45A648003ABA25 /* Ps.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ps.xml; sourceTree = "<group>"; };
-		CAA4D2281A45A648003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		CAA4D2281A45A648003ABA25 /* 0README */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0README; sourceTree = "<group>"; };
 		CAA4D2291A45A648003ABA25 /* Ruth.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ruth.xml; sourceTree = "<group>"; };
 		CAA4D22A1A45A648003ABA25 /* Song.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Song.xml; sourceTree = "<group>"; };
 		CAA4D22B1A45A648003ABA25 /* Zech.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Zech.xml; sourceTree = "<group>"; };
@@ -2117,6 +2117,8 @@
 		CAA4D2031A45A648003ABA25 /* morphhb */ = {
 			isa = PBXGroup;
 			children = (
+				CAA4D2281A45A648003ABA25 /* 0README */,
+				CAA4D20B1A45A648003ABA25 /* 0convert.php */,
 				CAA4D2041A45A648003ABA25 /* 1Chr.xml */,
 				CAA4D2051A45A648003ABA25 /* 1Kgs.xml */,
 				CAA4D2061A45A648003ABA25 /* 1Sam.xml */,
@@ -2124,7 +2126,6 @@
 				CAA4D2081A45A648003ABA25 /* 2Kgs.xml */,
 				CAA4D2091A45A648003ABA25 /* 2Sam.xml */,
 				CAA4D20A1A45A648003ABA25 /* Amos.xml */,
-				CAA4D20B1A45A648003ABA25 /* createdatabase.php */,
 				CAA4D20C1A45A648003ABA25 /* Dan.xml */,
 				CAA4D20D1A45A648003ABA25 /* Deut.xml */,
 				CAA4D20E1A45A648003ABA25 /* Eccl.xml */,
@@ -2153,7 +2154,6 @@
 				CAA4D2251A45A648003ABA25 /* Obad.xml */,
 				CAA4D2261A45A648003ABA25 /* Prov.xml */,
 				CAA4D2271A45A648003ABA25 /* Ps.xml */,
-				CAA4D2281A45A648003ABA25 /* README */,
 				CAA4D2291A45A648003ABA25 /* Ruth.xml */,
 				CAA4D22A1A45A648003ABA25 /* Song.xml */,
 				CAA4D22B1A45A648003ABA25 /* Zech.xml */,
