@@ -284,7 +284,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   bool client_menu = client_index_acl (webserver_request);
   if (!config_logic_client_prepared ()) client_menu = false;
   if (config_logic_demo_enabled ()) client_menu = true;
-  if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Client"), NULL } );
+  if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Server"), NULL } );
   if (fonts_index_acl (webserver_request)) {
     menu->push_back ( { "", fonts_index_url (), translate ("Fonts"), NULL } );
   }

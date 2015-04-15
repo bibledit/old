@@ -1,9 +1,9 @@
-<h3>translate("Client mode")</h3>
+<h3>translate("Server connection")</h3>
 
 <!-- #BEGINZONE clienton -->
 <p>
-  translate("Client mode is enabled.")
-  <a href="?disable=">translate("Disable it.")</a>
+  translate("Connected to server.")
+  <a href="?disable=">translate("Disconnect.")</a>
 </p>
 <p>
   translate("Server"):
@@ -13,14 +13,14 @@
 <!-- #ENDZONE clienton -->
 
 <!-- #BEGINZONE clientoff -->
-<p>translate("To enable client mode, enter the details below, and click Enable.")</p>
+<p>translate("To connect to a Bibledit server, enter the requested details below, and click Connect.")</p>
 
 <br>
 
 <form action="index" name="server" method="post">
   <table>
   <tr>
-    <td align="right">translate("Internet address of the Bibledit Server")</td>
+    <td align="right">translate("Internet address of the Bibledit server")</td>
     <td><input type="text" name="address" maxlength="1000" value="##address##" autofocus /></td>
   </tr>
     <tr>
@@ -37,48 +37,17 @@
     </tr>
     <tr>
       <td></td>
-      <td><input type="submit" name="connect" class="focus" value="translate("Enable")" /></td>
+      <td><input type="submit" name="connect" class="focus" value="translate("Connect")" /></td>
     </tr>
   </table>
 </form>
 
 <br>
 
-<p><a href="?demo=">translate("Or else connect to the Bibledit Demo Server.")</a></p>
+<p><a href="?demo=">translate("Or else connect to the Bibledit demo server.")</a></p>
 <!-- #ENDZONE clientoff -->
 
+<br>
 <p class="error">##error##</p>
 <p class="success">##success##</p>
 <p class="error">##demo##</p>
-
-<br>
-
-<p>
-  translate("When client mode is enabled, Bibledit can be used offline as a client on a local computing device.")
-</p>
-
-<br>
-
-<p>
-  translate("Client mode affects the following:")
-</p>
-<ul>
-<li>
-  translate("Can synchronize the local Bibles with the Bibles on a Bibledit server.")
-</li>
-<li>
-  translate("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit server.")
-</li>
-<li>
-  translate("After connecting to a server, the first time you synchronize, you will get the same data as on the server.")
-  translate("Local Bible data and Notes not on the server will be erased.")
-  translate("Bible data and Notes on the server will be downloaded.")
-  translate("This is good because it means that your data will be backed up to the server.")
-</li>
-<li>
-  translate("Does not send or receive email.")
-</li>
-<li>
-  translate("User is always logged in.")
-</li>
-</ul>
