@@ -200,6 +200,7 @@ libbibledit_a_SOURCES = \
 	edit/offset.cpp \
 	edit/save.cpp \
 	edit/styles.cpp \
+	edit/logic.cpp \
 	search/search.cpp \
 	search/index.cpp \
 	search/select.cpp \

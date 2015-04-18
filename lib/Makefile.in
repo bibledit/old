@@ -213,19 +213,20 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editor/import.$(OBJEXT) edit/edit.$(OBJEXT) \
 	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
 	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
-	edit/styles.$(OBJEXT) search/search.$(OBJEXT) \
-	search/index.$(OBJEXT) search/select.$(OBJEXT) \
-	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
-	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
-	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
-	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
-	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
-	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
-	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
-	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	search/search.$(OBJEXT) search/index.$(OBJEXT) \
+	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
+	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
+	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
+	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
+	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
+	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
+	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
+	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
+	workbench/logic.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/usfmresources.$(OBJEXT) \
 	sendreceive/externalresources.$(OBJEXT) \
@@ -695,6 +696,7 @@ libbibledit_a_SOURCES = \
 	edit/offset.cpp \
 	edit/save.cpp \
 	edit/styles.cpp \
+	edit/logic.cpp \
 	search/search.cpp \
 	search/index.cpp \
 	search/select.cpp \
@@ -1563,6 +1565,8 @@ edit/save.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/styles.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
+edit/logic.$(OBJEXT): edit/$(am__dirstamp) \
+	edit/$(DEPDIR)/$(am__dirstamp)
 search/search.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/index.$(OBJEXT): search/$(am__dirstamp) \
@@ -2113,6 +2117,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/load.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/offset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/styles.Po@am__quote@
