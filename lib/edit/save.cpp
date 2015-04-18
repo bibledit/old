@@ -109,7 +109,7 @@ string edit_save (void * webserver_request)
   string newText = user_usfm;
   string oldText = ancestor_usfm;
   
-  // Merge if the ancestor is there and differs from what's in the database. Todo
+  // Merge if the ancestor is there and differs from what's in the database.
   if (!ancestor_usfm.empty ()) {
     if (server_usfm != ancestor_usfm) {
       user_usfm = filter_merge_run (ancestor_usfm, user_usfm, server_usfm);
@@ -128,7 +128,7 @@ string edit_save (void * webserver_request)
   int newID = request->database_bibles()->getChapterId (bible, book, chapter);
   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
   
-  // Store a copy of the USFM loaded in the editor for later reference. Todo
+  // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");
 
   return translate("Saved");

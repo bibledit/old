@@ -21,11 +21,13 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
+#include <filter/merge.h>
 #include <webserver/request.h>
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <checksum/logic.h>
 #include <locale/translate.h>
+#include <edit/logic.h>
 
 
 string editusfm_save_url ()
@@ -64,18 +66,29 @@ string editusfm_save (void * webserver_request)
             int chapter_number = data.chapter;
             string chapter_data_to_save = data.data;
             if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
+              string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
               // Collect some data about the changes for this user.
               string username = request->session_logic()->currentUser ();
               int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
-              string oldText = request->database_bibles()->getChapter (bible, book, chapter);
+              string oldText = ancestor_usfm;
+              string newText = chapter_data_to_save;
+              // Merge if the ancestor is there and differs from what's in the database.
+              if (!ancestor_usfm.empty ()) {
+                string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
+                if (server_usfm != ancestor_usfm) {
+                  chapter_data_to_save = filter_merge_run (ancestor_usfm, chapter_data_to_save, server_usfm);
+                  Database_Logs::log (translate ("Merging and saving chapter."));
+                }
+              }
               // Safely store the chapter.
               bool saved = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
               if (saved) {
                 // Store details for the user's changes.
                 int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-                string newText = chapter_data_to_save;
                 Database_Modifications database_modifications = Database_Modifications ();
                 database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+                // Store a copy of the USFM loaded in the editor for later reference.
+                storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
                 return translate("Saved");
               } else {
                 return translate("Not saved because of too many changes");
