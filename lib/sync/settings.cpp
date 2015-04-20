@@ -89,6 +89,17 @@ string sync_settings (void * webserver_request)
     {
       return request->database_config_user()->getWorkbenchHeights ();
     }
+    case Sync_Logic::settings_send_resources_organization:
+    {
+      vector <string> resources = filter_string_explode (value, '\n');
+      request->database_config_user()->setActiveResources (resources);
+      return "";
+    }
+    case Sync_Logic::settings_get_resources_organization:
+    {
+      vector <string> resources = request->database_config_user()->getActiveResources ();
+      return filter_string_implode (resources, "\n");
+    }
   }
 
   // Bad request.

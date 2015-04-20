@@ -139,7 +139,7 @@ string Sync_Logic::post (map <string, string> & post, const string& url, string 
 }
 
 
-// Calculates the checksum of all settings that to be kept in sync between server and client.
+// Calculates the checksum of all settings to be kept in sync between server and client.
 string Sync_Logic::settings_checksum ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -147,6 +147,8 @@ string Sync_Logic::settings_checksum ()
   checksum.append (request->database_config_user()->getWorkbenchURLs ());
   checksum.append (request->database_config_user()->getWorkbenchWidths ());
   checksum.append (request->database_config_user()->getWorkbenchHeights ());
+  vector <string> resources = request->database_config_user()->getActiveResources ();
+  checksum.append (filter_string_implode (resources, "\n"));
   return md5 (checksum);
 }
 
