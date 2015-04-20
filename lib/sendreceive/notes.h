@@ -24,6 +24,8 @@
 #include <config/libraries.h>
 
 
+string sendreceive_notes_sendreceive_text ();
+string sendreceive_notes_up_to_date_text ();
 void sendreceive_notes ();
 void sendreceive_notes_download (int lowId, int highId);
 

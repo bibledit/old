@@ -51,6 +51,24 @@ void sendreceive_notes_done ()
 }
 
 
+string sendreceive_notes_text ()
+{
+  return translate("Notes") + ": ";
+}
+
+
+string sendreceive_notes_sendreceive_text ()
+{
+  return sendreceive_notes_text () + translate ("Send/receive");
+}
+
+
+string sendreceive_notes_up_to_date_text ()
+{
+  return sendreceive_notes_text () + translate ("Up to date");
+}
+
+
 void sendreceive_notes ()
 {
   mutex_sendreceive_notes.lock ();
@@ -69,13 +87,13 @@ void sendreceive_notes ()
   Notes_Logic notes_logic = Notes_Logic (&request);
   
   
-  Database_Logs::log (translate("Notes: Send/receive"), Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_notes_sendreceive_text (), Filter_Roles::translator ());
   
   
   string response = client_logic_connection_setup ();
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
-    Database_Logs::log (translate("Notes: Failure to initiate connection"), Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
     sendreceive_notes_done ();
     return;
   }
@@ -84,7 +102,7 @@ void sendreceive_notes ()
   // Set the correct user in the session: The sole user on the Client.
   vector <string> users = request.database_users ()->getUsers ();
   if (users.empty ()) {
-    Database_Logs::log (translate("Notes: No local user found"), Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     sendreceive_notes_done ();
     return;
   }
@@ -125,7 +143,7 @@ void sendreceive_notes ()
   
     string summary = database_notes.getSummary (identifier);
     if (summary.empty ()) summary = "<deleted>";
-    Database_Logs::log (translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
 
     
     // Get all the actions for the current note.
@@ -198,7 +216,7 @@ void sendreceive_notes ()
       // Send the request off and receive the response.
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        Database_Logs::log ("Notes: Failure sending note: " + error, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_notes_text () + "Failure sending note: " + error, Filter_Roles::translator ());
         sendreceive_notes_done ();
         return;
       }
@@ -304,7 +322,7 @@ void sendreceive_notes_download (int lowId, int highId)
   string response = client_logic_connection_setup ();
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
-    Database_Logs::log (translate("Notes: Failure to initiate connection"), Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
     return;
   }
   
@@ -317,7 +335,7 @@ void sendreceive_notes_download (int lowId, int highId)
   // The client selects all available notes on the system.
   vector <string> users = request.database_users ()->getUsers ();
   if (users.empty ()) {
-    Database_Logs::log (translate("Notes: No local user found"), Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return;
   }
   string user = users [0];
@@ -330,7 +348,7 @@ void sendreceive_notes_download (int lowId, int highId)
   if (!database_notes.healthy ()) healthy = false;
   if (!database_notes.checksums_healthy ()) healthy = false;
   if (!healthy) {
-    Database_Logs::log ("Notes: Abort receive just now because of database problems", Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + "Abort receive just now because of database problems", Filter_Roles::translator ());
     return;
   }
   
@@ -363,7 +381,7 @@ void sendreceive_notes_download (int lowId, int highId)
   post ["a"] = to_string (Sync_Logic::notes_get_total);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("Notes: Failure requesting totals: " + error, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + "Failure requesting totals: " + error, Filter_Roles::translator ());
     return;
   }
   vector <string> vresponse = filter_string_explode (response, '\n');
@@ -376,7 +394,7 @@ void sendreceive_notes_download (int lowId, int highId)
   string client_checksum = database_notes.getMultipleChecksum (identifiers);
   if (server_total == client_total) {
     if (server_checksum == client_checksum) {
-      if (main_script) Database_Logs::log ("Notes: Up to date", Filter_Roles::translator ());
+      if (main_script) Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
       return;
     }
   }
@@ -411,7 +429,7 @@ void sendreceive_notes_download (int lowId, int highId)
   post ["a"] = to_string (Sync_Logic::notes_get_identifiers);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("Notes: Failure requesting identifiers: " + error, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + "Failure requesting identifiers: " + error, Filter_Roles::translator ());
     return;
   }
   vector <int> server_identifiers;
@@ -435,7 +453,7 @@ void sendreceive_notes_download (int lowId, int highId)
   for (auto identifier : identifiers) {
     string summary = database_notes.getSummary (identifier);
     database_notes.erase (identifier);
-    Database_Logs::log ("Notes: Deleting one because it is not on the server: " + summary, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + "Deleting one because it is not on the server: " + summary, Filter_Roles::translator ());
   }
   
 
@@ -464,7 +482,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_summary);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting summary: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting summary: " + error, Filter_Roles::translator ());
       return;
     }
     string summary = response;
@@ -475,7 +493,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_contents);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting contents: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting contents: " + error, Filter_Roles::translator ());
       return;
     }
     if (response != database_notes.getContents (identifier)) {
@@ -485,7 +503,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_subscribers);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting subscribers: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting subscribers: " + error, Filter_Roles::translator ());
       return;
     }
     vector <string> subscribers = filter_string_explode (response, '\n');
@@ -494,7 +512,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_assignees);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting assignees: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting assignees: " + error, Filter_Roles::translator ());
       return;
     }
     vector <string> assignees = filter_string_explode (response, '\n');
@@ -503,7 +521,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_status);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting status: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting status: " + error, Filter_Roles::translator ());
       return;
     }
     database_notes.setStatus (identifier, response);
@@ -511,7 +529,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_passages);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting passages: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting passages: " + error, Filter_Roles::translator ());
       return;
     }
     vector <string> lines = filter_string_explode (response, '\n');
@@ -524,7 +542,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_severity);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting severity: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting severity: " + error, Filter_Roles::translator ());
       return;
     }
     database_notes.setRawSeverity (identifier, convert_to_int (response));
@@ -532,7 +550,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_bible);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting bible: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting bible: " + error, Filter_Roles::translator ());
       return;
     }
     database_notes.setBible (identifier, response);
@@ -541,7 +559,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["a"] = to_string (Sync_Logic::notes_get_modified);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("Notes: Failure requesting time modified: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting time modified: " + error, Filter_Roles::translator ());
       return;
     }
     database_notes.setModified (identifier, convert_to_int (response));
@@ -550,7 +568,7 @@ void sendreceive_notes_download (int lowId, int highId)
     database_notes.updateSearchFields (identifier);
     database_notes.updateChecksum (identifier);
 
-    Database_Logs::log ("Notes: Received from server: " + summary, Filter_Roles::manager ());
+    Database_Logs::log (sendreceive_notes_text () + "Received from server: " + summary, Filter_Roles::manager ());
 
     database_notes.getChecksum (identifier);
   }

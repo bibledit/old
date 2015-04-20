@@ -153,40 +153,41 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
-	styles/logic.$(OBJEXT) styles/indext.$(OBJEXT) \
-	styles/indexm.$(OBJEXT) styles/sheetm.$(OBJEXT) \
-	styles/view.$(OBJEXT) styles/css.$(OBJEXT) \
-	styles/sheets.$(OBJEXT) text/text.$(OBJEXT) \
-	esword/text.$(OBJEXT) onlinebible/text.$(OBJEXT) \
-	html/text.$(OBJEXT) html/header.$(OBJEXT) odf/text.$(OBJEXT) \
-	timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
-	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
-	bible/logic.$(OBJEXT) bible/manage.$(OBJEXT) \
-	bible/settings.$(OBJEXT) bible/book.$(OBJEXT) \
-	bible/chapter.$(OBJEXT) bible/import_usfm.$(OBJEXT) \
-	bible/import_bibleworks.$(OBJEXT) bible/import_task.$(OBJEXT) \
-	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
-	bible/css.$(OBJEXT) bible/editing.$(OBJEXT) \
-	notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
-	notes/clean.$(OBJEXT) notes/note.$(OBJEXT) \
-	notes/status-1.$(OBJEXT) notes/assign-1.$(OBJEXT) \
-	notes/cleancli.$(OBJEXT) notes/notes.$(OBJEXT) \
-	notes/status-n.$(OBJEXT) notes/assign-n.$(OBJEXT) \
-	notes/click.$(OBJEXT) notes/poll.$(OBJEXT) \
-	notes/summary.$(OBJEXT) notes/bible-1.$(OBJEXT) \
-	notes/comment.$(OBJEXT) notes/select.$(OBJEXT) \
-	notes/unassign-n.$(OBJEXT) notes/bible-n.$(OBJEXT) \
-	notes/create.$(OBJEXT) notes/severity-1.$(OBJEXT) \
-	notes/verses.$(OBJEXT) notes/bulk.$(OBJEXT) \
-	notes/editsource.$(OBJEXT) notes/index.$(OBJEXT) \
-	notes/severity-n.$(OBJEXT) trash/handler.$(OBJEXT) \
-	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
-	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
-	manage/hyphenate.$(OBJEXT) administration/language.$(OBJEXT) \
+	journal/logic.$(OBJEXT) styles/logic.$(OBJEXT) \
+	styles/indext.$(OBJEXT) styles/indexm.$(OBJEXT) \
+	styles/sheetm.$(OBJEXT) styles/view.$(OBJEXT) \
+	styles/css.$(OBJEXT) styles/sheets.$(OBJEXT) \
+	text/text.$(OBJEXT) esword/text.$(OBJEXT) \
+	onlinebible/text.$(OBJEXT) html/text.$(OBJEXT) \
+	html/header.$(OBJEXT) odf/text.$(OBJEXT) timer/index.$(OBJEXT) \
+	tasks/logic.$(OBJEXT) tasks/run.$(OBJEXT) \
+	config/logic.$(OBJEXT) bible/logic.$(OBJEXT) \
+	bible/manage.$(OBJEXT) bible/settings.$(OBJEXT) \
+	bible/book.$(OBJEXT) bible/chapter.$(OBJEXT) \
+	bible/import_usfm.$(OBJEXT) bible/import_bibleworks.$(OBJEXT) \
+	bible/import_task.$(OBJEXT) bible/abbreviations.$(OBJEXT) \
+	bible/order.$(OBJEXT) bible/css.$(OBJEXT) \
+	bible/editing.$(OBJEXT) notes/logic.$(OBJEXT) \
+	notes/actions.$(OBJEXT) notes/clean.$(OBJEXT) \
+	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
+	notes/assign-1.$(OBJEXT) notes/cleancli.$(OBJEXT) \
+	notes/notes.$(OBJEXT) notes/status-n.$(OBJEXT) \
+	notes/assign-n.$(OBJEXT) notes/click.$(OBJEXT) \
+	notes/poll.$(OBJEXT) notes/summary.$(OBJEXT) \
+	notes/bible-1.$(OBJEXT) notes/comment.$(OBJEXT) \
+	notes/select.$(OBJEXT) notes/unassign-n.$(OBJEXT) \
+	notes/bible-n.$(OBJEXT) notes/create.$(OBJEXT) \
+	notes/severity-1.$(OBJEXT) notes/verses.$(OBJEXT) \
+	notes/bulk.$(OBJEXT) notes/editsource.$(OBJEXT) \
+	notes/index.$(OBJEXT) notes/severity-n.$(OBJEXT) \
+	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
+	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
+	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
+	administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -573,6 +574,7 @@ libbibledit_a_SOURCES = \
 	setup/index.cpp \
 	setup/logic.cpp \
 	journal/index.cpp \
+	journal/logic.cpp \
 	styles/logic.cpp \
 	styles/indext.cpp \
 	styles/indexm.cpp \
@@ -1118,6 +1120,8 @@ journal/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) journal/$(DEPDIR)
 	@: > journal/$(DEPDIR)/$(am__dirstamp)
 journal/index.$(OBJEXT): journal/$(am__dirstamp) \
+	journal/$(DEPDIR)/$(am__dirstamp)
+journal/logic.$(OBJEXT): journal/$(am__dirstamp) \
 	journal/$(DEPDIR)/$(am__dirstamp)
 styles/$(am__dirstamp):
 	@$(MKDIR_P) styles
@@ -2177,6 +2181,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@ipc/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@jobs/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@json/$(DEPDIR)/json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/locks.Po@am__quote@

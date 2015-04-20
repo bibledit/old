@@ -77,6 +77,7 @@ libbibledit_a_SOURCES = \
 	setup/index.cpp \
 	setup/logic.cpp \
 	journal/index.cpp \
+	journal/logic.cpp \
 	styles/logic.cpp \
 	styles/indext.cpp \
 	styles/indexm.cpp \

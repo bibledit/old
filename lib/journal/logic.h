@@ -17,16 +17,15 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_SETTINGS_H
-#define INCLUDED_SENDRECEIVE_SETTINGS_H
+#ifndef INCLUDED_JOURNAL_LOGIC_H
+#define INCLUDED_JOURNAL_LOGIC_H
 
 
 #include <config/libraries.h>
 
 
-string sendreceive_settings_sendreceive_text ();
-string sendreceive_settings_up_to_date_text ();
-void sendreceive_settings ();
+bool journal_logic_filter_entry (const string& entry);
+string journal_logic_filtered_message ();
 
 
 #endif

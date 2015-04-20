@@ -38,6 +38,24 @@ mutex mutex_sendreceive_settings;
 bool sendreceive_settings_running = false;
 
 
+string sendreceive_settings_text ()
+{
+  return translate("Settings") + ": ";
+}
+
+
+string sendreceive_settings_sendreceive_text ()
+{
+  return sendreceive_settings_text () + translate ("Send/receive");
+}
+
+
+string sendreceive_settings_up_to_date_text ()
+{
+  return sendreceive_settings_text () + translate ("Up to date");
+}
+
+
 void sendreceive_settings_done ()
 {
   mutex_sendreceive_settings.lock ();
@@ -56,7 +74,7 @@ void sendreceive_settings ()
   sendreceive_settings_running = true;
   mutex_sendreceive_settings.unlock ();
   
-  Database_Logs::log (translate("Settings: Send/Receive"), Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_settings_sendreceive_text (), Filter_Roles::translator ());
   
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
@@ -148,7 +166,7 @@ void sendreceive_settings ()
   }
   string checksum = sync_logic.settings_checksum ();
   if (response == checksum) {
-    Database_Logs::log ("Settings: Up to date", Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_settings_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }

@@ -48,6 +48,24 @@ void sendreceive_usfmresources_done ()
 }
 
 
+string sendreceive_usfmresources_text ()
+{
+  return translate("USFM resources") + ": ";
+}
+
+
+string sendreceive_usfmresources_sendreceive_text ()
+{
+  return sendreceive_usfmresources_text () + translate ("Synchronizing");
+}
+
+
+string sendreceive_usfmresources_up_to_date_text ()
+{
+  return sendreceive_usfmresources_text () + translate ("Up to date");
+}
+
+
 void sendreceive_usfmresources ()
 {
   mutex_sendreceive_usfmresources.lock ();
@@ -64,7 +82,7 @@ void sendreceive_usfmresources ()
   Sync_Logic sync_logic = Sync_Logic (&request);
 
   
-  Database_Logs::log (translate("USFM resources: Synchronizing"), Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_usfmresources_sendreceive_text (), Filter_Roles::translator ());
   
  
   string address = Database_Config_General::getServerAddress ();
@@ -83,13 +101,13 @@ void sendreceive_usfmresources ()
   post ["a"] = to_string (Sync_Logic::usfmresources_get_total_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("USFM resources: Failure getting total checksum: " + error, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting total checksum: " + error, Filter_Roles::translator ());
     sendreceive_usfmresources_done ();
     return;
   }
   string checksum = Sync_Logic::usfm_resources_checksum ();
   if (response == checksum) {
-    Database_Logs::log ("USFM resources: Up to date", Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_usfmresources_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_usfmresources_done ();
     return;
   }
@@ -99,7 +117,7 @@ void sendreceive_usfmresources ()
   post ["a"] = to_string (Sync_Logic::usfmresources_get_resources);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("USFM resources: Failure getting resources: " + error, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting resources: " + error, Filter_Roles::translator ());
     sendreceive_usfmresources_done ();
     return;
   }
@@ -125,7 +143,7 @@ void sendreceive_usfmresources ()
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("USFM resources: Failure getting checksum of resource: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting checksum of resource: " + error, Filter_Roles::translator ());
       sendreceive_usfmresources_done ();
       return;
     }
@@ -140,7 +158,7 @@ void sendreceive_usfmresources ()
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("USFM resources: Failure getting books of resource: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting books of resource: " + error, Filter_Roles::translator ());
       sendreceive_usfmresources_done ();
       return;
     }
@@ -169,7 +187,7 @@ void sendreceive_usfmresources ()
       post ["b"] = to_string (book);
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        Database_Logs::log ("USFM resources: Failure getting checksum of resoource book: " + error, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting checksum of resource book: " + error, Filter_Roles::translator ());
         sendreceive_usfmresources_done ();
         return;
       }
@@ -180,7 +198,7 @@ void sendreceive_usfmresources ()
       
       
       string bookname = Database_Books::getEnglishFromId (book);
-      Database_Logs::log ("USFM resources: Synchronizing " + resource + " " + bookname, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_usfmresources_text () + "Synchronizing " + resource + " " + bookname, Filter_Roles::translator ());
       
       
       // Retrieve a list of chapters in the $book from the server.
@@ -189,7 +207,7 @@ void sendreceive_usfmresources ()
       post ["b"] = to_string (book);
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        Database_Logs::log ("USFM resources: Failure getting chapters of resoource book: " + error, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting chapters of resource book: " + error, Filter_Roles::translator ());
         sendreceive_usfmresources_done ();
         return;
       }
@@ -217,7 +235,7 @@ void sendreceive_usfmresources ()
         post ["c"] = to_string (chapter);
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
-          Database_Logs::log ("USFM resources: Failure getting checksum of resoource chapter: " + error, Filter_Roles::translator ());
+          Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting checksum of resource chapter: " + error, Filter_Roles::translator ());
           sendreceive_usfmresources_done ();
           return;
         }
@@ -234,7 +252,7 @@ void sendreceive_usfmresources ()
         post ["c"] = to_string (chapter);
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
-          Database_Logs::log ("USFM resources: Failure downloading resoource chapter: " + error, Filter_Roles::translator ());
+          Database_Logs::log (sendreceive_usfmresources_text () + "Failure downloading resource chapter: " + error, Filter_Roles::translator ());
           sendreceive_usfmresources_done ();
           return;
         }
@@ -245,6 +263,6 @@ void sendreceive_usfmresources ()
 
   
   // Done.
-  Database_Logs::log ("USFM resources: Now up to date", Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_usfmresources_text () + "Now up to date", Filter_Roles::translator ());
   sendreceive_usfmresources_done ();
 }

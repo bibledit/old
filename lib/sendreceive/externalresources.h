@@ -24,6 +24,8 @@
 #include <config/libraries.h>
 
 
+string sendreceive_externalresources_sendreceive_text ();
+string sendreceive_externalresources_up_to_date_text ();
 void sendreceive_externalresources ();
 
 
