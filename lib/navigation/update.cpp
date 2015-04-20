@@ -76,65 +76,63 @@ string navigation_update (void * webserver_request)
   }
   
   
+  // Get the list of available chapters in the current book.
   else if (request->query.count ("getchapters")) {
     return Navigation_Passage::getChaptersFragment (request, bible, book, chapter);
   }
   
-  
+
+  // Select a chapter, go to previous or next chapter, or cancel.
   else if (request->query.count ("applychapter")) {
     string msg = request->query ["applychapter"];
-    if (msg.find ("cancel") == string::npos) {
+    if (msg.find ("previous") != string::npos) {
+      Navigation_Passage::gotoPreviousChapter (webserver_request, bible);
+    } else if (msg.find ("next") != string::npos) {
+      Navigation_Passage::gotoNextChapter (webserver_request, bible);
+    }
+    else if (msg.find ("cancel") != string::npos) {
+    } else {
       int chapter = convert_to_int (msg);
       Navigation_Passage::setChapter (request, chapter);
     }
   }
   
   
+  // Get the list of available verses in the current chapter.
   else if (request->query.count ("getverses")) {
     return Navigation_Passage::getVersesFragment (request, bible, convert_to_int (book), chapter, verse);
   }
-  
 
+  
+  // Select a verse, go to the previous or next verse, or cancel.
   else if (request->query.count ("applyverse")) {
     string msg = request->query ["applyverse"];
-    if (msg.find ("cancel") == string::npos) {
+    if (msg.find ("previous") != string::npos) {
+      Navigation_Passage::gotoPreviousVerse (webserver_request, bible);
+    } else if (msg.find ("next") != string::npos) {
+      Navigation_Passage::gotoNextVerse (webserver_request, bible);
+    }
+    else if (msg.find ("cancel") != string::npos) {
+    } else {
       int verse = convert_to_int (msg);
       Navigation_Passage::setVerse (request, verse);
     }
   }
   
-  
-  /*
-  else if (request->query.count ("verse")) {
-    int verse = convert_to_int (request->query ["verse"]);
-    string book = request->query ["book"];
-    if (number_in_string (book) != book) {
-      book = convert_to_string (Database_Books::getIdFromEnglish (book));
-    }
-    int chapter = convert_to_int (request->query ["chapter"]);
-    Navigation_Passage::setBookChapterVerse (webserver_request, convert_to_int (book), chapter, verse);
-    return "";
-  }
-   */
-  
-  
+
+  // Go to the previous verse.
   else if (request->query.count ("previousverse")) {
     Navigation_Passage::gotoPreviousVerse (webserver_request, bible);
   }
   
   
+  // Go to the next verse.
   else if (request->query.count ("nextverse")) {
     Navigation_Passage::gotoNextVerse (webserver_request, bible);
   }
   
-  /*
-  else if (request->query.count ("passage")) {
-    string passage = request->query["passage"];
-    Navigation_Passage::setPassage (webserver_request, bible, passage);
-    return "";
-  }
-   */
-  
+
+  // Build the navigation fragment.
   return Navigation_Passage::getNavigator (request, bible);
 }
 
