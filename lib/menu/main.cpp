@@ -64,6 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/exports.h>
 #include <manage/hyphenation.h>
 #include <xrefs/index.h>
+#include <editone/index.h>
 
 
 /*
@@ -127,7 +128,8 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
 vector <Menu_Main_Item> * Menu_Main::bible_edit_menu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (edit_index_acl (webserver_request)) menu->push_back ( { "", edit_index_url (), translate ("Visual edit"), NULL } );
+  if (edit_index_acl (webserver_request)) menu->push_back ( { "", edit_index_url (), translate ("Edit chapter"), NULL } );
+  if (editone_index_acl (webserver_request)) menu->push_back ( { "", editone_index_url (), translate ("Edit verse"), NULL } );
   if (editusfm_index_acl (webserver_request)) menu->push_back ( { "", editusfm_index_url (),  translate ("USFM chapter"), NULL } );
   if (editverse_index_acl (webserver_request)) menu->push_back ( { "", editverse_index_url (), translate ("USFM verse"),   NULL } );
   if (menu->size ()) return menu;

@@ -175,9 +175,11 @@ libbibledit_a_SOURCES = \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editverse/index.cpp \
-	editverse/id.cpp \
 	editverse/load.cpp \
 	editverse/save.cpp \
+	editone/index.cpp \
+	editone/load.cpp \
+	editone/save.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
@@ -185,7 +187,6 @@ libbibledit_a_SOURCES = \
 	ipc/notes.cpp \
 	checksum/logic.cpp \
 	editusfm/focus.cpp \
-	editusfm/id.cpp \
 	editusfm/index.cpp \
 	editusfm/load.cpp \
 	editusfm/offset.cpp \
