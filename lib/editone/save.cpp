@@ -89,7 +89,8 @@ string editone_save (void * webserver_request)
   
   // Convert the html back to USFM in the special way for editing one verse.
   string usfm = editor_export_verse (webserver_request, stylesheet, html);
-  
+  cout << verse << " " << html.length () << " " << usfm.length () << endl; // Todo
+  cout << usfm << endl; // Todo
   
   // Get the old chapter USFM into an array of verse => USFM fragment.
   string usfmString = request->database_bibles()->getChapter (bible, book, chapter);
@@ -105,7 +106,15 @@ string editone_save (void * webserver_request)
   }
   
   
-  // Store the verse USFM in the map.
+  // Check matching verse number Todo
+  /// vector <int> usfm_get_verse_numbers (string usfm);
+
+  
+  // Check maximum difference not as chapter but as verse. Todo
+  // Todo bool usfm_save_is_safe (string bible, string oldtext, string newtext)
+
+  
+  // Store the verse USFM in the map. Only store when different // Todo of existing usfm.
   usfmMap [verse] = usfm;
   
   
