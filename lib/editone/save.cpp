@@ -26,6 +26,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <editor/export.h>
 
 
 string editone_save_url ()
@@ -49,7 +50,7 @@ string editone_save (void * webserver_request)
 
   
   // Check on information about where to save the verse.
-  bool save = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("verse") && request->post.count ("usfm"));
+  bool save = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("verse") && request->post.count ("html"));
   if (!save) {
     return translate("Don't know where to save");
   }
@@ -59,28 +60,43 @@ string editone_save (void * webserver_request)
   int book = convert_to_int (request->post["book"]);
   int chapter = convert_to_int (request->post["chapter"]);
   int verse = convert_to_int (request->post["verse"]);
-  string usfm = request->post["usfm"];
+  string html = request->post["html"];
   string checksum = request->post["checksum"];
 
   
   // Checksum.
-  if (Checksum_Logic::get (usfm) != checksum) {
+  if (Checksum_Logic::get (html) != checksum) {
     request->response_code = 409;
     return translate ("Checksum error");
   }
 
   
   // Check there's anything to save at all.
-  usfm = filter_string_trim (usfm);
-  if (usfm == "") {
+  html = filter_string_trim (html);
+  if (html == "") {
     return translate("Nothing to save");
   }
   
   
   // Check on valid UTF-8.
-  if (!unicode_string_is_valid (usfm)) {
+  if (!unicode_string_is_valid (html)) {
     return translate("Cannot save: Needs Unicode");
   }
+  
+  
+  string stylesheet = request->database_config_user()->getStylesheet();
+
+  
+  Editor_Export editor_export = Editor_Export (request);
+  editor_export.load (html);
+  editor_export.stylesheet (stylesheet);
+  editor_export.run ();
+  string usfm = editor_export.get ();
+  
+  cout << usfm << endl; // Todo
+  
+  
+  return "Off"; // Todo temporally off.
   
   
   // Get the old chapter USFM into an array of verse => USFM fragment.
@@ -109,7 +125,6 @@ string editone_save (void * webserver_request)
   }
   
   
-  string stylesheet = request->database_config_user()->getStylesheet();
   vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
   for (BookChapterData & data : book_chapter_text) {
     int book_number = data.book;

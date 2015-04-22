@@ -61,6 +61,7 @@ string editone_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Edit USFM"), request);
   header.setNavigator ();
+  header.setEditorStylesheet ();
   page = header.run ();
   
   Assets_View view = Assets_View ();
@@ -97,10 +98,10 @@ string editone_index (void * webserver_request)
   string chapterRetrying = translate("Retrying...");
   string java_write_access = write_access ? "true" : "false";
   string script =
-  "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
-  "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
-  "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var verseEditorWriteAccess = " + java_write_access + ";";
+  "var oneverseEditorVerseLoaded = '" + chapterLoaded + "';\n"
+  "var oneverseEditorVerseSaving = '" + chapterSaving + "';\n"
+  "var oneverseEditorChapterRetrying = '" + chapterRetrying + "';\n"
+  "var oneverseEditorWriteAccess = " + java_write_access + ";";
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible);
@@ -116,7 +117,7 @@ string editone_index (void * webserver_request)
   return page;
 }
 
-// Tests for the USFM editor:
+// Tests for the editor:
 // * Autosave on going to another passage.
 // * Autosave on document unload.
 // * Autosave shortly after any change.

@@ -23,6 +23,7 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
+#include <editor/import.h>
 
 
 string editone_load_url ()
@@ -45,9 +46,63 @@ string editone_load (void * webserver_request)
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
   int verse = convert_to_int (request->query ["verse"]);
+  string part = request->query ["part"];
   
+  string stylesheet = request->database_config_user()->getStylesheet ();
+
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  usfm = usfm_get_verse_text (usfm, verse);
+
+  if (part == "prefix") {
+    vector <string> lines;
+    for (int vs = 0; vs < verse; vs++) {
+      lines.push_back (usfm_get_verse_text (usfm, vs));
+    }
+    usfm = filter_string_implode (lines, "\n");
+
+    Editor_Import editor_import = Editor_Import (request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (stylesheet);
+    editor_import.run ();
+    
+    string html = editor_import.get ();
+    
+    return html;
+  }
   
-  return Checksum_Logic::send (usfm);
+  if (part == "verse") {
+    usfm = usfm_get_verse_text (usfm, verse);
+
+    Editor_Import editor_import = Editor_Import (request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (stylesheet);
+    editor_import.run ();
+    
+    string html = editor_import.get ();
+    
+    return Checksum_Logic::send (html);
+  }
+  
+  if (part == "suffix") {
+    vector <int> verses = usfm_get_verse_numbers (usfm);
+    
+    vector <string> lines;
+    for (auto vs : verses) {
+      if (vs > verse) {
+        lines.push_back (usfm_get_verse_text (usfm, vs));
+      }
+    }
+
+    usfm = filter_string_implode (lines, "\n");
+    
+    Editor_Import editor_import = Editor_Import (request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (stylesheet);
+    editor_import.run ();
+    
+    string html = editor_import.get ();
+    
+    return html;
+  }
+  
+  return "";
 }
