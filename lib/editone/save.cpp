@@ -87,16 +87,8 @@ string editone_save (void * webserver_request)
   string stylesheet = request->database_config_user()->getStylesheet();
 
   
-  Editor_Export editor_export = Editor_Export (request);
-  editor_export.load (html);
-  editor_export.stylesheet (stylesheet);
-  editor_export.run ();
-  string usfm = editor_export.get ();
-  
-  cout << usfm << endl; // Todo
-  
-  
-  return "Off"; // Todo temporally off.
+  // Convert the html back to USFM in the special way for editing one verse.
+  string usfm = editor_export_verse (webserver_request, stylesheet, html);
   
   
   // Get the old chapter USFM into an array of verse => USFM fragment.
