@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/md5.h>
 #include <filter/usfm.h>
+#include <filter/diff.h>
 #include <flate/flate.h>
 #include <config/globals.h>
 #include <database/config/general.h>
@@ -1519,6 +1520,90 @@ void test_editor_roundtrip ()
     evaluate (__LINE__, __func__, usfm, output);
   }
   refresh_sandbox (false);
+}
+
+
+// Testing roundtrip for when editing one verse.
+void test_editor_roundtrip_verse () // Todo
+{
+  refresh_sandbox (true);
+  // Testing a verse without a starting paragraph. Todo
+  {
+    string usfm = "\\v 1 God created";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p><span class=\"v\">1</span><span> </span><span>God created</span></p>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
+  // Testing chapter number, or verse 0. Todo
+  {
+    string usfm = "\\c 1\n"
+                  "\\p";
+    
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p class=\"c\"><span>1</span></p><p class=\"p\"/>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
+  // Chapter 0 verse 0.
+  {
+    string usfm =
+    "\\id GEN Genesis\n"
+    "\\h Genesis\n"
+    "\\toc1 The First Book of Moses, called Genesis\n"
+    "\\mt1 The First Book of Moses, called Genesis";
+    
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p class=\"mono\"><span>\\id </span><span>GEN Genesis</span></p><p class=\"mono\"><span>\\h </span><span>Genesis</span></p><p class=\"mono\"><span>\\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class=\"mt1\"><span>The First Book of Moses, called Genesis</span></p>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
+  // Testing a paragraph with content.
+  {
+    string usfm = "\\p And God called the firmament Heaven";
+    
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p class=\"p\"><span>And God called the firmament Heaven</span></p>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
 }
 
 

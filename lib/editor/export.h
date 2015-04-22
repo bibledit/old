@@ -65,5 +65,8 @@ private:
 };
 
 
+string editor_export_verse (void * webserver_request, string stylesheet, string html);
+
+
 #endif
 
