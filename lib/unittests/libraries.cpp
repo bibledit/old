@@ -361,7 +361,7 @@ void test_store_bible_data_safely_setup (Webserver_Request * request, string usf
 }
 
 
-void test_store_bible_data ()
+void test_store_bible_data () // Todo
 {
   Webserver_Request request;
   string usfm =
@@ -445,6 +445,35 @@ void test_store_bible_data ()
     int currentId2 = request.database_bibles()->getChapterId ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, currentId, currentId2);
   }
+  // Safely store verse 0 without a change
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+  }
+  // Safely store verse 0 with a change.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p x\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+  }
+  // Todo test saving verse two.
+  // Test saving mismatched verse two.
+  // Test saving verse with too much length.
+  // Test saving verse with too much difference.
+  // Test saving usfm without any verse: Will be taken as 0, but e.g. save to verse 2.
+  // Test saving usfm with two verses: Fail.
+  // Test saving with no change.
 }
 
 

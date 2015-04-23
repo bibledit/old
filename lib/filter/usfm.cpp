@@ -658,33 +658,6 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 }
 
 
-// Function to safely store a chapter.
-// It saves the chapter if the new USFM does not differ too much from the existing USFM.
-// It returns true or false depending on success.
-// This function proves useful in cases that the text in the Bible editor gets corrupted
-// due to human error.
-// It also is useful in cases where the session is deleted from the server,
-// where the text in the editors would get corrupted.
-// It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
-bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm) // Todo
-{
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  // Existing chapter contents.
-  string existing = request->database_bibles()->getChapter (bible, book, chapter);
-  
-  // Bail out if the existing chapter equals the USFM to be saved.
-  if (usfm == existing) return true;
-
-  // Safety check.
-  if (!usfm_save_is_safe (bible, existing, usfm)) return false;
-  
-  // Safety checks have passed: Save chapter.
-  Bible_Logic::storeChapter (bible, book, chapter, usfm);
-  return true;
-}
-
-
 // This function compares the $newtext with the $oldtext.
 // It returns true if the difference is below the limit set for the Bible.
 // It returns false if the difference exceeds that limit.
@@ -716,5 +689,101 @@ bool usfm_save_is_safe (string bible, string oldtext, string newtext) // Todo us
   }
   
   // Safety checks have passed.
+  return true;
+}
+
+
+// Function to safely store a chapter.
+// It saves the chapter if the new USFM does not differ too much from the existing USFM.
+// It returns true or false depending on success.
+// This function proves useful in cases that the text in the Bible editor gets corrupted
+// due to human error.
+// It also is useful in cases where the session is deleted from the server,
+// where the text in the editors would get corrupted.
+// It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
+bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm) // Todo
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Existing chapter contents.
+  string existing = request->database_bibles()->getChapter (bible, book, chapter);
+  
+  // Bail out if the existing chapter equals the USFM to be saved.
+  if (usfm == existing) return true;
+  
+  // Safety check.
+  if (!usfm_save_is_safe (bible, existing, usfm)) return false;
+  
+  // Safety checks have passed: Save chapter.
+  Bible_Logic::storeChapter (bible, book, chapter, usfm);
+  return true;
+}
+
+
+// Function to safely store a verse.
+// It saves the verse if the new USFM does not differ too much from the existing USFM.
+// It returns true or false depending on success.
+// This function proves useful in cases that the text in the Bible editor gets corrupted
+// due to human error.
+// It also is useful in cases where the session is deleted from the server,
+// where the text in the editors would get corrupted.
+// It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
+bool usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm) // Todo use this for the verse editors.
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  usfm = filter_string_trim (usfm);
+
+  // Check that the USFM to be saved is for the correct verse. Todo
+  vector <int> verses = usfm_get_verse_numbers (usfm);
+  if (verses.size () != 1) {
+    Database_Logs::log ("The USFM contains more than one verse: " + usfm); // Todo unit test.
+    return false;
+  }
+  int usfmverse = verses [0];
+  if (verse != usfmverse) {
+    Database_Logs::log ("The USFM contains verse " + to_string (usfmverse) + ", which would overwrite existing verse " + to_string (verse) + ": " + usfm); // Todo unit test.
+    return false;
+  }
+
+  // Get the existing chapter USFM into a map of verse => USFM fragments.
+  string usfmString = request->database_bibles()->getChapter (bible, book, chapter);
+  verses = usfm_get_verse_numbers (usfmString);
+  {
+    set <int> unique (verses.begin(), verses.end());
+    verses.assign (unique.begin(), unique.end());
+  }
+  sort (verses.begin(), verses.end());
+  map <int, string> usfmMap;
+  for (auto vs : verses) {
+    usfmMap [vs] = usfm_get_verse_text (usfmString, vs);
+  }
+  
+  // Bail out if the new USFM is the same as the existing.
+  if (usfm == usfmMap [verse]) {
+    return true;
+  }
+  
+  
+  // Check maximum difference between new and existing USFM.
+  if (!usfm_save_is_safe (bible, usfmMap [verse], usfm)) {
+    return false;
+  }
+  
+  
+  // Store the new verse USFM in the map.
+  usfmMap [verse] = usfm;
+  
+  
+  // Create the updated chapter USFM as a string.
+  usfm.clear ();
+  for (auto & element : usfmMap) {
+    if (!usfm.empty ()) usfm.append ("\n");
+    usfm.append (element.second);
+  }
+  
+  
+  // Safety checks have passed: Save chapter.
+  Bible_Logic::storeChapter (bible, book, chapter, usfm);
   return true;
 }
