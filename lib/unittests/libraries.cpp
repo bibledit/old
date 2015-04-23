@@ -445,7 +445,7 @@ void test_store_bible_data () // Todo
     int currentId2 = request.database_bibles()->getChapterId ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, currentId, currentId2);
   }
-  // Safely store verse 0 without a change
+  // Safely store verse 0 without a change.
   {
     test_store_bible_data_safely_setup (&request, usfm);
     string data =
@@ -461,19 +461,79 @@ void test_store_bible_data () // Todo
     test_store_bible_data_safely_setup (&request, usfm);
     string data =
     "\\c 1\n"
-    "\\p x\n";
+    "\\p xx\n";
     bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data);
     evaluate (__LINE__, __func__, true, stored);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, usfm, result);
+    string newusfm = filter_string_str_replace ("\\p", "\\p xx", usfm);
+    newusfm = filter_string_trim (newusfm);
+    evaluate (__LINE__, __func__, newusfm, result);
   }
-  // Todo test saving verse two.
-  // Test saving mismatched verse two.
-  // Test saving verse with too much length.
-  // Test saving verse with too much difference.
-  // Test saving usfm without any verse: Will be taken as 0, but e.g. save to verse 2.
-  // Test saving usfm with two verses: Fail.
-  // Test saving with no change.
+  // Safely store verse two with a change.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data = "\\v 2 Verse two.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    string newusfm = filter_string_str_replace ("Verse 2", "Verse two", usfm);
+    newusfm = filter_string_trim (newusfm);
+    evaluate (__LINE__, __func__, newusfm, result);
+  }
+  // Safely store the USFM for verse two to verse one: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data = "\\v 2 Verse 2.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 1, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store a verse with too much length difference: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data = "\\v 2 Verse two two two.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store a verse with too much of content difference: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    string data = "\\v 2 vERSE 2.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store USFM without any verse to verse 2: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    string data = "\\p Verse 2.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store USFM with two verses: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    string data = "\\v 2 Verse 2.\n\\v 3 3";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  
 }
 
 

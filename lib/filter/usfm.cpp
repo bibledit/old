@@ -661,13 +661,14 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 // This function compares the $newtext with the $oldtext.
 // It returns true if the difference is below the limit set for the Bible.
 // It returns false if the difference exceeds that limit.
-bool usfm_save_is_safe (string bible, string oldtext, string newtext) // Todo use
+bool usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter) // Todo use
 {
   // Two texts are equal: safe.
   if (newtext == oldtext) return true;
   
   // Allowed percentage difference.
-  int allowed_percentage = Database_Config_Bible::getEditingAllowedDifference (bible);
+  int allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceVerse (bible);
+  if (chapter) allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceChapter (bible);
 
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();
@@ -712,7 +713,7 @@ bool usfm_safely_store_chapter (void * webserver_request, string bible, int book
   if (usfm == existing) return true;
   
   // Safety check.
-  if (!usfm_save_is_safe (bible, existing, usfm)) return false;
+  if (!usfm_save_is_safe (bible, existing, usfm, true)) return false;
   
   // Safety checks have passed: Save chapter.
   Bible_Logic::storeChapter (bible, book, chapter, usfm);
@@ -734,8 +735,15 @@ bool usfm_safely_store_verse (void * webserver_request, string bible, int book, 
   
   usfm = filter_string_trim (usfm);
 
-  // Check that the USFM to be saved is for the correct verse. Todo
+  // Check that the USFM to be saved is for the correct verse.
   vector <int> verses = usfm_get_verse_numbers (usfm);
+  if ((verse != 0) && !verses.empty ()) {
+    verses.erase (verses.begin());
+  }
+  if (verses.empty ()) {
+    Database_Logs::log ("The USFM contains no verse information: " + usfm); // Todo unit test.
+    return false;
+  }
   if (verses.size () != 1) {
     Database_Logs::log ("The USFM contains more than one verse: " + usfm); // Todo unit test.
     return false;
@@ -766,7 +774,7 @@ bool usfm_safely_store_verse (void * webserver_request, string bible, int book, 
   
   
   // Check maximum difference between new and existing USFM.
-  if (!usfm_save_is_safe (bible, usfmMap [verse], usfm)) {
+  if (!usfm_save_is_safe (bible, usfmMap [verse], usfm, false)) {
     return false;
   }
   
