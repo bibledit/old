@@ -507,7 +507,7 @@ void Editor_Export::postprocess ()
 // This function takes the html from an editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
-string editor_export_verse (void * webserver_request, string stylesheet, string html) // Todo
+string editor_export_verse (void * webserver_request, string stylesheet, string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.

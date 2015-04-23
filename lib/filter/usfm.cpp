@@ -661,7 +661,7 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 // This function compares the $newtext with the $oldtext.
 // It returns true if the difference is below the limit set for the Bible.
 // It returns false if the difference exceeds that limit.
-bool usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter) // Todo use
+bool usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter)
 {
   // Two texts are equal: safe.
   if (newtext == oldtext) return true;
@@ -702,7 +702,7 @@ bool usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapt
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
-bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm) // Todo
+bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -729,7 +729,7 @@ bool usfm_safely_store_chapter (void * webserver_request, string bible, int book
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
-bool usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm) // Todo use this for the verse editors.
+bool usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -741,16 +741,16 @@ bool usfm_safely_store_verse (void * webserver_request, string bible, int book, 
     verses.erase (verses.begin());
   }
   if (verses.empty ()) {
-    Database_Logs::log ("The USFM contains no verse information: " + usfm); // Todo unit test.
+    Database_Logs::log ("The USFM contains no verse information: " + usfm);
     return false;
   }
   if (verses.size () != 1) {
-    Database_Logs::log ("The USFM contains more than one verse: " + usfm); // Todo unit test.
+    Database_Logs::log ("The USFM contains more than one verse: " + usfm);
     return false;
   }
   int usfmverse = verses [0];
   if (verse != usfmverse) {
-    Database_Logs::log ("The USFM contains verse " + to_string (usfmverse) + ", which would overwrite existing verse " + to_string (verse) + ": " + usfm); // Todo unit test.
+    Database_Logs::log ("The USFM contains verse " + to_string (usfmverse) + ", which would overwrite existing verse " + to_string (verse) + ": " + usfm);
     return false;
   }
 

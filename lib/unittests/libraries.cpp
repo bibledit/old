@@ -361,7 +361,7 @@ void test_store_bible_data_safely_setup (Webserver_Request * request, string usf
 }
 
 
-void test_store_bible_data () // Todo
+void test_store_bible_data ()
 {
   Webserver_Request request;
   string usfm =
@@ -1613,10 +1613,10 @@ void test_editor_roundtrip ()
 
 
 // Testing roundtrip for when editing one verse.
-void test_editor_roundtrip_verse () // Todo
+void test_editor_roundtrip_verse ()
 {
   refresh_sandbox (true);
-  // Testing a verse without a starting paragraph. Todo
+  // Testing a verse without a starting paragraph.
   {
     string usfm = "\\v 1 God created";
 
@@ -1634,7 +1634,7 @@ void test_editor_roundtrip_verse () // Todo
     output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Testing chapter number, or verse 0. Todo
+  // Testing chapter number, or verse 0.
   {
     string usfm = "\\c 1\n"
                   "\\p";
