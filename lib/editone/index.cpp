@@ -88,6 +88,7 @@ string editone_index (void * webserver_request)
   
   // Write access?
   bool write_access = access_bible_write (request, bible);
+  if (write_access) view.enable_zone ("write_access");
   view.set_variable ("write_access", write_access ? "true" : "false");
   
   // Store the active Bible in the page's javascript.
@@ -96,12 +97,12 @@ string editone_index (void * webserver_request)
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
-  string java_write_access = write_access ? "true" : "false";
+  string javascript_write_access = write_access ? "true" : "false";
   string script =
   "var oneverseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var oneverseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var oneverseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var oneverseEditorWriteAccess = " + java_write_access + ";";
+  "var oneverseEditorWriteAccess = " + javascript_write_access + ";";
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible);

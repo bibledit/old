@@ -95,12 +95,12 @@ string editverse_index (void * webserver_request)
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
-  string java_write_access = write_access ? "true" : "false";
+  string javascript_write_access = write_access ? "true" : "false";
   string script =
   "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var verseEditorWriteAccess = " + java_write_access + ";";
+  "var verseEditorWriteAccess = " + javascript_write_access + ";";
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible);
