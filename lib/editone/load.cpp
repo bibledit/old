@@ -38,6 +38,12 @@ bool editone_load_acl (void * webserver_request)
 }
 
 
+string editone_load_remove_id_notes (string html)
+{
+  return filter_string_str_replace (" id=\"notes\"", "", html);
+}
+
+
 string editone_load (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -65,6 +71,8 @@ string editone_load (void * webserver_request)
     editor_import.run ();
     
     string html = editor_import.get ();
+    
+    html = editone_load_remove_id_notes (html);
     
     return html;
   }
@@ -101,6 +109,8 @@ string editone_load (void * webserver_request)
     
     string html = editor_import.get ();
     
+    html = editone_load_remove_id_notes (html);
+
     return html;
   }
   
