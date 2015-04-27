@@ -46,6 +46,7 @@ public:
   vector <int> getVerses (const string& name, int book, int chapter);
 private:
   sqlite3 * connect ();
+  bool creating_defaults;
 };
 
 

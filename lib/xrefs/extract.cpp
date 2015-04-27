@@ -75,8 +75,8 @@ string xrefs_extract (void * webserver_request)
     string verse_usfm = usfm_get_verse_text (usfm, verse);
     vector <UsfmNote> xrefs = usfm_extract_notes (verse_usfm, {"x"});
     for (auto xref : xrefs) {
-      allxrefs.push_back (to_string (verse));
-      allxrefs.push_back (to_string (xref.offset));
+      allxrefs.push_back  convert_to_string (verse));
+      allxrefs.push_back  convert_to_string (xref.offset));
       allxrefs.push_back (xref.data);
     }
   }

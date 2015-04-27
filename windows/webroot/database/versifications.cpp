@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Database_Versifications::Database_Versifications ()
 {
+  creating_defaults = false;
 }
 
 
@@ -183,7 +184,7 @@ int Database_Versifications::createSystem (const string& name)
   if (id > 0) {
     return id;
   }
-  // Get the first free ID starting from 1000.
+  // Get the first free ID starting from 1000 (except when creating the default systems).
   id = 0;
   sqlite3 * db = connect ();
   vector <string> systems = database_sqlite_query (db, "SELECT system FROM names ORDER BY system DESC LIMIT 1;") ["system"];
@@ -191,7 +192,7 @@ int Database_Versifications::createSystem (const string& name)
     id = convert_to_int (system);
   }
   id++;
-  if (id < 1000) id = 1000;
+  if (!creating_defaults) if (id < 1000) id = 1000;
   // Create the empty system.
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO names VALUES (");
@@ -317,10 +318,12 @@ void Database_Versifications::defaults ()
   database_sqlite_exec (db, "DELETE FROM data WHERE system < 1000;");
   database_sqlite_disconnect (db);
 
+  creating_defaults = true;
   vector <string> names = versification_logic_names ();
   for (auto name : names) {
     string contents = versification_logic_data (name);
     input (contents, name);
   }
+  creating_defaults = false;
 }
 

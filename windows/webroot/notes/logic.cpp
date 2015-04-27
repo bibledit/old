@@ -457,7 +457,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   contents.append ("<p><a href=\"");
   contents.append (link);
   contents.append ("\">View or respond online</a></p>\n");
-  string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + to_string (identifier) + ")";
+  string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + convert_to_string (identifier) + ")";
   contents.append ("<p><a href=\"");
   contents.append (mailto);
   contents.append ("\">Respond by email</a></p>\n");

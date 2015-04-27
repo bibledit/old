@@ -116,7 +116,7 @@ string sync_notes (void * webserver_request)
       string response;
       for (auto identifier : identifiers) {
         if (!response.empty ()) response.append ("\n");
-        response.append (to_string (identifier));
+        response.append  convert_to_string (identifier));
         response.append ("\n");
         response.append (database_notes.getChecksum (identifier));
       }
@@ -157,7 +157,7 @@ string sync_notes (void * webserver_request)
       vector <Passage> passages = database_notes.getPassages (identifier);
       vector <string> lines;
       for (auto & passage : passages) {
-        lines.push_back (to_string (filter_passage_to_integer (passage)));
+        lines.push_back  convert_to_string (filter_passage_to_integer (passage)));
       }
       return filter_string_implode (lines, "\n");
     }

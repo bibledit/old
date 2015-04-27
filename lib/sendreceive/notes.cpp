@@ -191,7 +191,7 @@ void sendreceive_notes ()
           vector <Passage> passages = database_notes.getPassages (identifier);
           vector <string> lines;
           for (auto & passage : passages) {
-            lines.push_back (to_string (filter_passage_to_integer (passage)));
+            lines.push_back  convert_to_string (filter_passage_to_integer (passage)));
           }
           content = filter_string_implode (lines, "\n");
           break;

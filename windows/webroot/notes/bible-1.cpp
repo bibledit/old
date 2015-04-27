@@ -61,14 +61,14 @@ string notes_bible_1 (void * webserver_request)
   
   
   int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
   
   
   if (request->query.count ("bible")) {
     string bible = request->query["bible"];
     if (bible == notes_logic.generalBibleName ()) bible = "";
     notes_logic.setBible (id, bible);
-    redirect_browser (request, notes_actions_url () + "?id=" + to_string (id));
+    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
     return "";
   }
   
@@ -77,7 +77,7 @@ string notes_bible_1 (void * webserver_request)
   vector <string> bibles = access_bible_bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (auto & bible : bibles) {
-    bibleblock.append ("<li><a href=\"bible-1?id=" + to_string (id) + "&bible=" + bible + "\">" + bible + "</a></li>\n");
+    bibleblock.append ("<li><a href=\"bible-1?id=" + convert_to_string (id) + "&bible=" + bible + "\">" + bible + "</a></li>\n");
   }
   view.set_variable ("bibleblock", bibleblock);
   

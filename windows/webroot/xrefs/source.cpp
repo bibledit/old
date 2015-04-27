@@ -71,8 +71,8 @@ string xrefs_source (void * webserver_request)
   // text, and vice versa.
   // Fix the source text, because the source text can be modified without trouble, since it won't be saved.
   for (unsigned i = 1; i < 1000; i++) {
-    html = filter_string_str_replace ("note" + to_string (i) + "\"", "note" + to_string (i + 1000) + "\"", html);
-    html = filter_string_str_replace ("citation" + to_string (i) + "\"", "citation" + to_string (i + 1000) + "\"", html);
+    html = filter_string_str_replace ("note" + convert_to_string (i) + "\"", "note" + convert_to_string (i + 1000) + "\"", html);
+    html = filter_string_str_replace ("citation" + convert_to_string (i) + "\"", "citation" + convert_to_string (i + 1000) + "\"", html);
   }
   
   

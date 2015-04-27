@@ -61,7 +61,7 @@ string notes_verses (void * webserver_request)
   
   
   int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
 
 
   if (request->post.count ("submit")) {
@@ -79,7 +79,7 @@ string notes_verses (void * webserver_request)
       }
     }
     notes_logic.setPassages (id, passages);
-    redirect_browser (request, notes_actions_url () + "?id=" + to_string (id));
+    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
     return "";
   }
   

@@ -101,7 +101,7 @@ string xrefs_translate (void * webserver_request)
   Assets_View view = Assets_View ();
   
   
-  view.set_variable ("remaining", to_string (unknown_books.size () - 1));
+  view.set_variable ("remaining", convert_to_string (unknown_books.size () - 1));
                       
   
   string bookname = Database_Books::getEnglishFromId (unknown_books [0]);

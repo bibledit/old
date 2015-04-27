@@ -82,7 +82,7 @@ void changes_process_identifiers (Webserver_Request * request,
         if (old_text != new_text) {
           string modification = filter_diff_diff (old_text, new_text);
           email += "<div>";
-          email += filter_passage_display (book, chapter, to_string (verse));
+          email += filter_passage_display (book, chapter, convert_to_string (verse));
           email += " ";
           email += modification;
           email += "</div>";
@@ -214,17 +214,17 @@ void changes_modifications ()
     // The files get stored at http://site.org:<port>/revisions/<Bible>/<date>
     int seconds = filter_date_seconds_since_epoch ();
     string timepath;
-    timepath.append (to_string (filter_date_numerical_year (seconds)));
+    timepath.append  convert_to_string (filter_date_numerical_year (seconds)));
     timepath.append ("-");
-    timepath.append (filter_string_fill (to_string (filter_date_numerical_month (seconds)), 2, '0'));
+    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_month (seconds)), 2, '0'));
     timepath.append ("-");
-    timepath.append (filter_string_fill (to_string (filter_date_numerical_month_day (seconds)), 2, '0'));
+    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_month_day (seconds)), 2, '0'));
     timepath.append (" ");
-    timepath.append (filter_string_fill (to_string (filter_date_numerical_hour (seconds)), 2, '0'));
+    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_hour (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter_string_fill (to_string (filter_date_numerical_minute (seconds)), 2, '0'));
+    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter_string_fill (to_string (filter_date_numerical_second (seconds)), 2, '0'));
+    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
     string directory = filter_url_create_root_path ("revisions", bible, timepath);
     filter_url_mkdir (directory);
     

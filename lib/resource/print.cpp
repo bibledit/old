@@ -154,7 +154,7 @@ string resource_print (void * webserver_request)
       Passage passage = request->database_config_user()->getPrintPassageFrom ();
       vector <int> chapters = request->database_bibles()->getChapters (bible, passage.book);
       for (auto & chapter : chapters) {
-        dialog_list.add_row (to_string (chapter), "fromchapter", convert_to_string (chapter));
+        dialog_list.add_row  convert_to_string (chapter), "fromchapter", convert_to_string (chapter));
       }
       page += dialog_list.run ();
       return page;
@@ -186,7 +186,7 @@ string resource_print (void * webserver_request)
       string usfm = request->database_bibles()->getChapter (bible, passage.book, passage.chapter);
       vector <int> verses = usfm_get_verse_numbers (usfm);
       for (auto & verse : verses) {
-        dialog_list.add_row (to_string (verse), "fromverse", convert_to_string (verse));
+        dialog_list.add_row  convert_to_string (verse), "fromverse", convert_to_string (verse));
       }
       page += dialog_list.run ();
       return page;
@@ -244,7 +244,7 @@ string resource_print (void * webserver_request)
       Passage passage = request->database_config_user()->getPrintPassageTo ();
       vector <int> chapters = request->database_bibles()->getChapters (bible, passage.book);
       for (auto & chapter : chapters) {
-        dialog_list.add_row (to_string (chapter), "tochapter", convert_to_string (chapter));
+        dialog_list.add_row  convert_to_string (chapter), "tochapter", convert_to_string (chapter));
       }
       page += dialog_list.run ();
       return page;
@@ -275,7 +275,7 @@ string resource_print (void * webserver_request)
       string usfm = request->database_bibles()->getChapter (bible, passage.book, passage.chapter);
       vector <int> verses = usfm_get_verse_numbers (usfm);
       for (auto & verse : verses) {
-        dialog_list.add_row (to_string (verse), "toverse", convert_to_string (verse));
+        dialog_list.add_row  convert_to_string (verse), "toverse", convert_to_string (verse));
       }
       page += dialog_list.run ();
       return page;

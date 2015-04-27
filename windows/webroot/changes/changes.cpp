@@ -121,9 +121,9 @@ string changes_changes (void * webserver_request)
     string link = filter_passage_link_for_opening_editor_at (passage.book, passage.chapter, passage.verse);
     string category = database_modifications.getNotificationCategory (id);
     string modification = database_modifications.getNotificationModification (id);
-    textblock.append ("<div id=\"entry" + to_string (id) + "\">\n");
-    textblock.append ("<a href=\"expand\" id=\"expand" + to_string (id) + "\"> ⊞ </a>\n");
-    textblock.append ("<a href=\"remove\" id=\"remove" + to_string (id) + "\"> ✗ </a>\n");
+    textblock.append ("<div id=\"entry" + convert_to_string (id) + "\">\n");
+    textblock.append ("<a href=\"expand\" id=\"expand" + convert_to_string (id) + "\"> ⊞ </a>\n");
+    textblock.append ("<a href=\"remove\" id=\"remove" + convert_to_string (id) + "\"> ✗ </a>\n");
     textblock.append (link + "\n");
     textblock.append ("<span style=\"font-family:monospace;font-size:125%;\">" + category + "</span>\n");
     textblock.append (modification + "\n");

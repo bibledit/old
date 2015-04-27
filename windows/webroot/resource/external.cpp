@@ -142,7 +142,7 @@ string gbs_digitaal_processor (string url, int verse)
         if (history [i - 4] == "uid") {
           if (history [i - 3] == "0") {
             if (history [i - 2] == "number") {
-              if (history [i - 1] == to_string (verse)) {
+              if (history [i - 1] == convert_to_string (verse)) {
                 if (history.size () > i + 1) {
                   text = history [i + 1];
                 }
@@ -245,7 +245,7 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
     if (history[i] == "text") {
       if (history.size () > i + 7) {
         if (history[i+2] == "isPerikoop") {
-          if (history[i+7] == to_string (verse)) {
+          if (history[i+7] == convert_to_string (verse)) {
             text.append ("<p><i>" + history [i+1] + "</i></p>");
           }
         }
@@ -258,7 +258,7 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
         if (history [i - 4] == "uid") {
           if (history [i - 3] == "0") {
             if (history [i - 2] == "number") {
-              if (history [i - 1] == to_string (verse)) {
+              if (history [i - 1] == convert_to_string (verse)) {
                 if (history.size () > i + 1) {
                   text.append (" " + history [i + 1]);
                 }
@@ -305,7 +305,7 @@ string studylight_processor (string directory, int book, int chapter, int verse)
   // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
   book--;
   
-  string url = "http://www.studylight.org/com/" + directory + "/view.cgi?bk=" + to_string (book) + "&ch=" + to_string (chapter);
+  string url = "http://www.studylight.org/com/" + directory + "/view.cgi?bk=" + convert_to_string (book) + "&ch=" + convert_to_string (chapter);
   
   // Get the html from the server, and tidy it up.
   string error;
@@ -323,7 +323,7 @@ string studylight_processor (string directory, int book, int chapter, int verse)
     size_t pos = line.find ("</div>");
     if (pos != string::npos) relevant_flag = false;
     
-    pos = line.find ("name=\"" + to_string (verse) + "\"");
+    pos = line.find ("name=\"" + convert_to_string (verse) + "\"");
     if (pos != string::npos) relevant_flag = true;
   }
   
@@ -339,7 +339,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
 {
   string bookname = resource_external_convert_book_bibleserver (book);
   
-  string url = "http://www.bibleserver.com/text/" + directory + "/" + bookname + to_string (chapter);
+  string url = "http://www.bibleserver.com/text/" + directory + "/" + bookname + convert_to_string (chapter);
   
   string error;
   string text = filter_url_http_get (url, error);
@@ -355,7 +355,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
       if (!text.empty ()) text.append (" ");
       text.append (line);
     }
-    pos = line.find ("no=\"" + to_string (verse) + "," + to_string (verse) + "\"");
+    pos = line.find ("no=\"" + convert_to_string (verse) + "," + convert_to_string (verse) + "\"");
     if (pos != string::npos) relevant_line = true;
   }
   filter_string_replace_between (text, "<", ">", "");
@@ -380,9 +380,9 @@ string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
   int testament = book >= 40 ? 2 : 1;
   
   // Chapter 1 of the text is chapter 2 in the URL.
-  string urlchapter = to_string (chapter + 1);
+  string urlchapter = convert_to_string (chapter + 1);
   
-  string url = "http://gbsdigitaal.nl/Data/Statenvertaling/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
+  string url = "http://gbsdigitaal.nl/Data/Statenvertaling/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
   
   return gbs_digitaal_processor (url, verse);
 }
@@ -403,9 +403,9 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
   
   // Introduction is chapter 1 in the URL.
   // Chapter 1 of the text is chapter 2 in the URL.
-  string urlchapter = to_string (chapter + 1);
+  string urlchapter = convert_to_string (chapter + 1);
   
-  string url = "http://gbsdigitaal.nl/Data/Statenvertaling/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
+  string url = "http://gbsdigitaal.nl/Data/Statenvertaling/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
   
   return gbs_digitaal_plus_processor (url, chapter, verse);
 }
@@ -424,9 +424,9 @@ string resource_external_get_king_james_version_gbs (int book, int chapter, int 
   int testament = book >= 40 ? 2 : 1;
   
   // Chapter 1 of the text is chapter 2 in the URL.
-  string urlchapter = to_string (chapter + 1);
+  string urlchapter = convert_to_string (chapter + 1);
   
-  string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
+  string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
   
   return gbs_digitaal_processor (url, verse);
 }
@@ -447,9 +447,9 @@ string resource_external_get_king_james_version_plus_gbs (int book, int chapter,
   
   // Introduction is chapter 1 in the URL.
   // Chapter 1 of the text is chapter 2 in the URL.
-  string urlchapter = to_string (chapter + 1);
+  string urlchapter = convert_to_string (chapter + 1);
   
-  string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + to_string (testament) + "/" + to_string (book) + "/" + urlchapter + ".json";
+  string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
   
   return gbs_digitaal_plus_processor (url, chapter, verse);
 }
@@ -463,7 +463,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
  
   string bookname = resource_external_convert_book_biblehub (book);
   
-  string url = "http://biblehub.com/interlinear/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
+  string url = "http://biblehub.com/interlinear/" + bookname + "/" + convert_to_string (chapter) + "-" + convert_to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
   string error;
@@ -551,7 +551,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
 {
   string bookname = resource_external_convert_book_biblehub (book);
   
-  string url = "http://biblehub.com/text/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
+  string url = "http://biblehub.com/text/" + bookname + "/" + convert_to_string (chapter) + "-" + convert_to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
   string error;
@@ -610,7 +610,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   
   // Sample URL:
   // http://biblehub.com/text/genesis/1-1.htm
-  string url = "http://biblehub.com/text/" + bookname + "/" + to_string (chapter) + "-" + to_string (verse) + ".htm";
+  string url = "http://biblehub.com/text/" + bookname + "/" + convert_to_string (chapter) + "-" + convert_to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
   string error;
@@ -673,7 +673,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
 {
   string bookname = resource_external_convert_book_netbible (book);
   
-  string url = "https://net.bible.org/resource/netTexts/" + bookname + " " + to_string (chapter) + ":" + to_string (verse);
+  string url = "https://net.bible.org/resource/netTexts/" + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
   url = filter_string_str_replace (" ", "%20", url);
   
   string error;
@@ -683,7 +683,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   
   output += "\n";
   
-  url = "https://net.bible.org/resource/netNotes/" + bookname + " " + to_string (chapter) + ":" + to_string (verse);
+  url = "https://net.bible.org/resource/netNotes/" + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
   url = filter_string_str_replace (" ", "%20", url);
   
   string notes = filter_url_http_get (url, error);
@@ -748,21 +748,21 @@ string resource_external_get_blue_letter_bible (int book, int chapter, int verse
   
   string output;
   
-  string url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=$" + to_string (chapter) + "&t=KJV&ss=1";
+  string url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=$" + convert_to_string (chapter) + "&t=KJV&ss=1";
   url = filter_string_str_replace (" ", "%20", url);
   
   output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">KJV</a>";
   
   output += " | ";
   
-  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + to_string (chapter) + "&t=WLC";
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + convert_to_string (chapter) + "&t=WLC";
   url = filter_string_str_replace (" ", "%20", url);
   
   output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">WLC</a>";
   
   output += " | ";
   
-  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + to_string (chapter) + "&t=mGNT";
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + convert_to_string (chapter) + "&t=mGNT";
   url = filter_string_str_replace (" ", "%20", url);
   
   output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">mGNT</a>";

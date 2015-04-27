@@ -66,12 +66,12 @@ string workbench_settings (void * webserver_request)
     int to2 = 0;
     for (int row = 1; row <= 3; row++) {
       for (int column = 1; column <= 5; column++) {
-        string key = to_string (row) + to_string (column);
+        string key = convert_to_string (row) + convert_to_string (column);
         urls [to14] = request->post ["url" + key];
         widths [to14] = request->post ["width" + key];
         to14++;
       }
-      string key = to_string (row);
+      string key = convert_to_string (row);
       row_heights [to2] = request->post ["height" + key];
       to2++;
     }
@@ -95,9 +95,9 @@ string workbench_settings (void * webserver_request)
     int key = element.first;
     int row = round (key / 5) + 1;
     int column = key % 5 + 1;
-    string variable = "url" + to_string (row) + to_string (column);
+    string variable = "url" + convert_to_string (row) + convert_to_string (column);
     view.set_variable (variable, urls[key]);
-    variable = "width" + to_string (row) + to_string (column);
+    variable = "width" + convert_to_string (row) + convert_to_string (column);
     view.set_variable (variable, widths[key]);
   }
   
@@ -105,7 +105,7 @@ string workbench_settings (void * webserver_request)
   for (auto & element : row_heights) {
     int key = element.first;
     int row = key + 1;
-    string variable = "height" + to_string (row);
+    string variable = "height" + convert_to_string (row);
     view.set_variable (variable, row_heights [key]);
   }
   

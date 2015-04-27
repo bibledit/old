@@ -750,7 +750,7 @@ bool usfm_safely_store_verse (void * webserver_request, string bible, int book, 
   }
   int usfmverse = verses [0];
   if (verse != usfmverse) {
-    Database_Logs::log ("The USFM contains verse " + to_string (usfmverse) + ", which would overwrite existing verse " + to_string (verse) + ": " + usfm);
+    Database_Logs::log ("The USFM contains verse " + convert_to_string (usfmverse) + ", which would overwrite existing verse " + convert_to_string (verse) + ": " + usfm);
     return false;
   }
 

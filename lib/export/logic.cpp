@@ -166,7 +166,7 @@ string Export_Logic::baseBookFileName (int book)
 {
   string filename;
   if (book) {
-    filename = filter_string_fill (to_string (book), 2, '0') + "_" + Database_Books::getEnglishFromId (book);
+    filename = filter_string_fill  convert_to_string (book), 2, '0') + "_" + Database_Books::getEnglishFromId (book);
   } else {
     filename = "00_Bible";
   }

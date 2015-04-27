@@ -147,7 +147,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
     if (!file_exists (bookdir)) filter_url_mkdir (bookdir);
     vector <int> chapters = request->database_bibles()->getChapters (bible, book);
     for (auto & chapter : chapters) {
-      string chapterdir = filter_url_create_path (bookdir, to_string (chapter));;
+      string chapterdir = filter_url_create_path (bookdir, convert_to_string (chapter));;
       if (!file_exists (chapterdir)) filter_url_mkdir (chapterdir);
       string datafile = filter_url_create_path (chapterdir, "data");
       string contents = filter_url_file_get_contents (datafile);
@@ -220,18 +220,18 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
     if (file_exists (bookdir)) {
       vector <int> chapters = request->database_bibles()->getChapters (bible, book);
       for (auto & chapter : chapters) {
-        string chapterdir = filter_url_create_path (bookdir, to_string (chapter));
+        string chapterdir = filter_url_create_path (bookdir, convert_to_string (chapter));
         if (file_exists (chapterdir)) {
           string datafile = filter_url_create_path (chapterdir, "data");
           string contents = filter_url_file_get_contents (datafile);
           string usfm = request->database_bibles()->getChapter (bible, book, chapter);
           if (contents != usfm) {
             Bible_Logic::storeChapter (bible, book, chapter, contents);
-            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
           }
         } else {
           Bible_Logic::deleteChapter (bible, book, chapter);
-          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
         }
       }
     } else {
@@ -255,20 +255,20 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 {
   // Filename for the chapter.
   string bookname = Database_Books::getEnglishFromId (book);
-  string filename = filter_url_create_path (repository, bookname, to_string (chapter), "data");
+  string filename = filter_url_create_path (repository, bookname, convert_to_string (chapter), "data");
   
   if (file_exists (filename)) {
     
     // Store chapter in database.
     string usfm = filter_url_file_get_contents (filename);
     Bible_Logic::storeChapter (bible, book, chapter, usfm);
-    Database_Logs::log (translate("A collaborator updated") + " " + bible + " " + bookname + " " + to_string (chapter));
+    Database_Logs::log (translate("A collaborator updated") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
     
   } else {
     
     // Delete chapter from database.
     Bible_Logic::deleteChapter (bible, book, chapter);
-    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + to_string (chapter));
+    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
     
   }
 }
@@ -379,7 +379,7 @@ static int fetch_progress (const git_transfer_progress *stats, void *payload)
   if (seconds != pd->seconds) {
     size_t received_kilo_bytes = stats->received_bytes / 1048;
     int percentage = round (100 * stats->received_objects / stats->total_objects);
-    string progress = to_string (received_kilo_bytes) + " kb";
+    string progress = convert_to_string (received_kilo_bytes) + " kb";
     if (pd->job_identifier) {
       Database_Jobs database_jobs;
       database_jobs.setPercentage (pd->job_identifier, percentage);
@@ -679,7 +679,7 @@ void filter_git_config_set_int (string repository, string name, int value)
   if (cfg) git_config_free (cfg);
   if (repo) git_repository_free (repo);
 #else
-  string svalue = to_string (value);
+  string svalue = convert_to_string (value);
   filter_git_config_set_string (repository, name, svalue);
 #endif
 }

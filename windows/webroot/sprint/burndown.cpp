@@ -218,7 +218,7 @@ string sprint_create_burndown_chart (string bible, int year, int month)
   lines.push_back ("<tr>");
   for (auto element : data) {
     int day = element.first;
-    lines.push_back ("<td style=\"width:1em\">" + to_string (day) + "</td>");
+    lines.push_back ("<td style=\"width:1em\">" + convert_to_string (day) + "</td>");
   }
   lines.push_back ("</tr>");
                                       
@@ -226,7 +226,7 @@ string sprint_create_burndown_chart (string bible, int year, int month)
   lines.push_back ("<tr>");
   int columncount = data.size ();
   string text = translate("days");
-  lines.push_back ("<td colspan=\"" + to_string (columncount) + "\">" + text + "</td>");
+  lines.push_back ("<td colspan=\"" + convert_to_string (columncount) + "\">" + text + "</td>");
   lines.push_back ("</tr>");
                                     
   lines.push_back ("</table>");

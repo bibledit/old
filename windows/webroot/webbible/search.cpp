@@ -78,7 +78,7 @@ string webbible_search (void * webserver_request)
   
   
   // Hit count.
-  view.set_variable ("hitCount", to_string (ids.size ()));
+  view.set_variable ("hitCount", convert_to_string (ids.size ()));
   
   
   string hitsblock;

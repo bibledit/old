@@ -175,7 +175,7 @@ string Sync_Logic::usfm_resource_checksum (const string& name)
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> books = database_usfmresources.getBooks (name);
   for (auto & book : books) {
-    vchecksum.push_back (to_string (book));
+    vchecksum.push_back  convert_to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
   }
   string checksum = filter_string_implode (vchecksum, "");
@@ -191,7 +191,7 @@ string Sync_Logic::usfm_resource_book_checksum (const string& name, int book)
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> chapters = database_usfmresources.getChapters (name, book);
   for (auto & chapter : chapters) {
-    vchecksum.push_back (to_string (chapter));
+    vchecksum.push_back  convert_to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
   }
   string checksum = filter_string_implode (vchecksum, "");
@@ -205,7 +205,7 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   int checksum = database_usfmresources.getSize (name, book, chapter);
-  return to_string (checksum);
+  return convert_to_string (checksum);
 }
 
 
@@ -243,5 +243,5 @@ string Sync_Logic::offline_resource_checksum (const string& name)
 string Sync_Logic::offline_resource_file_checksum (const string& name, const string& file)
 {
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
-  return to_string (database_offlineresources.size (name, file));
+  return convert_to_string (database_offlineresources.size (name, file));
 }

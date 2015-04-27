@@ -74,9 +74,9 @@ string workbench_index (void * webserver_request)
     string width = widths [key];
     int row = round (key / 5) + 1;
     int column = key % 5 + 1;
-    string variable = "url" + to_string (row) +  to_string (column);
+    string variable = "url" + convert_to_string (row) +  convert_to_string (column);
     view.set_variable (variable, url);
-    variable = "width" + to_string (row) +  to_string (column);
+    variable = "width" + convert_to_string (row) +  convert_to_string (column);
     view.set_variable (variable, width);
     if (convert_to_int (width) > 0) view.enable_zone (variable);
   }
@@ -86,7 +86,7 @@ string workbench_index (void * webserver_request)
   for (unsigned int key = 0; key < 3; key++) {
     string height = heights [key];
     int row = key + 1;
-    string variable = "height" + to_string (row);
+    string variable = "height" + convert_to_string (row);
     view.set_variable (variable, height);
     if (convert_to_int (height) > 0) view.enable_zone (variable);
   }

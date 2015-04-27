@@ -83,7 +83,7 @@ string changes_manage (void * webserver_request)
     if (!ids.empty ()) {
       datablock.append ("<tr>\n");
       datablock.append ("<td>" + user + ":</td>\n");
-      datablock.append ("<td>" + to_string (ids.size ()) + "</td>\n");
+      datablock.append ("<td>" + convert_to_string (ids.size ()) + "</td>\n");
       datablock.append ("<td><a href=\"manage?clear=" + user + "\">[" + translate("clear") + "]</a></td>\n");
       datablock.append ("</tr>\n");
     }

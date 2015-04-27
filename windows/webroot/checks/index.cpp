@@ -92,11 +92,11 @@ string checks_index (void * webserver_request)
       int book = hit.book;
       int chapter = hit.chapter;
       int verse = hit.verse;
-      string link = filter_passage_link_for_opening_editor_at (book, chapter, to_string (verse));
+      string link = filter_passage_link_for_opening_editor_at (book, chapter, convert_to_string (verse));
       string information = filter_string_sanitize_html (hit.data);
       resultblock.append ("<p>\n");
-      resultblock.append ("<a href=\"index?approve=" + to_string (id) + "\"> ✔ </a>\n");
-      resultblock.append ("<a href=\"index?delete=" + to_string (id) + "\"> ✗ </a>\n");
+      resultblock.append ("<a href=\"index?approve=" + convert_to_string (id) + "\"> ✔ </a>\n");
+      resultblock.append ("<a href=\"index?delete=" + convert_to_string (id) + "\"> ✗ </a>\n");
       resultblock.append (bible);
       resultblock.append (" ");
       resultblock.append (link);

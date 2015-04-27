@@ -607,14 +607,14 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
   }
   
   // Add the name for the book. No spaces.
-  filename += filter_string_fill (to_string (book), 2, '0');
+  filename += filter_string_fill  convert_to_string (book), 2, '0');
   string sbook = Database_Books::getEnglishFromId (book);
   sbook = filter_string_str_replace (" ", "", sbook);
   filename += '-' + sbook;
   
   // Chapter given: Provide name for the chaper.
   if (chapter >= 0) {
-    filename += '-' + filter_string_fill (to_string (chapter), 3, '0');
+    filename += '-' + filter_string_fill  convert_to_string (chapter), 3, '0');
   }
   
   filename += ".html";

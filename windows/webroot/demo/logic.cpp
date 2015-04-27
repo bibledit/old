@@ -22,6 +22,7 @@
 #include <filter/roles.h>
 #include <filter/usfm.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <config/logic.h>
 #include <config.h>
 #include <database/config/general.h>
@@ -152,7 +153,7 @@ void demo_clean_data ()
         if (chapter == 0) continue;
         string usfm = request.database_bibles()->getChapter (bible, book, chapter);
         if (usfm.length () < 200) {
-          Database_Logs::log ("Deleting a demo chapter because it does not contain enough text: " + to_string (book) + ":" + to_string (chapter));
+          Database_Logs::log ("Deleting a demo chapter because it does not contain enough text: " + convert_to_string (book) + ":" + convert_to_string (chapter));
           Bible_Logic::deleteChapter (bible, book, chapter);
         }
       }
@@ -218,7 +219,7 @@ void demo_create_sample_notes (void * webserver_request)
   vector <int> identifiers = database_notes.getIdentifiers ();
   if (identifiers.size () < 10) {
     for (unsigned int i = 1; i <= 10; i++) {
-      database_notes.storeNewNote (demo_sample_bible_name (), i, i, i, "Sample Note " + to_string (i), "Sample Contents for note " + to_string (i), false);
+      database_notes.storeNewNote (demo_sample_bible_name (), i, i, i, "Sample Note " + convert_to_string (i), "Sample Contents for note " + convert_to_string (i), false);
     }
   }
 }

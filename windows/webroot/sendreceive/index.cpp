@@ -139,7 +139,7 @@ string sendreceive_index (void * webserver_request)
     Database_Config_General::setRepeatSendReceive (repeatsync);
   }
   int repeatsync = Database_Config_General::getRepeatSendReceive ();
-  string repeatsynczone = "repeatsync" + to_string (repeatsync);
+  string repeatsynczone = "repeatsync" + convert_to_string (repeatsync);
   view.enable_zone (repeatsynczone);
   
   

@@ -63,7 +63,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   string bookname = Database_Books::getEnglishFromId (book);
   
   
-  Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + to_string (chapter), Filter_Roles::manager ());
+  Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::manager ());
   
   
   // Check whether the user has write-access to the Bible.
@@ -101,7 +101,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
       // When the merged USFM is the same as what's already on the server, then it means there was a merge conflict.
       // Email the user with the details, so the user can resolve the conflicts.
       string subject = "Problem sending chapter to server";
-      string body = "<p>While sending " + bible + " " + bookname + " " + to_string (chapter) + " to the server, the server didn't manage to merge it.</p>";
+      string body = "<p>While sending " + bible + " " + bookname + " " + convert_to_string (chapter) + " to the server, the server didn't manage to merge it.</p>";
       body.append ("<p>Please re-enter your changes as you see fit.</p>");
       body.append ("<p>Here is the chapter you sent to the server:</p>");
       body.append ("<pre>" + newusfm + "</pre>");
@@ -185,7 +185,7 @@ string sync_bibles (void * webserver_request)
       // The server responds with a checksum and then the list of books in the Bible.
       vector <int> server_books = request->database_bibles()->getBooks (bible);
       vector <string> v_server_books;
-      for (auto book : server_books) v_server_books.push_back (to_string (book));
+      for (auto book : server_books) v_server_books.push_back  convert_to_string (book));
       string s_server_books = filter_string_implode (v_server_books, "\n");
       string checksum = Checksum_Logic::get (v_server_books);
       return checksum + "\n" + s_server_books;
@@ -200,7 +200,7 @@ string sync_bibles (void * webserver_request)
       // The server responds with the list of books in the Bible book.
       vector <int> server_chapters = request->database_bibles()->getChapters (bible, book);
       vector <string> v_server_chapters;
-      for (auto & chapter : server_chapters) v_server_chapters.push_back (to_string (chapter));
+      for (auto & chapter : server_chapters) v_server_chapters.push_back  convert_to_string (chapter));
       string s_server_chapters = filter_string_implode (v_server_chapters, "\n");
       string checksum = Checksum_Logic::get (v_server_chapters);
       return checksum + "\n" + s_server_chapters;

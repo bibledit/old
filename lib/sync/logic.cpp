@@ -175,7 +175,7 @@ string Sync_Logic::usfm_resource_checksum (const string& name)
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> books = database_usfmresources.getBooks (name);
   for (auto & book : books) {
-    vchecksum.push_back (to_string (book));
+    vchecksum.push_back  convert_to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
   }
   string checksum = filter_string_implode (vchecksum, "");
@@ -191,7 +191,7 @@ string Sync_Logic::usfm_resource_book_checksum (const string& name, int book)
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> chapters = database_usfmresources.getChapters (name, book);
   for (auto & chapter : chapters) {
-    vchecksum.push_back (to_string (chapter));
+    vchecksum.push_back  convert_to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
   }
   string checksum = filter_string_implode (vchecksum, "");

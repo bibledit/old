@@ -86,11 +86,11 @@ string Consistency_Logic::response ()
         // If so, set a flag so the data can be re-assembled for this verse.
         // If there was no change, then the data can be fetched from the volatile database.
         bool redoPassage = false;
-        string passageKey = to_string (book) + "." + to_string (chapter) + "." + verse;
+        string passageKey = convert_to_string (book) + "." + convert_to_string (chapter) + "." + verse;
         int currentChapterId = request->database_bibles()->getChapterId (resources [0], book, chapter);
         int storedChapterId = convert_to_int (database_volatile.getValue (id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
-          database_volatile.setValue (id, passageKey + ".id", to_string (currentChapterId));
+          database_volatile.setValue (id, passageKey + ".id", convert_to_string (currentChapterId));
           redoPassage = true;
         }
         
