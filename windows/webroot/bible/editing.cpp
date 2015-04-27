@@ -58,13 +58,18 @@ string bible_editing (void * webserver_request)
   
   // Data submission.
   if (request->post.count ("submit")) {
-    int percentage = convert_to_int (request->post ["percentage"]);
-    percentage = clip (percentage, 10, 100);
-    Database_Config_Bible::setEditingAllowedDifference (bible, percentage);
+    int chapterpercentage = convert_to_int (request->post ["chapterpercentage"]);
+    chapterpercentage = clip (chapterpercentage, 10, 100);
+    Database_Config_Bible::setEditingAllowedDifferenceChapter (bible, chapterpercentage);
+    int versepercentage = convert_to_int (request->post ["versepercentage"]);
+    versepercentage = clip (versepercentage, 10, 100);
+    Database_Config_Bible::setEditingAllowedDifferenceVerse (bible, versepercentage);
   }
   
-  int percentage = Database_Config_Bible::getEditingAllowedDifference (bible);
-  view.set_variable ("percentage", to_string (percentage));
+  int chapterpercentage = Database_Config_Bible::getEditingAllowedDifferenceChapter (bible);
+  view.set_variable ("chapterpercentage", to_string (chapterpercentage));
+  int versepercentage = Database_Config_Bible::getEditingAllowedDifferenceVerse (bible);
+  view.set_variable ("versepercentage", to_string (versepercentage));
 
   page += view.render ("bible", "editing");
   

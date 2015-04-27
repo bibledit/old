@@ -31,6 +31,7 @@ libbibledit_a_SOURCES = \
 	index/index.cpp \
 	index/listing.cpp \
 	config/globals.cpp \
+	config/cygwin.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
@@ -77,6 +78,7 @@ libbibledit_a_SOURCES = \
 	setup/index.cpp \
 	setup/logic.cpp \
 	journal/index.cpp \
+	journal/logic.cpp \
 	styles/logic.cpp \
 	styles/indext.cpp \
 	styles/indexm.cpp \
@@ -174,9 +176,11 @@ libbibledit_a_SOURCES = \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editverse/index.cpp \
-	editverse/id.cpp \
 	editverse/load.cpp \
 	editverse/save.cpp \
+	editone/index.cpp \
+	editone/load.cpp \
+	editone/save.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
@@ -184,7 +188,6 @@ libbibledit_a_SOURCES = \
 	ipc/notes.cpp \
 	checksum/logic.cpp \
 	editusfm/focus.cpp \
-	editusfm/id.cpp \
 	editusfm/index.cpp \
 	editusfm/load.cpp \
 	editusfm/offset.cpp \
@@ -200,6 +203,7 @@ libbibledit_a_SOURCES = \
 	edit/offset.cpp \
 	edit/save.cpp \
 	edit/styles.cpp \
+	edit/logic.cpp \
 	search/search.cpp \
 	search/index.cpp \
 	search/select.cpp \

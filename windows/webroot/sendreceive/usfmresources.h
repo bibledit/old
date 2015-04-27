@@ -24,6 +24,8 @@
 #include <config/libraries.h>
 
 
+string sendreceive_usfmresources_sendreceive_text ();
+string sendreceive_usfmresources_up_to_date_text ();
 void sendreceive_usfmresources ();
 
 

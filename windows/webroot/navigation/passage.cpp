@@ -123,9 +123,9 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   for (auto book : books) {
     string bookName = Database_Books::getEnglishFromId (book);
     bool selected = (book == activeBook);
-    getSelectorLink (html, to_string (book), "applybook", translate ("Select book"), bookName, selected);
+    addSelectorLink (html, to_string (book), "applybook", translate ("Select book"), bookName, selected);
   }
-  getSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
   html.append ("</span>");
@@ -148,11 +148,14 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
     chapters = request->database_bibles()->getChapters (bible, book);
   }
   string html;
+  addSelectorLink (html, "previous", "applychapter", translate ("Previous chapter"), "[" + translate ("previous") + "]", false);
+  addSelectorLink (html, "next", "applychapter", translate ("Next chapter"), "[" + translate ("next") + "]", false);
+  addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
-    getSelectorLink (html, to_string (ch), "applychapter", translate ("Select chapter"), to_string (ch), selected);
+    addSelectorLink (html, to_string (ch), "applychapter", translate ("Select chapter"), to_string (ch), selected);
   }
-  getSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
   html.append ("</span>");
@@ -175,11 +178,13 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
     verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
   }
   string html;
+  addSelectorLink (html, "previous", "applyverse", translate ("Previous verse"), "[" + translate ("previous") + "]", false);
+  addSelectorLink (html, "next", "applyverse", translate ("Next verse"), "[" + translate ("next") + "]", false);
   for (auto vs : verses) {
     bool selected = (verse == vs);
-    getSelectorLink (html, to_string (vs), "applyverse", translate ("Select verse"), to_string (vs), selected);
+    addSelectorLink (html, to_string (vs), "applyverse", translate ("Select verse"), to_string (vs), selected);
   }
-  getSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applyverse\">" + translate ("Select verse"));
   html.append ("</span>");
@@ -232,13 +237,6 @@ void Navigation_Passage::setVerse (void * webserver_request, int verse)
 }
 
 
-void Navigation_Passage::setBookChapterVerse (void * webserver_request, int book, int chapter, int verse)
-{
-  Ipc_Focus::set (webserver_request, book, chapter, verse);
-  recordHistory (webserver_request, book, chapter, verse);
-}
-
-
 void Navigation_Passage::setPassage (void * webserver_request, string bible, string passage)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
@@ -257,6 +255,61 @@ void Navigation_Passage::setPassage (void * webserver_request, string bible, str
   if (passage_to_set.book != 0) {
     Ipc_Focus::set (webserver_request, passage_to_set.book, passage_to_set.chapter, convert_to_int (passage_to_set.verse));
     Navigation_Passage::recordHistory (webserver_request, passage_to_set.book, passage_to_set.chapter, convert_to_int (passage_to_set.verse));
+  }
+}
+
+
+
+Passage Navigation_Passage::getNextChapter (void * webserver_request, string bible, int book, int chapter)
+{
+  chapter++;
+  if (bible != "") {
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
+    if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
+      if (!chapters.empty()) chapter = chapters.back ();
+    }
+  }
+  Passage passage = Passage ("", book, chapter, "1");
+  return passage;
+}
+
+
+Passage Navigation_Passage::getPreviousChapter (void * webserver_request, string bible, int book, int chapter)
+{
+  chapter--;
+  if (bible != "") {
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
+    if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
+      if (!chapters.empty ()) chapter = chapters [0];
+    }
+  }
+  Passage passage = Passage ("", book, chapter, "1");
+  return passage;
+}
+
+
+void Navigation_Passage::gotoNextChapter (void * webserver_request, string bible)
+{
+  int currentBook = Ipc_Focus::getBook (webserver_request);
+  int currentChapter = Ipc_Focus::getChapter (webserver_request);
+  Passage passage = Navigation_Passage::getNextChapter (webserver_request, bible, currentBook, currentChapter);
+  if (passage.book != 0) {
+    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
+    Navigation_Passage::recordHistory (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
+  }
+}
+
+
+void Navigation_Passage::gotoPreviousChapter (void * webserver_request, string bible)
+{
+  int currentBook = Ipc_Focus::getBook (webserver_request);
+  int currentChapter = Ipc_Focus::getChapter (webserver_request);
+  Passage passage = Navigation_Passage::getPreviousChapter (webserver_request, bible, currentBook, currentChapter);
+  if (passage.book != 0) {
+    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
+    Navigation_Passage::recordHistory (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
 }
 
@@ -350,7 +403,7 @@ void Navigation_Passage::goForward (void * webserver_request)
 }
 
 
-void Navigation_Passage::getSelectorLink (string& html, string id, string href, string title, string text, bool selected)
+void Navigation_Passage::addSelectorLink (string& html, string id, string href, string title, string text, bool selected)
 {
   if (!html.empty ()) html.append ("|");
   if (selected) html.append ("<mark>");
@@ -359,36 +412,3 @@ void Navigation_Passage::getSelectorLink (string& html, string id, string href, 
   html.append (" </a>");
   if (selected) html.append ("</mark>");
 }
-
-
-/*
-public static function getEntry ()
-{
-  $html = "";
-  $html .= '<input name="selectpassage" id="selectpassage" type="text" value=""/>';
-  $html .= '<input name="submitpassage" id="submitpassage"  type="submit" value="' . gettext ("OK") . '" />';
-  return $html;
-}
-
-
-public static function setPassage ($bible, $passage)
-{
-  $ipc_focus = Ipc_Focus::getInstance();
-  $currentBook = $ipc_focus->getBook ();
-  $currentChapter = $ipc_focus->getChapter ();
-  $currentVerse = $ipc_focus->getVerse ();
-  $passage = trim ($passage);
-  if (($passage == "") || ($passage == "+")) {
-    $passage = Navigation_Passage::getNextVerse ($bible, $currentBook, $currentChapter, $currentVerse);
-  } else if ($passage == "-") {
-    $passage = Navigation_Passage::getPreviousVerse ($bible, $currentBook, $currentChapter, $currentVerse);
-  } else {
-    $passage = Filter_Books::interpretPassage (array ($currentBook, $currentChapter, $currentVerse), $passage);
-  }
-  if ($passage[0] != 0) {
-    $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
-    Navigation_Passage::recordHistory ($passage [0], $passage [1], $passage [2]);
-    
-  }
-}
-*/

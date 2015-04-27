@@ -21,6 +21,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
+#include <filter/merge.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <database/modifications.h>
@@ -28,6 +29,7 @@
 #include <checksum/logic.h>
 #include <editor/export.h>
 #include <locale/translate.h>
+#include <edit/logic.h>
 
 
 string edit_save_url ()
@@ -46,73 +48,88 @@ string edit_save (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Modifications database_modifications = Database_Modifications ();
-  
-  if (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("html") && request->post.count ("checksum")) {
-    
-    string bible = request->post["bible"];
-    int book = convert_to_int (request->post["book"]);
-    int chapter = convert_to_int (request->post["chapter"]);
-    string html = request->post["html"];
-    string checksum = request->post["checksum"];
 
-    if (Checksum_Logic::get (html) == checksum) {
-      
-      html = filter_string_trim (html);
-      if (html != "") {
-        if (unicode_string_is_valid (html)) {
-          
-          string stylesheet = request->database_config_user()->getStylesheet();
-          
-          Editor_Export editor_export = Editor_Export (request);
-          editor_export.load (html);
-          editor_export.stylesheet (stylesheet);
-          editor_export.run ();
-          string usfm = editor_export.get ();
-          
-          vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
-          for (auto & data : book_chapter_text) {
-            int book_number = data.book;
-            int chapter_number = data.chapter;
-            string chapter_data_to_save = data.data;
-            if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
-              
-              // Collect some data about the changes for this user.
-              string username = request->session_logic()->currentUser ();
-              int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
-              string oldText = request->database_bibles()->getChapter (bible, book, chapter);
-              
-              // Safely store the chapter.
-              bool saved = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
-              
-              if (saved) {
-                // Store details for the user's changes.
-                int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-                string newText = chapter_data_to_save;
-                database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
-                return translate("Saved");
-              } else {
-                return translate("Not saved because of too many changes");
-              }
-            } else {
-              Database_Logs::log ("The following data could not be saved and was discarded: " + chapter_data_to_save);
-              return translate("Save failure");
-            }
-          }
-        } else {
-          Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
-          return translate("Save failure");
-        }
-      } else {
-        Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
-        return translate("Nothing to save");
-      }
-    } else {
-      request->response_code = 409;
-      return translate("Checksum error");
-    }
-  } else {
+  bool post_complete = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("html") && request->post.count ("checksum"));
+  if (!post_complete) {
+    return translate("Insufficient information");
+  }
+
+  string bible = request->post["bible"];
+  int book = convert_to_int (request->post["book"]);
+  int chapter = convert_to_int (request->post["chapter"]);
+  string html = request->post["html"];
+  string checksum = request->post["checksum"];
+  
+  if (Checksum_Logic::get (html) != checksum) {
+    request->response_code = 409;
+    return translate("Checksum error");
+  }
+  
+  html = filter_string_trim (html);
+
+  if (html.empty ()) {
+    Database_Logs::log (translate ("There was no text.") + " " + translate ("Nothing was saved.") + " " + translate ("The original text of the chapter was reloaded."));
     return translate("Nothing to save");
   }
-  return translate ("Bibledit is confused");
-}
 
+  if (!unicode_string_is_valid (html)) {
+    Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
+    return translate("Save failure");
+  }
+  
+  string stylesheet = request->database_config_user()->getStylesheet();
+  
+  Editor_Export editor_export = Editor_Export (request);
+  editor_export.load (html);
+  editor_export.stylesheet (stylesheet);
+  editor_export.run ();
+  string user_usfm = editor_export.get ();
+  
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+  
+  vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
+  if (book_chapter_text.size () != 1) {
+    Database_Logs::log (translate ("User tried to save something different from exactly one chapter."));
+    return translate("Incorrect chapter");
+  }
+  
+  int book_number = book_chapter_text[0].book;
+  int chapter_number = book_chapter_text[0].chapter;
+  user_usfm = book_chapter_text[0].data;
+  bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
+  if (!chapter_ok) {
+    return translate("Incorrect chapter") + " " + to_string (chapter_number);
+  }
+  
+  // Collect some data about the changes for this user
+  // and for a possible merge of the user's data with the server's data.
+  string username = request->session_logic()->currentUser ();
+  int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+  string server_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string newText = user_usfm;
+  string oldText = ancestor_usfm;
+  
+  // Merge if the ancestor is there and differs from what's in the database.
+  if (!ancestor_usfm.empty ()) {
+    if (server_usfm != ancestor_usfm) {
+      user_usfm = filter_merge_run (ancestor_usfm, user_usfm, server_usfm);
+      Database_Logs::log (translate ("Merging and saving chapter."));
+    }
+  }
+  
+  // Safely store the chapter.
+  bool saved = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);
+  
+  if (!saved) {
+    return translate("Not saved because of too many changes");
+  }
+
+  // Store details for the user's changes.
+  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+  database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+  
+  // Store a copy of the USFM loaded in the editor for later reference.
+  storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+
+  return translate("Saved");
+}

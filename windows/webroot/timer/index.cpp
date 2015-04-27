@@ -83,8 +83,11 @@ void timer_index ()
         tasks_logic_queue (RECEIVEEMAIL);
       }
 
-      // At the sixth minute after every full hour rotate the journal.
-      if (minute == 6) tasks_logic_queue (ROTATEJOURNAL);
+      // At the nineth minute after every full hour rotate the journal.
+      // The nine is chosen, because the journal rotation will summarize the send/receive messages.
+      // In case send/receive happens every five minutes, it is expected that under normal circumstances
+      // the whole process of sending/receivning will be over, so summarization can then be done.
+      if (minute == 9) tasks_logic_queue (ROTATEJOURNAL);
       
       // Client sends/receives Bibles and Consultation.
       sendreceive_queue_sync (minute);

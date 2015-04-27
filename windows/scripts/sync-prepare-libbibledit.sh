@@ -13,7 +13,7 @@ make distclean
 
 
 # Configure Bibledit in client mode,
-./configure --enable-client
+./configure --enable-client --enable-cygwin
 
 
 # Save the header file.

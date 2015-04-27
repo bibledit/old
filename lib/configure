@@ -625,6 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+CYGWIN
 OSX
 IOS
 BARE_BROWSER
@@ -764,6 +765,7 @@ with_parallel_tasks
 enable_bare_browser
 enable_ios
 enable_osx
+enable_cygwin
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1415,6 +1417,7 @@ Optional Features:
   --enable-bare-browser Enable bare browser mode
   --enable-ios Enable iOS
   --enable-osx Enable OS X
+  --enable-cygwin Enable Cygwin
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6351,6 +6354,26 @@ _ACEOF
 
 
 
+# Build for Cygwin.
+CYGWIN=no
+# Check whether --enable-cygwin was given.
+if test "${enable_cygwin+set}" = set; then :
+  enableval=$enable_cygwin;
+$as_echo "#define HAVE_CYGWIN 1" >>confdefs.h
+
+CYGWIN=yes
+
+fi
+
+
+$as_echo "#define CYGWIN /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define CYGWIN "$CYGWIN"
+_ACEOF
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -7840,4 +7863,5 @@ Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
 Build for iOS (--enable-ios)                               : ${IOS}
 Build for OS X (--enable-osx)                              : ${OSX}
+Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 "

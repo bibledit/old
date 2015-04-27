@@ -48,6 +48,24 @@ void sendreceive_externalresources_done ()
 }
 
 
+string sendreceive_externalresources_text ()
+{
+  return translate("External resources") + ": ";
+}
+
+
+string sendreceive_externalresources_sendreceive_text ()
+{
+  return sendreceive_externalresources_text () + translate ("Synchronizing");
+}
+
+
+string sendreceive_externalresources_up_to_date_text ()
+{
+  return sendreceive_externalresources_text () + translate ("Up to date");
+}
+
+
 void sendreceive_externalresources ()
 {
   mutex_sendreceive_externalresources.lock ();
@@ -64,7 +82,7 @@ void sendreceive_externalresources ()
   Sync_Logic sync_logic = Sync_Logic (&request);
 
   
-  Database_Logs::log (translate("External resources: Synchronizing"), Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_externalresources_sendreceive_text (), Filter_Roles::translator ());
   
   
   string address = Database_Config_General::getServerAddress ();
@@ -83,13 +101,13 @@ void sendreceive_externalresources ()
   post ["a"] = to_string (Sync_Logic::offlineresources_get_total_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("External resources: Failure requesting checksum: " + error, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_externalresources_text () + "Failure requesting checksum: " + error, Filter_Roles::translator ());
     sendreceive_externalresources_done ();
     return;
   }
   string checksum = Sync_Logic::offline_resources_checksum ();
   if (response == checksum) {
-    Database_Logs::log ("External resources: Up to date", Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_externalresources_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_externalresources_done ();
     return;
   }
@@ -99,7 +117,7 @@ void sendreceive_externalresources ()
   post ["a"] = to_string (Sync_Logic::offlineresources_get_resources);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("External resources: Failure requesting names: " + error, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_externalresources_text () + "Failure requesting names: " + error, Filter_Roles::translator ());
     sendreceive_externalresources_done ();
     return;
   }
@@ -125,7 +143,7 @@ void sendreceive_externalresources ()
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("External resources: Failure requesting checksum: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_externalresources_text () + "Failure requesting checksum: " + error, Filter_Roles::translator ());
       sendreceive_externalresources_done ();
       return;
     }
@@ -140,7 +158,7 @@ void sendreceive_externalresources ()
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log ("External resources: Failure requesting files: " + error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_externalresources_text () + "Failure requesting files: " + error, Filter_Roles::translator ());
       sendreceive_externalresources_done ();
       return;
     }
@@ -167,7 +185,7 @@ void sendreceive_externalresources ()
       post ["f"] = file;
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        Database_Logs::log ("External resources: Failure requesting checksum file: " + error, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_externalresources_text () + "Failure requesting checksum file: " + error, Filter_Roles::translator ());
         sendreceive_externalresources_done ();
         return;
       }
@@ -178,7 +196,7 @@ void sendreceive_externalresources ()
 
       
       // Download the file from the server, and store it locally on the client.
-      Database_Logs::log ("External resources: Downloading " + resource + " " + file, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_externalresources_text () + "Downloading " + resource + " " + file, Filter_Roles::translator ());
       // Create directory by saving empty file.
       database_offlineresources.save (resource, file, "");
       // Obtain url for file to download from server.
@@ -187,7 +205,7 @@ void sendreceive_externalresources ()
       post ["f"] = file;
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        Database_Logs::log ("External resources: Failure downloading file: " + error, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_externalresources_text () + "Failure downloading file: " + error, Filter_Roles::translator ());
         sendreceive_externalresources_done ();
         return;
       }
@@ -197,7 +215,7 @@ void sendreceive_externalresources ()
       // Download and save file locally.
       filter_url_download_file (url, filepath, error);
       if (!error.empty ()) {
-        Database_Logs::log ("External resources: Failure downloading file: " + error, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_externalresources_text () + "Failure downloading file: " + error, Filter_Roles::translator ());
         sendreceive_externalresources_done ();
         return;
       }
@@ -206,6 +224,6 @@ void sendreceive_externalresources ()
   
   
   // Done.
-  Database_Logs::log ("External resources: Now up to date", Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_externalresources_text () + "Now up to date", Filter_Roles::translator ());
   sendreceive_externalresources_done ();
 }

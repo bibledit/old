@@ -10,6 +10,9 @@
 /* Define whether it is a client installation */
 /* #undef CLIENT_PREPARED */
 
+/* Define whether it is to be built for Cygwin */
+#define CYGWIN "no"
+
 /* Define whether it is a demo installation */
 #define DEMO "no"
 
@@ -18,6 +21,9 @@
 
 /* define if the compiler supports basic C++11 syntax */
 /* #undef HAVE_CXX11 */
+
+/* Define whether to build for Cygwin */
+/* #undef HAVE_CYGWIN */
 
 /* Whether git funcions are available and enabled */
 /* #undef HAVE_GIT */

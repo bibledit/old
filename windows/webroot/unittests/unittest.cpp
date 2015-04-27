@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_filter_abbreviations (); exit (0);
+  // test_store_bible_data (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -315,6 +315,7 @@ int main (int argc, char **argv)
   test_editor_export ();
   test_editor_import ();
   test_editor_roundtrip ();
+  test_editor_roundtrip_verse ();
   test_filter_markup ();
   test_workbench_logic ();
   test_filter_git ();

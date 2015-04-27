@@ -153,8 +153,9 @@ function usfmEditorSaveChapter (sync)
 }
 
 
-function usfmEditorChanged ()
+function usfmEditorChanged (event)
 {
+  if (editKeysIgnoreForContentChange (event)) return;
   usfmEditorTextChanged = true;
   if (usfmEditorChangedTimeout) {
     clearTimeout (usfmEditorChangedTimeout);
@@ -183,7 +184,7 @@ function usfmIdPoller ()
 function usfmEditorPollId ()
 {
   $.ajax ({
-    url: "id",
+    url: "../edit/id",
     type: "GET",
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
     success: function (response) {
@@ -215,10 +216,7 @@ function usfmCaretChanged ()
 
 function usfmHandleKeyDown (event)
 {
-  // Ctrl-G: No action.
-  if ((event.ctrlKey == true) && (event.keyCode == 71)) {
-    return;
-  }
+  if (editKeysIgnoreForCaretChange (event)) return;
   usfmCaretChanged ();
 }
 

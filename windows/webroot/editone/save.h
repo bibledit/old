@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_EDITUSFM_ID_H
-#define INCLUDED_EDITUSFM_ID_H
+#ifndef INCLUDED_EDITONE_SAVE_H
+#define INCLUDED_EDITONE_SAVE_H
 
 
 #include <config/libraries.h>
 
 
-string editusfm_id_url ();
-bool editusfm_id_acl (void * webserver_request);
-string editusfm_id (void * webserver_request);
+string editone_save_url ();
+bool editone_save_acl (void * webserver_request);
+string editone_save (void * webserver_request);
 
 
 #endif

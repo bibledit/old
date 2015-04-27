@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.118],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.119],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 
@@ -157,6 +157,17 @@ AC_DEFINE([OSX], [], [Define whether it is to be built for OS X])
 AC_DEFINE_UNQUOTED(OSX, "$OSX")
 AC_SUBST(OSX)
 
+# Build for Cygwin.
+CYGWIN=no
+AC_ARG_ENABLE(cygwin,
+[  --enable-cygwin Enable Cygwin],
+[AC_DEFINE([HAVE_CYGWIN], [1], [Define whether to build for Cygwin])]
+CYGWIN=yes
+)
+AC_DEFINE([CYGWIN], [], [Define whether it is to be built for Cygwin])
+AC_DEFINE_UNQUOTED(CYGWIN, "$CYGWIN")
+AC_SUBST(CYGWIN)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -171,4 +182,5 @@ Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
 Build for iOS (--enable-ios)                               : ${IOS}
 Build for OS X (--enable-osx)                              : ${OSX}
+Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 "

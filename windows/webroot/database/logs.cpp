@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/sqlite.h>
 #include <filter/date.h>
+#include <journal/logic.h>
 
 
 Database_Logs::Database_Logs ()
@@ -108,8 +109,9 @@ void Database_Logs::rotate ()
   // Transfer the journal entries from the filesystem into the database.
   // This speeds up subsequent reading of the Journal by the users.
   // Use a mechanism that handles huge amounts of entries.
-  // The PHP function scandir choked on this or take a very long time.
+  // The PHP function scandir choked on this or took a very long time.
   // The PHP functions opendir / readdir / closedir handled it better.
+  // C++ uses the better method of the two, just to be sure.
 
   string directory = folder ();
   int counter = 0;
@@ -131,6 +133,8 @@ void Database_Logs::rotate ()
 
   sort (files.begin(), files.end());
   
+  bool filtered_entries = false;
+  
   for (unsigned int i = 0; i < files.size(); i++) {
     string path = filter_url_create_path (directory, files [i]);
     int timestamp = convert_to_int (files [i].substr (0, 10));
@@ -147,9 +151,14 @@ void Database_Logs::rotate ()
       entry += "... This entry was too large and has been truncated: " + convert_to_string (filesize) + " bytes";
     }
     filter_url_unlink (path);
-    entry = database_sqlite_no_sql_injection (entry);
-    string sql = "INSERT INTO logs VALUES (" + convert_to_string (timestamp) + ", '" + entry + "');";
-    database_sqlite_exec (db, sql);
+    // Filtering of certain entries.
+    if (journal_logic_filter_entry (entry)) {
+      filtered_entries = true;
+    } else {
+      entry = database_sqlite_no_sql_injection (entry);
+      string sql = "INSERT INTO logs VALUES (" + convert_to_string (timestamp) + ", '" + entry + "');";
+      database_sqlite_exec (db, sql);
+    }
   }
 
   // Remove records older than five days from the database.
@@ -161,6 +170,10 @@ void Database_Logs::rotate ()
   database_sqlite_exec (db, sql);
 
   database_sqlite_disconnect (db);
+  
+  if (filtered_entries) {
+    log (journal_logic_filtered_message ());
+  }
   
   // If there are too many files still left in the logbook folder,
   // that means that there's some problem that prevents the logbook entries from being recorded in the database.

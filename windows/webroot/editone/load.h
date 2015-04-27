@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_EDITVERSE_ID_H
-#define INCLUDED_EDITVERSE_ID_H
+#ifndef INCLUDED_EDITONE_LOAD_H
+#define INCLUDED_EDITONE_LOAD_H
 
 
 #include <config/libraries.h>
 
 
-string editverse_id_url ();
-bool editverse_id_acl (void * webserver_request);
-string editverse_id (void * webserver_request);
+string editone_load_url ();
+bool editone_load_acl (void * webserver_request);
+string editone_load (void * webserver_request);
 
 
 #endif

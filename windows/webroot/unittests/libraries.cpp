@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/md5.h>
 #include <filter/usfm.h>
+#include <filter/diff.h>
 #include <flate/flate.h>
 #include <config/globals.h>
 #include <database/config/general.h>
@@ -444,6 +445,95 @@ void test_store_bible_data ()
     int currentId2 = request.database_bibles()->getChapterId ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, currentId, currentId2);
   }
+  // Safely store verse 0 without a change.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+  }
+  // Safely store verse 0 with a change.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p xx\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    string newusfm = filter_string_str_replace ("\\p", "\\p xx", usfm);
+    newusfm = filter_string_trim (newusfm);
+    evaluate (__LINE__, __func__, newusfm, result);
+  }
+  // Safely store verse two with a change.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data = "\\v 2 Verse two.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    string newusfm = filter_string_str_replace ("Verse 2", "Verse two", usfm);
+    newusfm = filter_string_trim (newusfm);
+    evaluate (__LINE__, __func__, newusfm, result);
+  }
+  // Safely store the USFM for verse two to verse one: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data = "\\v 2 Verse 2.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 1, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store a verse with too much length difference: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data = "\\v 2 Verse two two two.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store a verse with too much of content difference: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    string data = "\\v 2 vERSE 2.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store USFM without any verse to verse 2: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    string data = "\\p Verse 2.\n";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // Safely store USFM with two verses: Fails.
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    string data = "\\v 2 Verse 2.\n\\v 3 3";
+    bool stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  
 }
 
 
@@ -1519,6 +1609,90 @@ void test_editor_roundtrip ()
     evaluate (__LINE__, __func__, usfm, output);
   }
   refresh_sandbox (false);
+}
+
+
+// Testing roundtrip for when editing one verse.
+void test_editor_roundtrip_verse ()
+{
+  refresh_sandbox (true);
+  // Testing a verse without a starting paragraph.
+  {
+    string usfm = "\\v 1 God created";
+
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p><span class=\"v\">1</span><span> </span><span>God created</span></p>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
+  // Testing chapter number, or verse 0.
+  {
+    string usfm = "\\c 1\n"
+                  "\\p";
+    
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p class=\"c\"><span>1</span></p><p class=\"p\"/>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
+  // Chapter 0 verse 0.
+  {
+    string usfm =
+    "\\id GEN Genesis\n"
+    "\\h Genesis\n"
+    "\\toc1 The First Book of Moses, called Genesis\n"
+    "\\mt1 The First Book of Moses, called Genesis";
+    
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p class=\"mono\"><span>\\id </span><span>GEN Genesis</span></p><p class=\"mono\"><span>\\h </span><span>Genesis</span></p><p class=\"mono\"><span>\\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class=\"mt1\"><span>The First Book of Moses, called Genesis</span></p>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
+  // Testing a paragraph with content.
+  {
+    string usfm = "\\p And God called the firmament Heaven";
+    
+    Webserver_Request request;
+    
+    Editor_Import editor_import = Editor_Import (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output = editor_import.get ();
+    
+    string html = "<p class=\"p\"><span>And God called the firmament Heaven</span></p>";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse (&request, styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
+  }
 }
 
 

@@ -118,7 +118,18 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-  if (client_logic_client_enabled ()) view.enable_zone ("client");
+  if (config_logic_client_prepared ()) {
+    if (client_logic_client_enabled ()) {
+      view.enable_zone ("clienton");
+    } else {
+      view.enable_zone ("clientoff");
+    }
+  }
+  
+  
+  if (!config_logic_client_prepared ()) {
+    view.enable_zone ("server");
+  }
 
   
   if (request->query.count ("repeatsync")) {

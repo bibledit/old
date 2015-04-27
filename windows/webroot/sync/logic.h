@@ -46,6 +46,8 @@ public:
   static const int settings_get_workbench_widths = 5;
   static const int settings_send_workbench_heights = 6;
   static const int settings_get_workbench_heights = 7;
+  static const int settings_send_resources_organization = 8;
+  static const int settings_get_resources_organization = 9;
   static const int bibles_get_total_checksum = 1;
   static const int bibles_get_bibles = 2;
   static const int bibles_get_bible_checksum = 3;

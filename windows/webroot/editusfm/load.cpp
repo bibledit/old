@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
+#include <edit/logic.h>
 
 
 string editusfm_load_url ()
@@ -39,9 +40,15 @@ bool editusfm_load_acl (void * webserver_request)
 string editusfm_load (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
+  
+  // Store a copy of the USFM loaded in the editor for later reference.
+  storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
+
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+
   return Checksum_Logic::send (usfm);
 }

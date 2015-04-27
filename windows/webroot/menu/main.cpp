@@ -64,6 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/exports.h>
 #include <manage/hyphenation.h>
 #include <xrefs/index.h>
+#include <editone/index.h>
 
 
 /*
@@ -127,7 +128,8 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
 vector <Menu_Main_Item> * Menu_Main::bible_edit_menu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (edit_index_acl (webserver_request)) menu->push_back ( { "", edit_index_url (), translate ("Visual edit"), NULL } );
+  if (edit_index_acl (webserver_request)) menu->push_back ( { "", edit_index_url (), translate ("Visual chapter"), NULL } );
+  if (editone_index_acl (webserver_request)) menu->push_back ( { "", editone_index_url (), translate ("Visual verse"), NULL } );
   if (editusfm_index_acl (webserver_request)) menu->push_back ( { "", editusfm_index_url (),  translate ("USFM chapter"), NULL } );
   if (editverse_index_acl (webserver_request)) menu->push_back ( { "", editverse_index_url (), translate ("USFM verse"),   NULL } );
   if (menu->size ()) return menu;
@@ -284,7 +286,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   bool client_menu = client_index_acl (webserver_request);
   if (!config_logic_client_prepared ()) client_menu = false;
   if (config_logic_demo_enabled ()) client_menu = true;
-  if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Client"), NULL } );
+  if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Server"), NULL } );
   if (fonts_index_acl (webserver_request)) {
     menu->push_back ( { "", fonts_index_url (), translate ("Fonts"), NULL } );
   }

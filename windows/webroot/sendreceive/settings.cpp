@@ -38,6 +38,24 @@ mutex mutex_sendreceive_settings;
 bool sendreceive_settings_running = false;
 
 
+string sendreceive_settings_text ()
+{
+  return translate("Settings") + ": ";
+}
+
+
+string sendreceive_settings_sendreceive_text ()
+{
+  return sendreceive_settings_text () + translate ("Send/receive");
+}
+
+
+string sendreceive_settings_up_to_date_text ()
+{
+  return sendreceive_settings_text () + translate ("Up to date");
+}
+
+
 void sendreceive_settings_done ()
 {
   mutex_sendreceive_settings.lock ();
@@ -56,8 +74,7 @@ void sendreceive_settings ()
   sendreceive_settings_running = true;
   mutex_sendreceive_settings.unlock ();
   
-  
-  Database_Logs::log (translate("Settings: Send/Receive"), Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_settings_sendreceive_text (), Filter_Roles::translator ());
   
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
@@ -112,6 +129,10 @@ void sendreceive_settings ()
       case Sync_Logic::settings_send_workbench_heights:
         value = request.database_config_user()->getWorkbenchHeights ();
         break;
+      case Sync_Logic::settings_send_resources_organization:
+        vector <string> resources = request.database_config_user()->getActiveResources ();
+        value = filter_string_implode (resources, "\n");
+        break;
     }
     post ["v"] = value;
     
@@ -145,13 +166,13 @@ void sendreceive_settings ()
   }
   string checksum = sync_logic.settings_checksum ();
   if (response == checksum) {
-    Database_Logs::log ("Settings: Up to date", Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_settings_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }
 
   // At this stage the total checksum of all relevant settings on the client differs from the same on the server.
-  // Requests all settings from the server.
+  // Request all settings from the server.
 
   post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_urls);
   response = sync_logic.post (post, url, error);
@@ -179,9 +200,18 @@ void sendreceive_settings ()
     return;
   }
   request.database_config_user()->setWorkbenchHeights (response);
+
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_resources_organization);
+  response = sync_logic.post (post, url, error);
+  if (!error.empty ()) {
+    Database_Logs::log ("Failure receiving workbench heights", Filter_Roles::translator ());
+    sendreceive_settings_done ();
+    return;
+  }
+  request.database_config_user()->setActiveResources (filter_string_explode (response, '\n'));
   
   // Done.
-  Database_Logs::log ("Settings: Ready", Filter_Roles::translator ());
+  Database_Logs::log ("Settings: Updated", Filter_Roles::translator ());
   sendreceive_settings_done ();
 }
 
