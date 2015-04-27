@@ -81,7 +81,7 @@ string resource_download (void * webserver_request)
   
   
   int count = database_offlineresources.count (name);
-  view.set_variable ("count", to_string (count));
+  view.set_variable ("count", convert_to_string (count));
   if (count) view.enable_zone ("count");
                       
                       
@@ -109,17 +109,17 @@ void resource_download_job (string resource)
     
     vector <int> chapters = database_versifications.getChapters (versification, book, true);
     for (auto & chapter : chapters) {
-      string message1 = resource + ": " + bookName + " chapter " + to_string (chapter);
+      string message1 = resource + ": " + bookName + " chapter " + convert_to_string (chapter);
       string message2;
       vector <int> verses = database_versifications.getVerses (versification, book, chapter);
       for (auto & verse : verses) {
-        message2 += "; verse " + to_string (verse) + ": ";
+        message2 += "; verse " + convert_to_string (verse) + ": ";
         if (database_offlineresources.exists (resource, book, chapter, verse)) {
           message2 += "exists";
         } else {
           string html = resource_external_get (resource, book, chapter, verse);
           database_offlineresources.store (resource, book, chapter, verse, html);
-          message2 += "size " + to_string (html.length ());
+          message2 += "size " + convert_to_string (html.length ());
           downloaded = true;
         }
       }

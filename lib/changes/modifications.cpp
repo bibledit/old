@@ -82,7 +82,7 @@ void changes_process_identifiers (Webserver_Request * request,
         if (old_text != new_text) {
           string modification = filter_diff_diff (old_text, new_text);
           email += "<div>";
-          email += filter_passage_display (book, chapter, to_string (verse));
+          email += filter_passage_display (book, chapter, convert_to_string (verse));
           email += " ";
           email += modification;
           email += "</div>";

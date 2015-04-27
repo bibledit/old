@@ -93,7 +93,7 @@ string changes_change (void * webserver_request)
                       
   // The identifier of the change notification.
   int id = convert_to_int (request->query ["get"]);
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
                       
                       
   // Get old text, modification, new text.
@@ -160,24 +160,24 @@ string changes_change (void * webserver_request)
     notesblock.append ("<tr>\n");
     notesblock.append ("<td>\n");
     if (live_notes_editor) {
-      notesblock.append ("<a class=\"opennote\" href=\"" + to_string (note) + "\">" + summary + "</a>\n");
+      notesblock.append ("<a class=\"opennote\" href=\"" + convert_to_string (note) + "\">" + summary + "</a>\n");
     } else {
-      notesblock.append ("<a href=\"/notes/note?id=" + to_string (note) + "\" ##targetblank##>" + summary + "</a>\n");
+      notesblock.append ("<a href=\"/notes/note?id=" + convert_to_string (note) + "\" ##targetblank##>" + summary + "</a>\n");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("<td>");
     if (subscription) {
-      notesblock.append ("<a href=\"unsubscribe\" id=\"unsubscribe" + to_string (note) + "\">[" + translate("unsubscribe") + "]</a>");
+      notesblock.append ("<a href=\"unsubscribe\" id=\"unsubscribe" + convert_to_string (note) + "\">[" + translate("unsubscribe") + "]</a>");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("<td>");
     if (assignment) {
-      notesblock.append ("<a href=\"unassign\" id=\"unassign" + to_string (note) + "\">[" + translate("I have done my part on it") + "]</a>");
+      notesblock.append ("<a href=\"unassign\" id=\"unassign" + convert_to_string (note) + "\">[" + translate("I have done my part on it") + "]</a>");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("<td>");
     if (level >= Filter_Roles::manager ()) {
-      notesblock.append ("<a href=\"delete\" id=\"delete" + to_string (note) + "\">[" + translate("mark for deletion") + "]</a>");
+      notesblock.append ("<a href=\"delete\" id=\"delete" + convert_to_string (note) + "\">[" + translate("mark for deletion") + "]</a>");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("</tr>\n");

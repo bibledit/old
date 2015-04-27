@@ -41,7 +41,7 @@ string Checksum_Logic::send (string data)
 // It calculates the length of 'data' in bytes.
 string Checksum_Logic::get (string data)
 {
-  return to_string (data.length ());
+  return convert_to_string (data.length ());
 }
 
 
@@ -51,7 +51,7 @@ string Checksum_Logic::get (const vector <string>& data)
 {
   int length = 0;
   for (auto & bit : data) length += bit.length ();
-  return to_string (length);
+  return convert_to_string (length);
 }
 
 

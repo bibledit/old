@@ -63,7 +63,7 @@ string notes_editsource (void * webserver_request)
   int identifier;
   if (request->query.count ("identifier")) identifier = convert_to_int (request->query ["identifier"]);
   else identifier = convert_to_int (request->post ["identifier"]);
-  if (identifier) view.set_variable ("identifier", to_string (identifier));
+  if (identifier) view.set_variable ("identifier", convert_to_string (identifier));
   
   
   

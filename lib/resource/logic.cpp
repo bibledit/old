@@ -64,7 +64,7 @@ string Resource_Logic::getExternal (string bible, string resource, int book, int
     string resource_mapping = resource_external_mapping (resource);
     passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
   } else {
-    passages.push_back (Passage ("", book, chapter, to_string (verse)));
+    passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
   }
   string output;
   for (auto passage : passages) {

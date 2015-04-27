@@ -104,8 +104,8 @@ string notes_notes (void * webserver_request)
       content = database_notes.getContents (identifier);
     }
     
-    notesblock.append ("<a name=\"note" + to_string (identifier) + "\"></a>\n");
-    notesblock.append ("<p><a href=\"note?id=" + to_string (identifier) + "\">" + summary + "</a></p>\n");
+    notesblock.append ("<a name=\"note" + convert_to_string (identifier) + "\"></a>\n");
+    notesblock.append ("<p><a href=\"note?id=" + convert_to_string (identifier) + "\">" + summary + "</a></p>\n");
     if (!verse_text.empty ()) notesblock.append ("<p>" + verse_text + "</p>\n");
     if (!content.empty ()) notesblock.append ("<p>" + content + "</p>\n");
   }

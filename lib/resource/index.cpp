@@ -54,10 +54,10 @@ string resource_index (void * webserver_request)
   vector <string> resources = request->database_config_user()->getActiveResources ();
   string resourceblock;
   for (unsigned int i = 1; i <= resources.size (); i++) {
-    resourceblock.append ("<div id=\"line" + to_string (i) + "\" style=\"clear:both\">\n");
-    resourceblock.append ("<span id=\"name" + to_string (i) + "\" class=\"small\">" + resources[i - 1] + "</span>\n");
-    resourceblock.append ("<span id=\"loading" + to_string (i) + "\"><img src=\"/pix/loading.gif\"></span>\n");
-    resourceblock.append ("<span id=\"content" + to_string (i) + "\"></span>\n");
+    resourceblock.append ("<div id=\"line" + convert_to_string (i) + "\" style=\"clear:both\">\n");
+    resourceblock.append ("<span id=\"name" + convert_to_string (i) + "\" class=\"small\">" + resources[i - 1] + "</span>\n");
+    resourceblock.append ("<span id=\"loading" + convert_to_string (i) + "\"><img src=\"/pix/loading.gif\"></span>\n");
+    resourceblock.append ("<span id=\"content" + convert_to_string (i) + "\"></span>\n");
     resourceblock.append ("<hr style=\"clear:both\">");
     resourceblock.append ("</div>\n");
   }

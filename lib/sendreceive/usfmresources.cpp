@@ -98,7 +98,7 @@ void sendreceive_usfmresources ()
   // Request the checksum of all USFM resources from the server.
   // Compare it with the local checksum.
   // If the two match: Ready.
-  post ["a"] = to_string (Sync_Logic::usfmresources_get_total_checksum);
+  post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_total_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting total checksum: " + error, Filter_Roles::translator ());
@@ -114,7 +114,7 @@ void sendreceive_usfmresources ()
   
   
   // Request a list of all USFM resources available on the server.
-  post ["a"] = to_string (Sync_Logic::usfmresources_get_resources);
+  post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_resources);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting resources: " + error, Filter_Roles::translator ());
@@ -139,7 +139,7 @@ void sendreceive_usfmresources ()
     // Request the checksum of the resources from the server.
     // Compare it with the checksum of the local resource.
     // If they match: Go to the next resource.
-    post ["a"] = to_string (Sync_Logic::usfmresources_get_resource_checksum);
+    post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_resource_checksum);
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
@@ -154,7 +154,7 @@ void sendreceive_usfmresources ()
     
 
     // Request a list of all books in the resource on the server.
-    post ["a"] = to_string (Sync_Logic::usfmresources_get_books);
+    post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_books);
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
@@ -182,9 +182,9 @@ void sendreceive_usfmresources ()
       // Request checksum of this book,
       // compare it with the local checksum,
       // and skip the book if the checksums match.
-      post ["a"] = to_string (Sync_Logic::usfmresources_get_book_checksum);
+      post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_book_checksum);
       post ["r"] = resource;
-      post ["b"] = to_string (book);
+      post ["b"] = convert_to_string (book);
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
         Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting checksum of resource book: " + error, Filter_Roles::translator ());
@@ -202,9 +202,9 @@ void sendreceive_usfmresources ()
       
       
       // Retrieve a list of chapters in the $book from the server.
-      post ["a"] = to_string (Sync_Logic::usfmresources_get_chapters);
+      post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_chapters);
       post ["r"] = resource,
-      post ["b"] = to_string (book);
+      post ["b"] = convert_to_string (book);
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
         Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting chapters of resource book: " + error, Filter_Roles::translator ());
@@ -229,10 +229,10 @@ void sendreceive_usfmresources ()
 
         
         // Get the checksum of the chapter as it is on the server.
-        post ["a"] = to_string (Sync_Logic::usfmresources_get_chapter_checksum);
+        post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_chapter_checksum);
         post ["r"] = resource;
-        post ["b"] = to_string (book);
-        post ["c"] = to_string (chapter);
+        post ["b"] = convert_to_string (book);
+        post ["c"] = convert_to_string (chapter);
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
           Database_Logs::log (sendreceive_usfmresources_text () + "Failure getting checksum of resource chapter: " + error, Filter_Roles::translator ());
@@ -246,10 +246,10 @@ void sendreceive_usfmresources ()
         
         
         // Download the chapter from the server, and store it locally on the client.
-        post ["a"] = to_string (Sync_Logic::usfmresources_get_chapter);
+        post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_chapter);
         post ["r"] = resource;
-        post ["b"] = to_string (book);
-        post ["c"] = to_string (chapter);
+        post ["b"] = convert_to_string (book);
+        post ["c"] = convert_to_string (chapter);
         response = sync_logic.post (post, url, error);
         if (!error.empty ()) {
           Database_Logs::log (sendreceive_usfmresources_text () + "Failure downloading resource chapter: " + error, Filter_Roles::translator ());

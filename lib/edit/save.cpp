@@ -98,7 +98,7 @@ string edit_save (void * webserver_request)
   user_usfm = book_chapter_text[0].data;
   bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
   if (!chapter_ok) {
-    return translate("Incorrect chapter") + " " + to_string (chapter_number);
+    return translate("Incorrect chapter") + " " + convert_to_string (chapter_number);
   }
   
   // Collect some data about the changes for this user

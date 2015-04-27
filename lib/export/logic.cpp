@@ -41,7 +41,7 @@ void Export_Logic::scheduleTextAndBasicUsfm (string bible)
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTTEXTUSFM, {bible, to_string (book)});
+    tasks_logic_queue (EXPORTTEXTUSFM, {bible, convert_to_string (book)});
   }
 }
 
@@ -60,7 +60,7 @@ void Export_Logic::scheduleOpenDocument (string bible)
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTODT, {bible, to_string (book)});
+    tasks_logic_queue (EXPORTODT, {bible, convert_to_string (book)});
   }
 }
 
@@ -80,7 +80,7 @@ void Export_Logic::scheduleHtml (string bible)
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTHTML, {bible, to_string (book)});
+    tasks_logic_queue (EXPORTHTML, {bible, convert_to_string (book)});
   }
 }
 
@@ -92,7 +92,7 @@ void Export_Logic::scheduleWeb (string bible)
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTWEBMAIN, {bible, to_string (book)});
+    tasks_logic_queue (EXPORTWEBMAIN, {bible, convert_to_string (book)});
   }
 }
 

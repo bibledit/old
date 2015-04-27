@@ -109,7 +109,7 @@ string notes_actions (void * webserver_request)
   }
   
   
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
   
                       
   string summary = database_notes.getSummary (id);
@@ -126,7 +126,7 @@ string notes_actions (void * webserver_request)
   for (auto & assignee : assignees) {
     assigneeblock.append (assignee);
     if (level >= Filter_Roles::manager ()) {
-      assigneeblock.append ("<a href=\"?id=" + to_string (id) + "&unassign=" + assignee + "\"> [" + translate("unassign") + "]</a>");
+      assigneeblock.append ("<a href=\"?id=" + convert_to_string (id) + "&unassign=" + assignee + "\"> [" + translate("unassign") + "]</a>");
       assigneeblock.append (" | ");
     }
   }

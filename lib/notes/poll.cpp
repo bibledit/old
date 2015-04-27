@@ -22,6 +22,7 @@
 #include <assets/page.h>
 #include <assets/header.h>
 #include <filter/roles.h>
+#include <filter/string.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
@@ -49,7 +50,7 @@ string notes_poll (void * webserver_request)
     int identifier = Ipc_Notes::get (webserver_request);
     if (identifier) {
       Ipc_Notes::erase (webserver_request);
-      string url = "note?id=" + to_string (identifier);
+      string url = "note?id=" + convert_to_string (identifier);
       return url;
     }
   } else if (action == "unload") {

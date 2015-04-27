@@ -142,15 +142,15 @@ string notes_select (void * webserver_request)
   
   
   int passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
-  view.set_variable ("passageselector" + to_string (passage_selector), active_class);
+  view.set_variable ("passageselector" + convert_to_string (passage_selector), active_class);
 
   
   int edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
-  view.set_variable ("editselector" + to_string (edit_selector), active_class);
+  view.set_variable ("editselector" + convert_to_string (edit_selector), active_class);
   
   
   int non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
-  view.set_variable ("noneditselector" + to_string (non_edit_selector), active_class);
+  view.set_variable ("noneditselector" + convert_to_string (non_edit_selector), active_class);
   
   
   string status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
@@ -204,7 +204,7 @@ string notes_select (void * webserver_request)
   
   
   bool subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
-  view.set_variable ("subscriptionselector" + to_string (subscription_selector), active_class);
+  view.set_variable ("subscriptionselector" + convert_to_string (subscription_selector), active_class);
 
 
   int severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector ();
@@ -215,24 +215,24 @@ string notes_select (void * webserver_request)
     severityblock.append (" | ");
     severityblock.append ("<a ");
     if (severity_selector == i) severityblock.append (active_class);
-    severityblock.append ("href=\"select?severityselector=" + to_string (i) + "\">" + severities[i].localized + "</a>");
+    severityblock.append ("href=\"select?severityselector=" + convert_to_string (i) + "\">" + severities[i].localized + "</a>");
   }
   view.set_variable ("severityblock", severityblock);
 
   
   int text_selector = request->database_config_user()->getConsultationNotesTextSelector();
-  view.set_variable ("textselector" + to_string (text_selector), active_class);
+  view.set_variable ("textselector" + convert_to_string (text_selector), active_class);
   if (text_selector == 1) view.enable_zone ("textselection");
   string search_text = request->database_config_user()->getConsultationNotesSearchText();
   view.set_variable ("searchtext", search_text);
 
 
   int passage_inclusion_selector = request->database_config_user()->getConsultationNotesPassageInclusionSelector();
-  view.set_variable ("passageinclusionselector" + to_string (passage_inclusion_selector), active_class);
+  view.set_variable ("passageinclusionselector" + convert_to_string (passage_inclusion_selector), active_class);
                      
                      
   int text_inclusion_selector = request->database_config_user()->getConsultationNotesTextInclusionSelector();
-  view.set_variable ("textinclusionselector" + to_string (text_inclusion_selector), active_class);
+  view.set_variable ("textinclusionselector" + convert_to_string (text_inclusion_selector), active_class);
                                         
 
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -257,7 +257,7 @@ string notes_select (void * webserver_request)
                                                          text_selector,
                                                          search_text,
                                                          0);
-  view.set_variable ("count", to_string (identifiers.size()));
+  view.set_variable ("count", convert_to_string (identifiers.size()));
 
   
   view.set_variable ("success", success);

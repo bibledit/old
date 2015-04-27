@@ -63,7 +63,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   string bookname = Database_Books::getEnglishFromId (book);
   
   
-  Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + to_string (chapter), Filter_Roles::manager ());
+  Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::manager ());
   
   
   // Check whether the user has write-access to the Bible.
@@ -101,7 +101,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
       // When the merged USFM is the same as what's already on the server, then it means there was a merge conflict.
       // Email the user with the details, so the user can resolve the conflicts.
       string subject = "Problem sending chapter to server";
-      string body = "<p>While sending " + bible + " " + bookname + " " + to_string (chapter) + " to the server, the server didn't manage to merge it.</p>";
+      string body = "<p>While sending " + bible + " " + bookname + " " + convert_to_string (chapter) + " to the server, the server didn't manage to merge it.</p>";
       body.append ("<p>Please re-enter your changes as you see fit.</p>");
       body.append ("<p>Here is the chapter you sent to the server:</p>");
       body.append ("<pre>" + newusfm + "</pre>");

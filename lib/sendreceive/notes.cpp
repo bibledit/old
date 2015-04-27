@@ -115,7 +115,7 @@ void sendreceive_notes ()
   map <string, string> post;
   post ["u"] = bin2hex (user);
   post ["p"] = request.database_users ()->getmd5 (user);
-  post ["l"] = to_string (request.database_users ()->getUserLevel (user));
+  post ["l"] = convert_to_string (request.database_users ()->getUserLevel (user));
 
   
   // Error variable.
@@ -165,8 +165,8 @@ void sendreceive_notes ()
       
       
       // Generate a POST request.
-      post ["i"] = to_string (identifier);
-      post ["a"] = to_string (action);
+      post ["i"] = convert_to_string (identifier);
+      post ["a"] = convert_to_string (action);
       switch (action) {
         case Sync_Logic::notes_put_create_initiate: break;
         case Sync_Logic::notes_put_create_complete: break;
@@ -198,7 +198,7 @@ void sendreceive_notes ()
         }
         case Sync_Logic::notes_put_severity:
         {
-          content = to_string (database_notes.getRawSeverity (identifier));
+          content = convert_to_string (database_notes.getRawSeverity (identifier));
           break;
         }
         case Sync_Logic::notes_put_bible:
@@ -274,8 +274,8 @@ void sendreceive_notes ()
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
       map <string, string> post;
       post ["u"] = bin2hex (user);
-      post ["i"] = to_string (identifier);
-      post ["a"] = to_string (action);
+      post ["i"] = convert_to_string (identifier);
+      post ["a"] = convert_to_string (action);
       response = sync_logic.post (post, url, error);
       if (error.empty ()) {
         if (action == Sync_Logic::notes_get_contents) {
@@ -304,7 +304,7 @@ void sendreceive_notes ()
   if (!tasks_logic_queued (DOWNLOADNOTES)) {
     int lowId = Notes_Logic::lowNoteIdentifier;
     int highId = Notes_Logic::highNoteIdentifier;
-    tasks_logic_queue (DOWNLOADNOTES, { to_string (lowId), to_string (highId) });
+    tasks_logic_queue (DOWNLOADNOTES, { convert_to_string (lowId), convert_to_string (highId) });
   }
   sendreceive_notes_done ();
 }
@@ -366,8 +366,8 @@ void sendreceive_notes_download (int lowId, int highId)
   // The basic request to be POSTed to the server.
   map <string, string> post;
   post ["u"] = bin2hex (user);
-  post ["l"] = to_string (lowId);
-  post ["h"] = to_string (highId);
+  post ["l"] = convert_to_string (lowId);
+  post ["h"] = convert_to_string (highId);
 
   
   // Error variable.
@@ -378,7 +378,7 @@ void sendreceive_notes_download (int lowId, int highId)
   // It compares this with the local notes.
   // If it matches, that means that the local notes match the notes on the server.
   // The script is then ready.
-  post ["a"] = to_string (Sync_Logic::notes_get_total);
+  post ["a"] = convert_to_string (Sync_Logic::notes_get_total);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting totals: " + error, Filter_Roles::translator ());
@@ -411,7 +411,7 @@ void sendreceive_notes_download (int lowId, int highId)
   if (server_total > 20) {
      vector <Sync_Logic_Range> ranges = sync_logic.create_range (lowId, highId);
     for (auto range : ranges) {
-      tasks_logic_queue (DOWNLOADNOTES, {to_string (range.low), to_string (range.high)});
+      tasks_logic_queue (DOWNLOADNOTES, {to_string (range.low), convert_to_string (range.high)});
     }
     return;
   }
@@ -426,7 +426,7 @@ void sendreceive_notes_download (int lowId, int highId)
   
   
   // Get note identifiers and checksums as on the server.
-  post ["a"] = to_string (Sync_Logic::notes_get_identifiers);
+  post ["a"] = convert_to_string (Sync_Logic::notes_get_identifiers);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting identifiers: " + error, Filter_Roles::translator ());
@@ -477,9 +477,9 @@ void sendreceive_notes_download (int lowId, int highId)
 
     // Fetch the note from the server.
     map <string, string> post;
-    post ["i"] = to_string (identifier);
+    post ["i"] = convert_to_string (identifier);
 
-    post ["a"] = to_string (Sync_Logic::notes_get_summary);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_summary);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting summary: " + error, Filter_Roles::translator ());
@@ -490,7 +490,7 @@ void sendreceive_notes_download (int lowId, int highId)
       database_notes.setSummary (identifier, summary);
     }
     
-    post ["a"] = to_string (Sync_Logic::notes_get_contents);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_contents);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting contents: " + error, Filter_Roles::translator ());
@@ -500,7 +500,7 @@ void sendreceive_notes_download (int lowId, int highId)
       database_notes.setContents (identifier, response);
     }
     
-    post ["a"] = to_string (Sync_Logic::notes_get_subscribers);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_subscribers);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting subscribers: " + error, Filter_Roles::translator ());
@@ -509,7 +509,7 @@ void sendreceive_notes_download (int lowId, int highId)
     vector <string> subscribers = filter_string_explode (response, '\n');
     database_notes.setSubscribers (identifier, subscribers);
     
-    post ["a"] = to_string (Sync_Logic::notes_get_assignees);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_assignees);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting assignees: " + error, Filter_Roles::translator ());
@@ -518,7 +518,7 @@ void sendreceive_notes_download (int lowId, int highId)
     vector <string> assignees = filter_string_explode (response, '\n');
     database_notes.setAssignees (identifier, assignees);
     
-    post ["a"] = to_string (Sync_Logic::notes_get_status);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_status);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting status: " + error, Filter_Roles::translator ());
@@ -526,7 +526,7 @@ void sendreceive_notes_download (int lowId, int highId)
     }
     database_notes.setStatus (identifier, response);
     
-    post ["a"] = to_string (Sync_Logic::notes_get_passages);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_passages);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting passages: " + error, Filter_Roles::translator ());
@@ -539,7 +539,7 @@ void sendreceive_notes_download (int lowId, int highId)
     }
     database_notes.setPassages (identifier, passages);
     
-    post ["a"] = to_string (Sync_Logic::notes_get_severity);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_severity);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting severity: " + error, Filter_Roles::translator ());
@@ -547,7 +547,7 @@ void sendreceive_notes_download (int lowId, int highId)
     }
     database_notes.setRawSeverity (identifier, convert_to_int (response));
     
-    post ["a"] = to_string (Sync_Logic::notes_get_bible);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_bible);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting bible: " + error, Filter_Roles::translator ());
@@ -556,7 +556,7 @@ void sendreceive_notes_download (int lowId, int highId)
     database_notes.setBible (identifier, response);
     
     // Set time modified field last as it is affected by the previous store actions.
-    post ["a"] = to_string (Sync_Logic::notes_get_modified);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_modified);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting time modified: " + error, Filter_Roles::translator ());

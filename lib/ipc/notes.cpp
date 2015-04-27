@@ -31,7 +31,7 @@ void Ipc_Notes::open (void * webserver_request, int identifier)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
-  request->database_ipc()->storeMessage (user, "", "opennote", to_string (identifier));
+  request->database_ipc()->storeMessage (user, "", "opennote", convert_to_string (identifier));
 }
 
 

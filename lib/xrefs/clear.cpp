@@ -96,7 +96,7 @@ string xrefs_clear (void * webserver_request)
   Assets_View view = Assets_View ();
   
   
-  view.set_variable ("count", to_string (xrefs.size ()));
+  view.set_variable ("count", convert_to_string (xrefs.size ()));
   if (openers == closers) {
     view.enable_zone ("overwrite");
   } else {

@@ -67,9 +67,9 @@ string bible_editing (void * webserver_request)
   }
   
   int chapterpercentage = Database_Config_Bible::getEditingAllowedDifferenceChapter (bible);
-  view.set_variable ("chapterpercentage", to_string (chapterpercentage));
+  view.set_variable ("chapterpercentage", convert_to_string (chapterpercentage));
   int versepercentage = Database_Config_Bible::getEditingAllowedDifferenceVerse (bible);
-  view.set_variable ("versepercentage", to_string (versepercentage));
+  view.set_variable ("versepercentage", convert_to_string (versepercentage));
 
   page += view.render ("bible", "editing");
   

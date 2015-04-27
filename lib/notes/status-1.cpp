@@ -61,13 +61,13 @@ string notes_status_1 (void * webserver_request)
   
   
   int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
   
   
   if (request->query.count ("status")) {
     string status = request->query["status"];
     notes_logic.setStatus (id, status);
-    redirect_browser (request, notes_actions_url () + "?id=" + to_string (id));
+    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
     return "";
   }
   
@@ -75,7 +75,7 @@ string notes_status_1 (void * webserver_request)
   string statusblock;
   vector <Database_Notes_Text> statuses = database_notes.getPossibleStatuses ();
   for (auto & status : statuses) {
-    statusblock.append ("<li><a href=\"status-1?id=" + to_string (id) + "&status=" + status.raw + "\">" + status.localized + "</a></li>\n");
+    statusblock.append ("<li><a href=\"status-1?id=" + convert_to_string (id) + "&status=" + status.raw + "\">" + status.localized + "</a></li>\n");
   }
   view.set_variable ("statusblock", statusblock);
   

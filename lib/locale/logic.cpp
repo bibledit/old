@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <locale/logic.h>
 #include <locale/translate.h>
+#include <filter/string.h>
 
 
 // Filters out the default language.
@@ -47,6 +48,6 @@ string locale_logic_month (int month)
     case 11: return translate ("November");
     case 12: return translate ("December");
   }
-  return translate ("Month") + " " + to_string (month);
+  return translate ("Month") + " " + convert_to_string (month);
 }
 

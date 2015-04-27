@@ -165,7 +165,7 @@ string sprint_index (void * webserver_request)
   
   
   view.set_variable ("bible", bible);
-  view.set_variable ("sprint", locale_logic_month (month) + " " + to_string (year));
+  view.set_variable ("sprint", locale_logic_month (month) + " " + convert_to_string (year));
 
   
   string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
@@ -184,7 +184,7 @@ string sprint_index (void * webserver_request)
     string title = filter_string_sanitize_html (database_sprint.getTitle (id));
     int percentage = database_sprint.getComplete (id);
     tasks.append ("<tr>\n");
-    tasks.append ("<td><a href=\"?id=" + to_string (id) + "&moveback=\"> « </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");
     int category_count = vcategories.size();
     float category_percentage = 100 / category_count;
@@ -197,14 +197,14 @@ string sprint_index (void * webserver_request)
       }
       tasks.append ("<td style=\"text-align:center; " + background + "\">\n");
       if (percentage >= high) {
-        tasks.append ("<a href=\"?id=" + to_string (id) + "&complete=" + to_string (low) + "\"> ☑ </a>\n");
+        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (low) + "\"> ☑ </a>\n");
       } else {
-        tasks.append ("<a href=\"?id=" + to_string (id) + "&complete=" + to_string (high) + "\"> ☐ </a>\n");
+        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (high) + "\"> ☐ </a>\n");
       }
       tasks.append ("</td>\n");
     }
     
-    tasks.append ("<td><a href=\"?id=" + to_string (id) + "&moveforward=\"> » </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveforward=\"> » </a></td>\n");
     tasks.append ("</tr>\n");
   }
   view.set_variable ("tasks", tasks);

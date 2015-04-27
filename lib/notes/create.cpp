@@ -114,10 +114,10 @@ string notes_create (void * webserver_request)
 
   
   view.set_variable ("bible", bible);
-  view.set_variable ("book", to_string (book));
-  view.set_variable ("chapter", to_string (chapter));
-  view.set_variable ("verse", to_string (verse));
-  string passage = filter_passage_display (book, chapter, to_string (verse));
+  view.set_variable ("book", convert_to_string (book));
+  view.set_variable ("chapter", convert_to_string (chapter));
+  view.set_variable ("verse", convert_to_string (verse));
+  string passage = filter_passage_display (book, chapter, convert_to_string (verse));
   view.set_variable ("passage", passage);
                                                                                                       
   

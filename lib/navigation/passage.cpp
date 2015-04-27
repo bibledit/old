@@ -95,13 +95,13 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     }
   }
 
-  fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + to_string (chapter) +  " </a></li>");
+  fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></li>");
   
   fragment.append ("<li><span>:</span></li>");
 
   int verse = Ipc_Focus::getVerse (request);
   
-  fragment.append ("<li><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + to_string (verse) +  " </a></li>");
+  fragment.append ("<li><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></li>");
 
   // The result.
   return fragment;
@@ -123,7 +123,7 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   for (auto book : books) {
     string bookName = Database_Books::getEnglishFromId (book);
     bool selected = (book == activeBook);
-    addSelectorLink (html, to_string (book), "applybook", translate ("Select book"), bookName, selected);
+    addSelectorLink (html, convert_to_string (book), "applybook", translate ("Select book"), bookName, selected);
   }
   addSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
 
@@ -153,7 +153,7 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
   addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
-    addSelectorLink (html, to_string (ch), "applychapter", translate ("Select chapter"), to_string (ch), selected);
+    addSelectorLink (html, convert_to_string (ch), "applychapter", translate ("Select chapter"), convert_to_string (ch), selected);
   }
   addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
 
@@ -182,7 +182,7 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
   addSelectorLink (html, "next", "applyverse", translate ("Next verse"), "[" + translate ("next") + "]", false);
   for (auto vs : verses) {
     bool selected = (verse == vs);
-    addSelectorLink (html, to_string (vs), "applyverse", translate ("Select verse"), to_string (vs), selected);
+    addSelectorLink (html, convert_to_string (vs), "applyverse", translate ("Select verse"), convert_to_string (vs), selected);
   }
   addSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
 

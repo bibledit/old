@@ -61,7 +61,7 @@ string notes_assign_1 (void * webserver_request)
   
   
   int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
 
   
   if (request->query.count ("assign")) {
@@ -69,7 +69,7 @@ string notes_assign_1 (void * webserver_request)
     if (request->database_users ()->usernameExists (assign)) {
       notes_logic.assignUser (id, assign);
     }
-    redirect_browser (request, notes_actions_url () + "?id=" + to_string (id));
+    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
     return "";
   }
 
@@ -86,7 +86,7 @@ string notes_assign_1 (void * webserver_request)
       }
     }
     if (access) {
-      userblock.append ("<li><a href=\"assign-1?id=" + to_string (id) + "&assign=" + user + "\">" + user + "</a></li>\n");
+      userblock.append ("<li><a href=\"assign-1?id=" + convert_to_string (id) + "&assign=" + user + "\">" + user + "</a></li>\n");
     }
   }
   view.set_variable ("userblock", userblock);

@@ -8,3 +8,7 @@ To create a package, Windows uses Inno Setup installed from isetup-5.5.5-unicode
 Library compilation from within a Cygwin shell.
 
 Copy the bibledit.exe and all required .dll files into a location, and run it from there.
+
+Notes
+* Compiling the bibledit library through Visual Studio resulted in crashes in the library. Compiling in Cygwin works well.
+* The functions "stoi" and "to_string" are not yet available from Cygwin. Therefore work-arounds are in use for those.

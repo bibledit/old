@@ -80,7 +80,7 @@ string notes_note (void * webserver_request)
   }
   
   
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
   
 
   string summary = database_notes.getSummary (id);

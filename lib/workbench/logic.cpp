@@ -166,7 +166,7 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
     }
   }
   for (auto & element : values) {
-    string line = workbench + "_" + to_string (element.first) + "_" + element.second;
+    string line = workbench + "_" + convert_to_string (element.first) + "_" + element.second;
     newlines.push_back (line);
   }
   rawvalue = filter_string_implode (newlines, "\n");

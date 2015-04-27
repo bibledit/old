@@ -98,7 +98,7 @@ void sendreceive_externalresources ()
   // Request the checksum of all offline resources from the server.
   // Compare it with the local checksum.
   // If the two match: Ready.
-  post ["a"] = to_string (Sync_Logic::offlineresources_get_total_checksum);
+  post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_total_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_externalresources_text () + "Failure requesting checksum: " + error, Filter_Roles::translator ());
@@ -114,7 +114,7 @@ void sendreceive_externalresources ()
   
   
   // Request a list of all offline resources available on the server.
-  post ["a"] = to_string (Sync_Logic::offlineresources_get_resources);
+  post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_resources);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_externalresources_text () + "Failure requesting names: " + error, Filter_Roles::translator ());
@@ -139,7 +139,7 @@ void sendreceive_externalresources ()
     // Request the checksum of the resources from the server.
     // Compare it with the checksum of the local resource.
     // If they match: Go to next resource.
-    post ["a"] = to_string (Sync_Logic::offlineresources_get_resource_checksum);
+    post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_resource_checksum);
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
@@ -154,7 +154,7 @@ void sendreceive_externalresources ()
 
     
     // Request a list of all files in the resource on the server.
-    post ["a"] = to_string (Sync_Logic::offlineresources_get_files);
+    post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_files);
     post ["r"] = resource;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
@@ -180,7 +180,7 @@ void sendreceive_externalresources ()
       // Request checksum of this file,
       // compare it with the local checksum,
       // and skip the file if the checksums match.
-      post ["a"] = to_string (Sync_Logic::offlineresources_get_file_checksum);
+      post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_file_checksum);
       post ["r"] = resource;
       post ["f"] = file;
       response = sync_logic.post (post, url, error);
@@ -200,7 +200,7 @@ void sendreceive_externalresources ()
       // Create directory by saving empty file.
       database_offlineresources.save (resource, file, "");
       // Obtain url for file to download from server.
-      post ["a"] = to_string (Sync_Logic::offlineresources_get_file_filename);
+      post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_file_filename);
       post ["r"] = resource;
       post ["f"] = file;
       response = sync_logic.post (post, url, error);

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/xmlwriter.h>
 #include <menu/logic.h>
 #include <filter/roles.h>
+#include <filter/string.h>
 #include <webserver/request.h>
 #include <email/index.h>
 #include <config/logic.h>
@@ -148,7 +149,7 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   if (workbench_organize_acl (request)) {
     vector <string> workbenches = workbenchGetWorkbenches (request);
     for (unsigned int i = 0; i < workbenches.size(); i++) {
-      menu->push_back ( {"", workbench_index_url () + "?bench=" + to_string (i), workbenches[i], NULL});
+      menu->push_back ( {"", workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i], NULL});
     }
   }
   // Finally add the Workbench Organizer.

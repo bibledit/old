@@ -82,11 +82,11 @@ string checks_suppress (void * webserver_request)
     if (in_array (bibleID, bibleIDs)) {
       int id = suppression.rowid;
       string bible = filter_string_sanitize_html (request->database_bibles()->getName (bibleID));
-      string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, to_string (suppression.verse))});
+      string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, convert_to_string (suppression.verse))});
       string result = filter_string_sanitize_html (suppression.data);
       result.insert (0, bible + " " + passage + " ");
       block.append ("<p style=\"color:grey;\">\n");
-      block.append ("<a href=\"suppress?release=" + to_string (id) + "\">\n");
+      block.append ("<a href=\"suppress?release=" + convert_to_string (id) + "\">\n");
       block.append ("✗\n");
       block.append ("</a>\n");
       block.append (result + "\n");

@@ -134,7 +134,7 @@ string xrefs_interpret (void * webserver_request)
 
   
   unknown_abbreviations = array_unique (unknown_abbreviations);
-  view.set_variable ("remaining", to_string (unknown_abbreviations.size() - 1));
+  view.set_variable ("remaining", convert_to_string (unknown_abbreviations.size() - 1));
   
   
   page += view.render ("xrefs", "interpret");

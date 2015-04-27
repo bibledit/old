@@ -93,14 +93,14 @@ void export_web_book (string bible, int book)
     
     // Create breadcrumbs for the chapter.
     Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);
-    htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + to_string (chapter));
+    htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
     htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()), make_pair (to_string (chapter), filter_url_html_file_name_bible ("", book))});
     
     // Create interlinked html for the chapter.
     filter_text_chapter.run (stylesheet);
     filter_text_chapter.html_text_linked->save (filter_url_html_file_name_bible (directory, book, chapter));
     
-    html_text_rich_book_index.addLink (html_text_rich_book_index.currentPDomElement, filter_url_html_file_name_bible ("", book, chapter), "", to_string (chapter), "", " " + to_string (chapter) + " ");
+    html_text_rich_book_index.addLink (html_text_rich_book_index.currentPDomElement, filter_url_html_file_name_bible ("", book, chapter), "", convert_to_string (chapter), "", " " + convert_to_string (chapter) + " ");
     html_text_rich_book_index.addText ("|");
   }
   

@@ -92,6 +92,14 @@ string convert_to_string (unsigned int i)
 }
 
 
+string convert_to_string (size_t i)
+{
+  ostringstream r;
+  r << i;
+  return r.str();
+}
+
+
 string convert_to_string (int i)
 {
   ostringstream r;

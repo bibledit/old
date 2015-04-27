@@ -232,7 +232,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  view.set_variable ("notescount", to_string (identifiers.size()));
+  view.set_variable ("notescount", convert_to_string (identifiers.size()));
   
   
   view.set_variable ("success", success);

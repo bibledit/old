@@ -106,7 +106,7 @@ string sync_notes (void * webserver_request)
       vector <string> bibles = access_bible_bibles (webserver_request, user);
       vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, bibles, false);
       string checksum = database_notes.getMultipleChecksum (identifiers);
-      string response = to_string (identifiers.size ()) + "\n" + checksum;
+      string response = convert_to_string (identifiers.size ()) + "\n" + checksum;
       return response;
     }
     case Sync_Logic::notes_get_identifiers:
@@ -163,7 +163,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_severity:
     {
-      return to_string (database_notes.getRawSeverity (identifier));
+      return convert_to_string (database_notes.getRawSeverity (identifier));
     }
     case Sync_Logic::notes_get_bible:
     {
@@ -171,7 +171,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_modified:
     {
-      return to_string (database_notes.getModified (identifier));
+      return convert_to_string (database_notes.getModified (identifier));
     }
     case Sync_Logic::notes_put_create_initiate:
     {

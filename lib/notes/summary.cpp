@@ -59,13 +59,13 @@ string notes_summary (void * webserver_request)
 
 
   int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", to_string (id));
+  view.set_variable ("id", convert_to_string (id));
   
   
   if (request->post.count ("submit")) {
     string summary = request->post["entry"];
     notes_logic.setSummary (id, summary);
-    redirect_browser (request, notes_note_url () + "?id=" + to_string (id));
+    redirect_browser (request, notes_note_url () + "?id=" + convert_to_string (id));
     return "";
   }
   
