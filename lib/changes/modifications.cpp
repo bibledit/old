@@ -214,17 +214,17 @@ void changes_modifications ()
     // The files get stored at http://site.org:<port>/revisions/<Bible>/<date>
     int seconds = filter_date_seconds_since_epoch ();
     string timepath;
-    timepath.append  convert_to_string (filter_date_numerical_year (seconds)));
+    timepath.append (convert_to_string (filter_date_numerical_year (seconds)));
     timepath.append ("-");
-    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_month (seconds)), 2, '0'));
+    timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_month (seconds)), 2, '0'));
     timepath.append ("-");
-    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_month_day (seconds)), 2, '0'));
+    timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_month_day (seconds)), 2, '0'));
     timepath.append (" ");
-    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_hour (seconds)), 2, '0'));
+    timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
+    timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter_string_fill  convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
+    timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
     string directory = filter_url_create_root_path ("revisions", bible, timepath);
     filter_url_mkdir (directory);
     

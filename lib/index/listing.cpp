@@ -75,7 +75,7 @@ string index_listing (void * webserver_request, string url)
       line.append ("</td>");
       line.append ("<td>");
       if (!filter_url_is_dir (path)) {
-        line.append  convert_to_string (filter_url_filesize (path)));
+        line.append (convert_to_string (filter_url_filesize (path)));
       }
       line.append ("</td>");
       line.append ("</tr>");

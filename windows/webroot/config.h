@@ -35,7 +35,7 @@
 /* #undef HAVE_IOS */
 
 /* Define whether libproc.h is present */
-#define HAVE_LIBPROC 1
+/* #undef HAVE_LIBPROC */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
