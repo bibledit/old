@@ -3929,14 +3929,14 @@ void test_filter_git ()
     // Commit and push the result.
     success = filter_git_commit (repository, "message", messages);
     evaluate (__LINE__, __func__, false, success);
-    evaluate (__LINE__, __func__, 5, messages.size());
+    evaluate (__LINE__, __func__, 4, messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, 2, messages.size());
     
     // Status up-to-date.
     messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, 4, messages.size ());
+    evaluate (__LINE__, __func__, 3, messages.size ());
 
     // Remove journal entries.
     refresh_sandbox (false);

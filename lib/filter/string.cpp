@@ -94,8 +94,9 @@ string convert_to_string (unsigned int i)
 
 string convert_to_string (int i)
 {
-  string s = to_string (i);
-  return s;
+  ostringstream r;
+  r << i;
+  return r.str();
 }
 
 

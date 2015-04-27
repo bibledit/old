@@ -2229,7 +2229,7 @@ void test_database_versifications ()
 
     // GetID
     int id = database_versifications.getID ("English");
-    evaluate (__LINE__, __func__, 7 , id);
+    evaluate (__LINE__, __func__, 2 , id);
 
     // Test books.
     vector <int> books = database_versifications.getBooks ("English");
