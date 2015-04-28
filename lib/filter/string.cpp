@@ -929,7 +929,7 @@ vector <string> filter_string_search_needles (string search, string text)
 
 
 // Returns an integer identifier based on the name of the current user.
-int filter_string_user_identifier (void * webserver_request)
+int filter_string_user_identifier (void * webserver_request) // Todo unit test before after fix.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string username = request->session_logic()->currentUser ();
@@ -955,7 +955,7 @@ string bin2hex (string bin)
 
 
 // C++ equivalent for PHP's hex2bin function.
-string hex2bin (string hex)
+string hex2bin (string hex) // Todo unit test before / after fix.
 {
   string out;
   if (hex.length() % 2 == 0) {
