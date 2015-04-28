@@ -92,12 +92,14 @@ string convert_to_string (unsigned int i)
 }
 
 
+#ifndef HAVE_CYGWIN
 string convert_to_string (size_t i)
 {
   ostringstream r;
   r << i;
   return r.str();
 }
+#endif
 
 
 string convert_to_string (int i)
