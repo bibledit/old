@@ -48,8 +48,8 @@ int filter_shell_run (string directory, string command, const vector <string> pa
     command.append (" " + parameter);
   }
   string pipe = filter_url_tempfile ();
-  string stdout = pipe + ".out";
-  string stderr = pipe + ".err";
+  string stdout = pipe + string (".out");
+  string stderr = pipe + string (".err");
   command.append (" > " + stdout);
   command.append (" 2> " + stderr);
   int result = system (command.c_str());

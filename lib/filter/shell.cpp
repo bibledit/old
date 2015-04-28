@@ -48,24 +48,24 @@ int filter_shell_run (string directory, string command, const vector <string> pa
     command.append (" " + parameter);
   }
   string pipe = filter_url_tempfile ();
-  string stdout = pipe + ".out";
-  string stderr = pipe + ".err";
-  command.append (" > " + stdout);
-  command.append (" 2> " + stderr);
+  string standardout = pipe + ".out";
+  string standarderr = pipe + ".err";
+  command.append (" > " + standardout);
+  command.append (" 2> " + standarderr);
   int result = system (command.c_str());
-  string contents = filter_url_file_get_contents (stdout);
+  string contents = filter_url_file_get_contents (standardout);
   if (output) {
     output->assign (contents);
   } else {
     Database_Logs::log (contents);
   }
-  contents = filter_url_file_get_contents (stderr);
+  contents = filter_url_file_get_contents (standarderr);
   if (error) {
     error->assign (contents);
   } else {
     Database_Logs::log (contents);
   }
-  filter_url_unlink (stdout);
-  filter_url_unlink (stderr);
+  filter_url_unlink (standardout);
+  filter_url_unlink (standarderr);
   return result;
 }
