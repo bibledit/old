@@ -98,7 +98,7 @@ string resource_print (void * webserver_request)
     int jobId = database_jobs.getNewId ();
     database_jobs.setLevel (jobId, Filter_Roles::consultant ());
     string username = request->session_logic()->currentUser ();
-    tasks_logic_queue (PRINTRESOURCES, {to_string (jobId), username, bible});
+    tasks_logic_queue (PRINTRESOURCES, {convert_to_string (jobId), username, bible});
     redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
     return "";
   }

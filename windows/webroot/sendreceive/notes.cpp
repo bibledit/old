@@ -411,7 +411,7 @@ void sendreceive_notes_download (int lowId, int highId)
   if (server_total > 20) {
      vector <Sync_Logic_Range> ranges = sync_logic.create_range (lowId, highId);
     for (auto range : ranges) {
-      tasks_logic_queue (DOWNLOADNOTES, {to_string (range.low), convert_to_string (range.high)});
+      tasks_logic_queue (DOWNLOADNOTES, {convert_to_string (range.low), convert_to_string (range.high)});
     }
     return;
   }

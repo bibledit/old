@@ -28,7 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Replacement function for missing "stoi" on Cygwin.
 int stoi (const string& str, void * idx, int base)
 {
-  int i = strtol (str.c_str(), idx, base); // Todo
+  char ** endptr = reinterpret_cast <char **> (idx);
+  int i = strtol (str.c_str(), endptr, base); // Todo
   return i;
 }
 

@@ -20,7 +20,10 @@ make distclean
 cp library/bibledit.h ../gui/bibledit
 
 
+# Compile and build.
+make
+
+
 popd
 
 
-say Preparation for Windows is ready
