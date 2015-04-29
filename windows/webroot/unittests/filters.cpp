@@ -459,7 +459,7 @@ void test_filters_usfm3 ()
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
   {
-    evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
+    evaluate (__LINE__, __func__, 0, (int)usfm_import ("", styles_logic_standard_sheet ()).size());
     vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, (int)import2.size());
     if (import2.size () == 2) {
