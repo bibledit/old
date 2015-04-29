@@ -2017,8 +2017,8 @@ void test_filters_test12 ()
 void test_filters_test13 ()
 {
   // Unicode tests.
-  evaluate (__LINE__, __func__, 4, unicode_string_length ("test"));
-  evaluate (__LINE__, __func__, 4, unicode_string_length ("ᨁᨃᨅᨕ"));
+  evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("test"));
+  evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("ᨁᨃᨅᨕ"));
 
   string hebrew = "אָבּגּדּהּ";
   evaluate (__LINE__, __func__, "st1234", unicode_string_substr ("test1234", 2));
