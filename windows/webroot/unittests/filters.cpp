@@ -461,7 +461,7 @@ void test_filters_usfm3 ()
   {
     evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
     vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, import2.size());
+    evaluate (__LINE__, __func__, 2, (int)import2.size());
     if (import2.size () == 2) {
       evaluate (__LINE__, __func__, 33, import2 [0].book);
       evaluate (__LINE__, __func__, 0, import2 [0].chapter);
@@ -476,7 +476,7 @@ void test_filters_usfm3 ()
   {
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "1jn.usfm"));
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 6, import.size());
+    evaluate (__LINE__, __func__, 6, (int)import.size());
   }
 }
 
@@ -533,7 +533,7 @@ void test_filters_test5 ()
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\x + Hlab. 81.5.\\x* njengomhlambi\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> xrefs = usfm_extract_notes (usfm, {"x"});
-    evaluate (__LINE__, __func__, 4, xrefs.size());
+    evaluate (__LINE__, __func__, 4, (int)xrefs.size());
     if (xrefs.size () == 4) {
       evaluate (__LINE__, __func__, 55, xrefs[0].offset);
       evaluate (__LINE__, __func__, "\\x + Hlab. 81.5.\\x*", xrefs[0].data);
@@ -548,7 +548,7 @@ void test_filters_test5 ()
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\f + Hlab. 81.5.\\f* njengomhlambi\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> notes = usfm_extract_notes (usfm, { "x", "f", "fe" });
-    evaluate (__LINE__, __func__, 4, notes.size());
+    evaluate (__LINE__, __func__, 4, (int)notes.size());
     if (notes.size () == 4) {
       evaluate (__LINE__, __func__, 55, notes[0].offset);
       evaluate (__LINE__, __func__, "\\f + Hlab. 81.5.\\f*", notes[0].data); 
@@ -563,7 +563,7 @@ void test_filters_test5 ()
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi\\f + Hlab. 81.5.\\f*\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> notes = usfm_extract_notes (usfm, { "x", "f", "fe" });
-    evaluate (__LINE__, __func__, 4, notes.size());
+    evaluate (__LINE__, __func__, 4, (int)notes.size());
     if (notes.size () == 4) {
       evaluate (__LINE__, __func__, 69, notes[0].offset);
       evaluate (__LINE__, __func__, "\\f + Hlab. 81.5.\\f*", notes[0].data);
@@ -1404,7 +1404,7 @@ void test_filters_test11 ()
     filter_text.run (styles_logic_standard_sheet ());
     // Check that it finds the running headers.
     int desiredRunningHeaders = 5;
-    int actualRunningHeaders = filter_text.runningHeaders.size();
+    int actualRunningHeaders = (int)filter_text.runningHeaders.size();
     evaluate (__LINE__, __func__, desiredRunningHeaders, actualRunningHeaders);
     if (actualRunningHeaders == desiredRunningHeaders) {
       evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].book);
@@ -2031,18 +2031,18 @@ void test_filters_test13 ()
   evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2, 10));
 
   string needle = "דּ";
-  evaluate (__LINE__, __func__, 3, unicode_string_strpos ("012345", "3"));
-  evaluate (__LINE__, __func__, 5, unicode_string_strpos ("012345", "5"));
-  evaluate (__LINE__, __func__, 0, unicode_string_strpos ("012345", "0"));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos ("012345", "6"));
-  evaluate (__LINE__, __func__, 3, unicode_string_strpos (hebrew, needle));
-  evaluate (__LINE__, __func__, 3, unicode_string_strpos (hebrew, needle, 3));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos (hebrew, needle, 4));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos ("", "3"));
+  evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos ("012345", "3"));
+  evaluate (__LINE__, __func__, 5, (int)unicode_string_strpos ("012345", "5"));
+  evaluate (__LINE__, __func__, 0, (int)unicode_string_strpos ("012345", "0"));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("012345", "6"));
+  evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle));
+  evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle, 3));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos (hebrew, needle, 4));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("", "3"));
   
-  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
-  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
+  evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
+  evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
 
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
@@ -3635,7 +3635,7 @@ void test_filter_git ()
     // Push to the remote repository.
     success = filter_git_push (clonedrepository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, messages.size());
+    evaluate (__LINE__, __func__, 2, (int)messages.size());
 
     // Pull from remote repository.
     success = filter_git_pull (clonedrepository, messages);
@@ -3929,14 +3929,14 @@ void test_filter_git ()
     // Commit and push the result.
     success = filter_git_commit (repository, "message", messages);
     evaluate (__LINE__, __func__, false, success);
-    evaluate (__LINE__, __func__, 4, messages.size());
+    evaluate (__LINE__, __func__, 4, (int)messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, messages.size());
+    evaluate (__LINE__, __func__, 2, (int)messages.size());
     
     // Status up-to-date.
     messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, 3, messages.size ());
+    evaluate (__LINE__, __func__, 3, (int)messages.size ());
 
     // Remove journal entries.
     refresh_sandbox (false);
@@ -4175,7 +4175,7 @@ void test_filter_tidy ()
   string folder = filter_url_create_root_path ("unittests", "tests");
   string html = filter_url_file_get_contents (filter_url_create_path (folder, "/biblehub-john-1-1.html"));
   vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
-  evaluate (__LINE__, __func__, 752, tidy.size());
+  evaluate (__LINE__, __func__, 752, (int)tidy.size());
 }
 
 

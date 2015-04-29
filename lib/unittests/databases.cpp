@@ -2384,7 +2384,7 @@ void test_database_modifications_user ()
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     int time = database_modifications.getUserTimestamp ("phpunit1", "bible", 1, 2, 4);
     int currenttime = filter_date_seconds_since_epoch ();
-    if ((time < currenttime) || (time > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, time);
+    if ((time < currenttime - 1) || (time > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, time);
   }
 }
 

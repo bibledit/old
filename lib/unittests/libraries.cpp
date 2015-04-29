@@ -648,7 +648,7 @@ void test_editor_import ()
     editor_import.load (usfm);
     editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
-    evaluate (__LINE__, __func__, 61, editor_import.textLength);
+    evaluate (__LINE__, __func__, 61, (int)editor_import.textLength);
     evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_import.verseStartOffsets);
   }
   // Text Length More
@@ -670,7 +670,7 @@ void test_editor_import ()
     editor_import.load (usfm);
     editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
-    evaluate (__LINE__, __func__, 913, editor_import.textLength);
+    evaluate (__LINE__, __func__, 913, (int)editor_import.textLength);
     evaluate (__LINE__, __func__, { make_pair (0, 0),
                                     make_pair (1, 2),
                                     make_pair (2, 62),
@@ -1974,7 +1974,7 @@ void test_check_versification ()
     vector <int> fault = filter_string_array_diff (books, {10});
     Checks_Versification::books ("Bible", fault);
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, results.size());
+    evaluate (__LINE__, __func__, 1, (int)results.size());
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -2003,7 +2003,7 @@ void test_check_versification ()
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, results.size());
+    evaluate (__LINE__, __func__, 2, (int)results.size());
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -2041,7 +2041,7 @@ void test_check_versification ()
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 4, results.size());
+    evaluate (__LINE__, __func__, 4, (int)results.size());
     if (results.size () == 4) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -2094,7 +2094,7 @@ void test_check_versification ()
     
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 3, results.size());
+    evaluate (__LINE__, __func__, 3, (int)results.size());
     if (results.size () == 3) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -2471,7 +2471,7 @@ void test_check_verses ()
     };
     Checks_Verses::missingPunctuationAtEnd ("1", 1, 1, verses, ", ;", ". ! ? :");
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, results.size());
+    evaluate (__LINE__, __func__, 1, (int)results.size());
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -2492,7 +2492,7 @@ void test_check_verses ()
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, results.size());
+    evaluate (__LINE__, __func__, 1, (int)results.size());
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -2513,7 +2513,7 @@ void test_check_verses ()
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"Did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, results.size());
+    evaluate (__LINE__, __func__, 0, (int)results.size());
   }
   database_check.truncateOutput ("");
   // Test Pattern3
@@ -2525,7 +2525,7 @@ void test_check_verses ()
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"said"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, results.size());
+    evaluate (__LINE__, __func__, 2, (int)results.size());
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
