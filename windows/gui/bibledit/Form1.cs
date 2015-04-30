@@ -16,7 +16,7 @@ namespace Bibledit
     public partial class Form1 : Form
     {
 
-        [DllImport("bibleditdll.dll")]
+        [DllImport("libbibledit.dll")]
         public static extern void bibledit_run();
 
         public Form1()
