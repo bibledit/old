@@ -19,6 +19,7 @@ make distclean
 make
 
 
+mkdir -p /cygdrive/c/bibledit 
 cp -r * /cygdrive/c/bibledit
 
 
