@@ -33,6 +33,11 @@ namespace Bibledit
         private void Form1_Load(object sender, EventArgs e)
         {
             feedback("");
+            // Kill any previous servers. This frees the port to connect to.
+            foreach (var process in Process.GetProcessesByName("server"))
+            {
+                process.Kill();
+            }
             try
             {
                 //feedback(bibledit_wrapper_get_version_number ());
@@ -50,8 +55,8 @@ namespace Bibledit
             {
                 feedback (exception.Message);
             }
+            // Set the timezone with a delay, so it waits till the server is up and running.
             timer = new System.Threading.Timer(obj => { setTimezone(); }, null, 1000, System.Threading.Timeout.Infinite);
-            //setTimezone();
         }
 
 
@@ -65,6 +70,7 @@ namespace Bibledit
         {
             try
             {
+                LibBibledit.EnableRaisingEvents = false;
                 LibBibledit.CloseMainWindow();
                 LibBibledit.Kill();
                 LibBibledit.WaitForExit();
@@ -91,14 +97,13 @@ namespace Bibledit
                 TimeZoneInfo localZone = TimeZoneInfo.Local;
                 int utcOffsetHours = TimeZoneInfo.Local.BaseUtcOffset.Hours;
                 String uri = "http://localhost:8080/administration/timeoffset?offset=" + utcOffsetHours.ToString();
-                //feedback(uri);
                 WebRequest request = WebRequest.Create(uri);
                 WebResponse response = request.GetResponse();
                 response.Close();
             }
             catch (Exception exception)
             {
-                //feedback(exception.Message);
+                if (exception.Message.Length == 0) { };
             }
         }
 

@@ -7,19 +7,19 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{C414BE13-5F10-48B7-AF92-9E4E7265D720}
 AppName=Bibledit
-AppVersion=1.5
+AppVersion=1.0
 ;AppVerName=Bibledit 1.5
 AppPublisher=Teus Benschop
 AppPublisherURL=http://bibledit.org
 AppSupportURL=http://bibledit.org
 AppUpdatesURL=http://bibledit.org
-; There cannot be any space in the path to PHP-CGI with LightTPD on Windows.
+; Spaces in paths have not been tested on Windows.
 ; Therefore install Bibledit in C:\bibledit and do not allow the user to change the location.
 DefaultDirName=C:\bibledit
 DisableDirPage=yes
 DefaultGroupName=Bibledit
-LicenseFile=C:\Users\Teus Benschop\Documents\bibledit\LICENSE
-OutputDir=C:\Users\Teus Benschop\Documents\bibledit\setup
+LicenseFile=C:\bibledit\COPYING
+OutputDir=C:\bibledit
 OutputBaseFilename=bibleditsetup
 Compression=lzma
 SolidCompression=yes
@@ -35,13 +35,10 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "C:\Users\Teus Benschop\Documents\bibledit\LightTPD\*"; DestDir: "{app}\LightTPD"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Teus Benschop\Documents\bibledit\php\*"; DestDir: "{app}\php"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Teus Benschop\Documents\bibledit\bibledit-web\*"; DestDir: "{app}\bibledit-web"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Teus Benschop\Documents\bibledit\bibledit.exe"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: DoPostInstall()
+Source: "C:\bibledit\*"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: DoPostInstall()
 
 [Dirs]
-Name: "{app}\bibledit-web\setup"; Permissions: everyone-full
+Name: "{app}"; Permissions: everyone-full
 
 [Icons]
 Name: "{group}\Bibledit"; Filename: "{app}\bibledit.exe"
@@ -102,47 +99,6 @@ var
   bibleditWebSetupPath: String;
 begin
   appPath := ExpandConstant ('{app}');
-
-  // Configure LightTPD with PHP:
-  // http://redmine.lighttpd.net/projects/1/wiki/TutorialLighttpdAndPHP
-  lighttpdConfPath := appPath + '\LightTPD\conf\lighttpd.conf';
-  ReplaceValue (lighttpdConfPath, 'server_root + "/htdocs"', '"' + appPath+ '\bibledit-web"');
-  ReplaceValue (lighttpdConfPath, '#server.bind', 'server.bind');
-  ReplaceValue (lighttpdConfPath, 'mydomain.org', 'localhost');
-  ReplaceValue (lighttpdConfPath, '#server.port', 'server.port');
-  ReplaceValue (lighttpdConfPath, '= 80', '= 54321');
-  ReplaceValue (lighttpdConfPath, '#                               "mod_cgi"', '                               "mod_cgi"');
-  ReplaceValue (lighttpdConfPath, '#cgi.assign                 = ( ".php" => "C:/PHP/php-cgi.exe",', 'cgi.assign = ( ".php" => "' + appPath + '\php\php-cgi.exe" )');
-
-  // Enable modules in PHP and copy to php.ini.
-  // Both the development and production templates are updated, 
-  // so it is easier for the developer to manually copy the desired template to php.ini.
-  phpIniDevelopmentPath := appPath + '\php\php.ini-development';
-  phpIniProductionPath := appPath + '\php\php.ini-production';
-  ReplaceValue (phpIniDevelopmentPath, ';extension=php_mbstring.dll', 'extension=php_mbstring.dll');
-  ReplaceValue (phpIniProductionPath, ';extension=php_mbstring.dll', 'extension=php_mbstring.dll');
-  ReplaceValue (phpIniDevelopmentPath, ';extension=php_pdo_sqlite.dll', 'extension=php_pdo_sqlite.dll');
-  ReplaceValue (phpIniProductionPath, ';extension=php_pdo_sqlite.dll', 'extension=php_pdo_sqlite.dll');
-  ReplaceValue (phpIniDevelopmentPath, ';extension=php_sqlite3.dll', 'extension=php_sqlite3.dll');
-  ReplaceValue (phpIniProductionPath, ';extension=php_sqlite3.dll', 'extension=php_sqlite3.dll');
-  ReplaceValue (phpIniDevelopmentPath, '; extension_dir = "./"', 'extension_dir = "./ext/"');
-  ReplaceValue (phpIniProductionPath, '; extension_dir = "./"', 'extension_dir = "./ext/"');
-  // Use the production edition of php.ini.
-  // A developer can manually copy the development edition into place if so desired.
-  phpIniPath := appPath + '\php\php.ini';
-  FileCopy (phpIniProductionPath, phpIniPath, false);
-
-  // Update bibledit-web PHP scripts in the setup folder for making it run on Windows.
-  bibleditWebSetupPath := appPath + '\bibledit-web\setup';
-  ReplaceValue (bibleditWebSetupPath + '\libraries.php', '&& $posix', '');
-  ReplaceValue (bibleditWebSetupPath + '\client1.php', '@unlink ("../config/client.php");', 'header ("Location: client2.php");');
-  ReplaceValue (bibleditWebSetupPath + '\binaries.php', '$crontab && $php', 'true');
-  // Skip crontab setup.
-  ReplaceValue (bibleditWebSetupPath + '\step.php', '"timer.php",', '');
-  ReplaceValue (bibleditWebSetupPath + '\step.php', '"crontab.php",', '');
-
-  // # Skip server / client mode, set client mode.
-  ReplaceValue (bibleditWebSetupPath + '\step.php', '"client1.php",', '');
 
   // Set the setup folder to read write mode.
   RemoveReadOnly (bibleditWebSetupPath);
