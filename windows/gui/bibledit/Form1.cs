@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Net;
 
 
 namespace Bibledit
@@ -81,17 +82,26 @@ namespace Bibledit
 
         private void setTimezone ()
         {
-            // Set the timezone in the Bibledit library.
-            TimeZoneInfo localZone = TimeZoneInfo.Local;
-            int utcOffsetMinutes = TimeZoneInfo.Local.BaseUtcOffset.Hours * 60 + TimeZoneInfo.Local.BaseUtcOffset.Minutes;
-            String uri = "administration/settings.php?utcoffset=" + utcOffsetMinutes.ToString();
+            try
+            {
+                // Set the timezone in the Bibledit library.
+                TimeZoneInfo localZone = TimeZoneInfo.Local;
+                int utcOffsetHours = TimeZoneInfo.Local.BaseUtcOffset.Hours;
+                String uri = "http://localhost:8080/administration/timeoffset?offset=" + utcOffsetHours.ToString();
+                WebRequest request = WebRequest.Create(uri);
+                WebResponse response = request.GetResponse();
+                response.Close();
+            }
+            catch (Exception exception)
+            {
+                feedback(exception.Message);
+            }
         }
 
 
         private void ProcessExited (object sender, System.EventArgs e)
         {
-            feedback("exited");
-            // myProcess.ExitTime, myProcess.ExitCode
+            // When the Bibledit library exits or crashea, restart it straightaway.
             LibBibledit.Start();
         }
 

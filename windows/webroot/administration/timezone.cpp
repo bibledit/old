@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <confirm/worker.h>
 #include <database/config/general.h>
 #include <locale/translate.h>
+#include <config.h>
 
 
 string administration_timezone_url ()
@@ -81,4 +82,39 @@ string administration_timezone (void * webserver_request)
   page += Assets_Page::footer ();
 
   return page;
+}
+
+
+string administration_timeoffset_url ()
+{
+  return "administration/timeoffset";
+}
+
+
+bool administration_timeoffset_acl (void * webserver_request)
+{
+  if (webserver_request) {};
+  return true;
+}
+
+
+string administration_timeoffset (void * webserver_request) // Todo test on Windows.
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  if (request->query.count ("offset")) {
+    string input = request->query ["offset"];
+    int timezone = convert_to_int (input);
+    if (timezone < MINIMUM_TIMEZONE) {
+      timezone = MINIMUM_TIMEZONE;
+    }
+    if (timezone > MAXIMUM_TIMEZONE) {
+      timezone = MAXIMUM_TIMEZONE;
+    }
+#ifdef HAVE_URLSETTINGS
+    Database_Config_General::setTimezone (timezone); // Todo test it.
+#endif
+  }
+  
+  return "";
 }

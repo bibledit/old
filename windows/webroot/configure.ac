@@ -168,6 +168,17 @@ AC_DEFINE([CYGWIN], [], [Define whether it is to be built for Cygwin])
 AC_DEFINE_UNQUOTED(CYGWIN, "$CYGWIN")
 AC_SUBST(CYGWIN)
 
+# Enable URL settings.
+URLSETTINGS=no
+AC_ARG_ENABLE(urlsettings,
+[  --enable-urlsettings Enable URL settings],
+[AC_DEFINE([HAVE_URLSETTINGS], [1], [Define whether to enable URL settings])]
+URLSETTINGS=yes
+)
+AC_DEFINE([URLSETTINGS], [], [Define whether URL settings are enabled])
+AC_DEFINE_UNQUOTED(URLSETTINGS, "$URLSETTINGS")
+AC_SUBST(URLSETTINGS)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -183,4 +194,5 @@ Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
 Build for iOS (--enable-ios)                               : ${IOS}
 Build for OS X (--enable-osx)                              : ${OSX}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
+URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 "

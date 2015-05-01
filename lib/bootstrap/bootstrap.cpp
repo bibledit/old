@@ -373,6 +373,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_move_url ()) && xrefs_move_acl (request)) request->reply = xrefs_move (request);
   else if ((url == xrefs_next_url ()) && xrefs_next_acl (request)) request->reply = xrefs_next (request);
 
+  // Settings calls.
+  else if ((url == administration_timeoffset_url ()) && administration_timeoffset_acl (request)) request->reply = administration_timeoffset (request);
+
   // Forward the browser to the default home page.
   else {
     redirect_browser (request, index_index_url ());

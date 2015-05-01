@@ -13,7 +13,7 @@ rsync -av --delete ../../lib/ .
 make distclean
 
 
-./configure --enable-client --enable-cygwin
+./configure --enable-client --enable-cygwin --enable-urlsettings
 
 
 make
@@ -48,6 +48,9 @@ rm Makefile*
 rm stamp-h1
 rm unittest.exe
 rm libbibledit.a
+rm -rf xcode
+rm DEVELOP
+rm INSTALL
 
 
 cp /usr/bin/cyg*.dll .

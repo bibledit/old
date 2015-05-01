@@ -32,5 +32,9 @@ string administration_timezone_url ();
 bool administration_timezone_acl (void * webserver_request);
 string administration_timezone (void * webserver_request);
 
+string administration_timeoffset_url ();
+bool administration_timeoffset_acl (void * webserver_request);
+string administration_timeoffset (void * webserver_request);
+
 
 #endif

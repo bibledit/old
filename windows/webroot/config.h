@@ -67,6 +67,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define whether to enable URL settings */
+#define HAVE_URLSETTINGS 1
+
 /* Define whether it is to be built for iOS */
 #define IOS "no"
 
@@ -102,6 +105,9 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
+
+/* Define whether URL settings are enabled */
+#define URLSETTINGS "yes"
 
 /* Version number of package */
 #define VERSION "1.0.123"
