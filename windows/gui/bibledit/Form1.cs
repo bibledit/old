@@ -20,6 +20,8 @@ namespace Bibledit
         //[DllImport("bibleditlibrarywrapper.dll")]
         //public static extern string bibledit_wrapper_get_version_number();
         Process LibBibledit;
+        System.Threading.Timer timer;
+
 
 
         public Form1()
@@ -48,7 +50,8 @@ namespace Bibledit
             {
                 feedback (exception.Message);
             }
-            setTimezone();
+            timer = new System.Threading.Timer(obj => { setTimezone(); }, null, 1000, System.Threading.Timeout.Infinite);
+            //setTimezone();
         }
 
 
@@ -88,13 +91,14 @@ namespace Bibledit
                 TimeZoneInfo localZone = TimeZoneInfo.Local;
                 int utcOffsetHours = TimeZoneInfo.Local.BaseUtcOffset.Hours;
                 String uri = "http://localhost:8080/administration/timeoffset?offset=" + utcOffsetHours.ToString();
+                //feedback(uri);
                 WebRequest request = WebRequest.Create(uri);
                 WebResponse response = request.GetResponse();
                 response.Close();
             }
             catch (Exception exception)
             {
-                feedback(exception.Message);
+                //feedback(exception.Message);
             }
         }
 
