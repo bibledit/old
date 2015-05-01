@@ -16,8 +16,10 @@ namespace Bibledit
     public partial class Form1 : Form
     {
 
-        [DllImport("libbibledit.dll")]
-        public static extern void bibledit_run();
+        //[DllImport("bibleditlibrarywrapper.dll")]
+        //public static extern string bibledit_wrapper_get_version_number();
+        Process LibBibledit;
+
 
         public Form1()
         {
@@ -30,7 +32,16 @@ namespace Bibledit
             feedback("");
             try
             {
-                bibledit_run();
+                //feedback(bibledit_wrapper_get_version_number ());
+                LibBibledit = new Process();
+                LibBibledit.StartInfo.WorkingDirectory = System.IO.Path.Combine(Application.StartupPath);
+                LibBibledit.StartInfo.FileName = "server.exe";
+                LibBibledit.StartInfo.Arguments = "";
+                LibBibledit.StartInfo.CreateNoWindow = true;
+                LibBibledit.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                LibBibledit.EnableRaisingEvents = true;
+                LibBibledit.Exited += new EventHandler (ProcessExited);
+                LibBibledit.Start();
             }
             catch (Exception exception)
             {
@@ -50,7 +61,10 @@ namespace Bibledit
         {
             try
             {
-                bibledit_run();
+                LibBibledit.CloseMainWindow();
+                LibBibledit.Kill();
+                LibBibledit.WaitForExit();
+                LibBibledit.Close();
             }
             catch (Exception exception)
             {
@@ -73,6 +87,13 @@ namespace Bibledit
             String uri = "administration/settings.php?utcoffset=" + utcOffsetMinutes.ToString();
         }
 
+
+        private void ProcessExited (object sender, System.EventArgs e)
+        {
+            feedback("exited");
+            // myProcess.ExitTime, myProcess.ExitCode
+            LibBibledit.Start();
+        }
 
     }
 }
