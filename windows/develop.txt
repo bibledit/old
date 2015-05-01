@@ -3,7 +3,7 @@ Run script build.sh from a Cygwin terminal to compile the Bibledit library, and 
 Folder gui contains the Bibledit program written in Visual Studio.
 
 To create a package, Windows uses Inno Setup installed from isetup-5.5.5-unicode.exe.
-
+To have a clean package, remove the entire C:\bibledit directory, run the builder, copy bibledit.exe into C:\bibledit, and run the package.iss script.
 
 Notes
 * Compiling the bibledit library through Visual Studio resulted in crashes in the library. Compiling in Cygwin works fine.
