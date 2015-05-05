@@ -206,5 +206,5 @@ Build for iOS (--enable-ios)                               : ${IOS}
 Build for OS X (--enable-osx)                              : ${OSX}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
-Unit testss (--enable-unittests)                           : ${UNITTESTS}
+Unit tests (--enable-unittests)                            : ${UNITTESTS}
 "
