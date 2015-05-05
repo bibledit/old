@@ -179,6 +179,17 @@ AC_DEFINE([URLSETTINGS], [], [Define whether URL settings are enabled])
 AC_DEFINE_UNQUOTED(URLSETTINGS, "$URLSETTINGS")
 AC_SUBST(URLSETTINGS)
 
+# Enable unit tests.
+UNITTESTS=no
+AC_ARG_ENABLE(unittests,
+[  --enable-unittests Enable URL settings],
+[AC_DEFINE([HAVE_UNITTESTS], [1], [Define whether to enable unit tests])]
+UNITTESTS=yes
+)
+AC_DEFINE([UNITTESTS], [], [Define whether unit tests are enabled])
+AC_DEFINE_UNQUOTED(UNITTESTS, "$UNITTESTS")
+AC_SUBST(UNITTESTS)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -195,4 +206,5 @@ Build for iOS (--enable-ios)                               : ${IOS}
 Build for OS X (--enable-osx)                              : ${OSX}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
+Unit testss (--enable-unittests)                           : ${UNITTESTS}
 "

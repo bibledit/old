@@ -46,6 +46,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/usfm.h>
 #include <checks/verses.h>
 #include <manage/hyphenate.h>
+#include <config.h>
+
+
+#ifdef HAVE_UNITTESTS
 
 
 void test_sqlite ()
@@ -2560,3 +2564,6 @@ void test_hyphenate ()
   "\\s Uku­lu­nga oku­ku\\nd Kri­stu\\nd* אבa­bגד ku­yi­nzu­zo אבגד ab";
   evaluate (__LINE__, __func__, standard, output);
 }
+
+
+#endif

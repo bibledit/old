@@ -67,6 +67,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define whether to enable unit tests */
+/* #undef HAVE_UNITTESTS */
+
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
 
@@ -105,6 +108,9 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
+
+/* Define whether unit tests are enabled */
+#define UNITTESTS "no"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"

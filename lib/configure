@@ -625,6 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+UNITTESTS
 URLSETTINGS
 CYGWIN
 OSX
@@ -768,6 +769,7 @@ enable_ios
 enable_osx
 enable_cygwin
 enable_urlsettings
+enable_unittests
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1421,6 +1423,7 @@ Optional Features:
   --enable-osx Enable OS X
   --enable-cygwin Enable Cygwin
   --enable-urlsettings Enable URL settings
+  --enable-unittests Enable URL settings
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6397,6 +6400,26 @@ _ACEOF
 
 
 
+# Enable unit tests.
+UNITTESTS=no
+# Check whether --enable-unittests was given.
+if test "${enable_unittests+set}" = set; then :
+  enableval=$enable_unittests;
+$as_echo "#define HAVE_UNITTESTS 1" >>confdefs.h
+
+UNITTESTS=yes
+
+fi
+
+
+$as_echo "#define UNITTESTS /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define UNITTESTS "$UNITTESTS"
+_ACEOF
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -7888,4 +7911,5 @@ Build for iOS (--enable-ios)                               : ${IOS}
 Build for OS X (--enable-osx)                              : ${OSX}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
+Unit testss (--enable-unittests)                           : ${UNITTESTS}
 "

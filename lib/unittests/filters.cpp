@@ -54,6 +54,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/notes.h>
 #include <client/logic.h>
 #include <bible/logic.h>
+#include <config.h>
+
+
+#ifdef HAVE_UNITTESTS
 
 
 void test_filters_test1 ()
@@ -4327,3 +4331,5 @@ void test_filter_url ()
   evaluate (__LINE__, __func__, "33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
 }
 
+
+#endif
