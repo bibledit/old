@@ -79,10 +79,10 @@ string setup_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  // In client mode, do not display the page for entering the admin's details.
-  if (config_logic_client_prepared ()) {
-    redirect_browser (request, index_index_url ());
+  // In client mode or in demo mode do not display the page for entering the admin's details. Todo
+  if (config_logic_client_prepared () || config_logic_demo_enabled ()) {
     Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+    redirect_browser (request, index_index_url ());
     return "";
   }
 
