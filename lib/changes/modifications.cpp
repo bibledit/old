@@ -305,7 +305,7 @@ void changes_modifications ()
       }
     }
   }
-  
+
   
   // Index the data and remove expired notifications.
   Database_Logs::log ("Change notifications: Indexing", Filter_Roles::translator ());
