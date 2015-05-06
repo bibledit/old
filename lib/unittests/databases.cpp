@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/md5.h>
+#include <filter/date.h>
 #include <config/globals.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
@@ -44,7 +45,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sprint.h>
 #include <database/mail.h>
 #include <database/navigation.h>
-#include <database/resources.h>
 #include <database/usfmresources.h>
 #include <database/mappings.h>
 #include <database/noteactions.h>
@@ -56,6 +56,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <sync/logic.h>
 #include <styles/logic.h>
+#include <resource/external.h>
+#include <config.h>
+
+
+#ifdef HAVE_UNITTESTS
 
 
 void test_database_config_general ()
@@ -112,6 +117,8 @@ void test_database_config_user ()
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");
     request.session_logic ()->attemptLogin ("username", "password", true);
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
     evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());
@@ -130,7 +137,7 @@ void test_database_config_user ()
     
     // Testing the Sprint month and its trim () function.
     // It should get today's month.
-    int month = filter_string_date_numerical_month ();
+    int month = filter_date_numerical_month (filter_date_seconds_since_epoch ());
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
     // Set the sprint month to another month value: It should get this value back from the database.
     int newmonth = 123;
@@ -145,8 +152,8 @@ void test_database_config_user ()
     struct stat foo;
     struct utimbuf new_times;
     stat (filename.c_str(), &foo);
-    new_times.actime = filter_string_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
-    new_times.modtime = filter_string_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
+    new_times.actime = filter_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
+    new_times.modtime = filter_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
     utime (filename.c_str(), &new_times);
     request.database_config_user ()->trim ();
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
@@ -166,10 +173,10 @@ void test_database_config_user ()
     request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
     evaluate (__LINE__, __func__, "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
     
-    evaluate (__LINE__, __func__, filter_string_date_numerical_year (), request.database_config_user ()->getSprintYear ());
+    evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
     
     // Test getting a Bible that does not exist: It creates one.
-    evaluate (__LINE__, __func__, "testBible", request.database_config_user ()->getBible ());
+    evaluate (__LINE__, __func__, "Bibledit Sample Bible", request.database_config_user ()->getBible ());
   }
 }
 
@@ -180,7 +187,6 @@ void test_database_logs ()
   {
     refresh_sandbox (true);
     // Log some items.
-    // Temporarily disable output to stdout to avoid clutter there.
     Database_Logs::log ("description1", 2);
     Database_Logs::log ("description2", 3);
     Database_Logs::log ("description3", 4);
@@ -192,7 +198,7 @@ void test_database_logs ()
     // Get the items from the SQLite database.
     string lastfilename;
     vector <string> result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 3, result.size ());
+    evaluate (__LINE__, __func__, 3, (int)result.size ());
     refresh_sandbox (false);
   }
   {
@@ -203,14 +209,14 @@ void test_database_logs ()
     database_logs.checkup ();
     string lastfilename = "1111111111";
     vector <string> result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, result.size ());
+    evaluate (__LINE__, __func__, 1, (int)result.size ());
     refresh_sandbox (false);
   }
   {
     refresh_sandbox (true);
     Database_Logs database_logs = Database_Logs ();
     database_logs.create ();
-    int now = filter_string_date_seconds_since_epoch ();
+    int now = filter_date_seconds_since_epoch ();
     int min1days = now - 86400 - 10;
     int min2days = min1days - 86400;
     int min3days = min2days - 86400;
@@ -226,15 +232,15 @@ void test_database_logs ()
     database_logs.update (now, min6days);
     lastfilename = "0";
     result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 1, result.size ());
+    evaluate (__LINE__, __func__, 1, (int)result.size ());
     lastfilename = "0";
     result = database_logs.get (5, lastfilename);
-    evaluate (__LINE__, __func__, 0, result.size ());
+    evaluate (__LINE__, __func__, 0, (int)result.size ());
     // Rotate that entry away.
     database_logs.rotate ();
     lastfilename = "0";
     result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 0, result.size ());
+    evaluate (__LINE__, __func__, 0, (int)result.size ());
 
     // Log entry for 2 days, 1 day ago, and now.
     Database_Logs::log ("Two days ago");
@@ -246,11 +252,11 @@ void test_database_logs ()
     Database_Logs::log ("Now");
     lastfilename = "0";
     result = database_logs.get (2, lastfilename);
-    evaluate (__LINE__, __func__, 1, result.size ());
+    evaluate (__LINE__, __func__, 1, (int)result.size ());
     // Gets it from the filesystem, not the database, because this last entry was not yet rotated.
     lastfilename = "0";
     result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, result.size ());
+    evaluate (__LINE__, __func__, 1, (int)result.size ());
     // The "lastsecond" variable, test it.
     int lastsecond = convert_to_int (lastfilename.substr (0, 10));
     if ((lastsecond < now ) || (lastsecond > now + 1)) evaluate (__LINE__, __func__, now, lastsecond);
@@ -268,12 +274,12 @@ void test_database_logs ()
     vector <string> result = database_logs.get (0, s);
     if (result.size () == 1) {
       string s = result[0];
-      size_t pos = s.find ("This entry was too large and has been truncated: 10013 bytes");
+      size_t pos = s.find ("This entry was too large and has been truncated: 10000 bytes");
       if (pos == string::npos) {
         error_message (__LINE__, __func__, "Should be truncated", s);
       }
     } else {
-      evaluate (__LINE__, __func__, 1, result.size ());
+      evaluate (__LINE__, __func__, 1, (int)result.size ());
     }
     refresh_sandbox (false);
   }
@@ -282,7 +288,7 @@ void test_database_logs ()
     refresh_sandbox (true);
     Database_Logs::log ("description");
     Database_Logs database_logs = Database_Logs ();
-    int second = filter_string_date_seconds_since_epoch ();
+    int second = filter_date_seconds_since_epoch ();
     string filename = convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;
@@ -363,19 +369,19 @@ void test_database_users ()
 
     database_users.addNewUser (username1, password, level, email);
     vector <string> admins = database_users.getAdministrators ();
-    evaluate (__LINE__, __func__, 1, admins.size());
+    evaluate (__LINE__, __func__, 1, (int)admins.size());
     if (!admins.empty()) evaluate (__LINE__, __func__, username1, admins [0]);
     
     database_users.addNewUser (username2, password, level, email);
     admins = database_users.getAdministrators ();
-    evaluate (__LINE__, __func__, 2, admins.size());
+    evaluate (__LINE__, __func__, 2, (int)admins.size());
     
     email = "new@email.address";
     database_users.updateUserEmail (username1, email);
     evaluate (__LINE__, __func__, email, database_users.getUserToEmail (username1));
     
     vector <string> users = database_users.getUsers ();
-    evaluate (__LINE__, __func__, 2, users.size());
+    evaluate (__LINE__, __func__, 2, (int)users.size());
     
     evaluate (__LINE__, __func__, md5 (password), database_users.getmd5 (username1));
   }
@@ -398,7 +404,7 @@ void test_database_users ()
     evaluate (__LINE__, __func__, 0, database_users.getTimestamp (username));
     database_users.pingTimestamp (username);
     int timestamp = database_users.getTimestamp (username);
-    int second = filter_string_date_seconds_since_epoch ();
+    int second = filter_date_seconds_since_epoch ();
     if ((timestamp != second) && (timestamp != second + 1)) evaluate (__LINE__, __func__, second, timestamp);
   }
   // Test touch-enabled settings.
@@ -434,32 +440,32 @@ void test_database_users ()
     string bible2 = "bible two";
     
     vector <string> teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 0, teams.size());
+    evaluate (__LINE__, __func__, 0, (int)teams.size());
     
     database_users.grantAccess2Bible (username1, bible1);
     teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 1, teams.size());
+    evaluate (__LINE__, __func__, 1, (int)teams.size());
 
     database_users.grantAccess2Bible (username1, bible1);
     teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 1, teams.size());
+    evaluate (__LINE__, __func__, 1, (int)teams.size());
     if (!teams.empty ()) evaluate (__LINE__, __func__, bible1, teams [0]);
     
     database_users.grantAccess2Bible (username1, bible2);
     teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 2, teams.size());
+    evaluate (__LINE__, __func__, 2, (int)teams.size());
     
     vector <string> bibles = database_users.getBibles4User (username1);
-    evaluate (__LINE__, __func__, 2, bibles.size());
+    evaluate (__LINE__, __func__, 2, (int)bibles.size());
     if (!bibles.empty ()) evaluate (__LINE__, __func__, bible1, bibles [0]);
     
     database_users.revokeAccess2Bible (username1, bible1);
     bibles = database_users.getBibles4User (username1);
-    evaluate (__LINE__, __func__, 1, bibles.size());
+    evaluate (__LINE__, __func__, 1, (int)bibles.size());
 
     database_users.grantAccess2Bible (username2, bible2);
     vector <string> users = database_users.getUsers4Bible (bible2);
-    evaluate (__LINE__, __func__, 2, users.size());
+    evaluate (__LINE__, __func__, 2, (int)users.size());
   }
   {
     refresh_sandbox (true);
@@ -533,10 +539,10 @@ void test_database_styles ()
     vector <string> markers;
     
     markers = database_styles.getMarkers (styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 179, markers.size ());
+    evaluate (__LINE__, __func__, 179, (int)markers.size ());
 
     markers = database_styles.getMarkers ("phpunit");
-    evaluate (__LINE__, __func__, 179, markers.size ());
+    evaluate (__LINE__, __func__, 179, (int)markers.size ());
 
     string marker = "p";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
@@ -544,7 +550,7 @@ void test_database_styles ()
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
 
     map <string, string> markers_names = database_styles.getMarkersAndNames ("phpunit");
-    evaluate (__LINE__, __func__, 179, markers_names.size());
+    evaluate (__LINE__, __func__, 179, (int)markers_names.size());
     evaluate (__LINE__, __func__, "Blank Line", markers_names ["b"]);
     evaluate (__LINE__, __func__, "Normal, First Line Indent", markers_names ["p"]);
     evaluate (__LINE__, __func__, "* Translational Addition", markers_names ["add"]);
@@ -636,7 +642,7 @@ void test_database_styles ()
 void test_database_books ()
 {
   refresh_sandbox (true);
-  evaluate (__LINE__, __func__, 69, Database_Books::getIDs ().size());
+  evaluate (__LINE__, __func__, 69, (int)Database_Books::getIDs ().size());
   evaluate (__LINE__, __func__, 2, Database_Books::getIdFromEnglish ("Exodus"));
   evaluate (__LINE__, __func__, 0, Database_Books::getIdFromEnglish ("exodus"));
   evaluate (__LINE__, __func__, "Leviticus", Database_Books::getEnglishFromId (3));
@@ -646,6 +652,8 @@ void test_database_books ()
   evaluate (__LINE__, __func__, 13, Database_Books::getIdFromOsis ("1Chr"));
   evaluate (__LINE__, __func__, 12, Database_Books::getIdFromBibleworks ("2Ki"));
   evaluate (__LINE__, __func__, 12, Database_Books::getIdLikeText ("2Ki"));
+  evaluate (__LINE__, __func__, 14, Database_Books::getIdLikeText ("2Chron"));
+  evaluate (__LINE__, __func__, 1, Database_Books::getIdLikeText ("Genes"));
   evaluate (__LINE__, __func__, 12, Database_Books::getIdFromOnlinebible ("2Ki"));
   evaluate (__LINE__, __func__, "De", Database_Books::getOnlinebibleFromId (5));
   evaluate (__LINE__, __func__, "5", Database_Books::getSequenceFromId (5));
@@ -719,7 +727,7 @@ void test_database_search ()
     Database_Search database_search = Database_Search ();
     database_search.updateSearchFields ("phpunit", 2, 3);
     vector <int> hits = database_search.searchText ("sixth", {"phpunit"});
-    evaluate (__LINE__, __func__, 1, hits.size());
+    evaluate (__LINE__, __func__, 1, (int)hits.size());
     if (!hits.empty ()) {
       int id = hits [0];
       Passage passage = database_search.getBiblePassage (id);
@@ -746,11 +754,11 @@ void test_database_search ()
     database_search.updateSearchFields ("phpunit", 2, 3);
     database_search.updateSearchFields ("phpunit2", 4, 5);
     vector <int> ids = database_search.searchBibleText ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, ids.size ());
+    evaluate (__LINE__, __func__, 1, (int)ids.size ());
     ids = database_search.searchBibleText ("phpunit2", "sixth");
-    evaluate (__LINE__, __func__, 0, ids.size ());
+    evaluate (__LINE__, __func__, 0, (int)ids.size ());
     ids = database_search.searchBibleText ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, ids.size ());
+    evaluate (__LINE__, __func__, 1, (int)ids.size ());
   }
   // Test search Bible case sensitive.
   {
@@ -761,11 +769,11 @@ void test_database_search ()
     database_search.updateSearchFields ("phpunit", 2, 3);
     database_search.updateSearchFields ("phpunit2", 4, 5);
     vector <int> ids = database_search.searchBibleTextCaseSensitive ("phpunit", "Verse");
-    evaluate (__LINE__, __func__, 3, ids.size ());
+    evaluate (__LINE__, __func__, 3, (int)ids.size ());
     ids = database_search.searchBibleText ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, ids.size ());
+    evaluate (__LINE__, __func__, 1, (int)ids.size ());
     ids = database_search.searchBibleText ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, ids.size ());
+    evaluate (__LINE__, __func__, 1, (int)ids.size ());
   }
   // Test getting Bibles.
   {
@@ -886,15 +894,15 @@ void test_database_check ()
     database_check.create ();
 
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, hits.size());
+    evaluate (__LINE__, __func__, 0, (int)hits.size());
   
     database_check.recordOutput ("phpunit", 1, 2, 3, "test");
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size());
+    evaluate (__LINE__, __func__, 1, (int)hits.size());
     
     database_check.truncateOutput ("");
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, hits.size());
+    evaluate (__LINE__, __func__, 0, (int)hits.size());
   }
   {
     // Test getting details.
@@ -907,7 +915,7 @@ void test_database_check ()
     database_check.create ();
     database_check.recordOutput ("phpunit", 5, 2, 3, "test");
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size());
+    evaluate (__LINE__, __func__, 1, (int)hits.size());
     evaluate (__LINE__, __func__, 1, hits [0].bible);
     evaluate (__LINE__, __func__, 5, hits [0].book);
     evaluate (__LINE__, __func__, 2, hits [0].chapter);
@@ -927,21 +935,21 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
   
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, hits.size());
+    evaluate (__LINE__, __func__, 2, (int)hits.size());
   
     int id = hits [0].rowid;
     database_check.approve (id);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size());
+    evaluate (__LINE__, __func__, 1, (int)hits.size());
     
     vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
-    evaluate (__LINE__, __func__, 1, suppressions.size());
+    evaluate (__LINE__, __func__, 1, (int)suppressions.size());
     
     id = suppressions [0].rowid;
     
     database_check.release (1);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, hits.size());
+    evaluate (__LINE__, __func__, 2, (int)hits.size());
   }
   {
     // Test delete.
@@ -955,11 +963,11 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, hits.size());
+    evaluate (__LINE__, __func__, 2, (int)hits.size());
     int id = hits [0].rowid;
     database_check.erase (id);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size());
+    evaluate (__LINE__, __func__, 1, (int)hits.size());
   }
   {
     // Test passage.
@@ -991,7 +999,7 @@ void test_database_commits ()
   string sha = "sha";
 
   vector <string> data = database_commits.get (bible);
-  evaluate (__LINE__, __func__, 0, data.size());
+  evaluate (__LINE__, __func__, 0, (int)data.size());
   
   // Record some data.
   database_commits.record (bible, sha);
@@ -999,12 +1007,12 @@ void test_database_commits ()
 
   // Check the data.
   data = database_commits.get (bible);
-  evaluate (__LINE__, __func__, 2, data.size());
+  evaluate (__LINE__, __func__, 2, (int)data.size());
   evaluate (__LINE__, __func__, "sha", data [1]);
 
   // No data for another Bible
   data = database_commits.get ("none");
-  evaluate (__LINE__, __func__, 0, data.size());
+  evaluate (__LINE__, __func__, 0, (int)data.size());
 }
 
 
@@ -1271,7 +1279,7 @@ void test_database_kjv ()
   Database_Kjv database_kjv = Database_Kjv ();
 
   vector <Database_Kjv_Item> data = database_kjv.getVerse (43, 11, 35);
-  evaluate (__LINE__, __func__, 3, data.size());
+  evaluate (__LINE__, __func__, 3, (int)data.size());
 
   evaluate (__LINE__, __func__, "G3588", data[0].strong);
   evaluate (__LINE__, __func__, "Jesus", data[0].english);
@@ -1283,7 +1291,7 @@ void test_database_kjv ()
   evaluate (__LINE__, __func__, "wept",  data[2].english);
 
   vector <Passage> passages = database_kjv.searchStrong ("G909");
-  evaluate (__LINE__, __func__, 4, passages.size());
+  evaluate (__LINE__, __func__, 4, (int)passages.size());
 
   evaluate (__LINE__, __func__, 41,   passages[0].book);
   evaluate (__LINE__, __func__, 7,    passages[0].chapter);
@@ -1311,7 +1319,7 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר" }, data);
 
   vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
-  evaluate (__LINE__, __func__, 2, passages.size());
+  evaluate (__LINE__, __func__, 2, (int)passages.size());
 
   evaluate (__LINE__, __func__, 19,   passages[0].book);
   evaluate (__LINE__, __func__, 95,   passages[0].chapter);
@@ -1331,7 +1339,7 @@ void test_database_sblgnt ()
   evaluate (__LINE__, __func__, { "ἐδάκρυσεν", "ὁ", "Ἰησοῦς" }, data);
 
   vector <Passage> passages = database_sblgnt.searchGreek ("βαπτισμῶν");
-  evaluate (__LINE__, __func__, 1,   passages.size());
+  evaluate (__LINE__, __func__, 1,   (int)passages.size());
   evaluate (__LINE__, __func__, 58,  passages[0].book);
   evaluate (__LINE__, __func__, 6,   passages[0].chapter);
   evaluate (__LINE__, __func__, "2", passages[0].verse);
@@ -1441,17 +1449,23 @@ void test_database_offlineresourcese ()
   
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     vector <string> files = database_offlineresources.files ("phpunit");
-    evaluate (__LINE__, __func__,  {"1.sqlite"}, files);
+    evaluate (__LINE__, __func__, {"1.sqlite"}, files);
     
     database_offlineresources.unlink ("phpunit", "2");
     
     files = database_offlineresources.files ("phpunit");
-    evaluate (__LINE__, __func__,  {"1.sqlite"}, files);
+    evaluate (__LINE__, __func__, {"1.sqlite"}, files);
   
     database_offlineresources.unlink ("phpunit", "1.sqlite");
     
     files = database_offlineresources.files ("phpunit");
-    evaluate (__LINE__, __func__,  {}, files);
+    evaluate (__LINE__, __func__, {}, files);
+  }
+  // Test http get
+  {
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    string http = database_offlineresources.httpget ("ResourceName", "1.sqlite");
+    evaluate (__LINE__, __func__, "/databases/offlineresources/ResourceName/1.sqlite", http);
   }
 }
 
@@ -1474,11 +1488,11 @@ void test_database_sprint ()
     evaluate (__LINE__, __func__, {}, ids);
     database.storeTask ("phpunit", 2014, 1, "phpunit");
     ids = database.getTasks ("phpunit", 2014, 1);
-    evaluate (__LINE__, __func__, 1, ids.size ());
+    evaluate (__LINE__, __func__, 1, (int)ids.size ());
     ids = database.getTasks ("phpunit", 2014, 2);
-    evaluate (__LINE__, __func__, 0, ids.size ());
+    evaluate (__LINE__, __func__, 0, (int)ids.size ());
     ids = database.getTasks ("phpunit2", 2014, 1);
-    evaluate (__LINE__, __func__, 0, ids.size ());
+    evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
   // GetTitle
   {
@@ -1512,7 +1526,7 @@ void test_database_sprint ()
 
     // Expect no history at all for January 2014.
     vector <Database_Sprint_Item> history = database.getHistory ("phpunit", 2014, 1);
-    evaluate (__LINE__, __func__, 0, history.size());
+    evaluate (__LINE__, __func__, 0, (int)history.size());
 
     // Log values for January 2014, and check that the database returns those values.
     database.logHistory ("phpunit", 2014, 1, 10, 15, 50);
@@ -1574,7 +1588,7 @@ void test_database_mail ()
     evaluate (__LINE__, __func__, 0, count);
     
     vector <Database_Mail_User> mails = database_mail.getMails ();
-    evaluate (__LINE__, __func__, 0, mails.size());
+    evaluate (__LINE__, __func__, 0, (int)mails.size());
     
     vector <int> mails_to_send = database_mail.getMailsToSend ();
     evaluate (__LINE__, __func__, {}, mails_to_send);
@@ -1619,11 +1633,11 @@ void test_database_mail ()
     database_mail.send ("phpunit", "subject", "body");
 
     vector <int> mails = database_mail.getMailsToSend ();
-    evaluate (__LINE__, __func__, 1, mails.size ());
+    evaluate (__LINE__, __func__, 1, (int)mails.size ());
     
     database_mail.postpone (1);
     mails = database_mail.getMailsToSend ();
-    evaluate (__LINE__, __func__, 0, mails.size ());
+    evaluate (__LINE__, __func__, 0, (int)mails.size ());
   }
 }
 
@@ -1642,7 +1656,7 @@ void test_database_navigation ()
     database.create ();
 
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
 
     // Record one entry. As a result there should be no previous entry.
     database.record (time, "phpunit", 1, 2, 3);
@@ -1685,7 +1699,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record one entry, and another 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1701,7 +1715,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record one entry, and another 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1717,7 +1731,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record three entries, each one 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1735,7 +1749,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record five entries, each one 6 seconds later.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1767,7 +1781,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Use current time.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     // Record several entries, all spaced apart by 6 seconds.
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
@@ -1788,7 +1802,7 @@ void test_database_navigation ()
     Database_Navigation database = Database_Navigation ();
     database.create ();
     // Record two entries at an interval.
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
     database.record (time, "phpunit", 4, 5, 6);
@@ -1834,8 +1848,7 @@ void test_database_navigation ()
 void test_database_resources ()
 {
   refresh_sandbox (true);
-  Database_Resources database_resources = Database_Resources ();
-  vector <string> names = database_resources.getNames ();
+  vector <string> names = resource_external_names ();
   bool hit = false;
   for (auto & name : names) if (name == "Statenbijbel GBS") hit = true;
   evaluate (__LINE__, __func__, true, hit);
@@ -1970,12 +1983,12 @@ void test_database_mappings ()
     Database_Mappings database_mappings = Database_Mappings ();
     database_mappings.create1 ();
     vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
-    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
     Passage standard = Passage ("", 14, 14, "15");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     passages = database_mappings.translate ("--X", "--X", 15, 16, 17);
     standard = Passage ("", 15, 16, "17");
-    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
   // Translate
@@ -1996,7 +2009,7 @@ void test_database_mappings ()
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "15");
-    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
   // Translate
@@ -2017,7 +2030,7 @@ void test_database_mappings ()
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "13");
-    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
   // Translate Double Result.
@@ -2038,7 +2051,7 @@ void test_database_mappings ()
     database_mappings.import ("XYZ", import);
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
-    evaluate (__LINE__, __func__, 2, passages.size ());
+    evaluate (__LINE__, __func__, 2, (int)passages.size ());
     Passage standard = Passage ("", 14, 14, "12");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "13");
@@ -2053,7 +2066,7 @@ void test_database_mappings ()
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
     Passage standard = Passage ("", 14, 14, "12");
-    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
   // Translate From Original Double
@@ -2066,7 +2079,7 @@ void test_database_mappings ()
       "2 Chronicles 14:13 = 2 Chronicles 14:14\n";
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
-    evaluate (__LINE__, __func__, 2, passages.size ());
+    evaluate (__LINE__, __func__, 2, (int)passages.size ());
     Passage standard = Passage ("", 14, 14, "12");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "13");
@@ -2080,7 +2093,7 @@ void test_database_mappings ()
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
-    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
     Passage standard = Passage ("", 14, 15, "14");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
@@ -2092,7 +2105,7 @@ void test_database_mappings ()
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("ABA", import);
     vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
     Passage standard = Passage ("", 14, 14, "14");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
@@ -2106,7 +2119,7 @@ void test_database_mappings ()
       "2 Chronicles 14:12 = 2 Chronicles 14:14\n";
     database_mappings.import ("ABA", import);
     vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    evaluate (__LINE__, __func__, 2, passages.size ());
+    evaluate (__LINE__, __func__, 2, (int)passages.size ());
     Passage standard = Passage ("", 14, 14, "13");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "14");
@@ -2155,8 +2168,8 @@ void test_database_noteactions ()
     database.record ("phpunit2", 2, 4, "content4");
     database.record ("phpunit3", 3, 4, "content5");
     vector <Database_Note_Action> data = database.getNoteData (2);
-    evaluate (__LINE__, __func__, 2, data.size());
-    int now = filter_string_date_seconds_since_epoch ();
+    evaluate (__LINE__, __func__, 2, (int)data.size());
+    int now = filter_date_seconds_since_epoch ();
     evaluate (__LINE__, __func__, 1, data[0].rowid);
     evaluate (__LINE__, __func__, "phpunit1", data[0].username);
     if ((data[0].timestamp < now - 1) || (data[0].timestamp > now + 2)) evaluate (__LINE__, __func__, now, data[0].timestamp);
@@ -2220,7 +2233,7 @@ void test_database_versifications ()
 
     // GetID
     int id = database_versifications.getID ("English");
-    evaluate (__LINE__, __func__, 7 , id);
+    evaluate (__LINE__, __func__, 2 , id);
 
     // Test books.
     vector <int> books = database_versifications.getBooks ("English");
@@ -2250,7 +2263,7 @@ void test_database_versifications ()
 
     // Books Chapters Verses.
     vector <Passage> data = database_versifications.getBooksChaptersVerses ("English");
-    evaluate (__LINE__, __func__, 1189, data.size());
+    evaluate (__LINE__, __func__, 1189, (int)data.size());
     evaluate (__LINE__, __func__, "31", data [0].verse);
   }
   // Import Export
@@ -2265,7 +2278,7 @@ void test_database_versifications ()
     int id = database_versifications.getID ("phpunit");
     evaluate (__LINE__, __func__, 1000, id);
     vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
-    evaluate (__LINE__, __func__, 2, data.size ());
+    evaluate (__LINE__, __func__, 2, (int)data.size ());
     evaluate (__LINE__, __func__, "25", data [1].verse);
     string output = database_versifications.output ("phpunit");
     evaluate (__LINE__, __func__, filter_string_trim (input), filter_string_trim (output));
@@ -2346,7 +2359,7 @@ void test_database_modifications_user ()
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 4, "old", 5, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 5, "old", 6, "new");
     vector <Database_Modifications_Id> identifiers = database_modifications.getUserIdentifiers ("phpunit1", "bible", 1, 2);
-    evaluate (__LINE__, __func__, 3, identifiers.size());
+    evaluate (__LINE__, __func__, 3, (int)identifiers.size());
     evaluate (__LINE__, __func__, 3, identifiers[0].oldid);
     evaluate (__LINE__, __func__, 4, identifiers[0].newid);
     evaluate (__LINE__, __func__, 4, identifiers[1].oldid);
@@ -2374,8 +2387,8 @@ void test_database_modifications_user ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     int time = database_modifications.getUserTimestamp ("phpunit1", "bible", 1, 2, 4);
-    int currenttime = filter_string_date_seconds_since_epoch ();
-    if ((time < currenttime) || (time > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, time);
+    int currenttime = filter_date_seconds_since_epoch ();
+    if ((time < currenttime - 1) || (time > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, time);
   }
 }
 
@@ -2670,7 +2683,7 @@ void test_database_modifications_notifications ()
     // Set the time back, re-index, filter_string_trim, and check one entry's gone.
     string file = database_modifications.notificationTimeFile (1);
     database_modifications.indexTrimAllNotifications ();
-    filter_url_file_put_contents (file, convert_to_string (filter_string_date_seconds_since_epoch () - 7776001));
+    filter_url_file_put_contents (file, convert_to_string (filter_date_seconds_since_epoch () - 7776001));
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {2}, ids);
@@ -2722,10 +2735,10 @@ void test_database_modifications_notifications ()
     database_modifications.create ();
 
     int timestamp = database_modifications.getNotificationTimeStamp (0);
-    int currenttime = filter_string_date_seconds_since_epoch ();
+    int currenttime = filter_date_seconds_since_epoch ();
     if ((timestamp < currenttime) || (timestamp > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, timestamp);
 
-    int time = filter_string_date_seconds_since_epoch () - 21600;
+    int time = filter_date_seconds_since_epoch () - 21600;
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     timestamp = database_modifications.getNotificationTimeStamp (1);
@@ -2815,15 +2828,15 @@ void test_database_modifications_notifications ()
     database_modifications.recordNotification ({"phpunit1", "phpunit2", "phpunit3"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
-    evaluate (__LINE__, __func__, 3, ids.size ());
+    evaluate (__LINE__, __func__, 3, (int)ids.size ());
 
     database_modifications.clearNotificationsUser ("phpunit2");
 
     ids = database_modifications.getNotificationIdentifiers ();
-    evaluate (__LINE__, __func__, 2, ids.size ());
+    evaluate (__LINE__, __func__, 2, (int)ids.size ());
 
     ids = database_modifications.getNotificationIdentifiers ("phpunit2");
-    evaluate (__LINE__, __func__, 0, ids.size ());
+    evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
   // Clear Matches One
   {
@@ -2834,11 +2847,11 @@ void test_database_modifications_notifications ()
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
-    evaluate (__LINE__, __func__, 2, ids.size ());
+    evaluate (__LINE__, __func__, 2, (int)ids.size ());
     database_modifications.clearNotificationMatches ("phpunit", "P", "T");
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
-    evaluate (__LINE__, __func__, 0, ids.size ());
+    evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
   // Notification Personal Identifiers
   {
@@ -3088,14 +3101,14 @@ void test_database_notes ()
     // Test the getPassages method.
     vector <Passage> passages = database_notes.getPassages (identifier);
     Passage standard = Passage ("", 10, 9, "8");
-    evaluate (__LINE__, __func__, 1, passages.size());
+    evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
 
     // Test the setPassage method.
     standard = Passage ("", 5, 6, "7");
     database_notes.setPassages (identifier, {standard});
     passages = database_notes.getPassages (identifier);
-    evaluate (__LINE__, __func__, 1, passages.size());
+    evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
   }
   // Status.
@@ -3163,7 +3176,7 @@ void test_database_notes ()
       rawseverities.push_back (severity.raw);
       localizedseverities.push_back (severity.localized);
     }
-    evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, rawseverities);
+    evaluate (__LINE__, __func__, {"0", "1", "2", "3", "4", "5"}, rawseverities);
     evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);
   }
   // Modified
@@ -3176,7 +3189,7 @@ void test_database_notes ()
     database_notes.create ();
 
     request.session_logic()->setUsername ("PHPUnit");
-    int time = filter_string_date_seconds_since_epoch ();
+    int time = filter_date_seconds_since_epoch ();
 
     // Create note.
     int identifier = database_notes.storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
@@ -3233,7 +3246,7 @@ void test_database_notes ()
     
     // Checksum of the note.
     string originalChecksum = database_notes.getChecksum (identifier);
-    evaluate (__LINE__, __func__, 32, originalChecksum.length());
+    evaluate (__LINE__, __func__, 32, (int)originalChecksum.length());
     
     // Change the identifier.
     int newId = 1234567;
@@ -3473,7 +3486,7 @@ void test_database_notes ()
     // Checksum calculation: slow and fast methods should be the same.
     Sync_Logic sync_logic = Sync_Logic (&request);
     string checksum1 = sync_logic.checksum (identifiers);
-    evaluate (__LINE__, __func__, 32, checksum1.length());
+    evaluate (__LINE__, __func__, 32, (int)checksum1.length());
     string checksum2 = database_notes.getMultipleChecksum (identifiers);
     evaluate (__LINE__, __func__, checksum1, checksum2);
   }
@@ -3519,7 +3532,7 @@ void test_database_notes ()
     Sync_Logic sync_logic = Sync_Logic (&request);
     
     vector <Sync_Logic_Range> ranges = sync_logic.create_range (100000000, 999999999);
-    evaluate (__LINE__, __func__, 10, ranges.size());
+    evaluate (__LINE__, __func__, 10, (int)ranges.size());
     evaluate (__LINE__, __func__, 100000000, ranges[0].low);
     evaluate (__LINE__, __func__, 189999998, ranges[0].high);
     evaluate (__LINE__, __func__, 189999999, ranges[1].low);
@@ -3542,7 +3555,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, 999999999, ranges[9].high);
 
     ranges = sync_logic.create_range (100000000, 100000100);
-    evaluate (__LINE__, __func__, 10, ranges.size());
+    evaluate (__LINE__, __func__, 10, (int)ranges.size());
     evaluate (__LINE__, __func__, 100000000, ranges[0].low);
     evaluate (__LINE__, __func__, 100000009, ranges[0].high);
     evaluate (__LINE__, __func__, 100000010, ranges[1].low);
@@ -3704,3 +3717,6 @@ void test_database_volatile ()
     evaluate (__LINE__, __func__, "", value);
   }
 }
+
+
+#endif

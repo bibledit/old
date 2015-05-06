@@ -38,12 +38,17 @@
         NSString * outputPath = [NSString pathWithComponents:outputComponents];
         if ([fileManager fileExistsAtPath:inputPath isDirectory:&isDir]) {
             if (isDir) {
+                // Create directory.
                 [fileManager createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:nil];
             } else {
                 // Copy file to destination. First remove old item to prevent a copy error.
                 [fileManager removeItemAtPath:outputPath error:nil];
                 [fileManager copyItemAtPath:inputPath toPath:outputPath error:nil];
             }
+            // Exclude path from the iCloud backup.
+            NSString * schemePath = [NSString stringWithFormat:@"file://%@", outputPath];
+            NSURL *url = [[NSURL alloc] initWithString:schemePath];
+            [url setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: nil];
         }
     }
     
@@ -55,7 +60,7 @@
 + (NSString *) libraryVersion
 {
     // Retieve the version of the Bibledit library.
-    NSString *version = [NSString stringWithFormat:@"%s", bibledit_version_number ()];
+    NSString *version = [NSString stringWithFormat:@"%s", bibledit_get_version_number ()];
     
     return version;
 }

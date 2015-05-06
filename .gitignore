@@ -1,5 +1,8 @@
 *.[oa]
 *.dylib
+*.exe
+*.la
+*.dll
 *~
 bibledit-dbus
 bibledit-vcs
@@ -41,6 +44,7 @@ bibledit.vshost.application
 bibledit.vshost.exe.manifest
 bibledit.vshost.exe.config
 server
+.libs
 
 
 

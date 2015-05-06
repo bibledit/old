@@ -1,0 +1,112 @@
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Define whether the expected browser is a bare browser without controls */
+#undef BARE_BROWSER
+
+/* Define whether it is prepared as a client installation */
+#undef CLIENT
+
+/* Define whether it is a client installation */
+#undef CLIENT_PREPARED
+
+/* Define whether it is to be built for Cygwin */
+#undef CYGWIN
+
+/* Define whether it is a demo installation */
+#undef DEMO
+
+/* Define the directory separator as Windows differs from Linux */
+#undef DIRECTORY_SEPARATOR
+
+/* define if the compiler supports basic C++11 syntax */
+#undef HAVE_CXX11
+
+/* Define whether to build for Cygwin */
+#undef HAVE_CYGWIN
+
+/* Whether git funcions are available and enabled */
+#undef HAVE_GIT
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define whether to build for iOS */
+#undef HAVE_IOS
+
+/* Define whether libproc.h is present */
+#undef HAVE_LIBPROC
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define whether to build for OS X */
+#undef HAVE_OSX
+
+/* Define whether pthread.h is present */
+#undef HAVE_PTHREAD
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define whether to enable URL settings */
+#undef HAVE_URLSETTINGS
+
+/* Define whether it is to be built for iOS */
+#undef IOS
+
+/* Define the network port number */
+#undef NETWORK_PORT
+
+/* Define whether it is to be built for OS X */
+#undef OSX
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define the maximum number of parallel background tasks to run */
+#undef PARALLEL_TASKS
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define whether URL settings are enabled */
+#undef URLSETTINGS
+
+/* Version number of package */
+#undef VERSION

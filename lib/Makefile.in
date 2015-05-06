@@ -87,6 +87,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+build_triplet = @build@
 bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -112,19 +113,21 @@ libbibledit_a_AR = $(AR) $(ARFLAGS)
 libbibledit_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
-	webserver/webserver.$(OBJEXT) webserver/http.$(OBJEXT) \
-	webserver/request.$(OBJEXT) webserver/io.$(OBJEXT) \
-	bootstrap/bootstrap.$(OBJEXT) filter/url.$(OBJEXT) \
-	filter/string.$(OBJEXT) filter/roles.$(OBJEXT) \
-	filter/md5.$(OBJEXT) filter/usfm.$(OBJEXT) \
-	filter/archive.$(OBJEXT) filter/text.$(OBJEXT) \
-	filter/passage.$(OBJEXT) filter/customcss.$(OBJEXT) \
-	filter/bibleworks.$(OBJEXT) filter/git.$(OBJEXT) \
-	filter/diff.$(OBJEXT) filter/abbreviations.$(OBJEXT) \
-	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
+	library/locks.$(OBJEXT) webserver/webserver.$(OBJEXT) \
+	webserver/http.$(OBJEXT) webserver/request.$(OBJEXT) \
+	webserver/io.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
+	filter/url.$(OBJEXT) filter/string.$(OBJEXT) \
+	filter/roles.$(OBJEXT) filter/md5.$(OBJEXT) \
+	filter/usfm.$(OBJEXT) filter/archive.$(OBJEXT) \
+	filter/text.$(OBJEXT) filter/passage.$(OBJEXT) \
+	filter/customcss.$(OBJEXT) filter/bibleworks.$(OBJEXT) \
+	filter/git.$(OBJEXT) filter/diff.$(OBJEXT) \
+	filter/abbreviations.$(OBJEXT) filter/shell.$(OBJEXT) \
+	filter/merge.$(OBJEXT) filter/date.$(OBJEXT) \
 	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
 	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
+	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
+	config/globals.$(OBJEXT) config/cygwin.$(OBJEXT) \
 	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
 	database/config/general.$(OBJEXT) \
@@ -139,8 +142,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/morphhb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
 	database/offlineresources.$(OBJEXT) database/sprint.$(OBJEXT) \
 	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
-	database/resources.$(OBJEXT) database/usfmresources.$(OBJEXT) \
-	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
+	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
+	database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
@@ -149,26 +152,41 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	session/signup.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
-	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
+	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
+	journal/logic.$(OBJEXT) styles/logic.$(OBJEXT) \
 	styles/indext.$(OBJEXT) styles/indexm.$(OBJEXT) \
 	styles/sheetm.$(OBJEXT) styles/view.$(OBJEXT) \
 	styles/css.$(OBJEXT) styles/sheets.$(OBJEXT) \
 	text/text.$(OBJEXT) esword/text.$(OBJEXT) \
 	onlinebible/text.$(OBJEXT) html/text.$(OBJEXT) \
-	odf/text.$(OBJEXT) timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
-	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
-	bible/logic.$(OBJEXT) bible/manage.$(OBJEXT) \
-	bible/settings.$(OBJEXT) bible/book.$(OBJEXT) \
-	bible/chapter.$(OBJEXT) bible/import_usfm.$(OBJEXT) \
-	bible/import_bibleworks.$(OBJEXT) bible/import_task.$(OBJEXT) \
-	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
-	bible/css.$(OBJEXT) bible/editing.$(OBJEXT) \
-	notes/logic.$(OBJEXT) trash/handler.$(OBJEXT) \
-	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
+	html/header.$(OBJEXT) odf/text.$(OBJEXT) timer/index.$(OBJEXT) \
+	tasks/logic.$(OBJEXT) tasks/run.$(OBJEXT) \
+	config/logic.$(OBJEXT) bible/logic.$(OBJEXT) \
+	bible/manage.$(OBJEXT) bible/settings.$(OBJEXT) \
+	bible/book.$(OBJEXT) bible/chapter.$(OBJEXT) \
+	bible/import_usfm.$(OBJEXT) bible/import_bibleworks.$(OBJEXT) \
+	bible/import_task.$(OBJEXT) bible/abbreviations.$(OBJEXT) \
+	bible/order.$(OBJEXT) bible/css.$(OBJEXT) \
+	bible/editing.$(OBJEXT) notes/logic.$(OBJEXT) \
+	notes/actions.$(OBJEXT) notes/clean.$(OBJEXT) \
+	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
+	notes/assign-1.$(OBJEXT) notes/cleancli.$(OBJEXT) \
+	notes/notes.$(OBJEXT) notes/status-n.$(OBJEXT) \
+	notes/assign-n.$(OBJEXT) notes/click.$(OBJEXT) \
+	notes/poll.$(OBJEXT) notes/summary.$(OBJEXT) \
+	notes/bible-1.$(OBJEXT) notes/comment.$(OBJEXT) \
+	notes/select.$(OBJEXT) notes/unassign-n.$(OBJEXT) \
+	notes/bible-n.$(OBJEXT) notes/create.$(OBJEXT) \
+	notes/severity-1.$(OBJEXT) notes/verses.$(OBJEXT) \
+	notes/bulk.$(OBJEXT) notes/editsource.$(OBJEXT) \
+	notes/index.$(OBJEXT) notes/severity-n.$(OBJEXT) \
+	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
+	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
+	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
 	administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
@@ -181,37 +199,75 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
 	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
 	fonts/index.$(OBJEXT) versification/index.$(OBJEXT) \
-	versification/system.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	editverse/id.$(OBJEXT) editverse/load.$(OBJEXT) \
-	editverse/save.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/id.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/export.$(OBJEXT) \
-	editor/import.$(OBJEXT) edit/edit.$(OBJEXT) \
-	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
-	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
-	edit/styles.$(OBJEXT) search/search.$(OBJEXT) \
-	search/index.$(OBJEXT) search/select.$(OBJEXT) \
-	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
-	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
-	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
-	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
-	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
-	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
-	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
-	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) workbench/settings.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editverse/load.$(OBJEXT) \
+	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
+	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/export.$(OBJEXT) editor/import.$(OBJEXT) \
+	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
+	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	search/search.$(OBJEXT) search/index.$(OBJEXT) \
+	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
+	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
+	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
+	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
+	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
+	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
+	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
+	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
+	workbench/logic.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
-	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
-	client/logic.$(OBJEXT) sync/setup.$(OBJEXT) \
-	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT)
+	sendreceive/usfmresources.$(OBJEXT) \
+	sendreceive/externalresources.$(OBJEXT) \
+	sendreceive/notes.$(OBJEXT) demo/logic.$(OBJEXT) \
+	client/index.$(OBJEXT) client/logic.$(OBJEXT) \
+	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT) \
+	sync/bibles.$(OBJEXT) sync/usfmresources.$(OBJEXT) \
+	sync/externalresources.$(OBJEXT) sync/notes.$(OBJEXT) \
+	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
+	resource/logic.$(OBJEXT) resource/get.$(OBJEXT) \
+	resource/external.$(OBJEXT) resource/bible2resource.$(OBJEXT) \
+	resource/convert2resource.$(OBJEXT) \
+	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
+	resource/admin.$(OBJEXT) resource/print.$(OBJEXT) \
+	resource/download.$(OBJEXT) json/json.$(OBJEXT) \
+	mapping/index.$(OBJEXT) mapping/map.$(OBJEXT) \
+	statistics/statistics.$(OBJEXT) changes/change.$(OBJEXT) \
+	changes/changes.$(OBJEXT) changes/logic.$(OBJEXT) \
+	changes/manage.$(OBJEXT) changes/modifications.$(OBJEXT) \
+	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT) \
+	checks/run.$(OBJEXT) checks/headers.$(OBJEXT) \
+	checks/index.$(OBJEXT) checks/logic.$(OBJEXT) \
+	checks/sentences.$(OBJEXT) checks/settings.$(OBJEXT) \
+	checks/settingspatterns.$(OBJEXT) \
+	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
+	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
+	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
+	consistency/index.$(OBJEXT) consistency/input.$(OBJEXT) \
+	consistency/logic.$(OBJEXT) consistency/poll.$(OBJEXT) \
+	export/esword.$(OBJEXT) export/html.$(OBJEXT) \
+	export/index.$(OBJEXT) export/info.$(OBJEXT) \
+	export/logic.$(OBJEXT) export/odt.$(OBJEXT) \
+	export/onlinebible.$(OBJEXT) export/textusfm.$(OBJEXT) \
+	export/usfm.$(OBJEXT) export/web.$(OBJEXT) \
+	xrefs/clear.$(OBJEXT) xrefs/extract.$(OBJEXT) \
+	xrefs/help.$(OBJEXT) xrefs/index.$(OBJEXT) \
+	xrefs/insert.$(OBJEXT) xrefs/interpret.$(OBJEXT) \
+	xrefs/move.$(OBJEXT) xrefs/next.$(OBJEXT) \
+	xrefs/source.$(OBJEXT) xrefs/target.$(OBJEXT) \
+	xrefs/translate.$(OBJEXT) webbible/search.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -296,8 +352,8 @@ CTAGS = ctags
 CSCOPE = cscope
 AM_RECURSIVE_TARGETS = cscope
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
-	COPYING ChangeLog INSTALL NEWS README compile depcomp \
-	install-sh missing
+	COPYING ChangeLog INSTALL NEWS README compile config.guess \
+	config.sub depcomp install-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -322,6 +378,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BARE_BROWSER = @BARE_BROWSER@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -334,6 +391,7 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
+CYGWIN = @CYGWIN@
 DEFS = @DEFS@
 DEMO = @DEMO@
 DEPDIR = @DEPDIR@
@@ -354,6 +412,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+IOS = @IOS@
 LDFLAGS = @LDFLAGS@
 LIBGIT = @LIBGIT@
 LIBOBJS = @LIBOBJS@
@@ -366,6 +425,7 @@ NETWORK_PORT = @NETWORK_PORT@
 OBJEXT = @OBJEXT@
 OPENSSL_CFLAGS = @OPENSSL_CFLAGS@
 OPENSSL_LIBS = @OPENSSL_LIBS@
+OSX = @OSX@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
@@ -384,7 +444,9 @@ SHELL = @SHELL@
 SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
 STRIP = @STRIP@
+UNITTESTS = @UNITTESTS@
 UNZIP_PATH = @UNZIP_PATH@
+URLSETTINGS = @URLSETTINGS@
 VERSION = @VERSION@
 XML2_CONFIG = @XML2_CONFIG@
 XML_CPPFLAGS = @XML_CPPFLAGS@
@@ -402,7 +464,11 @@ am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
+build = @build@
 build_alias = @build_alias@
+build_cpu = @build_cpu@
+build_os = @build_os@
+build_vendor = @build_vendor@
 builddir = @builddir@
 datadir = @datadir@
 datarootdir = @datarootdir@
@@ -436,6 +502,7 @@ top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libbibledit.a
 libbibledit_a_SOURCES = \
 	library/bibledit.cpp \
+	library/locks.c \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
 	webserver/request.cpp \
@@ -456,12 +523,15 @@ libbibledit_a_SOURCES = \
 	filter/abbreviations.cpp \
 	filter/shell.cpp \
 	filter/merge.cpp \
+	filter/date.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
 	index/index.cpp \
+	index/listing.cpp \
 	config/globals.cpp \
+	config/cygwin.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
@@ -490,7 +560,6 @@ libbibledit_a_SOURCES = \
 	database/sprint.cpp \
 	database/mail.cpp \
 	database/navigation.cpp \
-	database/resources.cpp \
 	database/usfmresources.cpp \
 	database/mappings.cpp \
 	database/noteactions.cpp \
@@ -507,7 +576,9 @@ libbibledit_a_SOURCES = \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
+	setup/logic.cpp \
 	journal/index.cpp \
+	journal/logic.cpp \
 	styles/logic.cpp \
 	styles/indext.cpp \
 	styles/indexm.cpp \
@@ -519,6 +590,7 @@ libbibledit_a_SOURCES = \
 	esword/text.cpp \
 	onlinebible/text.cpp \
 	html/text.cpp \
+	html/header.cpp \
 	odf/text.cpp \
 	timer/index.cpp \
 	tasks/logic.cpp \
@@ -537,6 +609,30 @@ libbibledit_a_SOURCES = \
 	bible/css.cpp \
 	bible/editing.cpp \
 	notes/logic.cpp \
+	notes/actions.cpp \
+	notes/clean.cpp \
+	notes/note.cpp \
+	notes/status-1.cpp \
+	notes/assign-1.cpp \
+	notes/cleancli.cpp \
+	notes/notes.cpp \
+	notes/status-n.cpp \
+	notes/assign-n.cpp \
+	notes/click.cpp \
+	notes/poll.cpp \
+	notes/summary.cpp \
+	notes/bible-1.cpp \
+	notes/comment.cpp \
+	notes/select.cpp \
+	notes/unassign-n.cpp \
+	notes/bible-n.cpp \
+	notes/create.cpp \
+	notes/severity-1.cpp \
+	notes/verses.cpp \
+	notes/bulk.cpp \
+	notes/editsource.cpp \
+	notes/index.cpp \
+	notes/severity-n.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \
@@ -548,6 +644,9 @@ libbibledit_a_SOURCES = \
 	user/account.cpp \
 	manage/indexing.cpp \
 	manage/users.cpp \
+	manage/exports.cpp \
+	manage/hyphenation.cpp \
+	manage/hyphenate.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -571,21 +670,24 @@ libbibledit_a_SOURCES = \
 	fonts/index.cpp \
 	versification/index.cpp \
 	versification/system.cpp \
+	versification/logic.cpp \
 	book/create.cpp \
 	compare/index.cpp \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editverse/index.cpp \
-	editverse/id.cpp \
 	editverse/load.cpp \
 	editverse/save.cpp \
+	editone/index.cpp \
+	editone/load.cpp \
+	editone/save.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
 	ipc/focus.cpp \
+	ipc/notes.cpp \
 	checksum/logic.cpp \
 	editusfm/focus.cpp \
-	editusfm/id.cpp \
 	editusfm/index.cpp \
 	editusfm/load.cpp \
 	editusfm/offset.cpp \
@@ -601,6 +703,7 @@ libbibledit_a_SOURCES = \
 	edit/offset.cpp \
 	edit/save.cpp \
 	edit/styles.cpp \
+	edit/logic.cpp \
 	search/search.cpp \
 	search/index.cpp \
 	search/select.cpp \
@@ -628,12 +731,80 @@ libbibledit_a_SOURCES = \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
 	sendreceive/bibles.cpp \
+	sendreceive/usfmresources.cpp \
+	sendreceive/externalresources.cpp \
+	sendreceive/notes.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
 	sync/setup.cpp \
 	sync/settings.cpp \
-	sync/bibles.cpp
+	sync/bibles.cpp \
+	sync/usfmresources.cpp \
+	sync/externalresources.cpp \
+	sync/notes.cpp \
+	resource/index.cpp \
+	resource/organize.cpp \
+	resource/logic.cpp \
+	resource/get.cpp \
+	resource/external.cpp \
+	resource/bible2resource.cpp \
+	resource/convert2resource.cpp \
+	resource/convert2bible.cpp \
+	resource/manage.cpp \
+	resource/admin.cpp \
+	resource/print.cpp \
+	resource/download.cpp \
+	json/json.c \
+	mapping/index.cpp \
+	mapping/map.cpp \
+	statistics/statistics.cpp \
+	changes/change.cpp \
+	changes/changes.cpp \
+	changes/logic.cpp \
+	changes/manage.cpp \
+	changes/modifications.cpp \
+	sprint/burndown.cpp \
+	sprint/index.cpp \
+	checks/run.cpp \
+	checks/headers.cpp \
+	checks/index.cpp \
+	checks/logic.cpp \
+	checks/sentences.cpp \
+	checks/settings.cpp \
+	checks/settingspatterns.cpp \
+	checks/settingssentences.cpp \
+	checks/space.cpp \
+	checks/suppress.cpp \
+	checks/usfm.cpp \
+	checks/verses.cpp \
+	checks/versification.cpp \
+	consistency/index.cpp \
+	consistency/input.cpp \
+	consistency/logic.cpp \
+	consistency/poll.cpp \
+	export/esword.cpp \
+	export/html.cpp \
+	export/index.cpp \
+	export/info.cpp \
+	export/logic.cpp \
+	export/odt.cpp \
+	export/onlinebible.cpp \
+	export/textusfm.cpp \
+	export/usfm.cpp \
+	export/web.cpp \
+	xrefs/clear.cpp \
+	xrefs/extract.cpp \
+	xrefs/help.cpp \
+	xrefs/index.cpp \
+	xrefs/insert.cpp \
+	xrefs/interpret.cpp \
+	xrefs/move.cpp \
+	xrefs/next.cpp \
+	xrefs/source.cpp \
+	xrefs/target.cpp \
+	xrefs/translate.cpp \
+	webbible/search.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -714,6 +885,8 @@ library/$(DEPDIR)/$(am__dirstamp):
 	@: > library/$(DEPDIR)/$(am__dirstamp)
 library/bibledit.$(OBJEXT): library/$(am__dirstamp) \
 	library/$(DEPDIR)/$(am__dirstamp)
+library/locks.$(OBJEXT): library/$(am__dirstamp) \
+	library/$(DEPDIR)/$(am__dirstamp)
 webserver/$(am__dirstamp):
 	@$(MKDIR_P) webserver
 	@: > webserver/$(am__dirstamp)
@@ -772,6 +945,8 @@ filter/shell.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/merge.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
+filter/date.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
 	@: > flate/$(am__dirstamp)
@@ -800,6 +975,8 @@ index/$(DEPDIR)/$(am__dirstamp):
 	@: > index/$(DEPDIR)/$(am__dirstamp)
 index/index.$(OBJEXT): index/$(am__dirstamp) \
 	index/$(DEPDIR)/$(am__dirstamp)
+index/listing.$(OBJEXT): index/$(am__dirstamp) \
+	index/$(DEPDIR)/$(am__dirstamp)
 config/$(am__dirstamp):
 	@$(MKDIR_P) config
 	@: > config/$(am__dirstamp)
@@ -807,6 +984,8 @@ config/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) config/$(DEPDIR)
 	@: > config/$(DEPDIR)/$(am__dirstamp)
 config/globals.$(OBJEXT): config/$(am__dirstamp) \
+	config/$(DEPDIR)/$(am__dirstamp)
+config/cygwin.$(OBJEXT): config/$(am__dirstamp) \
 	config/$(DEPDIR)/$(am__dirstamp)
 menu/$(am__dirstamp):
 	@$(MKDIR_P) menu
@@ -888,8 +1067,6 @@ database/mail.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/navigation.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/resources.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
 database/usfmresources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/mappings.$(OBJEXT): database/$(am__dirstamp) \
@@ -941,6 +1118,8 @@ setup/$(DEPDIR)/$(am__dirstamp):
 	@: > setup/$(DEPDIR)/$(am__dirstamp)
 setup/index.$(OBJEXT): setup/$(am__dirstamp) \
 	setup/$(DEPDIR)/$(am__dirstamp)
+setup/logic.$(OBJEXT): setup/$(am__dirstamp) \
+	setup/$(DEPDIR)/$(am__dirstamp)
 journal/$(am__dirstamp):
 	@$(MKDIR_P) journal
 	@: > journal/$(am__dirstamp)
@@ -948,6 +1127,8 @@ journal/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) journal/$(DEPDIR)
 	@: > journal/$(DEPDIR)/$(am__dirstamp)
 journal/index.$(OBJEXT): journal/$(am__dirstamp) \
+	journal/$(DEPDIR)/$(am__dirstamp)
+journal/logic.$(OBJEXT): journal/$(am__dirstamp) \
 	journal/$(DEPDIR)/$(am__dirstamp)
 styles/$(am__dirstamp):
 	@$(MKDIR_P) styles
@@ -1000,6 +1181,8 @@ html/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) html/$(DEPDIR)
 	@: > html/$(DEPDIR)/$(am__dirstamp)
 html/text.$(OBJEXT): html/$(am__dirstamp) \
+	html/$(DEPDIR)/$(am__dirstamp)
+html/header.$(OBJEXT): html/$(am__dirstamp) \
 	html/$(DEPDIR)/$(am__dirstamp)
 odf/$(am__dirstamp):
 	@$(MKDIR_P) odf
@@ -1066,6 +1249,54 @@ notes/$(DEPDIR)/$(am__dirstamp):
 	@: > notes/$(DEPDIR)/$(am__dirstamp)
 notes/logic.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
+notes/actions.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/clean.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/note.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/status-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/assign-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/cleancli.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/notes.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/status-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/assign-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/click.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/poll.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/summary.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/bible-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/comment.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/select.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/unassign-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/bible-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/create.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/severity-1.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/verses.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/bulk.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/editsource.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/index.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
+notes/severity-n.$(OBJEXT): notes/$(am__dirstamp) \
+	notes/$(DEPDIR)/$(am__dirstamp)
 trash/$(am__dirstamp):
 	@$(MKDIR_P) trash
 	@: > trash/$(am__dirstamp)
@@ -1129,6 +1360,12 @@ manage/$(DEPDIR)/$(am__dirstamp):
 manage/indexing.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/users.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/exports.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/hyphenation.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/hyphenate.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 administration/$(am__dirstamp):
 	@$(MKDIR_P) administration
@@ -1218,6 +1455,8 @@ versification/index.$(OBJEXT): versification/$(am__dirstamp) \
 	versification/$(DEPDIR)/$(am__dirstamp)
 versification/system.$(OBJEXT): versification/$(am__dirstamp) \
 	versification/$(DEPDIR)/$(am__dirstamp)
+versification/logic.$(OBJEXT): versification/$(am__dirstamp) \
+	versification/$(DEPDIR)/$(am__dirstamp)
 book/$(am__dirstamp):
 	@$(MKDIR_P) book
 	@: > book/$(am__dirstamp)
@@ -1252,12 +1491,22 @@ editverse/$(DEPDIR)/$(am__dirstamp):
 	@: > editverse/$(DEPDIR)/$(am__dirstamp)
 editverse/index.$(OBJEXT): editverse/$(am__dirstamp) \
 	editverse/$(DEPDIR)/$(am__dirstamp)
-editverse/id.$(OBJEXT): editverse/$(am__dirstamp) \
-	editverse/$(DEPDIR)/$(am__dirstamp)
 editverse/load.$(OBJEXT): editverse/$(am__dirstamp) \
 	editverse/$(DEPDIR)/$(am__dirstamp)
 editverse/save.$(OBJEXT): editverse/$(am__dirstamp) \
 	editverse/$(DEPDIR)/$(am__dirstamp)
+editone/$(am__dirstamp):
+	@$(MKDIR_P) editone
+	@: > editone/$(am__dirstamp)
+editone/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) editone/$(DEPDIR)
+	@: > editone/$(DEPDIR)/$(am__dirstamp)
+editone/index.$(OBJEXT): editone/$(am__dirstamp) \
+	editone/$(DEPDIR)/$(am__dirstamp)
+editone/load.$(OBJEXT): editone/$(am__dirstamp) \
+	editone/$(DEPDIR)/$(am__dirstamp)
+editone/save.$(OBJEXT): editone/$(am__dirstamp) \
+	editone/$(DEPDIR)/$(am__dirstamp)
 navigation/$(am__dirstamp):
 	@$(MKDIR_P) navigation
 	@: > navigation/$(am__dirstamp)
@@ -1277,6 +1526,7 @@ ipc/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) ipc/$(DEPDIR)
 	@: > ipc/$(DEPDIR)/$(am__dirstamp)
 ipc/focus.$(OBJEXT): ipc/$(am__dirstamp) ipc/$(DEPDIR)/$(am__dirstamp)
+ipc/notes.$(OBJEXT): ipc/$(am__dirstamp) ipc/$(DEPDIR)/$(am__dirstamp)
 checksum/$(am__dirstamp):
 	@$(MKDIR_P) checksum
 	@: > checksum/$(am__dirstamp)
@@ -1292,8 +1542,6 @@ editusfm/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) editusfm/$(DEPDIR)
 	@: > editusfm/$(DEPDIR)/$(am__dirstamp)
 editusfm/focus.$(OBJEXT): editusfm/$(am__dirstamp) \
-	editusfm/$(DEPDIR)/$(am__dirstamp)
-editusfm/id.$(OBJEXT): editusfm/$(am__dirstamp) \
 	editusfm/$(DEPDIR)/$(am__dirstamp)
 editusfm/index.$(OBJEXT): editusfm/$(am__dirstamp) \
 	editusfm/$(DEPDIR)/$(am__dirstamp)
@@ -1335,6 +1583,8 @@ edit/offset.$(OBJEXT): edit/$(am__dirstamp) \
 edit/save.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/styles.$(OBJEXT): edit/$(am__dirstamp) \
+	edit/$(DEPDIR)/$(am__dirstamp)
+edit/logic.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 search/search.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
@@ -1405,6 +1655,12 @@ sendreceive/settings.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/bibles.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/usfmresources.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/externalresources.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/notes.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -1429,6 +1685,202 @@ sync/settings.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/bibles.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
+sync/usfmresources.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
+sync/externalresources.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
+sync/notes.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
+resource/$(am__dirstamp):
+	@$(MKDIR_P) resource
+	@: > resource/$(am__dirstamp)
+resource/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) resource/$(DEPDIR)
+	@: > resource/$(DEPDIR)/$(am__dirstamp)
+resource/index.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/organize.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/logic.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/get.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/external.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/bible2resource.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/convert2resource.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/convert2bible.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/manage.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/admin.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/print.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/download.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+json/$(am__dirstamp):
+	@$(MKDIR_P) json
+	@: > json/$(am__dirstamp)
+json/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) json/$(DEPDIR)
+	@: > json/$(DEPDIR)/$(am__dirstamp)
+json/json.$(OBJEXT): json/$(am__dirstamp) \
+	json/$(DEPDIR)/$(am__dirstamp)
+mapping/$(am__dirstamp):
+	@$(MKDIR_P) mapping
+	@: > mapping/$(am__dirstamp)
+mapping/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) mapping/$(DEPDIR)
+	@: > mapping/$(DEPDIR)/$(am__dirstamp)
+mapping/index.$(OBJEXT): mapping/$(am__dirstamp) \
+	mapping/$(DEPDIR)/$(am__dirstamp)
+mapping/map.$(OBJEXT): mapping/$(am__dirstamp) \
+	mapping/$(DEPDIR)/$(am__dirstamp)
+statistics/$(am__dirstamp):
+	@$(MKDIR_P) statistics
+	@: > statistics/$(am__dirstamp)
+statistics/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) statistics/$(DEPDIR)
+	@: > statistics/$(DEPDIR)/$(am__dirstamp)
+statistics/statistics.$(OBJEXT): statistics/$(am__dirstamp) \
+	statistics/$(DEPDIR)/$(am__dirstamp)
+changes/$(am__dirstamp):
+	@$(MKDIR_P) changes
+	@: > changes/$(am__dirstamp)
+changes/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) changes/$(DEPDIR)
+	@: > changes/$(DEPDIR)/$(am__dirstamp)
+changes/change.$(OBJEXT): changes/$(am__dirstamp) \
+	changes/$(DEPDIR)/$(am__dirstamp)
+changes/changes.$(OBJEXT): changes/$(am__dirstamp) \
+	changes/$(DEPDIR)/$(am__dirstamp)
+changes/logic.$(OBJEXT): changes/$(am__dirstamp) \
+	changes/$(DEPDIR)/$(am__dirstamp)
+changes/manage.$(OBJEXT): changes/$(am__dirstamp) \
+	changes/$(DEPDIR)/$(am__dirstamp)
+changes/modifications.$(OBJEXT): changes/$(am__dirstamp) \
+	changes/$(DEPDIR)/$(am__dirstamp)
+sprint/$(am__dirstamp):
+	@$(MKDIR_P) sprint
+	@: > sprint/$(am__dirstamp)
+sprint/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) sprint/$(DEPDIR)
+	@: > sprint/$(DEPDIR)/$(am__dirstamp)
+sprint/burndown.$(OBJEXT): sprint/$(am__dirstamp) \
+	sprint/$(DEPDIR)/$(am__dirstamp)
+sprint/index.$(OBJEXT): sprint/$(am__dirstamp) \
+	sprint/$(DEPDIR)/$(am__dirstamp)
+checks/$(am__dirstamp):
+	@$(MKDIR_P) checks
+	@: > checks/$(am__dirstamp)
+checks/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) checks/$(DEPDIR)
+	@: > checks/$(DEPDIR)/$(am__dirstamp)
+checks/run.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/headers.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/index.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/logic.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/sentences.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/settings.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/settingspatterns.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/settingssentences.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/space.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/suppress.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/usfm.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/verses.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+checks/versification.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
+consistency/$(am__dirstamp):
+	@$(MKDIR_P) consistency
+	@: > consistency/$(am__dirstamp)
+consistency/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) consistency/$(DEPDIR)
+	@: > consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/index.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/input.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/logic.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
+consistency/poll.$(OBJEXT): consistency/$(am__dirstamp) \
+	consistency/$(DEPDIR)/$(am__dirstamp)
+export/$(am__dirstamp):
+	@$(MKDIR_P) export
+	@: > export/$(am__dirstamp)
+export/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) export/$(DEPDIR)
+	@: > export/$(DEPDIR)/$(am__dirstamp)
+export/esword.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/html.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/index.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/info.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/logic.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/odt.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/onlinebible.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/textusfm.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/usfm.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+export/web.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
+xrefs/$(am__dirstamp):
+	@$(MKDIR_P) xrefs
+	@: > xrefs/$(am__dirstamp)
+xrefs/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) xrefs/$(DEPDIR)
+	@: > xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/clear.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/extract.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/help.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/index.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/insert.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/interpret.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/move.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/next.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/source.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/target.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+xrefs/translate.$(OBJEXT): xrefs/$(am__dirstamp) \
+	xrefs/$(DEPDIR)/$(am__dirstamp)
+webbible/$(am__dirstamp):
+	@$(MKDIR_P) webbible
+	@: > webbible/$(am__dirstamp)
+webbible/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) webbible/$(DEPDIR)
+	@: > webbible/$(DEPDIR)/$(am__dirstamp)
+webbible/search.$(OBJEXT): webbible/$(am__dirstamp) \
+	webbible/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1517,23 +1969,28 @@ mostlyclean-compile:
 	-rm -f bible/*.$(OBJEXT)
 	-rm -f book/*.$(OBJEXT)
 	-rm -f bootstrap/*.$(OBJEXT)
+	-rm -f changes/*.$(OBJEXT)
+	-rm -f checks/*.$(OBJEXT)
 	-rm -f checksum/*.$(OBJEXT)
 	-rm -f client/*.$(OBJEXT)
 	-rm -f collaboration/*.$(OBJEXT)
 	-rm -f compare/*.$(OBJEXT)
 	-rm -f config/*.$(OBJEXT)
 	-rm -f confirm/*.$(OBJEXT)
+	-rm -f consistency/*.$(OBJEXT)
 	-rm -f database/*.$(OBJEXT)
 	-rm -f database/config/*.$(OBJEXT)
 	-rm -f demo/*.$(OBJEXT)
 	-rm -f dialog/*.$(OBJEXT)
 	-rm -f edit/*.$(OBJEXT)
+	-rm -f editone/*.$(OBJEXT)
 	-rm -f editor/*.$(OBJEXT)
 	-rm -f editusfm/*.$(OBJEXT)
 	-rm -f editverse/*.$(OBJEXT)
 	-rm -f email/*.$(OBJEXT)
 	-rm -f esword/*.$(OBJEXT)
 	-rm -f executable/*.$(OBJEXT)
+	-rm -f export/*.$(OBJEXT)
 	-rm -f filter/*.$(OBJEXT)
 	-rm -f flate/*.$(OBJEXT)
 	-rm -f fonts/*.$(OBJEXT)
@@ -1543,19 +2000,24 @@ mostlyclean-compile:
 	-rm -f ipc/*.$(OBJEXT)
 	-rm -f jobs/*.$(OBJEXT)
 	-rm -f journal/*.$(OBJEXT)
+	-rm -f json/*.$(OBJEXT)
 	-rm -f library/*.$(OBJEXT)
 	-rm -f locale/*.$(OBJEXT)
 	-rm -f manage/*.$(OBJEXT)
+	-rm -f mapping/*.$(OBJEXT)
 	-rm -f menu/*.$(OBJEXT)
 	-rm -f navigation/*.$(OBJEXT)
 	-rm -f notes/*.$(OBJEXT)
 	-rm -f odf/*.$(OBJEXT)
 	-rm -f onlinebible/*.$(OBJEXT)
 	-rm -f parsewebdata/*.$(OBJEXT)
+	-rm -f resource/*.$(OBJEXT)
 	-rm -f search/*.$(OBJEXT)
 	-rm -f sendreceive/*.$(OBJEXT)
 	-rm -f session/*.$(OBJEXT)
 	-rm -f setup/*.$(OBJEXT)
+	-rm -f sprint/*.$(OBJEXT)
+	-rm -f statistics/*.$(OBJEXT)
 	-rm -f styles/*.$(OBJEXT)
 	-rm -f sync/*.$(OBJEXT)
 	-rm -f tasks/*.$(OBJEXT)
@@ -1566,8 +2028,10 @@ mostlyclean-compile:
 	-rm -f unittests/*.$(OBJEXT)
 	-rm -f user/*.$(OBJEXT)
 	-rm -f versification/*.$(OBJEXT)
+	-rm -f webbible/*.$(OBJEXT)
 	-rm -f webserver/*.$(OBJEXT)
 	-rm -f workbench/*.$(OBJEXT)
+	-rm -f xrefs/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -1593,6 +2057,24 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@book/$(DEPDIR)/create.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/change.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/changes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/manage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/modifications.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/headers.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/run.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/sentences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/settingspatterns.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/settingssentences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/space.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/suppress.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/verses.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checksum/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/logic.Po@am__quote@
@@ -1605,9 +2087,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/secure.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/compare.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/cygwin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@confirm/$(DEPDIR)/worker.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/input.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/poll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
@@ -1627,7 +2114,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/offlineresources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
@@ -1652,19 +2138,21 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/load.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/offset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/styles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/load.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/export.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/import.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/styles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/focus.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/offset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/save.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/save.Po@am__quote@
@@ -1673,10 +2161,21 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@esword/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/esword.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/html.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/info.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/odt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/onlinebible.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/textusfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/web.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/abbreviations.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/archive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/customcss.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@
@@ -1692,27 +2191,74 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fonts/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@fonts/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/header.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/listing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ipc/$(DEPDIR)/focus.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@ipc/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@jobs/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@json/$(DEPDIR)/json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/locks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/exports.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/indexing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/users.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/poll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/update.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/actions.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bible-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bible-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bulk.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/clean.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/cleancli.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/click.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/comment.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/create.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/editsource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/note.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/notes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/poll.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/select.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/severity-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/severity-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/status-1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/status-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/summary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/unassign-n.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/verses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@odf/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@onlinebible/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/admin.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bible2resource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2bible.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2resource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/download.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/external.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/get.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/manage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/organize.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/print.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/index.Po@am__quote@
@@ -1732,16 +2278,23 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strong.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strongs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/bibles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/sendreceive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/signup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/burndown.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@statistics/$(DEPDIR)/statistics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indexm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indext.Po@am__quote@
@@ -1750,9 +2303,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@
@@ -1767,7 +2323,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/account.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/notifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/system.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@webbible/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/request.Po@am__quote@
@@ -1776,6 +2334,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@workbench/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@workbench/$(DEPDIR)/organize.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@workbench/$(DEPDIR)/settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/clear.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/extract.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/help.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/insert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/interpret.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/move.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/next.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/source.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/target.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xrefs/$(DEPDIR)/translate.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -2080,6 +2649,10 @@ distclean-generic:
 	-rm -f book/$(am__dirstamp)
 	-rm -f bootstrap/$(DEPDIR)/$(am__dirstamp)
 	-rm -f bootstrap/$(am__dirstamp)
+	-rm -f changes/$(DEPDIR)/$(am__dirstamp)
+	-rm -f changes/$(am__dirstamp)
+	-rm -f checks/$(DEPDIR)/$(am__dirstamp)
+	-rm -f checks/$(am__dirstamp)
 	-rm -f checksum/$(DEPDIR)/$(am__dirstamp)
 	-rm -f checksum/$(am__dirstamp)
 	-rm -f client/$(DEPDIR)/$(am__dirstamp)
@@ -2092,6 +2665,8 @@ distclean-generic:
 	-rm -f config/$(am__dirstamp)
 	-rm -f confirm/$(DEPDIR)/$(am__dirstamp)
 	-rm -f confirm/$(am__dirstamp)
+	-rm -f consistency/$(DEPDIR)/$(am__dirstamp)
+	-rm -f consistency/$(am__dirstamp)
 	-rm -f database/$(DEPDIR)/$(am__dirstamp)
 	-rm -f database/$(am__dirstamp)
 	-rm -f database/config/$(DEPDIR)/$(am__dirstamp)
@@ -2102,6 +2677,8 @@ distclean-generic:
 	-rm -f dialog/$(am__dirstamp)
 	-rm -f edit/$(DEPDIR)/$(am__dirstamp)
 	-rm -f edit/$(am__dirstamp)
+	-rm -f editone/$(DEPDIR)/$(am__dirstamp)
+	-rm -f editone/$(am__dirstamp)
 	-rm -f editor/$(DEPDIR)/$(am__dirstamp)
 	-rm -f editor/$(am__dirstamp)
 	-rm -f editusfm/$(DEPDIR)/$(am__dirstamp)
@@ -2114,6 +2691,8 @@ distclean-generic:
 	-rm -f esword/$(am__dirstamp)
 	-rm -f executable/$(DEPDIR)/$(am__dirstamp)
 	-rm -f executable/$(am__dirstamp)
+	-rm -f export/$(DEPDIR)/$(am__dirstamp)
+	-rm -f export/$(am__dirstamp)
 	-rm -f filter/$(DEPDIR)/$(am__dirstamp)
 	-rm -f filter/$(am__dirstamp)
 	-rm -f flate/$(DEPDIR)/$(am__dirstamp)
@@ -2132,12 +2711,16 @@ distclean-generic:
 	-rm -f jobs/$(am__dirstamp)
 	-rm -f journal/$(DEPDIR)/$(am__dirstamp)
 	-rm -f journal/$(am__dirstamp)
+	-rm -f json/$(DEPDIR)/$(am__dirstamp)
+	-rm -f json/$(am__dirstamp)
 	-rm -f library/$(DEPDIR)/$(am__dirstamp)
 	-rm -f library/$(am__dirstamp)
 	-rm -f locale/$(DEPDIR)/$(am__dirstamp)
 	-rm -f locale/$(am__dirstamp)
 	-rm -f manage/$(DEPDIR)/$(am__dirstamp)
 	-rm -f manage/$(am__dirstamp)
+	-rm -f mapping/$(DEPDIR)/$(am__dirstamp)
+	-rm -f mapping/$(am__dirstamp)
 	-rm -f menu/$(DEPDIR)/$(am__dirstamp)
 	-rm -f menu/$(am__dirstamp)
 	-rm -f navigation/$(DEPDIR)/$(am__dirstamp)
@@ -2150,6 +2733,8 @@ distclean-generic:
 	-rm -f onlinebible/$(am__dirstamp)
 	-rm -f parsewebdata/$(DEPDIR)/$(am__dirstamp)
 	-rm -f parsewebdata/$(am__dirstamp)
+	-rm -f resource/$(DEPDIR)/$(am__dirstamp)
+	-rm -f resource/$(am__dirstamp)
 	-rm -f search/$(DEPDIR)/$(am__dirstamp)
 	-rm -f search/$(am__dirstamp)
 	-rm -f sendreceive/$(DEPDIR)/$(am__dirstamp)
@@ -2158,6 +2743,10 @@ distclean-generic:
 	-rm -f session/$(am__dirstamp)
 	-rm -f setup/$(DEPDIR)/$(am__dirstamp)
 	-rm -f setup/$(am__dirstamp)
+	-rm -f sprint/$(DEPDIR)/$(am__dirstamp)
+	-rm -f sprint/$(am__dirstamp)
+	-rm -f statistics/$(DEPDIR)/$(am__dirstamp)
+	-rm -f statistics/$(am__dirstamp)
 	-rm -f styles/$(DEPDIR)/$(am__dirstamp)
 	-rm -f styles/$(am__dirstamp)
 	-rm -f sync/$(DEPDIR)/$(am__dirstamp)
@@ -2178,10 +2767,14 @@ distclean-generic:
 	-rm -f user/$(am__dirstamp)
 	-rm -f versification/$(DEPDIR)/$(am__dirstamp)
 	-rm -f versification/$(am__dirstamp)
+	-rm -f webbible/$(DEPDIR)/$(am__dirstamp)
+	-rm -f webbible/$(am__dirstamp)
 	-rm -f webserver/$(DEPDIR)/$(am__dirstamp)
 	-rm -f webserver/$(am__dirstamp)
 	-rm -f workbench/$(DEPDIR)/$(am__dirstamp)
 	-rm -f workbench/$(am__dirstamp)
+	-rm -f xrefs/$(DEPDIR)/$(am__dirstamp)
+	-rm -f xrefs/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -2193,7 +2786,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -2241,7 +2834,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

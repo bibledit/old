@@ -17,7 +17,7 @@ namespace Bibledit
         static void Main()
         {
             bool onlyInstance = false;
-            Mutex mutex = new Mutex (true, "BibleditWebForWindows", out onlyInstance);
+            Mutex mutex = new Mutex (true, "BibleditForWindows", out onlyInstance);
             if (!onlyInstance) {
                 MessageBox.Show ("Bibledit is already running.");
                 return;

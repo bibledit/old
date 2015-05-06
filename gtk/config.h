@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* DARWIN */
-/* #undef DARWIN */
+#define DARWIN "1"
 
 /* always defined to indicate that i18n is enabled */
 #define ENABLE_NLS 1
@@ -62,7 +62,7 @@
 #define HAVE_UNISTD_H 1
 
 /* LINUX */
-#define LINUX "1"
+/* #undef LINUX */
 
 /* Name of package */
 #define PACKAGE "bibledit-gtk"
@@ -77,7 +77,7 @@
 #define PACKAGE_NAME "bibledit-gtk"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit-gtk 4.8.11"
+#define PACKAGE_STRING "bibledit-gtk 4.9"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit-gtk"
@@ -86,13 +86,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.8.11"
+#define PACKAGE_VERSION "4.9"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "4.8.11"
+#define VERSION "4.9"
 
 /* WIN32 */
 /* #undef WIN32 */

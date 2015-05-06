@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <database/modifications.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -41,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/abbreviations.h>
 #include <filter/git.h>
 #include <filter/merge.h>
+#include <filter/date.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -49,6 +51,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <odf/text.h>
 #include <styles/logic.h>
 #include <styles/css.h>
+#include <ipc/notes.h>
+#include <client/logic.h>
+#include <bible/logic.h>
+#include <config.h>
+
+
+#ifdef HAVE_UNITTESTS
 
 
 void test_filters_test1 ()
@@ -258,16 +267,16 @@ void test_filters_test2 ()
   }
   {
     // Test the date and time related functions.
-    int month = filter_string_date_numerical_month ();
+    int month = filter_date_numerical_month (filter_date_seconds_since_epoch ());
     if ((month < 1) || (month > 12)) evaluate (__LINE__, __func__, "current month", convert_to_string (month));
-    int year = filter_string_date_numerical_year ();
+    int year = filter_date_numerical_year (filter_date_seconds_since_epoch ());
     if ((year < 2014) || (year > 2050)) evaluate (__LINE__, __func__, "current year", convert_to_string (year));
     struct timeval tv;
     gettimeofday (&tv, NULL);
     int reference_second = tv.tv_sec;
-    int actual_second = filter_string_date_seconds_since_epoch ();
+    int actual_second = filter_date_seconds_since_epoch ();
     if (abs (actual_second - reference_second) > 1) evaluate (__LINE__, __func__, reference_second, actual_second);
-    int usecs = filter_string_date_numerical_microseconds ();
+    int usecs = filter_date_numerical_microseconds ();
     if ((usecs < 0) || (usecs > 1000000)) evaluate (__LINE__, __func__, "0-1000000", convert_to_string (usecs));
   }
   {
@@ -303,54 +312,6 @@ void test_filters_test2 ()
     result = filter_url_http_post ("http://localhost/none", values, error);
     evaluate (__LINE__, __func__, "Couldn't connect to server", error);
     evaluate (__LINE__, __func__, "", result);
-  }
-}
-
-
-void test_filters_test3 ()
-{
-  // Test the USFM filter functions.
-  {
-    evaluate (__LINE__, __func__, "", usfm_one_string (""));
-    evaluate (__LINE__, __func__, "\\id GEN", usfm_one_string ("\\id GEN\n"));
-    evaluate (__LINE__, __func__, "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
-    evaluate (__LINE__, __func__, "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
-    evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
-  }
-  {
-    evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
-    evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
-  }
-  {
-    evaluate (__LINE__, __func__, "", usfm_get_marker (""));
-    evaluate (__LINE__, __func__, "id", usfm_get_marker ("\\id GEN"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add insertion"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*\\add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
-  }
-  {
-    Database_Styles database_styles = Database_Styles ();
-    database_styles.create ();
-
-    evaluate (__LINE__, __func__, 0, usfm_import ("", styles_logic_standard_sheet ()).size());
-    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, import2.size());
-    if (import2.size () == 2) {
-      evaluate (__LINE__, __func__, 33, import2 [0].book);
-      evaluate (__LINE__, __func__, 0, import2 [0].chapter);
-      evaluate (__LINE__, __func__, "\\id MIC", import2 [0].data);
-      evaluate (__LINE__, __func__, 33, import2 [1].book);
-      evaluate (__LINE__, __func__, 1, import2 [1].chapter);
-      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import2 [1].data);
-    } else evaluate (__LINE__, __func__, "executing tests", "skipping tests");
-
-    evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
 }
 
@@ -466,6 +427,64 @@ void test_filters_test_usfm2 ()
 }
 
 
+void test_filters_usfm3 ()
+{
+  // Test the USFM filter functions.
+  {
+    evaluate (__LINE__, __func__, "", usfm_one_string (""));
+    evaluate (__LINE__, __func__, "\\id GEN", usfm_one_string ("\\id GEN\n"));
+    evaluate (__LINE__, __func__, "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
+    evaluate (__LINE__, __func__, "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
+    evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
+    string inputusfm =
+      "\\v 9  If we confess our sins, he is faithful and just to forgive\n"
+      "us \\add our\\add* sins, and to cleanse us from all unrighteousness.";
+    string outputusfm = usfm_one_string (inputusfm);
+    string standard = filter_string_str_replace ("\n", " ", inputusfm);
+    evaluate (__LINE__, __func__, standard, outputusfm);
+  }
+  {
+    evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
+    evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
+    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
+    evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
+    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
+  }
+  {
+    evaluate (__LINE__, __func__, "", usfm_get_marker (""));
+    evaluate (__LINE__, __func__, "id", usfm_get_marker ("\\id GEN"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add insertion"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*\\add"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
+    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
+  }
+  Database_Styles database_styles = Database_Styles ();
+  database_styles.create ();
+  {
+    evaluate (__LINE__, __func__, 0, (int)usfm_import ("", styles_logic_standard_sheet ()).size());
+    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
+    evaluate (__LINE__, __func__, 2, (int)import2.size());
+    if (import2.size () == 2) {
+      evaluate (__LINE__, __func__, 33, import2 [0].book);
+      evaluate (__LINE__, __func__, 0, import2 [0].chapter);
+      evaluate (__LINE__, __func__, "\\id MIC", import2 [0].data);
+      evaluate (__LINE__, __func__, 33, import2 [1].book);
+      evaluate (__LINE__, __func__, 1, import2 [1].chapter);
+      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import2 [1].data);
+    } else evaluate (__LINE__, __func__, "executing tests", "skipping tests");
+    
+    evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
+  }
+  {
+    string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "1jn.usfm"));
+    vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
+    evaluate (__LINE__, __func__, 6, (int)import.size());
+  }
+}
+
+
 void test_filters_test5 ()
 {
   {
@@ -518,7 +537,7 @@ void test_filters_test5 ()
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\x + Hlab. 81.5.\\x* njengomhlambi\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> xrefs = usfm_extract_notes (usfm, {"x"});
-    evaluate (__LINE__, __func__, 4, xrefs.size());
+    evaluate (__LINE__, __func__, 4, (int)xrefs.size());
     if (xrefs.size () == 4) {
       evaluate (__LINE__, __func__, 55, xrefs[0].offset);
       evaluate (__LINE__, __func__, "\\x + Hlab. 81.5.\\x*", xrefs[0].data);
@@ -533,7 +552,7 @@ void test_filters_test5 ()
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\f + Hlab. 81.5.\\f* njengomhlambi\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> notes = usfm_extract_notes (usfm, { "x", "f", "fe" });
-    evaluate (__LINE__, __func__, 4, notes.size());
+    evaluate (__LINE__, __func__, 4, (int)notes.size());
     if (notes.size () == 4) {
       evaluate (__LINE__, __func__, 55, notes[0].offset);
       evaluate (__LINE__, __func__, "\\f + Hlab. 81.5.\\f*", notes[0].data); 
@@ -548,7 +567,7 @@ void test_filters_test5 ()
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi\\f + Hlab. 81.5.\\f*\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> notes = usfm_extract_notes (usfm, { "x", "f", "fe" });
-    evaluate (__LINE__, __func__, 4, notes.size());
+    evaluate (__LINE__, __func__, 4, (int)notes.size());
     if (notes.size () == 4) {
       evaluate (__LINE__, __func__, 69, notes[0].offset);
       evaluate (__LINE__, __func__, "\\f + Hlab. 81.5.\\f*", notes[0].data);
@@ -1389,7 +1408,7 @@ void test_filters_test11 ()
     filter_text.run (styles_logic_standard_sheet ());
     // Check that it finds the running headers.
     int desiredRunningHeaders = 5;
-    int actualRunningHeaders = filter_text.runningHeaders.size();
+    int actualRunningHeaders = (int)filter_text.runningHeaders.size();
     evaluate (__LINE__, __func__, desiredRunningHeaders, actualRunningHeaders);
     if (actualRunningHeaders == desiredRunningHeaders) {
       evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].book);
@@ -2002,8 +2021,8 @@ void test_filters_test12 ()
 void test_filters_test13 ()
 {
   // Unicode tests.
-  evaluate (__LINE__, __func__, 4, unicode_string_length ("test"));
-  evaluate (__LINE__, __func__, 4, unicode_string_length ("ᨁᨃᨅᨕ"));
+  evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("test"));
+  evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("ᨁᨃᨅᨕ"));
 
   string hebrew = "אָבּגּדּהּ";
   evaluate (__LINE__, __func__, "st1234", unicode_string_substr ("test1234", 2));
@@ -2016,18 +2035,18 @@ void test_filters_test13 ()
   evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2, 10));
 
   string needle = "דּ";
-  evaluate (__LINE__, __func__, 3, unicode_string_strpos ("012345", "3"));
-  evaluate (__LINE__, __func__, 5, unicode_string_strpos ("012345", "5"));
-  evaluate (__LINE__, __func__, 0, unicode_string_strpos ("012345", "0"));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos ("012345", "6"));
-  evaluate (__LINE__, __func__, 3, unicode_string_strpos (hebrew, needle));
-  evaluate (__LINE__, __func__, 3, unicode_string_strpos (hebrew, needle, 3));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos (hebrew, needle, 4));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos ("", "3"));
+  evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos ("012345", "3"));
+  evaluate (__LINE__, __func__, 5, (int)unicode_string_strpos ("012345", "5"));
+  evaluate (__LINE__, __func__, 0, (int)unicode_string_strpos ("012345", "0"));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("012345", "6"));
+  evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle));
+  evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle, 3));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos (hebrew, needle, 4));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("", "3"));
   
-  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
-  evaluate (__LINE__, __func__, 2, unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
-  evaluate (__LINE__, __func__, -1, unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
+  evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
+  evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
+  evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
 
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
@@ -2228,8 +2247,8 @@ void test_filters_passage2 ()
   // InterpretBookPartialNames.
   {
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("G"));
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("g"));
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("ge"));
+    evaluate (__LINE__, __func__, 37, filter_passage_interpret_book ("g"));
+    evaluate (__LINE__, __func__, 3, filter_passage_interpret_book ("ge"));
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("gene"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1 Cori"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1 cori"));
@@ -2282,7 +2301,7 @@ void test_filters_passage2 ()
     output = filter_passage_interpret_passage (currentPassage, "");
     evaluate (__LINE__, __func__, true, standard.equal (output));
 
-    standard = Passage ("", 0, 1, "1");
+    standard = Passage ("", 1, 1, "1");
     output = filter_passage_interpret_passage (currentPassage, "Genesis Exodus");
     evaluate (__LINE__, __func__, true, standard.equal (output));
 
@@ -2518,7 +2537,7 @@ void test_filters ()
   refresh_sandbox (true);
   test_filters_test1 ();
   test_filters_test2 ();
-  test_filters_test3 ();
+  test_filters_usfm3 ();
   test_filters_test_usfm1 ();
   test_filters_test_usfm2 ();
   test_filters_test5 ();
@@ -2868,6 +2887,23 @@ void test_filter_diff ()
     string standard = "<span style=\"font-weight: bold;\">and</span> this is <span style=\"text-decoration: line-through;\">really</span> <span style=\"text-decoration: line-through;\">old</span> <span style=\"font-weight: bold;\">new</span> text";
     evaluate (__LINE__, __func__, standard, output);
   }
+  // Diff with new lines in the text.
+  {
+    string oldtext =
+    "Genesis 1.1 1 In the beginning God created the heavens and the earth.\n"
+    "Genesis 1.2 2 And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
+    "Genesis 1.3 3 And God said, Let there be light: and there was light.\n";
+    
+    string newtext =
+    "Genesis 1.1 1 In the beginning God created the heaven and the earth.\n"
+    "Genesis 1.2 2 And the earth was without form and void and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
+    "Genesis 1.3 3 And God said: \"Let there be light\". And there was light.\n";
+    
+    string output = filter_diff_diff (oldtext, newtext);
+    
+    string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "diff.txt"));
+    evaluate (__LINE__, __func__, standard, output);
+  }
   // Similarity 1.
   {
     int similarity = filter_diff_similarity ("Old text", "New text");
@@ -2998,6 +3034,62 @@ void test_filter_diff ()
     int similarity = filter_diff_similarity (first, second);
     evaluate (__LINE__, __func__, 94, similarity);
   }
+  {
+    refresh_sandbox (true);
+    Webserver_Request request;
+    Database_Modifications database_modifications = Database_Modifications ();
+
+    request.database_search ()->create ();
+    client_logic_enable_client (false);
+    database_modifications.truncateTeams ();
+    
+    string temporary_folder = filter_url_tempfile ();
+    filter_url_mkdir (temporary_folder);
+    
+    request.database_bibles()->createBible ("phpunit");
+    Bible_Logic::storeChapter ("phpunit", 1, 2, "old chapter text");
+    database_modifications.truncateTeams ();
+    Bible_Logic::storeChapter ("phpunit", 1, 2, "new chapter text");
+
+    filter_diff_produce_verse_level ("phpunit", temporary_folder);
+
+    string path, standard, output;
+
+    path = filter_url_create_path ("unittests", "tests", "verses_old.usfm");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_old.usfm");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    path = filter_url_create_path ("unittests", "tests", "verses_new.usfm");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_new.usfm");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+
+    path = filter_url_create_path ("unittests", "tests", "verses_old.txt");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_old.txt");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    path = filter_url_create_path ("unittests", "tests", "verses_new.txt");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "verses_new.txt");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    string oldfile = filter_url_create_path (temporary_folder, "verses_old.usfm");
+    string newfile = filter_url_create_path (temporary_folder, "verses_new.usfm");
+    string outputfile = filter_url_create_path (temporary_folder, "changed_verses.html");
+    filter_diff_run_file (oldfile, newfile, outputfile);
+
+    path = filter_url_create_path ("unittests", "tests", "changed_verses.html");
+    standard = filter_url_file_get_contents (path);
+    path = filter_url_create_path (temporary_folder, "changed_verses.html");
+    output = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, standard, output);
+  }
 }
 
 
@@ -3016,8 +3108,8 @@ void test_filter_abbreviations ()
     "\n"
     "Joshua =\n"
     "\n";
-    map <string, int> output = filter_abbreviations_read (input);
-    map <string, int> standard = { make_pair ("Ps.", 19), make_pair ("Exod.", 2), make_pair ("Psa.", 19) };
+    vector <pair <int, string> > output = filter_abbreviations_read (input);
+    vector <pair <int, string> > standard = { make_pair (19, "Ps."), make_pair (2, "Exod."), make_pair (19, "Psa.") };
     evaluate (__LINE__, __func__, standard, output);
   }
   // Display ()
@@ -3100,6 +3192,15 @@ void test_filter_abbreviations ()
     "Other Material = ";
     evaluate (__LINE__, __func__, standard, output);
   }
+  // Read 
+  {
+    vector <pair <int, string> > input =
+      { make_pair (1, "One"), make_pair (2, "Two"), make_pair (2, "Two."), make_pair (3, "3") };
+    vector <pair <int, string> > output = filter_abbreviations_sort (input);
+    vector <pair <int, string> > standard =
+      { make_pair (2, "Two."), make_pair (1, "One"), make_pair (2, "Two"), make_pair (3, "3") };
+    evaluate (__LINE__, __func__, standard, output);
+  }
 }
 
 
@@ -3151,8 +3252,11 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   request->database_search()->create ();
   request->database_bibles()->createBible (bible);
 
-  filter_git_init (repository);
-  filter_git_init (newrepository);
+  bool result;
+  result = filter_git_init (repository);
+  evaluate (__LINE__, __func__, true, result);
+  result = filter_git_init (newrepository);
+  evaluate (__LINE__, __func__, true, result);
   
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
   filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
@@ -3245,6 +3349,9 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
     evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
     evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+
+    // Remove generated journal entries.
+    refresh_sandbox (false);
   }
 
   // Sync Bible To Git 2
@@ -3266,6 +3373,9 @@ void test_filter_git ()
     
     string data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    
+    // Remove generated journal entries.
+    refresh_sandbox (false);
   }
   
   // Sync Bible To Git 3
@@ -3296,6 +3406,9 @@ void test_filter_git ()
     
     data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    
+    // Remove generated journal entries.
+    refresh_sandbox (false);
   }
   
   // Sync Git To Bible Add Chapters
@@ -3363,7 +3476,6 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  
   // Sync Git Chapter To Bible Add Chapters ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
@@ -3398,7 +3510,6 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  
   // Sync Git Chapter To Bible Delete Chapters
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
@@ -3432,7 +3543,6 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  
   // Sync Git Chapter To Bible Update Chapters
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
@@ -3464,8 +3574,15 @@ void test_filter_git ()
   // Setting values in the configuration.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    filter_git_config_set_bool (repository, "foo.setting", false);
-    filter_git_config_set_int (repository, "bar.setting", 11);
+    filter_git_config_set_bool (repository, "foo.bar", false);
+    filter_git_config_set_int (repository, "bar.baz", 11);
+    string path = filter_url_create_path (repository, ".git", "config");
+    string contents = filter_url_file_get_contents (path);
+    evaluate (__LINE__, __func__, true, contents.find ("[foo]") != string::npos);
+    evaluate (__LINE__, __func__, true, contents.find ("[bar]") != string::npos);
+    evaluate (__LINE__, __func__, true, contents.find ("bar = false") != string::npos);
+    evaluate (__LINE__, __func__, true, contents.find ("baz = 11") != string::npos);
+    refresh_sandbox (false);
   }
 
   // Test of basic git operations in combination with a remote repository.
@@ -3522,33 +3639,47 @@ void test_filter_git ()
     // Push to the remote repository.
     success = filter_git_push (clonedrepository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, messages.size());
+    evaluate (__LINE__, __func__, 2, (int)messages.size());
 
     // Pull from remote repository.
-    success = filter_git_push (clonedrepository, messages);
+    success = filter_git_pull (clonedrepository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, {"Everything up-to-date"}, messages);
+    evaluate (__LINE__, __func__, {"Already up-to-date."}, messages);
+
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
   
-  // Get Pull Passage
+  // Get Git Passage
   {
-    Passage passage = filter_git_get_pull_passage ("From https://github.com/joe/test");
+    Passage passage = filter_git_get_passage ("From https://github.com/joe/test");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage ("   443579b..90dcb57  master     -> origin/master");
+
+    passage = filter_git_get_passage ("   443579b..90dcb57  master     -> origin/master");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage ("Updating 443579b..90dcb57");
+
+    passage = filter_git_get_passage ("Updating 443579b..90dcb57");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage ("Fast-forward");
+    
+    passage = filter_git_get_passage ("Fast-forward");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage (" Genesis/3/data | 2 +-");
+    
+    passage = filter_git_get_passage (" Genesis/3/data | 2 +-");
     Passage standard = Passage ("", 1, 3, "");
     evaluate (__LINE__, __func__, true, standard.equal (passage));
-    passage = filter_git_get_pull_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
+    
+    passage = filter_git_get_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage (" delete mode 100644 Leviticus/1/data");
+    
+    passage = filter_git_get_passage (" delete mode 100644 Leviticus/1/data");
     evaluate (__LINE__, __func__, 0, passage.book);
-    passage = filter_git_get_pull_passage (" Revelation/3/data | 2 +-");
+    
+    passage = filter_git_get_passage (" Revelation/3/data | 2 +-");
     standard = Passage ("", 66, 3, "");
+    evaluate (__LINE__, __func__, true, standard.equal (passage));
+    
+    passage = filter_git_get_passage ("	modified:   Exodus/3/data");
+    standard = Passage ("", 2, 3, "");
     evaluate (__LINE__, __func__, true, standard.equal (passage));
   }
   
@@ -3561,7 +3692,9 @@ void test_filter_git ()
 
     // There should be three modified paths.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "Psalms/") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "Song of Solomon/") != paths.end());
 
     // Add the files to the index.
     string error;
@@ -3570,7 +3703,10 @@ void test_filter_git ()
 
     // There should still be three paths.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data", "Song of Solomon/2/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Psalms/0/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Psalms/11/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Song of Solomon/2/data") != paths.end());
     
     // Commit the index.
     filter_git_commit (repository, "user", "email", "unittest", error);
@@ -3578,14 +3714,16 @@ void test_filter_git ()
 
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {}, paths);
+    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working directory clean"}, paths);
 
     // Remove both Psalms chapters.
     filter_url_rmdir (filter_url_create_path (repository, "Psalms"));
 
     // There should be two modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/0/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
 
     // Add / remove the files to the index.
     filter_git_add_remove_all (repository, error);
@@ -3593,7 +3731,9 @@ void test_filter_git ()
     
     // There should still be two paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data", "Psalms/11/data"}, paths);
+    for (auto & path : paths) path = filter_string_trim (path);
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/0/data") != paths.end());
+    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
     
     // Commit the index.
     filter_git_commit (repository, "user", "email", "unittest", error);
@@ -3601,7 +3741,10 @@ void test_filter_git ()
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {}, paths);
+    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working directory clean"}, paths);
+
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
   
   // Test git's internal conflict resolution.
@@ -3691,7 +3834,11 @@ void test_filter_git ()
     "\\mt OF PSALMS\n";
     contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
     evaluate (__LINE__, __func__, standard, contents);
+    
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
+
   {
     refresh_sandbox (true);
     string error;
@@ -3778,21 +3925,25 @@ void test_filter_git ()
     "Line two 2 two 2 two\n"
     "Line three 3 three 3 three";
     evaluate (__LINE__, __func__, standard, contents);
+
     // The status still displays the file as in conflict.
-    messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
+    // messages = filter_git_status (repository);
+    // evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
 
     // Commit and push the result.
     success = filter_git_commit (repository, "message", messages);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 1, messages.size());
+    evaluate (__LINE__, __func__, false, success);
+    evaluate (__LINE__, __func__, 4, (int)messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, messages.size());
+    evaluate (__LINE__, __func__, 2, (int)messages.size());
     
     // Status up-to-date.
     messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {}, messages);
+    evaluate (__LINE__, __func__, 3, (int)messages.size ());
+
+    // Remove journal entries.
+    refresh_sandbox (false);
   }
 }
 
@@ -4021,3 +4172,164 @@ void test_filter_merge ()
     evaluate (__LINE__, __func__, standard, output);
   }
 }
+
+
+void test_filter_tidy ()
+{
+  string folder = filter_url_create_root_path ("unittests", "tests");
+  string html = filter_url_file_get_contents (filter_url_create_path (folder, "/biblehub-john-1-1.html"));
+  vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
+  evaluate (__LINE__, __func__, 752, (int)tidy.size());
+}
+
+
+void test_ipc_notes ()
+{
+  // Initialize.
+  refresh_sandbox (true);
+  Webserver_Request request;
+  request.database_users ()->create ();
+  request.session_logic ()->setUsername ("phpunit");
+
+  // There should be no note identifier.
+  int identifier = Ipc_Notes::get (&request);
+  evaluate (__LINE__, __func__, 0, identifier);
+
+  // Test opening note.
+  Ipc_Notes::open (&request, 123456789);
+  identifier = Ipc_Notes::get (&request);
+  evaluate (__LINE__, __func__, 123456789, identifier);
+  
+  // Test trimming.
+  request.database_ipc()->trim ();
+  identifier = Ipc_Notes::get (&request);
+  evaluate (__LINE__, __func__, 123456789, identifier);
+
+  // Test deleting note once.
+  Ipc_Notes::open (&request, 123456789);
+  Ipc_Notes::erase (&request);
+  identifier = Ipc_Notes::get (&request);
+  evaluate (__LINE__, __func__, 0, identifier);
+
+  // Test deleting two notes.
+  Ipc_Notes::open (&request, 123456789);
+  Ipc_Notes::open (&request, 123456789);
+  Ipc_Notes::erase (&request);
+  identifier = Ipc_Notes::get (&request);
+  evaluate (__LINE__, __func__, 0, identifier);
+  Ipc_Notes::erase (&request);
+  identifier = Ipc_Notes::get (&request);
+  evaluate (__LINE__, __func__, 0, identifier);
+}
+
+
+void test_filter_date ()
+{
+  // First Business Day Of Month
+  {
+    // Sunday the 1st.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (1, 0));
+    // Monday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 1));
+    // Tuesday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 2));
+    // Wednesday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 3));
+    // Thirsday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 4));
+    // Friday the 1st.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (1, 5));
+    // Saturday the 1st.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (1, 6));
+    // Sunday the 2nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (2, 0));
+    // Monday the 2nd.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (2, 1));
+    // Tuesday the 2nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (2, 2));
+    // Sunday the 3nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (3, 0));
+    // Monday the 3nd.
+    evaluate (__LINE__, __func__, true, filter_date_is_first_business_day_of_month (3, 1));
+    // Tuesday the 3nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (3, 2));
+    // Sunday the 4nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (4, 0));
+    // Monday the 4nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (4, 1));
+    // Tuesday the 4nd.
+    evaluate (__LINE__, __func__, false, filter_date_is_first_business_day_of_month (4, 2));
+  }
+  // Last Business Day Of Month
+  {
+    evaluate (__LINE__, __func__, 30, filter_date_get_last_business_day_of_month (2013, 9));
+    evaluate (__LINE__, __func__, 31, filter_date_get_last_business_day_of_month (2013, 10));
+    evaluate (__LINE__, __func__, 29, filter_date_get_last_business_day_of_month (2013, 11));
+    evaluate (__LINE__, __func__, 31, filter_date_get_last_business_day_of_month (2013, 12));
+    evaluate (__LINE__, __func__, 31, filter_date_get_last_business_day_of_month (2014, 1));
+    evaluate (__LINE__, __func__, 28, filter_date_get_last_business_day_of_month (2014, 2));
+    evaluate (__LINE__, __func__, 31, filter_date_get_last_business_day_of_month (2014, 3));
+    evaluate (__LINE__, __func__, 30, filter_date_get_last_business_day_of_month (2014, 4));
+    evaluate (__LINE__, __func__, 30, filter_date_get_last_business_day_of_month (2014, 5));
+    evaluate (__LINE__, __func__, 30, filter_date_get_last_business_day_of_month (2014, 6));
+  }
+  // Is Business Day
+  {
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 1));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 2));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 3));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 4));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 5));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 6));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 7));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2013, 9, 8));
+    evaluate (__LINE__, __func__, true, filter_date_is_business_day (2013, 9, 30));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2015, 3, 1));
+    evaluate (__LINE__, __func__, false, filter_date_is_business_day (2015, 2, 32));
+    
+  }
+  // Seonds since Unix epoch.
+  {
+    int year, month, day, seconds;
+
+    year = 2011;
+    month = 2;
+    day = 5;
+    seconds = filter_date_seconds_since_epoch (year, month, day);
+    evaluate (__LINE__, __func__, year, filter_date_numerical_year (seconds));
+    evaluate (__LINE__, __func__, month, filter_date_numerical_month (seconds));
+    evaluate (__LINE__, __func__, day, filter_date_numerical_month_day (seconds));
+
+    year = 2015;
+    month = 3;
+    day = 15;
+    seconds = filter_date_seconds_since_epoch (year, month, day);
+    evaluate (__LINE__, __func__, year, filter_date_numerical_year (seconds));
+    evaluate (__LINE__, __func__, month, filter_date_numerical_month (seconds));
+    evaluate (__LINE__, __func__, day, filter_date_numerical_month_day (seconds));
+    
+    year = 2030;
+    month = 12;
+    day = 31;
+    seconds = filter_date_seconds_since_epoch (year, month, day);
+    evaluate (__LINE__, __func__, year, filter_date_numerical_year (seconds));
+    evaluate (__LINE__, __func__, month, filter_date_numerical_month (seconds));
+    evaluate (__LINE__, __func__, day, filter_date_numerical_month_day (seconds));
+  }
+}
+
+
+void test_filter_url ()
+{
+  evaluate (__LINE__, __func__, "index.html", filter_url_html_file_name_bible ());
+  evaluate (__LINE__, __func__, "path/index.html", filter_url_html_file_name_bible ("path"));
+  evaluate (__LINE__, __func__, "path/01-Genesis.html", filter_url_html_file_name_bible ("path", 1));
+  evaluate (__LINE__, __func__, "01-Genesis.html", filter_url_html_file_name_bible ("", 1));
+  evaluate (__LINE__, __func__, "path/11-1Kings.html", filter_url_html_file_name_bible ("path", 11));
+  evaluate (__LINE__, __func__, "path/22-SongofSolomon-000.html", filter_url_html_file_name_bible ("path", 22, 0));
+  evaluate (__LINE__, __func__, "path/33-Micah-333.html", filter_url_html_file_name_bible ("path", 33, 333));
+  evaluate (__LINE__, __func__, "33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
+}
+
+
+#endif

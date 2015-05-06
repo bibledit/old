@@ -138,7 +138,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "C:\Users\Teus Benschop\Documents\bibledit\windows\bibledit.exe" C:\bibledit
+    <PostBuildEvent>copy "E:\Documents\dev\bibledit\windows\gui\bibledit.exe" C:\bibledit
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

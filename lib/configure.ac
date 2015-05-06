@@ -1,5 +1,7 @@
-AC_INIT([bibledit], [1.0.72],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[1.0.126],[http://bibledit.org])
 AM_INIT_AUTOMAKE
+AC_CANONICAL_BUILD
+
 AC_PROG_CC
 AC_PROG_CXX
 AC_LANG([C++])
@@ -7,6 +9,7 @@ AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_PROG_RANLIB
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADER(config.h)
+
 
 AC_PATH_PROG(GZIP_PATH, gzip, no)
 if test x$GZIP_PATH = xno; then
@@ -75,6 +78,10 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
+AC_CHECK_HEADER(pthread.h,AC_DEFINE([HAVE_PTHREAD],[1],[Define whether pthread.h is present]),)
+
+AC_CHECK_HEADER(libproc.h,AC_DEFINE([HAVE_LIBPROC],[1],[Define whether libproc.h is present]),)
+
 AC_DEFINE([DIRECTORY_SEPARATOR], ["/"], [Define the directory separator as Windows differs from Linux])
 
 # Demo installation.
@@ -91,9 +98,10 @@ AC_SUBST(DEMO)
 CLIENT=no
 AC_ARG_ENABLE(client,
   [  --enable-client Enable client mode],
-  [CLIENT=yes]
+  [AC_DEFINE([CLIENT_PREPARED], [1], [Define whether it is a client installation])]
+  CLIENT=yes
 )
-AC_DEFINE([CLIENT], [], [Define whether it is a client installation])
+AC_DEFINE([CLIENT], [], [Define whether it is prepared as a client installation])
 AC_DEFINE_UNQUOTED(CLIENT, "$CLIENT")
 AC_SUBST(CLIENT)
 
@@ -117,15 +125,86 @@ AC_DEFINE([PARALLEL_TASKS], [], [Define the maximum number of parallel backgroun
 AC_DEFINE_UNQUOTED(PARALLEL_TASKS, $PARALLEL_TASKS)
 AC_SUBST(PARALLEL_TASKS)
 
+# Bare browser mode.
+BARE_BROWSER=no
+AC_ARG_ENABLE(bare-browser,
+[  --enable-bare-browser Enable bare browser mode],
+[BARE_BROWSER=yes]
+)
+AC_DEFINE([BARE_BROWSER], [], [Define whether the expected browser is a bare browser without controls])
+AC_DEFINE_UNQUOTED(BARE_BROWSER, "$BARE_BROWSER")
+AC_SUBST(BARE_BROWSER)
+
+# Build for iOS.
+IOS=no
+AC_ARG_ENABLE(ios,
+  [  --enable-ios Enable iOS],
+  [AC_DEFINE([HAVE_IOS], [1], [Define whether to build for iOS])]
+  IOS=yes
+)
+AC_DEFINE([IOS], [], [Define whether it is to be built for iOS])
+AC_DEFINE_UNQUOTED(IOS, "$IOS")
+AC_SUBST(IOS)
+
+# Build for OS X.
+OSX=no
+AC_ARG_ENABLE(osx,
+[  --enable-osx Enable OS X],
+[AC_DEFINE([HAVE_OSX], [1], [Define whether to build for OS X])]
+OSX=yes
+)
+AC_DEFINE([OSX], [], [Define whether it is to be built for OS X])
+AC_DEFINE_UNQUOTED(OSX, "$OSX")
+AC_SUBST(OSX)
+
+# Build for Cygwin.
+CYGWIN=no
+AC_ARG_ENABLE(cygwin,
+[  --enable-cygwin Enable Cygwin],
+[AC_DEFINE([HAVE_CYGWIN], [1], [Define whether to build for Cygwin])]
+CYGWIN=yes
+)
+AC_DEFINE([CYGWIN], [], [Define whether it is to be built for Cygwin])
+AC_DEFINE_UNQUOTED(CYGWIN, "$CYGWIN")
+AC_SUBST(CYGWIN)
+
+# Enable URL settings.
+URLSETTINGS=no
+AC_ARG_ENABLE(urlsettings,
+[  --enable-urlsettings Enable URL settings],
+[AC_DEFINE([HAVE_URLSETTINGS], [1], [Define whether to enable URL settings])]
+URLSETTINGS=yes
+)
+AC_DEFINE([URLSETTINGS], [], [Define whether URL settings are enabled])
+AC_DEFINE_UNQUOTED(URLSETTINGS, "$URLSETTINGS")
+AC_SUBST(URLSETTINGS)
+
+# Enable unit tests.
+UNITTESTS=no
+AC_ARG_ENABLE(unittests,
+[  --enable-unittests Enable URL settings],
+[AC_DEFINE([HAVE_UNITTESTS], [1], [Define whether to enable unit tests])]
+UNITTESTS=yes
+)
+AC_DEFINE([UNITTESTS], [], [Define whether unit tests are enabled])
+AC_DEFINE_UNQUOTED(UNITTESTS, "$UNITTESTS")
+AC_SUBST(UNITTESTS)
+
 AC_OUTPUT(Makefile)
 
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix              : ${prefix}
-Libgit2                          : ${LIBGIT}
-Network port                     : ${NETWORK_PORT}
-Client installation              : ${CLIENT}
-Demo installation                : ${DEMO}
-Maximum number of parallel tasks : ${PARALLEL_TASKS}
+Installation prefix                                        : ${prefix}
+Libgit2                                                    : ${LIBGIT}
+Network port (--with-network-port=n)                       : ${NETWORK_PORT}
+Client installation (--enable-client)                      : ${CLIENT}
+Demo installation (--enable-demo)                          : ${DEMO}
+Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
+Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
+Build for iOS (--enable-ios)                               : ${IOS}
+Build for OS X (--enable-osx)                              : ${OSX}
+Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
+URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
+Unit tests (--enable-unittests)                            : ${UNITTESTS}
 "

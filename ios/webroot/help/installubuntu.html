@@ -1,56 +1,52 @@
-<h2>translate("Install Bibledit-Web 1.9 on Ubuntu 14.04")</h2>
+<h2>translate("Install Bibledit on Ubuntu")</h2>
 <p>
-  translate("Follow the steps below to install Bibledit-Web.")
-  translate("It needs some basic knowledge of working with Linux servers.")
+  translate("Follow the steps below to install Bibledit.")
+  translate("It needs basic knowledge about working with Linux servers.")
 </p>
 <ol>
 <li>translate("Open a terminal.")</li>
 <li>
   <p>translate("Update the software sources:")</p>
-  <p><code>$ sudo apt-get update</code></p>
+  <p><code>sudo apt-get update</code></p>
 </li>
 <li>
-  <p>translate("Start installing the web server:")</p>
-  <p><code>$ sudo apt-get install tasksel</code></p>
-  <p><code>$ sudo tasksel</code></p>
-</li>
-<li>translate("Enable the LAMP server, and install.")</li>
-<li>
-  translate("Test the web server by opening the site in the browser, for example:")
-  http://localhost
-  translate("or")
-  http://website.org.
-  translate("When the web server works, the browser displays the default Apache page.")
+  <p>translate("Install the software Bibledit relies on:")</p>
+  <p><code>sudo apt-get install build-essential git zip pkgconf libxml2-dev libsqlite3-dev libcurl4-openssl-dev libssl-dev</code></p>
 </li>
 <li>
-  <p>translate("Remove the MySQL server to save memory:")</p>
-  <p><code>$ sudo apt-get remove --purge mysql-server* mysql-common</code></p>
+  <p>translate("Download Bibledit:")</p>
+  <p><code>wget http://download.savannah.nongnu.org/releases/bibledit/source/lib/bibledit-1.0.83.tar.gz</code></p>
 </li>
 <li>
-  <p>translate("Install the software Bibledit-Web relies on:")</p>
-  <p><code>$ sudo apt-get install git unzip php5-json php5-sqlite</code></p>
+  <p>translate("Unpack Bibledit in folder bibledit:")</p>
+  <p><code>mkdir -p bibledit</code></p>
+  <p><code>tar xf bibledit-1.0.83.tar.gz -C bibledit --strip-components=1</code></p>
 </li>
 <li>
-  <p>translate("Reload the Apache web server so that the new modules take effect:")</p>
-  <p><code>$ sudo service apache2 reload</code></p>
+  <p>translate("Change to the directory:")</p>
+  <p><code>cd bibledit</code></p>
 </li>
 <li>
-  <p>translate("Download Bibledit-Web:")</p>
-  <p><code>$ sudo wget http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.9.zip</code></p>
+  <p>translate("Build Bibledit:")</p>
+  <p><code>./configure</code></p>
+  <p><code>make</code></p>
+  <p>
+  translate("This takes a while.")
+  translate("There will be many technical messages, but there should be no errors.")
+  </p>
 </li>
 <li>
-  <p>translate("Install Bibledit-Web in folder /var/www/html as user root:")</p>
-  <p><code>$ cd /var/www/html</code></p>
-  <p><code>$ sudo unzip ~/bibledit-web-1.9.zip</code></p>
+  <p>translate("Start Bibledit:")</p>
+  <p><code>./bibledit &amp;</code></p>
 </li>
 <li>
-  <p>translate("Make everything to be owned by the web server user:")</p>
-  <p><code>$ sudo chown -R www-data:www-data bibledit-web</code></p>
+  <p>
+  translate("Bibledit will be accessible through the IP address port 8080.")
+  translate("Examples:")
+  </p>
+  <p><a href="http://website.org:8080" ##targetblank##>http://website.org:8080</a></p>
+  <p><a href="http://192.168.2.1:8080" ##targetblank##>http://192.168.2.1:8080</a></p>
 </li>
-<li>translate("Bibledit-Web will be accessible through:") http://website.org/bibledit-web.</li>
-<li>translate("Open the web address in the browser, and follow the steps on the screen to configure Bibledit-Web and log in.")</li>
-<li>
-  <a href="https://help.ubuntu.com/community/EnablingUseOfApacheHtaccessFiles" target="_blank">translate("Enable the use of .htaccess files in Apache to secure some Bibledit-Web folders.")</a>
-  translate("Edit file apache2.conf instead of the one mentioned in the guide.")
+<li>translate("Open the web address in the browser, follow the instructions on the screen to configure Bibledit, and log in.")
 </li>
 </ol>

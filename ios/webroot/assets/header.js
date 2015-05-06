@@ -25,5 +25,15 @@ $ (document).ready (function () {
         $ (this).addClass ('hover');
       }
     });
+    // Deal with the optional html back button.
+    $ ('#backbutton').click (function () {
+      window.history.back();
+    });
+  } else {
+    // In workbench iframe: Remove possible top bar.
+    // The topbar is removed by the server via the Workbench,
+    // but in other cases the topbar makes it to the browser,
+    // and is to be removed here within the iframe.
+    $ ("#topcontainer").empty ();
   }
 });

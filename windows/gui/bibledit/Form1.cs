@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Net;
 
 
 namespace Bibledit
@@ -16,8 +17,12 @@ namespace Bibledit
     public partial class Form1 : Form
     {
 
-        [DllImport("bibleditdll.dll")]
-        public static extern void bibledit_run();
+        //[DllImport("bibleditlibrarywrapper.dll")]
+        //public static extern string bibledit_wrapper_get_version_number();
+        Process LibBibledit;
+        System.Threading.Timer timer;
+
+
 
         public Form1()
         {
@@ -28,15 +33,30 @@ namespace Bibledit
         private void Form1_Load(object sender, EventArgs e)
         {
             feedback("");
+            // Kill any previous servers. This frees the port to connect to.
+            foreach (var process in Process.GetProcessesByName("server"))
+            {
+                process.Kill();
+            }
             try
             {
-                bibledit_run();
+                //feedback(bibledit_wrapper_get_version_number ());
+                LibBibledit = new Process();
+                LibBibledit.StartInfo.WorkingDirectory = System.IO.Path.Combine(Application.StartupPath);
+                LibBibledit.StartInfo.FileName = "server.exe";
+                LibBibledit.StartInfo.Arguments = "";
+                LibBibledit.StartInfo.CreateNoWindow = true;
+                LibBibledit.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                LibBibledit.EnableRaisingEvents = true;
+                LibBibledit.Exited += new EventHandler (ProcessExited);
+                LibBibledit.Start();
             }
             catch (Exception exception)
             {
                 feedback (exception.Message);
             }
-            setTimezone();
+            // Set the timezone with a delay, so it waits till the server is up and running.
+            timer = new System.Threading.Timer(obj => { setTimezone(); }, null, 1000, System.Threading.Timeout.Infinite);
         }
 
 
@@ -50,7 +70,11 @@ namespace Bibledit
         {
             try
             {
-                bibledit_run();
+                LibBibledit.EnableRaisingEvents = false;
+                LibBibledit.CloseMainWindow();
+                LibBibledit.Kill();
+                LibBibledit.WaitForExit();
+                LibBibledit.Close();
             }
             catch (Exception exception)
             {
@@ -67,12 +91,28 @@ namespace Bibledit
 
         private void setTimezone ()
         {
-            // Set the timezone in the Bibledit library.
-            TimeZoneInfo localZone = TimeZoneInfo.Local;
-            int utcOffsetMinutes = TimeZoneInfo.Local.BaseUtcOffset.Hours * 60 + TimeZoneInfo.Local.BaseUtcOffset.Minutes;
-            String uri = "administration/settings.php?utcoffset=" + utcOffsetMinutes.ToString();
+            try
+            {
+                // Set the timezone in the Bibledit library.
+                TimeZoneInfo localZone = TimeZoneInfo.Local;
+                int utcOffsetHours = TimeZoneInfo.Local.BaseUtcOffset.Hours;
+                String uri = "http://localhost:8080/administration/timeoffset?offset=" + utcOffsetHours.ToString();
+                WebRequest request = WebRequest.Create(uri);
+                WebResponse response = request.GetResponse();
+                response.Close();
+            }
+            catch (Exception exception)
+            {
+                if (exception.Message.Length == 0) { };
+            }
         }
 
+
+        private void ProcessExited (object sender, System.EventArgs e)
+        {
+            // When the Bibledit library exits or crashea, restart it straightaway.
+            LibBibledit.Start();
+        }
 
     }
 }

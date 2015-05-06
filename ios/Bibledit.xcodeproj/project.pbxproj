@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CA0773811A8E80DC0061C5B7 /* develop.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA0773801A8E80DB0061C5B7 /* develop.txt */; };
+		CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B9C181A9906C800FAB064 /* BibleditController.m */; };
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
 		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
 		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
@@ -16,7 +17,6 @@
 		CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BB1A8A6BE800F4ED36 /* libz.dylib */; };
 		CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */; };
 		CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */; };
-		CAB519C91A8A771C00F4ED36 /* setup in Resources */ = {isa = PBXBuildFile; fileRef = CAB519C81A8A771C00F4ED36 /* setup */; };
 		CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE02134F19E03F9B006EE62F /* Storyboard.storyboard */; };
 		CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2F911919DC8ACA0091157F /* libxml2.dylib */; };
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
@@ -33,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		CA0773801A8E80DB0061C5B7 /* develop.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = develop.txt; sourceTree = "<group>"; };
+		CA6B9C171A9906C800FAB064 /* BibleditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditController.h; sourceTree = "<group>"; };
+		CA6B9C181A9906C800FAB064 /* BibleditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditController.m; sourceTree = "<group>"; };
 		CA9ADE011A8A9752000FD430 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = SOURCE_ROOT; };
 		CAB519B31A8A658F00F4ED36 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = lib/libbibledit.a; sourceTree = "<group>"; };
 		CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -41,7 +43,6 @@
 		CAB519BB1A8A6BE800F4ED36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		CAB519C81A8A771C00F4ED36 /* setup */ = {isa = PBXFileReference; lastKnownFileType = folder; path = setup; sourceTree = SOURCE_ROOT; };
 		CE02134F19E03F9B006EE62F /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		CE2F911919DC8ACA0091157F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CE2F911B19DC8B4C0091157F /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
@@ -128,6 +129,8 @@
 		CEA9296D19B06C9600DA3766 /* Bibledit iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CA6B9C171A9906C800FAB064 /* BibleditController.h */,
+				CA6B9C181A9906C800FAB064 /* BibleditController.m */,
 				CE8E8AE019C49FAE0025EAC2 /* BibleditPaths.h */,
 				CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */,
 				CE8E8AE319C4A4E50025EAC2 /* BibleditInstallation.h */,
@@ -146,7 +149,6 @@
 			children = (
 				CA9ADE011A8A9752000FD430 /* webroot */,
 				CE02134F19E03F9B006EE62F /* Storyboard.storyboard */,
-				CAB519C81A8A771C00F4ED36 /* setup */,
 				CEA9298219B06C9700DA3766 /* Images.xcassets */,
 				CEA9296F19B06C9600DA3766 /* bibledit-ios-Info.plist */,
 				CEA9297019B06C9600DA3766 /* InfoPlist.strings */,
@@ -222,7 +224,6 @@
 				CA9ADE021A8A9752000FD430 /* webroot in Resources */,
 				CEA9298319B06C9700DA3766 /* Images.xcassets in Resources */,
 				CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */,
-				CAB519C91A8A771C00F4ED36 /* setup in Resources */,
 				CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */,
 				CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */,
 				CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */,
 				CEA9298119B06C9600DA3766 /* ViewController.m in Sources */,

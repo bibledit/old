@@ -4,7 +4,25 @@
 # Synchronize and build libbibledit on OS X for iOS.
 
 
+# Configure the Bibledit library.
+function configure
+{
+
+# Configure it in client mode,
+# Run only only one parallel task so the interface is more responsive.
+# Enable the single-tab browser.
+pushd ../../lib
+./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser --enable-ios
+echo Clean source.
+make clean > /dev/null
+popd
+
+}
+
+
 # Sychronizes the libbibledit data files in the source tree to iOS and cleans them up.
+
+configure
 
 rsync -av --delete ../../lib/ ../webroot
 
@@ -36,21 +54,6 @@ rm valgrind
 rm -rf .deps
 
 popd
-
-
-# Configure the Bibledit library.
-function configure
-{
-
-# Configure it in client mode,
-# Run only only one parallel task so the interface is more responsive.
-pushd ../../lib
-./configure --enable-client --with-parallel-tasks=1
-echo Clean source.
-make clean > /dev/null
-popd
-
-}
 
 
 # Build libbibledit for one iOS architecure.
@@ -131,7 +134,6 @@ database/offlineresources.cpp
 database/sprint.cpp
 database/mail.cpp
 database/navigation.cpp
-database/resources.cpp
 database/usfmresources.cpp
 database/mappings.cpp
 database/noteactions.cpp
@@ -179,7 +181,6 @@ bible/css.cpp
 bible/editing.cpp
 notes/logic.cpp
 trash/handler.cpp
-sync/logic.cpp
 help/index.cpp
 confirm/worker.cpp
 email/index.cpp
@@ -269,18 +270,37 @@ sendreceive/index.cpp
 sendreceive/sendreceive.cpp
 sendreceive/settings.cpp
 sendreceive/bibles.cpp
+sendreceive/usfmresources.cpp
+sendreceive/externalresources.cpp
 demo/logic.cpp
 client/index.cpp
 client/logic.cpp
 sync/setup.cpp
 sync/settings.cpp
 sync/bibles.cpp
+sync/logic.cpp
+sync/externalresources.cpp
+sync/usfmresources.cpp
+resource/admin.cpp
+resource/bible2resource.cpp
+resource/download.cpp
+resource/logic.cpp
+resource/external.cpp
+resource/manage.cpp
+resource/convert2bible.cpp
+resource/get.cpp
+resource/organize.cpp
+resource/convert2resource.cpp
+resource/index.cpp
+resource/print.cpp
 
 )
 
 CFILES=(
 
 webserver/io.c
+json/json.c
+library/locks.c
 
 )
 
@@ -392,6 +412,11 @@ rm ~/Desktop/libbibledit-x86_64.a
 say Compile for iOS is ready
 
 echo Restore library to default state
+unset IPHONEOS_DEPLOYMENT_TARGET
+unset SYSROOT
+unset TOOLDIR
+unset COMPILEFLAGS
+unset CURLINCLUDE
 pushd ../../lib
 ./configure
 make clean > /dev/null

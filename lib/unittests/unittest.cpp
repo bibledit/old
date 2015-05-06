@@ -35,7 +35,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <session/logic.h>
+#include <config.h>
 
+
+#ifdef HAVE_UNITTESTS
 
 
 // Tests for Database_Bibles.
@@ -245,11 +248,16 @@ void test_database_bibles ()
 }
 
 
+#endif
+
+
 int main (int argc, char **argv) 
 {
   // No compile warnings.
   if (argc) {};
   if (argv[0]) {};
+
+#ifdef HAVE_UNITTESTS
 
   cout << "Running unittests" << endl;
 
@@ -265,7 +273,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_session_logic (); test_database_users (); exit (0);
+  // test_filter_git (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -315,11 +323,22 @@ int main (int argc, char **argv)
   test_editor_export ();
   test_editor_import ();
   test_editor_roundtrip ();
+  test_editor_roundtrip_verse ();
   test_filter_markup ();
   test_workbench_logic ();
   test_filter_git ();
   test_filter_merge ();
-
+  test_filter_tidy ();
+  test_ipc_notes ();
+  test_check_verses ();
+  test_filter_date ();
+  test_client_logic ();
+  test_check_sentences ();
+  test_check_versification ();
+  test_check_usfm ();
+  test_filter_url  ();
+  test_hyphenate ();
+  
   // Output possible journal entries.
   refresh_sandbox (true);
   
@@ -329,6 +348,14 @@ int main (int argc, char **argv)
 
   // Ready.
   return (error_count == 0) ? 0 : 1;
+
+#else
+  
+  cout << "Unit tests are disabled" << endl;
+  cout << "Enable them through ./configure --enable-unittests" << endl;
+  return 0;
+
+#endif
 }
 
 
