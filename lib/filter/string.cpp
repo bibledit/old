@@ -936,7 +936,7 @@ int filter_string_user_identifier (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string username = request->session_logic()->currentUser ();
   string hash = md5 (username).substr (0, 5);
-  int identifier = stoi (hash, NULL, 36);
+  int identifier = my_stoi (hash, NULL, 36);
   return identifier;
 }
 
@@ -966,7 +966,7 @@ string hex2bin (string hex)
     for (string::const_iterator pos = hex.begin(); pos < hex.end(); pos += 2)
     {
       extract.assign (pos, pos+2);
-      out.push_back (stoi (extract, nullptr, 16));
+      out.push_back (my_stoi (extract, nullptr, 16));
     }
   }
   return out;

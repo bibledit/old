@@ -52,7 +52,7 @@ string workbench_settings (void * webserver_request)
   request->database_config_user()->setActiveWorkbench (name);
   
   if (request->query.count ("preset")) {
-    int preset = stoi (request->query ["preset"]);
+    int preset = convert_to_int (request->query ["preset"]);
     workbenchSetURLs (request, workbenchDefaultURLs (preset));
     workbenchSetWidths (request, workbenchDefaultWidths (preset));
     workbenchSetHeights (request, workbenchDefaultHeights (preset));

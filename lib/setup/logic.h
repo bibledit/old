@@ -27,6 +27,8 @@
 void setup_conditionally ();
 void setup_write_access ();
 void setup_initialize_data ();
+void setup_set_admin_details (string username, string password, string email);
+void setup_complete_gui ();
 
 
 #endif

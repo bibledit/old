@@ -190,6 +190,36 @@ AC_DEFINE([UNITTESTS], [], [Define whether unit tests are enabled])
 AC_DEFINE_UNQUOTED(UNITTESTS, "$UNITTESTS")
 AC_SUBST(UNITTESTS)
 
+# Configure admin username.
+AC_ARG_WITH(admin-username,
+[  --with-admin-username=username Admin username],
+[ ADMIN_USERNAME=$withval ],
+[ ADMIN_USERNAME= ]
+)
+AC_DEFINE([ADMIN_USERNAME], [], [Define the admin username])
+AC_DEFINE_UNQUOTED(ADMIN_USERNAME, "$ADMIN_USERNAME")
+AC_SUBST(ADMIN_USERNAME)
+
+# Configure admin password.
+AC_ARG_WITH(admin-password,
+[  --with-admin-password=password Admin password],
+[ ADMIN_PASSWORD=$withval ],
+[ ADMIN_PASSWORD= ]
+)
+AC_DEFINE([ADMIN_PASSWORD], [], [Define the admin password])
+AC_DEFINE_UNQUOTED(ADMIN_PASSWORD, "$ADMIN_PASSWORD")
+AC_SUBST(ADMIN_PASSWORD)
+
+# Configure admin email.
+AC_ARG_WITH(admin-email,
+[  --with-admin-email=email Admin email],
+[ ADMIN_EMAIL=$withval ],
+[ ADMIN_EMAIL= ]
+)
+AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
+AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
+AC_SUBST(ADMIN_EMAIL)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -207,4 +237,7 @@ Build for OS X (--enable-osx)                              : ${OSX}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 Unit tests (--enable-unittests)                            : ${UNITTESTS}
+Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
+Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
+Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
 "

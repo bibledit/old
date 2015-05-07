@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <config/globals.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <libxml/threads.h>
 #include <thread>
 #include <timer/index.h>
@@ -142,7 +143,7 @@ void bibledit_stop_library ()
   // Connect to localhost to initiate the shutdown mechanism in the running server.
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
-  sa.sin_port = htons (stoi (config_logic_network_port ()));
+  sa.sin_port = htons (convert_to_int (config_logic_network_port ()));
   //sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
   inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
   char str[INET_ADDRSTRLEN];

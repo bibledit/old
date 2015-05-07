@@ -22,16 +22,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config.h>
 
 
-#ifdef HAVE_CYGWIN
-
-
 // Replacement function for missing "stoi" on Cygwin.
-int stoi (const string& str, void * idx, int base)
+int my_stoi (const string& str, void * idx, int base)
 {
+#ifdef HAVE_CYGWIN
   char ** endptr = reinterpret_cast <char **> (idx);
   int i = strtol (str.c_str(), endptr, base);
   return i;
-}
-
-
+#else
+  size_t * index = (size_t *) idx;
+  return stoi (str, index, base);
 #endif
+}

@@ -625,6 +625,9 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+ADMIN_EMAIL
+ADMIN_PASSWORD
+ADMIN_USERNAME
 UNITTESTS
 URLSETTINGS
 CYGWIN
@@ -770,6 +773,9 @@ enable_osx
 enable_cygwin
 enable_urlsettings
 enable_unittests
+with_admin_username
+with_admin_password
+with_admin_email
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1432,6 +1438,9 @@ Optional Packages:
   --with-xml-exec-prefix=PFX Exec prefix where libxml is installed (optional)
   --with-network-port=number Port number for server to listen on
   --with-parallel-tasks=number Maximum number of parallel background tasks
+  --with-admin-username=username Admin username
+  --with-admin-password=password Admin password
+  --with-admin-email=email Admin email
 
 Some influential environment variables:
   CC          C compiler command
@@ -6420,6 +6429,63 @@ _ACEOF
 
 
 
+# Configure admin username.
+
+# Check whether --with-admin-username was given.
+if test "${with_admin_username+set}" = set; then :
+  withval=$with_admin_username;  ADMIN_USERNAME=$withval
+else
+   ADMIN_USERNAME=
+
+fi
+
+
+$as_echo "#define ADMIN_USERNAME /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define ADMIN_USERNAME "$ADMIN_USERNAME"
+_ACEOF
+
+
+
+# Configure admin password.
+
+# Check whether --with-admin-password was given.
+if test "${with_admin_password+set}" = set; then :
+  withval=$with_admin_password;  ADMIN_PASSWORD=$withval
+else
+   ADMIN_PASSWORD=
+
+fi
+
+
+$as_echo "#define ADMIN_PASSWORD /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define ADMIN_PASSWORD "$ADMIN_PASSWORD"
+_ACEOF
+
+
+
+# Configure admin email.
+
+# Check whether --with-admin-email was given.
+if test "${with_admin_email+set}" = set; then :
+  withval=$with_admin_email;  ADMIN_EMAIL=$withval
+else
+   ADMIN_EMAIL=
+
+fi
+
+
+$as_echo "#define ADMIN_EMAIL /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define ADMIN_EMAIL "$ADMIN_EMAIL"
+_ACEOF
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -7912,4 +7978,7 @@ Build for OS X (--enable-osx)                              : ${OSX}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 Unit tests (--enable-unittests)                            : ${UNITTESTS}
+Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
+Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
+Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
 "

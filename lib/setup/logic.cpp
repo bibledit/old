@@ -37,24 +37,45 @@
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/roles.h>
 #include <config/globals.h>
 #include <demo/logic.h>
 
 
 void setup_conditionally ()
 {
-  if (config_logic_version () == Database_Config_General::getInstalledDatabaseVersion ()) return;
-  
-  cout << "Initializing data" << endl;
-  
-  // Ensure write access to certain folders.
-  setup_write_access ();
-  
-  // Create or upgrade the databases.
-  setup_initialize_data ();
-  
-  // Update installed version.
-  Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
+  if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) {
+    
+    cout << "Initializing data" << endl;
+    
+    // Ensure write access to certain folders.
+    setup_write_access ();
+    
+    // Create or upgrade the databases.
+    setup_initialize_data ();
+    
+    // Update installed version.
+    Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
+
+  };
+
+  if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) {
+    
+    // In client mode or in demo mode do not display the page for entering the admin's details.
+    if (config_logic_client_prepared ()) setup_complete_gui ();
+    if (config_logic_demo_enabled ()) setup_complete_gui ();
+    
+    // When the admin's credentials are configured, enter them, and do not display them in the setup page.
+    if (!config_logic_admin_username ().empty ()) {
+      if (!config_logic_admin_password ().empty ()) {
+        setup_set_admin_details (config_logic_admin_username (),
+                                 config_logic_admin_password (),
+                                 config_logic_admin_email ());
+        setup_complete_gui ();
+      }
+    }
+    
+  }
 }
 
 
@@ -121,3 +142,17 @@ void setup_initialize_data ()
 }
 
 
+// Store the admin's details.
+void setup_set_admin_details (string username, string password, string email)
+{
+  Database_Users database_users;
+  database_users.removeUser (username);
+  database_users.addNewUser (username, password, Filter_Roles::admin (), email);
+}
+
+
+// Set the GUI setup status as completed.
+void setup_complete_gui ()
+{
+  Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+}

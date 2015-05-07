@@ -1,6 +1,15 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define the admin email */
+#define ADMIN_EMAIL ""
+
+/* Define the admin password */
+#define ADMIN_PASSWORD ""
+
+/* Define the admin username */
+#define ADMIN_USERNAME ""
+
 /* Define whether the expected browser is a bare browser without controls */
 #define BARE_BROWSER "no"
 
@@ -14,7 +23,7 @@
 #define CYGWIN "no"
 
 /* Define whether it is a demo installation */
-#define DEMO "yes"
+#define DEMO "no"
 
 /* Define the directory separator as Windows differs from Linux */
 #define DIRECTORY_SEPARATOR "/"

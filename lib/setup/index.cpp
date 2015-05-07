@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
+#include <setup/logic.h>
 
 
 // Returns data for page indicating Bibledit is installing its data.
@@ -79,13 +80,6 @@ string setup_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  // In client mode or in demo mode do not display the page for entering the admin's details. Todo
-  if (config_logic_client_prepared () || config_logic_demo_enabled ()) {
-    Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
-    redirect_browser (request, index_index_url ());
-    return "";
-  }
-
   Assets_View view = Assets_View ();
 
   // Get the existing Administrators.
@@ -102,9 +96,8 @@ string setup_index (void * webserver_request)
       if (admin_password.length() < 7) errors.push_back ("Choose a longer password.");
       if (admin_email.length() < 5) errors.push_back ("Enter a valid email address.");
       if (errors.empty()) {
-        request->database_users ()->removeUser (admin_username);
-        request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
-        Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+        setup_set_admin_details (admin_username, admin_password, admin_email);
+        setup_complete_gui ();
         redirect_browser (request, index_index_url ());
       } else {
         view.enable_zone ("errors");

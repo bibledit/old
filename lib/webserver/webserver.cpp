@@ -192,7 +192,7 @@ void webserver ()
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl (INADDR_ANY);
-  serveraddr.sin_port = htons (stoi (config_logic_network_port ()));
+  serveraddr.sin_port = htons (convert_to_int (config_logic_network_port ()));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
   if (result != 0) cerr << "Error binding server to socket" << endl;
 
