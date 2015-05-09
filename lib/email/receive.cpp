@@ -25,9 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <confirm/worker.h>
 #include <notes/logic.h>
-
-
-static int email_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size,  void *userptr);
+#include <filter/url.h>
 
 
 // Dissects a raw email.
@@ -212,7 +210,7 @@ int email_receive_count (string& error, bool verbose) // Todo
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
 
   if (verbose) {
-    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, email_debug_callback); // Todo use anywhere.
+    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback); // Todo use anywhere.
     curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L); // Todo
   }
 
@@ -292,18 +290,4 @@ string email_receive_message (string& error) // Todo
   curl_easy_cleanup (curl);
 
   return body;
-}
-
-
-static int email_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size,  void *userptr) // Todo
-{
-  if (handle && userptr) {};
-  bool log = true;
-  if (type == CURLINFO_SSL_DATA_OUT) log = false;
-  if (type == CURLINFO_SSL_DATA_IN) log = false;
-  if (log) {
-    string message (data, size);
-    Database_Logs::log (message);
-  }
-  return 0;
 }

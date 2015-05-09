@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <curl/curl.h>
 #include <config.h>
 #include <database/books.h>
+#include <database/logs.h>
 
 
 // Gets the base URL of current Bibledit installation.
@@ -623,3 +624,15 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
 }
 
 
+int filter_url_curl_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size, void *userptr) // Todo
+{
+  if (handle && userptr) {};
+  bool log = true;
+  if (type == CURLINFO_SSL_DATA_OUT) log = false;
+  if (type == CURLINFO_SSL_DATA_OUT) log = false;
+  if (log) {
+    string message (data, size);
+    Database_Logs::log (message);
+  }
+  return 0;
+}
