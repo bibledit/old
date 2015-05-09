@@ -27,6 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 
 
+static int email_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size,  void *userptr);
+
+
 // Dissects a raw email.
 void email_dissect (string & body, string & from, string & subject)
 {
@@ -95,7 +98,7 @@ void email_dissect (string & body, string & from, string & subject)
 }
 
 
-void email_receive ()
+void email_receive () // Todo
 {
   // One email receiver runs at a time.
   if (config_globals_mail_receive_running) return;
@@ -185,7 +188,7 @@ string url ()
 
 
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
-int email_receive_count (string& error)
+int email_receive_count (string& error, bool verbose) // Todo
 {
   CURL *curl;
   CURLcode res = CURLE_OK;
@@ -208,7 +211,10 @@ int email_receive_count (string& error)
 
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
 
-  // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+  if (verbose) {
+    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, email_debug_callback); // Todo use anywhere.
+    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L); // Todo
+  }
 
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
@@ -233,7 +239,7 @@ int email_receive_count (string& error)
 }
 
 
-string email_receive_message (string& error)
+string email_receive_message (string& error) // Todo
 {
   CURL *curl;
   CURLcode res = CURLE_OK;
@@ -288,3 +294,16 @@ string email_receive_message (string& error)
   return body;
 }
 
+
+static int email_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size,  void *userptr) // Todo
+{
+  if (handle && userptr) {};
+  bool log = true;
+  if (type == CURLINFO_SSL_DATA_OUT) log = false;
+  if (type == CURLINFO_SSL_DATA_IN) log = false;
+  if (log) {
+    string message (data, size);
+    Database_Logs::log (message);
+  }
+  return 0;
+}

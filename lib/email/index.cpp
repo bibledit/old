@@ -87,7 +87,7 @@ string email_index (void * webserver_request)
     Database_Config_General::setMailStoragePort (storageport);
     string storage_success = translate("The details were saved.");
     string storage_error;
-    int mailcount = email_receive_count (storage_error);
+    int mailcount = email_receive_count (storage_error, true);
     if (storage_error.empty ()) {
       storage_success.append (" ");
       storage_success.append (translate("The account was accessed successfully."));

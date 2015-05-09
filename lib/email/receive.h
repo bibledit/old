@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 void email_receive ();
-int email_receive_count (string& error);
+int email_receive_count (string& error, bool verbose = false);
 string email_receive_message (string& error);
 
 
