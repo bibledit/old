@@ -217,7 +217,7 @@ int email_receive_count (string& error, bool verbose)
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
-  filter_url_curl_set_timeout (curl); // Todo test it.
+  filter_url_curl_set_timeout (curl);
   
   res = curl_easy_perform (curl);
 
@@ -266,7 +266,7 @@ string email_receive_message (string& error)
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
-  filter_url_curl_set_timeout (curl); // Todo test it.
+  filter_url_curl_set_timeout (curl);
   
   res = curl_easy_perform (curl);
 

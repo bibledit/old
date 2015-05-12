@@ -120,7 +120,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-string email_send (string to_mail, string to_name, string subject, string body, bool verbose) // Todo
+string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
 {
   // Truncate huge emails because libcurl crashes on it.
   int length = body.length ();
@@ -246,7 +246,7 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   }
   
   // Timeout values.
-  filter_url_curl_set_timeout (curl); // Todo test it.
+  filter_url_curl_set_timeout (curl);
 
   /* Send the message */
   res = curl_easy_perform(curl);
