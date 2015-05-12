@@ -379,7 +379,8 @@ void sendreceive_notes_download (int lowId, int highId)
   // If it matches, that means that the local notes match the notes on the server.
   // The script is then ready.
   post ["a"] = convert_to_string (Sync_Logic::notes_get_total);
-  response = sync_logic.post (post, url, error);
+  // Response comes after a relatively long delay: Enable burst mode timing.
+  response = sync_logic.post (post, url, error, true);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting totals: " + error, Filter_Roles::translator ());
     return;

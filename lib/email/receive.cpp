@@ -96,7 +96,7 @@ void email_dissect (string & body, string & from, string & subject)
 }
 
 
-void email_receive () // Todo
+void email_receive ()
 {
   // One email receiver runs at a time.
   if (config_globals_mail_receive_running) return;
@@ -186,7 +186,7 @@ string url ()
 
 
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
-int email_receive_count (string& error, bool verbose) // Todo
+int email_receive_count (string& error, bool verbose)
 {
   CURL *curl;
   CURLcode res = CURLE_OK;
@@ -210,13 +210,15 @@ int email_receive_count (string& error, bool verbose) // Todo
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
 
   if (verbose) {
-    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback); // Todo use anywhere.
-    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L); // Todo
+    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback);
+    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
   }
 
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
+  filter_url_curl_set_timeout (curl); // Todo test it.
+  
   res = curl_easy_perform (curl);
 
   int mailcount = 0;
@@ -237,7 +239,7 @@ int email_receive_count (string& error, bool verbose) // Todo
 }
 
 
-string email_receive_message (string& error) // Todo
+string email_receive_message (string& error)
 {
   CURL *curl;
   CURLcode res = CURLE_OK;
@@ -261,11 +263,11 @@ string email_receive_message (string& error) // Todo
 
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
 
-  //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
-
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
+  filter_url_curl_set_timeout (curl); // Todo test it.
+  
   res = curl_easy_perform (curl);
 
   string body;

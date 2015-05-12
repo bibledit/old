@@ -120,7 +120,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
+string email_send (string to_mail, string to_name, string subject, string body, bool verbose) // Todo
 {
   // Truncate huge emails because libcurl crashes on it.
   int length = body.length ();
@@ -241,13 +241,12 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   // Since the traffic will be encrypted, it is very useful to turn on debug
   // information within libcurl to see what is happening during the transfer.
   if (verbose) {
-    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback); // Todo use anywhere.
-    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L); // Todo
-    
+    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback);
+    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
   }
   
   // Timeout values.
-  curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+  filter_url_curl_set_timeout (curl); // Todo test it.
 
   /* Send the message */
   res = curl_easy_perform(curl);

@@ -416,18 +416,8 @@ string filter_url_http_get (string url, string& error)
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     // Because a Bibledit client should work even over very bad networks,
-    // pass some options to curl so it properly deals with such networks.
-    // There is a timeout on establishing a connection.
-    // There is a also a transfer timeout for normal speeds.
-    // And there is also a shorter transfer timeout for very low speeds,
-    // because very low speeds indicate a stalled conection.
-    // Without these timeouts, the Bibledit client will fail to schedule new sync tasks,
-    // because it still waits on stalled sync operatios to finish, which would never happen without those timeouts.
-    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_easy_setopt (curl, CURLOPT_TIMEOUT, 600);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 10);
-    curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1L);
+    // pass some timeout options to curl so it properly deals with such networks.
+    filter_url_curl_set_timeout (curl);
     CURLcode res = curl_easy_perform (curl);
     if (res == CURLE_OK) {
       error.clear ();
@@ -447,10 +437,11 @@ string filter_url_http_get (string url, string& error)
 
 
 // Sends a http POST request to $url.
+// burst: Set connection timing for burst mode, where the response comes after a relatively long silence.
 // It posts the $values.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error)
+string filter_url_http_post (string url, map <string, string> values, string& error, bool burst)
 {
   string response;
   // Get a curl handle.
@@ -476,11 +467,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     // Timeouts for very bad networks, see the GET routine above for an explanation.
-    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_easy_setopt (curl, CURLOPT_TIMEOUT, 600);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 10);
-    curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1L);
+    filter_url_curl_set_timeout (curl, burst);
     // Perform the request.
     CURLcode res = curl_easy_perform (curl);
     // Result check.
@@ -568,7 +555,7 @@ void filter_url_download_file (string url, string filename, string& error)
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, file);
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    filter_url_curl_set_timeout (curl);
     CURLcode res = curl_easy_perform (curl);
     if (res == CURLE_OK) {
       error.clear ();
@@ -624,7 +611,8 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
 }
 
 
-int filter_url_curl_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size, void *userptr) // Todo
+// Callback function for logging cURL debug information.
+int filter_url_curl_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size, void *userptr)
 {
   if (handle && userptr) {};
   bool log = true;
@@ -635,4 +623,31 @@ int filter_url_curl_debug_callback (CURL *handle, curl_infotype type, char *data
     Database_Logs::log (message);
   }
   return 0;
+}
+
+
+// Sets timeouts for cURL operations.
+// burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
+//        When false, the data is supposed to be downloaded gradually.
+// Without these timeouts, the Bibledit client will hang on stalled sync operations.
+void filter_url_curl_set_timeout (CURL *handle, bool burst)
+{
+  // There is a timeout on establishing a connection.
+  curl_easy_setopt (handle, CURLOPT_CONNECTTIMEOUT, 10);
+
+  // There is a also a transfer timeout for normal speeds.
+  curl_easy_setopt (handle, CURLOPT_TIMEOUT, 600);
+  
+  // There is also a shorter transfer timeout for low speeds,
+  // because low speeds indicate a stalled connection.
+  // But when the server needs to do a lot of processing and then sends then response at once,
+  // the low speed timeouts should be disabled,
+  // else it times out before the response has come.
+  if (!burst) {
+    curl_easy_setopt (handle, CURLOPT_LOW_SPEED_LIMIT, 100);
+    curl_easy_setopt (handle, CURLOPT_LOW_SPEED_TIME, 10);
+  }
+  
+  // Timing out may use signals, which is not what we want.
+  curl_easy_setopt (handle, CURLOPT_NOSIGNAL, 1L);
 }
