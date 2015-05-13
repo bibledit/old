@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <locale/translate.h>
 #include <config/globals.h>
+#include <database/logs.h>
 
 
 // Database resilience.
@@ -179,14 +180,16 @@ void Database_Notes::trim ()
       string folder = filter_url_create_path (mainfolder, bit1);
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
-        filter_url_rmdir (folder);
+        Database_Logs::log ("database notes.cpp trim delete folder " + folder); // Todo temporal
+        // Todo temporarily disabled. filter_url_rmdir (folder);
       }
       for (auto bit2 : bits2) {
         if (convert_to_string (convert_to_int (bit2)) == bit2) {
           string folder = filter_url_create_path (mainfolder, bit1, bit2);
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
-            filter_url_rmdir (folder);
+            Database_Logs::log ("database notes.cpp trim delete folder " + folder); // Todo temporal
+            // Todo temporarily disabled. filter_url_rmdir (folder);
           }
         }
       }
@@ -201,7 +204,8 @@ void Database_Notes::trim_server ()
   touchMarkedForDeletion ();
   vector <int> identifiers = getDueForDeletion ();
   for (auto & identifier : identifiers) {
-    erase (identifier);
+    Database_Logs::log ("trim_server due for deletion erasing note " + convert_to_string (identifier)); // Todo temporal
+    // Todo temporarily disabled erase (identifier);
   }
 }
 
@@ -254,7 +258,8 @@ void Database_Notes::sync ()
   // Any note identifiers in the main index, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      erase (id);
+      Database_Logs::log ("notes.cpp sync erase note " + convert_to_string (id)); // Todo temporal
+      // Todo temporarily off erase (id);
     }
   }
   
@@ -463,7 +468,8 @@ bool Database_Notes::identifierExists (int identifier)
 void Database_Notes::setIdentifier (int identifier, int new_identifier)
 {
   // Move data on the filesystem.
-  erase (new_identifier);
+  Database_Logs::log ("notes.cpp setIdentifier erase note " + convert_to_string (identifier)); // Todo temporal
+  // Todo temporarily off erase (new_identifier);
   string file = noteFolder (identifier);
   string newfile = noteFolder (new_identifier);
   filter_url_mkdir (filter_url_dirname (newfile));
@@ -856,6 +862,8 @@ void Database_Notes::setContents (int identifier, const string& contents)
 
 void Database_Notes::erase (int identifier)
 {
+  Database_Logs::log ("Database_Notes::erase note " + convert_to_string (identifier)); // Todo temporal
+  return; // Todo temporal
   // Delete from filesystem.
   string folder = noteFolder (identifier);
   filter_url_rmdir (folder);

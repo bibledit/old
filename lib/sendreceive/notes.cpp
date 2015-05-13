@@ -453,7 +453,7 @@ void sendreceive_notes_download (int lowId, int highId)
   identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
   for (auto identifier : identifiers) {
     string summary = database_notes.getSummary (identifier);
-    database_notes.erase (identifier);
+    // Todo temporarily off database_notes.erase (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting one because it is not on the server: " + summary, Filter_Roles::translator ());
   }
   

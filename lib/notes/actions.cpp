@@ -33,6 +33,7 @@
 #include <navigation/passage.h>
 #include <notes/index.h>
 #include <trash/handler.h>
+#include <database/logs.h>
 
 
 string notes_actions_url ()
@@ -103,7 +104,8 @@ string notes_actions (void * webserver_request)
   
   
   if (request->query.count ("delete")) {
-    notes_logic.erase (id);
+    Database_Logs::log ("actions.cpp erase note " + convert_to_string (id)); // Todo temporal
+    // Todo temporarily off notes_logic.erase (id);
     redirect_browser (request, notes_index_url ());
     return "";
   }
