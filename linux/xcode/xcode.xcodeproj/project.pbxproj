@@ -1,0 +1,81 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		CA68674B1B03999300DB9422 /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		CA6867431B03997100DB9422 = {
+			isa = PBXGroup;
+			children = (
+				CA68674A1B03999300DB9422 /* scr */,
+			);
+			sourceTree = "<group>";
+		};
+		CA68674A1B03999300DB9422 /* scr */ = {
+			isa = PBXGroup;
+			children = (
+				CA68674B1B03999300DB9422 /* build.sh */,
+			);
+			name = scr;
+			path = ../scr;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		CA6867441B03997100DB9422 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+			};
+			buildConfigurationList = CA6867471B03997100DB9422 /* Build configuration list for PBXProject "xcode" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CA6867431B03997100DB9422;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		CA6867481B03997100DB9422 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		CA6867491B03997100DB9422 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CA6867471B03997100DB9422 /* Build configuration list for PBXProject "xcode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA6867481B03997100DB9422 /* Debug */,
+				CA6867491B03997100DB9422 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CA6867441B03997100DB9422 /* Project object */;
+}
