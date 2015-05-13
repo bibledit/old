@@ -7,24 +7,15 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		CA68674B1B03999300DB9422 /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		CA7C433F1B039EFC00FFADCC /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		CA6867431B03997100DB9422 = {
 			isa = PBXGroup;
 			children = (
-				CA68674A1B03999300DB9422 /* scr */,
+				CA7C433F1B039EFC00FFADCC /* build.sh */,
 			);
-			sourceTree = "<group>";
-		};
-		CA68674A1B03999300DB9422 /* scr */ = {
-			isa = PBXGroup;
-			children = (
-				CA68674B1B03999300DB9422 /* build.sh */,
-			);
-			name = scr;
-			path = ../scr;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

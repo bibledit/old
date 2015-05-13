@@ -7,12 +7,18 @@
 # It builds the bibledit gui for Linux.
 
 
+rsync -av ../../lib/ ../lib
+
+
+
+
+
+
 exit
 
 pushd webroot
 
 
-rsync -av --delete ../../lib/ .
 make distclean
 
 
