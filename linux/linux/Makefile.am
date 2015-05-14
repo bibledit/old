@@ -8,6 +8,3 @@ LIBS = -Wall $(GTK_LIBS)
 
 EXTRA_DIST = *.h *.desktop *.xpm
 
-CLEANFILES = bibledit*.gz *~
-
-man_MANS = *.1

@@ -88,7 +88,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
-bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT)
+bin_PROGRAMS = bibledit$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -270,16 +270,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	xrefs/translate.$(OBJEXT) webbible/search.$(OBJEXT) \
 	debug/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
-am__installdirs = "$(DESTDIR)$(bindir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_server_OBJECTS = executable/bibledit.$(OBJEXT)
-server_OBJECTS = $(am_server_OBJECTS)
-server_DEPENDENCIES = libbibledit.a
-am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
-	unittests/utilities.$(OBJEXT) unittests/libraries.$(OBJEXT) \
-	unittests/filters.$(OBJEXT) unittests/databases.$(OBJEXT)
-unittest_OBJECTS = $(am_unittest_OBJECTS)
-unittest_DEPENDENCIES = libbibledit.a
+am_bibledit_OBJECTS = executable/bibledit.$(OBJEXT)
+bibledit_OBJECTS = $(am_bibledit_OBJECTS)
+bibledit_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -321,15 +316,43 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libbibledit_a_SOURCES) $(server_SOURCES) \
-	$(unittest_SOURCES)
-DIST_SOURCES = $(libbibledit_a_SOURCES) $(server_SOURCES) \
-	$(unittest_SOURCES)
+SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES)
+DIST_SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+man1dir = $(mandir)/man1
+NROFF = nroff
+MANS = $(man_MANS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
 	$(LISP)config.h.in
 # Read a list of newline-separated strings from the standard input,
@@ -408,6 +431,8 @@ FIND_TAR = @FIND_TAR@
 GIT_ENABLED = @GIT_ENABLED@
 GIT_LIBS = @GIT_LIBS@
 GREP = @GREP@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LIBS = @GTK_LIBS@
 GUNZIP_PATH = @GUNZIP_PATH@
 GZIP_PATH = @GZIP_PATH@
 HAVE_CXX11 = @HAVE_CXX11@
@@ -420,8 +445,8 @@ IOS = @IOS@
 LDFLAGS = @LDFLAGS@
 LIBGIT = @LIBGIT@
 LIBOBJS = @LIBOBJS@
-LIBS = -Wall -lpthread -L. `xml2-config --libs` $(SQLITE_LIBS) \
-	$(CURL_LIBS) $(GIT_LIBS) $(OPENSSL_LIBS)
+LIBS = -Wall -lpthread -L. $(GTK_LIBS) `xml2-config --libs` \
+	$(SQLITE_LIBS) $(CURL_LIBS) $(GIT_LIBS) $(OPENSSL_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -811,21 +836,14 @@ libbibledit_a_SOURCES = \
 	webbible/search.cpp \
 	debug/index.cpp
 
-server_SOURCES = executable/bibledit.cpp
-server_LDADD = libbibledit.a
-unittest_SOURCES = \
-	unittests/unittest.cpp \
-	unittests/utilities.cpp \
-	unittests/libraries.cpp \
-	unittests/filters.cpp \
-	unittests/databases.cpp
-
-unittest_LDADD = libbibledit.a
+bibledit_SOURCES = executable/bibledit.cpp
+bibledit_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking \
-	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
-	$(GIT_CFLAGS) $(OPENSSL_CFLAGS)
-EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
+	$(GTK_CFLAGS) `xml2-config --cflags` $(SQLITE_CFLAGS) \
+	$(CURL_CFLAGS) $(GIT_CFLAGS) $(OPENSSL_CFLAGS)
+EXTRA_DIST = a* bible bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm
 CLEANFILES = bibledit*.gz *~
+man_MANS = *.1
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -1950,29 +1968,9 @@ executable/$(DEPDIR)/$(am__dirstamp):
 executable/bibledit.$(OBJEXT): executable/$(am__dirstamp) \
 	executable/$(DEPDIR)/$(am__dirstamp)
 
-server$(EXEEXT): $(server_OBJECTS) $(server_DEPENDENCIES) $(EXTRA_server_DEPENDENCIES) 
-	@rm -f server$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(server_OBJECTS) $(server_LDADD) $(LIBS)
-unittests/$(am__dirstamp):
-	@$(MKDIR_P) unittests
-	@: > unittests/$(am__dirstamp)
-unittests/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) unittests/$(DEPDIR)
-	@: > unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/unittest.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/utilities.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/libraries.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/filters.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/databases.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
-
-unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
-	@rm -f unittest$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(unittest_OBJECTS) $(unittest_LDADD) $(LIBS)
+bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) $(EXTRA_bibledit_DEPENDENCIES) 
+	@rm -f bibledit$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -2039,7 +2037,6 @@ mostlyclean-compile:
 	-rm -f timer/*.$(OBJEXT)
 	-rm -f tmp/*.$(OBJEXT)
 	-rm -f trash/*.$(OBJEXT)
-	-rm -f unittests/*.$(OBJEXT)
 	-rm -f user/*.$(OBJEXT)
 	-rm -f versification/*.$(OBJEXT)
 	-rm -f webbible/*.$(OBJEXT)
@@ -2330,11 +2327,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@timer/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tmp/$(DEPDIR)/tmp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@trash/$(DEPDIR)/handler.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/libraries.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/account.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/notifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/index.Po@am__quote@
@@ -2392,6 +2384,49 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+install-man1: $(man_MANS)
+	@$(NORMAL_INSTALL)
+	@list1=''; \
+	list2='$(man_MANS)'; \
+	test -n "$(man1dir)" \
+	  && test -n "`echo $$list1$$list2`" \
+	  || exit 0; \
+	echo " $(MKDIR_P) '$(DESTDIR)$(man1dir)'"; \
+	$(MKDIR_P) "$(DESTDIR)$(man1dir)" || exit 1; \
+	{ for i in $$list1; do echo "$$i"; done;  \
+	if test -n "$$list2"; then \
+	  for i in $$list2; do echo "$$i"; done \
+	    | sed -n '/\.1[a-z]*$$/p'; \
+	fi; \
+	} | while read p; do \
+	  if test -f $$p; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; echo "$$p"; \
+	done | \
+	sed -e 'n;s,.*/,,;p;h;s,.*\.,,;s,^[^1][0-9a-z]*$$,1,;x' \
+	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,' | \
+	sed 'N;N;s,\n, ,g' | { \
+	list=; while read file base inst; do \
+	  if test "$$base" = "$$inst"; then list="$$list $$file"; else \
+	    echo " $(INSTALL_DATA) '$$file' '$(DESTDIR)$(man1dir)/$$inst'"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(man1dir)/$$inst" || exit $$?; \
+	  fi; \
+	done; \
+	for i in $$list; do echo "$$i"; done | $(am__base_list) | \
+	while read files; do \
+	  test -z "$$files" || { \
+	    echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(man1dir)'"; \
+	    $(INSTALL_DATA) $$files "$(DESTDIR)$(man1dir)" || exit $$?; }; \
+	done; }
+
+uninstall-man1:
+	@$(NORMAL_UNINSTALL)
+	@list=''; test -n "$(man1dir)" || exit 0; \
+	files=`{ for i in $$list; do echo "$$i"; done; \
+	l2='$(man_MANS)'; for i in $$l2; do echo "$$i"; done | \
+	  sed -n '/\.1[a-z]*$$/p'; \
+	} | sed -e 's,.*/,,;h;s,.*\.,,;s,^[^1][0-9a-z]*$$,1,;x' \
+	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,'`; \
+	dir='$(DESTDIR)$(man1dir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -2620,9 +2655,9 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(PROGRAMS) config.h
+all-am: Makefile $(LIBRARIES) $(PROGRAMS) $(MANS) config.h
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -2778,8 +2813,6 @@ distclean-generic:
 	-rm -f tmp/$(am__dirstamp)
 	-rm -f trash/$(DEPDIR)/$(am__dirstamp)
 	-rm -f trash/$(am__dirstamp)
-	-rm -f unittests/$(DEPDIR)/$(am__dirstamp)
-	-rm -f unittests/$(am__dirstamp)
 	-rm -f user/$(DEPDIR)/$(am__dirstamp)
 	-rm -f user/$(am__dirstamp)
 	-rm -f versification/$(DEPDIR)/$(am__dirstamp)
@@ -2803,7 +2836,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -2820,7 +2853,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-man
 
 install-dvi: install-dvi-am
 
@@ -2836,7 +2869,7 @@ install-info: install-info-am
 
 install-info-am:
 
-install-man:
+install-man: install-man1
 
 install-pdf: install-pdf-am
 
@@ -2851,7 +2884,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2867,7 +2900,9 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-binPROGRAMS uninstall-man
+
+uninstall-man: uninstall-man1
 
 .MAKE: all install-am install-strip
 
@@ -2882,11 +2917,12 @@ uninstall-am: uninstall-binPROGRAMS
 	install-binPROGRAMS install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
+	install-man1 install-pdf install-pdf-am install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
+	ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-man uninstall-man1
 
 .PRECIOUS: Makefile
 

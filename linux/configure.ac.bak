@@ -81,7 +81,7 @@ AC_SUBST(OPENSSL_LIBS)
 
 PKG_CHECK_MODULES(GTK, gtk+-3.0,,AC_MSG_ERROR(Gtk3 development version is needed.))
 AC_SUBST(GTK_LIBS)
-AC_SUBST(GTK_CFLAGS)
+# Tag3 (leave in place)
 # Tag4 (leave in place)
 
 

@@ -313,6 +313,8 @@ bibledit_SOURCES = executable/bibledit.cpp
 
 bibledit_LDADD = libbibledit.a
 
+
+
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking $(GTK_CFLAGS)
 AM_CXXFLAGS += `xml2-config --cflags`	
 AM_CXXFLAGS += $(SQLITE_CFLAGS)

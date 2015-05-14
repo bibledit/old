@@ -6215,6 +6215,13 @@ fi
 
 
 
+
+# Tag1 (leave in place)
+# Tag2 (leave in place)
+# Tag3 (leave in place)
+# Tag4 (leave in place)
+
+
 ac_fn_cxx_check_header_mongrel "$LINENO" "pthread.h" "ac_cv_header_pthread_h" "$ac_includes_default"
 if test "x$ac_cv_header_pthread_h" = xyes; then :
 
