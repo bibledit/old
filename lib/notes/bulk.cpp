@@ -223,12 +223,8 @@ string notes_bulk (void * webserver_request)
     } else {
       for (auto identifier : identifiers) {
         notes_logic.erase (identifier); // Notifications handling.
-        trash_consultation_note (webserver_request, identifier);
-        Database_Logs::log ("bulk.cpp erase note " + convert_to_string (identifier)); // Todo temporal
-        // Todo off database_notes.erase (identifier);
       }
       success = translate("The notes were deleted");
-      Database_Logs::log ("Notes deleted: " + identifierlist);
     }
   }
   

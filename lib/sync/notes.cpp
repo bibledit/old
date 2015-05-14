@@ -327,7 +327,7 @@ string sync_notes (void * webserver_request)
       // Notifications.
       notes_logic.handlerDeleteNote (identifier);
       // Delete note on server.
-      // Temporarily off Todo notes_logic.erase (identifier);
+      notes_logic.erase (identifier);
       // Done.
       return "";
     }

@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <config/globals.h>
 #include <database/logs.h>
+#include <trash/handler.h>
 
 
 // Database resilience.
@@ -173,7 +174,7 @@ bool Database_Notes::checkup_checksums ()
 void Database_Notes::trim ()
 {
   // Clean empty directories.
-  string message = "Deleting empty folder ";
+  string message = "Deleting empty notes folder ";
   string mainfolder = mainFolder ();
   vector <string> bits1 = filter_url_scandir (mainfolder);
   for (auto bit1 : bits1) {
@@ -182,7 +183,7 @@ void Database_Notes::trim ()
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
         Database_Logs::log (message + folder);
-        unlink (folder.c_str ());
+        rmdir (folder.c_str ());
       }
       for (auto bit2 : bits2) {
         if (convert_to_string (convert_to_int (bit2)) == bit2) {
@@ -190,7 +191,7 @@ void Database_Notes::trim ()
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
             Database_Logs::log (message + folder);
-            unlink (folder.c_str());
+            rmdir (folder.c_str());
           }
         }
       }
@@ -205,8 +206,8 @@ void Database_Notes::trim_server ()
   touchMarkedForDeletion ();
   vector <int> identifiers = getDueForDeletion ();
   for (auto & identifier : identifiers) {
-    Database_Logs::log ("trim_server due for deletion erasing note " + convert_to_string (identifier)); // Todo temporal
-    // Todo temporarily disabled erase (identifier);
+    trash_consultation_note (webserver_request, identifier);
+    erase (identifier);
   }
 }
 
@@ -259,7 +260,8 @@ void Database_Notes::sync ()
   // Any note identifiers in the main index, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      Database_Logs::log ("notes.cpp sync erase note " + convert_to_string (id)); // Todo temporal
+      Database_Logs::log ("notes.cpp sync erase (not really) note " + convert_to_string (id)); // Todo temporal
+      trash_consultation_note (webserver_request, id); // Todo temporarily.
       // Todo temporarily off erase (id);
     }
   }
@@ -469,8 +471,7 @@ bool Database_Notes::identifierExists (int identifier)
 void Database_Notes::setIdentifier (int identifier, int new_identifier)
 {
   // Move data on the filesystem.
-  Database_Logs::log ("notes.cpp setIdentifier erase note " + convert_to_string (identifier)); // Todo temporal
-  // Todo temporarily off erase (new_identifier);
+  erase (new_identifier);
   string file = noteFolder (identifier);
   string newfile = noteFolder (new_identifier);
   filter_url_mkdir (filter_url_dirname (newfile));
@@ -863,8 +864,6 @@ void Database_Notes::setContents (int identifier, const string& contents)
 
 void Database_Notes::erase (int identifier)
 {
-  Database_Logs::log ("Database_Notes::erase note " + convert_to_string (identifier)); // Todo temporal
-  return; // Todo temporal
   // Delete from filesystem.
   string folder = noteFolder (identifier);
   filter_url_rmdir (folder);
@@ -1577,8 +1576,9 @@ vector <int> Database_Notes::getDueForDeletion ()
   for (auto & identifier : identifiers) {
     if (isMarkedForDeletion (identifier)) {
       string file = expiryFile (identifier);
-      int days = convert_to_int (filter_url_file_get_contents (file));
-      if (days <= 0) {
+      string sdays = filter_url_file_get_contents (file);
+      int idays = convert_to_int (sdays);
+      if ((sdays == "0") || (idays < 0)) {
         deletes.push_back (identifier);
       }
     }

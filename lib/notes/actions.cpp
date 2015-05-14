@@ -104,8 +104,7 @@ string notes_actions (void * webserver_request)
   
   
   if (request->query.count ("delete")) {
-    Database_Logs::log ("actions.cpp erase note " + convert_to_string (id)); // Todo temporal
-    // Todo temporarily off notes_logic.erase (id);
+    notes_logic.erase (id);
     redirect_browser (request, notes_index_url ());
     return "";
   }

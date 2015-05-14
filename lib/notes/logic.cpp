@@ -281,7 +281,7 @@ void Notes_Logic::erase (int identifier)
     handlerDeleteNote (identifier);
   }
   trash_consultation_note (webserver_request, identifier);
-  // Todo temporarily disabled database_notes.erase (identifier);
+  database_notes.erase (identifier);
 }
 
 
