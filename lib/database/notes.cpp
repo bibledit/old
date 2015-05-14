@@ -173,6 +173,7 @@ bool Database_Notes::checkup_checksums ()
 void Database_Notes::trim ()
 {
   // Clean empty directories.
+  string message = "Deleting empty folder ";
   string mainfolder = mainFolder ();
   vector <string> bits1 = filter_url_scandir (mainfolder);
   for (auto bit1 : bits1) {
@@ -180,16 +181,16 @@ void Database_Notes::trim ()
       string folder = filter_url_create_path (mainfolder, bit1);
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
-        Database_Logs::log ("database notes.cpp trim delete folder " + folder); // Todo temporal
-        // Todo temporarily disabled. filter_url_rmdir (folder);
+        Database_Logs::log (message + folder);
+        unlink (folder.c_str ());
       }
       for (auto bit2 : bits2) {
         if (convert_to_string (convert_to_int (bit2)) == bit2) {
           string folder = filter_url_create_path (mainfolder, bit1, bit2);
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
-            Database_Logs::log ("database notes.cpp trim delete folder " + folder); // Todo temporal
-            // Todo temporarily disabled. filter_url_rmdir (folder);
+            Database_Logs::log (message + folder);
+            unlink (folder.c_str());
           }
         }
       }

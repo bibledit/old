@@ -7,14 +7,30 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		CA7C433F1B039EFC00FFADCC /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		CA7C433F1B039EFC00FFADCC /* synchronize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = synchronize.sh; sourceTree = "<group>"; };
+		CA80EC121B03C2A0000A2591 /* bibledit.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = bibledit.1; sourceTree = "<group>"; };
+		CA80EC131B03C2EC000A2591 /* bibledit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibledit.cpp; sourceTree = "<group>"; };
+		CA80EC141B03C31A000A2591 /* bibledit.desktop */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.desktop; sourceTree = "<group>"; };
+		CA80EC151B03C355000A2591 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
+		CA80EC161B03C377000A2591 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
+		CA80EC171B03C384000A2591 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		CA80EC181B03C39C000A2591 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA80EC191B03C3B1000A2591 /* reconfigure */ = {isa = PBXFileReference; lastKnownFileType = text; path = reconfigure; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		CA6867431B03997100DB9422 = {
 			isa = PBXGroup;
 			children = (
-				CA7C433F1B039EFC00FFADCC /* build.sh */,
+				CA80EC121B03C2A0000A2591 /* bibledit.1 */,
+				CA80EC131B03C2EC000A2591 /* bibledit.cpp */,
+				CA80EC141B03C31A000A2591 /* bibledit.desktop */,
+				CA80EC151B03C355000A2591 /* bibledit.h */,
+				CA80EC161B03C377000A2591 /* configure.ac */,
+				CA80EC171B03C384000A2591 /* Makefile.am */,
+				CA80EC181B03C39C000A2591 /* README.md */,
+				CA80EC191B03C3B1000A2591 /* reconfigure */,
+				CA7C433F1B039EFC00FFADCC /* synchronize.sh */,
 			);
 			sourceTree = "<group>";
 		};

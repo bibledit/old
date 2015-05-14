@@ -1,4 +1,4 @@
-AC_INIT([bibledit-linux], [1.0.1],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -21,7 +21,7 @@ AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 
 echo "
-Bibledit-Linux $VERSION configuration summary:
+Bibledit $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}

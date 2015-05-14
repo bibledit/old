@@ -1,5 +1,5 @@
 /*
-** Copyright (©) 2003-2008 Teus Benschop.
+** Copyright (©) 2003-2015 Teus Benschop.
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 */
 
 
-#include <bibledit-linux.h>
+#include <bibledit.h>
 #include <config.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -56,7 +56,7 @@ void activate (GtkApplication *app)
   gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
   gtk_window_set_application (GTK_WINDOW (window), application);
 
-  gchar * iconfile = g_build_filename ("bibledit-linux.xpm", NULL);
+  gchar * iconfile = g_build_filename ("bibledit.xpm", NULL);
   gtk_window_set_default_icon_from_file (iconfile, NULL);
   g_free (iconfile);
 

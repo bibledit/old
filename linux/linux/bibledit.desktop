@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Bibledit
+Comment=Bibledit Bible editor
+Icon=bibledit
+Exec=bibledit
+Type=Application
+Categories=Office;
+
+Name[en_US]=bibledit.desktop
