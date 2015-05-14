@@ -1,0 +1,53 @@
+<h3>translate("Server connection")</h3>
+
+<!-- #BEGINZONE clienton -->
+<p>
+  translate("Connected to server.")
+  <a href="?disable=">translate("Disconnect.")</a>
+</p>
+<p>
+  translate("Server"):
+  <a href="##address##:##port##" ##targetblank##>##address##:##port##</a>
+</p>
+<p>translate("Your role:") ##role##</p>
+<!-- #ENDZONE clienton -->
+
+<!-- #BEGINZONE clientoff -->
+<p>translate("To connect to a Bibledit server, enter the requested details below, and click Connect.")</p>
+
+<br>
+
+<form action="index" name="server" method="post">
+  <table>
+  <tr>
+    <td align="right">translate("Internet address of the Bibledit server")</td>
+    <td><input type="text" name="address" maxlength="1000" value="##address##" autofocus /></td>
+  </tr>
+    <tr>
+      <td align="right">translate("Server port number")</td>
+      <td><input type="text" name="port" maxlength="6" value="##port##" /></td>
+    </tr>
+    <tr>
+    <td align="right">translate("Username on the server")</td>
+    <td><input type="text" name="user" maxlength="30" /></td>
+    </tr>
+    <tr>
+      <td align="right">translate("Password on the server")</td>
+      <td><input type="password" name="pass" maxlength="30" /></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" name="connect" class="focus" value="translate("Connect")" /></td>
+    </tr>
+  </table>
+</form>
+
+<br>
+
+<p><a href="?demo=">translate("Or else connect to the Bibledit demo server.")</a></p>
+<!-- #ENDZONE clientoff -->
+
+<br>
+<p class="error">##error##</p>
+<p class="success">##success##</p>
+<p class="error">##demo##</p>

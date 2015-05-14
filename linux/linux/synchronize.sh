@@ -11,10 +11,3 @@ rm ../valgrind
 rm ../unittest
 rm -f ../server
 rsync -av .. 192.168.2.12:./bibledit
-
-
-exit
-
-Linux dependencies, write them in an installation document.
-
-sudo apt-get install build-essential git zip pkgconf libxml2-dev libsqlite3-dev libcurl4-openssl-dev libssl-dev libgtk-3-dev
