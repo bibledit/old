@@ -256,7 +256,7 @@ string notes_select (void * webserver_request)
                                                          severity_selector,
                                                          text_selector,
                                                          search_text,
-                                                         0);
+                                                         -1);
   view.set_variable ("count", convert_to_string (identifiers.size()));
 
   

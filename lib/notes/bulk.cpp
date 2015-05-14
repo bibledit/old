@@ -108,7 +108,7 @@ string notes_bulk (void * webserver_request)
                                               severity_selector,
                                               text_selector,
                                               search_text,
-                                              0);
+                                              -1);
     vector <string> sids;
     for (auto id : identifiers) sids.push_back (convert_to_string (id));
     database_volatile.setValue (userid, "identifiers", filter_string_implode (sids, " "));
