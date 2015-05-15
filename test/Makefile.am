@@ -1,10 +1,10 @@
 noinst_LIBRARIES = libtest.a
 
-libtest_a_SOURCES = library/bibledit.cpp
+libtest_a_SOURCES = library.cpp
 
 bin_PROGRAMS = test
 
-test_SOURCES = executable/bibledit.cpp
+test_SOURCES = test.cpp
 
 test_LDADD = libtest.a
 

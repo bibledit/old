@@ -1,6 +1,5 @@
 AC_INIT([test],[1.0],[http://test.com])
 AM_INIT_AUTOMAKE
-LT_INIT
 AC_CANONICAL_BUILD
 
 AC_PROG_CC

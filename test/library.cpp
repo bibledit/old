@@ -17,8 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <config/libraries.h>
-#include <library/bibledit.h>
+#include <libraries.h>
 #include <libxml/threads.h>
 #include <curl/curl.h>
 

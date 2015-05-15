@@ -63,13 +63,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sqlite3.h>
 
 
-// Bibledit headers.
-// Include config.h only where needed in the .cpp files as that speeds up recompilation after increasing the version number.
-// #include <config.h> 
-
-
-// Work-around headers.
-#include <config/cygwin.h>
-
-
 using namespace std;
