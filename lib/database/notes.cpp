@@ -229,6 +229,9 @@ void Database_Notes::sync ()
 
   vector <string> bits1 = filter_url_scandir (mainfolder);
   for (auto & bit1 : bits1) {
+    // Bit1/2/3 may start with a 0, so conversion to int cannot be used, rather use a length of 3.
+    // It used conversion to int before to determine it was a real note,
+    // with the result that it missed 10% of the notes, which subsequently got deleted, oops!
     if (bit1.length () == 3) {
       vector <string> bits2 = filter_url_scandir (filter_url_create_path (mainfolder, bit1));
       for (auto & bit2 : bits2) {
