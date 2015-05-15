@@ -47,11 +47,13 @@ string debug_index (void * webserver_request)
   Assets_View view = Assets_View ();
 
   if (request->query.count ("debug")) {
+    /*
     Database_Notes database_notes = Database_Notes (&webserver_request);
     database_notes.trim ();
     database_notes.trim_server ();
     database_notes.optimize ();
     view.set_variable ("success", translate ("Command activated"));
+    */
   }
   
   page += view.render ("debug", "index");
