@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Bibledit Test
+Name=Bibledit
 Comment=Bible Editor
 Exec=bibledit.sh
 Icon=bibledit
