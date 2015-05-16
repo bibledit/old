@@ -229,13 +229,16 @@ void Database_Notes::sync ()
 
   vector <string> bits1 = filter_url_scandir (mainfolder);
   for (auto & bit1 : bits1) {
-    if (convert_to_string (convert_to_int (bit1)) == bit1) {
+    // Bit1/2/3 may start with a 0, so conversion to int cannot be used, rather use a length of 3.
+    // It used conversion to int before to determine it was a real note,
+    // with the result that it missed 10% of the notes, which subsequently got deleted, oops!
+    if (bit1.length () == 3) {
       vector <string> bits2 = filter_url_scandir (filter_url_create_path (mainfolder, bit1));
       for (auto & bit2 : bits2) {
-        if (convert_to_string (convert_to_int (bit2)) == bit2) {
+        if (bit2.length () == 3) {
           vector <string> bits3 = filter_url_scandir (filter_url_create_path (mainfolder, bit1, bit2));
           for (auto & bit3 : bits3) {
-            if (convert_to_string (convert_to_int (bit3)) == bit3) {
+            if (bit3.length () == 3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
               updateDatabase (identifier);
@@ -261,7 +264,7 @@ void Database_Notes::sync ()
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
       Database_Logs::log ("notes.cpp sync erase (not really) note " + convert_to_string (id)); // Todo temporal
-      trash_consultation_note (webserver_request, id); // Todo temporarily.
+      trash_consultation_note (webserver_request, id);
       // Todo temporarily off erase (id);
     }
   }

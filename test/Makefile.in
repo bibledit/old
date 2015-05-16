@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -88,7 +89,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
-bin_PROGRAMS = test$(EXEEXT)
+bin_PROGRAMS = bibledit$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -113,11 +114,12 @@ libtest_a_AR = $(AR) $(ARFLAGS)
 libtest_a_LIBADD =
 am_libtest_a_OBJECTS = library.$(OBJEXT)
 libtest_a_OBJECTS = $(am_libtest_a_OBJECTS)
-am__installdirs = "$(DESTDIR)$(bindir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(appicondir)" \
+	"$(DESTDIR)$(applicationdir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_test_OBJECTS = test.$(OBJEXT)
-test_OBJECTS = $(am_test_OBJECTS)
-test_DEPENDENCIES = libtest.a
+am_bibledit_OBJECTS = test.$(OBJEXT)
+bibledit_OBJECTS = $(am_bibledit_OBJECTS)
+bibledit_DEPENDENCIES = libtest.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -147,13 +149,41 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libtest_a_SOURCES) $(test_SOURCES)
-DIST_SOURCES = $(libtest_a_SOURCES) $(test_SOURCES)
+SOURCES = $(libtest_a_SOURCES) $(bibledit_SOURCES)
+DIST_SOURCES = $(libtest_a_SOURCES) $(bibledit_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+DATA = $(appicon_DATA) $(application_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
 	$(LISP)config.h.in
 # Read a list of newline-separated strings from the standard input,
@@ -306,12 +336,16 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libtest.a
 libtest_a_SOURCES = library.cpp
-test_SOURCES = test.cpp
-test_LDADD = libtest.a
+bibledit_SOURCES = test.cpp
+bibledit_LDADD = libtest.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking \
 	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
 	$(GIT_CFLAGS) $(OPENSSL_CFLAGS)
 CLEANFILES = test*.gz *~
+applicationdir = $(datadir)/applications
+application_DATA = bibledit.desktop
+appicondir = $(datadir)/pixmaps
+appicon_DATA = bibledit.xpm
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -416,9 +450,9 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
-test$(EXEEXT): $(test_OBJECTS) $(test_DEPENDENCIES) $(EXTRA_test_DEPENDENCIES) 
-	@rm -f test$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(test_OBJECTS) $(test_LDADD) $(LIBS)
+bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) $(EXTRA_bibledit_DEPENDENCIES) 
+	@rm -f bibledit$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -444,6 +478,48 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+install-appiconDATA: $(appicon_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(appicon_DATA)'; test -n "$(appicondir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(appicondir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(appicondir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(appicondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(appicondir)" || exit $$?; \
+	done
+
+uninstall-appiconDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(appicon_DATA)'; test -n "$(appicondir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(appicondir)'; $(am__uninstall_files_from_dir)
+install-applicationDATA: $(application_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(application_DATA)'; test -n "$(applicationdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(applicationdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(applicationdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(applicationdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(applicationdir)" || exit $$?; \
+	done
+
+uninstall-applicationDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(application_DATA)'; test -n "$(applicationdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(applicationdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -669,9 +745,9 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(PROGRAMS) config.h
+all-am: Makefile $(LIBRARIES) $(PROGRAMS) $(DATA) config.h
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(appicondir)" "$(DESTDIR)$(applicationdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -729,7 +805,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-appiconDATA install-applicationDATA
 
 install-dvi: install-dvi-am
 
@@ -776,7 +852,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-appiconDATA uninstall-applicationDATA \
+	uninstall-binPROGRAMS
 
 .MAKE: all install-am install-strip
 
@@ -787,7 +864,8 @@ uninstall-am: uninstall-binPROGRAMS
 	dist-xz dist-zip distcheck distclean distclean-compile \
 	distclean-generic distclean-hdr distclean-tags distcleancheck \
 	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-binPROGRAMS install-data \
+	info-am install install-am install-appiconDATA \
+	install-applicationDATA install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-pdf install-pdf-am \
@@ -795,7 +873,8 @@ uninstall-am: uninstall-binPROGRAMS
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	uninstall-am uninstall-appiconDATA uninstall-applicationDATA \
+	uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 

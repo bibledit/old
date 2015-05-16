@@ -1,6 +1,7 @@
 AC_INIT([test],[1.0],[http://test.com])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
+ac_default_prefix=/usr
 
 AC_PROG_CC
 AC_PROG_CXX

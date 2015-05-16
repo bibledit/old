@@ -1,6 +1,7 @@
-AC_INIT([bibledit],[1.0.134],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.136],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
+ac_default_prefix=/usr
 
 AC_PROG_CC
 AC_PROG_CXX
@@ -82,7 +83,7 @@ AC_SUBST(OPENSSL_LIBS)
 PKG_CHECK_MODULES(GTK, gtk+-3.0,,AC_MSG_ERROR(Gtk3 development version is needed.))
 AC_SUBST(GTK_LIBS)
 AC_SUBST(GTK_CFLAGS)
-# Tag4 (leave in place)
+AC_DEFINE([CLIENT_PREPARED], [1], [Enable client installation for on Linux])
 
 
 AC_CHECK_HEADER(pthread.h,AC_DEFINE([HAVE_PTHREAD],[1],[Define whether pthread.h is present]),)

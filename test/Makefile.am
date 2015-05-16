@@ -2,11 +2,11 @@ noinst_LIBRARIES = libtest.a
 
 libtest_a_SOURCES = library.cpp
 
-bin_PROGRAMS = test
+bin_PROGRAMS = bibledit
 
-test_SOURCES = test.cpp
+bibledit_SOURCES = test.cpp
 
-test_LDADD = libtest.a
+bibledit_LDADD = libtest.a
 
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
 AM_CXXFLAGS += `xml2-config --cflags`	
@@ -23,3 +23,10 @@ LIBS += $(GIT_LIBS)
 LIBS += $(OPENSSL_LIBS)
 
 CLEANFILES = test*.gz *~
+
+applicationdir = $(datadir)/applications
+application_DATA = bibledit.desktop
+
+appicondir = $(datadir)/pixmaps
+appicon_DATA = bibledit.xpm
+

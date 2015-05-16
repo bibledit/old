@@ -1,9 +1,10 @@
 [Desktop Entry]
-Name=Bibledit
-Comment=Bibledit Bible editor
+Name=Bibledit Test
+Comment=Bible Editor
+Exec=bibledit.sh
 Icon=bibledit
-Exec=bibledit
+Terminal=false
 Type=Application
-Categories=Office;
-
-Name[en_US]=bibledit.desktop
+Categories=GTK;GNOME;Office;
+StartupNotify=true
+NoDisplay=false

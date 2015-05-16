@@ -307,7 +307,7 @@ libbibledit_a_SOURCES = \
 	webbible/search.cpp \
 	debug/index.cpp
 
-bin_PROGRAMS = bibledit
+noinst_PROGRAMS = bibledit
 
 bibledit_SOURCES = executable/bibledit.cpp
 
@@ -327,7 +327,7 @@ LIBS += $(CURL_LIBS)
 LIBS += $(GIT_LIBS)
 LIBS += $(OPENSSL_LIBS)
 
-EXTRA_DIST = a* bible bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm
+EXTRA_DIST = a* bible bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm *.sh *.1
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`
@@ -337,3 +337,11 @@ dist-hook:
 CLEANFILES = bibledit*.gz *~
 
 man_MANS = *.1
+
+applicationdir = $(datadir)/applications
+application_DATA = bibledit.desktop
+
+appicondir = $(datadir)/pixmaps
+appicon_DATA = bibledit.xpm
+
+bin_SCRIPTS = bibledit.sh

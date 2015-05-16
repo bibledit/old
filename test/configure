@@ -2814,6 +2814,7 @@ IFS=$ac_save_IFS
 case $build_os in *\ *) build_os=`echo "$build_os" | sed 's/ /-/g'`;; esac
 
 
+ac_default_prefix=/usr
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
