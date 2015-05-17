@@ -131,7 +131,6 @@ string sync_notes (void * webserver_request)
       database_notes.updateChecksum (identifier);
       // Return summary.
       string summary = database_notes.getSummary (identifier);
-      Database_Logs::log ("Client requested a note from server: " + summary, Filter_Roles::manager ());
       return summary;
     }
     case Sync_Logic::notes_get_contents:
