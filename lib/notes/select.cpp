@@ -175,6 +175,12 @@ string notes_select (void * webserver_request)
   if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
   string bibleblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
+  // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
+  if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) {
+    vector <string> notesbibles = database_notes.getAllBibles ();
+    bibles.insert (bibles.end (), notesbibles.begin (), notesbibles.end ());
+    bibles = array_unique (bibles);
+  }
   for (auto bible : bibles) {
     bibleblock.append (" | ");
     bibleblock.append ("<a ");

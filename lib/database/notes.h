@@ -89,6 +89,7 @@ public:
   void unassignUser (int identifier, const string& user);
   string getBible (int identifier);
   void setBible (int identifier, const string& bible);
+  vector <string> getAllBibles ();
   string encodePassage (int book, int chapter, int verse);
   Passage decodePassage (string passage);
   string getRawPassage (int identifier);

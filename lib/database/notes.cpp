@@ -1149,6 +1149,21 @@ void Database_Notes::setBible (int identifier, const string& bible)
 }
 
 
+vector <string> Database_Notes::getAllBibles ()
+{
+  vector <string> bibles;
+  sqlite3 * db = connect ();
+  vector <int> identifiers;
+  vector <string> result = database_sqlite_query (db, "SELECT DISTINCT bible FROM notes;") ["bible"];
+  for (auto & bible : result) {
+    if (bible.empty ()) continue;
+    bibles.push_back (bible);
+  }
+  database_sqlite_disconnect (db);
+  return bibles;
+}
+
+
 // Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
 // and returns this as a string.
 // The chapter and the verse can be negative, in which case they won't be included.
