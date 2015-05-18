@@ -126,8 +126,6 @@ void tasks_run_one (string filename)
     sendreceive_sendreceive (parameter1);
   } else if (command == SYNCNOTES) {
     sendreceive_notes ();
-  } else if (command == DOWNLOADNOTES) {
-    sendreceive_notes_download (convert_to_int (parameter1), convert_to_int (parameter2));
   } else if (command == SYNCBIBLES) {
     sendreceive_bibles ();
   } else if (command == SYNCSETTINGS) {

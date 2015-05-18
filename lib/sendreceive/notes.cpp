@@ -301,11 +301,8 @@ void sendreceive_notes ()
   
   // After all note actions have been sent to the server, and the notes updated on the client,
   // the client will now sync its notes with the server's notes.
-  if (!tasks_logic_queued (DOWNLOADNOTES)) {
-    int lowId = Notes_Logic::lowNoteIdentifier;
-    int highId = Notes_Logic::highNoteIdentifier;
-    tasks_logic_queue (DOWNLOADNOTES, { convert_to_string (lowId), convert_to_string (highId) });
-  }
+  sendreceive_notes_download (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
+
   sendreceive_notes_done ();
 }
 
@@ -408,11 +405,11 @@ void sendreceive_notes_download (int lowId, int highId)
 
   // We know the total number of notes.
   // If the total note count is too high, divide the range of notes into smaller ranges,
-  // and then schedule a task for each range.
+  // and then deal with each range.
   if (server_total > 20) {
      vector <Sync_Logic_Range> ranges = sync_logic.create_range (lowId, highId);
     for (auto range : ranges) {
-      tasks_logic_queue (DOWNLOADNOTES, {convert_to_string (range.low), convert_to_string (range.high)});
+      sendreceive_notes_download (range.low, range.high);
     }
     return;
   }
