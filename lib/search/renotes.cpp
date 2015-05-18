@@ -41,6 +41,11 @@ void search_reindex_notes ()
   database_notes.set_availability (false);
   
   
+  // Delay shortly to give existing processes a change to complete.
+  // Without this delay, "locked database" errors have been seen.
+  this_thread::sleep_for (chrono::seconds (1));
+
+  
   // Check on health of the databases, and optionally recreate them.
   bool recreate = database_notes.checkup ();
   if (recreate) {
