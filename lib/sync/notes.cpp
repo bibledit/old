@@ -65,7 +65,6 @@ string sync_notes (void * webserver_request)
   if (!database_notes.checksums_healthy ()) available = false;
   if (!database_notes.available ()) available = false;
   if (!available) {
-    Database_Logs::log ("Notes databases are unhealthy or unavailable", Filter_Roles::translator ());
     request->response_code = 405;
     return "";
   }
