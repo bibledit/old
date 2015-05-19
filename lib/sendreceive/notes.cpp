@@ -303,6 +303,8 @@ void sendreceive_notes ()
   // the client will now sync its notes with the server's notes.
   sendreceive_notes_download (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
 
+  Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
+
   sendreceive_notes_done ();
 }
 
@@ -356,8 +358,7 @@ void sendreceive_notes_download (int lowId, int highId)
   string url = client_logic_url (address, port, sync_notes_url ());
   
 
-  // Whether this is the main script.
-  bool main_script = (lowId == Notes_Logic::lowNoteIdentifier) && (highId == Notes_Logic::highNoteIdentifier);
+  // Database_Logs::log ("sendreceive_notes_download from " + convert_to_string (lowId) + " to " + convert_to_string (highId)); // Todo
   
   
   // The basic request to be POSTed to the server.
@@ -390,9 +391,10 @@ void sendreceive_notes_download (int lowId, int highId)
   vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, {}, true);
   int client_total = identifiers.size ();
   string client_checksum = database_notes.getMultipleChecksum (identifiers);
+  // Database_Logs::log ("totals/checksum server: " + convert_to_string (server_total) + "/" + server_checksum); // Todo
+  // Database_Logs::log ("totals/checksum client: " + convert_to_string (client_total) + "/" + client_checksum); // Todo
   if (server_total == client_total) {
     if (server_checksum == client_checksum) {
-      if (main_script) Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
       return;
     }
   }
@@ -530,12 +532,16 @@ void sendreceive_notes_download (int lowId, int highId)
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting passages: " + error, Filter_Roles::translator ());
       return;
     }
-    vector <string> lines = filter_string_explode (response, '\n');
-    vector <Passage> passages;
-    for (auto & line : lines) {
-      passages.push_back (filter_integer_to_passage (convert_to_int (line)));
-    }
-    database_notes.setPassages (identifier, passages);
+    // The server sent the raw passage contents, and store that on the client as well.
+    // The reason for this is as follows:
+    // There is a difference between Bibledit as written in PHP and Bibledit in C++,
+    // with regard to whether the passages file has a new line at the end or not.
+    // To ensure that the client passage file has exactly the same contents as on the server,
+    // the contents should be passed in its raw form, without processing it.
+    // If it were processed, then there will be a situation that the client keeps downloading
+    // notes from the server, and never stops doing so, because the passage file contents
+    // will always remain different. Raw passages transfer fix this.
+    database_notes.setRawPassage (identifier, response); // Todo
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_severity);
     response = sync_logic.post (post, url, error);

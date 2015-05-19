@@ -95,6 +95,7 @@ public:
   string getRawPassage (int identifier);
   vector <Passage> getPassages (int identifier);
   void setPassages (int identifier, const vector <Passage>& passages, bool import = false);
+  void setRawPassage (int identifier, const string& passage);
   string getRawStatus (int identifier);
   string getStatus (int identifier);
   void setStatus (int identifier, const string& status, bool import = false);

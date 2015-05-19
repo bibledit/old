@@ -1230,7 +1230,7 @@ vector <Passage> Database_Notes::getPassages (int identifier)
 // Set the passages for note identifier.
 // passages is an array of an array (book, chapter, verse) passages.
 // import: If true, just write passages, no further actions.
-void Database_Notes::setPassages (int identifier, const vector <Passage>& passages, bool import)
+void Database_Notes::setPassages (int identifier, const vector <Passage>& passages, bool import) // Todo
 {
   // Format the passages.
   string line;
@@ -1238,17 +1238,32 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
     if (!line.empty ()) line.append ("\n");
     line.append (encodePassage (passage.book, passage.chapter, convert_to_int (passage.verse)));
   }
-
-  // Store the authoritative copy in the filesystem.
-  string file = passageFile (identifier);
-  filter_url_file_put_contents (file, line);
+  // Store it.
+  setRawPassage (identifier, line);
 
   if (!import) noteEditedActions (identifier);
+}
 
+
+// Sets the raw $passage(s) for a note $identifier.
+// The reason for having this function is this:
+// There is a slight difference in adding a new line or not to the passage
+// between Bibledit as it was written in PHP,
+// and Bibledit as it is now written in C++.
+// Due to this difference, when a client downloads a note from the server,
+// it should download the exact passage file contents as it is on the server,
+// so as to prevent keeping to download the same notes over and over,
+// due to the above mentioned difference in adding a new line or not.
+void Database_Notes::setRawPassage (int identifier, const string& passage) // Todo
+{
+  // Store the authoritative copy in the filesystem.
+  string file = passageFile (identifier);
+  filter_url_file_put_contents (file, passage);
+  
   // Update the shadow database also.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET passage =");
-  sql.add (line);
+  sql.add (passage);
   sql.add ("WHERE identifier =");
   sql.add (identifier);
   sql.add (";");
@@ -1625,7 +1640,7 @@ void Database_Notes::setChecksum (int identifier, const string & checksum)
 
 
 // Reads the checksum for note identifier from the database.
-string Database_Notes::getChecksum (int identifier)
+string Database_Notes::getChecksum (int identifier) // Todo
 {
   SqliteSQL sql;
   sql.add ("SELECT checksum FROM checksums WHERE identifier =");
@@ -1657,7 +1672,7 @@ void Database_Notes::deleteChecksum (int identifier)
 
 // The function calculates the checksum of the note signature,
 // and writes it to the filesystem.
-void Database_Notes::updateChecksum (int identifier)
+void Database_Notes::updateChecksum (int identifier) // Todo
 {
   // Read the raw data from disk to speed up checksumming.
   string checksum;
@@ -1684,8 +1699,8 @@ void Database_Notes::updateChecksum (int identifier)
 }
 
 
-// Reads the checksum for the notes given in array identifiers from the database.
-string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
+// Queries the database for the checksum for the notes given in the list of $identifiers.
+string Database_Notes::getMultipleChecksum (const vector <int> & identifiers) // Todo
 {
   sqlite3 * db = connect_checksums ();
   string checksum;

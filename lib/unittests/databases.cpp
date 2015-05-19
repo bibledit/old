@@ -2907,6 +2907,9 @@ void test_database_notes ()
     database_notes.erase (identifier);
     database_notes.trim ();
     database_notes.trim_server ();
+    // Since the logbook will have an entry about "Deleting empty notes folder",
+    // erase that entry here.
+    refresh_sandbox (false);
   }
   // Identifier.
   {

@@ -152,12 +152,8 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_passages:
     {
-      vector <Passage> passages = database_notes.getPassages (identifier);
-      vector <string> lines;
-      for (auto & passage : passages) {
-        lines.push_back (convert_to_string (filter_passage_to_integer (passage)));
-      }
-      return filter_string_implode (lines, "\n");
+      // Send the raw passage contents to the client, see the client code for the reason why.
+      return database_notes.getRawPassage (identifier);
     }
     case Sync_Logic::notes_get_severity:
     {
