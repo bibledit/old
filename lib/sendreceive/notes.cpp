@@ -188,12 +188,7 @@ void sendreceive_notes ()
         }
         case Sync_Logic::notes_put_passages:
         {
-          vector <Passage> passages = database_notes.getPassages (identifier);
-          vector <string> lines;
-          for (auto & passage : passages) {
-            lines.push_back (convert_to_string (filter_passage_to_integer (passage)));
-          }
-          content = filter_string_implode (lines, "\n");
+          content = database_notes.getRawPassage (identifier); // Todo check this as it is new code.
           break;
         }
         case Sync_Logic::notes_put_severity:
