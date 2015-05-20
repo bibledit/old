@@ -46,4 +46,3 @@ Set the correct background image, and view options.
 Create a link to /Applications, and add this link.
 Convert the dmg to read-only.
 
-Create a package through software "Packages" available from http://s.sudre.free.fr/Software/Packages/about.html.
