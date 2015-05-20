@@ -5,7 +5,7 @@ Bibledit for OS X source code repository and developer assistance
 
 
 Introduction
-
+____________
 
 Bibledit has been working on OS X in various forms:
 * Bibledit-Gtk written for Linux and ported to Mac OS X.
