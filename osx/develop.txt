@@ -37,12 +37,17 @@ Compiling the Bibledit library:
 Run the script in folder "scripts".
 
 
-Building the app for distribution:
+Building and distributing the app:
+Remove all *.o files from webroot (find webroot -name "*.o" -delete)
 Rename /opt/local to something else so it cannot link against any of those libraries.
 Open the Xcode project.
 Build it.
 Copy the Bibledit product from Xcode to another location.
+Test it from the other location.
+Archive the app from Xcode, and submit it to the Apple App Store.
 
+
+History:
 
 Distributing the app:
 Create a dmg in Disk Utility.
@@ -51,6 +56,4 @@ Set the correct background image, and view options.
 Create a link to /Applications, and add this link.
 Convert the dmg to read-only.
 
-
 Create a package through software "Packages" available from http://s.sudre.free.fr/Software/Packages/about.html.
-

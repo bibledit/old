@@ -9,7 +9,9 @@ pushd ../webroot
 
 # Sychronizes the libbibledit data files in the source tree to OS X and cleans them up.
 rsync -av --delete ../../lib/ .
+./configure
 make distclean
+rm config.h
 
 
 # Xcode's toolchain for C and C++.
@@ -21,7 +23,7 @@ export CXX="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.x
 SDK=`xcrun --show-sdk-path`
 
 
-# Configure Bibledit in client mode,
+# Configure Bibledit in client mode.
 ./configure --enable-client
 
 
@@ -42,9 +44,10 @@ cp library/bibledit.h ../Bibledit
 
 
 # Clean out stuff no longer needed.
-find . -name "*.h" -delete
-find . -name "*.cpp" -delete
-find . -name "*.c" -delete
+# find . -name "*.h" -delete
+# find . -name "*.cpp" -delete
+# find . -name "*.c" -delete
+# find . -name "*.o" -delete
 rm *.m4
 rm -r autom*cache
 rm bibledit
@@ -60,7 +63,7 @@ rm valgrind
 find . -name ".deps" -exec rm -r "{}" \; > /dev/null 2>&1
 find . -name ".dirstamp" -delete
 rm Makefile*
-rm server
+# rm server
 rm stamp-h1
 
 

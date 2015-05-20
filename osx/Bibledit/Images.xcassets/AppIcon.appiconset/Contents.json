@@ -3,54 +3,61 @@
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "bibledit_16x16.png",
+      "filename" : "bibledit16x16.jpg",
       "scale" : "1x"
     },
     {
-      "idiom" : "mac",
       "size" : "16x16",
+      "idiom" : "mac",
+      "filename" : "bibledit32x32-2.jpg",
       "scale" : "2x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "bibledit_32x32.png",
+      "filename" : "bibledit32x32.jpg",
       "scale" : "1x"
     },
     {
-      "idiom" : "mac",
       "size" : "32x32",
+      "idiom" : "mac",
+      "filename" : "bibledit64x64.jpg",
       "scale" : "2x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "bibledit_128x128.png",
+      "filename" : "bibledit128x128.jpg",
       "scale" : "1x"
     },
     {
-      "idiom" : "mac",
       "size" : "128x128",
+      "idiom" : "mac",
+      "filename" : "bibledit256x256-2.jpg",
       "scale" : "2x"
     },
     {
-      "idiom" : "mac",
       "size" : "256x256",
+      "idiom" : "mac",
+      "filename" : "bibledit256x256.jpg",
       "scale" : "1x"
     },
     {
-      "idiom" : "mac",
       "size" : "256x256",
+      "idiom" : "mac",
+      "filename" : "bibledit512x512-2.jpg",
       "scale" : "2x"
     },
     {
-      "idiom" : "mac",
       "size" : "512x512",
+      "idiom" : "mac",
+      "filename" : "bibledit512x512.jpg",
       "scale" : "1x"
     },
     {
-      "idiom" : "mac",
       "size" : "512x512",
+      "idiom" : "mac",
+      "filename" : "bibledit1024x1024.jpg",
       "scale" : "2x"
     }
   ],

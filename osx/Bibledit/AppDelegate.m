@@ -26,6 +26,8 @@
     float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
     bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
     
+    NSLog (@"%s", document_root); // Todo
+    
     bibledit_start_library ();
 }
 
