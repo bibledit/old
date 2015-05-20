@@ -1,16 +1,26 @@
-<h2>translate("Install Bibledit on Ubuntu")</h2>
+<h2>translate("Install Bibledit on Debian")</h2>
 <p>
 translate("Follow the steps below to install Bibledit.")
 </p>
 <ol>
   <li>translate("Open a terminal.")</li>
   <li>
+    <p>translate("Become the root user:")</p>
+    <p><code>su</code></p>
+    <p>translate("Enter the root password.")</p>
+    <p><code>cd</code></p>
+  </li>
+  <li>
     <p>translate("Update the software sources:")</p>
-    <p><code>sudo apt-get update</code></p>
+    <p><code>apt-get update</code></p>
   </li>
   <li>
     <p>translate("Install the software Bibledit relies on:")</p>
-    <p><code>sudo apt-get install build-essential git zip pkgconf libxml2-dev libsqlite3-dev libcurl4-openssl-dev libssl-dev libgtk-3-dev</code></p>
+    <p><code>apt-get install build-essential git zip pkgconf libxml2-dev libsqlite3-dev libcurl4-openssl-dev libssl-dev libgtk-3-dev</code></p>
+  </li>
+  <li>
+    <p>translate("Become the normal user:")</p>
+    <p><code>exit</code></p>
   </li>
   <li>
     <p>translate("Download Bibledit:")</p>

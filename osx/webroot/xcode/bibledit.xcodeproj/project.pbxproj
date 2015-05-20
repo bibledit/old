@@ -104,6 +104,7 @@
 		CA180F251AC71539006CA48B /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA180F261AC71542006CA48B /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA180F271AC71542006CA48B /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
+		CA1A4EA51B076BF200731796 /* installcloudubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudubuntu.html; sourceTree = "<group>"; };
 		CA2726361AE29FA700440227 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA2726371AE29FA700440227 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA28411A1A614BAF0046C073 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -533,10 +534,9 @@
 		CAA4D1441A45A647003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA4D1451A45A647003ABA25 /* installandroid.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installandroid.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1461A45A647003ABA25 /* installation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installation.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAA4D1471A45A647003ABA25 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcentos.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CAA4D1471A45A647003ABA25 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcentos.html; sourceTree = "<group>"; };
 		CAA4D1481A45A647003ABA25 /* installios.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installios.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1491A45A647003ABA25 /* installosx.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installosx.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAA4D14A1A45A647003ABA25 /* installpclinuxos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installpclinuxos.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D14B1A45A647003ABA25 /* installubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installubuntu.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D14C1A45A647003ABA25 /* installwindows.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installwindows.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D14D1A45A647003ABA25 /* introduction.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = introduction.html; sourceTree = "<group>"; };
@@ -822,6 +822,9 @@
 		CAB06DFD1AD2FA3800AE245C /* bibleditweb.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bibleditweb.html; sourceTree = "<group>"; };
 		CAB399B31A484893007C79E8 /* indexm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indexm.cpp; sourceTree = "<group>"; };
 		CAB399B41A484893007C79E8 /* indexm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indexm.h; sourceTree = "<group>"; };
+		CAB5DE0B1B04BCFC00245D9F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CAB5DE0C1B04BCFC00245D9F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CAB5DE0D1B04BCFC00245D9F /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAB9C5191AD403FC006A2E43 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAB9C51A1AD403FC006A2E43 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAB9C51B1AD43A2C006A2E43 /* search.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = search.cpp; sourceTree = "<group>"; };
@@ -903,6 +906,11 @@
 		CABF088E1A8E29A600003101 /* editing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editing.cpp; sourceTree = "<group>"; };
 		CABF088F1A8E29A600003101 /* editing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = editing.h; sourceTree = "<group>"; };
 		CABF08901A8E2B9400003101 /* editing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editing.html; sourceTree = "<group>"; };
+		CAC758741B07991E00A3AB21 /* installlinuxmint.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installlinuxmint.html; sourceTree = "<group>"; };
+		CAC758751B07C9F100A3AB21 /* installdebian.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installdebian.html; sourceTree = "<group>"; };
+		CAC758761B07CA0700A3AB21 /* installopensuse.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installopensuse.html; sourceTree = "<group>"; };
+		CAC758771B07CA1600A3AB21 /* installfedora.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installfedora.html; sourceTree = "<group>"; };
+		CAC758781B07CA2500A3AB21 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcentos.html; sourceTree = "<group>"; };
 		CAC949A11AB9998300171978 /* change.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = change.cpp; sourceTree = "<group>"; };
 		CAC949A21AB9998300171978 /* change.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = change.h; sourceTree = "<group>"; };
 		CAC949A31AB9998300171978 /* change.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = change.html; sourceTree = "<group>"; };
@@ -1882,9 +1890,13 @@
 				CAA4D1451A45A647003ABA25 /* installandroid.html */,
 				CAA4D1461A45A647003ABA25 /* installation.html */,
 				CAA4D1471A45A647003ABA25 /* installcentos.html */,
+				CA1A4EA51B076BF200731796 /* installcloudubuntu.html */,
+				CAC758751B07C9F100A3AB21 /* installdebian.html */,
+				CAC758771B07CA1600A3AB21 /* installfedora.html */,
 				CAA4D1481A45A647003ABA25 /* installios.html */,
+				CAC758741B07991E00A3AB21 /* installlinuxmint.html */,
+				CAC758761B07CA0700A3AB21 /* installopensuse.html */,
 				CAA4D1491A45A647003ABA25 /* installosx.html */,
-				CAA4D14A1A45A647003ABA25 /* installpclinuxos.html */,
 				CAA4D14B1A45A647003ABA25 /* installubuntu.html */,
 				CAA4D14C1A45A647003ABA25 /* installwindows.html */,
 				CAA4D14D1A45A647003ABA25 /* introduction.html */,
@@ -1899,6 +1911,7 @@
 				CAA4D1551A45A647003ABA25 /* typesetting.html */,
 				CAA4D1561A45A647003ABA25 /* typesettingindesign.html */,
 				CAA4D1571A45A647003ABA25 /* typesettinglibreoffice.html */,
+				CAC758781B07CA2500A3AB21 /* installcentos.html */,
 			);
 			name = help;
 			path = ../help;
@@ -2920,6 +2933,7 @@
 				CAA4CFDB1A45A647003ABA25 /* css */,
 				CAA4CFDF1A45A647003ABA25 /* database */,
 				CAA4D0491A45A647003ABA25 /* databases */,
+				CAB5DE051B04BCFC00245D9F /* debug */,
 				CAA4D0651A45A647003ABA25 /* demo */,
 				CAA4D0681A45A647003ABA25 /* dev */,
 				CAA4D0691A45A647003ABA25 /* DEVELOP */,
@@ -3002,6 +3016,17 @@
 			indentWidth = 2;
 			sourceTree = "<group>";
 			tabWidth = 2;
+		};
+		CAB5DE051B04BCFC00245D9F /* debug */ = {
+			isa = PBXGroup;
+			children = (
+				CAB5DE0B1B04BCFC00245D9F /* index.cpp */,
+				CAB5DE0C1B04BCFC00245D9F /* index.h */,
+				CAB5DE0D1B04BCFC00245D9F /* index.html */,
+			);
+			name = debug;
+			path = ../debug;
+			sourceTree = "<group>";
 		};
 		CAF6DBE91A72583700E5389F /* collaboration */ = {
 			isa = PBXGroup;

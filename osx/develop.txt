@@ -33,8 +33,14 @@ It proves that the timeout is not in libcurl itself, but in one of its dependenc
 This works well: No timeout / works on clean Mac OS X.
 
 
+Compiling the Bibledit library:
+Run the script in folder "scripts".
+
+
 Building the app for distribution:
 Rename /opt/local to something else so it cannot link against any of those libraries.
+Open the Xcode project.
+Build it.
 Copy the Bibledit product from Xcode to another location.
 
 
@@ -44,4 +50,7 @@ Add Bibledit.app to it.
 Set the correct background image, and view options.
 Create a link to /Applications, and add this link.
 Convert the dmg to read-only.
+
+
+Create a package through software "Packages" available from http://s.sudre.free.fr/Software/Packages/about.html.
 
