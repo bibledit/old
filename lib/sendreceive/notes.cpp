@@ -352,9 +352,6 @@ void sendreceive_notes_download (int lowId, int highId)
   int port = Database_Config_General::getServerPort ();
   string url = client_logic_url (address, port, sync_notes_url ());
   
-
-  // Database_Logs::log ("sendreceive_notes_download from " + convert_to_string (lowId) + " to " + convert_to_string (highId)); // Todo
-  
   
   // The basic request to be POSTed to the server.
   map <string, string> post;
@@ -386,8 +383,6 @@ void sendreceive_notes_download (int lowId, int highId)
   vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, {}, true);
   int client_total = identifiers.size ();
   string client_checksum = database_notes.getMultipleChecksum (identifiers);
-  // Database_Logs::log ("totals/checksum server: " + convert_to_string (server_total) + "/" + server_checksum); // Todo
-  // Database_Logs::log ("totals/checksum client: " + convert_to_string (client_total) + "/" + client_checksum); // Todo
   if (server_total == client_total) {
     if (server_checksum == client_checksum) {
       return;

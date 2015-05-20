@@ -189,7 +189,7 @@ void Notes_Logic::setStatus (int identifier, const string& status)
 
 
 // Set the passages for note identifier.
-void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages) // Todo update: raw. Is this needed for a client that receives passages from the server??
+void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.setPassages (identifier, passages);

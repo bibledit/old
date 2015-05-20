@@ -263,9 +263,8 @@ void Database_Notes::sync ()
   // Any note identifiers in the main index, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      Database_Logs::log ("notes.cpp sync erase (not really) note " + convert_to_string (id)); // Todo temporal
       trash_consultation_note (webserver_request, id);
-      // Todo temporarily off erase (id);
+      erase (id);
     }
   }
   
@@ -1230,7 +1229,7 @@ vector <Passage> Database_Notes::getPassages (int identifier)
 // Set the passages for note identifier.
 // passages is an array of an array (book, chapter, verse) passages.
 // import: If true, just write passages, no further actions.
-void Database_Notes::setPassages (int identifier, const vector <Passage>& passages, bool import) // Todo
+void Database_Notes::setPassages (int identifier, const vector <Passage>& passages, bool import)
 {
   // Format the passages.
   string line;
@@ -1254,7 +1253,7 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
 // it should download the exact passage file contents as it is on the server,
 // so as to prevent keeping to download the same notes over and over,
 // due to the above mentioned difference in adding a new line or not.
-void Database_Notes::setRawPassage (int identifier, const string& passage) // Todo
+void Database_Notes::setRawPassage (int identifier, const string& passage)
 {
   // Store the authoritative copy in the filesystem.
   string file = passageFile (identifier);
@@ -1640,7 +1639,7 @@ void Database_Notes::setChecksum (int identifier, const string & checksum)
 
 
 // Reads the checksum for note identifier from the database.
-string Database_Notes::getChecksum (int identifier) // Todo
+string Database_Notes::getChecksum (int identifier)
 {
   SqliteSQL sql;
   sql.add ("SELECT checksum FROM checksums WHERE identifier =");
@@ -1672,7 +1671,7 @@ void Database_Notes::deleteChecksum (int identifier)
 
 // The function calculates the checksum of the note signature,
 // and writes it to the filesystem.
-void Database_Notes::updateChecksum (int identifier) // Todo
+void Database_Notes::updateChecksum (int identifier)
 {
   // Read the raw data from disk to speed up checksumming.
   string checksum;
@@ -1700,7 +1699,7 @@ void Database_Notes::updateChecksum (int identifier) // Todo
 
 
 // Queries the database for the checksum for the notes given in the list of $identifiers.
-string Database_Notes::getMultipleChecksum (const vector <int> & identifiers) // Todo
+string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
 {
   sqlite3 * db = connect_checksums ();
   string checksum;
