@@ -44,10 +44,10 @@ cp library/bibledit.h ../Bibledit
 
 
 # Clean out stuff no longer needed.
-# find . -name "*.h" -delete
-# find . -name "*.cpp" -delete
-# find . -name "*.c" -delete
-# find . -name "*.o" -delete
+find . -name "*.h" -delete
+find . -name "*.cpp" -delete
+find . -name "*.c" -delete
+find . -name "*.o" -delete
 rm *.m4
 rm -r autom*cache
 rm bibledit
@@ -63,7 +63,8 @@ rm valgrind
 find . -name ".deps" -exec rm -r "{}" \; > /dev/null 2>&1
 find . -name ".dirstamp" -delete
 rm Makefile*
-# rm server
+rm server
+rm -f unittest
 rm stamp-h1
 
 

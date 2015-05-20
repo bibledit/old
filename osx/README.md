@@ -13,6 +13,10 @@ The current port of Bibledit for OS X consists of the following parts:
 * The bibledit library written in C++, compiled for OS X.
 * The system web browser displaying pages through the bibledit library. 
 
+## Sandboxing
+
+With the app sandboxed enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to within the sandbox.
+
 ## libcurl
 
 The bibledit library depends on libcurl. Bibledit should be linked with some version of libcurl. 

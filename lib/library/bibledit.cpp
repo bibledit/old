@@ -60,6 +60,7 @@ const char * bibledit_get_preparation_notice ()
 void bibledit_set_web_root (const char * directory)
 {
   config_globals_document_root = directory;
+  cout << "|" << config_globals_document_root << "|" << endl; // Todo
 }
 
 
@@ -122,6 +123,7 @@ void bibledit_start_library ()
   config_globals_worker = new thread (webserver);
   // Run the timers in a thread.
   config_globals_timer = new thread (timer_index);
+  cout << "|" << config_globals_document_root << "|" << endl; // Todo
 }
 
 

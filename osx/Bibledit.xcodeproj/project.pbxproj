@@ -7,17 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA5781561B0CDA4F00BD91A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA5781541B0CDA4F00BD91A8 /* Main.storyboard */; };
 		CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E31AD55A57002EDC47 /* AppDelegate.m */; };
 		CA8896E61AD55A57002EDC47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E51AD55A57002EDC47 /* main.m */; };
 		CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E81AD55A57002EDC47 /* ViewController.m */; };
-		CA94C9661B0CEADA00BD5C5C /* build.sh in Resources */ = {isa = PBXBuildFile; fileRef = CA94C9651B0CEADA00BD5C5C /* build.sh */; };
-		CA94C9681B0CEBA500BD5C5C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = CA94C9671B0CEBA500BD5C5C /* README.md */; };
 		CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */; };
 		CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA941AD6C9CB00259D3E /* libz.dylib */; };
 		CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA981AD6C9DC00259D3E /* libc++.dylib */; };
 		CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */; };
 		CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9AEA9C1AD6CB2200259D3E /* webroot */; };
+		CABDA1A01B0CF71800724AEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CABDA19E1B0CF71800724AEB /* Main.storyboard */; };
 		CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC03BD81AD58BD100686640 /* Images.xcassets */; };
 		CAFC35511AD9A592005A7882 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35501AD9A592005A7882 /* libcurl.a */; };
 		CAFC35531AD9A6D0005A7882 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35521AD9A6D0005A7882 /* libssl.a */; };
@@ -46,6 +44,7 @@
 		CA9AEA981AD6C9DC00259D3E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CA9AEA9C1AD6CB2200259D3E /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
+		CABDA19F1B0CF71800724AEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Bibledit/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CAC03BD81AD58BD100686640 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CAFC35501AD9A592005A7882 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = lib/libcurl.a; sourceTree = "<group>"; };
 		CAFC35521AD9A6D0005A7882 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
@@ -84,6 +83,7 @@
 		CA8896D41AD55A57002EDC47 = {
 			isa = PBXGroup;
 			children = (
+				CABDA19E1B0CF71800724AEB /* Main.storyboard */,
 				CAFC355A1AD9A825005A7882 /* libintl.a */,
 				CAFC35581AD9A7B9005A7882 /* libiconv.a */,
 				CAFC35561AD9A76B005A7882 /* libidn.a */,
@@ -200,8 +200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA5781561B0CDA4F00BD91A8 /* Main.storyboard in Resources */,
-				CA94C9661B0CEADA00BD5C5C /* build.sh in Resources */,
+				CABDA1A01B0CF71800724AEB /* Main.storyboard in Resources */,
 				CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */,
 				CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */,
 			);
@@ -216,7 +215,6 @@
 			files = (
 				CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */,
 				CA8896E61AD55A57002EDC47 /* main.m in Sources */,
-				CA94C9681B0CEBA500BD5C5C /* README.md in Sources */,
 				CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +226,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				CA5781551B0CDA4F00BD91A8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CABDA19E1B0CF71800724AEB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CABDA19F1B0CF71800724AEB /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
