@@ -4,7 +4,7 @@
 # Synchronize and build libbibledit on OS X for OS X.
 
 
-pushd ../webroot
+pushd webroot
 
 
 # Sychronizes the libbibledit data files in the source tree to OS X and cleans them up.

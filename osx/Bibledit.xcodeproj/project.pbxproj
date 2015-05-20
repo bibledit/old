@@ -11,6 +11,8 @@
 		CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E31AD55A57002EDC47 /* AppDelegate.m */; };
 		CA8896E61AD55A57002EDC47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E51AD55A57002EDC47 /* main.m */; };
 		CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E81AD55A57002EDC47 /* ViewController.m */; };
+		CA94C9661B0CEADA00BD5C5C /* build.sh in Resources */ = {isa = PBXBuildFile; fileRef = CA94C9651B0CEADA00BD5C5C /* build.sh */; };
+		CA94C9681B0CEBA500BD5C5C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = CA94C9671B0CEBA500BD5C5C /* README.md */; };
 		CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */; };
 		CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA941AD6C9CB00259D3E /* libz.dylib */; };
 		CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA981AD6C9DC00259D3E /* libc++.dylib */; };
@@ -29,7 +31,6 @@
 
 /* Begin PBXFileReference section */
 		CA5781551B0CDA4F00BD91A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CA64A1BB1AD5A844003865C6 /* sync-build-libbibledit.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "sync-build-libbibledit.sh"; path = "scripts/sync-build-libbibledit.sh"; sourceTree = SOURCE_ROOT; };
 		CA75910D1B0CA60D00AD6923 /* Bibledit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Bibledit.entitlements; sourceTree = "<group>"; };
 		CA8896DD1AD55A57002EDC47 /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA8896E11AD55A57002EDC47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -38,6 +39,8 @@
 		CA8896E51AD55A57002EDC47 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CA8896E71AD55A57002EDC47 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		CA8896E81AD55A57002EDC47 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CA94C9651B0CEADA00BD5C5C /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = SOURCE_ROOT; };
+		CA94C9671B0CEBA500BD5C5C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CA9AEA941AD6C9CB00259D3E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CA9AEA981AD6C9DC00259D3E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -116,9 +119,10 @@
 				CA8896E71AD55A57002EDC47 /* ViewController.h */,
 				CA8896E81AD55A57002EDC47 /* ViewController.m */,
 				CA5781541B0CDA4F00BD91A8 /* Main.storyboard */,
+				CA94C9651B0CEADA00BD5C5C /* build.sh */,
+				CA94C9671B0CEBA500BD5C5C /* README.md */,
 				CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */,
 				CAC03BD81AD58BD100686640 /* Images.xcassets */,
-				CA64A1BB1AD5A844003865C6 /* sync-build-libbibledit.sh */,
 				CA8896E01AD55A57002EDC47 /* Supporting Files */,
 			);
 			path = Bibledit;
@@ -197,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA5781561B0CDA4F00BD91A8 /* Main.storyboard in Resources */,
+				CA94C9661B0CEADA00BD5C5C /* build.sh in Resources */,
 				CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */,
 				CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */,
 			);
@@ -211,6 +216,7 @@
 			files = (
 				CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */,
 				CA8896E61AD55A57002EDC47 /* main.m in Sources */,
+				CA94C9681B0CEBA500BD5C5C /* README.md in Sources */,
 				CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
