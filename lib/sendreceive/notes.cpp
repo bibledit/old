@@ -189,6 +189,7 @@ void sendreceive_notes ()
         case Sync_Logic::notes_put_passages:
         {
           content = database_notes.getRawPassage (identifier); // Todo check this as it is new code.
+          cout << content << endl; // Todo
           break;
         }
         case Sync_Logic::notes_put_severity:

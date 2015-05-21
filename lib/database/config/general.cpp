@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/globals.h>
+#include <config/logic.h>
 #include <administration/timezone.h>
 
 
@@ -242,8 +243,19 @@ void Database_Config_General::setTimezone (int value)
 }
 
 
-string Database_Config_General::getSiteURL ()
+string Database_Config_General::getSiteURL () // Todo
 {
+  // The site URL is set upon login, normally.
+  // In a client setup, there is never a login.
+  // Consequently the site URL is never set.
+  // In case of a client, return a predefined URL.
+  if (config_logic_client_prepared ()) {
+    string url = "http://localhost:";
+    url.append (config_logic_network_port ());
+    url.append ("/");
+    return url;
+  }
+  // Get the URL that was set upon login.
   return getValue ("site-url", "");
 }
 void Database_Config_General::setSiteURL (string value)

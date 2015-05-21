@@ -265,15 +265,19 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_put_passages:
+    case Sync_Logic::notes_put_passages: // Todo
     {
+      /* Todo
       vector <string> lines = filter_string_explode (content, '\n');
       vector <Passage> passages;
       for (auto & line : lines) {
         passages.push_back (filter_integer_to_passage (convert_to_int (line)));
       }
-      // Set the passages for a note on the server.
-      notes_logic.setPassages (identifier, passages); // Todo update this later.
+      */
+      // Set the passage(s) for a note on the server.
+      cout << content << endl; // Todo
+      database_notes.setRawPassage (identifier, content);
+      //notes_logic.setPassages (identifier, passages); // Todo update this later.
       // Done.
       return "";
     }
