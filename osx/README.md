@@ -15,13 +15,13 @@ The current port of Bibledit for OS X consists of the following parts:
 
 ## Sandboxing
 
-With the app sandboxed enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to within the sandbox.
+With the app sandboxed enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to the documents folder within the sandbox.
 
 ## libcurl
 
 The bibledit library depends on libcurl. Bibledit should be linked with some version of libcurl. 
 
-* OS X 10.10 SDK libcurl.dylib libcurl.4.dylib: It initially works but after a few minutes of synchronizing with a Bibledit server it starts to time out, and stops working.
+* OS X 10.10 SDK libcurl.dylib libcurl.4.dylib: It initially works but after a few minutes of synchronizing with Bibledit Cloud it starts to time out, and stops working.
 
 * Link with the static library (libcurl.a) of a Macports installation, and add all the macports dependent *.a libraries to the Bibledit Xcode project to include them. This works well: No timeouts occur.
 

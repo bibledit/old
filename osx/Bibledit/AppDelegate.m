@@ -44,10 +44,6 @@
     float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
     bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
     
-    NSLog (@"Old document root %s", document_root); // Todo
-    
-    NSLog (@"Proper doc root %@", [Utilities webrootPath]);
-
     bibledit_start_library ();
 }
 
