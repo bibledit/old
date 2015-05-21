@@ -533,6 +533,7 @@ string Database_Notes::assembleContents (int identifier, string contents)
   int time = filter_date_seconds_since_epoch ();
   string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  
   new_contents.append ("<p>");
   new_contents.append (user);
   new_contents.append (" (");
