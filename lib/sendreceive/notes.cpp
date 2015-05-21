@@ -188,8 +188,7 @@ void sendreceive_notes ()
         }
         case Sync_Logic::notes_put_passages:
         {
-          content = database_notes.getRawPassage (identifier); // Todo check this as it is new code.
-          cout << content << endl; // Todo
+          content = database_notes.getRawPassage (identifier);
           break;
         }
         case Sync_Logic::notes_put_severity:
@@ -532,7 +531,7 @@ void sendreceive_notes_download (int lowId, int highId)
     // If it were processed, then there will be a situation that the client keeps downloading
     // notes from the server, and never stops doing so, because the passage file contents
     // will always remain different. Raw passages transfer fix this.
-    database_notes.setRawPassage (identifier, response); // Todo
+    database_notes.setRawPassage (identifier, response);
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_severity);
     response = sync_logic.post (post, url, error);

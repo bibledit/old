@@ -243,7 +243,7 @@ void Database_Config_General::setTimezone (int value)
 }
 
 
-string Database_Config_General::getSiteURL () // Todo
+string Database_Config_General::getSiteURL ()
 {
   // The site URL is set upon login, normally.
   // In a client setup, there is never a login.
