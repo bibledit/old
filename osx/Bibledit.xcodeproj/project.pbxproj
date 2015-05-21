@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA6D32D01B0D1BD0005F176B /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6D32CF1B0D1BD0005F176B /* Utilities.m */; };
 		CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E31AD55A57002EDC47 /* AppDelegate.m */; };
 		CA8896E61AD55A57002EDC47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E51AD55A57002EDC47 /* main.m */; };
 		CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E81AD55A57002EDC47 /* ViewController.m */; };
@@ -29,6 +30,8 @@
 
 /* Begin PBXFileReference section */
 		CA5781551B0CDA4F00BD91A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CA6D32CE1B0D1B9E005F176B /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		CA6D32CF1B0D1BD0005F176B /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		CA75910D1B0CA60D00AD6923 /* Bibledit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Bibledit.entitlements; sourceTree = "<group>"; };
 		CA8896DD1AD55A57002EDC47 /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA8896E11AD55A57002EDC47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 				CA94C9651B0CEADA00BD5C5C /* build.sh */,
 				CA94C9671B0CEBA500BD5C5C /* README.md */,
 				CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */,
+				CA6D32CE1B0D1B9E005F176B /* Utilities.h */,
+				CA6D32CF1B0D1BD0005F176B /* Utilities.m */,
 				CAC03BD81AD58BD100686640 /* Images.xcassets */,
 				CA8896E01AD55A57002EDC47 /* Supporting Files */,
 			);
@@ -215,6 +220,7 @@
 			files = (
 				CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */,
 				CA8896E61AD55A57002EDC47 /* main.m in Sources */,
+				CA6D32D01B0D1BD0005F176B /* Utilities.m in Sources */,
 				CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

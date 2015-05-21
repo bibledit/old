@@ -17,9 +17,19 @@
  */
 
 
-#import <Cocoa/Cocoa.h>
+#ifndef Bibledit_Utilities_h
+#define Bibledit_Utilities_h
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface Utilities : NSObject
+
++ (NSString *)resourcesPath;
++ (NSString *)webrootPath;
++ (void) install;
++ (NSString *) libraryVersion;
++ (NSString *) installedVersion;
++ (void) installedVersion:(NSString *)version;
 
 @end
 
+
+#endif
