@@ -1,0 +1,130 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		CA97BC101B0F7DF400877437 /* AndroidManifest.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AndroidManifest.xml; sourceTree = "<group>"; };
+		CA97BC111B0F7DFC00877437 /* ant.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = ant.properties; sourceTree = "<group>"; };
+		CA97BC121B0F7E0400877437 /* build.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = build.xml; sourceTree = "<group>"; };
+		CA97BC131B0F7E0C00877437 /* debug */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = debug; sourceTree = "<group>"; };
+		CA97BC141B0F7E1500877437 /* local.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = local.properties; sourceTree = "<group>"; };
+		CA97BC151B0F7E1E00877437 /* proguard-project.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "proguard-project.txt"; sourceTree = "<group>"; };
+		CA97BC161B0F7E1E00877437 /* project.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = project.properties; sourceTree = "<group>"; };
+		CA97BC171B0F7E1E00877437 /* release */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = release; sourceTree = "<group>"; };
+		CA97BC181B0F7E3600877437 /* testing.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = testing.txt; sourceTree = "<group>"; };
+		CA97BC191B0F7E4A00877437 /* BibleditDirectory.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = BibleditDirectory.java; path = src/org/bibledit/android/BibleditDirectory.java; sourceTree = "<group>"; };
+		CA97BC1A1B0F7E4A00877437 /* InstallAssets.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = InstallAssets.java; path = src/org/bibledit/android/InstallAssets.java; sourceTree = "<group>"; };
+		CA97BC1B1B0F7E4A00877437 /* MainActivity.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = MainActivity.java; path = src/org/bibledit/android/MainActivity.java; sourceTree = "<group>"; };
+		CA97BC1C1B0F7E4A00877437 /* Preferences.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = Preferences.java; path = src/org/bibledit/android/Preferences.java; sourceTree = "<group>"; };
+		CA97BC1D1B0F7E4A00877437 /* RunServer.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = RunServer.java; path = src/org/bibledit/android/RunServer.java; sourceTree = "<group>"; };
+		CA97BC1E1B0F7E4A00877437 /* UpdateGui.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = UpdateGui.java; path = src/org/bibledit/android/UpdateGui.java; sourceTree = "<group>"; };
+		CA97BC201B0F7EE300877437 /* main.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = main.xml; sourceTree = "<group>"; };
+		CA97BC221B0F7EE300877437 /* strings.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = strings.xml; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		CA97BC1F1B0F7EE300877437 /* layout */ = {
+			isa = PBXGroup;
+			children = (
+				CA97BC201B0F7EE300877437 /* main.xml */,
+			);
+			name = layout;
+			path = res/layout;
+			sourceTree = "<group>";
+		};
+		CA97BC211B0F7EE300877437 /* values */ = {
+			isa = PBXGroup;
+			children = (
+				CA97BC221B0F7EE300877437 /* strings.xml */,
+			);
+			name = values;
+			path = res/values;
+			sourceTree = "<group>";
+		};
+		CA97BC231B0F7EED00877437 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				CA97BC191B0F7E4A00877437 /* BibleditDirectory.java */,
+				CA97BC1A1B0F7E4A00877437 /* InstallAssets.java */,
+				CA97BC1B1B0F7E4A00877437 /* MainActivity.java */,
+				CA97BC1C1B0F7E4A00877437 /* Preferences.java */,
+				CA97BC1D1B0F7E4A00877437 /* RunServer.java */,
+				CA97BC1E1B0F7E4A00877437 /* UpdateGui.java */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		CAADF4D71B0F7CD9002F0910 = {
+			isa = PBXGroup;
+			children = (
+				CA97BC231B0F7EED00877437 /* src */,
+				CA97BC101B0F7DF400877437 /* AndroidManifest.xml */,
+				CA97BC111B0F7DFC00877437 /* ant.properties */,
+				CA97BC121B0F7E0400877437 /* build.xml */,
+				CA97BC131B0F7E0C00877437 /* debug */,
+				CA97BC141B0F7E1500877437 /* local.properties */,
+				CA97BC151B0F7E1E00877437 /* proguard-project.txt */,
+				CA97BC161B0F7E1E00877437 /* project.properties */,
+				CA97BC171B0F7E1E00877437 /* release */,
+				CA97BC181B0F7E3600877437 /* testing.txt */,
+				CA97BC1F1B0F7EE300877437 /* layout */,
+				CA97BC211B0F7EE300877437 /* values */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		CAADF4D81B0F7CD9002F0910 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+			};
+			buildConfigurationList = CAADF4DB1B0F7CD9002F0910 /* Build configuration list for PBXProject "android" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CAADF4D71B0F7CD9002F0910;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		CAADF4DC1B0F7CD9002F0910 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		CAADF4DD1B0F7CD9002F0910 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CAADF4DB1B0F7CD9002F0910 /* Build configuration list for PBXProject "android" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CAADF4DC1B0F7CD9002F0910 /* Debug */,
+				CAADF4DD1B0F7CD9002F0910 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CAADF4D81B0F7CD9002F0910 /* Project object */;
+}
