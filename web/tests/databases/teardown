@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+# Change to the directory of the script.
+pushd . > /dev/null
+SCRIPT_PATH="${BASH_SOURCE[0]}";
+cd `dirname ${SCRIPT_PATH}` > /dev/null
+
+
+# Remove all databases from the source tree.
+rm -f ../../web/databases/*sqlite*
+rm -f ../../web/databases/modifications/team/*
+rm -f ../../web/databases/modifications/users/*
+rm -rf ../../web/databases/modifications/notifications/*
+rm -f ../../web/databases/config/general/*
+rm -rf ../../web/databases/config/user/*
+rm -rf ../../web/databases/config/bible/*
+rm -rf ../../web/databases/usfmresources/*
+rm -rf ../../web/databases/offlineresources/*
+rm -f ../../web/databases/users/*
+rm -f ../../web/databases/ipc/*
+
+# Remove all logbook entries.
+rm -f ../../web/logbook/*
+
+# Remove all temporary files.
+rm -rf ../../web/tmp/*
+
+# Remove all Bibles.
+rm -rf ../../web/bibles/*
+
+# Remove Consultation Notes.
+rm -rf ../../web/consultations/*
+
+# Done: Return to the original directory.
+popd  > /dev/null

@@ -1,0 +1,6 @@
+An external resource is defined in a PHP file.
+
+The following conditions apply:
+
+1. The filename contains at least one capital.
+2. Am underscore is converted to a space to obtain the name.

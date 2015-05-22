@@ -1,0 +1,63 @@
+# Copyright (©) 2003-2013 Teus Benschop.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+ 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+Optimizing MySQL tables and queries.
+
+
+Query Optimization
+
+Turn on slow query log and make it log queries that don't use indexes.
+File my.cnf needs the following lines:
+
+log_slow_queries  = /var/log/mysql/mysql-slow.log
+long_query_time  = 1
+log-queries-not-using-indexes
+
+
+Explain Queries
+
+Does the query use indexes?
+Find out:
+
+EXPLAIN EXTENDED SELECT id, chapter FROM data WHERE bible = 1 \G;
+
+
+Indexes or Table Scanning
+
+If the tables does not have an index, MySQL will scan through each row.
+This places stress on the disk system.
+For small tables it is more efficient for MySQL to scan a table rather than use an index
+
+
+Let the Application do the Work
+
+Usually it is better to ask the database to do as little as is possible,
+and move processing into the application.
+
+
+Lock Contention in MyISAM or InnoDB
+
+mysql> show status like 'Table_locks_waited';
+
++--------------------+-------+
+| Variable_name      | Value |
++--------------------+-------+
+| Table_locks_waited | 23412 |
++--------------------+-------+
+
+A large or growing Table_locks_waited value means there is a serious concurrency bottleneck.
+

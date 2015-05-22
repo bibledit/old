@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+# Change to the directory of the script.
+pushd . > /dev/null
+SCRIPT_PATH="${BASH_SOURCE[0]}";
+cd `dirname ${SCRIPT_PATH}` > /dev/null
+
+
+# Copy all databases into the source tree.
+cp *sqlite* ../../web/databases
+
+
+
+# Done: Return to the original directory.
+popd  > /dev/null

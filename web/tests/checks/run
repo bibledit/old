@@ -1,0 +1,6 @@
+# This "run" file requires a working PHP installation and a working Bibledit database, 
+# where the system has been set up with username and password to access the database.
+
+./../databases/setup
+phpunit --bootstrap ../../web/bootstrap/bootstrap.php .
+./../databases/teardown

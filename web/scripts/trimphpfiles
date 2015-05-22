@@ -1,0 +1,1 @@
+find . -type f | grep .php | xargs sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}'
