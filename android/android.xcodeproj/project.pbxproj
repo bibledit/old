@@ -24,6 +24,7 @@
 		CA97BC1E1B0F7E4A00877437 /* UpdateGui.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = UpdateGui.java; path = src/org/bibledit/android/UpdateGui.java; sourceTree = "<group>"; };
 		CA97BC201B0F7EE300877437 /* main.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = main.xml; sourceTree = "<group>"; };
 		CA97BC221B0F7EE300877437 /* strings.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = strings.xml; sourceTree = "<group>"; };
+		CA97BC241B0F9CF400877437 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -70,6 +71,7 @@
 				CA97BC151B0F7E1E00877437 /* proguard-project.txt */,
 				CA97BC161B0F7E1E00877437 /* project.properties */,
 				CA97BC171B0F7E1E00877437 /* release */,
+				CA97BC241B0F9CF400877437 /* README.md */,
 				CA97BC181B0F7E3600877437 /* testing.txt */,
 				CA97BC1F1B0F7EE300877437 /* layout */,
 				CA97BC211B0F7EE300877437 /* values */,

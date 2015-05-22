@@ -7,12 +7,10 @@
 # Apache Ant: port install apache-ant.
 
 
-# Export environment variables to find the Android SDK.
-
+# Export environment variables to find the Android SDK's tools.
 export ANDROID_HOME=~/scr/android-sdk-macosx
 export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools
 
-echo $PATH
 
 # Refresh the bibledit-web source code in the assets.
 # rsync -a --delete ../bibledit-web/web/* assets/external/bibledit-web
