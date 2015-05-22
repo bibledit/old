@@ -309,6 +309,7 @@ void sendreceive_notes_download (int lowId, int highId)
 {
   Webserver_Request request;
   Database_Notes database_notes = Database_Notes (&request);
+  Database_NoteActions database_noteactions = Database_NoteActions ();
   Sync_Logic sync_logic = Sync_Logic (&request);
   Notes_Logic notes_logic = Notes_Logic (&request);
   
@@ -439,8 +440,11 @@ void sendreceive_notes_download (int lowId, int highId)
   
   
   // The client deletes notes no longer on the server.
+  // But it skips the notes that have actions recorded for them,
+  // as these notes are scheduled to be sent to the server first.
   identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
   for (auto identifier : identifiers) {
+    if (database_noteactions.exists (identifier)) continue;
     string summary = database_notes.getSummary (identifier);
     database_notes.erase (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting one because it is not on the server: " + summary, Filter_Roles::translator ());
@@ -454,6 +458,9 @@ void sendreceive_notes_download (int lowId, int highId)
     if (i >= server_checksums.size ()) continue;
     
     int identifier = server_identifiers [i];
+    
+    // Skip note if it is still to be sent off to the server.
+    if (database_noteactions.exists (identifier)) continue;
     
     string server_checksum = server_checksums [i];
     string client_checksum = database_notes.getChecksum (identifier);

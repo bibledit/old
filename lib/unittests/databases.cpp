@@ -2204,6 +2204,17 @@ void test_database_noteactions ()
     vector <int> notes = database.getNotes ();
     evaluate (__LINE__, __func__, {4}, notes);
   }
+  // Exists
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    evaluate (__LINE__, __func__, false, database.exists (2));
+    database.record ("phpunit1", 2, 3, "content1");
+    database.record ("phpunit2", 4, 5, "content2");
+    evaluate (__LINE__, __func__, true, database.exists (2));
+    evaluate (__LINE__, __func__, false, database.exists (3));
+  }
 }
 
 

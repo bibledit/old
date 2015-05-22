@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-/* #undef CLIENT_PREPARED */
+#define CLIENT_PREPARED 1
 
 /* Define whether it is to be built for Cygwin */
 #define CYGWIN "no"
@@ -77,7 +77,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-/* #undef HAVE_UNITTESTS */
+#define HAVE_UNITTESTS 1
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -86,7 +86,7 @@
 #define IOS "no"
 
 /* Define the network port number */
-#define NETWORK_PORT "8090"
+#define NETWORK_PORT "8080"
 
 /* Define whether it is to be built for OS X */
 #define OSX "no"
@@ -119,7 +119,7 @@
 #define STDC_HEADERS 1
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "no"
+#define UNITTESTS "yes"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"

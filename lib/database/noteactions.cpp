@@ -157,3 +157,15 @@ void Database_NoteActions::erase (int rowid)
 }
 
 
+bool Database_NoteActions::exists (int note)
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT note FROM noteactions where note =");
+  sql.add (note);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
+  return !result.empty ();
+}
+
