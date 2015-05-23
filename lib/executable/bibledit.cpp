@@ -40,8 +40,6 @@ int main (int argc, char **argv)
   if (argc) {};
   if (argv[0]) {};
   
-  bibledit_initialize_library ();
-
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   struct sigaction sigIntHandler;
   sigIntHandler.sa_handler = sigint_handler;
@@ -50,13 +48,14 @@ int main (int argc, char **argv)
   sigaction (SIGINT, &sigIntHandler, NULL);
 
   // Get the executable path and base the document root on it.
+  string webroot;
   {
     // The following works on Linux but not on Mac OS X:
     char *linkname = (char *) malloc (256);
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
     ssize_t r = readlink ("/proc/self/exe", linkname, 256);
     if (r) {};
-    bibledit_set_web_root (filter_url_dirname (linkname).c_str());
+    webroot = filter_url_dirname (linkname);
     free (linkname);
   }
   {
@@ -68,10 +67,11 @@ int main (int argc, char **argv)
     pid = getpid ();
     ret = proc_pidpath (pid, pathbuf, sizeof (pathbuf));
     if (ret > 0 ) {
-      bibledit_set_web_root (filter_url_dirname (pathbuf).c_str());
+      webroot = filter_url_dirname (pathbuf);
     }
 #endif
   }
+  bibledit_initialize_library (webroot.c_str(), webroot.c_str());
 
   // Start the Bibledit library.
   bibledit_start_library ();
@@ -83,12 +83,10 @@ int main (int argc, char **argv)
   // in case the Bibledit server runs for months and years.
   bibledit_set_quit_at_midnight ();
   
-  // Wait till Bibledit is shut down.
+  // Keep running till Bibledit stops or gets interrupted.
   while (bibledit_is_running ()) { };
 
   bibledit_shutdown_library ();
 
   return EXIT_SUCCESS;
 }
-
-

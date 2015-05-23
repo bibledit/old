@@ -35,6 +35,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.CookieSpec;
 import org.apache.http.params.HttpParams;
 import org.bibledit.android.Preferences;
+import android.webkit.WebView;
 
 
 public class UpdateGui
@@ -339,12 +340,12 @@ public class UpdateGui
   }
     
 
+  // http://developer.android.com/reference/android/webkit/WebView.html
   private static void display (String html)
   {
     if (html == displayedText) return;
-    TextView textView = (TextView) MainActivity.activity.findViewById (R.id.text_view);
-    textView.setText (Html.fromHtml (html));
-    textView.setMovementMethod (LinkMovementMethod.getInstance ());
+    WebView webview = (WebView) MainActivity.activity.findViewById (R.id.web_view);
+    webview.loadData (html, "text/html", null);
     displayedText = html;
   }
   
@@ -356,74 +357,3 @@ public class UpdateGui
 
 
 }
-
-
-/*
-
-Available Android Web Servers that work with Bibledit-Web:
-* Web server plus PHP.
-* Runs without root access.
-* Runs Bibledit-Web well.
-* Does not get killed when Android needs memory.
-
-Web Server Ultimate
-https://play.google.com/store/apps/details?id=com.icecoldapps.webserverultimate
-Web server does not include a PHP interpreter.
-
-Android Webserver
-https://play.google.com/store/apps/details?id=com.bolutions.webserver
-Source: https::/github.com/bodeme/androidwebserver
-It fails to run bibledit-web: On running setup/index.php it gives a blank page.
-
-Server for PHP
-https://play.google.com/store/apps/details?id=com.esminis.server.php
-http://esminis.com/server.php/
-Opening http://192.168.2.8:8080/bibledit-web does not forward it to the correct index.php: That's a problem.
-It runs the installer till it cannot find crontab and php-cli: That's good.
-It does not include a real web server: That's a problem. It only does one connection at a time.
-This is because it runs "php -S". That uses the built-in server.
-
-Servers Ultimate: Trial period of 7 days.
-Servers Ultimate Pro: To be purchased.
-Install Servers Ultimate Pack C
-Requests root access to run.
-
-Web Server (httpd)
-Free.
-No PHP interpreter.
-
-DroidMote Server
-Requires root. 
-No PHP.
-
-Struts 2 Web Server Scanner
-Not a web server.
-
-PHP Mobile
-Small server.
-Does not interpret PHP scripts.
-
-PAW Server for Android
-Runs on /sdcard/paw
-Web pages in: /sdcard/paw/html
-http://www.fun2code.de/projects.html
-http://paw-android.fun2code.de/
-It is a web interface to the Android device, not a PHP server.
-
-kWS Android Web Server
-This is not a PHP server.
-
-DroidPHP
-Source: https://github.com/droidphp
-It has a good web server.
-It lacks php-iconv.
-Building DroidPHP from source requires dependency available from https://github.com/DroidPHP/DroidPHP#build-dependencies
-Import library in Eclipse and add it through Properties -> Android -> add
-Cross compiling: https://github.com/DroidPHP/DroidPHP/blob/master/docs/Compiling.md
-
-DroidPHP++
-https://github.com/droidphp
-It has a good web server.
-It lacks php-iconv.
-
-*/

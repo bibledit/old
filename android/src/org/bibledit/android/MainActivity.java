@@ -53,8 +53,8 @@ public class MainActivity extends Activity
     setContentView (R.layout.main);
 
     UpdateGui.run ();
-
-		startService (new Intent (this, RunServer.class));
+    
+    startService (new Intent (this, RunServer.class));
 
 /*
     int icon = R.drawable.ic_launcher;

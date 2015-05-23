@@ -1,79 +1,14 @@
--Web depends on a good and stable Android PHP web server.
-There are several web server apps available.
-Testing determines their stability.
-
 Test 1
-Connect to http://192.168.2.1/bibledit-web3.
+Connect to the production instance of Bibledit Cloud.
 Download all Bibles, notes and resources from scratch.
 Download should happen flawlessly.
-The web server should remain responsive after completion.
+It should remain responsive after completion.
 
 Test 2
-Connect to the production website.
-As test 1.
-
-Test 3
 Do production work on it for a day.
-The web server should remain responsive throughout the day.
+It should remain responsive throughout the day.
 
 Bibledit for Android was tested on the following devices:
 Google Nexus 10 tablet: Works well.
 Google Nexus 5 phone: Works well.
-
-Bit Web Server
-Works flawlessly on Google Nexus 5.
-Works flawlessly on Google Nexus 10.
-Crashes on Genymotion emulators.
-Rate: 100%
-
-Palapa Web Server
-Crashes on Genymotion emulators on startup.
-Gives Internal Server Error on Genymotion emulators on opening Bibledit-Web link.
-Continuously allocates and frees a lot of memory while operating.
-On Google Nexus 10 it hangs shortly after Bibledit-Web setup has completed.
-
-NAMP
-Continuously allocates and frees a lot of memory while operating.
-Responds with a 404 Not Found error when a script times out.
-Increases the pace of allocating and freeing memory over time.
-It drains the battery faster than usual.
-It reboots the tablet after about an hour.
-Rate:
-
-AndroPHP
-Allocates and frees memory at a reasonable fast rate.
-Several minutes after setup the server hangs.
-
-KSWEB
-It fails to properly setup Bibledit-Web and run it.
-
-PHPRunner
-Several minutes after setup the server hangs.
-
-Ulti Server
-Allocates and frees memory at a reasonable rate.
-Works slowly on a Google Nexus 10.
-Does not manage to download all resources in time but manages after retrying a couple of times.
-Slows down more and more over time till it nearly hangs.
-
-None of the web servers run on Genymotion emulators.
-Genymotion emulates an Intel processor instead of an ARM one.
-That causes problems to most web server apps.
-
-
-
-
-
-
-
-Support Internet Explorer.
-
-
-
-
-
-Support Firefox.
-
-
-
 

@@ -49,20 +49,6 @@ const char * bibledit_get_network_port ()
 }
 
 
-// Get the preparation notice embedded html page.
-const char * bibledit_get_preparation_notice ()
-{
-  return setup_installation_notice ();
-}
-
-
-// Set the root folder for the web server.
-void bibledit_set_web_root (const char * directory)
-{
-  config_globals_document_root = directory;
-}
-
-
 // Sets whether the library considers any device that connects to be touch-enabled.
 // This is necessary for on devices as clients which are always logged-in.
 // The detection of touch-enabled devices happens during login,
@@ -95,7 +81,9 @@ void bibledit_set_timezone_hours_offset_utc (int hours)
 
 // Initialize library.
 // To be called once during the lifetime of the app.
-void bibledit_initialize_library ()
+// $package: The folder where the package data resides.
+// $webroot: The document root folder for the web server.
+void bibledit_initialize_library (const char * package, const char * webroot) // Todo expand.
 {
   // Must initialize libcurl before any threads are started.
   curl_global_init (CURL_GLOBAL_ALL);
@@ -107,6 +95,12 @@ void bibledit_initialize_library ()
   // Initialize libxml2.
   xmlInitThreads ();
   xmlInitParser ();
+
+  // Set the web root folder.
+  config_globals_document_root = webroot;
+
+  // Initialize data.
+  // Todo setup_conditionally ();
 }
 
 
@@ -116,8 +110,6 @@ void bibledit_start_library ()
 {
   // Set running flag.
   config_globals_running = true;
-  // Initialize data.
-  setup_conditionally ();
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
   // Run the timers in a thread.
