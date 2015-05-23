@@ -293,6 +293,20 @@ vector <string> filter_url_scandir (string folder)
 }
 
 
+// Recursively scans a directory for directories and files.
+void filter_url_recursive_scandir (string folder, vector <string> & paths)
+{
+  vector <string> files = filter_url_scandir (folder);
+  for (auto & file : files) {
+    string path = filter_url_create_path (folder, file);
+    paths.push_back (path);
+    if (filter_url_is_dir (path)) {
+      filter_url_recursive_scandir (path, paths);
+    }
+  }
+}
+
+
 // A C++ near equivalent for PHP's filemtime function.
 int filter_url_filemtime (string filename)
 {

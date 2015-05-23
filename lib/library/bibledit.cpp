@@ -83,7 +83,7 @@ void bibledit_set_timezone_hours_offset_utc (int hours)
 // To be called once during the lifetime of the app.
 // $package: The folder where the package data resides.
 // $webroot: The document root folder for the web server.
-void bibledit_initialize_library (const char * package, const char * webroot) // Todo expand.
+void bibledit_initialize_library (const char * package, const char * webroot)
 {
   // Must initialize libcurl before any threads are started.
   curl_global_init (CURL_GLOBAL_ALL);
@@ -99,8 +99,9 @@ void bibledit_initialize_library (const char * package, const char * webroot) //
   // Set the web root folder.
   config_globals_document_root = webroot;
 
-  // Initialize data.
-  // Todo setup_conditionally ();
+  // Initialize data in a thread.
+  thread setup_thread = thread (setup_conditionally, package);
+  setup_thread.detach ();
 }
 
 

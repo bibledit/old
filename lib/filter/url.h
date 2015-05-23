@@ -52,6 +52,7 @@ void filter_url_file_put_contents (string filename, string contents);
 void filter_url_file_put_contents_append (string filename, string contents);
 int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
+void filter_url_recursive_scandir (string folder, vector <string> & paths);
 int filter_url_filemtime (string filename);
 string filter_url_urldecode (string url);
 string filter_url_urlencode (string url);

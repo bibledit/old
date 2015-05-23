@@ -316,7 +316,7 @@ void Database_Config_General::setRepeatSendReceive (int value)
 
 string Database_Config_General::getInstalledInterfaceVersion ()
 {
-  return getValue ("installed-interface-version", "0");
+  return getValue ("installed-interface-version", "");
 }
 void Database_Config_General::setInstalledInterfaceVersion (string value)
 {
@@ -326,7 +326,7 @@ void Database_Config_General::setInstalledInterfaceVersion (string value)
 
 string Database_Config_General::getInstalledDatabaseVersion ()
 {
-  return getValue ("installed-database-version", "0");
+  return getValue ("installed-database-version", "");
 }
 void Database_Config_General::setInstalledDatabaseVersion (string value)
 {

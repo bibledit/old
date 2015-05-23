@@ -42,21 +42,31 @@
 #include <demo/logic.h>
 
 
-void setup_conditionally ()
+void setup_conditionally (const char * package)
 {
   if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) {
     
-    cout << "Initializing data" << endl;
+    vector <string> messages;
+
+    // Copy the library into the destination place.
+    if (string (package) != config_globals_document_root) {
+      messages.push_back ("Copy data from " + string (package) + " to " + config_globals_document_root);
+      setup_copy_library (package);
+    }
     
     // Ensure write access to certain folders.
     setup_write_access ();
     
     // Create or upgrade the databases.
+    messages.push_back ("Initializing and upgrading data");
     setup_initialize_data ();
+    
+    for (auto message : messages) {
+      Database_Logs::log (message, Filter_Roles::admin());
+    }
     
     // Update installed version.
     Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
-
   };
 
   if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) {
@@ -75,6 +85,23 @@ void setup_conditionally ()
       }
     }
     
+  }
+}
+
+
+void setup_copy_library (const char * package)
+{
+  filter_url_mkdir (config_globals_document_root);
+  vector <string> package_paths;
+  filter_url_recursive_scandir (package, package_paths);
+  for (auto package_path : package_paths) {
+    string dest_path = config_globals_document_root + package_path.substr (strlen (package));
+    if (filter_url_is_dir (package_path)) {
+      filter_url_mkdir (dest_path);
+    } else {
+      string contents = filter_url_file_get_contents (package_path);
+      filter_url_file_put_contents (dest_path, contents);
+    }
   }
 }
 

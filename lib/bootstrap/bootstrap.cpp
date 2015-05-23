@@ -195,7 +195,7 @@ void bootstrap_index (Webserver_Request * request)
   // Serve offline resources.
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
   
-  // Serve initialization notice. // Todo
+  // Serve initialization notice.
   else if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) request->reply = setup_initialization_notice ();
   
   // Force setup.
