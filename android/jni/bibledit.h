@@ -16,20 +16,9 @@
  */
 #ifndef BIBLEDIT_H
 #define BIBLEDIT_H
+#include <stdbool.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-  int first(int  x, int  y);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
-
-/*
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -49,4 +38,6 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-*/
+
+
+#endif

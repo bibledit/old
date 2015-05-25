@@ -51,18 +51,22 @@ public class MainActivity extends Activity
     context = this;
 
     WebView webview = new WebView (this);
-    webview.loadData ("<h1>Bibledit</h1>", "text/html", null);
-
     setContentView (webview);
 
-    String arch = System.getProperty("os.arch");
-    Log.d ("CPU", arch);
+    webview.loadData (GetVersionNumber (), "text/html", null);
+
     UpdateGui.run ();
   }
 
 
+  // A native method that is implemented by the native library which is packaged with this application.
+  // Through trial and error it was discovered that there should be no understores (_) in the function name,
+  // to avoid a "java.lang.UnsatisfiedLinkError: Native method not found" exception.
+  public native String GetVersionNumber ();
+    
+    
   @Override
-  public boolean onCreateOptionsMenu (Menu menu) 
+  public boolean onCreateOptionsMenu (Menu menu)
   {
     return false;
   }
@@ -123,17 +127,18 @@ public class MainActivity extends Activity
   public void onDestroy ()
   {
     super.onDestroy ();
+
     handler = null;
-    //stopService (new Intent (this, RunServer.class));
   }
 
     
-     // This is used to load the native Bibledit library on application startup.
-     // The library has already been unpacked into
-     // /data/data/org.bibledit.android/lib/libbibledit.so
-     // at installation time by the package manager.
-    static {
-        // System.loadLibrary("libtwolib-second");
-    }
+  // This is used to load the native Bibledit library on application startup.
+  // Library libjavawrapper calls the Bibledit library.
+  // The library has already been unpacked into
+  // /data/data/org.bibledit.android/lib/libbjavawrapper.so
+  // at installation time by the package manager.
+  static {
+    System.loadLibrary("javawrapper");
+  }
 
 }

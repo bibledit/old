@@ -16,7 +16,59 @@
  */
 #include "bibledit.h"
 
-int first (int x, int y)
+const char * bibledit_get_version_number ()
 {
-  return x + y;
+    return "1.0.999";
+}
+
+const char * bibledit_get_network_port ()
+{
+    return "8080";
+}
+
+
+void bibledit_set_touch_enabled (bool enabled)
+{
+    if (enabled) {};
+}
+
+void bibledit_set_quit_at_midnight ()
+{
+    
+}
+
+void bibledit_set_timezone_hours_offset_utc (int hours)
+{
+    if (hours) {};
+}
+
+void bibledit_initialize_library (const char * package, const char * webroot)
+{
+    
+}
+
+void bibledit_start_library ()
+{
+    
+}
+
+
+bool bibledit_is_running ()
+{
+    return true;
+}
+
+void bibledit_stop_library ()
+{
+    
+}
+
+void bibledit_shutdown_library ()
+{
+    
+}
+
+void bibledit_log (const char * message)
+{
+    
 }
