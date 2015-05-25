@@ -223,7 +223,6 @@ libbibledit_a_SOURCES = \
 	tmp/tmp.cpp \
 	workbench/index.cpp \
 	workbench/logic.cpp \
-	workbench/organize.cpp \
 	workbench/settings.cpp \
 	workbench/organize.cpp \
 	sendreceive/logic.cpp \

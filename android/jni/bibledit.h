@@ -23,17 +23,17 @@
 extern "C" {
 #endif
     
-    const char * bibledit_get_version_number ();
-    const char * bibledit_get_network_port ();
-    void bibledit_set_touch_enabled (bool enabled);
-    void bibledit_set_quit_at_midnight ();
-    void bibledit_set_timezone_hours_offset_utc (int hours);
-    void bibledit_initialize_library (const char * package, const char * webroot);
-    void bibledit_start_library ();
-    bool bibledit_is_running ();
-    void bibledit_stop_library ();
-    void bibledit_shutdown_library ();
-    void bibledit_log (const char * message);
+    const char * tmp_bibledit_get_version_number ();
+    const char * tmp_bibledit_get_network_port ();
+    void tmp_bibledit_set_touch_enabled (bool enabled);
+    void tmp_bibledit_set_quit_at_midnight ();
+    void tmp_bibledit_set_timezone_hours_offset_utc (int hours);
+    void tmp_bibledit_initialize_library (const char * package, const char * webroot);
+    void tmp_bibledit_start_library ();
+    bool tmp_bibledit_is_running ();
+    void tmp_bibledit_stop_library ();
+    void tmp_bibledit_shutdown_library ();
+    void tmp_bibledit_log (const char * message);
     
 #ifdef __cplusplus
 }

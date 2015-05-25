@@ -21,31 +21,31 @@
 
 jstring Java_org_bibledit_android_MainActivity_GetVersionNumber (JNIEnv* env, jobject obj)
 {
-    return (*env)->NewStringUTF(env, bibledit_get_version_number ());
+    return (*env)->NewStringUTF(env, tmp_bibledit_get_version_number ());
 }
 
 
 jstring Java_org_bibledit_android_MainActivity_GetNetworkPort (JNIEnv* env, jobject obj)
 {
-    return (*env)->NewStringUTF(env, bibledit_get_network_port ());
+    return (*env)->NewStringUTF(env, tmp_bibledit_get_network_port ());
 }
 
 
 void Java_org_bibledit_android_MainActivity_SetTouchEnabled (JNIEnv* env, jobject obj, bool enabled)
 {
-    bibledit_set_touch_enabled (enabled);
+    tmp_bibledit_set_touch_enabled (enabled);
 }
 
 
 void Java_org_bibledit_android_MainActivity_SetQuitAtMidnight (JNIEnv* env, jobject obj)
 {
-    bibledit_set_quit_at_midnight ();
+    tmp_bibledit_set_quit_at_midnight ();
 }
 
 
 void Java_org_bibledit_android_MainActivity_SetTimezoneHoursOffsetUtc (JNIEnv* env, jobject obj, int hours)
 {
-    bibledit_set_timezone_hours_offset_utc (hours);
+    tmp_bibledit_set_timezone_hours_offset_utc (hours);
 }
 
 
@@ -53,7 +53,7 @@ void Java_org_bibledit_android_MainActivity_InitializeLibrary (JNIEnv* env, jobj
 {
     const char * native_package = (*env)->GetStringUTFChars(env, package, 0);
     const char * native_webroot = (*env)->GetStringUTFChars(env, webroot, 0);
-    bibledit_initialize_library (native_package, native_webroot);
+    tmp_bibledit_initialize_library (native_package, native_webroot);
     //(*env)->ReleaseStringUTFChars(env, package, native_package);
     //(*env)->ReleaseStringUTFChars(env, webroot, native_webroot);
 }
@@ -61,31 +61,31 @@ void Java_org_bibledit_android_MainActivity_InitializeLibrary (JNIEnv* env, jobj
 
 void Java_org_bibledit_android_MainActivity_StartLibrary (JNIEnv* env, jobject obj)
 {
-    bibledit_start_library ();
+    tmp_bibledit_start_library ();
 }
 
 
 bool Java_org_bibledit_android_MainActivity_IsRunning (JNIEnv* env, jobject obj)
 {
-    return bibledit_is_running ();
+    return tmp_bibledit_is_running ();
 }
 
 
 void Java_org_bibledit_android_MainActivity_StopLibrary (JNIEnv* env, jobject obj)
 {
-    bibledit_stop_library ();
+    tmp_bibledit_stop_library ();
 }
 
 
 void Java_org_bibledit_android_MainActivity_ShutdownLibrary (JNIEnv* env, jobject obj)
 {
-    bibledit_shutdown_library ();
+    tmp_bibledit_shutdown_library ();
 }
 
 
 void Java_org_bibledit_android_MainActivity_Log (JNIEnv* env, jobject obj, jstring message)
 {
     const char * native_message = (*env)->GetStringUTFChars(env, message, 0);
-    bibledit_log (native_message);
+    tmp_bibledit_log (native_message);
     (*env)->ReleaseStringUTFChars(env, message, native_message);
 }

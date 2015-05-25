@@ -3,7 +3,7 @@
 
 # Run this script from the directory where it is located: ./debug.
 # Prerequisites:
-# The Android SDK for Mac OS X.
+# Android SDK for Mac OS X.
 # Apache Ant: port install apache-ant.
 
 
@@ -13,7 +13,44 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 
 
 # Refresh the bibledit-web source code in the assets.
-# rsync -a --delete ../bibledit-web/web/* assets/external/bibledit-web
+rsync -a --exclude '*.o' --delete ../lib/* jni
+rm -f jni/bibledit
+rm -rf jni/autom4te.cache
+rm -f jni/dev
+rm -f jni/*.a
+rm -f jni/reconfigure
+rm -f jni/server
+rm -f jni/unittest
+rm -f jni/valgrind
+rm -rf jni/xcode
+rm -rf jni/executable
+
+
+# The following command saves all source files from Makefile.am to file.
+# It uses several steps to obtain the result:
+# * Obtain source files between the correct patterns.
+# * Remove first line.
+# * Remove last line.
+# * Remove tabs.
+# * Remove new lines.
+# * Remove backslashes.
+sed -n "/libbibledit_a_SOURCES/,/bin_PROGRAMS/p" jni/Makefile.am | tail -n +2 | sed '$d' | strings | tr -d '\n' | sed 's/\\//g' > jni/sources.txt
+
+
+# Create Android Makefile.
+rm -f jni/Android.mk
+echo 'LOCAL_PATH:= $(call my-dir)' >> jni/Android.mk
+echo 'include $(CLEAR_VARS)' >> jni/Android.mk
+echo 'LOCAL_MODULE := libbibledit' >> jni/Android.mk
+# echo 'LOCAL_SRC_FILES := bibledit.cpp' >> jni/Android.mk
+echo -n 'LOCAL_SRC_FILES := ' >> jni/Android.mk
+cat jni/sources.txt >> jni/Android.mk
+echo 'include $(BUILD_STATIC_LIBRARY)' >> jni/Android.mk
+echo 'include $(CLEAR_VARS)' >> jni/Android.mk
+echo 'LOCAL_MODULE    := libjavawrapper' >> jni/Android.mk
+echo 'LOCAL_SRC_FILES := javawrapper.c' >> jni/Android.mk
+echo 'LOCAL_STATIC_LIBRARIES := libbibledit' >> jni/Android.mk
+echo 'include $(BUILD_SHARED_LIBRARY)' >> jni/Android.mk
 
 
 # Fix this: [aapt] (skipping file '.htaccess' due to ANDROID_AAPT_IGNORE pattern '.*')
@@ -51,15 +88,16 @@ ndk-build clean
 ndk-build
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
-exit
+  exit
 fi
+exit
 
 
 # Clean binaries.
 ant clean
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
-exit
+  exit
 fi
 
 

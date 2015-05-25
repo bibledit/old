@@ -224,10 +224,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
 	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
 	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
-	workbench/logic.$(OBJEXT) workbench/organize.$(OBJEXT) \
-	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
-	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
-	sendreceive/sendreceive.$(OBJEXT) \
+	workbench/logic.$(OBJEXT) workbench/settings.$(OBJEXT) \
+	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
+	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/usfmresources.$(OBJEXT) \
 	sendreceive/externalresources.$(OBJEXT) \
@@ -727,7 +726,6 @@ libbibledit_a_SOURCES = \
 	tmp/tmp.cpp \
 	workbench/index.cpp \
 	workbench/logic.cpp \
-	workbench/organize.cpp \
 	workbench/settings.cpp \
 	workbench/organize.cpp \
 	sendreceive/logic.cpp \
@@ -1640,9 +1638,9 @@ workbench/index.$(OBJEXT): workbench/$(am__dirstamp) \
 	workbench/$(DEPDIR)/$(am__dirstamp)
 workbench/logic.$(OBJEXT): workbench/$(am__dirstamp) \
 	workbench/$(DEPDIR)/$(am__dirstamp)
-workbench/organize.$(OBJEXT): workbench/$(am__dirstamp) \
-	workbench/$(DEPDIR)/$(am__dirstamp)
 workbench/settings.$(OBJEXT): workbench/$(am__dirstamp) \
+	workbench/$(DEPDIR)/$(am__dirstamp)
+workbench/organize.$(OBJEXT): workbench/$(am__dirstamp) \
 	workbench/$(DEPDIR)/$(am__dirstamp)
 sendreceive/$(am__dirstamp):
 	@$(MKDIR_P) sendreceive
