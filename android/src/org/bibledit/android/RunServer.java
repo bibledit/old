@@ -71,21 +71,22 @@ public class RunServer extends Service
 
   @Override
 	public IBinder onBind (Intent arg0)
-  {
-		return null;
+    {
+      return null;
 	}
 
 
 	@Override
 	public void onCreate ()
-  {
-		Toast.makeText (this, "Bibledit Service Started", Toast.LENGTH_LONG).show ();
+    {
+        
+	  Toast.makeText (this, "Bibledit Service Started", Toast.LENGTH_LONG).show ();
 
-    makeSettings ();
+      makeSettings ();
     
-    handler = new Handler ();
+      handler = new Handler ();
 
-    runnableMinute = new Runnable () 
+      runnableMinute = new Runnable ()
     {
       @Override
       public void run ()

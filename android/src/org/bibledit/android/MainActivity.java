@@ -26,6 +26,7 @@ import android.view.View;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.NotificationManager;
+import android.webkit.WebView;
 
 
 // The activity's data is at /data/data/org.bibledit.android.
@@ -39,7 +40,6 @@ public class MainActivity extends Activity
   public static Activity activity;
   public static Handler handler;
   public static Context context;
-  //private long notificationId;
 
 
   @Override
@@ -50,26 +50,14 @@ public class MainActivity extends Activity
     activity = this;
     context = this;
 
-    setContentView (R.layout.main);
+    WebView webview = new WebView (this);
+    webview.loadData ("<h1>Bibledit</h1>", "text/html", null);
 
+    setContentView (webview);
+
+    String arch = System.getProperty("os.arch");
+    Log.d ("CPU", arch);
     UpdateGui.run ();
-    
-    startService (new Intent (this, RunServer.class));
-
-/*
-    int icon = R.drawable.ic_launcher;
-    long when = System.currentTimeMillis ();
-    notificationId = System.currentTimeMillis ();
-    String appname = context.getResources().getString(R.string.app_name);
-    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    Intent intent = new Intent(context, MainActivity.class);
-    PendingIntent contentIntent = PendingIntent.getActivity (context, 0, intent, 0);
-    String message = "Bibledit service running";
-    Notification notification = new Notification(icon, message, when);
-    notification.setLatestEventInfo (context, appname, message, contentIntent);
-    notification.flags = Notification.FLAG_FOREGROUND_SERVICE;
-    notificationManager.notify((int) notificationId, notification);
-*/
   }
 
 
@@ -135,16 +123,17 @@ public class MainActivity extends Activity
   public void onDestroy ()
   {
     super.onDestroy ();
-
     handler = null;
-
-    stopService (new Intent (this, RunServer.class));
-
-/*
-    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    notificationManager.cancel ((int)notificationId);
-*/
+    //stopService (new Intent (this, RunServer.class));
   }
 
+    
+     // This is used to load the native Bibledit library on application startup.
+     // The library has already been unpacked into
+     // /data/data/org.bibledit.android/lib/libbibledit.so
+     // at installation time by the package manager.
+    static {
+        // System.loadLibrary("libtwolib-second");
+    }
 
 }

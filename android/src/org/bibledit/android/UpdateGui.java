@@ -344,8 +344,8 @@ public class UpdateGui
   private static void display (String html)
   {
     if (html == displayedText) return;
-    WebView webview = (WebView) MainActivity.activity.findViewById (R.id.web_view);
-    webview.loadData (html, "text/html", null);
+    //WebView webview = (WebView) MainActivity.activity.findViewById (R.id.web_view);
+    //webview.loadData (html, "text/html", null);
     displayedText = html;
   }
   

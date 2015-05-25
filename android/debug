@@ -7,9 +7,9 @@
 # Apache Ant: port install apache-ant.
 
 
-# Export environment variables to find the Android SDK's tools.
+# Export environment variables to find the Android SDK and NDK tools.
 export ANDROID_HOME=~/scr/android-sdk-macosx
-export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools
+export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools:~/scr/android-ndk-r10e
 
 
 # Refresh the bibledit-web source code in the assets.
@@ -45,8 +45,22 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 # sed -i '/php_sapi_name/d' assets/external/bibledit-web/filter/cli.php
 
 
+# Build native code.
+# https://developer.android.com/tools/sdk/ndk/index.html
+ndk-build clean
+ndk-build
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+exit
+fi
+
+
 # Clean binaries.
 ant clean
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+exit
+fi
 
 
 # Create assets index.

@@ -25,6 +25,11 @@
 		CA97BC201B0F7EE300877437 /* main.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = main.xml; sourceTree = "<group>"; };
 		CA97BC221B0F7EE300877437 /* strings.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = strings.xml; sourceTree = "<group>"; };
 		CA97BC241B0F9CF400877437 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		CABA80581B110D8800E86B23 /* bibledit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibledit.cpp; sourceTree = "<group>"; };
+		CABA80591B110D8800E86B23 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
+		CABA805A1B110D8800E86B23 /* javawrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = javawrapper.c; sourceTree = "<group>"; };
+		CAE2DAFB1B10DE4A008EE025 /* Android.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
+		CAE2DAFC1B10DE4A008EE025 /* Application.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = Application.mk; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -62,20 +67,33 @@
 		CAADF4D71B0F7CD9002F0910 = {
 			isa = PBXGroup;
 			children = (
-				CA97BC231B0F7EED00877437 /* src */,
 				CA97BC101B0F7DF400877437 /* AndroidManifest.xml */,
 				CA97BC111B0F7DFC00877437 /* ant.properties */,
 				CA97BC121B0F7E0400877437 /* build.xml */,
 				CA97BC131B0F7E0C00877437 /* debug */,
+				CAE2DAFA1B10DE4A008EE025 /* jni */,
+				CA97BC1F1B0F7EE300877437 /* layout */,
 				CA97BC141B0F7E1500877437 /* local.properties */,
 				CA97BC151B0F7E1E00877437 /* proguard-project.txt */,
 				CA97BC161B0F7E1E00877437 /* project.properties */,
-				CA97BC171B0F7E1E00877437 /* release */,
 				CA97BC241B0F9CF400877437 /* README.md */,
+				CA97BC171B0F7E1E00877437 /* release */,
+				CA97BC231B0F7EED00877437 /* src */,
 				CA97BC181B0F7E3600877437 /* testing.txt */,
-				CA97BC1F1B0F7EE300877437 /* layout */,
 				CA97BC211B0F7EE300877437 /* values */,
 			);
+			sourceTree = "<group>";
+		};
+		CAE2DAFA1B10DE4A008EE025 /* jni */ = {
+			isa = PBXGroup;
+			children = (
+				CAE2DAFB1B10DE4A008EE025 /* Android.mk */,
+				CAE2DAFC1B10DE4A008EE025 /* Application.mk */,
+				CABA80581B110D8800E86B23 /* bibledit.cpp */,
+				CABA80591B110D8800E86B23 /* bibledit.h */,
+				CABA805A1B110D8800E86B23 /* javawrapper.c */,
+			);
+			path = jni;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
