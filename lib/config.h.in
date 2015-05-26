@@ -27,11 +27,17 @@
 /* Define the directory separator as Windows differs from Linux */
 #undef DIRECTORY_SEPARATOR
 
+/* Define whether it is to be built with embedded http code */
+#undef EMBEDDEDHTTP
+
 /* define if the compiler supports basic C++11 syntax */
 #undef HAVE_CXX11
 
 /* Define whether to build for Cygwin */
 #undef HAVE_CYGWIN
+
+/* Define whether to build with embedded http code */
+#undef HAVE_EMBEDDEDHTTP
 
 /* Whether git funcions are available and enabled */
 #undef HAVE_GIT
@@ -47,9 +53,6 @@
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
-
-/* Define whether to build for OS X */
-#undef HAVE_OSX
 
 /* Define whether pthread.h is present */
 #undef HAVE_PTHREAD
@@ -86,9 +89,6 @@
 
 /* Define the network port number */
 #undef NETWORK_PORT
-
-/* Define whether it is to be built for OS X */
-#undef OSX
 
 /* Name of package */
 #undef PACKAGE

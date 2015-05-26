@@ -32,7 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
-#include <curl/curl.h>
 
 
 // Get Bibledit's version number.

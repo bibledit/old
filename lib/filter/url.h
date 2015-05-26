@@ -26,12 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <curl/curl.h>
 
 
-#ifdef WIN32
-#undef DIRECTORY_SEPARATOR
-#define DIRECTORY_SEPARATOR "\\"
-#endif
-
-
 string get_base_url (Webserver_Request * request);
 void redirect_browser (Webserver_Request * request, string url);
 string filter_url_dirname (string url);

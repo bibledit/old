@@ -17,14 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <filter/url.h>
 #include <webserver/http.h>
 #include <config/globals.h>
-#include <filter/url.h>
 #include <filter/UriCodec.cpp>
 #include <filter/string.h>
 #include <filter/date.h>
 #include <config/logic.h>
-#include <curl/curl.h>
 #include <config.h>
 #include <database/books.h>
 #include <database/logs.h>
@@ -419,16 +418,19 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 // Sends a http GET request to the $url.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_get (string url, string& error)
+string filter_url_http_get (string url, string& error) // Todo alternative w/o cURL
 {
   string response;
+#ifdef HAVE_EMBEDDEDHTTP
+#else
+#endif
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
-    // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L); // Todo
     // Because a Bibledit client should work even over very bad networks,
     // pass some timeout options to curl so it properly deals with such networks.
     filter_url_curl_set_timeout (curl);
@@ -455,7 +457,7 @@ string filter_url_http_get (string url, string& error)
 // It posts the $values.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error, bool burst)
+string filter_url_http_post (string url, map <string, string> values, string& error, bool burst) // Todo alternative w/o cURL
 {
   string response;
   // Get a curl handle.
@@ -560,7 +562,7 @@ string filter_url_http_response_code_text (int code)
 
 
 // Downloads the file at $url, and stores it at $filename.
-void filter_url_download_file (string url, string filename, string& error)
+void filter_url_download_file (string url, string filename, string& error) // Todo alternative w/o cURL
 {
   CURL *curl = curl_easy_init ();
   if (curl) {

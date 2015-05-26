@@ -154,17 +154,6 @@ AC_DEFINE([IOS], [], [Define whether it is to be built for iOS])
 AC_DEFINE_UNQUOTED(IOS, "$IOS")
 AC_SUBST(IOS)
 
-# Build for OS X.
-OSX=no
-AC_ARG_ENABLE(osx,
-[  --enable-osx Enable OS X],
-[AC_DEFINE([HAVE_OSX], [1], [Define whether to build for OS X])]
-OSX=yes
-)
-AC_DEFINE([OSX], [], [Define whether it is to be built for OS X])
-AC_DEFINE_UNQUOTED(OSX, "$OSX")
-AC_SUBST(OSX)
-
 # Build for Cygwin.
 CYGWIN=no
 AC_ARG_ENABLE(cygwin,
@@ -228,6 +217,17 @@ AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
 AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
 AC_SUBST(ADMIN_EMAIL)
 
+# Build with embedded http code.
+EMBEDDEDHTTP=no
+AC_ARG_ENABLE(embeddedhttp,
+[  --enable-embeddedhttp Enable embedded http code],
+[AC_DEFINE([HAVE_EMBEDDEDHTTP], [1], [Define whether to build with embedded http code])]
+EMBEDDEDHTTP=yes
+)
+AC_DEFINE([EMBEDDEDHTTP], [], [Define whether it is to be built with embedded http code])
+AC_DEFINE_UNQUOTED(EMBEDDEDHTTP, "$EMBEDDEDHTTP")
+AC_SUBST(EMBEDDEDHTTP)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -241,7 +241,7 @@ Demo installation (--enable-demo)                          : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
 Build for iOS (--enable-ios)                               : ${IOS}
-Build for OS X (--enable-osx)                              : ${OSX}
+Build with embedded http code (--enable-embeddedhttp)      : ${EMBEDDEDHTTP}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 Unit tests (--enable-unittests)                            : ${UNITTESTS}
