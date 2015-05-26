@@ -1,0 +1,50 @@
+<style type="text/css">##custom_css##</style>
+<h3>translate("Font and text direction")</h3>
+<p>translate("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
+<br>
+<p>
+  translate("Set the font, the text direction, and the writing mode for the Bible editors.")
+</p>
+<br>
+<form action="?bible=##bible##" name="form" method="post">
+
+  <p>translate("Font"): <input type="text" name="font" value="##font##"></p>
+  <p>translate("A font can be entered in different ways:")</p>
+  <ul>
+  <li>
+    translate("Enter the name of a locally available font.")
+    translate("Example:")
+    Gentium Plus
+  </li>
+  <li>
+    <a href="../fonts/index" ##targetblank##>translate("Upload a font file.")</a>
+    translate("Then enter its name.")
+    translate("Example:")
+    GentiumPlus-R.ttf
+  </li>
+  <li>
+    translate("Enter the name of a font available on the Internet.")
+    translate("Example:")
+    http://website.org/fonts/GentiumPlus-R.ttf
+  </li>
+  </ul>
+
+  <br>
+  <p>translate("Direction"):</p>
+  <p><input type="radio" name="direction" value="" ##direction_none##>translate("Unspecified")</p>
+  <p><input type="radio" name="direction" value="ltr" ##direction_ltr##>translate("Left-to-right")</p>
+  <p><input type="radio" name="direction" value="rtl" ##direction_rtl##>translate("Right-to-left")</p>
+  <br>
+  <p>translate("Writing mode"):</p>
+  <p><input type="radio" name="mode" value="" ##mode_none##>translate("Unspecified")</p>
+  <p><input type="radio" name="mode" value="tb-lr" ##mode_tblr##>translate("Top to bottom and left to right")</p>
+  <p><input type="radio" name="mode" value="tb-rl" ##mode_tbrl##>translate("Top to bottom and right to left")</p>
+  <p><input type="radio" name="mode" value="bt-lr" ##mode_btlr##>translate("Bottom to top and left to right")</p>
+  <p><input type="radio" name="mode" value="bt-rl" ##mode_btrl##>translate("Bottom to top and right to left")</p>
+  <br>
+  <p><input type="submit" name="submit" value=translate("Save") /></p>
+</form>
+<br>
+<div class="##custom_class##" contenteditable="true">
+  translate("After saving, the settings will be applied to this editable sample text.")
+</p>

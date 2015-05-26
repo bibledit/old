@@ -53,6 +53,7 @@ public class MainActivity extends Activity
     WebView webview = new WebView (this);
     setContentView (webview);
 
+    // Todo The WebView should call an URL, start with bibledit.org, then later change to http://localhost:8080.
     webview.loadData (GetVersionNumber (), "text/html", null);
 
     UpdateGui.run ();

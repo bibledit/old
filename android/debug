@@ -12,18 +12,47 @@ export ANDROID_HOME=~/scr/android-sdk-macosx
 export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools:~/scr/android-ndk-r10e
 
 
+# Todo
+if [ 1 -eq 0 ]; then
 # Refresh the bibledit-web source code in the assets.
 rsync -a --exclude '*.o' --delete ../lib/* jni
-rm -f jni/bibledit
-rm -rf jni/autom4te.cache
-rm -f jni/dev
-rm -f jni/*.a
-rm -f jni/reconfigure
-rm -f jni/server
-rm -f jni/unittest
-rm -f jni/valgrind
-rm -rf jni/xcode
-rm -rf jni/executable
+pushd jni
+./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser
+rm -f bibledit
+rm -r autom4te.cache
+rm dev
+rm -f *.a
+rm reconfigure
+rm -f server
+rm -f unittest
+rm valgrind
+rm -r xcode
+rm -r executable
+rm aclocal.m4
+rm AUTHORS
+rm ChangeLog
+rm compile
+rm config.guess
+rm config.h.in
+rm config.log
+rm config.status
+rm config.sub
+rm configure
+rm configure.ac
+rm COPYING
+rm depcomp
+rm DEVELOP
+rm INSTALL
+rm install-sh
+rm Makefile
+rm Makefile.in
+rm missing
+rm NEWS
+rm README
+rm stamp-h1
+popd
+# Todo
+fi
 
 
 # The following command saves all source files from Makefile.am to file.
@@ -37,21 +66,16 @@ rm -rf jni/executable
 sed -n "/libbibledit_a_SOURCES/,/bin_PROGRAMS/p" jni/Makefile.am | tail -n +2 | sed '$d' | strings | tr -d '\n' | sed 's/\\//g' > jni/sources.txt
 
 
-# Create Android Makefile.
-rm -f jni/Android.mk
-echo 'LOCAL_PATH:= $(call my-dir)' >> jni/Android.mk
-echo 'include $(CLEAR_VARS)' >> jni/Android.mk
-echo 'LOCAL_MODULE := libbibledit' >> jni/Android.mk
-# echo 'LOCAL_SRC_FILES := bibledit.cpp' >> jni/Android.mk
-echo -n 'LOCAL_SRC_FILES := ' >> jni/Android.mk
-cat jni/sources.txt >> jni/Android.mk
-echo 'include $(BUILD_STATIC_LIBRARY)' >> jni/Android.mk
-echo 'include $(CLEAR_VARS)' >> jni/Android.mk
-echo 'LOCAL_MODULE    := libjavawrapper' >> jni/Android.mk
-echo 'LOCAL_SRC_FILES := javawrapper.c' >> jni/Android.mk
-echo 'LOCAL_STATIC_LIBRARIES := libbibledit' >> jni/Android.mk
-echo 'include $(BUILD_SHARED_LIBRARY)' >> jni/Android.mk
+# Create Android.mk Makefile from Android.mk.am.
+sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.mk.am > jni/Android.mk
 
+
+# Todo add other libs like xml2 sqlite etc echo 'LOCAL_LDLIBS := -llog' >> jni/Android.mk
+
+# Article about enabling C++11 features
+# http://www.drdobbs.com/cpp/accessing-c11-features-of-the-android-nd/240168385
+
+# Todo Also one can switch from clang to 4.8 (gcc) or else one can install the Android SDK on Linux and compile from Linux.
 
 # Fix this: [aapt] (skipping file '.htaccess' due to ANDROID_AAPT_IGNORE pattern '.*')
 # Rename all files ".htaccess" to "dot.htaccess".
@@ -84,7 +108,7 @@ echo 'include $(BUILD_SHARED_LIBRARY)' >> jni/Android.mk
 
 # Build native code.
 # https://developer.android.com/tools/sdk/ndk/index.html
-ndk-build clean
+# Todo ndk-build clean
 ndk-build
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
