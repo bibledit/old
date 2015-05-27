@@ -77,6 +77,12 @@ sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.mk.am > jni/Android.mk
 
 # Todo Also one can switch from clang to 4.8 (gcc) or else one can install the Android SDK on Linux and compile from Linux.
 
+# Todo SQLITE:
+# Compile sqlite from source: https://github.com/stockrt/sqlite3-android
+# Sqlite: http://stackoverflow.com/questions/5523067/sqlite-with-android-ndk
+# Sqlite: https://github.com/lookout/sqlite-android/blob/master/jni/Android.mk
+
+
 # Fix this: [aapt] (skipping file '.htaccess' due to ANDROID_AAPT_IGNORE pattern '.*')
 # Rename all files ".htaccess" to "dot.htaccess".
 # This is going to be reverted in the Java code during installation.
