@@ -30,6 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sys/socket.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#ifdef HAVE_EMBEDDEDHTTP
+#else
+#include <curl/curl.h>
+#endif
 
 
 // Gets the base URL of current Bibledit installation.
@@ -815,10 +819,13 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
 
 
 // Callback function for logging cURL debug information.
-int filter_url_curl_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size, void *userptr)
+#ifdef HAVE_EMBEDDEDHTTP
+#else
+int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char *data, size_t size, void *userptr)
 {
-  if (handle && userptr) {};
+  if (curl_handle && userptr) {};
   bool log = true;
+  curl_infotype type = (curl_infotype) curl_info_type;
   if (type == CURLINFO_SSL_DATA_OUT) log = false;
   if (type == CURLINFO_SSL_DATA_OUT) log = false;
   if (log) {
@@ -827,17 +834,22 @@ int filter_url_curl_debug_callback (CURL *handle, curl_infotype type, char *data
   }
   return 0;
 }
+#endif
 
 
 // Sets timeouts for cURL operations.
 // burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
 //        When false, the data is supposed to be downloaded gradually.
 // Without these timeouts, the Bibledit client will hang on stalled sync operations.
-void filter_url_curl_set_timeout (CURL *handle, bool burst)
+#ifdef HAVE_EMBEDDEDHTTP
+#else
+void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 {
+  CURL * handle = (CURL *) curl_handle;
+  
   // There is a timeout on establishing a connection.
   curl_easy_setopt (handle, CURLOPT_CONNECTTIMEOUT, 10);
-
+  
   // There is a also a transfer timeout for normal speeds.
   curl_easy_setopt (handle, CURLOPT_TIMEOUT, 600);
   
@@ -854,3 +866,4 @@ void filter_url_curl_set_timeout (CURL *handle, bool burst)
   // Timing out may use signals, which is not what we want.
   curl_easy_setopt (handle, CURLOPT_NOSIGNAL, 1L);
 }
+#endif

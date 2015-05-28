@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #include <webserver/request.h>
-#include <curl/curl.h>
 
 
 string get_base_url (Webserver_Request * request);
@@ -60,8 +59,8 @@ string filter_url_http_post (string url, map <string, string> values, string& er
 string filter_url_http_response_code_text (int code);
 void filter_url_download_file (string url, string filename, string& error);
 string filter_url_html_file_name_bible (string path = "", int book = 0, int chapter = -1);
-int filter_url_curl_debug_callback (CURL *handle, curl_infotype type, char *data, size_t size, void *userptr);
-void filter_url_curl_set_timeout (CURL *handle, bool burst = false);
+int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char *data, size_t size, void *userptr);
+void filter_url_curl_set_timeout (void *curl_handle, bool burst = false);
 
 
 #endif

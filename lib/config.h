@@ -29,7 +29,7 @@
 #define DIRECTORY_SEPARATOR "/"
 
 /* Define whether it is to be built with embedded http code */
-#define EMBEDDEDHTTP "yes"
+#define EMBEDDEDHTTP "no"
 
 /* define if the compiler supports basic C++11 syntax */
 /* #undef HAVE_CXX11 */
@@ -38,7 +38,7 @@
 /* #undef HAVE_CYGWIN */
 
 /* Define whether to build with embedded http code */
-#define HAVE_EMBEDDEDHTTP 1
+/* #undef HAVE_EMBEDDEDHTTP */
 
 /* Whether git funcions are available and enabled */
 /* #undef HAVE_GIT */
@@ -101,7 +101,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.145"
+#define PACKAGE_STRING "bibledit 1.0.146"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -110,7 +110,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.145"
+#define PACKAGE_VERSION "1.0.146"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
@@ -125,4 +125,4 @@
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.145"
+#define VERSION "1.0.146"
