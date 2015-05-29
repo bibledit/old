@@ -5,6 +5,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := libbibledit
 LOCAL_SRC_FILES := bibledit.cpp SOURCEFILES
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../sqlite/jni
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../xml2/jni/include
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
