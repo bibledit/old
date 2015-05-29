@@ -7,137 +7,132 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA6D32D01B0D1BD0005F176B /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6D32CF1B0D1BD0005F176B /* Utilities.m */; };
-		CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E31AD55A57002EDC47 /* AppDelegate.m */; };
-		CA8896E61AD55A57002EDC47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E51AD55A57002EDC47 /* main.m */; };
-		CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8896E81AD55A57002EDC47 /* ViewController.m */; };
-		CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */; };
-		CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA941AD6C9CB00259D3E /* libz.dylib */; };
-		CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA981AD6C9DC00259D3E /* libc++.dylib */; };
-		CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */; };
-		CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9AEA9C1AD6CB2200259D3E /* webroot */; };
-		CABDA1A01B0CF71800724AEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CABDA19E1B0CF71800724AEB /* Main.storyboard */; };
-		CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC03BD81AD58BD100686640 /* Images.xcassets */; };
-		CAFC35511AD9A592005A7882 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35501AD9A592005A7882 /* libcurl.a */; };
-		CAFC35531AD9A6D0005A7882 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35521AD9A6D0005A7882 /* libssl.a */; };
-		CAFC35551AD9A72B005A7882 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35541AD9A72B005A7882 /* libcrypto.a */; };
-		CAFC35571AD9A76B005A7882 /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35561AD9A76B005A7882 /* libidn.a */; };
-		CAFC35591AD9A7B9005A7882 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC35581AD9A7B9005A7882 /* libiconv.a */; };
-		CAFC355B1AD9A825005A7882 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC355A1AD9A825005A7882 /* libintl.a */; };
-		CAFC9ECA1AD6BF5F00AB49D8 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		CAFC9ECC1AD6C24300AB49D8 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */; };
+		CA1599F21B1759A600B26F9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F11B1759A600B26F9C /* AppDelegate.m */; };
+		CA1599F41B1759A600B26F9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F31B1759A600B26F9C /* main.m */; };
+		CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1599F51B1759A600B26F9C /* Images.xcassets */; };
+		CA99CFA11B175B8B00696023 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA99CFA01B175B8B00696023 /* WebKit.framework */; };
+		CAE0196F1B1775C6000EAF46 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CAE0196E1B1775C6000EAF46 /* webroot */; };
+		CAE235B51B176BAF005AEEBF /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235AF1B176BAF005AEEBF /* libcrypto.a */; };
+		CAE235B61B176BAF005AEEBF /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B01B176BAF005AEEBF /* libcurl.a */; };
+		CAE235B71B176BAF005AEEBF /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B11B176BAF005AEEBF /* libiconv.a */; };
+		CAE235B81B176BAF005AEEBF /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B21B176BAF005AEEBF /* libidn.a */; };
+		CAE235B91B176BAF005AEEBF /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B31B176BAF005AEEBF /* libintl.a */; };
+		CAE235BA1B176BAF005AEEBF /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B41B176BAF005AEEBF /* libssl.a */; };
+		CAE235BC1B176BDB005AEEBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235BB1B176BDB005AEEBF /* libxml2.dylib */; };
+		CAE235BE1B176BEA005AEEBF /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235BD1B176BEA005AEEBF /* libc++.dylib */; };
+		CAE235C01B176BF6005AEEBF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235BF1B176BF6005AEEBF /* libz.dylib */; };
+		CAE235C21B176C03005AEEBF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235C11B176C03005AEEBF /* libsqlite3.dylib */; };
+		CAE235C41B176C1C005AEEBF /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235C31B176C1C005AEEBF /* libcrypto.dylib */; };
+		CAE235C61B176C2D005AEEBF /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235C51B176C2D005AEEBF /* libbibledit.a */; };
+		CAF569171B177EBD00EE957E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAE33E751B176F2500BBA84A /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CA5781551B0CDA4F00BD91A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CA6D32CE1B0D1B9E005F176B /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
-		CA6D32CF1B0D1BD0005F176B /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
-		CA75910D1B0CA60D00AD6923 /* Bibledit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Bibledit.entitlements; sourceTree = "<group>"; };
-		CA8896DD1AD55A57002EDC47 /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA8896E11AD55A57002EDC47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CA8896E21AD55A57002EDC47 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		CA8896E31AD55A57002EDC47 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; };
-		CA8896E51AD55A57002EDC47 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CA8896E71AD55A57002EDC47 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CA8896E81AD55A57002EDC47 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		CA94C9651B0CEADA00BD5C5C /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = SOURCE_ROOT; };
-		CA94C9671B0CEBA500BD5C5C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
-		CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		CA9AEA941AD6C9CB00259D3E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		CA9AEA981AD6C9DC00259D3E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		CA9AEA9C1AD6CB2200259D3E /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
-		CABDA19F1B0CF71800724AEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Bibledit/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CAC03BD81AD58BD100686640 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		CAFC35501AD9A592005A7882 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = lib/libcurl.a; sourceTree = "<group>"; };
-		CAFC35521AD9A6D0005A7882 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
-		CAFC35541AD9A72B005A7882 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
-		CAFC35561AD9A76B005A7882 /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = lib/libidn.a; sourceTree = "<group>"; };
-		CAFC35581AD9A7B9005A7882 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = lib/libiconv.a; sourceTree = "<group>"; };
-		CAFC355A1AD9A825005A7882 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = lib/libintl.a; sourceTree = "<group>"; };
-		CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
-		CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
-		CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		CA0CCC211B1764D300487D8E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = SOURCE_ROOT; };
+		CA0CCC231B1764DC00487D8E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		CA0CCC251B17694900487D8E /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
+		CA1599EB1B1759A600B26F9C /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA1599EF1B1759A600B26F9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA1599F01B1759A600B26F9C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CA1599F11B1759A600B26F9C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CA1599F31B1759A600B26F9C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CA1599F51B1759A600B26F9C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CA1599F81B1759A600B26F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		CA99CFA01B175B8B00696023 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		CAE0196E1B1775C6000EAF46 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
+		CAE235AF1B176BAF005AEEBF /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
+		CAE235B01B176BAF005AEEBF /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = lib/libcurl.a; sourceTree = "<group>"; };
+		CAE235B11B176BAF005AEEBF /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = lib/libiconv.a; sourceTree = "<group>"; };
+		CAE235B21B176BAF005AEEBF /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = lib/libidn.a; sourceTree = "<group>"; };
+		CAE235B31B176BAF005AEEBF /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = lib/libintl.a; sourceTree = "<group>"; };
+		CAE235B41B176BAF005AEEBF /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
+		CAE235BB1B176BDB005AEEBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		CAE235BD1B176BEA005AEEBF /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		CAE235BF1B176BF6005AEEBF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CAE235C11B176C03005AEEBF /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		CAE235C31B176C1C005AEEBF /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		CAE235C51B176C2D005AEEBF /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
+		CAE33E761B176F2500BBA84A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = osx/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		CAFBC78D1B17624E0063BA33 /* osx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = osx.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CA8896DA1AD55A57002EDC47 /* Frameworks */ = {
+		CA1599E81B1759A600B26F9C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAFC355B1AD9A825005A7882 /* libintl.a in Frameworks */,
-				CAFC35591AD9A7B9005A7882 /* libiconv.a in Frameworks */,
-				CAFC35571AD9A76B005A7882 /* libidn.a in Frameworks */,
-				CAFC35551AD9A72B005A7882 /* libcrypto.a in Frameworks */,
-				CAFC35531AD9A6D0005A7882 /* libssl.a in Frameworks */,
-				CAFC35511AD9A592005A7882 /* libcurl.a in Frameworks */,
-				CA9AEA9B1AD6C9E600259D3E /* libxml2.dylib in Frameworks */,
-				CA9AEA991AD6C9DC00259D3E /* libc++.dylib in Frameworks */,
-				CA9AEA951AD6C9CB00259D3E /* libz.dylib in Frameworks */,
-				CA9AEA931AD6C9BE00259D3E /* libsqlite3.dylib in Frameworks */,
-				CAFC9ECC1AD6C24300AB49D8 /* libcrypto.dylib in Frameworks */,
-				CAFC9ECA1AD6BF5F00AB49D8 /* libbibledit.a in Frameworks */,
+				CAE235C61B176C2D005AEEBF /* libbibledit.a in Frameworks */,
+				CAE235C41B176C1C005AEEBF /* libcrypto.dylib in Frameworks */,
+				CAE235C21B176C03005AEEBF /* libsqlite3.dylib in Frameworks */,
+				CAE235C01B176BF6005AEEBF /* libz.dylib in Frameworks */,
+				CAE235BE1B176BEA005AEEBF /* libc++.dylib in Frameworks */,
+				CAE235BC1B176BDB005AEEBF /* libxml2.dylib in Frameworks */,
+				CAE235B51B176BAF005AEEBF /* libcrypto.a in Frameworks */,
+				CAE235B61B176BAF005AEEBF /* libcurl.a in Frameworks */,
+				CAE235B71B176BAF005AEEBF /* libiconv.a in Frameworks */,
+				CAE235B81B176BAF005AEEBF /* libidn.a in Frameworks */,
+				CAE235B91B176BAF005AEEBF /* libintl.a in Frameworks */,
+				CAE235BA1B176BAF005AEEBF /* libssl.a in Frameworks */,
+				CA99CFA11B175B8B00696023 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CA8896D41AD55A57002EDC47 = {
+		CA1599E21B1759A600B26F9C = {
 			isa = PBXGroup;
 			children = (
-				CABDA19E1B0CF71800724AEB /* Main.storyboard */,
-				CAFC355A1AD9A825005A7882 /* libintl.a */,
-				CAFC35581AD9A7B9005A7882 /* libiconv.a */,
-				CAFC35561AD9A76B005A7882 /* libidn.a */,
-				CAFC35541AD9A72B005A7882 /* libcrypto.a */,
-				CAFC35521AD9A6D0005A7882 /* libssl.a */,
-				CAFC35501AD9A592005A7882 /* libcurl.a */,
-				CA9AEA9A1AD6C9E600259D3E /* libxml2.dylib */,
-				CA9AEA981AD6C9DC00259D3E /* libc++.dylib */,
-				CA9AEA941AD6C9CB00259D3E /* libz.dylib */,
-				CA9AEA921AD6C9BE00259D3E /* libsqlite3.dylib */,
-				CAFC9ECB1AD6C24300AB49D8 /* libcrypto.dylib */,
-				CAFC9EC91AD6BF5F00AB49D8 /* libbibledit.a */,
-				CA9AEA9C1AD6CB2200259D3E /* webroot */,
-				CA8896DF1AD55A57002EDC47 /* Bibledit */,
-				CA8896DE1AD55A57002EDC47 /* Products */,
+				CAE0196E1B1775C6000EAF46 /* webroot */,
+				CAE33E751B176F2500BBA84A /* MainMenu.xib */,
+				CAE235C51B176C2D005AEEBF /* libbibledit.a */,
+				CAE235C31B176C1C005AEEBF /* libcrypto.dylib */,
+				CAE235C11B176C03005AEEBF /* libsqlite3.dylib */,
+				CAE235BF1B176BF6005AEEBF /* libz.dylib */,
+				CAE235BD1B176BEA005AEEBF /* libc++.dylib */,
+				CAE235BB1B176BDB005AEEBF /* libxml2.dylib */,
+				CAE235AF1B176BAF005AEEBF /* libcrypto.a */,
+				CAE235B01B176BAF005AEEBF /* libcurl.a */,
+				CAE235B11B176BAF005AEEBF /* libiconv.a */,
+				CAE235B21B176BAF005AEEBF /* libidn.a */,
+				CAE235B31B176BAF005AEEBF /* libintl.a */,
+				CAE235B41B176BAF005AEEBF /* libssl.a */,
+				CA99CFA01B175B8B00696023 /* WebKit.framework */,
+				CA1599ED1B1759A600B26F9C /* gui */,
+				CA1599EC1B1759A600B26F9C /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		CA8896DE1AD55A57002EDC47 /* Products */ = {
+		CA1599EC1B1759A600B26F9C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CA8896DD1AD55A57002EDC47 /* Bibledit.app */,
+				CA1599EB1B1759A600B26F9C /* Bibledit.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CA8896DF1AD55A57002EDC47 /* Bibledit */ = {
+		CA1599ED1B1759A600B26F9C /* gui */ = {
 			isa = PBXGroup;
 			children = (
-				CA75910D1B0CA60D00AD6923 /* Bibledit.entitlements */,
-				CA8896E21AD55A57002EDC47 /* AppDelegate.h */,
-				CA8896E31AD55A57002EDC47 /* AppDelegate.m */,
-				CA8896E71AD55A57002EDC47 /* ViewController.h */,
-				CA8896E81AD55A57002EDC47 /* ViewController.m */,
-				CA5781541B0CDA4F00BD91A8 /* Main.storyboard */,
-				CA94C9651B0CEADA00BD5C5C /* build.sh */,
-				CA94C9671B0CEBA500BD5C5C /* README.md */,
-				CAFC9EC81AD6BC9A00AB49D8 /* bibledit.h */,
-				CA6D32CE1B0D1B9E005F176B /* Utilities.h */,
-				CA6D32CF1B0D1BD0005F176B /* Utilities.m */,
-				CAC03BD81AD58BD100686640 /* Images.xcassets */,
-				CA8896E01AD55A57002EDC47 /* Supporting Files */,
+				CAFBC78D1B17624E0063BA33 /* osx.entitlements */,
+				CA1599F01B1759A600B26F9C /* AppDelegate.h */,
+				CA1599F11B1759A600B26F9C /* AppDelegate.m */,
+				CA0CCC251B17694900487D8E /* bibledit.h */,
+				CA1599F51B1759A600B26F9C /* Images.xcassets */,
+				CA1599F71B1759A600B26F9C /* MainMenu.xib */,
+				CA0CCC211B1764D300487D8E /* build.sh */,
+				CA0CCC231B1764DC00487D8E /* README.md */,
+				CA1599EE1B1759A600B26F9C /* Supporting Files */,
 			);
-			path = Bibledit;
+			name = gui;
+			path = osx;
 			sourceTree = "<group>";
 		};
-		CA8896E01AD55A57002EDC47 /* Supporting Files */ = {
+		CA1599EE1B1759A600B26F9C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CA8896E11AD55A57002EDC47 /* Info.plist */,
-				CA8896E51AD55A57002EDC47 /* main.m */,
+				CA1599EF1B1759A600B26F9C /* Info.plist */,
+				CA1599F31B1759A600B26F9C /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -145,34 +140,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CA8896DC1AD55A57002EDC47 /* Bibledit */ = {
+		CA1599EA1B1759A600B26F9C /* Bibledit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA8896FD1AD55A57002EDC47 /* Build configuration list for PBXNativeTarget "Bibledit" */;
+			buildConfigurationList = CA159A081B1759A600B26F9C /* Build configuration list for PBXNativeTarget "Bibledit" */;
 			buildPhases = (
-				CA8896D91AD55A57002EDC47 /* Sources */,
-				CA8896DA1AD55A57002EDC47 /* Frameworks */,
-				CA8896DB1AD55A57002EDC47 /* Resources */,
+				CA1599E71B1759A600B26F9C /* Sources */,
+				CA1599E81B1759A600B26F9C /* Frameworks */,
+				CA1599E91B1759A600B26F9C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Bibledit;
-			productName = Bibledit;
-			productReference = CA8896DD1AD55A57002EDC47 /* Bibledit.app */;
+			productName = osx;
+			productReference = CA1599EB1B1759A600B26F9C /* Bibledit.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		CA8896D51AD55A57002EDC47 /* Project object */ = {
+		CA1599E31B1759A600B26F9C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Teus Benschop";
 				TargetAttributes = {
-					CA8896DC1AD55A57002EDC47 = {
-						CreatedOnToolsVersion = 6.2;
+					CA1599EA1B1759A600B26F9C = {
+						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = L37WFUB5MH;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -182,7 +177,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CA8896D81AD55A57002EDC47 /* Build configuration list for PBXProject "Bibledit" */;
+			buildConfigurationList = CA1599E61B1759A600B26F9C /* Build configuration list for PBXProject "Bibledit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -190,64 +185,62 @@
 				en,
 				Base,
 			);
-			mainGroup = CA8896D41AD55A57002EDC47;
-			productRefGroup = CA8896DE1AD55A57002EDC47 /* Products */;
+			mainGroup = CA1599E21B1759A600B26F9C;
+			productRefGroup = CA1599EC1B1759A600B26F9C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CA8896DC1AD55A57002EDC47 /* Bibledit */,
+				CA1599EA1B1759A600B26F9C /* Bibledit */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CA8896DB1AD55A57002EDC47 /* Resources */ = {
+		CA1599E91B1759A600B26F9C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CABDA1A01B0CF71800724AEB /* Main.storyboard in Resources */,
-				CA9AEA9D1AD6CB2200259D3E /* webroot in Resources */,
-				CAC03BD91AD58BD100686640 /* Images.xcassets in Resources */,
+				CAF569171B177EBD00EE957E /* MainMenu.xib in Resources */,
+				CAE0196F1B1775C6000EAF46 /* webroot in Resources */,
+				CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CA8896D91AD55A57002EDC47 /* Sources */ = {
+		CA1599E71B1759A600B26F9C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA8896E91AD55A57002EDC47 /* ViewController.m in Sources */,
-				CA8896E61AD55A57002EDC47 /* main.m in Sources */,
-				CA6D32D01B0D1BD0005F176B /* Utilities.m in Sources */,
-				CA8896E41AD55A57002EDC47 /* AppDelegate.m in Sources */,
+				CA1599F41B1759A600B26F9C /* main.m in Sources */,
+				CA1599F21B1759A600B26F9C /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CA5781541B0CDA4F00BD91A8 /* Main.storyboard */ = {
+		CA1599F71B1759A600B26F9C /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CA5781551B0CDA4F00BD91A8 /* Base */,
+				CA1599F81B1759A600B26F9C /* Base */,
 			);
-			name = Main.storyboard;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		CABDA19E1B0CF71800724AEB /* Main.storyboard */ = {
+		CAE33E751B176F2500BBA84A /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CABDA19F1B0CF71800724AEB /* Base */,
+				CAE33E761B176F2500BBA84A /* Base */,
 			);
-			name = Main.storyboard;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		CA8896FB1AD55A57002EDC47 /* Debug */ = {
+		CA159A061B1759A600B26F9C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -266,9 +259,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -288,7 +283,7 @@
 			};
 			name = Debug;
 		};
-		CA8896FC1AD55A57002EDC47 /* Release */ = {
+		CA159A071B1759A600B26F9C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -311,6 +306,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -323,66 +319,64 @@
 			};
 			name = Release;
 		};
-		CA8896FE1AD55A57002EDC47 /* Debug */ = {
+		CA159A091B1759A600B26F9C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Bibledit/Bibledit.entitlements;
+				CODE_SIGN_ENTITLEMENTS = osx/osx.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Bibledit/Info.plist;
+				INFOPLIST_FILE = osx/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/webroot",
 					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/webroot",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Bibledit;
 			};
 			name = Debug;
 		};
-		CA8896FF1AD55A57002EDC47 /* Release */ = {
+		CA159A0A1B1759A600B26F9C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Bibledit/Bibledit.entitlements;
+				CODE_SIGN_ENTITLEMENTS = osx/osx.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Bibledit/Info.plist;
+				INFOPLIST_FILE = osx/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/webroot",
 					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/webroot",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Bibledit;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CA8896D81AD55A57002EDC47 /* Build configuration list for PBXProject "Bibledit" */ = {
+		CA1599E61B1759A600B26F9C /* Build configuration list for PBXProject "Bibledit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA8896FB1AD55A57002EDC47 /* Debug */,
-				CA8896FC1AD55A57002EDC47 /* Release */,
+				CA159A061B1759A600B26F9C /* Debug */,
+				CA159A071B1759A600B26F9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA8896FD1AD55A57002EDC47 /* Build configuration list for PBXNativeTarget "Bibledit" */ = {
+		CA159A081B1759A600B26F9C /* Build configuration list for PBXNativeTarget "Bibledit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA8896FE1AD55A57002EDC47 /* Debug */,
-				CA8896FF1AD55A57002EDC47 /* Release */,
+				CA159A091B1759A600B26F9C /* Debug */,
+				CA159A0A1B1759A600B26F9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = CA8896D51AD55A57002EDC47 /* Project object */;
+	rootObject = CA1599E31B1759A600B26F9C /* Project object */;
 }

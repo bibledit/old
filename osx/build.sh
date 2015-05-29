@@ -40,7 +40,7 @@ make -j `sysctl -n hw.logicalcpu_max`
 
 
 # Save the header file.
-cp library/bibledit.h ../Bibledit
+cp library/bibledit.h ../osx
 
 
 # Clean out stuff no longer needed.
@@ -71,4 +71,4 @@ rm stamp-h1
 popd
 
 
-say Compile for OS X is ready
+say Building for OS X is ready

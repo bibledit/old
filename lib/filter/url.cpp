@@ -270,6 +270,23 @@ void filter_url_file_put_contents_append (string filename, string contents)
 }
 
 
+// Copies the contents of file named "input" to file named "output".
+// It is assumed that the folder where "output" will reside exists.
+bool filter_url_file_cp (string input, string output)
+{
+  try {
+    ifstream source (input, ios::binary);
+    ofstream dest (output, ios::binary | ios::trunc);
+    dest << source.rdbuf();
+    source.close();
+    dest.close();
+  } catch (...) {
+    return false;
+  }
+  return true;
+}
+
+
 // A C++ equivalent for PHP's filesize function.
 int filter_url_filesize (string filename)
 {

@@ -9,17 +9,16 @@ Bibledit has been working on OS X in various forms:
 * Bibledit-Web written in PHP and adapted to run on Mac OS X.
 
 The current port of Bibledit for OS X consists of the following parts:
-* A native Bibledit OS X app.
+* A native Bibledit OS X app with a WebView.
 * The bibledit library written in C++, compiled for OS X.
-* The system web browser displaying pages through the bibledit library. 
 
 ## Sandboxing
 
-With the app sandboxed enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to the documents folder within the sandbox.
+With the app sandbox enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to the documents folder within the sandbox.
 
 ## libcurl
 
-The bibledit library depends on libcurl. Bibledit should be linked with some version of libcurl. 
+The bibledit library depends on libcurl. Bibledit should be linked with a working version of libcurl. 
 
 * OS X 10.10 SDK libcurl.dylib libcurl.4.dylib: It initially works but after a few minutes of synchronizing with Bibledit Cloud it starts to time out, and stops working.
 
@@ -33,6 +32,7 @@ Run script "build.sh".
 
 * Rename /opt/local to something else so it cannot link against any of those libraries.
 * Open the Bibledit Xcode project.
+* Clean it.
 * Build it.
 * Copy the Bibledit product from Xcode to another location.
 * Test it from the other location.

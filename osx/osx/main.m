@@ -1,8 +1,8 @@
 //
 //  main.m
-//  Bibledit
+//  osx
 //
-//  Created by Teus Benschop on 08/04/2015.
+//  Created by Teus Benschop on 28/05/2015.
 //  Copyright (c) 2015 Teus Benschop. All rights reserved.
 //
 

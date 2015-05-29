@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0630"
+   LastUpgradeVersion = "0620"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CA1599EA1B1759A600B26F9C"
+               BlueprintIdentifier = "CA8896DC1AD55A57002EDC47"
                BuildableName = "Bibledit.app"
                BlueprintName = "Bibledit"
+               ReferencedContainer = "container:Bibledit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CA8896F21AD55A57002EDC47"
+               BuildableName = "BibleditTests.xctest"
+               BlueprintName = "BibleditTests"
                ReferencedContainer = "container:Bibledit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,11 +42,21 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CA8896F21AD55A57002EDC47"
+               BuildableName = "BibleditTests.xctest"
+               BlueprintName = "BibleditTests"
+               ReferencedContainer = "container:Bibledit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CA1599EA1B1759A600B26F9C"
+            BlueprintIdentifier = "CA8896DC1AD55A57002EDC47"
             BuildableName = "Bibledit.app"
             BlueprintName = "Bibledit"
             ReferencedContainer = "container:Bibledit.xcodeproj">
@@ -52,7 +76,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CA1599EA1B1759A600B26F9C"
+            BlueprintIdentifier = "CA8896DC1AD55A57002EDC47"
             BuildableName = "Bibledit.app"
             BlueprintName = "Bibledit"
             ReferencedContainer = "container:Bibledit.xcodeproj">
@@ -71,7 +95,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CA1599EA1B1759A600B26F9C"
+            BlueprintIdentifier = "CA8896DC1AD55A57002EDC47"
             BuildableName = "Bibledit.app"
             BlueprintName = "Bibledit"
             ReferencedContainer = "container:Bibledit.xcodeproj">
