@@ -45,9 +45,6 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define whether to build for iOS */
-#undef HAVE_IOS
-
 /* Define whether libproc.h is present */
 #undef HAVE_LIBPROC
 
@@ -83,9 +80,6 @@
 
 /* Define whether to enable URL settings */
 #undef HAVE_URLSETTINGS
-
-/* Define whether it is to be built for iOS */
-#undef IOS
 
 /* Define the network port number */
 #undef NETWORK_PORT

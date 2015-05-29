@@ -632,7 +632,6 @@ ADMIN_USERNAME
 UNITTESTS
 URLSETTINGS
 CYGWIN
-IOS
 BARE_BROWSER
 PARALLEL_TASKS
 NETWORK_PORT
@@ -768,7 +767,6 @@ enable_client
 with_network_port
 with_parallel_tasks
 enable_bare_browser
-enable_ios
 enable_cygwin
 enable_urlsettings
 enable_unittests
@@ -1425,7 +1423,6 @@ Optional Features:
   --enable-demo  Enable demo mode
   --enable-client Enable client mode
   --enable-bare-browser Enable bare browser mode
-  --enable-ios Enable iOS
   --enable-cygwin Enable Cygwin
   --enable-urlsettings Enable URL settings
   --enable-unittests Enable URL settings
@@ -6333,26 +6330,6 @@ $as_echo "#define BARE_BROWSER /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define BARE_BROWSER "$BARE_BROWSER"
-_ACEOF
-
-
-
-# Build for iOS.
-IOS=no
-# Check whether --enable-ios was given.
-if test "${enable_ios+set}" = set; then :
-  enableval=$enable_ios;
-$as_echo "#define HAVE_IOS 1" >>confdefs.h
-
-  IOS=yes
-
-fi
-
-
-$as_echo "#define IOS /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define IOS "$IOS"
 _ACEOF
 
 

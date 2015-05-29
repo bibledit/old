@@ -143,17 +143,6 @@ AC_DEFINE([BARE_BROWSER], [], [Define whether the expected browser is a bare bro
 AC_DEFINE_UNQUOTED(BARE_BROWSER, "$BARE_BROWSER")
 AC_SUBST(BARE_BROWSER)
 
-# Build for iOS.
-IOS=no
-AC_ARG_ENABLE(ios,
-  [  --enable-ios Enable iOS],
-  [AC_DEFINE([HAVE_IOS], [1], [Define whether to build for iOS])]
-  IOS=yes
-)
-AC_DEFINE([IOS], [], [Define whether it is to be built for iOS])
-AC_DEFINE_UNQUOTED(IOS, "$IOS")
-AC_SUBST(IOS)
-
 # Build for Cygwin.
 CYGWIN=no
 AC_ARG_ENABLE(cygwin,
