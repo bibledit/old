@@ -20,9 +20,9 @@ With the app sandbox enabled in Xcode, the app cannot write to the webroot folde
 
 The bibledit library depends on libcurl. Bibledit should be linked with a working version of libcurl. 
 
-* OS X 10.10 SDK libcurl.dylib libcurl.4.dylib: It initially works but after a few minutes of synchronizing with Bibledit Cloud it starts to time out, and stops working.
+* Linking with OS X 10.10 SDK libcurl.dylib: It initially works but after a few minutes of synchronizing with Bibledit Cloud it starts to time out, and then stops working.
 
-* Link with the static library (libcurl.a) of a Macports installation, and add all the macports dependent *.a libraries to the Bibledit Xcode project to include them. This works well: No timeouts occur.
+* Linking with the static library (libcurl.a) of a Macports installation, and add all the macports dependent *.a libraries to the Bibledit Xcode project to include them: This works well. No timeouts occur.
 
 ## Building libbibledit
 

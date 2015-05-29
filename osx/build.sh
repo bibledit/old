@@ -24,7 +24,7 @@ SDK=`xcrun --show-sdk-path`
 
 
 # Configure Bibledit in client mode.
-./configure --enable-client
+./configure --enable-client --enable-bare-browser
 
 
 # Update the Makefile.
