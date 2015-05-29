@@ -49,8 +49,9 @@ void setup_conditionally (const char * package)
     vector <string> messages;
 
     // Copy the library into the destination place.
-    if (string (package) != config_globals_document_root) {
-      messages.push_back ("Copy data from " + string (package) + " to " + config_globals_document_root);
+    string p (package);
+    if (p != config_globals_document_root) {
+      messages.push_back ("Copy data from " + p + " to " + config_globals_document_root);
       setup_copy_library (package);
     }
     
@@ -91,20 +92,19 @@ void setup_conditionally (const char * package)
 
 void setup_copy_library (const char * package)
 {
+  size_t package_length = strlen (package);
   filter_url_mkdir (config_globals_document_root);
   vector <string> package_paths;
   filter_url_recursive_scandir (package, package_paths);
   for (auto package_path : package_paths) {
-    string dest_path = config_globals_document_root + package_path.substr (strlen (package));
+    string dest_path = config_globals_document_root + package_path.substr (package_length);
     if (filter_url_is_dir (package_path)) {
       filter_url_mkdir (dest_path);
     } else {
-      string contents = filter_url_file_get_contents (package_path);
-      filter_url_file_put_contents (dest_path, contents);
+      filter_url_file_cp (package_path, dest_path);
     }
   }
 }
-
 
 
 void setup_write_access ()

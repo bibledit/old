@@ -29,7 +29,7 @@
 		CABA80581B110D8800E86B23 /* bibledit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibledit.cpp; sourceTree = "<group>"; };
 		CABA80591B110D8800E86B23 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
 		CABA805A1B110D8800E86B23 /* javawrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = javawrapper.c; sourceTree = "<group>"; };
-		CAE2DAFB1B10DE4A008EE025 /* Android.mk.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.mk.am; sourceTree = "<group>"; };
+		CAE2DAFB1B10DE4A008EE025 /* Android.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.am; sourceTree = "<group>"; };
 		CAE2DAFC1B10DE4A008EE025 /* Application.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = Application.mk; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,7 +88,7 @@
 		CAE2DAFA1B10DE4A008EE025 /* jni */ = {
 			isa = PBXGroup;
 			children = (
-				CAE2DAFB1B10DE4A008EE025 /* Android.mk.am */,
+				CAE2DAFB1B10DE4A008EE025 /* Android.am */,
 				CA3BB0A01B148FD100BAAA33 /* Android.mk */,
 				CAE2DAFC1B10DE4A008EE025 /* Application.mk */,
 				CABA80581B110D8800E86B23 /* bibledit.cpp */,

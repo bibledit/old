@@ -13,11 +13,11 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 
 
 # Todo
-if [ 1 -eq 0 ]; then
+# if [ 1 -eq 0 ]; then
 # Refresh the bibledit-web source code in the assets.
 rsync -a --exclude '*.o' --delete ../lib/* jni
 pushd jni
-./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser
+./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser --enable-embeddedhttp
 rm -f bibledit
 rm -r autom4te.cache
 rm dev
@@ -52,7 +52,7 @@ rm README
 rm stamp-h1
 popd
 # Todo
-fi
+# fi
 
 
 # The following command saves all source files from Makefile.am to file.
@@ -67,7 +67,8 @@ sed -n "/libbibledit_a_SOURCES/,/bin_PROGRAMS/p" jni/Makefile.am | tail -n +2 | 
 
 
 # Create Android.mk Makefile from Android.mk.am.
-sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.mk.am > jni/Android.mk
+sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.am > jni/Android.mk
+rm jni/sources.txt
 
 
 # Todo add other libs like xml2 sqlite etc echo 'LOCAL_LDLIBS := -llog' >> jni/Android.mk
@@ -77,10 +78,12 @@ sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.mk.am > jni/Android.mk
 
 # Todo Also one can switch from clang to 4.8 (gcc) or else one can install the Android SDK on Linux and compile from Linux.
 
-# Todo SQLITE:
-# Compile sqlite from source: https://github.com/stockrt/sqlite3-android
-# Sqlite: http://stackoverflow.com/questions/5523067/sqlite-with-android-ndk
-# Sqlite: https://github.com/lookout/sqlite-android/blob/master/jni/Android.mk
+
+
+# Using prebuilt libraries:
+# http://stackoverflow.com/questions/9870435/how-can-i-link-prebuilt-shared-library-to-android-ndk-project
+
+
 
 
 # Fix this: [aapt] (skipping file '.htaccess' due to ANDROID_AAPT_IGNORE pattern '.*')

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/webserver.h>
 #include <library/bibledit.h>
 #include <config/globals.h>
+#include <config.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <libxml/threads.h>
@@ -32,7 +33,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
+#ifdef HAVE_EMBEDDEDHTTP
+#else
 #include <curl/curl.h>
+#endif
 
 
 // Get Bibledit's version number.
@@ -86,8 +90,11 @@ void bibledit_set_timezone_hours_offset_utc (int hours)
 void bibledit_initialize_library (const char * package, const char * webroot)
 {
   // Must initialize libcurl before any threads are started.
+#ifdef HAVE_EMBEDDEDHTTP
+#else
   curl_global_init (CURL_GLOBAL_ALL);
   // cout << curl_version () << endl;
+#endif
 
   // Thread locking.
   thread_setup ();

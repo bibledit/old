@@ -24,7 +24,6 @@
 #include <database/config/general.h>
 #include <database/users.h>
 #include <database/logs.h>
-#include <curl/curl.h>
 #include <sync/setup.h>
 #include <config/logic.h>
 
