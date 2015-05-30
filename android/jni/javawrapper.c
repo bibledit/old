@@ -15,13 +15,15 @@
  *
  */
 #include "bibledit.h"
+#include "library/bibledit.h"
 #include <string.h>
 #include <jni.h>
 
 
 jstring Java_org_bibledit_android_MainActivity_GetVersionNumber (JNIEnv* env, jobject obj)
 {
-    return (*env)->NewStringUTF(env, tmp_bibledit_get_version_number ());
+   // return (*env)->NewStringUTF(env, tmp_bibledit_get_version_number ());
+   return (*env)->NewStringUTF(env, bibledit_get_version_number ());
 }
 
 

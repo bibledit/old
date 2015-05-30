@@ -3,14 +3,17 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := libbibledit
-LOCAL_SRC_FILES := bibledit.cpp SOURCEFILES
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/../sqlite/jni
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/../xml2/jni/include
-include $(BUILD_STATIC_LIBRARY)
+# LOCAL_SRC_FILES := bibledit.cpp SOURCEFILES
+LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libbibledit.a
+# LOCAL_C_INCLUDES += $(LOCAL_PATH)/../sqlite/jni
+# LOCAL_C_INCLUDES += $(LOCAL_PATH)/../xml2/jni/include
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/library
+# include $(BUILD_STATIC_LIBRARY)
+include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := libjavawrapper
 LOCAL_SRC_FILES := javawrapper.c
-LOCAL_STATIC_LIBRARIES := libbibledit
+LOCAL_STATIC_LIBRARIES := bibledit
 include $(BUILD_SHARED_LIBRARY)

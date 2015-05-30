@@ -2,9 +2,9 @@
 # NDK_TOOLCHAIN_VERSION := 4.8
 
 # Which processors to build for.
-APP_ABI := all
+# APP_ABI := all
 # APP_ABI := armeabi x86
-# APP_ABI := armeabi
+APP_ABI := armeabi
 
 #  Enable C++11 and exceptions
 APP_CPPFLAGS += -std=c++11 -fexceptions

@@ -76,11 +76,13 @@ rm jni/sources.txt
 
 # Todo there is a narrowing conversion warning in jni/filter/UriCodec.cpp which might affect bin2hex and hex2bin conversion, check it still works.
 
+# Todo fix the warning about Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 11 in ./AndroidManifest.xml
+
 # Using prebuilt libraries:
 # http://stackoverflow.com/questions/9870435/how-can-i-link-prebuilt-shared-library-to-android-ndk-project
 
 
 # Build native code.
 # https://developer.android.com/tools/sdk/ndk/index.html
-ndk-build clean
+# Todo ndk-build clean
 ndk-build
