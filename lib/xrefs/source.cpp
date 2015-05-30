@@ -70,7 +70,7 @@ string xrefs_source (void * webserver_request)
   // Therefore clicking a link in the source text may take the user to the target
   // text, and vice versa.
   // Fix the source text, because the source text can be modified without trouble, since it won't be saved.
-  for (unsigned i = 1; i < 1000; i++) {
+  for (int i = 1; i < 1000; i++) {
     html = filter_string_str_replace ("note" + convert_to_string (i) + "\"", "note" + convert_to_string (i + 1000) + "\"", html);
     html = filter_string_str_replace ("citation" + convert_to_string (i) + "\"", "citation" + convert_to_string (i + 1000) + "\"", html);
   }

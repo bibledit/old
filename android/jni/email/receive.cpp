@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/receive.h>
 #include <config.h>
 #include <database/logs.h>
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
 #include <curl/curl.h>
 #endif
@@ -192,7 +192,7 @@ string url ()
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
 int email_receive_count (string& error, bool verbose)
 {
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
   error = "Not implemented with embedded http library";
   if (verbose) {}
   return 0;
@@ -251,7 +251,7 @@ int email_receive_count (string& error, bool verbose)
 
 string email_receive_message (string& error)
 {
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
   error = "Not implemented with embedded http library";
   return "";
 #else

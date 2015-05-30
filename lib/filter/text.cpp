@@ -1533,7 +1533,7 @@ string Filter_Text::getNoteCitation (Database_Styles_Item style)
   if (citation == "+") {
     string marker = style.marker;
     vector <string> sequence = notecitations[marker].sequence;
-    unsigned int pointer = notecitations[marker].pointer;
+    size_t pointer = notecitations[marker].pointer;
     if (sequence.empty()) {
       pointer++;
       citation = convert_to_string (pointer);

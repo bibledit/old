@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/date.h>
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
 #include <curl/curl.h>
 #endif
@@ -98,7 +98,7 @@ struct upload_status {
 };
 
 
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
 static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
@@ -129,7 +129,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // In case of failure, it returns the error message.
 string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
 {
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
   if (to_mail.empty ()) {}
   if (to_name.empty ()) {}
   if (subject.empty ()) {}

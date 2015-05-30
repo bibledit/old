@@ -78,6 +78,7 @@ rm jni/sources.txt
 
 # Todo Also one can switch from clang to 4.8 (gcc) or else one can install the Android SDK on Linux and compile from Linux.
 
+# Todo there is a narrowing conversion warning in jni/filter/UriCodec.cpp which might affect bin2hex and hex2bin conversion, check it still works.
 
 
 # Using prebuilt libraries:
