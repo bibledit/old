@@ -149,7 +149,7 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   // The user's role should be sufficiently high.
   if (workbench_organize_acl (request)) {
     vector <string> workbenches = workbenchGetWorkbenches (request);
-    for (unsigned int i = 0; i < workbenches.size(); i++) {
+    for (size_t i = 0; i < workbenches.size(); i++) {
       menu->push_back ( {"", workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i], NULL});
     }
   }

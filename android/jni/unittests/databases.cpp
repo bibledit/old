@@ -1026,14 +1026,14 @@ void test_database_confirm ()
   database_confirm.trim ();
 
   // New ID generation test.
-  unsigned int id = database_confirm.getNewID ();
+  int id = database_confirm.getNewID ();
   if (id < 10000) evaluate (__LINE__, __func__, "Should be greater than 10000", id);
   
   // Store data for the ID.
   database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body");
   
   // Search for this ID based on subject.
-  unsigned int id2 = database_confirm.searchID ("Subject line CID" + convert_to_string (id) + " Re:");
+  int id2 = database_confirm.searchID ("Subject line CID" + convert_to_string (id) + " Re:");
   evaluate (__LINE__, __func__, id, id2);
 
   // Retrieve data for the ID.

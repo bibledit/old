@@ -55,6 +55,9 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
 
+/* Define whether function 'stoi' is available */
+#define HAVE_STOI 1
+
 /* Define to 1 if you have the <strings.h> header file. */
 #define HAVE_STRINGS_H 1
 
@@ -71,7 +74,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-#define HAVE_UNITTESTS 1
+/* #undef HAVE_UNITTESTS */
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -107,7 +110,7 @@
 #define STDC_HEADERS 1
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "yes"
+#define UNITTESTS "no"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"

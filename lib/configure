@@ -6351,6 +6351,30 @@ _ACEOF
 
 
 
+# Check whether function 'stoi' is available
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether stoi is available" >&5
+$as_echo_n "checking whether stoi is available... " >&6; }
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <string>
+using namespace std;
+int i = stoi ("string");
+
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+
+$as_echo "#define HAVE_STOI 1" >>confdefs.h
+
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
 # Enable URL settings.
 URLSETTINGS=no
 # Check whether --enable-urlsettings was given.

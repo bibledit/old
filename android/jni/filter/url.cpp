@@ -385,7 +385,7 @@ string filter_url_escape_shell_argument (string argument)
 string filter_url_unique_path (string path)
 {
   if (!file_exists (path)) return path;
-  for (unsigned int i = 1; i < 100; i++) {
+  for (size_t i = 1; i < 100; i++) {
     string uniquepath = path + "." + convert_to_string (i);
     if (!file_exists (uniquepath)) return uniquepath;
   }

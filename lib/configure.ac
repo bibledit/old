@@ -154,6 +154,19 @@ AC_DEFINE([CYGWIN], [], [Define whether it is to be built for Cygwin])
 AC_DEFINE_UNQUOTED(CYGWIN, "$CYGWIN")
 AC_SUBST(CYGWIN)
 
+# Check whether function 'stoi' is available
+AC_MSG_CHECKING([whether stoi is available])
+AC_COMPILE_IFELSE(
+[AC_LANG_SOURCE([[
+#include <string>
+using namespace std;
+int i = stoi ("string");
+  ]])],
+  [AC_DEFINE([HAVE_STOI], [1], [Define whether function 'stoi' is available])
+   AC_MSG_RESULT([yes])],
+  [AC_MSG_RESULT([no])]
+)
+
 # Enable URL settings.
 URLSETTINGS=no
 AC_ARG_ENABLE(urlsettings,

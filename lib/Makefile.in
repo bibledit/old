@@ -127,8 +127,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
 	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
 	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
-	config/globals.$(OBJEXT) config/cygwin.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
 	database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
@@ -532,7 +532,6 @@ libbibledit_a_SOURCES = \
 	index/index.cpp \
 	index/listing.cpp \
 	config/globals.cpp \
-	config/cygwin.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
@@ -985,8 +984,6 @@ config/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) config/$(DEPDIR)
 	@: > config/$(DEPDIR)/$(am__dirstamp)
 config/globals.$(OBJEXT): config/$(am__dirstamp) \
-	config/$(DEPDIR)/$(am__dirstamp)
-config/cygwin.$(OBJEXT): config/$(am__dirstamp) \
 	config/$(DEPDIR)/$(am__dirstamp)
 menu/$(am__dirstamp):
 	@$(MKDIR_P) menu
@@ -2097,7 +2094,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/secure.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/compare.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/index.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/cygwin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@confirm/$(DEPDIR)/worker.Po@am__quote@
