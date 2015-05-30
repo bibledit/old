@@ -14,13 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-/* #undef CLIENT_PREPARED */
-
-/* Define whether it is to be built for Cygwin */
-#define CYGWIN "no"
+#define CLIENT_PREPARED 1
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -30,12 +27,6 @@
 
 /* define if the compiler supports basic C++11 syntax */
 /* #undef HAVE_CXX11 */
-
-/* Define whether to build for Cygwin */
-/* #undef HAVE_CYGWIN */
-
-/* Whether git funcions are available and enabled */
-/* #undef HAVE_GIT */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1

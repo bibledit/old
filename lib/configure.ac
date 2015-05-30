@@ -60,21 +60,6 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
 
-# Check for libgit2.a in the source directory.
-AC_MSG_CHECKING([libgit2])
-LIBGIT=libgit2.a
-AS_IF([test -f ${LIBGIT}], [
-    GIT_LIBS="-lz"
-    AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled])
-    AC_MSG_RESULT([$LIBGIT])
-  ],
-  AC_MSG_RESULT([no])
-  LIBGIT=""
-)
-AC_SUBST(GIT_LIBS)
-AC_SUBST(LIBGIT)
-AC_SUBST(GIT_ENABLED)
-
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
@@ -142,17 +127,6 @@ AC_ARG_ENABLE(bare-browser,
 AC_DEFINE([BARE_BROWSER], [], [Define whether the expected browser is a bare browser without controls])
 AC_DEFINE_UNQUOTED(BARE_BROWSER, "$BARE_BROWSER")
 AC_SUBST(BARE_BROWSER)
-
-# Build for Cygwin.
-CYGWIN=no
-AC_ARG_ENABLE(cygwin,
-[  --enable-cygwin Enable Cygwin],
-[AC_DEFINE([HAVE_CYGWIN], [1], [Define whether to build for Cygwin])]
-CYGWIN=yes
-)
-AC_DEFINE([CYGWIN], [], [Define whether it is to be built for Cygwin])
-AC_DEFINE_UNQUOTED(CYGWIN, "$CYGWIN")
-AC_SUBST(CYGWIN)
 
 # Check whether function 'stoi' is available
 AC_MSG_CHECKING([whether stoi is available])
@@ -225,13 +199,11 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix                                        : ${prefix}
-Libgit2                                                    : ${LIBGIT}
 Network port (--with-network-port=n)                       : ${NETWORK_PORT}
 Client installation (--enable-client)                      : ${CLIENT}
 Demo installation (--enable-demo)                          : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 Unit tests (--enable-unittests)                            : ${UNITTESTS}
 Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}

@@ -394,7 +394,6 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
-CYGWIN = @CYGWIN@
 DEFS = @DEFS@
 DEMO = @DEMO@
 DEPDIR = @DEPDIR@
@@ -404,8 +403,6 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FIND_TAR = @FIND_TAR@
-GIT_ENABLED = @GIT_ENABLED@
-GIT_LIBS = @GIT_LIBS@
 GREP = @GREP@
 GUNZIP_PATH = @GUNZIP_PATH@
 GZIP_PATH = @GZIP_PATH@
@@ -416,10 +413,9 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
-LIBGIT = @LIBGIT@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. `xml2-config --libs` $(SQLITE_LIBS) \
-	$(CURL_LIBS) $(GIT_LIBS) $(OPENSSL_LIBS)
+	$(CURL_LIBS) $(OPENSSL_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -818,7 +814,7 @@ unittest_SOURCES = \
 unittest_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking \
 	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
-	$(GIT_CFLAGS) $(OPENSSL_CFLAGS)
+	$(OPENSSL_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h

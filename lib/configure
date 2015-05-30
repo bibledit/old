@@ -630,7 +630,6 @@ ADMIN_PASSWORD
 ADMIN_USERNAME
 UNITTESTS
 URLSETTINGS
-CYGWIN
 BARE_BROWSER
 PARALLEL_TASKS
 NETWORK_PORT
@@ -638,9 +637,6 @@ CLIENT
 DEMO
 OPENSSL_LIBS
 OPENSSL_CFLAGS
-GIT_ENABLED
-LIBGIT
-GIT_LIBS
 CURL_LIBS
 CURL_CFLAGS
 EGREP
@@ -766,7 +762,6 @@ enable_client
 with_network_port
 with_parallel_tasks
 enable_bare_browser
-enable_cygwin
 enable_urlsettings
 enable_unittests
 with_admin_username
@@ -1421,7 +1416,6 @@ Optional Features:
   --enable-demo  Enable demo mode
   --enable-client Enable client mode
   --enable-bare-browser Enable bare browser mode
-  --enable-cygwin Enable Cygwin
   --enable-urlsettings Enable URL settings
   --enable-unittests Enable URL settings
 
@@ -6113,29 +6107,6 @@ fi
 
 
 
-# Check for libgit2.a in the source directory.
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking libgit2" >&5
-$as_echo_n "checking libgit2... " >&6; }
-LIBGIT=libgit2.a
-if test -f ${LIBGIT}; then :
-
-    GIT_LIBS="-lz"
-
-$as_echo "#define HAVE_GIT 1" >>confdefs.h
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBGIT" >&5
-$as_echo "$LIBGIT" >&6; }
-
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-  LIBGIT=""
-
-fi
-
-
-
-
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for OPENSSL" >&5
@@ -6327,26 +6298,6 @@ $as_echo "#define BARE_BROWSER /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define BARE_BROWSER "$BARE_BROWSER"
-_ACEOF
-
-
-
-# Build for Cygwin.
-CYGWIN=no
-# Check whether --enable-cygwin was given.
-if test "${enable_cygwin+set}" = set; then :
-  enableval=$enable_cygwin;
-$as_echo "#define HAVE_CYGWIN 1" >>confdefs.h
-
-CYGWIN=yes
-
-fi
-
-
-$as_echo "#define CYGWIN /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define CYGWIN "$CYGWIN"
 _ACEOF
 
 
@@ -7953,13 +7904,11 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix                                        : ${prefix}
-Libgit2                                                    : ${LIBGIT}
 Network port (--with-network-port=n)                       : ${NETWORK_PORT}
 Client installation (--enable-client)                      : ${CLIENT}
 Demo installation (--enable-demo)                          : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 Unit tests (--enable-unittests)                            : ${UNITTESTS}
 Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}

@@ -324,14 +324,12 @@ AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
 AM_CXXFLAGS += `xml2-config --cflags`	
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
-AM_CXXFLAGS += $(GIT_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 
 LIBS = -Wall -lpthread -L.
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
-LIBS += $(GIT_LIBS)
 LIBS += $(OPENSSL_LIBS)
 
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
