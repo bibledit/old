@@ -52,6 +52,7 @@ popd
 
 # Android does not provide 'stoi' in C++.
 sed -i.bak '/HAVE_STOI/d' jni/config.h
+rm jni/config.h.bak
 
 
 # The following command saves all source files from Makefile.am to file.
@@ -70,13 +71,11 @@ sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.am > jni/Android.mk
 rm jni/sources.txt
 
 
-# Todo add other libs like xml2 sqlite etc echo 'LOCAL_LDLIBS := -llog' >> jni/Android.mk
-
-# Todo Also one can switch from clang to 4.8 (gcc) or else one can install the Android SDK on Linux and compile from Linux.
-
 # Todo there is a narrowing conversion warning in jni/filter/UriCodec.cpp which might affect bin2hex and hex2bin conversion, check it still works.
 
+
 # Todo fix the warning about Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 11 in ./AndroidManifest.xml
+
 
 # Using prebuilt libraries:
 # http://stackoverflow.com/questions/9870435/how-can-i-link-prebuilt-shared-library-to-android-ndk-project
@@ -84,5 +83,5 @@ rm jni/sources.txt
 
 # Build native code.
 # https://developer.android.com/tools/sdk/ndk/index.html
-# Todo ndk-build clean
+ndk-build clean
 ndk-build

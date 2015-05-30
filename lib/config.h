@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "yes"
+#define CLIENT "no"
 
 /* Define whether it is a client installation */
-#define CLIENT_PREPARED 1
+/* #undef CLIENT_PREPARED */
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
