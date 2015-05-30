@@ -12,15 +12,6 @@ export ANDROID_HOME=~/scr/android-sdk-macosx
 export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools:~/scr/android-ndk-r10e
 
 
-# Todo add other libs like xml2 sqlite etc echo 'LOCAL_LDLIBS := -llog' >> jni/Android.mk
-
-# Todo Also one can switch from clang to 4.8 (gcc) or else one can install the Android SDK on Linux and compile from Linux.
-
-# Todo there is a narrowing conversion warning in jni/filter/UriCodec.cpp which might affect bin2hex and hex2bin conversion, check it still works.
-
-
-
-
 # Fix this: [aapt] (skipping file '.htaccess' due to ANDROID_AAPT_IGNORE pattern '.*')
 # Rename all files ".htaccess" to "dot.htaccess".
 # This is going to be reverted in the Java code during installation.
@@ -29,25 +20,6 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 #   basename="${file##*/}"
 #   mv "$file" "${file%/*}/dotdot.${basename#.}"
 # done
-
-
-# Remove items from the setup that do not run on the android device, or are not needed there:
-# * Skip crontab setup.
-# sed -i '/timer.php/d' assets/external/bibledit-web/setup/step.php
-# sed -i '/crontab.php/d' assets/external/bibledit-web/setup/step.php
-# * Skip server / client mode, set client mode.
-# sed -i '/client1.php/d' assets/external/bibledit-web/setup/step.php
-# * No check on crontab and php cli binaries..
-# sed -i  's/$crontab && $php/true/g' assets/external/bibledit-web/setup/binaries.php
-
-
-# Retrieve the Bibledit-Web version number from the PHP sources and store it in the strings.xml.
-# VERSION=`cat assets/external/bibledit-web/config/version.php  | grep version | cut -d'"' -f2`
-# sed -i "/version_number/c\\  <string name=\"version_number\">$VERSION</string>" res/values/strings.xml
-
-
-# Disable the Filter_Cli class as on Android it is not the shell that runs the regular tasks, but the web server.
-# sed -i '/php_sapi_name/d' assets/external/bibledit-web/filter/cli.php
 
 
 # Clean binaries.
@@ -59,7 +31,7 @@ fi
 
 
 # Create assets index.
-# ant createAssetIndexExternal
+# Todo ant createAssetIndexExternal
 
 
 # Build source.
@@ -81,5 +53,3 @@ adb install -r bin/Bibledit-debug.apk
 
 # Start it.
 adb shell am start -a android.intent.action.MAIN -n org.bibledit.android/.MainActivity
-
-
