@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		CA3BB0A01B148FD100BAAA33 /* Android.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
+		CA6EF6011B19CBB30016FF18 /* native */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = native; sourceTree = "<group>"; };
 		CA97BC101B0F7DF400877437 /* AndroidManifest.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AndroidManifest.xml; sourceTree = "<group>"; };
 		CA97BC111B0F7DFC00877437 /* ant.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = ant.properties; sourceTree = "<group>"; };
 		CA97BC121B0F7E0400877437 /* build.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = build.xml; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 				CAE2DAFA1B10DE4A008EE025 /* jni */,
 				CA97BC1F1B0F7EE300877437 /* layout */,
 				CA97BC141B0F7E1500877437 /* local.properties */,
+				CA6EF6011B19CBB30016FF18 /* native */,
 				CA97BC151B0F7E1E00877437 /* proguard-project.txt */,
 				CA97BC161B0F7E1E00877437 /* project.properties */,
 				CA97BC241B0F9CF400877437 /* README.md */,

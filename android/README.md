@@ -6,6 +6,10 @@ To get a shell on the device: $ adb shell
 
 To view the logbook from within the shell on the device: $ logcat
 
-## Sqlite
+## Dependencies
 
-Download sqlite.h and sqlite.c from sqlite.org and place them in the "sqlite/jni" folder.
+Native dependencies are in folder "sqlite" and "xml2" and can be built from there.
+
+## libbibledit
+
+Script "native" builds libbibledit.a.

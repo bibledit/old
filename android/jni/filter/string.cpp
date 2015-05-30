@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/md5.h>
 #include <database/config/general.h>
+#include <config/logic.h>
 
 
 // A C++ equivalent for PHP's explode function.

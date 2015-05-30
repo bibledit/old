@@ -1,0 +1,86 @@
+#!/bin/bash
+
+
+# Run this script from the directory where it is located: ./native.
+# Prerequisites:
+# Android SDK for Mac OS X.
+
+
+# Export environment variables to find the Android SDK and NDK tools.
+export ANDROID_HOME=~/scr/android-sdk-macosx
+export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools:~/scr/android-ndk-r10e
+
+
+# Refresh the bibledit-web source code in the assets.
+rsync -a --exclude '*.o' --delete ../lib/* jni
+pushd jni
+./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser
+rm -f bibledit
+rm -r autom4te.cache
+rm dev
+rm -f *.a
+rm reconfigure
+rm -f server
+rm -f unittest
+rm valgrind
+rm -r xcode
+rm -r executable
+rm aclocal.m4
+rm AUTHORS
+rm ChangeLog
+rm compile
+rm config.guess
+rm config.h.in
+rm config.log
+rm config.status
+rm config.sub
+rm configure
+rm configure.ac
+rm COPYING
+rm depcomp
+rm DEVELOP
+rm INSTALL
+rm install-sh
+rm Makefile
+rm Makefile.in
+rm missing
+rm NEWS
+rm README
+rm stamp-h1
+popd
+
+
+# Android does not provide 'stoi' in C++.
+sed -i.bak '/HAVE_STOI/d' jni/config.h
+
+
+# The following command saves all source files from Makefile.am to file.
+# It uses several steps to obtain the result:
+# * Obtain source files between the correct patterns.
+# * Remove first line.
+# * Remove last line.
+# * Remove tabs.
+# * Remove new lines.
+# * Remove backslashes.
+sed -n "/libbibledit_a_SOURCES/,/bin_PROGRAMS/p" jni/Makefile.am | tail -n +2 | sed '$d' | strings | tr -d '\n' | sed 's/\\//g' > jni/sources.txt
+
+
+# Create Android.mk Makefile from Android.mk.am.
+sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.am > jni/Android.mk
+rm jni/sources.txt
+
+
+# Todo add other libs like xml2 sqlite etc echo 'LOCAL_LDLIBS := -llog' >> jni/Android.mk
+
+# Todo Also one can switch from clang to 4.8 (gcc) or else one can install the Android SDK on Linux and compile from Linux.
+
+# Todo there is a narrowing conversion warning in jni/filter/UriCodec.cpp which might affect bin2hex and hex2bin conversion, check it still works.
+
+# Using prebuilt libraries:
+# http://stackoverflow.com/questions/9870435/how-can-i-link-prebuilt-shared-library-to-android-ndk-project
+
+
+# Build native code.
+# https://developer.android.com/tools/sdk/ndk/index.html
+ndk-build clean
+ndk-build
