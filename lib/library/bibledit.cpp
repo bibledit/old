@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
 #include <curl/curl.h>
 #endif
@@ -90,7 +90,7 @@ void bibledit_set_timezone_hours_offset_utc (int hours)
 void bibledit_initialize_library (const char * package, const char * webroot)
 {
   // Must initialize libcurl before any threads are started.
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
   curl_global_init (CURL_GLOBAL_ALL);
   // cout << curl_version () << endl;

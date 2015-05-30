@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.147],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.148],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
@@ -206,17 +206,6 @@ AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
 AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
 AC_SUBST(ADMIN_EMAIL)
 
-# Build with embedded http code.
-EMBEDDEDHTTP=no
-AC_ARG_ENABLE(embeddedhttp,
-[  --enable-embeddedhttp Enable embedded http code],
-[AC_DEFINE([HAVE_EMBEDDEDHTTP], [1], [Define whether to build with embedded http code])]
-EMBEDDEDHTTP=yes
-)
-AC_DEFINE([EMBEDDEDHTTP], [], [Define whether it is to be built with embedded http code])
-AC_DEFINE_UNQUOTED(EMBEDDEDHTTP, "$EMBEDDEDHTTP")
-AC_SUBST(EMBEDDEDHTTP)
-
 AC_OUTPUT(Makefile)
 
 echo "
@@ -229,8 +218,6 @@ Client installation (--enable-client)                      : ${CLIENT}
 Demo installation (--enable-demo)                          : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-Build for iOS (--enable-ios)                               : ${IOS}
-Build with embedded http code (--enable-embeddedhttp)      : ${EMBEDDEDHTTP}
 Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 Unit tests (--enable-unittests)                            : ${UNITTESTS}

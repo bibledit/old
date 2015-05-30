@@ -7,7 +7,7 @@
 APP_ABI := armeabi
 
 #  Enable C++11. However, pthread, rtti and exceptions aren’t enabled
-APP_CPPFLAGS += -std=c++11
+APP_CPPFLAGS += -std=c++11 -fexceptions
 
 # Instruct to use the static GNU STL implementation
 APP_STL := gnustl_static

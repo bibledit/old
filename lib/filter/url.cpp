@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sys/socket.h>
 #include <netdb.h>
 #include <netinet/in.h>
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
 #include <curl/curl.h>
 #endif
@@ -619,7 +619,7 @@ string filter_url_simple_http_request (string url, string& error, const map <str
 string filter_url_http_get (string url, string& error)
 {
   string response;
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
   response = filter_url_simple_http_request (url, error, {}, "", false);
 #else
   CURL *curl = curl_easy_init ();
@@ -659,7 +659,7 @@ string filter_url_http_get (string url, string& error)
 string filter_url_http_post (string url, map <string, string> values, string& error, bool burst)
 {
   string response;
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
   if (burst) {}
   response = filter_url_simple_http_request (url, error, values, "", false);
 #else
@@ -768,7 +768,7 @@ string filter_url_http_response_code_text (int code)
 // Downloads the file at $url, and stores it at $filename.
 void filter_url_download_file (string url, string filename, string& error)
 {
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
   filter_url_simple_http_request (url, error, {}, filename, false);
 #else
   CURL *curl = curl_easy_init ();
@@ -836,7 +836,7 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
 
 
 // Callback function for logging cURL debug information.
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
 int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char *data, size_t size, void *userptr)
 {
@@ -858,7 +858,7 @@ int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char 
 // burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
 //        When false, the data is supposed to be downloaded gradually.
 // Without these timeouts, the Bibledit client will hang on stalled sync operations.
-#ifdef HAVE_EMBEDDEDHTTP
+#ifdef CLIENT_PREPARED
 #else
 void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 {
