@@ -32,12 +32,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Returns a html page with a Bibledit splash screen.
-// Refreshes to the home page.
-string setup_initialization_notice ()
+// In case of $refresh, it refreshes to the home page.
+const char * setup_initialization_notice ()
 {
   // Use http://base64online.org/encode/ to convert an image to inline graphic data.
   
-  string html =
+  const char * html =
   "<!DOCTYPE html>\n"
   "<html>\n"
   "<head>\n"
