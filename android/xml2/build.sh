@@ -9,9 +9,17 @@
 # The libxml2 source was downloaded from:
 # https://github.com/android/platform_external_libxml2
 # and placed in the "jni" folder.
+
 # While compiling it cannot find libicu, so disable the following line:
 # jni/include/libxml/xmlversion.h.in:#define LIBXML_ICU_ENABLED
+
 # File "Application.mk" was added to the "jni" folder.
+
+# The NDK for at least one processor architecture does not have the "rand_r"
+# function, so disable the following line in jni/config.h:
+# #define HAVE_RAND_R 1
+
+# Remove LOCAL_CLANG := true from jni/Android.mk.
 
 
 # Export environment variables to find the Android SDK and NDK tools.
@@ -26,9 +34,3 @@ ndk-build
 
 # Copy libraries into place.
 cp -r obj ..
-
-
-# Information about building libxml2
-# https://github.com/android/platform_external_libxml2
-# http://stackoverflow.com/questions/12052089/using-libxml-for-android
-# http://stackoverflow.com/questions/11051969/building-libxml2-from-source-for-android-as-static-library

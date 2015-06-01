@@ -18,7 +18,7 @@
 
 const char * tmp_bibledit_get_version_number ()
 {
-    return "1.0.999";
+    return "1.0.999 XYZ";
 }
 
 const char * tmp_bibledit_get_network_port ()
