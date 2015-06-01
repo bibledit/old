@@ -25,16 +25,7 @@ import java.util.List;
 
 
 
-/*
-This class installs the assets.
-Binaries on /sdcard cannot be made executable.
-Therefore the web server is installed on internal memory, so it can be executed.
-As it now uses an external web server app, the above information no longer applies.
-The bibledit-web PHP code is on the /sdcard because it can grow big.
-*/
-
-
-public class InstallAssets
+public class InstallAssets // Todo remove it.
 {
 
 
@@ -103,10 +94,6 @@ public class InstallAssets
   private static String scripts ()
   {
     List<String> directories = new ArrayList<String>();
-    directories.add (BibleditDirectory.directoryPalapaWebServer ());
-    directories.add (BibleditDirectory.directoryBitWebServerAndAndroPHP ());
-    directories.add (BibleditDirectory.directoryPhpRunnerAndNampAndKsweb ());
-    directories.add (BibleditDirectory.directoryUltiServer ());
     for (String directory : directories) {
       directory += "/bibledit-web"; 
       File file = new File (directory);

@@ -106,7 +106,7 @@ void Database_Config_General::setList (const char * key, vector <string> values)
 
 string Database_Config_General::getSiteMailName ()
 {
-  return getValue ("site-mail-name", "Bible Translation");
+  return getValue ("site-mail-name", "Bibledit Cloud");
 }
 void Database_Config_General::setSiteMailName (string value)
 {

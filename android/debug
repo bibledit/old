@@ -31,7 +31,9 @@ fi
 
 
 # Create assets index.
-# Todo ant createAssetIndexExternal
+find assets -name ".deps" -exec rm -r "{}" \; > /dev/null 2>&1
+find assets -name ".dirstamp" -delete
+ant createAssetIndexExternal
 
 
 # Build source.

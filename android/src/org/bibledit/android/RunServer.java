@@ -59,7 +59,7 @@ import java.util.TimeZone;
 // Runs the regular tasks.
 
 
-public class RunServer extends Service
+public class RunServer extends Service // Todo remove it all.
 {
 
 
@@ -302,16 +302,6 @@ public class RunServer extends Service
   
   private void makeSettings ()
   {
-    // Set the Bibledit-Web system's timezone.
-    TimeZone timezone = TimeZone.getDefault ();
-    String olsonName = timezone.getID ();
-
-    // Send settings to Bibledit-Web.
-    String setter = "http://localhost:8080/bibledit-web/administration/settings.php?";
-    List <NameValuePair> query = new LinkedList <NameValuePair> ();
-    query.add (new BasicNameValuePair ("1", olsonName));
-    String s = URLEncodedUtils.format (query, "utf-8");
-    runScript (setter + s, "", true);
   }
   
 

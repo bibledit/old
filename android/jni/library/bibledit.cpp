@@ -39,6 +39,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
+bool bibledit_started = false;
+
+
 // Get Bibledit's version number.
 const char * bibledit_get_version_number ()
 {
@@ -109,6 +112,9 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Initialize data in a thread.
   thread setup_thread = thread (setup_conditionally, package);
   setup_thread.detach ();
+  
+  // Multiple start/stop guard.
+  bibledit_started = false;
 }
 
 
@@ -116,10 +122,16 @@ void bibledit_initialize_library (const char * package, const char * webroot)
 // Can be called multiple times during the lifetime of the app
 void bibledit_start_library ()
 {
+  // Repeating start guard.
+  if (bibledit_started) return;
+  bibledit_started = true;
+
   // Set running flag.
   config_globals_running = true;
+  
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
+  
   // Run the timers in a thread.
   config_globals_timer = new thread (timer_index);
 }
@@ -137,6 +149,10 @@ bool bibledit_is_running ()
 // Can be called multiple times during the lifetime of the app
 void bibledit_stop_library ()
 {
+  // Repeating stop guard.
+  if (!bibledit_started) return;
+  bibledit_started = false;
+
   // Clear running flag.
   config_globals_running = false;
   
@@ -172,6 +188,9 @@ void bibledit_shutdown_library ()
   
   // Remove thread locks.
   thread_cleanup ();
+
+  // Multiple start/stop guard.
+  bibledit_started = false;
 }
 
 
