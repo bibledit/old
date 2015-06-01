@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (C) 2015 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,14 @@ jstring Java_org_bibledit_android_MainActivity_GetNetworkPort (JNIEnv* env, jobj
 }
 
 
+void Java_org_bibledit_android_MainActivity_InitializeLibrary (JNIEnv* env, jobject obj, jstring package, jstring webroot)
+{
+    const char * native_package = (*env)->GetStringUTFChars(env, package, 0);
+    const char * native_webroot = (*env)->GetStringUTFChars(env, webroot, 0);
+    bibledit_initialize_library (native_package, native_webroot);
+}
+
+
 void Java_org_bibledit_android_MainActivity_SetTouchEnabled (JNIEnv* env, jobject obj, bool enabled)
 {
     bibledit_set_touch_enabled (enabled);
@@ -49,16 +57,6 @@ void Java_org_bibledit_android_MainActivity_SetQuitAtMidnight (JNIEnv* env, jobj
 void Java_org_bibledit_android_MainActivity_SetTimezoneHoursOffsetUtc (JNIEnv* env, jobject obj, int hours)
 {
     bibledit_set_timezone_hours_offset_utc (hours);
-}
-
-
-void Java_org_bibledit_android_MainActivity_InitializeLibrary (JNIEnv* env, jobject obj, jstring package, jstring webroot)
-{
-    const char * native_package = (*env)->GetStringUTFChars(env, package, 0);
-    const char * native_webroot = (*env)->GetStringUTFChars(env, webroot, 0);
-    bibledit_initialize_library (native_package, native_webroot);
-    //(*env)->ReleaseStringUTFChars(env, package, native_package);
-    //(*env)->ReleaseStringUTFChars(env, webroot, native_webroot);
 }
 
 

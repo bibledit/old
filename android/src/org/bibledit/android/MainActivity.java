@@ -31,6 +31,7 @@ import java.util.TimeZone;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 import android.content.res.AssetManager;
+import android.webkit.WebViewClient;
 
 
 // The activity's data is at /data/data/org.bibledit.android.
@@ -57,6 +58,11 @@ public class MainActivity extends Activity
     activity = this;
     context = this;
 
+    // The directory of the external files.
+    // On a Nexus 10 this is /storage/emulated/0/Android/data/org.bibledit.android/files
+    String externalDirectory = MainActivity.activity.getExternalFilesDir (null).getAbsolutePath ();
+
+    InitializeLibrary (externalDirectory, externalDirectory);
       
     SetTouchEnabled (true);
 
@@ -67,14 +73,14 @@ public class MainActivity extends Activity
     int offsetInHours = offsetInMillis / 3600 / 2000;
     SetTimezoneHoursOffsetUtc (offsetInHours);
       
+    StartLibrary ();
+      
     WebView webview = new WebView (this);
     setContentView (webview);
-    webview.getSettings().setJavaScriptEnabled(true);
-    webview.loadUrl ("http://www.google.nl");
-    // Todo The WebView should call an URL, start with bibledit.org, then later change to http://localhost:8080.
+    webview.getSettings().setJavaScriptEnabled (true);
+    webview.setWebViewClient(new WebViewClient());
+    webview.loadUrl ("http://localhost:8080");
     // If the URL opens in Chrome, then Bibledit should always display the splash screen for beauty.
-      
-      
   }
 
 

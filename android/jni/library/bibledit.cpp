@@ -49,10 +49,49 @@ const char * bibledit_get_version_number ()
 }
 
 
+// Get Bibledit's splash screen.
+const char * bibledit_get_splash_screen ()
+{
+  return setup_initialization_notice ();
+}
+
+
 // Get the port number that Bibledit's web server listens on.
 const char * bibledit_get_network_port ()
 {
   return config_logic_network_port ();
+}
+
+
+// Initialize library.
+// To be called once during the lifetime of the app.
+// $package: The folder where the package data resides.
+// $webroot: The document root folder for the web server.
+void bibledit_initialize_library (const char * package, const char * webroot)
+{
+  // Must initialize libcurl before any threads are started.
+#ifdef CLIENT_PREPARED
+#else
+  curl_global_init (CURL_GLOBAL_ALL);
+  // cout << curl_version () << endl;
+#endif
+  
+  // Thread locking.
+  thread_setup ();
+  
+  // Initialize libxml2.
+  xmlInitThreads ();
+  xmlInitParser ();
+  
+  // Set the web root folder.
+  config_globals_document_root = webroot;
+  
+  // Initialize data in a thread.
+  thread setup_thread = thread (setup_conditionally, package);
+  setup_thread.detach ();
+  
+  // Multiple start/stop guard.
+  bibledit_started = false;
 }
 
 
@@ -83,38 +122,6 @@ void bibledit_set_quit_at_midnight ()
 void bibledit_set_timezone_hours_offset_utc (int hours)
 {
   config_globals_timezone_offset_utc = hours;
-}
-
-
-// Initialize library.
-// To be called once during the lifetime of the app.
-// $package: The folder where the package data resides.
-// $webroot: The document root folder for the web server.
-void bibledit_initialize_library (const char * package, const char * webroot)
-{
-  // Must initialize libcurl before any threads are started.
-#ifdef CLIENT_PREPARED
-#else
-  curl_global_init (CURL_GLOBAL_ALL);
-  // cout << curl_version () << endl;
-#endif
-
-  // Thread locking.
-  thread_setup ();
-  
-  // Initialize libxml2.
-  xmlInitThreads ();
-  xmlInitParser ();
-
-  // Set the web root folder.
-  config_globals_document_root = webroot;
-
-  // Initialize data in a thread.
-  thread setup_thread = thread (setup_conditionally, package);
-  setup_thread.detach ();
-  
-  // Multiple start/stop guard.
-  bibledit_started = false;
 }
 
 
