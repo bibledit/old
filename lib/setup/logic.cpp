@@ -44,12 +44,20 @@
 
 void setup_conditionally (const char * package)
 {
+  string p (package);
+  
+  // When the package folder is the same as the document root folder,
+  // it may mean that another program installs the data for us.
+  // This is the case on Android.
+  // In that case, wait till the most important data has been installed.
+  if (p == config_globals_document_root) setup_main_folders_present ();
+  
+  // Run the setup if the versions differ.
   if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) {
     
     vector <string> messages;
 
     // Copy the library into the destination place.
-    string p (package);
     if (p != config_globals_document_root) {
       messages.push_back ("Copy data from " + p + " to " + config_globals_document_root);
       setup_copy_library (package);
@@ -116,6 +124,24 @@ void setup_write_access ()
       filter_url_set_write_permission (path);
     }
   }
+}
+
+
+// Waits until the main folders for setup are present.
+void setup_main_folders_present ()
+{
+  bool present;
+  do {
+    present = true;
+    vector <string> folders = {"dyncss", "databases", "databases/config/general", "logbook", "bibles"};
+    for (auto folder : folders) {
+      string path = filter_url_create_root_path (folder);
+      if (!file_exists (path)) {
+        present = false;
+      }
+    }
+    if (!present) this_thread::sleep_for (chrono::milliseconds (300));
+  } while (!present);
 }
 
 
