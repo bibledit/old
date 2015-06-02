@@ -46,7 +46,7 @@ bibledit.vshost.exe.manifest
 bibledit.vshost.exe.config
 server
 .libs
-
+gdbserver
 
 
 ## Ignore Visual Studio temporary files, build results, and

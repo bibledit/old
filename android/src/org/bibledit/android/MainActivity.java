@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.io.File;
 import java.io.OutputStream;
 import android.os.Environment;
-import android.os.Handler;
 import android.content.Intent;
 import android.view.View;
 import android.app.Notification;
@@ -40,32 +39,24 @@ public class MainActivity extends Activity
 {
 
 
-    // Todo all goes out.
-    public static Activity activity;
-    public static Handler handler;
-    public static Context context;
-    
-    
     // Function is called when the app gets launched.
     @Override
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
         
-        activity = this;
-        context = this;
-        
         // The directory of the external files.
         // On a Nexus 10 this is /storage/emulated/0/Android/data/org.bibledit.android/files
         // Files in this directory cannot be made executable.
         // The system has a protection mechanism for this.
-        String externalDirectory = MainActivity.activity.getExternalFilesDir (null).getAbsolutePath ();
+        String externalDirectory = getExternalFilesDir (null).getAbsolutePath ();
         Log.d ("externalDirectory", externalDirectory); // Todo
+        // Todo It looks like this external Directory gets deleted when the app is deleted, what about when it is upgraded?
         
         // The protected directory that contains files that can be set executable.
         // This would be /data/data/org.bibledit.android/files
         // Files there can be set executable.
-        String internalDirectory = MainActivity.activity.getFilesDir ().getAbsolutePath ();
+        String internalDirectory = getFilesDir ().getAbsolutePath ();
         Log.d ("internalDirectory", internalDirectory); // Todo
         
         InitializeLibrary (externalDirectory, externalDirectory);
@@ -119,8 +110,6 @@ public class MainActivity extends Activity
     {
         super.onPause ();
         Log.d ("%s", "onPause"); // Todo
-        
-        handler = null;
     }
     
     
@@ -140,9 +129,6 @@ public class MainActivity extends Activity
     {
         super.onStop();
         Log.d ("%s", "onStop"); // Todo
-        
-        
-        handler = null;
     }
     
     
@@ -173,9 +159,6 @@ public class MainActivity extends Activity
     {
         super.onDestroy ();
         Log.d ("%s", "onDestroy"); // Todo
-        
-        
-        handler = null;
     }
     
     
@@ -197,7 +180,7 @@ public class MainActivity extends Activity
             @Override
             public void run ()
             {
-                SharedPreferences preferences = MainActivity.activity.getPreferences (Context.MODE_PRIVATE);
+                SharedPreferences preferences = getPreferences (Context.MODE_PRIVATE);
                 String installedVersion = preferences.getString ("version", "");
                 String libraryVersion = GetVersionNumber ();
                 if (installedVersion.equals (libraryVersion)) return;
@@ -206,7 +189,7 @@ public class MainActivity extends Activity
 
                     // The assets are not visible in the standard filesystem, but remain inside the .apk file.
                     // The manager accesses them.
-                    AssetManager assetManager = MainActivity.activity.getAssets();
+                    AssetManager assetManager = getAssets();
 
                     // Read the asset index created by ant.
                     String [] files = null;

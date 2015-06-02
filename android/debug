@@ -46,8 +46,8 @@ fi
 
 
 # Clear and uninstall previous version.
-adb shell pm clear org.bibledit.android
-adb shell pm uninstall -k org.bibledit.android
+# adb shell pm clear org.bibledit.android
+# adb shell pm uninstall -k org.bibledit.android
 
 
 # Install it.
