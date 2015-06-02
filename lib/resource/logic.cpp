@@ -124,9 +124,9 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         string address = Database_Config_General::getServerAddress ();
         int port = Database_Config_General::getServerPort ();
         string url = client_logic_url (address, port, "");
-        html.append ("<a href=\"url\">" + translate ("Go to Bibledit Cloud.") + "</a>");
+        html.append ("<a href=\"" + url + "\">" + translate ("Go to Bibledit Cloud.") + "</a>");
         html.append (" ");
-        html.append (translate ("Make this external resource available offline there."));
+        html.append (translate ("Cache this external resource to make it available offline there."));
         html.append (" ");
         html.append (translate ("Come back on the Bibledit client here."));
         html.append (" ");
