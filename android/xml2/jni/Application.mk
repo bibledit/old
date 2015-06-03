@@ -10,3 +10,4 @@ APP_CFLAGS += -fvisibility=hidden
 APP_CFLAGS += -fno-exceptions -fmessage-length=0
 
 APP_ABI := all
+# APP_ABI := armeabi-v7a
