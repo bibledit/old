@@ -116,7 +116,7 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         html.append (database_offlineresources.get (resource, passage.book, passage.chapter, convert_to_int (passage.verse)));
       }
     } else {
-      if (config_logic_client_prepared ()) { // Todo
+      if (config_logic_client_prepared ()) {
         html = translate ("This resource is not available.");
         html.append (" ");
         html.append (translate ("To make it available, follow these steps:"));
@@ -124,15 +124,15 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         string address = Database_Config_General::getServerAddress ();
         int port = Database_Config_General::getServerPort ();
         string url = client_logic_url (address, port, "");
-        html.append ("<a href=\"url\">" + translate ("Go to Bibledit Cloud.") + "</a>");
+        html.append ("<a href=\"" + url + "\">" + translate ("Go to Bibledit Cloud.") + "</a>");
         html.append (" ");
-        html.append (translate ("Make this external resource available offline there."));
+        html.append (translate ("Cache this external resource to make it available offline there."));
         html.append (" ");
         html.append (translate ("Come back on the Bibledit client here."));
         html.append (" ");
         html.append (translate ("Synchronize."));
       } else {
-        html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true); // Todo
+        html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true);
       }
     }
   } else {
