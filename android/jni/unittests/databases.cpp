@@ -66,7 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void test_database_config_general ()
 {
   // Tests for Database_Config_General.
-  evaluate (__LINE__, __func__, "Bible Translation", Database_Config_General::getSiteMailName ());
+  evaluate (__LINE__, __func__, "Bibledit Cloud", Database_Config_General::getSiteMailName ());
   
   string ref = "unittest";
   Database_Config_General::setSiteMailName (ref);

@@ -371,7 +371,14 @@ void Editor_Export::processNoteCitation (xmlNodePtr node)
   // Sample footnote body.
   // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
 
-  // XPath to retrieve the note contents.
+
+  xmlNodePtr aElement = get_note_pointer (xmlDocGetRootElement (document), id); // Todo
+//  cout << "loop: " << aElement << endl; // Todo
+  
+  // XPath to retrieve the note contents. Todo
+  // XPath crashes on Android.
+  // Therefore the data is retrieved through looping over the nodes.
+  /*
   xmlXPathContextPtr xpathCtx;
   xmlXPathObjectPtr xpathObj;
   xpathCtx = xmlXPathNewContext (document);
@@ -388,35 +395,41 @@ void Editor_Export::processNoteCitation (xmlNodePtr node)
         // So we remain with:
         // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
         xmlNodePtr aElement = nodes->nodeTab [0];
-        xmlNodePtr pElement = aElement->parent;
-        xmlUnlinkNode (aElement);
-        xmlFree (aElement);
-        
-        // Preserve active character styles in the main text, and reset them for the note.
-        vector <string> preservedCharacterStyles = characterStyles;
-        characterStyles.clear();
-        
-        // Process this 'p' element.
-        processingNote = true;
-        processNode (pElement);
-        processingNote = false;
-        
-        // Restore the active character styles for the main text.
-        characterStyles = preservedCharacterStyles;
-        
-        // Remove this element so it can't be processed again.
-        xmlUnlinkNode (pElement);
-        xmlFree (pElement);
-        
+        cout << "xpath: " << aElement << endl; // Todo
+   */
+  if (aElement) {
+    xmlNodePtr pElement = aElement->parent;
+    xmlUnlinkNode (aElement);
+    xmlFree (aElement);
+    
+    // Preserve active character styles in the main text, and reset them for the note.
+    vector <string> preservedCharacterStyles = characterStyles;
+    characterStyles.clear();
+    
+    // Process this 'p' element.
+    processingNote = true;
+    processNode (pElement);
+    processingNote = false;
+    
+    // Restore the active character styles for the main text.
+    characterStyles = preservedCharacterStyles;
+    
+    // Remove this element so it can't be processed again.
+    xmlUnlinkNode (pElement);
+    xmlFree (pElement);
+    
+    
       } else {
         Database_Logs::log ("Discarding note with id " + id + " and href " + href);
       }
-    }
+/*
+}
 
     // Free memory for XPath.
     xmlXPathFreeObject(xpathObj);
     xmlXPathFreeContext(xpathCtx);
   }
+ */
 }
 
 
@@ -501,6 +514,36 @@ void Editor_Export::postprocess ()
 {
   // Flush any last USFM line being built.
   flushLine ();
+}
+
+
+// Retrieves a pointer to a relevant footnote element in the XML. Todo
+// Sample footnote element:
+// <a href="#citation1" id="note1">x</a>
+xmlNodePtr Editor_Export::get_note_pointer (xmlNodePtr node, string id)
+{
+  if (node) {
+
+    if (xmlStrEqual(node->name, BAD_CAST "a")) {
+      string note_id;
+      xmlChar * property = xmlGetProp (node, BAD_CAST "id");
+      if (property) {
+        note_id = (char *) property;
+        xmlFree (property);
+      }
+      if (id == note_id) return node;
+    }
+    
+    xmlNodePtr child = node->children;
+
+    while (child != NULL) {
+      xmlNodePtr note = get_note_pointer (child, id);
+      if (note) return note;
+      child = child->next;
+    }
+  }
+  
+  return NULL;
 }
 
 

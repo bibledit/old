@@ -26,9 +26,8 @@
 #include <styles/logic.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#include <libxml/xpath.h>
-#include <libxml/xpathInternals.h>
 #include <libxml/HTMLparser.h>
+#include <libxml/HTMLtree.h>
 #include <database/logs.h>
 
 
@@ -88,7 +87,7 @@ void Editor_Import::run ()
 }
 
 
-string Editor_Import::get () // Todo
+string Editor_Import::get ()
 {
   // If there are notes, add the notes <div> after everything else.
   // (It has the <hr> as a child).
@@ -117,12 +116,12 @@ string Editor_Import::get () // Todo
       html.erase  (pos);
     }
   }
-  //cout << html << endl; // Todo
+
   return html;
 }
 
 
-void Editor_Import::preprocess () // Todo
+void Editor_Import::preprocess ()
 {
   currentParagraphStyle = "";
   currentParagraphContent = "";
@@ -162,7 +161,8 @@ void Editor_Import::preprocess () // Todo
   htmlFreeParserCtxt (context);
   */
 
-  // XPath crashes on Android, therefore use another method: Build the document.
+  // XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
+  // Therefore use another method: Build the document from scratch.
   htmlDom = xmlNewDoc (BAD_CAST "1.0");
   xmlNodePtr rootnode = xmlNewNode (NULL, BAD_CAST "html");
   xmlDocSetRootElement (htmlDom, rootnode);
