@@ -26,8 +26,6 @@
 #include <styles/logic.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#include <libxml/xpath.h>
-#include <libxml/xpathInternals.h>
 #include <database/logs.h>
 
 
@@ -59,8 +57,6 @@ void Editor_Export::load (string html)
   xmlGenericErrorFunc handler = (xmlGenericErrorFunc) error_handler;
   initGenericErrorDefaultFunc (&handler);
   
-  htmlParserCtxtPtr context = htmlNewParserCtxt();
-
   // To help loadHTML() process utf8 correctly, set the correct meta tag before any other text.
   string prefix =
   "<!DOCTYPE html>\n"
