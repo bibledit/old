@@ -65,7 +65,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-/* #undef HAVE_UNITTESTS */
+#define HAVE_UNITTESTS 1
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -83,7 +83,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.151"
+#define PACKAGE_STRING "bibledit 1.0.152"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -92,7 +92,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.151"
+#define PACKAGE_VERSION "1.0.152"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
@@ -101,10 +101,10 @@
 #define STDC_HEADERS 1
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "no"
+#define UNITTESTS "yes"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.151"
+#define VERSION "1.0.152"

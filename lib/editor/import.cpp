@@ -88,7 +88,7 @@ void Editor_Import::run ()
 }
 
 
-string Editor_Import::get ()
+string Editor_Import::get () // Todo
 {
   // If there are notes, add the notes <div> after everything else.
   // (It has the <hr> as a child).
@@ -99,7 +99,8 @@ string Editor_Import::get ()
   // Get the entire html code, including head.
   xmlChar * contents;
   int size;
-  xmlDocDumpFormatMemory (htmlDom, &contents, &size, 1);
+  //xmlDocDumpFormatMemory (htmlDom, &contents, &size, 1);
+  xmlDocDumpFormatMemory (htmlDom, &contents, &size, 0);
   string html;
   if (contents) {
     html = (char *) contents;
@@ -109,18 +110,19 @@ string Editor_Import::get ()
   // Remain with the stuff within the <body> elements.
   size_t pos = html.find ("<body>");
   if (pos != string::npos) {
-    html.erase (0, pos + 7);
+    // html.erase (0, pos + 7);
+    html.erase (0, pos + 6);
     pos = html.find ("</body>");
     if (pos != string::npos) {
       html.erase  (pos);
     }
   }
-  
+  //cout << html << endl; // Todo
   return html;
 }
 
 
-void Editor_Import::preprocess ()
+void Editor_Import::preprocess () // Todo
 {
   currentParagraphStyle = "";
   currentParagraphContent = "";
@@ -132,10 +134,11 @@ void Editor_Import::preprocess ()
   verseStartOffsets = { make_pair (0, 0) };
   currentPDomElement = NULL;
   notePDomElement = NULL;
-  
+
+  /*
+  // Load and parse the template.
   htmlParserCtxtPtr context = htmlNewParserCtxt();
   
-  // Load the template.
   string html_template =
   "<!DOCTYPE html>\n"
   "<html>\n"
@@ -147,7 +150,7 @@ void Editor_Import::preprocess ()
   "</html>\n";
   htmlDom = htmlCtxtReadMemory (context, html_template.c_str(), html_template.length(), "", "UTF-8", HTML_PARSE_RECOVER);
   
-  // Get the "body" node.
+  // Get the "body" node through XPath.
   xmlXPathContextPtr xpathCtx = xmlXPathNewContext (htmlDom);
   xmlXPathObjectPtr xpathObj = xmlXPathEvalExpression (BAD_CAST "//body", xpathCtx);
   xmlNodeSetPtr nodes = xpathObj->nodesetval;
@@ -155,9 +158,25 @@ void Editor_Import::preprocess ()
   xmlXPathFreeObject(xpathObj);
   xmlXPathFreeContext(xpathCtx);
   
+  // Done parsing.
   htmlFreeParserCtxt (context);
+  */
 
+  // XPath crashes on Android, therefore use another method: Build the document.
+  htmlDom = xmlNewDoc (BAD_CAST "1.0");
+  xmlNodePtr rootnode = xmlNewNode (NULL, BAD_CAST "html");
+  xmlDocSetRootElement (htmlDom, rootnode);
+  xmlNodePtr headnode = xmlNewNode (NULL, BAD_CAST "head");
+  xmlAddChild (rootnode, headnode);
+  xmlNodePtr metanode = xmlNewNode  (NULL, BAD_CAST "meta");
+  xmlAddChild (headnode, metanode);
+  xmlNewProp (metanode, BAD_CAST "http-equiv", BAD_CAST "content-type");
+  xmlNewProp (metanode, BAD_CAST "http-equiv", BAD_CAST "text/html; charset=UTF-8");
+  bodyDomNode = xmlNewNode (NULL, BAD_CAST "body");
+  xmlAddChild (rootnode, bodyDomNode);
+  
   // Create notes node.
+  // It will not yet be inserted into the html document.
   notesDomNode = newElement ("div");
   xmlNewProp (notesDomNode, BAD_CAST "id", BAD_CAST "notes");
   xmlNodePtr node = newElement ("hr");
