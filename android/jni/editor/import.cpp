@@ -162,6 +162,7 @@ void Editor_Import::preprocess ()
   */
 
   // XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
+  // It crashes here: bodyDomNode = nodes->nodeTab [0];
   // Therefore use another method: Build the document from scratch.
   htmlDom = xmlNewDoc (BAD_CAST "1.0");
   xmlNodePtr rootnode = xmlNewNode (NULL, BAD_CAST "html");

@@ -62,6 +62,7 @@ private:
   void openInline (string className);
   void processNoteCitation (xmlNodePtr node);
   string cleanUSFM (string usfm);
+  xmlNodePtr get_note_pointer (xmlNodePtr node, string id);
 };
 
 
