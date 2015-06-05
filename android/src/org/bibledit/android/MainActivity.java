@@ -50,14 +50,11 @@ public class MainActivity extends Activity
         // Files in this directory cannot be made executable.
         // The system has a protection mechanism for this.
         String externalDirectory = getExternalFilesDir (null).getAbsolutePath ();
-        Log.d ("externalDirectory", externalDirectory); // Todo
-        // Todo It looks like this external Directory gets deleted when the app is deleted, what about when it is upgraded?
         
         // The protected directory that contains files that can be set executable.
         // This would be /data/data/org.bibledit.android/files
         // Files there can be set executable.
         String internalDirectory = getFilesDir ().getAbsolutePath ();
-        Log.d ("internalDirectory", internalDirectory); // Todo
         
         InitializeLibrary (externalDirectory, externalDirectory);
         
@@ -80,7 +77,6 @@ public class MainActivity extends Activity
         
         // Install the assets if needed.
         installAssets (externalDirectory);
-
     }
     
     
@@ -109,7 +105,7 @@ public class MainActivity extends Activity
     public void onPause ()
     {
         super.onPause ();
-        Log.d ("%s", "onPause"); // Todo
+        StopLibrary ();
     }
     
     
@@ -118,8 +114,7 @@ public class MainActivity extends Activity
     public void onResume ()
     {
         super.onResume();
-        Log.d ("%s", "onResume"); // Todo
-        
+        StartLibrary ();
     }
     
     
@@ -128,7 +123,7 @@ public class MainActivity extends Activity
     protected void onStop ()
     {
         super.onStop();
-        Log.d ("%s", "onStop"); // Todo
+        StopLibrary ();
     }
     
     
@@ -137,8 +132,7 @@ public class MainActivity extends Activity
     protected void onStart ()
     {
         super.onStart();
-        Log.d ("%s", "onStart"); // Todo
-        
+        StartLibrary ();
     }
     
     
@@ -147,9 +141,7 @@ public class MainActivity extends Activity
     protected void onRestart ()
     {
         super.onRestart();
-        Log.d ("%s", "onRestart"); // Todo
-        
-        
+        StartLibrary ();
     }
     
     
@@ -158,7 +150,9 @@ public class MainActivity extends Activity
     public void onDestroy ()
     {
         super.onDestroy ();
-        Log.d ("%s", "onDestroy"); // Todo
+        StopLibrary ();
+        while (IsRunning ()) {};
+        ShutdownLibrary ();
     }
     
     
@@ -232,7 +226,7 @@ public class MainActivity extends Activity
                             out.flush ();
                             outFile = null;
                             out = null;
-                            Log.i (filename, webroot);
+                            //Log.i (filename, webroot);
                         } catch(IOException e) {
                             e.printStackTrace ();
                         }       
