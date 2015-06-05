@@ -27,6 +27,8 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <database/logs.h>
+#include <libxml/HTMLparser.h>
+// Todo the above goes out.
 
 
 Editor_Export::Editor_Export (void * webserver_request_in)
@@ -39,7 +41,6 @@ Editor_Export::~Editor_Export ()
 {
   //xmlDocDump (stdout, document);
   xmlFreeDoc (document);
-  htmlFreeParserCtxt (context);
 }
 
 
@@ -57,9 +58,8 @@ void Editor_Export::load (string html)
   xmlGenericErrorFunc handler = (xmlGenericErrorFunc) error_handler;
   initGenericErrorDefaultFunc (&handler);
   
-  htmlParserCtxtPtr context = htmlNewParserCtxt();
-  
   // To help loadHTML() process utf8 correctly, set the correct meta tag before any other text.
+  /*
   string prefix =
   "<!DOCTYPE html>\n"
   "<html>\n"
@@ -72,7 +72,28 @@ void Editor_Export::load (string html)
   "</body>\n"
   "</html>\n";
   string xml = prefix + html + suffix;
+  htmlParserCtxtPtr context = htmlNewParserCtxt();
   document = htmlCtxtReadMemory (context, xml.c_str(), xml.length(), "", "UTF-8", HTML_PARSE_RECOVER);
+  htmlFreeParserCtxt (context);
+   */
+
+  // On Android, the HTML parser fails. It returns a NULL document.
+  // Therefore use the XML parser instead of the HTML one.
+  string prefix =
+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+  "<html>\n"
+  "<head>\n"
+  "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></meta>\n"
+  "</head>\n"
+  "<body>\n";
+  string suffix =
+  "\n"
+  "</body>\n"
+  "</html>\n";
+  string xml = prefix + html + suffix;
+  xmlParserCtxtPtr context = xmlNewParserCtxt();
+  document = xmlCtxtReadMemory (context, xml.c_str(), xml.length(), "", "UTF-8", XML_PARSE_RECOVER);
+  xmlFreeParserCtxt (context);
 }
 
 
