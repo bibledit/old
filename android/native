@@ -73,5 +73,5 @@ rm jni/sources.txt
 
 # Build native code.
 # https://developer.android.com/tools/sdk/ndk/index.html
-# Todo ndk-build clean
+ndk-build clean
 ndk-build NDK_DEBUG=1

@@ -1,11 +1,26 @@
 #!/bin/sh
 
 
-# See the "debug" script for more information.
+# See the "debug" and "native" scripts for more information.
 
 
 export ANDROID_HOME=~/scr/android-sdk-macosx
 export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools
+ndk-build clean
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+exit
+fi
+ndk-build
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+exit
+fi
+ant clean
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+exit
+fi
 ant release
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
