@@ -27,8 +27,6 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <database/logs.h>
-#include <libxml/HTMLparser.h>
-// Todo the above goes out.
 
 
 Editor_Export::Editor_Export (void * webserver_request_in)
