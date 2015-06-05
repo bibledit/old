@@ -57,6 +57,8 @@ void Editor_Export::load (string html)
   xmlGenericErrorFunc handler = (xmlGenericErrorFunc) error_handler;
   initGenericErrorDefaultFunc (&handler);
   
+  htmlParserCtxtPtr context = htmlNewParserCtxt();
+  
   // To help loadHTML() process utf8 correctly, set the correct meta tag before any other text.
   string prefix =
   "<!DOCTYPE html>\n"
@@ -366,34 +368,17 @@ void Editor_Export::processNoteCitation (xmlNodePtr node)
   
   // Sample footnote body.
   // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
-
-
-  xmlNodePtr aElement = get_note_pointer (xmlDocGetRootElement (document), id); // Todo
-//  cout << "loop: " << aElement << endl; // Todo
-  
-  // XPath to retrieve the note contents. Todo
-  // XPath crashes on Android.
-  // Therefore the data is retrieved through looping over the nodes.
-  /*
-  xmlXPathContextPtr xpathCtx;
-  xmlXPathObjectPtr xpathObj;
-  xpathCtx = xmlXPathNewContext (document);
-  string xpathExpression = "//a[@id='" + id + "']";
-  xpathObj = xmlXPathEvalExpression (BAD_CAST xpathExpression.c_str(), xpathCtx);
-  if (xpathObj) {
-    xmlNodeSetPtr nodes = xpathObj->nodesetval;
-    if (nodes) {
-
-      // There should be only one relevant note node.
-      if (nodes->nodeNr == 1) {
-        
-        // Get the 'a' element, get its 'p' parent, and then remove that 'a' element.
-        // So we remain with:
-        // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-        xmlNodePtr aElement = nodes->nodeTab [0];
-        cout << "xpath: " << aElement << endl; // Todo
-   */
+  // Retrieve the <a> element from it.
+  // At first this was done through an XPath expression: 
+  // http://www.grinninglizard.com/tinyxml2docs/index.html
+  // But XPath crashes on Android.
+  // Therefore now it iterates of all the nodes to find the required <a> element.
+  xmlNodePtr aElement = get_note_pointer (xmlDocGetRootElement (document), id);
   if (aElement) {
+
+    // It now has the 'a' element: Get its 'p' parent, and then remove that 'a' element.
+    // So we remain with:
+    // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
     xmlNodePtr pElement = aElement->parent;
     xmlUnlinkNode (aElement);
     xmlFree (aElement);
@@ -414,18 +399,9 @@ void Editor_Export::processNoteCitation (xmlNodePtr node)
     xmlUnlinkNode (pElement);
     xmlFree (pElement);
     
-    
-      } else {
-        Database_Logs::log ("Discarding note with id " + id + " and href " + href);
-      }
-/*
-}
-
-    // Free memory for XPath.
-    xmlXPathFreeObject(xpathObj);
-    xmlXPathFreeContext(xpathCtx);
+  } else {
+    Database_Logs::log ("Discarding note with id " + id + " and href " + href);
   }
- */
 }
 
 
@@ -513,7 +489,7 @@ void Editor_Export::postprocess ()
 }
 
 
-// Retrieves a pointer to a relevant footnote element in the XML. Todo
+// Retrieves a pointer to a relevant footnote element in the XML.
 // Sample footnote element:
 // <a href="#citation1" id="note1">x</a>
 xmlNodePtr Editor_Export::get_note_pointer (xmlNodePtr node, string id)
