@@ -37,6 +37,8 @@ import android.content.res.AssetManager;
 
 public class MainActivity extends Activity
 {
+    
+    WebView webview;
 
 
     // Function is called when the app gets launched.
@@ -69,7 +71,7 @@ public class MainActivity extends Activity
         
         StartLibrary ();
         
-        WebView webview = new WebView (this);
+        webview = new WebView (this);
         setContentView (webview);
         webview.getSettings().setJavaScriptEnabled (true);
         webview.setWebViewClient(new WebViewClient());
@@ -115,6 +117,7 @@ public class MainActivity extends Activity
     {
         super.onResume();
         StartLibrary ();
+        checkUrl ();
     }
     
     
@@ -133,6 +136,7 @@ public class MainActivity extends Activity
     {
         super.onStart();
         StartLibrary ();
+        checkUrl ();
     }
     
     
@@ -142,6 +146,7 @@ public class MainActivity extends Activity
     {
         super.onRestart();
         StartLibrary ();
+        checkUrl ();
     }
     
     
@@ -244,5 +249,20 @@ public class MainActivity extends Activity
         thread.start ();
     }
     
+    
+    // Checks whether the browser has a Bibledit page opened.
+    // If not, it navigates the browser to the Bibledit home page.
+    private void checkUrl ()
+    {
+        Boolean reload = false;
+        String url = webview.getUrl ();
+        if (url.length () >= 21) {
+            url = url.substring (0, 21);
+            if (url.compareTo ("http://localhost:8080") != 0) {
+                reload = true;
+            }
+        } else reload = true;
+        if (reload) webview.loadUrl ("http://localhost:8080");
+    }
 
 }
