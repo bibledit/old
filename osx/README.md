@@ -14,7 +14,7 @@ The current port of Bibledit for OS X consists of the following parts:
 
 ## Sandboxing
 
-With the app sandbox enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to the documents folder within the sandbox.
+With the app sandbox enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to the documents folder within the sandbox. The sandbox is at ~/Library/Containers/org.bibledit.osx/
 
 ## libcurl
 
@@ -40,6 +40,11 @@ Run script "build.sh".
 * Archive the app from Xcode, and submit it to the Apple App Store.
 * Have it reviewed by Apple.
 * On release, immediately test it on a clean OS X installation.
+
+## Compliance with Mac App Store
+
+Upon submission to the store the Bibledit app was rejected on the grounds that the interface was not of sufficient quality. It just had a button to open Safari to display the web app. The solution to this was to integrate a WebView into the Bibledit app.
+Upon a second submission to the store, the app was rejected on the grounds that it accessed '/Library/Managed Preferences/Guest/com.apple.familycontrols.contentfilter.plist'. After investigation into this, it appeared that the Bibledit app itself was not accessing this location, but that the integrated WebView did it. The WebView is a component from Apple, thus access to this location is outside Bibledit's control.
 
 ## History
 
