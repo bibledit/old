@@ -4,14 +4,10 @@
 # Synchronize and build libbibledit on OS X for iOS.
 
 
-# Configure the Bibledit library.
-function configure
+# Clean the Bibledit library.
+function clean
 {
-  # Configure it in client mode,
-  # Run only only one parallel task so the interface is more responsive.
-  # Enable the single-tab browser.
   pushd webroot
-  ./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser
   echo Clean source.
   make clean > /dev/null
   popd
@@ -95,9 +91,7 @@ popd
 # Linking
 echo Linking
 
-pushd ../../lib > /dev/null
-
-rm -f libbibledit.a
+pushd webroot
 
 $TOOLDIR/ar cru libbibledit.a `find . -name *.o`
 EXIT_CODE=$?
@@ -118,6 +112,7 @@ popd
 
 pushd webroot
 cp libbibledit.a ~/Desktop/libbibledit-$ARCH.a
+rm libbibledit.a
 popd
 
 }
@@ -139,30 +134,29 @@ rm -r xcode
 rm -r executable
 popd
 
+# Configure Bibledit in client mode,
+# Run only only one parallel task so the interface is more responsive.
+# Enable the single-tab browser.
+pushd webroot
+./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser
+popd
 
-
-configure
+clean
 compile armv7 iPhoneOS 32
 
-
-
-exit
-
-
-
-configure
+clean
 compile armv7s iPhoneOS 32
 
-configure
+clean
 compile arm64 iPhoneOS 64
 
-configure
+clean
 compile i386 iPhoneSimulator 32
 
-configure
+clean
 compile x86_64 iPhoneSimulator 64
 
-cp ../../lib/library/bibledit.h ../include/
+cp webroot/library/bibledit.h include
 
 echo Creating fat library file
 lipo -create -output ~/Desktop/libbibledit.a ~/Desktop/libbibledit-armv7.a ~/Desktop/libbibledit-armv7s.a ~/Desktop/libbibledit-arm64.a ~/Desktop/libbibledit-i386.a ~/Desktop/libbibledit-x86_64.a
@@ -177,7 +171,7 @@ if [ $EXIT_CODE != 0 ]; then
 fi
 
 echo Copying library into place
-mv ~/Desktop/libbibledit.a ../lib
+mv ~/Desktop/libbibledit.a lib
 
 echo Clean libraries from desktop
 rm ~/Desktop/libbibledit-armv7.a
@@ -186,24 +180,8 @@ rm ~/Desktop/libbibledit-arm64.a
 rm ~/Desktop/libbibledit-i386.a
 rm ~/Desktop/libbibledit-x86_64.a
 
-say Compile for iOS is ready
-
-echo Restore library to default state
-unset IPHONEOS_DEPLOYMENT_TARGET
-unset SYSROOT
-unset TOOLDIR
-unset COMPILEFLAGS
-unset CURLINCLUDE
-pushd ../../lib
-./configure
-make clean > /dev/null
-make --jobs=4
-popd
-
-
-
-
-exit
+echo Clean webroot
+pushd webroot
 rm aclocal.m4
 rm AUTHORS
 rm ChangeLog
@@ -222,23 +200,13 @@ rm INSTALL
 rm install-sh
 rm Makefile
 rm Makefile.in
+rm Makefile.am
 rm missing
 rm NEWS
 rm README
 rm stamp-h1
+popd
+
+say Compile for iOS is ready
 
 
-rm Make*
-rm *.m4
-rm -r autom*cache
-rm bibledit
-rm compile
-rm config.*
-rm configure*
-rm depcomp
-rm dev
-rm install-sh
-rm missing
-rm reconfigure
-rm valgrind
-rm -rf .deps

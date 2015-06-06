@@ -1,109 +1,110 @@
+/* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define the admin email */
-#undef ADMIN_EMAIL
+#define ADMIN_EMAIL ""
 
 /* Define the admin password */
-#undef ADMIN_PASSWORD
+#define ADMIN_PASSWORD ""
 
 /* Define the admin username */
-#undef ADMIN_USERNAME
+#define ADMIN_USERNAME ""
 
 /* Define whether the expected browser is a bare browser without controls */
-#undef BARE_BROWSER
+#define BARE_BROWSER "yes"
 
 /* Define whether it is prepared as a client installation */
-#undef CLIENT
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-#undef CLIENT_PREPARED
+#define CLIENT_PREPARED 1
 
 /* Define whether it is a demo installation */
-#undef DEMO
+#define DEMO "no"
 
 /* Define the directory separator as Windows differs from Linux */
-#undef DIRECTORY_SEPARATOR
+#define DIRECTORY_SEPARATOR "/"
 
 /* define if the compiler supports basic C++11 syntax */
-#undef HAVE_CXX11
+/* #undef HAVE_CXX11 */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#undef HAVE_INTTYPES_H
+#define HAVE_INTTYPES_H 1
 
 /* Define whether libproc.h is present */
-#undef HAVE_LIBPROC
+#define HAVE_LIBPROC 1
 
 /* Define to 1 if you have the <memory.h> header file. */
-#undef HAVE_MEMORY_H
+#define HAVE_MEMORY_H 1
 
 /* Define whether pthread.h is present */
-#undef HAVE_PTHREAD
+#define HAVE_PTHREAD 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
-#undef HAVE_STDINT_H
+#define HAVE_STDINT_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
-#undef HAVE_STDLIB_H
+#define HAVE_STDLIB_H 1
 
 /* Define whether function 'stoi' is available */
-#undef HAVE_STOI
+#define HAVE_STOI 1
 
 /* Define to 1 if you have the <strings.h> header file. */
-#undef HAVE_STRINGS_H
+#define HAVE_STRINGS_H 1
 
 /* Define to 1 if you have the <string.h> header file. */
-#undef HAVE_STRING_H
+#define HAVE_STRING_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
-#undef HAVE_SYS_STAT_H
+#define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
-#undef HAVE_SYS_TYPES_H
+#define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
-#undef HAVE_UNISTD_H
+#define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-#undef HAVE_UNITTESTS
+/* #undef HAVE_UNITTESTS */
 
 /* Define whether to enable URL settings */
-#undef HAVE_URLSETTINGS
+/* #undef HAVE_URLSETTINGS */
 
 /* Define the network port number */
-#undef NETWORK_PORT
+#define NETWORK_PORT "8080"
 
 /* Name of package */
-#undef PACKAGE
+#define PACKAGE "bibledit"
 
 /* Define to the address where bug reports for this package should be sent. */
-#undef PACKAGE_BUGREPORT
+#define PACKAGE_BUGREPORT "http://bibledit.org"
 
 /* Define to the full name of this package. */
-#undef PACKAGE_NAME
+#define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#undef PACKAGE_STRING
+#define PACKAGE_STRING "bibledit 1.0.154"
 
 /* Define to the one symbol short name of this package. */
-#undef PACKAGE_TARNAME
+#define PACKAGE_TARNAME "bibledit"
 
 /* Define to the home page for this package. */
-#undef PACKAGE_URL
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#undef PACKAGE_VERSION
+#define PACKAGE_VERSION "1.0.154"
 
 /* Define the maximum number of parallel background tasks to run */
-#undef PARALLEL_TASKS
+#define PARALLEL_TASKS 1
 
 /* Define to 1 if you have the ANSI C header files. */
-#undef STDC_HEADERS
+#define STDC_HEADERS 1
 
 /* Define whether unit tests are enabled */
-#undef UNITTESTS
+#define UNITTESTS "no"
 
 /* Define whether URL settings are enabled */
-#undef URLSETTINGS
+#define URLSETTINGS "no"
 
 /* Version number of package */
-#undef VERSION
+#define VERSION "1.0.154"
