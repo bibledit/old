@@ -1,13 +1,19 @@
 <h3>translate("Send / Receive")</h3>
 
-<!-- #BEGINZONE client -->
+<!-- #BEGINZONE clientoff -->
+<p class="error">translate ("Not connected to a server")</p>
+<p><a href="/client/index">translate("Connect to a server to start sending and receiving.")</a></p>
+<!-- #ENDZONE clientoff -->
+
+<!-- #BEGINZONE clienton -->
 
 <p class="success">##successsync##</p>
 <p class="error">##errorsync##</p>
 <p class="error">##demo##</p>
-<p>translate("Bibles and Consultation Notes.")</p>
-<p>translate("Bibledit sends and receives the Bibles and Consultation Notes every night.")</p>
-<p><a href="?runsync=">translate("Send and receive them now.")</a></p>
+<br>
+<p>translate("Bibledit sends and receives relevant data every night.")</p>
+<p><a href="?runsync=">translate("Send and receive it now.")</a></p>
+<br>
 <p>translate("Repeat send and receive:")</p>
 <p>
   • 
@@ -41,12 +47,12 @@
 </p>
 <p>
   translate("It sends changes made here to the Bibledit server.")
-  translate("It receives updates of the Bibles and Consultation Notes from the Bibledit server.")
+  translate("It receives updates from the Bibledit server.")
 </p>
 
-<br>
+<!-- #ENDZONE clienton -->
 
-<!-- #ENDZONE client -->
+<!-- #BEGINZONE server -->
 
 <p class="success">##successbible##</p>
 <p class="error">##errorbible##</p>
@@ -61,6 +67,8 @@ translate("Send and receive it every five minutes.")
   translate("It receives changes made by others in other instances of Bibledit.")
   translate("It sends changes made here to the server for use by other translators who use Bibledit.")
 </p>
+
+<!-- #ENDZONE server -->
 
 <br>
 

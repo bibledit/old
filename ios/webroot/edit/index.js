@@ -105,7 +105,7 @@ Notes:
 var editorLoadedBible;
 var editorLoadedBook;
 var editorLoadedChapter;
-var editorServerText;
+var editorReferenceText;
 var editorTextChanged = false;
 var editorCaretPosition = 0;
 var editorSaveAsync;
@@ -133,7 +133,7 @@ function editorLoadChapter (reload)
           $ ("#editor").append (response);
           editorStatus (editorChapterLoaded);
         }
-        editorServerText = response;
+        editorReferenceText = response;
         if (reload) {
           positionCaret (editorCaretPosition);
         } else {
@@ -156,9 +156,9 @@ function editorSaveChapter (sync)
   if (!editorLoadedBible) return;
   if (!editorLoadedBook) return;
   var html = editorGetHtml ();
-  if (html == editorServerText) return;
+  if (html == editorReferenceText) return;
   editorStatus (editorChapterSaving);
-  editorServerText = html;
+  editorReferenceText = html;
   editorChapterIdOnServer = 0;
   editorIdPollerTimeoutStop ();
   editorSaveAsync = true;
@@ -174,7 +174,7 @@ function editorSaveChapter (sync)
     },
     error: function (jqXHR, textStatus, errorThrown) {
       editorStatus (editorChapterRetrying);
-      editorServerText = "";
+      editorReferenceText = "";
       editorContentChanged ();
       if (!editorSaveAsync) editorSaveChapter (true);
     },
@@ -215,23 +215,7 @@ var editorContentChangedTimeoutId;
 function editorContentChanged (event)
 {
   if (!editorWriteAccess) return;
-
-  if (event) {
-    // Escape key,
-    if (event.keyCode == 27) return;
-    // Shift / Ctrl / Alt / Alt Gr / Win keys.
-    if (event.keyCode == 16) return;
-    if (event.keyCode == 17) return;
-    if (event.keyCode == 18) return;
-    if (event.keyCode == 225) return;
-    if (event.keyCode == 91) return;
-    // Arrow keys.
-    if (event.keyCode == 37) return;
-    if (event.keyCode == 38) return;
-    if (event.keyCode == 39) return;
-    if (event.keyCode == 40) return;
-  }
-
+  if (editKeysIgnoreForContentChange (event)) return;
   editorTextChanged = true;
   editorContentChangedTimeoutStart ();
 }
@@ -317,25 +301,7 @@ function editorCaretChangedByMouse (event)
 
 function editorCaretChangedByKeyboard (event)
 {
-  // Ctrl-G: No action.
-  if ((event.ctrlKey == true) && (event.keyCode == 71)) {
-    return;
-  }
-
-  // Alt / Ctrl / Shift: No action.
-  if (event.keyCode == 18) return;
-  if (event.keyCode == 17) return;
-  if (event.keyCode == 16) return;
-
-  // Work around the phenomenon that in some browsers it gives an extra key code 229.
-  if (event.keyCode == 229) return;
-
-  // Do nothing for next/previous verse.
-  if (event.altKey) {
-    if (event.keyCode == 38) return;
-    if (event.keyCode == 40) return;
-  }
-  
+  if (editKeysIgnoreForCaretChange (event)) return;
   editorCaretMovedTimeoutStart ();
 }
 
@@ -590,7 +556,7 @@ Section for the styles handling.
 function editorStylesButtonHandler ()
 {
   if (!editorWriteAccess) return;
-  $.get ("styles", function (response) {
+  $.get ("/edit/styles", function (response) {
     editorShowResponse (response);
     editorBindUnselectable ();
     dynamicClickHandlers ();
@@ -659,7 +625,7 @@ function dynamicClickHandlers ()
 
 function requestStyle (style)
 {
-  $.get ("styles?style=" + style, function (response) {
+  $.get ("/edit/styles?style=" + style, function (response) {
     response = response.split ("\n");
     var style = response [0];
     var action = response [1];
@@ -836,7 +802,7 @@ function editorPaste (event)
 
 Caret positioning and subsequent window scrolling.
 
-The purpose of this section is coordinate the two events,
+The purpose of this section is to coordinate the two events,
 so that caret positioning is done first, 
 and window scrolling last.
 

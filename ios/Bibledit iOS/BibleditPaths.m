@@ -14,13 +14,8 @@
 + (NSString *)resources
 {
     NSString * path = [[NSBundle mainBundle] resourcePath];
-    return path;
-}
-
-
-+ (NSString *)library
-{
-    NSString * path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSArray *components = [NSArray arrayWithObjects:path, @"webroot", nil];
+    path = [NSString pathWithComponents:components];
     return path;
 }
 
@@ -28,6 +23,8 @@
 + (NSString *)documents
 {
     NSString * path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSArray *components = [NSArray arrayWithObjects:path, @"webroot", nil];
+    path = [NSString pathWithComponents:components];
     return path;
 }
 

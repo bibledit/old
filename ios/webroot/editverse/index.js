@@ -39,16 +39,17 @@ var verseChapter;
 var verseNavigationChapter;
 var verseVerse;
 var verseNavigationVerse;
+var verseVerseLoading;
+var verseVerseLoaded;
 var verseEditorChangedTimeout;
 var verseLoadedText;
 var verseIdChapter = 0;
 var verseIdTimeout;
 var verseReload = false;
 var verseCaretPosition = 0;
-var versePreviousWidth;
-var versePreviousHeight;
 var verseEditorTextChanged = false;
 var verseSaveAsync;
+var verseLoadAjaxRequest;
 
 
 function navigationNewPassage ()
@@ -77,13 +78,17 @@ function verseEditorLoadChapter ()
     verseBook = verseNavigationBook;
     verseChapter = verseNavigationChapter;
     verseVerse = verseNavigationVerse;
+    verseVerseLoading = verseNavigationVerse;
     verseIdChapter = 0;
     $ ("#usfmeditor").focus;
     verseCaretPosition = getCaretPosition ();
-    $.ajax ({
+    if (verseLoadAjaxRequest && verseLoadAjaxRequest.readystate != 4) {
+      verseLoadAjaxRequest.abort();
+    }
+    verseLoadAjaxRequest = $.ajax ({
       url: "load",
       type: "GET",
-      data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerse },
+      data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoading },
       success: function (response) {
         // Checksumming.
         response = checksum_receive (response);
@@ -92,6 +97,7 @@ function verseEditorLoadChapter ()
           $ ("#usfmeditor").append (response);
           verseEditorStatus (verseEditorVerseLoaded);
           verseLoadedText = response;
+          verseVerseLoaded = verseVerseLoading;
           if (verseReload) {
             positionCaret (verseCaretPosition);
           }
@@ -131,7 +137,7 @@ function verseEditorSaveChapter (sync)
     url: "save",
     type: "POST",
     async: verseSaveAsync,
-    data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerse, usfm: usfm, checksum: checksum },
+    data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoaded, usfm: usfm, checksum: checksum },
     error: function (jqXHR, textStatus, errorThrown) {
       verseEditorStatus (verseEditorChapterRetrying);
       verseLoadedText = "";
@@ -146,8 +152,9 @@ function verseEditorSaveChapter (sync)
 }
 
 
-function verseEditorChanged ()
+function verseEditorChanged (event)
 {
+  if (editKeysIgnoreForContentChange (event)) return;
   verseEditorTextChanged = true;
   if (verseEditorChangedTimeout) {
     clearTimeout (verseEditorChangedTimeout);
@@ -175,7 +182,7 @@ function verseIdPoller ()
 function verseEditorPollId ()
 {
   $.ajax ({
-    url: "id",
+    url: "../edit/id",
     type: "GET",
     data: { bible: verseBible, book: verseBook, chapter: verseChapter },
     success: function (response) {
@@ -215,32 +222,6 @@ function positionCaret (position)
   if (position == undefined) return;
   var selection = rangy.getSelection ();
   selection.move ("character", position - currentPosition);
-}
-
-
-function getSelectionCoordinates() {
-  var x = 0, y = 0;
-  var sel = document.selection, range;
-  if (sel) {
-    if (sel.type != "Control") {
-      range = sel.createRange();
-      range.collapse(true);
-      x = range.boundingLeft;
-      y = range.boundingTop;
-    }
-  } else if (window.getSelection) {
-    sel = window.getSelection();
-    if (sel.rangeCount) {
-      range = sel.getRangeAt(0).cloneRange();
-      if (range.getClientRects) {
-        range.collapse(true);
-        var rect = range.getClientRects()[0];
-        x = rect.left;
-        y = rect.top;
-      }
-    }
-  }
-  return { x: x, y: y };
 }
 
 

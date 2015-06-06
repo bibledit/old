@@ -1,84 +1,62 @@
-<h3>translate("Client mode")</h3>
+<h3>translate("Bibledit Cloud connection")</h3>
 
 <!-- #BEGINZONE clienton -->
 <p>
-  translate("Client mode is enabled.")
-  <a href="?disable=">translate("Disable it.")</a>
+  translate("Connected to Bibledit Cloud.")
+  <a href="?disable=">translate("Disconnect.")</a>
 </p>
 <p>
-  translate("Server"):
+  translate("Internet address"):
   <a href="##address##:##port##" ##targetblank##>##address##:##port##</a>
 </p>
 <p>translate("Your role:") ##role##</p>
 <!-- #ENDZONE clienton -->
 
 <!-- #BEGINZONE clientoff -->
-<p>translate("To enable client mode, enter the details below, and click Enable.")</p>
+<p>translate("To connect to Bibledit Cloud, enter the details of the server, and your credentials, and click Connect.")</p>
 
 <br>
 
 <form action="index" name="server" method="post">
   <table>
   <tr>
-    <td align="right">translate("Internet address of the Bibledit Server")</td>
+    <td align="right">translate("Internet address")</td>
     <td><input type="text" name="address" maxlength="1000" value="##address##" autofocus /></td>
   </tr>
     <tr>
-      <td align="right">translate("Server port number")</td>
+      <td align="right">translate("Port number")</td>
       <td><input type="text" name="port" maxlength="6" value="##port##" /></td>
     </tr>
     <tr>
-    <td align="right">translate("Username on the server")</td>
+    <td align="right">translate("Username")</td>
     <td><input type="text" name="user" maxlength="30" /></td>
     </tr>
     <tr>
-      <td align="right">translate("Password on the server")</td>
+      <td align="right">translate("Password")</td>
       <td><input type="password" name="pass" maxlength="30" /></td>
     </tr>
     <tr>
       <td></td>
-      <td><input type="submit" name="connect" class="focus" value="translate("Enable")" /></td>
+      <td><input type="submit" name="connect" class="focus" value="translate("Connect")" /></td>
     </tr>
   </table>
 </form>
 
 <br>
 
-<p><a href="?demo=">translate("Or else connect to the Bibledit Demo Server.")</a></p>
+<p><a href="?demo=">translate("Or else connect to the Bibledit Cloud demo.")</a></p>
+
+<br>
+
+
+<p>
+  translate ("To get access to Bibledit Cloud, you may install a server instance yourself or someones does it for you.")
+  <a href="http://bibledit.org">translate ("Or you may request a server instance from bibledit.org.")</a>
+</p>
+
 <!-- #ENDZONE clientoff -->
 
+<br>
 <p class="error">##error##</p>
 <p class="success">##success##</p>
 <p class="error">##demo##</p>
-
-<br>
-
-<p>
-  translate("When client mode is enabled, Bibledit can be used offline as a client on a local computing device.")
-</p>
-
-<br>
-
-<p>
-  translate("Client mode affects the following:")
-</p>
-<ul>
-<li>
-  translate("Can synchronize the local Bibles with the Bibles on a Bibledit server.")
-</li>
-<li>
-  translate("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit server.")
-</li>
-<li>
-  translate("After connecting to a server, the first time you synchronize, you will get the same data as on the server.")
-  translate("Local Bible data and Notes not on the server will be erased.")
-  translate("Bible data and Notes on the server will be downloaded.")
-  translate("This is good because it means that your data will be backed up to the server.")
-</li>
-<li>
-  translate("Does not send or receive email.")
-</li>
-<li>
-  translate("User is always logged in.")
-</li>
-</ul>

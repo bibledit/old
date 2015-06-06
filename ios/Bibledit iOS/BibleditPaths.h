@@ -11,7 +11,6 @@
 @interface BibleditPaths : NSObject
 
 + (NSString *)resources;
-+ (NSString *)library;
 + (NSString *)documents;
 
 @end

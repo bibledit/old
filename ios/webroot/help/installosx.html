@@ -1,113 +1,23 @@
-<h1>translate("Install Bibledit-Web 1.9 on OSX")</h1>
+<h1>translate("Install Bibledit on OSX")</h1>
 <p>
   translate("This assumes a standard installation of the operating system.")
-  translate("Bibledit-Web runs on all recent versions of OSX.")
-  translate("The steps below have been tested on OS X 10.7 Lion.")
-  translate("Open a terminal to enter some of the commands:") Applications / Utilities / Terminal.
+  translate("Bibledit runs on OS X Yosemite 10.10.")
 </p>
 
 <ol>
 
-<li>
-<p><a href="http://guide.macports.org" ##targetblank##>translate("Install Xcode.")</a></p>
-</li>
+<li><a href="http://download.savannah.gnu.org/releases/bibledit/binaries/osx" ##targetblank##>translate("Download") Bibledit</a>.</li>
 
-<li>
-<p><a href="http://www.macports.org" ##targetblank##>translate("Install MacPorts.")</a></p>
-</li>
+<li>translate("Install Bibledit.")</li>
 
-<li>
-<p>translate("Install the Apache web server:")</p>
-<p><code>sudo port install apache2</code></p>
-</li>
+<li>translate("Start it from the Applications.")</li>
 
-<li>
-<p>translate("Activate Apache:")</p>
-<p><code>sudo port load apache2</code></p>
-</li>
+<li>translate("Open Bibledit.")</li>
 
-<li>
-<p>
-  translate("To verify Apache is running, point your browser to:")
-  <a href="http://localhost/" ##targetblank##>​http://localhost</a>.
-  translate("The page should say:")
-  It works!
-</p>
-</li>
+<li>translate("Connect to Bibledit Cloud via menu Settings / Server.")</li>
 
-<li>
-<p>translate("Install PHP plus modules:")</p>
-<p><code>sudo port install php5 +apache2</code></p>
-<p><code>sudo port install php5-mbstring</code></p>
-<p><code>sudo port install php5-posix</code></p>
-<p><code>sudo port install php5-sqlite</code></p>
-<p><code>sudo port install php5-iconv</code></p>
-</li>
+<li>translate("Give it enough time to download all the data from the Bibledit server.")</li>
 
-<li>
-<p>translate("Register PHP with Apache:")</p>
-<p><code>cd /opt/local/apache2/modules</code></p>
-<p><code>sudo /opt/local/apache2/bin/apxs -a -e -n "php5" libphp5.so</code></p>
-</li>
-
-<li>
-<p>translate("Update the Apache configuration:")</p>
-<p><code>sudo nano /opt/local/apache2/conf/httpd.conf</code></p>
-<p>translate("In that file, search for:")</p>
-<p><code>DirectoryIndex index.html</code></p>
-<p>translate("and change it to:")</p>
-<p><code>DirectoryIndex index index.html</code></p>
-<p>translate("Add the following line at the end of that file:")</p>
-<p><code>Include conf/extra/mod_php.conf</code></p>
-<p>translate("Save the file.")</p>
-</li>
-
-<li>
-<p>translate("Configure PHP:")</p>
-<p><code>cd /opt/local/etc/php5</code></p>
-<p><code>sudo cp php.ini-development php.ini</code></p>
-</li>
-
-<li>
-<p>translate("Restart Apache for the new configuration to take effect:")</p>
-<p><code>sudo /opt/local/apache2/bin/apachectl restart</code></p>
-</li>
-
-<li>
-<p>
-  <a href="http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.9.zip" ##targetblank##>translate("Download") Bibledit-Web 1.9</a>.
-</p>
-</li>
-
-<li>
-<p>translate("Unzip Bibledit-Web into this folder:") <code>/opt/local/apache2/htdocs</code></p>
-</li>
-
-<li>
-<p>translate("Set correct permissions on folder bibledit-web for the web server:")</p>
-<p><code>sudo chown -R root /opt/local/apache2/htdocs/bibledit-web</code></p>
-<p><code>sudo chmod -R 0777 /opt/local/apache2/htdocs/bibledit-web</code></p>
-</li>
-
-<li>
-<p>
-  translate("To configure Bibledit-Web, point your browser to:")
-  <a href="http://localhost/bibledit-web" ##targetblank##>​http://localhost/bibledit-web</a>.
-  translate("Follow all the steps in the browser.")
-</p>
-</li>
-
-<li>
-<p>
-  translate("To use Bibledit-Web, point your browser to the same address:")
-  <a href="http://localhost/bibledit-web" ##targetblank##>​http://localhost/bibledit-web</a>.
-</p>
-</li>
-
-<li>
-<p>translate("Once everything works, put PHP in production mode:")</p>
-<p><code>cd /opt/local/etc/php5</code></p>
-<p><code>sudo cp php.ini-production php.ini</code></p>
-</li>
+<li>translate("Bibledit is ready for online and offline use.")</li>
 
 </ol>

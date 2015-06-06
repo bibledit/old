@@ -61,7 +61,6 @@
 {
     // Retieve the version of the Bibledit library.
     NSString *version = [NSString stringWithFormat:@"%s", bibledit_get_version_number ()];
-    
     return version;
 }
 

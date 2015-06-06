@@ -22,16 +22,6 @@ $(document).ready (function () {
   $ (window).on ("keydown", function (event) {
     xrefHandleKeyDown (event);
   });
-/*
-  $ ("#editor").on ("paste cut keydown", editorChanged);
-  $ ("#editor").on ("paste cut click", editorCaretChanged);
-  $ ("#editor").on ("keydown", editorHandleKeyDown);
-  $ ("#stylebutton").on ("click", handleStyleButton);
-  $ (window).on ("keydown", editorPageKeyDown);
-  $ (window).scroll (function () {
-    $ ('#editorinnerheader').toggleClass('editorheaderscroll', $ (window).scrollTop () > $ ('#editorheader').offset ().top);
-  });  
-*/
 });
 
 
@@ -97,10 +87,10 @@ function xrefLoadTarget ()
     type: "GET",
     data: { book: xrefBook, chapter: xrefChapter, verse: xrefVerse },
     success: function (response) {
-      $ ("#tarLocale_Translate::_").empty ();
-      $ ("#tarLocale_Translate::_").append (response);
-      $ ("#tarLocale_Translate::_").focus ();
-      xrefMaxLinks = $ ("#tarLocale_Translate::_a").length / 2;
+      $ ("#targettext").empty ();
+      $ ("#targettext").append (response);
+      $ ("#targettext").focus ();
+      xrefMaxLinks = $ ("#targettext a").length / 2;
       xrefHighlight ();
     },
   });
@@ -158,5 +148,4 @@ function xrefMove (move)
       xrefLoadTarget ();
     },
   });
-
 }
