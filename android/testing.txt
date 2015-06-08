@@ -12,3 +12,6 @@ Bibledit for Android was tested on the following devices:
 Google Nexus 10 tablet: Works well.
 Google Nexus 5 phone: Works well.
 
+Test it on:
+pcloudy.com
+Google Cloud Test Lab

@@ -14,7 +14,6 @@
 + (void) bibleditViewHasLoaded:(UIView *)uiview;
 + (void) bibleditInstallResources;
 + (void) bibleditEnteredForeground;
-+ (void) bibleditOpenWebView;
 + (void) bibleditBrowseTo:(NSString*)urlString;
 + (void) bibleditReceivedMemoryWarning;
 + (void) bibleditWillEnterBackground;

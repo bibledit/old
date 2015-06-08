@@ -21,32 +21,22 @@
     NSString * version = [self libraryVersion];
     if ([version isEqualToString:[self installedVersion]]) return;
     
-    NSArray *inputComponents = [NSArray arrayWithObjects:[BibleditPaths resources], @"webroot", nil];
-    NSString *inputDirectory = [NSString pathWithComponents:inputComponents];
-    
-    NSArray *outputComponents = [NSArray arrayWithObjects:[BibleditPaths documents], @"webroot", nil];
-    NSString *outputDirectory = [NSString pathWithComponents:outputComponents];
+    // Wait for some time till the Bibledit library has installed its resources.
+    [NSThread sleepForTimeInterval:90];
+    //NSLog(@"%s", "bibleditInstallResources after delay");
+
+    NSString * webroot = [BibleditPaths documents];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtPath:inputDirectory];
+    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtPath:webroot];
     NSString *file;
     BOOL isDir;
     while (file = [directoryEnumerator nextObject]) {
-        inputComponents = [NSArray arrayWithObjects:inputDirectory, file, nil];
-        NSString * inputPath = [NSString pathWithComponents:inputComponents];
-        NSArray * outputComponents = [NSArray arrayWithObjects:outputDirectory, file, nil];
-        NSString * outputPath = [NSString pathWithComponents:outputComponents];
-        if ([fileManager fileExistsAtPath:inputPath isDirectory:&isDir]) {
-            if (isDir) {
-                // Create directory.
-                [fileManager createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:nil];
-            } else {
-                // Copy file to destination. First remove old item to prevent a copy error.
-                [fileManager removeItemAtPath:outputPath error:nil];
-                [fileManager copyItemAtPath:inputPath toPath:outputPath error:nil];
-            }
+        NSArray * components = [NSArray arrayWithObjects:webroot, file, nil];
+        NSString * path = [NSString pathWithComponents:components];
+        if ([fileManager fileExistsAtPath:path isDirectory:&isDir]) {
             // Exclude path from the iCloud backup.
-            NSString * schemePath = [NSString stringWithFormat:@"file://%@", outputPath];
+            NSString * schemePath = [NSString stringWithFormat:@"file://%@", path];
             NSURL *url = [[NSURL alloc] initWithString:schemePath];
             [url setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: nil];
         }

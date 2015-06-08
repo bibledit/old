@@ -206,3 +206,14 @@ void bibledit_log (const char * message)
 {
   Database_Logs::log (message);
 }
+
+
+// Returns true if the external browser is to be opened.
+bool bibledit_open_browser ()
+{
+  if (config_globals_external_browser_clicked) {
+    config_globals_external_browser_clicked = false;
+    return true;
+  }
+  return false;
+}

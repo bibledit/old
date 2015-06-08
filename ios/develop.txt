@@ -8,11 +8,7 @@ The current port of Bibledit for iOS consists of the following parts:
 * The bibledit library written in C++, compiled for iOS.
 * The iOS web browser library displaying pages through the bibledit library. 
 
-libcurl
-
-The Bibledit library depends on libcurl. The headers and precompiled library are available from dependencies/libcurl/ios.
-
-Other libraries
+Libraries
 
 The Bibledit library depends on libsqlite3, libz, libc++ libxml2 Security.framework CFNetwork.framework. The iOS SDK with Xcode includes this library. Link against all of these libraries in the project settings, the Build Phases.
 

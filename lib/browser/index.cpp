@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2014 Teus Benschop.
+ Copyright (©) 2003-2015 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -17,40 +17,28 @@
  */
 
 
-#import "ViewController.h"
-#import "BibleditPaths.h"
-#import "BibleditInstallation.h"
-#import "BibleditController.h"
+#include <browser/index.h>
+#include <filter/url.h>
+#include <filter/roles.h>
+#include <webserver/request.h>
 
 
-@interface ViewController ()
-
-@end
-
-@implementation ViewController
-
-
-- (void)viewDidLoad
+const char * browser_index_url ()
 {
-  [super viewDidLoad];
-
-  [BibleditController bibleditViewHasLoaded:self.view];
-
-  [self performSelectorInBackground:@selector(installResources) withObject:nil];
+  return "browser/index";
 }
 
 
-- (void)installResources
+bool browser_index_acl (void * webserver_request)
 {
-  [BibleditController bibleditInstallResources];
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
 
-- (void)didReceiveMemoryWarning
+string browser_index (void * webserver_request)
 {
-  [super didReceiveMemoryWarning];
-  [BibleditController bibleditReceivedMemoryWarning];
+  string page;
+  
+  
+  return page;
 }
-
-
-@end

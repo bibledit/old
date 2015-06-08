@@ -33,6 +33,7 @@ extern "C" {
   void bibledit_stop_library ();
   void bibledit_shutdown_library ();
   void bibledit_log (const char * message);
+  bool bibledit_open_browser ();
 
 #ifdef __cplusplus
 }

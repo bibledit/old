@@ -29,11 +29,11 @@ SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/$PLATFORM.platform/
 TOOLDIR=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 COMPILEFLAGS="-Wall -Wextra -pedantic -g -O2 -c"
 
-CURLINCLUDE=../dependencies/libcurl/ios/include/curl
+# CURLINCLUDE=../dependencies/libcurl/ios/include/curl
 
-pushd $CURLINCLUDE
-cp curlbuild$BITS.h curlbuild.h
-popd > /dev/null
+# pushd $CURLINCLUDE
+# cp curlbuild$BITS.h curlbuild.h
+# popd > /dev/null
 
 pushd webroot
 
@@ -42,6 +42,305 @@ CPPFILES=(
 library/bibledit.cpp
 webserver/webserver.cpp
 webserver/http.cpp
+webserver/request.cpp
+bootstrap/bootstrap.cpp
+filter/UriCodec.cpp
+filter/abbreviations.cpp
+filter/archive.cpp
+filter/bibleworks.cpp
+filter/customcss.cpp
+filter/date.cpp
+filter/diff.cpp
+filter/git.cpp
+filter/md5.cpp
+filter/merge.cpp
+filter/passage.cpp
+filter/roles.cpp
+filter/shell.cpp
+filter/string.cpp
+filter/text.cpp
+filter/url.cpp
+filter/usfm.cpp
+flate/flate.cpp
+assets/view.cpp
+assets/page.cpp
+assets/header.cpp
+index/index.cpp
+index/listing.cpp
+config/globals.cpp
+menu/logic.cpp
+menu/main.cpp
+menu/user.cpp
+locale/translate.cpp
+locale/logic.cpp
+database/config/general.cpp
+database/config/bible.cpp
+database/config/user.cpp
+database/users.cpp
+database/logs.cpp
+database/sqlite.cpp
+database/styles.cpp
+database/bibles.cpp
+database/search.cpp
+database/books.cpp
+database/bibleactions.cpp
+database/check.cpp
+database/commits.cpp
+database/confirm.cpp
+database/ipc.cpp
+database/jobs.cpp
+database/kjv.cpp
+database/morphhb.cpp
+database/sblgnt.cpp
+database/offlineresources.cpp
+database/sprint.cpp
+database/mail.cpp
+database/navigation.cpp
+database/usfmresources.cpp
+database/mappings.cpp
+database/noteactions.cpp
+database/versifications.cpp
+database/modifications.cpp
+database/notes.cpp
+database/volatile.cpp
+database/maintenance.cpp
+session/logic.cpp
+session/login.cpp
+session/logout.cpp
+session/password.cpp
+session/signup.cpp
+parsewebdata/ParseMultipartFormData.cpp
+parsewebdata/ParseWebData.cpp
+setup/index.cpp
+setup/logic.cpp
+journal/index.cpp
+journal/logic.cpp
+styles/logic.cpp
+styles/indext.cpp
+styles/indexm.cpp
+styles/sheetm.cpp
+styles/view.cpp
+styles/css.cpp
+styles/sheets.cpp
+text/text.cpp
+esword/text.cpp
+onlinebible/text.cpp
+html/text.cpp
+html/header.cpp
+odf/text.cpp
+timer/index.cpp
+tasks/logic.cpp
+tasks/run.cpp
+config/logic.cpp
+bible/logic.cpp
+bible/manage.cpp
+bible/settings.cpp
+bible/book.cpp
+bible/chapter.cpp
+bible/import_usfm.cpp
+bible/import_bibleworks.cpp
+bible/import_task.cpp
+bible/abbreviations.cpp
+bible/order.cpp
+bible/css.cpp
+bible/editing.cpp
+trash/handler.cpp
+help/index.cpp
+confirm/worker.cpp
+email/index.cpp
+email/send.cpp
+email/receive.cpp
+user/notifications.cpp
+user/account.cpp
+manage/indexing.cpp
+manage/users.cpp
+manage/exports.cpp
+manage/hyphenate.cpp
+manage/hyphenation.cpp
+administration/language.cpp
+administration/timezone.cpp
+collaboration/index.cpp
+collaboration/flash.cpp
+collaboration/open.cpp
+collaboration/password.cpp
+collaboration/secure.cpp
+collaboration/link.cpp
+collaboration/direction.cpp
+search/rebibles.cpp
+search/renotes.cpp
+access/user.cpp
+access/bible.cpp
+dialog/entry.cpp
+dialog/list.cpp
+dialog/yes.cpp
+dialog/color.cpp
+dialog/books.cpp
+dialog/upload.cpp
+fonts/logic.cpp
+fonts/index.cpp
+versification/index.cpp
+versification/logic.cpp
+versification/system.cpp
+book/create.cpp
+compare/index.cpp
+compare/compare.cpp
+jobs/index.cpp
+editverse/index.cpp
+editverse/load.cpp
+editverse/save.cpp
+navigation/passage.cpp
+navigation/update.cpp
+navigation/poll.cpp
+ipc/focus.cpp
+ipc/notes.cpp
+checksum/logic.cpp
+editusfm/focus.cpp
+editusfm/index.cpp
+editusfm/load.cpp
+editusfm/offset.cpp
+editusfm/save.cpp
+editor/styles.cpp
+editor/export.cpp
+editor/import.cpp
+edit/edit.cpp
+edit/focus.cpp
+edit/id.cpp
+edit/index.cpp
+edit/load.cpp
+edit/offset.cpp
+edit/save.cpp
+edit/styles.cpp
+edit/logic.cpp
+search/search.cpp
+search/index.cpp
+search/select.cpp
+search/replace.cpp
+search/getids.cpp
+search/replacepre.cpp
+search/replacego.cpp
+search/search2.cpp
+search/replace2.cpp
+search/replacepre2.cpp
+search/getids2.cpp
+search/replacego2.cpp
+search/similar.cpp
+search/strongs.cpp
+search/strong.cpp
+search/originals.cpp
+tmp/tmp.cpp
+workbench/index.cpp
+workbench/logic.cpp
+workbench/organize.cpp
+workbench/settings.cpp
+workbench/organize.cpp
+sendreceive/logic.cpp
+sendreceive/index.cpp
+sendreceive/sendreceive.cpp
+sendreceive/settings.cpp
+sendreceive/bibles.cpp
+sendreceive/usfmresources.cpp
+sendreceive/externalresources.cpp
+sendreceive/notes.cpp
+demo/logic.cpp
+client/index.cpp
+client/logic.cpp
+sync/bibles.cpp
+sync/externalresources.cpp
+sync/logic.cpp
+sync/notes.cpp
+sync/settings.cpp
+sync/setup.cpp
+sync/usfmresources.cpp
+resource/admin.cpp
+resource/bible2resource.cpp
+resource/download.cpp
+resource/logic.cpp
+resource/external.cpp
+resource/manage.cpp
+resource/convert2bible.cpp
+resource/get.cpp
+resource/organize.cpp
+resource/convert2resource.cpp
+resource/index.cpp
+resource/print.cpp
+checks/headers.cpp
+checks/index.cpp
+checks/logic.cpp
+checks/run.cpp
+checks/sentences.cpp
+checks/settings.cpp
+checks/settingspatterns.cpp
+checks/settingssentences.cpp
+checks/space.cpp
+checks/suppress.cpp
+checks/usfm.cpp
+checks/verses.cpp
+checks/versification.cpp
+notes/actions.cpp
+notes/assign-1.cpp
+notes/assign-n.cpp
+notes/bible-1.cpp
+notes/bible-n.cpp
+notes/bulk.cpp
+notes/clean.cpp
+notes/cleancli.cpp
+notes/click.cpp
+notes/comment.cpp
+notes/create.cpp
+notes/editsource.cpp
+notes/index.cpp
+notes/logic.cpp
+notes/note.cpp
+notes/notes.cpp
+notes/poll.cpp
+notes/select.cpp
+notes/severity-1.cpp
+notes/severity-n.cpp
+notes/status-1.cpp
+notes/status-n.cpp
+notes/summary.cpp
+notes/unassign-n.cpp
+notes/verses.cpp
+xrefs/clear.cpp
+xrefs/extract.cpp
+xrefs/help.cpp
+xrefs/index.cpp
+xrefs/insert.cpp
+xrefs/interpret.cpp
+xrefs/move.cpp
+xrefs/next.cpp
+xrefs/source.cpp
+xrefs/target.cpp
+xrefs/translate.cpp
+debug/index.cpp
+export/esword.cpp
+export/html.cpp
+export/index.cpp
+export/info.cpp
+export/logic.cpp
+export/odt.cpp
+export/onlinebible.cpp
+export/textusfm.cpp
+export/usfm.cpp
+export/web.cpp
+mapping/index.cpp
+mapping/map.cpp
+editone/index.cpp
+editone/load.cpp
+editone/save.cpp
+sprint/burndown.cpp
+sprint/index.cpp
+changes/change.cpp
+changes/changes.cpp
+changes/logic.cpp
+changes/manage.cpp
+changes/modifications.cpp
+webbible/search.cpp
+consistency/index.cpp
+consistency/input.cpp
+consistency/logic.cpp
+consistency/poll.cpp
+statistics/statistics.cpp
 
 )
 
@@ -59,7 +358,7 @@ extension="${cpp##*.}"
 basepath="${cpp%.*}"
 echo Compiling $cpp
 
-$TOOLDIR/clang++ -arch ${ARCH} -isysroot $SYSROOT -I. -I/usr/include/libxml2 -I../dependencies/libcurl/ios/include $COMPILEFLAGS -std=c++11 -stdlib=libc++ -o $basepath.o $cpp
+$TOOLDIR/clang++ -arch ${ARCH} -isysroot $SYSROOT -I. -I/usr/include/libxml2 $COMPILEFLAGS -std=c++11 -stdlib=libc++ -o $basepath.o $cpp
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
   exit
@@ -81,10 +380,6 @@ fi
 
 done
 
-popd
-
-pushd $CURLINCLUDE
-rm curlbuild.h
 popd
 
 
@@ -205,8 +500,13 @@ rm missing
 rm NEWS
 rm README
 rm stamp-h1
+find . -name "*.h" -delete
+find . -name "*.cpp" -delete
+find . -name "*.c" -delete
+find . -name "*.o" -delete
+find . -name ".deps" -exec rm -r "{}" \; > /dev/null 2>&1
+find . -name ".dirstamp" -delete
+
 popd
 
 say Compile for iOS is ready
-
-

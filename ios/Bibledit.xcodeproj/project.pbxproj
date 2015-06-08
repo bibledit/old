@@ -12,7 +12,6 @@
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
 		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
 		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
-		CAB519B81A8A6B6500F4ED36 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B71A8A6B6500F4ED36 /* libcurl.a */; };
 		CAB519BA1A8A6BDD00F4ED36 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B91A8A6BDD00F4ED36 /* Security.framework */; };
 		CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BB1A8A6BE800F4ED36 /* libz.dylib */; };
 		CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */; };
@@ -35,6 +34,7 @@
 		CA0773801A8E80DB0061C5B7 /* develop.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = develop.txt; sourceTree = "<group>"; };
 		CA6B9C171A9906C800FAB064 /* BibleditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditController.h; sourceTree = "<group>"; };
 		CA6B9C181A9906C800FAB064 /* BibleditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditController.m; sourceTree = "<group>"; };
+		CA73236F1B257BE4003E3387 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bibledit.h; path = include/bibledit.h; sourceTree = SOURCE_ROOT; };
 		CA9ADE011A8A9752000FD430 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = SOURCE_ROOT; };
 		CAB519B31A8A658F00F4ED36 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = lib/libbibledit.a; sourceTree = "<group>"; };
 		CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -75,7 +75,6 @@
 				CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */,
 				CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */,
 				CAB519BA1A8A6BDD00F4ED36 /* Security.framework in Frameworks */,
-				CAB519B81A8A6B6500F4ED36 /* libcurl.a in Frameworks */,
 				CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */,
 				CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */,
 				CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */,
@@ -135,6 +134,7 @@
 				CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */,
 				CE8E8AE319C4A4E50025EAC2 /* BibleditInstallation.h */,
 				CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */,
+				CA73236F1B257BE4003E3387 /* bibledit.h */,
 				CEA9297F19B06C9600DA3766 /* ViewController.h */,
 				CEA9298019B06C9600DA3766 /* ViewController.m */,
 				CEA9297619B06C9600DA3766 /* AppDelegate.h */,
