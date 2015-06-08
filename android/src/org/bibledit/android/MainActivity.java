@@ -29,6 +29,7 @@ import java.util.Calendar;
 import android.content.res.AssetManager;
 import android.webkit.WebViewClient;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 
 // The activity's data is at /data/data/org.bibledit.android.
@@ -158,6 +159,15 @@ public class MainActivity extends Activity
         StopLibrary ();
         while (IsRunning ()) {};
         ShutdownLibrary ();
+    }
+    
+    
+    // Function is called on device orientation and keyboard hide.
+    // At least, it should be called. But it does not seem to happen.
+    // Anyway the call is not needed because the webview reconfigures itself.
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
     
     
