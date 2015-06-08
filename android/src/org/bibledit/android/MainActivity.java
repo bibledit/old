@@ -40,6 +40,7 @@ public class MainActivity extends Activity
 {
     
     WebView webview;
+    int resumecounter = 0;
 
 
     // Function is called when the app gets launched.
@@ -103,12 +104,21 @@ public class MainActivity extends Activity
     }
     
     
-    // Function is called when the app is obscured.
+    // Function is called when the user starts the app.
     @Override
-    public void onPause ()
+    protected void onStart ()
     {
-        super.onPause ();
-        StopLibrary ();
+        super.onStart();
+        StartLibrary ();
+    }
+    
+    
+    // Function is called when the user returns to the activity.
+    @Override
+    protected void onRestart ()
+    {
+        super.onRestart();
+        StartLibrary ();
     }
     
     
@@ -122,32 +132,21 @@ public class MainActivity extends Activity
     }
     
     
+    // Function is called when the app is obscured.
+    @Override
+    public void onPause ()
+    {
+        super.onPause ();
+        StopLibrary ();
+    }
+    
+    
     // Function is called when the user completely leaves the activity.
     @Override
     protected void onStop ()
     {
         super.onStop();
         StopLibrary ();
-    }
-    
-    
-    // Function is called when the user starts the app.
-    @Override
-    protected void onStart ()
-    {
-        super.onStart();
-        StartLibrary ();
-        checkUrl ();
-    }
-    
-    
-    // Function is called when the user returns to the activity.
-    @Override
-    protected void onRestart ()
-    {
-        super.onRestart();
-        StartLibrary ();
-        checkUrl ();
     }
     
     
@@ -268,6 +267,11 @@ public class MainActivity extends Activity
     // If not, it navigates the browser to the Bibledit home page.
     private void checkUrl ()
     {
+        // Bail out on the activity's first resume.
+        // Else it crashes on checking its URL.
+        resumecounter++;
+        if (resumecounter <= 1) return;
+        
         Boolean reload = false;
         String url = webview.getUrl ();
         if (url.length () >= 21) {
