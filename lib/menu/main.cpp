@@ -67,6 +67,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <xrefs/index.h>
 #include <editone/index.h>
 #include <debug/index.h>
+#include <browser/index.h>
 
 
 /*
@@ -228,6 +229,9 @@ vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), translate ("Sync"), NULL } );
+  if (config_globals_external_browser_enabled) {
+    if (browser_index_acl (webserver_request)) menu->push_back ( { "", browser_index_url (), translate ("Browser"), NULL } );
+  }
   if (index_listing_acl (webserver_request, "exports")) menu->push_back ( { "", index_listing_url ("exports"), translate ("Exports"), exportssubmenu () } );
   if (manage_hyphenation_acl (webserver_request)) menu->push_back ( { "", manage_hyphenation_url (), translate ("Hyphenation"), NULL } );
   if (xrefs_index_acl (webserver_request)) menu->push_back ( { "", xrefs_index_url (), translate ("Cross references"), NULL } );

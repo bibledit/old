@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <webserver/request.h>
+#include <config/globals.h>
 
 
 const char * browser_index_url ()
@@ -31,14 +32,14 @@ const char * browser_index_url ()
 
 bool browser_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 
 
 string browser_index (void * webserver_request)
 {
+  if (webserver_request) {}
+  config_globals_external_browser_clicked = true;
   string page;
-  
-  
   return page;
 }

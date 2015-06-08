@@ -171,6 +171,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/load.h>
 #include <editone/save.h>
 #include <debug/index.h>
+#include <browser/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -179,6 +180,9 @@ void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
+
+  // External browser.
+  if ((url == browser_index_url ()) && browser_index_acl (request)) browser_index (request);
 
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")
