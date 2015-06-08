@@ -165,6 +165,10 @@ public class MainActivity extends Activity
     // Function is called on device orientation and keyboard hide.
     // At least, it should be called. But it does not seem to happen.
     // Anyway the call is not needed because the webview reconfigures itself.
+    // The app used to crash on device rotation.
+    // The fix was adding
+    // android:configChanges="orientation|keyboardHidden"
+    // to the <activity> element in AndroidManifest.xml.
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
