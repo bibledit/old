@@ -29,12 +29,6 @@ SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/$PLATFORM.platform/
 TOOLDIR=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 COMPILEFLAGS="-Wall -Wextra -pedantic -g -O2 -c"
 
-# CURLINCLUDE=../dependencies/libcurl/ios/include/curl
-
-# pushd $CURLINCLUDE
-# cp curlbuild$BITS.h curlbuild.h
-# popd > /dev/null
-
 pushd webroot
 
 CPPFILES=(
@@ -433,7 +427,7 @@ popd
 # Run only only one parallel task so the interface is more responsive.
 # Enable the single-tab browser.
 pushd webroot
-./configure --enable-client --with-parallel-tasks=1 --enable-bare-browser
+./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal
 popd
 
 clean
