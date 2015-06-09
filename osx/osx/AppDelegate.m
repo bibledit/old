@@ -31,6 +31,7 @@
     const char * webroot = [webrootPath UTF8String];
     
     bibledit_initialize_library (package, webroot);
+    bibledit_open_browser ();
     bibledit_start_library ();
     
     // Open the web app in the web view
@@ -41,6 +42,8 @@
     
     float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
     bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
+    
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector (checkForExternalBrowser) userInfo:nil repeats:YES];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -48,5 +51,13 @@
     while (bibledit_is_running ()) {}
     bibledit_shutdown_library ();
 }
+
+- (void)checkForExternalBrowser {
+    if (bibledit_open_browser ()) {
+        NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
+        [[NSWorkspace sharedWorkspace] openURL:url];
+    }
+}
+
 
 @end
