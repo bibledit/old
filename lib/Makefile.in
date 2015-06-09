@@ -2896,6 +2896,10 @@ dist-hook:
 	rm -rf `find $(distdir) -name *.o`
 	rm -rf `find $(distdir) -name *.a`
 	rm -rf `find $(distdir) -name autom4te.cache`
+	rm -f $(distdir)/server
+	rm -f $(distdir)/unittest
+	rm -rf `find $(distdir) -name .dirstamp`
+	rm -rf `find $(distdir) -name .deps`
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

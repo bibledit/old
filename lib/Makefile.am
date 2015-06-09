@@ -339,5 +339,9 @@ dist-hook:
 	rm -rf `find $(distdir) -name *.o`
 	rm -rf `find $(distdir) -name *.a`
 	rm -rf `find $(distdir) -name autom4te.cache`
+	rm -f $(distdir)/server
+	rm -f $(distdir)/unittest
+	rm -rf `find $(distdir) -name .dirstamp`
+	rm -rf `find $(distdir) -name .deps`
 
 CLEANFILES = bibledit*.gz *~
