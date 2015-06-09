@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/date.h>
 #include <journal/logic.h>
+#include <config.h>
 
 
 Database_Logs::Database_Logs ()
@@ -99,7 +100,7 @@ void Database_Logs::checkup ()
 }
 
 
-void Database_Logs::rotate ()
+void Database_Logs::rotate () // Todo
 {
   sqlite3 * db = connect ();
   
@@ -161,8 +162,12 @@ void Database_Logs::rotate ()
     }
   }
 
-  // Remove records older than five days from the database.
+  // Remove records older than five days from the database, or younger in case of a tiny journal. Todo test for one night.
+#ifdef HAVE_TINYJOURNAL
+  string timestamp = convert_to_string (filter_date_seconds_since_epoch () - (14400));
+#else
   string timestamp = convert_to_string (filter_date_seconds_since_epoch () - (6 * 86400));
+#endif
   string sql = "DELETE FROM logs WHERE timestamp < " + timestamp + ";";
   database_sqlite_exec (db, sql);
 

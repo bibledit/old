@@ -510,14 +510,14 @@ vector <string> Database_Users::getUsers4Bible (string bible)
 
 
 // Returns whether a $user has access to a $bible: true or false.
-// If no more than one team has been formed, all users have access to all Bibles.
-// Administrators have access to any Bible.
+// If no more than one team has been formed, all users have write access to all Bibles.
+// Administrators and Managers have access to any Bible.
 bool Database_Users::hasAccess2Bible (string user, string bible)
 {
   vector <string> teams = getTeams ();
   if (teams.size () <= 1) return true;
   int level = getUserLevel (user);
-  if (level >= Filter_Roles::admin ()) return true;
+  if (level >= Filter_Roles::manager ()) return true;
   vector <string> bibles = getBibles4User (user);
   return in_array (bible, bibles);
 }

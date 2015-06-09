@@ -333,11 +333,15 @@ LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 
-EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
+EXTRA_DIST = a* bible bibledit bibles book bootstrap browser c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`
 	rm -rf `find $(distdir) -name *.a`
 	rm -rf `find $(distdir) -name autom4te.cache`
+	rm -f $(distdir)/server
+	rm -f $(distdir)/unittest
+	rm -rf `find $(distdir) -name .dirstamp`
+	rm -rf `find $(distdir) -name .deps`
 
 CLEANFILES = bibledit*.gz *~

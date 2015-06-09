@@ -335,6 +335,7 @@ consistency/input.cpp
 consistency/logic.cpp
 consistency/poll.cpp
 statistics/statistics.cpp
+browser/index.cpp
 
 )
 
