@@ -155,7 +155,7 @@ AC_SUBST(URLSETTINGS)
 # Enable unit tests.
 UNITTESTS=no
 AC_ARG_ENABLE(unittests,
-[  --enable-unittests Enable URL settings],
+[  --enable-unittests Enable unit tests],
 [AC_DEFINE([HAVE_UNITTESTS], [1], [Define whether to enable unit tests])]
 UNITTESTS=yes
 )
@@ -193,6 +193,17 @@ AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
 AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
 AC_SUBST(ADMIN_EMAIL)
 
+# Enable tiny journal.
+TINYJOURNAL=no
+AC_ARG_ENABLE(tinyjournal,
+[  --enable-tinyjournal Enable tiny journal],
+[AC_DEFINE([HAVE_TINYJOURNAL], [1], [Define whether to enable tiny journal])]
+TINYJOURNAL=yes
+)
+AC_DEFINE([TINYJOURNAL], [], [Define whether the tiny journal is enabled])
+AC_DEFINE_UNQUOTED(TINYJOURNAL, "$TINYJOURNAL")
+AC_SUBST(TINYJOURNAL)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -209,4 +220,5 @@ Unit tests (--enable-unittests)                            : ${UNITTESTS}
 Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
+Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
 "

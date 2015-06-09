@@ -60,6 +60,9 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Define whether to enable tiny journal */
+#undef HAVE_TINYJOURNAL
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
@@ -98,6 +101,9 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Define whether the tiny journal is enabled */
+#undef TINYJOURNAL
 
 /* Define whether unit tests are enabled */
 #undef UNITTESTS

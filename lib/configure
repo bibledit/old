@@ -625,6 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+TINYJOURNAL
 ADMIN_EMAIL
 ADMIN_PASSWORD
 ADMIN_USERNAME
@@ -767,6 +768,7 @@ enable_unittests
 with_admin_username
 with_admin_password
 with_admin_email
+enable_tinyjournal
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1417,7 +1419,8 @@ Optional Features:
   --enable-client Enable client mode
   --enable-bare-browser Enable bare browser mode
   --enable-urlsettings Enable URL settings
-  --enable-unittests Enable URL settings
+  --enable-unittests Enable unit tests
+  --enable-tinyjournal Enable tiny journal
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6423,6 +6426,26 @@ _ACEOF
 
 
 
+# Enable tiny journal.
+TINYJOURNAL=no
+# Check whether --enable-tinyjournal was given.
+if test "${enable_tinyjournal+set}" = set; then :
+  enableval=$enable_tinyjournal;
+$as_echo "#define HAVE_TINYJOURNAL 1" >>confdefs.h
+
+TINYJOURNAL=yes
+
+fi
+
+
+$as_echo "#define TINYJOURNAL /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define TINYJOURNAL "$TINYJOURNAL"
+_ACEOF
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -7914,4 +7937,5 @@ Unit tests (--enable-unittests)                            : ${UNITTESTS}
 Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
+Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
 "

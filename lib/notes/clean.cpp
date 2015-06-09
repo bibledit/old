@@ -1,4 +1,4 @@
-void notes_clean () {};
+void notes_clean () {}
 /*
  require_once ("../bootstrap/bootstrap");
  page_access_level (Filter_Roles::admin ());
