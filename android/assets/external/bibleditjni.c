@@ -90,3 +90,9 @@ void Java_org_bibledit_android_MainActivity_Log (JNIEnv* env, jobject obj, jstri
     bibledit_log (native_message);
     (*env)->ReleaseStringUTFChars(env, message, native_message);
 }
+
+
+bool Java_org_bibledit_android_MainActivity_OpenBrowser (JNIEnv* env, jobject obj)
+{
+    return bibledit_open_browser ();
+}

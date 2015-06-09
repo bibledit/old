@@ -27,8 +27,6 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <database/logs.h>
-#include <libxml/HTMLparser.h>
-// Todo the above goes out.
 
 
 Editor_Export::Editor_Export (void * webserver_request_in)
@@ -46,8 +44,12 @@ Editor_Export::~Editor_Export ()
 
 void Editor_Export::load (string html)
 {
-  // The online editor may insert non-breaking spaces. Convert them to normal ones.
+  // The web editor may insert non-breaking spaces. Convert them to normal ones.
   html = filter_string_str_replace ("&nbsp;", " ", html);
+  
+  // The web editor produces <hr> following the HTML specs, but Bibledit needs
+  // <hr/> for its XML parser.
+  html = filter_string_str_replace ("<hr>", "<hr/>", html);
   
   // The user may add several spaces in sequence. Convert them to single spaces.
   html = filter_string_str_replace ("   ", " ", html);

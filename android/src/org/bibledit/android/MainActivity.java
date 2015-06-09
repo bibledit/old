@@ -30,6 +30,8 @@ import android.content.res.AssetManager;
 import android.webkit.WebViewClient;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.os.Handler;
+import android.net.Uri;
 
 
 // The activity's data is at /data/data/org.bibledit.android.
@@ -41,7 +43,8 @@ public class MainActivity extends Activity
     
     WebView webview;
     int resumecounter = 0;
-
+    String webAppUrl = "http://localhost:8080";
+    
 
     // Function is called when the app gets launched.
     @Override
@@ -76,8 +79,10 @@ public class MainActivity extends Activity
         webview = new WebView (this);
         setContentView (webview);
         webview.getSettings().setJavaScriptEnabled (true);
+        webview.getSettings().setBuiltInZoomControls (true);
+        webview.getSettings().setSupportZoom (true);
         webview.setWebViewClient(new WebViewClient());
-        webview.loadUrl ("http://localhost:8080");
+        webview.loadUrl (webAppUrl);
         
         // Install the assets if needed.
         installAssets (externalDirectory);
@@ -95,6 +100,7 @@ public class MainActivity extends Activity
     public native Boolean IsRunning ();
     public native void StopLibrary ();
     public native void ShutdownLibrary ();
+    public native static Boolean OpenBrowser ();
     
     
     @Override
@@ -156,7 +162,7 @@ public class MainActivity extends Activity
     {
         super.onDestroy ();
         StopLibrary ();
-        while (IsRunning ()) {};
+        // Crashes: while (IsRunning ()) {};
         ShutdownLibrary ();
     }
     
@@ -276,11 +282,13 @@ public class MainActivity extends Activity
         String url = webview.getUrl ();
         if (url.length () >= 21) {
             url = url.substring (0, 21);
-            if (url.compareTo ("http://localhost:8080") != 0) {
+            if (url.compareTo (webAppUrl) != 0) {
                 reload = true;
             }
         } else reload = true;
-        if (reload) webview.loadUrl ("http://localhost:8080");
+        if (reload) webview.loadUrl (webAppUrl);
     }
+
+    
 
 }

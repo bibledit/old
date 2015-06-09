@@ -72,6 +72,8 @@ book/create.cpp
 book/create.h
 bootstrap/bootstrap.cpp
 bootstrap/bootstrap.h
+browser/index.cpp
+browser/index.h
 changes/change.cpp
 changes/change.h
 changes/change.html
