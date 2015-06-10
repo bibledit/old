@@ -46,6 +46,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/usfm.h>
 #include <checks/verses.h>
 #include <manage/hyphenate.h>
+#include <config.h>
+
+
+#ifdef HAVE_UNITTESTS
 
 
 void test_sqlite ()
@@ -582,9 +586,9 @@ void test_editor_export ()
     string html =
     "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">x</a><span>.</span></p>\n"
     "<div id=\"notes\">\n"
-    "<hr>\n"
+    "<hr/>\n"
     "<p class=\"x\"><a href=\"#citation1\" id=\"note1\">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>\n"
-    "<br>\n"
+    "<br/>\n"
     "</div>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
@@ -600,9 +604,9 @@ void test_editor_export ()
     string html =
     "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>\n"
     "<div id=\"notes\">\n"
-    "<hr>\n"
+    "<hr/>\n"
     "<p class=\"f\"></p>\n"
-    "<br>\n"
+    "<br/>\n"
     "</div>";
     Editor_Export editor_export (&request);
     editor_export.load (html);
@@ -620,7 +624,7 @@ void test_editor_export ()
     string html =
       "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>\n"
       "<div id=\"notes\">\n"
-      "<hr>\n"
+      "<hr/>\n"
       "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">f</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>\n"
       "</div>";
     Editor_Export editor_export (&request);
@@ -631,7 +635,7 @@ void test_editor_export ()
     string standard = "\\p The earth brought forth.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-  refresh_sandbox (false);
+  refresh_sandbox (true);
 }
 
 
@@ -827,8 +831,8 @@ void test_editor_roundtrip ()
     "<p class=\"mono\"><span>\\h </span><span>Header</span></p>"
     "<p class=\"mono\"><span>\\toc1 </span><span>The Book of Genesis</span></p>"
     "<p class=\"mono\"><span>\\cl </span><span>Chapter</span></p>"
-    "<p class=\"mono\"><span>\\cp </span><span>②</span></p>"
-    "<p class=\"mono\"><span>\\cp </span><span>Ⅰ</span></p>";
+    "<p class=\"mono\"><span>\\cp </span><span>&#x2461;</span></p>"
+    "<p class=\"mono\"><span>\\cp </span><span>&#x2160;</span></p>";
 
     Webserver_Request request;
     
@@ -2560,3 +2564,6 @@ void test_hyphenate ()
   "\\s Uku­lu­nga oku­ku\\nd Kri­stu\\nd* אבa­bגד ku­yi­nzu­zo אבגד ab";
   evaluate (__LINE__, __func__, standard, output);
 }
+
+
+#endif

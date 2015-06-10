@@ -1,16 +1,21 @@
-<h2>translate("Install Bibledit on Ubuntu")</h2>
+<h2>translate("Install Bibledit on Fedora")</h2>
 <p>
 translate("Follow the steps below to install Bibledit.")
 </p>
 <ol>
   <li>translate("Open a terminal.")</li>
   <li>
-    <p>translate("Update the software sources:")</p>
-    <p><code>sudo apt-get update</code></p>
+    <p>translate("Become the root user:")</p>
+    <p><code>su</code></p>
+    <p>translate("Provide the password.")</p>
   </li>
   <li>
     <p>translate("Install the software Bibledit relies on:")</p>
-    <p><code>sudo apt-get install build-essential git zip pkgconf libxml2-dev libsqlite3-dev libcurl4-openssl-dev libssl-dev libgtk-3-dev</code></p>
+    <p><code>yum install gcc-c++ git zip pkgconfig libxml2-devel sqlite-devel libcurl-devel openssl-devel gtk3-devel</code></p>
+  </li>
+  <li>
+    <p>translate("Become a normal user again:")</p>
+    <p><code>exit</code></p>
   </li>
   <li>
     <p>translate("Download Bibledit:")</p>

@@ -37,26 +37,82 @@
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/roles.h>
 #include <config/globals.h>
 #include <demo/logic.h>
 
 
-void setup_conditionally ()
+void setup_conditionally (const char * package)
 {
-  if (config_logic_version () == Database_Config_General::getInstalledDatabaseVersion ()) return;
+  string p (package);
   
-  cout << "Initializing data" << endl;
+  // When the package folder is the same as the document root folder,
+  // it may mean that another program installs the data for us.
+  // This is the case on Android.
+  // In that case, wait till the most important data has been installed.
+  if (p == config_globals_document_root) setup_main_folders_present ();
   
-  // Ensure write access to certain folders.
-  setup_write_access ();
-  
-  // Create or upgrade the databases.
-  setup_initialize_data ();
-  
-  // Update installed version.
-  Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
+  // Run the setup if the versions differ.
+  if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) {
+    
+    vector <string> messages;
+
+    // Copy the library into the destination place.
+    if (p != config_globals_document_root) {
+      messages.push_back ("Copy data from " + p + " to " + config_globals_document_root);
+      setup_copy_library (package);
+    }
+    
+    // Ensure write access to certain folders.
+    setup_write_access ();
+    
+    // Create or upgrade the databases.
+    messages.push_back ("Initializing and upgrading data");
+    setup_initialize_data ();
+    
+    for (auto message : messages) {
+      Database_Logs::log (message, Filter_Roles::admin());
+    }
+    
+    // Update installed version.
+    Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
+  };
+
+  if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) {
+    
+    // In client mode or in demo mode do not display the page for entering the admin's details.
+    if (config_logic_client_prepared ()) setup_complete_gui ();
+    if (config_logic_demo_enabled ()) setup_complete_gui ();
+    
+    // When the admin's credentials are configured, enter them, and do not display them in the setup page.
+    if (!config_logic_admin_username ().empty ()) {
+      if (!config_logic_admin_password ().empty ()) {
+        setup_set_admin_details (config_logic_admin_username (),
+                                 config_logic_admin_password (),
+                                 config_logic_admin_email ());
+        setup_complete_gui ();
+      }
+    }
+    
+  }
 }
 
+
+void setup_copy_library (const char * package)
+{
+  size_t package_length = strlen (package);
+  filter_url_mkdir (config_globals_document_root);
+  vector <string> package_paths;
+  filter_url_recursive_scandir (package, package_paths);
+  for (auto package_path : package_paths) {
+    string dest_path = config_globals_document_root + package_path.substr (package_length);
+    if (filter_url_is_dir (package_path)) {
+      filter_url_mkdir (dest_path);
+    } else {
+      filter_url_file_cp (package_path, dest_path);
+    }
+  }
+}
 
 
 void setup_write_access ()
@@ -68,6 +124,24 @@ void setup_write_access ()
       filter_url_set_write_permission (path);
     }
   }
+}
+
+
+// Waits until the main folders for setup are present.
+void setup_main_folders_present ()
+{
+  bool present;
+  do {
+    present = true;
+    vector <string> folders = {"dyncss", "databases", "databases/config/general", "logbook", "bibles"};
+    for (auto folder : folders) {
+      string path = filter_url_create_root_path (folder);
+      if (!file_exists (path)) {
+        present = false;
+      }
+    }
+    if (!present) this_thread::sleep_for (chrono::milliseconds (300));
+  } while (!present);
 }
 
 
@@ -121,3 +195,17 @@ void setup_initialize_data ()
 }
 
 
+// Store the admin's details.
+void setup_set_admin_details (string username, string password, string email)
+{
+  Database_Users database_users;
+  database_users.removeUser (username);
+  database_users.addNewUser (username, password, Filter_Roles::admin (), email);
+}
+
+
+// Set the GUI setup status as completed.
+void setup_complete_gui ()
+{
+  Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+}

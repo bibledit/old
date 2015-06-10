@@ -98,7 +98,7 @@ bool administration_timeoffset_acl (void * webserver_request)
 }
 
 
-string administration_timeoffset (void * webserver_request) // Todo test on Windows.
+string administration_timeoffset (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -112,7 +112,7 @@ string administration_timeoffset (void * webserver_request) // Todo test on Wind
       timezone = MAXIMUM_TIMEZONE;
     }
 #ifdef HAVE_URLSETTINGS
-    Database_Config_General::setTimezone (timezone); // Todo test it.
+    Database_Config_General::setTimezone (timezone);
 #endif
   }
   

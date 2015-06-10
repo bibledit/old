@@ -170,6 +170,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/index.h>
 #include <editone/load.h>
 #include <editone/save.h>
+#include <debug/index.h>
+#include <browser/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -178,7 +180,10 @@ void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
-  
+
+  // External browser.
+  if ((url == browser_index_url ()) && browser_index_acl (request)) browser_index (request);
+
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")
       || (extension == "png")
@@ -193,6 +198,9 @@ void bootstrap_index (Webserver_Request * request)
   
   // Serve offline resources.
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
+  
+  // Serve initialization notice.
+  else if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) request->reply = setup_initialization_notice ();
   
   // Force setup.
   else if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) request->reply = setup_index (request);
@@ -273,6 +281,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == manage_exports_url ()) && manage_exports_acl (request)) request->reply = manage_exports (request);
   else if ((url == manage_hyphenation_url ()) && manage_hyphenation_acl (request)) request->reply = manage_hyphenation (request);
   else if ((url == xrefs_index_url ()) && xrefs_index_acl (request)) request->reply = xrefs_index (request);
+  else if ((url == debug_index_url ()) && debug_index_acl (request)) request->reply = debug_index (request);
   
   // Settings menu.
   else if ((url == manage_users_url ()) && manage_users_acl (request)) request->reply = manage_users (request);

@@ -50,11 +50,6 @@ function bindClickHandlers () {
   $("#navigateforward").on ("click", function (event) {
     navigateForward (event);
   });
-  /*
-  $("#submitpassage").on ("click", function (event) {
-    navigationSubmitEntry ();
-  });
-   */
   $("#selectbook").on ("click", function (event) {
     displayBooks (event);
   });
@@ -309,31 +304,3 @@ function navigationCallNewPassage () {
     }
   });
 }
-
-
-/*
-function navigationGetEntry () {
-  $.get ("../navigation/update.php?bible=" + navigationBible + "&getentry", function (response) {
-    navigatorContainer.empty ();
-    navigatorContainer.append (response);
-    $("#selectpassage").focus ();
-    $("#submitpassage").on ("click", function (event) {
-      navigationSubmitEntry ();
-    });
-  });
-}
-
-
-function navigationSubmitEntry () {
-  var passage = $("#selectpassage").val ();
-    $.ajax ({
-    url: "../navigation/update.php",
-    type: "GET",
-    data: { bible: navigationBible, passage: passage },
-    complete: function (xhr, status) {
-      buildNavigator ();
-    }
-  });
-}
-*/
-

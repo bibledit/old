@@ -30,6 +30,7 @@
 #include <locale/translate.h>
 #include <notes/index.h>
 #include <client/logic.h>
+#include <changes/changes.h>
 
 
 void statistics_statistics ()
@@ -59,7 +60,7 @@ void statistics_statistics ()
     
     if (request.database_config_user()->getUserPendingChangesNotification (user)) {
       vector <int> ids = database_modifications.getNotificationIdentifiers (user);
-      body.push_back ("<p><a href=\"" + siteUrl + "/changes/changes\">" + translate("Number of change notifications awaiting your approval") + "</a>: " + convert_to_string (ids.size()) + "</p>\n");
+      body.push_back ("<p><a href=\"" + siteUrl + changes_changes_url () + "\">" + translate("Number of change notifications awaiting your approval") + "</a>: " + convert_to_string (ids.size()) + "</p>\n");
     }
     
     
@@ -79,7 +80,7 @@ void statistics_statistics ()
                                                      -1,     // Severity selector.
                                                      0,      // Text selector.
                                                      "",     // Search text.
-                                                     0);     // Limit.
+                                                     -1);     // Limit.
       body.push_back ("<p><a href=\"" + siteUrl + notes_index_url () + "?presetselection=assigned\">" + translate("Number of consultation notes assigned to you awaiting your response") + "</a>: " + convert_to_string (ids.size ()) + "</p>\n");
     }
     
@@ -104,7 +105,7 @@ void statistics_statistics ()
                                                      -1,     // Severity selector.
                                                      0,      // Text selector.
                                                      "",     // Search text.
-                                                     0);     // Limit.
+                                                     -1);     // Limit.
       body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribed\">" + translate("Total") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
       ids = database_notes.selectNotes (
                                                      bibles, // Bible.
@@ -121,7 +122,7 @@ void statistics_statistics ()
                                                      -1,     // Severity selector.
                                                      0,      // Text selector.
                                                      "",     // Search text.
-                                                     0);     // Limit.
+                                                     -1);     // Limit.
       body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribeddayidle\">" + translate("Inactive for a day") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
       ids = database_notes.selectNotes (
                                                      bibles, // Bible.
@@ -138,7 +139,7 @@ void statistics_statistics ()
                                                      -1,     // Severity selector.
                                                      0,      // Text selector.
                                                      "",     // Search text.
-                                                     0);     // Limit.
+                                                     -1);     // Limit.
       body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribedweekidle\">" + translate("Inactive for a week") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
       body.push_back ("</ul>\n");
       request.session_logic ()->setUsername ("");

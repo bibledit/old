@@ -1,6 +1,7 @@
-AC_INIT([bibledit],[1.0.123],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.157],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
+ac_default_prefix=/usr
 
 AC_PROG_CC
 AC_PROG_CXX
@@ -59,24 +60,16 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
 
-# Check for libgit2.a in the source directory.
-AC_MSG_CHECKING([libgit2])
-LIBGIT=libgit2.a
-AS_IF([test -f ${LIBGIT}], [
-    GIT_LIBS="-lz"
-    AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled])
-    AC_MSG_RESULT([$LIBGIT])
-  ],
-  AC_MSG_RESULT([no])
-  LIBGIT=""
-)
-AC_SUBST(GIT_LIBS)
-AC_SUBST(LIBGIT)
-AC_SUBST(GIT_ENABLED)
-
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
+
+
+# Tag1 (leave in place)
+# Tag2 (leave in place)
+# Tag3 (leave in place)
+# Tag4 (leave in place)
+
 
 AC_CHECK_HEADER(pthread.h,AC_DEFINE([HAVE_PTHREAD],[1],[Define whether pthread.h is present]),)
 
@@ -135,38 +128,18 @@ AC_DEFINE([BARE_BROWSER], [], [Define whether the expected browser is a bare bro
 AC_DEFINE_UNQUOTED(BARE_BROWSER, "$BARE_BROWSER")
 AC_SUBST(BARE_BROWSER)
 
-# Build for iOS.
-IOS=no
-AC_ARG_ENABLE(ios,
-  [  --enable-ios Enable iOS],
-  [AC_DEFINE([HAVE_IOS], [1], [Define whether to build for iOS])]
-  IOS=yes
+# Check whether function 'stoi' is available
+AC_MSG_CHECKING([whether stoi is available])
+AC_COMPILE_IFELSE(
+[AC_LANG_SOURCE([[
+#include <string>
+using namespace std;
+int i = stoi ("string");
+  ]])],
+  [AC_DEFINE([HAVE_STOI], [1], [Define whether function 'stoi' is available])
+   AC_MSG_RESULT([yes])],
+  [AC_MSG_RESULT([no])]
 )
-AC_DEFINE([IOS], [], [Define whether it is to be built for iOS])
-AC_DEFINE_UNQUOTED(IOS, "$IOS")
-AC_SUBST(IOS)
-
-# Build for OS X.
-OSX=no
-AC_ARG_ENABLE(osx,
-[  --enable-osx Enable OS X],
-[AC_DEFINE([HAVE_OSX], [1], [Define whether to build for OS X])]
-OSX=yes
-)
-AC_DEFINE([OSX], [], [Define whether it is to be built for OS X])
-AC_DEFINE_UNQUOTED(OSX, "$OSX")
-AC_SUBST(OSX)
-
-# Build for Cygwin.
-CYGWIN=no
-AC_ARG_ENABLE(cygwin,
-[  --enable-cygwin Enable Cygwin],
-[AC_DEFINE([HAVE_CYGWIN], [1], [Define whether to build for Cygwin])]
-CYGWIN=yes
-)
-AC_DEFINE([CYGWIN], [], [Define whether it is to be built for Cygwin])
-AC_DEFINE_UNQUOTED(CYGWIN, "$CYGWIN")
-AC_SUBST(CYGWIN)
 
 # Enable URL settings.
 URLSETTINGS=no
@@ -179,20 +152,73 @@ AC_DEFINE([URLSETTINGS], [], [Define whether URL settings are enabled])
 AC_DEFINE_UNQUOTED(URLSETTINGS, "$URLSETTINGS")
 AC_SUBST(URLSETTINGS)
 
+# Enable unit tests.
+UNITTESTS=no
+AC_ARG_ENABLE(unittests,
+[  --enable-unittests Enable unit tests],
+[AC_DEFINE([HAVE_UNITTESTS], [1], [Define whether to enable unit tests])]
+UNITTESTS=yes
+)
+AC_DEFINE([UNITTESTS], [], [Define whether unit tests are enabled])
+AC_DEFINE_UNQUOTED(UNITTESTS, "$UNITTESTS")
+AC_SUBST(UNITTESTS)
+
+# Configure admin username.
+AC_ARG_WITH(admin-username,
+[  --with-admin-username=username Admin username],
+[ ADMIN_USERNAME=$withval ],
+[ ADMIN_USERNAME= ]
+)
+AC_DEFINE([ADMIN_USERNAME], [], [Define the admin username])
+AC_DEFINE_UNQUOTED(ADMIN_USERNAME, "$ADMIN_USERNAME")
+AC_SUBST(ADMIN_USERNAME)
+
+# Configure admin password.
+AC_ARG_WITH(admin-password,
+[  --with-admin-password=password Admin password],
+[ ADMIN_PASSWORD=$withval ],
+[ ADMIN_PASSWORD= ]
+)
+AC_DEFINE([ADMIN_PASSWORD], [], [Define the admin password])
+AC_DEFINE_UNQUOTED(ADMIN_PASSWORD, "$ADMIN_PASSWORD")
+AC_SUBST(ADMIN_PASSWORD)
+
+# Configure admin email.
+AC_ARG_WITH(admin-email,
+[  --with-admin-email=email Admin email],
+[ ADMIN_EMAIL=$withval ],
+[ ADMIN_EMAIL= ]
+)
+AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
+AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
+AC_SUBST(ADMIN_EMAIL)
+
+# Enable tiny journal.
+TINYJOURNAL=no
+AC_ARG_ENABLE(tinyjournal,
+[  --enable-tinyjournal Enable tiny journal],
+[AC_DEFINE([HAVE_TINYJOURNAL], [1], [Define whether to enable tiny journal])]
+TINYJOURNAL=yes
+)
+AC_DEFINE([TINYJOURNAL], [], [Define whether the tiny journal is enabled])
+AC_DEFINE_UNQUOTED(TINYJOURNAL, "$TINYJOURNAL")
+AC_SUBST(TINYJOURNAL)
+
 AC_OUTPUT(Makefile)
 
 echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix                                        : ${prefix}
-Libgit2                                                    : ${LIBGIT}
 Network port (--with-network-port=n)                       : ${NETWORK_PORT}
 Client installation (--enable-client)                      : ${CLIENT}
 Demo installation (--enable-demo)                          : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-Build for iOS (--enable-ios)                               : ${IOS}
-Build for OS X (--enable-osx)                              : ${OSX}
-Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
+Unit tests (--enable-unittests)                            : ${UNITTESTS}
+Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
+Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
+Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
+Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
 "

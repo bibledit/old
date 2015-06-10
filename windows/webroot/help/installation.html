@@ -1,13 +1,38 @@
 <h1>translate("Installation")</h1>
 
+<h2>translate("Versions")</h2>
+<p>
+translate("There is a Bibledit version for Windows, for the Mac, for Android, for iOS, and for Linux.")
+translate("These are all client editions of Bibledit.")
+</p>
+<p>
+translate("There is also a server edition of Bibledit.")
+translate("That is 'Bibledit Cloud'.")
+translate("It runs on the web.")
+translate("Bibledit Cloud has more capabilities than the standard Bibledit editions.")
+</p>
+<p>
+translate("The standard Bibledit editions connect to an instance of Bibledit Cloud for collaboration, keeping the devices in sync, and for backup.")
+</p>
+<p>
+translate("All Bibledit editions, including Bibledit Cloud, enable Bible translation.")
+translate("With a fast internet connection, it is usually easiest to translate straight in Bibledit Cloud through the web browser.")
+translate("When the internet connection is slow, or when it is off at times, it is recommended to translate through one of the standard Bibledit versions.")
+translate("The changes made in this way can be synchronized with Bibledit Cloud through Send/receive.")
+</p>
+
 <h2>translate("Standard installation")</h2>
 <p><a href="installwindows">translate("Bibledit on Windows")</a></p>
 <p><a href="installandroid">translate("Bibledit on Android")</a></p>
 <p><a href="installosx">translate("Bibledit on OS X")</a></p>
 <p><a href="installios">translate("Bibledit on iOS")</a></p>
 <p><a href="installubuntu">translate("Bibledit on Ubuntu")</a></p>
-<p><a href="installcentos">translate("Bibledit on CentOS")</a></p>
-<p><a href="installpclinuxos">translate("Bibledit on PCLinuxOS")</a></p>
+<p><a href="installlinuxmint">translate("Bibledit on Linux Mint")</a></p>
+<p><a href="installdebian">translate("Bibledit on Debian")</a></p>
+<p><a href="installopensuse">translate("Bibledit on openSUSE")</a></p>
+<p><a href="installfedora">translate("Bibledit on Fedora")</a></p>
+<!--<p><a href="installcentos">translate("Bibledit on CentOS")</a></p>-->
+<p><a href="installcloudubuntu">translate("Bibledit Cloud on Ubuntu")</a></p>
 
 <h2>translate("Upgrading")</h2>
 <p>
@@ -15,24 +40,21 @@
   translate("A new release can be installed over the previous release.")
   translate("There should be no loss of information.")
   translate("Create a backup of the Bibledit folder before upgrading, just to be sure.")
-  <a href="bibleditweb">translate("Upgrading from Bibledit-Web works differently.")</a>
+  <a href="bibleditweb">translate("Upgrading from Bibledit-Web to Bibledit Cloud works differently.")</a>
 </p>
 
-<h2>translate("Client")</h2>
+<h2>translate("Clients")</h2>
 <p>
-  translate("Bibledit normally runs in Server mode.")
-  translate("It can also be set to Client mode.")
-  translate("A Client stores the data offline.")
-  translate("You can translate the Bible on a Client.")
-  translate("The user needs to synchronize the data on the client with the data on the server regularly.")
-  translate("A Client is useful when the Internet connection to the Bibledit server is not fast or not stable.")
+  translate("The various Bibledit client editions store the data offline.")
+  translate("You can translate the Bible on a client.")
+  translate("The user needs to regularly synchronize the data on the client with the data on Bibledit Cloud.")
+  translate("A Client is useful when the Internet connection to Bibledit Cloud is not fast or not stable.")
 </p>
 <p>
-  translate("Install the Client as you would install Bibledit.")
-  translate("During setup you can switch it to client mode.")
-  translate("In client mode, connect to the server once, and provide your username and password as you normally log in on the server.")
+  translate("In the Bibledit client, connect to Bibledit Cloud once, and provide your username and password as you normally log in on Bibledit Cloud.")
+  translate("Also provide the port number.")
   translate("Then synchronize the data.")
-  translate("The first time all Bible data and Notes will be downloaded from the server to the client.")
+  translate("The first time the client will download all Bible data and Notes from Bibledit Cloud and store it offline.")
   translate("That may take a while.")
   translate("After that, synchronizing will send and receive the changes only.")
 </p>
@@ -45,7 +67,7 @@
 
 <h2>translate("Email")</h2>
 <p>
-  translate("Bibledit works with email.")
+  translate("Bibledit Cloud works with email.")
   translate("After completing the installation of Bibledit, sending and receiving emails does not yet work.")
   translate("This needs to be set up.")
   translate("Setting up the email means to pick an email address and setting details for the mail servers in Bibledit.")
@@ -70,62 +92,16 @@
 </li>
 </ol>
 
-<h2>translate("Install development version")</h2>
+<h2>translate("Development version")</h2>
 <p>
-  translate("Read the instructions for a standard Bibledit installation to find out about server setup and prerequisites.")
-</p>
-<br>
-<p>
-  translate("The Bibledit code is kept in a git repository.")
-  <a href="https://savannah.nongnu.org/projects/Bibledit" ##targetblank##>translate("The repository is accessible from the Savannah Project Page.")</a>
-  translate("To view the code on the web, click Source Code - Browse Sources Repository.")
-  translate("To use the repository in another way, click on Source Code - Use Git.")
-  translate("Information will be provided there.")
-  translate("The code can be checked out from the repository.")
-  translate("This gives the most recent version of Bibledit.")
-  translate("The code is supported.")
-</p>
-<br>
-<p>
-  translate("To get the most recent code, run the following in a terminal:")
-</p>
-<p><code>$ git clone git://git.savannah.nongnu.org/Bibledit</code></p>
-<p>
-  translate("This clones the code repository to your computer.")
-  translate("It will create directory")
-  <code>Bibledit</code>.
-  translate("Change into that directory.")
-  translate("Then create an installation package:")
-</p>
-<p><code>$ ./scripts/package</code></p>
-<p>
-  translate("It will display where the package will be stored.")
-  translate("This package can be used to do a standard installation of Bibledit.")
-</p>
-
-<h2>translate("Open installation")</h2>
-<p>
-  translate("You can configure Bibledit to be open.")
-  translate("It means that there is no need to login.")
-  translate("The website appears to be logged in as user 'admin' to any visitor.")
-  translate("This is useful for demo installations, or to provide a free service to the the community.")
-  translate("A disadvantage is that the crawlers of the search engines keep clicking links, and will disturb data and settings.")
-  translate('Open the following file:')
-  <code>config/open</code>.
-  translate('Update one line as follows:')
-  <code>$open_installation = true;</code>
-</p>
-
-<h2>translate("Git repositories")</h2>
-<p>
-  translate("To enable Bibledit to access git repositories, install libgit2.")
-  <a href="libgit2">translate("Installation steps.")</a>
+  <a href="https://github.com/teusbenschop/bibledit" ##targetblank##>translate("translate("The Bibledit source code is kept in a git repository.")</a>
+  translate("Experienced software developers will be able to create all Bibledit editions from the source code.")
 </p>
 
 <h2>translate("Hosting providers")</h2>
 <p>
-  translate("Bibledit is not supported on a shared Linux hosting account.")
-  translate("On several occassions Bibledit has been used on such an account though.")
+  translate("Bibledit Cloud does not run on a shared Linux hosting account.")
+  translate("A previous version, Bibledit-Web, ran on such an account though.")
   translate("Bibledit is a heavy application.")
   translate("It uses a lot of resources compared to what is available on a shared hosting account.")
   translate("The hosting providers have responded in various ways to having Bibledit on their shared platform:")
@@ -149,12 +125,15 @@
   translate("It has also been observed that the Bibledit databases regularly got corrupted due to insufficient file locking on the shared platform.")
 </p>
 <p>
-  translate("To make good use of Bibledit, a VPS (Virtual Private Server) is recommended.")
+  translate("To run Bibledit Cloud, a VPS (Virtual Private Server) is needed.")
   translate("Good providers are:")
 </p>
-<p>
-  * <a href="http://ramnode.com/vps">RamNode</a>, Premium OpenVZ SSD 128MB for $15 per year (2014).
-</p>
-<p>
-  * <a href="https://www.digitalocean.com/?refcode=5189a8e56d7a">Digital Ocean</a>, 512 Mb / 1 CPU / 20 Gb SSD Disk for $5 per month = $60 per year (2014).
-</p>
+<ol>
+  <li>
+    <a href="http://ramnode.com/vps.php">RamNode</a>, Premium OpenVZ SSD 128MB for $15 per year (2015).
+    translate("Due to the limited memory, Bibledit Cloud cannot compiled there, but compatible binaries compiled elsewhere will run fine.")
+  </li>
+  <li>
+    <a href="https://www.digitalocean.com/?refcode=5189a8e56d7a">Digital Ocean</a>, 512 Mb / 1 CPU / 20 Gb SSD Disk for $5 per month = $60 per year (2015).
+  </li>
+</ol>

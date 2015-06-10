@@ -55,7 +55,7 @@ string sync_notes (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes = Database_Notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
 
 
@@ -65,7 +65,6 @@ string sync_notes (void * webserver_request)
   if (!database_notes.checksums_healthy ()) available = false;
   if (!database_notes.available ()) available = false;
   if (!available) {
-    Database_Logs::log ("Notes databases are unhealthy or unavailable", Filter_Roles::translator ());
     request->response_code = 405;
     return "";
   }
@@ -131,7 +130,6 @@ string sync_notes (void * webserver_request)
       database_notes.updateChecksum (identifier);
       // Return summary.
       string summary = database_notes.getSummary (identifier);
-      Database_Logs::log ("Client requested a note from server: " + summary, Filter_Roles::manager ());
       return summary;
     }
     case Sync_Logic::notes_get_contents:
@@ -154,12 +152,8 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_passages:
     {
-      vector <Passage> passages = database_notes.getPassages (identifier);
-      vector <string> lines;
-      for (auto & passage : passages) {
-        lines.push_back (convert_to_string (filter_passage_to_integer (passage)));
-      }
-      return filter_string_implode (lines, "\n");
+      // Send the raw passage contents to the client, see the client code for the reason why.
+      return database_notes.getRawPassage (identifier);
     }
     case Sync_Logic::notes_get_severity:
     {
@@ -273,14 +267,8 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_put_passages:
     {
-      // Unserialize the passages.
-      vector <string> lines = filter_string_explode (content, '\n');
-      vector <Passage> passages;
-      for (auto & line : lines) {
-        passages.push_back (filter_integer_to_passage (convert_to_int (line)));
-      }
-      // Set the passages for a note on the server.
-      notes_logic.setPassages (identifier, passages);
+      // Set the passage(s) for a note on the server.
+      database_notes.setRawPassage (identifier, content);
       // Done.
       return "";
     }

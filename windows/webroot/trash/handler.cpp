@@ -47,5 +47,6 @@ void trash_consultation_note (void * webserver_request, int id)
   contents = filter_string_html2text (contents);
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string username = request->session_logic()->currentUser ();
-  Database_Logs::log (username + " deleted / marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);
+  if (username.empty ()) username = "Bibledit";
+  Database_Logs::log (username + " deleted or marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);
 }

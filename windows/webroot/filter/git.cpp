@@ -415,10 +415,10 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
   // Clear a possible existing git repository directory.
   filter_url_rmdir (path);
 
+#ifdef HAVE_GIT
+  
   git_progress_data pd = {0, 0};
   pd.job_identifier = jobid;
-
-#ifdef HAVE_GIT
   
   git_threads_init ();
   
@@ -448,6 +448,7 @@ bool filter_git_remote_clone (string url, string path, int jobid, string & error
   
   return (result == 0);
 #else
+  if (jobid) {}
   string output;
   int result = filter_shell_run ("", "git", {"clone", url, path}, &output, &error);
   filter_git_check_error (output);

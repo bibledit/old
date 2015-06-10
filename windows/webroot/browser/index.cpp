@@ -17,20 +17,29 @@
  */
 
 
-#ifndef INCLUDED_SETUP_LOGIC_H
-#define INCLUDED_SETUP_LOGIC_H
+#include <browser/index.h>
+#include <filter/url.h>
+#include <filter/roles.h>
+#include <webserver/request.h>
+#include <config/globals.h>
 
 
-#include <config/libraries.h>
+const char * browser_index_url ()
+{
+  return "browser/index";
+}
 
 
-void setup_conditionally (const char * package);
-void setup_copy_library (const char * package);
-void setup_write_access ();
-void setup_main_folders_present ();
-void setup_initialize_data ();
-void setup_set_admin_details (string username, string password, string email);
-void setup_complete_gui ();
+bool browser_index_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
+}
 
 
-#endif
+string browser_index (void * webserver_request)
+{
+  if (webserver_request) {}
+  config_globals_external_browser_clicked = true;
+  string page;
+  return page;
+}

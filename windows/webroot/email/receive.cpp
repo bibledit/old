@@ -18,13 +18,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <email/receive.h>
+#include <config.h>
 #include <database/logs.h>
+#ifdef CLIENT_PREPARED
+#else
 #include <curl/curl.h>
+#endif
 #include <database/config/general.h>
 #include <filter/string.h>
 #include <config/globals.h>
 #include <confirm/worker.h>
 #include <notes/logic.h>
+#include <filter/url.h>
 
 
 // Dissects a raw email.
@@ -185,8 +190,13 @@ string url ()
 
 
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
-int email_receive_count (string& error)
+int email_receive_count (string& error, bool verbose)
 {
+#ifdef CLIENT_PREPARED
+  error = "Not implemented with embedded http library";
+  if (verbose) {}
+  return 0;
+#else
   CURL *curl;
   CURLcode res = CURLE_OK;
 
@@ -208,11 +218,16 @@ int email_receive_count (string& error)
 
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
 
-  // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+  if (verbose) {
+    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback);
+    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+  }
 
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
+  filter_url_curl_set_timeout (curl);
+  
   res = curl_easy_perform (curl);
 
   int mailcount = 0;
@@ -230,11 +245,16 @@ int email_receive_count (string& error)
   curl_easy_cleanup (curl);
 
   return mailcount;
+#endif
 }
 
 
 string email_receive_message (string& error)
 {
+#ifdef CLIENT_PREPARED
+  error = "Not implemented with embedded http library";
+  return "";
+#else
   CURL *curl;
   CURLcode res = CURLE_OK;
 
@@ -257,11 +277,11 @@ string email_receive_message (string& error)
 
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
 
-  //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
-
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
+  filter_url_curl_set_timeout (curl);
+  
   res = curl_easy_perform (curl);
 
   string body;
@@ -286,5 +306,5 @@ string email_receive_message (string& error)
   curl_easy_cleanup (curl);
 
   return body;
+#endif
 }
-

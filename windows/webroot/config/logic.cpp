@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/config/general.h>
 #include <config.h>
+#include <cstdlib>
 
 
 // Returns the Bibledit version number.
@@ -67,4 +68,39 @@ int config_logic_max_parallel_tasks ()
 bool config_logic_bare_browser ()
 {
   return (strcmp (BARE_BROWSER, "yes") == 0);
+}
+
+
+// The configured admin's username.
+string config_logic_admin_username ()
+{
+  return ADMIN_USERNAME;
+}
+
+
+// The configured admin's password.
+string config_logic_admin_password ()
+{
+  return ADMIN_PASSWORD;
+}
+
+
+// The configured admin's email.
+string config_logic_admin_email ()
+{
+  return ADMIN_EMAIL;
+}
+
+
+// Replacement function for missing "stoi" on some platforms, like Cygwin and Android.
+int my_stoi (const string& str, void * idx, int base)
+{
+#ifdef HAVE_STOI
+  size_t * index = (size_t *) idx;
+  return stoi (str, index, base);
+#else
+  char ** endptr = reinterpret_cast <char **> (idx);
+  int i = strtol (str.c_str(), endptr, base);
+  return i;
+#endif
 }

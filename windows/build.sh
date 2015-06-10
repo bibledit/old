@@ -13,7 +13,7 @@ rsync -av --delete ../../lib/ .
 make distclean
 
 
-./configure --enable-client --enable-cygwin --enable-urlsettings
+./configure --enable-client --enable-urlsettings
 
 
 make

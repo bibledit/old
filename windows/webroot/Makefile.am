@@ -31,7 +31,6 @@ libbibledit_a_SOURCES = \
 	index/index.cpp \
 	index/listing.cpp \
 	config/globals.cpp \
-	config/cygwin.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
@@ -223,7 +222,6 @@ libbibledit_a_SOURCES = \
 	tmp/tmp.cpp \
 	workbench/index.cpp \
 	workbench/logic.cpp \
-	workbench/organize.cpp \
 	workbench/settings.cpp \
 	workbench/organize.cpp \
 	sendreceive/logic.cpp \
@@ -304,7 +302,9 @@ libbibledit_a_SOURCES = \
 	xrefs/source.cpp \
 	xrefs/target.cpp \
 	xrefs/translate.cpp \
-	webbible/search.cpp
+	webbible/search.cpp \
+	debug/index.cpp \
+	browser/index.cpp
 
 bin_PROGRAMS = server unittest
 
@@ -325,21 +325,23 @@ AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
 AM_CXXFLAGS += `xml2-config --cflags`	
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
-AM_CXXFLAGS += $(GIT_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 
 LIBS = -Wall -lpthread -L.
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
-LIBS += $(GIT_LIBS)
 LIBS += $(OPENSSL_LIBS)
 
-EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
+EXTRA_DIST = a* bible bibledit bibles book bootstrap browser c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`
 	rm -rf `find $(distdir) -name *.a`
 	rm -rf `find $(distdir) -name autom4te.cache`
+	rm -f $(distdir)/server
+	rm -f $(distdir)/unittest
+	rm -rf `find $(distdir) -name .dirstamp`
+	rm -rf `find $(distdir) -name .deps`
 
 CLEANFILES = bibledit*.gz *~

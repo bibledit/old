@@ -89,11 +89,13 @@ public:
   void unassignUser (int identifier, const string& user);
   string getBible (int identifier);
   void setBible (int identifier, const string& bible);
+  vector <string> getAllBibles ();
   string encodePassage (int book, int chapter, int verse);
   Passage decodePassage (string passage);
   string getRawPassage (int identifier);
   vector <Passage> getPassages (int identifier);
   void setPassages (int identifier, const vector <Passage>& passages, bool import = false);
+  void setRawPassage (int identifier, const string& passage);
   string getRawStatus (int identifier);
   string getStatus (int identifier);
   void setStatus (int identifier, const string& status, bool import = false);

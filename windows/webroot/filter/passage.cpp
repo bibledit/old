@@ -385,7 +385,7 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
         start = string (start.rbegin(), start.rend());
       }
       unsigned int end = convert_to_int (filter_string_trim (range [1]));
-      for (unsigned int i = convert_to_int (start) + 1; i <= end; i++) {
+      for (size_t i = convert_to_int (start) + 1; i <= end; i++) {
         output.push_back (convert_to_string (i));
       }
     }

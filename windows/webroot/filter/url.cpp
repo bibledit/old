@@ -17,16 +17,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <filter/url.h>
 #include <webserver/http.h>
 #include <config/globals.h>
-#include <filter/url.h>
 #include <filter/UriCodec.cpp>
 #include <filter/string.h>
 #include <filter/date.h>
 #include <config/logic.h>
-#include <curl/curl.h>
 #include <config.h>
 #include <database/books.h>
+#include <database/logs.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#ifdef CLIENT_PREPARED
+#else
+#include <curl/curl.h>
+#endif
 
 
 // Gets the base URL of current Bibledit installation.
@@ -263,6 +270,23 @@ void filter_url_file_put_contents_append (string filename, string contents)
 }
 
 
+// Copies the contents of file named "input" to file named "output".
+// It is assumed that the folder where "output" will reside exists.
+bool filter_url_file_cp (string input, string output)
+{
+  try {
+    ifstream source (input, ios::binary);
+    ofstream dest (output, ios::binary | ios::trunc);
+    dest << source.rdbuf();
+    source.close();
+    dest.close();
+  } catch (...) {
+    return false;
+  }
+  return true;
+}
+
+
 // A C++ equivalent for PHP's filesize function.
 int filter_url_filesize (string filename)
 {
@@ -289,6 +313,20 @@ vector <string> filter_url_scandir (string folder)
   }
   sort (files.begin(), files.end());
   return files;
+}
+
+
+// Recursively scans a directory for directories and files.
+void filter_url_recursive_scandir (string folder, vector <string> & paths)
+{
+  vector <string> files = filter_url_scandir (folder);
+  for (auto & file : files) {
+    string path = filter_url_create_path (folder, file);
+    paths.push_back (path);
+    if (filter_url_is_dir (path)) {
+      filter_url_recursive_scandir (path, paths);
+    }
+  }
 }
 
 
@@ -347,7 +385,7 @@ string filter_url_escape_shell_argument (string argument)
 string filter_url_unique_path (string path)
 {
   if (!file_exists (path)) return path;
-  for (unsigned int i = 1; i < 100; i++) {
+  for (size_t i = 1; i < 100; i++) {
     string uniquepath = path + "." + convert_to_string (i);
     if (!file_exists (uniquepath)) return uniquepath;
   }
@@ -401,12 +439,189 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 }
 
 
+// This function does not use cURL.
+// It is a very simple function that sends a HTTP GET or POST request and reads the response.
+// It runs on devices without libcurl.
+// $url: The URL including host / port / path.
+// $error: To store any error messages.
+// $post: Value pairs for a POST request.
+// $filename: The filename to store the data to.
+// $verbose: Print headers and data to standard out.
+string filter_url_simple_http_request (string url, string& error, const map <string, string>& post, const string& filename, bool verbose)
+{
+  // The "http" scheme is used to locate network resources via the HTTP protocol.
+  // http_URL = "http:" "//" host [ ":" port ] [ abs_path [ "?" query ]]
+  // If the port is empty or not given, port 80 is assumed.
+  
+  // Remove the scheme.
+  size_t pos = url.find ("://");
+  if (pos == string::npos) {
+    error = "Unknown protocol";
+    return "";
+  }
+  url.erase (0, pos + 3);
+
+  // Extract the host.
+  pos = url.find (":");
+  if (pos == string::npos) pos = url.find ("/");
+  if (pos == string::npos) pos = url.length () + 1;
+  string hostname = url.substr (0, pos);
+  url.erase (0, hostname.length ());
+
+  // Extract the port number.
+  int port = 80;
+  pos = url.find (":");
+  if (pos != string::npos) {
+    url.erase (0, 1);
+    size_t pos2 = url.find ("/");
+    if (pos2 == string::npos) pos2 = url.length () + 1;
+    string p = url.substr (0, pos2);
+    port = convert_to_int (p);
+    url.erase (0, p.length ());
+  }
+  
+  // The absolute path plus optional query remain after extracting the preceding stuff.
+
+  // Resolve the host.
+  struct hostent * host = gethostbyname (hostname.c_str());
+  if ( (host == NULL) || (host->h_addr == NULL) ) {
+    error = hostname + ": ";
+    error.append (hstrerror (h_errno));
+    return "";
+  }
+  
+  // Socket setup.
+  struct sockaddr_in client;
+  bzero (&client, sizeof (client));
+  client.sin_family = AF_INET;
+  client.sin_port = htons (port);
+  memcpy (&client.sin_addr, host->h_addr, host->h_length);
+  int sock = socket (AF_INET, SOCK_STREAM, 0);
+  if (sock < 0) {
+    error = "Creating socket: ";
+    error.append (strerror (errno));
+    return "";
+  }
+
+  // Because a Bibledit client should work even over very bad networks, set a timeout on the socket.
+  struct timeval tv;
+  tv.tv_sec = 30;  // Timeout in seconds.
+  setsockopt (sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+  setsockopt (sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+  
+  // Connect to the host.
+  if (connect (sock, (struct sockaddr *)&client, sizeof (client)) < 0 ) {
+    error = "Connecting to " + hostname + ": ";
+    error.append (strerror (errno));
+    close (sock);
+    return "";
+  }
+
+  // Assemble the data to POST, if any.
+  string postdata;
+  for (auto & element : post) {
+    if (!postdata.empty ()) postdata.append ("&");
+    postdata.append (element.first);
+    postdata.append ("=");
+    postdata.append (filter_url_urlencode (element.second));
+  }
+
+  // Send the request.
+  string request = "GET";
+  if (!post.empty ()) request = "POST";
+  request.append (" ");
+  request.append (url);
+  request.append (" ");
+  request.append ("HTTP/1.1");
+  request.append ("\r\n");
+  request.append ("Host: ");
+  request.append (hostname);
+  request.append ("\r\n");
+  //request.append ("Connection: close");
+  //request.append ("\r\n");
+  if (!post.empty ()) {
+    request.append ("Content-Type: application/x-www-form-urlencoded");
+    request.append ("\r\n");
+    request.append ("Content-Length: " + convert_to_string (postdata.length()));
+    request.append ("\r\n");
+  }
+  request.append ("\r\n");
+  request.append (postdata);
+  if (verbose) cout << request << endl;
+  if (send (sock, request.c_str(), request.length(), 0) != (int) request.length ()) {
+    error = "Sending request: ";
+    error.append (strerror (errno));
+    close (sock);
+    return "";
+  }
+
+  // Read the response headers and body.
+  string headers;
+  string response;
+  bool reading_body = false;
+  char prev = 0;
+  char cur;
+  FILE * file = NULL;
+  if (!filename.empty ()) file = fopen (filename.c_str(), "w");
+  while (int result = read (sock, &cur, 1) > 0 ) {
+    if (reading_body) {
+      if (file) fwrite (&cur, 1, 1, file);
+      else response += cur;
+    } else {
+      if (cur == '\r') continue;
+      headers += cur;
+      if ((cur == '\n') && (prev == '\n')) reading_body = true;
+      prev = cur;
+    }
+    if (result < 0) {
+      error = "Receiving: ";
+      error.append (strerror (errno));
+      close (sock);
+      if (file) fclose (file);
+      return "";
+    }
+  }
+  close (sock);
+  if (file) fclose (file);
+  if (verbose) {
+    cout << headers << endl;
+    cout << response << endl;
+  }
+
+  // Check the response headers.
+  vector <string> lines = filter_string_explode (headers, '\n');
+  for (auto & line : lines) {
+    if (line.empty ()) continue;
+    if (line.find ("HTTP") != string::npos) {
+      size_t pos = line.find (" ");
+      if (pos != string::npos) {
+        line.erase (0, pos + 1);
+        int response_code = convert_to_int (line);
+        if (response_code != 200) {
+          error = "Response code: " + line;
+          return "";
+        }
+      } else {
+        error = "Invalid response: " + line;
+        return "";
+      }
+    }
+  }
+  
+  // Done.
+  return response;
+}
+
+
 // Sends a http GET request to the $url.
 // It returns the response from the server.
 // It writes any error to $error.
 string filter_url_http_get (string url, string& error)
 {
   string response;
+#ifdef CLIENT_PREPARED
+  response = filter_url_simple_http_request (url, error, {}, "", false);
+#else
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
@@ -415,18 +630,8 @@ string filter_url_http_get (string url, string& error)
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     // Because a Bibledit client should work even over very bad networks,
-    // pass some options to curl so it properly deals with such networks.
-    // There is a timeout on establishing a connection.
-    // There is a also a transfer timeout for normal speeds.
-    // And there is also a shorter transfer timeout for very low speeds,
-    // because very low speeds indicate a stalled conection.
-    // Without these timeouts, the Bibledit client will fail to schedule new sync tasks,
-    // because it still waits on stalled sync operatios to finish, which would never happen without those timeouts.
-    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_easy_setopt (curl, CURLOPT_TIMEOUT, 600);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 10);
-    curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1L);
+    // pass some timeout options to curl so it properly deals with such networks.
+    filter_url_curl_set_timeout (curl);
     CURLcode res = curl_easy_perform (curl);
     if (res == CURLE_OK) {
       error.clear ();
@@ -441,17 +646,23 @@ string filter_url_http_get (string url, string& error)
     }
     curl_easy_cleanup (curl);
   }
+#endif
   return response;
 }
 
 
 // Sends a http POST request to $url.
+// burst: Set connection timing for burst mode, where the response comes after a relatively long silence.
 // It posts the $values.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error)
+string filter_url_http_post (string url, map <string, string> values, string& error, bool burst)
 {
   string response;
+#ifdef CLIENT_PREPARED
+  if (burst) {}
+  response = filter_url_simple_http_request (url, error, values, "", false);
+#else
   // Get a curl handle.
   CURL *curl = curl_easy_init ();
   if (curl) {
@@ -475,11 +686,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     // Timeouts for very bad networks, see the GET routine above for an explanation.
-    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_easy_setopt (curl, CURLOPT_TIMEOUT, 600);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);
-    curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 10);
-    curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1L);
+    filter_url_curl_set_timeout (curl, burst);
     // Perform the request.
     CURLcode res = curl_easy_perform (curl);
     // Result check.
@@ -496,6 +703,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     // Always cleanup.
     curl_easy_cleanup (curl);
   }
+#endif
   return response;
 }
 
@@ -560,6 +768,9 @@ string filter_url_http_response_code_text (int code)
 // Downloads the file at $url, and stores it at $filename.
 void filter_url_download_file (string url, string filename, string& error)
 {
+#ifdef CLIENT_PREPARED
+  filter_url_simple_http_request (url, error, {}, filename, false);
+#else
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
@@ -567,7 +778,7 @@ void filter_url_download_file (string url, string filename, string& error)
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, file);
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+    filter_url_curl_set_timeout (curl);
     CURLcode res = curl_easy_perform (curl);
     if (res == CURLE_OK) {
       error.clear ();
@@ -582,6 +793,7 @@ void filter_url_download_file (string url, string filename, string& error)
     curl_easy_cleanup (curl);
     fclose (file);
   }
+#endif
 }
 
 
@@ -623,3 +835,52 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
 }
 
 
+// Callback function for logging cURL debug information.
+#ifdef CLIENT_PREPARED
+#else
+int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char *data, size_t size, void *userptr)
+{
+  if (curl_handle && userptr) {};
+  bool log = true;
+  curl_infotype type = (curl_infotype) curl_info_type;
+  if (type == CURLINFO_SSL_DATA_OUT) log = false;
+  if (type == CURLINFO_SSL_DATA_OUT) log = false;
+  if (log) {
+    string message (data, size);
+    Database_Logs::log (message);
+  }
+  return 0;
+}
+#endif
+
+
+// Sets timeouts for cURL operations.
+// burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
+//        When false, the data is supposed to be downloaded gradually.
+// Without these timeouts, the Bibledit client will hang on stalled sync operations.
+#ifdef CLIENT_PREPARED
+#else
+void filter_url_curl_set_timeout (void *curl_handle, bool burst)
+{
+  CURL * handle = (CURL *) curl_handle;
+  
+  // There is a timeout on establishing a connection.
+  curl_easy_setopt (handle, CURLOPT_CONNECTTIMEOUT, 10);
+  
+  // There is a also a transfer timeout for normal speeds.
+  curl_easy_setopt (handle, CURLOPT_TIMEOUT, 600);
+  
+  // There is also a shorter transfer timeout for low speeds,
+  // because low speeds indicate a stalled connection.
+  // But when the server needs to do a lot of processing and then sends then response at once,
+  // the low speed timeouts should be disabled,
+  // else it times out before the response has come.
+  if (!burst) {
+    curl_easy_setopt (handle, CURLOPT_LOW_SPEED_LIMIT, 100);
+    curl_easy_setopt (handle, CURLOPT_LOW_SPEED_TIME, 10);
+  }
+  
+  // Timing out may use signals, which is not what we want.
+  curl_easy_setopt (handle, CURLOPT_NOSIGNAL, 1L);
+}
+#endif

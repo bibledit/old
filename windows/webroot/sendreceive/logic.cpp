@@ -77,7 +77,6 @@ void sendreceive_queue_sync (int minute)
 bool sendreceive_sync_queued ()
 {
   if (tasks_logic_queued (SYNCNOTES)) return true;
-  if (tasks_logic_queued (DOWNLOADNOTES)) return true;
   if (tasks_logic_queued (SYNCBIBLES)) return true;
   if (tasks_logic_queued (SYNCSETTINGS)) return true;
   if (tasks_logic_queued (SYNCEXTERNALRESOURCES)) return true;

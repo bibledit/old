@@ -33,6 +33,7 @@
 #include <navigation/passage.h>
 #include <notes/index.h>
 #include <trash/handler.h>
+#include <database/logs.h>
 
 
 string notes_actions_url ()

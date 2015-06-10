@@ -35,7 +35,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <session/logic.h>
+#include <config.h>
+#include <libxml/parser.h>
 
+
+#ifdef HAVE_UNITTESTS
 
 
 // Tests for Database_Bibles.
@@ -245,11 +249,16 @@ void test_database_bibles ()
 }
 
 
+#endif
+
+
 int main (int argc, char **argv) 
 {
   // No compile warnings.
   if (argc) {};
   if (argv[0]) {};
+
+#ifdef HAVE_UNITTESTS
 
   cout << "Running unittests" << endl;
 
@@ -259,13 +268,13 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   config_globals_document_root = testing_directory;
 
-  // Number of failed unit tests.  
+  // Number of failed unit tests.
   error_count = 0;
   
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_filter_git (); exit (0);
+  test_editor_export (); test_editor_import (); test_editor_roundtrip (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -340,6 +349,14 @@ int main (int argc, char **argv)
 
   // Ready.
   return (error_count == 0) ? 0 : 1;
+
+#else
+  
+  cout << "Unit tests are disabled" << endl;
+  cout << "Enable them through ./configure --enable-unittests" << endl;
+  return 0;
+
+#endif
 }
 
 

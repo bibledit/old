@@ -108,7 +108,7 @@ string notes_bulk (void * webserver_request)
                                               severity_selector,
                                               text_selector,
                                               search_text,
-                                              0);
+                                              -1);
     vector <string> sids;
     for (auto id : identifiers) sids.push_back (convert_to_string (id));
     database_volatile.setValue (userid, "identifiers", filter_string_implode (sids, " "));
@@ -223,11 +223,8 @@ string notes_bulk (void * webserver_request)
     } else {
       for (auto identifier : identifiers) {
         notes_logic.erase (identifier); // Notifications handling.
-        trash_consultation_note (webserver_request, identifier);
-        database_notes.erase (identifier);
       }
       success = translate("The notes were deleted");
-      Database_Logs::log ("Notes deleted: " + identifierlist);
     }
   }
   

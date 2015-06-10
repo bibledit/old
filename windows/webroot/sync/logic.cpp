@@ -119,13 +119,14 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // On failure it retries a few times.
 // It returns the server's response, or an empty string on failure.
-string Sync_Logic::post (map <string, string> & post, const string& url, string & error)
+// burst: Set the connection timing for a burst response after a relatively long silence.
+string Sync_Logic::post (map <string, string> & post, const string& url, string & error, bool burst)
 {
   error.clear ();
   // After failure, retry a few times more.
   int retry = 0;
   while (++retry <= 3) {
-    string response = filter_url_http_post (url, post, error);
+    string response = filter_url_http_post (url, post, error, burst);
     if (error.empty ()) {
       // Success: Return response.
       return response;

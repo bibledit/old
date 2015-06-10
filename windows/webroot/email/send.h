@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 void email_send ();
-string email_send (string to_mail, string to_name, string subject, string body);
+string email_send (string to_mail, string to_name, string subject, string body, bool verbose = false);
 
 
 #endif

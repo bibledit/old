@@ -123,7 +123,7 @@ string changes_change (void * webserver_request)
                                                    -1, // Severity selector.
                                                    0,  // Text selector.
                                                    "", // Search text.
-                                                   0); // Limit.
+                                                   -1); // Limit.
   
   // Remove the ones marked for deletion.
   vector <int> notes2;

@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <email/send.h>
+#include <config.h>
 #include <webserver/request.h>
 #include <database/logs.h>
 #include <database/mail.h>
@@ -28,7 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/date.h>
+#ifdef CLIENT_PREPARED
+#else
 #include <curl/curl.h>
+#endif
 #include <config/globals.h>
 
 
@@ -94,6 +98,8 @@ struct upload_status {
 };
 
 
+#ifdef CLIENT_PREPARED
+#else
 static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
   struct upload_status *upload_ctx = (struct upload_status *)userp;
@@ -115,13 +121,22 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 
   return len;
 }
+#endif
 
 
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-string email_send (string to_mail, string to_name, string subject, string body)
+string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
 {
+#ifdef CLIENT_PREPARED
+  if (to_mail.empty ()) {}
+  if (to_name.empty ()) {}
+  if (subject.empty ()) {}
+  if (body.empty ()) {}
+  if (verbose) {}
+  return "Not implemented with embedded http library";
+#else
   // Truncate huge emails because libcurl crashes on it.
   int length = body.length ();
   if (length > 100000) body = "This email was " + convert_to_string (length) + " bytes long. It could not be sent. The data it refers to will be available from Bibledit online.";
@@ -240,10 +255,13 @@ string email_send (string to_mail, string to_name, string subject, string body)
 
   // Since the traffic will be encrypted, it is very useful to turn on debug
   // information within libcurl to see what is happening during the transfer.
-  // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+  if (verbose) {
+    curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback);
+    curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+  }
   
   // Timeout values.
-  curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+  filter_url_curl_set_timeout (curl);
 
   /* Send the message */
   res = curl_easy_perform(curl);
@@ -259,5 +277,6 @@ string email_send (string to_mail, string to_name, string subject, string body)
   curl_easy_cleanup(curl);
 
   return result;
+#endif
 }
 

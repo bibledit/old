@@ -1,4 +1,0 @@
-To include SQLite in the project,
-include the amalgamated sqlite.h and sqlite.c files.
-http://www.sqlite.org/download.html
-http://www.sqlite.org/amalgamation.html

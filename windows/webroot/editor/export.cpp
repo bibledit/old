@@ -26,8 +26,6 @@
 #include <styles/logic.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#include <libxml/xpath.h>
-#include <libxml/xpathInternals.h>
 #include <database/logs.h>
 
 
@@ -41,14 +39,17 @@ Editor_Export::~Editor_Export ()
 {
   //xmlDocDump (stdout, document);
   xmlFreeDoc (document);
-  htmlFreeParserCtxt (context);
 }
 
 
 void Editor_Export::load (string html)
 {
-  // The online editor may insert non-breaking spaces. Convert them to normal ones.
+  // The web editor may insert non-breaking spaces. Convert them to normal ones.
   html = filter_string_str_replace ("&nbsp;", " ", html);
+  
+  // The web editor produces <hr> following the HTML specs, but Bibledit needs
+  // <hr/> for its XML parser.
+  html = filter_string_str_replace ("<hr>", "<hr/>", html);
   
   // The user may add several spaces in sequence. Convert them to single spaces.
   html = filter_string_str_replace ("   ", " ", html);
@@ -59,9 +60,8 @@ void Editor_Export::load (string html)
   xmlGenericErrorFunc handler = (xmlGenericErrorFunc) error_handler;
   initGenericErrorDefaultFunc (&handler);
   
-  htmlParserCtxtPtr context = htmlNewParserCtxt();
-
   // To help loadHTML() process utf8 correctly, set the correct meta tag before any other text.
+  /*
   string prefix =
   "<!DOCTYPE html>\n"
   "<html>\n"
@@ -74,7 +74,28 @@ void Editor_Export::load (string html)
   "</body>\n"
   "</html>\n";
   string xml = prefix + html + suffix;
+  htmlParserCtxtPtr context = htmlNewParserCtxt();
   document = htmlCtxtReadMemory (context, xml.c_str(), xml.length(), "", "UTF-8", HTML_PARSE_RECOVER);
+  htmlFreeParserCtxt (context);
+   */
+
+  // On Android, the HTML parser fails. It returns a NULL document.
+  // Therefore use the XML parser instead of the HTML one.
+  string prefix =
+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+  "<html>\n"
+  "<head>\n"
+  "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></meta>\n"
+  "</head>\n"
+  "<body>\n";
+  string suffix =
+  "\n"
+  "</body>\n"
+  "</html>\n";
+  string xml = prefix + html + suffix;
+  xmlParserCtxtPtr context = xmlNewParserCtxt();
+  document = xmlCtxtReadMemory (context, xml.c_str(), xml.length(), "", "UTF-8", XML_PARSE_RECOVER);
+  xmlFreeParserCtxt (context);
 }
 
 
@@ -370,52 +391,39 @@ void Editor_Export::processNoteCitation (xmlNodePtr node)
   
   // Sample footnote body.
   // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
+  // Retrieve the <a> element from it.
+  // At first this was done through an XPath expression: 
+  // http://www.grinninglizard.com/tinyxml2docs/index.html
+  // But XPath crashes on Android.
+  // Therefore now it iterates of all the nodes to find the required <a> element.
+  xmlNodePtr aElement = get_note_pointer (xmlDocGetRootElement (document), id);
+  if (aElement) {
 
-  // XPath to retrieve the note contents.
-  xmlXPathContextPtr xpathCtx;
-  xmlXPathObjectPtr xpathObj;
-  xpathCtx = xmlXPathNewContext (document);
-  string xpathExpression = "//a[@id='" + id + "']";
-  xpathObj = xmlXPathEvalExpression (BAD_CAST xpathExpression.c_str(), xpathCtx);
-  if (xpathObj) {
-    xmlNodeSetPtr nodes = xpathObj->nodesetval;
-    if (nodes) {
-
-      // There should be only one relevant note node.
-      if (nodes->nodeNr == 1) {
-        
-        // Get the 'a' element, get its 'p' parent, and then remove that 'a' element.
-        // So we remain with:
-        // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-        xmlNodePtr aElement = nodes->nodeTab [0];
-        xmlNodePtr pElement = aElement->parent;
-        xmlUnlinkNode (aElement);
-        xmlFree (aElement);
-        
-        // Preserve active character styles in the main text, and reset them for the note.
-        vector <string> preservedCharacterStyles = characterStyles;
-        characterStyles.clear();
-        
-        // Process this 'p' element.
-        processingNote = true;
-        processNode (pElement);
-        processingNote = false;
-        
-        // Restore the active character styles for the main text.
-        characterStyles = preservedCharacterStyles;
-        
-        // Remove this element so it can't be processed again.
-        xmlUnlinkNode (pElement);
-        xmlFree (pElement);
-        
-      } else {
-        Database_Logs::log ("Discarding note with id " + id + " and href " + href);
-      }
-    }
-
-    // Free memory for XPath.
-    xmlXPathFreeObject(xpathObj);
-    xmlXPathFreeContext(xpathCtx);
+    // It now has the 'a' element: Get its 'p' parent, and then remove that 'a' element.
+    // So we remain with:
+    // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
+    xmlNodePtr pElement = aElement->parent;
+    xmlUnlinkNode (aElement);
+    xmlFree (aElement);
+    
+    // Preserve active character styles in the main text, and reset them for the note.
+    vector <string> preservedCharacterStyles = characterStyles;
+    characterStyles.clear();
+    
+    // Process this 'p' element.
+    processingNote = true;
+    processNode (pElement);
+    processingNote = false;
+    
+    // Restore the active character styles for the main text.
+    characterStyles = preservedCharacterStyles;
+    
+    // Remove this element so it can't be processed again.
+    xmlUnlinkNode (pElement);
+    xmlFree (pElement);
+    
+  } else {
+    Database_Logs::log ("Discarding note with id " + id + " and href " + href);
   }
 }
 
@@ -501,6 +509,36 @@ void Editor_Export::postprocess ()
 {
   // Flush any last USFM line being built.
   flushLine ();
+}
+
+
+// Retrieves a pointer to a relevant footnote element in the XML.
+// Sample footnote element:
+// <a href="#citation1" id="note1">x</a>
+xmlNodePtr Editor_Export::get_note_pointer (xmlNodePtr node, string id)
+{
+  if (node) {
+
+    if (xmlStrEqual(node->name, BAD_CAST "a")) {
+      string note_id;
+      xmlChar * property = xmlGetProp (node, BAD_CAST "id");
+      if (property) {
+        note_id = (char *) property;
+        xmlFree (property);
+      }
+      if (id == note_id) return node;
+    }
+    
+    xmlNodePtr child = node->children;
+
+    while (child != NULL) {
+      xmlNodePtr note = get_note_pointer (child, id);
+      if (note) return note;
+      child = child->next;
+    }
+  }
+  
+  return NULL;
 }
 
 

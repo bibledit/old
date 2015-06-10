@@ -103,7 +103,7 @@ public:
   string settings_checksum ();
   string checksum (const vector <int> & identifiers);
   vector <Sync_Logic_Range> create_range (int start, int end);
-  string post (map <string, string> & post, const string& url, string & error);
+  string post (map <string, string> & post, const string& url, string & error, bool burst = false);
   static string usfm_resources_checksum ();
   static string usfm_resource_checksum (const string& name);
   static string usfm_resource_book_checksum (const string& name, int book);

@@ -53,7 +53,7 @@ string resource_index (void * webserver_request)
   
   vector <string> resources = request->database_config_user()->getActiveResources ();
   string resourceblock;
-  for (unsigned int i = 1; i <= resources.size (); i++) {
+  for (size_t i = 1; i <= resources.size (); i++) {
     resourceblock.append ("<div id=\"line" + convert_to_string (i) + "\" style=\"clear:both\">\n");
     resourceblock.append ("<span id=\"name" + convert_to_string (i) + "\" class=\"small\">" + resources[i - 1] + "</span>\n");
     resourceblock.append ("<span id=\"loading" + convert_to_string (i) + "\"><img src=\"/pix/loading.gif\"></span>\n");

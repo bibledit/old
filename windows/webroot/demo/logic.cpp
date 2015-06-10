@@ -218,7 +218,7 @@ void demo_create_sample_notes (void * webserver_request)
   Database_Notes database_notes = Database_Notes (webserver_request);
   vector <int> identifiers = database_notes.getIdentifiers ();
   if (identifiers.size () < 10) {
-    for (unsigned int i = 1; i <= 10; i++) {
+    for (size_t i = 1; i <= 10; i++) {
       database_notes.storeNewNote (demo_sample_bible_name (), i, i, i, "Sample Note " + convert_to_string (i), "Sample Contents for note " + convert_to_string (i), false);
     }
   }
