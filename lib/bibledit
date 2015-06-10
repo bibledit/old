@@ -21,7 +21,7 @@ crontab crontab3.txt
 # Cleanup.
 rm crontab1.txt crontab2.txt crontab3.txt
 
-# Keep running the Bibledit server even if it crashes.
+# Keep running Bibledit Cloud even if it crashes.
 # Rename the server binary and then run it.
 # This is for easier in-place upgrades.
 while true

@@ -78,9 +78,9 @@ int main (int argc, char **argv)
   cout << "Listening on http://localhost:" << config_logic_network_port () << endl;
   cout << "Press Ctrl-C to quit" << endl;
   
-  // Server should restart itself at midnight.
+  // Bibledit Cloud should restart itself at midnight.
   // This is to be sure that any memory leaks don't accumulate too much
-  // in case the Bibledit server runs for months and years.
+  // in case Bibledit Cloud runs for months and years.
   bibledit_set_quit_at_midnight ();
   
   // Keep running till Bibledit stops or gets interrupted.
