@@ -44,7 +44,7 @@ Run script "build.sh".
 ## Compliance with Mac App Store
 
 Upon submission to the store the Bibledit app was rejected on the grounds that the interface was not of sufficient quality. It just had a button to open Safari to display the web app. The solution to this was to integrate a WebView into the Bibledit app.
-Upon a second submission to the store, the app was rejected on the grounds that it accessed '/Library/Managed Preferences/Guest/com.apple.familycontrols.contentfilter.plist'. After investigation into this, it appeared that the Bibledit app itself was not accessing this location, but that the integrated WebView did it. The WebView is a component from Apple, thus access to this location is outside Bibledit's control.
+Upon a second submission to the store, the app was rejected on the grounds that it accessed '/Library/Managed Preferences/Guest/com.apple.familycontrols.contentfilter.plist'. After an investigation into this, it appeared that the Bibledit app itself was not accessing this location, but that the integrated WebView did it. The WebView is a component from Apple, thus access to this location is outside Bibledit's control.
 
 ## History
 

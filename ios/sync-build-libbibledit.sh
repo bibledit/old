@@ -1,6 +1,3 @@
-#!/bin/bash
-
-
 # Synchronize and build libbibledit on OS X for iOS.
 
 
@@ -501,6 +498,9 @@ find . -name "*.c" -delete
 find . -name "*.o" -delete
 find . -name ".deps" -exec rm -r "{}" \; > /dev/null 2>&1
 find . -name ".dirstamp" -delete
+rm locale/README
+rm sandbox/*
+rm -rf unittests
 
 popd
 

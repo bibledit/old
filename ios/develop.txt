@@ -13,3 +13,10 @@ Libraries
 The Bibledit library depends on libsqlite3, libz, libc++ libxml2 Security.framework CFNetwork.framework. The iOS SDK with Xcode includes this library. Link against all of these libraries in the project settings, the Build Phases.
 
 Beta testing iOS apps is made easy: https://developer.apple.com/app-store/testflight
+
+Submission to store
+
+ERROR ITMS-90035: Invalid Signature. Code object is not signed at all. Make sure you have signed your application with a distribution certificate, not an ad hoc certificate or a development certificate. Verify that the code signing setting in Xcode are correct at the target level (which overrides any values at the project level). Additionally, make sure the bundle you are uploading was built using a Release target in Xcode, not a Simulator target. If you are certain your code signing settings are correct, choose "Clean All" in Xcode, delete the "build" directory in the Finder, and rebuild your release target. For more information, please consult https://developer.apple.com/library/ios/documentation/Security/Conceptual/CodeSigningGuide/Introduction/Introduction.html
+Possible answers in http://stackoverflow.com/questions/29859996/error-itms-90035
+Search for #! through grep -R '#!' * and remove those scripts.
+
