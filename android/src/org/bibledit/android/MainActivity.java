@@ -32,6 +32,9 @@ import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.net.Uri;
+import java.util.Timer;
+import java.util.TimerTask;
+import android.os.Process;
 
 
 // The activity's data is at /data/data/org.bibledit.android.
@@ -44,7 +47,9 @@ public class MainActivity extends Activity
     WebView webview;
     int resumecounter = 0;
     String webAppUrl = "http://localhost:8080";
-    
+    //Timer timer;
+    //TimerTask timerTask;
+
 
     // Function is called when the app gets launched.
     @Override
@@ -125,6 +130,7 @@ public class MainActivity extends Activity
     {
         super.onRestart();
         StartLibrary ();
+        //stopTimer ();
     }
     
     
@@ -135,6 +141,7 @@ public class MainActivity extends Activity
         super.onResume();
         StartLibrary ();
         checkUrl ();
+        //stopTimer ();
     }
     
     
@@ -144,6 +151,8 @@ public class MainActivity extends Activity
     {
         super.onPause ();
         StopLibrary ();
+        //Log.d ("Bibledit", "onPause");
+        //startTimer ();
     }
     
     
@@ -153,6 +162,8 @@ public class MainActivity extends Activity
     {
         super.onStop();
         StopLibrary ();
+        //Log.d ("Bibledit", "onStop");
+        //startTimer ();
     }
     
     
@@ -290,5 +301,42 @@ public class MainActivity extends Activity
     }
 
     
+    /*
+     
+     The idea was that the app would be killed after it would be in the background for a short time.
+     This works well when another app is started and thus Bibledit goes to the background.
+     But when the screen is powered off, then when Bibledit quits itself, Android keeps restarting it.
+     And when the screen is powered on again, then Bibledit cannot find the page.
+     Thus since this does not work well, it was not implemented.
+     
+    private void startTimer ()
+    {
+        stopTimer ();
+        timer = new Timer();
+        initializeTimerTask();
+        timer.schedule (timerTask, 5000);
+    }
+    
+    
+    private void stopTimer ()
+    {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+    
+    private void initializeTimerTask() {
+        timerTask = new TimerTask() {
+            public void run() {
+                Log.d ("Bibledit", "Run task");
+                System.runFinalizersOnExit (true);
+                //this.finish ();
+                Process.killProcess (Process.myPid());
+                System.exit(0);
+            }
+        };
+    }
+     */
 
 }
