@@ -303,7 +303,7 @@ public class MainActivity extends Activity
     
     /*
      
-     The idea was that the app would be killed after it would be in the background for a short time.
+     The idea was that the app would shut down itself after it would be in the background for a while.
      This works well when another app is started and thus Bibledit goes to the background.
      But when the screen is powered off, then when Bibledit quits itself, Android keeps restarting it.
      And when the screen is powered on again, then Bibledit cannot find the page.
