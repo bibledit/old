@@ -49,12 +49,6 @@ const char * bibledit_get_version_number ()
 }
 
 
-// Get Bibledit's splash screen.
-const char * bibledit_get_splash_screen ()
-{
-  return setup_initialization_notice ();
-}
-
 
 // Get the port number that Bibledit's web server listens on.
 const char * bibledit_get_network_port ()
