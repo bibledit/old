@@ -134,7 +134,7 @@ string client_index (void * webserver_request)
       // Feedback.
       view.set_variable ("success", translate("Connection is okay."));
     } else {
-      view.set_variable ("error", translate ("Could not make the connection with the Bibledit server") + ": " + response);
+      view.set_variable ("error", translate ("Could not make the connection with Bibledit Cloud") + ": " + response);
     }
   }
 

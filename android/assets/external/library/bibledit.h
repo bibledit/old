@@ -22,7 +22,6 @@ extern "C" {
 #endif
 
   const char * bibledit_get_version_number ();
-  const char * bibledit_get_splash_screen ();
   const char * bibledit_get_network_port ();
   void bibledit_initialize_library (const char * package, const char * webroot);
   void bibledit_set_touch_enabled (bool enabled);

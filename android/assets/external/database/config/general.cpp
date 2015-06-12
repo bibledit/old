@@ -314,6 +314,16 @@ void Database_Config_General::setRepeatSendReceive (int value)
 }
 
 
+int Database_Config_General::getLastSendReceive () // Todo
+{
+  return getIValue ("last-send-receive", 0);
+}
+void Database_Config_General::setLastSendReceive (int value)
+{
+  setIValue ("last-send-receive", value);
+}
+
+
 string Database_Config_General::getInstalledInterfaceVersion ()
 {
   return getValue ("installed-interface-version", "");

@@ -29,6 +29,7 @@ void sendreceive_queue_bible (string bible);
 void sendreceive_queue_sync (int minute);
 bool sendreceive_sync_queued ();
 void sendreceive_queue_all (bool now);
+void sendreceive_queue_startup ();
 
 
 #endif

@@ -68,6 +68,8 @@ public:
   static void setServerPort (int value);
   static int getRepeatSendReceive ();
   static void setRepeatSendReceive (int value);
+  static int getLastSendReceive ();
+  static void setLastSendReceive (int value);
   static string getInstalledInterfaceVersion ();
   static void setInstalledInterfaceVersion (string value);
   static string getInstalledDatabaseVersion ();

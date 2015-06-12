@@ -135,12 +135,6 @@ string journal_index (void * webserver_request)
   view.set_variable ("lines", lines);
 
   
-  // Display bottom links in case of many entries.
-  // The bottom links assist the user on touch devices
-  // so the user does not need to scroll to the top of the screen to operate the menu.
-  if (entries.size () > 20) view.enable_zone ("manyentries");
-  
-  
   // Pass the filename of the most recent entry to javascript
   // for use by the AJAX calls for getting subsequent journal entries.
   string script = "var filename = " + lastfilename + ";";
