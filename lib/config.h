@@ -37,6 +37,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
+/* Define whether to enable Paratext synchronization */
+#define HAVE_PARATEXT 1
+
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
 
@@ -99,6 +102,9 @@
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
+
+/* Define whether Paratext synchronization is enabled */
+#define PARATEXT "yes"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
