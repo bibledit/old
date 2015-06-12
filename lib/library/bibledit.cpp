@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #else
 #include <curl/curl.h>
 #endif
+#include <sendreceive/logic.h>
 
 
 bool bibledit_started = false;
@@ -135,6 +136,9 @@ void bibledit_start_library ()
   
   // Run the timers in a thread.
   config_globals_timer = new thread (timer_index);
+  
+  // Client should sync right after wake up.
+  sendreceive_queue_startup ();
 }
 
 
