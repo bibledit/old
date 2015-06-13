@@ -362,3 +362,5 @@ void Database_Config_General::setParatextProjectsFolder (string value)
 {
   setValue ("paratext-projects-folder", value);
 }
+
+

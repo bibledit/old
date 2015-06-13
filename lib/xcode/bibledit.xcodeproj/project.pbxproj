@@ -794,12 +794,10 @@
 		CAA4D44E1A45A648003ABA25 /* documentation.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = documentation.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D44F1A45A648003ABA25 /* Exception.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		CAA4D4501A45A648003ABA25 /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
-		CAA4D4511A45A648003ABA25 /* Exception.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Exception.o; sourceTree = "<group>"; };
 		CAA4D4521A45A648003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CAA4D4531A45A648003ABA25 /* ReleaseNotes */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReleaseNotes; sourceTree = "<group>"; };
 		CAA4D4541A45A648003ABA25 /* String.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = String.cpp; sourceTree = "<group>"; };
 		CAA4D4551A45A648003ABA25 /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
-		CAA4D4561A45A648003ABA25 /* String.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = String.o; sourceTree = "<group>"; };
 		CAA4D4571A45A648003ABA25 /* unchecked.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unchecked.h; sourceTree = "<group>"; };
 		CAA4D4581A45A648003ABA25 /* utf8.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
 		CAA4D4591A45A648003ABA25 /* utf8cpp.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = utf8cpp.html; sourceTree = "<group>"; };
@@ -2801,12 +2799,10 @@
 				CAA4D44E1A45A648003ABA25 /* documentation.txt */,
 				CAA4D44F1A45A648003ABA25 /* Exception.cpp */,
 				CAA4D4501A45A648003ABA25 /* Exception.h */,
-				CAA4D4511A45A648003ABA25 /* Exception.o */,
 				CAA4D4521A45A648003ABA25 /* README */,
 				CAA4D4531A45A648003ABA25 /* ReleaseNotes */,
 				CAA4D4541A45A648003ABA25 /* String.cpp */,
 				CAA4D4551A45A648003ABA25 /* String.h */,
-				CAA4D4561A45A648003ABA25 /* String.o */,
 				CAA4D4571A45A648003ABA25 /* unchecked.h */,
 				CAA4D4581A45A648003ABA25 /* utf8.h */,
 				CAA4D4591A45A648003ABA25 /* utf8cpp.html */,

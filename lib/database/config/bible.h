@@ -127,6 +127,8 @@ public:
   static void setEditingAllowedDifferenceChapter (string bible, int value);
   static int getEditingAllowedDifferenceVerse (string bible);
   static void setEditingAllowedDifferenceVerse (string bible, int value);
+  static string getParatextProject (string bible);
+  static void setParatextProject (string bible, string value);
 private:
   static string file (string bible, const char * key);
   static string getValue (string bible, const char * key, const char * default_value);

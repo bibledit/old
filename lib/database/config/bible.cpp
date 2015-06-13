@@ -44,6 +44,7 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
 
 void Database_Config_Bible::setValue (string bible, const char * key, string value)
 {
+  if (bible.empty ()) return;
   string filename = file (bible, key);
   string dirname = filter_url_dirname (filename);
   if (!file_exists (dirname)) filter_url_mkdir (dirname);
@@ -577,4 +578,13 @@ void Database_Config_Bible::setEditingAllowedDifferenceVerse (string bible, int 
   setIValue (bible, "editing-allowed-difference-verse", value);
 }
 
+
+string Database_Config_Bible::getParatextProject (string bible)
+{
+  return getValue (bible, "paratext-project", "");
+}
+void Database_Config_Bible::setParatextProject (string bible, string value)
+{
+  setValue (bible, "paratext-project", value);
+}
 

@@ -27,7 +27,10 @@
 class Paratext_Logic
 {
 public:
-  static string searchParatextProjectsFolder ();
+  static string searchProjectsFolder ();
+  static vector <string> searchProjects (string projects_folder);
+  static vector <string> searchBooks (string project_path);
+  static int getBook (string filename);
 private:
 };
 
