@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.157],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.160],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
@@ -204,6 +204,17 @@ AC_DEFINE([TINYJOURNAL], [], [Define whether the tiny journal is enabled])
 AC_DEFINE_UNQUOTED(TINYJOURNAL, "$TINYJOURNAL")
 AC_SUBST(TINYJOURNAL)
 
+# Enable Paratext synchronization.
+PARATEXT=no
+AC_ARG_ENABLE(paratext,
+[  --enable-paratext Enable Paratext synchronization],
+[AC_DEFINE([HAVE_PARATEXT], [1], [Define whether to enable Paratext synchronization])]
+PARATEXT=yes
+)
+AC_DEFINE([PARATEXT], [], [Define whether Paratext synchronization is enabled])
+AC_DEFINE_UNQUOTED(PARATEXT, "$PARATEXT")
+AC_SUBST(PARATEXT)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -211,8 +222,8 @@ Bibledit $VERSION configuration summary:
 
 Installation prefix                                        : ${prefix}
 Network port (--with-network-port=n)                       : ${NETWORK_PORT}
-Client installation (--enable-client)                      : ${CLIENT}
-Demo installation (--enable-demo)                          : ${DEMO}
+Client edition (--enable-client)                           : ${CLIENT}
+Demo edition (--enable-demo)                               : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
@@ -221,4 +232,5 @@ Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
 Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
+Paratext synchronization (--enable-paratext)               : ${PARATEXT}
 "

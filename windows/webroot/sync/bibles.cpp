@@ -100,10 +100,10 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     if (mergedusfm == serverusfm) {
       // When the merged USFM is the same as what's already on the server, then it means there was a merge conflict.
       // Email the user with the details, so the user can resolve the conflicts.
-      string subject = "Problem sending chapter to server";
-      string body = "<p>While sending " + bible + " " + bookname + " " + convert_to_string (chapter) + " to the server, the server didn't manage to merge it.</p>";
+      string subject = "Problem sending chapter to Bibledit Cloud";
+      string body = "<p>While sending " + bible + " " + bookname + " " + convert_to_string (chapter) + " to Bibledit Cloud, the server didn't manage to merge it.</p>";
       body.append ("<p>Please re-enter your changes as you see fit.</p>");
-      body.append ("<p>Here is the chapter you sent to the server:</p>");
+      body.append ("<p>Here is the chapter you sent to Bibledit Cloud:</p>");
       body.append ("<pre>" + newusfm + "</pre>");
       Database_Mail database_mail = Database_Mail (request);
       database_mail.send (username, subject, body);

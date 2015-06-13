@@ -304,7 +304,9 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
-	browser/index.cpp
+	browser/index.cpp \
+	paratext/logic.cpp \
+	paratext/index.cpp
 
 bin_PROGRAMS = server unittest
 

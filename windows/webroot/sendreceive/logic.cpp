@@ -19,6 +19,7 @@
 
 #include <sendreceive/logic.h>
 #include <filter/url.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
@@ -59,15 +60,33 @@ void sendreceive_queue_sync (int minute)
   // Send and receive: It is time now, or it is manual.
   if (minute < 0) {
     // Only queue the sync tasks if none are running at the moment.
-    if (sendreceive_sync_queued ()) {
-      Database_Logs::log ("Some sync actions are still running");
+    if (tasks_logic_queued (SYNCNOTES)) {
+      Database_Logs::log ("Still synchronizing notes");
     } else {
       tasks_logic_queue (SYNCNOTES);
+    }
+    if (tasks_logic_queued (SYNCBIBLES)) {
+      Database_Logs::log ("Still synchronizing Bibles");
+    } else {
       tasks_logic_queue (SYNCBIBLES);
+    }
+    if (tasks_logic_queued (SYNCSETTINGS)) {
+      Database_Logs::log ("Still synchronizing settings");
+    } else {
       tasks_logic_queue (SYNCSETTINGS);
+    }
+    if (tasks_logic_queued (SYNCEXTERNALRESOURCES)) {
+      Database_Logs::log ("Still synchronizing external resources");
+    } else {
       tasks_logic_queue (SYNCEXTERNALRESOURCES);
+    }
+    if (tasks_logic_queued (SYNCUSFMRESOURCES)) {
+      Database_Logs::log ("Still synchronizing USFM resources");
+    } else {
       tasks_logic_queue (SYNCUSFMRESOURCES);
     }
+    // Store the most recent time that the sync action ran.
+    Database_Config_General::setLastSendReceive (filter_date_seconds_since_epoch ());
   }
 }
 
@@ -99,3 +118,28 @@ void sendreceive_queue_all (bool now)
 }
 
 
+// Function that looks if, at app startup, it needs to queue sync operations in the client.
+void sendreceive_queue_startup () // Todo
+{
+  // Next second when it is supposed to sync.
+  int next_second = Database_Config_General::getLastSendReceive ();
+
+  // Check how often to repeat the sync action.
+  int repeat = Database_Config_General::getRepeatSendReceive ();
+  if (repeat == 1) {
+    // Repeat every hour.
+    next_second += 3600;
+  }
+  else if (repeat == 2) {
+    // Repeat every five minutes.
+    next_second += 300;
+  } else {
+    // No repetition.
+    return;
+  }
+  
+  // When the current time is past the next time it is supposed to sync, start the sync.
+  if (filter_date_seconds_since_epoch () >= next_second) {
+    sendreceive_queue_sync (-1);
+  }
+}

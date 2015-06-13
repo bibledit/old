@@ -68,12 +68,16 @@ public:
   static void setServerPort (int value);
   static int getRepeatSendReceive ();
   static void setRepeatSendReceive (int value);
+  static int getLastSendReceive ();
+  static void setLastSendReceive (int value);
   static string getInstalledInterfaceVersion ();
   static void setInstalledInterfaceVersion (string value);
   static string getInstalledDatabaseVersion ();
   static void setInstalledDatabaseVersion (string value);
   static bool getJustStarted ();
   static void setJustStarted (bool value);
+  static string getParatextProjectsFolder ();
+  static void setParatextProjectsFolder (string value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

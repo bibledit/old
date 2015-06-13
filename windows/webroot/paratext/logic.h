@@ -17,19 +17,19 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_LOGIC_H
-#define INCLUDED_SENDRECEIVE_LOGIC_H
+#ifndef INCLUDED_PARATEXT_LOGIC_H
+#define INCLUDED_PARATEXT_LOGIC_H
 
 
 #include <config/libraries.h>
-#include <filter/string.hpp>
 
 
-void sendreceive_queue_bible (string bible);
-void sendreceive_queue_sync (int minute);
-bool sendreceive_sync_queued ();
-void sendreceive_queue_all (bool now);
-void sendreceive_queue_startup ();
+class Paratext_Logic
+{
+public:
+  static string searchParatextProjectsFolder ();
+private:
+};
 
 
 #endif
