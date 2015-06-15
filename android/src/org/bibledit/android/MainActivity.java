@@ -197,6 +197,7 @@ public class MainActivity extends Activity
     // /data/data/org.bibledit.android/lib/libbbibleditjni.so
     // at installation time by the package manager.
     static {
+        System.loadLibrary("gnustl_shared");
         System.loadLibrary("bibleditjni");
     }
     
