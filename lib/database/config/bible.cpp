@@ -588,3 +588,14 @@ void Database_Config_Bible::setParatextProject (string bible, string value)
   setValue (bible, "paratext-project", value);
 }
 
+
+bool Database_Config_Bible::getParatextCollaborationEnabled (string bible)
+{
+  return getBValue (bible, "paratext-collaboration-enabled", false);
+}
+void Database_Config_Bible::setParatextCollaborationEnabled (string bible, bool value)
+{
+  setBValue (bible, "paratext-collaboration-enabled", value);
+}
+
+

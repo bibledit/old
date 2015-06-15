@@ -100,7 +100,7 @@ void Database_Logs::checkup ()
 }
 
 
-void Database_Logs::rotate () // Todo
+void Database_Logs::rotate ()
 {
   sqlite3 * db = connect ();
   
@@ -162,7 +162,7 @@ void Database_Logs::rotate () // Todo
     }
   }
 
-  // Remove records older than five days from the database, or younger in case of a tiny journal. Todo test for one night.
+  // Remove records older than five days from the database, or younger in case of a tiny journal.
 #ifdef HAVE_TINYJOURNAL
   string timestamp = convert_to_string (filter_date_seconds_since_epoch () - (14400));
 #else

@@ -30,6 +30,7 @@
 #include <paratext/logic.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
+#include <tasks/logic.h>
 
 
 string paratext_index_url ()
@@ -44,7 +45,7 @@ bool paratext_index_acl (void * webserver_request)
 }
 
 
-string paratext_index (void * webserver_request) // Todo write the page.
+string paratext_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -77,8 +78,10 @@ string paratext_index (void * webserver_request) // Todo write the page.
   
   
   if (request->query.count ("disable")) {
+    Database_Config_Bible::setParatextProject (bible, "");
+    Database_Config_Bible::setParatextCollaborationEnabled (bible, false);
+    filter_url_rmdir (Paratext_Logic::ancestorPath (bible, 0));
     bible.clear ();
-    // Todo remove relevant data
   }
 
   
@@ -141,6 +144,15 @@ string paratext_index (void * webserver_request) // Todo write the page.
   Database_Config_Bible::setParatextProject (bible, paratext_project);
   view.set_variable ("paratextproject", paratext_project);
   if (!paratext_project.empty ()) view.enable_zone ("paratextprojectactive");
+
+  
+  // Set collaboration up.
+  string master = request->query ["master"];
+  if (!master.empty ()) {
+    tasks_logic_queue (SETUPPARATEXT, { bible, master });
+    success = translate ("The collaboration will be set up");
+    view.enable_zone ("setuprunning");
+  }
 
 
   view.set_variable ("success", success);

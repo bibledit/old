@@ -314,7 +314,7 @@ void Database_Config_General::setRepeatSendReceive (int value)
 }
 
 
-int Database_Config_General::getLastSendReceive () // Todo
+int Database_Config_General::getLastSendReceive ()
 {
   return getIValue ("last-send-receive", 0);
 }

@@ -22,6 +22,11 @@
 #include <filter/string.h>
 #include <pwd.h>
 #include <database/books.h>
+#include <database/logs.h>
+#include <database/config/bible.h>
+#include <database/config/general.h>
+#include <database/bibles.h>
+#include <tasks/logic.h>
 
 
 string Paratext_Logic::searchProjectsFolder ()
@@ -64,7 +69,7 @@ vector <string> Paratext_Logic::searchProjects (string projects_folder)
   for (auto folder : folders) {
     string path = filter_url_create_path (projects_folder, folder);
     if (filter_url_is_dir (path)) {
-      vector <string> books = searchBooks (path);
+      map <int, string> books = searchBooks (path);
       if (!books.empty ()) projects.push_back (folder);
     }
   }
@@ -72,16 +77,16 @@ vector <string> Paratext_Logic::searchProjects (string projects_folder)
 }
 
 
-vector <string> Paratext_Logic::searchBooks (string project_path)
+map <int, string> Paratext_Logic::searchBooks (string project_path)
 {
-  vector <string> books;
+  map <int, string> books;
   vector <string> files = filter_url_scandir (project_path);
   for (auto file : files) {
     if (file.find (".BAK") != string::npos) continue;
     if (file.find ("~") != string::npos) continue;
     string path = filter_url_create_path (project_path, file);
     int id = getBook (path);
-    if (id) books.push_back (file);
+    if (id) books [id] = file;
   }
   return books;
 }
@@ -110,3 +115,153 @@ int Paratext_Logic::getBook (string filename)
   int id = Database_Books::getIdFromUsfm (fragment);
   return id;
 }
+
+
+void Paratext_Logic::setup (string bible, string master)
+{
+  if (bible.empty ()) {
+    Database_Logs::log ("No Bible given for Paratext link setup.");
+    return;
+  }
+  if (master == "bibledit") {
+    copyBibledit2Paratext (bible);
+    Database_Config_Bible::setParatextCollaborationEnabled (bible, true);
+  } else if (master == "paratext") {
+    copyParatext2Bibledit (bible);
+    Database_Config_Bible::setParatextCollaborationEnabled (bible, true);
+  } else {
+    Database_Logs::log ("Unknown master copy for Paratext link setup.");
+  }
+}
+
+
+void Paratext_Logic::copyBibledit2Paratext (string bible) // Todo
+{
+  Database_Bibles database_bibles;
+  
+  Database_Logs::log ("Copying Bible from Bibledit to a Paratext project.");
+
+  string project_folder = projectFolder (bible);
+
+  Database_Logs::log ("Bibledit Bible: " + bible);
+  Database_Logs::log ("Paratext project: " + project_folder);
+
+  map <int, string> paratext_books = searchBooks (project_folder);
+  
+  vector <int> bibledit_books = database_bibles.getBooks (bible);
+  for (int book : bibledit_books) {
+
+    string bookname = Database_Books::getEnglishFromId (book);
+
+    string paratext_book = paratext_books [book];
+
+    string usfm;
+    vector <int> chapters = database_bibles.getChapters (bible, book);
+    for (int chapter : chapters) {
+      if (!usfm.empty ()) usfm.append ("\n");
+      usfm.append (database_bibles.getChapter (bible, book, chapter));
+    }
+    
+    if (!paratext_book.empty ()) {
+
+      string path = filter_url_create_path (projectFolder (bible), paratext_book);
+      Database_Logs::log (bookname + ": " "Storing to:" " " + path);
+      filter_url_file_put_contents (path, usfm);
+      
+      paratext_books [book].clear ();
+    
+    } else {
+
+      Database_Logs::log (bookname + ": " "It could not be stored because the Paratext project does not have this book." " " "Create it, then retry.");
+    
+    }
+
+    // Ancestor data needed for future merge.
+    ancestor (bible, book, usfm);
+  }
+  
+  for (auto element : paratext_books) {
+    string paratext_book = element.second;
+    if (paratext_book.empty ()) continue;
+    Database_Logs::log (paratext_book + ": " "This Paratext project file was not affected.");
+  }
+}
+
+
+void Paratext_Logic::copyParatext2Bibledit (string bible) // Todo
+{
+  Database_Bibles database_bibles;
+
+  Database_Logs::log ("Copying Paratext project to a Bible in Bibledit.");
+  
+  string project_folder = projectFolder (bible);
+  
+  Database_Logs::log ("Paratext project: " + project_folder);
+  Database_Logs::log ("Bibledit Bible: " + bible);
+
+  vector <int> bibledit_books = database_bibles.getBooks (bible);
+
+  map <int, string> paratext_books = searchBooks (project_folder);
+  for (auto element : paratext_books) {
+
+    int book = element.first;
+    string bookname = Database_Books::getEnglishFromId (book);
+
+    string paratext_book = element.second;
+    string path = filter_url_create_path (projectFolder (bible), paratext_book);
+
+    Database_Logs::log (bookname + ": " "Scheduling import from:" " " + path);
+
+    // It is easiest to schedule an import task.
+    // The task will take care of everything, including recording what to send to the Cloud.
+    tasks_logic_queue (IMPORTUSFM, { path, bible });
+
+    // Ancestor data needed for future merge.
+    string usfm = filter_url_file_get_contents (path);
+    ancestor (bible, book, usfm);
+  }
+}
+
+
+string Paratext_Logic::projectFolder (string bible)
+{
+  return filter_url_create_path (Database_Config_General::getParatextProjectsFolder (), Database_Config_Bible::getParatextProject (bible));
+}
+
+
+void Paratext_Logic::ancestor (string bible, int book, string usfm)
+{
+  string path = ancestorPath (bible, book);
+  filter_url_file_put_contents (path, usfm);
+}
+
+
+string Paratext_Logic::ancestor (string bible, int book)
+{
+  string path = ancestorPath (bible, book);
+  return filter_url_file_get_contents (path);
+}
+
+
+string Paratext_Logic::ancestorPath (string bible, int book)
+{
+  string path = filter_url_create_root_path ("paratext", "ancestors", bible);
+  if (!file_exists (path)) filter_url_mkdir (path);
+  if (book) path = filter_url_create_path (path, convert_to_string (book));
+  return path;
+}
+
+
+vector <string> Paratext_Logic::syncingBibles () // Todo
+{
+  vector <string> syncing;
+  Database_Bibles database_bibles;
+  vector <string> bibles = database_bibles.getBibles ();
+  for (auto bible : bibles) {
+    if (Database_Config_Bible::getParatextCollaborationEnabled (bible)) {
+      syncing.push_back (bible);
+    }
+  }
+  return syncing;
+}
+

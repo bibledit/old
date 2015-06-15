@@ -119,7 +119,7 @@ void sendreceive_queue_all (bool now)
 
 
 // Function that looks if, at app startup, it needs to queue sync operations in the client.
-void sendreceive_queue_startup () // Todo
+void sendreceive_queue_startup ()
 {
   // Next second when it is supposed to sync.
   int next_second = Database_Config_General::getLastSendReceive ();

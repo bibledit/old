@@ -109,7 +109,7 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-  if (request->query.count ("runsync")) {
+  if (request->query.count ("runsync")) { // Todo check paratext.
     if (sendreceive_sync_queued ()) {
       view.set_variable ("errorsync", translate("Still sending and receiving from the last time."));
     }
