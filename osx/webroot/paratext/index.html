@@ -1,0 +1,70 @@
+<h2>translate("Paratext collaboration")</h2>
+<p class="success">##success##</p>
+<p class="error">##error##</p>
+<p>
+translate("Bibledit can synchronize its Bibles with projects in Paratext installed on the same computer.")
+translate("The synchronization works in both directions.")
+translate("Changes in the Bible text made in Bibledit will be transferred to Paratext.")
+translate("And changes made in Paratext will be transferred to Bibledit.")
+</p>
+
+<br>
+<table>
+  <tr>
+    <td>translate("Bible in Bibledit")</td>
+    <td>:</td>
+    <td>##bible##</td>
+    <td>
+      <a href="?bible=##bible##&selectbible">[translate ("change")]</a>
+      <!-- #BEGINZONE bibleactive -->
+      <a href="?bible=##bible##&disable=">[translate ("disable")]</a>
+      <!-- #ENDZONE bibleactive -->
+    </td>
+  </tr>
+  <!-- #BEGINZONE bibleactive -->
+  <tr>
+    <td>translate("Paratext Projects folder")</td>
+    <td>:</td>
+    <td>##paratextfolder##</td>
+    <td><a href="?bible=##bible##&paratextfolder">[translate ("change")]</a></td>
+  </tr>
+  <!-- #BEGINZONE paratextprojectsactive -->
+  <tr>
+    <td>translate("Paratext project")</td>
+    <td>:</td>
+    <td>##paratextproject##</td>
+    <td><a href="?bible=##bible##&paratextproject">[translate ("change")]</a></td>
+  </tr>
+  <!-- #ENDZONE paratextprojectsactive -->
+  <!-- #ENDZONE bibleactive -->
+</table>
+
+<!-- #BEGINZONE bibleactive -->
+<!-- #BEGINZONE paratextprojectsactive -->
+<!-- #BEGINZONE paratextprojectactive -->
+<br>
+<p>
+translate("The first time to synchronize the Bible in Bibledit with the project in Paratext, there is going to be an authoritative copy that overwrites the other.")
+translate("Either the Bible books in the Paratext project overwrite the Bible books in Bibledit.")
+translate("Or the Bible books in Bibledit overwrite the Bible books in the Paratext project")
+translate("This only occurs once during the setup phase.")
+</p>
+
+<br>
+<p>
+translate("Set the collaboration up and pick the authoritative copy:")
+<a href="?bible=##bible##&master=bibledit">Bibledit</a>
+|
+<a href="?bible=##bible##&master=paratext">Paratext</a>.
+</p>
+
+<!-- #BEGINZONE setuprunning -->
+<br>
+<p>
+translate("The collaboration is being set up.")
+<a href="/journal/index">View progress.</a>
+</p>
+<!-- #ENDZONE setuprunning -->
+<!-- #ENDZONE paratextprojectactive -->
+<!-- #ENDZONE paratextprojectsactive -->
+<!-- #ENDZONE bibleactive -->
