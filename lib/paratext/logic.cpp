@@ -20,6 +20,8 @@
 #include <paratext/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/roles.h>
+#include <filter/usfm.h>
 #include <pwd.h>
 #include <database/books.h>
 #include <database/logs.h>
@@ -27,6 +29,7 @@
 #include <database/config/general.h>
 #include <database/bibles.h>
 #include <tasks/logic.h>
+#include <locale/translate.h>
 
 
 string Paratext_Logic::searchProjectsFolder ()
@@ -252,16 +255,119 @@ string Paratext_Logic::ancestorPath (string bible, int book)
 }
 
 
-vector <string> Paratext_Logic::syncingBibles () // Todo
+vector <string> Paratext_Logic::enabledBibles () // Todo
 {
-  vector <string> syncing;
+  vector <string> enabled;
   Database_Bibles database_bibles;
   vector <string> bibles = database_bibles.getBibles ();
   for (auto bible : bibles) {
     if (Database_Config_Bible::getParatextCollaborationEnabled (bible)) {
-      syncing.push_back (bible);
+      enabled.push_back (bible);
     }
   }
-  return syncing;
+  return enabled;
 }
 
+
+void Paratext_Logic::synchronize () // Todo
+{
+  Database_Bibles database_bibles;
+
+  
+  Database_Logs::log (synchronizeStartText (), Filter_Roles::translator ());
+  
+  
+  // The Bibles for which Paratext synchronization has been enabled.
+  vector <string> bibles = enabledBibles ();
+  for (auto bible : bibles) {
+  
+    
+    // The Paratext project folder for the current Bible.
+    string project_folder = projectFolder (bible);
+    if (!file_exists (project_folder)) {
+      Database_Logs::log ("Cannot find Paratext project folder:" " " + project_folder, Filter_Roles::translator ());
+      continue;
+    }
+
+    
+    string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+    
+    
+    vector <int> bibledit_books = database_bibles.getBooks (bible);
+    map <int, string> paratext_books = searchBooks (project_folder);
+
+    
+    for (auto book : bibledit_books) {
+
+      
+      // Check whether the book exists in the Paratext project, if not, skip it.
+      string paratext_book = paratext_books [book];
+      if (paratext_book.empty ()) {
+        Database_Logs::log (journalTag (bible, book, -1) + "The Paratext project does not have this book", Filter_Roles::translator ());
+        continue;
+      }
+      
+
+      // Ancestor USFM per chapter.
+      map <int, string> ancestor_usfm;
+      {
+        string usfm = ancestor (bible, book);
+        vector <BookChapterData> import = usfm_import (usfm, stylesheet);
+        for (auto data : import) {
+          ancestor_usfm [data.chapter] = data.data;
+        }
+      }
+
+
+      // Paratext USFM per chapter.
+      map <int, string> paratext_usfm;
+      {
+        string path = filter_url_create_path (projectFolder (bible), paratext_book);
+        string usfm = filter_url_file_get_contents (path);
+        vector <BookChapterData> import = usfm_import (usfm, stylesheet);
+        for (auto data : import) {
+          paratext_usfm [data.chapter] = data.data;
+        }
+      }
+
+      
+      // Bible_Logic::storeChapter (const string& bible, int book, int chapter, const string& usfm);
+
+      // Store ancestor data for a future merge.
+      //string usfm = filter_url_file_get_contents (path);
+      //ancestor (bible, book, usfm);
+
+      
+    }
+    
+    
+  }
+  
+  
+  Database_Logs::log (synchronizeReadyText (), Filter_Roles::translator ());
+}
+
+
+string Paratext_Logic::synchronizeStartText ()
+{
+  return translate ("Paratext: Send/receive");
+}
+
+
+string Paratext_Logic::synchronizeReadyText ()
+{
+  return translate ("Paratext: Up to date");
+}
+
+
+// Create tag for the journal.
+// If chapter is negative, it is left out from the tag.
+string Paratext_Logic::journalTag (string bible, int book, int chapter)
+{
+  string bookname = Database_Books::getEnglishFromId (book);
+  string project = Database_Config_Bible::getParatextProject (bible);
+  string fragment = bible + " <> " + project + " " + bookname;
+  if (chapter >= 0) fragment.append (" " + convert_to_string (chapter));
+  fragment.append (": ");
+  return fragment;
+}

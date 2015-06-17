@@ -1,59 +1,73 @@
 <h3>translate("Send / Receive")</h3>
 
+<p class="success">##success##</p>
+<p class="error">##error##</p>
+
+<!-- #BEGINZONE client -->
+
+<p>translate("Send and receive:")
+<a href="?runsync=">translate("now")</a>
+|
+<!-- #BEGINZONE repeatsync2 -->
+⇉
+<!-- #ENDZONE repeatsync2 -->
+<a href="?repeatsync=2">translate("every five minutes")</a>
+<!-- #BEGINZONE repeatsync2 -->
+⇇
+<!-- #ENDZONE repeatsync2 -->
+|
+<!-- #BEGINZONE repeatsync1 -->
+⇉
+<!-- #ENDZONE repeatsync1 -->
+<a href="?repeatsync=1">translate("every hour")</a>
+<!-- #BEGINZONE repeatsync1 -->
+⇇
+<!-- #ENDZONE repeatsync1 -->
+|
+<!-- #BEGINZONE repeatsync0 -->
+⇉
+<!-- #ENDZONE repeatsync0 -->
+<a href="?repeatsync=0">translate("manually")</a>
+<!-- #BEGINZONE repeatsync0 -->
+⇇
+<!-- #ENDZONE repeatsync0 -->
+</p>
+
 <!-- #BEGINZONE clientoff -->
-<p class="error">translate ("Not connected to a server")</p>
-<p><a href="/client/index">translate("Connect to a server to start sending and receiving.")</a></p>
+<br>
+<p class="error">translate ("Not connected to Bibledit Cloud")</p>
+<p><a href="/client/index">translate("Connect to start sending and receiving.")</a></p>
 <!-- #ENDZONE clientoff -->
 
 <!-- #BEGINZONE clienton -->
-
-<p class="success">##successsync##</p>
-<p class="error">##errorsync##</p>
+<br>
 <p class="error">##demo##</p>
-<br>
-<p>translate("Bibledit sends and receives relevant data every night.")</p>
-<p><a href="?runsync=">translate("Send and receive it now.")</a></p>
-<br>
-<p>translate("Repeat send and receive:")</p>
-<p>
-  • 
-  <!-- #BEGINZONE repeatsync2 -->
-  ⇉
-  <!-- #ENDZONE repeatsync2 -->
-  <a href="?repeatsync=2">translate("Every five minutes")</a>
-  <!-- #BEGINZONE repeatsync2 -->
-  ⇇
-  <!-- #ENDZONE repeatsync2 -->
-</p>
-<p>
-  • 
-  <!-- #BEGINZONE repeatsync1 -->
-  ⇉
-  <!-- #ENDZONE repeatsync1 -->
-  <a href="?repeatsync=1">translate("Every hour")</a>
-  <!-- #BEGINZONE repeatsync1 -->
-  ⇇
-  <!-- #ENDZONE repeatsync1 -->
-</p>
-<p>
-  • 
-  <!-- #BEGINZONE repeatsync0 -->
-  ⇉
-  <!-- #ENDZONE repeatsync0 -->
-  <a href="?repeatsync=0">translate("Off")</a>
-  <!-- #BEGINZONE repeatsync0 -->
-  ⇇
-  <!-- #ENDZONE repeatsync0 -->
-</p>
 <p>
   translate("It sends changes made here to Bibledit Cloud.")
   translate("It receives updates from Bibledit Cloud.")
 </p>
-
 <!-- #ENDZONE clienton -->
 
-<!-- #BEGINZONE server -->
+<!-- #BEGINZONE paratext -->
+<br>
+<!-- #BEGINZONE paratexton -->
+<p>
+translate("It sends changes made here to Paratext on this computer.")
+translate("It receives updates from Paratext.")
+translate("The following Bibles link to a Paratext project:")
+##paratextbibles##.
+</p>
+<!-- #ENDZONE paratexton -->
+<!-- #BEGINZONE paratextoff -->
+<p>
+translate("If Paratext were installed on this computer, and Bibles in Bibledit would be linked to Paratext projects, then Bibledit would be able to send and receive Bibles data to and from Paratext.")
+</p>
+<!-- #ENDZONE paratextoff -->
+<!-- #ENDZONE paratext -->
 
+<!-- #ENDZONE client -->
+
+<!-- #BEGINZONE server -->
 <p class="success">##successbible##</p>
 <p class="error">##errorbible##</p>
 <p>translate("Bible"): <a href="?bible=">##bible##</a>.</p>
@@ -67,7 +81,6 @@ translate("Send and receive it every five minutes.")
   translate("It receives changes made by others in other instances of Bibledit.")
   translate("It sends changes made here to the server for use by other translators who use Bibledit.")
 </p>
-
 <!-- #ENDZONE server -->
 
 <br>

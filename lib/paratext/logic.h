@@ -35,11 +35,15 @@ public:
   static void copyBibledit2Paratext (string bible);
   static void copyParatext2Bibledit (string bible);
   static string ancestorPath (string bible, int book);
-  static vector <string> syncingBibles ();
+  static vector <string> enabledBibles ();
+  static void synchronize ();
+  static string synchronizeStartText ();
+  static string synchronizeReadyText ();
 private:
   static string projectFolder (string bible);
   static void ancestor (string bible, int book, string usfm);
   static string ancestor (string bible, int book);
+  static string journalTag (string bible, int book, int chapter);
 };
 
 

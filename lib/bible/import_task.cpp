@@ -43,7 +43,7 @@ void recursive_directory_scan_for_files (string folder, vector <string> & paths)
 }
 
 
-void bible_import_task (string location, string bible)
+void bible_import_task (string location, string bible) // Todo
 {
   Database_Logs::log ("Importing Bible data from location " + location + " into Bible " + bible);
 

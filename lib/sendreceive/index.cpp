@@ -35,6 +35,7 @@
 #include <config/logic.h>
 #include <demo/logic.h>
 #include <client/logic.h>
+#include <paratext/logic.h>
 
 
 string sendreceive_index_url ()
@@ -111,23 +112,21 @@ string sendreceive_index (void * webserver_request)
   
   if (request->query.count ("runsync")) { // Todo check paratext.
     if (sendreceive_sync_queued ()) {
-      view.set_variable ("errorsync", translate("Still sending and receiving from the last time."));
+      view.set_variable ("error", translate("Still sending and receiving from the last time."));
     }
     sendreceive_queue_sync (-1);
-    view.set_variable ("successsync", translate("Will send and receive."));
+    view.set_variable ("success", translate("Will send and receive."));
   }
   
   
   if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
     if (client_logic_client_enabled ()) {
       view.enable_zone ("clienton");
     } else {
       view.enable_zone ("clientoff");
     }
-  }
-  
-  
-  if (!config_logic_client_prepared ()) {
+  } else {
     view.enable_zone ("server");
   }
 
@@ -144,11 +143,23 @@ string sendreceive_index (void * webserver_request)
   
   
   if (Database_Config_General::getServerAddress () == "") {
-    view.set_variable ("errorsync", translate("Collaboration has not been set up for the Bibles and Consultation Notes"));
+    view.set_variable ("error", translate("Collaboration has not been set up for the Bibles and Consultation Notes"));
   }
 
   
   view.set_variable ("demo", demo_client_warning ());
+
+  
+  if (config_logic_paratext_enabled ()) {
+    view.enable_zone ("paratext");
+    vector <string> bibles = Paratext_Logic::enabledBibles ();
+    if (!bibles.empty ()) {
+      view.enable_zone ("paratexton");
+      view.set_variable ("paratextbibles", filter_string_implode (bibles, ", "));
+    } else {
+      view.enable_zone ("paratextoff");
+    }
+  }
 
   
   page += view.render ("sendreceive", "index");
