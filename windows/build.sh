@@ -13,7 +13,9 @@ rsync -av --delete ../../lib/ .
 make distclean
 
 
-./configure --enable-client --enable-urlsettings --enable-paratext
+# Limit the maximum number of parallel background tasks 
+# to make the interface more responsive.
+./configure --enable-client --enable-urlsettings --enable-paratext --with-parallel-tasks=1
 
 
 make
