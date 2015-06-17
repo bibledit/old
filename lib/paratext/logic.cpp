@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <filter/usfm.h>
+#include <filter/merge.h>
 #include <pwd.h>
 #include <database/books.h>
 #include <database/logs.h>
@@ -30,6 +31,7 @@
 #include <database/bibles.h>
 #include <tasks/logic.h>
 #include <locale/translate.h>
+#include <bible/logic.h>
 
 
 string Paratext_Logic::searchProjectsFolder ()
@@ -331,13 +333,100 @@ void Paratext_Logic::synchronize () // Todo
       }
 
       
-      // Bible_Logic::storeChapter (const string& bible, int book, int chapter, const string& usfm);
+      // Assemble the available chapters in this book
+      // by combining the available chapters in the Bible in Bibledit
+      // with the available chapters in the Paratext project.
+      vector <int> chapters = database_bibles.getChapters (bible, book);
+      for (auto element : paratext_usfm) {
+        chapters.push_back (element.first);
+      }
+      chapters = array_unique (chapters);
+      sort (chapters.begin(), chapters.end());
+      
 
-      // Store ancestor data for a future merge.
-      //string usfm = filter_url_file_get_contents (path);
-      //ancestor (bible, book, usfm);
+      bool book_is_updated = false;
+      
+      
+      for (int chapter : chapters) {
+        
+        
+        string usfm;
+        string ancestor = ancestor_usfm [chapter];
+        string bibledit = database_bibles.getChapter (bible, book, chapter);
+        string paratext = paratext_usfm [chapter];
+        
+        
+        if (!bibledit.empty () && paratext.empty ()) {
+          // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
+          usfm = bibledit;
+          Database_Logs::log (journalTag (bible, book, chapter) + "Copy Bibledit to Paratext", Filter_Roles::translator ());
+          ancestor_usfm [chapter] = usfm;
+          paratext_usfm [chapter] = usfm;
+        }
+        else if (bibledit.empty () && !paratext.empty ()) {
+          // If Paratext has the chapter, and Bibledit does not, take the Paratext chapter.
+          usfm = paratext;
+          Database_Logs::log (journalTag (bible, book, chapter) + "Copy Paratext to Bibledit", Filter_Roles::translator ());
+          ancestor_usfm [chapter] = usfm;
+          paratext_usfm [chapter] = usfm;
+        }
+        else if (bibledit == paratext) {
+          // Bibledit and Paratext are the same: Do nothing.
+        }
+        else if (!ancestor.empty ()) {
+          // If ancestor data exists, and Bibledit and Paratext differ,
+          // merge both chapters, giving preference to Paratext,
+          // as Paratext is more likely to contain the preferred version,
+          // since it is assumed that perhaps a Manager runs Paratext,
+          // and perhaps Translators run Bibledit.
+          // But this assumption may be wrong.
+          // Nevertheless preference must be given to some data anyway.
+          usfm = filter_merge_run (ancestor, bibledit, paratext);
+          Database_Logs::log (journalTag (bible, book, chapter) + "Chapter merged", Filter_Roles::translator ());
+          ancestor_usfm [chapter] = usfm;
+          paratext_usfm [chapter] = usfm;
+        } else {
+          Database_Logs::log (journalTag (bible, book, chapter) + "Cannot merge chapter due to missing parent data", Filter_Roles::translator ());
+        }
+      
+        
+        if (!usfm.empty ()) {
+          // Store the ßupdated chapter in Bibledit.
+          Bible_Logic::storeChapter (bible, book, chapter, usfm);
+          book_is_updated = true;
+        }
+
+      }
 
       
+      // The whole book has now been dealt with here at this point.
+      // The Bibledit data is already up to date or has been updated.
+      // In case of any updates made in this book, update the ancestor data and the Paratext data.
+      if (book_is_updated) {
+        
+        string usfm;
+        for (auto element : ancestor_usfm) {
+          string data = element.second;
+          if (!data.empty ()) {
+            if (!usfm.empty ()) usfm.append ("\n");
+            usfm.append (filter_string_trim (data));
+          }
+        }
+        ancestor (bible, book, usfm);
+        
+        usfm.clear ();
+        for (auto element : paratext_usfm) {
+          string data = element.second;
+          if (!data.empty ()) {
+            if (!usfm.empty ()) usfm.append ("\n");
+            usfm.append (filter_string_trim (data));
+          }
+        }
+        string path = filter_url_create_path (projectFolder (bible), paratext_book);
+        filter_url_file_put_contents (path, usfm);
+      }
+      
+
     }
     
     
