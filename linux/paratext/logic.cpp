@@ -273,14 +273,18 @@ vector <string> Paratext_Logic::enabledBibles () // Todo
 
 void Paratext_Logic::synchronize () // Todo
 {
+  // The Bibles for which Paratext synchronization has been enabled.
+  vector <string> bibles = enabledBibles ();
+  if (bibles.empty ()) return;
+
+  
   Database_Bibles database_bibles;
 
   
   Database_Logs::log (synchronizeStartText (), Filter_Roles::translator ());
   
   
-  // The Bibles for which Paratext synchronization has been enabled.
-  vector <string> bibles = enabledBibles ();
+  // Go through each Bible.
   for (auto bible : bibles) {
   
     

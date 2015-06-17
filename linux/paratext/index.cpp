@@ -151,6 +151,9 @@ string paratext_index (void * webserver_request)
   if (!master.empty ()) {
     tasks_logic_queue (SETUPPARATEXT, { bible, master });
     success = translate ("The collaboration will be set up");
+    if (Database_Config_General::getRepeatSendReceive () == 0) {
+      Database_Config_General::setRepeatSendReceive (2);
+    }
     view.enable_zone ("setuprunning");
   }
 

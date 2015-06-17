@@ -30,15 +30,11 @@ int main (int argc, char *argv[])
 
   g_signal_connect (application, "activate", G_CALLBACK (activate), NULL);
 
-  bibledit_initialize_library ();
-
   // Get the executable path and base the document root on it.
-  {
-    char *linkname = (char *) malloc (256);
-    if (readlink ("/proc/self/exe", linkname, 256)) {};
-    bibledit_set_web_root (dirname (linkname));
-    free (linkname);
-  }
+  char *linkname = (char *) malloc (256);
+  if (readlink ("/proc/self/exe", linkname, 256)) {};
+  bibledit_initialize_library (dirname (linkname), dirname (linkname));
+  free (linkname);
   
   bibledit_start_library ();
 
