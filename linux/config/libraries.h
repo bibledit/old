@@ -68,8 +68,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // #include <config.h> 
 
 
-// Work-around headers.
-#include <config/cygwin.h>
-
-
 using namespace std;

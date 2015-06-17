@@ -188,12 +188,7 @@ void sendreceive_notes ()
         }
         case Sync_Logic::notes_put_passages:
         {
-          vector <Passage> passages = database_notes.getPassages (identifier);
-          vector <string> lines;
-          for (auto & passage : passages) {
-            lines.push_back (convert_to_string (filter_passage_to_integer (passage)));
-          }
-          content = filter_string_implode (lines, "\n");
+          content = database_notes.getRawPassage (identifier);
           break;
         }
         case Sync_Logic::notes_put_severity:
@@ -301,11 +296,10 @@ void sendreceive_notes ()
   
   // After all note actions have been sent to the server, and the notes updated on the client,
   // the client will now sync its notes with the server's notes.
-  if (!tasks_logic_queued (DOWNLOADNOTES)) {
-    int lowId = Notes_Logic::lowNoteIdentifier;
-    int highId = Notes_Logic::highNoteIdentifier;
-    tasks_logic_queue (DOWNLOADNOTES, { convert_to_string (lowId), convert_to_string (highId) });
-  }
+  sendreceive_notes_download (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
+
+  Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
+
   sendreceive_notes_done ();
 }
 
@@ -315,6 +309,7 @@ void sendreceive_notes_download (int lowId, int highId)
 {
   Webserver_Request request;
   Database_Notes database_notes = Database_Notes (&request);
+  Database_NoteActions database_noteactions = Database_NoteActions ();
   Sync_Logic sync_logic = Sync_Logic (&request);
   Notes_Logic notes_logic = Notes_Logic (&request);
   
@@ -358,10 +353,6 @@ void sendreceive_notes_download (int lowId, int highId)
   int port = Database_Config_General::getServerPort ();
   string url = client_logic_url (address, port, sync_notes_url ());
   
-
-  // Whether this is the main script.
-  bool main_script = (lowId == Notes_Logic::lowNoteIdentifier) && (highId == Notes_Logic::highNoteIdentifier);
-  
   
   // The basic request to be POSTed to the server.
   map <string, string> post;
@@ -395,7 +386,6 @@ void sendreceive_notes_download (int lowId, int highId)
   string client_checksum = database_notes.getMultipleChecksum (identifiers);
   if (server_total == client_total) {
     if (server_checksum == client_checksum) {
-      if (main_script) Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
       return;
     }
   }
@@ -408,11 +398,11 @@ void sendreceive_notes_download (int lowId, int highId)
 
   // We know the total number of notes.
   // If the total note count is too high, divide the range of notes into smaller ranges,
-  // and then schedule a task for each range.
+  // and then deal with each range.
   if (server_total > 20) {
      vector <Sync_Logic_Range> ranges = sync_logic.create_range (lowId, highId);
     for (auto range : ranges) {
-      tasks_logic_queue (DOWNLOADNOTES, {convert_to_string (range.low), convert_to_string (range.high)});
+      sendreceive_notes_download (range.low, range.high);
     }
     return;
   }
@@ -450,11 +440,14 @@ void sendreceive_notes_download (int lowId, int highId)
   
   
   // The client deletes notes no longer on the server.
+  // But it skips the notes that have actions recorded for them,
+  // as these notes are scheduled to be sent to the server first.
   identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
   for (auto identifier : identifiers) {
+    if (database_noteactions.exists (identifier)) continue;
     string summary = database_notes.getSummary (identifier);
     database_notes.erase (identifier);
-    Database_Logs::log (sendreceive_notes_text () + "Deleting one because it is not on the server: " + summary, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, Filter_Roles::translator ());
   }
   
 
@@ -465,6 +458,9 @@ void sendreceive_notes_download (int lowId, int highId)
     if (i >= server_checksums.size ()) continue;
     
     int identifier = server_identifiers [i];
+    
+    // Skip note if it is still to be sent off to the server.
+    if (database_noteactions.exists (identifier)) continue;
     
     string server_checksum = server_checksums [i];
     string client_checksum = database_notes.getChecksum (identifier);
@@ -533,12 +529,16 @@ void sendreceive_notes_download (int lowId, int highId)
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting passages: " + error, Filter_Roles::translator ());
       return;
     }
-    vector <string> lines = filter_string_explode (response, '\n');
-    vector <Passage> passages;
-    for (auto & line : lines) {
-      passages.push_back (filter_integer_to_passage (convert_to_int (line)));
-    }
-    database_notes.setPassages (identifier, passages);
+    // The server sent the raw passage contents, and store that on the client as well.
+    // The reason for this is as follows:
+    // There is a difference between Bibledit as written in PHP and Bibledit in C++,
+    // with regard to whether the passages file has a new line at the end or not.
+    // To ensure that the client passage file has exactly the same contents as on the server,
+    // the contents should be passed in its raw form, without processing it.
+    // If it were processed, then there will be a situation that the client keeps downloading
+    // notes from the server, and never stops doing so, because the passage file contents
+    // will always remain different. Raw passages transfer fix this.
+    database_notes.setRawPassage (identifier, response);
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_severity);
     response = sync_logic.post (post, url, error);

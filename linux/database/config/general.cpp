@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/globals.h>
+#include <config/logic.h>
 #include <administration/timezone.h>
 
 
@@ -105,7 +106,7 @@ void Database_Config_General::setList (const char * key, vector <string> values)
 
 string Database_Config_General::getSiteMailName ()
 {
-  return getValue ("site-mail-name", "Bible Translation");
+  return getValue ("site-mail-name", "Bibledit Cloud");
 }
 void Database_Config_General::setSiteMailName (string value)
 {
@@ -244,6 +245,17 @@ void Database_Config_General::setTimezone (int value)
 
 string Database_Config_General::getSiteURL ()
 {
+  // The site URL is set upon login, normally.
+  // In a client setup, there is never a login.
+  // Consequently the site URL is never set.
+  // In case of a client, return a predefined URL.
+  if (config_logic_client_prepared ()) {
+    string url = "http://localhost:";
+    url.append (config_logic_network_port ());
+    url.append ("/");
+    return url;
+  }
+  // Get the URL that was set upon login.
   return getValue ("site-url", "");
 }
 void Database_Config_General::setSiteURL (string value)
@@ -302,9 +314,19 @@ void Database_Config_General::setRepeatSendReceive (int value)
 }
 
 
+int Database_Config_General::getLastSendReceive ()
+{
+  return getIValue ("last-send-receive", 0);
+}
+void Database_Config_General::setLastSendReceive (int value)
+{
+  setIValue ("last-send-receive", value);
+}
+
+
 string Database_Config_General::getInstalledInterfaceVersion ()
 {
-  return getValue ("installed-interface-version", "0");
+  return getValue ("installed-interface-version", "");
 }
 void Database_Config_General::setInstalledInterfaceVersion (string value)
 {
@@ -314,7 +336,7 @@ void Database_Config_General::setInstalledInterfaceVersion (string value)
 
 string Database_Config_General::getInstalledDatabaseVersion ()
 {
-  return getValue ("installed-database-version", "0");
+  return getValue ("installed-database-version", "");
 }
 void Database_Config_General::setInstalledDatabaseVersion (string value)
 {
@@ -329,6 +351,16 @@ bool Database_Config_General::getJustStarted ()
 void Database_Config_General::setJustStarted (bool value)
 {
   setBValue ("just-started", value);
+}
+
+
+string Database_Config_General::getParatextProjectsFolder ()
+{
+  return getValue ("paratext-projects-folder", "");
+}
+void Database_Config_General::setParatextProjectsFolder (string value)
+{
+  setValue ("paratext-projects-folder", value);
 }
 
 

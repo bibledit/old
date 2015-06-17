@@ -137,7 +137,7 @@ void changes_modifications ()
           
           // Get the sets of identifiers for that chapter, and set some variables.
           vector <Database_Modifications_Id> IdSets = database_modifications.getUserIdentifiers (user, bible, book, chapter);
-          int referenceOldId = 0;
+          //int referenceOldId = 0;
           int referenceNewId = 0;
           int newId = 0;
           int lastNewId = 0;
@@ -151,7 +151,7 @@ void changes_modifications ()
             
             if (restart) {
               changes_process_identifiers (&request, user, bible, book, chapter, referenceNewId, newId, email);
-              referenceOldId = oldId;
+              //referenceOldId = oldId;
               referenceNewId = newId;
               lastNewId = newId;
               restart = false;

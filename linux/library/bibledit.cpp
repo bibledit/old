@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/webserver.h>
 #include <library/bibledit.h>
 #include <config/globals.h>
+#include <config.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <libxml/threads.h>
@@ -32,7 +33,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
+#ifdef CLIENT_PREPARED
+#else
 #include <curl/curl.h>
+#endif
+#include <sendreceive/logic.h>
+
+
+bool bibledit_started = false;
 
 
 // Get Bibledit's version number.
@@ -42,6 +50,7 @@ const char * bibledit_get_version_number ()
 }
 
 
+
 // Get the port number that Bibledit's web server listens on.
 const char * bibledit_get_network_port ()
 {
@@ -49,17 +58,35 @@ const char * bibledit_get_network_port ()
 }
 
 
-// Get the preparation notice embedded html page.
-const char * bibledit_get_preparation_notice ()
+// Initialize library.
+// To be called once during the lifetime of the app.
+// $package: The folder where the package data resides.
+// $webroot: The document root folder for the web server.
+void bibledit_initialize_library (const char * package, const char * webroot)
 {
-  return setup_installation_notice ();
-}
-
-
-// Set the root folder for the web server.
-void bibledit_set_web_root (const char * directory)
-{
-  config_globals_document_root = directory;
+  // Must initialize libcurl before any threads are started.
+#ifdef CLIENT_PREPARED
+#else
+  curl_global_init (CURL_GLOBAL_ALL);
+  // cout << curl_version () << endl;
+#endif
+  
+  // Thread locking.
+  thread_setup ();
+  
+  // Initialize libxml2.
+  xmlInitThreads ();
+  xmlInitParser ();
+  
+  // Set the web root folder.
+  config_globals_document_root = webroot;
+  
+  // Initialize data in a thread.
+  thread setup_thread = thread (setup_conditionally, package);
+  setup_thread.detach ();
+  
+  // Multiple start/stop guard.
+  bibledit_started = false;
 }
 
 
@@ -93,35 +120,25 @@ void bibledit_set_timezone_hours_offset_utc (int hours)
 }
 
 
-// Initialize library.
-// To be called once during the lifetime of the app.
-void bibledit_initialize_library ()
-{
-  // Must initialize libcurl before any threads are started.
-  curl_global_init (CURL_GLOBAL_ALL);
-  // cout << curl_version () << endl;
-
-  // Thread locking.
-  thread_setup ();
-  
-  // Initialize libxml2.
-  xmlInitThreads ();
-  xmlInitParser ();
-}
-
-
 // Start library.
 // Can be called multiple times during the lifetime of the app
 void bibledit_start_library ()
 {
+  // Repeating start guard.
+  if (bibledit_started) return;
+  bibledit_started = true;
+
   // Set running flag.
   config_globals_running = true;
-  // Initialize data.
-  setup_conditionally ();
+  
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
+  
   // Run the timers in a thread.
   config_globals_timer = new thread (timer_index);
+  
+  // Client should sync right after wake up.
+  sendreceive_queue_startup ();
 }
 
 
@@ -137,6 +154,10 @@ bool bibledit_is_running ()
 // Can be called multiple times during the lifetime of the app
 void bibledit_stop_library ()
 {
+  // Repeating stop guard.
+  if (!bibledit_started) return;
+  bibledit_started = false;
+
   // Clear running flag.
   config_globals_running = false;
   
@@ -172,6 +193,9 @@ void bibledit_shutdown_library ()
   
   // Remove thread locks.
   thread_cleanup ();
+
+  // Multiple start/stop guard.
+  bibledit_started = false;
 }
 
 
@@ -179,4 +203,19 @@ void bibledit_shutdown_library ()
 void bibledit_log (const char * message)
 {
   Database_Logs::log (message);
+}
+
+
+// Returns true if the external browser is to be opened.
+bool bibledit_open_browser ()
+{
+  // Upon first call, the menu option for the external browser will be enabled.
+  config_globals_external_browser_enabled = true;
+  
+  // Return whether the link in the menu was clicked.
+  if (config_globals_external_browser_clicked) {
+    config_globals_external_browser_clicked = false;
+    return true;
+  }
+  return false;
 }

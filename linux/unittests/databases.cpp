@@ -66,7 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void test_database_config_general ()
 {
   // Tests for Database_Config_General.
-  evaluate (__LINE__, __func__, "Bible Translation", Database_Config_General::getSiteMailName ());
+  evaluate (__LINE__, __func__, "Bibledit Cloud", Database_Config_General::getSiteMailName ());
   
   string ref = "unittest";
   Database_Config_General::setSiteMailName (ref);
@@ -1026,14 +1026,14 @@ void test_database_confirm ()
   database_confirm.trim ();
 
   // New ID generation test.
-  unsigned int id = database_confirm.getNewID ();
+  int id = database_confirm.getNewID ();
   if (id < 10000) evaluate (__LINE__, __func__, "Should be greater than 10000", id);
   
   // Store data for the ID.
   database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body");
   
   // Search for this ID based on subject.
-  unsigned int id2 = database_confirm.searchID ("Subject line CID" + convert_to_string (id) + " Re:");
+  int id2 = database_confirm.searchID ("Subject line CID" + convert_to_string (id) + " Re:");
   evaluate (__LINE__, __func__, id, id2);
 
   // Retrieve data for the ID.
@@ -2204,6 +2204,17 @@ void test_database_noteactions ()
     vector <int> notes = database.getNotes ();
     evaluate (__LINE__, __func__, {4}, notes);
   }
+  // Exists
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    evaluate (__LINE__, __func__, false, database.exists (2));
+    database.record ("phpunit1", 2, 3, "content1");
+    database.record ("phpunit2", 4, 5, "content2");
+    evaluate (__LINE__, __func__, true, database.exists (2));
+    evaluate (__LINE__, __func__, false, database.exists (3));
+  }
 }
 
 
@@ -2907,6 +2918,9 @@ void test_database_notes ()
     database_notes.erase (identifier);
     database_notes.trim ();
     database_notes.trim_server ();
+    // Since the logbook will have an entry about "Deleting empty notes folder",
+    // erase that entry here.
+    refresh_sandbox (false);
   }
   // Identifier.
   {

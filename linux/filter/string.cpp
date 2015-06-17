@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/md5.h>
 #include <database/config/general.h>
+#include <config/logic.h>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -84,22 +85,19 @@ bool filter_string_replace_between (string& line, const string& start, const str
 }
 
 
-string convert_to_string (unsigned int i)
-{
-  ostringstream r;
-  r << i;
-  return r.str();
-}
-
-
-#ifndef HAVE_CYGWIN
+// On some platforms the sizeof (unsigned int) is equal to the sizeof (size_t).
+// Then compilation would fail if there were two functions "convert_to_string",
+// one taking the unsigned int, and the other taking the size_t.
+// Therefore there is now one function doing both.
+// This may lead to embiguity errors for the C++ compiler.
+// In such case the ambiguity can be removed by changing the type to be passed
+// to this function to "size_t".
 string convert_to_string (size_t i)
 {
   ostringstream r;
   r << i;
   return r.str();
 }
-#endif
 
 
 string convert_to_string (int i)

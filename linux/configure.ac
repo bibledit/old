@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.136],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.163],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
@@ -59,21 +59,6 @@ PKG_CHECK_MODULES(CURL, libcurl >= 7.20.0,,AC_MSG_ERROR(libcurl development vers
 AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))
-
-# Check for libgit2.a in the source directory.
-AC_MSG_CHECKING([libgit2])
-LIBGIT=libgit2.a
-AS_IF([test -f ${LIBGIT}], [
-    GIT_LIBS="-lz"
-    AC_DEFINE([HAVE_GIT], [1], [Whether git funcions are available and enabled])
-    AC_MSG_RESULT([$LIBGIT])
-  ],
-  AC_MSG_RESULT([no])
-  LIBGIT=""
-)
-AC_SUBST(GIT_LIBS)
-AC_SUBST(LIBGIT)
-AC_SUBST(GIT_ENABLED)
 
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
@@ -143,38 +128,18 @@ AC_DEFINE([BARE_BROWSER], [], [Define whether the expected browser is a bare bro
 AC_DEFINE_UNQUOTED(BARE_BROWSER, "$BARE_BROWSER")
 AC_SUBST(BARE_BROWSER)
 
-# Build for iOS.
-IOS=no
-AC_ARG_ENABLE(ios,
-  [  --enable-ios Enable iOS],
-  [AC_DEFINE([HAVE_IOS], [1], [Define whether to build for iOS])]
-  IOS=yes
+# Check whether function 'stoi' is available
+AC_MSG_CHECKING([whether stoi is available])
+AC_COMPILE_IFELSE(
+[AC_LANG_SOURCE([[
+#include <string>
+using namespace std;
+int i = stoi ("string");
+  ]])],
+  [AC_DEFINE([HAVE_STOI], [1], [Define whether function 'stoi' is available])
+   AC_MSG_RESULT([yes])],
+  [AC_MSG_RESULT([no])]
 )
-AC_DEFINE([IOS], [], [Define whether it is to be built for iOS])
-AC_DEFINE_UNQUOTED(IOS, "$IOS")
-AC_SUBST(IOS)
-
-# Build for OS X.
-OSX=no
-AC_ARG_ENABLE(osx,
-[  --enable-osx Enable OS X],
-[AC_DEFINE([HAVE_OSX], [1], [Define whether to build for OS X])]
-OSX=yes
-)
-AC_DEFINE([OSX], [], [Define whether it is to be built for OS X])
-AC_DEFINE_UNQUOTED(OSX, "$OSX")
-AC_SUBST(OSX)
-
-# Build for Cygwin.
-CYGWIN=no
-AC_ARG_ENABLE(cygwin,
-[  --enable-cygwin Enable Cygwin],
-[AC_DEFINE([HAVE_CYGWIN], [1], [Define whether to build for Cygwin])]
-CYGWIN=yes
-)
-AC_DEFINE([CYGWIN], [], [Define whether it is to be built for Cygwin])
-AC_DEFINE_UNQUOTED(CYGWIN, "$CYGWIN")
-AC_SUBST(CYGWIN)
 
 # Enable URL settings.
 URLSETTINGS=no
@@ -190,7 +155,7 @@ AC_SUBST(URLSETTINGS)
 # Enable unit tests.
 UNITTESTS=no
 AC_ARG_ENABLE(unittests,
-[  --enable-unittests Enable URL settings],
+[  --enable-unittests Enable unit tests],
 [AC_DEFINE([HAVE_UNITTESTS], [1], [Define whether to enable unit tests])]
 UNITTESTS=yes
 )
@@ -228,24 +193,44 @@ AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
 AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
 AC_SUBST(ADMIN_EMAIL)
 
+# Enable tiny journal.
+TINYJOURNAL=no
+AC_ARG_ENABLE(tinyjournal,
+[  --enable-tinyjournal Enable tiny journal],
+[AC_DEFINE([HAVE_TINYJOURNAL], [1], [Define whether to enable tiny journal])]
+TINYJOURNAL=yes
+)
+AC_DEFINE([TINYJOURNAL], [], [Define whether the tiny journal is enabled])
+AC_DEFINE_UNQUOTED(TINYJOURNAL, "$TINYJOURNAL")
+AC_SUBST(TINYJOURNAL)
+
+# Enable Paratext synchronization.
+PARATEXT=no
+AC_ARG_ENABLE(paratext,
+[  --enable-paratext Enable Paratext synchronization],
+[AC_DEFINE([HAVE_PARATEXT], [1], [Define whether to enable Paratext synchronization])]
+PARATEXT=yes
+)
+AC_DEFINE([PARATEXT], [], [Define whether Paratext synchronization is enabled])
+AC_DEFINE_UNQUOTED(PARATEXT, "$PARATEXT")
+AC_SUBST(PARATEXT)
+
 AC_OUTPUT(Makefile)
 
 echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix                                        : ${prefix}
-Libgit2                                                    : ${LIBGIT}
 Network port (--with-network-port=n)                       : ${NETWORK_PORT}
-Client installation (--enable-client)                      : ${CLIENT}
-Demo installation (--enable-demo)                          : ${DEMO}
+Client edition (--enable-client)                           : ${CLIENT}
+Demo edition (--enable-demo)                               : ${DEMO}
 Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-Build for iOS (--enable-ios)                               : ${IOS}
-Build for OS X (--enable-osx)                              : ${OSX}
-Build for Cygwin (--enable-cygwin)                         : ${CYGWIN}
 URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
 Unit tests (--enable-unittests)                            : ${UNITTESTS}
 Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
+Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
+Paratext synchronization (--enable-paratext)               : ${PARATEXT}
 "

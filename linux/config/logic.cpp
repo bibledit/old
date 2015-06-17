@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/config/general.h>
 #include <config.h>
+#include <cstdlib>
 
 
 // Returns the Bibledit version number.
@@ -88,4 +89,27 @@ string config_logic_admin_password ()
 string config_logic_admin_email ()
 {
   return ADMIN_EMAIL;
+}
+
+
+// Replacement function for missing "stoi" on some platforms, like Cygwin and Android.
+int my_stoi (const string& str, void * idx, int base)
+{
+#ifdef HAVE_STOI
+  size_t * index = (size_t *) idx;
+  return stoi (str, index, base);
+#else
+  char ** endptr = reinterpret_cast <char **> (idx);
+  int i = strtol (str.c_str(), endptr, base);
+  return i;
+#endif
+}
+
+
+bool config_logic_paratext_enabled ()
+{
+#ifdef HAVE_PARATEXT
+  return true;
+#endif
+  return false;
 }

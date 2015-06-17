@@ -18,8 +18,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <email/receive.h>
+#include <config.h>
 #include <database/logs.h>
+#ifdef CLIENT_PREPARED
+#else
 #include <curl/curl.h>
+#endif
 #include <database/config/general.h>
 #include <filter/string.h>
 #include <config/globals.h>
@@ -188,6 +192,11 @@ string url ()
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
 int email_receive_count (string& error, bool verbose)
 {
+#ifdef CLIENT_PREPARED
+  error = "Not implemented with embedded http library";
+  if (verbose) {}
+  return 0;
+#else
   CURL *curl;
   CURLcode res = CURLE_OK;
 
@@ -236,11 +245,16 @@ int email_receive_count (string& error, bool verbose)
   curl_easy_cleanup (curl);
 
   return mailcount;
+#endif
 }
 
 
 string email_receive_message (string& error)
 {
+#ifdef CLIENT_PREPARED
+  error = "Not implemented with embedded http library";
+  return "";
+#else
   CURL *curl;
   CURLcode res = CURLE_OK;
 
@@ -292,4 +306,5 @@ string email_receive_message (string& error)
   curl_easy_cleanup (curl);
 
   return body;
+#endif
 }

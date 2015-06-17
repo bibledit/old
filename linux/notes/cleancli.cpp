@@ -1,4 +1,4 @@
-void notes_cleancli () {};
+void notes_cleancli () {}
 /*
 require_once ("../bootstrap/bootstrap");
 

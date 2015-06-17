@@ -67,6 +67,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <xrefs/index.h>
 #include <editone/index.h>
 #include <debug/index.h>
+#include <browser/index.h>
+#include <paratext/index.h>
 
 
 /*
@@ -149,7 +151,7 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   // The user's role should be sufficiently high.
   if (workbench_organize_acl (request)) {
     vector <string> workbenches = workbenchGetWorkbenches (request);
-    for (unsigned int i = 0; i < workbenches.size(); i++) {
+    for (size_t i = 0; i < workbenches.size(); i++) {
       menu->push_back ( {"", workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i], NULL});
     }
   }
@@ -228,6 +230,9 @@ vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), translate ("Sync"), NULL } );
+  if (config_globals_external_browser_enabled) {
+    if (browser_index_acl (webserver_request)) menu->push_back ( { "", browser_index_url (), translate ("Browser"), NULL } );
+  }
   if (index_listing_acl (webserver_request, "exports")) menu->push_back ( { "", index_listing_url ("exports"), translate ("Exports"), exportssubmenu () } );
   if (manage_hyphenation_acl (webserver_request)) menu->push_back ( { "", manage_hyphenation_url (), translate ("Hyphenation"), NULL } );
   if (xrefs_index_acl (webserver_request)) menu->push_back ( { "", xrefs_index_url (), translate ("Cross references"), NULL } );
@@ -289,9 +294,15 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   bool client_menu = client_index_acl (webserver_request);
   if (!config_logic_client_prepared ()) client_menu = false;
   if (config_logic_demo_enabled ()) client_menu = true;
-  if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Server"), NULL } );
+  if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Cloud"), NULL } );
   if (fonts_index_acl (webserver_request)) {
     menu->push_back ( { "", fonts_index_url (), translate ("Fonts"), NULL } );
+  }
+  // Paratext can be enabled through ./configure --enable-paratext.
+  if (config_logic_paratext_enabled ()) {
+    if (paratext_index_acl (webserver_request)) {
+      menu->push_back ( { "", paratext_index_url (), translate ("Paratext"), NULL } );
+    }
   }
   if (menu->size ()) return menu;
   delete menu;

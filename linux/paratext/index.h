@@ -17,20 +17,16 @@
  */
 
 
-#ifndef INCLUDED_SETUP_LOGIC_H
-#define INCLUDED_SETUP_LOGIC_H
+#ifndef INCLUDED_PARATEXT_INDEX_H
+#define INCLUDED_PARATEXT_INDEX_H
 
 
 #include <config/libraries.h>
 
 
-void setup_conditionally (const char * package);
-void setup_copy_library (const char * package);
-void setup_write_access ();
-void setup_main_folders_present ();
-void setup_initialize_data ();
-void setup_set_admin_details (string username, string password, string email);
-void setup_complete_gui ();
+string paratext_index_url ();
+bool paratext_index_acl (void * webserver_request);
+string paratext_index (void * webserver_request);
 
 
 #endif

@@ -263,9 +263,8 @@ void Database_Notes::sync ()
   // Any note identifiers in the main index, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      Database_Logs::log ("notes.cpp sync erase (not really) note " + convert_to_string (id)); // Todo temporal
       trash_consultation_note (webserver_request, id);
-      // Todo temporarily off erase (id);
+      erase (id);
     }
   }
   
@@ -534,6 +533,7 @@ string Database_Notes::assembleContents (int identifier, string contents)
   int time = filter_date_seconds_since_epoch ();
   string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  
   new_contents.append ("<p>");
   new_contents.append (user);
   new_contents.append (" (");
@@ -1149,6 +1149,21 @@ void Database_Notes::setBible (int identifier, const string& bible)
 }
 
 
+vector <string> Database_Notes::getAllBibles ()
+{
+  vector <string> bibles;
+  sqlite3 * db = connect ();
+  vector <int> identifiers;
+  vector <string> result = database_sqlite_query (db, "SELECT DISTINCT bible FROM notes;") ["bible"];
+  for (auto & bible : result) {
+    if (bible.empty ()) continue;
+    bibles.push_back (bible);
+  }
+  database_sqlite_disconnect (db);
+  return bibles;
+}
+
+
 // Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
 // and returns this as a string.
 // The chapter and the verse can be negative, in which case they won't be included.
@@ -1223,17 +1238,32 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
     if (!line.empty ()) line.append ("\n");
     line.append (encodePassage (passage.book, passage.chapter, convert_to_int (passage.verse)));
   }
-
-  // Store the authoritative copy in the filesystem.
-  string file = passageFile (identifier);
-  filter_url_file_put_contents (file, line);
+  // Store it.
+  setRawPassage (identifier, line);
 
   if (!import) noteEditedActions (identifier);
+}
 
+
+// Sets the raw $passage(s) for a note $identifier.
+// The reason for having this function is this:
+// There is a slight difference in adding a new line or not to the passage
+// between Bibledit as it was written in PHP,
+// and Bibledit as it is now written in C++.
+// Due to this difference, when a client downloads a note from the server,
+// it should download the exact passage file contents as it is on the server,
+// so as to prevent keeping to download the same notes over and over,
+// due to the above mentioned difference in adding a new line or not.
+void Database_Notes::setRawPassage (int identifier, const string& passage)
+{
+  // Store the authoritative copy in the filesystem.
+  string file = passageFile (identifier);
+  filter_url_file_put_contents (file, passage);
+  
   // Update the shadow database also.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET passage =");
-  sql.add (line);
+  sql.add (passage);
   sql.add ("WHERE identifier =");
   sql.add (identifier);
   sql.add (";");
@@ -1375,7 +1405,7 @@ vector <Database_Notes_Text> Database_Notes::getPossibleSeverities ()
 {
   vector <string> standard = standard_severities ();
   vector <Database_Notes_Text> severities;
-  for (unsigned int i = 0; i < standard.size(); i++) {
+  for (size_t i = 0; i < standard.size(); i++) {
     Database_Notes_Text severity;
     severity.raw = convert_to_string (i);
     severity.localized = translate (standard[i].c_str());
@@ -1669,7 +1699,7 @@ void Database_Notes::updateChecksum (int identifier)
 }
 
 
-// Reads the checksum for the notes given in array identifiers from the database.
+// Queries the database for the checksum for the notes given in the list of $identifiers.
 string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
 {
   sqlite3 * db = connect_checksums ();

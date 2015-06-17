@@ -171,6 +171,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/load.h>
 #include <editone/save.h>
 #include <debug/index.h>
+#include <browser/index.h>
+#include <paratext/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -179,7 +181,10 @@ void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
-  
+
+  // External browser.
+  if ((url == browser_index_url ()) && browser_index_acl (request)) browser_index (request);
+
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")
       || (extension == "png")
@@ -194,6 +199,9 @@ void bootstrap_index (Webserver_Request * request)
   
   // Serve offline resources.
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
+  
+  // Serve initialization notice.
+  else if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) request->reply = setup_initialization_notice ();
   
   // Force setup.
   else if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) request->reply = setup_index (request);
@@ -293,6 +301,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   else if ((url == mapping_index_url ()) && mapping_index_acl (request)) request->reply = mapping_index (request);
   else if ((url == mapping_map_url ()) && mapping_map_acl (request)) request->reply = mapping_map (request);
+  else if ((url == paratext_index_url ()) && paratext_index_acl (request)) request->reply = paratext_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);

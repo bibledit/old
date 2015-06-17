@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <session/logic.h>
 #include <config.h>
+#include <libxml/parser.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -267,13 +268,13 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   config_globals_document_root = testing_directory;
 
-  // Number of failed unit tests.  
+  // Number of failed unit tests.
   error_count = 0;
   
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_filter_git (); exit (0);
+  // test_editor_export (); test_editor_import (); test_editor_roundtrip (); exit (0);
   
   // Run the tests.
   test_database_config_general ();

@@ -24,7 +24,6 @@
 #include <database/config/general.h>
 #include <database/users.h>
 #include <database/logs.h>
-#include <curl/curl.h>
 #include <sync/setup.h>
 #include <config/logic.h>
 
@@ -45,7 +44,7 @@ void client_logic_enable_client (bool enable)
 }
 
 
-// Generates a URL for connecting to the Bibledit server.
+// Generates a URL for connecting to Bibledit Cloud.
 // $address is the website.
 // $port is the port number.
 // $path is the path after the website.

@@ -23,7 +23,6 @@
 
 #include <config/libraries.h>
 #include <libxml/tree.h>
-#include <libxml/HTMLparser.h>
 #include <database/styles.h>
 
 
@@ -40,7 +39,6 @@ private:
   void * webserver_request;
   static void error_handler (void *ctx, const char *msg, ...);
   xmlDocPtr document = NULL; // DOMDocument holding the html.
-  htmlParserCtxtPtr context = NULL;
   map <string, Database_Styles_Item> styles; // Style information.
   vector <string> output; // Output USFM.
   string currentLine; // Growing current USFM line.
@@ -62,6 +60,7 @@ private:
   void openInline (string className);
   void processNoteCitation (xmlNodePtr node);
   string cleanUSFM (string usfm);
+  xmlNodePtr get_note_pointer (xmlNodePtr node, string id);
 };
 
 

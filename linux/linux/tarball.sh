@@ -54,7 +54,7 @@ rm *.bak
 
 make distclean
 
-./configure
+./configure --enable-client --enable-paratext
 
 make dist
 

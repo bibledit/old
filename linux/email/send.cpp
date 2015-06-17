@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <email/send.h>
+#include <config.h>
 #include <webserver/request.h>
 #include <database/logs.h>
 #include <database/mail.h>
@@ -28,7 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/date.h>
+#ifdef CLIENT_PREPARED
+#else
 #include <curl/curl.h>
+#endif
 #include <config/globals.h>
 
 
@@ -94,6 +98,8 @@ struct upload_status {
 };
 
 
+#ifdef CLIENT_PREPARED
+#else
 static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
   struct upload_status *upload_ctx = (struct upload_status *)userp;
@@ -115,6 +121,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 
   return len;
 }
+#endif
 
 
 // Sends the email as specified by the parameters.
@@ -122,6 +129,14 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // In case of failure, it returns the error message.
 string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
 {
+#ifdef CLIENT_PREPARED
+  if (to_mail.empty ()) {}
+  if (to_name.empty ()) {}
+  if (subject.empty ()) {}
+  if (body.empty ()) {}
+  if (verbose) {}
+  return "Not implemented with embedded http library";
+#else
   // Truncate huge emails because libcurl crashes on it.
   int length = body.length ();
   if (length > 100000) body = "This email was " + convert_to_string (length) + " bytes long. It could not be sent. The data it refers to will be available from Bibledit online.";
@@ -262,5 +277,6 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   curl_easy_cleanup(curl);
 
   return result;
+#endif
 }
 

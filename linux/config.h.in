@@ -18,9 +18,6 @@
 /* Define whether it is a client installation */
 #undef CLIENT_PREPARED
 
-/* Define whether it is to be built for Cygwin */
-#undef CYGWIN
-
 /* Define whether it is a demo installation */
 #undef DEMO
 
@@ -30,17 +27,8 @@
 /* define if the compiler supports basic C++11 syntax */
 #undef HAVE_CXX11
 
-/* Define whether to build for Cygwin */
-#undef HAVE_CYGWIN
-
-/* Whether git funcions are available and enabled */
-#undef HAVE_GIT
-
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
-
-/* Define whether to build for iOS */
-#undef HAVE_IOS
 
 /* Define whether libproc.h is present */
 #undef HAVE_LIBPROC
@@ -48,8 +36,8 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
-/* Define whether to build for OS X */
-#undef HAVE_OSX
+/* Define whether to enable Paratext synchronization */
+#undef HAVE_PARATEXT
 
 /* Define whether pthread.h is present */
 #undef HAVE_PTHREAD
@@ -59,6 +47,9 @@
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
+
+/* Define whether function 'stoi' is available */
+#undef HAVE_STOI
 
 /* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
@@ -72,6 +63,9 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Define whether to enable tiny journal */
+#undef HAVE_TINYJOURNAL
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
@@ -81,14 +75,8 @@
 /* Define whether to enable URL settings */
 #undef HAVE_URLSETTINGS
 
-/* Define whether it is to be built for iOS */
-#undef IOS
-
 /* Define the network port number */
 #undef NETWORK_PORT
-
-/* Define whether it is to be built for OS X */
-#undef OSX
 
 /* Name of package */
 #undef PACKAGE
@@ -114,8 +102,14 @@
 /* Define the maximum number of parallel background tasks to run */
 #undef PARALLEL_TASKS
 
+/* Define whether Paratext synchronization is enabled */
+#undef PARATEXT
+
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Define whether the tiny journal is enabled */
+#undef TINYJOURNAL
 
 /* Define whether unit tests are enabled */
 #undef UNITTESTS

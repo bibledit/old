@@ -24,11 +24,14 @@
 #include <database/offlineresources.h>
 #include <database/mappings.h>
 #include <database/config/bible.h>
+#include <database/config/general.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/text.h>
 #include <resource/external.h>
 #include <locale/translate.h>
+#include <config/logic.h>
+#include <client/logic.h>
 
 
 vector <string> Resource_Logic::getNames (void * webserver_request)
@@ -113,7 +116,24 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         html.append (database_offlineresources.get (resource, passage.book, passage.chapter, convert_to_int (passage.verse)));
       }
     } else {
-      html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true);
+      if (config_logic_client_prepared ()) {
+        html = translate ("This resource is not available.");
+        html.append (" ");
+        html.append (translate ("To make it available, follow these steps:"));
+        html.append (" ");
+        string address = Database_Config_General::getServerAddress ();
+        int port = Database_Config_General::getServerPort ();
+        string url = client_logic_url (address, port, "");
+        html.append ("<a href=\"" + url + "\">" + translate ("Go to Bibledit Cloud.") + "</a>");
+        html.append (" ");
+        html.append (translate ("Cache this external resource to make it available offline there."));
+        html.append (" ");
+        html.append (translate ("Come back on the Bibledit client here."));
+        html.append (" ");
+        html.append (translate ("Synchronize."));
+      } else {
+        html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true);
+      }
     }
   } else {
     // Nothing found.

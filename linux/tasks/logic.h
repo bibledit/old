@@ -38,7 +38,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define SENDRECEIVEBIBLES "sendreceivebibles"
 #define SYNCBIBLES "syncbibles"
 #define SYNCNOTES "syncnotes"
-#define DOWNLOADNOTES "downloadnotes"
 #define SYNCSETTINGS "syncsettings"
 #define SYNCEXTERNALRESOURCES "syncexternalresources"
 #define SYNCUSFMRESOURCES "syncusfmresources"
@@ -62,6 +61,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define EXPORTONLINEBIBLE "exportonlinebible"
 #define EXPORTESWORD "exportesword"
 #define HYPHENATE "hyphenate"
+#define SETUPPARATEXT "setupparatext"
+#define SYNCPARATEXT "syncparatext"
 
 
 string tasks_logic_folder ();

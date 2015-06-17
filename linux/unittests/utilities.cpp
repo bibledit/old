@@ -79,7 +79,7 @@ void evaluate (int line, string func, int desired, int actual)
 
 void evaluate (int line, string func, unsigned int desired, unsigned int actual)
 {
-  if (desired != actual) error_message (line, func, convert_to_string (desired), convert_to_string (actual));
+  if (desired != actual) error_message (line, func, convert_to_string ((size_t)desired), convert_to_string ((size_t)actual));
 }
 
 
@@ -95,7 +95,7 @@ void evaluate (int line, string func, vector <string> desired, vector <string> a
     error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
     return;
   }
-  for (unsigned int i = 0; i < desired.size (); i++) {
+  for (size_t i = 0; i < desired.size (); i++) {
     if (desired[i] != actual[i]) error_message (line, func, desired[i], actual[i] + " mismatch at offset " + convert_to_string (i));
   }
 }
@@ -107,7 +107,7 @@ void evaluate (int line, string func, vector <int> desired, vector <int> actual)
     error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
     return;
   }
-  for (unsigned int i = 0; i < desired.size (); i++) {
+  for (size_t i = 0; i < desired.size (); i++) {
     if (desired[i] != actual[i]) error_message (line, func, convert_to_string (desired[i]), convert_to_string (actual[i]) + " mismatch at offset " + convert_to_string (i));
   }
 }
