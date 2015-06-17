@@ -83,7 +83,9 @@ void client_index_enable_client (void * webserver_request, string username, stri
   request->database_config_user()->setUpdatedSettings ({});
   
   // Set it to repeat sync every so often.
-  Database_Config_General::setRepeatSendReceive (2);
+  if (Database_Config_General::getRepeatSendReceive () == 0) {
+    Database_Config_General::setRepeatSendReceive (2);
+  }
   
   // Schedule a sync operation straight-away.
   sendreceive_queue_sync (-1);
