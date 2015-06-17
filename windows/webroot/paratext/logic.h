@@ -27,8 +27,23 @@
 class Paratext_Logic
 {
 public:
-  static string searchParatextProjectsFolder ();
+  static string searchProjectsFolder ();
+  static vector <string> searchProjects (string projects_folder);
+  static map <int, string> searchBooks (string project_path);
+  static int getBook (string filename);
+  static void setup (string bible, string master);
+  static void copyBibledit2Paratext (string bible);
+  static void copyParatext2Bibledit (string bible);
+  static string ancestorPath (string bible, int book);
+  static vector <string> enabledBibles ();
+  static void synchronize ();
+  static string synchronizeStartText ();
+  static string synchronizeReadyText ();
 private:
+  static string projectFolder (string bible);
+  static void ancestor (string bible, int book, string usfm);
+  static string ancestor (string bible, int book);
+  static string journalTag (string bible, int book, int chapter);
 };
 
 

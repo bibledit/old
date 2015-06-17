@@ -58,6 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/esword.h>
 #include <export/onlinebible.h>
 #include <manage/hyphenate.h>
+#include <paratext/logic.h>
 
 
 mutex mutex_tasks; 
@@ -174,6 +175,10 @@ void tasks_run_one (string filename)
     export_onlinebible (parameter1);
   } else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
+  } else if (command == SETUPPARATEXT) {
+    Paratext_Logic::setup (parameter1, parameter2);
+  } else if (command == SYNCPARATEXT) {
+    Paratext_Logic::synchronize ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

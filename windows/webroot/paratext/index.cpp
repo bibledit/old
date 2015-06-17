@@ -30,6 +30,7 @@
 #include <paratext/logic.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
+#include <tasks/logic.h>
 
 
 string paratext_index_url ()
@@ -44,7 +45,7 @@ bool paratext_index_acl (void * webserver_request)
 }
 
 
-string paratext_index (void * webserver_request) // Todo write the page.
+string paratext_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -57,14 +58,16 @@ string paratext_index (void * webserver_request) // Todo write the page.
 
   
   string bible = request->query ["bible"];
-  if (request->query.count ("select")) {
-    string select = request->query["select"];
+
+  
+  if (request->query.count ("selectbible")) {
+    string select = request->query["selectbible"];
     if (select == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
       dialog_list.add_query ("bible", bible);
       vector <string> bibles = request->database_bibles()->getBibles();
       for (auto & value : bibles) {
-        dialog_list.add_row (value, "select", value);
+        dialog_list.add_row (value, "selectbible", value);
       }
       page += dialog_list.run ();
       return page;
@@ -75,31 +78,82 @@ string paratext_index (void * webserver_request) // Todo write the page.
   
   
   if (request->query.count ("disable")) {
+    Database_Config_Bible::setParatextProject (bible, "");
+    Database_Config_Bible::setParatextCollaborationEnabled (bible, false);
+    filter_url_rmdir (Paratext_Logic::ancestorPath (bible, 0));
     bible.clear ();
-    // Todo remove relevant data
   }
 
   
   view.set_variable ("bible", bible);
-  if (bible.empty ()) view.enable_zone ("bibleinactive");
-  else view.enable_zone ("bibleactive");
+  if (!bible.empty ()) view.enable_zone ("bibleactive");
   
-  
-
   
   // Paratext Projects folder.
   string paratext_folder = Database_Config_General::getParatextProjectsFolder ();
   if (!file_exists (paratext_folder)) paratext_folder.clear ();
-  if (paratext_folder.empty ()) paratext_folder = Paratext_Logic::searchParatextProjectsFolder ();
+  
+  if (request->query.count ("paratextfolder")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter the name of the Paratext projects folder"), paratext_folder, "paratextfolder", "");
+    dialog_entry.add_query ("bible", bible);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("paratextfolder")) {
+    string folder = request->post ["entry"];
+    if (file_exists (folder)) {
+      paratext_folder = folder;
+      success = translate ("Paratext projects folder was set.");
+    } else {
+      error = translate ("Paratext projects folder does not exist:") + " " + folder;
+      paratext_folder.clear ();
+    }
+  }
+
+  if (paratext_folder.empty ()) paratext_folder = Paratext_Logic::searchProjectsFolder ();
+
   Database_Config_General::setParatextProjectsFolder (paratext_folder);
   view.set_variable ("paratextfolder", paratext_folder);
   if (paratext_folder.empty ()) {
     view.set_variable ("paratextfolder", translate ("not found"));
+  } else {
+    view.enable_zone ("paratextprojectsactive");
   }
 
   
+  // Paratext Project.
+  string paratext_project = Database_Config_Bible::getParatextProject (bible);
+  if (!file_exists (filter_url_create_path (paratext_folder, paratext_project))) paratext_project.clear ();
+  
+  if (request->query.count ("paratextproject")) {
+    string project = request->query["paratextproject"];
+    if (project == "") {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Which Paratext project are you going to use?"), "", "");
+      dialog_list.add_query ("bible", bible);
+      vector <string> projects = Paratext_Logic::searchProjects (paratext_folder);
+      for (auto & value : projects) {
+        dialog_list.add_row (value, "paratextproject", value);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      paratext_project = project;
+    }
+  }
+  
+  Database_Config_Bible::setParatextProject (bible, paratext_project);
+  view.set_variable ("paratextproject", paratext_project);
+  if (!paratext_project.empty ()) view.enable_zone ("paratextprojectactive");
 
   
+  // Set collaboration up.
+  string master = request->query ["master"];
+  if (!master.empty ()) {
+    tasks_logic_queue (SETUPPARATEXT, { bible, master });
+    success = translate ("The collaboration will be set up");
+    view.enable_zone ("setuprunning");
+  }
+
 
   view.set_variable ("success", success);
   view.set_variable ("error", error);

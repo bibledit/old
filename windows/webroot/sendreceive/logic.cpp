@@ -59,7 +59,7 @@ void sendreceive_queue_sync (int minute)
   
   // Send and receive: It is time now, or it is manual.
   if (minute < 0) {
-    // Only queue the sync tasks if none are running at the moment.
+    // Only queue a sync task if it is not running at the moment.
     if (tasks_logic_queued (SYNCNOTES)) {
       Database_Logs::log ("Still synchronizing notes");
     } else {
@@ -84,6 +84,13 @@ void sendreceive_queue_sync (int minute)
       Database_Logs::log ("Still synchronizing USFM resources");
     } else {
       tasks_logic_queue (SYNCUSFMRESOURCES);
+    }
+    if (config_logic_paratext_enabled ()) {
+      if (tasks_logic_queued (SYNCPARATEXT)) {
+        Database_Logs::log ("Still synchronizing with Paratext");
+      } else {
+        tasks_logic_queue (SYNCPARATEXT);
+      }
     }
     // Store the most recent time that the sync action ran.
     Database_Config_General::setLastSendReceive (filter_date_seconds_since_epoch ());
@@ -119,7 +126,7 @@ void sendreceive_queue_all (bool now)
 
 
 // Function that looks if, at app startup, it needs to queue sync operations in the client.
-void sendreceive_queue_startup () // Todo
+void sendreceive_queue_startup ()
 {
   // Next second when it is supposed to sync.
   int next_second = Database_Config_General::getLastSendReceive ();

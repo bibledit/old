@@ -314,7 +314,7 @@ void Database_Config_General::setRepeatSendReceive (int value)
 }
 
 
-int Database_Config_General::getLastSendReceive () // Todo
+int Database_Config_General::getLastSendReceive ()
 {
   return getIValue ("last-send-receive", 0);
 }
@@ -362,3 +362,5 @@ void Database_Config_General::setParatextProjectsFolder (string value)
 {
   setValue ("paratext-projects-folder", value);
 }
+
+

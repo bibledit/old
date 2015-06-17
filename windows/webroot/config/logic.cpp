@@ -106,7 +106,7 @@ int my_stoi (const string& str, void * idx, int base)
 }
 
 
-bool config_logic_paratext_enabled () // Todo
+bool config_logic_paratext_enabled ()
 {
 #ifdef HAVE_PARATEXT
   return true;
