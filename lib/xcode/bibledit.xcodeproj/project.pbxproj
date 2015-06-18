@@ -682,13 +682,6 @@
 		CAA4D2A51A45A648003ABA25 /* bibledit.pot */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.pot; sourceTree = "<group>"; };
 		CAA4D2A61A45A648003ABA25 /* po-create */ = {isa = PBXFileReference; lastKnownFileType = text; path = "po-create"; sourceTree = "<group>"; };
 		CAA4D2A81A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D2AF1A45A648003ABA25 /* rangy-core.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-core.js"; sourceTree = "<group>"; };
-		CAA4D2B01A45A648003ABA25 /* rangy-cssclassapplier.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-cssclassapplier.js"; sourceTree = "<group>"; };
-		CAA4D2B11A45A648003ABA25 /* rangy-highlighter.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-highlighter.js"; sourceTree = "<group>"; };
-		CAA4D2B21A45A648003ABA25 /* rangy-position.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-position.js"; sourceTree = "<group>"; };
-		CAA4D2B31A45A648003ABA25 /* rangy-selectionsaverestore.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-selectionsaverestore.js"; sourceTree = "<group>"; };
-		CAA4D2B41A45A648003ABA25 /* rangy-serializer.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-serializer.js"; sourceTree = "<group>"; };
-		CAA4D2B51A45A648003ABA25 /* rangy-textrange.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-textrange.js"; sourceTree = "<group>"; };
 		CAA4D2B71A45A648003ABA25 /* reconfigure */ = {isa = PBXFileReference; lastKnownFileType = text; name = reconfigure; path = ../reconfigure; sourceTree = "<group>"; };
 		CAA4D2C41A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA4D2C91A45A648003ABA25 /* organize.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = organize.js; sourceTree = "<group>"; };
@@ -2338,21 +2331,6 @@
 			path = ../processes;
 			sourceTree = "<group>";
 		};
-		CAA4D2AE1A45A648003ABA25 /* rangy */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D2AF1A45A648003ABA25 /* rangy-core.js */,
-				CAA4D2B01A45A648003ABA25 /* rangy-cssclassapplier.js */,
-				CAA4D2B11A45A648003ABA25 /* rangy-highlighter.js */,
-				CAA4D2B21A45A648003ABA25 /* rangy-position.js */,
-				CAA4D2B31A45A648003ABA25 /* rangy-selectionsaverestore.js */,
-				CAA4D2B41A45A648003ABA25 /* rangy-serializer.js */,
-				CAA4D2B51A45A648003ABA25 /* rangy-textrange.js */,
-			);
-			name = rangy;
-			path = ../rangy;
-			sourceTree = "<group>";
-		};
 		CAA4D2B91A45A648003ABA25 /* resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -2933,7 +2911,6 @@
 				CAA4D2A01A45A648003ABA25 /* pix */,
 				CAA4D2A41A45A648003ABA25 /* pot */,
 				CAA4D2A71A45A648003ABA25 /* processes */,
-				CAA4D2AE1A45A648003ABA25 /* rangy */,
 				CAA4D2B71A45A648003ABA25 /* reconfigure */,
 				CAA4D2B91A45A648003ABA25 /* resource */,
 				CAA4D2ED1A45A648003ABA25 /* revisions */,
