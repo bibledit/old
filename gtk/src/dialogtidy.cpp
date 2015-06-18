@@ -26,6 +26,7 @@
 #include "help.h"
 #include "settings.h"
 #include "shortcuts.h"
+#include <glib/gi18n.h>
 
 enum { COLUMN_ABBREV, COLUMN_EDITABLE, COLUMN_TEXT, NUM_COLUMNS };
 
@@ -39,7 +40,7 @@ TidyDialog::TidyDialog(int dummy)
   Shortcuts shortcuts(0);
 
   tidydialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(tidydialog), "Tidy Text");
+  gtk_window_set_title(GTK_WINDOW(tidydialog), _("Tidy Text"));
   gtk_window_set_position(GTK_WINDOW(tidydialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(tidydialog), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(tidydialog), GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -51,7 +52,7 @@ TidyDialog::TidyDialog(int dummy)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label11 = gtk_label_new("Tidy Text can be used while inserting Bible notes. It makes changes in the text that is inserted, following the settings made below.");
+  label11 = gtk_label_new(_("Tidy Text can be used while inserting Bible notes. It makes changes in the text that is inserted, following the settings made below."));
   gtk_widget_show(label11);
   gtk_box_pack_start(GTK_BOX(vbox1), label11, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label11), TRUE);
@@ -61,7 +62,7 @@ TidyDialog::TidyDialog(int dummy)
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator1, FALSE, FALSE, 0);
 
-  checkbutton_translate_books = gtk_check_button_new_with_mnemonic("Translate certain text to book abbreviations");
+  checkbutton_translate_books = gtk_check_button_new_with_mnemonic(_("Translate certain text to book abbreviations"));
   gtk_widget_show(checkbutton_translate_books);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_translate_books, FALSE, FALSE, 0);
 
@@ -80,42 +81,42 @@ TidyDialog::TidyDialog(int dummy)
   gtk_widget_set_size_request(treeview1, -1, 300);
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview1), TRUE);
 
-  checkbutton_normalize_hyphens = gtk_check_button_new_with_mnemonic("Normalize hyphens");
+  checkbutton_normalize_hyphens = gtk_check_button_new_with_mnemonic(_("Normalize hyphens"));
   gtk_widget_show(checkbutton_normalize_hyphens);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_normalize_hyphens, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_normalize_hyphens);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_normalize_hyphens), settings->genconfig.tidy_normalize_hyphens_get());
 
-  checkbutton_space_between_chapter_verse = gtk_check_button_new_with_mnemonic("Remove the space between chapter and verse, e.g. Mat. 1. 1 becomes Mat. 1.1");
+  checkbutton_space_between_chapter_verse = gtk_check_button_new_with_mnemonic(_("Remove the space between chapter and verse, e.g. Mat. 1. 1 becomes Mat. 1.1"));
   gtk_widget_show(checkbutton_space_between_chapter_verse);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_space_between_chapter_verse, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_space_between_chapter_verse);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_space_between_chapter_verse), settings->genconfig.tidy_space_between_chapter_verse_get());
 
-  checkbutton_space_series_verses = gtk_check_button_new_with_mnemonic("Remove the space after a comma in a series of verses, e.g. 10, 11 becomes 10,11");
+  checkbutton_space_series_verses = gtk_check_button_new_with_mnemonic(_("Remove the space after a comma in a series of verses, e.g. 10, 11 becomes 10,11"));
   gtk_widget_show(checkbutton_space_series_verses);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_space_series_verses, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_space_series_verses);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_space_series_verses), settings->genconfig.tidy_space_series_verses_get());
 
-  checkbutton_full_stop_ends_text = gtk_check_button_new_with_mnemonic("Always end the text with a full stop");
+  checkbutton_full_stop_ends_text = gtk_check_button_new_with_mnemonic(_("Always end the text with a full stop"));
   gtk_widget_show(checkbutton_full_stop_ends_text);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_full_stop_ends_text, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_full_stop_ends_text);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_full_stop_ends_text), settings->genconfig.tidy_full_stop_ends_text_get());
 
-  checkbutton_ampersand_semicolon = gtk_check_button_new_with_mnemonic("Change the ampersand in, e.g., Mat. 10.1 & 11.2 to a semicolon: Mat. 10.1; 11.2");
+  checkbutton_ampersand_semicolon = gtk_check_button_new_with_mnemonic(_("Change the ampersand in, e.g., Mat. 10.1 & 11.2 to a semicolon: Mat. 10.1; 11.2"));
   gtk_widget_show(checkbutton_ampersand_semicolon);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_ampersand_semicolon, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_ampersand_semicolon);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_ampersand_semicolon), settings->genconfig.tidy_ampersand_semicolon_get());
 
-  checkbutton_space_before_punctuation = gtk_check_button_new_with_mnemonic("Remove a space before a (semi)colon, full stop, etc.");
+  checkbutton_space_before_punctuation = gtk_check_button_new_with_mnemonic(_("Remove a space before a (semi)colon, full stop, etc."));
   gtk_widget_show(checkbutton_space_before_punctuation);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_space_before_punctuation, FALSE, FALSE, 0);
 
@@ -155,10 +156,10 @@ TidyDialog::TidyDialog(int dummy)
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview1), GTK_TREE_MODEL(model));
   g_object_unref(model);
   GtkCellRenderer *renderer1 = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, "Abbreviation", renderer1, "text", COLUMN_ABBREV, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, _("Abbreviation"), renderer1, "text", COLUMN_ABBREV, NULL);
   GtkCellRenderer *renderer2 = gtk_cell_renderer_text_new();
   g_signal_connect(renderer2, "edited", G_CALLBACK(cell_edited), gpointer(this));
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, "Texts", renderer2, "text", COLUMN_TEXT, "editable", COLUMN_EDITABLE, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, _("Texts"), renderer2, "text", COLUMN_TEXT, "editable", COLUMN_EDITABLE, NULL);
   gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview1)), GTK_SELECTION_SINGLE);
 
   // Load translation texts.

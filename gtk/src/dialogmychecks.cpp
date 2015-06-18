@@ -26,7 +26,7 @@
 #include "settings.h"
 #include "scripturechecks.h"
 #include "shortcuts.h"
-
+#include <glib/gi18n.h>
 
 MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
 {
@@ -38,7 +38,7 @@ MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
 
   // Build gui.
   mychecksdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(mychecksdialog), "My checks");
+  gtk_window_set_title(GTK_WINDOW(mychecksdialog), _("My checks"));
   gtk_window_set_position(GTK_WINDOW(mychecksdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(mychecksdialog), TRUE);
 
@@ -49,12 +49,12 @@ MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Chapters and verses");
+  label1 = gtk_label_new(_("Chapters and verses"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
 
-  checkbutton_chapters_verses = gtk_check_button_new_with_mnemonic("Chapters and verses");
+  checkbutton_chapters_verses = gtk_check_button_new_with_mnemonic(_("Chapters and verses"));
   gtk_widget_show(checkbutton_chapters_verses);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_chapters_verses, FALSE, FALSE, 0);
 
@@ -64,30 +64,30 @@ MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator1, TRUE, TRUE, 0);
 
-  label2 = gtk_label_new("Markers");
+  label2 = gtk_label_new(_("Markers"));
   gtk_widget_show(label2);
   gtk_box_pack_start(GTK_BOX(vbox1), label2, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label2), 0, 0.5);
 
-  checkbutton_markers_validate = gtk_check_button_new_with_mnemonic("Validate");
+  checkbutton_markers_validate = gtk_check_button_new_with_mnemonic(_("Validate"));
   gtk_widget_show(checkbutton_markers_validate);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_markers_validate, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_markers_validate);
 
-  checkbutton_markers_count = gtk_check_button_new_with_mnemonic("Count");
+  checkbutton_markers_count = gtk_check_button_new_with_mnemonic(_("Count"));
   gtk_widget_show(checkbutton_markers_count);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_markers_count, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_markers_count);
 
-  checkbutton_markers_compare = gtk_check_button_new_with_mnemonic("Compare");
+  checkbutton_markers_compare = gtk_check_button_new_with_mnemonic(_("Compare"));
   gtk_widget_show(checkbutton_markers_compare);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_markers_compare, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_markers_compare);
 
-  checkbutton_markers_spacing = gtk_check_button_new_with_mnemonic("Spacing");
+  checkbutton_markers_spacing = gtk_check_button_new_with_mnemonic(_("Spacing"));
   gtk_widget_show(checkbutton_markers_spacing);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_markers_spacing, FALSE, FALSE, 0);
 
@@ -97,18 +97,18 @@ MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
   gtk_widget_show(hseparator2);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator2, TRUE, TRUE, 0);
 
-  label3 = gtk_label_new("Characters");
+  label3 = gtk_label_new(_("Characters"));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(vbox1), label3, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
 
-  checkbutton_characters_inventory = gtk_check_button_new_with_mnemonic("Inventory");
+  checkbutton_characters_inventory = gtk_check_button_new_with_mnemonic(_("Inventory"));
   gtk_widget_show(checkbutton_characters_inventory);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_characters_inventory, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_characters_inventory);
 
-  checkbutton_characters_unwanted_patterns = gtk_check_button_new_with_mnemonic("Unwanted patterns");
+  checkbutton_characters_unwanted_patterns = gtk_check_button_new_with_mnemonic(_("Unwanted patterns"));
   gtk_widget_show(checkbutton_characters_unwanted_patterns);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_characters_unwanted_patterns, FALSE, FALSE, 0);
 
@@ -118,30 +118,30 @@ MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
   gtk_widget_show(hseparator3);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator3, TRUE, TRUE, 0);
 
-  label4 = gtk_label_new("Words");
+  label4 = gtk_label_new(_("Words"));
   gtk_widget_show(label4);
   gtk_box_pack_start(GTK_BOX(vbox1), label4, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
 
-  checkbutton_words_capitalization = gtk_check_button_new_with_mnemonic("Capitalization");
+  checkbutton_words_capitalization = gtk_check_button_new_with_mnemonic(_("Capitalization"));
   gtk_widget_show(checkbutton_words_capitalization);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_words_capitalization, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_words_capitalization);
 
-  checkbutton_words_repetition = gtk_check_button_new_with_mnemonic("Repetition");
+  checkbutton_words_repetition = gtk_check_button_new_with_mnemonic(_("Repetition"));
   gtk_widget_show(checkbutton_words_repetition);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_words_repetition, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_words_repetition);
 
-  checkbutton_words_unwanted = gtk_check_button_new_with_mnemonic("Unwanted");
+  checkbutton_words_unwanted = gtk_check_button_new_with_mnemonic(_("Unwanted"));
   gtk_widget_show(checkbutton_words_unwanted);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_words_unwanted, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_words_unwanted);
 
-  checkbutton_words_inventory = gtk_check_button_new_with_mnemonic("Inventory");
+  checkbutton_words_inventory = gtk_check_button_new_with_mnemonic(_("Inventory"));
   gtk_widget_show(checkbutton_words_inventory);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_words_inventory, FALSE, FALSE, 0);
 
@@ -151,12 +151,12 @@ MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
   gtk_widget_show(hseparator4);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator4, TRUE, TRUE, 0);
 
-  label5 = gtk_label_new("Punctuation");
+  label5 = gtk_label_new(_("Punctuation"));
   gtk_widget_show(label5);
   gtk_box_pack_start(GTK_BOX(vbox1), label5, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label5), 0, 0.5);
 
-  checkbutton_punctuation_matching_pairs = gtk_check_button_new_with_mnemonic("Matching pairs");
+  checkbutton_punctuation_matching_pairs = gtk_check_button_new_with_mnemonic(_("Matching pairs"));
   gtk_widget_show(checkbutton_punctuation_matching_pairs);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_punctuation_matching_pairs, FALSE, FALSE, 0);
 
@@ -166,18 +166,18 @@ MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
   gtk_widget_show(hseparator5);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator5, TRUE, TRUE, 0);
 
-  label6 = gtk_label_new("References");
+  label6 = gtk_label_new(_("References"));
   gtk_widget_show(label6);
   gtk_box_pack_start(GTK_BOX(vbox1), label6, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);
 
-  checkbutton_references_inventory = gtk_check_button_new_with_mnemonic("Inventory");
+  checkbutton_references_inventory = gtk_check_button_new_with_mnemonic(_("Inventory"));
   gtk_widget_show(checkbutton_references_inventory);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_references_inventory, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_references_inventory);
 
-  checkbutton_references_validate = gtk_check_button_new_with_mnemonic("Validate");
+  checkbutton_references_validate = gtk_check_button_new_with_mnemonic(_("Validate"));
   gtk_widget_show(checkbutton_references_validate);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_references_validate, FALSE, FALSE, 0);
 

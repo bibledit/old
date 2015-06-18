@@ -27,7 +27,7 @@
 #include "tiny_utilities.h"
 #include "styles.h"
 #include "stylesheetutils.h"
-
+#include <glib/gi18n.h>
 
 Wordlist::Wordlist(WordlistType wordlist)
 {
@@ -46,7 +46,7 @@ Wordlist::Wordlist(WordlistType wordlist)
       list_closer = "\\zclosewordlist";
       use_asterisk = settings->genconfig.wordlist_general_asterisk_get();
       first_in_chapter = settings->genconfig.wordlist_general_asterisk_first_get();
-      wordlistname = "General word list";
+      wordlistname = _("General word list");
       break;
     }
   case wltHebrew:
@@ -55,7 +55,7 @@ Wordlist::Wordlist(WordlistType wordlist)
       list_closer = "\\zclosehebrewwordlist";
       use_asterisk = settings->genconfig.wordlist_hebrew_asterisk_get();
       first_in_chapter = settings->genconfig.wordlist_hebrew_asterisk_first_get();
-      wordlistname = "Hebrew word list";
+      wordlistname = _("Hebrew word list");
       break;
     }
   case wltGreek:
@@ -64,7 +64,7 @@ Wordlist::Wordlist(WordlistType wordlist)
       list_closer = "\\zclosegreekwordlist";
       use_asterisk = settings->genconfig.wordlist_greek_asterisk_get();
       first_in_chapter = settings->genconfig.wordlist_greek_asterisk_first_get();
-      wordlistname = "Greek word list";
+      wordlistname = _("Greek word list");
       break;
     }
   case wltIndex:
@@ -73,7 +73,7 @@ Wordlist::Wordlist(WordlistType wordlist)
       list_closer = "\\zcloseindex";
       use_asterisk = settings->genconfig.wordlist_index_asterisk_get();
       first_in_chapter = settings->genconfig.wordlist_index_asterisk_first_get();
-      wordlistname = "Index";
+      wordlistname = _("Index");
       break;
     }
   }
@@ -104,7 +104,7 @@ void Wordlist::run(vector < ustring > &allmessages)
 {
   // No project given: bail out.
   if (project.empty()) {
-    message("No project");
+    message(_("No project"));
     return;
   }
   // Pass 1: Collect words and handle asterisks.
@@ -138,8 +138,8 @@ void Wordlist::run(vector < ustring > &allmessages)
     }
   }
   // Informative messages.
-  message("Total entries: " + convert_to_string(wordcount));
-  message("Unique entries: " + convert_to_string(words.size()));
+  message(_("Total entries: ") + convert_to_string(wordcount));
+  message(_("Unique entries: ") + convert_to_string(words.size()));
 
   // Pass 2: Insert word lists.
 
@@ -177,10 +177,10 @@ void Wordlist::run(vector < ustring > &allmessages)
             insert_list(lines, opener_offset, closer_offset);
             CategorizeChapterVerse ccv(lines);
             project_store_chapter(project, books[bk], ccv);
-            message("Word list inserted in " + books_id_to_english(books[bk]) + " " + convert_to_string(chapters[ch]));
+            message(_("Word list inserted in ") + books_id_to_english(books[bk]) + " " + convert_to_string(chapters[ch]));
             inserted = true;
           } else {
-            message("Invalid word list location in " + books_id_to_english(books[bk]) + " " + convert_to_string(chapters[ch]));
+            message(_("Invalid word list location in ") + books_id_to_english(books[bk]) + " " + convert_to_string(chapters[ch]));
           }
         }
       }
@@ -188,7 +188,7 @@ void Wordlist::run(vector < ustring > &allmessages)
 
     // Message if the list was not inserted.
     if (!inserted)
-      message("No place found to insert the word list");
+      message(_("No place found to insert the word list"));
   }
   // Store messages.
   for (unsigned int i = 0; i < messages.size(); i++) {

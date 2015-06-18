@@ -21,6 +21,7 @@
 #include "settings.h"
 #include "dialogentry.h"
 #include "gtkwrappers.h"
+#include <glib/gi18n.h>
 
 void password_edit(GtkWidget * window)
 // The routine to edit the administrator's password.
@@ -31,36 +32,38 @@ void password_edit(GtkWidget * window)
 
   // If the password is set, first ask for the current password before proceeding.
   if (!currentpassword.empty()) {
-    EntryDialog dialog("Password", "Please provide the current password before proceeding", "");
+    EntryDialog dialog(_("Password"), _("Please provide the current password before proceeding"), "");
     dialog.text_invisible();
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
     if (dialog.entered_value != currentpassword) {
-      gtkw_dialog_warning(window, "The password provided is incorrect");
+      gtkw_dialog_warning(window, _("The password provided is incorrect"));
       return;
     }
   }
   // Ask whether the user wishes to set a(nother) password.
   ustring message;
-  message = "The current password is ";
-  if (currentpassword.empty())
-    message.append("unset");
-  else
-    message.append("set");
+  if (currentpassword.empty()) {
+    message.append(_("The current password is unset"));
+  }
+  else {
+    message.append(_("The current password is set"));
+  }
   message.append("\n\n");
-  message.append("Would you like to set ");
-  if (currentpassword.empty())
-    message.append("an");
-  else
-    message.append("another");
-  message.append(" administrator's password?");
+  if (currentpassword.empty()) {
+    message.append("Would you like to set an administrator's password?");
+  }
+  else {
+    message.append("Would you like to set another administrator's password?");
+  }
+
   if (gtkw_dialog_question(window, message, GTK_RESPONSE_YES) != GTK_RESPONSE_YES)
     return;
 
   // Set another password.
   ustring password1;
   {
-    EntryDialog dialog1("Password", "Provide a new password", "");
+    EntryDialog dialog1(_("Password"), _("Provide a new password"), "");
     dialog1.always_ok();
     dialog1.text_invisible();
     if (dialog1.run() != GTK_RESPONSE_OK)
@@ -69,7 +72,7 @@ void password_edit(GtkWidget * window)
   }
   ustring password2;
   {
-    EntryDialog dialog2("Password", "Repeat this password", "");
+    EntryDialog dialog2(_("Password"), _("Repeat this password"), "");
     dialog2.always_ok();
     dialog2.text_invisible();
     if (dialog2.run() != GTK_RESPONSE_OK)
@@ -77,18 +80,19 @@ void password_edit(GtkWidget * window)
     password2 = dialog2.entered_value;
   }
   if (password1 != password2) {
-    gtkw_dialog_warning(window, "The two passwords differ");
+    gtkw_dialog_warning(window, _("The two passwords differ"));
     return;
   }
   // Store the new password.
   settings->genconfig.administration_password_set(password1);
 
   // Give feedback.
-  message = "The password has been ";
-  if (password1.empty())
-    message.append("erased");
-  else
-    message.append("set");
+  if (password1.empty()) {
+    message.append("The password has been erased");
+  }
+  else {
+    message.append("The password has been set");
+  }
   gtkw_dialog_info(window, message);
 }
 
@@ -105,7 +109,7 @@ bool password_pass(GtkWidget * window)
     return true;
 
   // Request the user to provide the password.
-  EntryDialog dialog("Password", "Provide the administrator's password", "");
+  EntryDialog dialog(_("Password"), _("Provide the administrator's password"), "");
   dialog.text_invisible();
   if (dialog.run() != GTK_RESPONSE_OK)
     return false;
@@ -115,6 +119,6 @@ bool password_pass(GtkWidget * window)
     return true;
 
   // Give feedback if there is an error.
-  gtkw_dialog_warning(window, "The password provided is incorrect");
+  gtkw_dialog_warning(window, _("The password provided is incorrect"));
   return false;
 }

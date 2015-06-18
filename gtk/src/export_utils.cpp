@@ -52,7 +52,7 @@
 #include "categorize.h"
 #include "snapshots.h"
 #include "java.h"
-
+#include <glib/gi18n.h>
 
 void export_to_usfm (const ustring& project, ustring location, bool zip)
 {
@@ -81,7 +81,7 @@ void export_to_usfm (const ustring& project, ustring location, bool zip)
   }
 
   // Progress information.
-  ProgressWindow progresswindow("Exporting project", false);
+  ProgressWindow progresswindow(_("Exporting project"), false);
   progresswindow.set_iterate(0, 1, books.size());
 
   // Export all books to usfm.
@@ -135,7 +135,7 @@ Yes, this is a bit rough, I know...
 {
   if (!filename.empty()) {
     // Progress bar.
-    ProgressWindow progresswindow("Export", true);
+    ProgressWindow progresswindow(_("Export"), true);
     // Start process.
     try {
       Usfm usfm(stylesheet_get_actual ());
@@ -144,7 +144,7 @@ Yes, this is a bit rough, I know...
       // Get all the books and go through them.
       vector < unsigned int >scripture_books = project_get_books(project);
       progresswindow.set_iterate(0, 1, scripture_books.size());
-      progresswindow.set_text("Exporting");
+      progresswindow.set_text(_("Exporting"));
       for (unsigned int bk = 0; bk < scripture_books.size(); bk++) {
         // Progress information.
         progresswindow.iterate();
@@ -198,7 +198,7 @@ Yes, this is a bit rough, I know...
       }
     }
     catch(exception & ex) {
-      cerr << "Converting to BibleWorks: " << ex.what() << endl;
+      cerr << _("Converting to BibleWorks: ") << ex.what() << endl;
     }
   }
 }
@@ -211,7 +211,7 @@ void export_translation_notes(const ustring & filename, const vector < unsigned 
 
 void export_to_osis_recommended (const ustring& project, const ustring& filename)
 {
-  ProgressWindow progresswindow("Exporting project", true);
+  ProgressWindow progresswindow(_("Exporting project"), true);
 
   unlink(filename.c_str());
   
@@ -245,7 +245,7 @@ void export_to_osis_recommended (const ustring& project, const ustring& filename
 
 void export_to_osis_old (const ustring& project, const ustring& filename)
 {
-  ProgressWindow progresswindow ("Exporting project", true);
+  ProgressWindow progresswindow (_("Exporting project"), true);
 
   try {
 
@@ -422,7 +422,7 @@ void export_to_osis_old (const ustring& project, const ustring& filename)
     }
   }
   catch(exception & ex) {
-    cerr << "Export: " << ex.what() << endl;
+    cerr << _("Export: ") << ex.what() << endl;
   }
 }
 
@@ -431,7 +431,7 @@ void export_to_osis_for_go_bible_creator (const ustring& project, const ustring&
 // Exports a Bible to a stripped down OSIS file fit for the Go Bible Creator.
 {
   // Progress.
-  ProgressWindow progresswindow ("Exporting", false);
+  ProgressWindow progresswindow (_("Exporting"), false);
 
   // XML writer.
   xmlBufferPtr xmlbuffer = xmlBufferCreate();
@@ -536,7 +536,7 @@ directory: Where to put the module.
 {
   // Check for converter.
   if (!gw_find_program_in_path("osis2mod")) {
-    gtkw_dialog_error(NULL, "The SWORD compiler osis2mod was not found.");
+    gtkw_dialog_error(NULL, _("The SWORD compiler osis2mod was not found."));
     return;
   }
 
@@ -549,7 +549,7 @@ directory: Where to put the module.
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
 
   // Progress information.
-  ProgressWindow *progresswindow = new ProgressWindow("Exporting project", true);
+  ProgressWindow *progresswindow = new ProgressWindow(_("Exporting project"), true);
 
   // The temporal directories for the data.
   ustring base_directory = gw_build_filename(Directories->get_temp(), "sword");
@@ -686,9 +686,9 @@ void export_to_opendocument(const ustring& project, const ustring& filename)
   bool singlefile = true;
   if (selectedbooks.size() > 1) {
     vector < ustring > labels;
-    labels.push_back("Single file");
-    labels.push_back("Multiple files");
-    RadiobuttonDialog dialog("Save method", "Multiple books have been selected.\nShould these be saved to a single file or to multiple files?", labels, 0, false);
+    labels.push_back(_("Single file"));
+    labels.push_back(_("Multiple files"));
+    RadiobuttonDialog dialog(_("Save method"), _("Multiple books have been selected.\nShould these be saved to a single file or to multiple files?"), labels, 0, false);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
     singlefile = dialog.selection == 0;
@@ -711,8 +711,7 @@ void export_to_opendocument(const ustring& project, const ustring& filename)
   }
   if (!unformatted_markers.empty()) {
     // Give warning in case of unformatted markers.
-    ustring message = "The export has completed,\n"
-                      "but the following markers could not be formatted properly:";
+    ustring message = _("The export has completed,\nbut the following markers could not be formatted properly:");
     for (unsigned int i = 0; i < unformatted_markers.size(); i++) {
       message.append ("\n" + unformatted_markers[i]);
     }
@@ -767,7 +766,7 @@ void export_to_usfm_changes (const ustring& project, int time_from, ustring comm
     vector < unsigned int >chapters;
     snapshots_get_chapters_changed_since(project, time_from, books, chapters);
     if (books.empty()) {
-      gtkw_dialog_info(NULL, "There was nothing to backup");
+      gtkw_dialog_info(NULL, _("There was nothing to backup"));
       return;
     }
     quick_sort(books, chapters, 0, books.size());
@@ -882,7 +881,7 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
     unix_mv (jarfile, foldername);
     unix_mv (jadfile, foldername);
   } else {
-    gtkw_dialog_error (NULL, "There was an error producing the Go Bible.\nPlease check the system log for more information.");
+    gtkw_dialog_error (NULL, _("There was an error producing the Go Bible.\nPlease check the system log for more information."));
   }  
 }
 

@@ -29,12 +29,12 @@
 #include "directories.h"
 #include "unixwrappers.h"
 #include "sqlite_reader.h"
-
+#include <glib/gi18n.h>
 
 void kjv_home_entry (HtmlWriter2& htmlwriter)
 {
   htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add (kjv_html_entry_url (), "Sword King James Bible with Strong's lemmata");
+  htmlwriter.hyperlink_add (kjv_html_entry_url (), _("Sword King James Bible with Strong's lemmata"));
   htmlwriter.paragraph_close ();
 }
 
@@ -48,31 +48,31 @@ ustring kjv_html_entry_url ()
 void kjv_detailed_page (HtmlWriter2& htmlwriter)
 {
   htmlwriter.heading_open (3);
-  htmlwriter.text_add ("Sword King James Bible with Strong's lemmata");
+  htmlwriter.text_add (_("Sword King James Bible with Strong's lemmata"));
   htmlwriter.heading_close ();
   htmlwriter.paragraph_open();
-  htmlwriter.text_add ("The King James Bible from the Sword project is useful for its Strong's numbers tagged in the text. Bibledit-Gtk uses this to find related verses, among other things. Importing consists of two steps: exporting it from Sword and creating a database out of it.");
+  htmlwriter.text_add (_("The King James Bible from the Sword project is useful for its Strong's numbers tagged in the text. Bibledit-Gtk uses this to find related verses, among other things. Importing consists of two steps: exporting it from Sword and creating a database out of it."));
   htmlwriter.paragraph_close();
   htmlwriter.heading_open (4);
-  htmlwriter.text_add ("1. Exporting the text from Sword");
+  htmlwriter.text_add (_("1. Exporting the text from Sword"));
   htmlwriter.heading_close ();
   htmlwriter.paragraph_open();
-  htmlwriter.text_add ("To export the text from the Sword library, it is supposed that the KJV Bible has been installed. Open a terminal, and type the following command:");
+  htmlwriter.text_add (_("To export the text from the Sword library, it is supposed that the KJV Bible has been installed. Open a terminal, and type the following command:"));
   htmlwriter.paragraph_close();
   htmlwriter.paragraph_open();
   htmlwriter.text_add ("mod2osis KJV > kjv.txt");
   htmlwriter.paragraph_close();
   htmlwriter.paragraph_open();
-  htmlwriter.text_add ("This will take a while. It should give no errors. Once it finishes there will be a file called kjv.txt in the home directory.");
+  htmlwriter.text_add (_("This will take a while. It should give no errors. Once it finishes there will be a file called kjv.txt in the home directory."));
   htmlwriter.paragraph_close();
   htmlwriter.heading_open (4);
-  htmlwriter.text_add ("2. Creating the database");
+  htmlwriter.text_add (_("2. Creating the database"));
   htmlwriter.heading_close ();
   htmlwriter.paragraph_open();
-  htmlwriter.hyperlink_add (kjv_create_database_url (), "Create database");
+  htmlwriter.hyperlink_add (kjv_create_database_url (), _("Create database"));
   htmlwriter.paragraph_close();
   htmlwriter.paragraph_open();
-  htmlwriter.text_add ("Creating the database should take a while. Once done there will be a file called kjv.sql in the home directory. This file should be added to the bibledit package, replacing the one it currently has.");
+  htmlwriter.text_add (_("Creating the database should take a while. Once done there will be a file called kjv.sql in the home directory. This file should be added to the bibledit package, replacing the one it currently has."));
   htmlwriter.paragraph_close();
 }
 
@@ -86,7 +86,7 @@ ustring kjv_create_database_url ()
 void kjv_action_page (HtmlWriter2& htmlwriter)
 {
   htmlwriter.heading_open (3);
-  htmlwriter.text_add ("Database creation from King James Bible exported from the Sword library");
+  htmlwriter.text_add (_("Database creation from King James Bible exported from the Sword library"));
   htmlwriter.heading_close ();
 
   vector <ustring> messages;
@@ -99,11 +99,11 @@ void kjv_action_page (HtmlWriter2& htmlwriter)
     kjv_txt_file.clear();
   }
   if (kjv_txt_file.empty()) {
-    messages.push_back ("Can't find the input file");
+    messages.push_back (_("Can't find the input file"));
     keep_going = false;
   }
   if (keep_going) {
-    messages.push_back ("Using file " + kjv_txt_file);
+    messages.push_back (_("Using file ") + kjv_txt_file);
   }
 
   // The database.
@@ -111,21 +111,21 @@ void kjv_action_page (HtmlWriter2& htmlwriter)
 
   // Importing data into the database.
   if (keep_going) {
-    messages.push_back ("Importing data into the database at " + kjv_sql_file);
+    messages.push_back (_("Importing data into the database at ") + kjv_sql_file);
     kjv_import_sword (kjv_txt_file, kjv_sql_file);
   }
 
   // Write accumulated messages.
   htmlwriter.heading_open (3);
   if (keep_going) {
-    htmlwriter.text_add ("Success! The database was created");
+    htmlwriter.text_add (_("Success! The database was created"));
   } else {
-    htmlwriter.text_add ("Error!");
+    htmlwriter.text_add (_("Error!"));
   }
   htmlwriter.heading_close ();
   if (keep_going) {
     htmlwriter.paragraph_open ();
-    htmlwriter.text_add ("To use the database, copy the file kjv.sql into the Bibledit-Gtk package and re-install.");
+    htmlwriter.text_add (_("To use the database, copy the file kjv.sql into the Bibledit-Gtk package and re-install."));
     htmlwriter.paragraph_close ();
   }
   for (unsigned int i = 0; i < messages.size(); i++) {
@@ -136,7 +136,7 @@ void kjv_action_page (HtmlWriter2& htmlwriter)
 
   // Write OK.
   htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add ("ok", "Ok");
+  htmlwriter.hyperlink_add (_("ok"), _("Ok"));
   htmlwriter.paragraph_close ();
 }
 
@@ -150,7 +150,7 @@ ustring kjv_sql_filename ()
 void kjv_import_sword (const ustring& textfile, const ustring& database)
 {
   // Show the progress. KJV has 31102 verses.
-  ProgressWindow progresswindow ("Importing King James Bible", false);
+  ProgressWindow progresswindow (_("Importing King James Bible"), false);
   progresswindow.set_iterate (0, 1, 31102);
   gchar * contents;
   g_file_get_contents(textfile.c_str(), &contents, NULL, NULL);

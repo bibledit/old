@@ -32,7 +32,7 @@
 #include "settings.h"
 #include "styles.h"
 #include "combobox.h"
-
+#include <glib/gi18n.h>
 
 EditNoteDialog::EditNoteDialog(Editor2 * editor)
 {
@@ -43,7 +43,7 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   Shortcuts shortcuts(0);
 
   editnotedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(editnotedialog), "Edit note");
+  gtk_window_set_title(GTK_WINDOW(editnotedialog), _("Edit note"));
   gtk_window_set_position(GTK_WINDOW(editnotedialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(editnotedialog));
@@ -54,13 +54,13 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox1, TRUE, TRUE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(hbox1), 1);
 
-  label1 = gtk_label_new_with_mnemonic("Numbering");
+  label1 = gtk_label_new_with_mnemonic(_("Numbering"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 0);
 
   GSList *radiobutton_numbering_automatic_group = NULL;
 
-  radiobutton_numbering_automatic = gtk_radio_button_new_with_mnemonic(NULL, "Automatic");
+  radiobutton_numbering_automatic = gtk_radio_button_new_with_mnemonic(NULL, _("Automatic"));
   gtk_widget_show(radiobutton_numbering_automatic);
   gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_numbering_automatic, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_numbering_automatic), radiobutton_numbering_automatic_group);
@@ -68,7 +68,7 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
 
   shortcuts.button(radiobutton_numbering_automatic);
 
-  radiobutton_numbering_none = gtk_radio_button_new_with_mnemonic(NULL, "None");
+  radiobutton_numbering_none = gtk_radio_button_new_with_mnemonic(NULL, _("None"));
   gtk_widget_show(radiobutton_numbering_none);
   gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_numbering_none, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_numbering_none), radiobutton_numbering_automatic_group);
@@ -76,7 +76,7 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
 
   shortcuts.button(radiobutton_numbering_none);
 
-  radiobutton_numbering_character = gtk_radio_button_new_with_mnemonic(NULL, "Character");
+  radiobutton_numbering_character = gtk_radio_button_new_with_mnemonic(NULL, _("Character"));
   gtk_widget_show(radiobutton_numbering_character);
   gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_numbering_character, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_numbering_character), radiobutton_numbering_automatic_group);
@@ -98,7 +98,7 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   gtk_widget_show(hbox7);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox7, FALSE, FALSE, 0);
 
-  label4 = gtk_label_new_with_mnemonic("Type");
+  label4 = gtk_label_new_with_mnemonic(_("Type"));
   gtk_widget_show(label4);
   gtk_box_pack_start(GTK_BOX(hbox7), label4, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);

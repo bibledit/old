@@ -34,10 +34,10 @@
 #include "gtkwrappers.h"
 #include "compress.h"
 #include "restore.h"
-
+#include <glib/gi18n.h>
 
 RestoreAssistant::RestoreAssistant(int dummy) :
-AssistantBase("Restore", "restore")
+  AssistantBase(_("Restore"), _("restore"))
 // Restore assistant.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
@@ -45,7 +45,7 @@ AssistantBase("Restore", "restore")
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("This assists you with restoring a backup");
+  introduction (_("This assists you with restoring a backup"));
 
   // Configuration and initialization.
   extern Settings *settings;
@@ -57,31 +57,31 @@ AssistantBase("Restore", "restore")
   page_number_select_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_select_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_select_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to restore?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, _("What would you like to restore?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_select_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_select_type, true);
 
   GSList *radiobutton_select_type_group = NULL;
 
-  radiobutton_select_type_bible = gtk_radio_button_new_with_mnemonic (NULL, "Bible");
+  radiobutton_select_type_bible = gtk_radio_button_new_with_mnemonic (NULL, _("Bible"));
   gtk_widget_show (radiobutton_select_type_bible);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible));
 
-  radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, "Notes");
+  radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, _("Notes"));
   gtk_widget_show (radiobutton_select_type_notes);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_notes, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes));
 
-  radiobutton_select_type_resource = gtk_radio_button_new_with_mnemonic (NULL, "Resource");
+  radiobutton_select_type_resource = gtk_radio_button_new_with_mnemonic (NULL, _("Resource"));
   gtk_widget_show (radiobutton_select_type_resource);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_resource, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource));
 
-  radiobutton_select_type_everything = gtk_radio_button_new_with_mnemonic (NULL, "Everything");
+  radiobutton_select_type_everything = gtk_radio_button_new_with_mnemonic (NULL, _("Everything"));
   gtk_widget_show (radiobutton_select_type_everything);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_everything, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything), radiobutton_select_type_group);
@@ -101,7 +101,7 @@ AssistantBase("Restore", "restore")
   page_number_bible_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_name);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_name), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, "What will be the name of the Bible?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, _("What will be the name of the Bible?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_name, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, true);
 
@@ -121,7 +121,7 @@ AssistantBase("Restore", "restore")
   page_number_file = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_file);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_file), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_file, "What is the file to restore?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_file, _("What is the file to restore?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_file, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, false);
 
@@ -152,15 +152,15 @@ AssistantBase("Restore", "restore")
   g_signal_connect ((gpointer) button_file, "clicked", G_CALLBACK (on_button_file_clicked), gpointer(this));
 
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Restore is about to be done");
+  label_confirm = gtk_label_new (_("Restore is about to be done"));
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Restore is about to be done");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, _("Restore is about to be done"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
-  label_progress = gtk_label_new ("Restore is in progress");
+  label_progress = gtk_label_new (_("Restore is in progress"));
   gtk_widget_show (label_progress);
   page_number_progress = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
 
@@ -172,7 +172,7 @@ AssistantBase("Restore", "restore")
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("Ready"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
@@ -195,15 +195,15 @@ void RestoreAssistant::on_assistant_prepare (GtkWidget *page)
 {
   if (page == vbox_bible_name) {
     bool bible_name_is_ok = !bible_name.empty();
-    ustring message = "Will restore to Bible " + bible_name;
+    ustring message = _("Will restore to Bible ") + bible_name;
     vector <ustring> available_bibles = projects_get_all ();
     set <ustring> bible_set (available_bibles.begin (), available_bibles.end());
     if (bible_set.find (bible_name) != bible_set.end ()) {
       bible_name_is_ok = false;
-      message = "This Bible already exists";
+      message = _("This Bible already exists");
     }
     if (bible_name.empty()) {
-      message = "Please enter a name for the Bible to restore to";
+      message = _("Please enter a name for the Bible to restore to");
     }
     gtk_label_set_text (GTK_LABEL (label_bible_name), message.c_str());
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, bible_name_is_ok);
@@ -213,7 +213,7 @@ void RestoreAssistant::on_assistant_prepare (GtkWidget *page)
   if (page == vbox_file) {
     gtk_label_set_text (GTK_LABEL (label_file), filename.c_str());
     if (filename.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_file), "(None)");
+      gtk_label_set_text (GTK_LABEL (label_file), _("(None)"));
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, !filename.empty());
   }
@@ -268,7 +268,7 @@ void RestoreAssistant::on_assistant_apply ()
       }
     }
   } else {
-    restore_feedback.push_back ("Failed to unpack file " + filename);
+    restore_feedback.push_back (_("Failed to unpack file ") + filename);
   }
  
   // Show summary.

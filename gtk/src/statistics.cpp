@@ -26,6 +26,7 @@
 #include "reference.h"
 #include "progresswindow.h"
 #include "utilities.h"
+#include <glib/gi18n.h>
 
 class StatisticsRecord {
  public:
@@ -68,7 +69,7 @@ void statistics_initial_check_project(const ustring & project, bool gui)
 
   // Since the system is out of order, remove any old database.
   if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    gw_message ("Removing Statistics Database for project " + project);
+    gw_message (_("Removing Statistics Database for project ") + project);
     unlink (filename.c_str());
   }
   return;
@@ -78,15 +79,15 @@ void statistics_initial_check_project(const ustring & project, bool gui)
     return;
 
   // Progress.
-  cout << "Statistics database for " << project << ":";
+  cout << _("Statistics database for ") << project << ":";
   ProgressWindow *progresswindow = NULL;
   if (gui)
-    progresswindow = new ProgressWindow(project + ": upgrading statistics", false);
+    progresswindow = new ProgressWindow(project + _(": upgrading statistics"), false);
 
   // Create and initialize the database.
   filename = statistics_database(project, "sql1");
   if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    cout << " creating";
+    cout << _(" creating");
     sqlite3 *db;
     int rc;
     try {

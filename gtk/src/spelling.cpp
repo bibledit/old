@@ -27,23 +27,23 @@
 #include "tiny_utilities.h"
 #include "projectutils.h"
 #include "editor_aids.h"
-
+#include <glib/gi18n.h>
 
 ustring spelling_global_dictionary()
 {
-  return "Global Dictionary";
+  return _("Global Dictionary");
 }
 
 
 const gchar *spelling_project_dictionary_prefix()
 {
-  return "Project ";
+  return _("Project ");
 }
 
 
 const gchar *spelling_project_dictionary_suffix()
 {
-  return " Shared Dictionary";
+  return _(" Shared Dictionary");
 }
 
 
@@ -101,7 +101,7 @@ ustring spelling_dictionary_filename(ustring dictionary)
 
 const gchar *spelling_tag_name()
 {
-  return "misspelling";
+  return _("misspelling");
 }
 
 
@@ -169,7 +169,7 @@ void SpellingChecker::set_dictionaries(const vector < ustring > &dictionaries)
       dicts.push_back(dict);
       pwls.push_back(pwl);
     } else {
-      gw_warning("Enchant error for dictionary " + dictionaries[i]);
+      gw_warning(_("Enchant error for dictionary ") + dictionaries[i]);
     }
   }
 }
@@ -408,7 +408,7 @@ void SpellingChecker::build_suggestion_menu (GtkWidget * menu, GtkTextBuffer *bu
     
     // No spelling suggestions.
     GtkWidget *label;
-    label = gtk_label_new("(No spelling suggestions)");
+    label = gtk_label_new(_("(No spelling suggestions)"));
     mi = gtk_menu_item_new();
     gtk_container_add(GTK_CONTAINER(mi), label);
     gtk_widget_show_all(mi);
@@ -426,7 +426,7 @@ void SpellingChecker::build_suggestion_menu (GtkWidget * menu, GtkTextBuffer *bu
         gtk_menu_shell_insert(GTK_MENU_SHELL(menu), mi, position);
         position++;
 
-        mi = gtk_menu_item_new_with_label("More...");
+        mi = gtk_menu_item_new_with_label(_("More..."));
         gtk_widget_show(mi);
         gtk_menu_shell_insert(GTK_MENU_SHELL(menu), mi, position);
         position++;
@@ -458,7 +458,7 @@ void SpellingChecker::build_suggestion_menu (GtkWidget * menu, GtkTextBuffer *bu
 
   // + Add to Dictionary
   char *label;
-  label = g_strdup_printf("A_dd \"%s\" to Dictionary", word);
+  label = g_strdup_printf(_("A_dd \"%s\" to Dictionary"), word);
   mi = gtk_image_menu_item_new_with_mnemonic(label);
   g_free(label);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(mi), gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_MENU));
@@ -468,7 +468,7 @@ void SpellingChecker::build_suggestion_menu (GtkWidget * menu, GtkTextBuffer *bu
   position++;
 
   // - Ignore All
-  mi = gtk_image_menu_item_new_with_mnemonic("_Ignore All");
+  mi = gtk_image_menu_item_new_with_mnemonic(_("_Ignore All"));
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(mi), gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU));
   g_signal_connect(G_OBJECT(mi), "activate", G_CALLBACK(on_ignore_all), gpointer(this));
   gtk_widget_show_all(mi);
@@ -527,7 +527,7 @@ void SpellingChecker::add_to_dictionary(const gchar * word)
 
   // Bail out if there was none.
   if (!personal_wordlist) {
-    gw_warning("No personal wordlist to add the word to");
+    gw_warning(_("No personal wordlist to add the word to"));
     return;
   }
 

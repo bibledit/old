@@ -21,7 +21,7 @@
 #include "gui_display_changes.h"
 #include "constants.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 DisplayChangesGui::DisplayChangesGui(GtkWidget * box)
 // Creates a GUI that displays changes on the screen.
@@ -112,7 +112,7 @@ void DisplayChangesGui::display(const vector <ustring>& differences)
   g_object_unref(textbuffer);
   
   // Show modification count.
-  ustring message = "Number of modifications: ";
+  ustring message = _("Number of modifications: ");
   message.append (convert_to_string (modification_count));
   gtk_label_set_text (GTK_LABEL (label), message.c_str());
   

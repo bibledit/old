@@ -26,7 +26,7 @@
 #include "progresswindow.h"
 #include "listview.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book, unsigned int chapter)
 {
@@ -44,7 +44,7 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
 
   // Build dialog.  
   editstatusdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(editstatusdialog), "Edit Status");
+  gtk_window_set_title(GTK_WINDOW(editstatusdialog), _("Edit Status"));
   gtk_window_set_position(GTK_WINDOW(editstatusdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(editstatusdialog), TRUE);
 
@@ -69,7 +69,7 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_books), GTK_TREE_MODEL(liststore_books));
   g_object_unref(liststore_books);
   GtkCellRenderer *renderer_books = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_books), -1, "Books", renderer_books, "text", 0, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_books), -1, _("Books"), renderer_books, "text", 0, NULL);
   gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_books)), GTK_SELECTION_MULTIPLE);
 
   scrolledwindow_chapters = gtk_scrolled_window_new(NULL, NULL);
@@ -86,7 +86,7 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_chapters), GTK_TREE_MODEL(liststore_chapters));
   g_object_unref(liststore_chapters);
   GtkCellRenderer *renderer_chapters = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_chapters), -1, "Chapters", renderer_chapters, "text", 0, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_chapters), -1, _("Chapters"), renderer_chapters, "text", 0, NULL);
   gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_chapters)), GTK_SELECTION_MULTIPLE);
 
   scrolledwindow_verses = gtk_scrolled_window_new(NULL, NULL);
@@ -103,7 +103,7 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_verses), GTK_TREE_MODEL(liststore_verses));
   g_object_unref(liststore_verses);
   GtkCellRenderer *renderer_verses = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_verses), -1, "Verses", renderer_verses, "text", 0, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_verses), -1, _("Verses"), renderer_verses, "text", 0, NULL);
   gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_verses)), GTK_SELECTION_MULTIPLE);
 
   scrolledwindow_status = gtk_scrolled_window_new (NULL, NULL);
@@ -137,7 +137,7 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(editstatusdialog, NULL, NULL, "edit/status");
+  new InDialogHelp(editstatusdialog, NULL, NULL, _("edit/status"));
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);

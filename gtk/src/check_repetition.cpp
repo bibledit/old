@@ -26,6 +26,7 @@
 #include "books.h"
 #include "scripturechecks.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 CheckRepetition::CheckRepetition(const ustring & project, const vector < unsigned int >&books, bool ignorecase, const ustring & only_these, const ustring & ignore_these, bool gui)
 /*
@@ -69,7 +70,7 @@ gui: whether to show graphical progressbar.
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Repeating words", true);
+    progresswindow = new ProgressWindow(_("Repeating words"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book in the project.
@@ -129,7 +130,7 @@ gui: whether to show graphical progressbar.
               }
             }
             if (print) {
-              ustring message = "Repeated: ";
+              ustring message = _("Repeated: ");
               message.append(word);
               references.push_back(books_id_to_english(mybooks[bk]) + " " + convert_to_string(chapters[ch]) + ":" + verses[vs]);
               comments.push_back(message);

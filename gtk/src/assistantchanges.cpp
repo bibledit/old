@@ -32,10 +32,10 @@
 #include "compareutils.h"
 #include "snapshots.h"
 #include "utilities.h"
-
+#include <glib/gi18n.h>
 
 ChangesAssistant::ChangesAssistant(WindowReferences * references_window) :
-AssistantBase("Changes", "changes")
+  AssistantBase(_("Changes"), _("changes"))
 // Assistant for adding keyterms.
 {
   my_references_window = references_window;
@@ -49,32 +49,32 @@ AssistantBase("Changes", "changes")
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
 
   // Introduction.
-  introduction ("You can view the changes that have been made in the project.");
+  introduction (_("You can view the changes that have been made in the project."));
 
   // Ask user what he wants.
   vbox1 = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox1);
   question_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox1);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox1, "Which changes would you like to see?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox1, _("Which changes would you like to see?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox1, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox1, true);
 
   GSList *radiobutton_since_last_review_group = NULL;
 
-  radiobutton_since_last_review = gtk_radio_button_new_with_mnemonic (NULL, "The ones made since my last review");
+  radiobutton_since_last_review = gtk_radio_button_new_with_mnemonic (NULL, _("The ones made since my last review"));
   gtk_widget_show (radiobutton_since_last_review);
   gtk_box_pack_start (GTK_BOX (vbox1), radiobutton_since_last_review, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_since_last_review), radiobutton_since_last_review_group);
   radiobutton_since_last_review_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_since_last_review));
 
-  radiobutton_since_date = gtk_radio_button_new_with_mnemonic (NULL, "The ones made since a certain date I will give");
+  radiobutton_since_date = gtk_radio_button_new_with_mnemonic (NULL, _("The ones made since a certain date I will give"));
   gtk_widget_show (radiobutton_since_date);
   gtk_box_pack_start (GTK_BOX (vbox1), radiobutton_since_date, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_since_date), radiobutton_since_last_review_group);
   radiobutton_since_last_review_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_since_date));
 
-  radiobutton_between_dates = gtk_radio_button_new_with_mnemonic (NULL, "The ones made between two dates I will give");
+  radiobutton_between_dates = gtk_radio_button_new_with_mnemonic (NULL, _("The ones made between two dates I will give"));
   gtk_widget_show (radiobutton_between_dates);
   gtk_box_pack_start (GTK_BOX (vbox1), radiobutton_between_dates, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_between_dates), radiobutton_since_last_review_group);
@@ -85,7 +85,7 @@ AssistantBase("Changes", "changes")
   gtk_widget_show (label_last_review);
   last_review_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_last_review);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_last_review, "Information");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_last_review, _("Information"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_last_review, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_last_review, true);
 
@@ -98,7 +98,7 @@ AssistantBase("Changes", "changes")
       last_review_seconds--;
     projectconfig->changes_last_review_set(last_review_seconds);
   }
-  ustring last_review_label = "Last review was on " + date_time_seconds_human_readable(last_review_seconds, true);
+  ustring last_review_label = _("Last review was on ") + date_time_seconds_human_readable(last_review_seconds, true);
   gtk_label_set_text(GTK_LABEL(label_last_review), last_review_label.c_str());
 
   // Date from.
@@ -123,31 +123,31 @@ AssistantBase("Changes", "changes")
   }
   date_to_object = new DateWidget (&date_to_seconds, true);
   date_to_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), date_to_object->hbox);
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_to_object->hbox, "Changes till which date?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_to_object->hbox, _("Changes till which date?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), date_to_object->hbox, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), date_to_object->hbox, true);
 
   // Confirm.
-  label_confirm = gtk_label_new ("Ready for generating changes");
+  label_confirm = gtk_label_new (_("Ready for generating changes"));
   gtk_widget_show (label_confirm);
   confirm_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Ready for generating changes");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, _("Ready for generating changes"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
 
   // Progress.
-  label_progress = gtk_label_new ("Generating changes..., please wait");
+  label_progress = gtk_label_new (_("Generating changes..., please wait"));
   gtk_widget_show (label_progress);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "Generating changes");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, _("Generating changes"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
 
   // Summary.
-  label_summary = gtk_label_new ("Done.");
+  label_summary = gtk_label_new (_("Done."));
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("Ready"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
@@ -178,9 +178,9 @@ gint ChangesAssistant::assistant_forward (gint current_page)
   // Go to the right page from the question what to do, and set the gui.
   if (current_page == question_page) {
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_date)))
-      gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_from_object->hbox, "Changes since which date?");
+      gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_from_object->hbox, _("Changes since which date?"));
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_between_dates)))
-      gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_from_object->hbox, "Changes from which date?");
+      gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_from_object->hbox, _("Changes from which date?"));
     if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_last_review)))
       return last_review_page;
     else 
@@ -250,10 +250,10 @@ void ChangesAssistant::on_assistant_apply ()
 ustring ChangesAssistant::copy_project_and_move_back_in_history (const ustring& project, unsigned int second)
 {
   // Progress.
-  ProgressWindow progresswindow("Going back in history", false);
+  ProgressWindow progresswindow(_("Going back in history"), false);
 
   // Create a temporal history project.
-  ustring copiedproject = project + " as it was on " + date_time_seconds_human_readable (second, false);
+  ustring copiedproject = project + _(" as it was on ") + date_time_seconds_human_readable (second, false);
   project_create_restore (copiedproject, "");
 
   // Go through all the books of the original project.

@@ -27,7 +27,7 @@
 #include <errno.h>
 #include "shell.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 #define MY_NUMBERS "0123456789"
 
@@ -677,7 +677,7 @@ ReadText::ReadText(const ustring & file, bool silent, bool trimming)
   ifstream in(file.c_str());
   if (!in) {
     if (!silent) {
-      cerr << "Error opening file " << file << endl;
+      cerr << _("Error opening file ") << file << endl;
       throw;
     }
     return;
@@ -706,7 +706,7 @@ WriteText::WriteText(const ustring & file)
 */
   fd = open(file.c_str(), O_CREAT | O_WRONLY | O_TRUNC, 0666);
   if (fd < 0) {
-    gw_critical("Error creating file " + file);
+    gw_critical(_("Error creating file ") + file);
     perror(NULL);
   }
 }

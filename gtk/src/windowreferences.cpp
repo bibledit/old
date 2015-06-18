@@ -41,10 +41,10 @@
 #include "kjv.h"
 #include "highlight.h"
 #include "dialogreferencesettings.h"
-
+#include <glib/gi18n.h>
 
 WindowReferences::WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, bool reference_management_enabled):
-FloatingWindow(parent_layout, widReferences, "References", startup), reference(0, 0, "")
+  FloatingWindow(parent_layout, widReferences, _("References"), startup), reference(0, 0, "")
 // Window for showing the quick references.  
 {
   lower_boundary = 0;
@@ -130,7 +130,7 @@ void WindowReferences::open()
   // Settings.
   extern Settings *settings;
   // Ask for a file.
-  ustring filename = gtkw_file_chooser_open(vbox_client, "Open File", settings->genconfig.references_file_get());
+  ustring filename = gtkw_file_chooser_open(vbox_client, _("Open File"), settings->genconfig.references_file_get());
   if (filename.empty())
     return;
   // Allow for up to three words to search for in these references.
@@ -144,7 +144,7 @@ void WindowReferences::open()
     if (i == 2)
       searchword3 = import_references_searchwords[i];
   }
-  Entry3Dialog dialog2("Search for", true, "Optionally enter _1st searchword", searchword1, "Optionally enter _2nd searchword", searchword2, "Optionally enter _3rd searchword", searchword3);
+  Entry3Dialog dialog2(_("Search for"), true, _("Optionally enter _1st searchword"), searchword1, _("Optionally enter _2nd searchword"), searchword2, _("Optionally enter _3rd searchword"), searchword3);
   int result = dialog2.run();
   if (result == GTK_RESPONSE_OK) {
     searchword1 = dialog2.entered_value1;
@@ -259,7 +259,7 @@ void WindowReferences::load (const ustring & filename)
     sort_references(references);
   }
   catch(exception & ex) {
-    cerr << "Loading references: " << ex.what() << endl;
+    cerr << _("Loading references: ") << ex.what() << endl;
   }
   // Load these.
   load_webview ("");
@@ -345,7 +345,7 @@ void WindowReferences::save(const ustring& filename)
     write_lines(filename, lines);
   }
   catch(exception & ex) {
-    cerr << "Saving references: " << ex.what() << endl;
+    cerr << _("Saving references: ") << ex.what() << endl;
   }
 }
 
@@ -448,7 +448,7 @@ void WindowReferences::load_webview (const gchar *url)
   else if (active_url.find ("hidden") == 0) {
     // Manage the hidden references.
     vector < ustring > hidden_references = references_hidden_ones_load(project);
-    EditListDialog dialog(&hidden_references, "Hidden references", "of references and comments that will never be shown in the reference area.", true, false, true, false, false, false, false, NULL);
+    EditListDialog dialog(&hidden_references, _("Hidden references"), _("of references and comments that will never be shown in the reference area."), true, false, true, false, false, false, false, NULL);
     if (dialog.run() == GTK_RESPONSE_OK) {
       references_hidden_ones_save(project, hidden_references);
     }

@@ -28,7 +28,7 @@
 #include "combobox.h"
 #include "projectutils.h"
 #include "utilities.h"
-
+#include <glib/gi18n.h>
 
 NotesUpdateDialog::NotesUpdateDialog(int dummy)
 {
@@ -37,7 +37,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   Shortcuts shortcuts2(0);
 
   notesupdatedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(notesupdatedialog), "Notes Mass Update");
+  gtk_window_set_title(GTK_WINDOW(notesupdatedialog), _("Notes Mass Update"));
   gtk_window_set_position(GTK_WINDOW(notesupdatedialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(notesupdatedialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
@@ -49,13 +49,13 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), notebook1, TRUE, TRUE, 0);
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook1), GTK_POS_LEFT);
 
-  label6 = gtk_label_new("This tool provides a way to update many project notes at once. It is a powerful tool, and changes made here cannot be made undone easily.\n\nAt the left, select the action you'd like to take.");
+  label6 = gtk_label_new(_("This tool provides a way to update many project notes at once. It is a powerful tool, and changes made here cannot be made undone easily.\n\nAt the left, select the action you'd like to take."));
   gtk_widget_show(label6);
   gtk_container_add(GTK_CONTAINER(notebook1), label6);
   gtk_label_set_line_wrap(GTK_LABEL(label6), TRUE);
   gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);
 
-  label4 = gtk_label_new_with_mnemonic("Information");
+  label4 = gtk_label_new_with_mnemonic(_("Information"));
   gtk_widget_show(label4);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 0), label4);
 
@@ -67,7 +67,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   gtk_container_add(GTK_CONTAINER(notebook1), vbox1);
   gtk_container_set_border_width(GTK_CONTAINER(vbox1), 4);
 
-  label7 = gtk_label_new("Move all notes that belong to project");
+  label7 = gtk_label_new(_("Move all notes that belong to project"));
   gtk_widget_show(label7);
   gtk_box_pack_start(GTK_BOX(vbox1), label7, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label7), 0, 0.5);
@@ -79,7 +79,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   shortcuts1.label(label7);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label7), combobox_project_from);
 
-  label8 = gtk_label_new("to project");
+  label8 = gtk_label_new(_("to project"));
   gtk_widget_show(label8);
   gtk_box_pack_start(GTK_BOX(vbox1), label8, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label8), 0, 0.5);
@@ -91,7 +91,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   shortcuts1.label(label8);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label8), combobox_project_to);
 
-  label5 = gtk_label_new_with_mnemonic("Project");
+  label5 = gtk_label_new_with_mnemonic(_("Project"));
   gtk_widget_show(label5);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 1), label5);
 
@@ -103,7 +103,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   gtk_container_add(GTK_CONTAINER(notebook1), vbox2);
   gtk_container_set_border_width(GTK_CONTAINER(vbox2), 4);
 
-  label10 = gtk_label_new("Move all notes that are in category");
+  label10 = gtk_label_new(_("Move all notes that are in category"));
   gtk_widget_show(label10);
   gtk_box_pack_start(GTK_BOX(vbox2), label10, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label10), 0, 0.5);
@@ -115,7 +115,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   shortcuts2.label(label10);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label10), combobox_category_from);
 
-  label11 = gtk_label_new("to category");
+  label11 = gtk_label_new(_("to category"));
   gtk_widget_show(label11);
   gtk_box_pack_start(GTK_BOX(vbox2), label11, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label11), 0, 0.5);
@@ -127,7 +127,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   shortcuts2.label(label11);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label11), combobox_category_to);
 
-  label9 = gtk_label_new_with_mnemonic("Category");
+  label9 = gtk_label_new_with_mnemonic(_("Category"));
   gtk_widget_show(label9);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 2), label9);
 
@@ -224,21 +224,21 @@ void NotesUpdateDialog::on_ok()
   case 0:
     {
       // Do nothing.
-      message = "Nothing was done";
+      message = _("Nothing was done");
       break;
     }
   case 1:
     {
       // Change project.
       notes_change_project(combobox_get_active_string(combobox_project_from), combobox_get_active_string(combobox_project_to));
-      message = "Notes were moved to the other project";
+      message = _("Notes were moved to the other project");
       break;
     }
   case 2:
     {
       // Change category.
       notes_change_category(combobox_get_active_string(combobox_category_from), combobox_get_active_string(combobox_category_to));
-      message = "Notes were moved to the other category";
+      message = _("Notes were moved to the other category");
       break;
     }
   }

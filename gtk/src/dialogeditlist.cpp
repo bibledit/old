@@ -29,7 +29,7 @@
 #include "help.h"
 #include "tiny_utilities.h"
 #include "dialoglistviewm.h"
-
+#include <glib/gi18n.h>
 
 EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, const ustring & info, bool remove, bool add, bool sort, bool import, bool exprt, bool duplicates, bool reorderable, vector <ustring> * addables)
 {
@@ -55,7 +55,7 @@ EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, 
   gtk_box_pack_start(GTK_BOX(vbox1), hbox3, FALSE, FALSE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(hbox3), 2);
 
-  label3 = gtk_label_new_with_mnemonic("_List");
+  label3 = gtk_label_new_with_mnemonic(_("_List"));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(hbox3), label3, FALSE, FALSE, 0);
 
@@ -119,7 +119,7 @@ EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, 
     gtk_widget_show(image1);
     gtk_box_pack_start(GTK_BOX(hbox4), image1, FALSE, FALSE, 0);
 
-    label5 = gtk_label_new_with_mnemonic("_Sort");
+    label5 = gtk_label_new_with_mnemonic(_("_Sort"));
     gtk_widget_show(label5);
     gtk_box_pack_start(GTK_BOX(hbox4), label5, FALSE, FALSE, 0);
 
@@ -144,7 +144,7 @@ EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, 
     gtk_widget_show(image2);
     gtk_box_pack_start(GTK_BOX(hbox5), image2, FALSE, FALSE, 0);
 
-    label6 = gtk_label_new_with_mnemonic("_Import");
+    label6 = gtk_label_new_with_mnemonic(_("_Import"));
     gtk_widget_show(label6);
     gtk_box_pack_start(GTK_BOX(hbox5), label6, FALSE, FALSE, 0);
 
@@ -169,7 +169,7 @@ EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, 
     gtk_widget_show(image3);
     gtk_box_pack_start(GTK_BOX(hbox6), image3, FALSE, FALSE, 0);
 
-    label7 = gtk_label_new_with_mnemonic("_Export");
+    label7 = gtk_label_new_with_mnemonic(_("_Export"));
     gtk_widget_show(label7);
     gtk_box_pack_start(GTK_BOX(hbox6), label7, FALSE, FALSE, 0);
 
@@ -194,7 +194,7 @@ EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, 
     gtk_widget_show(image4);
     gtk_box_pack_start(GTK_BOX(hbox7), image4, FALSE, FALSE, 0);
 
-    label8 = gtk_label_new_with_mnemonic("_Duplicates");
+    label8 = gtk_label_new_with_mnemonic(_("_Duplicates"));
     gtk_widget_show(label8);
     gtk_box_pack_start(GTK_BOX(hbox7), label8, FALSE, FALSE, 0);
 
@@ -318,7 +318,7 @@ void EditListDialog::on_add()
 // Adds tasks.
 {
   if (myaddables) {
-    ListviewMDialog dialog("Select a task to add", *myaddables, false, NULL);
+    ListviewMDialog dialog(_("Select a task to add"), *myaddables, false, NULL);
     if (dialog.run() == GTK_RESPONSE_OK) {
       for (unsigned int i = 0; i < dialog.foci.size(); i++) {
         GtkTreeIter iter;
@@ -327,7 +327,7 @@ void EditListDialog::on_add()
       }
     }
   } else {
-    EntryDialog dialog("New value", "Enter a new value", "");
+    EntryDialog dialog(_("New value"), _("Enter a new value"), "");
     if (dialog.run() == GTK_RESPONSE_OK) {
       GtkTreeIter iter;
       gtk_list_store_append(liststore, &iter);
@@ -360,7 +360,7 @@ void EditListDialog::on_button_import_clicked(GtkButton * button, gpointer user_
 
 void EditListDialog::on_import()
 {
-  ustring filename = gtkw_file_chooser_open(editlistdialog, "Open File", "");
+  ustring filename = gtkw_file_chooser_open(editlistdialog, _("Open File"), "");
   if (filename.empty())
     return;
   vector < ustring > lines;
@@ -409,9 +409,9 @@ void EditListDialog::on_duplicates()
   unsigned int duplicates_removed;
   duplicates_removed = lines.size() - lines_without_duplicates.size();
   if (duplicates_removed == 0) {
-    gtkw_dialog_info(editlistdialog, "There were no duplicates");
+    gtkw_dialog_info(editlistdialog, _("There were no duplicates"));
   } else {
-    if (gtkw_dialog_question(editlistdialog, "Do you want to remove " + convert_to_string(duplicates_removed) + " duplicates?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
+    if (gtkw_dialog_question(editlistdialog, _("Do you want to remove ") + convert_to_string(duplicates_removed) + _(" duplicates?"), GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
       listview_set_strings(treeview1, liststore, lines_without_duplicates);
     }
   }

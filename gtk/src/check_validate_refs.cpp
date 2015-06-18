@@ -26,6 +26,7 @@
 #include "referenceutils.h"
 #include "versification.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 CheckValidateReferences::CheckValidateReferences(const ustring & project, const vector < unsigned int >&books, bool gui)
 /*
@@ -52,7 +53,7 @@ gui: whether to show graphical progressbar.
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Validating references", true);
+    progresswindow = new ProgressWindow(_("Validating references"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Go through each book.
@@ -115,13 +116,13 @@ void CheckValidateReferences::check(const ustring & text)
     if (this_verse > last_verse)
       reference_fits = false;
     if (!reference_fits) {
-      message(refscanner.references[i].human_readable(language) + " does not fit in the versification system");
+      message(refscanner.references[i].human_readable(language) + _(" does not fit in the versification system"));
     }
     // Check whether the reference exists in the project.
     if (reference_fits) {
       ustring versetext = project_retrieve_verse(myproject, refscanner.references[i].book, refscanner.references[i].chapter, refscanner.references[i].verse);
       if (versetext.empty()) {
-        message(refscanner.references[i].human_readable(language) + " contains no text");
+        message(refscanner.references[i].human_readable(language) + _(" contains no text"));
       }
     }
   }
@@ -145,7 +146,7 @@ void CheckValidateReferences::check(const ustring & text)
               referencefound = true;
         }
         if (!referencefound) {
-          message("Unrecognized chapter " + convert_to_string(mychapter) + " and verse " + myverse);
+          message(_("Unrecognized chapter ") + convert_to_string(mychapter) + _(" and verse ") + myverse);
         }
       }
       mytext.erase(0, 3);

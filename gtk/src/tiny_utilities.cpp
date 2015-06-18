@@ -20,7 +20,7 @@
 
 #include "tiny_utilities.h"
 #include <glib.h>
-
+#include <glib/gi18n.h>
 
 // The tiny utilities as listed below are mainly intended to be linked with 
 // small executables
@@ -101,9 +101,9 @@ double convert_to_double(const ustring & s)
 ustring convert_bool_to_yes_no(bool b)
 {
   if (b)
-    return "yes";
+    return _("yes");
   else
-    return "no";
+    return _("no");
 }
 
 
@@ -180,17 +180,17 @@ ustring tiny_directories_get_root()
       root_directory = contents;
       g_free (contents);
       root_directory = trim (root_directory);
-      cout << "Using non-standard datafolder " << root_directory << endl;
+      cout << _("Using non-standard datafolder ") << root_directory << endl;
       // If it contains nothing, proceed with defaults.
       if (root_directory.empty()) {
         root_directory = default_root;
-        cout << "This data folder has no name. Resetting to " << default_root << endl;
+        cout << _("This data folder has no name. Resetting to ") << default_root << endl;
       }
       // If the new directory is not accessible, defaults.
       int result = access (root_directory.c_str(), W_OK);
       if (result != 0) {
         root_directory = default_root;
-        cout << "There are not enough access permissions for this data folder. Resetting to "<< default_root << endl;
+        cout << _("There are not enough access permissions for this data folder. Resetting to ")<< default_root << endl;
       }
     } else {
       // Ok, default situation.
@@ -317,7 +317,7 @@ void TinySpawn::run()
   if (!result) {
     exitstatus = -1;
     ustring message = myprogram;
-    message.append(" didn't spawn");
+    message.append(_(" didn't spawn"));
     g_critical("%s", message.c_str());
     return;
   }

@@ -27,6 +27,7 @@
 #include "checks.h"
 #include "versification.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 CheckCompareUsfms::CheckCompareUsfms(const ustring & project, const ustring & project2, const vector < unsigned int >&books, bool gui, bool allmarkers, const ustring & includeonly, const ustring & ignore, bool ignoreverse0)
 /*
@@ -62,7 +63,7 @@ gui: show graphical progressbar.
   // Progress information.  
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Comparing USFMs", true);
+    progresswindow = new ProgressWindow(_("Comparing USFMs"), true);
     progresswindow->set_iterate(0, 1, scripture_books.size());
   }
   // Book selecton: If no books given, take them all.
@@ -103,7 +104,7 @@ gui: show graphical progressbar.
         scripture2_checked[pointer2] = true;
       } else {
         // Same book not found: give message about that.
-        message(scripture_books[i], 0, "0", "Extra book");
+        message(scripture_books[i], 0, "0", _("Extra book"));
       }
     }
   }
@@ -113,7 +114,7 @@ gui: show graphical progressbar.
   if (scripture_books.size() == selected_books.size()) {
     for (unsigned int i = 0; i < scripture2_checked.size(); i++) {
       if (!scripture2_checked[i]) {
-        message(scripture2_books[i], 0, "0", "Missing book");
+        message(scripture2_books[i], 0, "0", _("Missing book"));
       }
     }
   }
@@ -143,14 +144,14 @@ void CheckCompareUsfms::comparebook(unsigned int book)
     if (chapter2set.find(chapters[i]) != chapter2set.end()) {
       comparechapter(book, chapters[i]);
     } else {
-      message(book, chapters[i], "0", "Extra chapter");
+      message(book, chapters[i], "0", _("Extra chapter"));
     }
   }
   // See if there are any chapters in the second project, which are not 
   // there in the first.
   for (unsigned int i = 0; i < chapters2.size(); i++) {
     if (chapterset.find(chapters2[i]) == chapterset.end())
-      message(book, chapters2[i], "0", "Missing chapter");
+      message(book, chapters2[i], "0", _("Missing chapter"));
   }
 }
 
@@ -166,14 +167,14 @@ void CheckCompareUsfms::comparechapter(unsigned int book, unsigned int chapter)
     if (verse2set.find(verses[i]) != verse2set.end()) {
       compareverse(book, chapter, verses[i]);
     } else {
-      message(book, chapter, verses[i], "Extra verse");
+      message(book, chapter, verses[i], _("Extra verse"));
     }
   }
   // See if there are any verses in the second project, which are not 
   // there in the first.
   for (unsigned int i = 0; i < verses.size(); i++) {
     if (verseset.find(verses2[i]) == verseset.end())
-      message(book, chapter, verses2[i], "Missing verse");
+      message(book, chapter, verses2[i], _("Missing verse"));
   }
 }
 
@@ -201,7 +202,7 @@ void CheckCompareUsfms::compareverse(unsigned int book, unsigned int chapter, co
   }
   // Compare the two lots of markers.
   if (markers != markers2) {
-    message(book, chapter, verse, "Markers differ: " + markers + " (" + markers2 + ")");
+    message(book, chapter, verse, _("Markers differ: ") + markers + " (" + markers2 + ")");
   }
 }
 

@@ -23,11 +23,12 @@
 #include "help.h"
 #include "editor_aids.h"
 #include "usfmtools.h"
+#include <glib/gi18n.h>
 
 InsertTableDialog::InsertTableDialog(const ustring & project)
 {
   inserttabledialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(inserttabledialog), "Insert table");
+  gtk_window_set_title(GTK_WINDOW(inserttabledialog), _("Insert table"));
   gtk_window_set_position(GTK_WINDOW(inserttabledialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(inserttabledialog), TRUE);
 
@@ -38,7 +39,7 @@ InsertTableDialog::InsertTableDialog(const ustring & project)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Insert a new table");
+  label1 = gtk_label_new(_("Insert a new table"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 0);
 
@@ -48,12 +49,12 @@ InsertTableDialog::InsertTableDialog(const ustring & project)
   gtk_table_set_row_spacings(GTK_TABLE(table1), 4);
   gtk_table_set_col_spacings(GTK_TABLE(table1), 4);
 
-  label2 = gtk_label_new_with_mnemonic("_Rows:");
+  label2 = gtk_label_new_with_mnemonic(_("_Rows:"));
   gtk_widget_show(label2);
   gtk_table_attach(GTK_TABLE(table1), label2, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label2), 1, 0.5);
 
-  label3 = gtk_label_new_with_mnemonic("Co_lumns:");
+  label3 = gtk_label_new_with_mnemonic(_("Co_lumns:"));
   gtk_widget_show(label3);
   gtk_table_attach(GTK_TABLE(table1), label3, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label3), 1, 0.5);

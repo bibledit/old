@@ -24,12 +24,12 @@
 #include "kjv.h"
 #include "mechonmamre.h"
 #include "htmlbrowser.h"
-
+#include <glib/gi18n.h>
 
 MaintenanceDialog::MaintenanceDialog(int dummy)
 {
   dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), "Maintenance");
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Maintenance"));
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_default_size (GTK_WINDOW (dialog), 800, 600);
@@ -154,7 +154,7 @@ void MaintenanceDialog::load_webview (const gchar * url)
     htmlwriter.text_add ("Maintenance");
     htmlwriter.heading_close ();
     htmlwriter.paragraph_open();
-    htmlwriter.text_add ("Some actions may have great impact on Bibledit-Gtk. Use with care.");
+    htmlwriter.text_add (_("Some actions may have great impact on Bibledit-Gtk. Use with care."));
     htmlwriter.paragraph_close();
 
     // Mechon Mamre Hebrew text link.

@@ -24,7 +24,7 @@
 #include "screen.h"
 #include "gwrappers.h"
 #include <config.h>
-
+#include <glib/gi18n.h>
 
 ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget * window)
 {
@@ -68,7 +68,7 @@ void ScreenLayoutDimensions::verify()
     recalculate = true;
 
   if (recalculate) {
-    gw_message("Recalculating windows positions and sizes");
+    gw_message(_("Recalculating windows positions and sizes"));
     // Store screen size.
     settings->genconfig.screen_width_set(real_screen_width);
     settings->genconfig.screen_height_set(real_screen_height);

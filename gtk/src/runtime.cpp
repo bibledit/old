@@ -21,7 +21,7 @@
 #include "runtime.h"
 #include "gwrappers.h"
 #include "gtkwrappers.h"
-
+#include <glib/gi18n.h>
 
 bool runtime_check_internal (RuntimeType type, ustring& message)
 {
@@ -35,9 +35,9 @@ bool runtime_check_internal (RuntimeType type, ustring& message)
   if (gw_find_program_in_path(program)) {
     return true;
   }
-  message = "Could not find program \"";
+  message = _("Could not find program \"");
   message.append (program);
-  message.append ("\". Install package " + package + " to resolve this.");
+  message.append (_("\". Install package ") + package + _(" to resolve this."));
   gw_message (message); 
   return false;  
 }

@@ -26,7 +26,7 @@
 #include "settings.h"
 #include "wordlist.h"
 #include "gtkwrappers.h"
-
+#include <glib/gi18n.h>
 
 WordlistDialog::WordlistDialog(int dummy)
 {
@@ -35,14 +35,14 @@ WordlistDialog::WordlistDialog(int dummy)
   Shortcuts shortcuts(0);
 
   wordlistdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(wordlistdialog), "Wordlists");
+  gtk_window_set_title(GTK_WINDOW(wordlistdialog), _("Wordlists"));
   gtk_window_set_position(GTK_WINDOW(wordlistdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(wordlistdialog), TRUE);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (wordlistdialog));
   gtk_widget_show(dialog_vbox1);
 
-  label1 = gtk_label_new("This updates the word list entries in the text and generates lists of them");
+  label1 = gtk_label_new(_("This updates the word list entries in the text and generates lists of them"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label1, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
@@ -55,7 +55,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(vbox2);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox2, TRUE, TRUE, 0);
 
-  checkbutton_wordlist = gtk_check_button_new_with_mnemonic("Process general word list");
+  checkbutton_wordlist = gtk_check_button_new_with_mnemonic(_("Process general word list"));
   gtk_widget_show(checkbutton_wordlist);
   gtk_box_pack_start(GTK_BOX(vbox2), checkbutton_wordlist, FALSE, FALSE, 0);
 
@@ -63,7 +63,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_wordlist), settings->genconfig.wordlist_process_general_get());
 
-  label3 = gtk_label_new("Insert list between markers \\zopenwordlist and \\zclosewordlist");
+  label3 = gtk_label_new(_("Insert list between markers \\zopenwordlist and \\zclosewordlist"));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(vbox2), label3, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
@@ -72,7 +72,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(hbox1);
   gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 0);
 
-  checkbutton_asterisk_general = gtk_check_button_new_with_mnemonic("Add an asterisk to each word entry");
+  checkbutton_asterisk_general = gtk_check_button_new_with_mnemonic(_("Add an asterisk to each word entry"));
   gtk_widget_show(checkbutton_asterisk_general);
   gtk_box_pack_start(GTK_BOX(hbox1), checkbutton_asterisk_general, FALSE, FALSE, 0);
 
@@ -80,7 +80,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_asterisk_general), settings->genconfig.wordlist_general_asterisk_get());
 
-  checkbutton_general_first_time = gtk_check_button_new_with_mnemonic("the first time it occurs in a section");
+  checkbutton_general_first_time = gtk_check_button_new_with_mnemonic(_("the first time it occurs in a section"));
   gtk_widget_show(checkbutton_general_first_time);
   gtk_box_pack_start(GTK_BOX(hbox1), checkbutton_general_first_time, FALSE, FALSE, 0);
 
@@ -96,7 +96,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(vbox3);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox3, TRUE, TRUE, 0);
 
-  checkbutton_hebrew_wordlist = gtk_check_button_new_with_mnemonic("Process Hebrew word list");
+  checkbutton_hebrew_wordlist = gtk_check_button_new_with_mnemonic(_("Process Hebrew word list"));
   gtk_widget_show(checkbutton_hebrew_wordlist);
   gtk_box_pack_start(GTK_BOX(vbox3), checkbutton_hebrew_wordlist, FALSE, FALSE, 0);
 
@@ -104,7 +104,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_hebrew_wordlist), settings->genconfig.wordlist_process_hebrew_get());
 
-  label4 = gtk_label_new("Insert the list between markers \\zopenhebrewwordlist and \\zclosehebrewwordlist");
+  label4 = gtk_label_new(_("Insert the list between markers \\zopenhebrewwordlist and \\zclosehebrewwordlist"));
   gtk_widget_show(label4);
   gtk_box_pack_start(GTK_BOX(vbox3), label4, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
@@ -113,7 +113,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(hbox2);
   gtk_box_pack_start(GTK_BOX(vbox3), hbox2, TRUE, TRUE, 0);
 
-  checkbutton_asterisk_hebrew = gtk_check_button_new_with_mnemonic("Add an asterisk to each word entry");
+  checkbutton_asterisk_hebrew = gtk_check_button_new_with_mnemonic(_("Add an asterisk to each word entry"));
   gtk_widget_show(checkbutton_asterisk_hebrew);
   gtk_box_pack_start(GTK_BOX(hbox2), checkbutton_asterisk_hebrew, FALSE, FALSE, 0);
 
@@ -121,7 +121,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_asterisk_hebrew), settings->genconfig.wordlist_hebrew_asterisk_get());
 
-  checkbutton_hebrew_firsttime = gtk_check_button_new_with_mnemonic("the first time it occurs in a section");
+  checkbutton_hebrew_firsttime = gtk_check_button_new_with_mnemonic(_("the first time it occurs in a section"));
   gtk_widget_show(checkbutton_hebrew_firsttime);
   gtk_box_pack_start(GTK_BOX(hbox2), checkbutton_hebrew_firsttime, FALSE, FALSE, 0);
 
@@ -137,7 +137,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(vbox4);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox4, FALSE, FALSE, 0);
 
-  checkbutton_greek_wordlist = gtk_check_button_new_with_mnemonic("Process Greek word list");
+  checkbutton_greek_wordlist = gtk_check_button_new_with_mnemonic(_("Process Greek word list"));
   gtk_widget_show(checkbutton_greek_wordlist);
   gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_greek_wordlist, FALSE, FALSE, 0);
 
@@ -145,7 +145,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_greek_wordlist), settings->genconfig.wordlist_process_greek_get());
 
-  label5 = gtk_label_new("Insert the list between markers \\zopengreekwordlist and \\zclosegreekwordlist");
+  label5 = gtk_label_new(_("Insert the list between markers \\zopengreekwordlist and \\zclosegreekwordlist"));
   gtk_widget_show(label5);
   gtk_box_pack_start(GTK_BOX(vbox4), label5, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label5), 0, 0.5);
@@ -154,7 +154,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(hbox3);
   gtk_box_pack_start(GTK_BOX(vbox4), hbox3, TRUE, TRUE, 0);
 
-  checkbutton_asterisk_greek = gtk_check_button_new_with_mnemonic("Add an asterisk to each word entry");
+  checkbutton_asterisk_greek = gtk_check_button_new_with_mnemonic(_("Add an asterisk to each word entry"));
   gtk_widget_show(checkbutton_asterisk_greek);
   gtk_box_pack_start(GTK_BOX(hbox3), checkbutton_asterisk_greek, FALSE, FALSE, 0);
 
@@ -162,7 +162,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_asterisk_greek), settings->genconfig.wordlist_greek_asterisk_get());
 
-  checkbutton_greek_first_time = gtk_check_button_new_with_mnemonic("the first time it occurs in a section");
+  checkbutton_greek_first_time = gtk_check_button_new_with_mnemonic(_("the first time it occurs in a section"));
   gtk_widget_show(checkbutton_greek_first_time);
   gtk_box_pack_start(GTK_BOX(hbox3), checkbutton_greek_first_time, FALSE, FALSE, 0);
 
@@ -178,7 +178,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(vbox6);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox6, FALSE, FALSE, 0);
 
-  checkbutton_index = gtk_check_button_new_with_mnemonic("Process index");
+  checkbutton_index = gtk_check_button_new_with_mnemonic(_("Process index"));
   gtk_widget_show(checkbutton_index);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_index, FALSE, FALSE, 0);
 
@@ -186,7 +186,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_index), settings->genconfig.wordlist_process_index_get());
 
-  label6 = gtk_label_new("Insert the list between markers \\zopenindex and \\zcloseindex");
+  label6 = gtk_label_new(_("Insert the list between markers \\zopenindex and \\zcloseindex"));
   gtk_widget_show(label6);
   gtk_box_pack_start(GTK_BOX(vbox6), label6, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);
@@ -195,7 +195,7 @@ WordlistDialog::WordlistDialog(int dummy)
   gtk_widget_show(hbox6);
   gtk_box_pack_start(GTK_BOX(vbox6), hbox6, TRUE, TRUE, 0);
 
-  checkbutton_asterisk_index = gtk_check_button_new_with_mnemonic("Add an asterisk to each word entry");
+  checkbutton_asterisk_index = gtk_check_button_new_with_mnemonic(_("Add an asterisk to each word entry"));
   gtk_widget_show(checkbutton_asterisk_index);
   gtk_box_pack_start(GTK_BOX(hbox6), checkbutton_asterisk_index, FALSE, FALSE, 0);
 
@@ -203,7 +203,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_asterisk_index), settings->genconfig.wordlist_index_asterisk_get());
 
-  checkbutton_index_first_time = gtk_check_button_new_with_mnemonic("the first time it occurs in a chapter");
+  checkbutton_index_first_time = gtk_check_button_new_with_mnemonic(_("the first time it occurs in a chapter"));
   gtk_widget_show(checkbutton_index_first_time);
   gtk_box_pack_start(GTK_BOX(hbox6), checkbutton_index_first_time, FALSE, FALSE, 0);
 

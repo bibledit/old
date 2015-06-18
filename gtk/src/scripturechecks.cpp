@@ -49,7 +49,7 @@
 #include "check_validate_refs.h"
 #include "check_parallel_passages.h"
 #include "check_sentence_structure.h"
-
+#include <glib/gi18n.h>
 
 vector < unsigned int >checks_generate_booknames()
 {
@@ -97,7 +97,7 @@ bool scripture_checks_count_usfms(bool gui)
   CheckCountUsfms check(settings->genconfig.project_get(), books, settings->session.checksorttype, true);
   if (check.cancelled)
     return false;
-  DisplayCheckingResults display("Marker Count");
+DisplayCheckingResults display(_("Marker Count"));
   display.usfm_count(check.markers, check.counts, settings->genconfig.stylesheet_get());
   return true;
 }
@@ -154,7 +154,7 @@ bool scripture_checks_count_characters(bool gui)
   CheckCountCharacters check(settings->genconfig.project_get(), books, sortcharacter, sortcount, true);
   if (check.cancelled)
     return false;
-  DisplayCheckingResults display("Character Count");
+DisplayCheckingResults display(_("Character Count"));
   display.character_count(check.characters, check.counts);
   return true;
 }
@@ -273,7 +273,7 @@ bool scripture_checks_word_inventory(bool gui)
   CheckCountWords check(settings->genconfig.project_get(), checks_generate_booknames(), settings->genconfig.check_words_inventory_word_forming_characters_get(), settings->session.checksorttype == cstSort1, settings->session.checksorttype == cstSort2, settings->genconfig.check_words_inventory_not_include_words_count_get(), true);
   if (check.cancelled)
     return false;
-  DisplayCheckingResults display("Word Inventory");
+DisplayCheckingResults display(_("Word Inventory"));
   display.word_inventory(check.words, check.counts, check.total_count, check.total_unique_count, check.filtered_count, check.filtered_unique_count, settings->genconfig.check_words_inventory_not_include_words_count_get());
   return true;
 }
@@ -345,7 +345,7 @@ bool scripture_checks_references_inventory(bool gui)
   CheckReferenceInventory check(settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
   if (check.cancelled)
     return false;
-  DisplayCheckingResults display("References Inventory");
+DisplayCheckingResults display(_("References Inventory"));
   display.references_inventory(check.verses, check.references);
   return true;
 }
@@ -378,7 +378,7 @@ void scripture_checks_nt_quotations_from_ot(WindowReferences * references_window
   extern Settings *settings;
   CheckOTQuotationsInNT check(settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text);
   checks_display_references_comments(check.references, check.comments, references_window);
-  ustring main_heading = "Old Testament quotations in the New Testament, project " + settings->genconfig.project_get();
+ustring main_heading = _("Old Testament quotations in the New Testament, project ") + settings->genconfig.project_get();
   DisplayCheckingResults display(main_heading.c_str());
   display.ot_quotations_in_nt(check.nt_refs, check.nt_texts, check.ot_refs, check.ot_texts, main_heading.c_str());
 }
@@ -399,7 +399,7 @@ void scripture_checks_synoptic_parallels_from_nt(WindowReferences * references_w
 
   CheckParallelPassages check(true, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true, second_project);
   checks_display_references_comments(check.references, check.comments, references_window);
-  ustring main_heading = "Synoptic parallel passages of the New Testament, project " + settings->genconfig.project_get() + ", "+ second_project;
+ustring main_heading = _("Synoptic parallel passages of the New Testament, project ") + settings->genconfig.project_get() + ", "+ second_project;
   DisplayCheckingResults display(main_heading.c_str());
   display.parallel_passages(check.data, main_heading.c_str());
 }
@@ -413,7 +413,7 @@ void scripture_checks_parallels_from_ot(WindowReferences * references_window)
   extern Settings *settings;
   CheckParallelPassages check(false, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true,settings->genconfig.check_markers_compare_project_get());
   checks_display_references_comments(check.references, check.comments, references_window);
-  ustring main_heading = "Parallel passages of the Old Testament, project " + settings->genconfig.project_get() + ", " + settings->genconfig.check_markers_compare_project_get();
+ustring main_heading = _("Parallel passages of the Old Testament, project ") + settings->genconfig.project_get() + ", " + settings->genconfig.check_markers_compare_project_get();
   DisplayCheckingResults display(main_heading.c_str());
   display.parallel_passages(check.data, main_heading.c_str());
 }

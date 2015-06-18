@@ -30,7 +30,7 @@
 #include "settings.h"
 #include "listview.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 enum { COLUMN_BOOK, NUM_COLUMNS };
 
@@ -41,7 +41,7 @@ BookDialog::BookDialog(const ustring & project)
   myproject = project;
 
   bookdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(bookdialog), "Books");
+  gtk_window_set_title(GTK_WINDOW(bookdialog), _("Books"));
   gtk_window_set_position(GTK_WINDOW(bookdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(bookdialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(bookdialog), TRUE);
@@ -53,7 +53,7 @@ BookDialog::BookDialog(const ustring & project)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label11 = gtk_label_new("To reorder a book, drag it to the new location.");
+  label11 = gtk_label_new(_("To reorder a book, drag it to the new location."));
   gtk_widget_show(label11);
   gtk_box_pack_start(GTK_BOX(vbox1), label11, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label11), 0, 0.5);
@@ -89,7 +89,7 @@ BookDialog::BookDialog(const ustring & project)
   gtk_widget_show(image5);
   gtk_box_pack_start(GTK_BOX(hbox10), image5, FALSE, FALSE, 0);
 
-  label9 = gtk_label_new_with_mnemonic("_Standard order");
+  label9 = gtk_label_new_with_mnemonic(_("_Standard order"));
   gtk_widget_show(label9);
   gtk_box_pack_start(GTK_BOX(hbox10), label9, FALSE, FALSE, 0);
 

@@ -23,7 +23,7 @@
 #include "dialogdate.h"
 #include "date_time_utils.h"
 #include "help.h"
-
+#include <glib/gi18n.h>
 
 DateDialog::DateDialog(guint32 * seconds_since_epoch, bool showtime) :
 datewidget (seconds_since_epoch, showtime)
@@ -37,7 +37,7 @@ If showtime is true it shows the time also.
   myshowtime = showtime;
 
   datedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(datedialog), "Date");
+  gtk_window_set_title(GTK_WINDOW(datedialog), _("Date"));
   gtk_window_set_position(GTK_WINDOW(datedialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(datedialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 

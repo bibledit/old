@@ -26,6 +26,7 @@
 #include "usfmtools.h"
 #include "books.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 CheckMarkersSpacing::CheckMarkersSpacing(const ustring & project, const vector < unsigned int >&books, bool gui)
 /*
@@ -50,7 +51,7 @@ gui: whether to show graphical progressbar.
   // GUI.
   ProgressWindow *progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Checking spacing", true);
+    progresswindow = new ProgressWindow(_("Checking spacing"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book.
@@ -100,11 +101,11 @@ void CheckMarkersSpacing::check(ustring text)
         if (text.substr(--pos, 1) == " ") {
           if (pos > 1) {
             if (text.substr(--pos, 1) == " ") {
-              message("Text of marker " + marker + " ends with more than one space");
+              message(_("Text of marker ") + marker + _(" ends with more than one space"));
             }
           }
         } else {
-          message("Text of marker " + marker + " doesn't end with a space");
+          message(_("Text of marker ") + marker + _(" doesn't end with a space"));
         }
       }
     }

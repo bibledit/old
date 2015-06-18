@@ -26,6 +26,7 @@
 #include "directories.h"
 #include "stylesheetutils.h"
 #include "constants.h"
+#include <glib/gi18n.h>
 
 Style::Style(const ustring & stylesheet, const ustring & style, bool write)
 // Reads a style from the database. Deprecated, use StyleV2 instead for new code.
@@ -35,8 +36,8 @@ Style::Style(const ustring & stylesheet, const ustring & style, bool write)
   marker = style;
   mywrite = write;
   // Set default values.
-  name = "Marker";
-  info = "Unified Standard Format Marker";
+  name = _("Marker");
+  info = _("Unified Standard Format Marker");
   fontsize = 12;
   italic = OFF;
   bold = OFF;
@@ -77,8 +78,8 @@ StyleV2::StyleV2(int dummy)
 // Contains the values for the style of one marker.
 {
   // Set default values.
-  name = "Marker";
-  info = "Unified Standard Format Marker";
+  name = _("Marker");
+  info = _("Unified Standard Format Marker");
   fontsize = 12;
   italic = OFF;
   bold = OFF;

@@ -37,7 +37,7 @@
 #include "maintenance.h"
 #include "snapshots.h"
 #include "vcs.h"
-
+#include <glib/gi18n.h>
 
 void git_upgrade ()
 // Upgrades the git system.
@@ -53,7 +53,7 @@ void git_upgrade ()
       // This is to be removed.
       ustring index_lock = gw_build_filename (git_directory, "index.lock");
       if (g_file_test (index_lock.c_str(), G_FILE_TEST_IS_REGULAR)) {
-        gw_message ("Cleaning out index lock " + index_lock);
+        gw_message (_("Cleaning out index lock ") + index_lock);
         unlink (index_lock.c_str());
       }
       // Get the data directory for the project
@@ -79,8 +79,8 @@ void git_upgrade ()
       maintenance_register_shell_command (datadirectory, "git init");
     } else {
       if (g_file_test (git_directory.c_str(), G_FILE_TEST_IS_DIR)) {
-        gw_message ("Cleaning out folder " + git_directory);
-        ProgressWindow progresswindow ("Tidying up project " + projects[i], false);
+        gw_message (_("Cleaning out folder ") + git_directory);
+        ProgressWindow progresswindow (_("Tidying up project ") + projects[i], false);
         progresswindow.set_fraction (0.5);
         unix_rmdir (git_directory);
       }
@@ -103,7 +103,7 @@ void git_resolve_conflict_chapter(const ustring & project, unsigned int book, un
 // This solves a conflicting chapter.
 {
   // Log message
-  gw_message("Resolving conflict for project " + project + " book " + books_id_to_english(book) + " " + convert_to_string(chapter));
+  gw_message(_("Resolving conflict for project ") + project + _(" book ") + books_id_to_english(book) + " " + convert_to_string(chapter));
 
   // Directory of the chapter in the data.
   ustring directory = project_data_directory_chapter(project, book, chapter);

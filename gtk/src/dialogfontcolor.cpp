@@ -22,21 +22,21 @@
 #include "help.h"
 #include "shortcuts.h"
 #include "color.h"
-
+#include <glib/gi18n.h>
 
 FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring & initial_font, unsigned int initial_line_spacing, bool initial_use_default_color, unsigned int initial_normal_text_color, unsigned int initial_background_color, unsigned int initial_selected_text_color, unsigned int initial_selection_color)
 {
   Shortcuts shortcuts(0);
 
   fontcolordialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(fontcolordialog), "Font and Color");
+  gtk_window_set_title(GTK_WINDOW(fontcolordialog), _("Font and Color"));
   gtk_window_set_position(GTK_WINDOW(fontcolordialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(fontcolordialog), TRUE);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (fontcolordialog));
   gtk_widget_show(dialog_vbox1);
 
-  checkbutton_font = gtk_check_button_new_with_mnemonic("Use default font");
+  checkbutton_font = gtk_check_button_new_with_mnemonic(_("Use default font"));
   gtk_widget_show(checkbutton_font);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_font, FALSE, FALSE, 0);
 
@@ -50,7 +50,7 @@ FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring & 
   gtk_widget_show(hbox_line_spacing);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox_line_spacing, TRUE, TRUE, 0);
 
-  label7 = gtk_label_new_with_mnemonic("Line spacing");
+  label7 = gtk_label_new_with_mnemonic(_("Line spacing"));
   gtk_widget_show(label7);
   gtk_box_pack_start(GTK_BOX(hbox_line_spacing), label7, FALSE, FALSE, 0);
 
@@ -70,7 +70,7 @@ FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring & 
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hseparator1, FALSE, FALSE, 0);
 
-  checkbutton_colors = gtk_check_button_new_with_mnemonic("Use default colors");
+  checkbutton_colors = gtk_check_button_new_with_mnemonic(_("Use default colors"));
   gtk_widget_show(checkbutton_colors);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_colors, FALSE, FALSE, 0);
 
@@ -81,28 +81,28 @@ FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring & 
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), table1, TRUE, TRUE, 0);
   gtk_table_set_col_spacings(GTK_TABLE(table1), 5);
 
-  label3 = gtk_label_new("Normal text color");
+  label3 = gtk_label_new(_("Normal text color"));
   gtk_widget_show(label3);
   gtk_table_attach(GTK_TABLE(table1), label3, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
 
   shortcuts.label(label3);
 
-  label4 = gtk_label_new("Background color");
+  label4 = gtk_label_new(_("Background color"));
   gtk_widget_show(label4);
   gtk_table_attach(GTK_TABLE(table1), label4, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
 
   shortcuts.label(label4);
 
-  label5 = gtk_label_new("Selected text color");
+  label5 = gtk_label_new(_("Selected text color"));
   gtk_widget_show(label5);
   gtk_table_attach(GTK_TABLE(table1), label5, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label5), 0, 0.5);
 
   shortcuts.label(label5);
 
-  label6 = gtk_label_new("Selection color");
+  label6 = gtk_label_new(_("Selection color"));
   gtk_widget_show(label6);
   gtk_table_attach(GTK_TABLE(table1), label6, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);

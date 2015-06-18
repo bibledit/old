@@ -30,7 +30,7 @@
 #include "dialoglistview.h"
 #include "gtkwrappers.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
 {
@@ -38,7 +38,7 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   Shortcuts shortcuts(0);
 
   textviewdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(textviewdialog), "Edit Dictionary");
+  gtk_window_set_title(GTK_WINDOW(textviewdialog), _("Edit Dictionary"));
   gtk_window_set_position(GTK_WINDOW(textviewdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(textviewdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
@@ -62,11 +62,11 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   gtk_table_set_row_spacings(GTK_TABLE(table1), 5);
   gtk_table_set_col_spacings(GTK_TABLE(table1), 5);
 
-  label4 = gtk_label_new("Import from");
+  label4 = gtk_label_new(_("Import from"));
   gtk_widget_show(label4);
   gtk_table_attach(GTK_TABLE(table1), label4, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  label5 = gtk_label_new("Export to");
+  label5 = gtk_label_new(_("Export to"));
   gtk_widget_show(label5);
   gtk_table_attach(GTK_TABLE(table1), label5, 2, 3, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
@@ -86,7 +86,7 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   gtk_widget_show(image3);
   gtk_box_pack_start(GTK_BOX(hbox4), image3, FALSE, FALSE, 0);
 
-  label3 = gtk_label_new_with_mnemonic("Dictionary");
+  label3 = gtk_label_new_with_mnemonic(_("Dictionary"));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(hbox4), label3, FALSE, FALSE, 0);
 
@@ -108,7 +108,7 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   gtk_widget_show(image2);
   gtk_box_pack_start(GTK_BOX(hbox3), image2, FALSE, FALSE, 0);
 
-  label2 = gtk_label_new_with_mnemonic("File");
+  label2 = gtk_label_new_with_mnemonic(_("File"));
   gtk_widget_show(label2);
   gtk_box_pack_start(GTK_BOX(hbox3), label2, FALSE, FALSE, 0);
 
@@ -130,7 +130,7 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox2), image1, FALSE, FALSE, 0);
 
-  label1 = gtk_label_new_with_mnemonic("Sort, remove duplicates");
+  label1 = gtk_label_new_with_mnemonic(_("Sort, remove duplicates"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(hbox2), label1, FALSE, FALSE, 0);
 
@@ -152,7 +152,7 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   gtk_widget_show(image4);
   gtk_box_pack_start(GTK_BOX(hbox5), image4, FALSE, FALSE, 0);
 
-  label6 = gtk_label_new_with_mnemonic("Dictionary");
+  label6 = gtk_label_new_with_mnemonic(_("Dictionary"));
   gtk_widget_show(label6);
   gtk_box_pack_start(GTK_BOX(hbox5), label6, FALSE, FALSE, 0);
 
@@ -174,7 +174,7 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   gtk_widget_show(image5);
   gtk_box_pack_start(GTK_BOX(hbox6), image5, FALSE, FALSE, 0);
 
-  label7 = gtk_label_new_with_mnemonic("File");
+  label7 = gtk_label_new_with_mnemonic(_("File"));
   gtk_widget_show(label7);
   gtk_box_pack_start(GTK_BOX(hbox6), label7, FALSE, FALSE, 0);
 
@@ -196,7 +196,7 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   gtk_widget_show(image6);
   gtk_box_pack_start(GTK_BOX(hbox7), image6, FALSE, FALSE, 0);
 
-  label8 = gtk_label_new_with_mnemonic("Word count");
+  label8 = gtk_label_new_with_mnemonic(_("Word count"));
   gtk_widget_show(label8);
   gtk_box_pack_start(GTK_BOX(hbox7), label8, FALSE, FALSE, 0);
 
@@ -305,7 +305,7 @@ void EditDictionaryDialog::on_button_import_dict_clicked(GtkButton * button, gpo
 void EditDictionaryDialog::on_button_import_dict()
 {
   vector < ustring > dictionaries = get_other_editable_dictionaries();
-  ListviewDialog dialog("Select a dictionary", dictionaries, "", false, NULL);
+  ListviewDialog dialog(_("Select a dictionary"), dictionaries, "", false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     ustring filename = spelling_dictionary_filename(dialog.focus);
     ReadText rt(filename, true, false);
@@ -349,7 +349,7 @@ void EditDictionaryDialog::on_button_export_dict_clicked(GtkButton * button, gpo
 void EditDictionaryDialog::on_button_export_dict()
 {
   vector < ustring > dictionaries = get_other_editable_dictionaries();
-  ListviewDialog dialog("Select a dictionary", dictionaries, "", false, NULL);
+  ListviewDialog dialog(_("Select a dictionary"), dictionaries, "", false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     ustring filename = spelling_dictionary_filename(dialog.focus);
     vector < ustring > lines;
@@ -391,7 +391,7 @@ void EditDictionaryDialog::on_button_count()
     if (lines[i].empty())
       wordcount--;
   }
-  gtkw_dialog_info(textviewdialog, "Word count is " + convert_to_string(wordcount));
+  gtkw_dialog_info(textviewdialog, _("Word count is ") + convert_to_string(wordcount));
   write_lines(filename, lines);
 }
 

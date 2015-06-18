@@ -25,7 +25,7 @@
 #include "reporting.h"
 #include "shortcuts.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < double >*durations)
 {
@@ -37,14 +37,14 @@ TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < doubl
   Shortcuts shortcuts(0);
 
   taskdurationdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(taskdurationdialog), "Task Duration Setup");
+  gtk_window_set_title(GTK_WINDOW(taskdurationdialog), _("Task Duration Setup"));
   gtk_window_set_position(GTK_WINDOW(taskdurationdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(taskdurationdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(taskdurationdialog));
   gtk_widget_show(dialog_vbox1);
 
-  label4 = gtk_label_new("Set the number of days a task takes to complete one chapter");
+  label4 = gtk_label_new(_("Set the number of days a task takes to complete one chapter"));
   gtk_widget_show(label4);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label4, FALSE, FALSE, 0);
   gtk_misc_set_padding(GTK_MISC(label4), 5, 5);
@@ -65,12 +65,12 @@ TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < doubl
   gtk_container_set_border_width(GTK_CONTAINER(table1), 5);
   gtk_table_set_col_spacings(GTK_TABLE(table1), 5);
 
-  label5 = gtk_label_new("Task");
+  label5 = gtk_label_new(_("Task"));
   gtk_widget_show(label5);
   gtk_table_attach(GTK_TABLE(table1), label5, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label5), 0, 0.5);
 
-  label6 = gtk_label_new("Days per chapter");
+  label6 = gtk_label_new(_("Days per chapter"));
   gtk_widget_show(label6);
   gtk_table_attach(GTK_TABLE(table1), label6, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);

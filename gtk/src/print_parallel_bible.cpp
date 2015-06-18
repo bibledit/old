@@ -27,11 +27,12 @@
 #include "progresswindow.h"
 #include "books.h"
 #include "portion_utils.h"
+#include <glib/gi18n.h>
 
 void view_parallel_bible_pdf()
 {
   // Log.
-  gw_message("Printing Parallel Bible");
+  gw_message(_("Printing Parallel Bible"));
 
   // Configuration
   extern Settings *settings;
@@ -39,12 +40,12 @@ void view_parallel_bible_pdf()
   // Get the chapters and check them.
   vector < unsigned int >chapters = project_get_chapters(settings->genconfig.project_get(), settings->genconfig.book_get());
   if (chapters.empty()) {
-    gtkw_dialog_info(NULL, books_id_to_english(settings->genconfig.book_get()) + "does not exist in this project");
+    gtkw_dialog_info(NULL, books_id_to_english(settings->genconfig.book_get()) + _("does not exist in this project"));
     return;
   }
   // Progress system.
-  ProgressWindow progresswindow("Parallel Bible", true);
-  progresswindow.set_text("Collecting verses");
+  ProgressWindow progresswindow(_("Parallel Bible"), true);
+  progresswindow.set_text(_("Collecting verses"));
   progresswindow.set_iterate(0, 1, chapters.size());
 
   // Messages to be printed first.
@@ -69,7 +70,7 @@ void view_parallel_bible_pdf()
     if (project_book_exists(project_s_raw[i], settings->genconfig.book_get())) {
       project_names.push_back(project_s_raw[i]);
     } else {
-      messages.push_back("Project " + project_s_raw[i] + " was requested to be included, but it does not contain " + books_id_to_english(settings->genconfig.book_get()) + ". It was left out.");
+      messages.push_back(_("Project ") + project_s_raw[i] + _(" was requested to be included, but it does not contain ") + books_id_to_english(settings->genconfig.book_get()) + _(". It was left out."));
     }
   }
 
@@ -120,5 +121,5 @@ void view_parallel_bible_pdf()
   view_parallel_references_pdf(projectmemory, &project_names, references, settings->genconfig.parallel_bible_keep_verses_together_get(), &messages, false);
 
   // Log: ready.
-  gw_message("Ready printing the Parallel Bible");
+  gw_message(_("Ready printing the Parallel Bible"));
 }

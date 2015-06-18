@@ -34,13 +34,13 @@
 #include "books.h"
 #include "tiny_utilities.h"
 #include "gui.h"
-
+#include <glib/gi18n.h>
 
 XferNotes2TextDialog::XferNotes2TextDialog(int dummy)
 {
 
   notestransferdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(notestransferdialog), "Transfer Project Notes To Text");
+  gtk_window_set_title(GTK_WINDOW(notestransferdialog), _("Transfer Project Notes To Text"));
   gtk_window_set_position(GTK_WINDOW(notestransferdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(notestransferdialog), TRUE);
 
@@ -51,13 +51,13 @@ XferNotes2TextDialog::XferNotes2TextDialog(int dummy)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, FALSE, FALSE, 0);
 
-  label1 = gtk_label_new("This will transfer all the Project Notes that display for each verse into the currently opened project");
+  label1 = gtk_label_new(_("This will transfer all the Project Notes that display for each verse into the currently opened project"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label1), TRUE);
   gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
 
-  label3 = gtk_label_new("The transfer cannot be undone.");
+  label3 = gtk_label_new(_("The transfer cannot be undone."));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(vbox1), label3, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
@@ -115,7 +115,7 @@ void XferNotes2TextDialog::on_okbutton()
   ustring project = settings->genconfig.project_get();
 
   // Progress.
-  ProgressWindow progresswindow("Transferring notes to text", false);
+  ProgressWindow progresswindow(_("Transferring notes to text"), false);
 
   // Go through the books in the project.
   vector < unsigned int >books = project_get_books(project);

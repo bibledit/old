@@ -24,6 +24,7 @@
 #include "books.h"
 #include "checks.h"
 #include "referenceutils.h"
+#include <glib/gi18n.h>
 
 CheckReferenceInventory::CheckReferenceInventory(const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui)
 /*
@@ -46,7 +47,7 @@ gui: show graphical progressbar.
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Producing inventory", true);
+    progresswindow = new ProgressWindow(_("Producing inventory"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book.

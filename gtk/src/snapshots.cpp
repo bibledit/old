@@ -29,7 +29,7 @@
 #include "tiny_utilities.h"
 #include "maintenance.h"
 #include "books.h"
-
+#include <glib/gi18n.h>
 
 ustring old_snapshots_content_database (const ustring& project)
 // Gives the old snapshots content database for a given project.
@@ -80,7 +80,7 @@ void snapshots_initialize_project (const ustring& project)
   // and remove it. Otherwise take snapshot of the whole project.
   ustring old_filename = old_snapshots_content_database (project);
   if (g_file_test(old_filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    ProgressWindow progresswindow ("Converting snapshots to new format for project " + project, false);
+    ProgressWindow progresswindow (_("Converting snapshots to new format for project ") + project, false);
     sqlite3 *db;
     sqlite3_open(old_snapshots_content_database (project).c_str(), &db);
     SqliteReader reader(0);
@@ -109,7 +109,7 @@ void snapshots_initialize_project (const ustring& project)
 void snapshots_shoot_project (const ustring& project)
 // Takes a snapshot of the whole project.
 {
-  ProgressWindow progresswindow ("Updating Snapshots for Project " + project, false);
+  ProgressWindow progresswindow (_("Updating Snapshots for Project ") + project, false);
   // Store snapshots of all the chapters in the project.
   vector <unsigned int> books = project_get_books(project);
   progresswindow.set_iterate(0, 1, books.size());

@@ -26,7 +26,7 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "settings.h"
-
+#include <glib/gi18n.h>
 
 WindowEditor::WindowEditor(const ustring& project_name, GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
 FloatingWindow(parent_layout, widEditor, project_name, startup)
@@ -497,7 +497,7 @@ void WindowEditor::on_new_styles()
   // Set the styles in the status bar.
   set <ustring> styles = get_styles_at_cursor();
   vector <ustring> styles2 (styles.begin(), styles.end());
-  ustring text = "Style ";
+  ustring text = _("Style ");
   for (unsigned int i = 0; i < styles2.size(); i++) {
     if (i)
       text.append(", ");

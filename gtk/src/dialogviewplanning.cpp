@@ -22,14 +22,14 @@
 #include "help.h"
 #include "settings.h"
 #include "shortcuts.h"
-
+#include <glib/gi18n.h>
 
 ViewPlanningDialog::ViewPlanningDialog(int dummy)
 {
   Shortcuts shortcuts(0);
 
   viewstatusdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(viewstatusdialog), "View Planning");
+  gtk_window_set_title(GTK_WINDOW(viewstatusdialog), _("View Planning"));
   gtk_window_set_position(GTK_WINDOW(viewstatusdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(viewstatusdialog), TRUE);
 
@@ -40,45 +40,45 @@ ViewPlanningDialog::ViewPlanningDialog(int dummy)
   gtk_widget_show(vbox4);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox4, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Include the ticked items in the report");
+  label1 = gtk_label_new(_("Include the ticked items in the report"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox4), label1, FALSE, FALSE, 0);
 
-  checkbutton_planning = gtk_check_button_new_with_mnemonic("Planning");
+  checkbutton_planning = gtk_check_button_new_with_mnemonic(_("Planning"));
   gtk_widget_show(checkbutton_planning);
   gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_planning, FALSE, FALSE, 0);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_planning), TRUE);
 
   shortcuts.button(checkbutton_planning);
 
-  checkbutton_perc_done_project = gtk_check_button_new_with_mnemonic("Percentage complete whole project");
+  checkbutton_perc_done_project = gtk_check_button_new_with_mnemonic(_("Percentage complete whole project"));
   gtk_widget_show(checkbutton_perc_done_project);
   gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_perc_done_project, FALSE, FALSE, 0);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_perc_done_project), TRUE);
 
   shortcuts.button(checkbutton_perc_done_project);
 
-  checkbutton_perc_done_book = gtk_check_button_new_with_mnemonic("Percentage complete per book");
+  checkbutton_perc_done_book = gtk_check_button_new_with_mnemonic(_("Percentage complete per book"));
   gtk_widget_show(checkbutton_perc_done_book);
   gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_perc_done_book, FALSE, FALSE, 0);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_perc_done_book), TRUE);
 
   shortcuts.button(checkbutton_perc_done_book);
 
-  checkbutton_tasks_book = gtk_check_button_new_with_mnemonic("Tasks per book");
+  checkbutton_tasks_book = gtk_check_button_new_with_mnemonic(_("Tasks per book"));
   gtk_widget_show(checkbutton_tasks_book);
   gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_tasks_book, FALSE, FALSE, 0);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_tasks_book), TRUE);
 
   shortcuts.button(checkbutton_tasks_book);
 
-  checkbutton_tasks_chapter = gtk_check_button_new_with_mnemonic("Tasks per chapter");
+  checkbutton_tasks_chapter = gtk_check_button_new_with_mnemonic(_("Tasks per chapter"));
   gtk_widget_show(checkbutton_tasks_chapter);
   gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_tasks_chapter, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_tasks_chapter);
 
-  checkbutton_csv_export = gtk_check_button_new_with_mnemonic("CSV exported data");
+  checkbutton_csv_export = gtk_check_button_new_with_mnemonic(_("CSV exported data"));
   gtk_widget_show(checkbutton_csv_export);
   gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_csv_export, FALSE, FALSE, 0);
 

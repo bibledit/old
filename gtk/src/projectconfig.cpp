@@ -27,6 +27,7 @@
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include "config.xml.h"
+#include <glib/gi18n.h>
 
 ustring project_configuration_filename(const ustring & project)
 {
@@ -228,21 +229,21 @@ void ProjectConfiguration::store##_set (type value) \
   store##_loaded = true; \
 }
 
-IMPLEMENT(ustring, string_get, versification, "English")
+IMPLEMENT(ustring, string_get, versification, _("English"))
 IMPLEMENT(vector < ustring >, vector_string_get, printing_fonts, NULL)
 IMPLEMENT(int, int_get, text_line_height, 100)
 IMPLEMENT(ustring, string_get, xetex_font_mapping_file, "")
 IMPLEMENT(int, int_get, xetex_shaping_engine, 0)
 IMPLEMENT(ustring, string_get, sword_name, "")
-IMPLEMENT(ustring, string_get, sword_description, " Bibledit project")
-IMPLEMENT(ustring, string_get, sword_about, " Bibledit project")
-IMPLEMENT(ustring, string_get, sword_license, "GNU General Public License")
+IMPLEMENT(ustring, string_get, sword_description, _(" Bibledit project"))
+IMPLEMENT(ustring, string_get, sword_about, _(" Bibledit project"))
+IMPLEMENT(ustring, string_get, sword_license, _("GNU General Public License"))
 IMPLEMENT(ustring, string_get, sword_version, "1.0")
-IMPLEMENT(ustring, string_get, sword_language, "en")
+IMPLEMENT(ustring, string_get, sword_language, _("en"))
 IMPLEMENT(vector < ustring >, vector_string_get, reordered_books, NULL)
 IMPLEMENT(vector < bool >, vector_bool_get, reordered_includes, NULL)
 IMPLEMENT(vector < ustring >, vector_string_get, reordered_portions, NULL)
-IMPLEMENT(ustring, string_get, language, "English")
+IMPLEMENT(ustring, string_get, language, _("English"))
 IMPLEMENT(vector < int >, vector_int_get, book_order, NULL)
 IMPLEMENT(bool, bool_get, editable, true)
 IMPLEMENT(int, int_get, backup_incremental_last_time, 0)
@@ -253,7 +254,7 @@ IMPLEMENT(int, int_get, changes_last_review, 0)
 IMPLEMENT(int, int_get, changes_since, 0)
 IMPLEMENT(int, int_get, changes_till, 0)
 IMPLEMENT(bool, bool_get, editor_font_default, true)
-IMPLEMENT(ustring, string_get, editor_font_name, "Sans 14")
+IMPLEMENT(ustring, string_get, editor_font_name, _("Sans 14"))
 IMPLEMENT(bool, bool_get, editor_default_color, true)
 IMPLEMENT(int, int_get, editor_normal_text_color, 0)
 IMPLEMENT(int, int_get, editor_background_color, 16777215)

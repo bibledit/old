@@ -30,14 +30,14 @@
 #include "help.h"
 #include "settings.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 FindNoteDialog::FindNoteDialog(int dummy)
 {
   extern Settings *settings;
 
   findnotedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(findnotedialog), "Find in project notes");
+  gtk_window_set_title(GTK_WINDOW(findnotedialog), _("Find in project notes"));
   gtk_window_set_position(GTK_WINDOW(findnotedialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(findnotedialog), TRUE);
   // Next one added to Glade's code.
@@ -50,7 +50,7 @@ FindNoteDialog::FindNoteDialog(int dummy)
   gtk_widget_show(hbox2);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox2, TRUE, TRUE, 0);
 
-  label5 = gtk_label_new("Search for");
+  label5 = gtk_label_new(_("Search for"));
   gtk_widget_show(label5);
   gtk_box_pack_start(GTK_BOX(hbox2), label5, FALSE, FALSE, 4);
 
@@ -61,7 +61,7 @@ FindNoteDialog::FindNoteDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(hbox2), entry1, TRUE, TRUE, 0);
   gtk_entry_set_activates_default(GTK_ENTRY(entry1), TRUE);
 
-  checkbutton_case = gtk_check_button_new_with_mnemonic("Case _sensitive");
+  checkbutton_case = gtk_check_button_new_with_mnemonic(_("Case _sensitive"));
   gtk_widget_show(checkbutton_case);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_case, FALSE, FALSE, 0);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_case), settings->session.search_case_sensitive);
@@ -140,7 +140,7 @@ void FindNoteDialog::on_buttonfind_clicked()
     // Go through the whole index database.
     SqliteReader reader(0);
     char *sql;
-    sql = g_strdup_printf("select id, casefolded from notes;");
+    sql = g_strdup_printf(_("select id, casefolded from notes;"));
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc != SQLITE_OK) {

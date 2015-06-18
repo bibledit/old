@@ -23,6 +23,7 @@
 #include "gwrappers.h"
 #include <glib.h>
 #include "windowsoutpost.h"
+#include <glib/gi18n.h>
 
 void gtkw_dialog_info(GtkWidget * parent, const ustring & info)
 {
@@ -78,7 +79,7 @@ ustring gtkw_file_chooser_select_folder(GtkWidget * parent, const ustring & titl
   ustring selection;
   ustring mytitle(title);
   if (mytitle.empty())
-    mytitle = "Select a folder";
+    mytitle = _("Select a folder");
   ustring mydirectory(directory);
   if (mydirectory.empty())
     mydirectory = g_get_home_dir();
@@ -112,7 +113,7 @@ ustring gtkw_file_chooser_open(GtkWidget * parent, const ustring & title, const 
   ustring selection;
   ustring mytitle(title);
   if (mytitle.empty())
-    mytitle = "Select a file";
+    mytitle = _("Select a file");
   ustring myfile(file);
   if (myfile.empty())
     myfile = g_get_home_dir();
@@ -145,7 +146,7 @@ vector < ustring > gtkw_file_chooser_open_multiple(GtkWidget * parent, const ust
   vector < ustring > selection;
   ustring mytitle(title);
   if (mytitle.empty())
-    mytitle = "Select a file";
+    mytitle = _("Select a file");
   // Create dialog.
   GtkWidget *dialog;
   dialog = gtk_file_chooser_dialog_new(mytitle.c_str(), GTK_WINDOW(parent), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
@@ -180,7 +181,7 @@ ustring gtkw_file_chooser_save(GtkWidget * parent, const ustring & title, const 
   ustring selection;
   ustring mytitle(title);
   if (mytitle.empty())
-    mytitle = "Save to file";
+    mytitle = _("Save to file");
   ustring myfile(file);
   GtkWidget *dialog;
   dialog = gtk_file_chooser_dialog_new(mytitle.c_str(), GTK_WINDOW(parent), GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
@@ -213,7 +214,7 @@ void gtkw_show_uri (ustring uri, bool internet)
   // Handle Unix.
   GError *error = NULL;
   if (!gtk_show_uri (NULL, uri.c_str(), GDK_CURRENT_TIME, &error)) {
-    ustring message = "Trying to opening " + uri + ": " + error->message;
+    ustring message = _("Trying to opening ") + uri + ": " + error->message;
     cerr << message << endl;
     gtkw_dialog_error(NULL, message);
     g_error_free(error);

@@ -43,7 +43,7 @@
 #include "tiny_utilities.h"
 #include "usfm2text.h"
 #include "stylesheetutils.h"
-
+#include <glib/gi18n.h>
 
 void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring > *extra_projects, vector < Reference > references, bool keep_verses_together_within_page, vector < ustring > *remarks, bool highlight)
 /*
@@ -53,10 +53,10 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
  */
 {
   // Log.
-  gw_message("Printing parallel references");
+  gw_message(_("Printing parallel references"));
 
   // Progress system.
-  ProgressWindow progresswindow("Printing Parallel References", false);
+  ProgressWindow progresswindow(_("Printing Parallel References"), false);
   progresswindow.set_iterate(0, 1, references.size());
 
   // Configuration
@@ -320,5 +320,5 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
   text2pdf.view();
 
   // Log: ready.
-  gw_message("Ready printing the parallel references");
+  gw_message(_("Ready printing the parallel references"));
 }

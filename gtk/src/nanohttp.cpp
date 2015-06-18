@@ -22,20 +22,20 @@
 #include <libxml/nanohttp.h>
 #include "gwrappers.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 void nano_http_server_access ()
 {
   ustring url = "http://localhost/";
   void *http_context = xmlNanoHTTPOpen (url.c_str(), NULL);
   if (!http_context) {
-    gw_critical ("Could not connect to the local web server");
+    gw_critical (_("Could not connect to the local web server"));
     return;
   }
 
   int return_code = xmlNanoHTTPReturnCode (http_context);
   if (return_code != 200) {
-    gw_critical ("Local web server returned unusual code: " + convert_to_string (return_code));
+    gw_critical (_("Local web server returned unusual code: ") + convert_to_string (return_code));
   }
 
   char *buffer = (char*) calloc (1, 1000);

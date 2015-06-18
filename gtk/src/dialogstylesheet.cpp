@@ -34,7 +34,7 @@
 #include "help.h"
 #include "tiny_utilities.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 /*
  Usage of user variables.
@@ -80,7 +80,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
 
   stylesheetdialog = gtk_dialog_new();
   ustring s;
-  s = "Stylesheet " + stylesheet + ", style " + style;
+  s = _("Stylesheet ") + stylesheet + _(", style ") + style;
   gtk_window_set_title(GTK_WINDOW(stylesheetdialog), s.c_str());
   gtk_window_set_position(GTK_WINDOW(stylesheetdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(stylesheetdialog), TRUE);
@@ -113,7 +113,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_box_pack_start(GTK_BOX(vbox2), hbox1, false, false, 0);
   gtk_container_set_border_width(GTK_CONTAINER(hbox1), 2);
 
-  label6 = gtk_label_new_with_mnemonic("Style:");
+  label6 = gtk_label_new_with_mnemonic(_("Style:"));
   gtk_widget_show(label6);
   gtk_box_pack_start(GTK_BOX(hbox1), label6, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);
@@ -123,7 +123,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_box_pack_start(GTK_BOX(hbox1), labelstyle, TRUE, TRUE, 0);
   gtk_misc_set_alignment(GTK_MISC(labelstyle), 0, 0.5);
 
-  label37 = gtk_label_new_with_mnemonic("N_ame");
+  label37 = gtk_label_new_with_mnemonic(_("N_ame"));
   gtk_widget_show(label37);
   gtk_box_pack_start(GTK_BOX(vbox2), label37, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label37), 0, 0.5);
@@ -132,7 +132,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(entryname);
   gtk_box_pack_start(GTK_BOX(vbox2), entryname, FALSE, FALSE, 0);
 
-  label36 = gtk_label_new_with_mnemonic("D_escription");
+  label36 = gtk_label_new_with_mnemonic(_("D_escription"));
   gtk_widget_show(label36);
   gtk_box_pack_start(GTK_BOX(vbox2), label36, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label36), 0, 0.5);
@@ -160,7 +160,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(vbox5);
   gtk_box_pack_start(GTK_BOX(hbox8), vbox5, TRUE, TRUE, 0);
 
-  label21 = gtk_label_new_with_mnemonic("_This style:");
+  label21 = gtk_label_new_with_mnemonic(_("_This style:"));
   gtk_widget_show(label21);
   gtk_box_pack_start(GTK_BOX(vbox5), label21, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label21), 0, 0.5);
@@ -171,73 +171,73 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
 
   GSList *radiobutton_id_group = NULL;
 
-  radiobutton_id = gtk_radio_button_new_with_mnemonic(NULL, "is an identifier");
+  radiobutton_id = gtk_radio_button_new_with_mnemonic(NULL, _("is an identifier"));
   gtk_widget_show(radiobutton_id);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_id, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_id), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_id));
 
-  radiobutton_paragraph = gtk_radio_button_new_with_mnemonic(NULL, "starts a new paragraph");
+  radiobutton_paragraph = gtk_radio_button_new_with_mnemonic(NULL, _("starts a new paragraph"));
   gtk_widget_show(radiobutton_paragraph);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_paragraph, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_paragraph), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_paragraph));
 
-  radiobutton_inline = gtk_radio_button_new_with_mnemonic(NULL, "is inline text with endmarker");
+  radiobutton_inline = gtk_radio_button_new_with_mnemonic(NULL, _("is inline text with endmarker"));
   gtk_widget_show(radiobutton_inline);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_inline, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_inline), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_inline));
 
-  radiobutton_chapter = gtk_radio_button_new_with_mnemonic(NULL, "is a chapter number");
+  radiobutton_chapter = gtk_radio_button_new_with_mnemonic(NULL, _("is a chapter number"));
   gtk_widget_show(radiobutton_chapter);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_chapter, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_chapter), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_chapter));
 
-  radiobutton_verse = gtk_radio_button_new_with_mnemonic(NULL, "is a verse number");
+  radiobutton_verse = gtk_radio_button_new_with_mnemonic(NULL, _("is a verse number"));
   gtk_widget_show(radiobutton_verse);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_verse, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_verse), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_verse));
 
-  radiobutton_footendnote = gtk_radio_button_new_with_mnemonic(NULL, "is a footnote or endnote");
+  radiobutton_footendnote = gtk_radio_button_new_with_mnemonic(NULL, _("is a footnote or endnote"));
   gtk_widget_show(radiobutton_footendnote);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_footendnote, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_footendnote), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_footendnote));
 
-  radiobutton_crossreference = gtk_radio_button_new_with_mnemonic(NULL, "is a crossreference");
+  radiobutton_crossreference = gtk_radio_button_new_with_mnemonic(NULL, _("is a crossreference"));
   gtk_widget_show(radiobutton_crossreference);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_crossreference, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_crossreference), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_crossreference));
 
-  radiobutton_peripheral = gtk_radio_button_new_with_mnemonic(NULL, "is a peripheral element");
+  radiobutton_peripheral = gtk_radio_button_new_with_mnemonic(NULL, _("is a peripheral element"));
   gtk_widget_show(radiobutton_peripheral);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_peripheral, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral));
 
-  radiobutton_picture = gtk_radio_button_new_with_mnemonic(NULL, "is a picture");
+  radiobutton_picture = gtk_radio_button_new_with_mnemonic(NULL, _("is a picture"));
   gtk_widget_show(radiobutton_picture);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_picture, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_picture), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_picture));
 
-  radiobutton_pagebreak = gtk_radio_button_new_with_mnemonic(NULL, "starts a new page");
+  radiobutton_pagebreak = gtk_radio_button_new_with_mnemonic(NULL, _("starts a new page"));
   gtk_widget_show(radiobutton_pagebreak);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_pagebreak, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_pagebreak), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_pagebreak));
 
-  radiobutton_table_element = gtk_radio_button_new_with_mnemonic(NULL, "is a table element");
+  radiobutton_table_element = gtk_radio_button_new_with_mnemonic(NULL, _("is a table element"));
   gtk_widget_show(radiobutton_table_element);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_table_element, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_table_element), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_table_element));
 
-  radiobutton_wordlist_element = gtk_radio_button_new_with_mnemonic(NULL, "is a word list element");
+  radiobutton_wordlist_element = gtk_radio_button_new_with_mnemonic(NULL, _("is a word list element"));
   gtk_widget_show(radiobutton_wordlist_element);
   gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_wordlist_element, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_wordlist_element), radiobutton_id_group);
@@ -267,44 +267,44 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(vbox8);
   gtk_container_add(GTK_CONTAINER(notebook_subtype), vbox8);
 
-  label50 = gtk_label_new("This one:");
+  label50 = gtk_label_new(_("This one:"));
   gtk_widget_show(label50);
   gtk_box_pack_start(GTK_BOX(vbox8), label50, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label50), 0, 0.5);
 
   GSList *radiobutton_footnote_group = NULL;
 
-  radiobutton_footnote = gtk_radio_button_new_with_mnemonic(NULL, "starts a footnote");
+  radiobutton_footnote = gtk_radio_button_new_with_mnemonic(NULL, _("starts a footnote"));
   gtk_widget_show(radiobutton_footnote);
   gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_footnote, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_footnote), radiobutton_footnote_group);
   radiobutton_footnote_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_footnote));
 
-  radiobutton_endnote = gtk_radio_button_new_with_mnemonic(NULL, "starts an endnote");
+  radiobutton_endnote = gtk_radio_button_new_with_mnemonic(NULL, _("starts an endnote"));
   gtk_widget_show(radiobutton_endnote);
   gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_endnote, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_endnote), radiobutton_footnote_group);
   radiobutton_footnote_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_endnote));
 
-  radiobutton_note_content_standard = gtk_radio_button_new_with_mnemonic(NULL, "is standard content");
+  radiobutton_note_content_standard = gtk_radio_button_new_with_mnemonic(NULL, _("is standard content"));
   gtk_widget_show(radiobutton_note_content_standard);
   gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_note_content_standard, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_content_standard), radiobutton_footnote_group);
   radiobutton_footnote_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_note_content_standard));
 
-  radiobutton_note_content = gtk_radio_button_new_with_mnemonic(NULL, "is content");
+  radiobutton_note_content = gtk_radio_button_new_with_mnemonic(NULL, _("is content"));
   gtk_widget_show(radiobutton_note_content);
   gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_note_content, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_content), radiobutton_footnote_group);
   radiobutton_footnote_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_note_content));
 
-  radiobutton_note_content_endmarker = gtk_radio_button_new_with_mnemonic(NULL, "is content with endmarker");
+  radiobutton_note_content_endmarker = gtk_radio_button_new_with_mnemonic(NULL, _("is content with endmarker"));
   gtk_widget_show(radiobutton_note_content_endmarker);
   gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_note_content_endmarker, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_content_endmarker), radiobutton_footnote_group);
   radiobutton_footnote_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_note_content_endmarker));
 
-  radiobutton_note_paragraph = gtk_radio_button_new_with_mnemonic(NULL, "starts another paragraph");
+  radiobutton_note_paragraph = gtk_radio_button_new_with_mnemonic(NULL, _("starts another paragraph"));
   gtk_widget_show(radiobutton_note_paragraph);
   gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_note_paragraph, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_paragraph), radiobutton_footnote_group);
@@ -318,32 +318,32 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(vbox9);
   gtk_container_add(GTK_CONTAINER(notebook_subtype), vbox9);
 
-  label51 = gtk_label_new("This one:");
+  label51 = gtk_label_new(_("This one:"));
   gtk_widget_show(label51);
   gtk_box_pack_start(GTK_BOX(vbox9), label51, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label51), 0, 0.5);
 
   GSList *radiobutton_xref_group = NULL;
 
-  radiobutton_xref = gtk_radio_button_new_with_mnemonic(NULL, "starts a crossreference");
+  radiobutton_xref = gtk_radio_button_new_with_mnemonic(NULL, _("starts a crossreference"));
   gtk_widget_show(radiobutton_xref);
   gtk_box_pack_start(GTK_BOX(vbox9), radiobutton_xref, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_xref), radiobutton_xref_group);
   radiobutton_xref_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_xref));
 
-  radiobutton_xref_content_standard = gtk_radio_button_new_with_mnemonic(NULL, "is standard content");
+  radiobutton_xref_content_standard = gtk_radio_button_new_with_mnemonic(NULL, _("is standard content"));
   gtk_widget_show(radiobutton_xref_content_standard);
   gtk_box_pack_start(GTK_BOX(vbox9), radiobutton_xref_content_standard, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_xref_content_standard), radiobutton_xref_group);
   radiobutton_xref_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_xref_content_standard));
 
-  radiobutton_xref_content = gtk_radio_button_new_with_mnemonic(NULL, "is content");
+  radiobutton_xref_content = gtk_radio_button_new_with_mnemonic(NULL, _("is content"));
   gtk_widget_show(radiobutton_xref_content);
   gtk_box_pack_start(GTK_BOX(vbox9), radiobutton_xref_content, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_xref_content), radiobutton_xref_group);
   radiobutton_xref_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_xref_content));
 
-  radiobutton_xref_content_endmarker = gtk_radio_button_new_with_mnemonic(NULL, "is content with endmarker");
+  radiobutton_xref_content_endmarker = gtk_radio_button_new_with_mnemonic(NULL, _("is content with endmarker"));
   gtk_widget_show(radiobutton_xref_content_endmarker);
   gtk_box_pack_start(GTK_BOX(vbox9), radiobutton_xref_content_endmarker, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_xref_content_endmarker), radiobutton_xref_group);
@@ -358,32 +358,32 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_container_add(GTK_CONTAINER(notebook_subtype), vbox13);
   gtk_notebook_set_tab_label_packing(GTK_NOTEBOOK(notebook_subtype), vbox13, FALSE, FALSE, GTK_PACK_START);
 
-  label55 = gtk_label_new("This one:");
+  label55 = gtk_label_new(_("This one:"));
   gtk_widget_show(label55);
   gtk_box_pack_start(GTK_BOX(vbox13), label55, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label55), 0, 0.5);
 
   GSList *radiobutton_paragraph_type_main_title_group = NULL;
 
-  radiobutton_paragraph_type_main_title = gtk_radio_button_new_with_mnemonic(NULL, "is a main title");
+  radiobutton_paragraph_type_main_title = gtk_radio_button_new_with_mnemonic(NULL, _("is a main title"));
   gtk_widget_show(radiobutton_paragraph_type_main_title);
   gtk_box_pack_start(GTK_BOX(vbox13), radiobutton_paragraph_type_main_title, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_paragraph_type_main_title), radiobutton_paragraph_type_main_title_group);
   radiobutton_paragraph_type_main_title_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_paragraph_type_main_title));
 
-  radiobutton_paragraph_type_subtitle = gtk_radio_button_new_with_mnemonic(NULL, "is a subtitle");
+  radiobutton_paragraph_type_subtitle = gtk_radio_button_new_with_mnemonic(NULL, _("is a subtitle"));
   gtk_widget_show(radiobutton_paragraph_type_subtitle);
   gtk_box_pack_start(GTK_BOX(vbox13), radiobutton_paragraph_type_subtitle, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_paragraph_type_subtitle), radiobutton_paragraph_type_main_title_group);
   radiobutton_paragraph_type_main_title_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_paragraph_type_subtitle));
 
-  radiobutton_paragraph_type_section_heading = gtk_radio_button_new_with_mnemonic(NULL, "is a section heading");
+  radiobutton_paragraph_type_section_heading = gtk_radio_button_new_with_mnemonic(NULL, _("is a section heading"));
   gtk_widget_show(radiobutton_paragraph_type_section_heading);
   gtk_box_pack_start(GTK_BOX(vbox13), radiobutton_paragraph_type_section_heading, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_paragraph_type_section_heading), radiobutton_paragraph_type_main_title_group);
   radiobutton_paragraph_type_main_title_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_paragraph_type_section_heading));
 
-  radiobutton_paragraph_type_text = gtk_radio_button_new_with_mnemonic(NULL, "is a normal paragraph");
+  radiobutton_paragraph_type_text = gtk_radio_button_new_with_mnemonic(NULL, _("is a normal paragraph"));
   gtk_widget_show(radiobutton_paragraph_type_text);
   gtk_box_pack_start(GTK_BOX(vbox13), radiobutton_paragraph_type_text, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_paragraph_type_text), radiobutton_paragraph_type_main_title_group);
@@ -397,68 +397,68 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(vbox14);
   gtk_container_add(GTK_CONTAINER(notebook_subtype), vbox14);
 
-  labelperiph58 = gtk_label_new("This one:");
+  labelperiph58 = gtk_label_new(_("This one:"));
   gtk_widget_show(labelperiph58);
   gtk_box_pack_start(GTK_BOX(vbox14), labelperiph58, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(labelperiph58), 0, 0.5);
 
   GSList *radiobutton_peripheral_pub_group = NULL;
 
-  radiobutton_peripheral_pub = gtk_radio_button_new_with_mnemonic(NULL, "starts publication data");
+  radiobutton_peripheral_pub = gtk_radio_button_new_with_mnemonic(NULL, _("starts publication data"));
   gtk_widget_show(radiobutton_peripheral_pub);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_pub, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_pub), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_pub));
 
-  radiobutton_peripheral_toc = gtk_radio_button_new_with_mnemonic(NULL, "starts table of contents");
+  radiobutton_peripheral_toc = gtk_radio_button_new_with_mnemonic(NULL, _("starts table of contents"));
   gtk_widget_show(radiobutton_peripheral_toc);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_toc, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_toc), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_toc));
 
-  radiobutton_peripheral_pref = gtk_radio_button_new_with_mnemonic(NULL, "starts preface");
+  radiobutton_peripheral_pref = gtk_radio_button_new_with_mnemonic(NULL, _("starts preface"));
   gtk_widget_show(radiobutton_peripheral_pref);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_pref, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_pref), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_pref));
 
-  radiobutton_peripheral_intro = gtk_radio_button_new_with_mnemonic(NULL, "starts introduction");
+  radiobutton_peripheral_intro = gtk_radio_button_new_with_mnemonic(NULL, _("starts introduction"));
   gtk_widget_show(radiobutton_peripheral_intro);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_intro, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_intro), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_intro));
 
-  radiobutton_peripheral_conc = gtk_radio_button_new_with_mnemonic(NULL, "starts concordance");
+  radiobutton_peripheral_conc = gtk_radio_button_new_with_mnemonic(NULL, _("starts concordance"));
   gtk_widget_show(radiobutton_peripheral_conc);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_conc, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_conc), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_conc));
 
-  radiobutton_peripheral_glo = gtk_radio_button_new_with_mnemonic(NULL, "starts glossary");
+  radiobutton_peripheral_glo = gtk_radio_button_new_with_mnemonic(NULL, _("starts glossary"));
   gtk_widget_show(radiobutton_peripheral_glo);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_glo, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_glo), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_glo));
 
-  radiobutton_peripheral_idx = gtk_radio_button_new_with_mnemonic(NULL, "starts index");
+  radiobutton_peripheral_idx = gtk_radio_button_new_with_mnemonic(NULL, _("starts index"));
   gtk_widget_show(radiobutton_peripheral_idx);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_idx, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_idx), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_idx));
 
-  radiobutton_peripheral_maps = gtk_radio_button_new_with_mnemonic(NULL, "starts map index");
+  radiobutton_peripheral_maps = gtk_radio_button_new_with_mnemonic(NULL, _("starts map index"));
   gtk_widget_show(radiobutton_peripheral_maps);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_maps, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_maps), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_maps));
 
-  radiobutton_peripheral_cov = gtk_radio_button_new_with_mnemonic(NULL, "starts cover");
+  radiobutton_peripheral_cov = gtk_radio_button_new_with_mnemonic(NULL, _("starts cover"));
   gtk_widget_show(radiobutton_peripheral_cov);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_cov, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_cov), radiobutton_peripheral_pub_group);
   radiobutton_peripheral_pub_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_peripheral_cov));
 
-  radiobutton_peripheral_spine = gtk_radio_button_new_with_mnemonic(NULL, "starts spine");
+  radiobutton_peripheral_spine = gtk_radio_button_new_with_mnemonic(NULL, _("starts spine"));
   gtk_widget_show(radiobutton_peripheral_spine);
   gtk_box_pack_start(GTK_BOX(vbox14), radiobutton_peripheral_spine, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_peripheral_spine), radiobutton_peripheral_pub_group);
@@ -472,68 +472,68 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(vbox15);
   gtk_container_add(GTK_CONTAINER(notebook_subtype), vbox15);
 
-  label_id_58 = gtk_label_new("This one:");
+  label_id_58 = gtk_label_new(_("This one:"));
   gtk_widget_show(label_id_58);
   gtk_box_pack_start(GTK_BOX(vbox15), label_id_58, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_id_58), 0, 0.5);
 
   GSList *radiobutton_id_book_group = NULL;
 
-  radiobutton_id_book = gtk_radio_button_new_with_mnemonic(NULL, "identifies the book");
+  radiobutton_id_book = gtk_radio_button_new_with_mnemonic(NULL, _("identifies the book"));
   gtk_widget_show(radiobutton_id_book);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_id_book, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_id_book), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_id_book));
 
-  radiobutton_id_encoding = gtk_radio_button_new_with_mnemonic(NULL, "identifies the encoding");
+  radiobutton_id_encoding = gtk_radio_button_new_with_mnemonic(NULL, _("identifies the encoding"));
   gtk_widget_show(radiobutton_id_encoding);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_id_encoding, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_id_encoding), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_id_encoding));
 
-  radiobutton_id_comment = gtk_radio_button_new_with_mnemonic(NULL, "is a comment");
+  radiobutton_id_comment = gtk_radio_button_new_with_mnemonic(NULL, _("is a comment"));
   gtk_widget_show(radiobutton_id_comment);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_id_comment, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_id_comment), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_id_comment));
 
-  radiobutton_id_comment_with_endmarker = gtk_radio_button_new_with_mnemonic(NULL, "is a comment with an endmarker");
+  radiobutton_id_comment_with_endmarker = gtk_radio_button_new_with_mnemonic(NULL, _("is a comment with an endmarker"));
   gtk_widget_show(radiobutton_id_comment_with_endmarker);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_id_comment_with_endmarker, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_id_comment_with_endmarker), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_id_comment_with_endmarker));
 
-  radiobutton_id_running_header = gtk_radio_button_new_with_mnemonic(NULL, "is a running header");
+  radiobutton_id_running_header = gtk_radio_button_new_with_mnemonic(NULL, _("is a running header"));
   gtk_widget_show(radiobutton_id_running_header);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_id_running_header, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_id_running_header), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_id_running_header));
 
-  radiobutton_is_long_toc_text = gtk_radio_button_new_with_mnemonic(NULL, "is long table of contents text");
+  radiobutton_is_long_toc_text = gtk_radio_button_new_with_mnemonic(NULL, _("is long table of contents text"));
   gtk_widget_show(radiobutton_is_long_toc_text);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_is_long_toc_text, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_is_long_toc_text), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_is_long_toc_text));
 
-  radiobutton_is_short_toc_text = gtk_radio_button_new_with_mnemonic(NULL, "is short table of contents text");
+  radiobutton_is_short_toc_text = gtk_radio_button_new_with_mnemonic(NULL, _("is short table of contents text"));
   gtk_widget_show(radiobutton_is_short_toc_text);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_is_short_toc_text, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_is_short_toc_text), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_is_short_toc_text));
 
-  radiobutton_is_book_abbrev = gtk_radio_button_new_with_mnemonic(NULL, "is the book abbreviation");
+  radiobutton_is_book_abbrev = gtk_radio_button_new_with_mnemonic(NULL, _("is the book abbreviation"));
   gtk_widget_show(radiobutton_is_book_abbrev);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_is_book_abbrev, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_is_book_abbrev), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_is_book_abbrev));
 
-  radiobutton_is_chapter_label = gtk_radio_button_new_with_mnemonic(NULL, "is the chapter label");
+  radiobutton_is_chapter_label = gtk_radio_button_new_with_mnemonic(NULL, _("is the chapter label"));
   gtk_widget_show(radiobutton_is_chapter_label);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_is_chapter_label, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_is_chapter_label), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_is_chapter_label));
 
-  radiobutton_is_published_chapter_marker = gtk_radio_button_new_with_mnemonic(NULL, "is the published chapter marker");
+  radiobutton_is_published_chapter_marker = gtk_radio_button_new_with_mnemonic(NULL, _("is the published chapter marker"));
   gtk_widget_show(radiobutton_is_published_chapter_marker);
   gtk_box_pack_start(GTK_BOX(vbox15), radiobutton_is_published_chapter_marker, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_is_published_chapter_marker), radiobutton_id_book_group);
@@ -548,26 +548,26 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(vbox17);
   gtk_container_add(GTK_CONTAINER(notebook_subtype), vbox17);
 
-  label_table_sub = gtk_label_new("This one:");
+  label_table_sub = gtk_label_new(_("This one:"));
   gtk_widget_show(label_table_sub);
   gtk_box_pack_start(GTK_BOX(vbox17), label_table_sub, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_table_sub), 0, 0.5);
 
   GSList *radiobutton_table_sub_new_row_group = NULL;
 
-  radiobutton_table_sub_new_row = gtk_radio_button_new_with_mnemonic(NULL, "starts a new row");
+  radiobutton_table_sub_new_row = gtk_radio_button_new_with_mnemonic(NULL, _("starts a new row"));
   gtk_widget_show(radiobutton_table_sub_new_row);
   gtk_box_pack_start(GTK_BOX(vbox17), radiobutton_table_sub_new_row, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_table_sub_new_row), radiobutton_table_sub_new_row_group);
   radiobutton_table_sub_new_row_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_table_sub_new_row));
 
-  radiobutton_table_sub_heading = gtk_radio_button_new_with_mnemonic(NULL, "is a column heading");
+  radiobutton_table_sub_heading = gtk_radio_button_new_with_mnemonic(NULL, _("is a column heading"));
   gtk_widget_show(radiobutton_table_sub_heading);
   gtk_box_pack_start(GTK_BOX(vbox17), radiobutton_table_sub_heading, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_table_sub_heading), radiobutton_table_sub_new_row_group);
   radiobutton_table_sub_new_row_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_table_sub_heading));
 
-  radiobutton_table_sub_cell = gtk_radio_button_new_with_mnemonic(NULL, "is cell data");
+  radiobutton_table_sub_cell = gtk_radio_button_new_with_mnemonic(NULL, _("is cell data"));
   gtk_widget_show(radiobutton_table_sub_cell);
   gtk_box_pack_start(GTK_BOX(vbox17), radiobutton_table_sub_cell, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_table_sub_cell), radiobutton_table_sub_new_row_group);
@@ -584,32 +584,32 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(vbox_subtype_wordlist);
   gtk_container_add(GTK_CONTAINER(notebook_subtype), vbox_subtype_wordlist);
 
-  label_subtype_wordlist = gtk_label_new("This one:");
+  label_subtype_wordlist = gtk_label_new(_("This one:"));
   gtk_widget_show(label_subtype_wordlist);
   gtk_box_pack_start(GTK_BOX(vbox_subtype_wordlist), label_subtype_wordlist, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_subtype_wordlist), 0, 0.5);
 
   GSList *radiobutton_subtype_wordlist_group = NULL;
 
-  radiobutton_subtype_wordlist_glossary_dictionary_entry = gtk_radio_button_new_with_mnemonic(NULL, "Wordlist / glossary / dictionary entry");
+  radiobutton_subtype_wordlist_glossary_dictionary_entry = gtk_radio_button_new_with_mnemonic(NULL, _("Wordlist / glossary / dictionary entry"));
   gtk_widget_show(radiobutton_subtype_wordlist_glossary_dictionary_entry);
   gtk_box_pack_start(GTK_BOX(vbox_subtype_wordlist), radiobutton_subtype_wordlist_glossary_dictionary_entry, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_subtype_wordlist_glossary_dictionary_entry), radiobutton_subtype_wordlist_group);
   radiobutton_subtype_wordlist_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_subtype_wordlist_glossary_dictionary_entry));
 
-  radiobutton_subtype_hebrew_wordlist_entry = gtk_radio_button_new_with_mnemonic(NULL, "Hebrew wordlist entry");
+  radiobutton_subtype_hebrew_wordlist_entry = gtk_radio_button_new_with_mnemonic(NULL, _("Hebrew wordlist entry"));
   gtk_widget_show(radiobutton_subtype_hebrew_wordlist_entry);
   gtk_box_pack_start(GTK_BOX(vbox_subtype_wordlist), radiobutton_subtype_hebrew_wordlist_entry, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_subtype_hebrew_wordlist_entry), radiobutton_subtype_wordlist_group);
   radiobutton_subtype_wordlist_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_subtype_hebrew_wordlist_entry));
 
-  radiobutton_subtype_greek_wordlist_entry = gtk_radio_button_new_with_mnemonic(NULL, "Greek wordlist entry");
+  radiobutton_subtype_greek_wordlist_entry = gtk_radio_button_new_with_mnemonic(NULL, _("Greek wordlist entry"));
   gtk_widget_show(radiobutton_subtype_greek_wordlist_entry);
   gtk_box_pack_start(GTK_BOX(vbox_subtype_wordlist), radiobutton_subtype_greek_wordlist_entry, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_subtype_greek_wordlist_entry), radiobutton_subtype_wordlist_group);
   radiobutton_subtype_wordlist_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_subtype_greek_wordlist_entry));
 
-  radiobutton_subtype_subject_index_entry = gtk_radio_button_new_with_mnemonic(NULL, "Subject index entry");
+  radiobutton_subtype_subject_index_entry = gtk_radio_button_new_with_mnemonic(NULL, _("Subject index entry"));
   gtk_widget_show(radiobutton_subtype_subject_index_entry);
   gtk_box_pack_start(GTK_BOX(vbox_subtype_wordlist), radiobutton_subtype_subject_index_entry, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_subtype_subject_index_entry), radiobutton_subtype_wordlist_group);
@@ -804,7 +804,7 @@ void StylesheetDialog::on_style_type(GtkToggleButton * togglebutton)
       bold_simple_create();
       underline_simple_create();
       smallcaps_simple_create();
-      paragraph_create("chapter", false);
+      paragraph_create(_("chapter"), false);
       span_columns_create();
       print_chapter_at_first_verse_create();
       print_in_running_header_create();
@@ -1868,7 +1868,7 @@ void StylesheetDialog::fontsize_points_create()
   gtk_widget_show(hbox2);
   gtk_box_pack_start(GTK_BOX(vbox6), hbox2, TRUE, TRUE, 0);
 
-  label8 = gtk_label_new_with_mnemonic("_Font size");
+  label8 = gtk_label_new_with_mnemonic(_("_Font size"));
   gtk_widget_show(label8);
   gtk_box_pack_start(GTK_BOX(hbox2), label8, FALSE, FALSE, 0);
   gtk_misc_set_padding(GTK_MISC(label8), 4, 0);
@@ -1878,7 +1878,7 @@ void StylesheetDialog::fontsize_points_create()
   gtk_widget_show(spinbuttonfontsize);
   gtk_box_pack_start(GTK_BOX(hbox2), spinbuttonfontsize, FALSE, FALSE, 0);
 
-  label9 = gtk_label_new("points");
+  label9 = gtk_label_new(_("points"));
   gtk_widget_show(label9);
   gtk_box_pack_start(GTK_BOX(hbox2), label9, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label9), 0, 0.5);
@@ -1892,7 +1892,7 @@ void StylesheetDialog::fontsize_points_create()
 
 void StylesheetDialog::italic_simple_create()
 {
-  checkbutton_italic = gtk_check_button_new_with_mnemonic("_Italic");
+  checkbutton_italic = gtk_check_button_new_with_mnemonic(_("_Italic"));
   gtk_widget_show(checkbutton_italic);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_italic, FALSE, FALSE, 0);
 
@@ -1902,7 +1902,7 @@ void StylesheetDialog::italic_simple_create()
 
 void StylesheetDialog::bold_simple_create()
 {
-  checkbutton_bold = gtk_check_button_new_with_mnemonic("_Bold");
+  checkbutton_bold = gtk_check_button_new_with_mnemonic(_("_Bold"));
   gtk_widget_show(checkbutton_bold);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_bold, FALSE, FALSE, 0);
 
@@ -1912,7 +1912,7 @@ void StylesheetDialog::bold_simple_create()
 
 void StylesheetDialog::underline_simple_create()
 {
-  checkbutton_underline = gtk_check_button_new_with_mnemonic("_Underline");
+  checkbutton_underline = gtk_check_button_new_with_mnemonic(_("_Underline"));
   gtk_widget_show(checkbutton_underline);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_underline, FALSE, FALSE, 0);
 
@@ -1922,7 +1922,7 @@ void StylesheetDialog::underline_simple_create()
 
 void StylesheetDialog::smallcaps_simple_create()
 {
-  checkbutton_small_caps = gtk_check_button_new_with_mnemonic("S_mall caps");
+  checkbutton_small_caps = gtk_check_button_new_with_mnemonic(_("S_mall caps"));
   gtk_widget_show(checkbutton_small_caps);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_small_caps, FALSE, FALSE, 0);
 
@@ -1938,22 +1938,22 @@ void StylesheetDialog::italic_bold_underline_smallcaps_extended_create()
   gtk_table_set_row_spacings(GTK_TABLE(table2), 1);
   gtk_table_set_col_spacings(GTK_TABLE(table2), 10);
 
-  label40 = gtk_label_new_with_mnemonic("_Italic");
+  label40 = gtk_label_new_with_mnemonic(_("_Italic"));
   gtk_widget_show(label40);
   gtk_table_attach(GTK_TABLE(table2), label40, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label40), 0, 0.5);
 
-  label41 = gtk_label_new_with_mnemonic("_Bold");
+  label41 = gtk_label_new_with_mnemonic(_("_Bold"));
   gtk_widget_show(label41);
   gtk_table_attach(GTK_TABLE(table2), label41, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label41), 0, 0.5);
 
-  label42 = gtk_label_new_with_mnemonic("_Underline");
+  label42 = gtk_label_new_with_mnemonic(_("_Underline"));
   gtk_widget_show(label42);
   gtk_table_attach(GTK_TABLE(table2), label42, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label42), 0, 0.5);
 
-  label_small_caps = gtk_label_new_with_mnemonic("S_mall caps");
+  label_small_caps = gtk_label_new_with_mnemonic(_("S_mall caps"));
   gtk_widget_show(label_small_caps);
   gtk_table_attach(GTK_TABLE(table2), label_small_caps, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label_small_caps), 0, 0.5);
@@ -1963,97 +1963,97 @@ void StylesheetDialog::italic_bold_underline_smallcaps_extended_create()
   GSList *radiobutton_underline_group = NULL;
   GSList *radiobutton_small_caps_group = NULL;
 
-  radiobutton_italics_off = gtk_radio_button_new_with_mnemonic(NULL, "Off");
+  radiobutton_italics_off = gtk_radio_button_new_with_mnemonic(NULL, _("Off"));
   gtk_widget_show(radiobutton_italics_off);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_italics_off, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_italics_off), radiobutton_italics_group);
   radiobutton_italics_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_italics_off));
 
-  radiobutton_italics_on = gtk_radio_button_new_with_mnemonic(NULL, "On");
+  radiobutton_italics_on = gtk_radio_button_new_with_mnemonic(NULL, _("On"));
   gtk_widget_show(radiobutton_italics_on);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_italics_on, 2, 3, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_italics_on), radiobutton_italics_group);
   radiobutton_italics_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_italics_on));
 
-  radiobutton_italics_inherit = gtk_radio_button_new_with_mnemonic(NULL, "Inherit");
+  radiobutton_italics_inherit = gtk_radio_button_new_with_mnemonic(NULL, _("Inherit"));
   gtk_widget_show(radiobutton_italics_inherit);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_italics_inherit, 3, 4, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_italics_inherit), radiobutton_italics_group);
   radiobutton_italics_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_italics_inherit));
 
-  radiobutton_italics_toggle = gtk_radio_button_new_with_mnemonic(NULL, "Toggle");
+  radiobutton_italics_toggle = gtk_radio_button_new_with_mnemonic(NULL, _("Toggle"));
   gtk_widget_show(radiobutton_italics_toggle);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_italics_toggle, 4, 5, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_italics_toggle), radiobutton_italics_group);
   radiobutton_italics_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_italics_toggle));
 
-  radiobutton_bold_off = gtk_radio_button_new_with_mnemonic(NULL, "Off");
+  radiobutton_bold_off = gtk_radio_button_new_with_mnemonic(NULL, _("Off"));
   gtk_widget_show(radiobutton_bold_off);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_bold_off, 1, 2, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bold_off), radiobutton_bold_group);
   radiobutton_bold_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bold_off));
 
-  radiobutton_bold_on = gtk_radio_button_new_with_mnemonic(NULL, "On");
+  radiobutton_bold_on = gtk_radio_button_new_with_mnemonic(NULL, _("On"));
   gtk_widget_show(radiobutton_bold_on);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_bold_on, 2, 3, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bold_on), radiobutton_bold_group);
   radiobutton_bold_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bold_on));
 
-  radiobutton_bold_inherit = gtk_radio_button_new_with_mnemonic(NULL, "Inherit");
+  radiobutton_bold_inherit = gtk_radio_button_new_with_mnemonic(NULL, _("Inherit"));
   gtk_widget_show(radiobutton_bold_inherit);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_bold_inherit, 3, 4, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bold_inherit), radiobutton_bold_group);
   radiobutton_bold_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bold_inherit));
 
-  radiobutton_bold_toggle = gtk_radio_button_new_with_mnemonic(NULL, "Toggle");
+  radiobutton_bold_toggle = gtk_radio_button_new_with_mnemonic(NULL, _("Toggle"));
   gtk_widget_show(radiobutton_bold_toggle);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_bold_toggle, 4, 5, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bold_toggle), radiobutton_bold_group);
   radiobutton_bold_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bold_toggle));
 
-  radiobutton_underline_off = gtk_radio_button_new_with_mnemonic(NULL, "Off");
+  radiobutton_underline_off = gtk_radio_button_new_with_mnemonic(NULL, _("Off"));
   gtk_widget_show(radiobutton_underline_off);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_underline_off, 1, 2, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_underline_off), radiobutton_underline_group);
   radiobutton_underline_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_underline_off));
 
-  radiobutton_underline_on = gtk_radio_button_new_with_mnemonic(NULL, "On");
+  radiobutton_underline_on = gtk_radio_button_new_with_mnemonic(NULL, _("On"));
   gtk_widget_show(radiobutton_underline_on);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_underline_on, 2, 3, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_underline_on), radiobutton_underline_group);
   radiobutton_underline_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_underline_on));
 
-  radiobutton_underline_inherit = gtk_radio_button_new_with_mnemonic(NULL, "Inherit");
+  radiobutton_underline_inherit = gtk_radio_button_new_with_mnemonic(NULL, _("Inherit"));
   gtk_widget_show(radiobutton_underline_inherit);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_underline_inherit, 3, 4, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_underline_inherit), radiobutton_underline_group);
   radiobutton_underline_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_underline_inherit));
 
-  radiobutton_underline_toggle = gtk_radio_button_new_with_mnemonic(NULL, "Toggle");
+  radiobutton_underline_toggle = gtk_radio_button_new_with_mnemonic(NULL, _("Toggle"));
   gtk_widget_show(radiobutton_underline_toggle);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_underline_toggle, 4, 5, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_underline_toggle), radiobutton_underline_group);
   radiobutton_underline_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_underline_toggle));
 
-  radiobutton_small_caps_off = gtk_radio_button_new_with_mnemonic(NULL, "Off");
+  radiobutton_small_caps_off = gtk_radio_button_new_with_mnemonic(NULL, _("Off"));
   gtk_widget_show(radiobutton_small_caps_off);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_small_caps_off, 1, 2, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_small_caps_off), radiobutton_small_caps_group);
   radiobutton_small_caps_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_small_caps_off));
 
-  radiobutton_small_caps_on = gtk_radio_button_new_with_mnemonic(NULL, "On");
+  radiobutton_small_caps_on = gtk_radio_button_new_with_mnemonic(NULL, _("On"));
   gtk_widget_show(radiobutton_small_caps_on);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_small_caps_on, 2, 3, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_small_caps_on), radiobutton_small_caps_group);
   radiobutton_small_caps_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_small_caps_on));
 
-  radiobutton_small_caps_inherit = gtk_radio_button_new_with_mnemonic(NULL, "Inherit");
+  radiobutton_small_caps_inherit = gtk_radio_button_new_with_mnemonic(NULL, _("Inherit"));
   gtk_widget_show(radiobutton_small_caps_inherit);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_small_caps_inherit, 3, 4, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_small_caps_inherit), radiobutton_small_caps_group);
   radiobutton_small_caps_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_small_caps_inherit));
 
-  radiobutton_small_caps_toggle = gtk_radio_button_new_with_mnemonic(NULL, "Toggle");
+  radiobutton_small_caps_toggle = gtk_radio_button_new_with_mnemonic(NULL, _("Toggle"));
   gtk_widget_show(radiobutton_small_caps_toggle);
   gtk_table_attach(GTK_TABLE(table2), radiobutton_small_caps_toggle, 4, 5, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_small_caps_toggle), radiobutton_small_caps_group);
@@ -2085,7 +2085,7 @@ void StylesheetDialog::italic_bold_underline_smallcaps_extended_create()
 
 void StylesheetDialog::superscript_create()
 {
-  checkbutton_superscript = gtk_check_button_new_with_mnemonic("Su_perscript");
+  checkbutton_superscript = gtk_check_button_new_with_mnemonic(_("Su_perscript"));
   gtk_widget_show(checkbutton_superscript);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_superscript, FALSE, FALSE, 0);
 
@@ -2101,7 +2101,7 @@ void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justi
  */
 {
   if (!label)
-    label = (const gchar *)"paragraph";
+    label = (const gchar *)_("paragraph");
   ustring text;
 
   vbox4 = gtk_vbox_new(FALSE, 0);
@@ -2112,32 +2112,32 @@ void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justi
   gtk_widget_show(hbox4);
   gtk_box_pack_start(GTK_BOX(vbox4), hbox4, TRUE, TRUE, 0);
 
-  label10 = gtk_label_new_with_mnemonic("Te_xt alignment");
+  label10 = gtk_label_new_with_mnemonic(_("Te_xt alignment"));
   gtk_widget_show(label10);
   gtk_box_pack_start(GTK_BOX(hbox4), label10, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label10), 0, 0.5);
 
   GSList *radiobutton_left_group = NULL;
 
-  radiobutton_left = gtk_radio_button_new_with_mnemonic(NULL, "Left");
+  radiobutton_left = gtk_radio_button_new_with_mnemonic(NULL, _("Left"));
   gtk_widget_show(radiobutton_left);
   gtk_box_pack_start(GTK_BOX(hbox4), radiobutton_left, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_left), radiobutton_left_group);
   radiobutton_left_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_left));
 
-  radiobutton_center = gtk_radio_button_new_with_mnemonic(NULL, "Center");
+  radiobutton_center = gtk_radio_button_new_with_mnemonic(NULL, _("Center"));
   gtk_widget_show(radiobutton_center);
   gtk_box_pack_start(GTK_BOX(hbox4), radiobutton_center, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_center), radiobutton_left_group);
   radiobutton_left_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_center));
 
-  radiobutton_right = gtk_radio_button_new_with_mnemonic(NULL, "Right");
+  radiobutton_right = gtk_radio_button_new_with_mnemonic(NULL, _("Right"));
   gtk_widget_show(radiobutton_right);
   gtk_box_pack_start(GTK_BOX(hbox4), radiobutton_right, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_right), radiobutton_left_group);
   radiobutton_left_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_right));
 
-  radiobutton_full = gtk_radio_button_new_with_mnemonic(NULL, "Justified");
+  radiobutton_full = gtk_radio_button_new_with_mnemonic(NULL, _("Justified"));
   gtk_widget_show(radiobutton_full);
   gtk_box_pack_start(GTK_BOX(hbox4), radiobutton_full, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_full), radiobutton_left_group);
@@ -2152,56 +2152,56 @@ void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justi
   gtk_table_set_row_spacings(GTK_TABLE(table1), 4);
   gtk_table_set_col_spacings(GTK_TABLE(table1), 4);
 
-  text = "S_pace before ";
+  text = _("S_pace before ");
   text.append(label);
   label11 = gtk_label_new_with_mnemonic(text.c_str());
   gtk_widget_show(label11);
   gtk_table_attach(GTK_TABLE(table1), label11, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label11), 1, 0.5);
 
-  text = "Space afte_r ";
+  text = _("Space afte_r ");
   text.append(label);
   label12 = gtk_label_new_with_mnemonic(text.c_str());
   gtk_widget_show(label12);
   gtk_table_attach(GTK_TABLE(table1), label12, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label12), 1, 0.5);
 
-  label13 = gtk_label_new_with_mnemonic("_Left margin");
+  label13 = gtk_label_new_with_mnemonic(_("_Left margin"));
   gtk_widget_show(label13);
   gtk_table_attach(GTK_TABLE(table1), label13, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label13), 1, 0.5);
 
-  label14 = gtk_label_new_with_mnemonic("Ri_ght margin");
+  label14 = gtk_label_new_with_mnemonic(_("Ri_ght margin"));
   gtk_widget_show(label14);
   gtk_table_attach(GTK_TABLE(table1), label14, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label14), 1, 0.5);
 
-  label15 = gtk_label_new_with_mnemonic("_1st Line indent");
+  label15 = gtk_label_new_with_mnemonic(_("_1st Line indent"));
   gtk_widget_show(label15);
   gtk_table_attach(GTK_TABLE(table1), label15, 0, 1, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label15), 1, 0.5);
 
-  label16 = gtk_label_new("mm");
+  label16 = gtk_label_new(_("mm"));
   gtk_widget_show(label16);
   gtk_table_attach(GTK_TABLE(table1), label16, 2, 3, 0, 1, (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label16), 0, 0.5);
 
-  label17 = gtk_label_new("mm");
+  label17 = gtk_label_new(_("mm"));
   gtk_widget_show(label17);
   gtk_table_attach(GTK_TABLE(table1), label17, 2, 3, 1, 2, (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label17), 0, 0.5);
 
-  label18 = gtk_label_new("mm");
+  label18 = gtk_label_new(_("mm"));
   gtk_widget_show(label18);
   gtk_table_attach(GTK_TABLE(table1), label18, 2, 3, 2, 3, (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label18), 0, 0.5);
 
-  label19 = gtk_label_new("mm");
+  label19 = gtk_label_new(_("mm"));
   gtk_widget_show(label19);
   gtk_table_attach(GTK_TABLE(table1), label19, 2, 3, 3, 4, (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label19), 0, 0.5);
 
-  label20 = gtk_label_new("mm");
+  label20 = gtk_label_new(_("mm"));
   gtk_widget_show(label20);
   gtk_table_attach(GTK_TABLE(table1), label20, 2, 3, 4, 5, (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label20), 0, 0.5);
@@ -2253,7 +2253,7 @@ void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justi
 
 void StylesheetDialog::span_columns_create()
 {
-  checkbutton_span = gtk_check_button_new_with_mnemonic("Spans the t_wo columns");
+  checkbutton_span = gtk_check_button_new_with_mnemonic(_("Spans the t_wo columns"));
   gtk_widget_show(checkbutton_span);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_span, FALSE, FALSE, 0);
 
@@ -2263,7 +2263,7 @@ void StylesheetDialog::span_columns_create()
 
 void StylesheetDialog::apocrypha_create()
 {
-  checkbutton_apocrypha = gtk_check_button_new_with_mnemonic("Refers to the Apocrypha");
+  checkbutton_apocrypha = gtk_check_button_new_with_mnemonic(_("Refers to the Apocrypha"));
   gtk_widget_show(checkbutton_apocrypha);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_apocrypha, FALSE, FALSE, 0);
 
@@ -2281,7 +2281,7 @@ void StylesheetDialog::note_numbering_type_create()
   gtk_widget_show(hbox9);
   gtk_box_pack_start(GTK_BOX(vbox10), hbox9, TRUE, TRUE, 0);
 
-  label52 = gtk_label_new("Numbering");
+  label52 = gtk_label_new(_("Numbering"));
   gtk_widget_show(label52);
   gtk_box_pack_start(GTK_BOX(hbox9), label52, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label52), 0, 0);
@@ -2298,13 +2298,13 @@ void StylesheetDialog::note_numbering_type_create()
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_1), radiobutton_note_numbering_1_group);
   radiobutton_note_numbering_1_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_1));
 
-  radiobutton_note_numbering_a = gtk_radio_button_new_with_mnemonic(NULL, "a, b, c ...");
+  radiobutton_note_numbering_a = gtk_radio_button_new_with_mnemonic(NULL, _("a, b, c ..."));
   gtk_widget_show(radiobutton_note_numbering_a);
   gtk_box_pack_start(GTK_BOX(vbox11), radiobutton_note_numbering_a, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_a), radiobutton_note_numbering_1_group);
   radiobutton_note_numbering_1_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_a));
 
-  radiobutton_note_numbering_user = gtk_radio_button_new_with_mnemonic(NULL, "User defined");
+  radiobutton_note_numbering_user = gtk_radio_button_new_with_mnemonic(NULL, _("User defined"));
   gtk_widget_show(radiobutton_note_numbering_user);
   gtk_box_pack_start(GTK_BOX(vbox11), radiobutton_note_numbering_user, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_user), radiobutton_note_numbering_1_group);
@@ -2348,7 +2348,7 @@ void StylesheetDialog::note_numering_restart_create()
   gtk_widget_show(hbox10);
   gtk_box_pack_start(GTK_BOX(vbox6), hbox10, TRUE, TRUE, 0);
 
-  label53 = gtk_label_new("Restart");
+  label53 = gtk_label_new(_("Restart"));
   gtk_widget_show(label53);
   gtk_box_pack_start(GTK_BOX(hbox10), label53, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label53), 0, 0);
@@ -2359,19 +2359,19 @@ void StylesheetDialog::note_numering_restart_create()
 
   GSList *radiobutton_note_numbering_restart_never_group = NULL;
 
-  radiobutton_note_numbering_restart_never = gtk_radio_button_new_with_mnemonic(NULL, "never");
+  radiobutton_note_numbering_restart_never = gtk_radio_button_new_with_mnemonic(NULL, _("never"));
   gtk_widget_show(radiobutton_note_numbering_restart_never);
   gtk_box_pack_start(GTK_BOX(vbox12), radiobutton_note_numbering_restart_never, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_restart_never), radiobutton_note_numbering_restart_never_group);
   radiobutton_note_numbering_restart_never_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_restart_never));
 
-  radiobutton_note_numbering_restart_book = gtk_radio_button_new_with_mnemonic(NULL, "every book");
+  radiobutton_note_numbering_restart_book = gtk_radio_button_new_with_mnemonic(NULL, _("every book"));
   gtk_widget_show(radiobutton_note_numbering_restart_book);
   gtk_box_pack_start(GTK_BOX(vbox12), radiobutton_note_numbering_restart_book, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_restart_book), radiobutton_note_numbering_restart_never_group);
   radiobutton_note_numbering_restart_never_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_restart_book));
 
-  radiobutton_note_numbering_restart_chapter = gtk_radio_button_new_with_mnemonic(NULL, "every chapter");
+  radiobutton_note_numbering_restart_chapter = gtk_radio_button_new_with_mnemonic(NULL, _("every chapter"));
   gtk_widget_show(radiobutton_note_numbering_restart_chapter);
   gtk_box_pack_start(GTK_BOX(vbox12), radiobutton_note_numbering_restart_chapter, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_note_numbering_restart_chapter), radiobutton_note_numbering_restart_never_group);
@@ -2417,7 +2417,7 @@ void StylesheetDialog::on_radiobutton_note_numbering()
 
 void StylesheetDialog::print_chapter_at_first_verse_create()
 {
-  print_chapter_at_first_verse = gtk_check_button_new_with_mnemonic("Print chapter number at the first verse");
+  print_chapter_at_first_verse = gtk_check_button_new_with_mnemonic(_("Print chapter number at the first verse"));
   gtk_widget_show(print_chapter_at_first_verse);
   gtk_box_pack_start(GTK_BOX(vbox6), print_chapter_at_first_verse, FALSE, FALSE, 0);
 
@@ -2449,11 +2449,11 @@ void StylesheetDialog::book_id_new_page_create()
   gtk_widget_show(hbox_id);
   gtk_box_pack_start(GTK_BOX(vbox6), hbox_id, false, false, 0);
 
-  checkbutton_id_newpage = gtk_check_button_new_with_mnemonic("Start on a new page");
+  checkbutton_id_newpage = gtk_check_button_new_with_mnemonic(_("Start on a new page"));
   gtk_widget_show(checkbutton_id_newpage);
   gtk_box_pack_start(GTK_BOX(hbox_id), checkbutton_id_newpage, FALSE, FALSE, 0);
 
-  checkbutton_id_oddpage = gtk_check_button_new_with_mnemonic("with an odd number");
+  checkbutton_id_oddpage = gtk_check_button_new_with_mnemonic(_("with an odd number"));
   gtk_widget_show(checkbutton_id_oddpage);
   gtk_box_pack_start(GTK_BOX(hbox_id), checkbutton_id_oddpage, FALSE, FALSE, 0);
 
@@ -2530,7 +2530,7 @@ void StylesheetDialog::colour_create()
 
 void StylesheetDialog::print_create()
 {
-  checkbutton_print = gtk_check_button_new_with_mnemonic("Print");
+  checkbutton_print = gtk_check_button_new_with_mnemonic(_("Print"));
   gtk_widget_show(checkbutton_print);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_print, FALSE, FALSE, 0);
 
@@ -2545,7 +2545,7 @@ void StylesheetDialog::end_note_placement_create()
   gtk_widget_show(hbox13);
   gtk_box_pack_start(GTK_BOX(vbox6), hbox13, TRUE, TRUE, 0);
 
-  label60 = gtk_label_new("Print");
+  label60 = gtk_label_new(_("Print"));
   gtk_widget_show(label60);
   gtk_box_pack_start(GTK_BOX(hbox13), label60, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label60), 0.5, 0);
@@ -2556,13 +2556,13 @@ void StylesheetDialog::end_note_placement_create()
 
   GSList *radiobutton_print_endnotes_after_book_group = NULL;
 
-  radiobutton_print_endnotes_after_book = gtk_radio_button_new_with_mnemonic(NULL, "after each book");
+  radiobutton_print_endnotes_after_book = gtk_radio_button_new_with_mnemonic(NULL, _("after each book"));
   gtk_widget_show(radiobutton_print_endnotes_after_book);
   gtk_box_pack_start(GTK_BOX(vbox16), radiobutton_print_endnotes_after_book, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_print_endnotes_after_book), radiobutton_print_endnotes_after_book_group);
   radiobutton_print_endnotes_after_book_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_print_endnotes_after_book));
 
-  radiobutton_print_endnotes_after_everything_else = gtk_radio_button_new_with_mnemonic(NULL, "after everything else");
+  radiobutton_print_endnotes_after_everything_else = gtk_radio_button_new_with_mnemonic(NULL, _("after everything else"));
   gtk_widget_show(radiobutton_print_endnotes_after_everything_else);
   gtk_box_pack_start(GTK_BOX(vbox16), radiobutton_print_endnotes_after_everything_else, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_print_endnotes_after_everything_else), radiobutton_print_endnotes_after_book_group);
@@ -2572,7 +2572,7 @@ void StylesheetDialog::end_note_placement_create()
   gtk_widget_show(hbox14);
   gtk_box_pack_start(GTK_BOX(vbox16), hbox14, TRUE, TRUE, 0);
 
-  radiobutton_print_endnotes_at_marker = gtk_radio_button_new_with_mnemonic(NULL, "upon encountering marker");
+  radiobutton_print_endnotes_at_marker = gtk_radio_button_new_with_mnemonic(NULL, _("upon encountering marker"));
   gtk_widget_show(radiobutton_print_endnotes_at_marker);
   gtk_box_pack_start(GTK_BOX(hbox14), radiobutton_print_endnotes_at_marker, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_print_endnotes_at_marker), radiobutton_print_endnotes_after_book_group);
@@ -2644,7 +2644,7 @@ void StylesheetDialog::on_checkbutton_table_element()
     bold_simple_create();
     underline_simple_create();
     smallcaps_simple_create();
-    paragraph_create("heading", false);
+    paragraph_create(_("heading"), false);
     column_number_create();
     break;
   case tetCell:
@@ -2654,7 +2654,7 @@ void StylesheetDialog::on_checkbutton_table_element()
     bold_simple_create();
     underline_simple_create();
     smallcaps_simple_create();
-    paragraph_create("cell", false);
+    paragraph_create(_("cell"), false);
     column_number_create();
     break;
   }
@@ -2701,7 +2701,7 @@ void StylesheetDialog::column_number_create()
   gtk_widget_show(hbox15);
   gtk_box_pack_start(GTK_BOX(vbox6), hbox15, FALSE, FALSE, 0);
 
-  label62 = gtk_label_new("Column number");
+  label62 = gtk_label_new(_("Column number"));
   gtk_widget_show(label62);
   gtk_box_pack_start(GTK_BOX(hbox15), label62, FALSE, FALSE, 0);
 
@@ -2718,13 +2718,13 @@ void StylesheetDialog::column_number_create()
 
 void StylesheetDialog::print_in_running_header_create()
 {
-  checkbutton_print_in_running_header_left = gtk_check_button_new_with_mnemonic("Print this in running header of left page");
+  checkbutton_print_in_running_header_left = gtk_check_button_new_with_mnemonic(_("Print this in running header of left page"));
   gtk_widget_show(checkbutton_print_in_running_header_left);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_print_in_running_header_left, FALSE, FALSE, 0);
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_print_in_running_header_left), userbool2);
 
-  checkbutton_print_in_running_header_right = gtk_check_button_new_with_mnemonic("Print this in running header of right page");
+  checkbutton_print_in_running_header_right = gtk_check_button_new_with_mnemonic(_("Print this in running header of right page"));
   gtk_widget_show(checkbutton_print_in_running_header_right);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_print_in_running_header_right, FALSE, FALSE, 0);
 
@@ -2738,7 +2738,7 @@ void StylesheetDialog::wordlist_add_text_create()
   gtk_widget_show(hbox16);
   gtk_box_pack_start(GTK_BOX(vbox6), hbox16, TRUE, TRUE, 0);
 
-  label64 = gtk_label_new("Add");
+  label64 = gtk_label_new(_("Add"));
   gtk_widget_show(label64);
   gtk_box_pack_start(GTK_BOX(hbox16), label64, FALSE, FALSE, 0);
 
@@ -2747,7 +2747,7 @@ void StylesheetDialog::wordlist_add_text_create()
   gtk_box_pack_start(GTK_BOX(hbox16), entry_wordlist_addition, FALSE, TRUE, 0);
   gtk_entry_set_width_chars(GTK_ENTRY(entry_wordlist_addition), 5);
 
-  label65 = gtk_label_new("after entry");
+  label65 = gtk_label_new(_("after entry"));
   gtk_widget_show(label65);
   gtk_box_pack_start(GTK_BOX(hbox16), label65, FALSE, FALSE, 0);
 
@@ -2757,7 +2757,7 @@ void StylesheetDialog::wordlist_add_text_create()
 
 void StylesheetDialog::restarts_paragraph_create()
 {
-  checkbutton_restarts_paragraph = gtk_check_button_new_with_mnemonic("Restart paragraph");
+  checkbutton_restarts_paragraph = gtk_check_button_new_with_mnemonic(_("Restart paragraph"));
   gtk_widget_show(checkbutton_restarts_paragraph);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_restarts_paragraph, FALSE, FALSE, 0);
 

@@ -28,20 +28,20 @@
 #include "help.h"
 #include "books.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 ChapterNumberDialog::ChapterNumberDialog(int dummy)
 {
   // Build gui.  
   dialogchapternumber = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(dialogchapternumber), "Insert Chapter");
+  gtk_window_set_title(GTK_WINDOW(dialogchapternumber), _("Insert Chapter"));
   gtk_window_set_position(GTK_WINDOW(dialogchapternumber), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(dialogchapternumber), GDK_WINDOW_TYPE_HINT_DIALOG);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(dialogchapternumber));
   gtk_widget_show(dialog_vbox1);
 
-  label_purpose = gtk_label_new("Insert a new chapter");
+  label_purpose = gtk_label_new(_("Insert a new chapter"));
   gtk_widget_show(label_purpose);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label_purpose, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_purpose), 0, 0.5);
@@ -50,7 +50,7 @@ ChapterNumberDialog::ChapterNumberDialog(int dummy)
   gtk_widget_show(hbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Number");
+  label1 = gtk_label_new(_("Number"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 0);
 
@@ -144,11 +144,11 @@ void ChapterNumberDialog::set_gui()
   ch = number_in_string(ch);
   if (ch.empty()) {
     sensitive = false;
-    message = "Enter a chapter number";
+    message = _("Enter a chapter number");
   } else {
     if (current_chapters.find(convert_to_int(ch)) != current_chapters.end()) {
       sensitive = false;
-      message = "This chapter exists in the book";
+      message = _("This chapter exists in the book");
     }
   }
   gtk_widget_set_sensitive(okbutton1, sensitive);

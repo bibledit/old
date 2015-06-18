@@ -24,6 +24,7 @@
 #include "constants.h"
 #include "gwrappers.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 SwordNote::SwordNote(const Usfm & usfm, bool show)
 // Stores the properties for all the footnote related styles.
@@ -192,7 +193,7 @@ void SwordNote::transform2(ustring & opener, ustring & closer, NoteCaller * call
     size_t closing_position;
     closing_position = line.find(closer, opening_position);
     if (closing_position == string::npos) {
-      gw_warning("Missing endmarker: " + line);
+      gw_warning(_("Missing endmarker: ") + line);
       return;
     }
     // Take out this bit of the line, transform it, and insert it again.

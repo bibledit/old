@@ -26,7 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "shortcuts.h"
 #include "books.h"
-
+#include <glib/gi18n.h>
 
 ReviewAnchorsDialog::ReviewAnchorsDialog(vector < unsigned int >*books, vector < unsigned int >*chapters, vector < unsigned int >*verses, vector < unsigned int >*linenumbers)
 // Reviews anchors that would be placed in a file for the Resource Viewer.
@@ -41,14 +41,14 @@ ReviewAnchorsDialog::ReviewAnchorsDialog(vector < unsigned int >*books, vector <
   Shortcuts shortcuts(0);
 
   reviewanchorsdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(reviewanchorsdialog), "Review anchors");
+  gtk_window_set_title(GTK_WINDOW(reviewanchorsdialog), _("Review anchors"));
   gtk_window_set_position(GTK_WINDOW(reviewanchorsdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(reviewanchorsdialog), TRUE);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(reviewanchorsdialog));
   gtk_widget_show(dialog_vbox1);
 
-  label1 = gtk_label_new("Review the anchors that will be placed.\nTo remove some anchors,\nselect them and press the Delete key.");
+  label1 = gtk_label_new(_("Review the anchors that will be placed.\nTo remove some anchors,\nselect them and press the Delete key."));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label1, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
@@ -85,7 +85,7 @@ ReviewAnchorsDialog::ReviewAnchorsDialog(vector < unsigned int >*books, vector <
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox3), image1, FALSE, FALSE, 0);
 
-  label3 = gtk_label_new_with_mnemonic("Select spurious anchors");
+  label3 = gtk_label_new_with_mnemonic(_("Select spurious anchors"));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(hbox3), label3, FALSE, FALSE, 0);
 
@@ -116,13 +116,13 @@ ReviewAnchorsDialog::ReviewAnchorsDialog(vector < unsigned int >*books, vector <
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_anchors), GTK_TREE_MODEL(store));
   g_object_unref(store);
   GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
-  column0 = gtk_tree_view_column_new_with_attributes("Book", renderer, "text", 0, NULL);
+  column0 = gtk_tree_view_column_new_with_attributes(_("Book"), renderer, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview_anchors), column0);
-  column1 = gtk_tree_view_column_new_with_attributes("Chapter", renderer, "text", 1, NULL);
+  column1 = gtk_tree_view_column_new_with_attributes(_("Chapter"), renderer, "text", 1, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview_anchors), column1);
-  column2 = gtk_tree_view_column_new_with_attributes("Verse", renderer, "text", 2, NULL);
+  column2 = gtk_tree_view_column_new_with_attributes(_("Verse"), renderer, "text", 2, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview_anchors), column2);
-  column3 = gtk_tree_view_column_new_with_attributes("Line", renderer, "text", 3, NULL);
+  column3 = gtk_tree_view_column_new_with_attributes(_("Line"), renderer, "text", 3, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview_anchors), column3);
   select = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_anchors));
   gtk_tree_selection_set_mode(select, GTK_SELECTION_MULTIPLE);

@@ -41,7 +41,7 @@
 #include "gtkwrappers.h"
 #include "roman.h"
 #include "combobox.h"
-
+#include <glib/gi18n.h>
 
 ResourceConverterDialog::ResourceConverterDialog(const ustring & working_directory)
 {
@@ -59,7 +59,7 @@ ResourceConverterDialog::ResourceConverterDialog(const ustring & working_directo
 
   // Dialog.  
   resourceconverterdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(resourceconverterdialog), "Resource Converter");
+  gtk_window_set_title(GTK_WINDOW(resourceconverterdialog), _("Resource Converter"));
   gtk_window_set_position(GTK_WINDOW(resourceconverterdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(resourceconverterdialog), TRUE);
 
@@ -139,7 +139,7 @@ void ResourceConverterDialog::build_table_and_type(Shortcuts & shortcuts)
   gtk_table_set_col_spacings(GTK_TABLE(table1), 3);
 
   // Type of the resource.
-  build_button(image_type_ok, label_type_ok, label_type_short, button_type, "Type", shortcuts, G_CALLBACK(on_type_button_clicked), label_type_long);
+  build_button(image_type_ok, label_type_ok, label_type_short, button_type, _("Type"), shortcuts, G_CALLBACK(on_type_button_clicked), label_type_long);
 }
 
 
@@ -304,12 +304,12 @@ void ResourceConverterDialog::build_textview(GtkWidget * &image_ok, GtkWidget * 
   gtk_widget_show(image_ok);
   gtk_table_attach(GTK_TABLE(table1), image_ok, 0, 1, table_attachment_offset, table_attachment_offset + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 
-  label_ok = gtk_label_new("Done");
+  label_ok = gtk_label_new(_("Done"));
   gtk_widget_show(label_ok);
   gtk_table_attach(GTK_TABLE(table1), label_ok, 1, 2, table_attachment_offset, table_attachment_offset + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label_ok), 0, 0.5);
 
-  label = gtk_label_new("Title");
+  label = gtk_label_new(_("Title"));
   gtk_widget_show(label);
   gtk_table_attach(GTK_TABLE(table1), label, 2, 4, table_attachment_offset, table_attachment_offset + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
@@ -350,7 +350,7 @@ void ResourceConverterDialog::build_entry_combo_entry(GtkWidget * &image_ok, Gtk
   gtk_widget_show(image_ok);
   gtk_table_attach(GTK_TABLE(table1), image_ok, 0, 1, table_attachment_offset, table_attachment_offset + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 
-  label_ok = gtk_label_new("Done");
+  label_ok = gtk_label_new(_("Done"));
   gtk_widget_show(label_ok);
   gtk_table_attach(GTK_TABLE(table1), label_ok, 1, 2, table_attachment_offset, table_attachment_offset + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label_ok), 0, 0.5);
@@ -424,7 +424,7 @@ void ResourceConverterDialog::on_type_button(bool no_ask)
     for (unsigned int i = 0; i < rctEnd; i++) {
       types.push_back(resource_conversion_type_to_text((ResourceConversionType) i));
     }
-    ListviewDialog dialog("Select resource conversion type", types, resource_conversion_type_to_text(resource_conversion_type), false, NULL);
+    ListviewDialog dialog(_("Select resource conversion type"), types, resource_conversion_type_to_text(resource_conversion_type), false, NULL);
     if (dialog.run() == GTK_RESPONSE_OK) {
       dialog_ok = true;
       resource_conversion_type = resource_conversion_text_to_type(dialog.focus);
@@ -449,7 +449,7 @@ bool ResourceConverterDialog::type_gui()
 {
   ustring type = resource_conversion_type_to_text(resource_conversion_type);
   bool ok = !type.empty();
-  gtk_label_set_text(GTK_LABEL(label_type_short), "Select the resource conversion type");
+  gtk_label_set_text(GTK_LABEL(label_type_short), _("Select the resource conversion type"));
   gtk_label_set_text(GTK_LABEL(label_type_long), type.c_str());
   gui_okay(image_type_ok, label_type_ok, ok);
   return ok;
@@ -461,9 +461,9 @@ void ResourceConverterDialog::build_gui(Shortcuts & shortcuts)
   switch (resource_conversion_type) {
   case rctChapterStartsAtPatternVerseOneStartsAtChapterVerseStartsAtPattern:
     {
-      build_button(image_open_file_ok, label_open_file_ok, label_open_file_short, button_open_file, "Open", shortcuts, G_CALLBACK(on_open_file_button_clicked), label_open_file_long);
+      build_button(image_open_file_ok, label_open_file_ok, label_open_file_short, button_open_file, _("Open"), shortcuts, G_CALLBACK(on_open_file_button_clicked), label_open_file_long);
 
-      build_button(image_view_file_ok, label_view_file_ok, label_view_file_short, button_view_file_html, "View", shortcuts, G_CALLBACK(on_view_file_button_clicked), label_view_file_long);
+      build_button(image_view_file_ok, label_view_file_ok, label_view_file_short, button_view_file_html, _("View"), shortcuts, G_CALLBACK(on_view_file_button_clicked), label_view_file_long);
 
       build_entry_combo_entry(image_chapter_pattern_ok, label_chapter_pattern_ok, label_chapter_pattern, label_chapter_pattern_1, entry_chapter_pattern_1, label_chapter_pattern_combo, combo_chapter_pattern, label_chapter_pattern_2, entry_chapter_pattern_2, G_CALLBACK(on_chapter_pattern_entry_changed), shortcuts);
       gtk_entry_set_text(GTK_ENTRY(entry_chapter_pattern_1), chapter_pattern_prefix.c_str());
@@ -473,10 +473,10 @@ void ResourceConverterDialog::build_gui(Shortcuts & shortcuts)
       combobox_set_strings(combo_chapter_pattern, chapters);
       combobox_set_index(combo_chapter_pattern, chapter_pattern_index);
       gtk_entry_set_text(GTK_ENTRY(entry_chapter_pattern_2), chapter_pattern_suffix.c_str());
-      gtk_label_set_text(GTK_LABEL(label_chapter_pattern), "Enter the text pattern to detect the chapter");
-      gtk_label_set_text(GTK_LABEL(label_chapter_pattern_1), "Prefix");
-      gtk_label_set_text(GTK_LABEL(label_chapter_pattern_combo), "Chapter number");
-      gtk_label_set_text(GTK_LABEL(label_chapter_pattern_2), "Suffix");
+      gtk_label_set_text(GTK_LABEL(label_chapter_pattern), _("Enter the text pattern to detect the chapter"));
+      gtk_label_set_text(GTK_LABEL(label_chapter_pattern_1), _("Prefix"));
+      gtk_label_set_text(GTK_LABEL(label_chapter_pattern_combo), _("Chapter number"));
+      gtk_label_set_text(GTK_LABEL(label_chapter_pattern_2), _("Suffix"));
 
       build_entry_combo_entry(image_verse_pattern_ok, label_verse_pattern_ok, label_verse_pattern, label_verse_pattern_1, entry_verse_pattern_1, label_verse_pattern_combo, combo_verse_pattern, label_verse_pattern_2, entry_verse_pattern_2, G_CALLBACK(on_verse_pattern_entry_changed), shortcuts);
       gtk_entry_set_text(GTK_ENTRY(entry_verse_pattern_1), verse_pattern_prefix.c_str());
@@ -486,12 +486,12 @@ void ResourceConverterDialog::build_gui(Shortcuts & shortcuts)
       combobox_set_strings(combo_verse_pattern, verses);
       combobox_set_index(combo_verse_pattern, verse_pattern_index);
       gtk_entry_set_text(GTK_ENTRY(entry_verse_pattern_2), verse_pattern_suffix.c_str());
-      gtk_label_set_text(GTK_LABEL(label_verse_pattern), "Enter the text pattern to detect the verse");
-      gtk_label_set_text(GTK_LABEL(label_verse_pattern_1), "Prefix");
-      gtk_label_set_text(GTK_LABEL(label_verse_pattern_combo), "Verse number");
-      gtk_label_set_text(GTK_LABEL(label_verse_pattern_2), "Suffix");
+      gtk_label_set_text(GTK_LABEL(label_verse_pattern), _("Enter the text pattern to detect the verse"));
+      gtk_label_set_text(GTK_LABEL(label_verse_pattern_1), _("Prefix"));
+      gtk_label_set_text(GTK_LABEL(label_verse_pattern_combo), _("Verse number"));
+      gtk_label_set_text(GTK_LABEL(label_verse_pattern_2), _("Suffix"));
 
-      build_button(image_write_anchors_ok, label_write_anchors_ok, label_write_anchors_short, button_write_anchors, "Write", shortcuts, G_CALLBACK(on_write_anchors_button_clicked), label_write_anchors_long);
+      build_button(image_write_anchors_ok, label_write_anchors_ok, label_write_anchors_short, button_write_anchors, _("Write"), shortcuts, G_CALLBACK(on_write_anchors_button_clicked), label_write_anchors_long);
 
       break;
     }
@@ -558,7 +558,7 @@ void ResourceConverterDialog::on_open_file_button()
   // List all files in the working directory.
   ReadFiles rf(workingdirectory, "", "");
   // Select a file.
-  ListviewDialog dialog("Select file", rf.files, filename, true, NULL);
+  ListviewDialog dialog(_("Select file"), rf.files, filename, true, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     // Store filename, read it.
     filename = dialog.focus;
@@ -579,9 +579,9 @@ bool ResourceConverterDialog::open_file_gui()
   if (ok) {
     s.append(": ");
     s.append(convert_to_string(lines.size()));
-    s.append(" lines");
+    s.append(_(" lines"));
   }
-  gtk_label_set_text(GTK_LABEL(label_open_file_short), "Open a file for conversion");
+  gtk_label_set_text(GTK_LABEL(label_open_file_short), _("Open a file for conversion"));
   gtk_label_set_text(GTK_LABEL(label_open_file_long), s.c_str());
   gui_okay(image_open_file_ok, label_open_file_ok, ok);
   return ok;
@@ -608,7 +608,7 @@ void ResourceConverterDialog::on_view_file_button()
 bool ResourceConverterDialog::view_file_gui()
 {
   bool ok = !filename.empty();
-  gtk_label_set_text(GTK_LABEL(label_view_file_short), "View the file");
+  gtk_label_set_text(GTK_LABEL(label_view_file_short), _("View the file"));
   gui_okay(image_view_file_ok, label_view_file_ok, ok);
   return ok;
 }
@@ -717,7 +717,7 @@ bool ResourceConverterDialog::write_anchors_gui()
   bool ok = true;
   if (!anchors_written)
     ok = false;
-  gtk_label_set_text(GTK_LABEL(label_write_anchors_short), "Write anchors");
+  gtk_label_set_text(GTK_LABEL(label_write_anchors_short), _("Write anchors"));
   unsigned int anchor_count = 0;
   for (unsigned int i = 0; i < lines.size(); i++) {
     ustring s(lines[i]);
@@ -733,7 +733,7 @@ bool ResourceConverterDialog::write_anchors_gui()
   }
   if (anchor_count == 0)
     ok = false;
-  ustring s = "Anchors in file: " + convert_to_string(anchor_count);
+  ustring s = _("Anchors in file: ") + convert_to_string(anchor_count);
   gtk_label_set_text(GTK_LABEL(label_write_anchors_long), s.c_str());
   gui_okay(image_write_anchors_ok, label_write_anchors_ok, ok);
   return ok;

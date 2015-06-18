@@ -32,7 +32,7 @@
 #include "directories.h"
 #include "shell.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 ustring gw_build_filename(const ustring & part1, const ustring & part2)
 // Wrapper for g_build_filename, to make programming easier.
@@ -306,7 +306,7 @@ void GwSpawn::run()
   if (!result) {
     exitstatus = -1;
     ustring message = myprogram;
-    message.append(" didn't spawn");
+    message.append(_(" didn't spawn"));
     gw_critical(message);
     return;
   }
@@ -451,7 +451,7 @@ These calls allow one to hide the console window.
   if (!result) {
     exitstatus = GetLastError();
     ustring message = myprogram;
-    message.append(" didn't spawn");
+    message.append(_(" didn't spawn"));
     gw_critical(message);
     return;
   }

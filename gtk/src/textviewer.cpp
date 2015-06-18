@@ -25,6 +25,7 @@
 #include "shell.h"
 #include "uname.h"
 #include "gwrappers.h"
+#include <glib/gi18n.h>
 
 void textviewer_run(const gchar * command, const gchar * argument, const ustring & filename)
 {
@@ -57,7 +58,7 @@ void textviewer_view(const ustring & filename)
 
   // If we're here, it shows that no suitable viewer was found.
   // Inform the user about it, and what to do to solve it.
-  ustring message = "The file cannot be displayed, because there is no suitable text viewer installed.\n";
-  message.append("Install a supported text viewer");
+  ustring message = _("The file cannot be displayed, because there is no suitable text viewer installed.\n");
+  message.append(_("Install a supported text viewer"));
   gtkw_dialog_error(NULL, message);
 }

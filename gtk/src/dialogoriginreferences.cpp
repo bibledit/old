@@ -26,7 +26,7 @@
 #include "originreferences.h"
 #include "settings.h"
 #include "shortcuts.h"
-
+#include <glib/gi18n.h>
 
 OriginReferencesDialog::OriginReferencesDialog(int dummy)
 {
@@ -35,14 +35,14 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
   Shortcuts shortcuts(0);
 
   originreferencesdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(originreferencesdialog), "Bible notes mass update");
+  gtk_window_set_title(GTK_WINDOW(originreferencesdialog), _("Bible notes mass update"));
   gtk_window_set_position(GTK_WINDOW(originreferencesdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(originreferencesdialog), TRUE);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(originreferencesdialog));
   gtk_widget_show(dialog_vbox1);
 
-  label3 = gtk_label_new("This tool can update all the footnotes, endnotes and crossreferences in the project.");
+  label3 = gtk_label_new(_("This tool can update all the footnotes, endnotes and crossreferences in the project."));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label3, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label3), TRUE);
@@ -52,24 +52,24 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hseparator1, TRUE, TRUE, 0);
 
-  label4 = gtk_label_new("Types of note to consider:");
+  label4 = gtk_label_new(_("Types of note to consider:"));
   gtk_widget_show(label4);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label4, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
 
-  checkbutton_footnotes = gtk_check_button_new_with_mnemonic("Footnotes");
+  checkbutton_footnotes = gtk_check_button_new_with_mnemonic(_("Footnotes"));
   gtk_widget_show(checkbutton_footnotes);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_footnotes, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_footnotes);
 
-  checkbutton_endnotes = gtk_check_button_new_with_mnemonic("Endnotes");
+  checkbutton_endnotes = gtk_check_button_new_with_mnemonic(_("Endnotes"));
   gtk_widget_show(checkbutton_endnotes);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_endnotes, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_endnotes);
 
-  checkbutton_xrefs = gtk_check_button_new_with_mnemonic("Crossreferences");
+  checkbutton_xrefs = gtk_check_button_new_with_mnemonic(_("Crossreferences"));
   gtk_widget_show(checkbutton_xrefs);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_xrefs, FALSE, FALSE, 0);
 
@@ -79,14 +79,14 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
   gtk_widget_show(hseparator2);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hseparator2, FALSE, FALSE, 0);
 
-  label5 = gtk_label_new("Action to take:");
+  label5 = gtk_label_new(_("Action to take:"));
   gtk_widget_show(label5);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label5, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label5), 0, 0.5);
 
   GSList *radiobutton_remove_group = NULL;
 
-  radiobutton_nothing = gtk_radio_button_new_with_mnemonic(NULL, "_Make no changes but give statistics only");
+  radiobutton_nothing = gtk_radio_button_new_with_mnemonic(NULL, _("_Make no changes but give statistics only"));
   gtk_widget_show(radiobutton_nothing);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_nothing, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_nothing), radiobutton_remove_group);
@@ -94,7 +94,7 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
 
   shortcuts.button(checkbutton_xrefs);
 
-  radiobutton_remove = gtk_radio_button_new_with_mnemonic(NULL, "_Remove all the references");
+  radiobutton_remove = gtk_radio_button_new_with_mnemonic(NULL, _("_Remove all the references"));
   gtk_widget_show(radiobutton_remove);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_remove, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_remove), radiobutton_remove_group);
@@ -106,7 +106,7 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
   gtk_widget_show(hbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox1, FALSE, FALSE, 0);
 
-  radiobutton_add = gtk_radio_button_new_with_mnemonic(NULL, "Add references");
+  radiobutton_add = gtk_radio_button_new_with_mnemonic(NULL, _("Add references"));
   gtk_widget_show(radiobutton_add);
   gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_add, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_add), radiobutton_remove_group);
@@ -114,14 +114,14 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
 
   shortcuts.button(radiobutton_add);
 
-  checkbutton_book = gtk_check_button_new_with_mnemonic("Book");
+  checkbutton_book = gtk_check_button_new_with_mnemonic(_("Book"));
   gtk_widget_show(checkbutton_book);
   gtk_box_pack_start(GTK_BOX(hbox1), checkbutton_book, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_book);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_book), settings->session.bnmu_add_book);
 
-  checkbutton_chapter = gtk_check_button_new_with_mnemonic("Chapter");
+  checkbutton_chapter = gtk_check_button_new_with_mnemonic(_("Chapter"));
   gtk_widget_show(checkbutton_chapter);
   gtk_box_pack_start(GTK_BOX(hbox1), checkbutton_chapter, FALSE, FALSE, 0);
 
@@ -137,7 +137,7 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
 
   gtk_entry_set_text(GTK_ENTRY(entry_dot), settings->session.bnmu_verse_prefix.c_str());
 
-  checkbutton_verse = gtk_check_button_new_with_mnemonic("Verse");
+  checkbutton_verse = gtk_check_button_new_with_mnemonic(_("Verse"));
   gtk_widget_show(checkbutton_verse);
   gtk_box_pack_start(GTK_BOX(hbox1), checkbutton_verse, FALSE, FALSE, 0);
 
@@ -161,7 +161,7 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
   gtk_widget_show(label_example);
   gtk_box_pack_start(GTK_BOX(hbox1), label_example, FALSE, FALSE, 0);
 
-  radiobutton_text_label = gtk_radio_button_new_with_mnemonic(NULL, "Add missing _text labels");
+  radiobutton_text_label = gtk_radio_button_new_with_mnemonic(NULL, _("Add missing _text labels"));
   gtk_widget_show(radiobutton_text_label);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_text_label, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_text_label), radiobutton_remove_group);
@@ -259,7 +259,7 @@ void OriginReferencesDialog::on_reference()
 {
   ustring exampletext = origin_reference_produce(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_book)),
                                                  1,
-                                                 "English",
+                                                 _("English"),
                                                  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_chapter)),
                                                  1,
                                                  gtk_entry_get_text(GTK_ENTRY(entry_dot)),
@@ -281,9 +281,9 @@ void OriginReferencesDialog::on_okbutton()
 {
   // Double warning in case of an edit.  
   if (action != oratNothing) {
-    if (gtkw_dialog_question(originreferencesdialog, "Are you sure you wish to edit the notes?") == GTK_RESPONSE_NO)
+    if (gtkw_dialog_question(originreferencesdialog, _("Are you sure you wish to edit the notes?")) == GTK_RESPONSE_NO)
       return;
-    if (gtkw_dialog_question(originreferencesdialog, "This will permanently modify your project.\nThe changes cannot be undone.\nAre you sure?") == GTK_RESPONSE_NO)
+    if (gtkw_dialog_question(originreferencesdialog, _("This will permanently modify your project.\nThe changes cannot be undone.\nAre you sure?")) == GTK_RESPONSE_NO)
       return;
   }
   // Store a few important settings in the session.

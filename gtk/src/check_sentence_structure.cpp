@@ -26,6 +26,7 @@
 #include "usfmtools.h"
 #include "books.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 CheckSentenceStructure::CheckSentenceStructure(const ustring & project, const vector < unsigned int >&books, bool gui)
 /*
@@ -46,7 +47,7 @@ gui: whether to show graphical progressbar.
   // GUI.
   ProgressWindow *progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Checking sentence structure", true);
+    progresswindow = new ProgressWindow(_("Checking sentence structure"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Go through each book.
@@ -361,7 +362,7 @@ void CheckSentenceStructure::check(SentenceStructureType type, ustring text, vec
     if (!initial_capital_done) {
       if (g_unichar_isalpha(character) || g_unichar_iscntrl(character)) {
         if (!g_unichar_isupper(character)) {
-          message(versenumbers, verseoffsets, &iter, "The text does not start with a capital");
+          message(versenumbers, verseoffsets, &iter, _("The text does not start with a capital"));
         }
         initial_capital_done = true;
       }
@@ -369,19 +370,19 @@ void CheckSentenceStructure::check(SentenceStructureType type, ustring text, vec
     // Check: Sentence starts with capital.
     if (!sentence_started) {
       if (g_unichar_islower(character)) {
-        message(versenumbers, verseoffsets, &iter, "The text does not start with a capital");
+        message(versenumbers, verseoffsets, &iter, _("The text does not start with a capital"));
       }
     }
     // Check: Start / end sentence.
     if (gtk_text_iter_starts_sentence(&iter)) {
       if (sentence_started) {
-        message(versenumbers, verseoffsets, &iter, "A new sentence starts within a sentence");
+        message(versenumbers, verseoffsets, &iter, _("A new sentence starts within a sentence"));
       }
       sentence_started = true;
     }
     if (gtk_text_iter_ends_sentence(&iter)) {
       if (!sentence_started) {
-        message(versenumbers, verseoffsets, &iter, "A sentence ends where none was started");
+        message(versenumbers, verseoffsets, &iter, _("A sentence ends where none was started"));
       }
       sentence_started = false;
     }
@@ -391,7 +392,7 @@ void CheckSentenceStructure::check(SentenceStructureType type, ustring text, vec
   // Check: That a heading does not end the sentence.
   if (type == sstHeading) {
     if (!sentence_started) {
-      message(versenumbers, verseoffsets, &iter, "A heading usually starts a sentence but does not finish it");
+      message(versenumbers, verseoffsets, &iter, _("A heading usually starts a sentence but does not finish it"));
     }
   }
   // Free buffer.

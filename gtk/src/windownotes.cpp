@@ -38,10 +38,10 @@
 #include "gtkwrappers.h"
 #include "dialogprojectnote.h"
 #include "dialogyesnoalways.h"
-
+#include <glib/gi18n.h>
 
 WindowNotes::WindowNotes(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
-FloatingWindow(parent_layout, widNotes, "Project notes", startup)
+  FloatingWindow(parent_layout, widNotes, _("Project notes"), startup)
 // Project notes window.
 {
   // Initialize variables.
@@ -180,11 +180,11 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox15), image1, FALSE, FALSE, 0);
 
-  label1 = gtk_label_new_with_mnemonic("_More");
+  label1 = gtk_label_new_with_mnemonic(_("_More"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(hbox15), label1, FALSE, FALSE, 0);
 
-  label_note_category = gtk_label_new_with_mnemonic("C_ategory");
+  label_note_category = gtk_label_new_with_mnemonic(_("C_ategory"));
   gtk_widget_show(label_note_category);
   gtk_box_pack_start(GTK_BOX(vbox_controls), label_note_category, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_note_category), 0, 0.5);
@@ -193,7 +193,7 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_widget_show(combobox_note_category);
   gtk_box_pack_start(GTK_BOX(vbox_controls), combobox_note_category, FALSE, FALSE, 0);
 
-  label_note_references = gtk_label_new_with_mnemonic("_References");
+  label_note_references = gtk_label_new_with_mnemonic(_("_References"));
   gtk_widget_show(label_note_references);
   gtk_box_pack_start(GTK_BOX(vbox_controls), label_note_references, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_note_references), 0, 0.5);
@@ -360,7 +360,7 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
     } else {
       note_editor->date_created = date_created;
     }
-    created_on = "Created on " + date_time_julian_human_readable(note_editor->date_created, true);
+    created_on = _("Created on ") + date_time_julian_human_readable(note_editor->date_created, true);
   }
 
   // The modification date.
@@ -370,7 +370,7 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
     } else {
       note_editor->date_modified = date_modified;
     }
-    edited_on = "Edited on " + date_time_julian_human_readable(note_editor->date_modified, true);
+    edited_on = _("Edited on ") + date_time_julian_human_readable(note_editor->date_modified, true);
   }
 
   // The user who created the note.
@@ -380,7 +380,7 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
     } else {
       note_editor->created_by = user_created;
     }
-    created_by = "Created by " + note_editor->created_by;
+    created_by = _("Created by ") + note_editor->created_by;
   }
 
   // Read the logbook.
@@ -595,7 +595,7 @@ void WindowNotes::on_notes_button_ok()
   }
   // See whether any references are left. If not give a message and bail out.
   if (osis_references.empty()) {
-    gtkw_dialog_error(vbox_client, "No valid references. Note was not stored");
+    gtkw_dialog_error(vbox_client, _("No valid references. Note was not stored"));
     return;
   }
 
@@ -630,24 +630,24 @@ void WindowNotes::on_notes_button_ok()
       if (!logbook.empty())
         logbook.append("\n");
       logbook.append(date_user_text);
-      logbook.append("created a new note, category \"");
+      logbook.append(_("created a new note, category \""));
       logbook.append(category);
-      logbook.append("\", project \"");
+      logbook.append(_("\", project \""));
       logbook.append(project);
       logbook.append("\".");
     } else {
       vector < ustring > actions;
       if (gtk_text_buffer_get_modified(note_editor->textbuffer_references)) {
-        actions.push_back("modified the references");
+        actions.push_back(_("modified the references"));
       }
       if (note_editor->data_was_edited()) {
-        actions.push_back("modified the note");
+        actions.push_back(_("modified the note"));
       }
       if (category != note_editor->previous_category) {
-        actions.push_back("changed the category to \"" + category + "\"");
+        actions.push_back(_("changed the category to \"") + category + "\"");
       }
       if (project != note_editor->previous_project) {
-        actions.push_back("changed the project to \"" + project + "\"");
+        actions.push_back(_("changed the project to \"") + project + "\"");
       }
       if (actions.size() > 0) {
         if (!logbook.empty())
@@ -792,14 +792,16 @@ void WindowNotes::delete_ids(const vector < gint > &ids)
   if (ids.empty())
     return;
 
-  ustring message = "Are you sure you want to delete ";
-  if (ids.size() == 1)
-    message.append("this note");
-  else
-    message.append("these notes");
-  message.append("?");
-  if (!yes_no_always_dialog (message, ynadtDeleteNote, true, false))
+  ustring message;
+  if (ids.size() == 1) {
+    message.append(_("Are you sure you want to delete this note?"));
+  }
+  else {
+    message.append(_("Are you sure you want to delete these notes?"));
+  }
+  if (!yes_no_always_dialog (message, ynadtDeleteNote, true, false)) {
     return;
+  }
   for (unsigned int i = 0; i < ids.size(); i++) {
     notes_delete_one(ids[i]);
   }

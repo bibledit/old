@@ -24,6 +24,7 @@
 #include "utilities.h"
 #include "shell.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 ustring scripts_straight_through()
 {
@@ -142,7 +143,7 @@ ustring script_filter(const ustring & scriptname, bool straightthrough, const us
   // If the rules file does not exist, or the script is of an unknown type, pass it straight through.
   if (!g_file_test(scriptfile.c_str(), G_FILE_TEST_IS_REGULAR) || (scripttype == stEnd)) {
     unix_cp(inputfile, outputfile);
-    gw_warning("Error in script " + scriptname);
+    gw_warning(_("Error in script ") + scriptname);
     return "";
   }
   // Encode the input usfm file.
@@ -191,21 +192,21 @@ ustring script_filter(const ustring & scriptname, bool straightthrough, const us
           scriptdata = contents;
           g_free(contents);
         } else {
-          error = "Can't read script file";
+          error = _("Can't read script file");
           gw_warning(error);
           return error;
         }
       }
       // Check for and insert the input filename.
       if (scriptdata.find(script_free_input_identifier()) == string::npos) {
-        error = "Can't find where to put input file";
+        error = _("Can't find where to put input file");
         gw_warning(error);
         return error;
       }
       replace_text(scriptdata, script_free_input_identifier(), shell_quote_space(encodedinputfile));
       // Check for and insert the output filename.
       if (scriptdata.find(script_free_output_identifier()) == string::npos) {
-        error = "Can't find where to put output file";
+        error = _("Can't find where to put output file");
         gw_warning(error);
         return error;
       }
@@ -240,7 +241,7 @@ ustring script_filter(const ustring & scriptname, bool straightthrough, const us
     if (contents) {
       if (!g_utf8_validate(contents, -1, NULL)) {
         unix_cp(inputfile, outputfile);
-        error = "UTF-8 validation failure";
+        error = _("UTF-8 validation failure");
         gw_warning(error);
       }
       g_free(contents);

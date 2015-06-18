@@ -24,14 +24,14 @@
 #include "shortcuts.h"
 #include "settings.h"
 #include "pdfviewer.h"
-
+#include <glib/gi18n.h>
 
 PDFViewerDialog::PDFViewerDialog(int dummy)
 {
   Shortcuts shortcuts(0);
 
   pdfviewerdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(pdfviewerdialog), "PDF Viewer");
+  gtk_window_set_title(GTK_WINDOW(pdfviewerdialog), _("PDF Viewer"));
   gtk_window_set_position(GTK_WINDOW(pdfviewerdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(pdfviewerdialog), TRUE);
 
@@ -40,7 +40,7 @@ PDFViewerDialog::PDFViewerDialog(int dummy)
 
   GSList *radiobutton_automatic_group = NULL;
 
-  radiobutton_automatic = gtk_radio_button_new_with_mnemonic(NULL, "Automatic");
+  radiobutton_automatic = gtk_radio_button_new_with_mnemonic(NULL, _("Automatic"));
   gtk_widget_show(radiobutton_automatic);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_automatic, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_automatic), radiobutton_automatic_group);
@@ -48,7 +48,7 @@ PDFViewerDialog::PDFViewerDialog(int dummy)
 
   shortcuts.button(radiobutton_automatic);
 
-  radiobutton_manual = gtk_radio_button_new_with_mnemonic(NULL, "Manual");
+  radiobutton_manual = gtk_radio_button_new_with_mnemonic(NULL, _("Manual"));
   gtk_widget_show(radiobutton_manual);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_manual, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_manual), radiobutton_automatic_group);
@@ -56,7 +56,7 @@ PDFViewerDialog::PDFViewerDialog(int dummy)
 
   shortcuts.button(radiobutton_manual);
 
-  label_path = gtk_label_new("Path to PDF Viewer");
+  label_path = gtk_label_new(_("Path to PDF Viewer"));
   gtk_widget_show(label_path);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label_path, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_path), 0, 0.5);
@@ -69,7 +69,7 @@ PDFViewerDialog::PDFViewerDialog(int dummy)
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_path), entry_path);
 
-  label_arguments = gtk_label_new("Optional arguments");
+  label_arguments = gtk_label_new(_("Optional arguments"));
   gtk_widget_show(label_arguments);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label_arguments, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_arguments), 0, 0.5);

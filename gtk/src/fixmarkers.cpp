@@ -25,6 +25,7 @@
 #include "utilities.h"
 #include "usfmtools.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 void fix_markers_insert_space_after_opener()
 /*
@@ -47,7 +48,7 @@ But after a closing marker it does not insert spaces, because the * is enough.
   extern Settings *settings;
 
   // Progress.
-  ProgressWindow progresswindow("Inserting missing spaces after opening markers", false);
+  ProgressWindow progresswindow(_("Inserting missing spaces after opening markers"), false);
 
   // Statistics.
   unsigned int insertcount = 0;
@@ -95,6 +96,6 @@ But after a closing marker it does not insert spaces, because the * is enough.
   }
 
   // Give statistics.
-  ustring message("Missing spaces inserted: " + convert_to_string(insertcount));
+  ustring message(_("Missing spaces inserted: ") + convert_to_string(insertcount));
   gtkw_dialog_info(NULL, message);
 }
