@@ -34,6 +34,7 @@
 #include "referenceutils.h"
 #include "projectutils.h"
 #include "styles.h"
+#include <glib/gi18n.h>
 
 /*
 
@@ -153,7 +154,7 @@ void Usfm2Osis::header (const ustring& name, const ustring& description)
           xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "x-copyright");
           guint year, month, day;
           date_time_normal_get_year_month_day (date_time_julian_day_get_current (), year, month, day);
-          xmlTextWriterWriteFormatString(xmlwriter, "The document is free. It is copyrighted (C) %d by %s. Permission is granted to copy, distribute and/or modify the documents under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.", year, g_get_real_name ());
+          xmlTextWriterWriteFormatString(xmlwriter, _("The document is free. It is copyrighted (C) %d by %s. Permission is granted to copy, distribute and/or modify the documents under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts."), year, g_get_real_name ());
           xmlTextWriterEndElement(xmlwriter);
 
           xmlTextWriterStartElement(xmlwriter, BAD_CAST "refSystem");

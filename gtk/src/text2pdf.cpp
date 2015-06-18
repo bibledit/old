@@ -39,6 +39,7 @@
 #include <cairo/cairo-pdf.h>
 #include "text2pdf_intermediate.h"
 #include "dialogtext2pdf.h"
+#include <glib/gi18n.h>
 
 Text2Pdf::Text2Pdf(const ustring & pdf_file, bool use_intermediate_text)
 // Converts text code to a pdf file.
@@ -194,8 +195,8 @@ void Text2Pdf::run()
 // Runs the converter.
 {
   // Create progress window.
-  progresswindow = new ProgressWindow("Formatting", false);
-  progresswindow->set_text("Run");
+  progresswindow = new ProgressWindow(_("Formatting"), false);
+  progresswindow->set_text(_("Run"));
 
   // Close any open input containers.
   close_paragraph();
@@ -222,7 +223,7 @@ void Text2Pdf::run()
 
   // Print the pages.
   progresswindow->set_iterate(0, 1, pages.size());
-  progresswindow->set_text("Output");
+  progresswindow->set_text(_("Output"));
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
     T2PPage *page = pages[pg];
@@ -240,7 +241,7 @@ void Text2Pdf::run_input(vector < T2PInput * >&input)
 // Goes through all of the input data.
 {
   progresswindow->set_iterate(0, 1, input.size());
-  progresswindow->set_text("Layout");
+  progresswindow->set_text(_("Layout"));
   for (unsigned int i = 0; i < input.size(); i++) {
     progresswindow->iterate();
     switch (input[i]->type) {
@@ -335,7 +336,7 @@ void Text2Pdf::lay_out_paragraph()
     line_number++;
   }
   if (!input_paragraph->text.empty()) {
-    gw_warning("Can't fit in \"" + input_paragraph->text + "\"");
+    gw_warning(_("Can't fit in \"") + input_paragraph->text + "\"");
   }
   // Space after paragraph.
   if (input_paragraph->space_after_mm != 0) {
@@ -419,7 +420,7 @@ void Text2Pdf::fit_blocks_on_pages()
 {
   // Progress.
   unsigned int initial_input_size = input_blocks.size();
-  progresswindow->set_text("Pages");
+  progresswindow->set_text(_("Pages"));
 
   // Loop through the input blocks.
   unsigned int infinite_loop_counter = 0;
@@ -1057,7 +1058,7 @@ void Text2Pdf::intermediate_interpreter()
 
   // Process any available intermediate text.
   progresswindow->set_iterate(0, 1, intermediate_text.size());
-  progresswindow->set_text("Interpreting");
+  progresswindow->set_text(_("Interpreting"));
   for (unsigned int i = 0; i < intermediate_text.size(); i++) {
     progresswindow->iterate();
 

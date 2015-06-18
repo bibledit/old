@@ -32,7 +32,7 @@
 #include "help.h"
 #include "dialogselectbooks.h"
 #include "shortcuts.h"
-
+#include <glib/gi18n.h>
 
 PrintProjectDialog::PrintProjectDialog(int dummy)
 {
@@ -41,7 +41,7 @@ PrintProjectDialog::PrintProjectDialog(int dummy)
   Shortcuts shortcuts(0);
 
   printprojectdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(printprojectdialog), "Print project");
+  gtk_window_set_title(GTK_WINDOW(printprojectdialog), _("Print project"));
   gtk_window_set_position(GTK_WINDOW(printprojectdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(printprojectdialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(printprojectdialog), TRUE);
@@ -58,7 +58,7 @@ PrintProjectDialog::PrintProjectDialog(int dummy)
   gtk_widget_show(hbox1);
   gtk_box_pack_start(GTK_BOX(vbox1), hbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Portion:");
+  label1 = gtk_label_new(_("Portion:"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 0);
 
@@ -82,7 +82,7 @@ PrintProjectDialog::PrintProjectDialog(int dummy)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox2), image1, FALSE, FALSE, 0);
 
-  label5 = gtk_label_new_with_mnemonic("Change");
+  label5 = gtk_label_new_with_mnemonic(_("Change"));
   gtk_widget_show(label5);
   gtk_box_pack_start(GTK_BOX(hbox2), label5, FALSE, FALSE, 0);
 
@@ -101,7 +101,7 @@ PrintProjectDialog::PrintProjectDialog(int dummy)
   gtk_widget_show(vbox_expander);
   gtk_container_add(GTK_CONTAINER(expander1), vbox_expander);
 
-  checkbutton_full_references = gtk_check_button_new_with_mnemonic("Write the references in the notes in full");
+  checkbutton_full_references = gtk_check_button_new_with_mnemonic(_("Write the references in the notes in full"));
   gtk_widget_show(checkbutton_full_references);
   gtk_box_pack_start(GTK_BOX(vbox_expander), checkbutton_full_references, FALSE, FALSE, 0);
 
@@ -109,7 +109,7 @@ PrintProjectDialog::PrintProjectDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_full_references), settings->session.print_references_in_notes_in_full);
 
-  label_expander = gtk_label_new("Options");
+  label_expander = gtk_label_new(_("Options"));
   gtk_widget_show(label_expander);
   gtk_expander_set_label_widget(GTK_EXPANDER(expander1), label_expander);
 
@@ -194,7 +194,7 @@ void PrintProjectDialog::gui_reorder_include()
   if (scriptureportions.reordering_portions_all())
     gtk_label_set_text(GTK_LABEL(label_portion), CHAPTER_VERSE_SELECTION_ALL);
   else
-    gtk_label_set_text(GTK_LABEL(label_portion), "part");
+    gtk_label_set_text(GTK_LABEL(label_portion), _("part"));
 }
 
 

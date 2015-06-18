@@ -28,6 +28,7 @@
 #include "gwrappers.h"
 #include "dialogradiobutton.h"
 #include "directories.h"
+#include <glib/gi18n.h>
 
 FiltersDialog::FiltersDialog(int dummy)
 {
@@ -37,14 +38,14 @@ FiltersDialog::FiltersDialog(int dummy)
 
   filterdialog = gtk_dialog_new();
   gtk_widget_set_size_request(filterdialog, 640, 640);
-  gtk_window_set_title(GTK_WINDOW(filterdialog), "Filters");
+  gtk_window_set_title(GTK_WINDOW(filterdialog), _("Filters"));
   gtk_window_set_position(GTK_WINDOW(filterdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(filterdialog), TRUE);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (filterdialog));
   gtk_widget_show(dialog_vbox1);
 
-  label_rules = gtk_label_new("Rules");
+  label_rules = gtk_label_new(_("Rules"));
   gtk_widget_show(label_rules);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label_rules, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_rules), 0, 0.5);
@@ -65,7 +66,7 @@ FiltersDialog::FiltersDialog(int dummy)
 
   rulesbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_rules));
 
-  label2 = gtk_label_new("Input <- Try the rules -> Output");
+  label2 = gtk_label_new(_("Input <- Try the rules -> Output"));
   gtk_widget_show(label2);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label2, FALSE, FALSE, 0);
 
@@ -88,7 +89,7 @@ FiltersDialog::FiltersDialog(int dummy)
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label2), textview_input);
 
-  gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_input)), "\\p This is text to try the filter on.", -1);
+  gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_input)), _("\\p This is text to try the filter on."), -1);
 
   vbox1 = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox1);
@@ -110,7 +111,7 @@ FiltersDialog::FiltersDialog(int dummy)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox3), image1, FALSE, FALSE, 0);
 
-  label3 = gtk_label_new_with_mnemonic("Try");
+  label3 = gtk_label_new_with_mnemonic(_("Try"));
   gtk_widget_show(label3);
   gtk_box_pack_start(GTK_BOX(hbox3), label3, FALSE, FALSE, 0);
 
@@ -156,7 +157,7 @@ FiltersDialog::FiltersDialog(int dummy)
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(filterdialog, NULL, &shortcuts, "menu-preferences/filters");
+  new InDialogHelp(filterdialog, NULL, &shortcuts, _("menu-preferences/filters"));
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
@@ -269,19 +270,19 @@ void FiltersDialog::on_button_new_clicked(GtkButton * button, gpointer user_data
 void FiltersDialog::on_button_new()
 {
   // Enter the name of the new script.
-  EntryDialog namedialog("New script", "Enter the name of the new script", "");
+  EntryDialog namedialog(_("New script"), _("Enter the name of the new script"), "");
   if (namedialog.run() != GTK_RESPONSE_OK)
     return;
 
   if (script_available(namedialog.entered_value)) {
-    gtkw_dialog_error(filterdialog, "This one already exists");
+    gtkw_dialog_error(filterdialog, _("This one already exists"));
     return;
   }
   // Enter the type of the new script.
   vector < ustring > types;
   for (unsigned int i = 0; i < stEnd; i++)
     types.push_back(script_get_named_type((ScriptType) i));
-  RadiobuttonDialog typedialog("Script type", "Select the type of the script", types, 0, false);
+  RadiobuttonDialog typedialog(_("Script type"), _("Select the type of the script"), types, 0, false);
   if (typedialog.run() != GTK_RESPONSE_OK)
     return;
 

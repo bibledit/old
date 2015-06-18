@@ -44,10 +44,10 @@
 #include "merge_utils.h"
 #include "shell.h"
 #include "snapshots.h"
-
+#include <glib/gi18n.h>
 
 WindowMerge::WindowMerge(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
-FloatingWindow(parent_layout, widMerge, "Merge", startup)
+  FloatingWindow(parent_layout, widMerge, _("Merge"), startup)
 // Window for merging changes.  
 {
   // Save and initialize variables.
@@ -65,7 +65,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(vbox1);
   gtk_container_add(GTK_CONTAINER(notebook1), vbox1);
 
-  label6 = gtk_label_new_with_mnemonic("M_aster project");
+  label6 = gtk_label_new_with_mnemonic(_("M_aster project"));
   gtk_widget_show(label6);
   gtk_box_pack_start(GTK_BOX(vbox1), label6, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);
@@ -76,7 +76,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
 
   connect_focus_signals (combobox_master);
   
-  label7 = gtk_label_new_with_mnemonic("E_dited project");
+  label7 = gtk_label_new_with_mnemonic(_("E_dited project"));
   gtk_widget_show(label7);
   gtk_box_pack_start(GTK_BOX(vbox1), label7, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label7), 0, 0.5);
@@ -118,7 +118,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(image6);
   gtk_box_pack_start(GTK_BOX(hbox2), image6, FALSE, FALSE, 0);
 
-  label9 = gtk_label_new_with_mnemonic("_Previous");
+  label9 = gtk_label_new_with_mnemonic(_("_Previous"));
   gtk_widget_show(label9);
   gtk_box_pack_start(GTK_BOX(hbox2), label9, FALSE, FALSE, 0);
 
@@ -140,7 +140,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(image5);
   gtk_box_pack_start(GTK_BOX(hbox4), image5, FALSE, FALSE, 0);
 
-  label8 = gtk_label_new_with_mnemonic("_Merge");
+  label8 = gtk_label_new_with_mnemonic(_("_Merge"));
   gtk_widget_show(label8);
   gtk_box_pack_start(GTK_BOX(hbox4), label8, FALSE, FALSE, 0);
 
@@ -158,7 +158,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(hbox3);
   gtk_container_add(GTK_CONTAINER(alignment3), hbox3);
 
-  label10 = gtk_label_new_with_mnemonic("_Next");
+  label10 = gtk_label_new_with_mnemonic(_("_Next"));
   gtk_widget_show(label10);
   gtk_box_pack_start(GTK_BOX(hbox3), label10, FALSE, FALSE, 0);
 
@@ -212,7 +212,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(image11);
   gtk_box_pack_start(GTK_BOX(hbox7), image11, FALSE, FALSE, 0);
 
-  label19 = gtk_label_new_with_mnemonic("_Save");
+  label19 = gtk_label_new_with_mnemonic(_("_Save"));
   gtk_widget_show(label19);
   gtk_box_pack_start(GTK_BOX(hbox7), label19, FALSE, FALSE, 0);
 
@@ -382,7 +382,7 @@ void WindowMerge::load_gui()
 
   // Give info if there are not enough projects.
   if (open_projects.size() < 2) {
-    gtk_label_set_text(GTK_LABEL(label_info), "Not enough projects opened");
+    gtk_label_set_text(GTK_LABEL(label_info), _("Not enough projects opened"));
     gtk_widget_show(label_info);
   } else {
     gtk_widget_hide(label_info);
@@ -502,7 +502,7 @@ void WindowMerge::on_button_next_previous(bool next)
     chapter = new_chapter;
     gtk_button_clicked(GTK_BUTTON(new_reference_button));
   } else {
-    gtkw_dialog_info(NULL, "No more differing chapters found");
+    gtkw_dialog_info(NULL, _("No more differing chapters found"));
   }
 }
 
@@ -588,11 +588,11 @@ void WindowMerge::on_button_merge()
   // Ask what to do.
   ustring book_chapter = books_id_to_english(book) + " " + convert_to_string(chapter);
   vector < ustring > labels;
-  labels.push_back("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project);
-  labels.push_back("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project + ",\n" "and approve of each change as compared to project " + current_master_project);
-  labels.push_back("Copy " + book_chapter + " of project " + current_master_project + " to project " + current_edited_project);
-  labels.push_back("Copy everything of project " + current_master_project + " to project " + current_edited_project);
-  RadiobuttonDialog dialog("Select action", "Select the type of merge or copy to be done", labels, settings->session.merge_action, false);
+  labels.push_back(_("Merge ") + book_chapter + _(" of project ") + current_edited_project + _(" and ") + current_master_project);
+  labels.push_back(_("Merge ") + book_chapter + _(" of project ") + current_edited_project + _(" and ") + current_master_project + ",\n" + _("and approve of each change as compared to project ") + current_master_project);
+  labels.push_back(_("Copy ") + book_chapter + _(" of project ") + current_master_project + _(" to project ") + current_edited_project);
+  labels.push_back(_("Copy everything of project ") + current_master_project + _(" to project ") + current_edited_project);
+  RadiobuttonDialog dialog(_("Select action"), _("Select the type of merge or copy to be done"), labels, settings->session.merge_action, false);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   // Store action taken.
@@ -631,7 +631,7 @@ void WindowMerge::merge_edited_into_master(bool approve)
 {
   // Bail out if there's nothing to merge.
   if (main_project_data == edited_project_data) {
-    gtkw_dialog_info(NULL, "Both the chapters already are the same");
+    gtkw_dialog_info(NULL, _("Both the chapters already are the same"));
     return;
   }
 
@@ -695,7 +695,7 @@ void WindowMerge::merge_edited_into_master(bool approve)
 
   // If no common ancestor was found, give message and bail out.
   if (common_ancestor.empty()) {
-    gtkw_dialog_error(NULL, "Can't merge because a common ancestor was not found");
+    gtkw_dialog_error(NULL, _("Can't merge because a common ancestor was not found"));
     return;
   }
   // Do the merge in a temporal directory.
@@ -772,7 +772,7 @@ void WindowMerge::merge_edited_into_master(bool approve)
   }
   // If there are still conflicts, give a message and bail out.
   if (merge_result.find(merge_conflict_markup(1)) != string::npos) {
-    gtkw_dialog_error(NULL, "The chapters were not merged");
+    gtkw_dialog_error(NULL, _("The chapters were not merged"));
     return;
   }
 
@@ -793,7 +793,7 @@ void WindowMerge::merge_edited_into_master(bool approve)
     snapshots_shoot_chapter (current_edited_project, book, chapter, 0, true);
 
     // Message ok.
-    gtkw_dialog_info(NULL, "The chapters were successfully merged");
+    gtkw_dialog_info(NULL, _("The chapters were successfully merged"));
 
   }
 }
@@ -816,14 +816,14 @@ void WindowMerge::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch
   CategorizeChapterVerse ccv(master_lines);
   if (master_is_edited) {
     if (gui) 
-      gtkw_dialog_info(NULL, "Both chapters are already the same");
+      gtkw_dialog_info(NULL, _("Both chapters are already the same"));
   } else {
     project_store_chapter(current_edited_project, bk, ccv);
     // A normal snapshot may be removed over time, so we need a persistent one to enable future merges.
     snapshots_shoot_chapter (current_master_project, bk, ch, 0, true);
     snapshots_shoot_chapter (current_edited_project, bk, ch, 0, true);
     if (gui) {
-      ustring message = books_id_to_english(bk) + " " + convert_to_string(ch) + " was copied from project " + current_master_project + " to project " + current_edited_project;
+      ustring message = books_id_to_english(bk) + " " + convert_to_string(ch) + _(" was copied from project ") + current_master_project + _(" to project ") + current_edited_project;
       gtkw_dialog_info(NULL, message.c_str());
     }
   }
@@ -834,7 +834,7 @@ void WindowMerge::copy_master_to_edited_all()
 {
   {
     vector <unsigned int> books = project_get_books(current_master_project);
-    ProgressWindow progresswindow("Copying...", false);
+    ProgressWindow progresswindow(_("Copying..."), false);
     progresswindow.set_iterate(0, 1, books.size());
     for (unsigned int bk = 0; bk < books.size(); bk++) {
       progresswindow.iterate();
@@ -844,7 +844,7 @@ void WindowMerge::copy_master_to_edited_all()
       }
     }
   }
-  ustring message = "All chapters of project " + current_master_project + " were copied to project " + current_edited_project;
+  ustring message = _("All chapters of project ") + current_master_project + _(" were copied to project ") + current_edited_project;
   gtkw_dialog_info(NULL, message.c_str());
 }
 
@@ -906,7 +906,7 @@ void WindowMerge::approval_setup(const ustring & maindata, const ustring & merge
   approve_edited_project = current_edited_project;
   approve_book = book;
   approve_chapter = chapter;
-  ustring label = "Changes approval, " + books_id_to_english(approve_book) + " " + convert_to_string(approve_chapter);
+  ustring label = _("Changes approval, ") + books_id_to_english(approve_book) + " " + convert_to_string(approve_chapter);
   gtk_label_set_text(GTK_LABEL(label_approve), label.c_str());
   gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook1), 1);
   approve_master_file = gw_build_filename(workingdirectory, "master");
@@ -920,7 +920,7 @@ void WindowMerge::approval_setup(const ustring & maindata, const ustring & merge
   approval_show_diff();
 
   // Info for user.
-  gtkw_dialog_info(NULL, "The chapters are ready for approving the individual changes");
+  gtkw_dialog_info(NULL, _("The chapters are ready for approving the individual changes"));
 }
 
 

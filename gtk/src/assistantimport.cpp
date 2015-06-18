@@ -40,10 +40,10 @@
 #include "books.h"
 #include "onlinebible.h"
 #include "combobox.h"
-
+#include <glib/gi18n.h>
 
 ImportAssistant::ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window, WindowsOutpost * windows_outpost) :
-AssistantBase("Import", "import")
+  AssistantBase(_("Import"), _("import"))
 // Import assistant.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
@@ -51,7 +51,7 @@ AssistantBase("Import", "import")
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("This helps you importing data");
+  introduction (_("This helps you importing data"));
 
   // Configuration and initialization.
   extern Settings *settings;
@@ -69,19 +69,19 @@ AssistantBase("Import", "import")
   page_number_select_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_select_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_select_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to import?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, _("What would you like to import?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_select_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_select_type, true);
 
   GSList *radiobutton_select_type_group = NULL;
 
-  radiobutton_select_type_bible = gtk_radio_button_new_with_mnemonic (NULL, "Bible");
+  radiobutton_select_type_bible = gtk_radio_button_new_with_mnemonic (NULL, _("Bible"));
   gtk_widget_show (radiobutton_select_type_bible);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible));
 
-  radiobutton_select_type_references = gtk_radio_button_new_with_mnemonic (NULL, "References");
+  radiobutton_select_type_references = gtk_radio_button_new_with_mnemonic (NULL, _("References"));
   gtk_widget_show (radiobutton_select_type_references);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_references, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_references), radiobutton_select_type_group);
@@ -90,7 +90,7 @@ AssistantBase("Import", "import")
   // Importing references only works when the references window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_references, references_window != NULL);
   
-  radiobutton_select_type_stylesheet = gtk_radio_button_new_with_mnemonic (NULL, "Stylesheet");
+  radiobutton_select_type_stylesheet = gtk_radio_button_new_with_mnemonic (NULL, _("Stylesheet"));
   gtk_widget_show (radiobutton_select_type_stylesheet);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_stylesheet, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet), radiobutton_select_type_group);
@@ -99,13 +99,13 @@ AssistantBase("Import", "import")
   // Importing styles only works when the styles window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_stylesheet, my_styles_window != NULL);
 
-  radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, "Notes");
+  radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, _("Notes"));
   gtk_widget_show (radiobutton_select_type_notes);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_notes, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes));
 
-  radiobutton_select_type_keyterms = gtk_radio_button_new_with_mnemonic (NULL, "Keyterms");
+  radiobutton_select_type_keyterms = gtk_radio_button_new_with_mnemonic (NULL, _("Keyterms"));
   gtk_widget_show (radiobutton_select_type_keyterms);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_keyterms, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_keyterms), radiobutton_select_type_group);
@@ -129,11 +129,11 @@ AssistantBase("Import", "import")
   page_number_bible_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_name);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_name), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, "Is this the right Bible to import into?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, _("Is this the right Bible to import into?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_name, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, true);
 
-  label_project_name = gtk_label_new ("Bible name");
+  label_project_name = gtk_label_new (_("Bible name"));
   gtk_widget_show (label_project_name);
   gtk_box_pack_start (GTK_BOX (vbox_bible_name), label_project_name, FALSE, FALSE, 0);
 
@@ -160,7 +160,7 @@ AssistantBase("Import", "import")
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new_with_mnemonic ("Choose another one");
+  label12 = gtk_label_new_with_mnemonic (_("Choose another one"));
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox1), label12, FALSE, FALSE, 0);
 
@@ -175,31 +175,31 @@ AssistantBase("Import", "import")
   page_number_bible_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_type, "What type of data would you like to import?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_type, _("What type of data would you like to import?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_type, true);
 
   GSList *radiobutton_bible_type_group = NULL;
 
-  radiobutton_bible_usfm = gtk_radio_button_new_with_mnemonic (NULL, "Unified Standard Format Markers (USFM)");
+  radiobutton_bible_usfm = gtk_radio_button_new_with_mnemonic (NULL, _("Unified Standard Format Markers (USFM)"));
   gtk_widget_show (radiobutton_bible_usfm);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_usfm, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm));
 
-  radiobutton_bible_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, "BibleWorks Exported Database");
+  radiobutton_bible_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, _("BibleWorks Exported Database"));
   gtk_widget_show (radiobutton_bible_bibleworks);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_bibleworks, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
 
-  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Text");
+  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, _("Online Bible Text"));
   gtk_widget_show (radiobutton_bible_online_bible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_online_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_online_bible), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_online_bible));
 
-  radiobutton_bible_raw_text = gtk_radio_button_new_with_mnemonic (NULL, "Raw Text");
+  radiobutton_bible_raw_text = gtk_radio_button_new_with_mnemonic (NULL, _("Raw Text"));
   gtk_widget_show (radiobutton_bible_raw_text);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_raw_text, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_raw_text), radiobutton_bible_type_group);
@@ -218,7 +218,7 @@ AssistantBase("Import", "import")
   gtk_widget_show (label_online_bible_running);
   page_number_online_bible_running = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_online_bible_running);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_online_bible_running, "Connected to the Online Bible?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_online_bible_running, _("Connected to the Online Bible?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_online_bible_running, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_online_bible_running, false);
 
@@ -233,7 +233,7 @@ AssistantBase("Import", "import")
   gtk_widget_show (vbox_online_bible_bible);
   page_number_online_bible_bible = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_online_bible_bible);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_online_bible_bible, "Which Bible would you like to import?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_online_bible_bible, _("Which Bible would you like to import?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_online_bible_bible, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_online_bible_bible, false);
 
@@ -249,7 +249,7 @@ AssistantBase("Import", "import")
   page_number_files = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_files);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_files), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_files, "Which file or files would you like to import?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_files, _("Which file or files would you like to import?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_files, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_files, false);
 
@@ -269,7 +269,7 @@ AssistantBase("Import", "import")
   gtk_widget_show (image2);
   gtk_box_pack_start (GTK_BOX (hbox2), image2, FALSE, FALSE, 0);
 
-  GtkWidget * label = gtk_label_new_with_mnemonic ("Select files");
+  GtkWidget * label = gtk_label_new_with_mnemonic (_("Select files"));
   gtk_widget_show (label);
   gtk_box_pack_start (GTK_BOX (hbox2), label, FALSE, FALSE, 0);
 
@@ -280,11 +280,11 @@ AssistantBase("Import", "import")
   gtk_box_pack_start (GTK_BOX (vbox_files), label_files, FALSE, FALSE, 0);
 
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Import about to be done");
+  label_confirm = gtk_label_new (_("Import about to be done"));
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "The import is about to be done");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, _("The import is about to be done"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
@@ -296,11 +296,11 @@ AssistantBase("Import", "import")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Import done");
+  label_summary = gtk_label_new (_("Import done"));
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("Ready"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
@@ -333,7 +333,7 @@ void ImportAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_label_set_text (GTK_LABEL (label_project_name), bible_name.c_str());
     if (bible_name.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_project_name), "No Bible selected");
+      gtk_label_set_text (GTK_LABEL (label_project_name), _("No Bible selected"));
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
   }
@@ -341,9 +341,9 @@ void ImportAssistant::on_assistant_prepare (GtkWidget *page)
   // Online Bible connected?
   if (page == label_online_bible_running) {
     if (my_windows_outpost->online_bible_server_connected) {
-      gtk_label_set_text (GTK_LABEL (label_online_bible_running), "Yes, connected to the Online Bible");
+      gtk_label_set_text (GTK_LABEL (label_online_bible_running), _("Yes, connected to the Online Bible"));
     } else {
-      gtk_label_set_text (GTK_LABEL (label_online_bible_running), "No, could not connect to the Online Bible\nIs the Online Bible running?");
+      gtk_label_set_text (GTK_LABEL (label_online_bible_running), _("No, could not connect to the Online Bible\nIs the Online Bible running?"));
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_online_bible_running, my_windows_outpost->online_bible_server_connected);
   }
@@ -368,10 +368,10 @@ void ImportAssistant::on_assistant_prepare (GtkWidget *page)
   // Page for filenames to import.
   if (page == vbox_files) {
     if (files_names.empty()) {
-      files_messages.push_back ("No files selected");
+      files_messages.push_back (_("No files selected"));
     }
     ustring label;
-    label.append ("Files count: ");
+    label.append (_("Files count: "));
     label.append (convert_to_string (files_names.size()));
     label.append ("\n");
     for (unsigned int i = 0; i < files_messages.size(); i++) {
@@ -413,7 +413,7 @@ void ImportAssistant::on_assistant_apply ()
       switch (get_bible_type()) {
         case ibtUsfm:
         {
-        	ProgressWindow progresswindow("Importing files", false);
+	  ProgressWindow progresswindow(_("Importing files"), false);
         	progresswindow.set_iterate(0, 1, files_names.size());
         	for (unsigned int i = 0; i < files_names.size(); i++) {
         	  	progresswindow.iterate();
@@ -433,7 +433,7 @@ void ImportAssistant::on_assistant_apply ()
         }
         case ibtRawText:
         {
-          summary_messages.push_back ("Importing raw text is a manual process. The online help provides more information on that.");
+          summary_messages.push_back (_("Importing raw text is a manual process. The online help provides more information on that."));
           break;
         }
       }
@@ -441,8 +441,8 @@ void ImportAssistant::on_assistant_apply ()
     }
     case itReferences:
     {
-      summary_messages.push_back ("Importing references is done in the references window.");
-      summary_messages.push_back ("In that window, click on [actions], then click on \"Import a list of references\".");
+      summary_messages.push_back (_("Importing references is done in the references window."));
+      summary_messages.push_back (_("In that window, click on [actions], then click on \"Import a list of references\"."));
       break;
     }
     case itStylesheet:
@@ -454,13 +454,13 @@ void ImportAssistant::on_assistant_apply ()
     }
     case itNotes:
     {
-      summary_messages.push_back ("After this window closes an opportunity will be offered to import notes.");
+      summary_messages.push_back (_("After this window closes an opportunity will be offered to import notes."));
       import_notes = true;
       break;
     }
     case itKeyterms:
     {
-      summary_messages.push_back ("After this window closes an opportunity will be offered to import keyterms.");
+      summary_messages.push_back (_("After this window closes an opportunity will be offered to import keyterms."));
       import_keyterms = true;
       break;
     }
@@ -594,11 +594,11 @@ void ImportAssistant::on_button_files ()
   }
   if (!compressed_files.empty()) {
     if (compressed_files.size() > 1) {
-      files_messages.push_back ("You have selected more than one compressed file");
+      files_messages.push_back (_("You have selected more than one compressed file"));
     }
     if (compressed_files.size() == 1) {
       if (files_names.size() != 1) {
-        files_messages.push_back ("You have selected a mixture of normal and compressed files");
+        files_messages.push_back (_("You have selected a mixture of normal and compressed files"));
       }
     }
   }
@@ -609,7 +609,7 @@ void ImportAssistant::on_button_files ()
       ustring unpack_directory = gw_build_filename (Directories->get_temp (), "uncompress");
       unix_rmdir (unpack_directory);
       uncompress (compressed_files[0], unpack_directory);
-      gtkw_dialog_info (assistant, "You will now be asked to select files from within the compressed archive");
+      gtkw_dialog_info (assistant, _("You will now be asked to select files from within the compressed archive"));
       files_names = gtkw_file_chooser_open_multiple (assistant, "", unpack_directory);
     }
   }
@@ -632,18 +632,18 @@ void ImportAssistant::on_button_files ()
     }
     files_names = unicode_files;
     if (!non_unicode_files.empty()) {
-      files_messages.push_back ("The following files are not in the right Unicode format and are therefore not fit for import:");
+      files_messages.push_back (_("The following files are not in the right Unicode format and are therefore not fit for import:"));
       for (unsigned int i = 0; i < non_unicode_files.size(); i++) {
         files_messages.push_back (non_unicode_files[i]);
       }
-      files_messages.push_back ("The online help provides more information about how to make these fit for use.");
+      files_messages.push_back (_("The online help provides more information about how to make these fit for use."));
     }
   }
 
   // Check that at least one file was selected.
   if (files_messages.empty()) {
     if (files_names.empty()) {
-      files_messages.push_back ("No files were selected");
+      files_messages.push_back (_("No files were selected"));
     }
   }
 

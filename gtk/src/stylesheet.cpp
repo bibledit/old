@@ -25,7 +25,7 @@
 #include <libxml/xmlwriter.h>
 #include <libxml/xmlreader.h>
 #include "stylesheetutils.h"
-
+#include <glib/gi18n.h>
 
 Stylesheet::Stylesheet(const ustring & name_in)
 {
@@ -41,116 +41,116 @@ Stylesheet::Stylesheet(const ustring & name_in)
   gchar *contents;
   g_file_get_contents(filename.c_str(), &contents, NULL, NULL);
   if (contents == NULL) {
-    gw_critical("Failure reading stylesheet " + filename);
+    gw_critical(_("Failure reading stylesheet ") + filename);
 		return;
   }
 
   // Parse the stylesheet.  
   xmlParserInputBufferPtr inputbuffer;
   inputbuffer = xmlParserInputBufferCreateMem(contents, strlen(contents), XML_CHAR_ENCODING_NONE);
-	ustring value;
+  ustring value;
   xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
-	if (reader) {
+  if (reader) {
     StyleV2 * style = NULL;
-		while ((xmlTextReaderRead(reader) == 1)) {
-			switch (xmlTextReaderNodeType(reader)) {
-			case XML_READER_TYPE_ELEMENT:
-				{
-					xmlChar *element_name = xmlTextReaderName(reader);
-					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
-            char *attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "marker");
-            if (attribute) {
-              style = new StyleV2 (0);
-              style->marker = attribute;
-              free(attribute);
-            }
-					}
-					break;
-				}
-			case XML_READER_TYPE_TEXT:
-				{
-  				xmlChar *text = xmlTextReaderValue(reader);
-					if (text) {
-					  value = (gchar *) text;
-						xmlFree(text);
-					}	
-					break;
-				}
-			case XML_READER_TYPE_END_ELEMENT:
-				{
- 					xmlChar *element_name = xmlTextReaderName(reader);
-          if (style) {
-  					if (!xmlStrcmp(element_name, BAD_CAST "marker"))
-	  					style->marker = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "name"))
-			  			style->name = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "info"))
-					  	style->info = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "type"))
-	  					style->type = (StyleType) convert_to_int(value);
-		  			if (!xmlStrcmp(element_name, BAD_CAST "subtype"))
-			  			style->subtype = convert_to_int(value);
-				  	if (!xmlStrcmp(element_name, BAD_CAST "fontsize"))
-					  	style->fontsize = convert_to_double(value);
-  					if (!xmlStrcmp(element_name, BAD_CAST "italic"))
-	  					style->italic = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "bold"))
-			  			style->bold = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "underline"))
-					  	style->underline = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "smallcaps"))
-	  					style->smallcaps = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "superscript"))
-			  			style->superscript = convert_to_bool(value);
-				  	if (!xmlStrcmp(element_name, BAD_CAST "justification"))
-					  	style->justification = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "spacebefore"))
-	  					style->spacebefore = convert_to_double(value);
-		  			if (!xmlStrcmp(element_name, BAD_CAST "spaceafter"))
-			  			style->spaceafter = convert_to_double(value);
-				  	if (!xmlStrcmp(element_name, BAD_CAST "leftmargin"))
-					  	style->leftmargin = convert_to_double(value);
-  					if (!xmlStrcmp(element_name, BAD_CAST "rightmargin"))
-	  					style->rightmargin = convert_to_double(value);
-		  			if (!xmlStrcmp(element_name, BAD_CAST "firstlineindent"))
-			  			style->firstlineindent = convert_to_double(value);
-				  	if (!xmlStrcmp(element_name, BAD_CAST "spancolumns"))
-					  	style->spancolumns = convert_to_bool(value);
-  					if (!xmlStrcmp(element_name, BAD_CAST "color"))
-	  					style->color = convert_to_int(value);
-		  			if (!xmlStrcmp(element_name, BAD_CAST "print"))
-			  			style->print = convert_to_bool(value);
-				  	if (!xmlStrcmp(element_name, BAD_CAST "userbool1"))
-					  	style->userbool1 = convert_to_bool(value);
-  					if (!xmlStrcmp(element_name, BAD_CAST "userbool2"))
-	  					style->userbool2 = convert_to_bool(value);
-		  			if (!xmlStrcmp(element_name, BAD_CAST "userbool3"))
-			  			style->userbool3 = convert_to_bool(value);
-				  	if (!xmlStrcmp(element_name, BAD_CAST "userint1"))
-					  	style->userint1 = convert_to_int(value);
-  					if (!xmlStrcmp(element_name, BAD_CAST "userint2"))
-	  					style->userint2 = convert_to_int(value);
-		  			if (!xmlStrcmp(element_name, BAD_CAST "userint3"))
-			  			style->userint3 = convert_to_int(value);
-				  	if (!xmlStrcmp(element_name, BAD_CAST "userstring1"))
-					  	style->userstring1 = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "userstring2"))
-	  					style->userstring2 = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "userstring3"))
-			  			style->userstring3 = value;
-          }
-					value.clear();
-					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
-            if (style) {
-              insert (style);
-              style = NULL;
-            }
-					}
-					break;
-				}
-			}
-		}
+    while ((xmlTextReaderRead(reader) == 1)) {
+      switch (xmlTextReaderNodeType(reader)) {
+      case XML_READER_TYPE_ELEMENT:
+	{
+	  xmlChar *element_name = xmlTextReaderName(reader);
+	  if (!xmlStrcmp(element_name, BAD_CAST "style")) {
+	    char *attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "marker");
+	    if (attribute) {
+	      style = new StyleV2 (0);
+	      style->marker = attribute;
+	      free(attribute);
+	    }
+	  }
+	  break;
 	}
+      case XML_READER_TYPE_TEXT:
+	{
+	  xmlChar *text = xmlTextReaderValue(reader);
+	  if (text) {
+	    value = (gchar *) text;
+	    xmlFree(text);
+	  }	
+	  break;
+	}
+      case XML_READER_TYPE_END_ELEMENT:
+	{
+	  xmlChar *element_name = xmlTextReaderName(reader);
+	  if (style) {
+	    if (!xmlStrcmp(element_name, BAD_CAST "marker"))
+	      style->marker = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "name"))
+	      style->name = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "info"))
+	      style->info = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "type"))
+	      style->type = (StyleType) convert_to_int(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "subtype"))
+	      style->subtype = convert_to_int(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "fontsize"))
+	      style->fontsize = convert_to_double(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "italic"))
+	      style->italic = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "bold"))
+	      style->bold = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "underline"))
+	      style->underline = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "smallcaps"))
+	      style->smallcaps = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "superscript"))
+	      style->superscript = convert_to_bool(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "justification"))
+	      style->justification = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "spacebefore"))
+	      style->spacebefore = convert_to_double(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "spaceafter"))
+	      style->spaceafter = convert_to_double(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "leftmargin"))
+	      style->leftmargin = convert_to_double(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "rightmargin"))
+	      style->rightmargin = convert_to_double(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "firstlineindent"))
+	      style->firstlineindent = convert_to_double(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "spancolumns"))
+	      style->spancolumns = convert_to_bool(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "color"))
+	      style->color = convert_to_int(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "print"))
+	      style->print = convert_to_bool(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "userbool1"))
+	      style->userbool1 = convert_to_bool(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "userbool2"))
+	      style->userbool2 = convert_to_bool(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "userbool3"))
+	      style->userbool3 = convert_to_bool(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "userint1"))
+	      style->userint1 = convert_to_int(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "userint2"))
+	      style->userint2 = convert_to_int(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "userint3"))
+	      style->userint3 = convert_to_int(value);
+	    if (!xmlStrcmp(element_name, BAD_CAST "userstring1"))
+	      style->userstring1 = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "userstring2"))
+	      style->userstring2 = value;
+	    if (!xmlStrcmp(element_name, BAD_CAST "userstring3"))
+	      style->userstring3 = value;
+	  }
+	  value.clear();
+	  if (!xmlStrcmp(element_name, BAD_CAST "style")) {
+	    if (style) {
+	      insert (style);
+	      style = NULL;
+	    }
+	  }
+	  break;
+	}
+      }
+    }
+  }
 
   // Free memory.
 	if (reader)

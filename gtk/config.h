@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* DARWIN */
-#define DARWIN "1"
+/* #undef DARWIN */
 
 /* always defined to indicate that i18n is enabled */
 #define ENABLE_NLS 1
@@ -62,7 +62,7 @@
 #define HAVE_UNISTD_H 1
 
 /* LINUX */
-/* #undef LINUX */
+#define LINUX "1"
 
 /* Name of package */
 #define PACKAGE "bibledit-gtk"

@@ -33,7 +33,7 @@
 #include "export_utils.h"
 #include "notes_utils.h"
 #include "resource_utils.h"
-
+#include <glib/gi18n.h>
 
 void restore_project (const ustring& unpack_directory, const ustring& bible, vector <ustring>& feedback)
 // Restores a project.
@@ -45,7 +45,7 @@ void restore_project (const ustring& unpack_directory, const ustring& bible, vec
   // Restore.
   project_create_restore (bible, unpack_directory);
   // Feedback to user.
-  feedback.push_back ("The file was restored to Bible " + bible);
+  feedback.push_back (_("The file was restored to Bible ") + bible);
 }
 
 
@@ -58,13 +58,13 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
 
   // If there are notes in the current database, ask whether these should be overwritten.
   unsigned int current_count = notes_count ();
-  feedback.push_back ("Notes available before restore: " + convert_to_string (current_count));
+  feedback.push_back (_("Notes available before restore: ") + convert_to_string (current_count));
   if (current_count > 0) {
-    ustring question = "Currently Bibledit-Gtk has " + convert_to_string (current_count) + " notes. Would you like to overwrite these?";
+    ustring question = _("Currently Bibledit-Gtk has ") + convert_to_string (current_count) + _(" notes. Would you like to overwrite these?");
     if (gtkw_dialog_question(NULL, question, GTK_RESPONSE_NO) == GTK_RESPONSE_YES) {
-      feedback.push_back ("Restore has overwritten the existing notes");
+      feedback.push_back (_("Restore has overwritten the existing notes"));
     } else {
-      feedback.push_back ("Restore was cancelled");
+      feedback.push_back (_("Restore was cancelled"));
       return;
     }
   }
@@ -77,7 +77,7 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
   notes_storage_verify();
     
   // Give feedback about what has happened.
-  feedback.push_back ("Notes were restored");
+  feedback.push_back (_("Notes were restored"));
 }
 
 
@@ -94,7 +94,7 @@ void restore_resource (const ustring& unpack_directory, vector <ustring>& feedba
   // Get the Resource's name.
   ustring resource = resource_get_title (filename);
   if (resource.empty ()) {
-    feedback.push_back ("No resource found");
+    feedback.push_back (_("No resource found"));
     return;
   }
   
@@ -103,7 +103,7 @@ void restore_resource (const ustring& unpack_directory, vector <ustring>& feedba
   vector <ustring> resources = resource_get_resources (filenames, false);
   set <ustring> resource_set (resources.begin (), resources.end ());
   if (resource_set.find (resource) != resource_set.end ()) {
-    feedback.push_back ("This resource already exists");
+    feedback.push_back (_("This resource already exists"));
     return;
   }
 
@@ -117,7 +117,7 @@ void restore_resource (const ustring& unpack_directory, vector <ustring>& feedba
   unix_mv (unpack_directory, restore_directory);
   
   // Give feedback about what has happened.
-  feedback.push_back ("Resource was restored");
+  feedback.push_back (_("Resource was restored"));
 }
 
 
@@ -134,8 +134,8 @@ void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& f
   unix_mv (unpack_directory, Directories->get_restore ());
   
   // Give feedback about what has transpired.
-  feedback.push_back ("Everything was restored");
-  feedback.push_back ("Changes will only take effect after restart");
+  feedback.push_back (_("Everything was restored"));
+  feedback.push_back (_("Changes will only take effect after restart"));
 }
 
 
@@ -143,7 +143,7 @@ void restore_all_stage_two ()
 // Restore everything: second and last stage.
 {
   if (g_file_test (Directories->get_restore ().c_str(), G_FILE_TEST_IS_DIR)) {
-    gw_message ("Restoring everything");
+    gw_message (_("Restoring everything"));
     unix_rmdir (Directories->get_root ());
     unix_mv (Directories->get_restore (), Directories->get_root ());
   }
@@ -156,8 +156,8 @@ bool restore_file_present (const ustring& directory, const gchar * filename, vec
   ustring file = gw_build_filename (directory, filename);
   bool present = g_file_test (file.c_str(), G_FILE_TEST_EXISTS);
   if (!present) {
-    feedback.push_back ("The file to restore does not contain valid data");
-    feedback.push_back ("Nothing was restored");
+    feedback.push_back (_("The file to restore does not contain valid data"));
+    feedback.push_back (_("Nothing was restored"));
   }
   return present;
 }

@@ -21,12 +21,12 @@
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "dialogwait.h"
-
+#include <glib/gi18n.h>
 
 WaitDialog::WaitDialog(int milliseconds, int width, int height)
 {
   waitdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(waitdialog), "Please wait ...");
+  gtk_window_set_title(GTK_WINDOW(waitdialog), _("Please wait ..."));
   gtk_window_set_position(GTK_WINDOW(waitdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(waitdialog), TRUE);
   if (width && height)
@@ -39,7 +39,7 @@ WaitDialog::WaitDialog(int milliseconds, int width, int height)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Please hold on ... processing data");
+  label1 = gtk_label_new(_("Please hold on ... processing data"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 0);
 

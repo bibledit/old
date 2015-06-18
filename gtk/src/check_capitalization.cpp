@@ -27,6 +27,7 @@
 #include "scripturechecks.h"
 #include "referenceutils.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 CheckCapitalization::CheckCapitalization(const ustring & project, const vector < unsigned int >&books, const ustring & punctuation_followed_by_capitals, const ustring & ignore_lowercase_following, const ustring & abbreviations_filename, bool any_prefixes, const ustring & uncapitalized_prefixes_filename, const ustring & capitalized_suffixes_filename, bool gui)
 /*
@@ -79,7 +80,7 @@ gui: whether to show graphical progressbar.
 
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Capitalization", true);
+    progresswindow = new ProgressWindow(_("Capitalization"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
 
@@ -231,7 +232,7 @@ If "end_check" is true, it also check for final sentence closing.
         if (expect_capital_now) {
           // Determine chapter and verse.
           get_chapter_and_verse(chapters, verses, pointers, iter, localchapter, localverse);
-          message(book, localchapter, localverse, "Capital expected: " + get_context(iter));
+          message(book, localchapter, localverse, _("Capital expected: ") + get_context(iter));
         }
         // Only give one message about missing capitals in this context.
         expect_capital_now = false;
@@ -249,7 +250,7 @@ If "end_check" is true, it also check for final sentence closing.
       if (g_unichar_isdigit(previous_char))
         expect_capital_now = false;
     if (!expect_capital_now) {
-      message(book, chapter, verse, "Unended sentence: " + get_context(iter));
+      message(book, chapter, verse, _("Unended sentence: ") + get_context(iter));
     }
   }
   // Free memory
@@ -305,7 +306,7 @@ ustring CheckCapitalization::get_context(GtkTextIter iter)
 
 void CheckCapitalization::mixed_capitalization_message(ustring & word)
 {
-  message(book, chapter, verse, "Mixed capitalization: " + word);
+  message(book, chapter, verse, _("Mixed capitalization: ") + word);
 }
 
 void CheckCapitalization::check_suspicious_capitalization(ustring & text)

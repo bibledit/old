@@ -34,7 +34,7 @@
 #include "settings.h"
 #include "gui.h"
 #include "books.h"
-
+#include <glib/gi18n.h>
 
 CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
 {
@@ -75,91 +75,91 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
   // Build the gui for this check.
   switch (checkdialogtype) {
   case cdtChaptersVerses:
-    information_setup("Checks the chapter and verse markers, to see whether they are correct according to the versification of the project.");
+    information_setup(_("Checks the chapter and verse markers, to see whether they are correct according to the versification of the project."));
     book_selection_setup();
     break;
   case cdtMarkersCount:
-    information_setup("Counts the number of times a marker is used.");
-    sorting_setup("_No sorting", "Sort on _marker", "_Sort on count", NULL);
+    information_setup(_("Counts the number of times a marker is used."));
+    sorting_setup(_("_No sorting"), _("Sort on _marker"), _("_Sort on count"), NULL);
     book_selection_setup();
     break;
   case cdtMarkersValidate:
-    information_setup("Verifies that the markers are valid.");
+    information_setup(_("Verifies that the markers are valid."));
     book_selection_setup();
     break;
   case cdtMarkersCompare:
-    information_setup("Compares the markers of the current project with the ones in another project. This other project is taken as the standard to compare against.");
+    information_setup(_("Compares the markers of the current project with the ones in another project. This other project is taken as the standard to compare against."));
     markers_comparison_setup();
     book_selection_setup();
     break;
   case cdtMarkersSpacing:
-    information_setup("Checks whether the text that belongs to selected markers has one space after it.");
+    information_setup(_("Checks whether the text that belongs to selected markers has one space after it."));
     markers_spacing_setup();
     book_selection_setup();
     break;
   case cdtCharactersCount:
-    information_setup("Counts the number of characters.");
-    sorting_setup("_No sorting", "_Sort on character", "Sort on co_unt", NULL);
+    information_setup(_("Counts the number of characters."));
+    sorting_setup(_("_No sorting"), _("_Sort on character"), _("Sort on co_unt"), NULL);
     book_selection_setup();
     break;
   case cdtWordsCapitalization:
-    information_setup("Check capitalization of the text. Looks for missing capitals after selected punctuation marks, and for suspicious use of capitals such as \"hOuse\" or \"HOuse\".");
+    information_setup(_("Check capitalization of the text. Looks for missing capitals after selected punctuation marks, and for suspicious use of capitals such as \"hOuse\" or \"HOuse\"."));
     words_capitalization_setup();
     book_selection_setup();
     break;
   case cdtWordsRepetition:
-    information_setup("Checks for repeating contiguous words.");
+    information_setup(_("Checks for repeating contiguous words."));
     word_repetition_setup();
     book_selection_setup();
     break;
   case cdtMatchingPairs:
-    information_setup("Check matching pairs of punctuation. Checks that opening and closing punctuation match, e.g. a [ needs a ]. Also checks that punctuation is closed in the reverse order that it was opened.");
+    information_setup(_("Check matching pairs of punctuation. Checks that opening and closing punctuation match, e.g. a [ needs a ]. Also checks that punctuation is closed in the reverse order that it was opened."));
     punctuation_matching_pairs_setup();
     book_selection_setup();
     break;
   case cdtSentenceStructure:
-    information_setup("Check punctuation of sentences and headings.");
+    information_setup(_("Check punctuation of sentences and headings."));
     book_selection_setup();
     break;
   case cdtUnwantedPatterns:
-    information_setup("Check for unwanted patterns of characters.");
+    information_setup(_("Check for unwanted patterns of characters."));
     characters_unwanted_patterns_setup();
     book_selection_setup();
     break;
   case cdtWordsUnwanted:
-    information_setup("Check for unwanted whole words in the text.");
+    information_setup(_("Check for unwanted whole words in the text."));
     unwanted_words_setup();
     book_selection_setup();
     break;
   case cdtWordsCount:
-    information_setup("Count the frequency of the words.");
-    sorting_setup("_No sorting", "Sort on _word", "_Sort on count", NULL);
+    information_setup(_("Count the frequency of the words."));
+    sorting_setup(_("_No sorting"), _("Sort on _word"), _("_Sort on count"), NULL);
     word_count_setup();
     book_selection_setup();
     break;
   case cdtReferencesInventory:
-    information_setup("Makes an inventory of the references contained in the text.");
+    information_setup(_("Makes an inventory of the references contained in the text."));
     include_verse_text_setup();
     book_selection_setup();
     break;
   case cdtReferencesValidate:
-    information_setup("Validates the references in the text and notes.");
+    information_setup(_("Validates the references in the text and notes."));
     book_selection_setup();
     break;
   case cdtNTQuotationsFromOT:
-    information_setup("Shows the places where the New Testament quotes the Old Testament.");
+    information_setup(_("Shows the places where the New Testament quotes the Old Testament."));
     include_verse_text_setup();
     output_in_ot_order_setup();
     book_selection_setup();
     break;
   case cdtSynopticParallelsNT:
-    information_setup("Shows the synoptic parallel passages of the " + project_name + " New Testament.");
+    information_setup(_("Shows the synoptic parallel passages of the ") + project_name + _(" New Testament."));
     include_verse_text_setup();
     parallel_project_setup();
     book_selection_setup();
     break;
   case cdtParallelsOT:
-    information_setup("Shows the parallel passages of the " + project_name + " Old Testament.");
+    information_setup(_("Shows the parallel passages of the ") + project_name + _(" Old Testament."));
     include_verse_text_setup();
     parallel_project_setup();
     book_selection_setup();
@@ -296,7 +296,7 @@ void CheckDialog::book_selection_setup()
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox2), image1, FALSE, FALSE, 0);
 
-  label5 = gtk_label_new_with_mnemonic("Select _books");
+  label5 = gtk_label_new_with_mnemonic(_("Select _books"));
   gtk_widget_show(label5);
   gtk_box_pack_start(GTK_BOX(hbox2), label5, FALSE, FALSE, 0);
 
@@ -363,7 +363,7 @@ void CheckDialog::area_selection_setup()
   gtk_widget_show(image8);
   gtk_box_pack_start(GTK_BOX(hbox16), image8, FALSE, FALSE, 0);
 
-  label36 = gtk_label_new_with_mnemonic("Select _area");
+  label36 = gtk_label_new_with_mnemonic(_("Select _area"));
   gtk_widget_show(label36);
   gtk_box_pack_start(GTK_BOX(hbox16), label36, FALSE, FALSE, 0);
 
@@ -403,20 +403,20 @@ void CheckDialog::markers_comparison_setup()
 
   // Project selection gui.
   selectprojectgui = new SelectProjectGui(0);
-  selectprojectgui->build(vbox3, "Compare _with: ", settings->genconfig.check_markers_compare_project_get());
+  selectprojectgui->build(vbox3, _("Compare _with: "), settings->genconfig.check_markers_compare_project_get());
 
   hseparator1 = gtk_hseparator_new();
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(vbox3), hseparator1, TRUE, TRUE, 0);
 
-  checkbutton_compare_all = gtk_check_button_new_with_mnemonic("Compare _all markers");
+  checkbutton_compare_all = gtk_check_button_new_with_mnemonic(_("Compare _all markers"));
   gtk_widget_show(checkbutton_compare_all);
   gtk_box_pack_start(GTK_BOX(vbox3), checkbutton_compare_all, FALSE, FALSE, 0);
 
   // Set whether active.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_compare_all), settings->genconfig.check_markers_compare_all_markers_get());
 
-  label17 = gtk_label_new("Below provide a list of markers to be included in the comparison, separated with spaces and without the backslashes, e.g.: id c v");
+  label17 = gtk_label_new(_("Below provide a list of markers to be included in the comparison, separated with spaces and without the backslashes, e.g.: id c v"));
   gtk_widget_show(label17);
   gtk_box_pack_start(GTK_BOX(vbox3), label17, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label17), TRUE);
@@ -434,7 +434,7 @@ void CheckDialog::markers_comparison_setup()
   gtk_widget_show(hseparator3);
   gtk_box_pack_start(GTK_BOX(vbox3), hseparator3, TRUE, TRUE, 0);
 
-  label18 = gtk_label_new_with_mnemonic("_Ignore the following markers:");
+  label18 = gtk_label_new_with_mnemonic(_("_Ignore the following markers:"));
   gtk_widget_show(label18);
   gtk_box_pack_start(GTK_BOX(vbox3), label18, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label18), 0, 0.5);
@@ -451,7 +451,7 @@ void CheckDialog::markers_comparison_setup()
   gtk_widget_show(hseparator4);
   gtk_box_pack_start(GTK_BOX(vbox3), hseparator4, TRUE, TRUE, 0);
 
-  checkbutton_compare_ignore_verse_zero = gtk_check_button_new_with_mnemonic("Ignore anything before the _first verse");
+  checkbutton_compare_ignore_verse_zero = gtk_check_button_new_with_mnemonic(_("Ignore anything before the _first verse"));
   gtk_widget_show(checkbutton_compare_ignore_verse_zero);
   gtk_box_pack_start(GTK_BOX(vbox3), checkbutton_compare_ignore_verse_zero, FALSE, FALSE, 0);
 
@@ -478,7 +478,7 @@ void CheckDialog::markers_spacing_setup()
   gtk_widget_show(usfm_spacing_hseparator1);
   gtk_box_pack_start(GTK_BOX(vbox1), usfm_spacing_hseparator1, TRUE, TRUE, 0);
 
-  usfm_spacing_label2 = gtk_label_new_with_mnemonic("_Provide a list of markers to be checked, separated with spaces, and without the backslashes, e.g.: xo xt");
+  usfm_spacing_label2 = gtk_label_new_with_mnemonic(_("_Provide a list of markers to be checked, separated with spaces, and without the backslashes, e.g.: xo xt"));
   gtk_widget_show(usfm_spacing_label2);
   gtk_box_pack_start(GTK_BOX(vbox1), usfm_spacing_label2, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(usfm_spacing_label2), TRUE);
@@ -525,7 +525,7 @@ void CheckDialog::characters_unwanted_patterns_setup()
   gtk_widget_show(hbox19);
   gtk_box_pack_start(GTK_BOX(vbox12), hbox19, FALSE, FALSE, 0);
 
-  label46 = gtk_label_new("Enter a list of sequences of characters that are unwanted.\nOne sequence per line.");
+  label46 = gtk_label_new(_("Enter a list of sequences of characters that are unwanted.\nOne sequence per line."));
   gtk_widget_show(label46);
   gtk_box_pack_start(GTK_BOX(hbox19), label46, TRUE, TRUE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label46), TRUE);
@@ -563,7 +563,7 @@ void CheckDialog::on_button_unwanted_patterns()
 {
   extern Settings *settings;
   ReadText rt(checks_unwanted_patterns_get_filename(settings->genconfig.project_get()), true, false);
-  EditListDialog dialog(&rt.lines, "Unwanted patterns", "of patterns that are not wanted", true, true, true, true, true, true, false, NULL);
+  EditListDialog dialog(&rt.lines, _("Unwanted patterns"), _("of patterns that are not wanted"), true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_unwanted_patterns_get_filename(settings->genconfig.project_get()), rt.lines);
   }
@@ -586,7 +586,7 @@ void CheckDialog::words_capitalization_setup()
   gtk_widget_show(hseparator6);
   gtk_box_pack_start(GTK_BOX(vbox5), hseparator6, TRUE, TRUE, 0);
 
-  label23 = gtk_label_new_with_mnemonic("Enter a list of p_unctuation characters, which must be followed by a capitalized word.");
+  label23 = gtk_label_new_with_mnemonic(_("Enter a list of p_unctuation characters, which must be followed by a capitalized word."));
   gtk_widget_show(label23);
   gtk_box_pack_start(GTK_BOX(vbox5), label23, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label23), TRUE);
@@ -628,7 +628,7 @@ void CheckDialog::words_capitalization_setup()
   gtk_widget_show(hseparator7);
   gtk_box_pack_start(GTK_BOX(vbox5), hseparator7, TRUE, TRUE, 0);
 
-  label25 = gtk_label_new_with_mnemonic("Enter a list of characters, after which a _lower case letter is acceptable.\nExample: The '>' in the following makes the lowercase \"and\" correct:\n<<I order this one, <Go!> and he goes.>>");
+  label25 = gtk_label_new_with_mnemonic(_("Enter a list of characters, after which a _lower case letter is acceptable.\nExample: The '>' in the following makes the lowercase \"and\" correct:\n<<I order this one, <Go!> and he goes.>>"));
   gtk_widget_show(label25);
   gtk_box_pack_start(GTK_BOX(vbox5), label25, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label25), 0, 0.5);
@@ -673,7 +673,7 @@ void CheckDialog::words_capitalization_setup()
   gtk_widget_show(hbox9);
   gtk_box_pack_start(GTK_BOX(vbox5), hbox9, FALSE, FALSE, 0);
 
-  label27 = gtk_label_new("Enter a list of abbreviations that prevent errors saying that a period is not followed by an upper case letter.");
+  label27 = gtk_label_new(_("Enter a list of abbreviations that prevent errors saying that a period is not followed by an upper case letter."));
   gtk_widget_show(label27);
   gtk_box_pack_start(GTK_BOX(hbox9), label27, TRUE, TRUE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label27), TRUE);
@@ -715,13 +715,13 @@ void CheckDialog::words_capitalization_setup()
   gtk_widget_show(vbox9);
   gtk_box_pack_start(GTK_BOX(hbox11), vbox9, TRUE, TRUE, 0);
 
-  label29 = gtk_label_new("Enter a list of prefixes which are allowed to occur uncapitalized before the first capital letter in a word.");
+  label29 = gtk_label_new(_("Enter a list of prefixes which are allowed to occur uncapitalized before the first capital letter in a word."));
   gtk_widget_show(label29);
   gtk_box_pack_start(GTK_BOX(vbox9), label29, TRUE, TRUE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label29), TRUE);
   gtk_misc_set_alignment(GTK_MISC(label29), 0, 0.5);
 
-  checkbutton_capitalization_prefixes = gtk_check_button_new_with_mnemonic("Allow an_y prefixes");
+  checkbutton_capitalization_prefixes = gtk_check_button_new_with_mnemonic(_("Allow an_y prefixes"));
   gtk_widget_show(checkbutton_capitalization_prefixes);
   gtk_box_pack_start(GTK_BOX(vbox9), checkbutton_capitalization_prefixes, FALSE, FALSE, 0);
 
@@ -748,7 +748,7 @@ void CheckDialog::words_capitalization_setup()
   gtk_widget_show(image6);
   gtk_box_pack_start(GTK_BOX(hbox12), image6, FALSE, FALSE, 0);
 
-  label30 = gtk_label_new_with_mnemonic("_Prefixes");
+  label30 = gtk_label_new_with_mnemonic(_("_Prefixes"));
   gtk_widget_show(label30);
   gtk_box_pack_start(GTK_BOX(hbox12), label30, FALSE, FALSE, 0);
 
@@ -760,7 +760,7 @@ void CheckDialog::words_capitalization_setup()
   gtk_widget_show(hbox13);
   gtk_box_pack_start(GTK_BOX(vbox5), hbox13, TRUE, TRUE, 0);
 
-  label31 = gtk_label_new("Enter a list of suffixes which are allowed to occur capitalized at the end of a word.\nExample: If \"seaCan\" is a valid word because the \"Can\" suffix must be capitalized, enter \"Can\" in this list.");
+  label31 = gtk_label_new(_("Enter a list of suffixes which are allowed to occur capitalized at the end of a word.\nExample: If \"seaCan\" is a valid word because the \"Can\" suffix must be capitalized, enter \"Can\" in this list."));
   gtk_widget_show(label31);
   gtk_box_pack_start(GTK_BOX(hbox13), label31, TRUE, TRUE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label31), TRUE);
@@ -786,7 +786,7 @@ void CheckDialog::words_capitalization_setup()
   gtk_widget_show(image7);
   gtk_box_pack_start(GTK_BOX(hbox14), image7, FALSE, FALSE, 0);
 
-  label32 = gtk_label_new_with_mnemonic("_Suffixes");
+  label32 = gtk_label_new_with_mnemonic(_("_Suffixes"));
   gtk_widget_show(label32);
   gtk_box_pack_start(GTK_BOX(hbox14), label32, FALSE, FALSE, 0);
 
@@ -836,7 +836,7 @@ void CheckDialog::capitalization_abbreviations_edit()
 {
   extern Settings *settings;
   ReadText rt(checks_abbreviations_get_filename(settings->genconfig.project_get()), true);
-  EditListDialog dialog(&rt.lines, "Abbreviations", "of abbreviations", true, true, true, true, true, true, false, NULL);
+  EditListDialog dialog(&rt.lines, _("Abbreviations"), _("of abbreviations"), true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_abbreviations_get_filename(settings->genconfig.project_get()), rt.lines);
   }
@@ -862,7 +862,7 @@ void CheckDialog::button_capitalization_prefixes_edit()
 {
   extern Settings *settings;
   ReadText rt(checks_uncapitalized_prefixes_get_filename(settings->genconfig.project_get()), true);
-  EditListDialog dialog(&rt.lines, "Uncapitalized prefixes", "of uncapitalized prefixes", true, true, true, true, true, true, false, NULL);
+  EditListDialog dialog(&rt.lines, _("Uncapitalized prefixes"), _("of uncapitalized prefixes"), true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_uncapitalized_prefixes_get_filename(settings->genconfig.project_get()), rt.lines);
   }
@@ -877,7 +877,7 @@ void CheckDialog::capitalization_suffixes_edit()
 {
   extern Settings *settings;
   ReadText rt(checks_capitalized_suffixes_get_filename(settings->genconfig.project_get()), true);
-  EditListDialog dialog(&rt.lines, "Capitalized suffixes", "of capitalized suffixes", true, true, true, true, true, true, false, NULL);
+  EditListDialog dialog(&rt.lines, _("Capitalized suffixes"), _("of capitalized suffixes"), true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_capitalized_suffixes_get_filename(settings->genconfig.project_get()), rt.lines);
   }
@@ -895,7 +895,7 @@ void CheckDialog::word_repetition_setup()
   gtk_widget_show(hseparator12);
   gtk_box_pack_start(GTK_BOX(vbox10), hseparator12, FALSE, FALSE, 0);
 
-  checkbutton_repetition_case = gtk_check_button_new_with_mnemonic("C_ase insensitive");
+  checkbutton_repetition_case = gtk_check_button_new_with_mnemonic(_("C_ase insensitive"));
   gtk_widget_show(checkbutton_repetition_case);
   gtk_box_pack_start(GTK_BOX(vbox10), checkbutton_repetition_case, FALSE, FALSE, 0);
 
@@ -926,17 +926,17 @@ void CheckDialog::word_repetition_setup()
   gtk_widget_show(image9);
   gtk_box_pack_start(GTK_BOX(hbox17), image9, FALSE, FALSE, 0);
 
-  label39 = gtk_label_new_with_mnemonic("S_how");
+  label39 = gtk_label_new_with_mnemonic(_("S_how"));
   gtk_widget_show(label39);
   gtk_box_pack_start(GTK_BOX(hbox17), label39, FALSE, FALSE, 0);
 
-  checkbutton_repetition_show = gtk_check_button_new_with_mnemonic("Only _show repeating words in this list ->");
+  checkbutton_repetition_show = gtk_check_button_new_with_mnemonic(_("Only _show repeating words in this list ->"));
   gtk_widget_show(checkbutton_repetition_show);
   gtk_table_attach(GTK_TABLE(table1), checkbutton_repetition_show, 0, 1, 0, 1, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   // Set state.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_repetition_show), settings->genconfig.check_repetition_show_only_these_get());
 
-  checkbutton_repetition_ignore = gtk_check_button_new_with_mnemonic("_Ignore repeating words given in this list ->\nor repeating word pairs that have texts in between them from this list ->");
+  checkbutton_repetition_ignore = gtk_check_button_new_with_mnemonic(_("_Ignore repeating words given in this list ->\nor repeating word pairs that have texts in between them from this list ->"));
   gtk_widget_show(checkbutton_repetition_ignore);
   gtk_table_attach(GTK_TABLE(table1), checkbutton_repetition_ignore, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   // Set state
@@ -987,7 +987,7 @@ void CheckDialog::on_button_repetition_show()
 {
   extern Settings *settings;
   ReadText rt(checks_repetition_show_only_get_filename(settings->genconfig.project_get()), true);
-  EditListDialog dialog(&rt.lines, "Repeating words", "of contiguous repeating words to show only in the report", true, true, true, true, true, true, false, NULL);
+  EditListDialog dialog(&rt.lines, _("Repeating words"), _("of contiguous repeating words to show only in the report"), true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_repetition_show_only_get_filename(settings->genconfig.project_get()), rt.lines);
   }
@@ -1012,7 +1012,7 @@ void CheckDialog::on_button_repetition_ignore()
 {
   extern Settings *settings;
   ReadText rt(checks_repetition_ignore_get_filename(settings->genconfig.project_get()), true);
-  EditListDialog dialog(&rt.lines, "Repeating words", "of contiguous repeating words to ignore or text between these pairs of words", true, true, true, true, true, true, false, NULL);
+  EditListDialog dialog(&rt.lines, _("Repeating words"), _("of contiguous repeating words to ignore or text between these pairs of words"), true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_repetition_ignore_get_filename(settings->genconfig.project_get()), rt.lines);
   }
@@ -1032,7 +1032,7 @@ void CheckDialog::unwanted_words_setup()
   gtk_widget_show(hbox21);
   gtk_box_pack_start(GTK_BOX(vbox13), hbox21, FALSE, FALSE, 0);
 
-  label50 = gtk_label_new("Enter a list of whole words that are unwanted in the text.\nOne word per line.");
+  label50 = gtk_label_new(_("Enter a list of whole words that are unwanted in the text.\nOne word per line."));
   gtk_widget_show(label50);
   gtk_box_pack_start(GTK_BOX(hbox21), label50, TRUE, TRUE, 0);
   gtk_misc_set_alignment(GTK_MISC(label50), 0, 0.5);
@@ -1069,7 +1069,7 @@ void CheckDialog::on_button_unwanted_words()
 {
   extern Settings *settings;
   ReadText rt(checks_unwanted_words_get_filename(settings->genconfig.project_get()), true);
-  EditListDialog dialog(&rt.lines, "Unwanted words", "of whole words that are not wanted", true, true, true, true, true, true, false, NULL);
+  EditListDialog dialog(&rt.lines, _("Unwanted words"), _("of whole words that are not wanted"), true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_unwanted_words_get_filename(settings->genconfig.project_get()), rt.lines);
   }
@@ -1087,7 +1087,7 @@ void CheckDialog::punctuation_matching_pairs_setup()
   gtk_widget_show(hseparator14);
   gtk_box_pack_start(GTK_BOX(vbox11), hseparator14, FALSE, FALSE, 0);
 
-  label43 = gtk_label_new_with_mnemonic("Enter a list of punctuation characters to be _ignored.\nEnter them without spaces.\nOnly one of a pair is needed, the matching one is added automatically.");
+  label43 = gtk_label_new_with_mnemonic(_("Enter a list of punctuation characters to be _ignored.\nEnter them without spaces.\nOnly one of a pair is needed, the matching one is added automatically."));
   gtk_widget_show(label43);
   gtk_box_pack_start(GTK_BOX(vbox11), label43, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label43), 0, 0.5);
@@ -1125,7 +1125,7 @@ void CheckDialog::word_count_setup()
   gtk_widget_show(wordcount_hbox1);
   gtk_box_pack_start(GTK_BOX(vbox1), wordcount_hbox1, TRUE, TRUE, 0);
 
-  wordcount_checkbutton1 = gtk_check_button_new_with_mnemonic("Do not _include words with a count of");
+  wordcount_checkbutton1 = gtk_check_button_new_with_mnemonic(_("Do not _include words with a count of"));
   gtk_widget_show(wordcount_checkbutton1);
   gtk_box_pack_start(GTK_BOX(wordcount_hbox1), wordcount_checkbutton1, FALSE, FALSE, 0);
 
@@ -1134,11 +1134,11 @@ void CheckDialog::word_count_setup()
   gtk_widget_show(wordcount_spinbutton1);
   gtk_box_pack_start(GTK_BOX(wordcount_hbox1), wordcount_spinbutton1, FALSE, FALSE, 0);
 
-  wordcount_label2 = gtk_label_new("and up");
+  wordcount_label2 = gtk_label_new(_("and up"));
   gtk_widget_show(wordcount_label2);
   gtk_box_pack_start(GTK_BOX(wordcount_hbox1), wordcount_label2, FALSE, FALSE, 0);
 
-  wordcount_label1 = gtk_label_new_with_mnemonic("Bibledit-Gtk normally knows the right word boundaries, but if this is not done satisfactorily, you can enter _extra characters that should be part of a word");
+  wordcount_label1 = gtk_label_new_with_mnemonic(_("Bibledit-Gtk normally knows the right word boundaries, but if this is not done satisfactorily, you can enter _extra characters that should be part of a word"));
   gtk_widget_show(wordcount_label1);
   gtk_box_pack_start(GTK_BOX(vbox1), wordcount_label1, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(wordcount_label1), TRUE);
@@ -1186,7 +1186,7 @@ void CheckDialog::on_wordcount_entry1()
   ustring non_alphas = get_non_alphanumericals(chars);
   if (chars != non_alphas) {
     gtk_entry_set_text(GTK_ENTRY(wordcount_entry1), non_alphas.c_str());
-    gtkw_dialog_info(checkdialog, "Bibledit-Gtk already recognizes this character as part of a word.\nIt has been removed as superfluous.\nThere is no need to enter your alphabet.\nEntering the special cases is enough.");
+    gtkw_dialog_info(checkdialog, _("Bibledit-Gtk already recognizes this character as part of a word.\nIt has been removed as superfluous.\nThere is no need to enter your alphabet.\nEntering the special cases is enough."));
   }
 }
 
@@ -1194,7 +1194,7 @@ void CheckDialog::parallel_project_setup()
 {
 	  extern Settings *settings;
 
-	  checkbutton_include_second_project = gtk_check_button_new_with_mnemonic("_Compare with another project:");
+	  checkbutton_include_second_project = gtk_check_button_new_with_mnemonic(_("_Compare with another project:"));
 	  gtk_widget_show(checkbutton_include_second_project);
 	  gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_include_second_project, TRUE, TRUE, 0);
 
@@ -1221,7 +1221,7 @@ void CheckDialog::on_include_second_project()
 
 void CheckDialog::include_verse_text_setup()
 {
-  checkbutton_include_verse_text = gtk_check_button_new_with_mnemonic("_Include verse text");
+  checkbutton_include_verse_text = gtk_check_button_new_with_mnemonic(_("_Include verse text"));
   gtk_widget_show(checkbutton_include_verse_text);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_include_verse_text, TRUE, TRUE, 0);
 
@@ -1231,7 +1231,7 @@ void CheckDialog::include_verse_text_setup()
 
 void CheckDialog::output_in_ot_order_setup()
 {
-  checkbutton_output_in_ot_order = gtk_check_button_new_with_mnemonic("O_utput in Old Testament order");
+  checkbutton_output_in_ot_order = gtk_check_button_new_with_mnemonic(_("O_utput in Old Testament order"));
   gtk_widget_show(checkbutton_output_in_ot_order);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_output_in_ot_order, TRUE, TRUE, 0);
 

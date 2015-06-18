@@ -35,7 +35,7 @@
 #include "progresswindow.h"
 #include "help.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 OutpostDialog::OutpostDialog(int dummy)
 {
@@ -43,14 +43,14 @@ OutpostDialog::OutpostDialog(int dummy)
 
   // Build GUI.
   outpostdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(outpostdialog), "Windows Outpost Setup");
+  gtk_window_set_title(GTK_WINDOW(outpostdialog), _("Windows Outpost Setup"));
   gtk_window_set_position(GTK_WINDOW(outpostdialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(outpostdialog));
   gtk_widget_show(dialog_vbox1);
   gtk_box_set_spacing (GTK_BOX (dialog_vbox1), 5);
 
-  checkbutton_use = gtk_check_button_new_with_mnemonic ("_Use Windows Outpost");
+  checkbutton_use = gtk_check_button_new_with_mnemonic (_("_Use Windows Outpost"));
   gtk_widget_show (checkbutton_use);
   gtk_box_pack_start (GTK_BOX (dialog_vbox1), checkbutton_use, FALSE, FALSE, 0);
 

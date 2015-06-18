@@ -24,23 +24,23 @@
 #include "help.h"
 #include "keyterms.h"
 #include "combobox.h"
-
+#include <glib/gi18n.h>
 
 DeleteKeytermsAssistant::DeleteKeytermsAssistant(int dummy) :
-AssistantBase("Keyterms", "deletekeyterms")
+  AssistantBase(_("Keyterms"), _("deletekeyterms"))
 // Assistant for deleting keyterms.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
-  g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
+g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
 
-  introduction ("You can delete categories from the keyterms database.");
+  introduction (_("You can delete categories from the keyterms database."));
   
   vbox1 = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox1);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox1);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox1, "Which collection would you like to delete?");
+gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox1, _("Which collection would you like to delete?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox1, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox1, true);
 
@@ -52,27 +52,27 @@ AssistantBase("Keyterms", "deletekeyterms")
   combobox_set_strings (combobox1, categories);
   combobox_set_index (combobox1, 0);
 
-  label_confirm = gtk_label_new ("Ready for delete");
+label_confirm = gtk_label_new (_("Ready for delete"));
   gtk_widget_show (label_confirm);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Ready for delete");
+gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, _("Ready for delete"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
-  label_progress = gtk_label_new ("Deleting...");
+label_progress = gtk_label_new (_("Deleting..."));
   gtk_widget_show (label_progress);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "Deleting");
+gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, _("Deleting"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Delete done.");
+label_summary = gtk_label_new (_("Delete done."));
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
+gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("Ready"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   

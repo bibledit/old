@@ -23,7 +23,7 @@
 #include "gwrappers.h"
 #include "directories.h"
 #include "dialogradiobutton.h"
-
+#include <glib/gi18n.h>
 
 FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ustring title_in, bool startup)
 // Base class for each floating window.
@@ -31,7 +31,7 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
   // If there's no title the configuration file would get inconsistent. 
   // Put something there.
   if (title_in.empty()) {
-    title_in.append("Untitled");
+    title_in.append(_("Untitled"));
   }
 
   // Initialize variables.

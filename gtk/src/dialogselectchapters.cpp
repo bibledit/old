@@ -29,6 +29,7 @@
 #include "books.h"
 #include "tiny_utilities.h"
 #include "shortcuts.h"
+#include <glib/gi18n.h>
 
 SelectChaptersDialog::SelectChaptersDialog(const ustring & project, unsigned int book, const ustring & currentselection)
 {
@@ -40,7 +41,7 @@ SelectChaptersDialog::SelectChaptersDialog(const ustring & project, unsigned int
   Shortcuts shortcuts(0);
 
   selectchaptersdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(selectchaptersdialog), "Select portion");
+  gtk_window_set_title(GTK_WINDOW(selectchaptersdialog), _("Select portion"));
   gtk_window_set_position(GTK_WINDOW(selectchaptersdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(selectchaptersdialog), TRUE);
 
@@ -69,31 +70,31 @@ SelectChaptersDialog::SelectChaptersDialog(const ustring & project, unsigned int
   gtk_widget_show(image5);
   gtk_box_pack_start(GTK_BOX(hbox8), image5, FALSE, FALSE, 0);
 
-  label18 = gtk_label_new_with_mnemonic("All");
+  label18 = gtk_label_new_with_mnemonic(_("All"));
   gtk_widget_show(label18);
   gtk_box_pack_start(GTK_BOX(hbox8), label18, FALSE, FALSE, 0);
 
   shortcuts.label(label18);
 
-  label17 = gtk_label_new_with_mnemonic("To:");
+  label17 = gtk_label_new_with_mnemonic(_("To:"));
   gtk_widget_show(label17);
   gtk_table_attach(GTK_TABLE(table1), label17, 2, 3, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label17), 1, 0.5);
 
   shortcuts.label(label17);
 
-  label16 = gtk_label_new_with_mnemonic("From:");
+  label16 = gtk_label_new_with_mnemonic(_("From:"));
   gtk_widget_show(label16);
   gtk_table_attach(GTK_TABLE(table1), label16, 2, 3, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label16), 1, 0.5);
 
   shortcuts.label(label16);
 
-  label19 = gtk_label_new("chapter");
+  label19 = gtk_label_new(_("chapter"));
   gtk_widget_show(label19);
   gtk_table_attach(GTK_TABLE(table1), label19, 3, 4, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  label20 = gtk_label_new("verse");
+  label20 = gtk_label_new(_("verse"));
   gtk_widget_show(label20);
   gtk_table_attach(GTK_TABLE(table1), label20, 4, 5, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 

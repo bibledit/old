@@ -43,7 +43,7 @@
 #include "statistics.h"
 #include "snapshots.h"
 #include "vcs.h"
-
+#include <glib/gi18n.h>
 
 void project_store_sanitize_line(ustring & line)
 /* 
@@ -143,7 +143,7 @@ ustring project_data_filename_chapter(const ustring & project, unsigned int book
   ustring filename = gw_build_filename(project_data_directory_chapter(project, book, chapter), "data");
   if (checkexists) {
     if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR))
-      throw runtime_error(books_id_to_english(book) + " " + convert_to_string(chapter) + " does not exist");
+      throw runtime_error(books_id_to_english(book) + " " + convert_to_string(chapter) + _(" does not exist"));
   }
   return filename;
 }
@@ -504,9 +504,9 @@ bool project_select(ustring & newproject)
     extern Settings *settings;
     focusedproject = settings->genconfig.project_get();
   }
-  ListviewDialog dialog("Open project", editable_projects, focusedproject, true, NULL);
-  dialog.two_pages("Editable", "Non-editable", non_editable_projects, true);
-  dialog.tab_switcher(GDK_KEY_O, GDK_CONTROL_MASK, "Ctrl-O", "to display the editable projects", "to display the non-editable projects");
+  ListviewDialog dialog(_("Open project"), editable_projects, focusedproject, true, NULL);
+  dialog.two_pages(_("Editable"), _("Non-editable"), non_editable_projects, true);
+  dialog.tab_switcher(GDK_KEY_O, GDK_CONTROL_MASK, _("Ctrl-O"), _("to display the editable projects"), _("to display the non-editable projects"));
   if (dialog.run() == GTK_RESPONSE_OK) {
     newproject = dialog.focus;
     return true;

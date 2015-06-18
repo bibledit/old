@@ -26,7 +26,7 @@
 #include "keyboard.h"
 #include "help.h"
 #include <gdk/gdkkeysyms.h>
-
+#include <glib/gi18n.h>
 
 ListviewDialog::ListviewDialog(const ustring & title, vector <ustring> &list, const ustring & focus, bool sortlist, gchar * help)
 // This dialog shows "list".
@@ -50,7 +50,7 @@ ListviewDialog::ListviewDialog(const ustring & title, vector <ustring> &list, co
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Type the first couple of characters of the item, or select it,\nand then press OK or Enter");
+  label1 = gtk_label_new(_("Type the first couple of characters of the item, or select it,\nand then press OK or Enter"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 4);
 
@@ -209,7 +209,7 @@ void ListviewDialog::tab_switcher(guint accel_key, GdkModifierType accel_mods, c
   action_text_2 = actiontext2;
 
   // Update GUI.
-  ustring infotext("Press ");
+  ustring infotext(_("Press "));
   infotext.append(acceleratortext);
   gtk_label_set_text(GTK_LABEL(label_shortcut), infotext.c_str());
   on_switch_page();

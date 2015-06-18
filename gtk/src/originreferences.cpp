@@ -32,14 +32,14 @@
 #include "books.h"
 #include "tiny_utilities.h"
 #include "stylesheetutils.h"
-
+#include <glib/gi18n.h>
 
 OriginReferences::OriginReferences(const ustring & project, bool affectfootnotes, bool affectendnotes, bool affectxrefs, OriginReferencesActionType action, bool includebook, bool includechapter, const ustring & separator, bool includeverse, const ustring & suffix, bool gui)
 {
   // Progress.
   ProgressWindow *progresswindow = NULL;
   if (gui)
-    progresswindow = new ProgressWindow("Working...", false);
+    progresswindow = new ProgressWindow(_("Working..."), false);
 
   // Initialize variables.
   myaction = action;
@@ -96,20 +96,20 @@ OriginReferences::OriginReferences(const ustring & project, bool affectfootnotes
 
   // Give statistics.
   ustring message;
-  message.append("Relevant notes found: " + convert_to_string(notescount) + "\n");
+  message.append(_("Relevant notes found: ") + convert_to_string(notescount) + "\n");
   if (action != oratNothing) {
     if (action == oratAddReference)
-      message.append("Origin references added: ");
+      message.append(_("Origin references added: "));
     if (action == oratRemoveReferences)
-      message.append("Origin references removed: ");
+      message.append(_("Origin references removed: "));
     if (action == oratTextLabels)
-      message.append("Text labels added: ");
+      message.append(_("Text labels added: "));
     message.append(convert_to_string(affectedcount) + "\n");
     if (finecount)
-      message.append("Notes not affected because they already were fine: " + convert_to_string(finecount) + "\n");
+      message.append(_("Notes not affected because they already were fine: ") + convert_to_string(finecount) + "\n");
   }
   if (errorcount)
-    message.append("Notes with structural errors: " + convert_to_string(errorcount) + "\n");
+    message.append(_("Notes with structural errors: ") + convert_to_string(errorcount) + "\n");
   if (gui)
     gtkw_dialog_info(NULL, message);
   else
@@ -210,7 +210,7 @@ void OriginReferences::handle_notes(ustring & line, int book, int chapter, const
     size_t closing_position;
     closing_position = line.find(note_closer, opening_position);
     if (closing_position == string::npos) {
-      gw_warning("Missing endmarker: " + line);
+      gw_warning(_("Missing endmarker: ") + line);
       errorcount++;
       return;
     }

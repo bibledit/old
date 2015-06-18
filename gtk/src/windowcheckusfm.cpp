@@ -30,10 +30,10 @@
 #include "tiny_utilities.h"
 #include "combobox.h"
 #include "scripts.h"
-
+#include <glib/gi18n.h>
 
 WindowCheckUSFM::WindowCheckUSFM(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
-FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
+  FloatingWindow(parent_layout, widCheckUSFM, _("Check USFM"), startup)
 // Window for checking USFM.
 {
   // Initialize variables.
@@ -45,7 +45,7 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_widget_show (vbox);
   gtk_container_add (GTK_CONTAINER (vbox_client), vbox);
 
-  checkbutton_verses_at_start = gtk_check_button_new_with_mnemonic ("Verses in raw text are at line start");
+  checkbutton_verses_at_start = gtk_check_button_new_with_mnemonic (_("Verses in raw text are at line start"));
   gtk_widget_show (checkbutton_verses_at_start);
   gtk_box_pack_start (GTK_BOX (vbox), checkbutton_verses_at_start, FALSE, FALSE, 0);
   
@@ -56,7 +56,7 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_widget_show (vbox_filter);
   gtk_box_pack_start (GTK_BOX (vbox), vbox_filter, TRUE, TRUE, 0);
 
-  label_filter = gtk_label_new ("Filter");
+  label_filter = gtk_label_new (_("Filter"));
   gtk_widget_show (label_filter);
   gtk_box_pack_start (GTK_BOX (vbox_filter), label_filter, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_filter), 0, 0.5);
@@ -87,7 +87,7 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_widget_show (image4);
   gtk_box_pack_start (GTK_BOX (hbox6), image4, FALSE, FALSE, 0);
 
-  label10 = gtk_label_new_with_mnemonic ("Filter text");
+  label10 = gtk_label_new_with_mnemonic (_("Filter text"));
   gtk_widget_show (label10);
   gtk_box_pack_start (GTK_BOX (hbox6), label10, FALSE, FALSE, 0);
   
@@ -111,7 +111,7 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_widget_show (image3);
   gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
 
-  label8 = gtk_label_new_with_mnemonic ("Discover markup");
+  label8 = gtk_label_new_with_mnemonic (_("Discover markup"));
   gtk_widget_show (label8);
   gtk_box_pack_start (GTK_BOX (hbox5), label8, FALSE, FALSE, 0);
 
@@ -208,7 +208,7 @@ void WindowCheckUSFM::on_button_discover_markup ()
           lines[i].clear();
           continue;
         }
-        ustring msg = "The line that contains " + lines[i] + " looks like a chapter number, but the number differs from the chapter that was set";
+        ustring msg = _("The line that contains ") + lines[i] + _(" looks like a chapter number, but the number differs from the chapter that was set");
         gtk_label_set_text(GTK_LABEL(label_information_text), msg.c_str());
         discoveries_passed = false;
       }
@@ -386,7 +386,7 @@ void WindowCheckUSFM::on_editors_changed()
   // See whether a textbuffer is available.
   if (checks_going) {
     if (textbuffer == NULL) {
-      gtk_label_set_text(GTK_LABEL(label_information_text), "Inactive. To activate, open or focus a project, and view the USFM code.");
+      gtk_label_set_text(GTK_LABEL(label_information_text), _("Inactive. To activate, open or focus a project, and view the USFM code."));
       checks_going = false;
     }
   }
@@ -396,7 +396,7 @@ void WindowCheckUSFM::on_editors_changed()
     GtkTextIter enditer;
     gtk_text_buffer_get_end_iter(textbuffer, &enditer);
     if (gtk_text_iter_get_offset(&enditer) < 5) {
-      gtk_label_set_text(GTK_LABEL(label_information_text), "There is no text. Put text into the editor");
+      gtk_label_set_text(GTK_LABEL(label_information_text), _("There is no text. Put text into the editor"));
       checks_going = false;
     }
   }
@@ -404,7 +404,7 @@ void WindowCheckUSFM::on_editors_changed()
     GtkTextIter enditer;
     gtk_text_buffer_get_end_iter(textbuffer, &enditer);
     if (gtk_text_iter_get_offset(&enditer) < 10) {
-      gtk_label_set_text(GTK_LABEL(label_information_text), "There isn't much text. Put more text into the editor");
+      gtk_label_set_text(GTK_LABEL(label_information_text), _("There isn't much text. Put more text into the editor"));
       checks_going = false;
     }
   }
@@ -412,7 +412,7 @@ void WindowCheckUSFM::on_editors_changed()
   // Check whether the book seems ok.
   if (checks_going) {
     if (book == 0) {
-      gtk_label_set_text(GTK_LABEL(label_information_text), "Unknown book");
+      gtk_label_set_text(GTK_LABEL(label_information_text), _("Unknown book"));
       checks_going = false;
     }
   }
@@ -420,7 +420,7 @@ void WindowCheckUSFM::on_editors_changed()
   // Check whether the chapter seems ok.
   if (checks_going) {
     if (chapter < 0) {
-      gtk_label_set_text(GTK_LABEL(label_information_text), "Unknown chapter");
+      gtk_label_set_text(GTK_LABEL(label_information_text), _("Unknown chapter"));
       checks_going = false;
     }
   }
@@ -455,7 +455,7 @@ void WindowCheckUSFM::on_editors_changed()
       }
     }
     if (!missing_verses.empty()) {
-      missing_verses.insert(0, "Missing verses: ");
+      missing_verses.insert(0, _("Missing verses: "));
       gtk_label_set_text(GTK_LABEL(label_information_text), missing_verses.c_str());
       checks_going = false;
     }
@@ -470,7 +470,7 @@ void WindowCheckUSFM::on_editors_changed()
         }
       }
       if (!extra_verses.empty()) {
-        extra_verses.insert(0, "Extra verses: ");
+        extra_verses.insert(0, _("Extra verses: "));
         gtk_label_set_text(GTK_LABEL(label_information_text), extra_verses.c_str());
         checks_going = false;
       }
@@ -500,7 +500,7 @@ void WindowCheckUSFM::on_editors_changed()
         unsigned int nextverse = convert_to_int(actual_verses[i + 1]);
         if (nextverse != currentverse + 1) {
           if (checks_going) {
-            ustring msg("Verse " + actual_verses[i + 1] + " is out of sequence");
+            ustring msg(_("Verse ") + actual_verses[i + 1] + _(" is out of sequence"));
             gtk_label_set_text(GTK_LABEL(label_information_text), msg.c_str());
             checks_going = false;
           }
@@ -516,7 +516,7 @@ void WindowCheckUSFM::on_editors_changed()
         nostart.append(non_line_starters[i]);
       }
       if (!nostart.empty()) {
-        nostart.insert(0, "Verses that are not at the start of a line: ");
+        nostart.insert(0, _("Verses that are not at the start of a line: "));
         gtk_label_set_text(GTK_LABEL(label_information_text), nostart.c_str());
         checks_going = false;
       }
@@ -527,7 +527,7 @@ void WindowCheckUSFM::on_editors_changed()
   // Final okay info in gui.
   gui_okay(image5, label_information_ok, checks_going);
   if (checks_going) {
-    gtk_label_set_text(GTK_LABEL(label_information_text), "Everything seems to be fine.");
+    gtk_label_set_text(GTK_LABEL(label_information_text), _("Everything seems to be fine."));
   }
 }
 

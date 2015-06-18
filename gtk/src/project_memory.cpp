@@ -20,6 +20,7 @@
 #include "project_memory.h"
 #include "progresswindow.h"
 #include "projectutils.h"
+#include <glib/gi18n.h>
 
 ProjectVerse::ProjectVerse(const ustring & number_in)
 {
@@ -111,7 +112,7 @@ ProjectMemory::ProjectMemory(const ustring & name_in, bool gui)
   cancelled = false;
   ProgressWindow *progresswindow = NULL;
   if (gui)
-    progresswindow = new ProgressWindow("Loading " + name, true);
+    progresswindow = new ProgressWindow(_("Loading ") + name, true);
   vector < unsigned int >books = project_get_books(name);
   if (progresswindow)
     progresswindow->set_iterate(0, 1, books.size());

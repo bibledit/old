@@ -25,16 +25,17 @@
 #include "books.h"
 #include "utilities.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 void gui_okay(GtkWidget * image, GtkWidget * label, bool ok)
 // Sets image and text in the GUI whether things are okay or not.
 {
   if (ok) {
     gtk_image_set_from_stock(GTK_IMAGE(image), "gtk-yes", GTK_ICON_SIZE_BUTTON);
-    gtk_label_set_text(GTK_LABEL(label), "Done:");
+    gtk_label_set_text(GTK_LABEL(label), _("Done:"));
   } else {
     gtk_image_set_from_stock(GTK_IMAGE(image), "gtk-dialog-warning", GTK_ICON_SIZE_BUTTON);
-    gtk_label_set_text(GTK_LABEL(label), "To do:");
+    gtk_label_set_text(GTK_LABEL(label), _("To do:"));
   }
 }
 
@@ -42,11 +43,11 @@ bool gui_double_question(GtkWidget * parent, ustring question1, ustring question
 // Returns true only if the user replies "Yes" to both questions.
 {
   if (question1.empty())
-    question1 = "Are you sure you wish to make the changes?";
+    question1 = _("Are you sure you wish to make the changes?");
   if (gtkw_dialog_question(parent, question1.c_str()) == GTK_RESPONSE_NO)
     return false;
   if (question2.empty())
-    question2 = "This will permanently modify your data.\n" "The changes cannot be undone easily.\n" "Are you sure?";
+    question2 = _("This will permanently modify your data.\nThe changes cannot be undone easily.\nAre you sure?");
   if (gtkw_dialog_question(parent, question2.c_str()) == GTK_RESPONSE_NO)
     return false;
   return true;
@@ -80,7 +81,7 @@ etc.
   // Deal with empty selection.
   set < unsigned int >selection = settings->session.selected_books;
   if (selection.empty()) {
-    message = "No books";
+    message = _("No books");
     return message;
   }
   // See whether OT / NT is in the selection.
@@ -111,7 +112,7 @@ etc.
       selected_ot_books++;
   }
   if ((selected_ot_books > 1) && (selectable_ot_books == selected_ot_books)) {
-    units.push_back("Old Testament");
+    units.push_back(_("Old Testament"));
     for (unsigned int i = 0; i < ot_ids.size(); i++) {
       set < unsigned int >::iterator iter;
       iter = selection.find(ot_ids[i]);
@@ -126,7 +127,7 @@ etc.
       selected_nt_books++;
   }
   if ((selected_nt_books > 1) && (selectable_nt_books == selected_nt_books)) {
-    units.push_back("New Testament");
+    units.push_back(_("New Testament"));
     for (unsigned int i = 0; i < nt_ids.size(); i++) {
       set < unsigned int >::iterator iter;
       iter = selection.find(nt_ids[i]);
@@ -136,7 +137,7 @@ etc.
   }
   // Deal with any remaining books.  
   if ((selection.size() + units.size()) > 3) {
-    units.push_back(convert_to_string(int (selection.size())) + " books");
+    units.push_back(convert_to_string(int (selection.size())) + _(" books"));
   } else {
     vector < unsigned int >all_ids = books_type_to_ids(btUnknown);
     for (unsigned int i = 0; i < all_ids.size(); i++) {

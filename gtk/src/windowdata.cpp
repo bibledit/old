@@ -21,7 +21,7 @@
 #include "windowdata.h"
 #include "settings.h"
 #include "gwrappers.h"
-
+#include <glib/gi18n.h>
 
 WindowData::WindowData(bool save_on_destroy)
 {
@@ -87,7 +87,7 @@ WindowData::~WindowData()
 void WindowData::debug()
 // Prints the state.
 {
-  cout << "WindowData object " << this << " state" << endl;
+  cout << _("WindowData object ") << this << " state" << endl;
   for (unsigned int i = 0; i < widths.size(); i++) {
     cout << "window " << i << ", width " << widths[i] << ", height " << heights[i] << ", x " << x_positions[i] << ", y " << y_positions[i] << ", id " << ids[i] << ", title " << titles[i] << ", show " << shows[i] << endl;
   }

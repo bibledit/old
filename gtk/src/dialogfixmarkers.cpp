@@ -23,19 +23,20 @@
 #include "help.h"
 #include "shortcuts.h"
 #include "fixmarkers.h"
+#include <glib/gi18n.h>
 
 FixMarkersDialog::FixMarkersDialog(int dummy)
 {
   Shortcuts shortcuts(0);
 
   fixmarkersdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(fixmarkersdialog), "Simple text corrections");
+  gtk_window_set_title(GTK_WINDOW(fixmarkersdialog), _("Simple text corrections"));
   gtk_window_set_position(GTK_WINDOW(fixmarkersdialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(fixmarkersdialog));
   gtk_widget_show(dialog_vbox1);
 
-  label1 = gtk_label_new("This tool can make some automatic simple text corrections.");
+  label1 = gtk_label_new(_("This tool can make some automatic simple text corrections."));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label1, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
@@ -44,7 +45,7 @@ FixMarkersDialog::FixMarkersDialog(int dummy)
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hseparator1, TRUE, TRUE, 0);
 
-  checkbutton_space_after_opener = gtk_check_button_new_with_mnemonic("Insert a space after an opening USFM marker that doesn't have one");
+  checkbutton_space_after_opener = gtk_check_button_new_with_mnemonic(_("Insert a space after an opening USFM marker that doesn't have one"));
   gtk_widget_show(checkbutton_space_after_opener);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_space_after_opener, FALSE, FALSE, 0);
 

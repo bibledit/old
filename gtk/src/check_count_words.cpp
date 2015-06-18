@@ -25,6 +25,7 @@
 #include "usfmtools.h"
 #include "books.h"
 #include "checks.h"
+#include <glib/gi18n.h>
 
 CheckCountWords::CheckCountWords(const ustring & project, const vector < unsigned int >&books, const ustring & extrachars, bool sortword, bool sortcount, unsigned int excludecount, bool gui)
 /*
@@ -47,7 +48,7 @@ gui: show graphical progressbar.
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Counting words", true);
+    progresswindow = new ProgressWindow(_("Counting words"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Deal with extra word-forming characters.
@@ -99,7 +100,7 @@ gui: show graphical progressbar.
   // Store results.
   if (gui) {
     progresswindow->set_fraction(0.2);
-    progresswindow->set_text("Processing results");
+    progresswindow->set_text(_("Processing results"));
   }
   words.assign(wordset.begin(), wordset.end());
   for (unsigned int i = 0; i < words.size(); i++) {

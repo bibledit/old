@@ -40,7 +40,7 @@
 #include "textreplacement.h"
 #include "tiny_utilities.h"
 #include "xetex.h"
-
+#include <glib/gi18n.h>
 
 PrintProject2::PrintProject2(ProjectMemory * project)
 {
@@ -86,7 +86,7 @@ void PrintProject2::print()
     portionproject = myproject->name;
   scriptureportions = new ScripturePortions(portionproject);
   if (scriptureportions->books.empty()) {
-    gtkw_dialog_info(NULL, "There were no books to print\nSelect some books and try again");
+    gtkw_dialog_info(NULL, _("There were no books to print\nSelect some books and try again"));
     return;
   }
 

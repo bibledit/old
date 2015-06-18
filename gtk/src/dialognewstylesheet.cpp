@@ -25,6 +25,7 @@
 #include "stylesheetutils.h"
 #include "listview.h"
 #include "utilities.h"
+#include <glib/gi18n.h>
 
 NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 {
@@ -34,9 +35,9 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 
   newstylesheetdialog = gtk_dialog_new();
   if (!worksheet.empty())
-    gtk_window_set_title(GTK_WINDOW(newstylesheetdialog), "New style");
+    gtk_window_set_title(GTK_WINDOW(newstylesheetdialog), _("New style"));
   else
-    gtk_window_set_title(GTK_WINDOW(newstylesheetdialog), "New stylesheet");
+    gtk_window_set_title(GTK_WINDOW(newstylesheetdialog), _("New stylesheet"));
   gtk_window_set_position(GTK_WINDOW(newstylesheetdialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (newstylesheetdialog));
@@ -55,7 +56,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
     gtk_widget_show(hbox1);
     gtk_box_pack_start(GTK_BOX(vbox1), hbox1, TRUE, TRUE, 0);
 
-    label1 = gtk_label_new("Name");
+    label1 = gtk_label_new(_("Name"));
     gtk_widget_show(label1);
     gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 0);
 
@@ -68,7 +69,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 
   ustring info;
   if (!myworksheet.empty())
-    info = "Select one or more styles from the list";
+    info = _("Select one or more styles from the list");
   label_info = gtk_label_new(info.c_str());
   gtk_widget_show(label_info);
   gtk_box_pack_start(GTK_BOX(vbox1), label_info, FALSE, FALSE, 0);
@@ -76,7 +77,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 
   GSList *radiobutton_basic_group = NULL;
 
-  radiobutton_basic = gtk_radio_button_new_with_mnemonic(NULL, "Basic");
+  radiobutton_basic = gtk_radio_button_new_with_mnemonic(NULL, _("Basic"));
   gtk_widget_show(radiobutton_basic);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_basic, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_basic), radiobutton_basic_group);
@@ -84,7 +85,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 
   shortcuts.button(radiobutton_basic);
 
-  radiobutton_paragraph = gtk_radio_button_new_with_mnemonic(NULL, "Basic, paragraph");
+  radiobutton_paragraph = gtk_radio_button_new_with_mnemonic(NULL, _("Basic, paragraph"));
   gtk_widget_show(radiobutton_paragraph);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_paragraph, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_paragraph), radiobutton_basic_group);
@@ -92,7 +93,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 
   shortcuts.button(radiobutton_paragraph);
 
-  radiobutton_word_note = gtk_radio_button_new_with_mnemonic(NULL, "Basic, paragraph, word, note");
+  radiobutton_word_note = gtk_radio_button_new_with_mnemonic(NULL, _("Basic, paragraph, word, note"));
   gtk_widget_show(radiobutton_word_note);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_word_note, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_word_note), radiobutton_basic_group);
@@ -100,7 +101,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 
   shortcuts.button(radiobutton_word_note);
 
-  radiobutton_sbp = gtk_radio_button_new_with_mnemonic(NULL, "SIL best practice");
+  radiobutton_sbp = gtk_radio_button_new_with_mnemonic(NULL, _("SIL best practice"));
   gtk_widget_show(radiobutton_sbp);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_sbp, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_sbp), radiobutton_basic_group);
@@ -108,7 +109,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
 
   shortcuts.button(radiobutton_sbp);
 
-  radiobutton_full = gtk_radio_button_new_with_mnemonic(NULL, "Full");
+  radiobutton_full = gtk_radio_button_new_with_mnemonic(NULL, _("Full"));
   gtk_widget_show(radiobutton_full);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_full, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_full), radiobutton_basic_group);
@@ -123,7 +124,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
     gtk_widget_show(expander1);
     gtk_box_pack_start(GTK_BOX(vbox1), expander1, TRUE, TRUE, 0);
 
-    label2 = gtk_label_new("Add non-standard style");
+    label2 = gtk_label_new(_("Add non-standard style"));
     gtk_widget_show(label2);
     gtk_expander_set_label_widget(GTK_EXPANDER(expander1), label2);
 
@@ -133,7 +134,7 @@ NewStylesheetDialog::NewStylesheetDialog(const ustring & worksheet)
     gtk_widget_show(hbox1);
     gtk_container_add(GTK_CONTAINER(expander1), hbox1);
 
-    label1 = gtk_label_new("Name");
+    label1 = gtk_label_new(_("Name"));
     gtk_widget_show(label1);
     gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 0);
 
@@ -227,7 +228,7 @@ void NewStylesheetDialog::on_entry()
       sensitive = !stylesheet_exists(name);
     ustring message;
     if (!sensitive)
-      message = "A stylesheet with this name already exists";
+      message = _("A stylesheet with this name already exists");
     else
       message.clear();
     gtk_label_set_text(GTK_LABEL(label_info), message.c_str());

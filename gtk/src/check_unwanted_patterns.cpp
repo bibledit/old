@@ -26,6 +26,7 @@
 #include "books.h"
 #include "scripturechecks.h"
 #include "tiny_utilities.h"
+#include <glib/gi18n.h>
 
 CheckUnwantedPatterns::CheckUnwantedPatterns(const ustring & project, const vector < unsigned int >&books, ustring patternsfile, bool gui)
 /*
@@ -53,7 +54,7 @@ gui: whether to show graphical progressbar.
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Looking for unwanted patterns", true);
+    progresswindow = new ProgressWindow(_("Looking for unwanted patterns"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book in the project.
@@ -84,7 +85,7 @@ gui: whether to show graphical progressbar.
         text.append(categorize.verse);
         for (unsigned int i = 0; i < patterns.size(); i++) {
           if (text.find(patterns[i]) != string::npos) {
-            ustring message = "Unwanted pattern ";
+            ustring message = _("Unwanted pattern ");
             message.append(patterns[i]);
             references.push_back(books_id_to_english(mybooks[bk]) + " " + convert_to_string(chapters[ch]) + ":" + verses[vs]);
             comments.push_back(message);

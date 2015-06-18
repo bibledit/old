@@ -22,7 +22,7 @@
 #include "tiny_utilities.h"
 #include <glib.h>
 #include "gwrappers.h"
-
+#include <glib/gi18n.h>
 
 vector <ustring> git_exec_update_folder(const ustring & folder)
 /*
@@ -31,7 +31,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
  Pushes all changes to the remote repository.
  */
 {
-  git_exec_message("Updating data in folder " + folder, true);
+  git_exec_message(_("Updating data in folder ") + folder, true);
 
   vector <ustring> feedback;
 
@@ -102,7 +102,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
   }
   
   // Indicate ready in logbook.
-  gw_message ("Ready");
+  gw_message (_("Ready"));
   
   return feedback;
 }

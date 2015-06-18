@@ -34,7 +34,7 @@
 #include "categorize.h"
 #include "projectutils.h"
 #include "progresswindow.h"
-
+#include <glib/gi18n.h>
 
 ImportBookRead::ImportBookRead(const ustring & filename, const ustring & encoding)
 {
@@ -61,7 +61,7 @@ ImportBookRead::ImportBookRead(const ustring & filename, const ustring & encodin
   }
   // Check whether valid UTF8 data.
   if (!g_utf8_validate(contents, -1, NULL)) {
-    cerr << "Data from " << filename << " is not valid UTF8." << endl;
+    cerr << _("Data from ") << filename << _(" is not valid UTF8.") << endl;
     return;
   }
   // Divide text into separate lines.
@@ -98,7 +98,7 @@ void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>
         files_names_temp.push_back (filenames[i]);
         bookids.push_back (book_id);
       } else {
-        messages.push_back ("Unknown book in file " + filenames[i]);
+        messages.push_back (_("Unknown book in file ") + filenames[i]);
       }
     }
     filenames = files_names_temp;
@@ -109,7 +109,7 @@ void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>
     set <unsigned int> books_in_project_set (books_in_project.begin(), books_in_project.end());
     for (unsigned int i = 0; i < bookids.size(); i++) {
       if (books_in_project_set.find (bookids[i]) != books_in_project_set.end()) {
-        messages.push_back ("File " + filenames[i] + " has book " + books_id_to_english (bookids[i]) + ", but this one is already in the project");
+        messages.push_back (_("File ") + filenames[i] + _(" has book ") + books_id_to_english (bookids[i]) + _(", but this one is already in the project"));
       }
     }
   }

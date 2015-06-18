@@ -30,10 +30,10 @@
 #include "settings.h"
 #include "gwrappers.h"
 #include "utilities.h"
-
+#include <glib/gi18n.h>
 
 WindowShowRelatedVerses::WindowShowRelatedVerses(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
-FloatingWindow(parent_layout, widShowRelatedVerses, "Related verses", startup), myreference(0)
+  FloatingWindow(parent_layout, widShowRelatedVerses, _("Related verses"), startup), myreference(0)
 // Window showing related verses.
 {
   item_type = ritNone;
@@ -150,7 +150,7 @@ void WindowShowRelatedVerses::load_webview (const gchar * url)
 
     // Display the keyterms in the verse, and their renderings.
     htmlwriter.heading_open (3);
-    htmlwriter.text_add ("Keyterms in verse " + myreference.verse);
+    htmlwriter.text_add (_("Keyterms in verse ") + myreference.verse);
     htmlwriter.heading_close ();
     vector <int> keyterms = keyterms_get_terms_in_verse(myreference);
     for (unsigned int i = 0; i < keyterms.size(); i++) {
@@ -194,7 +194,7 @@ void WindowShowRelatedVerses::load_webview (const gchar * url)
 
     // Terms derived from the Strong's numbers in this verse.
     htmlwriter.heading_open (3);
-    htmlwriter.text_add ("Similar words in other verses");
+    htmlwriter.text_add (_("Similar words in other verses"));
     htmlwriter.heading_close ();
 
     // Get the data.
@@ -224,7 +224,7 @@ void WindowShowRelatedVerses::load_webview (const gchar * url)
       ProjectConfiguration *projectconfig = settings->projectconfig(myproject);
       ustring language = projectconfig->language_get();
       htmlwriter.heading_open (3);
-      htmlwriter.text_add ("Parallel passages");
+      htmlwriter.text_add (_("Parallel passages"));
       htmlwriter.heading_close ();
       for (unsigned int i = 0; i < parallel_references.size(); i++) {
         htmlwriter.paragraph_open ();
@@ -232,7 +232,7 @@ void WindowShowRelatedVerses::load_webview (const gchar * url)
         htmlwriter.paragraph_close ();
       }
       htmlwriter.paragraph_open ();
-      htmlwriter.hyperlink_add ("parallels", "Send to references window");
+      htmlwriter.hyperlink_add ("parallels", _("Send to references window"));
       htmlwriter.paragraph_close ();
     }    
 

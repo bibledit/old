@@ -22,18 +22,19 @@
 #include "dialogcompareprefs.h"
 #include "help.h"
 #include "settings.h"
+#include <glib/gi18n.h>
 
 ComparePreferencesDialog::ComparePreferencesDialog(int dummy)
 {
   comparepreferencesdialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (comparepreferencesdialog), "Enter");
+  gtk_window_set_title (GTK_WINDOW (comparepreferencesdialog), _("Enter"));
   gtk_window_set_position (GTK_WINDOW (comparepreferencesdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal (GTK_WINDOW (comparepreferencesdialog), TRUE);
 
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (comparepreferencesdialog));
   gtk_widget_show (dialog_vbox1);
 
-  checkbutton_disregard_notes = gtk_check_button_new_with_mnemonic ("Disregard changes in notes");
+  checkbutton_disregard_notes = gtk_check_button_new_with_mnemonic (_("Disregard changes in notes"));
   gtk_widget_show (checkbutton_disregard_notes);
   gtk_box_pack_start (GTK_BOX (dialog_vbox1), checkbutton_disregard_notes, FALSE, FALSE, 0);
 

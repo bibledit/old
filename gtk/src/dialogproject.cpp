@@ -45,9 +45,9 @@
 #include "tiny_utilities.h"
 #include "scripts.h"
 #include "dialogdictionary.h"
+#include <glib/gi18n.h>
 
-
-#define NEW_PROJECT "New Project"
+#define NEW_PROJECT _("New Project")
 
 
 ProjectDialog::ProjectDialog (bool newproject)
@@ -72,7 +72,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   Shortcuts shortcuts(0);
 
   projectdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(projectdialog), "Project properties");
+  gtk_window_set_title(GTK_WINDOW(projectdialog), _("Project properties"));
   gtk_window_set_position(GTK_WINDOW(projectdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(projectdialog), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(projectdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -84,7 +84,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new_with_mnemonic("Name:");
+  label1 = gtk_label_new_with_mnemonic(_("Name:"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
@@ -94,7 +94,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   nameentry = gtk_entry_new();
   gtk_widget_show(nameentry);
   gtk_box_pack_start(GTK_BOX(vbox1), nameentry, FALSE, FALSE, 2);
-  gtk_entry_set_text(GTK_ENTRY(nameentry), "name");
+  gtk_entry_set_text(GTK_ENTRY(nameentry), _("name"));
   gtk_entry_set_activates_default(GTK_ENTRY(nameentry), TRUE);
 
   // Set name of project
@@ -104,7 +104,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_show(messagelabel);
   gtk_box_pack_start(GTK_BOX(vbox1), messagelabel, FALSE, FALSE, 0);
 
-  checkbutton_editable = gtk_check_button_new_with_mnemonic ("Editable");
+  checkbutton_editable = gtk_check_button_new_with_mnemonic (_("Editable"));
   gtk_widget_show(checkbutton_editable);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_editable, FALSE, FALSE, 0);
 
@@ -119,11 +119,11 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_table_set_row_spacings(GTK_TABLE(table1), 6);
   gtk_table_set_col_spacings(GTK_TABLE(table1), 8);
 
-  label9 = gtk_label_new("Remove books");
+  label9 = gtk_label_new(_("Remove books"));
   gtk_widget_show(label9);
   gtk_table_attach(GTK_TABLE(table1), label9, 2, 3, 0, 1, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  label8 = gtk_label_new("Add books");
+  label8 = gtk_label_new(_("Add books"));
   gtk_widget_show(label8);
   gtk_table_attach(GTK_TABLE(table1), label8, 0, 1, 0, 1, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
@@ -147,7 +147,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox2), image1, FALSE, FALSE, 0);
 
-  label5 = gtk_label_new_with_mnemonic("Templates");
+  label5 = gtk_label_new_with_mnemonic(_("Templates"));
   gtk_widget_show(label5);
   gtk_box_pack_start(GTK_BOX(hbox2), label5, FALSE, FALSE, 0);
 
@@ -169,7 +169,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_show(image2);
   gtk_box_pack_start(GTK_BOX(hbox3), image2, FALSE, FALSE, 0);
 
-  label6 = gtk_label_new_with_mnemonic("Books");
+  label6 = gtk_label_new_with_mnemonic(_("Books"));
   gtk_widget_show(label6);
   gtk_box_pack_start(GTK_BOX(hbox3), label6, FALSE, FALSE, 0);
 
@@ -186,7 +186,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_table_set_row_spacings(GTK_TABLE(table2), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table2), 2);
 
-  label11 = gtk_label_new_with_mnemonic("Versification");
+  label11 = gtk_label_new_with_mnemonic(_("Versification"));
   gtk_widget_show(label11);
   gtk_table_attach(GTK_TABLE(table2), label11, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label11), 0, 0.5);
@@ -203,7 +203,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   combobox_set_strings(combobox_versification, systems);
   combobox_set_string(combobox_versification, projectconfig->versification_get());
 
-  label12 = gtk_label_new_with_mnemonic("Language");
+  label12 = gtk_label_new_with_mnemonic(_("Language"));
   gtk_widget_show(label12);
   gtk_table_attach(GTK_TABLE(table2), label12, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label12), 0, 0.5);
@@ -220,7 +220,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   combobox_set_strings(combobox_language, languages);
   combobox_set_string(combobox_language, projectconfig->language_get());
 
-  checkbutton_right_to_left = gtk_check_button_new_with_mnemonic("Predominantly right-to-left text");
+  checkbutton_right_to_left = gtk_check_button_new_with_mnemonic(_("Predominantly right-to-left text"));
   gtk_widget_show(checkbutton_right_to_left);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_right_to_left, FALSE, FALSE, 0);
 
@@ -233,7 +233,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_show(hbox_depend);
   gtk_box_pack_start(GTK_BOX(vbox1), hbox_depend, TRUE, TRUE, 0);
 
-  checkbutton_dependent = gtk_check_button_new_with_mnemonic("Depend upon project");
+  checkbutton_dependent = gtk_check_button_new_with_mnemonic(_("Depend upon project"));
   gtk_widget_show(checkbutton_dependent);
   gtk_box_pack_start(GTK_BOX(hbox_depend), checkbutton_dependent, FALSE, FALSE, 0);
 
@@ -246,7 +246,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_show(button_depend);
   gtk_box_pack_start(GTK_BOX(hbox_depend), button_depend, FALSE, FALSE, 0);
 
-  label_depend = gtk_label_new("through filter");
+  label_depend = gtk_label_new(_("through filter"));
   gtk_widget_show(label_depend);
   gtk_box_pack_start(GTK_BOX(hbox_depend), label_depend, FALSE, FALSE, 0);
 
@@ -266,7 +266,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_show(hbox_spelling);
   gtk_box_pack_start(GTK_BOX(vbox1), hbox_spelling, TRUE, TRUE, 0);
 
-  checkbutton_spelling = gtk_check_button_new_with_mnemonic("Check spelling");
+  checkbutton_spelling = gtk_check_button_new_with_mnemonic(_("Check spelling"));
   gtk_widget_show(checkbutton_spelling);
   gtk_box_pack_start(GTK_BOX(hbox_spelling), checkbutton_spelling, FALSE, FALSE, 0);
 
@@ -275,7 +275,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   // Set the spelling. A new project has the spelling on by default.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_spelling), projectconfig->spelling_check_get() || newproject);
 
-  button_dictionaries = gtk_button_new_with_mnemonic("Dictionaries");
+  button_dictionaries = gtk_button_new_with_mnemonic(_("Dictionaries"));
   gtk_widget_show(button_dictionaries);
   gtk_box_pack_start(GTK_BOX(hbox_spelling), button_dictionaries, FALSE, FALSE, 0);
 
@@ -348,24 +348,24 @@ void ProjectDialog::set_gui()
   // Reject "New Project" as a name.
   if (newprojectname == NEW_PROJECT) {
     sensitive = false;
-    gtk_label_set_text(GTK_LABEL(messagelabel), "(the name of the project should be changed)");
+    gtk_label_set_text(GTK_LABEL(messagelabel), _("(the name of the project should be changed)"));
   }
   // Reject empty names.
   if (newprojectname.empty()) {
     sensitive = false;
-    gtk_label_set_text(GTK_LABEL(messagelabel), "(the project needs a name)");
+    gtk_label_set_text(GTK_LABEL(messagelabel), _("(the project needs a name)"));
   }
   // Reject names that already exist.
   if (currentprojectname != newprojectname) {
     if (project_exists(newprojectname)) {
       sensitive = false;
-      gtk_label_set_text(GTK_LABEL(messagelabel), "(a project with this name already exists)");
+      gtk_label_set_text(GTK_LABEL(messagelabel), _("(a project with this name already exists)"));
     }
   }
   // Reject "data".
   if (newprojectname == "data") {
     sensitive = false;
-    gtk_label_set_text(GTK_LABEL(messagelabel), "(this name is not allowed)");
+    gtk_label_set_text(GTK_LABEL(messagelabel), _("(this name is not allowed)"));
   }
   // Deal with the sensitivity of the dialog.
   gtk_widget_set_sensitive(okbutton1, sensitive);
@@ -428,7 +428,7 @@ void ProjectDialog::on_ok ()
   if (depend_switch && (!depend_project.empty())) {
 
     // Progress information.
-    ProgressWindow progresswindow("Updating project", false);
+    ProgressWindow progresswindow(_("Updating project"), false);
 
     progresswindow.set_fraction(0.1);
 
@@ -536,7 +536,7 @@ void ProjectDialog::on_book_add()
   if (result == GTK_RESPONSE_OK) {
     selection = dialog.selectionset;
     vector <unsigned int> ids = books_type_to_ids(btUnknown);
-    ProgressWindow progresswindow ("Adding books", false);
+    ProgressWindow progresswindow (_("Adding books"), false);
     progresswindow.set_iterate (0, 1, selection.size());
     for (unsigned int i = 0; i < ids.size(); i++) {
       if (!(selection.find(ids[i]) == selection.end())) {
@@ -603,12 +603,12 @@ void ProjectDialog::on_book_delete()
     selection = dialog.selectionset;
     if (selection.empty())
       return;
-    if (gtkw_dialog_question(projectdialog, "Are you sure you want to delete the books?") != GTK_RESPONSE_YES)
+    if (gtkw_dialog_question(projectdialog, _("Are you sure you want to delete the books?")) != GTK_RESPONSE_YES)
       return;
-    if (gtkw_dialog_question(projectdialog, "Are you really sure to delete something worth perhaps months of work?") != GTK_RESPONSE_YES)
+    if (gtkw_dialog_question(projectdialog, _("Are you really sure to delete something worth perhaps months of work?")) != GTK_RESPONSE_YES)
       return;
     vector < unsigned int >ids = books_type_to_ids(btUnknown);
-    ProgressWindow progresswindow("Deleting books", false);
+    ProgressWindow progresswindow(_("Deleting books"), false);
     progresswindow.set_iterate(0, 1, ids.size());
     for (unsigned int i = 0; i < ids.size(); i++) {
       // Remove the book.

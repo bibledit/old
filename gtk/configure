@@ -2564,7 +2564,7 @@ test -n "$target_alias" &&
 
 ac_default_prefix=/usr
 
-am__api_version='1.15'
+am__api_version='1.14'
 
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -2736,8 +2736,8 @@ test "$program_suffix" != NONE &&
 ac_script='s/[\\$]/&&/g;s/;s,x,x,$//'
 program_transform_name=`$as_echo "$program_transform_name" | sed "$ac_script"`
 
-# Expand $ac_aux_dir to an absolute path.
-am_aux_dir=`cd "$ac_aux_dir" && pwd`
+# expand $ac_aux_dir to an absolute path
+am_aux_dir=`cd $ac_aux_dir && pwd`
 
 if test x"${MISSING+set}" != xset; then
   case $am_aux_dir in
@@ -2756,7 +2756,7 @@ else
 $as_echo "$as_me: WARNING: 'missing' script is too old or missing" >&2;}
 fi
 
-if test x"${install_sh+set}" != xset; then
+if test x"${install_sh}" != xset; then
   case $am_aux_dir in
   *\ * | *\	*)
     install_sh="\${SHELL} '$am_aux_dir/install-sh'" ;;
@@ -3084,8 +3084,8 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 # <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
 mkdir_p='$(MKDIR_P)'
 
-# We need awk for the "check" target (and possibly the TAP driver).  The
-# system "awk" is bad on some platforms.
+# We need awk for the "check" target.  The system "awk" is bad on
+# some platforms.
 # Always define AMTAR for backward compatibility.  Yes, it's still used
 # in the wild :-(  We should find a proper way to deprecate it ...
 AMTAR='$${TAR-tar}'
@@ -3258,7 +3258,6 @@ END
     as_fn_error $? "Your 'rm' program is bad, sorry." "$LINENO" 5
   fi
 fi
-
 ac_config_headers="$ac_config_headers config.h"
 
 
@@ -5124,7 +5123,7 @@ fi
 
 
 
-    ax_cxx_compile_cxx11_required=true
+    ax_cxx_compile_cxx11_required=truednl
   ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5145,13 +5144,6 @@ else
       static_assert(sizeof(int) <= sizeof(T), "not big enough");
     };
 
-    struct Base {
-    virtual void f() {}
-    };
-    struct Child : public Base {
-    virtual void f() override {}
-    };
-
     typedef check<check<bool>> right_angle_brackets;
 
     int a;
@@ -5162,7 +5154,6 @@ else
     check_type&& cr = static_cast<check_type&&>(c);
 
     auto d = a;
-    auto l = [](){};
 
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
@@ -5199,13 +5190,6 @@ else
       static_assert(sizeof(int) <= sizeof(T), "not big enough");
     };
 
-    struct Base {
-    virtual void f() {}
-    };
-    struct Child : public Base {
-    virtual void f() override {}
-    };
-
     typedef check<check<bool>> right_angle_brackets;
 
     int a;
@@ -5216,7 +5200,6 @@ else
     check_type&& cr = static_cast<check_type&&>(c);
 
     auto d = a;
-    auto l = [](){};
 
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :

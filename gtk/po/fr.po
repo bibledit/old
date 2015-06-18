@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 4.8.12\n"
-"Report-Msgid-Bugs-To: postiffm@umich.edu\n"
-"POT-Creation-Date: 2015-01-23 17:05-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-11 21:52-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,33 +17,4213 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. / Translators: please leave the '%s' as is.
-#: ../src/bibledit.cpp:155
+#: src/assistantbackup.cpp:40
+msgid "Backup"
+msgstr ""
+
+#: src/assistantbackup.cpp:40
+msgid "backup"
+msgstr ""
+
+#: src/assistantbackup.cpp:48
+msgid "A backup helps keep your data safe"
+msgstr ""
+
+#: src/assistantbackup.cpp:60
+msgid "What would you like to backup?"
+msgstr ""
+
+#: src/assistantbackup.cpp:66 src/assistantimport.cpp:78
+#: src/assistantrestore.cpp:66 src/guiselectbibles.cpp:77
+msgid "Bible"
+msgstr ""
+
+#: src/assistantbackup.cpp:72 src/assistantexport.cpp:97
+#: src/assistantimport.cpp:102 src/assistantrestore.cpp:72
+msgid "Notes"
+msgstr ""
+
+#: src/assistantbackup.cpp:78 src/assistantrestore.cpp:78
+msgid "Resource"
+msgstr ""
+
+#: src/assistantbackup.cpp:84 src/assistantexport.cpp:237
+#: src/assistantrestore.cpp:84
+msgid "Everything"
+msgstr ""
+
+#: src/assistantbackup.cpp:104 src/assistantexport.cpp:127
+msgid "Is this the right Bible?"
+msgstr ""
+
+#: src/assistantbackup.cpp:108 src/assistantexport.cpp:131
+#: src/assistantimport.cpp:136
+msgid "Bible name"
+msgstr ""
+
+#: src/assistantbackup.cpp:131
+msgid "gtk-open"
+msgstr ""
+
+#: src/assistantbackup.cpp:135 src/assistantbackup.cpp:176
+#: src/assistantexport.cpp:158 src/assistantimport.cpp:163
+msgid "Choose another one"
+msgstr ""
+
+#: src/assistantbackup.cpp:150
+msgid "Is this the right Resource?"
+msgstr ""
+
+#: src/assistantbackup.cpp:154
+msgid "Resource name"
+msgstr ""
+
+#: src/assistantbackup.cpp:191 src/assistantexport.cpp:499
+#: src/assistantexport.cpp:531
+msgid "Where would you like to save it?"
+msgstr ""
+
+#: src/assistantbackup.cpp:222 src/assistantbackup.cpp:226
+msgid "Backup is about to be made"
+msgstr ""
+
+#: src/assistantbackup.cpp:238
+msgid "Backup was made"
+msgstr ""
+
+#: src/assistantbackup.cpp:242 src/assistantchanges.cpp:150
+#: src/assistantdeletekeyterms.cpp:75 src/assistantimport.cpp:303
+#: src/assistantimportkeyterms.cpp:143 src/assistantremoterepository.cpp:238
+#: src/assistantrestore.cpp:175 src/git-exec.cpp:105
+msgid "Ready"
+msgstr ""
+
+#: src/assistantbackup.cpp:272 src/assistantexport.cpp:608
+#: src/assistantimport.cpp:336
+msgid "No Bible selected"
+msgstr ""
+
+#: src/assistantbackup.cpp:281
+msgid "No Resource selected"
+msgstr ""
+
+#: src/assistantbackup.cpp:289 src/assistantexport.cpp:646
+#: src/assistantexport.cpp:667 src/assistantrestore.cpp:216
+msgid "(None)"
+msgstr ""
+
+#: src/assistantchanges.cpp:38
+msgid "Changes"
+msgstr ""
+
+#: src/assistantchanges.cpp:38
+msgid "changes"
+msgstr ""
+
+#: src/assistantchanges.cpp:52
+msgid "You can view the changes that have been made in the project."
+msgstr ""
+
+#: src/assistantchanges.cpp:59
+msgid "Which changes would you like to see?"
+msgstr ""
+
+#: src/assistantchanges.cpp:65
+msgid "The ones made since my last review"
+msgstr ""
+
+#: src/assistantchanges.cpp:71
+msgid "The ones made since a certain date I will give"
+msgstr ""
+
+#: src/assistantchanges.cpp:77
+msgid "The ones made between two dates I will give"
+msgstr ""
+
+#: src/assistantchanges.cpp:88 src/dialognotesupdate.cpp:58
+msgid "Information"
+msgstr ""
+
+#: src/assistantchanges.cpp:101
+msgid "Last review was on "
+msgstr ""
+
+#: src/assistantchanges.cpp:126
+msgid "Changes till which date?"
+msgstr ""
+
+#: src/assistantchanges.cpp:131 src/assistantchanges.cpp:134
+msgid "Ready for generating changes"
+msgstr ""
+
+#: src/assistantchanges.cpp:139
+msgid "Generating changes..., please wait"
+msgstr ""
+
+#: src/assistantchanges.cpp:142
+msgid "Generating changes"
+msgstr ""
+
+#: src/assistantchanges.cpp:147
+msgid "Done."
+msgstr ""
+
+#: src/assistantchanges.cpp:181
+msgid "Changes since which date?"
+msgstr ""
+
+#: src/assistantchanges.cpp:183
+msgid "Changes from which date?"
+msgstr ""
+
+#: src/assistantchanges.cpp:253
+msgid "Going back in history"
+msgstr ""
+
+#: src/assistantchanges.cpp:256
+msgid " as it was on "
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:30 src/assistantexport.cpp:103
+#: src/assistantimport.cpp:108 src/assistantimportkeyterms.cpp:33
+msgid "Keyterms"
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:30
+msgid "deletekeyterms"
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:37
+msgid "You can delete categories from the keyterms database."
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:43
+msgid "Which collection would you like to delete?"
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:55 src/assistantdeletekeyterms.cpp:59
+msgid "Ready for delete"
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:63
+msgid "Deleting..."
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:67
+msgid "Deleting"
+msgstr ""
+
+#: src/assistantdeletekeyterms.cpp:71
+msgid "Delete done."
+msgstr ""
+
+#: src/assistantexport.cpp:42 src/export_utils.cpp:138
+msgid "Export"
+msgstr ""
+
+#: src/assistantexport.cpp:42
+msgid "export"
+msgstr ""
+
+#: src/assistantexport.cpp:50
+msgid "This helps you exporting your data"
+msgstr ""
+
+#: src/assistantexport.cpp:79 src/assistantimport.cpp:84 src/checks.cpp:188
+#: src/dialogmychecks.cpp:169 src/windowreferences.cpp:47
+msgid "References"
+msgstr ""
+
+#: src/assistantexport.cpp:88 src/assistantimport.cpp:93
+msgid "Stylesheet"
+msgstr ""
+
+#: src/assistantexport.cpp:173
+msgid "What would you like to export it to?"
+msgstr ""
+
+#: src/assistantexport.cpp:179 src/assistantimport.cpp:184
+msgid "Unified Standard Format Markers (USFM)"
+msgstr ""
+
+#: src/assistantexport.cpp:185
+msgid "BibleWorks Version Database Compiler"
+msgstr ""
+
+#: src/assistantexport.cpp:191
+msgid "Open Scripture Information Standard (OSIS)"
+msgstr ""
+
+#: src/assistantexport.cpp:197
+msgid "CrossWire SWORD"
+msgstr ""
+
+#: src/assistantexport.cpp:203
+msgid "OpenDocument"
+msgstr ""
+
+#: src/assistantexport.cpp:209
+msgid "Go Bible"
+msgstr ""
+
+#: src/assistantexport.cpp:231
+msgid "What type of USFM export will you make?"
+msgstr ""
+
+#: src/assistantexport.cpp:243
+msgid "Changes only"
+msgstr ""
+
+#: src/assistantexport.cpp:261
+msgid "Which changes will you export?"
+msgstr ""
+
+#: src/assistantexport.cpp:267
+msgid "The ones introduced since last time that the changes were exported"
+msgstr ""
+
+#: src/assistantexport.cpp:273
+msgid "The ones introduces since a certain date and time I'll give"
+msgstr ""
+
+#: src/assistantexport.cpp:291
+msgid "What type of OSIS file would you prefer?"
+msgstr ""
+
+#: src/assistantexport.cpp:297
+msgid "Recommended transformation"
+msgstr ""
+
+#: src/assistantexport.cpp:303
+msgid "For Go Bible Creator"
+msgstr ""
+
+#: src/assistantexport.cpp:309
+msgid "Old method"
+msgstr ""
+
+#: src/assistantexport.cpp:327
+msgid "What is the name for the module?"
+msgstr ""
+
+#: src/assistantexport.cpp:336
+msgid "What is the description for the module?"
+msgstr ""
+
+#: src/assistantexport.cpp:345
+msgid "What can you say about the module?"
+msgstr ""
+
+#: src/assistantexport.cpp:354
+msgid "What is the license of the module?"
+msgstr ""
+
+#: src/assistantexport.cpp:363
+msgid "What is the version of the module?"
+msgstr ""
+
+#: src/assistantexport.cpp:372
+msgid "What is the language of the module?"
+msgstr ""
+
+#: src/assistantexport.cpp:381
+msgid "Where is the module to be installed?"
+msgstr ""
+
+#: src/assistantexport.cpp:394
+msgid "What type of export do you choose?"
+msgstr ""
+
+#: src/assistantexport.cpp:400
+msgid "Standard Bibledit-Gtk format"
+msgstr ""
+
+#: src/assistantexport.cpp:406
+msgid "Paratext format"
+msgstr ""
+
+#: src/assistantexport.cpp:419
+msgid "Include keyterms without a rendering"
+msgstr ""
+
+#: src/assistantexport.cpp:424
+msgid "Include keyterms without a rendering?"
+msgstr ""
+
+#: src/assistantexport.cpp:434
+msgid "Compress it"
+msgstr ""
+
+#: src/assistantexport.cpp:439
+msgid "Would you like to compress it?"
+msgstr ""
+
+#: src/assistantexport.cpp:454
+msgid "Please enter the date and time?"
+msgstr ""
+
+#: src/assistantexport.cpp:489
+msgid "Any comments on this export?"
+msgstr ""
+
+#: src/assistantexport.cpp:558
+msgid "Export about to be done"
+msgstr ""
+
+#: src/assistantexport.cpp:562
+msgid "The export is about to be done"
+msgstr ""
+
+#: src/assistantexport.cpp:566
+msgid "Export in progress"
+msgstr ""
+
+#: src/assistantexport.cpp:570
+msgid "The export is in progress"
+msgstr ""
+
+#: src/assistantexport.cpp:574
+msgid "Export done"
+msgstr ""
+
+#: src/assistantexport.cpp:578
+msgid "The export was completed successfully"
+msgstr ""
+
+#: src/assistantexport.cpp:781
+msgid "The GoBibleCreator was not found. Install it. See the online help."
+msgstr ""
+
+#: src/assistantimport.cpp:46 src/onlinebible.cpp:71
+msgid "Import"
+msgstr ""
+
+#: src/assistantimport.cpp:46
+msgid "import"
+msgstr ""
+
+#: src/assistantimport.cpp:54
+msgid "This helps you importing data"
+msgstr ""
+
+#: src/assistantimport.cpp:72
+msgid "What would you like to import?"
+msgstr ""
+
+#: src/assistantimport.cpp:132
+msgid "Is this the right Bible to import into?"
+msgstr ""
+
+#: src/assistantimport.cpp:178
+msgid "What type of data would you like to import?"
+msgstr ""
+
+#: src/assistantimport.cpp:190
+msgid "BibleWorks Exported Database"
+msgstr ""
+
+#: src/assistantimport.cpp:196
+msgid "Online Bible Text"
+msgstr ""
+
+#: src/assistantimport.cpp:202
+msgid "Raw Text"
+msgstr ""
+
+#: src/assistantimport.cpp:221
+msgid "Connected to the Online Bible?"
+msgstr ""
+
+#: src/assistantimport.cpp:236
+msgid "Which Bible would you like to import?"
+msgstr ""
+
+#: src/assistantimport.cpp:252
+msgid "Which file or files would you like to import?"
+msgstr ""
+
+#: src/assistantimport.cpp:272
+msgid "Select files"
+msgstr ""
+
+#: src/assistantimport.cpp:283
+msgid "Import about to be done"
+msgstr ""
+
+#: src/assistantimport.cpp:287
+msgid "The import is about to be done"
+msgstr ""
+
+#: src/assistantimport.cpp:299
+msgid "Import done"
+msgstr ""
+
+#: src/assistantimport.cpp:344
+msgid "Yes, connected to the Online Bible"
+msgstr ""
+
+#: src/assistantimport.cpp:346
+msgid ""
+"No, could not connect to the Online Bible\n"
+"Is the Online Bible running?"
+msgstr ""
+
+#: src/assistantimport.cpp:371
+msgid "No files selected"
+msgstr ""
+
+#: src/assistantimport.cpp:374
+msgid "Files count: "
+msgstr ""
+
+#: src/assistantimport.cpp:416
+msgid "Importing files"
+msgstr ""
+
+#: src/assistantimport.cpp:436
+msgid ""
+"Importing raw text is a manual process. The online help provides more "
+"information on that."
+msgstr ""
+
+#: src/assistantimport.cpp:444
+msgid "Importing references is done in the references window."
+msgstr ""
+
+#: src/assistantimport.cpp:445
+msgid ""
+"In that window, click on [actions], then click on \"Import a list of "
+"references\"."
+msgstr ""
+
+#: src/assistantimport.cpp:457
+msgid ""
+"After this window closes an opportunity will be offered to import notes."
+msgstr ""
+
+#: src/assistantimport.cpp:463
+msgid ""
+"After this window closes an opportunity will be offered to import keyterms."
+msgstr ""
+
+#: src/assistantimport.cpp:597
+msgid "You have selected more than one compressed file"
+msgstr ""
+
+#: src/assistantimport.cpp:601
+msgid "You have selected a mixture of normal and compressed files"
+msgstr ""
+
+#: src/assistantimport.cpp:612
+msgid ""
+"You will now be asked to select files from within the compressed archive"
+msgstr ""
+
+#: src/assistantimport.cpp:635
+msgid ""
+"The following files are not in the right Unicode format and are therefore "
+"not fit for import:"
+msgstr ""
+
+#: src/assistantimport.cpp:639
+msgid ""
+"The online help provides more information about how to make these fit for "
+"use."
+msgstr ""
+
+#: src/assistantimport.cpp:646
+msgid "No files were selected"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:33
+msgid "importkeyterms"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:41
+msgid ""
+"Text files that contain keyterms can be imported into the keyterms database."
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:49
+msgid "Which file would you like to import?"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:52
+msgid ""
+"The file that will be imported should satisfy certain conditions. The online "
+"help provides more information."
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:69
+msgid "What type of file are you importing?"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:75
+msgid "Standard textfile"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:93
+msgid "Key Terms in Biblical Hebrew Project"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:105
+msgid "Into which collection will you import?"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:123 src/assistantimportkeyterms.cpp:127
+msgid "Ready for import"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:131
+msgid "Importing..."
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:135 src/keyterms.cpp:704
+msgid "Importing"
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:139
+msgid "Import done."
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:226
+msgid "Please enter a collection."
+msgstr ""
+
+#: src/assistantimportkeyterms.cpp:235
+msgid "This collection already exists."
+msgstr ""
+
+#: src/assistantremoterepository.cpp:39
+msgid "Remote repository setup"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:39
+msgid "menu-preferences/dialog-remote-repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:46
+msgid "clone"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:55
+msgid "Remote repository management for Bible "
+msgstr ""
+
+#: src/assistantremoterepository.cpp:55
+msgid " or the project notes"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:64
+msgid "B_ible repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:70
+msgid "Project _notes repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:76
+msgid "What type of repository would you like to set?"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:81
+msgid "_Use remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:85
+msgid "Would you like to use a remote repository?"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:92
+msgid "The local content tracker has been tested and works fine"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:96
+msgid "Trying out the content tracker"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:109
+msgid "_Repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:125
+msgid "Enter the location of the remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:162
+msgid "C_lone the remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:166
+msgid "Cloning data"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:177
+msgid "Remote repository write test"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:207
+msgid "_Push my data to the remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:211
+msgid "Would you like to push your data to the repository?"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:218 src/assistantremoterepository.cpp:222
+#: src/assistantresource.cpp:463 src/assistantresource.cpp:467
+msgid "Settings are ready to be applied"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:234 src/assistantresource.cpp:479
+msgid "Settings have been applied"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:418
+msgid "Trying the contents tracker"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:425
+msgid "Check git version number"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:438
+msgid "Create first local repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:444
+msgid "Store data into first local repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:450
+msgid "Create remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:456
+msgid "Fetch data from the first local repository into the remote one"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:462
+msgid "Checkout the first local repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:468
+msgid "Check data of first local repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:474
+msgid "Checkout the second local repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:480
+msgid "Check data of second local repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:486
+msgid "Store different data into first repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:492
+msgid "Push first repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:498
+msgid "Pull second repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:510
+msgid "Store different data into second repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:516
+msgid "Push second repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:522
+msgid "Pull first repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:528
+msgid "Check data in first repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:559
+msgid ", but should be 1.5.0 or higher"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:563
+msgid "Program git failed to run. Has git been installed?"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:599
+msgid "git init fails to create a repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:620
+msgid "git add fails to add data to the repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:634
+msgid "git commit fails to commit data to the repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:649
+msgid "cannot read data in repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:659
+msgid "unexpected data in repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:678
+msgid "git --bare fetch fails to fetch data into remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:701
+msgid "git clone fails to clone the repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:727
+msgid "git pull from remote repository failed"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:742
+msgid "git push to remote repository failed"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:773
+msgid "Testing read access"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:788
+msgid "Read access to the repository has been granted"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:790
+msgid "Cannot access the repository:"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:820
+msgid "Cloning repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:855
+msgid "The data has been cloned, you can go forward"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:858
+msgid "Cloning the data failed, please try again"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:886
+msgid "Testing write access"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:887
+msgid "Testing write access to the remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:962
+msgid "Write access was granted, you can go forward"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:964
+msgid "No write access. Please check the system log for more information"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:983
+msgid "Pushing your data"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:1053
+msgid "Your data has been pushed to the remote repository"
+msgstr ""
+
+#: src/assistantremoterepository.cpp:1056
+msgid ""
+"Your data could not be pushed to the remote repository,\n"
+"please restart the assistant"
+msgstr ""
+
+#: src/assistantresource.cpp:43
+msgid "Resource editor"
+msgstr ""
+
+#: src/assistantresource.cpp:43
+msgid "resource_editor"
+msgstr ""
+
+#: src/assistantresource.cpp:78
+msgid "Step by step you will be "
+msgstr ""
+
+#: src/assistantresource.cpp:80
+msgid "creating a new Resource"
+msgstr ""
+
+#: src/assistantresource.cpp:82
+msgid "editing the Resource"
+msgstr ""
+
+#: src/assistantresource.cpp:83
+msgid ""
+".\n"
+"Any changes you make show up immediately.\n"
+"\n"
+"The online help provides more information for each step."
+msgstr ""
+
+#: src/assistantresource.cpp:92
+msgid "What is the title of the Resource?"
+msgstr ""
+
+#: src/assistantresource.cpp:115
+msgid "Would you like to add local files to the Resource?"
+msgstr ""
+
+#: src/assistantresource.cpp:137
+msgid "_Add files"
+msgstr ""
+
+#: src/assistantresource.cpp:159
+msgid "Add f_olders"
+msgstr ""
+
+#: src/assistantresource.cpp:192
+msgid "What is the home page of the Resource?"
+msgstr ""
+
+#: src/assistantresource.cpp:218
+msgid "What are the abbreviations for the books of the Resource?"
+msgstr ""
+
+#: src/assistantresource.cpp:247 src/assistantresource.cpp:322
+msgid "_Abbreviations"
+msgstr ""
+
+#: src/assistantresource.cpp:282 src/assistantresource.cpp:352
+#: src/dialogeditlist.cpp:147
+msgid "_Import"
+msgstr ""
+
+#: src/assistantresource.cpp:298
+msgid "What are the second abbreviations for the books of the Resource?"
+msgstr ""
+
+#: src/assistantresource.cpp:368
+msgid "Would you like to write the anchors in the pages of the Resource?"
+msgstr ""
+
+#: src/assistantresource.cpp:392
+msgid "_Anchors"
+msgstr ""
+
+#: src/assistantresource.cpp:403
+msgid "What is the URL constructor for the Resource?"
+msgstr ""
+
+#: src/assistantresource.cpp:612
+msgid "Enter the title"
+msgstr ""
+
+#: src/assistantresource.cpp:627
+msgid "This title already exists"
+msgstr ""
+
+#: src/assistantresource.cpp:665
+msgid "Adding files"
+msgstr ""
+
+#: src/assistantresource.cpp:675
+msgid "Files in resource: "
+msgstr ""
+
+#: src/assistantresource.cpp:692
+msgid "Adding directory"
+msgstr ""
+
+#: src/assistantresource.cpp:698
+msgid "Directories in resource: "
+msgstr ""
+
+#: src/assistantresource.cpp:736
+msgid "Enter the abbreviations for the books"
+msgstr ""
+
+#: src/assistantresource.cpp:736 src/assistantresource.cpp:785
+#: src/dialogcheck.cpp:839
+msgid "Abbreviations"
+msgstr ""
+
+#: src/assistantresource.cpp:741 src/assistantresource.cpp:790
+msgid "Abbreviations entered: "
+msgstr ""
+
+#: src/assistantresource.cpp:759 src/assistantresource.cpp:808
+msgid "Import from resource"
+msgstr ""
+
+#: src/assistantresource.cpp:785
+msgid "Enter the second abbreviations for the books"
+msgstr ""
+
+#: src/assistantrestore.cpp:40
+msgid "Restore"
+msgstr ""
+
+#: src/assistantrestore.cpp:40
+msgid "restore"
+msgstr ""
+
+#: src/assistantrestore.cpp:48
+msgid "This assists you with restoring a backup"
+msgstr ""
+
+#: src/assistantrestore.cpp:60
+msgid "What would you like to restore?"
+msgstr ""
+
+#: src/assistantrestore.cpp:104
+msgid "What will be the name of the Bible?"
+msgstr ""
+
+#: src/assistantrestore.cpp:124
+msgid "What is the file to restore?"
+msgstr ""
+
+#: src/assistantrestore.cpp:155 src/assistantrestore.cpp:159
+msgid "Restore is about to be done"
+msgstr ""
+
+#: src/assistantrestore.cpp:163
+msgid "Restore is in progress"
+msgstr ""
+
+#: src/assistantrestore.cpp:198
+msgid "Will restore to Bible "
+msgstr ""
+
+#: src/assistantrestore.cpp:203
+msgid "This Bible already exists"
+msgstr ""
+
+#: src/assistantrestore.cpp:206
+msgid "Please enter a name for the Bible to restore to"
+msgstr ""
+
+#: src/assistantrestore.cpp:271
+msgid "Failed to unpack file "
+msgstr ""
+
+#: src/assistants.cpp:40
+msgid "none"
+msgstr ""
+
+#: src/assistants.cpp:61
+msgid "Introduction"
+msgstr ""
+
+#: src/backup.cpp:37
+msgid "Backing up Bible "
+msgstr ""
+
+#: src/backup.cpp:50
+msgid "Backing up notes"
+msgstr ""
+
+#: src/backup.cpp:76
+msgid "Backing up Resource "
+msgstr ""
+
+#: src/backup.cpp:89
+msgid "Backing up everything"
+msgstr ""
+
+#: src/bible.cpp:90
+msgid "Sorting references: "
+msgstr ""
+
+#: src/bibledit.cpp:155
 #, c-format
 msgid "Bad xembed value: %s\n"
 msgstr "Bad valeur de xembed: %s\n"
 
-#: ../src/mainwindow.cpp:1990
-msgid "version"
+#: src/bibledit-rdwrt.cpp:73 src/dialognotesupdate.cpp:227
+msgid "Nothing was done"
+msgstr ""
+
+#: src/check_capitalization.cpp:83 src/dialogmychecks.cpp:126
+msgid "Capitalization"
+msgstr ""
+
+#: src/check_capitalization.cpp:235
+msgid "Capital expected: "
+msgstr ""
+
+#: src/check_capitalization.cpp:253
+msgid "Unended sentence: "
+msgstr ""
+
+#: src/check_capitalization.cpp:309
+msgid "Mixed capitalization: "
+msgstr ""
+
+#: src/check_chapters_verses.cpp:51
+msgid "Checking chapters and verses"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:111
+msgid "Chapter out of sequence following "
+msgstr ""
+
+#: src/check_chapters_verses.cpp:118
+msgid "Extra chapter or wrong versification"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:128
+msgid "Less than "
+msgstr ""
+
+#: src/check_chapters_verses.cpp:128
+msgid " chapters or wrong versification"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:139
+msgid "Chapter has no verses"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:144
+msgid "Chapter marker missing"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:166
+msgid "Range starts with \"a\""
+msgstr ""
+
+#: src/check_chapters_verses.cpp:172
+msgid "Range ends with \"b\""
+msgstr ""
+
+#: src/check_chapters_verses.cpp:185
+msgid "Unusual verse sequence"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:215
+msgid "Extra verse or wrong versification"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:225
+msgid "beginning"
+msgstr ""
+
+#: src/check_chapters_verses.cpp:229
+msgid "Verse out of sequence following "
+msgstr ""
+
+#: src/check_chapters_verses.cpp:238
+msgid "Not enough verses in chapter"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:66
+msgid "Comparing USFMs"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:107
+msgid "Extra book"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:117
+msgid "Missing book"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:147
+msgid "Extra chapter"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:154
+msgid "Missing chapter"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:170
+msgid "Extra verse"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:177
+msgid "Missing verse"
+msgstr ""
+
+#: src/check_compare_usfm.cpp:205
+msgid "Markers differ: "
+msgstr ""
+
+#: src/check_count_characters.cpp:49
+msgid "Counting characters"
+msgstr ""
+
+#: src/check_count_usfms.cpp:48
+msgid "Counting markers"
+msgstr ""
+
+#: src/check_count_words.cpp:51
+msgid "Counting words"
+msgstr ""
+
+#: src/check_count_words.cpp:103
+msgid "Processing results"
+msgstr ""
+
+#: src/check_markers_spacing.cpp:54
+msgid "Checking spacing"
+msgstr ""
+
+#: src/check_markers_spacing.cpp:104 src/check_markers_spacing.cpp:108
+msgid "Text of marker "
+msgstr ""
+
+#: src/check_markers_spacing.cpp:104
+msgid " ends with more than one space"
+msgstr ""
+
+#: src/check_markers_spacing.cpp:108
+msgid " doesn't end with a space"
+msgstr ""
+
+#: src/check_matching_pairs.cpp:77 src/dialogmychecks.cpp:159
+msgid "Matching pairs"
+msgstr ""
+
+#: src/check_matching_pairs.cpp:182
+msgid "Pair not opened: "
+msgstr ""
+
+#: src/check_matching_pairs.cpp:195
+msgid "Pair not closed: "
+msgstr ""
+
+#: src/check_parallel_passages.cpp:54 src/check_parallel_passages.cpp:158
+msgid "Producing passages"
+msgstr ""
+
+#: src/check_parallel_passages.cpp:89
+msgid "Quoted in New Testament"
+msgstr ""
+
+#: src/check_parallel_passages.cpp:118
+msgid "Old Testament verse quoted from"
+msgstr ""
+
+#: src/check_parallel_passages.cpp:191 src/check_parallel_passages.cpp:222
+msgid "Parallel"
+msgstr ""
+
+#: src/check_ref_inventory.cpp:50
+msgid "Producing inventory"
+msgstr ""
+
+#: src/check_repetition.cpp:73 src/dialogcheck.cpp:990
+#: src/dialogcheck.cpp:1015
+msgid "Repeating words"
+msgstr ""
+
+#: src/check_repetition.cpp:133
+msgid "Repeated: "
+msgstr ""
+
+#: src/checks.cpp:68 src/scripturechecks.cpp:276
+msgid "Word Inventory"
+msgstr ""
+
+#: src/checks.cpp:69
+msgid "Total word count: "
+msgstr ""
+
+#: src/checks.cpp:70
+msgid "Unique word count: "
+msgstr ""
+
+#: src/checks.cpp:72
+msgid "Words with a count of "
+msgstr ""
+
+#: src/checks.cpp:72
+msgid " and up were filtered out."
+msgstr ""
+
+#: src/checks.cpp:73
+msgid "Filtered total word count: "
+msgstr ""
+
+#: src/checks.cpp:74
+msgid "Filtered unique word count: "
+msgstr ""
+
+#: src/checks.cpp:76
+msgid "Click on a word to see the places where it occurs."
+msgstr ""
+
+#: src/checks.cpp:81
+msgid "Word"
+msgstr ""
+
+#: src/checks.cpp:82 src/checks.cpp:115 src/checks.cpp:152
+#: src/dialogmychecks.cpp:78
+msgid "Count"
+msgstr ""
+
+#: src/checks.cpp:109 src/scripturechecks.cpp:100
+msgid "Marker Count"
+msgstr ""
+
+#: src/checks.cpp:114 src/style.cpp:39 src/style.cpp:81
+msgid "Marker"
+msgstr ""
+
+#: src/checks.cpp:116
+msgid "Description"
+msgstr ""
+
+#: src/checks.cpp:144 src/scripturechecks.cpp:157
+msgid "Character Count"
+msgstr ""
+
+#: src/checks.cpp:149 src/dialogeditnote.cpp:79 src/dialoginsertnote.cpp:97
+msgid "Character"
+msgstr ""
+
+#: src/checks.cpp:150
+msgid "Decimal"
+msgstr ""
+
+#: src/checks.cpp:151
+msgid "Hexadecimal"
+msgstr ""
+
+#: src/checks.cpp:182 src/scripturechecks.cpp:348
+msgid "References Inventory"
+msgstr ""
+
+#: src/checks.cpp:187 src/dialogoriginreferences.cpp:140
+#: src/dialogreviewanchors.cpp:123
+msgid "Verse"
+msgstr ""
+
+#: src/checks.cpp:215 src/dialogselectbooks.cpp:188 src/gui.cpp:130
+msgid "New Testament"
+msgstr ""
+
+#: src/checks.cpp:216 src/dialogselectbooks.cpp:166 src/gui.cpp:115
+msgid "Old Testament"
+msgstr ""
+
+#: src/check_sentence_structure.cpp:50
+msgid "Checking sentence structure"
+msgstr ""
+
+#: src/check_sentence_structure.cpp:365 src/check_sentence_structure.cpp:373
+msgid "The text does not start with a capital"
+msgstr ""
+
+#: src/check_sentence_structure.cpp:379
+msgid "A new sentence starts within a sentence"
+msgstr ""
+
+#: src/check_sentence_structure.cpp:385
+msgid "A sentence ends where none was started"
+msgstr ""
+
+#: src/check_sentence_structure.cpp:395
+msgid "A heading usually starts a sentence but does not finish it"
+msgstr ""
+
+#: src/check_unwanted_patterns.cpp:57
+msgid "Looking for unwanted patterns"
+msgstr ""
+
+#: src/check_unwanted_patterns.cpp:88
+msgid "Unwanted pattern "
+msgstr ""
+
+#: src/check_unwanted_words.cpp:57
+msgid "Looking for unwanted words"
+msgstr ""
+
+#: src/check_unwanted_words.cpp:90
+msgid "Unwanted word: "
+msgstr ""
+
+#: src/check_validate_refs.cpp:56
+msgid "Validating references"
+msgstr ""
+
+#: src/check_validate_refs.cpp:119
+msgid " does not fit in the versification system"
+msgstr ""
+
+#: src/check_validate_refs.cpp:125
+msgid " contains no text"
+msgstr ""
+
+#: src/check_validate_refs.cpp:149
+msgid "Unrecognized chapter "
+msgstr ""
+
+#: src/check_validate_refs.cpp:149
+msgid " and verse "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:54
+msgid "Validating markers"
+msgstr ""
+
+#: src/check_validate_usfm.cpp:106
+msgid "Line without USFM"
+msgstr ""
+
+#: src/check_validate_usfm.cpp:113
+msgid "ID line is too short: "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:118
+msgid "Unknown id "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:120
+msgid "Non-uppercase id code"
+msgstr ""
+
+#: src/check_validate_usfm.cpp:134
+msgid "Unusual character in verse number "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:376
+msgid "Unmatched end marker "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:378
+msgid "Unknown USFM "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:384
+msgid "Marker "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:384
+msgid " not in stylesheet"
+msgstr ""
+
+#: src/check_validate_usfm.cpp:581
+msgid "Normal slash for /"
+msgstr ""
+
+#: src/check_validate_usfm.cpp:590
+msgid "Widow backslash"
+msgstr ""
+
+#: src/check_validate_usfm.cpp:613
+msgid "Endmarker "
+msgstr ""
+
+#: src/check_validate_usfm.cpp:613
+msgid " not found"
+msgstr ""
+
+#: src/check_validate_usfm.cpp:621
+msgid "Deprecated marker "
+msgstr ""
+
+#: src/compareutils.cpp:51
+msgid " compared with "
+msgstr ""
+
+#: src/compareutils.cpp:84
+msgid "Comparing"
+msgstr ""
+
+#: src/compareutils.cpp:225 src/compareutils.cpp:258 src/compareutils.cpp:297
+msgid "Added: "
+msgstr ""
+
+#: src/compareutils.cpp:232 src/compareutils.cpp:268 src/compareutils.cpp:308
+msgid "Deleted: "
+msgstr ""
+
+#: src/compareutils.cpp:287
+msgid "Finding additions and deletions"
+msgstr ""
+
+#: src/compress.cpp:99
+msgid "cannot uncompress unrecognized archive"
+msgstr ""
+
+#: src/compress.cpp:120 src/compress.cpp:133
+msgid "Unpacking"
+msgstr ""
+
+#: src/dialogarea.cpp:38
+msgid "Area selection"
+msgstr ""
+
+#: src/dialogarea.cpp:50
+msgid "Select which part of the text to work on"
+msgstr ""
+
+#: src/dialogarea.cpp:57
+msgid "The raw _USFM text"
+msgstr ""
+
+#: src/dialogarea.cpp:63
+msgid "_All the text except the USFM codes"
+msgstr ""
+
+#: src/dialogarea.cpp:69
+msgid "C_ertain categories specified below"
+msgstr ""
+
+#: src/dialogarea.cpp:75
+msgid "_Identifiers"
+msgstr ""
+
+#: src/dialogarea.cpp:79
+msgid "I_ntroductions"
+msgstr ""
+
+#: src/dialogarea.cpp:83
+msgid "_Titles and headings"
+msgstr ""
+
+#: src/dialogarea.cpp:87
+msgid "Cha_pter text"
+msgstr ""
+
+#: src/dialogarea.cpp:91
+msgid "_Study notes"
+msgstr ""
+
+#: src/dialogarea.cpp:95
+msgid "_Foot- and endnotes"
+msgstr ""
+
+#: src/dialogarea.cpp:99
+msgid "C_rossreferences"
+msgstr ""
+
+#: src/dialogarea.cpp:103
+msgid "_Verse text"
+msgstr ""
+
+#: src/dialogarea.cpp:242
+msgid "Raw text"
+msgstr ""
+
+#: src/dialogarea.cpp:245
+msgid "All text"
+msgstr ""
+
+#: src/dialogarea.cpp:249
+msgid "Identifiers"
+msgstr ""
+
+#: src/dialogarea.cpp:251
+msgid "Introductions"
+msgstr ""
+
+#: src/dialogarea.cpp:253
+msgid "Headings"
+msgstr ""
+
+#: src/dialogarea.cpp:255
+msgid "Chapter text"
+msgstr ""
+
+#: src/dialogarea.cpp:257
+msgid "Study notes"
+msgstr ""
+
+#: src/dialogarea.cpp:259
+msgid "Foot- and endnotes"
+msgstr ""
+
+#: src/dialogarea.cpp:261 src/dialogoriginreferences.cpp:72
+msgid "Crossreferences"
+msgstr ""
+
+#: src/dialogarea.cpp:263
+msgid "Verse text"
+msgstr ""
+
+#: src/dialogarea.cpp:267
+msgid " Areas"
+msgstr ""
+
+#: src/dialogarea.cpp:276
+msgid "No areas selected"
+msgstr ""
+
+#: src/dialogbook.cpp:44 src/dialogbooknames.cpp:42
+#: src/dialogeditstatus.cpp:72 src/dialogproject.cpp:172
+#: src/dialogselectbooks.cpp:82
+msgid "Books"
+msgstr ""
+
+#: src/dialogbook.cpp:56
+msgid "To reorder a book, drag it to the new location."
+msgstr ""
+
+#: src/dialogbook.cpp:92
+msgid "_Standard order"
+msgstr ""
+
+#: src/dialogbulkspelling.cpp:49
+msgid ""
+"All the words that are misspelled are visible below.\n"
+"Click on a word to approve the spelling."
+msgstr ""
+
+#: src/dialogchapternumber.cpp:37
+msgid "Insert Chapter"
+msgstr ""
+
+#: src/dialogchapternumber.cpp:44
+msgid "Insert a new chapter"
+msgstr ""
+
+#: src/dialogchapternumber.cpp:53
+msgid "Number"
+msgstr ""
+
+#: src/dialogchapternumber.cpp:147
+msgid "Enter a chapter number"
+msgstr ""
+
+#: src/dialogchapternumber.cpp:151
+msgid "This chapter exists in the book"
+msgstr ""
+
+#: src/dialogcheck.cpp:78
+msgid ""
+"Checks the chapter and verse markers, to see whether they are correct "
+"according to the versification of the project."
+msgstr ""
+
+#: src/dialogcheck.cpp:82
+msgid "Counts the number of times a marker is used."
+msgstr ""
+
+#: src/dialogcheck.cpp:83 src/dialogcheck.cpp:102 src/dialogcheck.cpp:136
+msgid "_No sorting"
+msgstr ""
+
+#: src/dialogcheck.cpp:83
+msgid "Sort on _marker"
+msgstr ""
+
+#: src/dialogcheck.cpp:83 src/dialogcheck.cpp:136
+msgid "_Sort on count"
+msgstr ""
+
+#: src/dialogcheck.cpp:87
+msgid "Verifies that the markers are valid."
+msgstr ""
+
+#: src/dialogcheck.cpp:91
+msgid ""
+"Compares the markers of the current project with the ones in another "
+"project. This other project is taken as the standard to compare against."
+msgstr ""
+
+#: src/dialogcheck.cpp:96
+msgid ""
+"Checks whether the text that belongs to selected markers has one space after "
+"it."
+msgstr ""
+
+#: src/dialogcheck.cpp:101
+msgid "Counts the number of characters."
+msgstr ""
+
+#: src/dialogcheck.cpp:102
+msgid "_Sort on character"
+msgstr ""
+
+#: src/dialogcheck.cpp:102
+msgid "Sort on co_unt"
+msgstr ""
+
+#: src/dialogcheck.cpp:106
+msgid ""
+"Check capitalization of the text. Looks for missing capitals after selected "
+"punctuation marks, and for suspicious use of capitals such as \"hOuse\" or "
+"\"HOuse\"."
+msgstr ""
+
+#: src/dialogcheck.cpp:111
+msgid "Checks for repeating contiguous words."
+msgstr ""
+
+#: src/dialogcheck.cpp:116
+msgid ""
+"Check matching pairs of punctuation. Checks that opening and closing "
+"punctuation match, e.g. a [ needs a ]. Also checks that punctuation is "
+"closed in the reverse order that it was opened."
+msgstr ""
+
+#: src/dialogcheck.cpp:121
+msgid "Check punctuation of sentences and headings."
+msgstr ""
+
+#: src/dialogcheck.cpp:125
+msgid "Check for unwanted patterns of characters."
+msgstr ""
+
+#: src/dialogcheck.cpp:130
+msgid "Check for unwanted whole words in the text."
+msgstr ""
+
+#: src/dialogcheck.cpp:135
+msgid "Count the frequency of the words."
+msgstr ""
+
+#: src/dialogcheck.cpp:136
+msgid "Sort on _word"
+msgstr ""
+
+#: src/dialogcheck.cpp:141
+msgid "Makes an inventory of the references contained in the text."
+msgstr ""
+
+#: src/dialogcheck.cpp:146
+msgid "Validates the references in the text and notes."
+msgstr ""
+
+#: src/dialogcheck.cpp:150
+msgid "Shows the places where the New Testament quotes the Old Testament."
+msgstr ""
+
+#: src/dialogcheck.cpp:156
+msgid "Shows the synoptic parallel passages of the "
+msgstr ""
+
+#: src/dialogcheck.cpp:156
+msgid " New Testament."
+msgstr ""
+
+#: src/dialogcheck.cpp:162
+msgid "Shows the parallel passages of the "
+msgstr ""
+
+#: src/dialogcheck.cpp:162
+msgid " Old Testament."
+msgstr ""
+
+#: src/dialogcheck.cpp:299 src/dialogsearchspecial.cpp:223
+msgid "Select _books"
+msgstr ""
+
+#: src/dialogcheck.cpp:366
+msgid "Select _area"
+msgstr ""
+
+#: src/dialogcheck.cpp:406
+msgid "Compare _with: "
+msgstr ""
+
+#: src/dialogcheck.cpp:412
+msgid "Compare _all markers"
+msgstr ""
+
+#: src/dialogcheck.cpp:419
+msgid ""
+"Below provide a list of markers to be included in the comparison, separated "
+"with spaces and without the backslashes, e.g.: id c v"
+msgstr ""
+
+#: src/dialogcheck.cpp:437
+msgid "_Ignore the following markers:"
+msgstr ""
+
+#: src/dialogcheck.cpp:454
+msgid "Ignore anything before the _first verse"
+msgstr ""
+
+#: src/dialogcheck.cpp:481
+msgid ""
+"_Provide a list of markers to be checked, separated with spaces, and without "
+"the backslashes, e.g.: xo xt"
+msgstr ""
+
+#: src/dialogcheck.cpp:528
+msgid ""
+"Enter a list of sequences of characters that are unwanted.\n"
+"One sequence per line."
+msgstr ""
+
+#: src/dialogcheck.cpp:566 src/dialogmychecks.cpp:111
+msgid "Unwanted patterns"
+msgstr ""
+
+#: src/dialogcheck.cpp:566
+msgid "of patterns that are not wanted"
+msgstr ""
+
+#: src/dialogcheck.cpp:589
+msgid ""
+"Enter a list of p_unctuation characters, which must be followed by a "
+"capitalized word."
+msgstr ""
+
+#: src/dialogcheck.cpp:631
+msgid ""
+"Enter a list of characters, after which a _lower case letter is acceptable.\n"
+"Example: The '>' in the following makes the lowercase \"and\" correct:\n"
+"<<I order this one, <Go!> and he goes.>>"
+msgstr ""
+
+#: src/dialogcheck.cpp:676
+msgid ""
+"Enter a list of abbreviations that prevent errors saying that a period is "
+"not followed by an upper case letter."
+msgstr ""
+
+#: src/dialogcheck.cpp:718
+msgid ""
+"Enter a list of prefixes which are allowed to occur uncapitalized before the "
+"first capital letter in a word."
+msgstr ""
+
+#: src/dialogcheck.cpp:724
+msgid "Allow an_y prefixes"
+msgstr ""
+
+#: src/dialogcheck.cpp:751
+msgid "_Prefixes"
+msgstr ""
+
+#: src/dialogcheck.cpp:763
+msgid ""
+"Enter a list of suffixes which are allowed to occur capitalized at the end "
+"of a word.\n"
+"Example: If \"seaCan\" is a valid word because the \"Can\" suffix must be "
+"capitalized, enter \"Can\" in this list."
+msgstr ""
+
+#: src/dialogcheck.cpp:789
+msgid "_Suffixes"
+msgstr ""
+
+#: src/dialogcheck.cpp:839
+msgid "of abbreviations"
+msgstr ""
+
+#: src/dialogcheck.cpp:865
+msgid "Uncapitalized prefixes"
+msgstr ""
+
+#: src/dialogcheck.cpp:865
+msgid "of uncapitalized prefixes"
+msgstr ""
+
+#: src/dialogcheck.cpp:880
+msgid "Capitalized suffixes"
+msgstr ""
+
+#: src/dialogcheck.cpp:880
+msgid "of capitalized suffixes"
+msgstr ""
+
+#: src/dialogcheck.cpp:898
+msgid "C_ase insensitive"
+msgstr ""
+
+#: src/dialogcheck.cpp:929
+msgid "S_how"
+msgstr ""
+
+#: src/dialogcheck.cpp:933
+msgid "Only _show repeating words in this list ->"
+msgstr ""
+
+#: src/dialogcheck.cpp:939
+msgid ""
+"_Ignore repeating words given in this list ->\n"
+"or repeating word pairs that have texts in between them from this list ->"
+msgstr ""
+
+#: src/dialogcheck.cpp:990
+msgid "of contiguous repeating words to show only in the report"
+msgstr ""
+
+#: src/dialogcheck.cpp:1015
+msgid ""
+"of contiguous repeating words to ignore or text between these pairs of words"
+msgstr ""
+
+#: src/dialogcheck.cpp:1035
+msgid ""
+"Enter a list of whole words that are unwanted in the text.\n"
+"One word per line."
+msgstr ""
+
+#: src/dialogcheck.cpp:1072
+msgid "Unwanted words"
+msgstr ""
+
+#: src/dialogcheck.cpp:1072
+msgid "of whole words that are not wanted"
+msgstr ""
+
+#: src/dialogcheck.cpp:1090
+msgid ""
+"Enter a list of punctuation characters to be _ignored.\n"
+"Enter them without spaces.\n"
+"Only one of a pair is needed, the matching one is added automatically."
+msgstr ""
+
+#: src/dialogcheck.cpp:1128
+msgid "Do not _include words with a count of"
+msgstr ""
+
+#: src/dialogcheck.cpp:1137
+msgid "and up"
+msgstr ""
+
+#: src/dialogcheck.cpp:1141
+msgid ""
+"Bibledit-Gtk normally knows the right word boundaries, but if this is not "
+"done satisfactorily, you can enter _extra characters that should be part of "
+"a word"
+msgstr ""
+
+#: src/dialogcheck.cpp:1189
+msgid ""
+"Bibledit-Gtk already recognizes this character as part of a word.\n"
+"It has been removed as superfluous.\n"
+"There is no need to enter your alphabet.\n"
+"Entering the special cases is enough."
+msgstr ""
+
+#: src/dialogcheck.cpp:1197
+msgid "_Compare with another project:"
+msgstr ""
+
+#: src/dialogcheck.cpp:1224
+msgid "_Include verse text"
+msgstr ""
+
+#: src/dialogcheck.cpp:1234
+msgid "O_utput in Old Testament order"
+msgstr ""
+
+#: src/dialogcompare.cpp:45
+msgid "Compare project"
+msgstr ""
+
+#: src/dialogcompare.cpp:56
+msgid ""
+"Select a project to compare the current project with\n"
+"and then press OK"
+msgstr ""
+
+#: src/dialogcompare.cpp:64
+msgid "Print changed verses only"
+msgstr ""
+
+#: src/dialogcompare.cpp:76
+msgid "Portion"
+msgstr ""
+
+#: src/dialogcompare.cpp:104
+msgid "C_hange"
+msgstr ""
+
+#: src/dialogcompare.cpp:212 src/dialogprintproject.cpp:197
+msgid "part"
+msgstr ""
+
+#: src/dialogcompareprefs.cpp:30
+msgid "Enter"
+msgstr ""
+
+#: src/dialogcompareprefs.cpp:37
+msgid "Disregard changes in notes"
+msgstr ""
+
+#: src/dialogdate.cpp:40 src/widgetdate.cpp:47
+msgid "Date"
+msgstr ""
+
+#: src/dialogdictionary.cpp:47 src/dialogproject.cpp:278
+msgid "Dictionaries"
+msgstr ""
+
+#: src/dialogdictionary.cpp:55
+msgid ""
+"To change the order in which a dictionary is consulted, drag it to another "
+"location."
+msgstr ""
+
+#: src/dialogdictionary.cpp:199 src/dialogeditdictionary.cpp:308
+#: src/dialogeditdictionary.cpp:352
+msgid "Select a dictionary"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:41
+msgid "Edit Dictionary"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:65
+msgid "Import from"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:69
+msgid "Export to"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:89 src/dialogeditdictionary.cpp:155
+msgid "Dictionary"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:111 src/dialogeditdictionary.cpp:177
+msgid "File"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:133
+msgid "Sort, remove duplicates"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:199
+msgid "Word count"
+msgstr ""
+
+#: src/dialogeditdictionary.cpp:394
+msgid "Word count is "
+msgstr ""
+
+#: src/dialogeditlist.cpp:58 src/windowcheckkeyterms.cpp:74
+msgid "_List"
+msgstr ""
+
+#: src/dialogeditlist.cpp:122
+msgid "_Sort"
+msgstr ""
+
+#: src/dialogeditlist.cpp:172
+msgid "_Export"
+msgstr ""
+
+#: src/dialogeditlist.cpp:197
+msgid "_Duplicates"
+msgstr ""
+
+#: src/dialogeditlist.cpp:321
+msgid "Select a task to add"
+msgstr ""
+
+#: src/dialogeditlist.cpp:330
+msgid "New value"
+msgstr ""
+
+#: src/dialogeditlist.cpp:330
+msgid "Enter a new value"
+msgstr ""
+
+#: src/dialogeditlist.cpp:363 src/windowreferences.cpp:133
+msgid "Open File"
+msgstr ""
+
+#: src/dialogeditlist.cpp:412
+msgid "There were no duplicates"
+msgstr ""
+
+#: src/dialogeditlist.cpp:414
+msgid "Do you want to remove "
+msgstr ""
+
+#: src/dialogeditlist.cpp:414
+msgid " duplicates?"
+msgstr ""
+
+#: src/dialogeditnote.cpp:46
+msgid "Edit note"
+msgstr ""
+
+#: src/dialogeditnote.cpp:57 src/dialogstylesheet.cpp:2284
+msgid "Numbering"
+msgstr ""
+
+#: src/dialogeditnote.cpp:63 src/dialoginsertnote.cpp:85
+#: src/dialogpdfviewer.cpp:43
+msgid "Automatic"
+msgstr ""
+
+#: src/dialogeditnote.cpp:71 src/dialoginsertnote.cpp:91
+msgid "None"
+msgstr ""
+
+#: src/dialogeditnote.cpp:101 src/dialogresourceconverter.cpp:142
+msgid "Type"
+msgstr ""
+
+#: src/dialogeditstatus.cpp:47
+msgid "Edit Status"
+msgstr ""
+
+#: src/dialogeditstatus.cpp:89
+msgid "Chapters"
+msgstr ""
+
+#: src/dialogeditstatus.cpp:106
+msgid "Verses"
+msgstr ""
+
+#: src/dialogeditstatus.cpp:140
+msgid "edit/status"
+msgstr ""
+
+#: src/dialogfilters.cpp:41
+msgid "Filters"
+msgstr ""
+
+#: src/dialogfilters.cpp:48
+msgid "Rules"
+msgstr ""
+
+#: src/dialogfilters.cpp:69
+msgid "Input <- Try the rules -> Output"
+msgstr ""
+
+#: src/dialogfilters.cpp:92
+msgid "\\p This is text to try the filter on."
+msgstr ""
+
+#: src/dialogfilters.cpp:114
+msgid "Try"
+msgstr ""
+
+#: src/dialogfilters.cpp:160
+msgid "menu-preferences/filters"
+msgstr ""
+
+#: src/dialogfilters.cpp:273
+msgid "New script"
+msgstr ""
+
+#: src/dialogfilters.cpp:273
+msgid "Enter the name of the new script"
+msgstr ""
+
+#: src/dialogfilters.cpp:278
+msgid "This one already exists"
+msgstr ""
+
+#: src/dialogfilters.cpp:285
+msgid "Script type"
+msgstr ""
+
+#: src/dialogfilters.cpp:285
+msgid "Select the type of the script"
+msgstr ""
+
+#: src/dialogfindnote.cpp:40
+msgid "Find in project notes"
+msgstr ""
+
+#: src/dialogfindnote.cpp:53 src/dialogreplace.cpp:55
+#: src/windowreferences.cpp:147
+msgid "Search for"
+msgstr ""
+
+#: src/dialogfindnote.cpp:64
+msgid "Case _sensitive"
+msgstr ""
+
+#: src/dialogfindnote.cpp:143
+msgid "select id, casefolded from notes;"
+msgstr ""
+
+#: src/dialogfixmarkers.cpp:33
+msgid "Simple text corrections"
+msgstr ""
+
+#: src/dialogfixmarkers.cpp:39
+msgid "This tool can make some automatic simple text corrections."
+msgstr ""
+
+#: src/dialogfixmarkers.cpp:48
+msgid "Insert a space after an opening USFM marker that doesn't have one"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:32
+msgid "Font and Color"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:39
+msgid "Use default font"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:53
+msgid "Line spacing"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:73
+msgid "Use default colors"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:84
+msgid "Normal text color"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:91
+msgid "Background color"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:98
+msgid "Selected text color"
+msgstr ""
+
+#: src/dialogfontcolor.cpp:105
+msgid "Selection color"
+msgstr ""
+
+#: src/dialogimportnotes.cpp:68
+msgid ""
+"You are going to import notes into your notes editor.\n"
+"\n"
+"Click Forward to continue."
+msgstr ""
+
+#: src/dialogimportnotes.cpp:81
+msgid "Select the file to import"
+msgstr ""
+
+#: src/dialogimportnotes.cpp:117
+msgid ""
+"We now know which file to import.\n"
+"The next thing is to check if the file is in Unicode format.\n"
+"\n"
+"If it is not in Unicode format, you will be asked to convert it.\n"
+"\n"
+"Note: The conversion may take time, depending on the size of the file."
+msgstr ""
+
+#: src/dialogimportnotes.cpp:130
+msgid "It's now in Unicode format."
+msgstr ""
+
+#: src/dialogimportnotes.cpp:143
+msgid ""
+"All preparation is now ready.\n"
+"\n"
+"Press Apply to actually import the notes."
+msgstr ""
+
+#: src/dialogimportnotes.cpp:243
+msgid "Open a file"
+msgstr ""
+
+#: src/dialogimportnotes.cpp:316
+msgid "Bibledit-Gtk does not recognize the format of this file"
+msgstr ""
+
+#: src/dialogimportnotes.cpp:419
+msgid "Error reading xml file"
+msgstr ""
+
+#: src/dialogimportnotes.cpp:437
+msgid "Error parsing the xml file"
+msgstr ""
+
+#: src/dialogimportnotes.cpp:444
+msgid "Error finishing parsing the xml file"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:48
+msgid "Insert "
+msgstr ""
+
+#: src/dialoginsertnote.cpp:51
+msgid "footnote"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:54
+msgid "endnote"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:57 src/editor.cpp:1510
+msgid "crossreference"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:79
+msgid "N_umbering"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:114
+msgid "Automatically insert the current _reference"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:123
+msgid "Cha_pter"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:133
+msgid "_Verse"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:177
+msgid "_Add content"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:187
+msgid "_Templates"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:213
+msgid "menu-none/insert-footnote-endnote-crossreference"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:588
+msgid "Size"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:599
+msgid "Remember content"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:607
+msgid "Tidy text"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:773
+msgid "Template"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:773
+msgid "Enter a name for a new template"
+msgstr ""
+
+#: src/dialoginsertnote.cpp:1048
+msgid " Remove"
+msgstr ""
+
+#: src/dialoginserttable.cpp:31
+msgid "Insert table"
+msgstr ""
+
+#: src/dialoginserttable.cpp:42
+msgid "Insert a new table"
+msgstr ""
+
+#: src/dialoginserttable.cpp:52
+msgid "_Rows:"
+msgstr ""
+
+#: src/dialoginserttable.cpp:57
+msgid "Co_lumns:"
+msgstr ""
+
+#: src/dialoglistview.cpp:53
+msgid ""
+"Type the first couple of characters of the item, or select it,\n"
+"and then press OK or Enter"
+msgstr ""
+
+#: src/dialoglistview.cpp:212
+msgid "Press "
+msgstr ""
+
+#: src/dialoglistviewm.cpp:48
+msgid "Select one or more items, and then press OK or Enter"
+msgstr ""
+
+#: src/dialogmaintenance.cpp:32
+msgid "Maintenance"
+msgstr ""
+
+#: src/dialogmaintenance.cpp:157
+msgid "Some actions may have great impact on Bibledit-Gtk. Use with care."
+msgstr ""
+
+#: src/dialogmerge.cpp:38 src/windowmerge.cpp:50
+msgid "Merge"
+msgstr ""
+
+#: src/dialogmerge.cpp:46
+msgid ""
+"The merge operation needs manual intervention. Each place that needs "
+"intervention shows two buttons with the two alternatives. Please press the "
+"buttons with the correct text."
+msgstr ""
+
+#: src/dialogmychecks.cpp:41
+msgid "My checks"
+msgstr ""
+
+#: src/dialogmychecks.cpp:52 src/dialogmychecks.cpp:57
+msgid "Chapters and verses"
+msgstr ""
+
+#: src/dialogmychecks.cpp:67
+msgid "Markers"
+msgstr ""
+
+#: src/dialogmychecks.cpp:72 src/dialogmychecks.cpp:180
+msgid "Validate"
+msgstr ""
+
+#: src/dialogmychecks.cpp:84
+msgid "Compare"
+msgstr ""
+
+#: src/dialogmychecks.cpp:90
+msgid "Spacing"
+msgstr ""
+
+#: src/dialogmychecks.cpp:100
+msgid "Characters"
+msgstr ""
+
+#: src/dialogmychecks.cpp:105 src/dialogmychecks.cpp:144
+#: src/dialogmychecks.cpp:174
+msgid "Inventory"
+msgstr ""
+
+#: src/dialogmychecks.cpp:121
+msgid "Words"
+msgstr ""
+
+#: src/dialogmychecks.cpp:132
+msgid "Repetition"
+msgstr ""
+
+#: src/dialogmychecks.cpp:138
+msgid "Unwanted"
+msgstr ""
+
+#: src/dialogmychecks.cpp:154
+msgid "Punctuation"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:38
+msgid "New style"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:40
+msgid "New stylesheet"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:59 src/dialognewstylesheet.cpp:137
+msgid "Name"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:72
+msgid "Select one or more styles from the list"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:80 src/dialogsearchspecial.cpp:73
+msgid "Basic"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:88
+msgid "Basic, paragraph"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:96
+msgid "Basic, paragraph, word, note"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:104
+msgid "SIL best practice"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:112
+msgid "Full"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:127
+msgid "Add non-standard style"
+msgstr ""
+
+#: src/dialognewstylesheet.cpp:231
+msgid "A stylesheet with this name already exists"
+msgstr ""
+
+#: src/dialognotes.cpp:39 src/windownotes.cpp:44
+msgid "Project notes"
+msgstr ""
+
+#: src/dialognotes.cpp:47
+msgid ""
+"While editing a project note, there are some categories that can be assigned "
+"to this note.\n"
+"The list of categories can be edited here."
+msgstr ""
+
+#: src/dialognotes.cpp:80
+msgid "_Delete"
+msgstr ""
+
+#: src/dialognotes.cpp:100
+msgid "_Add"
+msgstr ""
+
+#: src/dialognotes.cpp:191
+msgid ""
+"This category could not be deleted, because there are still notes\n"
+"in the database with this category."
+msgstr ""
+
+#: src/dialognotes.cpp:205
+msgid "New category name"
+msgstr ""
+
+#: src/dialognotes.cpp:205
+msgid "Enter a new category."
+msgstr ""
+
+#: src/dialognotestransfer.cpp:41
+msgid "Transfer To Project Notes"
+msgstr ""
+
+#: src/dialognotestransfer.cpp:52
+msgid ""
+"This will transfer all text from the currently opened project into the "
+"Project notes."
+msgstr ""
+
+#: src/dialognotestransfer.cpp:62
+msgid "The notes will be put into category"
+msgstr ""
+
+#: src/dialognotestransfer.cpp:70 src/dialogxfernotes2text.cpp:60
+msgid "The transfer cannot be undone."
+msgstr ""
+
+#: src/dialognotestransfer.cpp:127
+msgid "Transferring text to notes"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:40
+msgid "Notes Mass Update"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:52
+msgid ""
+"This tool provides a way to update many project notes at once. It is a "
+"powerful tool, and changes made here cannot be made undone easily.\n"
+"\n"
+"At the left, select the action you'd like to take."
+msgstr ""
+
+#: src/dialognotesupdate.cpp:70
+msgid "Move all notes that belong to project"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:82
+msgid "to project"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:94
+msgid "Project"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:106
+msgid "Move all notes that are in category"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:118
+msgid "to category"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:130
+msgid "Category"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:234
+msgid "Notes were moved to the other project"
+msgstr ""
+
+#: src/dialognotesupdate.cpp:241
+msgid "Notes were moved to the other category"
+msgstr ""
+
+#: src/dialogopenstylesheet.cpp:40
+msgid "Switch stylesheet"
+msgstr ""
+
+#: src/dialogopenstylesheet.cpp:51
+msgid "Delete stylesheet"
+msgstr ""
+
+#: src/dialogopenstylesheet.cpp:68
+msgid ""
+"Type the first couple of characters of the stylesheet, or select it,\n"
+"and then press OK or Enter"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:38
+msgid "Bible notes mass update"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:45
+msgid ""
+"This tool can update all the footnotes, endnotes and crossreferences in the "
+"project."
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:55
+msgid "Types of note to consider:"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:60
+msgid "Footnotes"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:66
+msgid "Endnotes"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:82
+msgid "Action to take:"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:89
+msgid "_Make no changes but give statistics only"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:97
+msgid "_Remove all the references"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:109
+msgid "Add references"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:117 src/dialogrevert.cpp:83
+#: src/dialogreviewanchors.cpp:119 src/planning.cpp:123
+msgid "Book"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:124 src/dialogrevert.cpp:92
+#: src/dialogreviewanchors.cpp:121
+msgid "Chapter"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:164
+msgid "Add missing _text labels"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:262 src/projectconfig.cpp:232
+#: src/projectconfig.cpp:246
+msgid "English"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:284
+msgid "Are you sure you wish to edit the notes?"
+msgstr ""
+
+#: src/dialogoriginreferences.cpp:286
+msgid ""
+"This will permanently modify your project.\n"
+"The changes cannot be undone.\n"
+"Are you sure?"
+msgstr ""
+
+#: src/dialogoutpost.cpp:46
+msgid "Windows Outpost Setup"
+msgstr ""
+
+#: src/dialogoutpost.cpp:53
+msgid "_Use Windows Outpost"
+msgstr ""
+
+#: src/dialogpdfviewer.cpp:34
+msgid "PDF Viewer"
+msgstr ""
+
+#: src/dialogpdfviewer.cpp:51
+msgid "Manual"
+msgstr ""
+
+#: src/dialogpdfviewer.cpp:59
+msgid "Path to PDF Viewer"
+msgstr ""
+
+#: src/dialogpdfviewer.cpp:72
+msgid "Optional arguments"
+msgstr ""
+
+#: src/dialogplanningsetup.cpp:120
+msgid "Tasks"
+msgstr ""
+
+#: src/dialogplanningsetup.cpp:120
+msgid "of tasks - add, remove, or re-order them"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:35
+msgid "Printing preferences"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:69
+msgid "Height (cm)"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:82
+msgid "Width (cm)"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:87
+msgid "Format"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:105
+msgid "Paper format"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:120
+msgid "Margins (cm)"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:125
+msgid "Inner"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:130
+msgid "Outer"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:135
+msgid "Top"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:140
+msgid "Bottom"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:185
+msgid "Print date beside page number"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:195
+msgid "Header font size"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:207 src/dialogstylesheet.cpp:1881
+msgid "points"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:211
+msgid "Page"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:220
+msgid "Review or edit layout engine's commands"
+msgstr ""
+
+#: src/dialogprintprefs.cpp:226
+msgid "Formatter"
+msgstr ""
+
+#: src/dialogprintproject.cpp:44
+msgid "Print project"
+msgstr ""
+
+#: src/dialogprintproject.cpp:61
+msgid "Portion:"
+msgstr ""
+
+#: src/dialogprintproject.cpp:85
+msgid "Change"
+msgstr ""
+
+#: src/dialogprintproject.cpp:104
+msgid "Write the references in the notes in full"
+msgstr ""
+
+#: src/dialogprintproject.cpp:112
+msgid "Options"
+msgstr ""
+
+#: src/dialogprintreferences.cpp:41
+msgid "Print References"
+msgstr ""
+
+#: src/dialogprintreferences.cpp:52
+msgid ""
+"This prints worksheets with the text of all the references on it.\n"
+"The text is taken from the project that is open. Other projects can be added."
+msgstr ""
+
+#: src/dialogprintreferences.cpp:65
+msgid "Main project:"
+msgstr ""
+
+#: src/dialogprintreferences.cpp:77
+msgid "Additional projects:"
+msgstr ""
+
+#: src/dialogprintreferences.cpp:102
+msgid "_Add project"
+msgstr ""
+
+#: src/dialogprintreferences.cpp:246
+msgid "Remove"
+msgstr ""
+
+#: src/dialogproject.cpp:50
+msgid "New Project"
+msgstr ""
+
+#: src/dialogproject.cpp:75
+msgid "Project properties"
+msgstr ""
+
+#: src/dialogproject.cpp:87
+msgid "Name:"
+msgstr ""
+
+#: src/dialogproject.cpp:97
+msgid "name"
+msgstr ""
+
+#: src/dialogproject.cpp:107 src/projectutils.cpp:508
+msgid "Editable"
+msgstr ""
+
+#: src/dialogproject.cpp:122
+msgid "Remove books"
+msgstr ""
+
+#: src/dialogproject.cpp:126
+msgid "Add books"
+msgstr ""
+
+#: src/dialogproject.cpp:150
+msgid "Templates"
+msgstr ""
+
+#: src/dialogproject.cpp:189
+#, fuzzy
+msgid "Versification"
 msgstr "version"
 
-#: ../src/mainwindow.cpp:1991
-msgid "website"
-msgstr "site Web"
+#: src/dialogproject.cpp:206
+msgid "Language"
+msgstr ""
 
-#: ../src/mainwindow.cpp:1992
-msgid "copyright"
-msgstr "droit d'auteur"
+#: src/dialogproject.cpp:223
+msgid "Predominantly right-to-left text"
+msgstr ""
 
-#: ../src/mainwindow.cpp:1992
+#: src/dialogproject.cpp:236
+msgid "Depend upon project"
+msgstr ""
+
+#: src/dialogproject.cpp:249
+msgid "through filter"
+msgstr ""
+
+#: src/dialogproject.cpp:269
+msgid "Check spelling"
+msgstr ""
+
+#: src/dialogproject.cpp:351
+msgid "(the name of the project should be changed)"
+msgstr ""
+
+#: src/dialogproject.cpp:356
+msgid "(the project needs a name)"
+msgstr ""
+
+#: src/dialogproject.cpp:362
+msgid "(a project with this name already exists)"
+msgstr ""
+
+#: src/dialogproject.cpp:368
+msgid "(this name is not allowed)"
+msgstr ""
+
+#: src/dialogproject.cpp:431
+msgid "Updating project"
+msgstr ""
+
+#: src/dialogproject.cpp:539
+msgid "Adding books"
+msgstr ""
+
+#: src/dialogproject.cpp:606
+msgid "Are you sure you want to delete the books?"
+msgstr ""
+
+#: src/dialogproject.cpp:608
+msgid "Are you really sure to delete something worth perhaps months of work?"
+msgstr ""
+
+#: src/dialogproject.cpp:611
+msgid "Deleting books"
+msgstr ""
+
+#: src/dialogprojectnote.cpp:30
+msgid "Project note"
+msgstr ""
+
+#: src/dialogprojectnote.cpp:42
+msgid "Pro_ject"
+msgstr ""
+
+#: src/dialogprojectnote.cpp:51
+msgid "Created on"
+msgstr ""
+
+#: src/dialogprojectnote.cpp:56
+msgid "Created by"
+msgstr ""
+
+#: src/dialogprojectnote.cpp:61
+msgid "Edited on"
+msgstr ""
+
+#: src/dialogprojectnote.cpp:66
+msgid "Logbook"
+msgstr ""
+
+#: src/dialogrefexchange.cpp:121
+msgid "Access okay"
+msgstr ""
+
+#: src/dialogreplace.cpp:43 src/dialogreplacing.cpp:47
+msgid "Replace"
+msgstr ""
+
+#: src/dialogreplace.cpp:62
+msgid "Replace with"
+msgstr ""
+
+#: src/dialogreplace.cpp:91
+msgid "Case sensitive"
+msgstr ""
+
+#: src/dialogreplace.cpp:99
+msgid "Current book only"
+msgstr ""
+
+#: src/dialogreplace.cpp:107
+msgid "Current chapter only"
+msgstr ""
+
+#: src/dialogreplace.cpp:131 src/dialogselectbooks.cpp:60
+msgid "Select books"
+msgstr ""
+
+#: src/dialogreplacing.cpp:62
+msgid "Do you wish to replace this text: ..."
+msgstr ""
+
+#: src/dialogreplacing.cpp:78
+msgid "... with this text? It can be edited also."
+msgstr ""
+
+#: src/dialogreplacing.cpp:124
+msgid "_All"
+msgstr ""
+
+#: src/dialogreplacing.cpp:216
+msgid "Replacing"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:62
+msgid "Resource Converter"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:307 src/dialogresourceconverter.cpp:353
+msgid "Done"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:312
+msgid "Title"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:427
+msgid "Select resource conversion type"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:452
+msgid "Select the resource conversion type"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:464
+msgid "Open"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:466
+msgid "View"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:476
+msgid "Enter the text pattern to detect the chapter"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:477 src/dialogresourceconverter.cpp:490
+msgid "Prefix"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:478
+msgid "Chapter number"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:479 src/dialogresourceconverter.cpp:492
+msgid "Suffix"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:489
+msgid "Enter the text pattern to detect the verse"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:491
+msgid "Verse number"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:494
+msgid "Write"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:561
+msgid "Select file"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:582
+msgid " lines"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:584
+msgid "Open a file for conversion"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:611
+msgid "View the file"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:720
+msgid "Write anchors"
+msgstr ""
+
+#: src/dialogresourceconverter.cpp:736
+msgid "Anchors in file: "
+msgstr ""
+
+#: src/dialogrevert.cpp:56
+msgid "Revert"
+msgstr ""
+
+#: src/dialogrevert.cpp:105
+#, fuzzy
+msgid "Revisions"
+msgstr "version"
+
+#: src/dialogrevert.cpp:145
+msgid "View current version"
+msgstr ""
+
+#: src/dialogrevert.cpp:153
+msgid "View previous revision"
+msgstr ""
+
+#: src/dialogrevert.cpp:161
+msgid "View changes if reverting to previous revision"
+msgstr ""
+
+#: src/dialogrevert.cpp:326
+msgid "No changes were applied"
+msgstr ""
+
+#: src/dialogrevert.cpp:331
+msgid "Are you sure you wish to revert this chapter to the previous revision?"
+msgstr ""
+
+#: src/dialogreviewanchors.cpp:44
+msgid "Review anchors"
+msgstr ""
+
+#: src/dialogreviewanchors.cpp:51
+msgid ""
+"Review the anchors that will be placed.\n"
+"To remove some anchors,\n"
+"select them and press the Delete key."
+msgstr ""
+
+#: src/dialogreviewanchors.cpp:88
+msgid "Select spurious anchors"
+msgstr ""
+
+#: src/dialogreviewanchors.cpp:125
+msgid "Line"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:36
+msgid "Load them in the references window"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:37
+msgid "Add them to the ones already in the references window"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:38
+msgid "Remove them from the ones already in the references window"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:39
+msgid "Share them with the ones already in the references window"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:50
+msgid "Find"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:68
+msgid "Press Control-F for Advanced search"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:77
+msgid "Press Control-F for Basic search"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:81
+msgid "Advanced"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:89
+msgid "_Text to search for:"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:121
+msgid "C_ase sensitive"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:128
+msgid "Search in c_urrent book only"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:135
+msgid "Search in current cha_pter only"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:182
+msgid "_Interpret * and ? as wildcards"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:189
+msgid "Match _start of word"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:196
+msgid "Match _end of word"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:243
+msgid "Se_lect parts of text"
+msgstr ""
+
+#: src/dialogsearchspecial.cpp:276
+msgid "What to do with the search _results"
+msgstr ""
+
+#: src/dialogselectbooks.cpp:62
+msgid " and portions"
+msgstr ""
+
+#: src/dialogselectbooks.cpp:105
+msgid "Portions"
+msgstr ""
+
+#: src/dialogselectbooks.cpp:144 src/gui.cpp:84
+msgid "No books"
+msgstr ""
+
+#: src/dialogselectbooks.cpp:210
+msgid "Other books"
+msgstr ""
+
+#: src/dialogselectbooks.cpp:232
+msgid "All books"
+msgstr ""
+
+#: src/dialogselectbooks.cpp:254
+msgid "Current book"
+msgstr ""
+
+#: src/dialogselectchapters.cpp:44
+msgid "Select portion"
+msgstr ""
+
+#: src/dialogselectchapters.cpp:73
+msgid "All"
+msgstr ""
+
+#: src/dialogselectchapters.cpp:79
+msgid "To:"
+msgstr ""
+
+#: src/dialogselectchapters.cpp:86
+msgid "From:"
+msgstr ""
+
+#: src/dialogselectchapters.cpp:93 src/dialogstylesheet.cpp:807
+msgid "chapter"
+msgstr ""
+
+#: src/dialogselectchapters.cpp:97
+#, fuzzy
+msgid "verse"
+msgstr "version"
+
+#: src/dialogshownotes.cpp:323
+msgid "All categories"
+msgstr ""
+
+#: src/dialogshownotes.cpp:473
+msgid "This selection would display "
+msgstr ""
+
+#: src/dialogshownotes.cpp:475
+msgid "note"
+msgstr ""
+
+#: src/dialogshownotes.cpp:477
+msgid "notes"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:83
+msgid "Stylesheet "
+msgstr ""
+
+#: src/dialogstylesheet.cpp:83
+msgid ", style "
+msgstr ""
+
+#: src/dialogstylesheet.cpp:116
+msgid "Style:"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:126
+msgid "N_ame"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:135
+msgid "D_escription"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:163
+msgid "_This style:"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:174
+msgid "is an identifier"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:180
+msgid "starts a new paragraph"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:186
+msgid "is inline text with endmarker"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:192
+msgid "is a chapter number"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:198
+msgid "is a verse number"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:204
+msgid "is a footnote or endnote"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:210
+msgid "is a crossreference"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:216
+msgid "is a peripheral element"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:222
+msgid "is a picture"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:228
+msgid "starts a new page"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:234
+msgid "is a table element"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:240
+msgid "is a word list element"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:270 src/dialogstylesheet.cpp:321
+#: src/dialogstylesheet.cpp:361 src/dialogstylesheet.cpp:400
+#: src/dialogstylesheet.cpp:475 src/dialogstylesheet.cpp:551
+#: src/dialogstylesheet.cpp:587
+msgid "This one:"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:277
+msgid "starts a footnote"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:283
+msgid "starts an endnote"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:289 src/dialogstylesheet.cpp:334
+msgid "is standard content"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:295 src/dialogstylesheet.cpp:340
+msgid "is content"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:301 src/dialogstylesheet.cpp:346
+msgid "is content with endmarker"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:307
+msgid "starts another paragraph"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:328
+msgid "starts a crossreference"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:368
+msgid "is a main title"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:374
+msgid "is a subtitle"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:380
+msgid "is a section heading"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:386
+msgid "is a normal paragraph"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:407
+msgid "starts publication data"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:413
+msgid "starts table of contents"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:419
+msgid "starts preface"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:425
+msgid "starts introduction"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:431
+msgid "starts concordance"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:437
+msgid "starts glossary"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:443
+msgid "starts index"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:449
+msgid "starts map index"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:455
+msgid "starts cover"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:461
+msgid "starts spine"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:482
+msgid "identifies the book"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:488
+msgid "identifies the encoding"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:494
+msgid "is a comment"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:500
+msgid "is a comment with an endmarker"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:506
+msgid "is a running header"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:512
+msgid "is long table of contents text"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:518
+msgid "is short table of contents text"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:524
+msgid "is the book abbreviation"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:530
+msgid "is the chapter label"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:536
+msgid "is the published chapter marker"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:558
+msgid "starts a new row"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:564
+msgid "is a column heading"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:570
+msgid "is cell data"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:594
+msgid "Wordlist / glossary / dictionary entry"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:600
+msgid "Hebrew wordlist entry"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:606
+msgid "Greek wordlist entry"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:612
+msgid "Subject index entry"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1871
+msgid "_Font size"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1895 src/dialogstylesheet.cpp:1941
+msgid "_Italic"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1905 src/dialogstylesheet.cpp:1946
+msgid "_Bold"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1915 src/dialogstylesheet.cpp:1951
+msgid "_Underline"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1925 src/dialogstylesheet.cpp:1956
+msgid "S_mall caps"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1966 src/dialogstylesheet.cpp:1990
+#: src/dialogstylesheet.cpp:2014 src/dialogstylesheet.cpp:2038
+msgid "Off"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1972 src/dialogstylesheet.cpp:1996
+#: src/dialogstylesheet.cpp:2020 src/dialogstylesheet.cpp:2044
+msgid "On"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1978 src/dialogstylesheet.cpp:2002
+#: src/dialogstylesheet.cpp:2026 src/dialogstylesheet.cpp:2050
+msgid "Inherit"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:1984 src/dialogstylesheet.cpp:2008
+#: src/dialogstylesheet.cpp:2032 src/dialogstylesheet.cpp:2056
+msgid "Toggle"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2088
+msgid "Su_perscript"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2104
+msgid "paragraph"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2115
+msgid "Te_xt alignment"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2122
+msgid "Left"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2128
+msgid "Center"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2134
+msgid "Right"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2140
+msgid "Justified"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2155
+msgid "S_pace before "
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2162
+msgid "Space afte_r "
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2169
+msgid "_Left margin"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2174
+msgid "Ri_ght margin"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2179
+msgid "_1st Line indent"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2184 src/dialogstylesheet.cpp:2189
+#: src/dialogstylesheet.cpp:2194 src/dialogstylesheet.cpp:2199
+#: src/dialogstylesheet.cpp:2204
+msgid "mm"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2256
+msgid "Spans the t_wo columns"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2266
+msgid "Refers to the Apocrypha"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2301
+msgid "a, b, c ..."
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2307 src/paper.cpp:51
+msgid "User defined"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2351
+msgid "Restart"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2362
+msgid "never"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2368
+msgid "every book"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2374
+msgid "every chapter"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2420
+msgid "Print chapter number at the first verse"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2452
+msgid "Start on a new page"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2456
+msgid "with an odd number"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2533 src/dialogstylesheet.cpp:2548
+msgid "Print"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2559
+msgid "after each book"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2565
+msgid "after everything else"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2575
+msgid "upon encountering marker"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2647
+msgid "heading"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2657
+msgid "cell"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2704
+msgid "Column number"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2721
+msgid "Print this in running header of left page"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2727
+msgid "Print this in running header of right page"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2741
+msgid "Add"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2750
+msgid "after entry"
+msgstr ""
+
+#: src/dialogstylesheet.cpp:2760
+msgid "Restart paragraph"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:47
+msgid ".old"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:219
+msgid "General settings"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:220
+msgid "Project settings"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:221
+msgid "Diagnostics"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:221
+msgid "Tick the items to include in the diagnostics report"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:230
+msgid ""
+"\n"
+"General settings\n"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:240
+msgid ""
+"\n"
+"Project "
+msgstr ""
+
+#: src/dialogsystemlog.cpp:240
+msgid " settings\n"
+msgstr ""
+
+#: src/dialogsystemlog.cpp:248
+msgid "diagnostics"
+msgstr ""
+
+#: src/dialogtaskduration.cpp:40
+msgid "Task Duration Setup"
+msgstr ""
+
+#: src/dialogtaskduration.cpp:47
+msgid "Set the number of days a task takes to complete one chapter"
+msgstr ""
+
+#: src/dialogtaskduration.cpp:68 src/planning.cpp:124
+msgid "Task"
+msgstr ""
+
+#: src/dialogtaskduration.cpp:73
+msgid "Days per chapter"
+msgstr ""
+
+#: src/dialogtext2pdf.cpp:33
+msgid "Formatter commands"
+msgstr ""
+
+#: src/dialogtextreplacement.cpp:46
+msgid "Text Replacement"
+msgstr ""
+
+#: src/dialogtextreplacement.cpp:58
+msgid "Replace text when printing and exporting"
+msgstr ""
+
+#: src/dialogtextreplacement.cpp:258
+msgid "<Enter new text here>"
+msgstr ""
+
+#: src/dialogtextreplacement.cpp:264
+msgid "<Enter new replacement here>"
+msgstr ""
+
+#: src/dialogtidy.cpp:43
+msgid "Tidy Text"
+msgstr ""
+
+#: src/dialogtidy.cpp:55
+msgid ""
+"Tidy Text can be used while inserting Bible notes. It makes changes in the "
+"text that is inserted, following the settings made below."
+msgstr ""
+
+#: src/dialogtidy.cpp:65
+msgid "Translate certain text to book abbreviations"
+msgstr ""
+
+#: src/dialogtidy.cpp:84
+msgid "Normalize hyphens"
+msgstr ""
+
+#: src/dialogtidy.cpp:91
+msgid ""
+"Remove the space between chapter and verse, e.g. Mat. 1. 1 becomes Mat. 1.1"
+msgstr ""
+
+#: src/dialogtidy.cpp:98
+msgid ""
+"Remove the space after a comma in a series of verses, e.g. 10, 11 becomes "
+"10,11"
+msgstr ""
+
+#: src/dialogtidy.cpp:105
+msgid "Always end the text with a full stop"
+msgstr ""
+
+#: src/dialogtidy.cpp:112
+msgid ""
+"Change the ampersand in, e.g., Mat. 10.1 & 11.2 to a semicolon: Mat. 10.1; "
+"11.2"
+msgstr ""
+
+#: src/dialogtidy.cpp:119
+msgid "Remove a space before a (semi)colon, full stop, etc."
+msgstr ""
+
+#: src/dialogtidy.cpp:159
+msgid "Abbreviation"
+msgstr ""
+
+#: src/dialogtidy.cpp:162
+msgid "Texts"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:32
+msgid "View Planning"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:43
+msgid "Include the ticked items in the report"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:47
+msgid "Planning"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:54
+msgid "Percentage complete whole project"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:61
+msgid "Percentage complete per book"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:68
+msgid "Tasks per book"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:75
+msgid "Tasks per chapter"
+msgstr ""
+
+#: src/dialogviewplanning.cpp:81
+msgid "CSV exported data"
+msgstr ""
+
+#: src/dialogwait.cpp:29
+msgid "Please wait ..."
+msgstr ""
+
+#: src/dialogwait.cpp:42
+msgid "Please hold on ... processing data"
+msgstr ""
+
+#: src/dialogwordlist.cpp:38
+msgid "Wordlists"
+msgstr ""
+
+#: src/dialogwordlist.cpp:45
+msgid ""
+"This updates the word list entries in the text and generates lists of them"
+msgstr ""
+
+#: src/dialogwordlist.cpp:58
+msgid "Process general word list"
+msgstr ""
+
+#: src/dialogwordlist.cpp:66
+msgid "Insert list between markers \\zopenwordlist and \\zclosewordlist"
+msgstr ""
+
+#: src/dialogwordlist.cpp:75 src/dialogwordlist.cpp:116
+#: src/dialogwordlist.cpp:157 src/dialogwordlist.cpp:198
+msgid "Add an asterisk to each word entry"
+msgstr ""
+
+#: src/dialogwordlist.cpp:83 src/dialogwordlist.cpp:124
+#: src/dialogwordlist.cpp:165
+msgid "the first time it occurs in a section"
+msgstr ""
+
+#: src/dialogwordlist.cpp:99
+msgid "Process Hebrew word list"
+msgstr ""
+
+#: src/dialogwordlist.cpp:107
+msgid ""
+"Insert the list between markers \\zopenhebrewwordlist and "
+"\\zclosehebrewwordlist"
+msgstr ""
+
+#: src/dialogwordlist.cpp:140
+msgid "Process Greek word list"
+msgstr ""
+
+#: src/dialogwordlist.cpp:148
+msgid ""
+"Insert the list between markers \\zopengreekwordlist and "
+"\\zclosegreekwordlist"
+msgstr ""
+
+#: src/dialogwordlist.cpp:181
+msgid "Process index"
+msgstr ""
+
+#: src/dialogwordlist.cpp:189
+msgid "Insert the list between markers \\zopenindex and \\zcloseindex"
+msgstr ""
+
+#: src/dialogwordlist.cpp:206
+msgid "the first time it occurs in a chapter"
+msgstr ""
+
+#: src/dialogxfernotes2text.cpp:43
+msgid "Transfer Project Notes To Text"
+msgstr ""
+
+#: src/dialogxfernotes2text.cpp:54
+msgid ""
+"This will transfer all the Project Notes that display for each verse into "
+"the currently opened project"
+msgstr ""
+
+#: src/dialogxfernotes2text.cpp:118
+msgid "Transferring notes to text"
+msgstr ""
+
+#: src/editor.cpp:420 src/usfmview.cpp:230
+msgid ""
+"The chapter is empty.\n"
+"Do you wish to delete this chapter?"
+msgstr ""
+
+#: src/editor.cpp:454 src/readwrite.cpp:109 src/usfmview.cpp:272
+msgid "Chapter "
+msgstr ""
+
+#: src/editor.cpp:454 src/usfmview.cpp:272
+msgid ""
+" was loaded, but it appears that the chapter number has been changed to "
+msgstr ""
+
+#: src/editor.cpp:454 src/usfmview.cpp:272
+msgid ""
+".\n"
+"Do you wish to save the text as a different chapter, that is, as chapter "
+msgstr ""
+
+#: src/editor.cpp:471 src/usfmview.cpp:288
+msgid ""
+"The new chapter number already exists\n"
+"Do you wish to overwrite it?"
+msgstr ""
+
+#: src/editor.cpp:473 src/usfmview.cpp:290
+msgid "The changes have been discarded"
+msgstr ""
+
+#: src/editor.cpp:1506
+msgid "Trying to apply a "
+msgstr ""
+
+#: src/editor.cpp:1508
+msgid "foot- or endnote"
+msgstr ""
+
+#: src/editor.cpp:1512
+msgid "table"
+msgstr ""
+
+#: src/editor.cpp:1513
+msgid " style"
+msgstr ""
+
+#: src/editor.cpp:1521
+msgid "Only note related styles apply"
+msgstr ""
+
+#: src/editor.cpp:1529
+msgid "Only table styles apply"
+msgstr ""
+
+#: src/editor.cpp:1554
+msgid "Cannot find paragraph"
+msgstr ""
+
+#: src/editor.cpp:1558
+msgid "This style cannot be applied here."
+msgstr ""
+
+#: src/editor.cpp:1866 src/usfmview.cpp:736
+msgid "Adding words to dictionary"
+msgstr ""
+
+#: src/export_utils.cpp:84 src/export_utils.cpp:214 src/export_utils.cpp:248
+#: src/export_utils.cpp:552
+msgid "Exporting project"
+msgstr ""
+
+#: src/export_utils.cpp:147 src/export_utils.cpp:434
+msgid "Exporting"
+msgstr ""
+
+#: src/export_utils.cpp:201
+msgid "Converting to BibleWorks: "
+msgstr ""
+
+#: src/export_utils.cpp:425
+msgid "Export: "
+msgstr ""
+
+#: src/export_utils.cpp:539
+msgid "The SWORD compiler osis2mod was not found."
+msgstr ""
+
+#: src/export_utils.cpp:689
+msgid "Single file"
+msgstr ""
+
+#: src/export_utils.cpp:690
+msgid "Multiple files"
+msgstr ""
+
+#: src/export_utils.cpp:691
+msgid "Save method"
+msgstr ""
+
+#: src/export_utils.cpp:691
+msgid ""
+"Multiple books have been selected.\n"
+"Should these be saved to a single file or to multiple files?"
+msgstr ""
+
+#: src/export_utils.cpp:714
+msgid ""
+"The export has completed,\n"
+"but the following markers could not be formatted properly:"
+msgstr ""
+
+#: src/export_utils.cpp:769
+msgid "There was nothing to backup"
+msgstr ""
+
+#: src/export_utils.cpp:884
+msgid ""
+"There was an error producing the Go Bible.\n"
+"Please check the system log for more information."
+msgstr ""
+
+#: src/fixmarkers.cpp:51
+msgid "Inserting missing spaces after opening markers"
+msgstr ""
+
+#: src/fixmarkers.cpp:99
+msgid "Missing spaces inserted: "
+msgstr ""
+
+#: src/floatingwindow.cpp:34
+msgid "Untitled"
+msgstr ""
+
+#: src/git.cpp:56
+msgid "Cleaning out index lock "
+msgstr ""
+
+#: src/git.cpp:82
+msgid "Cleaning out folder "
+msgstr ""
+
+#: src/git.cpp:83
+msgid "Tidying up project "
+msgstr ""
+
+#: src/git.cpp:106
+msgid "Resolving conflict for project "
+msgstr ""
+
+#: src/git.cpp:106 src/readwrite.cpp:109
+msgid " book "
+msgstr ""
+
+#: src/git-exec.cpp:34
+msgid "Updating data in folder "
+msgstr ""
+
+#: src/gtkwrappers.cpp:82
+msgid "Select a folder"
+msgstr ""
+
+#: src/gtkwrappers.cpp:116 src/gtkwrappers.cpp:149
+msgid "Select a file"
+msgstr ""
+
+#: src/gtkwrappers.cpp:184
+msgid "Save to file"
+msgstr ""
+
+#: src/gtkwrappers.cpp:217
+msgid "Trying to opening "
+msgstr ""
+
+#: src/gui.cpp:35
+msgid "Done:"
+msgstr ""
+
+#: src/gui.cpp:38
+msgid "To do:"
+msgstr ""
+
+#: src/gui.cpp:46
+msgid "Are you sure you wish to make the changes?"
+msgstr ""
+
+#: src/gui.cpp:50
+msgid ""
+"This will permanently modify your data.\n"
+"The changes cannot be undone easily.\n"
+"Are you sure?"
+msgstr ""
+
+#: src/gui.cpp:140
+msgid " books"
+msgstr ""
+
+#: src/gui_display_changes.cpp:115
+msgid "Number of modifications: "
+msgstr ""
+
+#: src/gui_navigation.cpp:1023
+msgid "Go back"
+msgstr ""
+
+#: src/gui_navigation.cpp:1023
+msgid "Where would you like to go back to?"
+msgstr ""
+
+#: src/gui_navigation.cpp:1040
+msgid "Go forward"
+msgstr ""
+
+#: src/gui_navigation.cpp:1040
+msgid "Where would you like to go forward to?"
+msgstr ""
+
+#: src/guiselectbibles.cpp:74
+msgid "Enabled"
+msgstr ""
+
+#: src/gwrappers.cpp:309 src/gwrappers.cpp:454 src/tiny_utilities.cpp:320
+msgid " didn't spawn"
+msgstr ""
+
+#: src/htmlbrowser.cpp:141
+msgid ""
+"The help cannot be displayed, because there is no suitable browser "
+"installed.\n"
+msgstr ""
+
+#: src/htmlbrowser.cpp:142
+msgid "Install one of the following supported browsers:\n"
+msgstr ""
+
+#: src/import.cpp:64
+msgid "Data from "
+msgstr ""
+
+#: src/import.cpp:64
+msgid " is not valid UTF8."
+msgstr ""
+
+#: src/import.cpp:101
+msgid "Unknown book in file "
+msgstr ""
+
+#: src/import.cpp:112
+msgid "File "
+msgstr ""
+
+#: src/import.cpp:112
+msgid " has book "
+msgstr ""
+
+#: src/import.cpp:112
+msgid ", but this one is already in the project"
+msgstr ""
+
+#: src/java.cpp:34
+msgid ""
+"A Java Runtime Environment was not found.\n"
+"Please install one at your convenience."
+msgstr ""
+
+#: src/keyterms.cpp:265 src/keyterms.cpp:364 src/keyterms.cpp:517
+#: src/keyterms.cpp:751
+msgid "Skipping: "
+msgstr ""
+
+#: src/keyterms.cpp:734
+msgid "Key Reference:"
+msgstr ""
+
+#: src/keyterms.cpp:740
+msgid "References:"
+msgstr ""
+
+#: src/kjv.cpp:37 src/kjv.cpp:51
+msgid "Sword King James Bible with Strong's lemmata"
+msgstr ""
+
+#: src/kjv.cpp:54
+msgid ""
+"The King James Bible from the Sword project is useful for its Strong's "
+"numbers tagged in the text. Bibledit-Gtk uses this to find related verses, "
+"among other things. Importing consists of two steps: exporting it from Sword "
+"and creating a database out of it."
+msgstr ""
+
+#: src/kjv.cpp:57
+msgid "1. Exporting the text from Sword"
+msgstr ""
+
+#: src/kjv.cpp:60
+msgid ""
+"To export the text from the Sword library, it is supposed that the KJV Bible "
+"has been installed. Open a terminal, and type the following command:"
+msgstr ""
+
+#: src/kjv.cpp:66
+msgid ""
+"This will take a while. It should give no errors. Once it finishes there "
+"will be a file called kjv.txt in the home directory."
+msgstr ""
+
+#: src/kjv.cpp:69
+msgid "2. Creating the database"
+msgstr ""
+
+#: src/kjv.cpp:72
+msgid "Create database"
+msgstr ""
+
+#: src/kjv.cpp:75
+msgid ""
+"Creating the database should take a while. Once done there will be a file "
+"called kjv.sql in the home directory. This file should be added to the "
+"bibledit package, replacing the one it currently has."
+msgstr ""
+
+#: src/kjv.cpp:89
+msgid "Database creation from King James Bible exported from the Sword library"
+msgstr ""
+
+#: src/kjv.cpp:102
+msgid "Can't find the input file"
+msgstr ""
+
+#: src/kjv.cpp:106
+msgid "Using file "
+msgstr ""
+
+#: src/kjv.cpp:114
+msgid "Importing data into the database at "
+msgstr ""
+
+#: src/kjv.cpp:121
+msgid "Success! The database was created"
+msgstr ""
+
+#: src/kjv.cpp:123
+msgid "Error!"
+msgstr ""
+
+#: src/kjv.cpp:128
+msgid ""
+"To use the database, copy the file kjv.sql into the Bibledit-Gtk package and "
+"re-install."
+msgstr ""
+
+#: src/kjv.cpp:139
+msgid "ok"
+msgstr ""
+
+#: src/kjv.cpp:139
+msgid "Ok"
+msgstr ""
+
+#: src/kjv.cpp:153
+msgid "Importing King James Bible"
+msgstr ""
+
+#: src/layout.cpp:71
+msgid "Recalculating windows positions and sizes"
+msgstr ""
+
+#: src/mainwindow.cpp:1992
 msgid "Copyright (c) 2003-2013 Teus Benschop"
 msgstr "Droit d'auteur (c) 2003-2013 Teus Benschop"
 
-#: ../src/mainwindow.cpp:1993
-msgid "license"
-msgstr "licence"
+#: src/mainwindow.cpp:1993
+msgid "translator-credits"
+msgstr ""
 
-#: ../src/mainwindow.cpp:1994
+#: src/mainwindow.cpp:1995
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -71,5 +4251,1745 @@ msgstr ""
 "Publique GNU pour plus de détails.\n"
 "\n"
 "Vous devriez avoir reçu une copie de la Licence Générale Publique GNU avec\n"
-"ce programme ; si ce n’est pas le cas, consultez "
-"<http://www.gnu.org/licenses/>.\n"
+"ce programme ; si ce n’est pas le cas, consultez <http://www.gnu.org/"
+"licenses/>.\n"
+
+#: src/merge_utils.cpp:37
+msgid "before"
+msgstr ""
+
+#: src/merge_utils.cpp:42
+msgid "middle"
+msgstr ""
+
+#: src/merge_utils.cpp:47
+msgid "after"
+msgstr ""
+
+#: src/merge_utils.cpp:52
+msgid "__conflict__marker__"
+msgstr ""
+
+#: src/merge_utils.cpp:119
+msgid "__new__line__indicator__\n"
+msgstr ""
+
+#: src/merge_utils.cpp:124
+msgid "___verse___indicator___"
+msgstr ""
+
+#: src/merge_utils.cpp:233
+msgid "Merge changes from user and server."
+msgstr ""
+
+#: src/merge_utils.cpp:236
+msgid "Cannot find PHP."
+msgstr ""
+
+#: src/merge_utils.cpp:237
+msgid "Bibledit-Gtk needs PHP for improved collaboration and merging."
+msgstr ""
+
+#: src/merge_utils.cpp:238
+msgid "Some changes were lost."
+msgstr ""
+
+#: src/merge_utils.cpp:239
+msgid "Install package php5-cli."
+msgstr ""
+
+#: src/nanohttp.cpp:32
+msgid "Could not connect to the local web server"
+msgstr ""
+
+#: src/nanohttp.cpp:38
+msgid "Local web server returned unusual code: "
+msgstr ""
+
+#: src/notes_utils.cpp:538
+msgid ""
+"The following note is displayed because it was created or edited. Normally "
+"it would not have been displayed."
+msgstr ""
+
+#: src/notes_utils.cpp:615
+msgid "Reference "
+msgstr ""
+
+#: src/notes_utils.cpp:615
+msgid " is not valid and has been removed."
+msgstr ""
+
+#: src/notes_utils.cpp:634
+msgid "No issue"
+msgstr ""
+
+#: src/notes_utils.cpp:635
+msgid "For myself"
+msgstr ""
+
+#: src/notes_utils.cpp:636
+msgid "For subteam"
+msgstr ""
+
+#: src/notes_utils.cpp:637
+msgid "For team"
+msgstr ""
+
+#: src/notes_utils.cpp:638
+msgid "For scholar"
+msgstr ""
+
+#: src/notes_utils.cpp:639
+msgid "For panel"
+msgstr ""
+
+#: src/notes_utils.cpp:640
+msgid "For church"
+msgstr ""
+
+#: src/notes_utils.cpp:641
+msgid "For consultant"
+msgstr ""
+
+#: src/notes_utils.cpp:642
+msgid "For Bible society"
+msgstr ""
+
+#: src/notes_utils.cpp:871
+msgid "Converting project notes"
+msgstr ""
+
+#: src/notes_utils.cpp:1088
+msgid "Creating notes index"
+msgstr ""
+
+#: src/notes_utils.cpp:1174
+msgid "Change detected for note "
+msgstr ""
+
+#: src/odtnotes.cpp:151 src/odtnotes.cpp:350 src/odtnotes.cpp:531
+#: src/originreferences.cpp:213 src/swordnote.cpp:196
+msgid "Missing endmarker: "
+msgstr ""
+
+#: src/onlinebible.cpp:83
+msgid "Could not get the names of the books"
+msgstr ""
+
+#: src/onlinebible.cpp:99
+msgid "Could not find a matching book for "
+msgstr ""
+
+#: src/onlinebible.cpp:162
+msgid "The rest of the import was cancelled"
+msgstr ""
+
+#: src/onlinebible.cpp:163
+msgid "What has been imported already remains"
+msgstr ""
+
+#: src/onlinebible.cpp:170
+msgid "Verse text could not be imported"
+msgstr ""
+
+#: src/opendocument.cpp:65
+msgid "Exporting to OpenDocument"
+msgstr ""
+
+#: src/originreferences.cpp:42
+msgid "Working..."
+msgstr ""
+
+#: src/originreferences.cpp:99
+msgid "Relevant notes found: "
+msgstr ""
+
+#: src/originreferences.cpp:102
+msgid "Origin references added: "
+msgstr ""
+
+#: src/originreferences.cpp:104
+msgid "Origin references removed: "
+msgstr ""
+
+#: src/originreferences.cpp:106
+msgid "Text labels added: "
+msgstr ""
+
+#: src/originreferences.cpp:109
+msgid "Notes not affected because they already were fine: "
+msgstr ""
+
+#: src/originreferences.cpp:112
+msgid "Notes with structural errors: "
+msgstr ""
+
+#: src/ot-quotations.cpp:156
+msgid "Current one"
+msgstr ""
+
+#: src/ot-quotations.cpp:179
+msgid "Quotation"
+msgstr ""
+
+#: src/ot-quotations.cpp:186
+msgid "Quoted here"
+msgstr ""
+
+#: src/ot-quotations.cpp:190
+msgid "Parallel passage"
+msgstr ""
+
+#: src/ot-quotations.cpp:211
+msgid " from Septuagint"
+msgstr ""
+
+#: src/paratext.cpp:37
+msgid "# Exported from Bibledit-Gtk"
+msgstr ""
+
+#: src/password.cpp:35 src/password.cpp:66 src/password.cpp:75
+#: src/password.cpp:112
+msgid "Password"
+msgstr ""
+
+#: src/password.cpp:35
+msgid "Please provide the current password before proceeding"
+msgstr ""
+
+#: src/password.cpp:40 src/password.cpp:122
+msgid "The password provided is incorrect"
+msgstr ""
+
+#: src/password.cpp:47
+msgid "The current password is unset"
+msgstr ""
+
+#: src/password.cpp:50
+msgid "The current password is set"
+msgstr ""
+
+#: src/password.cpp:66
+msgid "Provide a new password"
+msgstr ""
+
+#: src/password.cpp:75
+msgid "Repeat this password"
+msgstr ""
+
+#: src/password.cpp:83
+msgid "The two passwords differ"
+msgstr ""
+
+#: src/password.cpp:112
+msgid "Provide the administrator's password"
+msgstr ""
+
+#: src/pdfviewer.cpp:83
+msgid ""
+"The file cannot be displayed, because there is no suitable pdf viewer "
+"installed.\n"
+msgstr ""
+
+#: src/pdfviewer.cpp:84
+msgid "Install a supported pdf viewer, or set up your own under Preferences"
+msgstr ""
+
+#: src/planning.cpp:51
+msgid "Planned Tasks"
+msgstr ""
+
+#: src/planning.cpp:51
+msgid "of planned tasks: add, remove or reorder them"
+msgstr ""
+
+#: src/planning.cpp:84
+msgid "Planning "
+msgstr ""
+
+#: src/planning.cpp:87
+msgid "Produced on "
+msgstr ""
+
+#: src/planning.cpp:101
+msgid "The project started on "
+msgstr ""
+
+#: src/planning.cpp:103
+msgid "and "
+msgstr ""
+
+#: src/planning.cpp:103
+msgid " percent of the work has been done. "
+msgstr ""
+
+#: src/planning.cpp:113
+msgid ""
+"If the work is carried on with the same pace it will be completed in the "
+"year "
+msgstr ""
+
+#: src/planning.cpp:113
+msgid ", God willing."
+msgstr ""
+
+#: src/planning.cpp:115
+msgid "At this stage it is not yet possible to estimate when it will finish."
+msgstr ""
+
+#: src/planning.cpp:125
+msgid "Start"
+msgstr ""
+
+#: src/planning.cpp:126
+msgid "Duration (days)"
+msgstr ""
+
+#: src/planning.cpp:127
+msgid "Complete (%)"
+msgstr ""
+
+#: src/planning.cpp:128
+msgid "Finish"
+msgstr ""
+
+#: src/planning.cpp:162
+msgid "Already started"
+msgstr ""
+
+#: src/planning.cpp:169
+msgid "Already finished"
+msgstr ""
+
+#: src/planning.cpp:175
+msgid "Planned tasks"
+msgstr ""
+
+#: src/print_parallel_bible.cpp:35
+msgid "Printing Parallel Bible"
+msgstr ""
+
+#: src/print_parallel_bible.cpp:43
+msgid "does not exist in this project"
+msgstr ""
+
+#: src/print_parallel_bible.cpp:47
+msgid "Parallel Bible"
+msgstr ""
+
+#: src/print_parallel_bible.cpp:48
+msgid "Collecting verses"
+msgstr ""
+
+#: src/print_parallel_bible.cpp:73 src/spelling.cpp:40
+msgid "Project "
+msgstr ""
+
+#: src/print_parallel_bible.cpp:73
+msgid " was requested to be included, but it does not contain "
+msgstr ""
+
+#: src/print_parallel_bible.cpp:73
+msgid ". It was left out."
+msgstr ""
+
+#: src/print_parallel_bible.cpp:124
+msgid "Ready printing the Parallel Bible"
+msgstr ""
+
+#: src/print_parallel_references.cpp:56
+msgid "Printing parallel references"
+msgstr ""
+
+#: src/print_parallel_references.cpp:59
+msgid "Printing Parallel References"
+msgstr ""
+
+#: src/print_parallel_references.cpp:323
+msgid "Ready printing the parallel references"
+msgstr ""
+
+#: src/printproject2.cpp:89 src/printproject.cpp:90
+msgid ""
+"There were no books to print\n"
+"Select some books and try again"
+msgstr ""
+
+#: src/projectconfig.cpp:238 src/projectconfig.cpp:239
+msgid " Bibledit project"
+msgstr ""
+
+#: src/projectconfig.cpp:240
+msgid "GNU General Public License"
+msgstr ""
+
+#: src/projectconfig.cpp:242
+msgid "en"
+msgstr ""
+
+#: src/projectconfig.cpp:257
+msgid "Sans 14"
+msgstr ""
+
+#: src/project_memory.cpp:115
+msgid "Loading "
+msgstr ""
+
+#: src/projectutils.cpp:146
+msgid " does not exist"
+msgstr ""
+
+#: src/projectutils.cpp:507
+msgid "Open project"
+msgstr ""
+
+#: src/projectutils.cpp:508
+msgid "Non-editable"
+msgstr ""
+
+#: src/projectutils.cpp:509
+msgid "Ctrl-O"
+msgstr ""
+
+#: src/projectutils.cpp:509
+msgid "to display the editable projects"
+msgstr ""
+
+#: src/projectutils.cpp:509
+msgid "to display the non-editable projects"
+msgstr ""
+
+#: src/readwrite.cpp:76
+msgid "Read/write data needs 5 parameters"
+msgstr ""
+
+#: src/readwrite.cpp:85
+msgid "Project does not exist: "
+msgstr ""
+
+#: src/readwrite.cpp:96
+msgid "Book "
+msgstr ""
+
+#: src/readwrite.cpp:96 src/readwrite.cpp:109
+msgid " does not exist in project "
+msgstr ""
+
+#: src/resource_conversion_utils.cpp:31
+msgid ""
+"Chapter starts at a pattern, verse 1 starts at chapter, verse starts at a "
+"pattern"
+msgstr ""
+
+#: src/resource_conversion_utils.cpp:85
+msgid "Processing..."
+msgstr ""
+
+#: src/resource_utils.cpp:336
+msgid "Open resource"
+msgstr ""
+
+#: src/restore.cpp:48
+msgid "The file was restored to Bible "
+msgstr ""
+
+#: src/restore.cpp:61
+msgid "Notes available before restore: "
+msgstr ""
+
+#: src/restore.cpp:63
+msgid "Currently Bibledit-Gtk has "
+msgstr ""
+
+#: src/restore.cpp:63
+msgid " notes. Would you like to overwrite these?"
+msgstr ""
+
+#: src/restore.cpp:65
+msgid "Restore has overwritten the existing notes"
+msgstr ""
+
+#: src/restore.cpp:67
+msgid "Restore was cancelled"
+msgstr ""
+
+#: src/restore.cpp:80
+msgid "Notes were restored"
+msgstr ""
+
+#: src/restore.cpp:97
+msgid "No resource found"
+msgstr ""
+
+#: src/restore.cpp:106
+msgid "This resource already exists"
+msgstr ""
+
+#: src/restore.cpp:120
+msgid "Resource was restored"
+msgstr ""
+
+#: src/restore.cpp:137
+msgid "Everything was restored"
+msgstr ""
+
+#: src/restore.cpp:138
+msgid "Changes will only take effect after restart"
+msgstr ""
+
+#: src/restore.cpp:146
+msgid "Restoring everything"
+msgstr ""
+
+#: src/restore.cpp:159
+msgid "The file to restore does not contain valid data"
+msgstr ""
+
+#: src/restore.cpp:160
+msgid "Nothing was restored"
+msgstr ""
+
+#: src/robinson.cpp:33
+msgid " first person"
+msgstr ""
+
+#: src/robinson.cpp:35
+msgid " second person"
+msgstr ""
+
+#: src/robinson.cpp:37
+msgid " third person"
+msgstr ""
+
+#: src/robinson.cpp:54
+msgid " nominative"
+msgstr ""
+
+#: src/robinson.cpp:56
+msgid " vocative"
+msgstr ""
+
+#: src/robinson.cpp:58
+msgid " genitive"
+msgstr ""
+
+#: src/robinson.cpp:60
+msgid " dative"
+msgstr ""
+
+#: src/robinson.cpp:62
+msgid " accusative"
+msgstr ""
+
+#: src/robinson.cpp:64
+msgid " case \""
+msgstr ""
+
+#: src/robinson.cpp:75
+msgid " singular"
+msgstr ""
+
+#: src/robinson.cpp:77
+msgid " plural"
+msgstr ""
+
+#: src/robinson.cpp:80
+msgid " number \""
+msgstr ""
+
+#: src/robinson.cpp:92
+msgid " masculine"
+msgstr ""
+
+#: src/robinson.cpp:94
+msgid " feminine"
+msgstr ""
+
+#: src/robinson.cpp:96
+msgid " neuter"
+msgstr ""
+
+#: src/robinson.cpp:99
+msgid " gender \""
+msgstr ""
+
+#: src/robinson.cpp:117
+msgid " superlative"
+msgstr ""
+
+#: src/robinson.cpp:120
+msgid " comparative"
+msgstr ""
+
+#: src/robinson.cpp:123
+msgid " abbreviated"
+msgstr ""
+
+#: src/robinson.cpp:126
+msgid " interrogative"
+msgstr ""
+
+#: src/robinson.cpp:129
+msgid " negative"
+msgstr ""
+
+#: src/robinson.cpp:132
+msgid ""
+" merged by crasis with a second word; declension is that of the second word"
+msgstr ""
+
+#: src/robinson.cpp:135
+msgid " Attic Greek form"
+msgstr ""
+
+#: src/robinson.cpp:138
+msgid " letter indeclinable"
+msgstr ""
+
+#: src/robinson.cpp:141
+msgid " proper indeclinable"
+msgstr ""
+
+#: src/robinson.cpp:144
+msgid " other indeclinable"
+msgstr ""
+
+#: src/robinson.cpp:147
+msgid " numeral indeclinable"
+msgstr ""
+
+#: src/robinson.cpp:150
+msgid " apocopated form"
+msgstr ""
+
+#: src/robinson.cpp:153
+msgid " Aeolic"
+msgstr ""
+
+#: src/robinson.cpp:156
+msgid " middle significance"
+msgstr ""
+
+#: src/robinson.cpp:161
+msgid " unknown suffix \""
+msgstr ""
+
+#: src/robinson.cpp:175
+msgid " second"
+msgstr ""
+
+#: src/robinson.cpp:181
+msgid " present"
+msgstr ""
+
+#: src/robinson.cpp:183
+msgid " imperfect"
+msgstr ""
+
+#: src/robinson.cpp:185
+msgid " future"
+msgstr ""
+
+#: src/robinson.cpp:187
+msgid " aorist"
+msgstr ""
+
+#: src/robinson.cpp:189
+msgid " perfect"
+msgstr ""
+
+#: src/robinson.cpp:191
+msgid " pluperfect"
+msgstr ""
+
+#: src/robinson.cpp:193
+msgid " no tense stated (adverbial imperative)"
+msgstr ""
+
+#: src/robinson.cpp:209
+msgid " active"
+msgstr ""
+
+#: src/robinson.cpp:211
+msgid " middle"
+msgstr ""
+
+#: src/robinson.cpp:213
+msgid " passive"
+msgstr ""
+
+#: src/robinson.cpp:215
+msgid " middle or passive"
+msgstr ""
+
+#: src/robinson.cpp:217
+msgid " middle deponent"
+msgstr ""
+
+#: src/robinson.cpp:219
+msgid " passive deponent"
+msgstr ""
+
+#: src/robinson.cpp:221
+msgid " middle or passive deponent"
+msgstr ""
+
+#: src/robinson.cpp:223
+msgid " no voice stated"
+msgstr ""
+
+#: src/robinson.cpp:225
+msgid " impersonal active"
+msgstr ""
+
+#: src/robinson.cpp:241
+msgid " indicative"
+msgstr ""
+
+#: src/robinson.cpp:243
+msgid " subjunctive"
+msgstr ""
+
+#: src/robinson.cpp:245
+msgid " optative"
+msgstr ""
+
+#: src/robinson.cpp:247
+msgid " imperative"
+msgstr ""
+
+#: src/robinson.cpp:249
+msgid " infinitive"
+msgstr ""
+
+#: src/robinson.cpp:251
+msgid " participle"
+msgstr ""
+
+#: src/robinson.cpp:283
+msgid "adjective"
+msgstr ""
+
+#: src/robinson.cpp:296
+msgid "adverb or adverb and particle combined"
+msgstr ""
+
+#: src/robinson.cpp:302
+msgid "indeclinable Aramaic transliterated word"
+msgstr ""
+
+#: src/robinson.cpp:307
+msgid "reciprocal pronoun"
+msgstr ""
+
+#: src/robinson.cpp:316
+msgid "conditional particle or conjunction"
+msgstr ""
+
+#: src/robinson.cpp:325
+msgid "conjunction or conjunctive particle"
+msgstr ""
+
+#: src/robinson.cpp:330
+msgid "demonstrative pronoun"
+msgstr ""
+
+#: src/robinson.cpp:343
+msgid "reflexive pronoun"
+msgstr ""
+
+#: src/robinson.cpp:357
+msgid "indeclinable Hebrew transliterated word"
+msgstr ""
+
+#: src/robinson.cpp:362
+msgid "interrogative pronoun"
+msgstr ""
+
+#: src/robinson.cpp:371
+msgid "interjection"
+msgstr ""
+
+#: src/robinson.cpp:376
+msgid "correlative pronoun"
+msgstr ""
+
+#: src/robinson.cpp:385
+msgid "noun"
+msgstr ""
+
+#: src/robinson.cpp:396
+msgid "personal pronoun"
+msgstr ""
+
+#: src/robinson.cpp:413
+msgid "preposition"
+msgstr ""
+
+#: src/robinson.cpp:418
+msgid "particle, disjunctive particle"
+msgstr ""
+
+#: src/robinson.cpp:424
+msgid "correlative or interrogative pronoun"
+msgstr ""
+
+#: src/robinson.cpp:433
+msgid "relative pronoun"
+msgstr ""
+
+#: src/robinson.cpp:442
+msgid "possessive pronoun"
+msgstr ""
+
+#: src/robinson.cpp:453
+msgid "definite article"
+msgstr ""
+
+#: src/robinson.cpp:462
+msgid "verb"
+msgstr ""
+
+#: src/robinson.cpp:489
+msgid "indefinite pronoun"
+msgstr ""
+
+#: src/runtime.cpp:38
+msgid "Could not find program \""
+msgstr ""
+
+#: src/runtime.cpp:40
+msgid "\". Install package "
+msgstr ""
+
+#: src/runtime.cpp:40
+msgid " to resolve this."
+msgstr ""
+
+#: src/scripts.cpp:146
+msgid "Error in script "
+msgstr ""
+
+#: src/scripts.cpp:195
+msgid "Can't read script file"
+msgstr ""
+
+#: src/scripts.cpp:202
+msgid "Can't find where to put input file"
+msgstr ""
+
+#: src/scripts.cpp:209
+msgid "Can't find where to put output file"
+msgstr ""
+
+#: src/scripts.cpp:244
+msgid "UTF-8 validation failure"
+msgstr ""
+
+#: src/scripturechecks.cpp:381
+msgid "Old Testament quotations in the New Testament, project "
+msgstr ""
+
+#: src/scripturechecks.cpp:402
+msgid "Synoptic parallel passages of the New Testament, project "
+msgstr ""
+
+#: src/scripturechecks.cpp:416
+msgid "Parallel passages of the Old Testament, project "
+msgstr ""
+
+#: src/search_utils.cpp:65 src/search_utils.cpp:352
+msgid "Searching"
+msgstr ""
+
+#: src/snapshots.cpp:83
+msgid "Converting snapshots to new format for project "
+msgstr ""
+
+#: src/snapshots.cpp:112
+msgid "Updating Snapshots for Project "
+msgstr ""
+
+#: src/spelling.cpp:34
+msgid "Global Dictionary"
+msgstr ""
+
+#: src/spelling.cpp:46
+msgid " Shared Dictionary"
+msgstr ""
+
+#: src/spelling.cpp:104
+msgid "misspelling"
+msgstr ""
+
+#: src/spelling.cpp:172
+msgid "Enchant error for dictionary "
+msgstr ""
+
+#: src/spelling.cpp:411
+msgid "(No spelling suggestions)"
+msgstr ""
+
+#: src/spelling.cpp:429
+msgid "More..."
+msgstr ""
+
+#: src/spelling.cpp:461
+#, c-format
+msgid "A_dd \"%s\" to Dictionary"
+msgstr ""
+
+#: src/spelling.cpp:471
+msgid "_Ignore All"
+msgstr ""
+
+#: src/spelling.cpp:530
+msgid "No personal wordlist to add the word to"
+msgstr ""
+
+#: src/startup.cpp:33
+msgid ""
+"Bibledit-Gtk has not been designed to run as user root.\n"
+"Please run it as a standard user."
+msgstr ""
+
+#: src/startup.cpp:52
+msgid "Bibledit-Gtk is already running."
+msgstr ""
+
+#: src/startup.cpp:58
+msgid ""
+"The previous instance of Bibledit-Gtk is still optimizing its data while "
+"shutting down.\n"
+"Please wait till that has been done, and try again."
+msgstr ""
+
+#: src/statistics.cpp:72
+msgid "Removing Statistics Database for project "
+msgstr ""
+
+#: src/statistics.cpp:82
+msgid "Statistics database for "
+msgstr ""
+
+#: src/statistics.cpp:85
+msgid ": upgrading statistics"
+msgstr ""
+
+#: src/statistics.cpp:90
+msgid " creating"
+msgstr ""
+
+#: src/style.cpp:40 src/style.cpp:82
+msgid "Unified Standard Format Marker"
+msgstr ""
+
+#: src/stylesheet.cpp:44
+msgid "Failure reading stylesheet "
+msgstr ""
+
+#: src/stylesheetutils.cpp:147
+msgid "Unrecognized stylesheet: "
+msgstr ""
+
+#: src/stylesheetutils.cpp:152
+msgid "Stylesheet already exists: "
+msgstr ""
+
+#: src/stylesheetutils.cpp:347
+msgid "Updating stylesheet: "
+msgstr ""
+
+#: src/text2pdf.cpp:198
+msgid "Formatting"
+msgstr ""
+
+#: src/text2pdf.cpp:199
+msgid "Run"
+msgstr ""
+
+#: src/text2pdf.cpp:226
+msgid "Output"
+msgstr ""
+
+#: src/text2pdf.cpp:244
+msgid "Layout"
+msgstr ""
+
+#: src/text2pdf.cpp:339
+msgid "Can't fit in \""
+msgstr ""
+
+#: src/text2pdf.cpp:423
+msgid "Pages"
+msgstr ""
+
+#: src/text2pdf.cpp:1061
+msgid "Interpreting"
+msgstr ""
+
+#: src/textviewer.cpp:61
+msgid ""
+"The file cannot be displayed, because there is no suitable text viewer "
+"installed.\n"
+msgstr ""
+
+#: src/textviewer.cpp:62
+msgid "Install a supported text viewer"
+msgstr ""
+
+#: src/tiny_utilities.cpp:104
+msgid "yes"
+msgstr ""
+
+#: src/tiny_utilities.cpp:106
+msgid "no"
+msgstr ""
+
+#: src/tiny_utilities.cpp:183
+msgid "Using non-standard datafolder "
+msgstr ""
+
+#: src/tiny_utilities.cpp:187
+msgid "This data folder has no name. Resetting to "
+msgstr ""
+
+#: src/tiny_utilities.cpp:193
+msgid ""
+"There are not enough access permissions for this data folder. Resetting to "
+msgstr ""
+
+#: src/urltransport.cpp:148
+msgid "Webserver Access: "
+msgstr ""
+
+#: src/usfm2osis.cpp:157
+#, c-format
+msgid ""
+"The document is free. It is copyrighted (C) %d by %s. Permission is granted "
+"to copy, distribute and/or modify the documents under the terms of the GNU "
+"Free Documentation License, Version 1.2 or any later version published by "
+"the Free Software Foundation; with no Invariant Sections, no Front-Cover "
+"Texts, and no Back-Cover Texts."
+msgstr ""
+
+#: src/usfm2text.cpp:55 src/usfm2xetex.cpp:55
+msgid "Processing"
+msgstr ""
+
+#: src/usfm2text.cpp:1578 src/usfm2xetex.cpp:1622
+msgid "Picture does not exist: "
+msgstr ""
+
+#: src/usfmstandard.cpp:43
+msgid "Can't find USFM standard file"
+msgstr ""
+
+#: src/utilities.cpp:680
+msgid "Error opening file "
+msgstr ""
+
+#: src/utilities.cpp:709
+msgid "Error creating file "
+msgstr ""
+
+#: src/widgetdate.cpp:70
+msgid "Time"
+msgstr ""
+
+#: src/widgetdate.cpp:81
+msgid "Hour"
+msgstr ""
+
+#: src/widgetdate.cpp:88
+msgid "Minute"
+msgstr ""
+
+#: src/widgetdate.cpp:95
+msgid "Second"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:42
+msgid "Check keyterms"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:63
+msgid "_Collection"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:107
+msgid ""
+"Case\n"
+"sensitive"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:111
+msgid "Rendering"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:145 src/windowcheckkeyterms.cpp:454
+#: src/windowcheckkeyterms.cpp:501
+msgid "keyterm "
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:372
+msgid "<Enter new rendering here>"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:470
+msgid "goto "
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:479
+msgid "send"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:489
+msgid "Biblical"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:490
+msgid "Hebrew"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:492
+msgid ""
+"Key Terms in Biblical Hebrew: The entries are an experimental sample set, "
+"not yet fully reviewed and approved. The KTBH team would welcome feed-back "
+"to christopher_samuel@sil.org."
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:541
+msgid "[Send to references window]"
+msgstr ""
+
+#: src/windowcheckkeyterms.cpp:604
+msgid "<empty>"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:36
+msgid "Check USFM"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:48
+msgid "Verses in raw text are at line start"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:59
+msgid "Filter"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:90
+msgid "Filter text"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:114
+msgid "Discover markup"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:211
+msgid "The line that contains "
+msgstr ""
+
+#: src/windowcheckusfm.cpp:211
+msgid ""
+" looks like a chapter number, but the number differs from the chapter that "
+"was set"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:389
+msgid "Inactive. To activate, open or focus a project, and view the USFM code."
+msgstr ""
+
+#: src/windowcheckusfm.cpp:399
+msgid "There is no text. Put text into the editor"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:407
+msgid "There isn't much text. Put more text into the editor"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:415
+msgid "Unknown book"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:423
+msgid "Unknown chapter"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:458
+msgid "Missing verses: "
+msgstr ""
+
+#: src/windowcheckusfm.cpp:473
+msgid "Extra verses: "
+msgstr ""
+
+#: src/windowcheckusfm.cpp:503
+msgid "Verse "
+msgstr ""
+
+#: src/windowcheckusfm.cpp:503
+msgid " is out of sequence"
+msgstr ""
+
+#: src/windowcheckusfm.cpp:519
+msgid "Verses that are not at the start of a line: "
+msgstr ""
+
+#: src/windowcheckusfm.cpp:530
+msgid "Everything seems to be fine."
+msgstr ""
+
+#: src/windowdata.cpp:90
+msgid "WindowData object "
+msgstr ""
+
+#: src/windoweditor.cpp:500
+msgid "Style "
+msgstr ""
+
+#: src/windowmerge.cpp:68
+msgid "M_aster project"
+msgstr ""
+
+#: src/windowmerge.cpp:79
+msgid "E_dited project"
+msgstr ""
+
+#: src/windowmerge.cpp:121
+msgid "_Previous"
+msgstr ""
+
+#: src/windowmerge.cpp:143
+msgid "_Merge"
+msgstr ""
+
+#: src/windowmerge.cpp:161
+msgid "_Next"
+msgstr ""
+
+#: src/windowmerge.cpp:215
+msgid "_Save"
+msgstr ""
+
+#: src/windowmerge.cpp:385
+msgid "Not enough projects opened"
+msgstr ""
+
+#: src/windowmerge.cpp:505
+msgid "No more differing chapters found"
+msgstr ""
+
+#: src/windowmerge.cpp:591 src/windowmerge.cpp:592
+msgid "Merge "
+msgstr ""
+
+#: src/windowmerge.cpp:591 src/windowmerge.cpp:592 src/windowmerge.cpp:593
+msgid " of project "
+msgstr ""
+
+#: src/windowmerge.cpp:591 src/windowmerge.cpp:592
+msgid " and "
+msgstr ""
+
+#: src/windowmerge.cpp:592
+msgid "and approve of each change as compared to project "
+msgstr ""
+
+#: src/windowmerge.cpp:593
+msgid "Copy "
+msgstr ""
+
+#: src/windowmerge.cpp:593 src/windowmerge.cpp:594 src/windowmerge.cpp:826
+msgid " to project "
+msgstr ""
+
+#: src/windowmerge.cpp:594
+msgid "Copy everything of project "
+msgstr ""
+
+#: src/windowmerge.cpp:595
+msgid "Select action"
+msgstr ""
+
+#: src/windowmerge.cpp:595
+msgid "Select the type of merge or copy to be done"
+msgstr ""
+
+#: src/windowmerge.cpp:634
+msgid "Both the chapters already are the same"
+msgstr ""
+
+#: src/windowmerge.cpp:698
+msgid "Can't merge because a common ancestor was not found"
+msgstr ""
+
+#: src/windowmerge.cpp:775
+msgid "The chapters were not merged"
+msgstr ""
+
+#: src/windowmerge.cpp:796
+msgid "The chapters were successfully merged"
+msgstr ""
+
+#: src/windowmerge.cpp:819
+msgid "Both chapters are already the same"
+msgstr ""
+
+#: src/windowmerge.cpp:826
+msgid " was copied from project "
+msgstr ""
+
+#: src/windowmerge.cpp:837
+msgid "Copying..."
+msgstr ""
+
+#: src/windowmerge.cpp:847
+msgid "All chapters of project "
+msgstr ""
+
+#: src/windowmerge.cpp:847
+msgid " were copied to project "
+msgstr ""
+
+#: src/windowmerge.cpp:909
+msgid "Changes approval, "
+msgstr ""
+
+#: src/windowmerge.cpp:923
+msgid "The chapters are ready for approving the individual changes"
+msgstr ""
+
+#: src/windownotes.cpp:183
+msgid "_More"
+msgstr ""
+
+#: src/windownotes.cpp:187
+msgid "C_ategory"
+msgstr ""
+
+#: src/windownotes.cpp:196
+msgid "_References"
+msgstr ""
+
+#: src/windownotes.cpp:363
+msgid "Created on "
+msgstr ""
+
+#: src/windownotes.cpp:373
+msgid "Edited on "
+msgstr ""
+
+#: src/windownotes.cpp:383
+msgid "Created by "
+msgstr ""
+
+#: src/windownotes.cpp:598
+msgid "No valid references. Note was not stored"
+msgstr ""
+
+#: src/windownotes.cpp:633
+msgid "created a new note, category \""
+msgstr ""
+
+#: src/windownotes.cpp:635
+msgid "\", project \""
+msgstr ""
+
+#: src/windownotes.cpp:641
+msgid "modified the references"
+msgstr ""
+
+#: src/windownotes.cpp:644
+msgid "modified the note"
+msgstr ""
+
+#: src/windownotes.cpp:647
+msgid "changed the category to \""
+msgstr ""
+
+#: src/windownotes.cpp:650
+msgid "changed the project to \""
+msgstr ""
+
+#: src/windownotes.cpp:797
+msgid "Are you sure you want to delete this note?"
+msgstr ""
+
+#: src/windownotes.cpp:800
+msgid "Are you sure you want to delete these notes?"
+msgstr ""
+
+#: src/windowoutline.cpp:30
+msgid "Outline"
+msgstr ""
+
+#: src/windowreferences.cpp:147
+msgid "Optionally enter _1st searchword"
+msgstr ""
+
+#: src/windowreferences.cpp:147
+msgid "Optionally enter _2nd searchword"
+msgstr ""
+
+#: src/windowreferences.cpp:147
+msgid "Optionally enter _3rd searchword"
+msgstr ""
+
+#: src/windowreferences.cpp:262
+msgid "Loading references: "
+msgstr ""
+
+#: src/windowreferences.cpp:348
+msgid "Saving references: "
+msgstr ""
+
+#: src/windowreferences.cpp:451
+msgid "Hidden references"
+msgstr ""
+
+#: src/windowreferences.cpp:451
+msgid ""
+"of references and comments that will never be shown in the reference area."
+msgstr ""
+
+#: src/windowshowrelatedverses.cpp:36
+msgid "Related verses"
+msgstr ""
+
+#: src/windowshowrelatedverses.cpp:153
+msgid "Keyterms in verse "
+msgstr ""
+
+#: src/windowshowrelatedverses.cpp:197
+msgid "Similar words in other verses"
+msgstr ""
+
+#: src/windowshowrelatedverses.cpp:227
+msgid "Parallel passages"
+msgstr ""
+
+#: src/windowshowrelatedverses.cpp:235
+msgid "Send to references window"
+msgstr ""
+
+#: src/windowsoutpost.cpp:374
+msgid "No connection possible"
+msgstr ""
+
+#: src/windowsoutpost.cpp:388
+msgid "Connected"
+msgstr ""
+
+#: src/windowsoutpost.cpp:392 src/windowsoutpost.cpp:536
+msgid "No socket available"
+msgstr ""
+
+#: src/windowsoutpost.cpp:396 src/windowsoutpost.cpp:539
+msgid "Error looking up hostname"
+msgstr ""
+
+#: src/windowsoutpost.cpp:436
+msgid "Error sending data"
+msgstr ""
+
+#: src/windowsoutpost.cpp:470
+msgid "Error receiving data"
+msgstr ""
+
+#: src/windowsoutpost.cpp:517
+msgid "Cannot connect to Windows Outpost"
+msgstr ""
+
+#: src/windowsoutpost.cpp:533
+msgid "Outpost opens "
+msgstr ""
+
+#: src/windowstyles.cpp:389
+msgid "Recently Used"
+msgstr ""
+
+#: src/windowstyles.cpp:597
+msgid "This marker already exists in the stylesheet"
+msgstr ""
+
+#: src/windowstyles.cpp:724
+msgid "Do you really want to delete stylesheet "
+msgstr ""
+
+#: src/windowstyles.cpp:740
+msgid "Rename stylesheet"
+msgstr ""
+
+#: src/windowstyles.cpp:740
+msgid "Give a new name for this stylesheet"
+msgstr ""
+
+#: src/windowstyles.cpp:759
+msgid "Open stylesheet"
+msgstr ""
+
+#: src/windowstyles.cpp:1279
+msgid "Unknown"
+msgstr ""
+
+#: src/wordlist.cpp:49
+msgid "General word list"
+msgstr ""
+
+#: src/wordlist.cpp:58
+msgid "Hebrew word list"
+msgstr ""
+
+#: src/wordlist.cpp:67
+msgid "Greek word list"
+msgstr ""
+
+#: src/wordlist.cpp:76
+msgid "Index"
+msgstr ""
+
+#: src/wordlist.cpp:107
+msgid "No project"
+msgstr ""
+
+#: src/wordlist.cpp:141
+msgid "Total entries: "
+msgstr ""
+
+#: src/wordlist.cpp:142
+msgid "Unique entries: "
+msgstr ""
+
+#: src/wordlist.cpp:180
+msgid "Word list inserted in "
+msgstr ""
+
+#: src/wordlist.cpp:183
+msgid "Invalid word list location in "
+msgstr ""
+
+#: src/wordlist.cpp:191
+msgid "No place found to insert the word list"
+msgstr ""
+
+#: src/xetex.cpp:89
+#, c-format
+msgid "% Configuration file created by Bibledit-Gtk"
+msgstr ""
+
+#: src/xetex.cpp:90
+msgid "% You can modify it to suit your needs"
+msgstr ""
+
+#: src/xetex.cpp:91
+#, c-format
+msgid "% After modification, run the following command in this directory:"
+msgstr ""
+
+#: src/xetex.cpp:92
+#, c-format
+msgid "%   xetex document.tex"
+msgstr ""
+
+#: src/xetex.cpp:93
+#, c-format
+msgid "% After that look carefully at the output"
+msgstr ""
+
+#: src/xetex.cpp:94
+msgid "% If it says that a re-run is required, repeat this command"
+msgstr ""
+
+#: src/xetex.cpp:97
+msgid "% Include the ptx2pdf macros"
+msgstr ""
+
+#: src/xetex.cpp:101
+msgid "% Paper size"
+msgstr ""
+
+#: src/xetex.cpp:107
+#, c-format
+msgid "% Crop marks"
+msgstr ""
+
+#: src/xetex.cpp:112
+msgid "% The basic unit for the margins; changing this will alter them all"
+msgstr ""
+
+#: src/xetex.cpp:116
+msgid "% Relative sizes of margins, based on the unit above"
+msgstr ""
+
+#: src/xetex.cpp:123
+#, c-format
+msgid "% Extra margin for the gutter on the binding side"
+msgstr ""
+
+#: src/xetex.cpp:127
+msgid "% Double sided printing"
+msgstr ""
+
+#: src/xetex.cpp:145
+msgid "Font mapping file "
+msgstr ""
+
+#: src/xetex.cpp:145
+msgid " should have the .tec suffix - ignoring this file"
+msgstr ""
+
+#: src/xetex.cpp:176
+#, c-format
+msgid ""
+"% Fonts to use for \"plain\", \"bold\", \"italic\", and \"bold italic\" from "
+"the stylesheet"
+msgstr ""
+
+#: src/xetex.cpp:177
+msgid "% (they need not really be italic, etc.)"
+msgstr ""
+
+#: src/xetex.cpp:178
+#, c-format
+msgid ""
+"% Add e.g. \":mapping=farsidigits\" to get digits in Farsi, provided the "
+"farsidigits.tec TECkit mapping is available"
+msgstr ""
+
+#: src/xetex.cpp:179
+#, c-format
+msgid ""
+"% Add e.g. \":script=arab\" to use the arab shaping engine instead of the "
+"generic one"
+msgstr ""
+
+#: src/xetex.cpp:190
+msgid "% Right-to-left layout mode"
+msgstr ""
+
+#: src/xetex.cpp:195
+msgid ""
+"% The unit for font sizes in the stylesheet; changing this will scale all "
+"text proportionately"
+msgstr ""
+
+#: src/xetex.cpp:199
+#, c-format
+msgid "% Scaling factor used to adjust line spacing, relative to font size"
+msgstr ""
+
+#: src/xetex.cpp:210
+msgid ""
+"% Information to include in the running header (at top of pages, except "
+"first)"
+msgstr ""
+
+#: src/xetex.cpp:211
+msgid ""
+"% We set the items to print at left/center/right of odd and even pages "
+"separately"
+msgstr ""
+
+#: src/xetex.cpp:212
+msgid "% Possible contents:"
+msgstr ""
+
+#: src/xetex.cpp:213
+msgid "%   \\rangeref = Scripture reference of the range of text on the page;"
+msgstr ""
+
+#: src/xetex.cpp:214
+msgid "%   \\firstref = reference of the first verse on the page)"
+msgstr ""
+
+#: src/xetex.cpp:215
+msgid "%   \\lastref = reference of the last verse on the page)"
+msgstr ""
+
+#: src/xetex.cpp:216
+msgid "%   \\pagenumber = the page number"
+msgstr ""
+
+#: src/xetex.cpp:217
+msgid "%   \\empty = print nothing in this position"
+msgstr ""
+
+#: src/xetex.cpp:235
+msgid "% Whether to include verse number in running head, or only chapter"
+msgstr ""
+
+#: src/xetex.cpp:239
+msgid "% Whether to skip printing verse number 1 at start of chapter"
+msgstr ""
+
+#: src/xetex.cpp:243
+msgid "% Whether to use paragraph indent at drop-cap chapter numbers"
+msgstr ""
+
+#: src/xetex.cpp:244
+msgid "% \\IndentAtChaptertrue"
+msgstr ""
+
+#: src/xetex.cpp:264
+msgid "% Reformat \\"
+msgstr ""
+
+#: src/xetex.cpp:271
+msgid "% Numerical callers for \\"
+msgstr ""
+
+#: src/xetex.cpp:271 src/xetex.cpp:275 src/xetex.cpp:302 src/xetex.cpp:306
+msgid " notes"
+msgstr ""
+
+#: src/xetex.cpp:275
+#, c-format
+msgid "% Alphabetical callers for \\"
+msgstr ""
+
+#: src/xetex.cpp:286
+#, c-format
+msgid "% Special caller sequence for \\"
+msgstr ""
+
+#: src/xetex.cpp:302
+msgid "% Reset callers every page for \\"
+msgstr ""
+
+#: src/xetex.cpp:306
+msgid "% Omit callers in the note for \\"
+msgstr ""
+
+#: src/xetex.cpp:307
+msgid "% \\OmitCallerInNote{"
+msgstr ""
+
+#: src/xetex.cpp:313
+msgid "% The number of columns"
+msgstr ""
+
+#: src/xetex.cpp:319
+msgid "% The gutter between double cols, relative to font size"
+msgstr ""
+
+#: src/xetex.cpp:375
+msgid "All the data for this document is available in temporal folder "
+msgstr ""
+
+#: src/xetex.cpp:376
+msgid ""
+"You can tune the files by hand, then run \"xetex document.tex\" in this "
+"folder to convert it into a PDF file."
+msgstr ""
+
+#~ msgid "website"
+#~ msgstr "site Web"
+
+#~ msgid "copyright"
+#~ msgstr "droit d'auteur"
+
+#~ msgid "license"
+#~ msgstr "licence"

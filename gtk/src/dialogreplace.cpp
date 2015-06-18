@@ -31,7 +31,7 @@
 #include "shortcuts.h"
 #include "settings.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 ReplaceDialog::ReplaceDialog(int dummy)
 {
@@ -40,7 +40,7 @@ ReplaceDialog::ReplaceDialog(int dummy)
   extern Settings *settings;
 
   replacedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(replacedialog), "Replace");
+  gtk_window_set_title(GTK_WINDOW(replacedialog), _("Replace"));
   gtk_window_set_position(GTK_WINDOW(replacedialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(replacedialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(replacedialog), TRUE);
@@ -52,14 +52,14 @@ ReplaceDialog::ReplaceDialog(int dummy)
   gtk_widget_show(table1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), table1, TRUE, TRUE, 0);
 
-  label7 = gtk_label_new("Search for");
+  label7 = gtk_label_new(_("Search for"));
   gtk_widget_show(label7);
   gtk_table_attach(GTK_TABLE(table1), label7, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 4, 4);
   gtk_misc_set_alignment(GTK_MISC(label7), 1, 0.5);
 
   shortcuts.label(label7);
 
-  label8 = gtk_label_new("Replace with");
+  label8 = gtk_label_new(_("Replace with"));
   gtk_widget_show(label8);
   gtk_table_attach(GTK_TABLE(table1), label8, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 4, 4);
   gtk_misc_set_alignment(GTK_MISC(label8), 1, 0.5);
@@ -88,7 +88,7 @@ ReplaceDialog::ReplaceDialog(int dummy)
     pango_font_description_free(font_desc);
   }
 
-  checkbuttoncase = gtk_check_button_new_with_mnemonic("Case sensitive");
+  checkbuttoncase = gtk_check_button_new_with_mnemonic(_("Case sensitive"));
   gtk_widget_show(checkbuttoncase);
   gtk_table_attach(GTK_TABLE(table1), checkbuttoncase, 0, 2, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
@@ -96,7 +96,7 @@ ReplaceDialog::ReplaceDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttoncase), settings->session.search_case_sensitive);
 
-  checkbuttonbook = gtk_check_button_new_with_mnemonic("Current book only");
+  checkbuttonbook = gtk_check_button_new_with_mnemonic(_("Current book only"));
   gtk_widget_show(checkbuttonbook);
   gtk_table_attach(GTK_TABLE(table1), checkbuttonbook, 0, 2, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
@@ -104,7 +104,7 @@ ReplaceDialog::ReplaceDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonbook), settings->session.search_current_book);
 
-  checkbuttonchapter = gtk_check_button_new_with_mnemonic("Current chapter only");
+  checkbuttonchapter = gtk_check_button_new_with_mnemonic(_("Current chapter only"));
   gtk_widget_show(checkbuttonchapter);
   gtk_table_attach(GTK_TABLE(table1), checkbuttonchapter, 0, 2, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
@@ -128,7 +128,7 @@ ReplaceDialog::ReplaceDialog(int dummy)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox1), image1, FALSE, FALSE, 0);
 
-  label9 = gtk_label_new_with_mnemonic("Select books");
+  label9 = gtk_label_new_with_mnemonic(_("Select books"));
   gtk_widget_show(label9);
   gtk_box_pack_start(GTK_BOX(hbox1), label9, FALSE, FALSE, 0);
 

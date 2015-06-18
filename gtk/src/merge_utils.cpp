@@ -24,7 +24,7 @@
 #include "directories.h"
 #include "gwrappers.h"
 #include "projectutils.h"
-
+#include <glib/gi18n.h>
 
 ustring merge_conflict_markup(unsigned int number)
 // Gives the text of the conflict markup.
@@ -34,22 +34,22 @@ ustring merge_conflict_markup(unsigned int number)
   switch (number) {
   case 1:
     {
-      markup = "before";
+      markup = _("before");
       break;
     }
   case 2:
     {
-      markup = "middle";
+      markup = _("middle");
       break;
     }
   case 3:
     {
-      markup = "after";
+      markup = _("after");
       break;
     }
   }
   if (!markup.empty()) {
-    markup.insert(0, "__conflict__marker__");
+    markup.insert(0, _("__conflict__marker__"));
     markup.append("__");
   }
   return markup;
@@ -116,12 +116,12 @@ vector < Patch > merge_read_patch(const ustring & filename)
 
 const gchar *merge_new_line_indicator()
 {
-  return "__new__line__indicator__\n";
+  return _("__new__line__indicator__\n");
 }
 
 const gchar *merge_verse_indicator()
 {
-  return "___verse___indicator___";
+  return _("___verse___indicator___");
 }
 
 ustring merge_split_data(const ustring & data)
@@ -230,13 +230,13 @@ void merge_editor_and_file (vector <ustring> merge_base,
 // Merges the changes from the editor with the changes in the filesystem,
 // and stores the result to file.
 {
-  gw_message ("Merge changes from user and server.");
+  gw_message (_("Merge changes from user and server."));
   // If PHP is not available, skip running the filter to avoid complete data loss.
   if (!gw_find_program_in_path ("php")) {
-    gw_message ("Cannot find PHP.");
-    gw_message ("Bibledit-Gtk needs PHP for improved collaboration and merging.");
-    gw_message ("Some changes were lost.");
-    gw_message ("Install package php5-cli.");
+    gw_message (_("Cannot find PHP."));
+    gw_message (_("Bibledit-Gtk needs PHP for improved collaboration and merging."));
+    gw_message (_("Some changes were lost."));
+    gw_message (_("Install package php5-cli."));
     return;
   }
   ustring basefile = gw_build_filename (Directories->get_temp(), "mergebase.txt");

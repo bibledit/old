@@ -21,7 +21,7 @@
 #include "compress.h"
 #include "utilities.h"
 #include "gwrappers.h"
-
+#include <glib/gi18n.h>
 
 /*
 
@@ -96,7 +96,7 @@ bool uncompress(const ustring & archive, const ustring & directory)
 {
   // Bail out if the archive was not recognized.
   if (!compressed_archive_recognized(archive)) {
-    gw_critical("cannot uncompress unrecognized archive");
+    gw_critical(_("cannot uncompress unrecognized archive"));
     return false;
   }
   // Ensure that the output directory is there.
@@ -117,7 +117,7 @@ bool uncompress(const ustring & archive, const ustring & directory)
         spawn.arg (directory);
       }
       spawn.arg (archive);
-      spawn.progress ("Unpacking", false);
+      spawn.progress (_("Unpacking"), false);
       spawn.run ();
       result = 0;
       break;
@@ -130,7 +130,7 @@ bool uncompress(const ustring & archive, const ustring & directory)
         spawn.workingdirectory(directory);
       }
       spawn.arg(archive);
-      spawn.progress("Unpacking", false);
+      spawn.progress(_("Unpacking"), false);
       spawn.run();
       result = spawn.exitstatus;
       break;
@@ -158,4 +158,3 @@ void compress_ensure_zip_suffix (ustring& filename)
     filename.append (".zip");
   }
 }
-

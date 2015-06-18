@@ -34,7 +34,7 @@
 #include "gtkwrappers.h"
 #include "compress.h"
 #include "resource_utils.h"
-
+#include <glib/gi18n.h>
 
 BackupAssistant::BackupAssistant(int dummy) :
   AssistantBase(_("Backup"), _("backup"))
@@ -42,8 +42,8 @@ BackupAssistant::BackupAssistant(int dummy) :
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
-  g_signal_connect (G_OBJECT (assistant), _("apply"), G_CALLBACK (on_assistant_apply_signal), gpointer(this));
-  g_signal_connect (G_OBJECT (assistant), _("prepare"), G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
+  g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
+  g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
   introduction (_("A backup helps keep your data safe"));
 
@@ -113,7 +113,7 @@ BackupAssistant::BackupAssistant(int dummy) :
   gtk_widget_show (button_bible_name);
   gtk_box_pack_start (GTK_BOX (vbox_bible_name), button_bible_name, FALSE, FALSE, 0);
 
-  g_signal_connect ((gpointer) button_bible_name, _("clicked"), G_CALLBACK (on_button_bible_name_clicked), gpointer (this));
+  g_signal_connect ((gpointer) button_bible_name, "clicked", G_CALLBACK (on_button_bible_name_clicked), gpointer (this));
 
   GtkWidget *alignment1;
   GtkWidget *hbox1;

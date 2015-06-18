@@ -29,7 +29,7 @@
 #include "shortcuts.h"
 #include "textreplacement.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 enum { COLUMN_ORIGINALS, COLUMN_EDITABLE1, COLUMN_REPLACEMENTS, COLUMN_EDITABLE2, NUM_COLUMNS };
 
@@ -43,7 +43,7 @@ TextReplacementDialog::TextReplacementDialog(int dummy)
   Shortcuts shortcuts(0);
 
   textreplacementdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(textreplacementdialog), "Text Replacement");
+  gtk_window_set_title(GTK_WINDOW(textreplacementdialog), _("Text Replacement"));
   gtk_window_set_position(GTK_WINDOW(textreplacementdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(textreplacementdialog), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(textreplacementdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -55,7 +55,7 @@ TextReplacementDialog::TextReplacementDialog(int dummy)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  checkbutton1 = gtk_check_button_new_with_mnemonic("Replace text when printing and exporting");
+  checkbutton1 = gtk_check_button_new_with_mnemonic(_("Replace text when printing and exporting"));
   gtk_widget_show(checkbutton1);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton1, FALSE, FALSE, 0);
 
@@ -255,13 +255,13 @@ void TextReplacementDialog::gui()
 
 const char *TextReplacementDialog::enter_new_text_here()
 {
-  return "<Enter new text here>";
+  return _("<Enter new text here>");
 }
 
 
 const char *TextReplacementDialog::enter_new_replacement_here()
 {
-  return "<Enter new replacement here>";
+  return _("<Enter new replacement here>");
 }
 
 

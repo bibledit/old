@@ -22,7 +22,7 @@
 #include "java.h"
 #include "gwrappers.h"
 #include "gtkwrappers.h"
-
+#include <glib/gi18n.h>
 
 bool java_runtime_present (bool gui)
 // Returns whether a java runtime is present on the system.
@@ -31,7 +31,7 @@ bool java_runtime_present (bool gui)
   bool present = gw_find_program_in_path ("java");
   if (gui) {
     if (!present) {
-      gtkw_dialog_error (NULL, "A Java Runtime Environment was not found.\nPlease install one at your convenience.");
+      gtkw_dialog_error (NULL, _("A Java Runtime Environment was not found.\nPlease install one at your convenience."));
     }
   }
   return present;

@@ -37,10 +37,10 @@
 #include "dialoglistview.h"
 #include "dialogresourceconverter.h"
 #include "resource_conversion_utils.h"
-
+#include <glib/gi18n.h>
 
 ResourceAssistant::ResourceAssistant(const ustring& resource_template) :
-AssistantBase("Resource editor", "resource_editor")
+  AssistantBase(_("Resource editor"), _("resource_editor"))
 // Assistant for editing or creating a resource.
 {
   // Since this Assistant contains browsers, it needs a bigger size.
@@ -75,14 +75,12 @@ AssistantBase("Resource editor", "resource_editor")
   }
 
   // Introduction.
-  ustring intro_message = "Step by step you will be ";
+  ustring intro_message = _("Step by step you will be ");
   if (edited_resource_template.empty()) 
-    intro_message.append ("creating a new Resource");
+    intro_message.append (_("creating a new Resource"));
   else
-    intro_message.append ("editing the Resource");
-  intro_message.append (".\nAny changes you make show up immediately.\n"
-                        "\n"
-                        "The online help provides more information for each step."
+    intro_message.append (_("editing the Resource"));
+  intro_message.append (_(".\nAny changes you make show up immediately.\n\nThe online help provides more information for each step.")
                        );
   introduction (intro_message);
 
@@ -91,7 +89,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (vbox_title);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_title);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_title, "What is the title of the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_title, _("What is the title of the Resource?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_title, GTK_ASSISTANT_PAGE_CONTENT);
 
   entry_title = gtk_entry_new ();
@@ -114,7 +112,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_table_set_row_spacings (GTK_TABLE (table_files), 10);
   gtk_table_set_col_spacings (GTK_TABLE (table_files), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), table_files, "Would you like to add local files to the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), table_files, _("Would you like to add local files to the Resource?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), table_files, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), table_files, true);
 
@@ -136,7 +134,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox2), image1, FALSE, FALSE, 0);
 
-  label6 = gtk_label_new_with_mnemonic ("_Add files");
+  label6 = gtk_label_new_with_mnemonic (_("_Add files"));
   gtk_widget_show (label6);
   gtk_box_pack_start (GTK_BOX (hbox2), label6, FALSE, FALSE, 0);
 
@@ -158,7 +156,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (image2);
   gtk_box_pack_start (GTK_BOX (hbox3), image2, FALSE, FALSE, 0);
 
-  label7 = gtk_label_new_with_mnemonic ("Add f_olders");
+  label7 = gtk_label_new_with_mnemonic (_("Add f_olders"));
   gtk_widget_show (label7);
   gtk_box_pack_start (GTK_BOX (hbox3), label7, FALSE, FALSE, 0);
 
@@ -191,7 +189,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (vbox_home_page);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_home_page);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_home_page, "What is the home page of the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_home_page, _("What is the home page of the Resource?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_home_page, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_home_page, true);
 
@@ -217,7 +215,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bookset), 10);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bookset);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bookset, "What are the abbreviations for the books of the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bookset, _("What are the abbreviations for the books of the Resource?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bookset, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bookset, true);
 
@@ -246,7 +244,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (image3);
   gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new_with_mnemonic ("_Abbreviations");
+  label12 = gtk_label_new_with_mnemonic (_("_Abbreviations"));
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox5), label12, FALSE, FALSE, 0);
 
@@ -281,7 +279,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (image4);
   gtk_box_pack_start (GTK_BOX (hbox7), image4, FALSE, FALSE, 0);
 
-  label23 = gtk_label_new_with_mnemonic ("_Import");
+  label23 = gtk_label_new_with_mnemonic (_("_Import"));
   gtk_widget_show (label23);
   gtk_box_pack_start (GTK_BOX (hbox7), label23, FALSE, FALSE, 0);
 
@@ -297,7 +295,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bookset2), 10);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bookset2);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bookset2, "What are the second abbreviations for the books of the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bookset2, _("What are the second abbreviations for the books of the Resource?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bookset2, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bookset2, true);
 
@@ -321,7 +319,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (image3);
   gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new_with_mnemonic ("_Abbreviations");
+  label12 = gtk_label_new_with_mnemonic (_("_Abbreviations"));
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox5), label12, FALSE, FALSE, 0);
 
@@ -351,7 +349,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (image4);
   gtk_box_pack_start (GTK_BOX (hbox7), image4, FALSE, FALSE, 0);
 
-  label23 = gtk_label_new_with_mnemonic ("_Import");
+  label23 = gtk_label_new_with_mnemonic (_("_Import"));
   gtk_widget_show (label23);
   gtk_box_pack_start (GTK_BOX (hbox7), label23, FALSE, FALSE, 0);
 
@@ -367,7 +365,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_container_set_border_width (GTK_CONTAINER (vbox_anchors), 10);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_anchors);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_anchors, "Would you like to write the anchors in the pages of the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_anchors, _("Would you like to write the anchors in the pages of the Resource?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_anchors, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_anchors, true);
 
@@ -391,7 +389,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (image3);
   gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new_with_mnemonic ("_Anchors");
+  label12 = gtk_label_new_with_mnemonic (_("_Anchors"));
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox5), label12, FALSE, FALSE, 0);
 
@@ -402,7 +400,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (vbox_url);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_url);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_url, "What is the URL constructor for the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_url, _("What is the URL constructor for the Resource?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_url, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_url, true);
 
@@ -462,11 +460,11 @@ AssistantBase("Resource editor", "resource_editor")
   on_url ();
 
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Settings are ready to be applied");
+  label_confirm = gtk_label_new (_("Settings are ready to be applied"));
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Settings are ready to be applied");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, _("Settings are ready to be applied"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
@@ -478,7 +476,7 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Settings have been applied");
+  label_summary = gtk_label_new (_("Settings have been applied"));
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
@@ -611,7 +609,7 @@ void ResourceAssistant::on_entry_title ()
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_title, false);
   // Handle situation that no title is given.
   if (title().empty()) {
-    gtk_label_set_text (GTK_LABEL (label_title), "Enter the title");
+    gtk_label_set_text (GTK_LABEL (label_title), _("Enter the title"));
     return;
   }
   // Check that the title is available.
@@ -626,7 +624,7 @@ void ResourceAssistant::on_entry_title ()
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_title, title_is_available);
   ustring message;
   if (!title_is_available)
-    message = "This title already exists";
+    message = _("This title already exists");
   gtk_label_set_text (GTK_LABEL (label_title), message.c_str());
 }
 
@@ -664,7 +662,7 @@ void ResourceAssistant::on_button_add_files (bool gui_only)
     vector <ustring> files;
     files = gtkw_file_chooser_open_multiple(NULL, "", "");
     if (!files.empty()) {
-      ProgressWindow progresswindow("Adding files", false);
+      ProgressWindow progresswindow(_("Adding files"), false);
       progresswindow.set_iterate(0, 1, files.size());
       for (unsigned int i = 0; i < files.size(); i++) {
         progresswindow.iterate();
@@ -674,7 +672,7 @@ void ResourceAssistant::on_button_add_files (bool gui_only)
   }
   ReadFiles rf(working_directory(), "", "");
   ustring text;
-  text.append("Files in resource: ");
+  text.append(_("Files in resource: "));
   text.append(convert_to_string(rf.files.size()));
   gtk_label_set_text(GTK_LABEL(label_files), text.c_str());
 }
@@ -691,13 +689,13 @@ void ResourceAssistant::on_button_add_folders (bool gui_only)
   if (!gui_only) {
     ustring directory = gtkw_file_chooser_select_folder(NULL, "", "");
     if (!directory.empty()) {
-      ProgressWindow progresswindow("Adding directory", false);
+      ProgressWindow progresswindow(_("Adding directory"), false);
       unix_cp_r(directory, working_directory());
     }
   }
   ReadDirectories rd(working_directory(), "", "");
   ustring text;
-  text.append("Directories in resource: ");
+  text.append(_("Directories in resource: "));
   text.append(convert_to_string(rd.directories.size()));
   gtk_label_set_text(GTK_LABEL(label_folders), text.c_str());
 }
@@ -735,12 +733,12 @@ void ResourceAssistant::on_button_bookset_clicked (GtkButton *button, gpointer u
 void ResourceAssistant::on_button_bookset (bool update_gui_only)
 {
   if (!update_gui_only) {
-    BooknamesDialog dialog(books, "Enter the abbreviations for the books", "Abbreviations");
+    BooknamesDialog dialog(books, _("Enter the abbreviations for the books"), _("Abbreviations"));
     if (dialog.run() == GTK_RESPONSE_OK) {
       books = dialog.newbooks;
     }
   }  
-  ustring text = "Abbreviations entered: ";
+  ustring text = _("Abbreviations entered: ");
   text.append(convert_to_string(books.size()));
   gtk_label_set_text(GTK_LABEL(label_bookset), text.c_str());
 }
@@ -758,7 +756,7 @@ void ResourceAssistant::on_button_books_import ()
   vector <ustring> filenames;
   vector <ustring> resources = resource_get_resources(filenames, false);
   quick_sort(resources, filenames, 0, resources.size());
-  ListviewDialog dialog("Import from resource", resources, "", false, NULL);
+  ListviewDialog dialog(_("Import from resource"), resources, "", false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     ustring resource = dialog.focus;
     ustring filename;
@@ -784,12 +782,12 @@ void ResourceAssistant::on_button_bookset2_clicked (GtkButton *button, gpointer 
 void ResourceAssistant::on_button_bookset2 (bool update_gui_only)
 {
   if (!update_gui_only) {
-    BooknamesDialog dialog(books2, "Enter the second abbreviations for the books", "Abbreviations");
+    BooknamesDialog dialog(books2, _("Enter the second abbreviations for the books"), _("Abbreviations"));
     if (dialog.run() == GTK_RESPONSE_OK) {
       books2 = dialog.newbooks;
     }
   }  
-  ustring text = "Abbreviations entered: ";
+  ustring text = _("Abbreviations entered: ");
   text.append(convert_to_string(books2.size()));
   gtk_label_set_text(GTK_LABEL(label_bookset2), text.c_str());
 }
@@ -807,7 +805,7 @@ void ResourceAssistant::on_button_books2_import ()
   vector < ustring > filenames;
   vector < ustring > resources = resource_get_resources(filenames, false);
   quick_sort(resources, filenames, 0, resources.size());
-  ListviewDialog dialog("Import from resource", resources, "", false, NULL);
+  ListviewDialog dialog(_("Import from resource"), resources, "", false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     ustring resource = dialog.focus;
     ustring filename;

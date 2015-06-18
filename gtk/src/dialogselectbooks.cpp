@@ -34,7 +34,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gwrappers.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 SelectBooksDialog::SelectBooksDialog(bool showportions)
 /*
@@ -57,9 +57,9 @@ bookset: Indicator for the caller's relevant books.
   Shortcuts shortcuts(0);
 
   selectbooksdialog = gtk_dialog_new();
-  ustring title("Select books");
+  ustring title(_("Select books"));
   if (showportions)
-    title.append(" and portions");
+    title.append(_(" and portions"));
   gtk_window_set_title(GTK_WINDOW(selectbooksdialog), title.c_str());
   gtk_window_set_position(GTK_WINDOW(selectbooksdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(selectbooksdialog), TRUE);
@@ -79,7 +79,7 @@ bookset: Indicator for the caller's relevant books.
   gtk_widget_show(vbox2);
   gtk_box_pack_start(GTK_BOX(hbox11), vbox2, TRUE, TRUE, 0);
 
-  labelbooks = gtk_label_new("Books");
+  labelbooks = gtk_label_new(_("Books"));
   gtk_widget_show(labelbooks);
   gtk_box_pack_start(GTK_BOX(vbox2), labelbooks, FALSE, FALSE, 0);
 
@@ -102,7 +102,7 @@ bookset: Indicator for the caller's relevant books.
 
   if (myshowportions) {
 
-    labelportions = gtk_label_new("Portions");
+    labelportions = gtk_label_new(_("Portions"));
     gtk_widget_show(labelportions);
     gtk_box_pack_start(GTK_BOX(vbox3), labelportions, FALSE, FALSE, 0);
 
@@ -141,7 +141,7 @@ bookset: Indicator for the caller's relevant books.
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox4), image1, FALSE, FALSE, 0);
 
-  label6 = gtk_label_new_with_mnemonic("No books");
+  label6 = gtk_label_new_with_mnemonic(_("No books"));
   gtk_widget_show(label6);
   gtk_box_pack_start(GTK_BOX(hbox4), label6, FALSE, FALSE, 0);
 
@@ -163,7 +163,7 @@ bookset: Indicator for the caller's relevant books.
   gtk_widget_show(image2);
   gtk_box_pack_start(GTK_BOX(hbox5), image2, FALSE, FALSE, 0);
 
-  label7 = gtk_label_new_with_mnemonic("Old Testament");
+  label7 = gtk_label_new_with_mnemonic(_("Old Testament"));
   gtk_widget_show(label7);
   gtk_box_pack_start(GTK_BOX(hbox5), label7, FALSE, FALSE, 0);
 
@@ -185,7 +185,7 @@ bookset: Indicator for the caller's relevant books.
   gtk_widget_show(image3);
   gtk_box_pack_start(GTK_BOX(hbox6), image3, FALSE, FALSE, 0);
 
-  label8 = gtk_label_new_with_mnemonic("New Testament");
+  label8 = gtk_label_new_with_mnemonic(_("New Testament"));
   gtk_widget_show(label8);
   gtk_box_pack_start(GTK_BOX(hbox6), label8, FALSE, FALSE, 0);
 
@@ -207,7 +207,7 @@ bookset: Indicator for the caller's relevant books.
   gtk_widget_show(image6);
   gtk_box_pack_start(GTK_BOX(hbox9), image6, FALSE, FALSE, 0);
 
-  label11 = gtk_label_new_with_mnemonic("Other books");
+  label11 = gtk_label_new_with_mnemonic(_("Other books"));
   gtk_widget_show(label11);
   gtk_box_pack_start(GTK_BOX(hbox9), label11, FALSE, FALSE, 0);
 
@@ -229,7 +229,7 @@ bookset: Indicator for the caller's relevant books.
   gtk_widget_show(image4);
   gtk_box_pack_start(GTK_BOX(hbox7), image4, FALSE, FALSE, 0);
 
-  label9 = gtk_label_new_with_mnemonic("All books");
+  label9 = gtk_label_new_with_mnemonic(_("All books"));
   gtk_widget_show(label9);
   gtk_box_pack_start(GTK_BOX(hbox7), label9, FALSE, FALSE, 0);
 
@@ -251,7 +251,7 @@ bookset: Indicator for the caller's relevant books.
   gtk_widget_show(image5);
   gtk_box_pack_start(GTK_BOX(hbox8), image5, FALSE, FALSE, 0);
 
-  label10 = gtk_label_new_with_mnemonic("Current book");
+  label10 = gtk_label_new_with_mnemonic(_("Current book"));
   gtk_widget_show(label10);
   gtk_box_pack_start(GTK_BOX(hbox8), label10, FALSE, FALSE, 0);
 

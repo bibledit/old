@@ -33,7 +33,7 @@
 #include "dialoglistview.h"
 #include "dialogeditdictionary.h"
 #include "git.h"
-
+#include <glib/gi18n.h>
 
 enum { COLUMN_BOOK, NUM_COLUMNS };
 
@@ -44,7 +44,7 @@ DictionaryDialog::DictionaryDialog(const ustring & project)
   myproject = project;
 
   dictionarydialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(dictionarydialog), "Dictionaries");
+  gtk_window_set_title(GTK_WINDOW(dictionarydialog), _("Dictionaries"));
   gtk_window_set_position(GTK_WINDOW(dictionarydialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(dictionarydialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dictionarydialog), TRUE);
@@ -52,7 +52,7 @@ DictionaryDialog::DictionaryDialog(const ustring & project)
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (dictionarydialog));
   gtk_widget_show(dialog_vbox1);
 
-  label_info = gtk_label_new_with_mnemonic("To change the order in which a dictionary is consulted, drag it to another location.");
+  label_info = gtk_label_new_with_mnemonic(_("To change the order in which a dictionary is consulted, drag it to another location."));
   gtk_widget_show(label_info);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label_info, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_info), 0, 0.5);
@@ -196,7 +196,7 @@ void DictionaryDialog::on_button_add()
   }
 
   // Display these.
-  ListviewDialog dialog("Select a dictionary", dictionaries, "", false, NULL);
+  ListviewDialog dialog(_("Select a dictionary"), dictionaries, "", false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     // Add to the list.
     GtkTreeIter iter;

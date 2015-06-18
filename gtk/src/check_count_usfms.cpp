@@ -25,6 +25,7 @@
 #include "usfmtools.h"
 #include "books.h"
 #include "checks.h"
+#include <glib/gi18n.h>
 
 CheckCountUsfms::CheckCountUsfms(const ustring & project, const vector < unsigned int >&books, CheckSortType sorttype, bool gui)
 /*
@@ -44,7 +45,7 @@ gui: show graphical progressbar.
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Counting markers", true);
+    progresswindow = new ProgressWindow(_("Counting markers"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book.

@@ -39,7 +39,7 @@
 #include "projectutils.h"
 #include "gwrappers.h"
 #include "styles.h"
-
+#include <glib/gi18n.h>
 
 WindowStyles::WindowStyles(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename):
 FloatingWindow(parent_layout, widStyles, "Stylesheet", startup)
@@ -386,7 +386,7 @@ void WindowStyles::use(const ustring & marker)
 }
 
 
-#define RECENTLY_USED "Recently Used"
+#define RECENTLY_USED _("Recently Used")
 
 
 void WindowStyles::load_recently_used_styles()
@@ -594,8 +594,9 @@ void WindowStyles::on_style_new()
   vector < ustring > markers = stylesheet_get_markers(mystylesheet, NULL);
   for (unsigned int i = 0; i < markers.size(); i++) {
     if (input == markers[i]) {
-      gtkw_dialog_error(NULL, "This marker already exists in the stylesheet");
+      gtkw_dialog_error(NULL, _("This marker already exists in the stylesheet")); {
       return;
+      }
     }
   }
   // Create style.
@@ -720,7 +721,7 @@ void WindowStyles::on_stylesheet_delete()
 {
   OpenStylesheetDialog dialog(osdtDelete, mystylesheet);
   if (dialog.run() == GTK_RESPONSE_OK) {
-    if (gtkw_dialog_question(NULL, "Do you really want to delete stylesheet " + dialog.stylesheet + "?") == GTK_RESPONSE_YES) {
+    if (gtkw_dialog_question(NULL, _("Do you really want to delete stylesheet ") + dialog.stylesheet + "?") == GTK_RESPONSE_YES) {
       stylesheet_delete(dialog.stylesheet);
     }
   }
@@ -736,7 +737,7 @@ void WindowStyles::on_stylesheet_rename_activate(GtkMenuItem * menuitem, gpointe
 void WindowStyles::on_stylesheet_rename()
 {
   // Ask for a new name.
-  EntryDialog dialog("Rename stylesheet", "Give a new name for this stylesheet", mystylesheet);
+  EntryDialog dialog(_("Rename stylesheet"), _("Give a new name for this stylesheet"), mystylesheet);
   if (dialog.run() == GTK_RESPONSE_OK) {
     // Check whether the new name does not already exist.
     if (!stylesheet_exists(dialog.entered_value)) {
@@ -755,7 +756,7 @@ void WindowStyles::on_stylesheet_rename()
 
 void WindowStyles::on_stylesheet_import()
 {
-  ustring filename = gtkw_file_chooser_open(NULL, "Open stylesheet", "");
+  ustring filename = gtkw_file_chooser_open(NULL, _("Open stylesheet"), "");
   if (filename.empty())
     return;
   ustring styleheet = stylesheet_import(filename);
@@ -1010,47 +1011,70 @@ void WindowStyles::focus_iter(GtkTreeIter * iter, bool expand)
 
 size_t WindowStyles::get_expanded_state_offset(const ustring & row)
 {
+  // MAP: changed from if..if..if  to  if..else if..else if...
+  // Next improvement: make O(1) lookup.
   size_t offset = 0;            // Default: recently used.
-  if (row == usfm_get_category_name(ucIdentificationInformation))
+  if (row == usfm_get_category_name(ucIdentificationInformation)) {
     offset = 1;
-  if (row == usfm_get_category_name(ucIntroductionTitlesHeadings))
+  }
+  else if (row == usfm_get_category_name(ucIntroductionTitlesHeadings)) {
     offset = 2;
-  if (row == usfm_get_category_name(ucIntroductionParagraphsPoetry))
+  }
+  else if (row == usfm_get_category_name(ucIntroductionParagraphsPoetry)) {
     offset = 3;
-  if (row == usfm_get_category_name(ucIntroductionOtherElements))
+  }
+  else if (row == usfm_get_category_name(ucIntroductionOtherElements)) {
     offset = 4;
-  if (row == usfm_get_category_name(ucTitles))
+  }
+  else if (row == usfm_get_category_name(ucTitles)) {
     offset = 5;
-  if (row == usfm_get_category_name(ucHeadings))
+  }
+  else if (row == usfm_get_category_name(ucHeadings)) {
     offset = 6;
-  if (row == usfm_get_category_name(ucChaptersAndVerses))
+  }
+  else if (row == usfm_get_category_name(ucChaptersAndVerses)) {
     offset = 7;
-  if (row == usfm_get_category_name(ucParagraphs))
+  }
+  else if (row == usfm_get_category_name(ucParagraphs)) {
     offset = 8;
-  if (row == usfm_get_category_name(ucLists))
+  }
+  else if (row == usfm_get_category_name(ucLists)) {
     offset = 9;
-  if (row == usfm_get_category_name(ucPoetryElements))
+  }
+  else if (row == usfm_get_category_name(ucPoetryElements)) {
     offset = 10;
-  if (row == usfm_get_category_name(ucTableElements))
+  }
+  else if (row == usfm_get_category_name(ucTableElements)) {
     offset = 11;
-  if (row == usfm_get_category_name(ucFootnotes))
+  }
+  else if (row == usfm_get_category_name(ucFootnotes)) {
     offset = 12;
-  if (row == usfm_get_category_name(ucCrossReferences))
+  }
+  else if (row == usfm_get_category_name(ucCrossReferences)) {
     offset = 13;
-  if (row == usfm_get_category_name(ucExtendedStudyNotes))
+  }
+  else if (row == usfm_get_category_name(ucExtendedStudyNotes)) {
     offset = 14;
-  if (row == usfm_get_category_name(ucSpecialText))
+  }
+  else if (row == usfm_get_category_name(ucSpecialText)) {
     offset = 15;
-  if (row == usfm_get_category_name(ucCharacterStyles))
+  }
+  else if (row == usfm_get_category_name(ucCharacterStyles)) {
     offset = 16;
-  if (row == usfm_get_category_name(ucSpacingsAndBreaks))
+  }
+  else if (row == usfm_get_category_name(ucSpacingsAndBreaks)) {
     offset = 17;
-  if (row == usfm_get_category_name(ucSpecialFeatures))
+  }
+  else if (row == usfm_get_category_name(ucSpecialFeatures)) {
     offset = 18;
-  if (row == usfm_get_category_name(ucPeripheralMaterials))
+  }
+  else if (row == usfm_get_category_name(ucPeripheralMaterials)) {
     offset = 19;
-  if (row == usfm_get_category_name(ucNonstandardStyles))
+  }
+  else if (row == usfm_get_category_name(ucNonstandardStyles)) {
     offset = 20;
+  }
+
   return offset;
 }
 
@@ -1252,7 +1276,7 @@ ustring WindowStyles::get_name(const ustring & marker)
   for (unsigned int i = 0; i < usfm->styles.size(); i++)
     if (marker == usfm->styles[i].marker)
       return usfm->styles[i].name;
-  return "Unknown";
+  return _("Unknown");
 }
 
 

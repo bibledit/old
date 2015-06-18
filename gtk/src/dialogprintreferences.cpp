@@ -31,14 +31,14 @@
 #include "help.h"
 #include "books.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 PrintReferencesDialog::PrintReferencesDialog(int dummy)
 {
   extern Settings *settings;
 
   printreferencesdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(printreferencesdialog), "Print References");
+  gtk_window_set_title(GTK_WINDOW(printreferencesdialog), _("Print References"));
   gtk_window_set_position(GTK_WINDOW(printreferencesdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(printreferencesdialog), TRUE);
 
@@ -49,7 +49,7 @@ PrintReferencesDialog::PrintReferencesDialog(int dummy)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new("This prints worksheets with the text of all the references on it.\n" "The text is taken from the project that is open. Other projects can be added.");
+  label12 = gtk_label_new(_("This prints worksheets with the text of all the references on it.\nThe text is taken from the project that is open. Other projects can be added."));
   gtk_widget_show(label12);
   gtk_box_pack_start(GTK_BOX(vbox1), label12, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label12), 0, 0.5);
@@ -62,7 +62,7 @@ PrintReferencesDialog::PrintReferencesDialog(int dummy)
   gtk_widget_show(hbox3);
   gtk_box_pack_start(GTK_BOX(vbox1), hbox3, TRUE, TRUE, 0);
 
-  label13 = gtk_label_new("Main project:");
+  label13 = gtk_label_new(_("Main project:"));
   gtk_widget_show(label13);
   gtk_box_pack_start(GTK_BOX(hbox3), label13, FALSE, FALSE, 0);
 
@@ -74,7 +74,7 @@ PrintReferencesDialog::PrintReferencesDialog(int dummy)
   gtk_widget_show(hseparator2);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator2, TRUE, TRUE, 0);
 
-  label15 = gtk_label_new("Additional projects:");
+  label15 = gtk_label_new(_("Additional projects:"));
   gtk_widget_show(label15);
   gtk_box_pack_start(GTK_BOX(vbox1), label15, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label15), 0, 0.5);
@@ -99,7 +99,7 @@ PrintReferencesDialog::PrintReferencesDialog(int dummy)
   gtk_widget_show(image2);
   gtk_box_pack_start(GTK_BOX(hbox8), image2, FALSE, FALSE, 0);
 
-  label18 = gtk_label_new_with_mnemonic("_Add project");
+  label18 = gtk_label_new_with_mnemonic(_("_Add project"));
   gtk_widget_show(label18);
   gtk_box_pack_start(GTK_BOX(hbox8), label18, FALSE, FALSE, 0);
 
@@ -243,7 +243,7 @@ void PrintReferencesDialog::on_button_add(const ustring & project)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox6), image1, FALSE, FALSE, 0);
 
-  label17 = gtk_label_new_with_mnemonic("Remove");
+  label17 = gtk_label_new_with_mnemonic(_("Remove"));
   gtk_widget_show(label17);
   gtk_box_pack_start(GTK_BOX(hbox6), label17, FALSE, FALSE, 0);
 

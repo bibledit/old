@@ -26,7 +26,7 @@
 #include "keyboard.h"
 #include "help.h"
 #include "screen.h"
-
+#include <glib/gi18n.h>
 
 ListviewMDialog::ListviewMDialog(const ustring & title, vector <ustring> &list, bool sortlist, gchar * help)
 // This dialog shows "list".
@@ -45,7 +45,7 @@ ListviewMDialog::ListviewMDialog(const ustring & title, vector <ustring> &list, 
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Select one or more items, and then press OK or Enter");
+  label1 = gtk_label_new(_("Select one or more items, and then press OK or Enter"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 4);
 

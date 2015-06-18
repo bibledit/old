@@ -26,7 +26,7 @@
 #include "gwrappers.h"
 #include "screen.h"
 #include "utilities.h"
-
+#include <glib/gi18n.h>
 
 MergeDialog::MergeDialog(const ustring & text)
 {
@@ -35,7 +35,7 @@ MergeDialog::MergeDialog(const ustring & text)
   extern Settings *settings;
 
   mergedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(mergedialog), "Merge");
+  gtk_window_set_title(GTK_WINDOW(mergedialog), _("Merge"));
   gtk_window_set_position(GTK_WINDOW(mergedialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(mergedialog), TRUE);
   gtk_window_set_default_size(GTK_WINDOW(mergedialog), (int)(settings->genconfig.screen_width_get() * 0.8), (int)(settings->genconfig.screen_height_get() * 0.9));
@@ -43,7 +43,7 @@ MergeDialog::MergeDialog(const ustring & text)
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (mergedialog));
   gtk_widget_show(dialog_vbox1);
 
-  label = gtk_label_new("The merge operation needs manual intervention. Each place that needs intervention shows two buttons with the two alternatives. Please press the buttons with the correct text.");
+  label = gtk_label_new(_("The merge operation needs manual intervention. Each place that needs intervention shows two buttons with the two alternatives. Please press the buttons with the correct text."));
   gtk_label_set_line_wrap(GTK_LABEL(label), true);
   gtk_widget_show(label);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label, FALSE, FALSE, 0);

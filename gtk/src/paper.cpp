@@ -19,6 +19,7 @@
 
 #include "libraries.h"
 #include "paper.h"
+#include <glib/gi18n.h>
 
 const char *PAPER_SIZES[NUMBER_OF_PAPERSIZES] = { "A3", "A4", "A5",
   "B4 (ISO)", "B5 (ISO)", "B6 (ISO)",
@@ -47,7 +48,7 @@ ustring paper_size_get_name(int index)
   if (index < NUMBER_OF_PAPERSIZES)
     value = PAPER_SIZES[index];
   else
-    value = "User defined";
+    value = _("User defined");
   return value;
 }
 

@@ -35,7 +35,7 @@
 #include "gwrappers.h"
 #include "shell.h"
 #include "constants.h"
-
+#include <glib/gi18n.h>
 
 void compare_with(WindowReferences * references_window, const ustring & project, const ustring & secondproject, bool print_changes_only)
 {
@@ -48,7 +48,7 @@ void compare_with(WindowReferences * references_window, const ustring & project,
     return;
   // The project to store the comparison.
   ProjectMemory comparedprojectmemory = projectmemory;
-  comparedprojectmemory.name = project + " compared with " + secondproject;
+  comparedprojectmemory.name = project + _(" compared with ") + secondproject;
   // Do the actual comparison.
   if (!compare_projects(projectmemory, secondprojectmemory, comparedprojectmemory))
     return;
@@ -81,7 +81,7 @@ bool compare_projects(ProjectMemory & originalproject, ProjectMemory & secondpro
 // Compares originalproject with secondproject. Differences go in outputproject.
 {
   // Progress information.
-  ProgressWindow progresswindow("Comparing", true);
+  ProgressWindow progresswindow(_("Comparing"), true);
 
   // Open the Scriptures.
   vector < unsigned int >originalscripture_books = originalproject.get_books();
@@ -222,14 +222,14 @@ void compare_get_additions_deletions_verses(ProjectMemory & originalproject, Pro
   // Go through the original verses to see which were added.
   for (unsigned int b = 0; b < originalverses.size(); b++) {
     if (secondverses_set.find(originalverses[b]) == secondverses_set.end()) {
-      results.push_back("Added: " + books_id_to_english(book) + " " + convert_to_string(chapter) + ":" + originalverses[b]);
+      results.push_back(_("Added: ") + books_id_to_english(book) + " " + convert_to_string(chapter) + ":" + originalverses[b]);
     }
   }
 
   // Go through the second verses to see which were deleted.
   for (unsigned int b = 0; b < secondverses.size(); b++) {
     if (originalverses_set.find(secondverses[b]) == originalverses_set.end()) {
-      results.push_back("Deleted: " + books_id_to_english(book) + " " + convert_to_string(chapter) + ":" + secondverses[b]);
+      results.push_back(_("Deleted: ") + books_id_to_english(book) + " " + convert_to_string(chapter) + ":" + secondverses[b]);
     }
   }
 }
@@ -255,7 +255,7 @@ void compare_get_additions_deletions_chapters(ProjectMemory & originalproject, P
     if (secondchapters_set.find(originalchapters[b]) != secondchapters_set.end()) {
       compare_get_additions_deletions_verses(originalproject, secondproject, book, originalchapters[b], results);
     } else {
-      results.push_back("Added: " + books_id_to_english(book) + " " + convert_to_string(originalchapters[b]));
+      results.push_back(_("Added: ") + books_id_to_english(book) + " " + convert_to_string(originalchapters[b]));
     }
   }
 
@@ -265,7 +265,7 @@ void compare_get_additions_deletions_chapters(ProjectMemory & originalproject, P
     if (originalchapters_set.find(secondchapters[b]) != originalchapters_set.end()) {
       compare_get_additions_deletions_verses(originalproject, secondproject, book, secondchapters[b], results);
     } else {
-      results.push_back("Deleted: " + books_id_to_english(book) + " " + convert_to_string(secondchapters[b]));
+      results.push_back(_("Deleted: ") + books_id_to_english(book) + " " + convert_to_string(secondchapters[b]));
     }
   }
 }
@@ -284,7 +284,7 @@ deleted. If anything was found, it puts human readable text in "results".
   set < unsigned int >secondbooks_set(secondbooks.begin(), secondbooks.end());
 
   // Progress information.
-  ProgressWindow progresswindow("Finding additions and deletions", false);
+  ProgressWindow progresswindow(_("Finding additions and deletions"), false);
   progresswindow.set_iterate(0, 1, originalbooks.size() + secondbooks.size());
 
   // Go through the original books to see which books were added.
@@ -294,7 +294,7 @@ deleted. If anything was found, it puts human readable text in "results".
     if (secondbooks_set.find(originalbooks[b]) != secondbooks_set.end()) {
       compare_get_additions_deletions_chapters(originalproject, secondproject, originalbooks[b], results);
     } else {
-      results.push_back("Added: " + books_id_to_english(originalbooks[b]));
+      results.push_back(_("Added: ") + books_id_to_english(originalbooks[b]));
     }
   }
 
@@ -305,7 +305,7 @@ deleted. If anything was found, it puts human readable text in "results".
     if (originalbooks_set.find(secondbooks[b]) != originalbooks_set.end()) {
       compare_get_additions_deletions_chapters(originalproject, secondproject, secondbooks[b], results);
     } else {
-      results.push_back("Deleted: " + books_id_to_english(secondbooks[b]));
+      results.push_back(_("Deleted: ") + books_id_to_english(secondbooks[b]));
     }
   }
 

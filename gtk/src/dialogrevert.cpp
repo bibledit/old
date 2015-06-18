@@ -36,7 +36,7 @@
 #include "unixwrappers.h"
 #include "compareutils.h"
 #include "snapshots.h"
-
+#include <glib/gi18n.h>
 
 RevertDialog::RevertDialog(Reference * reference)
 {
@@ -53,7 +53,7 @@ RevertDialog::RevertDialog(Reference * reference)
   Shortcuts shortcuts(0);
 
   revertdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(revertdialog), "Revert");
+  gtk_window_set_title(GTK_WINDOW(revertdialog), _("Revert"));
   gtk_window_set_position(GTK_WINDOW(revertdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(revertdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
@@ -80,7 +80,7 @@ RevertDialog::RevertDialog(Reference * reference)
   gtk_widget_show(comboboxchapter);
   gtk_table_attach(GTK_TABLE(table1), comboboxchapter, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
 
-  labelbook = gtk_label_new("Book");
+  labelbook = gtk_label_new(_("Book"));
   gtk_widget_show(labelbook);
   gtk_table_attach(GTK_TABLE(table1), labelbook, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(labelbook), 0, 0.5);
@@ -89,7 +89,7 @@ RevertDialog::RevertDialog(Reference * reference)
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(labelbook), comboboxbook);
 
-  labelchapter = gtk_label_new("Chapter");
+  labelchapter = gtk_label_new(_("Chapter"));
   gtk_widget_show(labelchapter);
   gtk_table_attach(GTK_TABLE(table1), labelchapter, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(labelchapter), 0, 0.5);
@@ -102,7 +102,7 @@ RevertDialog::RevertDialog(Reference * reference)
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator1, FALSE, TRUE, 0);
 
-  labelrevisions = gtk_label_new("Revisions");
+  labelrevisions = gtk_label_new(_("Revisions"));
   gtk_widget_show(labelrevisions);
   gtk_box_pack_start(GTK_BOX(vbox1), labelrevisions, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(labelrevisions), 0, 0.5);
@@ -142,7 +142,7 @@ RevertDialog::RevertDialog(Reference * reference)
 
   GSList *radiobutton_current_group = NULL;
 
-  radiobutton_current = gtk_radio_button_new_with_mnemonic (NULL, "View current version");
+  radiobutton_current = gtk_radio_button_new_with_mnemonic (NULL, _("View current version"));
   gtk_widget_show (radiobutton_current);
   gtk_box_pack_start (GTK_BOX (vbox2), radiobutton_current, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_current), radiobutton_current_group);
@@ -150,7 +150,7 @@ RevertDialog::RevertDialog(Reference * reference)
 
   shortcuts.button(radiobutton_current);
 
-  radiobutton_previous = gtk_radio_button_new_with_mnemonic (NULL, "View previous revision");
+  radiobutton_previous = gtk_radio_button_new_with_mnemonic (NULL, _("View previous revision"));
   gtk_widget_show (radiobutton_previous);
   gtk_box_pack_start (GTK_BOX (vbox2), radiobutton_previous, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_previous), radiobutton_current_group);
@@ -158,7 +158,7 @@ RevertDialog::RevertDialog(Reference * reference)
 
   shortcuts.button(radiobutton_previous);
 
-  radiobutton_changes = gtk_radio_button_new_with_mnemonic (NULL, "View changes if reverting to previous revision");
+  radiobutton_changes = gtk_radio_button_new_with_mnemonic (NULL, _("View changes if reverting to previous revision"));
   gtk_widget_show (radiobutton_changes);
   gtk_box_pack_start (GTK_BOX (vbox2), radiobutton_changes, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_changes), radiobutton_current_group);
@@ -323,12 +323,12 @@ void RevertDialog::on_okbutton()
 
   // If no change, bail out.
   if (vector_strings_equal (rt.lines, history_data)) {
-    gtkw_dialog_info (NULL, "No changes were applied");
+    gtkw_dialog_info (NULL, _("No changes were applied"));
     return;
   }
 
   // Ask the user if he is sure to load the previous text. If not, bail out.
-  int result = gtkw_dialog_question(revertdialog, "Are you sure you wish to revert this chapter to the previous revision?");
+  int result = gtkw_dialog_question(revertdialog, _("Are you sure you wish to revert this chapter to the previous revision?"));
   if (result != GTK_RESPONSE_YES)
     return;
 

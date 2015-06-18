@@ -30,12 +30,12 @@
 #include "settings.h"
 #include "help.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 AreaDialog::AreaDialog(int dummy)
 {
   areadialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(areadialog), "Area selection");
+  gtk_window_set_title(GTK_WINDOW(areadialog), _("Area selection"));
   gtk_window_set_position(GTK_WINDOW(areadialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(areadialog), TRUE);
 
@@ -47,60 +47,60 @@ AreaDialog::AreaDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(vbox1), 2);
 
-  label4 = gtk_label_new("Select which part of the text to work on");
+  label4 = gtk_label_new(_("Select which part of the text to work on"));
   gtk_widget_show(label4);
   gtk_box_pack_start(GTK_BOX(vbox1), label4, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
 
   GSList *radiobutton_raw_group = NULL;
 
-  radiobutton_raw = gtk_radio_button_new_with_mnemonic(NULL, "The raw _USFM text");
+  radiobutton_raw = gtk_radio_button_new_with_mnemonic(NULL, _("The raw _USFM text"));
   gtk_widget_show(radiobutton_raw);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_raw, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_raw), radiobutton_raw_group);
   radiobutton_raw_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_raw));
 
-  radiobutton_all = gtk_radio_button_new_with_mnemonic(NULL, "_All the text except the USFM codes");
+  radiobutton_all = gtk_radio_button_new_with_mnemonic(NULL, _("_All the text except the USFM codes"));
   gtk_widget_show(radiobutton_all);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_all, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_all), radiobutton_raw_group);
   radiobutton_raw_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_all));
 
-  radiobutton_categories = gtk_radio_button_new_with_mnemonic(NULL, "C_ertain categories specified below");
+  radiobutton_categories = gtk_radio_button_new_with_mnemonic(NULL, _("C_ertain categories specified below"));
   gtk_widget_show(radiobutton_categories);
   gtk_box_pack_start(GTK_BOX(vbox1), radiobutton_categories, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_categories), radiobutton_raw_group);
   radiobutton_raw_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_categories));
 
-  checkbutton_id = gtk_check_button_new_with_mnemonic("_Identifiers");
+  checkbutton_id = gtk_check_button_new_with_mnemonic(_("_Identifiers"));
   gtk_widget_show(checkbutton_id);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_id, FALSE, FALSE, 0);
 
-  checkbutton_intro = gtk_check_button_new_with_mnemonic("I_ntroductions");
+  checkbutton_intro = gtk_check_button_new_with_mnemonic(_("I_ntroductions"));
   gtk_widget_show(checkbutton_intro);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_intro, FALSE, FALSE, 0);
 
-  checkbutton_heading = gtk_check_button_new_with_mnemonic("_Titles and headings");
+  checkbutton_heading = gtk_check_button_new_with_mnemonic(_("_Titles and headings"));
   gtk_widget_show(checkbutton_heading);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_heading, FALSE, FALSE, 0);
 
-  checkbutton_chapter = gtk_check_button_new_with_mnemonic("Cha_pter text");
+  checkbutton_chapter = gtk_check_button_new_with_mnemonic(_("Cha_pter text"));
   gtk_widget_show(checkbutton_chapter);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_chapter, FALSE, FALSE, 0);
 
-  checkbutton_study = gtk_check_button_new_with_mnemonic("_Study notes");
+  checkbutton_study = gtk_check_button_new_with_mnemonic(_("_Study notes"));
   gtk_widget_show(checkbutton_study);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_study, FALSE, FALSE, 0);
 
-  checkbutton_notes = gtk_check_button_new_with_mnemonic("_Foot- and endnotes");
+  checkbutton_notes = gtk_check_button_new_with_mnemonic(_("_Foot- and endnotes"));
   gtk_widget_show(checkbutton_notes);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_notes, FALSE, FALSE, 0);
 
-  checkbutton_xref = gtk_check_button_new_with_mnemonic("C_rossreferences");
+  checkbutton_xref = gtk_check_button_new_with_mnemonic(_("C_rossreferences"));
   gtk_widget_show(checkbutton_xref);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_xref, FALSE, FALSE, 0);
 
-  checkbutton_verse = gtk_check_button_new_with_mnemonic("_Verse text");
+  checkbutton_verse = gtk_check_button_new_with_mnemonic(_("_Verse text"));
   gtk_widget_show(checkbutton_verse);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_verse, FALSE, FALSE, 0);
 
@@ -239,32 +239,32 @@ ustring area_information()
   extern Settings *settings;
   switch (settings->session.area_type) {
   case atRaw:
-    areas.push_back("Raw text");
+    areas.push_back(_("Raw text"));
     break;
   case atAll:
-    areas.push_back("All text");
+    areas.push_back(_("All text"));
     break;
   case atSelection:
     if (settings->session.area_id)
-      areas.push_back("Identifiers");
+      areas.push_back(_("Identifiers"));
     if (settings->session.area_intro)
-      areas.push_back("Introductions");
+      areas.push_back(_("Introductions"));
     if (settings->session.area_heading)
-      areas.push_back("Headings");
+      areas.push_back(_("Headings"));
     if (settings->session.area_chapter)
-      areas.push_back("Chapter text");
+      areas.push_back(_("Chapter text"));
     if (settings->session.area_study)
-      areas.push_back("Study notes");
+      areas.push_back(_("Study notes"));
     if (settings->session.area_notes)
-      areas.push_back("Foot- and endnotes");
+      areas.push_back(_("Foot- and endnotes"));
     if (settings->session.area_xref)
-      areas.push_back("Crossreferences");
+      areas.push_back(_("Crossreferences"));
     if (settings->session.area_verse)
-      areas.push_back("Verse text");
+      areas.push_back(_("Verse text"));
     break;
   }
   if (areas.size() > 3) {
-    text = convert_to_string(int (areas.size())) + " Areas";
+    text = convert_to_string(int (areas.size())) + _(" Areas");
   } else {
     for (unsigned int i = 0; i < areas.size(); i++) {
       if (!text.empty())
@@ -273,8 +273,7 @@ ustring area_information()
     }
   }
   if (areas.empty())
-    text = "No areas selected";
+    text = _("No areas selected");
   return text;
 }
-
 

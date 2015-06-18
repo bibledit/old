@@ -28,7 +28,7 @@
 #include "tiny_utilities.h"
 #include "utilities.h"
 #include "gtkwrappers.h"
-
+#include <glib/gi18n.h>
 
 void checks_output_references_comments(const vector < ustring > &references, const vector < ustring > &comments)
 // Outputs the results of check to stdout.
@@ -65,21 +65,21 @@ void DisplayCheckingResults::word_inventory(const vector < ustring > &words, con
 {
   ustring line;
   // Heading and information.
-  heading(2, "Word Inventory");
-  paragraph("Total word count: " + convert_to_string(total));
-  paragraph("Unique word count: " + convert_to_string(unique));
+  heading(2, _("Word Inventory"));
+  paragraph(_("Total word count: ") + convert_to_string(total));
+  paragraph(_("Unique word count: ") + convert_to_string(unique));
   if (filteredtotal != total) {
-    paragraph("Words with a count of " + convert_to_string(excludelimit) + " and up were filtered out.");
-    paragraph("Filtered total word count: " + convert_to_string(filteredtotal));
-    paragraph("Filtered unique word count: " + convert_to_string(filteredunique));
+    paragraph(_("Words with a count of ") + convert_to_string(excludelimit) + _(" and up were filtered out."));
+    paragraph(_("Filtered total word count: ") + convert_to_string(filteredtotal));
+    paragraph(_("Filtered unique word count: ") + convert_to_string(filteredunique));
   }
-  paragraph("Click on a word to see the places where it occurs.");
+  paragraph(_("Click on a word to see the places where it occurs."));
 
   // Open the columns.
   open_table();
   open_table_column();
-  add_table_cell("Word", true, false);
-  add_table_cell("Count", true, true);
+  add_table_cell(_("Word"), true, false);
+  add_table_cell(_("Count"), true, true);
   close_table_column();
 
   // Add the data.
@@ -106,14 +106,14 @@ void DisplayCheckingResults::usfm_count(const vector < ustring > &usfms, const v
 {
   ustring line;
   // Heading and information.
-  heading(2, "Marker Count");
+  heading(2, _("Marker Count"));
 
   // Open the columns.
   open_table();
   open_table_column();
-  add_table_cell("Marker", true, false);
-  add_table_cell("Count", true, true);
-  add_table_cell("Description", true, false);
+  add_table_cell(_("Marker"), true, false);
+  add_table_cell(_("Count"), true, true);
+  add_table_cell(_("Description"), true, false);
   close_table_column();
 
   // Add the data.
@@ -141,15 +141,15 @@ void DisplayCheckingResults::character_count(const vector < ustring > &chars, co
 {
   ustring line;
   // Heading and information.
-  heading(2, "Character Count");
+  heading(2, _("Character Count"));
 
   // Open the columns.
   open_table();
   open_table_column();
-  add_table_cell("Character", true, false);
-  add_table_cell("Decimal", true, false);
-  add_table_cell("Hexadecimal", true, false);
-  add_table_cell("Count", true, true);
+  add_table_cell(_("Character"), true, false);
+  add_table_cell(_("Decimal"), true, false);
+  add_table_cell(_("Hexadecimal"), true, false);
+  add_table_cell(_("Count"), true, true);
   close_table_column();
 
   // Add the data.
@@ -179,13 +179,13 @@ void DisplayCheckingResults::references_inventory(const vector < ustring > &vers
 {
   ustring line;
   // Heading and information.
-  heading(2, "References Inventory");
+  heading(2, _("References Inventory"));
 
   // Open the columns.
   open_table();
   open_table_column();
-  add_table_cell("Verse", true, false);
-  add_table_cell("References", true, false);
+  add_table_cell(_("Verse"), true, false);
+  add_table_cell(_("References"), true, false);
   close_table_column();
 
   // Add the data.
@@ -212,8 +212,8 @@ void DisplayCheckingResults::ot_quotations_in_nt(const vector <ustring> nt_refs,
   heading(2, mainheading);
   open_table();
 
-  ustring column_references = "New Testament";
-  ustring column_referents = "Old Testament";
+  ustring column_references = _("New Testament");
+  ustring column_referents = _("Old Testament");
   open_table_column();
   extern Settings * settings;
   if (settings->session.check_output_in_ot_order) {

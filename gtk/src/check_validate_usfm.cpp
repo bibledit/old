@@ -26,7 +26,7 @@
 #include "usfmtools.h"
 #include "books.h"
 #include "tiny_utilities.h"
-
+#include <glib/gi18n.h>
 
 CheckValidateUsfm::CheckValidateUsfm(const ustring & project, const vector < unsigned int >&books, bool gui, bool checksheet)
 /*
@@ -51,7 +51,7 @@ checksheet: check whether markers are in the stylesheet of the project.
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow("Validating markers", true);
+    progresswindow = new ProgressWindow(_("Validating markers"), true);
     progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book.
@@ -103,21 +103,21 @@ void CheckValidateUsfm::check(const ustring & text)
   ustring marker = usfm_extract_marker_within_line(line);
   if (marker.empty()) {
     // No marker found.
-    message("Line without USFM");
+    message(_("Line without USFM"));
   }
   while (!marker.empty()) {
 
     if (marker == "id") {
       // Is the line long enough?
       if (line.length() < 3) {
-        message("ID line is too short: " + line);
+        message(_("ID line is too short: ") + line);
       } else {
         ustring id = line.substr(0, 3);
         unsigned int myid = books_paratext_to_id(id);
         if (myid == 0)
-          message("Unknown id " + id);
+          message(_("Unknown id ") + id);
         if (id != upperCase(id))
-          message("Non-uppercase id code");
+          message(_("Non-uppercase id code"));
       }
     } else if (marker == "c") {
     } else if (marker == "v") {
@@ -131,7 +131,7 @@ void CheckValidateUsfm::check(const ustring & text)
         ustring character = verse_number.substr (i, 1);
         if (number_in_string (character) != character) {
           if ((character != "a") || (character != "b") || (character != "-") || (character != ",")) {
-            message ("Unusual character in verse number " + verse_number);
+            message (_("Unusual character in verse number ") + verse_number);
             break;
           }
         }
@@ -373,15 +373,15 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "x") {
       check_on_endmarker(line, marker, false);
     } else if (marker.find("*") != string::npos) {
-      message("Unmatched end marker " + marker);
+      message(_("Unmatched end marker ") + marker);
     } else {
-      message("Unknown USFM " + marker);
+      message(_("Unknown USFM ") + marker);
     }
 
     // Optionally check whether this marker is in the stylesheet.
     if (mychecksheet) {
       if (styles.find(marker) == styles.end()) {
-        message("Marker " + marker + " not in stylesheet");
+        message(_("Marker ") + marker + _(" not in stylesheet"));
       }
     }
     // Extract any next marker in this line.    
@@ -578,7 +578,7 @@ void CheckValidateUsfm::check(const ustring & text)
         || (marker == "xt")
         || (marker == "x")
         ) {
-      message("Normal slash for /" + originalmarker);
+      message(_("Normal slash for /") + originalmarker);
     }
     // Extract any next marker in this line.    
     marker = usfm_extract_marker_with_forwardslash(line);
@@ -587,7 +587,7 @@ void CheckValidateUsfm::check(const ustring & text)
   // Check for widow backslashes.
   line = utext + " ";
   if ((line.find("\\ ") != string::npos) || (line == "\\")) {
-    message("Widow backslash");
+    message(_("Widow backslash"));
   }
 }
 
@@ -610,7 +610,7 @@ void CheckValidateUsfm::check_on_endmarker(ustring & line, const ustring & marke
     // Not found: Error message.
     // No error message if the endmarker is optional.
     if (!optional) {
-      message("Endmarker " + endmarker + " not found");
+      message(_("Endmarker ") + endmarker + _(" not found"));
     }
   }
 }
@@ -618,7 +618,7 @@ void CheckValidateUsfm::check_on_endmarker(ustring & line, const ustring & marke
 
 void CheckValidateUsfm::deprecated_marker(const ustring & marker)
 {
-  message("Deprecated marker " + marker);
+  message(_("Deprecated marker ") + marker);
 }
 
 

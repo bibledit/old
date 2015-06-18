@@ -27,7 +27,7 @@
 #include "help.h"
 #include "directories.h"
 #include "gwrappers.h"
-
+#include <glib/gi18n.h>
 
 ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
 {
@@ -118,7 +118,7 @@ void ReferenceExchangeDialog::on_url_test()
   }
   if (message.empty()) {
     if (spawn.exitstatus == 0) {
-      message = "Access okay";
+      message = _("Access okay");
     }
   }
   gtk_label_set_text (GTK_LABEL (label_url), message.c_str());

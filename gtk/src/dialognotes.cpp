@@ -26,7 +26,7 @@
 #include "gtkwrappers.h"
 #include "listview.h"
 #include "help.h"
-
+#include <glib/gi18n.h>
 
 NotesDialog::NotesDialog(int dummy)
 {
@@ -36,7 +36,7 @@ NotesDialog::NotesDialog(int dummy)
   notes_categories_add_from_database(categories);
 
   notesdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(notesdialog), "Project notes");
+  gtk_window_set_title(GTK_WINDOW(notesdialog), _("Project notes"));
   gtk_window_set_position(GTK_WINDOW(notesdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(notesdialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(notesdialog), TRUE);
@@ -44,7 +44,7 @@ NotesDialog::NotesDialog(int dummy)
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(notesdialog));
   gtk_widget_show(dialog_vbox1);
 
-  label10 = gtk_label_new("While editing a project note, there are some categories that can be assigned to this note.\nThe list of categories can be edited here.");
+  label10 = gtk_label_new(_("While editing a project note, there are some categories that can be assigned to this note.\nThe list of categories can be edited here."));
   gtk_widget_show(label10);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label10, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label10), TRUE);
@@ -77,7 +77,7 @@ NotesDialog::NotesDialog(int dummy)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox2), image1, FALSE, FALSE, 0);
 
-  label11 = gtk_label_new_with_mnemonic("_Delete");
+  label11 = gtk_label_new_with_mnemonic(_("_Delete"));
   gtk_widget_show(label11);
   gtk_box_pack_start(GTK_BOX(hbox2), label11, FALSE, FALSE, 0);
 
@@ -97,7 +97,7 @@ NotesDialog::NotesDialog(int dummy)
   gtk_widget_show(image2);
   gtk_box_pack_start(GTK_BOX(hbox3), image2, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new_with_mnemonic("_Add");
+  label12 = gtk_label_new_with_mnemonic(_("_Add"));
   gtk_widget_show(label12);
   gtk_box_pack_start(GTK_BOX(hbox3), label12, FALSE, FALSE, 0);
 
@@ -188,7 +188,7 @@ void NotesDialog::on_delete_category()
     set_gui(categories, "");
   } else {
     // Category is in database: Can't be deleted.
-    ustring message = "This category could not be deleted, because there are still notes\n" "in the database with this category.";
+    ustring message = _("This category could not be deleted, because there are still notes\nin the database with this category.");
     gtkw_dialog_error(notesdialog, message);
   }
 }
@@ -202,7 +202,7 @@ void NotesDialog::on_buttonadd_clicked(GtkButton * button, gpointer user_data)
 
 void NotesDialog::on_add_category()
 {
-  EntryDialog dialog("New category name", "Enter a new category.", "");
+  EntryDialog dialog(_("New category name"), _("Enter a new category."), "");
   if (dialog.run() == GTK_RESPONSE_OK) {
     vector < ustring > categories = listview_get_strings(treeview1);
     categories.push_back(dialog.entered_value);

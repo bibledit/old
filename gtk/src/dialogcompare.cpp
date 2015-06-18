@@ -31,7 +31,7 @@
 #include "dialogselectbooks.h"
 #include "scriptureportions.h"
 #include "shortcuts.h"
-
+#include <glib/gi18n.h>
 
 CompareDialog::CompareDialog(WindowReferences * references_window)
 {
@@ -42,7 +42,7 @@ CompareDialog::CompareDialog(WindowReferences * references_window)
   Shortcuts shortcuts(0);
 
   comparedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(comparedialog), "Compare project");
+  gtk_window_set_title(GTK_WINDOW(comparedialog), _("Compare project"));
   gtk_window_set_position(GTK_WINDOW(comparedialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(comparedialog), TRUE);
 
@@ -53,7 +53,7 @@ CompareDialog::CompareDialog(WindowReferences * references_window)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new("Select a project to compare the current project with\n" "and then press OK");
+  label1 = gtk_label_new(_("Select a project to compare the current project with\nand then press OK"));
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 4);
   gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
@@ -61,7 +61,7 @@ CompareDialog::CompareDialog(WindowReferences * references_window)
   selectprojectgui = new SelectProjectGui(0);
   selectprojectgui->build(vbox1, "", settings->genconfig.project_to_compare_with_get());
 
-  checkbutton1 = gtk_check_button_new_with_mnemonic("Print changed verses only");
+  checkbutton1 = gtk_check_button_new_with_mnemonic(_("Print changed verses only"));
   gtk_widget_show(checkbutton1);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton1, FALSE, FALSE, 0);
 
@@ -73,7 +73,7 @@ CompareDialog::CompareDialog(WindowReferences * references_window)
   gtk_widget_show(hbox1);
   gtk_box_pack_start(GTK_BOX(vbox1), hbox1, TRUE, TRUE, 0);
 
-  label2 = gtk_label_new("Portion");
+  label2 = gtk_label_new(_("Portion"));
   gtk_widget_show(label2);
   gtk_box_pack_start(GTK_BOX(hbox1), label2, FALSE, FALSE, 0);
 
@@ -101,7 +101,7 @@ CompareDialog::CompareDialog(WindowReferences * references_window)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox2), image1, FALSE, FALSE, 0);
 
-  label4 = gtk_label_new_with_mnemonic("C_hange");
+  label4 = gtk_label_new_with_mnemonic(_("C_hange"));
   gtk_widget_show(label4);
   gtk_box_pack_start(GTK_BOX(hbox2), label4, FALSE, FALSE, 0);
 
@@ -209,7 +209,7 @@ void CompareDialog::gui_reorder_include()
   if (scriptureportions.reordering_portions_all())
     gtk_label_set_text(GTK_LABEL(label_portion), CHAPTER_VERSE_SELECTION_ALL);
   else
-    gtk_label_set_text(GTK_LABEL(label_portion), "part");
+    gtk_label_set_text(GTK_LABEL(label_portion), _("part"));
 }
 
 

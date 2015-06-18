@@ -22,11 +22,12 @@
 #include "dialogprojectnote.h"
 #include "help.h"
 #include "combobox.h"
+#include <glib/gi18n.h>
 
 ProjectNoteDialog::ProjectNoteDialog(GtkWidget * parent, const vector < ustring > &projects_in, const ustring & project_in, const ustring & created_on, const ustring & created_by, const ustring & edited_on, const ustring & logbook)
 {
   dialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(dialog), "Project note");
+  gtk_window_set_title(GTK_WINDOW(dialog), _("Project note"));
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
   gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
@@ -38,7 +39,7 @@ ProjectNoteDialog::ProjectNoteDialog(GtkWidget * parent, const vector < ustring 
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label_note_project = gtk_label_new_with_mnemonic("Pro_ject");
+  label_note_project = gtk_label_new_with_mnemonic(_("Pro_ject"));
   gtk_widget_show(label_note_project);
   gtk_box_pack_start(GTK_BOX(vbox1), label_note_project, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_note_project), 0, 0.5);
@@ -47,22 +48,22 @@ ProjectNoteDialog::ProjectNoteDialog(GtkWidget * parent, const vector < ustring 
   gtk_widget_show(combobox_note_project);
   gtk_box_pack_start(GTK_BOX(vbox1), combobox_note_project, FALSE, FALSE, 0);
 
-  label_note_created_on = gtk_label_new("Created on");
+  label_note_created_on = gtk_label_new(_("Created on"));
   gtk_widget_show(label_note_created_on);
   gtk_box_pack_start(GTK_BOX(vbox1), label_note_created_on, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_note_created_on), 0, 0.5);
 
-  label_note_created_by = gtk_label_new("Created by");
+  label_note_created_by = gtk_label_new(_("Created by"));
   gtk_widget_show(label_note_created_by);
   gtk_box_pack_start(GTK_BOX(vbox1), label_note_created_by, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_note_created_by), 0, 0.5);
 
-  label_note_edited_on = gtk_label_new("Edited on");
+  label_note_edited_on = gtk_label_new(_("Edited on"));
   gtk_widget_show(label_note_edited_on);
   gtk_box_pack_start(GTK_BOX(vbox1), label_note_edited_on, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_note_edited_on), 0, 0.5);
 
-  label_note_logbook = gtk_label_new("Logbook");
+  label_note_logbook = gtk_label_new(_("Logbook"));
   gtk_widget_show(label_note_logbook);
   gtk_box_pack_start(GTK_BOX(vbox1), label_note_logbook, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_note_logbook), 0, 0.5);

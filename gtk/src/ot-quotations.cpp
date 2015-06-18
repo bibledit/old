@@ -27,7 +27,7 @@
 #include "settings.h"
 #include "tiny_utilities.h"
 #include "bible.h"
-
+#include <glib/gi18n.h>
 
 OTQuotation::OTQuotation(int dummy)
 :reference(0)
@@ -153,7 +153,7 @@ references: The output reference: contains the related references.
 
   // Store the original reference.
   references.push_back(reference);
-  comments.push_back("Current one");
+  comments.push_back(_("Current one"));
 
   // Remap the references.
   extern Settings *settings;
@@ -176,18 +176,18 @@ references: The output reference: contains the related references.
     if (reference.equals(quotations_nt_order[i].reference)) {
       for (unsigned int i2 = 0; i2 < quotations_nt_order[i].referents.size(); i2++) {
         references.push_back(quotations_nt_order[i].referents[i2]);
-        comments.push_back(comment("Quotation", lxx));
+        comments.push_back(comment(_("Quotation"), lxx));
       }
     }
     // If this is an OT reference, look for possible other ones in the OT, and the NT place that quotes it.
     for (unsigned int i2 = 0; i2 < quotations_nt_order[i].referents.size(); i2++) {
       if (reference.equals(quotations_nt_order[i].referents[i2])) {
         references.push_back(quotations_nt_order[i].reference);
-        comments.push_back("Quoted here");
+        comments.push_back(_("Quoted here"));
         for (unsigned int i3 = 0; i3 < quotations_nt_order[i].referents.size(); i3++) {
           if (i3 != i2) {
             references.push_back(quotations_nt_order[i].referents[i3]);
-            comments.push_back(comment("Parallel passage", lxx));
+            comments.push_back(comment(_("Parallel passage"), lxx));
           }
         }
       }
@@ -208,7 +208,7 @@ ustring OTQuotations::comment(const gchar * text, bool lxx)
 {
   ustring s(text);
   if (lxx)
-    s.append(" from Septuagint");
+    s.append(_(" from Septuagint"));
   return s;
 }
 

@@ -29,7 +29,7 @@
 #include "localizedbooks.h"
 #include "tiny_utilities.h"
 #include "referencememory.h"
-
+#include <glib/gi18n.h>
 
 void quick_swap2(unsigned int &a, unsigned int &b)
 {
@@ -87,7 +87,7 @@ void sort_references(vector < Reference > &references)
     quick_sort(numerical, references, 0, numerical.size());
   }
   catch(exception & ex) {
-    cerr << "Sorting references: " << ex.what() << endl;
+    cerr << _("Sorting references: ") << ex.what() << endl;
   }
 }
 

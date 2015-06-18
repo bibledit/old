@@ -22,6 +22,7 @@
 #include "widgetdate.h"
 #include "date_time_utils.h"
 #include "shortcuts.h"
+#include <glib/gi18n.h>
 
 DateWidget::DateWidget(guint32 * seconds_since_epoch, bool showtime)
 /*
@@ -43,7 +44,7 @@ If showtime is true it shows the time also.
   gtk_widget_show(vbox2);
   gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 0);
 
-  label_date = gtk_label_new("Date");
+  label_date = gtk_label_new(_("Date"));
   gtk_widget_show(label_date);
   gtk_box_pack_start(GTK_BOX(vbox2), label_date, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_date), 0, 0.5);
@@ -66,7 +67,7 @@ If showtime is true it shows the time also.
     gtk_widget_show(vbox1);
     gtk_box_pack_start(GTK_BOX(hbox), vbox1, TRUE, TRUE, 0);
 
-    label_time = gtk_label_new("Time");
+    label_time = gtk_label_new(_("Time"));
     gtk_widget_show(label_time);
     gtk_box_pack_start(GTK_BOX(vbox1), label_time, FALSE, FALSE, 0);
     gtk_misc_set_alignment(GTK_MISC(label_time), 0, 0.5);
@@ -77,21 +78,21 @@ If showtime is true it shows the time also.
     gtk_table_set_row_spacings(GTK_TABLE(table1), 8);
     gtk_table_set_col_spacings(GTK_TABLE(table1), 8);
 
-    label_hour = gtk_label_new("Hour");
+    label_hour = gtk_label_new(_("Hour"));
     gtk_widget_show(label_hour);
     gtk_table_attach(GTK_TABLE(table1), label_hour, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(label_hour), 1, 0.5);
 
     shortcuts.label(label_hour);
 
-    label_minute = gtk_label_new("Minute");
+    label_minute = gtk_label_new(_("Minute"));
     gtk_widget_show(label_minute);
     gtk_table_attach(GTK_TABLE(table1), label_minute, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(label_minute), 1, 0.5);
 
     shortcuts.label(label_minute);
 
-    label_second = gtk_label_new("Second");
+    label_second = gtk_label_new(_("Second"));
     gtk_widget_show(label_second);
     gtk_table_attach(GTK_TABLE(table1), label_second, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(label_second), 1, 0.5);

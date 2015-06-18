@@ -36,18 +36,18 @@
 #include "dialogdate.h"
 #include "date_time_utils.h"
 #include "keyterms.h"
-
+#include <glib/gi18n.h>
 
 ExportAssistant::ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window) :
-AssistantBase("Export", "export")
+  AssistantBase(_("Export"), _("export"))
 // Export assistant.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
-  g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
-  g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
+g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
+g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("This helps you exporting your data");
+introduction (_("This helps you exporting your data"));
 
   // Configuration and initialization.
   extern Settings *settings;
@@ -64,19 +64,19 @@ AssistantBase("Export", "export")
   page_number_select_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_select_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_select_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to export?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "_(What would you like to export?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_select_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_select_type, true);
 
   GSList *radiobutton_select_type_group = NULL;
 
-  radiobutton_select_type_bible = gtk_radio_button_new_with_mnemonic (NULL, "Bible");
+  radiobutton_select_type_bible = gtk_radio_button_new_with_mnemonic (NULL, ")Bible");
   gtk_widget_show (radiobutton_select_type_bible);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible));
 
-  radiobutton_select_type_references = gtk_radio_button_new_with_mnemonic (NULL, "References");
+radiobutton_select_type_references = gtk_radio_button_new_with_mnemonic (NULL, _("References"));
   gtk_widget_show (radiobutton_select_type_references);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_references, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_references), radiobutton_select_type_group);
@@ -85,7 +85,7 @@ AssistantBase("Export", "export")
   // Exporting references only works when the references window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_references, references_window != NULL);
   
-  radiobutton_select_type_stylesheet = gtk_radio_button_new_with_mnemonic (NULL, "Stylesheet");
+  radiobutton_select_type_stylesheet = gtk_radio_button_new_with_mnemonic (NULL, _("Stylesheet"));
   gtk_widget_show (radiobutton_select_type_stylesheet);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_stylesheet, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet), radiobutton_select_type_group);
@@ -94,13 +94,13 @@ AssistantBase("Export", "export")
   // Exporting references only works when the styles window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_stylesheet, my_styles_window != NULL);
 
-  radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, "Notes");
+  radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, _("Notes"));
   gtk_widget_show (radiobutton_select_type_notes);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_notes, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes));
 
-  radiobutton_select_type_keyterms = gtk_radio_button_new_with_mnemonic (NULL, "Keyterms");
+  radiobutton_select_type_keyterms = gtk_radio_button_new_with_mnemonic (NULL, _("Keyterms"));
   gtk_widget_show (radiobutton_select_type_keyterms);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_keyterms, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_keyterms), radiobutton_select_type_group);
@@ -124,11 +124,11 @@ AssistantBase("Export", "export")
   page_number_bible_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_name);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_name), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, "Is this the right Bible?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, _("Is this the right Bible?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_name, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, true);
 
-  label_project_name = gtk_label_new ("Bible name");
+  label_project_name = gtk_label_new (_("Bible name"));
   gtk_widget_show (label_project_name);
   gtk_box_pack_start (GTK_BOX (vbox_bible_name), label_project_name, FALSE, FALSE, 0);
 
@@ -155,7 +155,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new_with_mnemonic ("Choose another one");
+  label12 = gtk_label_new_with_mnemonic (_("Choose another one"));
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox1), label12, FALSE, FALSE, 0);
 
@@ -170,43 +170,43 @@ AssistantBase("Export", "export")
   page_number_bible_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_type, "What would you like to export it to?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_type, _("What would you like to export it to?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_type, true);
 
   GSList *radiobutton_bible_type_group = NULL;
 
-  radiobutton_bible_usfm = gtk_radio_button_new_with_mnemonic (NULL, "Unified Standard Format Markers (USFM)");
+  radiobutton_bible_usfm = gtk_radio_button_new_with_mnemonic (NULL, _("Unified Standard Format Markers (USFM)"));
   gtk_widget_show (radiobutton_bible_usfm);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_usfm, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm));
 
-  radiobutton_bible_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, "BibleWorks Version Database Compiler");
+  radiobutton_bible_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, _("BibleWorks Version Database Compiler"));
   gtk_widget_show (radiobutton_bible_bibleworks);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_bibleworks, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
 
-  radiobutton_bible_osis = gtk_radio_button_new_with_mnemonic (NULL, "Open Scripture Information Standard (OSIS)");
+  radiobutton_bible_osis = gtk_radio_button_new_with_mnemonic (NULL, _("Open Scripture Information Standard (OSIS)"));
   gtk_widget_show (radiobutton_bible_osis);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_osis, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_osis), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_osis));
 
-  radiobutton_bible_sword = gtk_radio_button_new_with_mnemonic (NULL, "CrossWire SWORD");
+  radiobutton_bible_sword = gtk_radio_button_new_with_mnemonic (NULL, _("CrossWire SWORD"));
   gtk_widget_show (radiobutton_bible_sword);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_sword, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_sword), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_sword));
 
-  radiobutton_bible_opendocument = gtk_radio_button_new_with_mnemonic (NULL, "OpenDocument");
+  radiobutton_bible_opendocument = gtk_radio_button_new_with_mnemonic (NULL, _("OpenDocument"));
   gtk_widget_show (radiobutton_bible_opendocument);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_opendocument, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument));
 
-  radiobutton_bible_gobible = gtk_radio_button_new_with_mnemonic (NULL, "Go Bible");
+  radiobutton_bible_gobible = gtk_radio_button_new_with_mnemonic (NULL, _("Go Bible"));
   gtk_widget_show (radiobutton_bible_gobible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_gobible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_gobible), radiobutton_bible_type_group);
@@ -228,19 +228,19 @@ AssistantBase("Export", "export")
   page_number_usfm_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_usfm_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_usfm_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_usfm_type, "What type of USFM export will you make?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_usfm_type, _("What type of USFM export will you make?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_usfm_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_usfm_type, true);
 
   GSList *radiobutton_usfm_type_group = NULL;
 
-  radiobutton_usfm_everything = gtk_radio_button_new_with_mnemonic (NULL, "Everything");
+  radiobutton_usfm_everything = gtk_radio_button_new_with_mnemonic (NULL, _("Everything"));
   gtk_widget_show (radiobutton_usfm_everything);
   gtk_box_pack_start (GTK_BOX (vbox_usfm_type), radiobutton_usfm_everything, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_everything), radiobutton_usfm_type_group);
   radiobutton_usfm_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_usfm_everything));
 
-  radiobutton_usfm_changes_only = gtk_radio_button_new_with_mnemonic (NULL, "Changes only");
+  radiobutton_usfm_changes_only = gtk_radio_button_new_with_mnemonic (NULL, _("Changes only"));
   gtk_widget_show (radiobutton_usfm_changes_only);
   gtk_box_pack_start (GTK_BOX (vbox_usfm_type), radiobutton_usfm_changes_only, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_only), radiobutton_usfm_type_group);
@@ -258,19 +258,19 @@ AssistantBase("Export", "export")
   page_number_usfm_changes_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_usfm_changes_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_usfm_changes_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_usfm_changes_type, "Which changes will you export?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_usfm_changes_type, _("Which changes will you export?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_usfm_changes_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_usfm_changes_type, true);
 
   GSList *radiobutton_usfm_changes_type_group = NULL;
 
-  radiobutton_usfm_changes_since_last = gtk_radio_button_new_with_mnemonic (NULL, "The ones introduced since last time that the changes were exported");
+  radiobutton_usfm_changes_since_last = gtk_radio_button_new_with_mnemonic (NULL, _("The ones introduced since last time that the changes were exported"));
   gtk_widget_show (radiobutton_usfm_changes_since_last);
   gtk_box_pack_start (GTK_BOX (vbox_usfm_changes_type), radiobutton_usfm_changes_since_last, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_last), radiobutton_usfm_changes_type_group);
   radiobutton_usfm_changes_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_last));
 
-  radiobutton_usfm_changes_since_date = gtk_radio_button_new_with_mnemonic (NULL, "The ones introduces since a certain date and time I'll give");
+  radiobutton_usfm_changes_since_date = gtk_radio_button_new_with_mnemonic (NULL, _("The ones introduces since a certain date and time I'll give"));
   gtk_widget_show (radiobutton_usfm_changes_since_date);
   gtk_box_pack_start (GTK_BOX (vbox_usfm_changes_type), radiobutton_usfm_changes_since_date, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_date), radiobutton_usfm_changes_type_group);
@@ -288,25 +288,25 @@ AssistantBase("Export", "export")
   page_number_osis_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_osis_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_osis_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_osis_type, "What type of OSIS file would you prefer?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_osis_type, _("What type of OSIS file would you prefer?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_osis_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_osis_type, true);
   
   GSList *radiobutton_osis_type_group = NULL;
 
-  radiobutton_osis_recommended = gtk_radio_button_new_with_mnemonic (NULL, "Recommended transformation");
+  radiobutton_osis_recommended = gtk_radio_button_new_with_mnemonic (NULL, _("Recommended transformation"));
   gtk_widget_show (radiobutton_osis_recommended);
   gtk_box_pack_start (GTK_BOX (vbox_osis_type), radiobutton_osis_recommended, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_recommended), radiobutton_osis_type_group);
   radiobutton_osis_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_osis_recommended));
 
-  radiobutton_osis_go_bible = gtk_radio_button_new_with_mnemonic (NULL, "For Go Bible Creator");
+  radiobutton_osis_go_bible = gtk_radio_button_new_with_mnemonic (NULL, _("For Go Bible Creator"));
   gtk_widget_show (radiobutton_osis_go_bible);
   gtk_box_pack_start (GTK_BOX (vbox_osis_type), radiobutton_osis_go_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_go_bible), radiobutton_osis_type_group);
   radiobutton_osis_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_osis_go_bible));
 
-  radiobutton_osis_old = gtk_radio_button_new_with_mnemonic (NULL, "Old method");
+  radiobutton_osis_old = gtk_radio_button_new_with_mnemonic (NULL, _("Old method"));
   gtk_widget_show (radiobutton_osis_old);
   gtk_box_pack_start (GTK_BOX (vbox_osis_type), radiobutton_osis_old, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_old), radiobutton_osis_type_group);
@@ -324,7 +324,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_sword_name);
   page_number_sword_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_name);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_name, "What is the name for the module?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_name, _("What is the name for the module?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_name, GTK_ASSISTANT_PAGE_CONTENT);
 
   g_signal_connect((gpointer) entry_sword_name, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
@@ -333,7 +333,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_sword_description);
   page_number_sword_description = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_description);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_description, "What is the description for the module?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_description, _("What is the description for the module?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_description, GTK_ASSISTANT_PAGE_CONTENT);
 
   g_signal_connect((gpointer) entry_sword_description, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
@@ -342,7 +342,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_sword_about);
   page_number_sword_about = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_about);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_about, "What can you say about the module?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_about, _("What can you say about the module?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_about, GTK_ASSISTANT_PAGE_CONTENT);
 
   g_signal_connect((gpointer) entry_sword_about, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
@@ -351,7 +351,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_sword_license);
   page_number_sword_license = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_license);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_license, "What is the license of the module?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_license, _("What is the license of the module?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_license, GTK_ASSISTANT_PAGE_CONTENT);
 
   g_signal_connect((gpointer) entry_sword_license, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
@@ -360,7 +360,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_sword_version);
   page_number_sword_version = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_version);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_version, "What is the version of the module?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_version, _("What is the version of the module?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_version, GTK_ASSISTANT_PAGE_CONTENT);
 
   g_signal_connect((gpointer) entry_sword_version, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
@@ -369,7 +369,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_sword_language);
   page_number_sword_language = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_language);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_language, "What is the language of the module?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_language, _("What is the language of the module?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_language, GTK_ASSISTANT_PAGE_CONTENT);
 
   g_signal_connect((gpointer) entry_sword_language, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
@@ -378,7 +378,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_sword_install_path);
   page_number_sword_install_path = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_install_path);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_install_path, "Where is the module to be installed?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_install_path, _("Where is the module to be installed?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_install_path, GTK_ASSISTANT_PAGE_CONTENT);
 
   g_signal_connect((gpointer) entry_sword_install_path, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
@@ -391,19 +391,19 @@ AssistantBase("Export", "export")
   page_number_stylesheet_format = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_stylesheet_format);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_stylesheet_format), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_stylesheet_format, "What type of export do you chooseS?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_stylesheet_format, _("What type of export do you choose?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_stylesheet_format, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_stylesheet_format, true);
 
   GSList *radiobutton_stylesheet_export_type_group = NULL;
 
-  radiobutton_stylesheet_format_bibledit = gtk_radio_button_new_with_mnemonic (NULL, "Standard Bibledit-Gtk format");
+  radiobutton_stylesheet_format_bibledit = gtk_radio_button_new_with_mnemonic (NULL, _("Standard Bibledit-Gtk format"));
   gtk_widget_show (radiobutton_stylesheet_format_bibledit);
   gtk_box_pack_start (GTK_BOX (vbox_stylesheet_format), radiobutton_stylesheet_format_bibledit, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_bibledit), radiobutton_stylesheet_export_type_group);
   radiobutton_stylesheet_export_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_bibledit));
 
-  radiobutton_stylesheet_format_paratext = gtk_radio_button_new_with_mnemonic (NULL, "Paratext format");
+  radiobutton_stylesheet_format_paratext = gtk_radio_button_new_with_mnemonic (NULL, _("Paratext format"));
   gtk_widget_show (radiobutton_stylesheet_format_paratext);
   gtk_box_pack_start (GTK_BOX (vbox_stylesheet_format), radiobutton_stylesheet_format_paratext, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_paratext), radiobutton_stylesheet_export_type_group);
@@ -416,12 +416,12 @@ AssistantBase("Export", "export")
   shortcuts_select_stylesheet_export_type.process();
 
   // Include keyterms without a rendering?
-  checkbutton_keyterms_without_rendering = gtk_check_button_new_with_mnemonic ("Include keyterms without a rendering");
+  checkbutton_keyterms_without_rendering = gtk_check_button_new_with_mnemonic (_("Include keyterms without a rendering"));
   gtk_widget_show (checkbutton_keyterms_without_rendering);
   page_number_keyterms_without_rendering = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering);
   gtk_container_set_border_width (GTK_CONTAINER (checkbutton_keyterms_without_rendering), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering, "Include keyterms without a rendering?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering, _("Include keyterms without a rendering?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering, true);
 
@@ -431,12 +431,12 @@ AssistantBase("Export", "export")
   shortcuts_keyterms_wo_rendering.process();
   
   // Compress it?
-  checkbutton_zip = gtk_check_button_new_with_mnemonic ("Compress it");
+  checkbutton_zip = gtk_check_button_new_with_mnemonic (_("Compress it"));
   gtk_widget_show (checkbutton_zip);
   page_number_zip = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_zip);
   gtk_container_set_border_width (GTK_CONTAINER (checkbutton_zip), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_zip, "Would you like to compress it?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_zip, _("Would you like to compress it?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_zip, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_zip, true);
 
@@ -451,7 +451,7 @@ AssistantBase("Export", "export")
   page_number_date_time = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_date_time);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_date_time), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_date_time, "Please enter the date and time?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_date_time, _("Please enter the date and time?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_date_time, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_date_time, true);
 
@@ -486,7 +486,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (entry_comment);
   page_number_comment = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_comment);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_comment, "Any comments on this export?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_comment, _("Any comments on this export?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_comment, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), entry_comment, true);
   
@@ -496,7 +496,7 @@ AssistantBase("Export", "export")
   page_number_file = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_file);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_file), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_file, "Where would you like to save it?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_file, _("Where would you like to save it?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_file, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, false);
 
@@ -528,7 +528,7 @@ AssistantBase("Export", "export")
   page_number_folder = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_folder);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_folder), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_folder, "Where would you like to save it?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_folder, _("Where would you like to save it?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_folder, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_folder, false);
 
@@ -555,27 +555,27 @@ AssistantBase("Export", "export")
   g_signal_connect ((gpointer) button_folder, "clicked", G_CALLBACK (on_button_folder_clicked), gpointer(this));
 
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Export about to be done");
+  label_confirm = gtk_label_new (_("Export about to be done"));
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "The export is about to be done");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, _("The export is about to be done"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
-  label_progress = gtk_label_new ("Export in progress");
+  label_progress = gtk_label_new (_("Export in progress"));
   gtk_widget_show (label_progress);
   page_number_progress = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "The export is in progress");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, _("The export is in progress"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Export done");
+  label_summary = gtk_label_new (_("Export done"));
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "The export was completed successfully");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("The export was completed successfully"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
@@ -605,7 +605,7 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_label_set_text (GTK_LABEL (label_project_name), bible_name.c_str());
     if (bible_name.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_project_name), "No Bible selected");
+      gtk_label_set_text (GTK_LABEL (label_project_name), _("No Bible selected"));
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
   }
@@ -643,7 +643,7 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_label_set_text (GTK_LABEL (label_file), filename.c_str());
     if (filename.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_file), "(None)");
+      gtk_label_set_text (GTK_LABEL (label_file), _("(None)"));
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, !filename.empty());
   }
@@ -664,7 +664,7 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_label_set_text (GTK_LABEL (label_folder), foldername.c_str());
     if (foldername.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_folder), "(None)");
+      gtk_label_set_text (GTK_LABEL (label_folder), _("(None)"));
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_folder, !foldername.empty());
   }
@@ -778,7 +778,7 @@ void ExportAssistant::on_assistant_apply ()
           if (gw_find_program_in_path("gobiblecreator")) {
             export_to_go_bible (bible_name, foldername);
           } else {
-            gtkw_dialog_info (NULL, "The GoBibleCreator was not found. Install it. See the online help.");
+            gtkw_dialog_info (NULL, _("The GoBibleCreator was not found. Install it. See the online help."));
           }
           break;
         }

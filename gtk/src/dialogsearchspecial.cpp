@@ -31,12 +31,12 @@
 #include "help.h"
 #include "settings.h"
 #include "gui.h"
+#include <glib/gi18n.h>
 
-
-#define RESULTS_LOAD   "Load them in the references window"
-#define RESULTS_ADD    "Add them to the ones already in the references window"
-#define RESULTS_REMOVE "Remove them from the ones already in the references window"
-#define RESULTS_SHARE  "Share them with the ones already in the references window"
+#define RESULTS_LOAD   _("Load them in the references window")
+#define RESULTS_ADD    _("Add them to the ones already in the references window")
+#define RESULTS_REMOVE _("Remove them from the ones already in the references window")
+#define RESULTS_SHARE  _("Share them with the ones already in the references window")
 
 
 SearchSpecialDialog::SearchSpecialDialog(int dummy)
@@ -47,7 +47,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
 
   searchspecialdialog = gtk_dialog_new();
   gtk_widget_add_accelerator(searchspecialdialog, "activate_focus", accel_group, GDK_KEY_F, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-  gtk_window_set_title(GTK_WINDOW(searchspecialdialog), "Find");
+  gtk_window_set_title(GTK_WINDOW(searchspecialdialog), _("Find"));
   gtk_window_set_position(GTK_WINDOW(searchspecialdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(searchspecialdialog), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(searchspecialdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -65,20 +65,20 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(vbox3), notebook_mode, TRUE, TRUE, 0);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook_mode), FALSE);
 
-  label17 = gtk_label_new("Press Control-F for Advanced search");
+  label17 = gtk_label_new(_("Press Control-F for Advanced search"));
   gtk_widget_show(label17);
   gtk_container_add(GTK_CONTAINER(notebook_mode), label17);
   gtk_misc_set_alignment(GTK_MISC(label17), 0.5, 1);
 
-  label19 = gtk_label_new("Basic");
+  label19 = gtk_label_new(_("Basic"));
   gtk_widget_show(label19);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_mode), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_mode), 0), label19);
 
-  label22 = gtk_label_new("Press Control-F for Basic search");
+  label22 = gtk_label_new(_("Press Control-F for Basic search"));
   gtk_widget_show(label22);
   gtk_container_add(GTK_CONTAINER(notebook_mode), label22);
 
-  label20 = gtk_label_new("Advanced");
+  label20 = gtk_label_new(_("Advanced"));
   gtk_widget_show(label20);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_mode), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_mode), 1), label20);
 
@@ -86,7 +86,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(hbox1);
   gtk_box_pack_start(GTK_BOX(vbox3), hbox1, TRUE, TRUE, 0);
 
-  label_word_entry = gtk_label_new_with_mnemonic("_Text to search for:");
+  label_word_entry = gtk_label_new_with_mnemonic(_("_Text to search for:"));
   gtk_widget_show(label_word_entry);
   gtk_box_pack_start(GTK_BOX(hbox1), label_word_entry, FALSE, FALSE, 0);
 
@@ -118,21 +118,21 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(vbox6);
   gtk_container_add(GTK_CONTAINER(notebook_case_current), vbox6);
 
-  checkbutton_casesensitive = gtk_check_button_new_with_mnemonic("C_ase sensitive");
+  checkbutton_casesensitive = gtk_check_button_new_with_mnemonic(_("C_ase sensitive"));
   gtk_widget_show(checkbutton_casesensitive);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_casesensitive, FALSE, FALSE, 0);
 
   // Set case sensitive.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_casesensitive), settings->session.search_case_sensitive);
 
-  checkbutton_current_book = gtk_check_button_new_with_mnemonic("Search in c_urrent book only");
+  checkbutton_current_book = gtk_check_button_new_with_mnemonic(_("Search in c_urrent book only"));
   gtk_widget_show(checkbutton_current_book);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_current_book, FALSE, FALSE, 0);
 
   // Set searching in current book.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_current_book), settings->session.search_current_book);
 
-  checkbutton_current_chapter = gtk_check_button_new_with_mnemonic("Search in current cha_pter only");
+  checkbutton_current_chapter = gtk_check_button_new_with_mnemonic(_("Search in current cha_pter only"));
   gtk_widget_show(checkbutton_current_chapter);
   gtk_box_pack_start(GTK_BOX(vbox6), checkbutton_current_chapter, FALSE, FALSE, 0);
 
@@ -179,21 +179,21 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(vbox5);
   gtk_container_add(GTK_CONTAINER(notebook_advanced), vbox5);
 
-  checkbutton_glob = gtk_check_button_new_with_mnemonic("_Interprete * and ? as wildcards");
+  checkbutton_glob = gtk_check_button_new_with_mnemonic(_("_Interpret * and ? as wildcards"));
   gtk_widget_show(checkbutton_glob);
   gtk_box_pack_start(GTK_BOX(vbox5), checkbutton_glob, FALSE, FALSE, 0);
 
   // Set active or not.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_glob), settings->session.search_globbing);
 
-  checkbutton_start_word = gtk_check_button_new_with_mnemonic("Match _start of word");
+  checkbutton_start_word = gtk_check_button_new_with_mnemonic(_("Match _start of word"));
   gtk_widget_show(checkbutton_start_word);
   gtk_box_pack_start(GTK_BOX(vbox5), checkbutton_start_word, FALSE, FALSE, 0);
 
   // Set active or not.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_start_word), settings->session.search_start_word_match);
 
-  checkbutton_end_word = gtk_check_button_new_with_mnemonic("Match _end of word");
+  checkbutton_end_word = gtk_check_button_new_with_mnemonic(_("Match _end of word"));
   gtk_widget_show(checkbutton_end_word);
   gtk_box_pack_start(GTK_BOX(vbox5), checkbutton_end_word, FALSE, FALSE, 0);
 
@@ -220,7 +220,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(image1);
   gtk_box_pack_start(GTK_BOX(hbox3), image1, FALSE, FALSE, 0);
 
-  label13 = gtk_label_new_with_mnemonic("Select _books");
+  label13 = gtk_label_new_with_mnemonic(_("Select _books"));
   gtk_widget_show(label13);
   gtk_box_pack_start(GTK_BOX(hbox3), label13, FALSE, FALSE, 0);
 
@@ -240,7 +240,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(image2);
   gtk_box_pack_start(GTK_BOX(hbox5), image2, FALSE, FALSE, 0);
 
-  label39 = gtk_label_new_with_mnemonic("Se_lect parts of text");
+  label39 = gtk_label_new_with_mnemonic(_("Se_lect parts of text"));
   gtk_widget_show(label39);
   gtk_box_pack_start(GTK_BOX(hbox5), label39, FALSE, FALSE, 0);
 
@@ -273,7 +273,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(vbox7);
   gtk_container_add(GTK_CONTAINER(notebook_results), vbox7);
 
-  label14 = gtk_label_new_with_mnemonic("What to do with the search _results");
+  label14 = gtk_label_new_with_mnemonic(_("What to do with the search _results"));
   gtk_widget_show(label14);
   gtk_box_pack_start(GTK_BOX(vbox7), label14, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label14), 0, 0.5);

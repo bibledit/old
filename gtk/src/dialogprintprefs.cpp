@@ -24,6 +24,7 @@
 #include "combobox.h"
 #include "settings.h"
 #include "help.h"
+#include <glib/gi18n.h>
 
 PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
 {
@@ -31,7 +32,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   extern Settings *settings;
 
   dialogprintpreferences = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(dialogprintpreferences), "Printing preferences");
+  gtk_window_set_title(GTK_WINDOW(dialogprintpreferences), _("Printing preferences"));
   gtk_window_set_position(GTK_WINDOW(dialogprintpreferences), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(dialogprintpreferences), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dialogprintpreferences), TRUE);
@@ -65,7 +66,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_height), settings->genconfig.paper_height_get());
 
-  label4 = gtk_label_new("Height (cm)");
+  label4 = gtk_label_new(_("Height (cm)"));
   gtk_widget_show(label4);
   gtk_table_attach(GTK_TABLE(table1), label4, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label4), 1, 0.5);
@@ -78,12 +79,12 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_width), settings->genconfig.paper_width_get());
 
-  label3 = gtk_label_new("Width (cm)");
+  label3 = gtk_label_new(_("Width (cm)"));
   gtk_widget_show(label3);
   gtk_table_attach(GTK_TABLE(table1), label3, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label3), 1, 0.5);
 
-  label2 = gtk_label_new("Format");
+  label2 = gtk_label_new(_("Format"));
   gtk_widget_show(label2);
   gtk_table_attach(GTK_TABLE(table1), label2, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label2), 1, 0.5);
@@ -101,7 +102,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_widget_set_size_request(combo_format, 100, -1);
   combobox_set_string(combo_format, settings->genconfig.paper_format_get());
 
-  label5 = gtk_label_new("Paper format");
+  label5 = gtk_label_new(_("Paper format"));
   gtk_widget_show(label5);
   gtk_table_attach(GTK_TABLE(table1), label5, 0, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label5), 0.06, 0.5);
@@ -116,27 +117,27 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_table_set_row_spacings(GTK_TABLE(table2), 6);
   gtk_table_set_col_spacings(GTK_TABLE(table2), 2);
 
-  label6 = gtk_label_new("Margins (cm)");
+  label6 = gtk_label_new(_("Margins (cm)"));
   gtk_widget_show(label6);
   gtk_table_attach(GTK_TABLE(table2), label6, 0, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label6), 0.06, 0.5);
 
-  label7 = gtk_label_new("Inner");
+  label7 = gtk_label_new(_("Inner"));
   gtk_widget_show(label7);
   gtk_table_attach(GTK_TABLE(table2), label7, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label7), 1, 0.5);
 
-  label8 = gtk_label_new("Outer");
+  label8 = gtk_label_new(_("Outer"));
   gtk_widget_show(label8);
   gtk_table_attach(GTK_TABLE(table2), label8, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label8), 1, 0.5);
 
-  label9 = gtk_label_new("Top");
+  label9 = gtk_label_new(_("Top"));
   gtk_widget_show(label9);
   gtk_table_attach(GTK_TABLE(table2), label9, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label9), 1, 0.5);
 
-  label10 = gtk_label_new("Bottom");
+  label10 = gtk_label_new(_("Bottom"));
   gtk_widget_show(label10);
   gtk_table_attach(GTK_TABLE(table2), label10, 0, 1, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label10), 1, 0.5);
@@ -181,7 +182,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(hbox1), vbox1, TRUE, TRUE, 0);
 
-  checkbuttondate = gtk_check_button_new_with_mnemonic("Print date beside page number");
+  checkbuttondate = gtk_check_button_new_with_mnemonic(_("Print date beside page number"));
   gtk_widget_show(checkbuttondate);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbuttondate, FALSE, FALSE, 0);
 
@@ -191,7 +192,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_widget_show(hbox2);
   gtk_box_pack_start(GTK_BOX(vbox1), hbox2, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new("Header font size");
+  label12 = gtk_label_new(_("Header font size"));
   gtk_widget_show(label12);
   gtk_box_pack_start(GTK_BOX(hbox2), label12, FALSE, FALSE, 0);
 
@@ -203,11 +204,11 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_header_font_size), settings->genconfig.header_font_size_get());
 
-  label13 = gtk_label_new("points");
+  label13 = gtk_label_new(_("points"));
   gtk_widget_show(label13);
   gtk_box_pack_start(GTK_BOX(hbox2), label13, FALSE, FALSE, 0);
 
-  label1 = gtk_label_new("Page");
+  label1 = gtk_label_new(_("Page"));
   gtk_widget_show(label1);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 0), label1);
 
@@ -216,13 +217,13 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_widget_show(vbox2);
   gtk_container_add(GTK_CONTAINER(notebook1), vbox2);
 
-  checkbutton_intermediate_text = gtk_check_button_new_with_mnemonic("Review or edit layout engine's commands");
+  checkbutton_intermediate_text = gtk_check_button_new_with_mnemonic(_("Review or edit layout engine's commands"));
   gtk_widget_show(checkbutton_intermediate_text);
   gtk_box_pack_start(GTK_BOX(vbox2), checkbutton_intermediate_text, FALSE, FALSE, 0);
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_intermediate_text), settings->genconfig.print_engine_use_intermediate_text_get());
 
-  label11 = gtk_label_new("Formatter");
+  label11 = gtk_label_new(_("Formatter"));
   gtk_widget_show(label11);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 1), label11);
 

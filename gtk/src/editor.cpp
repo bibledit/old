@@ -42,7 +42,7 @@
 #include "git.h"
 #include "progresswindow.h"
 #include "merge_utils.h"
-
+#include <glib/gi18n.h>
 
 /*
 
@@ -417,7 +417,7 @@ void Editor2::chapter_save()
   // This is interpreted as to mean that the user wishes to delete this chapter.
   // After asking for confirmation, delete the chapter.
   if (chaptertext.empty()) {
-    if (gtkw_dialog_question(NULL, "The chapter is empty.\n" "Do you wish to delete this chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
+    if (gtkw_dialog_question(NULL, _("The chapter is empty.\nDo you wish to delete this chapter?"), GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
       project_remove_chapter(project, book, chapter);
       save_action_is_over = true;
       reload = true;
@@ -451,7 +451,7 @@ void Editor2::chapter_save()
     if (chapter_in_text != chapter) {
       unsigned int confirmed_chapter_number;
       ustring message;
-      message = "Chapter " + convert_to_string(chapter) + " was loaded, " "but it appears that the chapter number has been changed to " + convert_to_string(chapter_in_text) + ".\n" "Do you wish to save the text as a different chapter, that is, as chapter " + convert_to_string(chapter_in_text) + "?";
+      message = _("Chapter ") + convert_to_string(chapter) + _(" was loaded, but it appears that the chapter number has been changed to ") + convert_to_string(chapter_in_text) + _(".\nDo you wish to save the text as a different chapter, that is, as chapter ") + convert_to_string(chapter_in_text) + "?";
       if (gtkw_dialog_question(NULL, message.c_str()) == GTK_RESPONSE_YES) {
         confirmed_chapter_number = chapter_in_text;
         reload = true;
@@ -468,9 +468,9 @@ void Editor2::chapter_save()
         vector < unsigned int >chapters = project_get_chapters(project, book);
         set < unsigned int >chapter_set(chapters.begin(), chapters.end());
         if (chapter_set.find(confirmed_chapter_number) != chapter_set.end()) {
-          message = "The new chapter number already exists\n" "Do you wish to overwrite it?";
+          message = _("The new chapter number already exists\nDo you wish to overwrite it?");
           if (gtkw_dialog_question(NULL, message.c_str()) == GTK_RESPONSE_NO) {
-            gtkw_dialog_info(NULL, "The changes have been discarded");
+            gtkw_dialog_info(NULL, _("The changes have been discarded"));
             save_action_is_over = true;
             reload = true;
           }
@@ -1503,14 +1503,14 @@ void Editor2::apply_style(const ustring & marker)
       if ((type == stFootEndNote) || (type == stCrossreference) || (type == stTableElement)) {
         style_application_ok = false;
       }
-      style_application_fault_reason = "Trying to apply a ";
+      style_application_fault_reason = _("Trying to apply a ");
       if (type == stFootEndNote)
-        style_application_fault_reason.append("foot- or endnote");
+        style_application_fault_reason.append(_("foot- or endnote"));
       if (type == stCrossreference)
-        style_application_fault_reason.append("crossreference");
+        style_application_fault_reason.append(_("crossreference"));
       if (type == stTableElement)
-        style_application_fault_reason.append("table");
-      style_application_fault_reason.append(" style");
+        style_application_fault_reason.append(_("table"));
+      style_application_fault_reason.append(_(" style"));
       break;
     }
     case etvtNote:
@@ -1518,7 +1518,7 @@ void Editor2::apply_style(const ustring & marker)
       if ((type != stFootEndNote) && (type != stCrossreference)) {
         style_application_ok = false;
       }
-      style_application_fault_reason = "Only note related styles apply";
+      style_application_fault_reason = _("Only note related styles apply");
       break;
     }
     case etvtTable:
@@ -1526,7 +1526,7 @@ void Editor2::apply_style(const ustring & marker)
       // Check that only a table element is going to be inserted.
       if (type != stTableElement) {
         style_application_ok = false;
-        style_application_fault_reason = "Only table styles apply";
+        style_application_fault_reason = _("Only table styles apply");
         break;
       }
       // Check that only a style with the right column number is going to be applied.
@@ -1539,7 +1539,7 @@ void Editor2::apply_style(const ustring & marker)
           unsigned int column = usfm->styles[i].userint1;
           if (column > 5) {
             style_application_ok = false;
-            style_application_fault_reason = "Table column number mismatch";
+            style_application_fault_reason = _("Table column number mismatch");
             break;
           }
           */
@@ -1551,11 +1551,11 @@ void Editor2::apply_style(const ustring & marker)
   // Whether there's a paragraph to apply the style to.
   if (!focused_paragraph) {
     style_application_ok = false;
-    style_application_fault_reason = "Cannot find paragraph";
+    style_application_fault_reason = _("Cannot find paragraph");
   }
   // If necessary give error message.
   if (!style_application_ok) {
-    ustring message("This style cannot be applied here.");
+    ustring message(_("This style cannot be applied here."));
     message.append("\n\n");
     message.append(style_application_fault_reason);
     message.append(".");
@@ -1863,7 +1863,7 @@ void Editor2::spelling_approve (const vector <ustring>& words)
 {
   // Approve all the words in the list.
   // Since this may take time, a windows will show the progress.
-  ProgressWindow progresswindow ("Adding words to dictionary", false);
+  ProgressWindow progresswindow (_("Adding words to dictionary"), false);
   progresswindow.set_iterate (0, 1, words.size());
   for (unsigned int i = 0; i < words.size(); i++)  {
     progresswindow.iterate ();

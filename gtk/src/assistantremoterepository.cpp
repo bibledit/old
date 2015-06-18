@@ -33,17 +33,17 @@
 #include "snapshots.h"
 #include "progresswindow.h"
 #include "notes_utils.h"
-
+#include <glib/gi18n.h>
 
 RemoteRepositoryAssistant::RemoteRepositoryAssistant(int dummy) :
-AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-repository")
+  AssistantBase(_("Remote repository setup"), _("menu-preferences/dialog-remote-repository"))
 // Assistant for managing the remote repository.
 {
   // Configuration and initialization.
   extern Settings *settings;
   bible = settings->genconfig.project_get();
   event_id_entry_repository = 0;
-  persistent_clone_directory = git_testing_directory ("clone");
+  persistent_clone_directory = git_testing_directory (_("clone"));
   write_access_granted = false;
   ignore_entry_repository_changed = false;
 
@@ -52,7 +52,7 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("Remote repository management for Bible " + bible + " or the project notes");
+  introduction (_("Remote repository management for Bible ") + bible + _(" or the project notes"));
 
   // Build the GUI for the Bible or notes selector.
   vbox_bible_notes_selector = gtk_vbox_new (FALSE, 0);
@@ -61,39 +61,39 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
 
   GSList *radiobutton_bible_notes_selector_group = NULL;
 
-  radiobutton_bible_notes_selector_bible = gtk_radio_button_new_with_mnemonic (NULL, "B_ible repository");
+  radiobutton_bible_notes_selector_bible = gtk_radio_button_new_with_mnemonic (NULL, _("B_ible repository"));
   gtk_widget_show (radiobutton_bible_notes_selector_bible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_notes_selector), radiobutton_bible_notes_selector_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_bible), radiobutton_bible_notes_selector_group);
   radiobutton_bible_notes_selector_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_bible));
 
-  radiobutton_bible_notes_selector_notes = gtk_radio_button_new_with_mnemonic (NULL, "Project _notes repository");
+  radiobutton_bible_notes_selector_notes = gtk_radio_button_new_with_mnemonic (NULL, _("Project _notes repository"));
   gtk_widget_show (radiobutton_bible_notes_selector_notes);
   gtk_box_pack_start (GTK_BOX (vbox_bible_notes_selector), radiobutton_bible_notes_selector_notes, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_notes), radiobutton_bible_notes_selector_group);
   radiobutton_bible_notes_selector_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_notes));
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_notes_selector, "What type of repository would you like to set?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_notes_selector, _("What type of repository would you like to set?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_notes_selector, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_notes_selector, true);
   
   // Build the GUI for the setting whether to use a remote repository.
-  checkbutton_use_repository = gtk_check_button_new_with_mnemonic ("_Use remote repository");
+  checkbutton_use_repository = gtk_check_button_new_with_mnemonic (_("_Use remote repository"));
   gtk_widget_show (checkbutton_use_repository);
   page_number_use_repository = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_use_repository);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_use_repository, "Would you like to use a remote repository?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_use_repository, _("Would you like to use a remote repository?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_use_repository, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_use_repository, true);
 
   // System for trying out git.
   git_tried_and_okay = false;
   
-  label_try_git = gtk_label_new ("The local content tracker has been tested and works fine");
+  label_try_git = gtk_label_new (_("The local content tracker has been tested and works fine"));
   gtk_widget_show (label_try_git);
   page_number_try_git = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_try_git);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_try_git, "Trying out the content tracker");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_try_git, _("Trying out the content tracker"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_try_git, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_try_git, false);
 
@@ -106,7 +106,7 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   gtk_widget_show (hbox_repository);
   gtk_box_pack_start (GTK_BOX (vbox_repository), hbox_repository, TRUE, TRUE, 0);
 
-  label_repository = gtk_label_new_with_mnemonic ("_Repository");
+  label_repository = gtk_label_new_with_mnemonic (_("_Repository"));
   gtk_widget_show (label_repository);
   gtk_box_pack_start (GTK_BOX (hbox_repository), label_repository, FALSE, FALSE, 0);
 
@@ -122,7 +122,7 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   
   gtk_label_set_mnemonic_widget (GTK_LABEL (label_repository), entry_repository);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_repository, "Enter the location of the remote repository");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_repository, _("Enter the location of the remote repository"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_repository, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_repository, false);
 
@@ -159,11 +159,11 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
 
-  label1 = gtk_label_new_with_mnemonic ("C_lone the remote repository");
+  label1 = gtk_label_new_with_mnemonic (_("C_lone the remote repository"));
   gtk_widget_show (label1);
   gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_clone, "Cloning data");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_clone, _("Cloning data"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_clone, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, false);
 
@@ -174,7 +174,7 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   gtk_widget_show (label_write_test);
   page_number_write_test = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_write_test);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_write_test, "Remote repository write test");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_write_test, _("Remote repository write test"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_write_test, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_write_test, false);
 
@@ -204,22 +204,22 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
 
-  label1 = gtk_label_new_with_mnemonic ("_Push my data to the remote repository");
+  label1 = gtk_label_new_with_mnemonic (_("_Push my data to the remote repository"));
   gtk_widget_show (label1);
   gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_push, "Would you like to push your data to the repository?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_push, _("Would you like to push your data to the repository?"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_push, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_push, true);
 
   g_signal_connect ((gpointer) button_push, "clicked", G_CALLBACK (on_button_push_clicked), gpointer (this));
 
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Settings are ready to be applied");
+  label_confirm = gtk_label_new (_("Settings are ready to be applied"));
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Settings are ready to be applied");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, _("Settings are ready to be applied"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
@@ -231,11 +231,11 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Settings have been applied");
+  label_summary = gtk_label_new (_("Settings have been applied"));
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("Ready"));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
@@ -415,14 +415,14 @@ bool RemoteRepositoryAssistant::try_git ()
 // Tries git and returns true if everything's fine.
 {
   // Progress.
-  ProgressWindow progresswindow ("Trying the contents tracker", false);
+  ProgressWindow progresswindow (_("Trying the contents tracker"), false);
   
   // Whether git is okay.
   bool okay = true;
   
   if (okay) {
     progresswindow.set_fraction (0.05);
-    gw_message ("Check git version number");
+    gw_message (_("Check git version number"));
     okay = check_git_version ();
   }
   
@@ -435,67 +435,67 @@ bool RemoteRepositoryAssistant::try_git ()
   
   if (okay) {
     progresswindow.set_fraction (0.11);
-    gw_message ("Create first local repository");
+    gw_message (_("Create first local repository"));
     okay = try_git_create_repository ("local1", false);
   }
 
   if (okay) {
     progresswindow.set_fraction (0.17);
-    gw_message ("Store data into first local repository");
+    gw_message (_("Store data into first local repository"));
     okay = try_git_store_data_in_repository ("local1", "--test--");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.23);
-    gw_message ("Create remote repository");
+    gw_message (_("Create remote repository"));
     okay = try_git_create_repository ("remote", true);
   }
 
   if (okay) {
     progresswindow.set_fraction (0.29);
-    gw_message ("Fetch data from the first local repository into the remote one");
+    gw_message (_("Fetch data from the first local repository into the remote one"));
     okay = try_git_fetch_repository ("remote", "local1");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.35);
-    gw_message ("Checkout the first local repository");
+    gw_message (_("Checkout the first local repository"));
     okay = try_git_checkout_repository ("local1", "remote");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.41);
-    gw_message ("Check data of first local repository");
+    gw_message (_("Check data of first local repository"));
     okay = try_git_check_data_in_repository ("local1", "--test--");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.47);
-    gw_message ("Checkout the second local repository");
+    gw_message (_("Checkout the second local repository"));
     okay = try_git_checkout_repository ("local2", "remote");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.52);
-    gw_message ("Check data of second local repository");
+    gw_message (_("Check data of second local repository"));
     okay = try_git_check_data_in_repository ("local2", "--test--");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.58);
-    gw_message ("Store different data into first repository");
+    gw_message (_("Store different data into first repository"));
     okay = try_git_store_data_in_repository ("local1", "---test---");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.64);
-    gw_message ("Push first repository");
+    gw_message (_("Push first repository"));
     okay = try_git_push_repository ("local1");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.70);
-    gw_message ("Pull second repository");
+    gw_message (_("Pull second repository"));
     okay = try_git_pull_repository ("local2");
   }
 
@@ -507,25 +507,25 @@ bool RemoteRepositoryAssistant::try_git ()
 
   if (okay) {
     progresswindow.set_fraction (0.82);
-    gw_message ("Store different data into second repository");
+    gw_message (_("Store different data into second repository"));
     okay = try_git_store_data_in_repository ("local2", "----test----");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.88);
-    gw_message ("Push second repository");
+    gw_message (_("Push second repository"));
     okay = try_git_push_repository ("local2");
   }
 
   if (okay) {
     progresswindow.set_fraction (0.94);
-    gw_message ("Pull first repository");
+    gw_message (_("Pull first repository"));
     okay = try_git_pull_repository ("local1");
   }
 
   if (okay) {
     progresswindow.set_fraction (1);
-    gw_message ("Check data in first repository");
+    gw_message (_("Check data in first repository"));
     okay = try_git_check_data_in_repository ("local1", "----test----");
   }
 
@@ -556,11 +556,11 @@ bool RemoteRepositoryAssistant::check_git_version ()
     }
   }
   if (!okay) {
-    versiontext.append(", but should be 1.5.0 or higher");
+    versiontext.append(_(", but should be 1.5.0 or higher"));
     gtk_label_set_text(GTK_LABEL(label_try_git), versiontext.c_str());
   }
   if (!spawn.result) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "Program git failed to run. Has git been installed?");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("Program git failed to run. Has git been installed?"));
   }
   return okay;
 }
@@ -596,7 +596,7 @@ bool RemoteRepositoryAssistant::try_git_create_repository (const ustring& name, 
   spawn.run();
   bool okay = (spawn.exitstatus == 0);
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git init fails to create a repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("git init fails to create a repository"));
   }
   return okay;
 }
@@ -617,7 +617,7 @@ bool RemoteRepositoryAssistant::try_git_store_data_in_repository (const ustring&
   bool okay = (spawn.exitstatus == 0);
   
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git add fails to add data to the repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("git add fails to add data to the repository"));
   }
 
   if (okay) {
@@ -631,7 +631,7 @@ bool RemoteRepositoryAssistant::try_git_store_data_in_repository (const ustring&
     okay = (spawn.exitstatus == 0);
   }
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git commit fails to commit data to the repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("git commit fails to commit data to the repository"));
   }
 
   return okay;
@@ -646,7 +646,7 @@ bool RemoteRepositoryAssistant::try_git_check_data_in_repository (const ustring&
   g_file_get_contents(filename.c_str(), &contents, NULL, NULL);
   bool okay = (contents);
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "cannot read data in repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("cannot read data in repository"));
   }
   ustring repository_data;
   if (contents) {
@@ -656,7 +656,7 @@ bool RemoteRepositoryAssistant::try_git_check_data_in_repository (const ustring&
   ustring standard_data (data);
   if (okay) {
     if (repository_data != standard_data) {
-      gtk_label_set_text(GTK_LABEL(label_try_git), "unexpected data in repository");
+      gtk_label_set_text(GTK_LABEL(label_try_git), _("unexpected data in repository"));
     }
   }
   return okay;
@@ -675,7 +675,7 @@ bool RemoteRepositoryAssistant::try_git_fetch_repository (const ustring& remote,
   spawn.run();
   bool okay = (spawn.exitstatus == 0);
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git --bare fetch fails to fetch data into remote repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("git --bare fetch fails to fetch data into remote repository"));
   }
   return okay;
 }
@@ -698,7 +698,7 @@ bool RemoteRepositoryAssistant::try_git_checkout_repository (const ustring& loca
 
   // Message if things didn't work out.
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git clone fails to clone the repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("git clone fails to clone the repository"));
   }
   
   // Move the repository into place.
@@ -724,7 +724,7 @@ bool RemoteRepositoryAssistant::try_git_pull_repository (const ustring& name)
   spawn.run();
   bool okay = (spawn.exitstatus == 0);
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git pull from remote repository failed");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("git pull from remote repository failed"));
   }
   return okay;
 }
@@ -739,7 +739,7 @@ bool RemoteRepositoryAssistant::try_git_push_repository (const ustring& name)
   spawn.run();
   bool okay = (spawn.exitstatus == 0);
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git push to remote repository failed");
+    gtk_label_set_text(GTK_LABEL(label_try_git), _("git push to remote repository failed"));
   }
   return okay;
 }
@@ -770,7 +770,7 @@ bool RemoteRepositoryAssistant::on_entry_changed_timeout(gpointer user_data)
 void RemoteRepositoryAssistant::entry_changed_timeout()
 {
   // Progress.
-  ProgressWindow progresswindow ("Testing read access", false);
+  ProgressWindow progresswindow (_("Testing read access"), false);
   progresswindow.set_fraction (0.5);
   
   // Event done.
@@ -785,9 +785,9 @@ void RemoteRepositoryAssistant::entry_changed_timeout()
   bool access = spawn.exitstatus == 0;
   ustring message;
   if (access) {
-    message = "Read access to the repository has been granted";
+    message = _("Read access to the repository has been granted");
   } else {
-    message = "Cannot access the repository:";
+    message = _("Cannot access the repository:");
     for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
       message.append("\n");
       message.append(spawn.standarderr[i]);
@@ -817,7 +817,7 @@ void RemoteRepositoryAssistant::on_button_clone_clicked (GtkButton *button, gpoi
 void RemoteRepositoryAssistant::on_button_clone ()
 {
   // Progress.
-  ProgressWindow progresswindow ("Cloning repository", false);
+  ProgressWindow progresswindow (_("Cloning repository"), false);
   progresswindow.set_fraction (0.5);
   
   // Clear out persistent clone directory.
@@ -852,10 +852,10 @@ void RemoteRepositoryAssistant::on_button_clone ()
   // Update structures.
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, repository_was_cloned());
   if (repository_was_cloned()) {
-    gtk_label_set_text (GTK_LABEL (label_clone), "The data has been cloned, you can go forward");
+    gtk_label_set_text (GTK_LABEL (label_clone), _("The data has been cloned, you can go forward"));
     previously_cloned_url = repository_url_get();
   } else {
-    gtk_label_set_text (GTK_LABEL (label_clone), "Cloning the data failed, please try again");
+    gtk_label_set_text (GTK_LABEL (label_clone), _("Cloning the data failed, please try again"));
     repository_unclone();
   }
 }
@@ -883,8 +883,8 @@ void RemoteRepositoryAssistant::test_write_access ()
   // GUI update.
   // If a wrong host is entered as the git repository, the testing for the write access
   // may "hang" for a long time. For that reason it can be cancelled by the user.
-  ProgressWindow progresswindow ("Testing write access", true);
-  gtk_label_set_text (GTK_LABEL (label_write_test), "Testing write access to the remote repository");
+  ProgressWindow progresswindow (_("Testing write access"), true);
+  gtk_label_set_text (GTK_LABEL (label_write_test), _("Testing write access to the remote repository"));
 
   // Temporal file for trying write access.
   ustring filename = "test_repository_writable";
@@ -959,9 +959,9 @@ void RemoteRepositoryAssistant::test_write_access ()
   // Set the GUI.
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_write_test, write_access_granted);
   if (write_access_granted) {
-    gtk_label_set_text (GTK_LABEL (label_write_test), "Write access was granted, you can go forward");
+    gtk_label_set_text (GTK_LABEL (label_write_test), _("Write access was granted, you can go forward"));
   } else {
-    gtk_label_set_text (GTK_LABEL (label_write_test), "No write access. Please check the system log for more information");
+    gtk_label_set_text (GTK_LABEL (label_write_test), _("No write access. Please check the system log for more information"));
   }  
 }
 
@@ -980,7 +980,7 @@ This makes the remote repository to have an exact copy of our data.
 */
 {
   // Progress.
-  ProgressWindow progresswindow ("Pushing your data", false);
+  ProgressWindow progresswindow (_("Pushing your data"), false);
   progresswindow.set_fraction (0.2);
   
   // Copy our data into a temporal location.
@@ -1050,10 +1050,10 @@ This makes the remote repository to have an exact copy of our data.
   // Take action depending on the outcome of pushing to the remote repository.
   if (spawn.exitstatus == 0) {
     // Clone okay.
-    gtk_label_set_text (GTK_LABEL (label_push), "Your data has been pushed to the remote repository");
+    gtk_label_set_text (GTK_LABEL (label_push), _("Your data has been pushed to the remote repository"));
   } else {
     // Clone failed.
-    gtk_label_set_text (GTK_LABEL (label_push), "Your data could not be pushed to the remote repository,\nplease restart the assistant");
+    gtk_label_set_text (GTK_LABEL (label_push), _("Your data could not be pushed to the remote repository,\nplease restart the assistant"));
     repository_unclone();
   }  
 }
