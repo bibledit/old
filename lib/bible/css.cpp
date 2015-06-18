@@ -51,7 +51,6 @@ string bible_css (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Font and text direction"), request);
-  header.jQueryUIOn ("sortable");
   page = header.run ();
   
   Assets_View view = Assets_View ();

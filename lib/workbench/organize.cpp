@@ -68,7 +68,7 @@ string workbench_organize (void * webserver_request)
   
   
   Assets_Header header = Assets_Header (translate("Workbenches"), request);
-  header.jQueryUIOn ("sortable");
+  header.jQueryUIOn ();
   page = header.run ();
   
   

@@ -49,7 +49,7 @@ string bible_order (void * webserver_request)
   string page;
 
   Assets_Header header = Assets_Header (translate("Order"), request);
-  header.jQueryUIOn ("sortable");
+  header.jQueryUIOn ();
   page = header.run ();
   
   Assets_View view = Assets_View ();

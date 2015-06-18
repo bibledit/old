@@ -30,7 +30,7 @@ class Assets_Header
 public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
-  void jQueryUIOn (string subset = "");
+  void jQueryUIOn ();
   void setNavigator ();
   void setStylesheet ();
   void setEditorStylesheet ();
@@ -41,7 +41,6 @@ public:
 private:
   Assets_View * view;
   bool includeJQueryUI;
-  string JQueryUISubset;
   vector <string> headLines;
   bool displayNavigator;
   string includedStylesheet;
