@@ -117,6 +117,16 @@ string Editor_Usfm2Html::get ()
     }
   }
 
+  // Deal with a blank line.
+  // The \b in USFM, a blank line, gets converted to:
+  // <p class="b"/>
+  // But this does not display a blank in the web browser.
+  // Therefore convert it to the following:
+  // <p class="b"><br></p>
+  // This is how the webkit browser naturally represents a new empty line.
+  html = filter_string_str_replace ("<p class=\"b\"/>", "<p class=\"b\"><br></p>", html);
+  
+  // Result.
   return html;
 }
 

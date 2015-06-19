@@ -50,6 +50,8 @@ void Editor_Html2Usfm::load (string html)
   // The web editor produces <hr> following the HTML specs, but Bibledit needs
   // <hr/> for its XML parser.
   html = filter_string_str_replace ("<hr>", "<hr/>", html);
+  // Same for <br> vs <br/>.
+  html = filter_string_str_replace ("<br>", "<br/>", html);
   
   // The user may add several spaces in sequence. Convert them to single spaces.
   html = filter_string_str_replace ("   ", " ", html);

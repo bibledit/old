@@ -724,45 +724,6 @@ void test_editor_usfm2html ()
 void test_editor_roundtrip ()
 {
   refresh_sandbox (true);
-  
-  
-  // Todo move to the end when ready.
-
-  // \b Blank line
-  {
-    string standard_usfm =
-    "\\p paragraph\n"
-    "\\b\n"
-    "\\p paragraph\n";
-    string standard_html =
-    "<p class=\"mono\"><span>\\abc </span></p>"
-    "<p class=\"mono\"><span>\\abc </span></p>";
-    
-    Webserver_Request request;
-    
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
-    cout << html << endl; // Todo
-    /*
-    evaluate (__LINE__, __func__, standard_html, html);
-    
-    Editor_Html2Usfm editor_export (&request);
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
-    */
-  }
-  
-  
-  refresh_sandbox (true);
-  exit (0);
-  
-  
   // One Unknown Marker Opener
   {
     string standard_usfm = "\\abc";
@@ -1649,6 +1610,31 @@ void test_editor_roundtrip ()
     editor_export.run ();
     output = editor_export.get ();
     evaluate (__LINE__, __func__, usfm, output);
+  }
+  // \b Blank line
+  {
+    string standard_usfm =
+    "\\p paragraph\n"
+    "\\b\n"
+    "\\p paragraph";
+    string standard_html =
+    "<p class=\"p\"><span>paragraph</span></p><p class=\"b\"><br></p><p class=\"p\"><span>paragraph</span></p>";
+    
+    Webserver_Request request;
+    
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Html2Usfm editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
   refresh_sandbox (false);
 }
