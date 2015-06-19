@@ -27,7 +27,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <checksum/logic.h>
-#include <editor/export.h>
+#include <editor/html2usfm.h>
 #include <locale/translate.h>
 #include <edit/logic.h>
 
@@ -79,7 +79,7 @@ string edit_save (void * webserver_request)
   
   string stylesheet = request->database_config_user()->getStylesheet();
   
-  Editor_Export editor_export = Editor_Export (request);
+  Editor_Html2Usfm editor_export = Editor_Html2Usfm (request);
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();

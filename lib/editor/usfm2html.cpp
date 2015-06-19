@@ -17,7 +17,7 @@
  */
 
 
-#include <editor/import.h>
+#include <editor/usfm2html.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
@@ -31,20 +31,20 @@
 #include <database/logs.h>
 
 
-Editor_Import::Editor_Import (void * webserver_request_in)
+Editor_Usfm2Html::Editor_Usfm2Html (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;
 }
 
 
-Editor_Import::~Editor_Import ()
+Editor_Usfm2Html::~Editor_Usfm2Html ()
 {
   //xmlDocDump (stdout, htmlDom);
   if (htmlDom) xmlFreeDoc (htmlDom);
 }
 
 
-void Editor_Import::load (string usfm)
+void Editor_Usfm2Html::load (string usfm)
 {
   // Clean up.
   usfm = filter_string_trim (usfm);
@@ -56,7 +56,7 @@ void Editor_Import::load (string usfm)
 }
 
 
-void Editor_Import::stylesheet (string stylesheet)
+void Editor_Usfm2Html::stylesheet (string stylesheet)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   styles.clear();
@@ -79,7 +79,7 @@ void Editor_Import::stylesheet (string stylesheet)
 }
 
 
-void Editor_Import::run ()
+void Editor_Usfm2Html::run ()
 {
   preprocess ();
   process ();
@@ -87,7 +87,7 @@ void Editor_Import::run ()
 }
 
 
-string Editor_Import::get ()
+string Editor_Usfm2Html::get ()
 {
   // If there are notes, add the notes <div> after everything else.
   // (It has the <hr> as a child).
@@ -121,7 +121,7 @@ string Editor_Import::get ()
 }
 
 
-void Editor_Import::preprocess ()
+void Editor_Usfm2Html::preprocess ()
 {
   currentParagraphStyle = "";
   currentParagraphContent = "";
@@ -185,7 +185,7 @@ void Editor_Import::preprocess ()
 }
 
  
-void Editor_Import::process ()
+void Editor_Usfm2Html::process ()
 {
   markersAndTextPointer = 0;
   unsigned int markersAndTextCount = markersAndText.size();
@@ -413,12 +413,12 @@ void Editor_Import::process ()
 }
 
 
-void Editor_Import::postprocess ()
+void Editor_Usfm2Html::postprocess ()
 {
 }
 
 
-void Editor_Import::outputAsIs (string marker, bool isOpeningMarker)
+void Editor_Usfm2Html::outputAsIs (string marker, bool isOpeningMarker)
 {
   // Output the marker in monospace font.
   if (isOpeningMarker) {
@@ -432,14 +432,14 @@ void Editor_Import::outputAsIs (string marker, bool isOpeningMarker)
 }
 
 
-xmlNodePtr Editor_Import::newElement (string element)
+xmlNodePtr Editor_Usfm2Html::newElement (string element)
 {
   xmlNodePtr node = xmlNewNode (NULL, BAD_CAST element.c_str());
   return node;
 }
 
 
-void Editor_Import::newParagraph (string style)
+void Editor_Usfm2Html::newParagraph (string style)
 {
   currentPDomElement = newElement ("p");
   if (!style.empty()) {
@@ -459,7 +459,7 @@ void Editor_Import::newParagraph (string style)
 // $style: the array containing the style variables.
 // $note: boolean: Whether this refers to a note.
 // $embed: boolean: Whether to open embedded / nested style.
-void Editor_Import::openTextStyle (Database_Styles_Item & style, bool note, bool embed)
+void Editor_Usfm2Html::openTextStyle (Database_Styles_Item & style, bool note, bool embed)
 {
   string marker = style.marker;
   if (note) {
@@ -475,7 +475,7 @@ void Editor_Import::openTextStyle (Database_Styles_Item & style, bool note, bool
 // This closes any open text style.
 // $note: Whether this refers to a note.
 // $embed: boolean: Whether to close embedded character style.
-void Editor_Import::closeTextStyle (bool note, bool embed)
+void Editor_Usfm2Html::closeTextStyle (bool note, bool embed)
 {
   if (note) {
     if (!currentNoteTextStyles.empty ()) currentNoteTextStyles.pop_back ();
@@ -489,7 +489,7 @@ void Editor_Import::closeTextStyle (bool note, bool embed)
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Editor_Import::addText (string text)
+void Editor_Usfm2Html::addText (string text)
 {
   if (text != "") {
     if (!currentPDomElement) {
@@ -513,7 +513,7 @@ void Editor_Import::addText (string text)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Editor_Import::addNote (string citation, string style, bool endnote)
+void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!currentPDomElement) {
@@ -552,7 +552,7 @@ void Editor_Import::addNote (string citation, string style, bool endnote)
 
 // This function adds text to the current footnote.
 // $text: The text to add.
-void Editor_Import::addNoteText (string text)
+void Editor_Usfm2Html::addNoteText (string text)
 {
   if (text != "") {
     if (!notePDomElement) {
@@ -571,7 +571,7 @@ void Editor_Import::addNoteText (string text)
 
 
 // This function closes the current footnote.
-void Editor_Import::closeCurrentNote ()
+void Editor_Usfm2Html::closeCurrentNote ()
 {
   closeTextStyle (true, false);
   notePDomElement = NULL;
@@ -584,7 +584,7 @@ void Editor_Import::closeCurrentNote ()
 // $identifier: The link's identifier. Others can link to it.
 // $style: The link text's style.
 // $text: The link's text.
-void Editor_Import::addLink (xmlNodePtr domNode, string reference, string identifier, string style, string text)
+void Editor_Usfm2Html::addLink (xmlNodePtr domNode, string reference, string identifier, string style, string text)
 {
   xmlNodePtr aDomElement = newElement ("a");
   xmlAddChild (domNode, aDomElement);

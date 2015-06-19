@@ -17,7 +17,7 @@
  */
 
 
-#include <editor/export.h>
+#include <editor/html2usfm.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
@@ -29,20 +29,20 @@
 #include <database/logs.h>
 
 
-Editor_Export::Editor_Export (void * webserver_request_in)
+Editor_Html2Usfm::Editor_Html2Usfm (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;
 }
 
 
-Editor_Export::~Editor_Export ()
+Editor_Html2Usfm::~Editor_Html2Usfm ()
 {
   //xmlDocDump (stdout, document);
   xmlFreeDoc (document);
 }
 
 
-void Editor_Export::load (string html)
+void Editor_Html2Usfm::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal ones.
   html = filter_string_str_replace ("&nbsp;", " ", html);
@@ -99,7 +99,7 @@ void Editor_Export::load (string html)
 }
 
 
-void Editor_Export::stylesheet (string stylesheet)
+void Editor_Html2Usfm::stylesheet (string stylesheet)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   styles.clear ();
@@ -133,7 +133,7 @@ void Editor_Export::stylesheet (string stylesheet)
 }
 
 
-void Editor_Export::run ()
+void Editor_Html2Usfm::run ()
 {
   preprocess ();
   process ();
@@ -141,7 +141,7 @@ void Editor_Export::run ()
 }
 
 
-void Editor_Export::process ()
+void Editor_Html2Usfm::process ()
 {
   // Walk the tree to retrieve the "p" elements, then process them.
   xmlNodePtr mainnode = xmlDocGetRootElement (document);
@@ -161,7 +161,7 @@ void Editor_Export::process ()
 }
 
 
-string Editor_Export::get ()
+string Editor_Html2Usfm::get ()
 {
   // Generate the USFM as one string.
   string usfm = filter_string_implode (output, "\n");
@@ -172,7 +172,7 @@ string Editor_Export::get ()
 }
 
 
-void Editor_Export::processNode (xmlNodePtr node)
+void Editor_Html2Usfm::processNode (xmlNodePtr node)
 {
   switch (node->type) {
     case XML_ELEMENT_NODE:
@@ -214,7 +214,7 @@ void Editor_Export::processNode (xmlNodePtr node)
 }
 
 
-void Editor_Export::openElementNode (xmlNodePtr node)
+void Editor_Html2Usfm::openElementNode (xmlNodePtr node)
 {
   // The tag and class names of this element node.
   string tagName ((char *) node->name);
@@ -262,7 +262,7 @@ void Editor_Export::openElementNode (xmlNodePtr node)
 }
 
 
-void Editor_Export::processNodeChildren (xmlNodePtr node)
+void Editor_Html2Usfm::processNodeChildren (xmlNodePtr node)
 {
   node = node->xmlChildrenNode;
   while (node != NULL) {
@@ -272,7 +272,7 @@ void Editor_Export::processNodeChildren (xmlNodePtr node)
 }
 
 
-void Editor_Export::closeElementNode (xmlNodePtr node)
+void Editor_Html2Usfm::closeElementNode (xmlNodePtr node)
 {
   // The tag and class names of this element node.
   string tagName ((char *) node->name);
@@ -328,14 +328,14 @@ void Editor_Export::closeElementNode (xmlNodePtr node)
 }
 
 
-void Editor_Export::processAttributeNode (xmlNodePtr node)
+void Editor_Html2Usfm::processAttributeNode (xmlNodePtr node)
 {
   string tagName ((char *) node->name);
   Database_Logs::log ("Unprocessed XML_ATTRIBUTE_NODE while saving editor text " + tagName);
 }
 
 
-void Editor_Export::processTextNode (xmlNodePtr node)
+void Editor_Html2Usfm::processTextNode (xmlNodePtr node)
 {
   // Add the text to the current USFM line.
   xmlChar * contents = xmlNodeGetContent (node);
@@ -347,7 +347,7 @@ void Editor_Export::processTextNode (xmlNodePtr node)
 }
 
 
-void Editor_Export::openInline (string className)
+void Editor_Html2Usfm::openInline (string className)
 {
   // It has been observed that the <span> elements of the character styles may be embedded, like so:
   // The <span class="add">
@@ -368,7 +368,7 @@ void Editor_Export::openInline (string className)
 }
 
 
-void Editor_Export::processNoteCitation (xmlNodePtr node)
+void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node)
 {
   // Remove the note citation from the text.
   xmlNodePtr child = node->xmlChildrenNode;
@@ -428,7 +428,7 @@ void Editor_Export::processNoteCitation (xmlNodePtr node)
 }
 
 
-string Editor_Export::cleanUSFM (string usfm)
+string Editor_Html2Usfm::cleanUSFM (string usfm)
 {
   // The user may accidentally omit or erase the note caller.
   // The note caller is one character that immediately follows the note opener.
@@ -468,7 +468,7 @@ string Editor_Export::cleanUSFM (string usfm)
 }
 
 
-void Editor_Export::preprocess ()
+void Editor_Html2Usfm::preprocess ()
 {
   output.clear ();
   currentLine.clear ();
@@ -479,7 +479,7 @@ void Editor_Export::preprocess ()
 
 
 // Log errors to the logbook.
-void Editor_Export::error_handler (void *ctx, const char *msg, ...)
+void Editor_Html2Usfm::error_handler (void *ctx, const char *msg, ...)
 {
   if (ctx) {};
   char buf [256];
@@ -494,7 +494,7 @@ void Editor_Export::error_handler (void *ctx, const char *msg, ...)
 }
 
 
-void Editor_Export::flushLine ()
+void Editor_Html2Usfm::flushLine ()
 {
   if (!currentLine.empty ()) {
     // Trim so that '\p ' becomes '\p', for example.
@@ -505,7 +505,7 @@ void Editor_Export::flushLine ()
 }
 
 
-void Editor_Export::postprocess ()
+void Editor_Html2Usfm::postprocess ()
 {
   // Flush any last USFM line being built.
   flushLine ();
@@ -515,7 +515,7 @@ void Editor_Export::postprocess ()
 // Retrieves a pointer to a relevant footnote element in the XML.
 // Sample footnote element:
 // <a href="#citation1" id="note1">x</a>
-xmlNodePtr Editor_Export::get_note_pointer (xmlNodePtr node, string id)
+xmlNodePtr Editor_Html2Usfm::get_note_pointer (xmlNodePtr node, string id)
 {
   if (node) {
 
@@ -556,7 +556,7 @@ string editor_export_verse (void * webserver_request, string stylesheet, string 
   }
 
   // Convert html to USFM.
-  Editor_Export editor_export (webserver_request);
+  Editor_Html2Usfm editor_export (webserver_request);
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();

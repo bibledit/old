@@ -26,7 +26,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <locale/translate.h>
-#include <editor/export.h>
+#include <editor/html2usfm.h>
 
 
 string editone_save_url ()
