@@ -62,7 +62,7 @@ Html_Text::Html_Text (string title)
   xmlNewProp(node, BAD_CAST "http-equiv", BAD_CAST "content-type");
   xmlNewProp(node, BAD_CAST "content", BAD_CAST "text/html; charset=UTF-8");
 
-  // <link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+  // <link rel="stylesheet" type="text/css" href="stylesheet.css">
   node = xmlNewNode (NULL, BAD_CAST "link");
   xmlAddChild (headDomNode, node);
   xmlNewProp (node, BAD_CAST "rel", BAD_CAST "stylesheet");
