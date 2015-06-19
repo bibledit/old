@@ -140,7 +140,7 @@ void Paratext_Logic::setup (string bible, string master)
 }
 
 
-void Paratext_Logic::copyBibledit2Paratext (string bible) // Todo
+void Paratext_Logic::copyBibledit2Paratext (string bible)
 {
   Database_Bibles database_bibles;
   
@@ -193,7 +193,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible) // Todo
 }
 
 
-void Paratext_Logic::copyParatext2Bibledit (string bible) // Todo
+void Paratext_Logic::copyParatext2Bibledit (string bible)
 {
   Database_Bibles database_bibles;
 
@@ -257,7 +257,7 @@ string Paratext_Logic::ancestorPath (string bible, int book)
 }
 
 
-vector <string> Paratext_Logic::enabledBibles () // Todo
+vector <string> Paratext_Logic::enabledBibles ()
 {
   vector <string> enabled;
   Database_Bibles database_bibles;
@@ -271,7 +271,7 @@ vector <string> Paratext_Logic::enabledBibles () // Todo
 }
 
 
-void Paratext_Logic::synchronize () // Todo
+void Paratext_Logic::synchronize ()
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
