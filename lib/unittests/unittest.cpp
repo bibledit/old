@@ -138,6 +138,11 @@ void test_database_bibles ()
     
     bible = database_bibles.getName (2);
     evaluate (__LINE__, __func__, "Unknown", bible);
+    
+    database_bibles.setID ("phpunit", 10);
+    
+    id = database_bibles.getID ("phpunit");
+    evaluate (__LINE__, __func__, 10, id);
   }
   // Test storeChapter / getChapter
   {
@@ -274,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_editor_html2usfm (); test_editor_usfm2html (); test_editor_roundtrip (); exit (0);
+  test_database_bibles (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();

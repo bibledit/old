@@ -48,6 +48,7 @@ public:
   static const int settings_get_workbench_heights = 7;
   static const int settings_send_resources_organization = 8;
   static const int settings_get_resources_organization = 9;
+  static const int settings_get_bible_id = 10;
   static const int bibles_get_total_checksum = 1;
   static const int bibles_get_bibles = 2;
   static const int bibles_get_bible_checksum = 3;
@@ -100,7 +101,7 @@ public:
   static const int offlineresources_get_file = 6;
   static const int offlineresources_get_file_filename = 7;
   bool credentials_okay ();
-  string settings_checksum ();
+  string settings_checksum (const vector <string> & bibles);
   string checksum (const vector <int> & identifiers);
   vector <Sync_Logic_Range> create_range (int start, int end);
   string post (map <string, string> & post, const string& url, string & error, bool burst = false);
