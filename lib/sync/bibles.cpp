@@ -85,6 +85,16 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   string serverusfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   
+  // There have been cases that USFM with double spaces in them caused the server to add one more space.
+  // Thus the number of added spaces kept increasing each time the client sent a chapter to the server.
+  // Remove all the double spaces.
+  for (int i = 0; i < 10; i++) {
+    if (oldusfm.find ("  ")) oldusfm = filter_string_str_replace ("  ", " ", oldusfm);
+    if (newusfm.find ("  ")) newusfm = filter_string_str_replace ("  ", " ", newusfm);
+    if (serverusfm.find ("  ")) serverusfm = filter_string_str_replace ("  ", " ", serverusfm);
+  }
+  
+
   // Gather data for recording the changes made by the user, for the change notifications.
   int old_id = request->database_bibles()->getChapterId (bible, book, chapter);
   string old_text = serverusfm;
@@ -104,7 +114,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
       string body = "<p>While sending " + bible + " " + bookname + " " + convert_to_string (chapter) + " to Bibledit Cloud, the server didn't manage to merge it.</p>";
       body.append ("<p>Please re-enter your changes as you see fit.</p>");
       body.append ("<p>Here is the chapter you sent to Bibledit Cloud:</p>");
-      body.append ("<pre>" + newusfm + "</pre>");
+      body.append ("<pre><code>" + newusfm + "</code></pre>");
       Database_Mail database_mail = Database_Mail (request);
       database_mail.send (username, subject, body);
     } else {
