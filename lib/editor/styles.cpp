@@ -145,7 +145,7 @@ string Editor_Styles::getAction (void * webserver_request, string style)
           return character ();
         case FootEndNoteSubtypeStandardContent:
         case FootEndNoteSubtypeParagraph:
-          return paragraph ();
+          return character ();
         default:
           return unknown ();
       }
@@ -161,7 +161,7 @@ string Editor_Styles::getAction (void * webserver_request, string style)
         case CrossreferenceSubtypeContentWithEndmarker:
           return character ();
         case CrossreferenceSubtypeStandardContent:
-          return paragraph ();
+          return character ();
         default:
           return unknown ();
       }
