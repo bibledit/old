@@ -185,6 +185,7 @@ function verseEditorPollId ()
     url: "../edit/id",
     type: "GET",
     data: { bible: verseBible, book: verseBook, chapter: verseChapter },
+    cache: false,
     success: function (response) {
       if (verseIdChapter != 0) {
         if (response != verseIdChapter) {

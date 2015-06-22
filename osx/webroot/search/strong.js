@@ -60,7 +60,7 @@ function startSearch (event)
 {
   initPage ();
   event.preventDefault ();
-  var strong = event.target.innerText;
+  var strong = event.target.textContent;
 
   $ ("#searchloading").show ();
   $ ("progress").attr ("value", 0);

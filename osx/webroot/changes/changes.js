@@ -135,7 +135,7 @@ function selectEntry (entry)
     $(".selected").removeClass ("selected");
     entry.addClass ("selected");
     var elementOffset = entry.offset ();
-    $("body").scrollTop (elementOffset.top + (entry.height () / 2) - ($(window).height () / 2));
+    $("body,html").scrollTop (elementOffset.top + (entry.height () / 2) - ($(window).height () / 2));
     changesFocusTimerStart ();
   }
 }
@@ -166,15 +166,21 @@ function expandEntry () {
   var identifier = getSelectedIdentifier ();
   // Get extra information through AJAX calls.
   $(".selected").append ($ ("<div>" + loading + "</div>"));
-  $.get ("change", { get: identifier }, function (response) {
-    $(".selected > div").remove ();
-    var extraInfo = $ ("<div>" + response + "</div>");
-    $(".selected").append (extraInfo);
-    noteClickSetup ();
-    var viewportHeight = $(window).height ();
-    var infoHeight = extraInfo.height ();
-    var infoOffset = extraInfo.offset ();
-    $("body").animate({ scrollTop: infoOffset.top + (infoHeight / 2) - (viewportHeight / 2) }, 500);
+  $.ajax ({
+    url: "change",
+    type: "GET",
+    data: { get: identifier },
+    cache: false,
+    success: function (response) {
+      $(".selected > div").remove ();
+      var extraInfo = $ ("<div>" + response + "</div>");
+      $(".selected").append (extraInfo);
+      noteClickSetup ();
+      var viewportHeight = $(window).height ();
+      var infoHeight = extraInfo.height ();
+      var infoOffset = extraInfo.offset ();
+      $("body,html").animate({ scrollTop: infoOffset.top + (infoHeight / 2) - (viewportHeight / 2) }, 500);
+    },
   });
 }
 
