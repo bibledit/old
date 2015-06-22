@@ -101,7 +101,7 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
     string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
     string stylesheet = request->database_config_user()->getStylesheet ();
     Filter_Text filter_text = Filter_Text (resource);
-    filter_text.html_text_standard = new Html_Text (translate("Bible")); // Todo
+    filter_text.html_text_standard = new Html_Text (translate("Bible"));
     filter_text.addUsfmCode (verse_usfm);
     filter_text.run (stylesheet);
     html = filter_text.html_text_standard->getInnerHtml ();

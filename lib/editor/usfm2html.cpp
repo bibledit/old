@@ -459,9 +459,6 @@ void Editor_Usfm2Html::newParagraph (string style)
   currentParagraphStyle = style;
   currentParagraphContent.clear();
   paragraphCount++;
-  if (paragraphCount > 1) {
-    textLength++;
-  }
 }
 
 

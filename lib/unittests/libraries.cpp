@@ -652,8 +652,8 @@ void test_editor_usfm2html ()
     editor_import.load (usfm);
     editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
-    evaluate (__LINE__, __func__, 61, (int)editor_import.textLength);
-    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_import.verseStartOffsets);
+    evaluate (__LINE__, __func__, 60, (int)editor_import.textLength);
+    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 1) }, editor_import.verseStartOffsets);
   }
   // Text Length More
   {
@@ -674,15 +674,15 @@ void test_editor_usfm2html ()
     editor_import.load (usfm);
     editor_import.stylesheet (styles_logic_standard_sheet ());
     editor_import.run ();
-    evaluate (__LINE__, __func__, 913, (int)editor_import.textLength);
+    evaluate (__LINE__, __func__, 910, (int)editor_import.textLength);
     evaluate (__LINE__, __func__, { make_pair (0, 0),
-                                    make_pair (1, 2),
-                                    make_pair (2, 62),
-                                    make_pair (3, 202),
-                                    make_pair (4, 359),
-                                    make_pair (5, 469),
-                                    make_pair (6, 676),
-                                    make_pair (7, 758) },
+                                    make_pair (1, 1),
+                                    make_pair (2, 61),
+                                    make_pair (3, 201),
+                                    make_pair (4, 356),
+                                    make_pair (5, 466),
+                                    make_pair (6, 673),
+                                    make_pair (7, 755) },
                                     editor_import.verseStartOffsets);
   }
   // Space After Starting Marker
