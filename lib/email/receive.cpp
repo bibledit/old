@@ -102,12 +102,14 @@ void email_dissect (string & body, string & from, string & subject)
 
 void email_receive ()
 {
+  // Bail out when the mail storage host has not been defined, rather than giving an error message.
+  if (Database_Config_General::getMailStorageHost () == "") return;
+  
   // One email receiver runs at a time.
   if (config_globals_mail_receive_running) return;
   config_globals_mail_receive_running = true;
-  
-  // Bail out when the mail storage host has not been defined, rather than giving an error message.
-  if (Database_Config_General::getMailStorageHost () == "") return;
+  // Once this flag is set, the coder should be careful not to exit from the function
+  // without clearin this flag.
   
   // Email count.
   string error;
