@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-string filter_merge_run (string base, string user, string server);
+string filter_merge_run (string base, string change, string prioritized_change);
 
 
 #endif
