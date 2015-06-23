@@ -104,3 +104,12 @@ int my_stoi (const string& str, void * idx, int base)
   return i;
 #endif
 }
+
+
+bool config_logic_paratext_enabled ()
+{
+#ifdef HAVE_PARATEXT
+  return true;
+#endif
+  return false;
+}

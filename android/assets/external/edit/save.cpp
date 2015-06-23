@@ -27,7 +27,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <checksum/logic.h>
-#include <editor/export.h>
+#include <editor/html2usfm.h>
 #include <locale/translate.h>
 #include <edit/logic.h>
 
@@ -79,13 +79,13 @@ string edit_save (void * webserver_request)
   
   string stylesheet = request->database_config_user()->getStylesheet();
   
-  Editor_Export editor_export = Editor_Export (request);
+  Editor_Html2Usfm editor_export = Editor_Html2Usfm (request);
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();
   string user_usfm = editor_export.get ();
   
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit"); // Todo
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -112,7 +112,8 @@ string edit_save (void * webserver_request)
   // Merge if the ancestor is there and differs from what's in the database.
   if (!ancestor_usfm.empty ()) {
     if (server_usfm != ancestor_usfm) {
-      user_usfm = filter_merge_run (ancestor_usfm, user_usfm, server_usfm);
+      // Prioritize the user's USFM.
+      user_usfm = filter_merge_run (ancestor_usfm, server_usfm, user_usfm);
       Database_Logs::log (translate ("Merging and saving chapter."));
     }
   }

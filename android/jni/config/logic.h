@@ -34,6 +34,7 @@ string config_logic_admin_username ();
 string config_logic_admin_password ();
 string config_logic_admin_email ();
 int my_stoi (const string& str, void * idx = NULL, int base = 10);
+bool config_logic_paratext_enabled ();
 
 
 #endif

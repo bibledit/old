@@ -62,7 +62,7 @@ Html_Text::Html_Text (string title)
   xmlNewProp(node, BAD_CAST "http-equiv", BAD_CAST "content-type");
   xmlNewProp(node, BAD_CAST "content", BAD_CAST "text/html; charset=UTF-8");
 
-  // <link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+  // <link rel="stylesheet" type="text/css" href="stylesheet.css">
   node = xmlNewNode (NULL, BAD_CAST "link");
   xmlAddChild (headDomNode, node);
   xmlNewProp (node, BAD_CAST "rel", BAD_CAST "stylesheet");
@@ -268,7 +268,7 @@ string Html_Text::getHtml ()
   }
   // Get the html.
   xmlChar * xml;
-  xmlDocDumpFormatMemoryEnc	(htmlDom, &xml, NULL,  "UTF-8", 1);
+  xmlDocDumpFormatMemoryEnc	(htmlDom, &xml, NULL,  "UTF-8", 0);
   string html = (char *) xml;
   xmlFree (xml);
   return html;
@@ -281,10 +281,10 @@ string Html_Text::getInnerHtml ()
   string page = getHtml ();
   size_t pos = page.find ("<body>");
   if (pos != string::npos) {
-    page = page.substr (pos + 7);
+    page = page.substr (pos + 6);
     pos = page.find ("</body>");
     if (pos != string::npos) {
-      page = page.substr (0, pos - 1);
+      page = page.substr (0, pos);
     }
   }
   // Remove the empty <div> element at the end.

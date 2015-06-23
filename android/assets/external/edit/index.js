@@ -133,7 +133,7 @@ function editorLoadChapter (reload)
           $ ("#editor").append (response);
           editorStatus (editorChapterLoaded);
         }
-        editorReferenceText = response;
+        editorReferenceText = response; // Todo
         if (reload) {
           positionCaret (editorCaretPosition);
         } else {
@@ -519,18 +519,18 @@ function editorScrollVerseIntoView ()
   $ ("#editor > p span").each (function (index) {
     var element = $(this);
     if (element.hasClass ("v")) {
-      iterVerse = element[0].innerText;
+      iterVerse = element[0].textContent;
       if (iterVerse == editorNavigationVerse) {
         if (navigated == false) {
           var offset = element.offset ();
           var verseTop = offset.top;
           var viewportHeight = $(window).height ();
           var scrollTo = verseTop - (viewportHeight / 2);
-          var currentScrollTop = $ ("body").scrollTop ();
+          var currentScrollTop = $ ("body,html").scrollTop ();
           var lowerBoundary = currentScrollTop - (viewportHeight / 10);
           var upperBoundary = currentScrollTop + (viewportHeight / 10);
           if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
-            $ ("body").animate ({ scrollTop: scrollTo }, 500);
+            $ ("body,html").animate ({ scrollTop: scrollTo }, 500);
           }
           navigated = true;
         }
@@ -541,7 +541,7 @@ function editorScrollVerseIntoView ()
 
   });
   if (editorNavigationVerse == 0) {
-    $ ("body").animate ({ scrollTop: scrollTo }, 0);
+    $ ("body,html").animate ({ scrollTop: 0 }, 500);
   }
 }
 
@@ -556,10 +556,15 @@ Section for the styles handling.
 function editorStylesButtonHandler ()
 {
   if (!editorWriteAccess) return;
-  $.get ("/edit/styles", function (response) {
-    editorShowResponse (response);
-    editorBindUnselectable ();
-    dynamicClickHandlers ();
+  $.ajax ({
+    url: "/edit/styles",
+    type: "GET",
+    cache: false,
+    success: function (response) {
+      editorShowResponse (response);
+      editorBindUnselectable ();
+      dynamicClickHandlers ();
+    },
   });
   return false;
 }
@@ -625,33 +630,45 @@ function dynamicClickHandlers ()
 
 function requestStyle (style)
 {
-  $.get ("/edit/styles?style=" + style, function (response) {
-    response = response.split ("\n");
-    var style = response [0];
-    var action = response [1];
-    if (action == "p") {
-      applyParagraphStyle (style);
-      editorContentChanged ();
-    } else if (action == 'c') {
-      applyCharacterStyle (style);
-      editorContentChanged ();
-    } else if (action == 'n') {
-      applyNotesStyle (style);
-      editorContentChanged ();
-    } else if (action == "m") {
-      applyMonoStyle (style);
-      editorContentChanged ();
-    }
+  $.ajax ({
+    url: "/edit/styles",
+    type: "GET",
+    data: { style: style },
+    cache: false,
+    success: function (response) {
+      response = response.split ("\n");
+      var style = response [0];
+      var action = response [1];
+      if (action == "p") {
+        applyParagraphStyle (style);
+        editorContentChanged ();
+      } else if (action == 'c') {
+        applyCharacterStyle (style);
+        editorContentChanged ();
+      } else if (action == 'n') {
+        applyNotesStyle (style);
+        editorContentChanged ();
+      } else if (action == "m") {
+        applyMonoStyle (style);
+        editorContentChanged ();
+      }
+    },
   });
 }
 
 
 function displayAllStyles ()
 {
-  $.get ("styles?all=", function (response) {
-    editorShowResponse (response);
-    editorBindUnselectable ();
-    dynamicClickHandlers ();
+  $.ajax ({
+    url: "styles",
+    type: "GET",
+    data: { all: "" },
+    cache: false,
+    success: function (response) {
+      editorShowResponse (response);
+      editorBindUnselectable ();
+      dynamicClickHandlers ();
+    },
   });
 }
 
@@ -672,8 +689,8 @@ function applyCharacterStyle (style)
 {
   if (!editorWriteAccess) return;
   $ ("#editor").focus ();
-  var cssApplier = rangy.createCssClassApplier (style);
-  cssApplier.toggleSelection ();
+  var classApplier = rangy.createClassApplier (style);
+  classApplier.toggleSelection ();
 }
 
 

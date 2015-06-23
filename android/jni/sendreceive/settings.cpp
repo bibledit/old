@@ -152,11 +152,14 @@ void sendreceive_settings ()
   // The client will now synchronize its settings with the server's settings.
 
   // The script requests the checksum of all relevant settings from the server.
+  // It includes the local Bibles for the server to include settings for those Bibles.
   // It compares this with the local checksum.
   // If it matches, that means that the local settings match the settings on the server.
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
+  vector <string> bibles = request.database_bibles ()->getBibles ();
   post ["a"] = convert_to_string (Sync_Logic::settings_get_total_checksum);
+  post ["b"] = filter_string_implode (bibles, "\n");
   string error;
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -164,7 +167,8 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  string checksum = sync_logic.settings_checksum ();
+  if (post.count ("b")) post.erase (post.find ("b"));
+  string checksum = sync_logic.settings_checksum (bibles);
   if (response == checksum) {
     Database_Logs::log (sendreceive_settings_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_settings_done ();
@@ -209,6 +213,19 @@ void sendreceive_settings ()
     return;
   }
   request.database_config_user()->setActiveResources (filter_string_explode (response, '\n'));
+  
+  // Request the identifiers of the Bibles.
+  for (auto & bible : bibles) {
+    post ["b"] = bible;
+    post ["a"] = convert_to_string (Sync_Logic::settings_get_bible_id);
+    response = sync_logic.post (post, url, error);
+    if (!error.empty ()) {
+      Database_Logs::log ("Failure receiving Bible identifier", Filter_Roles::translator ());
+      sendreceive_settings_done ();
+      return;
+    }
+    request.database_bibles()->setID (bible, convert_to_int (response));
+  }
   
   // Done.
   Database_Logs::log ("Settings: Updated", Filter_Roles::translator ());

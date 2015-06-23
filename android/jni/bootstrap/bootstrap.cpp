@@ -172,6 +172,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/save.h>
 #include <debug/index.h>
 #include <browser/index.h>
+#include <paratext/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -300,6 +301,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   else if ((url == mapping_index_url ()) && mapping_index_acl (request)) request->reply = mapping_index (request);
   else if ((url == mapping_map_url ()) && mapping_map_acl (request)) request->reply = mapping_map (request);
+  else if ((url == paratext_index_url ()) && paratext_index_acl (request)) request->reply = paratext_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);

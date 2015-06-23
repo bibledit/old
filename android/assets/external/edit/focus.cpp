@@ -23,7 +23,7 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
-#include <editor/import.h>
+#include <editor/usfm2html.h>
 
 
 string edit_focus_url ()
@@ -53,7 +53,7 @@ string edit_focus (void * webserver_request)
   int verse = Ipc_Focus::getVerse (request);
 
 
-  Editor_Import editor_import = Editor_Import (request);
+  Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
   editor_import.load (usfm);
   editor_import.stylesheet (stylesheet);
   editor_import.run ();

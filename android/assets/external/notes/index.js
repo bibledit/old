@@ -22,9 +22,14 @@ $(document).ready (function () {
 
 function navigationNewPassage ()
 {
-  $.get ("notes", function (response) {
-    var container = $ ("#noteslist");
-    container.empty ();
-    container.append (response);
-  });  
+  $.ajax ({
+    url: "notes",
+    type: "GET",
+    cache: false,
+    success: function (response) {
+      var container = $ ("#noteslist");
+      container.empty ();
+      container.append (response);
+    },
+  });
 }

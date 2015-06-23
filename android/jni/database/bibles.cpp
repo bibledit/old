@@ -82,6 +82,14 @@ int Database_Bibles::getID (string name)
 }
 
 
+// Sets the ID for a named Bible.
+void Database_Bibles::setID (string name, int id)
+{
+  string folder = bibleFolder (name);
+  filter_url_file_put_contents (filter_url_create_path (folder, "id"), convert_to_string (id));
+}
+
+
 // Returns the Bible name for a Bible ID.
 string Database_Bibles::getName (int id)
 {
@@ -115,7 +123,9 @@ int Database_Bibles::createBible (string name)
   // Create the empty system.
   string folder = bibleFolder (name);
   filter_url_mkdir (folder);
-  filter_url_file_put_contents (filter_url_create_path (folder, "id"), convert_to_string (id));
+  
+  // Store the ID
+  setID (name, id);
 
   // Return new ID.
   return id;

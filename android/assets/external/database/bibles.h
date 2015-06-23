@@ -31,6 +31,7 @@ public:
   ~Database_Bibles ();
   vector <string> getBibles ();
   int getID (string name);
+  void setID (string name, int id);
   string getName (int id);
   int createBible (string name);
   void deleteBible (string name);

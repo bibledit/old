@@ -49,6 +49,7 @@ void timer_index ()
   bool client = client_logic_client_enabled ();
   int previous_second = -1;
   int previous_minute = -1;
+  int previous_fraction = -1;
   while (config_globals_running) {
 
     try {
@@ -69,6 +70,12 @@ void timer_index ()
 
       // Every second: Deal with queued and/or active tasks.
       tasks_run_check ();
+
+      // Run the part below every so many seconds.
+      int fraction = second / 5;
+      if (fraction != previous_fraction) {
+        previous_fraction = fraction;
+      }
       
       // Run the part below once per minute.
       if (minute == previous_minute) continue;

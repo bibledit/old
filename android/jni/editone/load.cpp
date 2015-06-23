@@ -23,7 +23,7 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
-#include <editor/import.h>
+#include <editor/usfm2html.h>
 
 
 string editone_load_url ()
@@ -65,7 +65,7 @@ string editone_load (void * webserver_request)
     }
     usfm = filter_string_implode (lines, "\n");
 
-    Editor_Import editor_import = Editor_Import (request);
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
     editor_import.load (usfm);
     editor_import.stylesheet (stylesheet);
     editor_import.run ();
@@ -80,7 +80,7 @@ string editone_load (void * webserver_request)
   if (part == "verse") {
     usfm = usfm_get_verse_text (usfm, verse);
 
-    Editor_Import editor_import = Editor_Import (request);
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
     editor_import.load (usfm);
     editor_import.stylesheet (stylesheet);
     editor_import.run ();
@@ -102,7 +102,7 @@ string editone_load (void * webserver_request)
 
     usfm = filter_string_implode (lines, "\n");
     
-    Editor_Import editor_import = Editor_Import (request);
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
     editor_import.load (usfm);
     editor_import.stylesheet (stylesheet);
     editor_import.run ();

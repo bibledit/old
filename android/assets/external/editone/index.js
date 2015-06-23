@@ -245,6 +245,7 @@ function oneverseEditorPollId ()
     url: "../edit/id",
     type: "GET",
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter },
+    cache: false,
     success: function (response) {
       if (oneverseIdChapter != 0) {
         if (response != oneverseIdChapter) {
@@ -363,24 +364,29 @@ function oneverseScrollVerseIntoView ()
   var verseTop = offset.top;
   var viewportHeight = $(window).height ();
   var scrollTo = verseTop - (viewportHeight / 2);
-  $ ("body").animate ({ scrollTop: scrollTo }, 500);
+  $ ("body,html").animate ({ scrollTop: scrollTo }, 500);
 }
 
 
 /*
- 
+
 Section for the styles handling.
- 
+
 */
 
 
 function oneverseStylesButtonHandler ()
 {
   if (!oneverseEditorWriteAccess) return;
-  $.get ("/edit/styles", function (response) {
-    oneverseShowResponse (response);
-    oneverseBindUnselectable ();
-    oneverseDynamicClickHandlers ();
+  $.ajax ({
+    url: "/edit/styles",
+    type: "GET",
+    cache: false,
+    success: function (response) {
+      oneverseShowResponse (response);
+      oneverseBindUnselectable ();
+      oneverseDynamicClickHandlers ();
+    },
   });
   return false;
 }
@@ -446,33 +452,45 @@ function oneverseDynamicClickHandlers ()
 
 function oneverseRequestStyle (style)
 {
-  $.get ("/edit/styles?style=" + style, function (response) {
-    response = response.split ("\n");
-    var style = response [0];
-    var action = response [1];
-    if (action == "p") {
-      oneverseApplyParagraphStyle (style);
-      oneverseEditorChanged ();
-    } else if (action == 'c') {
-      oneverseApplyCharacterStyle (style);
-      oneverseEditorChanged ();
-    } else if (action == 'n') {
-      oneverseApplyNotesStyle (style);
-      oneverseEditorChanged ();
-    } else if (action == "m") {
-      oneverseApplyMonoStyle (style);
-      oneverseEditorChanged ();
-    }
+  $.ajax ({
+    url: "/edit/styles",
+    type: "GET",
+    data: { style: style },
+    cache: false,
+    success: function (response) {
+      response = response.split ("\n");
+      var style = response [0];
+      var action = response [1];
+      if (action == "p") {
+        oneverseApplyParagraphStyle (style);
+        oneverseEditorChanged ();
+      } else if (action == 'c') {
+        oneverseApplyCharacterStyle (style);
+        oneverseEditorChanged ();
+      } else if (action == 'n') {
+        oneverseApplyNotesStyle (style);
+        oneverseEditorChanged ();
+      } else if (action == "m") {
+        oneverseApplyMonoStyle (style);
+        oneverseEditorChanged ();
+      }
+    },
   });
 }
 
 
 function oneverseDisplayAllStyles ()
 {
-  $.get ("/edit/styles?all=", function (response) {
-    oneverseShowResponse (response);
-    oneverseBindUnselectable ();
-    oneverseDynamicClickHandlers ();
+  $.ajax ({
+    url: "/edit/styles",
+    type: "GET",
+    data: { all: "" },
+    cache: false,
+    success: function (response) {
+      oneverseShowResponse (response);
+      oneverseBindUnselectable ();
+      oneverseDynamicClickHandlers ();
+    },
   });
 }
 
@@ -493,8 +511,8 @@ function oneverseApplyCharacterStyle (style)
 {
   if (!oneverseEditorWriteAccess) return;
   $ ("#editor").focus ();
-  var cssApplier = rangy.createCssClassApplier (style);
-  cssApplier.toggleSelection ();
+  var classApplier = rangy.createClassApplier (style);
+  classApplier.toggleSelection ();
 }
 
 

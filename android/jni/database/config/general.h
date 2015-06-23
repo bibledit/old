@@ -76,6 +76,8 @@ public:
   static void setInstalledDatabaseVersion (string value);
   static bool getJustStarted ();
   static void setJustStarted (bool value);
+  static string getParatextProjectsFolder ();
+  static void setParatextProjectsFolder (string value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

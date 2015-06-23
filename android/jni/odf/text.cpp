@@ -705,7 +705,7 @@ void Odf_Text::newPageBreak ()
 // $name: the name of the style, e.g. 'p'.
 // $dropcaps: If 0, there are no drop caps.
 //            If greater than 0, it the number of characters in drop caps style.
-void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, bool dropcaps)
+void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, int dropcaps)
 {
   // It looks like this in styles.xml:
   // <style:style style:display-name="p_c1" style:family="paragraph" style:name="p_c1">
@@ -779,12 +779,13 @@ void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, in
     xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:keep-with-next", BAD_CAST "always");
   }
 
-  if (dropcaps) {
+  if (dropcaps > 0) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
+    string length = convert_to_string (dropcaps);
     xmlNodePtr styleDropCapDomElement = xmlNewNode (NULL, BAD_CAST "style:drop-cap");
     xmlAddChild (styleParagraphPropertiesDomElement, styleDropCapDomElement);
     xmlNewProp (styleDropCapDomElement, BAD_CAST "style:lines", BAD_CAST "2");
-    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:length", BAD_CAST "2");
+    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:length", BAD_CAST length.c_str());
     xmlNewProp (styleDropCapDomElement, BAD_CAST "style:distance", BAD_CAST "0.15cm");
   }
 }

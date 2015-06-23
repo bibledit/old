@@ -56,7 +56,7 @@ string resource_print (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Print"), request);
-  header.jQueryUIOn ("sortable");
+  header.jQueryUIOn ();
   page = header.run ();
   Assets_View view = Assets_View ();
 

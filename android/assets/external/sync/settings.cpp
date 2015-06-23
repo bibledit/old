@@ -56,11 +56,13 @@ string sync_settings (void * webserver_request)
   // Get the relevant parameters the client POSTed to us, the server.
   int action = convert_to_int (request->post ["a"]);
   string value = request->post ["v"];
+  // The value can be all Bibles, or one Bible.
+  string bible_s = request->post ["b"];
 
   switch (action) {
     case Sync_Logic::settings_get_total_checksum:
     {
-      return sync_logic.settings_checksum ();
+      return sync_logic.settings_checksum (filter_string_explode (bible_s, '\n'));
     }
     case Sync_Logic::settings_send_workbench_urls:
     {
@@ -99,6 +101,10 @@ string sync_settings (void * webserver_request)
     {
       vector <string> resources = request->database_config_user()->getActiveResources ();
       return filter_string_implode (resources, "\n");
+    }
+    case Sync_Logic::settings_get_bible_id:
+    {
+      return convert_to_string (request->database_bibles()->getID (bible_s));
     }
   }
 

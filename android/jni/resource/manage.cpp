@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <tasks/logic.h>
 #include <journal/index.h>
+#include <dialog/yes.h>
 
 
 string resource_manage_url ()
@@ -52,32 +53,49 @@ string resource_manage (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("USFM Resources"), request);
-  header.jQueryUIOn ("dialog");
   page = header.run ();
   Assets_View view = Assets_View ();
   
   
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
-
-  if (request->query.count ("delete")) {
-    string remove = request->query["delete"];
-    if (access_bible_write (request, remove)) {
-      database_usfmresources.deleteResource (remove);
-    } else {
-      view.set_variable ("error", translate("You do not have write access to this resource"));
+  
+  // Delete resource.
+  string remove = request->query ["delete"];
+  if (remove != "") {
+    string confirm = request->query ["confirm"];
+    if (confirm == "") {
+      Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to delete this resource?"));
+      dialog_yes.add_query ("delete", remove);
+      page += dialog_yes.run ();
+      return page;
+    } if (confirm == "yes") {
+      if (access_bible_write (request, remove)) {
+        database_usfmresources.deleteResource (remove);
+      } else {
+        view.set_variable ("error", translate("You do not have write access to this resource"));
+      }
     }
   }
   
   
-  if (request->query.count ("convert")) {
-    string convert = request->query["convert"];
-    if (access_bible_write (request, convert)) {
-      tasks_logic_queue (CONVERTRESOURCE2BIBLE, {convert});
-      redirect_browser (request, journal_index_url ());
-      return "";
-    } else {
-      view.set_variable ("error", translate("Insufficient privileges"));
+  // Convert resource.
+  string convert = request->query ["convert"];
+  if (convert != "") {
+    string confirm = request->query ["confirm"];
+    if (confirm == "") {
+      Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to convert this resource to a Bible?"));
+      dialog_yes.add_query ("convert", convert);
+      page += dialog_yes.run ();
+      return page;
+    } if (confirm == "yes") {
+      if (access_bible_write (request, convert)) {
+        tasks_logic_queue (CONVERTRESOURCE2BIBLE, {convert});
+        redirect_browser (request, journal_index_url ());
+        return "";
+      } else {
+        view.set_variable ("error", translate("Insufficient privileges"));
+      }
     }
   }
   

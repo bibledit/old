@@ -68,6 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/index.h>
 #include <debug/index.h>
 #include <browser/index.h>
+#include <paratext/index.h>
 
 
 /*
@@ -296,6 +297,12 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Cloud"), NULL } );
   if (fonts_index_acl (webserver_request)) {
     menu->push_back ( { "", fonts_index_url (), translate ("Fonts"), NULL } );
+  }
+  // Paratext can be enabled through ./configure --enable-paratext.
+  if (config_logic_paratext_enabled ()) {
+    if (paratext_index_acl (webserver_request)) {
+      menu->push_back ( { "", paratext_index_url (), translate ("Paratext"), NULL } );
+    }
   }
   if (menu->size ()) return menu;
   delete menu;

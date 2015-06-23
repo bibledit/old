@@ -21,10 +21,20 @@ function noteClickSetup ()
   $("a.newnote").off ("click");
   $("a.opennote").on ("click", function (event) {
     event.preventDefault ();
-    $.get ("/notes/click", { open: event.target.href });
+    $.ajax ({
+      url: "/notes/click",
+      type: "GET",
+      data: { open: event.target.href },
+      cache: false,
+    });
   });
   $("a.newnote").on ("click", function (event) {
     event.preventDefault ();
-    $.get ("/notes/click", { new: event.target.href });
+    $.ajax ({
+      url: "/notes/click",
+      type: "GET",
+      data: { new: event.target.href },
+      cache: false,
+    });
   });
 }

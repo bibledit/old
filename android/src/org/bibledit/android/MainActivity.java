@@ -68,7 +68,12 @@ public class MainActivity extends Activity
         // Files there can be set executable.
         String internalDirectory = getFilesDir ().getAbsolutePath ();
         
-        InitializeLibrary (externalDirectory, externalDirectory);
+        // Take the external directory for the webroot, if it exists, else the internal directory.
+        String webroot = externalDirectory;
+        File file = new File (externalDirectory);
+        if (!file.exists ()) webroot = internalDirectory;
+        
+        InitializeLibrary (webroot, webroot);
         
         SetTouchEnabled (true);
         
@@ -90,7 +95,7 @@ public class MainActivity extends Activity
         webview.loadUrl (webAppUrl);
         
         // Install the assets if needed.
-        installAssets (externalDirectory);
+        installAssets (webroot);
     }
     
     

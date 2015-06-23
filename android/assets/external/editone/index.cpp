@@ -59,7 +59,7 @@ string editone_index (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Edit USFM"), request);
+  Assets_Header header = Assets_Header (translate("Edit verse"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
   page = header.run ();

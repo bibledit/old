@@ -35,10 +35,16 @@ $(document).ready (function () {
 
 
 function buildNavigator () {
-  $.get ("/navigation/update?bible=" + navigationBible, function (response) {
-    navigatorContainer.empty ();
-    navigatorContainer.append (response);
-    bindClickHandlers ();
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+    },
   });
 }
 
@@ -64,23 +70,35 @@ function bindClickHandlers () {
 
 function navigateBack (event) {
   event.preventDefault ();
-  $.get ("/navigation/update?bible=" + navigationBible + "&goback", function (response) {
-    navigatorContainer.empty ();
-    navigatorContainer.append (response);
-    bindClickHandlers ();
-    navigationPollPassage ();
-  });  
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, goback: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
 }
 
 
 function navigateForward (event) {
   event.preventDefault ();
-  $.get ("/navigation/update?bible=" + navigationBible + "&goforward", function (response) {
-    navigatorContainer.empty ();
-    navigatorContainer.append (response);
-    bindClickHandlers ();
-    navigationPollPassage ();
-  });  
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, goforward: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
 }
 
 
@@ -90,6 +108,7 @@ function displayBooks (event) {
     url: "/navigation/update",
     type: "GET",
     data: { bible: navigationBible, getbooks: true },
+    cache: false,
     success: function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
@@ -108,6 +127,7 @@ function applyBook (event) {
       url: "/navigation/update",
       type: "GET",
       data: { bible: navigationBible, applybook: event.target.id },
+      cache: false,
       success: function (response) {
         navigatorContainer.empty ();
         navigatorContainer.append (response);
@@ -125,6 +145,7 @@ function displayChapters (event) {
     url: "/navigation/update",
     type: "GET",
     data: { bible: navigationBible, book: navigationBook, getchapters: true, chapter: navigationChapter },
+    cache: false,
     success: function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
@@ -143,6 +164,7 @@ function applyChapter (event) {
       url: "/navigation/update",
       type: "GET",
       data: { bible: navigationBible, applychapter: event.target.id },
+      cache: false,
       success: function (response) {
         navigatorContainer.empty ();
         navigatorContainer.append (response);
@@ -159,7 +181,8 @@ function displayVerses (event) {
   $.ajax ({
     url: "/navigation/update",
     type: "GET",
-  data: { bible: navigationBible, book: navigationBook, chapter: navigationChapter, verse: navigationVerse, getverses: true },
+    data: { bible: navigationBible, book: navigationBook, chapter: navigationChapter, verse: navigationVerse, getverses: true },
+    cache: false,
     success: function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
@@ -178,6 +201,7 @@ function applyVerse (event) {
       url: "/navigation/update",
       type: "GET",
       data: { bible: navigationBible, applyverse: event.target.id },
+      cache: false,
       success: function (response) {
         navigatorContainer.empty ();
         navigatorContainer.append (response);
@@ -191,23 +215,35 @@ function applyVerse (event) {
 
 function navigatePreviousVerse (event) {
   event.preventDefault ();
-  $.get ("/navigation/update?bible=" + navigationBible + "&previousverse", function (response) {
-    navigatorContainer.empty ();
-    navigatorContainer.append (response);
-    bindClickHandlers ();
-    navigationPollPassage ();
-  });  
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, previousverse: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
 }
 
 
 function navigateNextVerse (event) {
   event.preventDefault ();
-  $.get ("/navigation/update?bible=" + navigationBible + "&nextverse", function (response) {
-    navigatorContainer.empty ();
-    navigatorContainer.append (response);
-    bindClickHandlers ();
-    navigationPollPassage ();
-  });  
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, nextverse: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
 }
 
 
@@ -219,6 +255,7 @@ function navigationPollPassage ()
   $.ajax ({
     url: "/navigation/poll",
     type: "GET",
+    cache: false,
     success: function (response) {
       var ref = response.split ("\n");
       var book = ref [0];
@@ -283,6 +320,7 @@ function navigationSubmitEntry () {
     url: "/navigation/update",
     type: "GET",
     data: { bible: navigationBible, passage: passage },
+    cache: false,
     complete: function (xhr, status) {
       buildNavigator ();
     }
