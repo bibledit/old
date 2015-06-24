@@ -38,7 +38,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define whether to enable Paratext synchronization */
-/* #undef HAVE_PARATEXT */
+#define HAVE_PARATEXT 1
 
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
@@ -89,7 +89,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.168"
+#define PACKAGE_STRING "bibledit 1.0.169"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -98,13 +98,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.168"
+#define PACKAGE_VERSION "1.0.169"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
 
 /* Define whether Paratext synchronization is enabled */
-#define PARATEXT "no"
+#define PARATEXT "yes"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -119,4 +119,4 @@
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.168"
+#define VERSION "1.0.169"
