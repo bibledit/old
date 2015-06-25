@@ -132,12 +132,13 @@ function verseEditorSaveChapter (sync)
   verseIdChapter = 0;
   verseSaveAsync = true;
   if (sync) verseSaveAsync = false;
-  var checksum = checksum_get (usfm);
+  var encodedUsfm = filter_url_plus_to_tag (usfm);
+  var checksum = checksum_get (encodedUsfm);
   $.ajax ({
     url: "save",
     type: "POST",
     async: verseSaveAsync,
-    data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoaded, usfm: usfm, checksum: checksum },
+    data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoaded, usfm: encodedUsfm, checksum: checksum },
     error: function (jqXHR, textStatus, errorThrown) {
       verseEditorStatus (verseEditorChapterRetrying);
       verseLoadedText = "";

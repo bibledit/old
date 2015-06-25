@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/merge.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <database/modifications.h>
@@ -64,7 +65,8 @@ string edit_save (void * webserver_request)
     request->response_code = 409;
     return translate("Checksum error");
   }
-  
+
+  html = filter_url_tag_to_plus (html);
   html = filter_string_trim (html);
 
   if (html.empty ()) {
@@ -85,7 +87,7 @@ string edit_save (void * webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
   
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit"); // Todo
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit");
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {

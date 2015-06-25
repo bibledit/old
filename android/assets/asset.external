@@ -422,6 +422,7 @@ filter/text.cpp
 filter/text.h
 filter/url.cpp
 filter/url.h
+filter/url.js
 filter/usfm.cpp
 filter/usfm.h
 flate/flate.cpp

@@ -61,7 +61,7 @@ string sendreceive_notes_up_to_date_text ()
 }
 
 
-void sendreceive_notes () // Todo
+void sendreceive_notes ()
 {
   if (sendreceive_notes_watchdog) {
     int time = filter_date_seconds_since_epoch ();
