@@ -87,7 +87,7 @@ string edit_save (void * webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
   
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit"); // Todo
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit");
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {

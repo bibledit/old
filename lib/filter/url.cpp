@@ -891,7 +891,7 @@ void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 // the + sign is replaced with a space in the process.
 // Javascript first converts the + to a TAG before sending it off.
 // This function reverts the TAG to the original + sign.
-string filter_url_tag_to_plus (string data) // Todo
+string filter_url_tag_to_plus (string data)
 {
   return filter_string_str_replace ("PLUSSIGN", "+", data);
 }

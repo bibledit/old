@@ -369,7 +369,7 @@ void Editor_Html2Usfm::openInline (string className)
 }
 
 
-void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node) // Todo
+void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node)
 {
   // Remove the note citation from the text.
   xmlNodePtr child = node->xmlChildrenNode;
@@ -429,7 +429,7 @@ void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node) // Todo
 }
 
 
-string Editor_Html2Usfm::cleanUSFM (string usfm) // Todo
+string Editor_Html2Usfm::cleanUSFM (string usfm)
 {
   // The user may accidentally omit or erase the note caller.
   // The note caller is one character that immediately follows the note opener.
