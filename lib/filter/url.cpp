@@ -884,3 +884,14 @@ void filter_url_curl_set_timeout (void *curl_handle, bool burst)
   curl_easy_setopt (handle, CURLOPT_NOSIGNAL, 1L);
 }
 #endif
+
+
+
+// When POSTing a + sign via jQuery to the server,
+// the + sign is replaced with a space in the process.
+// Javascript first converts the + to a TAG before sending it off.
+// This function reverts the TAG to the original + sign.
+string filter_url_tag_to_plus (string data) // Todo
+{
+  return filter_string_str_replace ("PLUSSIGN", "+", data);
+}

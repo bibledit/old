@@ -21,6 +21,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
 #include <database/modifications.h>
@@ -69,6 +70,10 @@ string editone_save (void * webserver_request)
     request->response_code = 409;
     return translate ("Checksum error");
   }
+
+  
+  // Decode html encoded in javascript.
+  html = filter_url_tag_to_plus (html);
 
   
   // Check there's anything to save at all.
