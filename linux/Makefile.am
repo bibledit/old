@@ -192,8 +192,8 @@ libbibledit_a_SOURCES = \
 	editusfm/offset.cpp \
 	editusfm/save.cpp \
 	editor/styles.cpp \
-	editor/export.cpp \
-	editor/import.cpp \
+	editor/html2usfm.cpp \
+	editor/usfm2html.cpp \
 	edit/edit.cpp \
 	edit/focus.cpp \
 	edit/id.cpp \

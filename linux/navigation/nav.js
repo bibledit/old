@@ -20,7 +20,11 @@ function navigationSetup ()
   $("a.navigate").off ("click");
   $("a.navigate").on ("click", function (event) {
     event.preventDefault ();
-    $.get ("/navigation/nav?href=" + event.target.href, function (response) {
+    $.ajax ({
+      url: "/navigation/nav",
+      type: "GET",
+      data: { href: event.target.href },
+      cache: false,
     });
   });
 }

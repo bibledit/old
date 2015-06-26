@@ -22,6 +22,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/merge.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
@@ -39,16 +40,7 @@
 #include <notes/logic.h>
 
 
-mutex mutex_sendreceive_notes;
-bool sendreceive_notes_running = false;
-
-
-void sendreceive_notes_done ()
-{
-  mutex_sendreceive_notes.lock ();
-  sendreceive_notes_running = false;
-  mutex_sendreceive_notes.unlock ();
-}
+int sendreceive_notes_watchdog = 0;
 
 
 string sendreceive_notes_text ()
@@ -71,15 +63,30 @@ string sendreceive_notes_up_to_date_text ()
 
 void sendreceive_notes ()
 {
-  mutex_sendreceive_notes.lock ();
-  bool bail_out = sendreceive_notes_running;
-  mutex_sendreceive_notes.unlock ();
-  if (bail_out) return;
-  mutex_sendreceive_notes.lock ();
-  sendreceive_notes_running = true;
-  mutex_sendreceive_notes.unlock ();
-  
-  
+  if (sendreceive_notes_watchdog) {
+    int time = filter_date_seconds_since_epoch ();
+    if (time < (sendreceive_notes_watchdog + 900)) {
+      return;
+    }
+  }
+
+  sendreceive_notes_kick_watchdog ();
+
+  sendreceive_notes_upload ();
+
+  // After all note actions have been sent to the server, and the notes updated on the client,
+  // the client will now sync its notes with the server's notes.
+  sendreceive_notes_download (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
+
+  Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
+
+  sendreceive_notes_watchdog = 0;
+}
+
+
+// Upload all note actions to the server.
+void sendreceive_notes_upload ()
+{
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
   Database_Notes database_notes = Database_Notes (&request);
@@ -94,7 +101,6 @@ void sendreceive_notes ()
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
-    sendreceive_notes_done ();
     return;
   }
   
@@ -103,7 +109,6 @@ void sendreceive_notes ()
   vector <string> users = request.database_users ()->getUsers ();
   if (users.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
-    sendreceive_notes_done ();
     return;
   }
   string user = users [0];
@@ -116,7 +121,7 @@ void sendreceive_notes ()
   post ["u"] = bin2hex (user);
   post ["p"] = request.database_users ()->getmd5 (user);
   post ["l"] = convert_to_string (request.database_users ()->getUserLevel (user));
-
+  
   
   // Error variable.
   string error;
@@ -131,7 +136,7 @@ void sendreceive_notes ()
   // Check on communication errors to be careful that there will be no loss of notes data on the client.
   // While sending updates for a certai note identifier,
   // make sure to take the most recent update if there's more than one in the database for that identifier.
-
+  
   
   // Go through all notes which have actions recorded for them.
   // While sending note actions, the database method to retrieve them
@@ -139,12 +144,12 @@ void sendreceive_notes ()
   // as later updates can undo or affect earlier updates.
   vector <int> notes = database_noteactions.getNotes ();
   for (auto identifier : notes) {
-  
-  
+    
+
     string summary = database_notes.getSummary (identifier);
     if (summary.empty ()) summary = "<deleted>";
     Database_Logs::log (sendreceive_notes_text () + translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
-
+    
     
     // Get all the actions for the current note.
     vector <Database_Note_Action> note_actions = database_noteactions.getNoteData (identifier);
@@ -152,7 +157,7 @@ void sendreceive_notes ()
     
     // Due to some updates sent out here, record final actions to get the updated note from the server.
     map <int, bool> final_get_actions;
-
+    
     
     // Deal with the note actions for this note.
     for (auto note_action : note_actions) {
@@ -206,21 +211,21 @@ void sendreceive_notes ()
         case Sync_Logic::notes_put_delete: break;
       }
       post ["c"] = content;
-
+      
       
       // Send the request off and receive the response.
+      sendreceive_notes_kick_watchdog ();
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
         Database_Logs::log (sendreceive_notes_text () + "Failure sending note: " + error, Filter_Roles::translator ());
-        sendreceive_notes_done ();
         return;
       }
-
+      
       
       // Delete this note action because it has been dealt with.
       database_noteactions.erase (rowid);
       
-
+      
       // Add final note actions depending on what was updated.
       switch (action) {
         case Sync_Logic::notes_put_create_initiate: break;
@@ -271,6 +276,7 @@ void sendreceive_notes ()
       post ["u"] = bin2hex (user);
       post ["i"] = convert_to_string (identifier);
       post ["a"] = convert_to_string (action);
+      sendreceive_notes_kick_watchdog ();
       response = sync_logic.post (post, url, error);
       if (error.empty ()) {
         if (action == Sync_Logic::notes_get_contents) {
@@ -292,15 +298,6 @@ void sendreceive_notes ()
       }
     }
   }
-  
-  
-  // After all note actions have been sent to the server, and the notes updated on the client,
-  // the client will now sync its notes with the server's notes.
-  sendreceive_notes_download (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
-
-  Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
-
-  sendreceive_notes_done ();
 }
 
 
@@ -371,6 +368,7 @@ void sendreceive_notes_download (int lowId, int highId)
   // The script is then ready.
   post ["a"] = convert_to_string (Sync_Logic::notes_get_total);
   // Response comes after a relatively long delay: Enable burst mode timing.
+  sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error, true);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting totals: " + error, Filter_Roles::translator ());
@@ -418,6 +416,7 @@ void sendreceive_notes_download (int lowId, int highId)
   
   // Get note identifiers and checksums as on the server.
   post ["a"] = convert_to_string (Sync_Logic::notes_get_identifiers);
+  sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting identifiers: " + error, Filter_Roles::translator ());
@@ -477,6 +476,7 @@ void sendreceive_notes_download (int lowId, int highId)
     post ["i"] = convert_to_string (identifier);
 
     post ["a"] = convert_to_string (Sync_Logic::notes_get_summary);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting summary: " + error, Filter_Roles::translator ());
@@ -488,6 +488,7 @@ void sendreceive_notes_download (int lowId, int highId)
     }
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_contents);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting contents: " + error, Filter_Roles::translator ());
@@ -498,6 +499,7 @@ void sendreceive_notes_download (int lowId, int highId)
     }
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_subscribers);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting subscribers: " + error, Filter_Roles::translator ());
@@ -507,6 +509,7 @@ void sendreceive_notes_download (int lowId, int highId)
     database_notes.setSubscribers (identifier, subscribers);
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_assignees);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting assignees: " + error, Filter_Roles::translator ());
@@ -516,6 +519,7 @@ void sendreceive_notes_download (int lowId, int highId)
     database_notes.setAssignees (identifier, assignees);
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_status);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting status: " + error, Filter_Roles::translator ());
@@ -524,6 +528,7 @@ void sendreceive_notes_download (int lowId, int highId)
     database_notes.setStatus (identifier, response);
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_passages);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting passages: " + error, Filter_Roles::translator ());
@@ -541,6 +546,7 @@ void sendreceive_notes_download (int lowId, int highId)
     database_notes.setRawPassage (identifier, response);
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_severity);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting severity: " + error, Filter_Roles::translator ());
@@ -549,6 +555,7 @@ void sendreceive_notes_download (int lowId, int highId)
     database_notes.setRawSeverity (identifier, convert_to_int (response));
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_bible);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting bible: " + error, Filter_Roles::translator ());
@@ -558,6 +565,7 @@ void sendreceive_notes_download (int lowId, int highId)
     
     // Set time modified field last as it is affected by the previous store actions.
     post ["a"] = convert_to_string (Sync_Logic::notes_get_modified);
+    sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting time modified: " + error, Filter_Roles::translator ());
@@ -573,4 +581,10 @@ void sendreceive_notes_download (int lowId, int highId)
 
     database_notes.getChecksum (identifier);
   }
+}
+
+
+void sendreceive_notes_kick_watchdog ()
+{
+  sendreceive_notes_watchdog = filter_date_seconds_since_epoch ();
 }

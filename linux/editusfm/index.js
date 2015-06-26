@@ -133,12 +133,13 @@ function usfmEditorSaveChapter (sync)
   usfmIdChapter = 0;
   usfmSaveAsync = true;
   if (sync) usfmSaveAsync = false;
-  var checksum = checksum_get (usfm);
+  var encodedUsfm = filter_url_plus_to_tag (usfm);
+  var checksum = checksum_get (encodedUsfm);
   $.ajax ({
     url: "save",
     type: "POST",
     async: usfmSaveAsync,
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: usfm, checksum: checksum },
+    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: encodedUsfm, checksum: checksum },
     error: function (jqXHR, textStatus, errorThrown) {
       usfmEditorStatus (usfmEditorChapterRetrying);
       usfmLoadedText = "";
@@ -187,6 +188,7 @@ function usfmEditorPollId ()
     url: "../edit/id",
     type: "GET",
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
+    cache: false,
     success: function (response) {
       if (usfmIdChapter != 0) {
         if (response != usfmIdChapter) {
@@ -253,8 +255,8 @@ function positionCaretViaAjax ()
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
     success: function (response) {
       response = response.split (" ");
-      var start = response [0];
-      var end = response [1];
+      var start = parseInt (response [0], 10);
+      var end = parseInt (response [1], 10);
       var offset = getCaretPosition ();
       if ((offset < start) || (offset > end)) {
         positionCaret (start + 3);
@@ -320,8 +322,10 @@ function getSelectionCoordinates() {
       if (range.getClientRects) {
         range.collapse(true);
         var rect = range.getClientRects()[0];
-        x = rect.left;
-        y = rect.top;
+        if (rect) {
+          x = rect.left;
+          y = rect.top;
+        }
       }
     }
   }
@@ -331,13 +335,13 @@ function getSelectionCoordinates() {
 
 function clarifyCaret ()
 {
-  var scrolltop = $ ("body").scrollTop ();
+  var scrolltop = $ ("body,html").scrollTop ();
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
   if (caretTop == usfmPreviousCaretTop) return;
   usfmPreviousCaretTop = caretTop;
   var viewportHeight = $(window).height ();
-  $ ("body").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
+  $ ("body,html").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
   var barOffset = $ ("#caretbar").offset ().top;
   $ ("#caretbar").empty ();
   $ ("#caretbar").prepend ("<span><mark>￫</mark></span>");

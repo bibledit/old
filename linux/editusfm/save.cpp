@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/merge.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <database/modifications.h>
 #include <database/logs.h>
@@ -56,6 +57,7 @@ string editusfm_save (void * webserver_request)
   
   if (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("usfm")) {
     if (Checksum_Logic::get (usfm) == checksum) {
+      usfm = filter_url_tag_to_plus (usfm);
       usfm = filter_string_trim (usfm);
       if (usfm != "") {
         if (unicode_string_is_valid (usfm)) {
@@ -76,7 +78,8 @@ string editusfm_save (void * webserver_request)
               if (!ancestor_usfm.empty ()) {
                 string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
                 if (server_usfm != ancestor_usfm) {
-                  chapter_data_to_save = filter_merge_run (ancestor_usfm, chapter_data_to_save, server_usfm);
+                  // Prioritize the USFM to save.
+                  chapter_data_to_save = filter_merge_run (ancestor_usfm, server_usfm, chapter_data_to_save);
                   Database_Logs::log (translate ("Merging and saving chapter."));
                 }
               }

@@ -45,16 +45,9 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jQueryUIOn (string subset)
+void Assets_Header::jQueryUIOn ()
 {
   includeJQueryUI = true;
-  // Setting a subset makes a big difference to the size of the JavaScript
-  // the page has to load, and therefore it makes a big difference for the
-  // load time of the page.
-  // Subsets can be created on the download builder at http://jqueryui.com.
-  if (subset != "") {
-    JQueryUISubset = subset + ".";
-  }
 }
 
 
@@ -125,7 +118,6 @@ string Assets_Header::run ()
 
   if (includeJQueryUI) {
     view->enable_zone ("include_jquery_ui");
-    view->set_variable ("include_jquery_ui_subset", JQueryUISubset);
   }
 
   string headlines;

@@ -893,16 +893,16 @@ void test_filters_test8 ()
     html_text.addText ("Paragraph Three");
     string html = html_text.getInnerHtml ();
     string standard =
-"    <p>\n"
-"      <span>Paragraph One</span>\n"
-"    </p>\n"
-"    <p>\n"
-"      <span>Paragraph Two</span>\n"
-"    </p>\n"
-"    <h1>Heading One</h1>\n"
-"    <p>\n"
-"      <span>Paragraph Three</span>\n"
-"    </p>\n";
+      "<p>"
+      "<span>Paragraph One</span>"
+      "</p>"
+      "<p>"
+      "<span>Paragraph Two</span>"
+      "</p>"
+      "<h1>Heading One</h1>"
+      "<p>"
+      "<span>Paragraph Three</span>"
+      "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Html_Text automatic paragraph.
@@ -911,9 +911,9 @@ void test_filters_test8 ()
     html_text.addText ("Should create new paragraph automatically");
     string html = html_text.getInnerHtml ();
     string standard = 
-"    <p>\n"
-"      <span>Should create new paragraph automatically</span>\n"
-"    </p>\n";
+      "<p>"
+      "<span>Should create new paragraph automatically</span>"
+      "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Html_Text basic note
@@ -926,18 +926,18 @@ void test_filters_test8 ()
     html_text.addText (".");
     string html = html_text.getInnerHtml ();
     string standard = 
-    "    <p>\n"
-    "      <span>Text1</span>\n"
-    "      <a href=\"#note1\" id=\"citation1\" class=\"superscript\">†</a>\n"
-    "      <span>.</span>\n"
-    "    </p>\n"
-    "    <div>\n"
-    "      <p class=\"\">\n"
-    "        <a href=\"#citation1\" id=\"note1\">†</a>\n"
-    "        <span> </span>\n"
-    "        <span>Note1.</span>\n"
-    "      </p>\n"
-    "    </div>\n";
+      "<p>"
+      "<span>Text1</span>"
+      "<a href=\"#note1\" id=\"citation1\" class=\"superscript\">†</a>"
+      "<span>.</span>"
+      "</p>"
+      "<div>"
+      "<p class=\"\">"
+      "<a href=\"#citation1\" id=\"note1\">†</a>"
+      "<span> </span>"
+      "<span>Note1.</span>"
+      "</p>"
+      "</div>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Html_Text getInnerHtml ()
@@ -949,12 +949,12 @@ void test_filters_test8 ()
     html_text.addText ("Paragraph Two");
     string html = html_text.getInnerHtml ();
     string standard = 
-    "    <p>\n"
-    "      <span>Paragraph One</span>\n"
-    "    </p>\n"
-    "    <p>\n"
-    "      <span>Paragraph Two</span>\n"
-    "    </p>\n";
+      "<p>"
+      "<span>Paragraph One</span>"
+      "</p>"
+      "<p>"
+      "<span>Paragraph Two</span>"
+      "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Html_Text basic formatted note ()
@@ -972,19 +972,19 @@ void test_filters_test8 ()
     html_text.addText (".");
     string html = html_text.getInnerHtml ();
     string standard = 
-    "    <p>\n"
-    "      <span>Text</span>\n"
-    "      <a href=\"#note1\" id=\"citation1\" class=\"superscript\">𐌰</a>\n"
-    "      <span>.</span>\n"
-    "    </p>\n"
-    "    <div>\n"
-    "      <p class=\"f\">\n"
-    "        <a href=\"#citation1\" id=\"note1\">𐌰</a>\n"
-    "        <span> </span>\n"
-    "        <span class=\"add\">Add</span>\n"
-    "        <span>normal</span>\n"
-    "      </p>\n"
-    "    </div>\n";
+      "<p>"
+      "<span>Text</span>"
+      "<a href=\"#note1\" id=\"citation1\" class=\"superscript\">𐌰</a>"
+      "<span>.</span>"
+      "</p>"
+      "<div>"
+      "<p class=\"f\">"
+      "<a href=\"#citation1\" id=\"note1\">𐌰</a>"
+      "<span> </span>"
+      "<span class=\"add\">Add</span>"
+      "<span>normal</span>"
+      "</p>"
+      "</div>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Html_Text embedded formatted note
@@ -1005,20 +1005,20 @@ void test_filters_test8 ()
     html_text.addText (".");
     string html = html_text.getInnerHtml ();
     string standard = 
-"    <p>\n"
-"      <span>text</span>\n"
-"      <a href=\"#note1\" id=\"citation1\" class=\"superscript\">𐌰</a>\n"
-"      <span>.</span>\n"
-"    </p>\n"
-"    <div>\n"
-"      <p class=\"f\">\n"
-"        <a href=\"#citation1\" id=\"note1\">𐌰</a>\n"
-"        <span> </span>\n"
-"        <span class=\"add\">add</span>\n"
-"        <span class=\"add nd\">nd</span>\n"
-"        <span>normal</span>\n"
-"      </p>\n"
-"    </div>\n";
+      "<p>"
+      "<span>text</span>"
+      "<a href=\"#note1\" id=\"citation1\" class=\"superscript\">𐌰</a>"
+      "<span>.</span>"
+      "</p>"
+      "<div>"
+      "<p class=\"f\">"
+      "<a href=\"#citation1\" id=\"note1\">𐌰</a>"
+      "<span> </span>"
+      "<span class=\"add\">add</span>"
+      "<span class=\"add nd\">nd</span>"
+      "<span>normal</span>"
+      "</p>"
+      "</div>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
 }
@@ -1865,13 +1865,13 @@ void test_filters_test12 ()
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
-      "    <p class=\"p\">\n"
-      "      <span class=\"v\">1</span>\n"
-      "      <span> I will sing </span>\n"
-      "      <span class=\"add\">to the </span>\n"
-      "      <span class=\"add nd\">Lord</span>\n"
-      "      <span>.</span>\n"
-      "    </p>\n";
+      "<p class=\"p\">"
+      "<span class=\"v\">1</span>"
+      "<span> I will sing </span>"
+      "<span class=\"add\">to the </span>"
+      "<span class=\"add nd\">Lord</span>"
+      "<span>.</span>"
+      "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Embedded Html Two
@@ -1887,14 +1887,14 @@ void test_filters_test12 ()
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
-      "    <p class=\"p\">\n"
-      "      <span class=\"v\">1</span>\n"
-      "      <span> I will sing </span>\n"
-      "      <span class=\"add\">to the </span>\n"
-      "      <span class=\"add nd\">Lord</span>\n"
-      "      <span class=\"add\"> God</span>\n"
-      "      <span>.</span>\n"
-      "    </p>\n";
+      "<p class=\"p\">"
+      "<span class=\"v\">1</span>"
+      "<span> I will sing </span>"
+      "<span class=\"add\">to the </span>"
+      "<span class=\"add nd\">Lord</span>"
+      "<span class=\"add\"> God</span>"
+      "<span>.</span>"
+      "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Embedded Html Three.
@@ -1910,13 +1910,13 @@ void test_filters_test12 ()
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->getInnerHtml ();
     string standard = 
-      "    <p class=\"p\">\n"
-      "      <span class=\"v\">1</span>\n"
-      "      <span> I will sing </span>\n"
-      "      <span class=\"add\">to the </span>\n"
-      "      <span class=\"add nd\">Lord</span>\n"
-      "      <span>.</span>\n"
-      "    </p>\n";
+      "<p class=\"p\">"
+      "<span class=\"v\">1</span>"
+      "<span> I will sing </span>"
+      "<span class=\"add\">to the </span>"
+      "<span class=\"add nd\">Lord</span>"
+      "<span>.</span>"
+      "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   // Test Embedded Open Document One

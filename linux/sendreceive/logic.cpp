@@ -88,7 +88,7 @@ void sendreceive_queue_sync (int minute)
       }
     }
     
-    // Todo
+    // Paratext collaboration.
     if (config_logic_paratext_enabled ()) {
       if (tasks_logic_queued (SYNCPARATEXT)) {
         Database_Logs::log ("Still synchronizing with Paratext");

@@ -213,7 +213,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
 	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
 	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/export.$(OBJEXT) editor/import.$(OBJEXT) \
+	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
 	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
 	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
 	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
@@ -722,8 +722,8 @@ libbibledit_a_SOURCES = \
 	editusfm/offset.cpp \
 	editusfm/save.cpp \
 	editor/styles.cpp \
-	editor/export.cpp \
-	editor/import.cpp \
+	editor/html2usfm.cpp \
+	editor/usfm2html.cpp \
 	edit/edit.cpp \
 	edit/focus.cpp \
 	edit/id.cpp \
@@ -1587,9 +1587,9 @@ editor/$(DEPDIR)/$(am__dirstamp):
 	@: > editor/$(DEPDIR)/$(am__dirstamp)
 editor/styles.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
-editor/export.$(OBJEXT): editor/$(am__dirstamp) \
+editor/html2usfm.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
-editor/import.$(OBJEXT): editor/$(am__dirstamp) \
+editor/usfm2html.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
 edit/$(am__dirstamp):
 	@$(MKDIR_P) edit
@@ -2178,9 +2178,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/save.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/export.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/import.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/html2usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/styles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/usfm2html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/focus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/load.Po@am__quote@

@@ -141,7 +141,7 @@ string Sync_Logic::post (map <string, string> & post, const string& url, string 
 
 
 // Calculates the checksum of all settings to be kept in sync between server and client.
-string Sync_Logic::settings_checksum ()
+string Sync_Logic::settings_checksum (const vector <string> & bibles)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string checksum;
@@ -150,6 +150,10 @@ string Sync_Logic::settings_checksum ()
   checksum.append (request->database_config_user()->getWorkbenchHeights ());
   vector <string> resources = request->database_config_user()->getActiveResources ();
   checksum.append (filter_string_implode (resources, "\n"));
+  for (auto & bible : bibles) {
+    int id = request->database_bibles ()->getID (bible);
+    checksum.append (convert_to_string (id));
+  }
   return md5 (checksum);
 }
 
