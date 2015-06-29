@@ -346,12 +346,13 @@ function getSelectionCoordinates() {
 
 function clarifyCaret ()
 {
-  var scrolltop = $ ("body,html").scrollTop ();
+  var scrolltop = $ (document).scrollTop ();
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
   if (caretTop == usfmPreviousCaretTop) return;
   usfmPreviousCaretTop = caretTop;
   var viewportHeight = $(window).height ();
+  $ ("body,html").stop (true);
   $ ("body,html").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
   var barOffset = $ ("#caretbar").offset ().top;
   $ ("#caretbar").empty ();

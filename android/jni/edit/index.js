@@ -536,7 +536,7 @@ function editorScrollVerseIntoView ()
           var verseTop = offset.top;
           var viewportHeight = $(window).height ();
           var scrollTo = verseTop - (viewportHeight / 2);
-          var currentScrollTop = $ ("body,html").scrollTop ();
+          var currentScrollTop = $ (document).scrollTop ();
           var lowerBoundary = currentScrollTop - (viewportHeight / 10);
           var upperBoundary = currentScrollTop + (viewportHeight / 10);
           if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
