@@ -54,6 +54,7 @@ var usfmPreviousWidth;
 var usfmPreviousHeight;
 var usfmEditorTextChanged = false;
 var usfmSaveAsync;
+var usfmSaving = false;
 
 
 function navigationNewPassage ()
@@ -122,6 +123,10 @@ function usfmEditorUnload ()
 
 function usfmEditorSaveChapter (sync)
 {
+  if (usfmSaving) {
+    usfmEditorChanged ();
+    return;
+  }
   if (!usfmEditorWriteAccess) return;
   usfmEditorTextChanged = false;
   if (!usfmBible) return;
@@ -135,6 +140,7 @@ function usfmEditorSaveChapter (sync)
   if (sync) usfmSaveAsync = false;
   var encodedUsfm = filter_url_plus_to_tag (usfm);
   var checksum = checksum_get (encodedUsfm);
+  usfmSaving = true;
   $.ajax ({
     url: "save",
     type: "POST",
@@ -148,8 +154,11 @@ function usfmEditorSaveChapter (sync)
     },
     success: function (response) {
       usfmEditorStatus (response);
-      usfmSaveAsync = true;
     },
+    complete: function (xhr, status) {
+      usfmSaveAsync = true;
+      usfmSaving = false;
+    }
   });
 }
 
@@ -190,14 +199,16 @@ function usfmEditorPollId ()
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
     cache: false,
     success: function (response) {
-      if (usfmIdChapter != 0) {
-        if (response != usfmIdChapter) {
-          usfmReload = true;
-          usfmEditorLoadChapter ();
-          usfmIdChapter = 0;
+      if (!usfmSaving) {
+        if (usfmIdChapter != 0) {
+          if (response != usfmIdChapter) {
+            usfmReload = true;
+            usfmEditorLoadChapter ();
+            usfmIdChapter = 0;
+          }
         }
+        usfmIdChapter = response;
       }
-      usfmIdChapter = response;
     },
     complete: function (xhr, status) {
       usfmIdPoller ();
@@ -335,12 +346,13 @@ function getSelectionCoordinates() {
 
 function clarifyCaret ()
 {
-  var scrolltop = $ ("body,html").scrollTop ();
+  var scrolltop = $ (document).scrollTop ();
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
   if (caretTop == usfmPreviousCaretTop) return;
   usfmPreviousCaretTop = caretTop;
   var viewportHeight = $(window).height ();
+  $ ("body,html").stop (true);
   $ ("body,html").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
   var barOffset = $ ("#caretbar").offset ().top;
   $ ("#caretbar").empty ();

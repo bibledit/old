@@ -109,6 +109,7 @@ var editorReferenceText;
 var editorTextChanged = false;
 var editorCaretPosition = 0;
 var editorSaveAsync;
+var editorSaving = false;
 
 
 function editorLoadChapter (reload)
@@ -151,6 +152,10 @@ function editorLoadChapter (reload)
 
 function editorSaveChapter (sync)
 {
+  if (editorSaving) {
+    editorContentChangedTimeoutStart ();
+    return;
+  }
   if (!editorWriteAccess) return;
   editorTextChanged = false;
   if (!editorLoadedBible) return;
@@ -165,6 +170,7 @@ function editorSaveChapter (sync)
   if (sync) editorSaveAsync = false;
   var encodedHtml = filter_url_plus_to_tag (html);
   var checksum = checksum_get (encodedHtml);
+  editorSaving = true;
   $.ajax ({
     url: "save",
     type: "POST",
@@ -182,6 +188,7 @@ function editorSaveChapter (sync)
     complete: function (xhr, status) {
       editorIdPollerTimeoutStart ();
       editorSaveAsync = true;
+      editorSaving = false;
     },
   });
 }
@@ -266,13 +273,15 @@ function editorEditorPollId ()
     type: "GET",
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
     success: function (response) {
-      if (editorChapterIdOnServer != 0) {
-        if (response != editorChapterIdOnServer) {
-          editorLoadChapter (true);
-          editorChapterIdOnServer = 0;
+      if (!editorSaving) {
+        if (editorChapterIdOnServer != 0) {
+          if (response != editorChapterIdOnServer) {
+            editorLoadChapter (true);
+            editorChapterIdOnServer = 0;
+          }
         }
+        editorChapterIdOnServer = response;
       }
-      editorChapterIdOnServer = response;
     },
     complete: function (xhr, status) {
       editorIdPollerTimeoutStart ();
@@ -527,7 +536,7 @@ function editorScrollVerseIntoView ()
           var verseTop = offset.top;
           var viewportHeight = $(window).height ();
           var scrollTo = verseTop - (viewportHeight / 2);
-          var currentScrollTop = $ ("body,html").scrollTop ();
+          var currentScrollTop = $ (document).scrollTop ();
           var lowerBoundary = currentScrollTop - (viewportHeight / 10);
           var upperBoundary = currentScrollTop + (viewportHeight / 10);
           if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {

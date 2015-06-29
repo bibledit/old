@@ -57,7 +57,7 @@ string edit_load (void * webserver_request)
   
   
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  
+
   
   Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
   editor_import.load (usfm);

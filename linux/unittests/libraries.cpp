@@ -1636,6 +1636,28 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
+  // Text \xo and \xt.
+  {
+    string standardusfm =
+    "\\p\n\\v 1 The text\\x + \\xo 1 \\xt Passage\\x*.";
+    string standardhtml =
+    "<p class=\"p\"><span class=\"v\">1</span><span> </span><span>The text</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span>.</span></p><div id=\"notes\"><hr/><p class=\"x\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ </span><span class=\"xo\">1 </span><span class=\"xt\">Passage</span></p></div>";
+
+    Webserver_Request request;
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (standardusfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standardhtml, html);
+
+    Editor_Html2Usfm editor_export (&request);
+    editor_export.load (standardhtml);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standardusfm, usfm);
+}
   refresh_sandbox (false);
 }
 

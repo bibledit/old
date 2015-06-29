@@ -328,6 +328,7 @@ void Editor_Usfm2Html::process ()
               }
               case CrossreferenceSubtypeContent:
               case CrossreferenceSubtypeContentWithEndmarker:
+              case CrossreferenceSubtypeStandardContent:
               {
                 if (isOpeningMarker) {
                   openTextStyle (style, true, isEmbeddedMarker);
@@ -336,11 +337,8 @@ void Editor_Usfm2Html::process ()
                 }
                 break;
               }
-              case CrossreferenceSubtypeStandardContent:
               default:
               {
-                // The style of the standard content is already used in the note's body.
-                // Clear the text style to get the correct style for the note paragraph.
                 closeTextStyle (false, false);
                 break;
               }
