@@ -431,6 +431,7 @@ void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node)
 
 string Editor_Html2Usfm::cleanUSFM (string usfm)
 {
+  /*
   // The user may accidentally omit or erase the note caller.
   // The note caller is one character that immediately follows the note opener.
   // E.g.: \f + ...\f*.
@@ -464,7 +465,10 @@ string Editor_Html2Usfm::cleanUSFM (string usfm)
       pos = unicode_string_strpos (usfm, opener, pos + 5);
     }
   }
-  
+  Automatically fixing the note caller is switched off
+  because in certain conditions it adds a plus where it should not.
+  */
+   
   return usfm;
 }
 
