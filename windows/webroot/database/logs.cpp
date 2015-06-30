@@ -64,7 +64,7 @@ void Database_Logs::log (string description, int level)
   // There may be the rare case of more than one entry per file.
   // Append the data so it won't overwrite an earlier entry.
   if (file_exists (file)) {
-    description.insert (0, "\n");
+    description.insert (0, " | ");
   } else {
     description.insert (0, convert_to_string (level) + " " + seconds + " ");
   }
