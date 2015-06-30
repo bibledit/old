@@ -2247,11 +2247,11 @@ void test_check_usfm ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Unknown Usfm One
+  // Test Unknown Usfm One Todo
   {
     string usfm =
     "\\c 1\n"
-    "\\p He said.\n"
+    "\\p He said to the \\+nd LORD\\+nd*.\n"
     "\\v 1 He said \\add something\\add*.\n"
     "\\p,p He said.\n"
     "\\v 3 He said.\n";

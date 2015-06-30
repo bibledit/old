@@ -279,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_editor_html2usfm (); test_editor_usfm2html (); test_editor_roundtrip (); test_editor_roundtrip_verse (); exit (0);
+  test_check_usfm (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
