@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <timer/index.h>
 #include <database/logs.h>
+#include <database/notes.h>
 #include <database/config/general.h>
 #include <config/globals.h>
 #include <filter/string.h>
@@ -75,6 +76,9 @@ void timer_index ()
       int fraction = second / 5;
       if (fraction != previous_fraction) {
         previous_fraction = fraction;
+        Webserver_Request request;
+        Database_Notes database_notes = Database_Notes (&request);
+        database_notes.trim (); // Todo
       }
       
       // Run the part below once per minute.

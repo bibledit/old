@@ -171,23 +171,28 @@ bool Database_Notes::checkup_checksums ()
 }
 
 
-void Database_Notes::trim ()
+void Database_Notes::trim () // Todo
 {
   // Clean empty directories.
   string message = "Deleting empty notes folder ";
   string mainfolder = mainFolder ();
+  Database_Logs::log ("mainfolder " + mainfolder); // Todo
   vector <string> bits1 = filter_url_scandir (mainfolder);
   for (auto bit1 : bits1) {
-    if (convert_to_string (convert_to_int (bit1)) == bit1) {
+    Database_Logs::log ("bit1 " + bit1); // Todo
+    if (bit1.length () == 3) {
       string folder = filter_url_create_path (mainfolder, bit1);
+      Database_Logs::log ("folder bit1 " + folder); // Todo
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
         Database_Logs::log (message + folder);
         rmdir (folder.c_str ());
       }
       for (auto bit2 : bits2) {
-        if (convert_to_string (convert_to_int (bit2)) == bit2) {
+        Database_Logs::log ("bit2 " + bit2); // Todo
+        if (bit2.length () == 3) {
           string folder = filter_url_create_path (mainfolder, bit1, bit2);
+          Database_Logs::log ("folder bit2 " + folder); // Todo
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
             Database_Logs::log (message + folder);

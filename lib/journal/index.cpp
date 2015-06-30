@@ -53,6 +53,8 @@ string render_journal_entry (string entry)
   seconds = filter_date_local_seconds (seconds);
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
+  // Convert \n to <br>
+  entry = filter_string_str_replace ("\n", "<br>", entry);
   // Convert the seconds into a human readable time.
   string timestamp = filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0');
   timestamp.append (":");

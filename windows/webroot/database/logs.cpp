@@ -63,7 +63,12 @@ void Database_Logs::log (string description, int level)
   // On Windows it is lower than on Linux.
   // There may be the rare case of more than one entry per file.
   // Append the data so it won't overwrite an earlier entry.
-  filter_url_file_put_contents_append (file, convert_to_string (level) + " " + seconds + " " + description);
+  if (file_exists (file)) {
+    description.insert (0, "\n");
+  } else {
+    description.insert (0, convert_to_string (level) + " " + seconds + " ");
+  }
+  filter_url_file_put_contents_append (file, description);
 }
 
 
