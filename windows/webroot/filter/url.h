@@ -62,6 +62,7 @@ void filter_url_download_file (string url, string filename, string& error);
 string filter_url_html_file_name_bible (string path = "", int book = 0, int chapter = -1);
 int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char *data, size_t size, void *userptr);
 void filter_url_curl_set_timeout (void *curl_handle, bool burst = false);
+string filter_url_tag_to_plus (string data);
 
 
 #endif

@@ -49,7 +49,6 @@ string resource_admin (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
-  header.jQueryUIOn ("dialog");
   page = header.run ();
   Assets_View view = Assets_View ();
 

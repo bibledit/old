@@ -676,7 +676,7 @@ bool usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapt
   int percentage = 100 * (newLength - existingLength) / existingLength;
   percentage = abs (percentage);
   if (percentage > allowed_percentage) {
-    Database_Logs::log ("The text was not saved for safety reasons. The length differs " + convert_to_string (percentage) + "% from the existing text. Make smaller changes and save more often.");
+    Database_Logs::log ("The text was not saved for safety reasons. The length differs " + convert_to_string (percentage) + "% from the existing text. Make smaller changes and save more often. Or relax the restriction in the Bible's editing settings.");
     Database_Logs::log (newtext);
     return false;
   }
@@ -684,7 +684,7 @@ bool usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapt
   // The new text should be at least a set percentage similar to the old text.
   percentage = filter_diff_similarity (oldtext, newtext);
   if (percentage < (100 - allowed_percentage)) {
-    Database_Logs::log ("The text was not saved for safety reasons. The new text is " + convert_to_string (percentage) + "% similar to the existing text. Make smaller changes and save more often.");
+    Database_Logs::log ("The text was not saved for safety reasons. The new text is " + convert_to_string (percentage) + "% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the Bible's editing settings.");
     Database_Logs::log (newtext);
     return false;
   }

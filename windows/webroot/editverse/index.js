@@ -50,6 +50,7 @@ var verseCaretPosition = 0;
 var verseEditorTextChanged = false;
 var verseSaveAsync;
 var verseLoadAjaxRequest;
+var verseSaving = false;
 
 
 function navigationNewPassage ()
@@ -121,6 +122,10 @@ function verseEditorUnload ()
 
 function verseEditorSaveChapter (sync)
 {
+  if (verseSaving) {
+    verseEditorChanged ();
+    return;
+  }
   if (!verseEditorWriteAccess) return;
   verseEditorTextChanged = false;
   if (!verseBible) return;
@@ -132,12 +137,14 @@ function verseEditorSaveChapter (sync)
   verseIdChapter = 0;
   verseSaveAsync = true;
   if (sync) verseSaveAsync = false;
-  var checksum = checksum_get (usfm);
+  var encodedUsfm = filter_url_plus_to_tag (usfm);
+  var checksum = checksum_get (encodedUsfm);
+  verseSaving = true;
   $.ajax ({
     url: "save",
     type: "POST",
     async: verseSaveAsync,
-    data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoaded, usfm: usfm, checksum: checksum },
+    data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoaded, usfm: encodedUsfm, checksum: checksum },
     error: function (jqXHR, textStatus, errorThrown) {
       verseEditorStatus (verseEditorChapterRetrying);
       verseLoadedText = "";
@@ -146,8 +153,11 @@ function verseEditorSaveChapter (sync)
     },
     success: function (response) {
       verseEditorStatus (response);
-      verseSaveAsync = true;
     },
+    complete: function (xhr, status) {
+      verseSaveAsync = true;
+      verseSaving = false;
+    }
   });
 }
 
@@ -185,15 +195,18 @@ function verseEditorPollId ()
     url: "../edit/id",
     type: "GET",
     data: { bible: verseBible, book: verseBook, chapter: verseChapter },
+    cache: false,
     success: function (response) {
-      if (verseIdChapter != 0) {
-        if (response != verseIdChapter) {
-          verseReload = true;
-          verseEditorLoadChapter ();
-          verseIdChapter = 0;
+      if (!verseSaving) {
+        if (verseIdChapter != 0) {
+          if (response != verseIdChapter) {
+            verseReload = true;
+            verseEditorLoadChapter ();
+            verseIdChapter = 0;
+          }
         }
+        verseIdChapter = response;
       }
-      verseIdChapter = response;
     },
     complete: function (xhr, status) {
       verseIdPoller ();

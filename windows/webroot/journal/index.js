@@ -17,24 +17,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 $(window).load (function () {
-  $("body").animate({ scrollTop: $(document).height() - $(window).height() + 35 }, 3000);
+  $("body,html").animate({ scrollTop: $(document).height() - $(window).height() + 35 }, 3000);
 });
 
 var getMore = function () 
 {
-  $.get ("index?filename=" + filename, function (response) {
-    if (response == "") {
-      setTimeout (getMore, 2000);
-    } else {
-      var response = response.split ("\n");
-      filename = response [0];
-      for (var i = 1; i < response.length; i++) {
-        $ ("#logbook").append ($ ("<p>" + response [i] + "</p>"));
+  $.ajax ({
+    url: "index",
+    type: "GET",
+    data: { filename: filename },
+    cache: false,
+    success: function (response) {
+      if (response == "") {
+        setTimeout (getMore, 2000);
+      } else {
+        var response = response.split ("\n");
+        filename = response [0];
+        for (var i = 1; i < response.length; i++) {
+          $ ("#logbook").append ($ ("<p>" + response [i] + "</p>"));
+        }
+        $("body,html").animate ({ scrollTop: $ (document).height () - $ (window).height () }, 100);
+        setTimeout (getMore, 100);
       }
-      $("body").animate ({ scrollTop: $ (document).height () - $ (window).height () }, 100);
-      setTimeout (getMore, 100);
-    }
-  });  
+    },
+  });
 }
 
 setTimeout (getMore, 3000);

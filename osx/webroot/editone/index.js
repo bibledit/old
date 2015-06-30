@@ -57,6 +57,7 @@ var oneverseReload = false;
 var oneverseEditorTextChanged = false;
 var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
+var oneverseSaving = false;
 
 
 /*
@@ -141,6 +142,10 @@ function oneverseEditorUnload ()
 
 function oneverseEditorSaveVerse (sync)
 {
+  if (oneverseSaving) {
+    oneverseEditorChanged ();
+    return;
+  }
   if (!oneverseEditorWriteAccess) return;
   oneverseEditorTextChanged = false;
   if (!oneverseBible) return;
@@ -152,12 +157,14 @@ function oneverseEditorSaveVerse (sync)
   oneverseIdChapter = 0;
   oneverseSaveAsync = true;
   if (sync) oneverseSaveAsync = false;
-  var checksum = checksum_get (html);
+  var encodedHtml = filter_url_plus_to_tag (html);
+  var checksum = checksum_get (encodedHtml);
+  oneverseSaving = true;
   $.ajax ({
     url: "save",
     type: "POST",
     async: oneverseSaveAsync,
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: html, checksum: checksum },
+    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorStatus (oneverseEditorChapterRetrying);
       oneverseLoadedText = "";
@@ -166,8 +173,11 @@ function oneverseEditorSaveVerse (sync)
     },
     success: function (response) {
       oneverseEditorStatus (response);
-      oneverseSaveAsync = true;
     },
+    complete: function (xhr, status) {
+      oneverseSaveAsync = true;
+      oneverseSaving = false;
+    }
   });
 }
 
@@ -247,14 +257,16 @@ function oneverseEditorPollId ()
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter },
     cache: false,
     success: function (response) {
-      if (oneverseIdChapter != 0) {
-        if (response != oneverseIdChapter) {
-          oneverseReload = true;
-          oneverseEditorLoadVerse ();
-          oneverseIdChapter = 0;
+      if (!oneverseSaving) {
+        if (oneverseIdChapter != 0) {
+          if (response != oneverseIdChapter) {
+            oneverseReload = true;
+            oneverseEditorLoadVerse ();
+            oneverseIdChapter = 0;
+          }
         }
+        oneverseIdChapter = response;
       }
-      oneverseIdChapter = response;
     },
     complete: function (xhr, status) {
       oneverseIdPoller ();

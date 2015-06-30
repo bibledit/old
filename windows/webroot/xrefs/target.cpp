@@ -23,7 +23,7 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 #include <access/bible.h>
-#include <editor/import.h>
+#include <editor/usfm2html.h>
 
 
 string xrefs_target_url ()
@@ -56,7 +56,7 @@ string xrefs_target (void * webserver_request)
   usfm = usfm_get_verse_text (usfm, verse);
   
   
-  Editor_Import editor_import = Editor_Import (webserver_request);
+  Editor_Usfm2Html editor_import = Editor_Usfm2Html (webserver_request);
   editor_import.load (usfm);
   editor_import.stylesheet (stylesheet);
   editor_import.run ();

@@ -26,11 +26,11 @@
 #include <database/styles.h>
 
 
-class Editor_Import
+class Editor_Usfm2Html
 {
 public:
-  Editor_Import (void * webserver_request_in);
-  ~Editor_Import ();
+  Editor_Usfm2Html (void * webserver_request_in);
+  ~Editor_Usfm2Html ();
   void load (string usfm);
   void stylesheet (string stylesheet);
   void run ();

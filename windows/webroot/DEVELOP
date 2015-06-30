@@ -47,3 +47,5 @@ it appears to crash. This was observed with version 0.21.5.
 For the above reason, Bibledit does not yet use libgit2.
 It uses shell calls to git instead.
 
+Supported web browsers: Chrome, Firefox, Internet Explorer, Safari, Opera, Edge.
+
