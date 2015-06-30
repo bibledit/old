@@ -563,8 +563,6 @@
 		CAA4D1681A45A647003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA4D1721A45A647003ABA25 /* getmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = getmessage.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1751A45A647003ABA25 /* setmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = setmessage.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D1771A45A647003ABA25 /* jcanvas.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jcanvas.js; sourceTree = "<group>"; };
-		CAA4D1781A45A647003ABA25 /* jcanvas.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jcanvas.min.js; sourceTree = "<group>"; };
 		CAA4D1821A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAA4D1831A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D1841A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1951,16 +1949,6 @@
 			path = ../ipc;
 			sourceTree = "<group>";
 		};
-		CAA4D1761A45A647003ABA25 /* jcanvas */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D1771A45A647003ABA25 /* jcanvas.js */,
-				CAA4D1781A45A647003ABA25 /* jcanvas.min.js */,
-			);
-			name = jcanvas;
-			path = ../jcanvas;
-			sourceTree = "<group>";
-		};
 		CAA4D1791A45A647003ABA25 /* jobs */ = {
 			isa = PBXGroup;
 			children = (
@@ -2880,7 +2868,6 @@
 				CAA4D1581A45A647003ABA25 /* html */,
 				CAA4D1601A45A647003ABA25 /* index */,
 				CAA4D1701A45A647003ABA25 /* ipc */,
-				CAA4D1761A45A647003ABA25 /* jcanvas */,
 				CAA4D1791A45A647003ABA25 /* jobs */,
 				CAA4D17D1A45A647003ABA25 /* journal */,
 				CA80A7091AA0A9A800C7208F /* json */,
