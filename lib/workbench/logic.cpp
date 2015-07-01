@@ -247,6 +247,9 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
       if (bits.size() == 2) {
         element.second.insert (0, "/");
       }
+      
+      // Encode URL.
+      element.second = filter_string_str_replace (" ", "%20", element.second);
     }
 
     if (selector == WIDTHS) {

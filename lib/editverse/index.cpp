@@ -83,6 +83,7 @@ string editverse_index (void * webserver_request)
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
   string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
   view.set_variable ("bible", bible);
   
   // Write access?

@@ -99,6 +99,7 @@ string edit_index (void * webserver_request)
   
   // Active Bible, and check access.
   string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
   view.set_variable ("bible", bible);
   
   

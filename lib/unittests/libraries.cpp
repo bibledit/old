@@ -2247,7 +2247,7 @@ void test_check_usfm ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Unknown Usfm One Todo
+  // Test Unknown Usfm One
   {
     string usfm =
     "\\c 1\n"

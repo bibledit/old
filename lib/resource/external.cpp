@@ -673,8 +673,9 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
 {
   string bookname = resource_external_convert_book_netbible (book);
   
-  string url = "https://net.bible.org/resource/netTexts/" + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-  url = filter_string_str_replace (" ", "%20", url);
+  string url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+  url = filter_url_urlencode (url);
+  url.insert (0, "https://net.bible.org/resource/netTexts/");
   
   string error;
   string text = filter_url_http_get (url, error);
@@ -683,8 +684,9 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   
   output += "\n";
   
-  url = "https://net.bible.org/resource/netNotes/" + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-  url = filter_string_str_replace (" ", "%20", url);
+  url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+  url = filter_url_urlencode (url);
+  url.insert (0, "https://net.bible.org/resource/netNotes/");
   
   string notes = filter_url_http_get (url, error);
   // If notes fail with an error, don't include the note text.
@@ -748,22 +750,19 @@ string resource_external_get_blue_letter_bible (int book, int chapter, int verse
   
   string output;
   
-  string url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=$" + convert_to_string (chapter) + "&t=KJV&ss=1";
-  url = filter_string_str_replace (" ", "%20", url);
+  string url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=$" + convert_to_string (chapter) + "&t=KJV&ss=1";
   
   output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">KJV</a>";
   
   output += " | ";
   
-  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + convert_to_string (chapter) + "&t=WLC";
-  url = filter_string_str_replace (" ", "%20", url);
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + convert_to_string (chapter) + "&t=WLC";
   
   output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">WLC</a>";
   
   output += " | ";
   
-  url = "http://www.blueletterbible.org/Bible.cfm?b=" + bookname + "&c=" + convert_to_string (chapter) + "&t=mGNT";
-  url = filter_string_str_replace (" ", "%20", url);
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + convert_to_string (chapter) + "&t=mGNT";
   
   output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">mGNT</a>";
 
