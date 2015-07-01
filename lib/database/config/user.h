@@ -152,6 +152,10 @@ public:
   void setUpdatedSettings (vector <int> values);
   void addUpdatedSetting (int value);
   void removeUpdatedSetting (int value);
+  vector <int> getRemovedChanges ();
+  void setRemovedChanges (vector <int> values);
+  void addRemovedChange (int value);
+  void removeRemovedChange (int value);
 private:
   void * webserver_request;
   string file (string user, const char * key);

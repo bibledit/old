@@ -828,3 +828,28 @@ void Database_Config_User::removeUpdatedSetting (int value)
   settings = filter_string_array_diff (settings, against);
   setUpdatedSettings (settings);
 }
+
+
+vector <int> Database_Config_User::getRemovedChanges () // Todo
+{
+  return getIList ("removed-changes");
+}
+void Database_Config_User::setRemovedChanges (vector <int> values)
+{
+  setIList ("removed-changes", values);
+}
+void Database_Config_User::addRemovedChange (int value)
+{
+  vector <int> settings = getRemovedChanges ();
+  settings.push_back (value);
+  settings = array_unique (settings);
+  setRemovedChanges (settings);
+}
+void Database_Config_User::removeRemovedChange (int value)
+{
+  vector <int> settings = getRemovedChanges ();
+  vector <int> against;
+  against.push_back (value);
+  settings = filter_string_array_diff (settings, against);
+  setRemovedChanges (settings);
+}

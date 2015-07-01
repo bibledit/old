@@ -615,7 +615,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit)
+vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit) // Todo
 {
   vector <int> ids;
 

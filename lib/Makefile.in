@@ -230,11 +230,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/usfmresources.$(OBJEXT) \
 	sendreceive/externalresources.$(OBJEXT) \
-	sendreceive/notes.$(OBJEXT) demo/logic.$(OBJEXT) \
-	client/index.$(OBJEXT) client/logic.$(OBJEXT) \
-	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT) \
-	sync/bibles.$(OBJEXT) sync/usfmresources.$(OBJEXT) \
-	sync/externalresources.$(OBJEXT) sync/notes.$(OBJEXT) \
+	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
+	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
+	client/logic.$(OBJEXT) sync/setup.$(OBJEXT) \
+	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT) \
+	sync/usfmresources.$(OBJEXT) sync/externalresources.$(OBJEXT) \
+	sync/notes.$(OBJEXT) sync/changes.$(OBJEXT) \
 	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
 	resource/logic.$(OBJEXT) resource/get.$(OBJEXT) \
 	resource/external.$(OBJEXT) resource/bible2resource.$(OBJEXT) \
@@ -732,6 +733,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/usfmresources.cpp \
 	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
+	sendreceive/changes.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -741,6 +743,7 @@ libbibledit_a_SOURCES = \
 	sync/usfmresources.cpp \
 	sync/externalresources.cpp \
 	sync/notes.cpp \
+	sync/changes.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -1661,6 +1664,8 @@ sendreceive/externalresources.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/notes.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/changes.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -1690,6 +1695,8 @@ sync/usfmresources.$(OBJEXT): sync/$(am__dirstamp) \
 sync/externalresources.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/notes.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
+sync/changes.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 resource/$(am__dirstamp):
 	@$(MKDIR_P) resource
@@ -2310,6 +2317,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strong.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strongs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/bibles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/changes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
@@ -2335,6 +2343,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/changes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/notes.Po@am__quote@

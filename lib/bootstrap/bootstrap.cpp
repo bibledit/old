@@ -108,6 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/notes.h>
 #include <sync/usfmresources.h>
 #include <sync/externalresources.h>
+#include <sync/changes.h>
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
@@ -348,6 +349,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == sync_notes_url ()) && sync_notes_acl (request)) request->reply = sync_notes (request);
   else if ((url == sync_usfmresources_url ()) && sync_usfmresources_acl (request)) request->reply = sync_usfmresources (request);
   else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
+  else if ((url == sync_changes_url ()) && sync_changes_acl (request)) request->reply = sync_changes (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);
