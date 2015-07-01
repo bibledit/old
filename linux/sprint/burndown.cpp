@@ -185,6 +185,7 @@ string sprint_create_burndown_chart (string bible, int year, int month)
         days_in_month.push_back (day);
       }
     }
+    seconds += 86400;
   }
   
   // Assemble history of this sprint.

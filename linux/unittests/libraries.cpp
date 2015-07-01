@@ -2251,7 +2251,7 @@ void test_check_usfm ()
   {
     string usfm =
     "\\c 1\n"
-    "\\p He said.\n"
+    "\\p He said to the \\+nd LORD\\+nd*.\n"
     "\\v 1 He said \\add something\\add*.\n"
     "\\p,p He said.\n"
     "\\v 3 He said.\n";
