@@ -75,6 +75,12 @@ void Database_Modifications::create ()
 }
 
 
+bool Database_Modifications::healthy ()
+{
+  return database_sqlite_healthy ("modifications");
+}
+
+
 // Code dealing with the "teams" table.
 
 
@@ -615,7 +621,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit) // Todo
+vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit)
 {
   vector <int> ids;
 
@@ -858,7 +864,8 @@ void Database_Modifications::clearNotificationsUser (const string& username)
 
 
 // This function deletes personal change proposals and their matching change notifications.
-void Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
+// It returns the delted identifiers.
+vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
 {
   sqlite3 * db = connect ();
   
@@ -948,6 +955,67 @@ void Database_Modifications::clearNotificationMatches (const string& username, c
   }
   
   database_sqlite_disconnect (db);
+  
+  // Return deleted identifiers.
+  return deletes;
 }
 
 
+// Store a change notification on the client, as received from the server.
+void Database_Modifications::storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext)
+{
+  filter_url_mkdir (notificationIdentifierFolder (id));
+
+  string file;
+
+  // Timestamp is not used: Just put the current time.
+  int timestamp = filter_date_seconds_since_epoch ();
+  file = notificationTimeFile (id);
+  filter_url_file_put_contents (file, convert_to_string (timestamp));
+  
+  file = notificationUserFile (id);
+  filter_url_file_put_contents (file, username);
+  
+  file = notificationCategoryFile (id);
+  filter_url_file_put_contents (file, category);
+
+  file = notificationBibleFile (id);
+  filter_url_file_put_contents (file, bible);
+
+  string passage = convert_to_string (book) + "." + convert_to_string (chapter) + "." + convert_to_string (verse);
+  file = notificationPassageFile (id);
+  filter_url_file_put_contents (file, passage);
+  
+  file = notificationOldtextFile (id);
+  filter_url_file_put_contents (file, oldtext);
+
+  file = notificationModificationFile (id);
+  filter_url_file_put_contents (file, modification);
+ 
+  file = notificationNewtextFile (id);
+  filter_url_file_put_contents (file, newtext);
+
+  sqlite3 * db = connect ();
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("INSERT INTO notifications VALUES (");
+  sql.add (id);
+  sql.add (",");
+  sql.add (timestamp);
+  sql.add (",");
+  sql.add (username);
+  sql.add (",");
+  sql.add (category);
+  sql.add (",");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (book);
+  sql.add (",");
+  sql.add (chapter);
+  sql.add (",");
+  sql.add (verse);
+  sql.add (",");
+  sql.add (modification);
+  sql.add (");");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}

@@ -246,7 +246,7 @@ string Sync_Logic::offline_resource_file_checksum (const string& name, const str
 
 
 // Calculates the total checksum for all the changes for $username.
-string Sync_Logic::changes_checksum (const string & username) // Todo
+string Sync_Logic::changes_checksum (const string & username)
 {
   Database_Modifications database_modifications;
   vector <int> ids = database_modifications.getNotificationIdentifiers (username, false);

@@ -830,7 +830,7 @@ void Database_Config_User::removeUpdatedSetting (int value)
 }
 
 
-vector <int> Database_Config_User::getRemovedChanges () // Todo
+vector <int> Database_Config_User::getRemovedChanges ()
 {
   return getIList ("removed-changes");
 }

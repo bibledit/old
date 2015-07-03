@@ -58,8 +58,16 @@ string sync_changes (void * webserver_request)
   // Get the relevant parameters the client may have POSTed to us, the server.
   string user = hex2bin (request->post ["u"]);
   int action = convert_to_int (request->post ["a"]);
+  int id = convert_to_int (request->post ["i"]);
 
   switch (action) {
+    case Sync_Logic::changes_delete_modification:
+    {
+      // The server deletes the change notification.
+      database_modifications.deleteNotification (id);
+      Database_Logs::log ("Client deletes change notification from server: " + convert_to_string (id), Filter_Roles::translator ());
+      return "";
+    }
     case Sync_Logic::changes_get_checksum:
     {
       // The server responds with the total checksum for the user's change notifications.
@@ -75,6 +83,30 @@ string sync_changes (void * webserver_request)
         response.append (convert_to_string (id));
       }
       return response;
+    }
+    case Sync_Logic::changes_get_modification:
+    {
+      // The server responds with the relevant data of the requested modification.
+      vector <string> lines;
+      // category
+      lines.push_back (database_modifications.getNotificationCategory (id));
+      // bible
+      lines.push_back (database_modifications.getNotificationBible (id));
+      // book
+      // chapter
+      // verse
+      Passage passage = database_modifications.getNotificationPassage (id);
+      lines.push_back (convert_to_string (passage.book));
+      lines.push_back (convert_to_string (passage.chapter));
+      lines.push_back (passage.verse);
+      // oldtext
+      lines.push_back (database_modifications.getNotificationOldText (id));
+      // modification
+      lines.push_back (database_modifications.getNotificationModification (id));
+      // newtext
+      lines.push_back (database_modifications.getNotificationNewText (id));
+      // Result.
+      return filter_string_implode (lines, "\n");
     }
   }
 

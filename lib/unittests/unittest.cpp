@@ -279,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_check_usfm (); exit (0);
+  // test_database_modifications_notifications (); exit (0);
   
   // Run the tests.
   test_database_config_general ();

@@ -71,6 +71,9 @@ string changes_changes (void * webserver_request)
     int remove = convert_to_int (request->post["remove"]);
     trash_change_notification (request, remove);
     database_modifications.deleteNotification (remove);
+    if (config_logic_client_prepared ()) {
+      request->database_config_user ()->addRemovedChange (remove);
+    }
     return "";
   }
   
@@ -93,7 +96,13 @@ string changes_changes (void * webserver_request)
   
   // Remove personal change proposals and their matching change notifications.
   if (request->query.count ("match")) {
-    database_modifications.clearNotificationMatches (username, "☺", "♺");
+    vector <int> ids = database_modifications.clearNotificationMatches (username, "☺", "♺");
+    // Client records deletions for sending to the Cloud.
+    if (config_logic_client_prepared ()) {
+      for (auto & id : ids) {
+        request->database_config_user ()->addRemovedChange (id);
+      }
+    }
   }
   
   
