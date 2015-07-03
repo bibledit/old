@@ -22,7 +22,12 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <edit/index.h>
+#include <editone/index.h>
+#include <editverse/index.h>
 #include <search/index.h>
+#include <resource/index.h>
+#include <notes/index.h>
+#include <consistency/index.h>
 #include <sync/logic.h>
 
 
@@ -32,25 +37,30 @@ map <int, string> workbenchDefaultURLs (int id)
   switch (id) {
     case 1:
       urls [0] = edit_index_url ();
-      urls [5] = "resource/index";
+      urls [5] = resource_index_url ();
       break;
     case 2:
       urls [0] = edit_index_url ();
-      urls [1] = "notes/index";
+      urls [1] = notes_index_url ();
       break;
     case 3:
-      urls [0] = "resource/index";
+      urls [0] = resource_index_url ();
       urls [1] = edit_index_url ();
-      urls [2] = "notes/index";
+      urls [2] = notes_index_url ();
       break;
     case 4:
       urls [0] = edit_index_url ();
-      urls [1] = "consistency/index";
+      urls [1] = consistency_index_url ();
+      break;
+    case 5:
+      urls [0] = resource_index_url ();
+      urls [1] = editone_index_url ();
+      urls [5] = editverse_index_url ();
       break;
     default:
       urls [0] = edit_index_url ();
-      urls [1] = "resource/index";
-      urls [2] = "notes/index";
+      urls [1] = resource_index_url ();
+      urls [2] = notes_index_url ();
       urls [3] = search_index_url ();
       break;
   }
@@ -79,6 +89,11 @@ map <int, string> workbenchDefaultWidths (int id)
       widths [0] = "45%";
       widths [1] = "50%";
       break;
+    case 5:
+      widths [0] = "52%";
+      widths [1] = "42%";
+      widths [5] = "66%";
+      break;
     default:
       widths [0] = "24%";
       widths [1] = "24%";
@@ -102,6 +117,10 @@ map <int, string> workbenchDefaultHeights (int id)
     case 3:
     case 4:
       heights [0] = "80%";
+      break;
+    case 5:
+      heights [0] = "92%";
+      heights [1] = "24%";
       break;
     default:
       heights [0] = "90%";
