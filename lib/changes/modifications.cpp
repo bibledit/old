@@ -37,6 +37,7 @@
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <access/bible.h>
+#include <config/globals.h>
 
 
 // Helper function.
@@ -99,7 +100,11 @@ void changes_process_identifiers (Webserver_Request * request,
 void changes_modifications ()
 {
   Database_Logs::log ("Change notifications: Generating", Filter_Roles::translator ());
-
+  
+  
+  // Set flag so the notifications are not now available to clients.
+  config_globals_change_notifications_available = false;
+  
   
   // Data objects.
   Webserver_Request request;
@@ -320,5 +325,11 @@ void changes_modifications ()
   for (auto user : users) {
     request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
+  
+  
+  // Clear flag so the notifications are again available to clients.
+  config_globals_change_notifications_available = true;
+  
+
   Database_Logs::log ("Change notifications: Ready", Filter_Roles::translator ());
 }

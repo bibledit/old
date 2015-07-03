@@ -32,6 +32,7 @@
 #include <webserver/request.h>
 #include <sync/logic.h>
 #include <checksum/logic.h>
+#include <config/globals.h>
 
 
 string sync_changes_url ()
@@ -55,6 +56,12 @@ string sync_changes (void * webserver_request)
   // Check on the credentials.
   if (!sync_logic.credentials_okay ()) return "";
 
+  // Bail out if the change notifications are not now available to clients.
+  if (!config_globals_change_notifications_available) {
+    request->response_code = 503;
+    return "";
+  }
+  
   // Get the relevant parameters the client may have POSTed to us, the server.
   string user = hex2bin (request->post ["u"]);
   int action = convert_to_int (request->post ["a"]);
