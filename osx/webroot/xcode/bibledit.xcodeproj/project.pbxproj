@@ -360,6 +360,10 @@
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA9DB79A1AA8E4B500D6B549 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = libgit2.html; sourceTree = "<group>"; };
+		CA9FAD891B4414FD00B43C76 /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
+		CA9FAD8A1B4414FD00B43C76 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
+		CA9FAD8B1B44356A00B43C76 /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
+		CA9FAD8C1B44356A00B43C76 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
 		CAA4CEFB1A45A647003ABA25 /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bible.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4CEFC1A45A647003ABA25 /* bible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bible.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CEFD1A45A647003ABA25 /* user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
@@ -563,8 +567,6 @@
 		CAA4D1681A45A647003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA4D1721A45A647003ABA25 /* getmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = getmessage.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1751A45A647003ABA25 /* setmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = setmessage.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D1771A45A647003ABA25 /* jcanvas.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jcanvas.js; sourceTree = "<group>"; };
-		CAA4D1781A45A647003ABA25 /* jcanvas.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jcanvas.min.js; sourceTree = "<group>"; };
 		CAA4D1821A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAA4D1831A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D1841A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1951,16 +1953,6 @@
 			path = ../ipc;
 			sourceTree = "<group>";
 		};
-		CAA4D1761A45A647003ABA25 /* jcanvas */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D1771A45A647003ABA25 /* jcanvas.js */,
-				CAA4D1781A45A647003ABA25 /* jcanvas.min.js */,
-			);
-			name = jcanvas;
-			path = ../jcanvas;
-			sourceTree = "<group>";
-		};
 		CAA4D1791A45A647003ABA25 /* jobs */ = {
 			isa = PBXGroup;
 			children = (
@@ -2461,6 +2453,8 @@
 			children = (
 				CA8266301A7FFC9C0049DFD3 /* bibles.cpp */,
 				CA8266311A7FFC9C0049DFD3 /* bibles.h */,
+				CA9FAD891B4414FD00B43C76 /* changes.cpp */,
+				CA9FAD8A1B4414FD00B43C76 /* changes.h */,
 				CA5DE2C81AA5B99E00AE051C /* externalresources.cpp */,
 				CA5DE2C91AA5B99E00AE051C /* externalresources.h */,
 				CAEE85F41A7006B500BE3A1A /* index.cpp */,
@@ -2563,6 +2557,8 @@
 			children = (
 				CA8266321A7FFCCF0049DFD3 /* bibles.cpp */,
 				CA8266331A7FFCCF0049DFD3 /* bibles.h */,
+				CA9FAD8B1B44356A00B43C76 /* changes.cpp */,
+				CA9FAD8C1B44356A00B43C76 /* changes.h */,
 				CA5DE2CA1AA5BA3900AE051C /* externalresources.cpp */,
 				CA5DE2CB1AA5BA3900AE051C /* externalresources.h */,
 				CAA4D37C1A45A648003ABA25 /* logic.cpp */,
@@ -2880,7 +2876,6 @@
 				CAA4D1581A45A647003ABA25 /* html */,
 				CAA4D1601A45A647003ABA25 /* index */,
 				CAA4D1701A45A647003ABA25 /* ipc */,
-				CAA4D1761A45A647003ABA25 /* jcanvas */,
 				CAA4D1791A45A647003ABA25 /* jobs */,
 				CAA4D17D1A45A647003ABA25 /* journal */,
 				CA80A7091AA0A9A800C7208F /* json */,
