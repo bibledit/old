@@ -66,12 +66,18 @@ string sync_changes (void * webserver_request)
       // The server deletes the change notification.
       database_modifications.deleteNotification (id);
       Database_Logs::log ("Client deletes change notification from server: " + convert_to_string (id), Filter_Roles::translator ());
+      request->database_config_user ()->setChangeNotificationsChecksum ("");
       return "";
     }
     case Sync_Logic::changes_get_checksum:
     {
-      // The server responds with the total checksum for the user's change notifications.
-      return Sync_Logic::changes_checksum (user);
+      // The server responds with the possibly cached total checksum for the user's change notifications.
+      string checksum = request->database_config_user ()->getChangeNotificationsChecksum ();
+      if (checksum.empty ()) {
+        checksum = Sync_Logic::changes_checksum (user);
+        request->database_config_user ()->setChangeNotificationsChecksum (checksum);
+      }
+      return checksum;
     }
     case Sync_Logic::changes_get_identifiers:
     {

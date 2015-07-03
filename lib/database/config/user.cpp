@@ -98,10 +98,7 @@ int Database_Config_User::getIValueForUser (string user, const char * key, int d
 void Database_Config_User::setValue (const char * key, string value)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  string filename = file (user, key);
-  string directory = filter_url_dirname (filename);
-  if (!file_exists (directory)) filter_url_mkdir (directory);
-  filter_url_file_put_contents (filename, value);
+  setValueForUser (user, key, value);
 }
 
 
@@ -114,6 +111,15 @@ void Database_Config_User::setBValue (const char * key, bool value)
 void Database_Config_User::setIValue (const char * key, int value)
 {
   setValue (key, convert_to_string (value));
+}
+
+
+void Database_Config_User::setValueForUser (string user, const char * key, string value)
+{
+  string filename = file (user, key);
+  string directory = filter_url_dirname (filename);
+  if (!file_exists (directory)) filter_url_mkdir (directory);
+  filter_url_file_put_contents (filename, value);
 }
 
 
@@ -853,3 +859,18 @@ void Database_Config_User::removeRemovedChange (int value)
   settings = filter_string_array_diff (settings, against);
   setRemovedChanges (settings);
 }
+
+
+string Database_Config_User::getChangeNotificationsChecksum ()
+{
+  return getValue ("change-notifications-checksum", "");
+}
+void Database_Config_User::setChangeNotificationsChecksum (string value)
+{
+  setValue ("change-notifications-checksum", value);
+}
+void Database_Config_User::setUserChangeNotificationsChecksum (string user, string value)
+{
+  setValueForUser (user, "change-notifications-checksum", value);
+}
+

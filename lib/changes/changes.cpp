@@ -74,6 +74,7 @@ string changes_changes (void * webserver_request)
     if (config_logic_client_prepared ()) {
       request->database_config_user ()->addRemovedChange (remove);
     }
+    request->database_config_user ()->setChangeNotificationsChecksum ("");
     return "";
   }
   
@@ -103,6 +104,8 @@ string changes_changes (void * webserver_request)
         request->database_config_user ()->addRemovedChange (id);
       }
     }
+    // Clear checksum cache.
+    request->database_config_user ()->setChangeNotificationsChecksum ("");
   }
   
   

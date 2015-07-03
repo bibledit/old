@@ -155,8 +155,13 @@ void sendreceive_changes ()
   
   
   // Compare the total checksum for the change notifications for the active user on client and server.
+  // Checksum is cached for future re-use.
   // Take actions based on that.
-  string client_checksum = Sync_Logic::changes_checksum (user);
+  string client_checksum = request.database_config_user ()->getChangeNotificationsChecksum ();
+  if (client_checksum.empty ()) {
+    client_checksum = Sync_Logic::changes_checksum (user);
+    request.database_config_user ()->setChangeNotificationsChecksum (client_checksum);
+  }
   string server_checksum;
   post ["a"] = convert_to_string (Sync_Logic::changes_get_checksum);
   response = sync_logic.post (post, url, error);
@@ -194,6 +199,7 @@ void sendreceive_changes ()
   vector <int> remove_identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
   for (auto & id : remove_identifiers) {
     database_modifications.deleteNotification (id);
+    request.database_config_user ()->setChangeNotificationsChecksum ("");
     Database_Logs::log (sendreceive_changes_text () + "Removing notification: " + convert_to_string (id), Filter_Roles::translator ());
   }
 
@@ -252,6 +258,7 @@ void sendreceive_changes ()
         lines.erase (lines.begin ());
       }
       database_modifications.storeClientNotification (id, user, category, bible, book, chapter, verse, oldtext, modification, newtext);
+      request.database_config_user ()->setChangeNotificationsChecksum ("");
     }
   }
   

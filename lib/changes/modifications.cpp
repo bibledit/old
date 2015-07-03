@@ -183,6 +183,9 @@ void changes_modifications ()
     // Clear the user's changes in the database.
     database_modifications.clearUserUser (user);
     
+    
+    // Clear checksum cache.
+    request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
   
   
@@ -312,5 +315,10 @@ void changes_modifications ()
   database_modifications.indexTrimAllNotifications ();
   
   
+  // Clear checksum caches.
+  users = request.database_users ()->getUsers ();
+  for (auto user : users) {
+    request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
+  }
   Database_Logs::log ("Change notifications: Ready", Filter_Roles::translator ());
 }
