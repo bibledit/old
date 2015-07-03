@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 $ (document).ready (function () 
 {
-
   rangy.init ();
 
   navigationNewPassage ();
@@ -47,7 +46,6 @@ $ (document).ready (function ()
   });
   
   positionCaretViaAjax ();
-  
 });
 
 
@@ -109,6 +107,7 @@ var editorReferenceText;
 var editorTextChanged = false;
 var editorCaretPosition = 0;
 var editorSaveAsync;
+var editorSaving = false;
 
 
 function editorLoadChapter (reload)
@@ -137,8 +136,8 @@ function editorLoadChapter (reload)
         if (reload) {
           positionCaret (editorCaretPosition);
         } else {
-          editorScheduleCaretPositioning ();
         }
+        editorScheduleCaretPositioning ();
       } else {
         // Checksum error: Reload.
         editorLoadChapter (false);
@@ -151,6 +150,10 @@ function editorLoadChapter (reload)
 
 function editorSaveChapter (sync)
 {
+  if (editorSaving) {
+    editorContentChangedTimeoutStart ();
+    return;
+  }
   if (!editorWriteAccess) return;
   editorTextChanged = false;
   if (!editorLoadedBible) return;
@@ -163,12 +166,14 @@ function editorSaveChapter (sync)
   editorIdPollerTimeoutStop ();
   editorSaveAsync = true;
   if (sync) editorSaveAsync = false;
-  var checksum = checksum_get (html);
+  var encodedHtml = filter_url_plus_to_tag (html);
+  var checksum = checksum_get (encodedHtml);
+  editorSaving = true;
   $.ajax ({
     url: "save",
     type: "POST",
     async: editorSaveAsync,
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, html: html, checksum: checksum },
+    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, html: encodedHtml, checksum: checksum },
     success: function (response) {
       editorStatus (response);
     },
@@ -181,6 +186,7 @@ function editorSaveChapter (sync)
     complete: function (xhr, status) {
       editorIdPollerTimeoutStart ();
       editorSaveAsync = true;
+      editorSaving = false;
     },
   });
 }
@@ -265,13 +271,15 @@ function editorEditorPollId ()
     type: "GET",
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
     success: function (response) {
-      if (editorChapterIdOnServer != 0) {
-        if (response != editorChapterIdOnServer) {
-          editorLoadChapter (true);
-          editorChapterIdOnServer = 0;
+      if (!editorSaving) {
+        if (editorChapterIdOnServer != 0) {
+          if (response != editorChapterIdOnServer) {
+            editorLoadChapter (true);
+            editorChapterIdOnServer = 0;
+          }
         }
+        editorChapterIdOnServer = response;
       }
-      editorChapterIdOnServer = response;
     },
     complete: function (xhr, status) {
       editorIdPollerTimeoutStart ();
@@ -519,18 +527,18 @@ function editorScrollVerseIntoView ()
   $ ("#editor > p span").each (function (index) {
     var element = $(this);
     if (element.hasClass ("v")) {
-      iterVerse = element[0].innerText;
+      iterVerse = element[0].textContent;
       if (iterVerse == editorNavigationVerse) {
         if (navigated == false) {
           var offset = element.offset ();
           var verseTop = offset.top;
           var viewportHeight = $(window).height ();
           var scrollTo = verseTop - (viewportHeight / 2);
-          var currentScrollTop = $ ("body").scrollTop ();
+          var currentScrollTop = $ (document).scrollTop ();
           var lowerBoundary = currentScrollTop - (viewportHeight / 10);
           var upperBoundary = currentScrollTop + (viewportHeight / 10);
           if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
-            $ ("body").animate ({ scrollTop: scrollTo }, 500);
+            $ ("body,html").animate ({ scrollTop: scrollTo }, 500);
           }
           navigated = true;
         }
@@ -541,7 +549,7 @@ function editorScrollVerseIntoView ()
 
   });
   if (editorNavigationVerse == 0) {
-    $ ("body").animate ({ scrollTop: scrollTo }, 0);
+    $ ("body,html").animate ({ scrollTop: 0 }, 500);
   }
 }
 
@@ -556,10 +564,15 @@ Section for the styles handling.
 function editorStylesButtonHandler ()
 {
   if (!editorWriteAccess) return;
-  $.get ("/edit/styles", function (response) {
-    editorShowResponse (response);
-    editorBindUnselectable ();
-    dynamicClickHandlers ();
+  $.ajax ({
+    url: "/edit/styles",
+    type: "GET",
+    cache: false,
+    success: function (response) {
+      editorShowResponse (response);
+      editorBindUnselectable ();
+      dynamicClickHandlers ();
+    },
   });
   return false;
 }
@@ -625,33 +638,45 @@ function dynamicClickHandlers ()
 
 function requestStyle (style)
 {
-  $.get ("/edit/styles?style=" + style, function (response) {
-    response = response.split ("\n");
-    var style = response [0];
-    var action = response [1];
-    if (action == "p") {
-      applyParagraphStyle (style);
-      editorContentChanged ();
-    } else if (action == 'c') {
-      applyCharacterStyle (style);
-      editorContentChanged ();
-    } else if (action == 'n') {
-      applyNotesStyle (style);
-      editorContentChanged ();
-    } else if (action == "m") {
-      applyMonoStyle (style);
-      editorContentChanged ();
-    }
+  $.ajax ({
+    url: "/edit/styles",
+    type: "GET",
+    data: { style: style },
+    cache: false,
+    success: function (response) {
+      response = response.split ("\n");
+      var style = response [0];
+      var action = response [1];
+      if (action == "p") {
+        applyParagraphStyle (style);
+        editorContentChanged ();
+      } else if (action == 'c') {
+        applyCharacterStyle (style);
+        editorContentChanged ();
+      } else if (action == 'n') {
+        applyNotesStyle (style);
+        editorContentChanged ();
+      } else if (action == "m") {
+        applyMonoStyle (style);
+        editorContentChanged ();
+      }
+    },
   });
 }
 
 
 function displayAllStyles ()
 {
-  $.get ("styles?all=", function (response) {
-    editorShowResponse (response);
-    editorBindUnselectable ();
-    dynamicClickHandlers ();
+  $.ajax ({
+    url: "styles",
+    type: "GET",
+    data: { all: "" },
+    cache: false,
+    success: function (response) {
+      editorShowResponse (response);
+      editorBindUnselectable ();
+      dynamicClickHandlers ();
+    },
   });
 }
 
@@ -672,8 +697,8 @@ function applyCharacterStyle (style)
 {
   if (!editorWriteAccess) return;
   $ ("#editor").focus ();
-  var cssApplier = rangy.createCssClassApplier (style);
-  cssApplier.toggleSelection ();
+  var classApplier = rangy.createClassApplier (style);
+  classApplier.toggleSelection ();
 }
 
 

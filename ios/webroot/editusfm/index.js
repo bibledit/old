@@ -54,6 +54,7 @@ var usfmPreviousWidth;
 var usfmPreviousHeight;
 var usfmEditorTextChanged = false;
 var usfmSaveAsync;
+var usfmSaving = false;
 
 
 function navigationNewPassage ()
@@ -122,6 +123,10 @@ function usfmEditorUnload ()
 
 function usfmEditorSaveChapter (sync)
 {
+  if (usfmSaving) {
+    usfmEditorChanged ();
+    return;
+  }
   if (!usfmEditorWriteAccess) return;
   usfmEditorTextChanged = false;
   if (!usfmBible) return;
@@ -133,12 +138,14 @@ function usfmEditorSaveChapter (sync)
   usfmIdChapter = 0;
   usfmSaveAsync = true;
   if (sync) usfmSaveAsync = false;
-  var checksum = checksum_get (usfm);
+  var encodedUsfm = filter_url_plus_to_tag (usfm);
+  var checksum = checksum_get (encodedUsfm);
+  usfmSaving = true;
   $.ajax ({
     url: "save",
     type: "POST",
     async: usfmSaveAsync,
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: usfm, checksum: checksum },
+    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: encodedUsfm, checksum: checksum },
     error: function (jqXHR, textStatus, errorThrown) {
       usfmEditorStatus (usfmEditorChapterRetrying);
       usfmLoadedText = "";
@@ -147,8 +154,11 @@ function usfmEditorSaveChapter (sync)
     },
     success: function (response) {
       usfmEditorStatus (response);
-      usfmSaveAsync = true;
     },
+    complete: function (xhr, status) {
+      usfmSaveAsync = true;
+      usfmSaving = false;
+    }
   });
 }
 
@@ -187,15 +197,18 @@ function usfmEditorPollId ()
     url: "../edit/id",
     type: "GET",
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
+    cache: false,
     success: function (response) {
-      if (usfmIdChapter != 0) {
-        if (response != usfmIdChapter) {
-          usfmReload = true;
-          usfmEditorLoadChapter ();
-          usfmIdChapter = 0;
+      if (!usfmSaving) {
+        if (usfmIdChapter != 0) {
+          if (response != usfmIdChapter) {
+            usfmReload = true;
+            usfmEditorLoadChapter ();
+            usfmIdChapter = 0;
+          }
         }
+        usfmIdChapter = response;
       }
-      usfmIdChapter = response;
     },
     complete: function (xhr, status) {
       usfmIdPoller ();
@@ -253,8 +266,8 @@ function positionCaretViaAjax ()
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
     success: function (response) {
       response = response.split (" ");
-      var start = response [0];
-      var end = response [1];
+      var start = parseInt (response [0], 10);
+      var end = parseInt (response [1], 10);
       var offset = getCaretPosition ();
       if ((offset < start) || (offset > end)) {
         positionCaret (start + 3);
@@ -320,8 +333,10 @@ function getSelectionCoordinates() {
       if (range.getClientRects) {
         range.collapse(true);
         var rect = range.getClientRects()[0];
-        x = rect.left;
-        y = rect.top;
+        if (rect) {
+          x = rect.left;
+          y = rect.top;
+        }
       }
     }
   }
@@ -331,13 +346,14 @@ function getSelectionCoordinates() {
 
 function clarifyCaret ()
 {
-  var scrolltop = $ ("body").scrollTop ();
+  var scrolltop = $ (document).scrollTop ();
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
   if (caretTop == usfmPreviousCaretTop) return;
   usfmPreviousCaretTop = caretTop;
   var viewportHeight = $(window).height ();
-  $ ("body").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
+  $ ("body,html").stop (true);
+  $ ("body,html").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
   var barOffset = $ ("#caretbar").offset ().top;
   $ ("#caretbar").empty ();
   $ ("#caretbar").prepend ("<span><mark>￫</mark></span>");

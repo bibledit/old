@@ -191,8 +191,8 @@ editusfm/load.cpp
 editusfm/offset.cpp
 editusfm/save.cpp
 editor/styles.cpp
-editor/export.cpp
-editor/import.cpp
+editor/usfm2html.cpp
+editor/html2usfm.cpp
 edit/edit.cpp
 edit/focus.cpp
 edit/id.cpp
@@ -232,6 +232,7 @@ sendreceive/bibles.cpp
 sendreceive/usfmresources.cpp
 sendreceive/externalresources.cpp
 sendreceive/notes.cpp
+sendreceive/changes.cpp
 demo/logic.cpp
 client/index.cpp
 client/logic.cpp
@@ -242,6 +243,7 @@ sync/notes.cpp
 sync/settings.cpp
 sync/setup.cpp
 sync/usfmresources.cpp
+sync/changes.cpp
 resource/admin.cpp
 resource/bible2resource.cpp
 resource/download.cpp
@@ -333,6 +335,8 @@ consistency/logic.cpp
 consistency/poll.cpp
 statistics/statistics.cpp
 browser/index.cpp
+paratext/index.cpp
+paratext/logic.cpp
 
 )
 
