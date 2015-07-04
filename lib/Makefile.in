@@ -136,7 +136,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
 	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
 	database/books.$(OBJEXT) database/bibleactions.$(OBJEXT) \
-	database/check.$(OBJEXT) database/commits.$(OBJEXT) \
+	database/check.$(OBJEXT) database/localization.$(OBJEXT) \
 	database/confirm.$(OBJEXT) database/ipc.$(OBJEXT) \
 	database/jobs.$(OBJEXT) database/kjv.$(OBJEXT) \
 	database/morphhb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
@@ -549,7 +549,7 @@ libbibledit_a_SOURCES = \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
-	database/commits.cpp \
+	database/localization.cpp \
 	database/confirm.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
@@ -1048,7 +1048,7 @@ database/bibleactions.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/check.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/commits.$(OBJEXT): database/$(am__dirstamp) \
+database/localization.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/confirm.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -2135,11 +2135,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/commits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/localization.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/maintenance.Po@am__quote@

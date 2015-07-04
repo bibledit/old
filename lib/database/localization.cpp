@@ -17,58 +17,53 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/commits.h>
+#include <database/localization.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
+#include <locale/logic.h>
 
 
-// Database resilience. It is only written to during the night.
-// In case of corruption, some information is lost.
-// Remove the database file, and re-run setup to correct the problem.
+// Database resilience.
+// It is written to once upon Bibledit setup.
+// After that it is only read.
+// In case of corruption, upgrade Bibledit and it will recreate the database.
 
 
-Database_Commits::Database_Commits ()
+Database_Localization::Database_Localization (const string& language_in)
+{
+  language = language_in;
+}
+
+
+Database_Localization::~Database_Localization ()
 {
 }
 
 
-Database_Commits::~Database_Commits ()
+sqlite3 * Database_Localization::connect ()
 {
+  return database_sqlite_connect ("localization_" + language);
 }
 
 
-sqlite3 * Database_Commits::connect ()
-{
-  return database_sqlite_connect ("commits");
-}
-
-
-void Database_Commits::create ()
+void Database_Localization::create (string po)
 {
   sqlite3 * db = connect ();
-  string sql = "CREATE TABLE IF NOT EXISTS commits ("
-               " bible text,"
-               " sha1 text"
-               ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_exec (db, "CREATE INDEX IF NOT EXISTS bible ON commits (bible)");
-  database_sqlite_exec (db, "CREATE INDEX IF NOT EXISTS sha1 ON commits (sha1)");
+  database_sqlite_exec (db, "PRAGMA temp_store = MEMORY;");
+  database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
+  database_sqlite_exec (db, "PRAGMA journal_mode = OFF;");
+  database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (english text, target text);");
+  map <string, string> translations = locale_logic_read_po (po);
+  
+  
   database_sqlite_disconnect (db);
 }
 
 
-void Database_Commits::optimize ()
-{
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "REINDEX commits;");
-  database_sqlite_exec (db, "VACUUM commits;");
-  database_sqlite_disconnect (db);
-}
-
-
-void Database_Commits::record (string bible, string sha1)
+/* Todo
+void Database_Localization::record (string bible, string sha1)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO commits VALUES (");
@@ -80,18 +75,20 @@ void Database_Commits::record (string bible, string sha1)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
+*/
 
 
-vector <string> Database_Commits::get (string bible)
+string Database_Localization::translate (const string& english)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT sha1 FROM commits WHERE bible =");
-  sql.add (bible);
+  sql.add (english);
   sql.add (";");
   sqlite3 * db = connect ();
   vector <string> commits = database_sqlite_query (db, sql.sql) ["sha1"];
   database_sqlite_disconnect (db);
-  return commits;
+  if (!commits.empty ()) return commits [0];
+  return english;
 }
 
 

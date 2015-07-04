@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 #include <database/bibleactions.h>
 #include <database/check.h>
-#include <database/commits.h>
+#include <database/localization.h>
 #include <database/confirm.h>
 #include <database/ipc.h>
 #include <database/jobs.h>
@@ -988,12 +988,13 @@ void test_database_check ()
 }
 
 
-void test_database_commits ()
+void test_database_localization () // Todo run unit tests.
 {
   refresh_sandbox (true);
-  Database_Commits database_commits = Database_Commits ();
-  database_commits.create ();
-  database_commits.optimize ();
+  string file_po = filter_url_create_root_path ("unittests", "tests", "nl.po");
+  Database_Localization database_localization = Database_Localization ("");
+  database_localization.create (file_po);
+  /* Todo
 
   string bible = "phpunit";
   string sha = "sha";
@@ -1013,6 +1014,7 @@ void test_database_commits ()
   // No data for another Bible
   data = database_commits.get ("none");
   evaluate (__LINE__, __func__, 0, (int)data.size());
+   */
 }
 
 

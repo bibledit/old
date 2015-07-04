@@ -17,24 +17,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_COMMITS_H
-#define INCLUDED_DATABASE_COMMITS_H
+#ifndef INCLUDED_DATABASE_LOCALIZATION_H
+#define INCLUDED_DATABASE_LOCALIZATION_H
 
 
 #include <config/libraries.h>
 #include <sqlite3.h>
 
 
-class Database_Commits
+class Database_Localization
 {
 public:
-  Database_Commits ();
-  ~Database_Commits ();
-  void create ();
-  void optimize ();
-  void record (string bible, string sha1);
-  vector <string> get (string bible);
+  Database_Localization (const string& language_in);
+  ~Database_Localization ();
+  void create (string po);
+  string translate (const string& english);
 private:
+  string language;
   sqlite3 * connect ();
 };
 

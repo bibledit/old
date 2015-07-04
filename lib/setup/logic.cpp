@@ -22,7 +22,7 @@
 #include <config/logic.h>
 #include <database/config/general.h>
 #include <database/logs.h>
-#include <database/commits.h>
+#include <database/localization.h>
 #include <database/confirm.h>
 #include <database/jobs.h>
 #include <database/sprint.h>
@@ -157,8 +157,8 @@ void setup_initialize_data ()
   request.database_search ()->create ();
   request.database_bibleactions ()->create ();
   request.database_check ()->create ();
-  Database_Commits database_commits = Database_Commits ();
-  database_commits.create ();
+  // Todo Database_Localization database_commits = Database_Localization ();
+  // Todo database_commits.create ();
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
   Database_Jobs database_jobs = Database_Jobs ();

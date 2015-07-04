@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-04 15:23+0200\n"
+"POT-Creation-Date: 2015-07-04 18:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,16 +20,32 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-msgid "Site language"
+msgid "Set the language for Bibledit"
 msgstr ""
 
-msgid "This page deals with the language for the site."
+msgid "The language for Bibledit:"
 msgstr ""
 
-msgid "Current language:"
+msgid "change"
 msgstr ""
 
-msgid "The language cannot be changed yet."
+msgid "Your preferred language is not listed?"
+msgstr ""
+
+msgid ""
+"Use your translation skills to assist with bringing another language to "
+"Bibledit."
+msgstr ""
+
+msgid "Start translating right away."
+msgstr ""
+
+msgid ""
+"It is possible to translate only the most important phrases to get your "
+"translation team going in their own language."
+msgstr ""
+
+msgid "Your translation will be included with the next Bibledit release."
 msgstr ""
 
 msgid "Timezone"
@@ -415,6 +431,213 @@ msgid "Compare with ..."
 msgstr ""
 
 msgid "Viewable by all users"
+msgstr ""
+
+msgid "Front Matter"
+msgstr ""
+
+msgid "Genesis"
+msgstr ""
+
+msgid "Exodus"
+msgstr ""
+
+msgid "Leviticus"
+msgstr ""
+
+msgid "Numbers"
+msgstr ""
+
+msgid "Deuteronomy"
+msgstr ""
+
+msgid "Joshua"
+msgstr ""
+
+msgid "Judges"
+msgstr ""
+
+msgid "Ruth"
+msgstr ""
+
+msgid "1 Samuel"
+msgstr ""
+
+msgid "2 Samuel"
+msgstr ""
+
+msgid "1 Kings"
+msgstr ""
+
+msgid "2 Kings"
+msgstr ""
+
+msgid "1 Chronicles"
+msgstr ""
+
+msgid "2 Chronicles"
+msgstr ""
+
+msgid "Ezra"
+msgstr ""
+
+msgid "Nehemiah"
+msgstr ""
+
+msgid "Esther"
+msgstr ""
+
+msgid "Job"
+msgstr ""
+
+msgid "Psalms"
+msgstr ""
+
+msgid "Proverbs"
+msgstr ""
+
+msgid "Ecclesiastes"
+msgstr ""
+
+msgid "Song of Solomon"
+msgstr ""
+
+msgid "Isaiah"
+msgstr ""
+
+msgid "Jeremiah"
+msgstr ""
+
+msgid "Lamentations"
+msgstr ""
+
+msgid "Ezekiel"
+msgstr ""
+
+msgid "Daniel"
+msgstr ""
+
+msgid "Hosea"
+msgstr ""
+
+msgid "Joel"
+msgstr ""
+
+msgid "Amos"
+msgstr ""
+
+msgid "Obadiah"
+msgstr ""
+
+msgid "Jonah"
+msgstr ""
+
+msgid "Micah"
+msgstr ""
+
+msgid "Nahum"
+msgstr ""
+
+msgid "Habakkuk"
+msgstr ""
+
+msgid "Zephaniah"
+msgstr ""
+
+msgid "Haggai"
+msgstr ""
+
+msgid "Zechariah"
+msgstr ""
+
+msgid "Malachi"
+msgstr ""
+
+msgid "Matthew"
+msgstr ""
+
+msgid "Mark"
+msgstr ""
+
+msgid "Luke"
+msgstr ""
+
+msgid "John"
+msgstr ""
+
+msgid "Acts"
+msgstr ""
+
+msgid "Romans"
+msgstr ""
+
+msgid "1 Corinthians"
+msgstr ""
+
+msgid "2 Corinthians"
+msgstr ""
+
+msgid "Galatians"
+msgstr ""
+
+msgid "Ephesians"
+msgstr ""
+
+msgid "Philippians"
+msgstr ""
+
+msgid "Colossians"
+msgstr ""
+
+msgid "1 Thessalonians"
+msgstr ""
+
+msgid "2 Thessalonians"
+msgstr ""
+
+msgid "1 Timothy"
+msgstr ""
+
+msgid "2 Timothy"
+msgstr ""
+
+msgid "Titus"
+msgstr ""
+
+msgid "Philemon"
+msgstr ""
+
+msgid "Hebrews"
+msgstr ""
+
+msgid "James"
+msgstr ""
+
+msgid "1 Peter"
+msgstr ""
+
+msgid "2 Peter"
+msgstr ""
+
+msgid "1 John"
+msgstr ""
+
+msgid "2 John"
+msgstr ""
+
+msgid "3 John"
+msgstr ""
+
+msgid "Jude"
+msgstr ""
+
+msgid "Revelation"
+msgstr ""
+
+msgid "Back Matter"
+msgstr ""
+
+msgid "Other Material"
 msgstr ""
 
 msgid "Bible bible does not exist: Cannot create book"
@@ -5670,9 +5893,6 @@ msgstr ""
 msgid "No files in this folder"
 msgstr ""
 
-msgid "Job"
-msgstr ""
-
 msgid "This job does not exist."
 msgstr ""
 
@@ -6326,9 +6546,6 @@ msgid "Severity"
 msgstr ""
 
 msgid "This is a general note, it does not apply to any specific Bible"
-msgstr ""
-
-msgid "change"
 msgstr ""
 
 msgid "Identifier"

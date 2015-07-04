@@ -48,7 +48,7 @@ libbibledit_a_SOURCES = \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
-	database/commits.cpp \
+	database/localization.cpp \
 	database/confirm.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \

@@ -873,4 +873,3 @@ void Database_Config_User::setUserChangeNotificationsChecksum (string user, stri
 {
   setValueForUser (user, "change-notifications-checksum", value);
 }
-

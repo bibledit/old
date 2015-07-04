@@ -421,8 +421,8 @@
 		CAA4D0051A45A647003ABA25 /* books.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = books.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D0061A45A647003ABA25 /* check.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = check.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D0071A45A647003ABA25 /* check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = check.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CAA4D0081A45A647003ABA25 /* commits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = commits.cpp; sourceTree = "<group>"; };
-		CAA4D0091A45A647003ABA25 /* commits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = commits.h; sourceTree = "<group>"; };
+		CAA4D0081A45A647003ABA25 /* localization.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = localization.cpp; sourceTree = "<group>"; };
+		CAA4D0091A45A647003ABA25 /* localization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = localization.h; sourceTree = "<group>"; };
 		CAA4D0111A45A647003ABA25 /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bible.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D0121A45A647003ABA25 /* bible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bible.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D0131A45A647003ABA25 /* general.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = general.cpp; sourceTree = "<group>"; };
@@ -1366,8 +1366,6 @@
 				CAA4D0051A45A647003ABA25 /* books.h */,
 				CAA4D0061A45A647003ABA25 /* check.cpp */,
 				CAA4D0071A45A647003ABA25 /* check.h */,
-				CAA4D0081A45A647003ABA25 /* commits.cpp */,
-				CAA4D0091A45A647003ABA25 /* commits.h */,
 				CAA4D00A1A45A647003ABA25 /* config */,
 				CAA4D0171A45A647003ABA25 /* confirm.cpp */,
 				CAA4D0181A45A647003ABA25 /* confirm.h */,
@@ -1377,6 +1375,8 @@
 				CAA4D01E1A45A647003ABA25 /* jobs.h */,
 				CAA4D01F1A45A647003ABA25 /* kjv.cpp */,
 				CAA4D0201A45A647003ABA25 /* kjv.h */,
+				CAA4D0081A45A647003ABA25 /* localization.cpp */,
+				CAA4D0091A45A647003ABA25 /* localization.h */,
 				CAA4D0211A45A647003ABA25 /* logs.cpp */,
 				CAA4D0221A45A647003ABA25 /* logs.h */,
 				CAA4D0231A45A647003ABA25 /* mail.cpp */,
