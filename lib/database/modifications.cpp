@@ -183,7 +183,18 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
     if (file.substr (0, length) != pattern) continue;
     vector <string> bits = filter_string_explode (file, '.');
     if (bits.size() != 3) continue;
-    chapters.push_back (convert_to_int (bits [2]));
+    string path = filter_url_create_path (teamFolder (), file);
+    int time = filter_url_filemtime (path);
+    int days = (filter_date_seconds_since_epoch () - time) / 86400;
+    if (days > 5) {
+      // Unprocessed team changes older than so many days usually indicate a problem.
+      // Perhaps the server crashed so it never could process them.
+      // Cases like this have been seen on servers with limited memory.
+      // Therefore just remove this change, without processing it.
+      filter_url_unlink (path);
+    } else {
+      chapters.push_back (convert_to_int (bits [2]));
+    }
   }
   sort (chapters.begin(), chapters.end());
   return chapters;
@@ -375,7 +386,18 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
   vector <string> files = filter_url_scandir (folder);
   vector <int> chapters;
   for (auto & file : files) {
-    chapters.push_back (convert_to_int (file));
+    string path = filter_url_create_path (folder, file);
+    int time = filter_url_filemtime (path);
+    int days = (filter_date_seconds_since_epoch () - time) / 86400;
+    if (days > 5) {
+      // Unprocessed user changes older than so many days usually indicate a problem.
+      // Perhaps the server crashed so it never could process them.
+      // Cases like this have been seen on servers with limited memory.
+      // Therefore just remove this change, without processing it.
+      filter_url_rmdir (path);
+    } else {
+      chapters.push_back (convert_to_int (file));
+    }
   }
   sort (chapters.begin(), chapters.end());
   return chapters;

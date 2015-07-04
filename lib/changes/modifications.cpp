@@ -321,7 +321,7 @@ void changes_modifications ()
   database_modifications.indexTrimAllNotifications ();
 
   
-  // Clear out online revisions older than so many days.
+  // Remove expired downloadable revisions.
   string directory = filter_url_create_root_path ("revisions");
   int now = filter_date_seconds_since_epoch ();
   bibles = filter_url_scandir (directory);
