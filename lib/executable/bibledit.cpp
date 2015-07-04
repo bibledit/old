@@ -75,6 +75,7 @@ int main (int argc, char **argv)
 
   // Start the Bibledit library.
   bibledit_start_library ();
+  bibledit_log ("The server started");
   cout << "Listening on http://localhost:" << config_logic_network_port () << endl;
   cout << "Press Ctrl-C to quit" << endl;
   
