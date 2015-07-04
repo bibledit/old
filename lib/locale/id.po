@@ -1,30 +1,30 @@
-# French translation for bibledit
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# Indonesian translation for bibledit
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
 # This file is distributed under the same license as the bibledit package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-13 01:30+0200\n"
-"PO-Revision-Date: 2015-05-23 17:44+0000\n"
-"Last-Translator: Caroline F <Unknown>\n"
-"Language-Team: French <fr@li.org>\n"
+"PO-Revision-Date: 2015-06-05 13:12+0000\n"
+"Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
+"Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-05-24 04:30+0000\n"
-"X-Generator: Launchpad (build 17514)\n"
+"X-Launchpad-Export-Date: 2015-06-06 04:30+0000\n"
+"X-Generator: Launchpad (build 17540)\n"
 
 msgid "Back"
-msgstr ""
+msgstr "Mundur"
 
 msgid "Forward"
-msgstr "Suivant"
+msgstr "Maju"
 
 msgid "Go"
-msgstr "Go"
+msgstr "Buka"
 
 msgid "Here are the various options:"
 msgstr ""
@@ -33,64 +33,64 @@ msgid "Please pick one."
 msgstr ""
 
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Batal"
 
 msgid "Yes"
-msgstr "Oui"
+msgstr "Ya"
 
 msgid "Submit"
-msgstr "Soumettre"
+msgstr "Kirimkan"
 
 msgid "Save"
-msgstr "Enregistrer"
+msgstr "Simpan"
 
 msgid "Hyphenation"
-msgstr "Césure"
+msgstr ""
 
 msgid "The two sets of characters were saved"
-msgstr "Les deux jeux de caractères ont été enregistrés"
+msgstr "Dua kelompok huruf itu sudah disimpan."
 
 msgid "Which Bible would you like to take the data from?"
-msgstr "À partir de quelle Bible voulez-vous prendre les données ?"
+msgstr "Ambil data dari Alkitab mana?"
 
 msgid "No Bible given"
-msgstr "Pas de Bible renseignée"
+msgstr "Nama Alkitab belum diisi"
 
 msgid "No first set of characters given"
-msgstr "Pas de premier jeu de caractères renseigné"
+msgstr "Kelompok huruf pertama belum diberikan."
 
 msgid "No second set of characters given"
-msgstr "Pas de second jeu de caractères renseigné"
+msgstr "Kelompok huruf kedua belum diberikan."
 
 msgid "The Bible is being hyphenated. See the Journal for details."
-msgstr ""
+msgstr "Garis datar sedang diisi. Lihat Jurnal untuk perincian perubahan."
 
 msgid "Export"
-msgstr "Exporter"
+msgstr "Ekspor"
 
 msgid "Select a Bible"
-msgstr ""
+msgstr "Pilihlah nama Alkitab"
 
 msgid "The export has been removed."
-msgstr "L'export a été effacé"
+msgstr "Data ekspor sudah dihapuskan."
 
 msgid "The setting for nightly export to Web format was updated."
-msgstr ""
+msgstr "Seting untuk mengekspor pada malam hari ke format Web sudah diubah."
 
 msgid "The Bible is being exported to Web format."
-msgstr "La Bible va être exportée au format Web."
+msgstr ""
 
 msgid "The setting for nightly export to Html format was updated."
 msgstr ""
 
 msgid "The Bible is being exported to Html format."
-msgstr "La Bible vaêtre exportée au format Html."
+msgstr ""
 
 msgid "The setting for nightly export to USFM format was updated."
 msgstr ""
 
 msgid "The Bible is being exported to USFM format."
-msgstr "La Bible va être exportée au format USFM."
+msgstr ""
 
 msgid "The setting for securing the USFM export was updated."
 msgstr ""
@@ -100,41 +100,37 @@ msgid ""
 msgstr ""
 
 msgid "The Bible is being exported to basic USFM format and text."
-msgstr "La Bible va être exportée au format basic USFM et texte."
+msgstr ""
 
 msgid "The setting for nightly export to OpenDocument was updated."
 msgstr ""
 
 msgid "The Bible is being exported to OpenDocument format."
-msgstr "La Bible va être exportée au format OpenDocument."
+msgstr ""
 
 msgid "Please enter a page width in millimeters"
-msgstr "Veuillez définir une largeur de page en milimètres"
+msgstr ""
 
 msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
 msgstr ""
-"La largeur du format A4 est 210 mm. La largeur du format US Letter est 216 "
-"mm."
 
 msgid "Please enter a page height in millimeters"
-msgstr "Veuillez définir une hauteur de page en millimètres"
+msgstr ""
 
 msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
 msgstr ""
-"La hauteur du format A4 est 297 mm. La hauteur du format US Letter est 279 "
-"mm."
 
 msgid "Please enter an inner margin size in millimeters"
-msgstr "Veuillez définir une marge intérieure en millimètre"
+msgstr ""
 
 msgid "Please enter an outer margin size in millimeters"
-msgstr "Veuillez définir une marge extérieure en millimètre"
+msgstr ""
 
 msgid "Please enter an top margin size in millimeters"
-msgstr "Veuillez définir la marge supérieure en millimètres"
+msgstr ""
 
 msgid "Please enter an bottom margin size in millimeters"
-msgstr "Veuillez définir la marge inférieure en millimètres"
+msgstr ""
 
 msgid "The setting for securing the OpenDocument export was updated."
 msgstr ""
@@ -143,128 +139,102 @@ msgid "The setting for nightly generation of info was updated."
 msgstr ""
 
 msgid "The info documents are being generated."
-msgstr "Les informations du documents vont être générées."
+msgstr ""
 
 msgid "The setting for nightly export to e-Sword format was updated."
 msgstr ""
 
 msgid "The Bible is being exported to e-Sword format."
-msgstr "La Bible va être exportée au format e-Sword."
+msgstr ""
 
 msgid "The setting for nightly export to Online Bible format was updated."
 msgstr ""
 
 msgid "The Bible is being exported to Online Bible format."
-msgstr "La Bible va être exportée au format Bible Online."
+msgstr ""
 
 msgid "Would you like to use another stylesheet for the exports?"
 msgstr ""
 
 msgid "The password for securing exports was saved."
-msgstr "Le mot de passe pour sécuriser les exports a été enregistré."
+msgstr ""
 
 msgid "Indexing"
-msgstr "Indexation"
+msgstr "Sedang membuat Indeks"
 
 msgid "Users"
-msgstr "Utilisateurs"
+msgstr "Pengguna"
 
 msgid "Please enter a name for the new user"
-msgstr "Entrer un nom pour le nouvel utilisateur"
+msgstr "Isilah nama pengguna baru"
 
 msgid "User already exists"
-msgstr "L'utilisateur existe déjà"
+msgstr "Nama pengguna itu sudah terdaftar."
 
 msgid "User created"
-msgstr "Utilisateur créé"
+msgstr "Sudah berhasil mendaftar pengguna baru."
 
 msgid "Please enter an email address for the user"
-msgstr "Entrer une adresse email pour l'utilisateur"
+msgstr "Mengisi alamat e-mail untuk pengguna."
 
 msgid "Email address was updated"
-msgstr "L'adresse email a été mise à jour"
+msgstr "Sudah berhasil mendaftar alamat e-mail."
 
 msgid "The email address is not valid"
-msgstr "L'adresse email est invalide"
+msgstr ""
 
 msgid ""
 "The user has become a member of the translation team that works on this Bible"
 msgstr ""
-"L'utilisateur est devenu membre de l'équipe de traduction qui travaille sur "
-"cette Bible."
 
 msgid ""
 "The user is no longer a member of the translation team that works on this "
 "Bible"
 msgstr ""
-"L'utilisateur n'est plus membre de l'équipe de traduction qui travaille sur "
-"cette Bible."
 
 msgid "Hyphenation can be used when preparing a Bible for printing."
 msgstr ""
-"La césure peut être utilisé pour la préparation d'une Bible à l'impression."
 
 msgid ""
 "It allows for more efficient usage of paper, and for more regular appearance "
 "of margins at the end of the lines without requiring spacing adjustments."
 msgstr ""
-"Cela permet une utilisation plus efficace du papier, et un aspect plus "
-"régulier des marges de fin de lignes sans nécessiter des ajustements "
-"d'espacement."
 
 msgid ""
 "The details of hyphenating properly are complex and dependent on the "
 "language, and can interact with other orthographic and typesetting practices."
 msgstr ""
-"Les détails d'une césure correcte sont complexes et dépendent de la langue, "
-"et peuvent interagir avec d'autres pratiques orthographiques et "
-"typographiques."
 
 msgid ""
 "Hyphenation may not be so important when preparing a Bible for proofreading. "
 "It is usually regarded important for production quality Bibles."
 msgstr ""
-"La césure n'a pas forcément d'importance lors de la préparation d'une Bible "
-"pour la relecture. Elle est généralement considérée comme importante pour "
-"les Bibles destinées la production."
 
 msgid ""
 "When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the "
 "wordprocessor itself provides hyphenation algorithms for many languages."
 msgstr ""
-"Lors de la préparation d'une Bible dans LibreOffice, OpenOffice, AbiWord, en "
-"ainsi de suite, le traitement de texte lui-même fournit des algorithmes de "
-"césure pour de nombreuses langues."
 
 msgid ""
 "If no suitable hyphenation algorithm can be used, perhaps Bibledit-Web can "
 "assist to a limited degree."
 msgstr ""
-"Si aucun algorithme de césure approprié peut être utilisé, Bibledit-Web peut "
-"éventuellement aider dans une certaine mesure."
 
 msgid ""
 "Bibledit-Web can take the data from a Bible, insert soft hyphens in the "
 "words according to a certain algorithm, and then save this data as a new "
 "Bible."
 msgstr ""
-"Bibledit-Web peut prendre les données à partir d'une Bible, insérer une "
-"césure dans les mots selon un certain algorithme, puis enregistrer ces "
-"données comme une nouvelle Bible."
 
 msgid ""
 "This new Bible can then be exported to OpenDocument format, and opened in a "
 "wordprocessor."
 msgstr ""
-"Cette nouvelle Bible peut être exportée au format OpenDocument, et ouverte "
-"dans un logiciel de traitement de texte."
 
 msgid ""
 "The wordprocessor sees these soft hyphens. When a soft hyphen occurs near "
 "the end of the line, it breaks the word there."
 msgstr ""
-"Le traitement de texte voit ces césures. Quand une césure est trouvée proche "
-"de la fin d'une ligne, il coupe le mot à cet endroit."
 
 msgid ""
 "Bibledit-Web has one hyphenating algorithm. When there is a transition in "
@@ -272,49 +242,45 @@ msgid ""
 "of a second set of characters, then the soft hyphen will be inserted at that "
 "location in the text."
 msgstr ""
-"Bibledit-Web possède un algorithme de césure. Quand il s'agit d'une "
-"transition dans le texte à partir de n'importe quel caractère d'un premier "
-"jeu de caractères, à n'importe quel caractère d'un second jeu de caractères, "
-"alors la césure sera inséré à cet endroit dans le texte."
 
 msgid "First set of characters"
-msgstr "Premier jeu de caractères"
+msgstr ""
 
 msgid "Second set of characters"
-msgstr "Secong jeu de caractères"
+msgstr ""
 
 msgid "Enter the sets of characters, and press Save."
 msgstr ""
 
 msgid "The Bible where the data will be taken from is:"
-msgstr "La Bible dont les données seront utilisées est :"
+msgstr ""
 
 msgid "The Bible where the hyphenated data will be written to is:"
-msgstr "La Bible dans laquelle les données césurées seront écrite est :"
+msgstr ""
 
 msgid "Insert the soft hyphens according to the settings."
-msgstr "Insérer les césures selon les paramètres."
+msgstr ""
 
 msgid "Exports"
-msgstr "Exportations"
+msgstr ""
 
 msgid "Bible"
-msgstr "Bible"
+msgstr ""
 
 msgid "Select another Bible"
-msgstr "Sélectionner une autre Bible"
+msgstr ""
 
 msgid "View the exported data"
-msgstr "Voir les données exportées"
+msgstr ""
 
 msgid "view"
-msgstr "voir"
+msgstr ""
 
 msgid "Remove the exported data"
 msgstr ""
 
 msgid "remove"
-msgstr "enlever"
+msgstr ""
 
 msgid "Export to Web during the night."
 msgstr ""
@@ -341,35 +307,33 @@ msgid ""
 "Use frames for OpenDocument format in case the chapter number gets put just "
 "before the first verse in drop caps."
 msgstr ""
-"Utilisez des cadres pour le format OpenDocument dans le cas où le numéro de "
-"chapitre se mettre juste avant le premier verset en majuscules."
 
 msgid "Page size and margins for export to OpenDocument:"
 msgstr ""
 
 msgid "Page width"
-msgstr "Largeur de page"
+msgstr ""
 
 msgid "mm"
-msgstr "mm"
+msgstr ""
 
 msgid "Page height"
-msgstr "Hauteur de page"
+msgstr ""
 
 msgid "Inner margin"
-msgstr "Marge intérieure"
+msgstr ""
 
 msgid "Outer margin"
-msgstr "Marge extérieure"
+msgstr ""
 
 msgid "Top margin"
-msgstr "Marge supérieure"
+msgstr ""
 
 msgid "Bottom margin"
-msgstr "Marge inférieure"
+msgstr ""
 
 msgid "Display the current date in the running headers."
-msgstr "Afficher la date dans l'en-tête."
+msgstr ""
 
 msgid "Generate info document during the night."
 msgstr ""
@@ -393,7 +357,7 @@ msgid ""
 msgstr ""
 
 msgid "The exports use the following stylesheet:"
-msgstr "L'export utilise la feuille de style suivante :"
+msgstr ""
 
 msgid "Password to secure the exports:"
 msgstr ""
@@ -419,13 +383,13 @@ msgid "Recreate Consultation Notes selection and search index."
 msgstr ""
 
 msgid "Username"
-msgstr "Identifiant"
+msgstr ""
 
 msgid "Role"
-msgstr "Rôle"
+msgstr ""
 
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 msgid "Bibles"
 msgstr ""
@@ -739,16 +703,16 @@ msgid "Front Matter"
 msgstr ""
 
 msgid "Genesis"
-msgstr ""
+msgstr "Kejadian"
 
 msgid "Exodus"
-msgstr ""
+msgstr "Keluaran"
 
 msgid "Leviticus"
-msgstr ""
+msgstr "Imamat"
 
 msgid "Numbers"
-msgstr ""
+msgstr "Bilangan"
 
 msgid "Deuteronomy"
 msgstr ""
@@ -1000,7 +964,7 @@ msgid "Administrator"
 msgstr ""
 
 msgid "Information"
-msgstr "Information"
+msgstr ""
 
 msgid "Number of chapters per book"
 msgstr ""
@@ -2161,7 +2125,7 @@ msgid "Number of verses available offline for this resource:"
 msgstr ""
 
 msgid "clear"
-msgstr "vider"
+msgstr ""
 
 msgid "Start downloading this resource, en view the progress in the Journal."
 msgstr ""
@@ -2453,7 +2417,7 @@ msgid "This is a general note, it does not apply to any specific Bible"
 msgstr ""
 
 msgid "change"
-msgstr "modifier"
+msgstr ""
 
 msgid "Identifier"
 msgstr ""
@@ -2779,7 +2743,7 @@ msgid "since yesterday"
 msgstr ""
 
 msgid "today"
-msgstr "aujourd'hui"
+msgstr ""
 
 msgid "Select notes that have not been edited for:"
 msgstr ""
@@ -4038,7 +4002,7 @@ msgid "Dump endnotes when encountering marker"
 msgstr ""
 
 msgid "delete"
-msgstr "supprimer"
+msgstr ""
 
 msgid "Add a style to the stylesheet."
 msgstr ""
@@ -4072,7 +4036,7 @@ msgid "The stylesheet you are currently using is:"
 msgstr ""
 
 msgid "switch"
-msgstr "commuter"
+msgstr ""
 
 msgid "Step: Adding a temporal file to the cloned repository"
 msgstr ""
@@ -8833,7 +8797,7 @@ msgid "Recent changes"
 msgstr ""
 
 msgid "Changes"
-msgstr "Modifications"
+msgstr ""
 
 msgid "Loading ..."
 msgstr ""
@@ -8849,7 +8813,6 @@ msgstr ""
 
 msgid "Bibledit-Web tracks the changes in the text of the Bibles."
 msgstr ""
-"Bibledit-Web recherche les modifications apportées au texte des Bibles."
 
 msgid "It generates details about them during the night."
 msgstr ""
