@@ -268,7 +268,7 @@ string Database_Config_General::getSiteLanguage ()
 {
   return getValue ("site-language", "");
 }
-void Database_Config_General::setSiteLanguage (string value) // Todo out
+void Database_Config_General::setSiteLanguage (string value)
 {
   setValue ("site-language", value);
 }

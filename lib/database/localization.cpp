@@ -54,41 +54,30 @@ void Database_Localization::create (string po)
   database_sqlite_exec (db, "PRAGMA temp_store = MEMORY;");
   database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
   database_sqlite_exec (db, "PRAGMA journal_mode = OFF;");
-  database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (english text, target text);");
+  database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
   map <string, string> translations = locale_logic_read_po (po);
-  
-  
+  for (auto & element : translations) {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("INSERT INTO localization VALUES (");
+    sql.add (element.first);
+    sql.add (",");
+    sql.add (element.second);
+    sql.add (");");
+    database_sqlite_exec (db, sql.sql);
+  }
   database_sqlite_disconnect (db);
 }
-
-
-/* Todo
-void Database_Localization::record (string bible, string sha1)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("INSERT INTO commits VALUES (");
-  sql.add (bible);
-  sql.add (",");
-  sql.add (sha1);
-  sql.add (");");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
-}
-*/
 
 
 string Database_Localization::translate (const string& english)
 {
   SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT sha1 FROM commits WHERE bible =");
+  sql.add ("SELECT msgstr FROM localization WHERE msgid =");
   sql.add (english);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> commits = database_sqlite_query (db, sql.sql) ["sha1"];
+  vector <string> msgstrs = database_sqlite_query (db, sql.sql) ["msgstr"];
   database_sqlite_disconnect (db);
-  if (!commits.empty ()) return commits [0];
+  if (!msgstrs.empty ()) if (!msgstrs[0].empty ()) return msgstrs [0];
   return english;
 }
-
-

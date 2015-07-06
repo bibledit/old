@@ -18,14 +18,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
+#include <database/config/general.h>
+#include <database/localization.h>
 
 
 // Equivalent for the well-known gettext function.
 // Does not work yet: Needs real localization support.
 string translate (string english)
 {
-  return english;
+  string localization = Database_Config_General::getSiteLanguage ();
+  if (localization.empty ()) return english;
+  Database_Localization database_localization = Database_Localization (localization);
+  return database_localization.translate (english);
 }
 
-// C++Port Create a very simple gettext function that reads the language .po files and outputs the correct localizations.
+// Todo Create a very simple gettext function that reads the language .po files and outputs the correct localizations.
 // Look for gettext or similar.
+// If the localization is empty, return the english straight.

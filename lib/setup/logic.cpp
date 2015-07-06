@@ -40,6 +40,7 @@
 #include <filter/roles.h>
 #include <config/globals.h>
 #include <demo/logic.h>
+#include <locale/logic.h>
 
 
 void setup_conditionally (const char * package)
@@ -157,8 +158,14 @@ void setup_initialize_data ()
   request.database_search ()->create ();
   request.database_bibleactions ()->create ();
   request.database_check ()->create ();
-  // Todo Database_Localization database_commits = Database_Localization ();
-  // Todo database_commits.create ();
+  map <string, string> localizations = locale_logic_localizations ();
+  for (auto & element : localizations) {
+    string localization = element.first;
+    if (localization.empty ()) continue;
+    Database_Localization database_localization = Database_Localization (localization);
+    string path = filter_url_create_root_path ("locale", localization + ".po");
+    database_localization.create (path);
+  }
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
   Database_Jobs database_jobs = Database_Jobs ();

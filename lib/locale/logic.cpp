@@ -81,13 +81,50 @@ map <string, string> locale_logic_localizations ()
 }
 
 
-map <string, string> locale_logic_read_po (string file) // Todo implement and test.
+map <string, string> locale_logic_read_po (string file)
 {
   map <string, string> translations;
   string contents = filter_url_file_get_contents (file);
   vector <string> lines = filter_string_explode (contents, '\n');
-  for (auto & line : lines) {
-    cout << line << endl; // Todo
+  string msgid;
+  string msgstr;
+  int stage = 0;
+  for (size_t i = 0; i < lines.size (); i++) {
+    string line = filter_string_trim (lines[i]);
+    if (line.find ("msgid") == 0) {
+      stage = 1;
+      line.erase (0, 5);
+      line = filter_string_trim (line);
+    }
+    if (line.find ("msgstr") == 0) {
+      stage = 2;
+      line.erase (0, 6);
+      line = filter_string_trim (line);
+    }
+    // Build msgid.
+    if (stage == 1) {
+      if (!line.empty ()) line.erase (0, 1);
+      if (!line.empty ()) line.erase (line.length () - 1);
+      msgid.append (line);
+    }
+    // Build msgstr.
+    if (stage == 2) {
+      if (line.empty ()) stage = 3;
+    }
+    if (stage == 2) {
+      if (!line.empty ()) line.erase (0, 1);
+      if (!line.empty ()) line.erase (line.length () - 1);
+      msgstr.append (line);
+    }
+    // Process data.
+    if (i == (lines.size () - 1)) stage = 3;
+    if (stage == 3) {
+      if (!msgid.empty ()) {
+        translations [msgid] = msgstr;
+      }
+      msgid.clear ();
+      msgstr.clear ();
+    }
   }
   return translations;
 }

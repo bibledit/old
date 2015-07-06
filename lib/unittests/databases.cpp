@@ -988,33 +988,22 @@ void test_database_check ()
 }
 
 
-void test_database_localization () // Todo run unit tests.
+void test_database_localization ()
 {
   refresh_sandbox (true);
   string file_po = filter_url_create_root_path ("unittests", "tests", "nl.po");
-  Database_Localization database_localization = Database_Localization ("");
+  Database_Localization database_localization = Database_Localization ("nl");
   database_localization.create (file_po);
-  /* Todo
 
-  string bible = "phpunit";
-  string sha = "sha";
+  string msgid = "phpunit";
+  string msgstr = "phpunit";
+  string result = database_localization.translate (msgid);
+  evaluate (__LINE__, __func__, msgstr, result);
 
-  vector <string> data = database_commits.get (bible);
-  evaluate (__LINE__, __func__, 0, (int)data.size());
-  
-  // Record some data.
-  database_commits.record (bible, sha);
-  database_commits.record (bible, sha);
-
-  // Check the data.
-  data = database_commits.get (bible);
-  evaluate (__LINE__, __func__, 2, (int)data.size());
-  evaluate (__LINE__, __func__, "sha", data [1]);
-
-  // No data for another Bible
-  data = database_commits.get ("none");
-  evaluate (__LINE__, __func__, 0, (int)data.size());
-   */
+  msgid = "When this workbench will be opened, it will display all the notes that refer to the focused passage.";
+  msgstr = "Als de werkbank geopend wordt, dan toont het alle aantekeningen die betrekking hebben op de gefocuste passage.";
+  result = database_localization.translate (msgid);
+  evaluate (__LINE__, __func__, msgstr, result);
 }
 
 
