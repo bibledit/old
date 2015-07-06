@@ -22,8 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/localization.h>
 
 
-// Equivalent for the well-known gettext function.
-// Does not work yet: Needs real localization support.
+// Translates $english to its localized string.
 string translate (string english)
 {
   string localization = Database_Config_General::getSiteLanguage ();
@@ -32,6 +31,3 @@ string translate (string english)
   return database_localization.translate (english);
 }
 
-// Todo Create a very simple gettext function that reads the language .po files and outputs the correct localizations.
-// Look for gettext or similar.
-// If the localization is empty, return the english straight.
