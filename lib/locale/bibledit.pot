@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-06 16:35+0200\n"
+"POT-Creation-Date: 2015-07-07 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6320,8 +6320,8 @@ msgid "You can only see Bibles you have access to yourself."
 msgstr ""
 
 msgid ""
-"If no user on the whole site has been granted access to any Bible, then all "
-"users have write access to all Bibles."
+"If no user has been granted access to any Bible, then all users have write "
+"access to all Bibles."
 msgstr ""
 
 msgid "Verse Mappings"
@@ -6476,7 +6476,13 @@ msgstr ""
 msgid "Select chapter"
 msgstr ""
 
+msgid "Go to previous verse"
+msgstr ""
+
 msgid "Select verse"
+msgstr ""
+
+msgid "Go to next verse"
 msgstr ""
 
 msgid "Previous chapter"

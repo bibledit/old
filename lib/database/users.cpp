@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (ƒ) 2003-2015 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -78,26 +78,64 @@ void Database_Users::create ()
         " touch boolean"
         ");";
   database_sqlite_exec (db, sql);
+  sql = "CREATE TABLE IF NOT EXISTS books ("
+        " username text,"
+        " bible text,"
+        " book integer,"
+        " readonly boolean"
+        ");";
+  database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }
 
 
-void Database_Users::upgrade ()
+void Database_Users::upgrade () // Todo transfer readonly data.
 {
+  sqlite3 * db = connect ();
+  string sql;
+
   // Upgrade table "users".
   // Column 'timestamp' is available in older databases. It is not in use.
   // It cannot be dropped easily in SQLite. Leave it for just now.
 
   // Upgrade table "logins" and add a boolean column for "touch",
   // indicating whether the device the user works on is touch-enabled.
-  sqlite3 * db = connect ();
-  string sql;
   sql = "PRAGMA table_info (logins);";
   vector <string> columns = database_sqlite_query (db, sql) ["name"];
   if (find (columns.begin(), columns.end(), "touch") == columns.end()) {
     sql = "ALTER TABLE logins ADD COLUMN touch boolean;";
     database_sqlite_exec (db, sql);
   }
+
+  // Copy read-only settings from the teams table to the books table,
+  // because Bibledit now sets read-only access per book, rather than per Bible. Todo
+  sql = "SELECT username, bible FROM teams WHERE readonly;";
+  map <string, vector <string> > result = database_sqlite_query (db, sql);
+  vector <string> username = result ["username"];
+  vector <string> bible = result ["bible"];
+  if (username.size () == bible.size ()) {
+    for (size_t i = 0; i < username.size (); i++) {
+      for (int b = 1; b <= 66; b++) {
+        SqliteSQL sql = SqliteSQL ();
+        sql.add ("INSERT INTO books VALUES (");
+        sql.add (username[i]);
+        sql.add (",");
+        sql.add (bible[i]);
+        sql.add (",");
+        sql.add (b);
+        sql.add (",");
+        sql.add (1);
+        sql.add (");");
+        database_sqlite_exec (db, sql.sql);
+      }
+    }
+  }
+  
+  // Clear any read-only settings in the teams table,
+  // because that information is no longer taken from that table. Todo
+  sql = "UPDATE teams SET readonly = 0;";
+  database_sqlite_exec (db, sql);
+  
   database_sqlite_disconnect (db);
 }
 
@@ -347,6 +385,7 @@ string Database_Users::getmd5 (string user)
 
 // Sets the login security tokens for a user.
 // Also store whether the device is touch-enabled.
+// It only writes to the table if the combination of username and tokens differs from what the table already contains.
 void Database_Users::setTokens (string username, string address, string agent, string fingerprint, bool touch)
 {
   if (username == getUsername (address, agent, fingerprint)) return;
@@ -524,7 +563,7 @@ bool Database_Users::hasAccess2Bible (string user, string bible)
 
 
 // Set $readonly access for $user to $bible to true or false.
-void Database_Users::setReadOnlyAccess2Bible (string user, string bible, bool readonly)
+void Database_Users::setReadOnlyAccess2Bible (string user, string bible, bool readonly) // Todo goes out, but keep code for unit tests as needed.
 {
   user = database_sqlite_no_sql_injection (user);
   bible = database_sqlite_no_sql_injection (bible);
@@ -537,7 +576,7 @@ void Database_Users::setReadOnlyAccess2Bible (string user, string bible, bool re
 
 
 // Returns true or false depending on whether $user has read-only access to $bible.
-bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
+bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible) // Todo goes out, but keep code for unit tests if needed.
 {
   user = database_sqlite_no_sql_injection (user);
   bible = database_sqlite_no_sql_injection (bible);
@@ -549,7 +588,59 @@ bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
   // Entry not found for user/bible: Default is not read-only.
   return false;
 }
-  
+
+
+// Set $readonly access for $user to $bible $book to true or false.
+void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book, bool readonly) // Todo
+{
+  sqlite3 * db = connect ();
+  {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("DELETE FROM books WHERE username =");
+    sql.add (user);
+    sql.add ("AND bible =");
+    sql.add (bible);
+    sql.add ("AND book =");
+    sql.add (book);
+    sql.add (";");
+    database_sqlite_exec (db, sql.sql);
+  }
+  {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("INSERT INTO books VALUES (");
+    sql.add (user);
+    sql.add (",");
+    sql.add (bible);
+    sql.add (",");
+    sql.add (book);
+    sql.add (",");
+    sql.add (readonly);
+    sql.add (");");
+    database_sqlite_exec (db, sql.sql);
+  }
+  database_sqlite_disconnect (db);
+}
+
+
+// Returns true or false depending on whether $user has read-only access to $bible $book.
+bool Database_Users::hasReadOnlyAccess2Book (string user, string bible, int book) // Todo
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT readonly FROM books WHERE username =");
+  sql.add (user);
+  sql.add ("AND bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["readonly"];
+  database_sqlite_disconnect (db);
+  if (!result.empty ()) return convert_to_bool (result [0]);
+  // Entry not found for user/bible/book: Default is not read-only.
+  return false;
+}
+
 
 void Database_Users::execute (const string& sql)
 {

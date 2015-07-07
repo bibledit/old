@@ -303,7 +303,7 @@ void test_database_logs ()
 }
 
 
-void test_database_users ()
+void test_database_users () // Todo
 {
   // Tests for Database_Users.
   {
@@ -498,13 +498,33 @@ void test_database_users ()
     database_users.addNewUser (username2, "", Filter_Roles::admin (), "");
     evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible2));
     
-    // Read only access for known user.
+    // Read only access for known user. Todo use new books table.
     evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible (username1, bible1));
     database_users.setReadOnlyAccess2Bible (username1, bible1, true);
     evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Bible (username1, bible1));
     
     // No read-only access for unknown user.
     evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible ("unknown", bible1));
+  }
+  // Test upgrading read-only settings. // Todo
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    database_users.upgrade ();
+
+    database_users.grantAccess2Bible ("user1", "bible1");
+    database_users.upgrade ();
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
+
+    database_users.setReadOnlyAccess2Bible ("user1", "bible1", true);
+    database_users.upgrade ();
+    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
+
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
+    database_users.setReadOnlyAccess2Book ("user1", "bible1", 67, true);
+    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
   }
 }
 

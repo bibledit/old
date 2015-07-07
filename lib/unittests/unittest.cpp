@@ -279,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_database_localization (); test_flate (); exit (0);
+  test_database_users (); test_session_logic (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
