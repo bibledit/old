@@ -146,6 +146,7 @@ libbibledit_a_SOURCES = \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
+	manage/write.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \

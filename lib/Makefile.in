@@ -187,7 +187,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
 	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
 	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	manage/write.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -647,6 +647,7 @@ libbibledit_a_SOURCES = \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
+	manage/write.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -1369,6 +1370,8 @@ manage/exports.$(OBJEXT): manage/$(am__dirstamp) \
 manage/hyphenation.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/hyphenate.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/write.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 administration/$(am__dirstamp):
 	@$(MKDIR_P) administration
@@ -2247,6 +2250,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/indexing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/users.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/write.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@

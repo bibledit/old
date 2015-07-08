@@ -78,18 +78,17 @@ void Database_Users::create ()
         " touch boolean"
         ");";
   database_sqlite_exec (db, sql);
-  sql = "CREATE TABLE IF NOT EXISTS books ("
+  sql = "CREATE TABLE IF NOT EXISTS readonly ("
         " username text,"
         " bible text,"
-        " book integer,"
-        " readonly boolean"
+        " book integer"
         ");";
   database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }
 
 
-void Database_Users::upgrade () // Todo transfer readonly data.
+void Database_Users::upgrade ()
 {
   sqlite3 * db = connect ();
   string sql;
@@ -107,8 +106,8 @@ void Database_Users::upgrade () // Todo transfer readonly data.
     database_sqlite_exec (db, sql);
   }
 
-  // Copy read-only settings from the teams table to the books table,
-  // because Bibledit now sets read-only access per book, rather than per Bible. Todo
+  // Copy read-only settings from the teams table to the readonly table,
+  // because Bibledit now sets read-only access per book, rather than per Bible.
   sql = "SELECT username, bible FROM teams WHERE readonly;";
   map <string, vector <string> > result = database_sqlite_query (db, sql);
   vector <string> username = result ["username"];
@@ -117,14 +116,12 @@ void Database_Users::upgrade () // Todo transfer readonly data.
     for (size_t i = 0; i < username.size (); i++) {
       for (int b = 1; b <= 66; b++) {
         SqliteSQL sql = SqliteSQL ();
-        sql.add ("INSERT INTO books VALUES (");
+        sql.add ("INSERT INTO readonly VALUES (");
         sql.add (username[i]);
         sql.add (",");
         sql.add (bible[i]);
         sql.add (",");
         sql.add (b);
-        sql.add (",");
-        sql.add (1);
         sql.add (");");
         database_sqlite_exec (db, sql.sql);
       }
@@ -132,7 +129,7 @@ void Database_Users::upgrade () // Todo transfer readonly data.
   }
   
   // Clear any read-only settings in the teams table,
-  // because that information is no longer taken from that table. Todo
+  // because that information is no longer taken from that table.
   sql = "UPDATE teams SET readonly = 0;";
   database_sqlite_exec (db, sql);
   
@@ -596,7 +593,7 @@ void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book
   sqlite3 * db = connect ();
   {
     SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM books WHERE username =");
+    sql.add ("DELETE FROM readonly WHERE username =");
     sql.add (user);
     sql.add ("AND bible =");
     sql.add (bible);
@@ -605,16 +602,14 @@ void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book
     sql.add (";");
     database_sqlite_exec (db, sql.sql);
   }
-  {
+  if (readonly) {
     SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO books VALUES (");
+    sql.add ("INSERT INTO readonly VALUES (");
     sql.add (user);
     sql.add (",");
     sql.add (bible);
     sql.add (",");
     sql.add (book);
-    sql.add (",");
-    sql.add (readonly);
     sql.add (");");
     database_sqlite_exec (db, sql.sql);
   }
@@ -626,7 +621,7 @@ void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book
 bool Database_Users::hasReadOnlyAccess2Book (string user, string bible, int book) // Todo
 {
   SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT readonly FROM books WHERE username =");
+  sql.add ("SELECT count(*) FROM readonly WHERE username =");
   sql.add (user);
   sql.add ("AND bible =");
   sql.add (bible);
@@ -634,10 +629,9 @@ bool Database_Users::hasReadOnlyAccess2Book (string user, string bible, int book
   sql.add (book);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["readonly"];
+  vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
   database_sqlite_disconnect (db);
-  if (!result.empty ()) return convert_to_bool (result [0]);
-  // Entry not found for user/bible/book: Default is not read-only.
+  if (!result.empty ()) return convert_to_bool (result[0]);
   return false;
 }
 

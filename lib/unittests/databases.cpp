@@ -303,7 +303,7 @@ void test_database_logs ()
 }
 
 
-void test_database_users () // Todo
+void test_database_users ()
 {
   // Tests for Database_Users.
   {
