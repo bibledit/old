@@ -62,7 +62,6 @@ public:
   vector <string> getBibles4User (string user);
   vector <string> getUsers4Bible (string bible);
   bool hasAccess2Bible (string user, string bible);
-  void setReadOnlyAccess2Bible (string user, string bible, bool readonly);
   bool hasReadOnlyAccess2Bible (string user, string bible);
   void setReadOnlyAccess2Book (string user, string bible, int book, bool readonly);
   bool hasReadOnlyAccess2Book (string user, string bible, int book);

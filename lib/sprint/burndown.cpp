@@ -29,7 +29,6 @@
 #include <database/mail.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
-#include <access/bible.h>
 #include <client/logic.h>
 
 
@@ -123,7 +122,6 @@ void sprint_burndown (string bible, bool email)
         int category_percentage = round (100 / category_count);
         vector <string> users = request.database_users ()->getUsers ();
         for (auto user : users) {
-          if (!access_bible_write (&request, bible, user)) continue;
           if (request.database_config_user()->getUserSprintProgressNotification (user)) {
             
             string subject = translate("Team's progress in Sprint");

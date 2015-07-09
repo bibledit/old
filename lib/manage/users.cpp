@@ -173,14 +173,6 @@ string manage_users (void * webserver_request)
   }
   
   
-  // Toggle readonly access to Bible.
-  if (request->query.count ("readonlytoggle")) {
-    string readonlytoggle = request->query ["readonlytoggle"];
-    bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (user, readonlytoggle);
-    request->database_users ()->setReadOnlyAccess2Bible (user, readonlytoggle, !readonly);
-  }
-  
-  
   // The level and Bibles of the user who works on this page.
   // The admin has access to all Bibles.
   int mylevel = request->session_logic ()->currentLevel ();

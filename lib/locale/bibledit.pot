@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-08 01:45+0200\n"
+"POT-Creation-Date: 2015-07-09 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6307,13 +6307,16 @@ msgstr ""
 msgid "Click ✗ before a Bible to remove that member from the team."
 msgstr ""
 
-msgid "Some roles have write access to Bibles."
+msgid "Some roles can modify the text of Bible books."
 msgstr ""
 
-msgid "A symbol ✍ appears."
+msgid "Two numbers appear after the Bible."
 msgstr ""
 
-msgid "Uncheck to remove write access to that Bible."
+msgid "It shows how many of the books in the Bible the user can modify."
+msgstr ""
+
+msgid "Click it to change it."
 msgstr ""
 
 msgid "You can only see Bibles you have access to yourself."
@@ -6322,6 +6325,31 @@ msgstr ""
 msgid ""
 "If no user has been granted access to any Bible, then all users have write "
 "access to all Bibles."
+msgstr ""
+
+msgid "Read/write"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "yes"
+msgstr ""
+
+msgid "No books"
+msgstr ""
+
+msgid ""
+"On this page you can set whether a user can modify the text of Bible books."
+msgstr ""
+
+msgid "User:"
+msgstr ""
+
+msgid "Bible:"
+msgstr ""
+
+msgid "Can modify"
 msgstr ""
 
 msgid "Verse Mappings"

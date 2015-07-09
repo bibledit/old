@@ -66,8 +66,8 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::manager ());
   
   
-  // Check whether the user has write-access to the Bible.
-  if (!access_bible_write (request, bible, username)) {
+  // Check whether the user has write-access to the Bible book.
+  if (!access_bible_book_write (request, username, bible, book)) {
     string message = "User " + username + " does not have write access to Bible " + bible;
     Database_Logs::log (message, Filter_Roles::manager ());
     return message;

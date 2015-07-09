@@ -559,36 +559,26 @@ bool Database_Users::hasAccess2Bible (string user, string bible)
 }
 
 
-// Set $readonly access for $user to $bible to true or false.
-void Database_Users::setReadOnlyAccess2Bible (string user, string bible, bool readonly) // Todo goes out, but keep code for unit tests as needed.
-{
-  user = database_sqlite_no_sql_injection (user);
-  bible = database_sqlite_no_sql_injection (bible);
-  string read_only = convert_to_string (readonly);
-  string sql = "UPDATE teams SET readonly = " + read_only + " WHERE username = '" + user + "' AND bible = '" + bible + "';";
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
-
 // Returns true or false depending on whether $user has read-only access to $bible.
-bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible) // Todo goes out, but keep code for unit tests if needed.
+bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
 {
-  user = database_sqlite_no_sql_injection (user);
-  bible = database_sqlite_no_sql_injection (bible);
-  string sql = "SELECT readonly FROM teams WHERE username = '" + user + "' AND bible = '" + bible + "';";
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT count(*) FROM readonly WHERE username =");
+  sql.add (user);
+  sql.add ("AND bible =");
+  sql.add (bible);
+  sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["readonly"];
+  vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
   database_sqlite_disconnect (db);
-  if (!result.empty ()) return convert_to_bool (result [0]);
+  if (!result.empty ()) return convert_to_bool (result[0]);
   // Entry not found for user/bible: Default is not read-only.
   return false;
 }
 
 
 // Set $readonly access for $user to $bible $book to true or false.
-void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book, bool readonly) // Todo
+void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book, bool readonly)
 {
   sqlite3 * db = connect ();
   {
@@ -618,7 +608,7 @@ void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book
 
 
 // Returns true or false depending on whether $user has read-only access to $bible $book.
-bool Database_Users::hasReadOnlyAccess2Book (string user, string bible, int book) // Todo
+bool Database_Users::hasReadOnlyAccess2Book (string user, string bible, int book)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT count(*) FROM readonly WHERE username =");

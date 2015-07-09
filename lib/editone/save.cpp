@@ -28,6 +28,7 @@
 #include <database/logs.h>
 #include <locale/translate.h>
 #include <editor/html2usfm.h>
+#include <access/bible.h>
 
 
 string editone_save_url ()
@@ -88,6 +89,11 @@ string editone_save (void * webserver_request)
     return translate("Cannot save: Needs Unicode");
   }
   
+  
+  if (!access_bible_book_write (request, "", bible, book)) {
+    return translate("No write access");
+  }
+
   
   string stylesheet = request->database_config_user()->getStylesheet();
 

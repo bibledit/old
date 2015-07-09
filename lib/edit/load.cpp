@@ -42,32 +42,28 @@ bool edit_load_acl (void * webserver_request)
 string edit_load (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-
   
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
-
   
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");
-
   
   string stylesheet = request->database_config_user()->getStylesheet ();
   
-  
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
-
   
   Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
   editor_import.load (usfm);
   editor_import.stylesheet (stylesheet);
   editor_import.run ();
   
-  
   string html = editor_import.get ();
   
+  string user = request->session_logic ()->currentUser ();
+  bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
   
-  return Checksum_Logic::send (html);
+  return Checksum_Logic::send (html, readwrite);
 }
 

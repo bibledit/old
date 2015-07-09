@@ -498,15 +498,15 @@ void test_database_users ()
     database_users.addNewUser (username2, "", Filter_Roles::admin (), "");
     evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible2));
     
-    // Read only access for known user. Todo use new books table.
+    // Read only access for known user.
     evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible (username1, bible1));
-    database_users.setReadOnlyAccess2Bible (username1, bible1, true);
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Bible (username1, bible1));
+    database_users.setReadOnlyAccess2Book (username1, bible1, 2, true);
+    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book (username1, bible1, 2));
     
     // No read-only access for unknown user.
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible ("unknown", bible1));
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("unknown", bible1, 2));
   }
-  // Test upgrading read-only settings. // Todo
+  // Test upgrading read-only settings.
   {
     refresh_sandbox (true);
     Database_Users database_users = Database_Users ();
@@ -517,7 +517,8 @@ void test_database_users ()
     database_users.upgrade ();
     evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
 
-    database_users.setReadOnlyAccess2Bible ("user1", "bible1", true);
+    string sql = "UPDATE teams SET readonly = 1 WHERE username = 'user1' AND bible = 'bible1';";
+    database_users.execute (sql);
     database_users.upgrade ();
     evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
     evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
