@@ -118,21 +118,9 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
   }
-  
-  
-  // Send the updated chapter back to the client.
-  // Do this only in case the updated chapter USFM is different from the new USFM the client sent.
-  // This means that in most cases, nothing will be sent back.
-  // That saves bandwidth.
-  // And it allows the user on the client to continue editing
-  // without the returned chapter overwriting the changes the user made.
-  serverusfm = request->database_bibles()->getChapter (bible, book, chapter);
-  if (serverusfm != newusfm) {
-    string checksum = Checksum_Logic::get (serverusfm);
-    return checksum + "\n" + serverusfm;
-  }
 
-  
+
+  // Done: No response to client.
   return "";
 }
 
