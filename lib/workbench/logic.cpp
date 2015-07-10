@@ -393,7 +393,15 @@ void workbenchOrderWorkbenches (void * webserver_request, const vector <string> 
     for (auto & line : oldlines) {
       if (line.find (workbench + "_") == 0) {
         newlines.push_back (line);
+        line.clear ();
       }
+    }
+  }
+  
+  // Add any extra ones.
+  for (auto & line : oldlines) {
+    if (!line.empty ()) {
+      newlines.push_back (line);
     }
   }
 
