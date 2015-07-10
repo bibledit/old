@@ -169,7 +169,7 @@ string workbenchProcessUnits (string length)
 #define HEIGHTS 3
 
 
-void workbenchSetValues (void * webserver_request, int selector, const map <int, string> & values)
+void workbenchSetValues (void * webserver_request, int selector, const map <int, string> & values) // Todo
 {
   // Store values locally, and for a client, store them also for sending to the server.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -207,7 +207,12 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
 
 void workbenchSetURLs (void * webserver_request, const map <int, string> & values)
 {
+  // Get current order of the workbenches.
+  vector <string> order = workbenchGetWorkbenches (webserver_request);
+  // Update the values: This reorders the workbenches.
   workbenchSetValues (webserver_request, URLS, values);
+  // Put the workbenches in the original order.
+  workbenchOrderWorkbenches (webserver_request, order);
 }
 
 
@@ -371,7 +376,7 @@ void workbenchDeleteWorkbench (void * webserver_request, string workbench)
 
 // This orders the workbenches.
 // It takes the order as in array $workbenches.
-void workbenchOrderWorkbenches (void * webserver_request, const vector <string> & workbenches)
+void workbenchOrderWorkbenches (void * webserver_request, const vector <string> & workbenches) // Todo
 {
   // The order of the workbenches is taken from the URLs.
   // Widths and heights are not considered for the order.
