@@ -365,7 +365,6 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == editusfm_offset_url ()) && editusfm_offset_acl (request)) request->reply = editusfm_offset (request);
   else if ((url == editusfm_save_url ()) && editusfm_save_acl (request)) request->reply = editusfm_save (request);
   else if ((url == edit_edit_url ()) && edit_edit_acl (request)) request->reply = edit_edit (request);
-  else if ((url == edit_edit2_url ()) && edit_edit2_acl (request)) request->reply = edit_edit2 (request);
   else if ((url == edit_focus_url ()) && edit_focus_acl (request)) request->reply = edit_focus (request);
   else if ((url == edit_id_url ()) && edit_id_acl (request)) request->reply = edit_id (request);
   else if ((url == edit_load_url ()) && edit_load_acl (request)) request->reply = edit_load (request);

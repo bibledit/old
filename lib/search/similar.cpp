@@ -151,7 +151,7 @@ string search_similar (void * webserver_request)
     vector <string> words = filter_string_explode (database_volatile.getValue (myIdentifier, "searchsimilar"), ' ');
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
     text = filter_string_markup_words (words, text);
     string output = "<div>" + link + " " + text + "</div>";
     

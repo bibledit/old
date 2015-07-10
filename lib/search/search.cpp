@@ -156,7 +156,7 @@ string search_search (void * webserver_request)
     int chapter = details.chapter;
     string verse = details.verse;
     // The title plus link.
-    string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
     // The excerpt.
     string stext = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
     vector <string> vtext = filter_string_explode (stext, '\n');

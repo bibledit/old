@@ -94,7 +94,7 @@ string search_search2 (void * webserver_request)
     
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
     text =  filter_string_markup_words ({query}, text);
     string output = "<div>" + link + " " + text + "</div>";
     

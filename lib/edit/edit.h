@@ -27,9 +27,6 @@
 string edit_edit_url ();
 bool edit_edit_acl (void * webserver_request);
 string edit_edit (void * webserver_request);
-string edit_edit2_url ();
-bool edit_edit2_acl (void * webserver_request);
-string edit_edit2 (void * webserver_request);
 
 
 #endif
