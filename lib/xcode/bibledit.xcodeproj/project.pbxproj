@@ -773,6 +773,7 @@
 		CAB5DE0B1B04BCFC00245D9F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAB5DE0C1B04BCFC00245D9F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAB5DE0D1B04BCFC00245D9F /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		CAB62DED1B4EE32D0083E474 /* passage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = passage.js; sourceTree = "<group>"; };
 		CAB9C5191AD403FC006A2E43 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAB9C51A1AD403FC006A2E43 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAB9C51B1AD43A2C006A2E43 /* search.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = search.cpp; sourceTree = "<group>"; };
@@ -1790,6 +1791,7 @@
 				CA8669C21A793629009E8E3F /* merge.h */,
 				CAA4D1021A45A647003ABA25 /* passage.cpp */,
 				CAA4D1031A45A647003ABA25 /* passage.h */,
+				CAB62DED1B4EE32D0083E474 /* passage.js */,
 				CAA4D1051A45A647003ABA25 /* roles.cpp */,
 				CAA4D1061A45A647003ABA25 /* roles.h */,
 				CAEABB191A76BF70008DBBA4 /* shell.cpp */,

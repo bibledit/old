@@ -28,6 +28,7 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <locale/translate.h>
+#include <assets/view.h>
 
 
 string edit_edit_url ()
@@ -64,7 +65,7 @@ string edit_edit (void * webserver_request)
   
   
   // Check whether a Bible editor is alive.
-  int timestamp = request->database_ipc()->getBibleAlive ();
+  int timestamp = request->database_config_user()->getLiveBibleEditor ();
   bool alive = (timestamp > (filter_date_seconds_since_epoch () - 5));
   
   
@@ -96,3 +97,35 @@ string edit_edit (void * webserver_request)
   return "";
 }
 
+
+string edit_edit2_url () // Todo rename all of this.
+{
+  return "edit/edit2";
+}
+
+
+bool edit_edit2_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+}
+
+
+string edit_edit2 (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  
+  string href = request->query ["href"];
+  Passage passage = filter_integer_to_passage (convert_to_int (href));
+  Ipc_Focus::set (request, passage.book, passage.chapter, convert_to_int (passage.verse));
+  Navigation_Passage::recordHistory (request, passage.book, passage.chapter, convert_to_int (passage.verse));
+  
+  
+  // Check whether a Bible editor is alive.
+  int timestamp = request->database_config_user()->getLiveBibleEditor ();
+  bool alive = (timestamp > (filter_date_seconds_since_epoch () - 5));
+  
+  
+  if (alive) return translate ("The passage has been opened in the existing Bible editor");
+  return "<a href=\"/editone/index\" " + Assets_View::target_conditional_blank () + ">" + translate ("Open a Bible editor to edit the passage") + "</a>";
+}

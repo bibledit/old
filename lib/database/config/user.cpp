@@ -873,3 +873,14 @@ void Database_Config_User::setUserChangeNotificationsChecksum (string user, stri
 {
   setValueForUser (user, "change-notifications-checksum", value);
 }
+
+
+int Database_Config_User::getLiveBibleEditor ()
+{
+  return getIValue ("live-bible-editor", 0);
+}
+void Database_Config_User::setLiveBibleEditor (int time)
+{
+  setIValue ("live-bible-editor", time);
+}
+

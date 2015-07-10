@@ -159,6 +159,8 @@ public:
   string getChangeNotificationsChecksum ();
   void setChangeNotificationsChecksum (string value);
   void setUserChangeNotificationsChecksum (string user, string value);
+  void setLiveBibleEditor (int time);
+  int getLiveBibleEditor ();
 private:
   void * webserver_request;
   string file (string user, const char * key);
