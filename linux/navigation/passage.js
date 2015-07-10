@@ -62,8 +62,14 @@ function bindClickHandlers () {
   $("#selectchapter").on ("click", function (event) {
     displayChapters (event);
   });
+  $("#previousverse").on ("click", function (event) {
+    navigatePreviousVerse (event);
+  });
   $("#selectverse").on ("click", function (event) {
     displayVerses (event);
+  });
+  $("#nextverse").on ("click", function (event) {
+    navigateNextVerse (event);
   });
 }
 
@@ -281,19 +287,12 @@ function navigationHandleKeyDown (event)
   // Ctrl-G
   if ((event.ctrlKey == true) && (event.keyCode == 71)) {
     event.preventDefault ();
-    $("#selectpassage").focus().select();
+    $("#selectbook").focus();
   }
   // Escape
   if (event.keyCode == 27) {
     event.preventDefault ();
     buildNavigator ();
-  }
-  // Enter
-  if (event.keyCode == 13) {
-    if (event.target.id == "selectpassage") {
-      event.preventDefault ();
-      navigationSubmitEntry ();
-    }
   }
   // Alt-Left Arrow
   if ((event.altKey == true) && (event.keyCode == 37)) {
@@ -311,20 +310,6 @@ function navigationHandleKeyDown (event)
   if ((event.altKey == true) && (event.keyCode == 38)) {
     navigatePreviousVerse (event);
   }
-}
-
-
-function navigationSubmitEntry () {
-  var passage = $("#selectpassage").val ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, passage: passage },
-    cache: false,
-    complete: function (xhr, status) {
-      buildNavigator ();
-    }
-  });
 }
 
 

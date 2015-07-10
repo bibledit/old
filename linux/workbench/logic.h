@@ -40,6 +40,7 @@ map <int, string> workbenchGetHeights (void * webserver_request);
 vector <string> workbenchGetWorkbenches (void * webserver_request);
 void workbenchDeleteWorkbench (void * webserver_request, string workbench);
 void workbenchOrderWorkbenches (void * webserver_request, const vector <string> & workbenches);
+void workbenchCacheForCloud (void * webserver_request, bool urls, bool widths, bool heights);
 
 
 #endif

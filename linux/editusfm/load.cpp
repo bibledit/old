@@ -50,5 +50,8 @@ string editusfm_load (void * webserver_request)
 
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
-  return Checksum_Logic::send (usfm);
+  string user = request->session_logic ()->currentUser ();
+  bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
+
+  return Checksum_Logic::send (usfm, readwrite);
 }

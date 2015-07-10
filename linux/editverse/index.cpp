@@ -86,22 +86,17 @@ string editverse_index (void * webserver_request)
   if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
   view.set_variable ("bible", bible);
   
-  // Write access?
-  bool write_access = access_bible_write (request, bible);
-  view.set_variable ("write_access", write_access ? "true" : "false");
-  
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
-  string javascript_write_access = write_access ? "true" : "false";
   string script =
   "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var verseEditorWriteAccess = " + javascript_write_access + ";";
+  "var verseEditorWriteAccess = true;";
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible);

@@ -86,8 +86,11 @@ string editone_load (void * webserver_request)
     editor_import.run ();
     
     string html = editor_import.get ();
-    
-    return Checksum_Logic::send (html);
+
+    string user = request->session_logic ()->currentUser ();
+    bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
+
+    return Checksum_Logic::send (html, readwrite);
   }
   
   if (part == "suffix") {

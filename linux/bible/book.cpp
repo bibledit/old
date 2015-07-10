@@ -67,15 +67,15 @@ string bible_book (void * webserver_request)
   string bible = access_bible_clamp (request, request->query["bible"]);
   view.set_variable ("bible", filter_string_sanitize_html (bible));
   
-  // Whether the user has write access to this Bible.
-  bool write_access = access_bible_write (request, bible);
-  if (write_access) view.enable_zone ("write_access");
-  
   // The book.
   int book = convert_to_int (request->query ["book"]);
   view.set_variable ("book", convert_to_string (book));
   string book_name = Database_Books::getEnglishFromId (book);
   view.set_variable ("book_name", filter_string_sanitize_html (book_name));
+  
+  // Whether the user has write access to this Bible book.
+  bool write_access = access_bible_book_write (request, "", bible, book);
+  if (write_access) view.enable_zone ("write_access");
   
   // Delete chapter.
   string deletechapter = request->query ["deletechapter"];

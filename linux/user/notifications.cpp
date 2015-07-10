@@ -25,7 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <database/config/user.h>
+#include <database/config/general.h>
 #include <locale/translate.h>
+#include <config/logic.h>
 
 
 string user_notifications_url ()
@@ -142,6 +144,11 @@ string user_notifications (void * webserver_request)
   }
   view.set_variable ("sprint_progress_notification", get_tick_box (database_config_user.getSprintProgressNotification ()));
   
+  if (config_logic_client_prepared ()) view.enable_zone ("client");
+  else view.enable_zone ("server");
+  view.set_variable ("address", Database_Config_General::getServerAddress ());
+  view.set_variable ("port", convert_to_string (Database_Config_General::getServerPort ()));
+
   page += view.render ("user", "notifications");
 
   page += Assets_Page::footer ();

@@ -67,6 +67,7 @@ string changes_manage (void * webserver_request)
     string clear = request->query["clear"];
     // This may take time in case there are many change notifications to clear.
     database_modifications.clearNotificationsUser (clear);
+    request->database_config_user ()->setChangeNotificationsChecksum ("");
   }
   
   

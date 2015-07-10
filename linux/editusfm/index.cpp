@@ -93,11 +93,6 @@ string editusfm_index (void * webserver_request)
   view.set_variable ("bible", bible);
   
   
-  // Write access?
-  bool write_access = access_bible_write (request, bible);
-  view.set_variable ("write_access", write_access ? "true" : "false");
-  
-  
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
@@ -105,12 +100,11 @@ string editusfm_index (void * webserver_request)
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
-  string s_write_access = write_access ? "true" : "false";
   string script =
   "var usfmEditorChapterLoaded = \"" + chapterLoaded + "\";\n"
   "var usfmEditorChapterSaving = \"" + chapterSaving + "\";\n"
   "var usfmEditorChapterRetrying = \"" + chapterRetrying + "\";\n"
-  "var usfmEditorWriteAccess = " + s_write_access + ";\n";
+  "var usfmEditorWriteAccess = true;\n";
   view.set_variable ("script", script);
   
 

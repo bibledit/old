@@ -152,6 +152,15 @@ public:
   void setUpdatedSettings (vector <int> values);
   void addUpdatedSetting (int value);
   void removeUpdatedSetting (int value);
+  vector <int> getRemovedChanges ();
+  void setRemovedChanges (vector <int> values);
+  void addRemovedChange (int value);
+  void removeRemovedChange (int value);
+  string getChangeNotificationsChecksum ();
+  void setChangeNotificationsChecksum (string value);
+  void setUserChangeNotificationsChecksum (string user, string value);
+  void setLiveBibleEditor (int time);
+  int getLiveBibleEditor ();
 private:
   void * webserver_request;
   string file (string user, const char * key);
@@ -164,6 +173,7 @@ private:
   void setValue (const char * key, string value);
   void setBValue (const char * key, bool value);
   void setIValue (const char * key, int value);
+  void setValueForUser (string user, const char * key, string value);
   vector <string> getList (const char * key);
   vector <string> getListForUser (string user, const char * key);
   void setList (const char * key, vector <string> values);

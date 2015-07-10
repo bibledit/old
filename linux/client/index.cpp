@@ -158,7 +158,7 @@ string client_index (void * webserver_request)
   }
   
   view.set_variable ("demo", demo_client_warning ());
-                                                                                    
+
   string page;
 
   // Since the role of the user may change after a successful connection to the server,

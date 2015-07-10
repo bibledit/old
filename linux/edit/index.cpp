@@ -107,13 +107,6 @@ string edit_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
 
-  // Write access?
-  bool write_access = access_bible_write (request, bible);
-  if (write_access) view.enable_zone ("write_access");
-  string s_write_access = write_access ? "true" : "false";
-  view.set_variable ("write_access", s_write_access);
-  
-
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
@@ -121,7 +114,7 @@ string edit_index (void * webserver_request)
   "var editorChapterLoaded = '" + chapterLoaded + "';\n"
   "var editorChapterSaving = '" + chapterSaving + "';\n"
   "var editorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var editorWriteAccess = " + s_write_access + ";\n";
+  "var editorWriteAccess = true;\n";
   view.set_variable ("script", script);
   
   

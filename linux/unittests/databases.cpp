@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 #include <database/bibleactions.h>
 #include <database/check.h>
-#include <database/commits.h>
+#include <database/localization.h>
 #include <database/confirm.h>
 #include <database/ipc.h>
 #include <database/jobs.h>
@@ -500,11 +500,32 @@ void test_database_users ()
     
     // Read only access for known user.
     evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible (username1, bible1));
-    database_users.setReadOnlyAccess2Bible (username1, bible1, true);
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Bible (username1, bible1));
+    database_users.setReadOnlyAccess2Book (username1, bible1, 2, true);
+    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book (username1, bible1, 2));
     
     // No read-only access for unknown user.
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible ("unknown", bible1));
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("unknown", bible1, 2));
+  }
+  // Test upgrading read-only settings.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    database_users.upgrade ();
+
+    database_users.grantAccess2Bible ("user1", "bible1");
+    database_users.upgrade ();
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
+
+    string sql = "UPDATE teams SET readonly = 1 WHERE username = 'user1' AND bible = 'bible1';";
+    database_users.execute (sql);
+    database_users.upgrade ();
+    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
+
+    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
+    database_users.setReadOnlyAccess2Book ("user1", "bible1", 67, true);
+    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
   }
 }
 
@@ -988,31 +1009,22 @@ void test_database_check ()
 }
 
 
-void test_database_commits ()
+void test_database_localization ()
 {
   refresh_sandbox (true);
-  Database_Commits database_commits = Database_Commits ();
-  database_commits.create ();
-  database_commits.optimize ();
+  string file_po = filter_url_create_root_path ("unittests", "tests", "nl.po");
+  Database_Localization database_localization = Database_Localization ("nl");
+  database_localization.create (file_po);
 
-  string bible = "phpunit";
-  string sha = "sha";
+  string msgid = "phpunit";
+  string msgstr = "phpunit";
+  string result = database_localization.translate (msgid);
+  evaluate (__LINE__, __func__, msgstr, result);
 
-  vector <string> data = database_commits.get (bible);
-  evaluate (__LINE__, __func__, 0, (int)data.size());
-  
-  // Record some data.
-  database_commits.record (bible, sha);
-  database_commits.record (bible, sha);
-
-  // Check the data.
-  data = database_commits.get (bible);
-  evaluate (__LINE__, __func__, 2, (int)data.size());
-  evaluate (__LINE__, __func__, "sha", data [1]);
-
-  // No data for another Bible
-  data = database_commits.get ("none");
-  evaluate (__LINE__, __func__, 0, (int)data.size());
+  msgid = "When this workbench will be opened, it will display all the notes that refer to the focused passage.";
+  msgstr = "Als de werkbank geopend wordt, dan toont het alle aantekeningen die betrekking hebben op de gefocuste passage.";
+  result = database_localization.translate (msgid);
+  evaluate (__LINE__, __func__, msgstr, result);
 }
 
 

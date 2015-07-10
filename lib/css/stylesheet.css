@@ -434,4 +434,14 @@ textarea {
   widows:2;
 }
 
+/* Workbench */
+
+.iframewrapper {
+  text-align: center;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+}
+
+.iframewrapper iframe {
+}
 
