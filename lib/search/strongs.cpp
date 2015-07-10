@@ -150,7 +150,7 @@ string search_strongs (void * webserver_request)
     string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
+    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
     string output = "<div>" + link + " " + text + "</div>";
     
     // Output to browser.

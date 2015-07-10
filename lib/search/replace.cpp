@@ -72,7 +72,7 @@ string search_replace (void * webserver_request)
     string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
+    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
     string oldtext = text;
     string newtext = filter_string_str_replace (searchfor, replacewith, text);
     if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);

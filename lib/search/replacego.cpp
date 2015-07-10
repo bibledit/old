@@ -170,7 +170,7 @@ string search_replacego (void * webserver_request)
   
   
   // Clickable passage.
-  string link = filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
+  string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   
   
   // Success or failure message.

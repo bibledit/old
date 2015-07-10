@@ -79,7 +79,7 @@ string Consistency_Logic::response ()
         int book = passage.book;
         int chapter = passage.chapter;
         string verse = passage.verse;
-        line = filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
+        line = filter_passage_link_for_opening_editor_at (book, chapter, verse);
         line += " ";
         
         // Check whether the chapter identifier has changed for this reference.

@@ -66,7 +66,7 @@ string search_replacepre (void * webserver_request)
   
   
   // Clickable passage.
-  string link = filter_passage_link_for_opening_editor_at (book, chapter, verse); // Todo
+  string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   
   
   string oldtext = filter_string_markup_words ({searchfor}, text);
