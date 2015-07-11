@@ -26,6 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <confirm/worker.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
+#include <dialog/list.h>
+#include <config/logic.h>
+#include <database/config/general.h>
 
 
 string administration_language_url ()
@@ -36,41 +40,44 @@ string administration_language_url ()
 
 bool administration_language_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  // Cloud: Manager can set the language.
+  int role = Filter_Roles::manager ();
+  // Client: Anyone can set the language.
+  if (config_logic_client_prepared ()) role = Filter_Roles::member ();
+  return Filter_Roles::access_control (webserver_request, role);
 }
 
 
 string administration_language (void * webserver_request)
 {
-  //Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
 
-  page = Assets_Page::header (translate ("Language"), webserver_request, "");
-
-  Assets_View view = Assets_View ();
-
-/*
-  database_config_general = Database_Config_General::getInstance ();
-
-  @language =  _GET['language'];
-  if (isset (language)) {
-    if (language == "") {
-      dialog_list = new Dialog_List2 (translate("Set the default language for the site"));
-      languages = Locale_Logic::getLocalizations ();
-      for (languages as language) {
-        dialog_list.add_row (Locale_Logic::getLanguage (language), "&language=language");
+  map <string, string> localizations = locale_logic_localizations ();
+  
+  if (request->query.count ("language")) {
+    string language = request->query ["language"];
+    if (language == "select") {
+      Dialog_List dialog_list = Dialog_List ("language", translate("Set the language for Bibledit"), "", "");
+      for (auto element : localizations) {
+        dialog_list.add_row (element.second, "language", element.first);
       }
-      dialog_list.run ();
+      page = Assets_Page::header ("", webserver_request, "");
+      page += dialog_list.run ();
+      return page;
     } else {
-      database_config_general.setSiteLanguage (Locale_Logic::filterDefault (language));
+      Database_Config_General::setSiteLanguage (locale_logic_filter_default_language (language));
     }
   }
 
-  view.view.language = Locale_Logic::getLanguage (database_config_general.getSiteLanguage());
-*/
+  page = Assets_Page::header (translate ("Language"), webserver_request, "");
+  
+  Assets_View view = Assets_View ();
 
-  view.set_variable ("language", "English");
+  string language = locale_logic_filter_default_language (Database_Config_General::getSiteLanguage ());
+  language = localizations [language];
+  view.set_variable ("language", language);
   
   page += view.render ("administration", "language");
 

@@ -25,12 +25,17 @@
 
 
 // This function reads $data,
-// calculates a checksum by splitting the $data on the spaces,
-// converts it to JSON,
-// and returns the result.
-string Checksum_Logic::send (string data)
+// calculates a checksum,
+// adds $readwrite,
+// and returns the result as follows:
+// The first line contains the checksum.
+// The second line contains the readwrite as 0 or 1.
+// The rest contains the $data.
+string Checksum_Logic::send (string data, bool readwrite)
 {
   string checksum = get (data);
+  checksum.append ("\n");
+  checksum.append (convert_to_string (readwrite));
   checksum.append ("\n");
   checksum.append (data);
   return checksum;

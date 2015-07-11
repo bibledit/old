@@ -31,6 +31,7 @@
 #include <editor/html2usfm.h>
 #include <locale/translate.h>
 #include <edit/logic.h>
+#include <access/bible.h>
 
 
 string edit_save_url ()
@@ -77,6 +78,10 @@ string edit_save (void * webserver_request)
   if (!unicode_string_is_valid (html)) {
     Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
     return translate("Save failure");
+  }
+  
+  if (!access_bible_book_write (request, "", bible, book)) {
+    return translate("No write access");
   }
   
   string stylesheet = request->database_config_user()->getStylesheet();

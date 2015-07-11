@@ -97,11 +97,15 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 
   fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></li>");
   
-  fragment.append ("<li><span>:</span></li>");
+  //fragment.append ("<li><span>:</span></li>");
 
   int verse = Ipc_Focus::getVerse (request);
   
+  fragment.append ("<li><a id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></li>");
+  
   fragment.append ("<li><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></li>");
+
+  fragment.append ("<li><a id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></li>");
 
   // The result.
   return fragment;

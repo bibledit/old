@@ -123,6 +123,9 @@ function editorLoadChapter (reload)
     type: "GET",
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
     success: function (response) {
+      editorWriteAccess = checksum_readwrite (response);
+      var contenteditable = ($ ("#editor").attr('contenteditable') === 'true');
+      if (editorWriteAccess != contenteditable) $ ("#editor").attr('contenteditable', editorWriteAccess);
       // Checksumming.
       response = checksum_receive (response);
       if (response !== false) {

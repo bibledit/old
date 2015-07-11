@@ -48,7 +48,7 @@ libbibledit_a_SOURCES = \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
-	database/commits.cpp \
+	database/localization.cpp \
 	database/confirm.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
@@ -146,6 +146,7 @@ libbibledit_a_SOURCES = \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
+	manage/write.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -232,6 +233,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/usfmresources.cpp \
 	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
+	sendreceive/changes.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -241,6 +243,7 @@ libbibledit_a_SOURCES = \
 	sync/usfmresources.cpp \
 	sync/externalresources.cpp \
 	sync/notes.cpp \
+	sync/changes.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \

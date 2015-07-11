@@ -398,8 +398,10 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
 
 string filter_passage_link_for_opening_editor_at (int book, int chapter, string verse)
 {
-  string passage = filter_passage_display (book, chapter, verse);
-  string link = "<a href=\"/edit/edit?switchbook=" + convert_to_string (book) + "&switchchapter=" + convert_to_string (chapter) + "&switchverse=" + verse + "\" " + Assets_View::target_conditional_blank () + ">" + passage + "</a>";
+  string display = filter_passage_display (book, chapter, verse);
+  Passage passage = Passage ("", book, chapter, verse);
+  string numeric = convert_to_string (filter_passage_to_integer (passage));
+  string link = "<a class=\"starteditor\" href=\"" + numeric + "\">" + display + "</a> <span></span>";
   return link;
 }
 

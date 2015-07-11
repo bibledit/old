@@ -133,6 +133,6 @@ string navigation_update (void * webserver_request)
   
 
   // Build the navigation fragment.
-  return Navigation_Passage::getNavigator (request, bible);
+  return Navigation_Passage::getNavigator (request, bible); // odo
 }
 

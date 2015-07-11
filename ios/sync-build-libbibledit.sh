@@ -76,7 +76,6 @@ database/search.cpp
 database/books.cpp
 database/bibleactions.cpp
 database/check.cpp
-database/commits.cpp
 database/confirm.cpp
 database/ipc.cpp
 database/jobs.cpp
@@ -95,6 +94,7 @@ database/modifications.cpp
 database/notes.cpp
 database/volatile.cpp
 database/maintenance.cpp
+database/localization.cpp
 session/logic.cpp
 session/login.cpp
 session/logout.cpp
@@ -148,6 +148,7 @@ manage/users.cpp
 manage/exports.cpp
 manage/hyphenate.cpp
 manage/hyphenation.cpp
+manage/write.cpp
 administration/language.cpp
 administration/timezone.cpp
 collaboration/index.cpp

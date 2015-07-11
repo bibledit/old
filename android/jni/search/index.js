@@ -89,6 +89,7 @@ function fetchSearchHits ()
     data: { id: hits[hitCounter], q: query, b: searchBible },
     success: function (response) {
       $ ("#searchresults").append (response);
+      passageConnectToLast ();
       hitCounter++;
       fetchSearchHits ();
     },

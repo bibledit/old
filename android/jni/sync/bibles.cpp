@@ -54,8 +54,10 @@ bool sync_bibles_acl (void * webserver_request)
 
 string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
 {
-  string oldusfm = request->post ["o"];
-  string newusfm = request->post ["n"];
+  // Convert the tags to plus signs, which the client had converted to tags,
+  // for safekeeping the + signs during transit.
+  string oldusfm = filter_url_tag_to_plus (request->post ["o"]);
+  string newusfm = filter_url_tag_to_plus (request->post ["n"]);
   string checksum = request->post ["s"];
 
   
@@ -66,8 +68,8 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::manager ());
   
   
-  // Check whether the user has write-access to the Bible.
-  if (!access_bible_write (request, bible, username)) {
+  // Check whether the user has write-access to the Bible book.
+  if (!access_bible_book_write (request, username, bible, book)) {
     string message = "User " + username + " does not have write access to Bible " + bible;
     Database_Logs::log (message, Filter_Roles::manager ());
     return message;
@@ -107,20 +109,8 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   } else if (newusfm != serverusfm) {
     // Do a merge in case the client sends USFM that differs from what's on the server.
     string mergedusfm = filter_merge_run (oldusfm, newusfm, serverusfm);
-    if (mergedusfm == serverusfm) {
-      // When the merged USFM is the same as what's already on the server, then it means there was a merge conflict.
-      // Email the user with the details, so the user can resolve the conflicts.
-      string subject = "Problem sending chapter to Bibledit Cloud";
-      string body = "<p>While sending " + bible + " " + bookname + " " + convert_to_string (chapter) + " to Bibledit Cloud, the server didn't manage to merge it.</p>";
-      body.append ("<p>Please re-enter your changes as you see fit.</p>");
-      body.append ("<p>Here is the chapter you sent to Bibledit Cloud:</p>");
-      body.append ("<pre><code>" + newusfm + "</code></pre>");
-      Database_Mail database_mail = Database_Mail (request);
-      database_mail.send (username, subject, body);
-    } else {
-      // Update the server with the new chapter data.
-      Bible_Logic::storeChapter (bible, book, chapter, mergedusfm);
-    }
+    // Update the server with the new chapter data.
+    Bible_Logic::storeChapter (bible, book, chapter, mergedusfm);
   }
   
 
@@ -130,21 +120,9 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
   }
-  
-  
-  // Send the updated chapter back to the client.
-  // Do this only in case the updated chapter USFM is different from the new USFM the client sent.
-  // This means that in most cases, nothing will be sent back.
-  // That saves bandwidth.
-  // And it allows the user on the client to continue editing
-  // without the returned chapter overwriting the changes the user made.
-  serverusfm = request->database_bibles()->getChapter (bible, book, chapter);
-  if (serverusfm != newusfm) {
-    string checksum = Checksum_Logic::get (serverusfm);
-    return checksum + "\n" + serverusfm;
-  }
 
-  
+
+  // Done: No response to client.
   return "";
 }
 

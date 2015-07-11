@@ -100,6 +100,10 @@ public:
   static const int offlineresources_get_file_checksum = 5;
   static const int offlineresources_get_file = 6;
   static const int offlineresources_get_file_filename = 7;
+  static const int changes_delete_modification = 1;
+  static const int changes_get_checksum = 2;
+  static const int changes_get_identifiers = 3;
+  static const int changes_get_modification = 4;
   bool credentials_okay ();
   string settings_checksum (const vector <string> & bibles);
   string checksum (const vector <int> & identifiers);
@@ -112,6 +116,7 @@ public:
   static string offline_resources_checksum ();
   static string offline_resource_checksum (const string& name);
   static string offline_resource_file_checksum (const string & name, const string & file);
+  static string changes_checksum (const string & username);
 private:
   void * webserver_request;
 };

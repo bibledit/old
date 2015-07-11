@@ -177,14 +177,14 @@ void checks_run (string bible)
   }
   
   
-  // Send email to users with write access to the Bible and a subscription to the notification.
+  // Send email to users with access to the Bible and a subscription to the notification.
   if (!emailBody.empty ()) {
     string subject = translate("Bible Checks") + " " + bible;
     string body = filter_string_implode (emailBody, "\n");
     vector <string> users = request.database_users ()->getUsers ();
     for (auto user : users) {
       if (request.database_config_user()->getUserBibleChecksNotification (user)) {
-        if (access_bible_write (&request, bible, user)) {
+        if (access_bible_read (&request, bible, user)) {
           if (!client_logic_client_enabled ()) database_mail.send (user, subject, body);
         }
       }

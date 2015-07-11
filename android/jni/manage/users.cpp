@@ -173,14 +173,6 @@ string manage_users (void * webserver_request)
   }
   
   
-  // Toggle readonly access to Bible.
-  if (request->query.count ("readonlytoggle")) {
-    string readonlytoggle = request->query ["readonlytoggle"];
-    bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (user, readonlytoggle);
-    request->database_users ()->setReadOnlyAccess2Bible (user, readonlytoggle, !readonly);
-  }
-  
-  
   // The level and Bibles of the user who works on this page.
   // The admin has access to all Bibles.
   int mylevel = request->session_logic ()->currentLevel ();
@@ -215,14 +207,17 @@ string manage_users (void * webserver_request)
     vector <string> userBiblesIntersec;
     set_intersection (userBibles.begin(), userBibles.end(), accessibleBibles.begin(), accessibleBibles.end(), back_inserter(userBiblesIntersec));
     for (auto & bible : userBiblesIntersec) {
-      bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (username, bible);
       bool writer = (level >= Filter_Roles::translator ());
       tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
       tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\" " + Assets_View::target_conditional_blank () + ">" + bible + "</a>");
       if (writer) {
-        tbody.push_back ("<a href=\"?user=" + username + "&readonlytoggle=" + bible + "\">");
-        if (readonly) tbody.push_back ("☐"); else tbody.push_back ("☑");
-        tbody.push_back ("✍");
+        tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
+        int readwritebooks = 0;
+        vector <int> books = request->database_bibles ()->getBooks (bible);
+        for (auto book : books) {
+          if (!request->database_users ()->hasReadOnlyAccess2Book (username, bible, book)) readwritebooks++;
+        }
+        tbody.push_back ("(" + convert_to_string (readwritebooks) + "/" + convert_to_string (books.size ()) + ")");
         tbody.push_back ("</a>");
       }
       tbody.push_back ("|");

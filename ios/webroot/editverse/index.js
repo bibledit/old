@@ -20,15 +20,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 $(document).ready (function () {
   rangy.init ();
   navigationNewPassage ();
-  $ ("#usfmeditor").on ("paste cut keydown", verseEditorChanged);
+  $ ("#usfmverseeditor").on ("paste cut keydown", verseEditorChanged);
   $ (window).on ("unload", verseEditorUnload);
-  $ ("#usfmeditor").on ("paste", function (e) {
+  $ ("#usfmverseeditor").on ("paste", function (e) {
     var data = e.originalEvent.clipboardData.getData ('Text');
     e.preventDefault();
     document.execCommand ("insertHTML", false, data);
   });
   verseIdPoller ();
-  $ ("#usfmeditor").focus ();
+  $ ("#usfmverseeditor").focus ();
 });
 
 
@@ -81,7 +81,7 @@ function verseEditorLoadChapter ()
     verseVerse = verseNavigationVerse;
     verseVerseLoading = verseNavigationVerse;
     verseIdChapter = 0;
-    $ ("#usfmeditor").focus;
+    $ ("#usfmverseeditor").focus;
     verseCaretPosition = getCaretPosition ();
     if (verseLoadAjaxRequest && verseLoadAjaxRequest.readystate != 4) {
       verseLoadAjaxRequest.abort();
@@ -91,11 +91,14 @@ function verseEditorLoadChapter ()
       type: "GET",
       data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoading },
       success: function (response) {
+        verseEditorWriteAccess = checksum_readwrite (response);
+        var contenteditable = ($ ("#usfmverseeditor").attr('contenteditable') === 'true');
+        if (verseEditorWriteAccess != contenteditable) $ ("#usfmverseeditor").attr('contenteditable', verseEditorWriteAccess);
         // Checksumming.
         response = checksum_receive (response);
         if (response !== false) {
-          $ ("#usfmeditor").empty ();
-          $ ("#usfmeditor").append (response);
+          $ ("#usfmverseeditor").empty ();
+          $ ("#usfmverseeditor").append (response);
           verseEditorStatus (verseEditorVerseLoaded);
           verseLoadedText = response;
           verseVerseLoaded = verseVerseLoading;
@@ -130,7 +133,7 @@ function verseEditorSaveChapter (sync)
   verseEditorTextChanged = false;
   if (!verseBible) return;
   if (!verseBook) return;
-  var usfm = $ ("#usfmeditor").text ();
+  var usfm = $ ("#usfmverseeditor").text ();
   if (usfm == verseLoadedText) return;
   verseEditorStatus (verseEditorVerseSaving);
   verseLoadedText = usfm;
@@ -218,7 +221,7 @@ function verseEditorPollId ()
 function getCaretPosition ()
 {
   var position = undefined;
-  if ($ ("#usfmeditor").is (":focus")) {
+  if ($ ("#usfmverseeditor").is (":focus")) {
     var sel = rangy.getSelection ();
     var range = sel.getRangeAt(0);
     position = range.startOffset;
@@ -229,7 +232,7 @@ function getCaretPosition ()
 
 function positionCaret (position)
 {
-  $ ("#usfmeditor").focus ();
+  $ ("#usfmverseeditor").focus ();
   var currentPosition = getCaretPosition ();
   if (currentPosition == undefined) return;
   if (position == undefined) return;

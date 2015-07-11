@@ -22,8 +22,14 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <edit/index.h>
+#include <editone/index.h>
+#include <editverse/index.h>
 #include <search/index.h>
+#include <resource/index.h>
+#include <notes/index.h>
+#include <consistency/index.h>
 #include <sync/logic.h>
+#include <config/logic.h>
 
 
 map <int, string> workbenchDefaultURLs (int id)
@@ -32,25 +38,30 @@ map <int, string> workbenchDefaultURLs (int id)
   switch (id) {
     case 1:
       urls [0] = edit_index_url ();
-      urls [5] = "resource/index";
+      urls [5] = resource_index_url ();
       break;
     case 2:
       urls [0] = edit_index_url ();
-      urls [1] = "notes/index";
+      urls [1] = notes_index_url ();
       break;
     case 3:
-      urls [0] = "resource/index";
+      urls [0] = resource_index_url ();
       urls [1] = edit_index_url ();
-      urls [2] = "notes/index";
+      urls [2] = notes_index_url ();
       break;
     case 4:
       urls [0] = edit_index_url ();
-      urls [1] = "consistency/index";
+      urls [1] = consistency_index_url ();
+      break;
+    case 5:
+      urls [0] = resource_index_url ();
+      urls [1] = editone_index_url ();
+      urls [5] = editverse_index_url ();
       break;
     default:
       urls [0] = edit_index_url ();
-      urls [1] = "resource/index";
-      urls [2] = "notes/index";
+      urls [1] = resource_index_url ();
+      urls [2] = notes_index_url ();
       urls [3] = search_index_url ();
       break;
   }
@@ -79,6 +90,11 @@ map <int, string> workbenchDefaultWidths (int id)
       widths [0] = "45%";
       widths [1] = "50%";
       break;
+    case 5:
+      widths [0] = "52%";
+      widths [1] = "42%";
+      widths [5] = "66%";
+      break;
     default:
       widths [0] = "24%";
       widths [1] = "24%";
@@ -102,6 +118,10 @@ map <int, string> workbenchDefaultHeights (int id)
     case 3:
     case 4:
       heights [0] = "80%";
+      break;
+    case 5:
+      heights [0] = "92%";
+      heights [1] = "24%";
       break;
     default:
       heights [0] = "90%";
@@ -172,22 +192,27 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
   rawvalue = filter_string_implode (newlines, "\n");
   if (selector == URLS) {
     request->database_config_user()->setWorkbenchURLs (rawvalue);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls);
+    workbenchCacheForCloud (request, true, false, false);
   }
   if (selector == WIDTHS) {
     request->database_config_user()->setWorkbenchWidths (rawvalue);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths);
+    workbenchCacheForCloud (request, false, true, false);
   }
   if (selector == HEIGHTS) {
     request->database_config_user()->setWorkbenchHeights (rawvalue);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
+    workbenchCacheForCloud (request, false, false, true);
   }
 }
 
 
 void workbenchSetURLs (void * webserver_request, const map <int, string> & values)
 {
+  // Get current order of the workbenches.
+  vector <string> order = workbenchGetWorkbenches (webserver_request);
+  // Update the values: This reorders the workbenches.
   workbenchSetValues (webserver_request, URLS, values);
+  // Put the workbenches in the original order.
+  workbenchOrderWorkbenches (webserver_request, order);
 }
 
 
@@ -247,6 +272,9 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
       if (bits.size() == 2) {
         element.second.insert (0, "/");
       }
+      
+      // Encode URL.
+      element.second = filter_string_str_replace (" ", "%20", element.second);
     }
 
     if (selector == WIDTHS) {
@@ -283,10 +311,12 @@ map <int, string> workbenchGetHeights (void * webserver_request)
 }
 
 
+// Returns the names of the available workbenches.
 vector <string> workbenchGetWorkbenches (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <string> workbenches;
+  // The names and the order of the workbenches is taken from the URLs.
   string rawvalue = request->database_config_user()->getWorkbenchURLs ();
   vector <string> lines = filter_string_explode (rawvalue, '\n');
   for (auto & line : lines) {
@@ -340,9 +370,7 @@ void workbenchDeleteWorkbench (void * webserver_request, string workbench)
   request->database_config_user()->setActiveWorkbench ("");
   
   // For a client, store the setting for sending to the server.
-  request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls);
-  request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths);
-  request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
+  workbenchCacheForCloud (request, true, true, true);
 }
 
 
@@ -350,8 +378,8 @@ void workbenchDeleteWorkbench (void * webserver_request, string workbench)
 // It takes the order as in array $workbenches.
 void workbenchOrderWorkbenches (void * webserver_request, const vector <string> & workbenches)
 {
-  // The workbenches are taken from the URLs.
-  // Widths and heights are not considered.
+  // The order of the workbenches is taken from the URLs.
+  // Widths and heights are not considered for the order.
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -365,11 +393,38 @@ void workbenchOrderWorkbenches (void * webserver_request, const vector <string> 
     for (auto & line : oldlines) {
       if (line.find (workbench + "_") == 0) {
         newlines.push_back (line);
+        line.clear ();
       }
+    }
+  }
+  
+  // Add any extra ones.
+  for (auto & line : oldlines) {
+    if (!line.empty ()) {
+      newlines.push_back (line);
     }
   }
 
   // Save everything.
   rawvalue = filter_string_implode (newlines, "\n");
   request->database_config_user()->setWorkbenchURLs (rawvalue);
+
+  // Schedule for sending to Cloud.
+  workbenchCacheForCloud (request, true, false, false);
+}
+
+
+// Store updated workbench settings for sending to the cloud.
+void workbenchCacheForCloud (void * webserver_request, bool urls, bool widths, bool heights)
+{
+  if (config_logic_client_prepared ()) {
+    // For a client, store the setting for sending to the server.
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    if (urls)
+      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls);
+    if (widths)
+      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths);
+    if (heights)
+      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
+  }
 }

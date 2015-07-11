@@ -111,10 +111,7 @@ string sprint_index (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
       vector <string> bibles = access_bible_bibles (request);
       for (auto & bible : bibles) {
-        // Select from Bibles the user has write access to.
-        if (access_bible_write (webserver_request, bible)) {
-          dialog_list.add_row (bible, "bible", bible);
-        }
+        dialog_list.add_row (bible, "bible", bible);
       }
       page += dialog_list.run();
       return page;

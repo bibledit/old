@@ -86,6 +86,11 @@ void sendreceive_queue_sync (int minute)
       } else {
         tasks_logic_queue (SYNCUSFMRESOURCES);
       }
+      if (tasks_logic_queued (SYNCCHANGES)) {
+        Database_Logs::log ("Still synchronizing Changes");
+      } else {
+        tasks_logic_queue (SYNCCHANGES);
+      }
     }
     
     // Paratext collaboration.
@@ -111,6 +116,7 @@ bool sendreceive_sync_queued ()
   if (tasks_logic_queued (SYNCSETTINGS)) return true;
   if (tasks_logic_queued (SYNCEXTERNALRESOURCES)) return true;
   if (tasks_logic_queued (SYNCUSFMRESOURCES)) return true;
+  if (tasks_logic_queued (SYNCCHANGES)) return true;
   return false;
 }
 

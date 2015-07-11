@@ -27,7 +27,7 @@
 class Checksum_Logic
 {
 public:
-  static string send (string data);
+  static string send (string data, bool readwrite);
   static string get (string data);
   static string get (const vector <string>& data);
   static string getChapter (void * webserver_request, string bible, int book, int chapter);

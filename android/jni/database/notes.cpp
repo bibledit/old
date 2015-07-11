@@ -178,7 +178,7 @@ void Database_Notes::trim ()
   string mainfolder = mainFolder ();
   vector <string> bits1 = filter_url_scandir (mainfolder);
   for (auto bit1 : bits1) {
-    if (convert_to_string (convert_to_int (bit1)) == bit1) {
+    if (bit1.length () == 3) {
       string folder = filter_url_create_path (mainfolder, bit1);
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
@@ -186,7 +186,7 @@ void Database_Notes::trim ()
         rmdir (folder.c_str ());
       }
       for (auto bit2 : bits2) {
-        if (convert_to_string (convert_to_int (bit2)) == bit2) {
+        if (bit2.length () == 3) {
           string folder = filter_url_create_path (mainfolder, bit1, bit2);
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {

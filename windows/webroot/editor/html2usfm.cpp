@@ -431,44 +431,13 @@ void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node)
 
 string Editor_Html2Usfm::cleanUSFM (string usfm)
 {
-  /*
-  // The user may accidentally omit or erase the note caller.
-  // The note caller is one character that immediately follows the note opener.
-  // E.g.: \f + ...\f*.
-  // Check for missing note caller, and if it's not there, add the default "+".
-  // Also replace a double space after a note opener.
+  // Replace a double space after a note opener.
   for (string noteOpener : noteOpeners) {
     string opener = usfm_get_opening_usfm (noteOpener);
     usfm = filter_string_str_replace (opener + " ", opener, usfm);
-    size_t pos = unicode_string_strpos (usfm, opener);
-    while (pos != string::npos) {
-      bool isClean = true;
-
-      // Check that the character that follows the note opener is a non-space.
-      size_t pos2 = pos + unicode_string_length (opener);
-      string character = unicode_string_substr (usfm, pos2, 1);
-      if (character == " ") isClean = false;
-      
-      // Check that the following character is not a space.
-      pos2++;
-      character = unicode_string_substr (usfm, pos2, 1);
-      if (character != " ") isClean = false;
-      
-      // Fix the note caller if necessary.
-      if (!isClean) {
-        Database_Logs::log ("Fixing note caller in " + usfm);
-        pos2--;
-        usfm = unicode_string_substr (usfm, 0, pos2) + "+" + unicode_string_substr (usfm, pos2);
-      }
-      
-      // Next iteration.
-      pos = unicode_string_strpos (usfm, opener, pos + 5);
-    }
   }
-  Automatically fixing the note caller is switched off
-  because in certain conditions it adds a plus where it should not.
-  */
-   
+
+  // Done.
   return usfm;
 }
 

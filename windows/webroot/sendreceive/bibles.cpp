@@ -157,18 +157,15 @@ void sendreceive_bibles ()
           
           string checksum = Checksum_Logic::get (oldusfm + newusfm);
           
-          // It used to send the old and new USFM in compressed form.
-          // But the server failed to decompress it.
-          // That means that compression is not a good option.
-          
           // Generate a POST request.
           map <string, string> sendpost = post;
           sendpost ["a"]  = convert_to_string (Sync_Logic::bibles_send_chapter);
-          sendpost ["b"] = bible;
+          sendpost ["b"]  = bible;
           sendpost ["bk"] = convert_to_string (book);
-          sendpost ["c"] = convert_to_string (chapter);
-          sendpost ["o"]  = oldusfm;
-          sendpost ["n"]  = newusfm;
+          sendpost ["c"]  = convert_to_string (chapter);
+          // Safeguard the + signs that the server otherwise would remove.
+          sendpost ["o"]  = filter_url_plus_to_tag (oldusfm);
+          sendpost ["n"]  = filter_url_plus_to_tag (newusfm);
           sendpost ["s"]  = checksum;
           
           string error;
@@ -183,41 +180,12 @@ void sendreceive_bibles ()
             database_bibleactions.erase (bible, book, chapter);
             database_bibleactions.record (bible, book, chapter, oldusfm);
             
-          }
-          
-          else if (response != "") {
-            
-            // The first line of the response can contain a message as a string.
-            // This is what the server says to the client in case of an error.
-            // Normally the first line of the response contains a numerical value.
-            // This value is the checksum of the data that the server returns in the subsequent lines.
-            // This data would be the updated USFM for the chapter.
-            vector <string> v_response = filter_string_explode (response, '\n');
-            string checksum_message = v_response [0];
-            v_response.erase (v_response.begin());
-            if (filter_string_is_numeric (checksum_message)) {
-              
-              response = filter_string_implode (v_response, "\n");
-              
-              if (Checksum_Logic::get (response) == checksum_message) {
-                Bible_Logic::storeChapter (bible, book, chapter, response);
-              } else {
-                // Checksum error.
-                // The chapter will not be stored on the client.
-                // That is fine for just now, because the pending sync action will do it.
-                Database_Logs::log (sendreceive_bibles_text () + "Checksum error while receiving chapter from server", Filter_Roles::translator ());
-              }
-              
-            } else {
-              Database_Logs::log (sendreceive_bibles_text () + "The server says: " + checksum_message, Filter_Roles::translator ());
-            }
-            
           } else {
             
-            // If the server sends no response,
-            // then the server decided that there is no need to send the updated chapter back to the client,
-            // as it considers the client as already up to date.
-            
+            // The Cloud may send a response to the client in case of an error.
+            if (!response.empty ()) {
+              Database_Logs::log (sendreceive_bibles_text () + "Bibledit Cloud says: " + response, Filter_Roles::translator ());
+            }
           }
         }
       }

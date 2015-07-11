@@ -199,6 +199,8 @@ database/jobs.cpp
 database/jobs.h
 database/kjv.cpp
 database/kjv.h
+database/localization.cpp
+database/localization.h
 database/logs.cpp
 database/logs.h
 database/mail.cpp
@@ -411,6 +413,7 @@ filter/merge.cpp
 filter/merge.h
 filter/passage.cpp
 filter/passage.h
+filter/passage.js
 filter/roles.cpp
 filter/roles.h
 filter/shell.cpp
@@ -538,6 +541,7 @@ library/bibledit.h
 library/locks.c
 library/locks.h
 locale/README
+locale/bibledit.pot
 locale/cs.mo
 locale/cs.po
 locale/de.mo
@@ -546,6 +550,7 @@ locale/es.mo
 locale/es.po
 locale/fr.mo
 locale/fr.po
+locale/id.po
 locale/it.mo
 locale/it.po
 locale/logic.cpp
@@ -581,6 +586,9 @@ manage/indexing.html
 manage/users.cpp
 manage/users.h
 manage/users.html
+manage/write.cpp
+manage/write.h
+manage/write.html
 mapping/Dutch_Traditional.txt
 mapping/English.txt
 mapping/French_Louise_Segond.txt
@@ -875,6 +883,8 @@ search/strongs.html
 search/strongs.js
 sendreceive/bibles.cpp
 sendreceive/bibles.h
+sendreceive/changes.cpp
+sendreceive/changes.h
 sendreceive/externalresources.cpp
 sendreceive/externalresources.h
 sendreceive/index.cpp
@@ -941,6 +951,8 @@ styles/view.h
 styles/view.html
 sync/bibles.cpp
 sync/bibles.h
+sync/changes.cpp
+sync/changes.h
 sync/externalresources.cpp
 sync/externalresources.h
 sync/logic.cpp
@@ -983,6 +995,7 @@ unittests/tests/editor.css
 unittests/tests/exports.css
 unittests/tests/flate1.html
 unittests/tests/flate2.html
+unittests/tests/nl.po
 unittests/tests/notes.sqlite.damaged
 unittests/tests/onlinebible1.exp
 unittests/tests/onlinebible2.exp

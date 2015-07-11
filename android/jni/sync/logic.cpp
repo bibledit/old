@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/usfmresources.h>
 #include <database/offlineresources.h>
+#include <database/modifications.h>
 #include <config/logic.h>
 #include <trash/handler.h>
 
@@ -117,25 +118,17 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 
 
 // Sends a post request to the url.
-// On failure it retries a few times.
 // It returns the server's response, or an empty string on failure.
 // burst: Set the connection timing for a burst response after a relatively long silence.
 string Sync_Logic::post (map <string, string> & post, const string& url, string & error, bool burst)
 {
   error.clear ();
-  // After failure, retry a few times more.
-  int retry = 0;
-  while (++retry <= 3) {
-    string response = filter_url_http_post (url, post, error, burst);
-    if (error.empty ()) {
-      // Success: Return response.
-      return response;
-    } else {
-      // Log failure.
-      Database_Logs::log (error, Filter_Roles::translator ());
-    }
+  string response = filter_url_http_post (url, post, error, burst);
+  if (error.empty ()) {
+    // Success: Return response.
+    return response;
   }
-  // Too many failures: Give up.
+  // Failure.
   return "";
 }
 
@@ -249,4 +242,18 @@ string Sync_Logic::offline_resource_file_checksum (const string& name, const str
 {
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
   return convert_to_string (database_offlineresources.size (name, file));
+}
+
+
+// Calculates the total checksum for all the changes for $username.
+string Sync_Logic::changes_checksum (const string & username)
+{
+  Database_Modifications database_modifications;
+  vector <int> ids = database_modifications.getNotificationIdentifiers (username, false);
+  string checksum;
+  for (auto & id : ids) {
+    checksum.append (convert_to_string (id));
+  }
+  checksum = md5 (checksum);
+  return checksum;
 }

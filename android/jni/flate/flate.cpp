@@ -169,4 +169,3 @@ void Flate::process_translate (string& rendering)
     position = rendering.find (gettextopen);
   }
 }
-

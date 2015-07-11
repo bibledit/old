@@ -29,6 +29,7 @@
 #include <checksum/logic.h>
 #include <locale/translate.h>
 #include <edit/logic.h>
+#include <access/bible.h>
 
 
 string editusfm_save_url ()
@@ -83,18 +84,23 @@ string editusfm_save (void * webserver_request)
                   Database_Logs::log (translate ("Merging and saving chapter."));
                 }
               }
-              // Safely store the chapter.
-              bool saved = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
-              if (saved) {
-                // Store details for the user's changes.
-                int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-                Database_Modifications database_modifications = Database_Modifications ();
-                database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
-                // Store a copy of the USFM loaded in the editor for later reference.
-                storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
-                return translate("Saved");
+              // Check on write access.
+              if (access_bible_book_write (request, "", bible, book)) {
+                // Safely store the chapter.
+                bool saved = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
+                if (saved) {
+                  // Store details for the user's changes.
+                  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+                  Database_Modifications database_modifications = Database_Modifications ();
+                  database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+                  // Store a copy of the USFM loaded in the editor for later reference.
+                  storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
+                  return translate("Saved");
+                } else {
+                  return translate("Not saved because of too many changes");
+                }
               } else {
-                return translate("Not saved because of too many changes");
+                return translate("No write access");
               }
             } else {
               Database_Logs::log ("The following data could not be saved and was discarded: " + chapter_data_to_save);

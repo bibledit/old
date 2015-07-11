@@ -121,6 +121,7 @@ function fetchPreviews ()
     data: { q: searchfor, c: casesensitive, r: replacewith, id: hits[hitCounter], p: searchplain },
     success: function (response) {
       $ ("#searchresults").append (response);
+      passageConnectToLast ();
       hitCounter++;
       fetchPreviews ();
     },
@@ -160,6 +161,7 @@ function doReplace (identifier)
     success: function (response) {
       var element = $ ("#" + this);
       element.replaceWith (response);
+      passageConnectToAll ();
       if (replacingAll) replaceAll ();
     },
     complete: function (xhr, status) {

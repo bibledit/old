@@ -136,7 +136,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
 	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
 	database/books.$(OBJEXT) database/bibleactions.$(OBJEXT) \
-	database/check.$(OBJEXT) database/commits.$(OBJEXT) \
+	database/check.$(OBJEXT) database/localization.$(OBJEXT) \
 	database/confirm.$(OBJEXT) database/ipc.$(OBJEXT) \
 	database/jobs.$(OBJEXT) database/kjv.$(OBJEXT) \
 	database/morphhb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
@@ -187,7 +187,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
 	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
 	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	manage/write.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -230,11 +230,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/usfmresources.$(OBJEXT) \
 	sendreceive/externalresources.$(OBJEXT) \
-	sendreceive/notes.$(OBJEXT) demo/logic.$(OBJEXT) \
-	client/index.$(OBJEXT) client/logic.$(OBJEXT) \
-	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT) \
-	sync/bibles.$(OBJEXT) sync/usfmresources.$(OBJEXT) \
-	sync/externalresources.$(OBJEXT) sync/notes.$(OBJEXT) \
+	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
+	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
+	client/logic.$(OBJEXT) sync/setup.$(OBJEXT) \
+	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT) \
+	sync/usfmresources.$(OBJEXT) sync/externalresources.$(OBJEXT) \
+	sync/notes.$(OBJEXT) sync/changes.$(OBJEXT) \
 	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
 	resource/logic.$(OBJEXT) resource/get.$(OBJEXT) \
 	resource/external.$(OBJEXT) resource/bible2resource.$(OBJEXT) \
@@ -548,7 +549,7 @@ libbibledit_a_SOURCES = \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
-	database/commits.cpp \
+	database/localization.cpp \
 	database/confirm.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
@@ -646,6 +647,7 @@ libbibledit_a_SOURCES = \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
+	manage/write.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -732,6 +734,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/usfmresources.cpp \
 	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
+	sendreceive/changes.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -741,6 +744,7 @@ libbibledit_a_SOURCES = \
 	sync/usfmresources.cpp \
 	sync/externalresources.cpp \
 	sync/notes.cpp \
+	sync/changes.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -1045,7 +1049,7 @@ database/bibleactions.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/check.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/commits.$(OBJEXT): database/$(am__dirstamp) \
+database/localization.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/confirm.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -1367,6 +1371,8 @@ manage/hyphenation.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/hyphenate.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
+manage/write.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
 administration/$(am__dirstamp):
 	@$(MKDIR_P) administration
 	@: > administration/$(am__dirstamp)
@@ -1661,6 +1667,8 @@ sendreceive/externalresources.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/notes.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/changes.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -1690,6 +1698,8 @@ sync/usfmresources.$(OBJEXT): sync/$(am__dirstamp) \
 sync/externalresources.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/notes.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
+sync/changes.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 resource/$(am__dirstamp):
 	@$(MKDIR_P) resource
@@ -2128,11 +2138,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/commits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/localization.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/maintenance.Po@am__quote@
@@ -2240,6 +2250,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/indexing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/users.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/write.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
@@ -2310,6 +2321,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strong.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strongs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/bibles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/changes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
@@ -2335,6 +2347,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/changes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/notes.Po@am__quote@

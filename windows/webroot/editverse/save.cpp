@@ -27,6 +27,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <access/bible.h>
 
 
 string editverse_save_url ()
@@ -87,6 +88,12 @@ string editverse_save (void * webserver_request)
     return translate("Cannot save: Needs Unicode");
   }
   
+  
+  // Check on write access.
+  if (!access_bible_book_write (request, "", bible, book)) {
+    return translate("No write access");
+  }
+
   
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();

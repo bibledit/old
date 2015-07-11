@@ -49,5 +49,8 @@ string editverse_load (void * webserver_request)
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   usfm = usfm_get_verse_text (usfm, verse);
   
-  return Checksum_Logic::send (usfm);
+  string user = request->session_logic ()->currentUser ();
+  bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
+  
+  return Checksum_Logic::send (usfm, readwrite);
 }

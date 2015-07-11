@@ -112,6 +112,7 @@ void timer_index ()
       // Deal with the changes in the Bible made per user.
       // Deal with notifications for the daily changes in the Bibles.
       // This takes a few minutes on a production machine with two Bibles and changes in several chapters.
+      // It runs in a server configuration, not on a client.
       if (!client) {
         if ((hour == 0) && (minute == 20)) {
           changes_logic_start ();

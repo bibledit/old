@@ -111,6 +111,9 @@ function oneverseEditorLoadVerse ()
       type: "GET",
       data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoading, part: "verse" },
       success: function (response) {
+        oneverseEditorWriteAccess = checksum_readwrite (response);
+        var contenteditable = ($ ("#oneeditor").attr('contenteditable') === 'true');
+        if (oneverseEditorWriteAccess != contenteditable) $ ("#oneeditor").attr('contenteditable', oneverseEditorWriteAccess);
         // Checksumming.
         response = checksum_receive (response);
         if (response !== false) {

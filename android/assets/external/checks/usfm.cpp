@@ -147,10 +147,13 @@ void Checks_Usfm::newLineInUsfm (string usfm)
 
 void Checks_Usfm::markerInStylesheet ()
 {
-  string marker = usfmItem.substr (1, 100);
+  string marker = usfmItem.substr (1);
   marker = filter_string_trim (marker);
   if (!usfm_is_opening_marker (marker)) {
     if (!marker.empty ()) marker = marker.substr (0, marker.length () - 1);
+  }
+  if (usfm_is_embedded_marker (marker)) {
+    if (!marker.empty ()) marker = marker.substr (1);
   }
   if (marker == "") return;
   if (in_array (marker, markersStylesheet)) return;

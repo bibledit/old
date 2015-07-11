@@ -227,33 +227,6 @@ bool Database_Ipc::getNotesAlive ()
 }
 
 
-bool Database_Ipc::getBibleAlive ()
-{
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  string user = request->session_logic ()->currentUser ();
-
-  int highestId = 0;
-  string hitMessage = "";
-
-  vector <Database_Ipc_Item> data = readData ();
-  for (auto & record : data) {
-    int recordid = record.rowid;
-    if (record.command == "biblealive") {
-      if (record.user == user) {
-        if (recordid > highestId) {
-          highestId = recordid;
-          hitMessage = filter_url_file_get_contents (file (record.file));
-        }
-      }
-    }
-  }
-
-  if (highestId) return convert_to_bool (hitMessage);
-
-  return false;
-}
-
-
 string Database_Ipc::folder ()
 {
   return filter_url_create_root_path ("databases", "ipc");

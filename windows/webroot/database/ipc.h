@@ -58,7 +58,6 @@ public:
   string getFocus ();
   Database_Ipc_Message getNote ();
   bool getNotesAlive ();
-  bool getBibleAlive ();
 private:
   void * webserver_request;
   string folder ();

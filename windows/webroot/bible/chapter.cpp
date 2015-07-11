@@ -66,10 +66,6 @@ string bible_chapter (void * webserver_request)
   string bible = access_bible_clamp (request, request->query["bible"]);
   view.set_variable ("bible", filter_string_sanitize_html (bible));
   
-  // Whether the user has write access to this Bible.
-  bool write_access = access_bible_write (request, bible);
-  if (write_access) view.enable_zone ("write_access");
-  
   // The book.
   int book = convert_to_int (request->query ["book"]);
   view.set_variable ("book", convert_to_string (book));
@@ -79,6 +75,10 @@ string bible_chapter (void * webserver_request)
   // The chapter.
   string chapter = request->query ["chapter"];
   view.set_variable ("chapter", filter_string_sanitize_html (chapter));
+  
+  // Whether the user has write access to this Bible book.
+  bool write_access = access_bible_book_write (request, "", bible, book);
+  if (write_access) view.enable_zone ("write_access");
   
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);

@@ -46,8 +46,10 @@ bool access_bible_read (void * webserver_request, string & bible, string user)
 }
 
 
-// Returns true if the user has write access to the bible.
+// Returns true if the user has write access to the entire $bible.
 // If no user is given, it takes the currently logged-in user.
+// If the user has read-only access to even one book of the $bible,
+// then the user is considered not to have write access to the entire $bible.
 bool access_bible_write (void * webserver_request, string & bible, string user)
 {
   if (client_logic_client_enabled ()) {
@@ -62,6 +64,26 @@ bool access_bible_write (void * webserver_request, string & bible, string user)
     return false;
   }
   bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (user, bible);
+  return !readonly;
+}
+
+
+// Returns true if the $user has write access to the $bible and the $book.
+// If no $user is given, it takes the currently logged-in user.
+bool access_bible_book_write (void * webserver_request, string user, const string & bible, int book)
+{
+  if (client_logic_client_enabled ()) {
+    // Client: User has access to all Bibles.
+    return true;
+  }
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  if (user == "") {
+    user = request->session_logic ()->currentUser ();
+  }
+  if (!request->database_users ()->hasAccess2Bible (user, bible)) {
+    return false;
+  }
+  bool readonly = request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
   return !readonly;
 }
 

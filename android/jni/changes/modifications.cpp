@@ -24,6 +24,7 @@
 #include <filter/usfm.h>
 #include <filter/text.h>
 #include <filter/diff.h>
+#include <filter/shell.h>
 #include <filter/passage.h>
 #include <filter/date.h>
 #include <html/text.h>
@@ -37,6 +38,7 @@
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <access/bible.h>
+#include <config/globals.h>
 
 
 // Helper function.
@@ -99,7 +101,11 @@ void changes_process_identifiers (Webserver_Request * request,
 void changes_modifications ()
 {
   Database_Logs::log ("Change notifications: Generating", Filter_Roles::translator ());
-
+  
+  
+  // Set flag so the notifications are not now available to clients.
+  config_globals_change_notifications_available = false;
+  
   
   // Data objects.
   Webserver_Request request;
@@ -183,6 +189,9 @@ void changes_modifications ()
     // Clear the user's changes in the database.
     database_modifications.clearUserUser (user);
     
+    
+    // Clear checksum cache.
+    request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
   
   
@@ -310,7 +319,43 @@ void changes_modifications ()
   // Index the data and remove expired notifications.
   Database_Logs::log ("Change notifications: Indexing", Filter_Roles::translator ());
   database_modifications.indexTrimAllNotifications ();
+
+  
+  // Remove expired downloadable revisions.
+  string directory = filter_url_create_root_path ("revisions");
+  int now = filter_date_seconds_since_epoch ();
+  bibles = filter_url_scandir (directory);
+  for (auto &bible : bibles) {
+    string folder = filter_url_create_path (directory, bible);
+    int time = filter_url_filemtime (folder);
+    int days = (now - time) / 86400;
+    if (days > 31) {
+      filter_url_rmdir (folder);
+    } else {
+      vector <string> revisions = filter_url_scandir (folder);
+      for (auto & revision : revisions) {
+        string path = filter_url_create_path (folder, revision);
+        int time = filter_url_filemtime (path);
+        int days = (now - time) / 86400;
+        if (days > 31) {
+          filter_url_rmdir (path);
+          Database_Logs::log ("Removing expired downloadable revision notification: " + bible + " " + revision, Filter_Roles::translator ());
+        }
+      }
+    }
+  }
   
   
+  // Clear checksum caches.
+  users = request.database_users ()->getUsers ();
+  for (auto user : users) {
+    request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
+  }
+  
+  
+  // Clear flag so the notifications are again available to clients.
+  config_globals_change_notifications_available = true;
+  
+
   Database_Logs::log ("Change notifications: Ready", Filter_Roles::translator ());
 }

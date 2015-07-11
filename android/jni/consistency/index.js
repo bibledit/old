@@ -50,6 +50,7 @@ function changed ()
       $ ("#texts").append (response);
       $ ("#status").hide ();
       navigationSetup ();
+      passageConnectToAll ();
     },
     complete: function (xhr, status) {
       delayedPoll ();
@@ -77,6 +78,7 @@ function poll ()
       if (response != "") {
         $ ("#texts").empty ();
         $ ("#texts").append (response);
+        passageConnectToAll ();
       }
     },
     complete: function (xhr, status) {

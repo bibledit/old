@@ -49,6 +49,7 @@ public:
   ~Database_Modifications ();
   void erase ();
   void create ();
+  bool healthy ();
   bool teamDiffExists (const string& bible, int book, int chapter);
   void storeTeamDiff (const string& bible, int book, int chapter);
   string getTeamDiff (const string& bible, int book, int chapter);
@@ -85,7 +86,8 @@ public:
   string getNotificationModification (int id);
   string getNotificationNewText (int id);
   void clearNotificationsUser (const string& username);
-  void clearNotificationMatches (const string& username, const string& personal, const string& team);
+  vector <int> clearNotificationMatches (const string& username, const string& personal, const string& team);
+  void storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext);
 private:
   sqlite3 * connect ();
   string teamFolder ();

@@ -108,6 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/notes.h>
 #include <sync/usfmresources.h>
 #include <sync/externalresources.h>
+#include <sync/changes.h>
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
@@ -173,6 +174,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <debug/index.h>
 #include <browser/index.h>
 #include <paratext/index.h>
+#include <manage/write.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -337,6 +339,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_clear_url ()) && xrefs_clear_acl (request)) request->reply = xrefs_clear (request);
   else if ((url == xrefs_insert_url ()) && xrefs_insert_acl (request)) request->reply = xrefs_insert (request);
   else if ((url == webbible_search_url ()) && webbible_search_acl (request)) request->reply = webbible_search (request);
+  else if ((url == manage_write_url ()) && manage_write_acl (request)) request->reply = manage_write (request);
 
   // Downloads
   else if ((url == index_listing_url (url)) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
@@ -348,6 +351,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == sync_notes_url ()) && sync_notes_acl (request)) request->reply = sync_notes (request);
   else if ((url == sync_usfmresources_url ()) && sync_usfmresources_acl (request)) request->reply = sync_usfmresources (request);
   else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
+  else if ((url == sync_changes_url ()) && sync_changes_acl (request)) request->reply = sync_changes (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

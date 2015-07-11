@@ -36,7 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sprint.h>
 #include <database/navigation.h>
 #include <database/sprint.h>
-#include <database/commits.h>
 #include <database/jobs.h>
 #include <database/config/user.h>
 #include <client/logic.h>
@@ -116,10 +115,6 @@ void database_maintenance ()
   filter_url_unlink (filter_url_create_root_path ("databases", "navigation.sqlite"));
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
-  
-  
-  Database_Commits database_commits = Database_Commits ();
-  database_commits.optimize ();
   
   
   Database_Jobs database_jobs = Database_Jobs ();

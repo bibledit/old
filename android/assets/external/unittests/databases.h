@@ -34,7 +34,7 @@ void test_database_books ();
 void test_database_search ();
 void test_database_bibleactions ();
 void test_database_check ();
-void test_database_commits ();
+void test_database_localization ();
 void test_database_confirm ();
 void test_database_ipc ();
 void test_database_jobs ();

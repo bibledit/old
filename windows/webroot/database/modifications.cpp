@@ -75,6 +75,12 @@ void Database_Modifications::create ()
 }
 
 
+bool Database_Modifications::healthy ()
+{
+  return database_sqlite_healthy ("modifications");
+}
+
+
 // Code dealing with the "teams" table.
 
 
@@ -177,7 +183,18 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
     if (file.substr (0, length) != pattern) continue;
     vector <string> bits = filter_string_explode (file, '.');
     if (bits.size() != 3) continue;
-    chapters.push_back (convert_to_int (bits [2]));
+    string path = filter_url_create_path (teamFolder (), file);
+    int time = filter_url_filemtime (path);
+    int days = (filter_date_seconds_since_epoch () - time) / 86400;
+    if (days > 5) {
+      // Unprocessed team changes older than so many days usually indicate a problem.
+      // Perhaps the server crashed so it never could process them.
+      // Cases like this have been seen on servers with limited memory.
+      // Therefore just remove this change, without processing it.
+      filter_url_unlink (path);
+    } else {
+      chapters.push_back (convert_to_int (bits [2]));
+    }
   }
   sort (chapters.begin(), chapters.end());
   return chapters;
@@ -369,7 +386,18 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
   vector <string> files = filter_url_scandir (folder);
   vector <int> chapters;
   for (auto & file : files) {
-    chapters.push_back (convert_to_int (file));
+    string path = filter_url_create_path (folder, file);
+    int time = filter_url_filemtime (path);
+    int days = (filter_date_seconds_since_epoch () - time) / 86400;
+    if (days > 5) {
+      // Unprocessed user changes older than so many days usually indicate a problem.
+      // Perhaps the server crashed so it never could process them.
+      // Cases like this have been seen on servers with limited memory.
+      // Therefore just remove this change, without processing it.
+      filter_url_rmdir (path);
+    } else {
+      chapters.push_back (convert_to_int (file));
+    }
   }
   sort (chapters.begin(), chapters.end());
   return chapters;
@@ -858,7 +886,8 @@ void Database_Modifications::clearNotificationsUser (const string& username)
 
 
 // This function deletes personal change proposals and their matching change notifications.
-void Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
+// It returns the delted identifiers.
+vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
 {
   sqlite3 * db = connect ();
   
@@ -948,6 +977,67 @@ void Database_Modifications::clearNotificationMatches (const string& username, c
   }
   
   database_sqlite_disconnect (db);
+  
+  // Return deleted identifiers.
+  return deletes;
 }
 
 
+// Store a change notification on the client, as received from the server.
+void Database_Modifications::storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext)
+{
+  filter_url_mkdir (notificationIdentifierFolder (id));
+
+  string file;
+
+  // Timestamp is not used: Just put the current time.
+  int timestamp = filter_date_seconds_since_epoch ();
+  file = notificationTimeFile (id);
+  filter_url_file_put_contents (file, convert_to_string (timestamp));
+  
+  file = notificationUserFile (id);
+  filter_url_file_put_contents (file, username);
+  
+  file = notificationCategoryFile (id);
+  filter_url_file_put_contents (file, category);
+
+  file = notificationBibleFile (id);
+  filter_url_file_put_contents (file, bible);
+
+  string passage = convert_to_string (book) + "." + convert_to_string (chapter) + "." + convert_to_string (verse);
+  file = notificationPassageFile (id);
+  filter_url_file_put_contents (file, passage);
+  
+  file = notificationOldtextFile (id);
+  filter_url_file_put_contents (file, oldtext);
+
+  file = notificationModificationFile (id);
+  filter_url_file_put_contents (file, modification);
+ 
+  file = notificationNewtextFile (id);
+  filter_url_file_put_contents (file, newtext);
+
+  sqlite3 * db = connect ();
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("INSERT INTO notifications VALUES (");
+  sql.add (id);
+  sql.add (",");
+  sql.add (timestamp);
+  sql.add (",");
+  sql.add (username);
+  sql.add (",");
+  sql.add (category);
+  sql.add (",");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (book);
+  sql.add (",");
+  sql.add (chapter);
+  sql.add (",");
+  sql.add (verse);
+  sql.add (",");
+  sql.add (modification);
+  sql.add (");");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}

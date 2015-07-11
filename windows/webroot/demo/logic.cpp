@@ -200,6 +200,7 @@ void demo_create_sample_bible (void * webserver_request)
     if (filter_url_get_extension (file) == "usfm") {
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);
+      usfm = filter_string_str_replace ("  ", " ", usfm);
       vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
       for (auto data : book_chapter_data) {
         Bible_Logic::storeChapter (demo_sample_bible_name (), data.book, data.chapter, data.data);

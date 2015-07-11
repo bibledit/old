@@ -103,6 +103,7 @@ function fetchSearchHits ()
     data: { b: searchBible, id: hits[hitCounter] },
     success: function (response) {
       $ ("#searchresults").append (response);
+      passageConnectToLast ();
       hitCounter++;
       fetchSearchHits ();
     },

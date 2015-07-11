@@ -20,13 +20,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/logic.h>
 #include <locale/translate.h>
 #include <filter/string.h>
+#include <filter/url.h>
 
 
 // Filters out the default language.
 // Returns the $localization, or "" in case of the default language.
 string locale_logic_filter_default_language (string localization)
 {
-  if (localization == "default") localization = "";
+  if (localization == "default") localization.clear ();
   return localization;
 }
 
@@ -51,3 +52,79 @@ string locale_logic_month (int month)
   return translate ("Month") + " " + convert_to_string (month);
 }
 
+
+// Return the available localizations.
+map <string, string> locale_logic_localizations ()
+{
+  string directory = filter_url_create_root_path ("locale");
+  vector <string> files = filter_url_scandir (directory);
+  map <string, string> localizations = {make_pair ("", "Default")};
+  for (auto file : files) {
+    string suffix = filter_url_get_extension (file);
+    if (suffix == "po") {
+      string basename = filter_string_str_replace ("." + suffix, "", file);
+      string path = filter_url_create_path (directory, file);
+      string contents = filter_url_file_get_contents (path);
+      string language = "Unknown";
+      vector <string> lines = filter_string_explode (contents, '\n');
+      for (auto line : lines) {
+        if (line.find ("translation for bibledit") != string::npos) {
+          line.erase (0, 2);
+          line.erase (line.length () - 25);
+          language = line;
+        }
+      }
+      localizations.insert (make_pair (basename, language));
+    }
+  }
+  return localizations;
+}
+
+
+map <string, string> locale_logic_read_po (string file)
+{
+  map <string, string> translations;
+  string contents = filter_url_file_get_contents (file);
+  vector <string> lines = filter_string_explode (contents, '\n');
+  string msgid;
+  string msgstr;
+  int stage = 0;
+  for (size_t i = 0; i < lines.size (); i++) {
+    string line = filter_string_trim (lines[i]);
+    if (line.find ("msgid") == 0) {
+      stage = 1;
+      line.erase (0, 5);
+      line = filter_string_trim (line);
+    }
+    if (line.find ("msgstr") == 0) {
+      stage = 2;
+      line.erase (0, 6);
+      line = filter_string_trim (line);
+    }
+    // Build msgid.
+    if (stage == 1) {
+      if (!line.empty ()) line.erase (0, 1);
+      if (!line.empty ()) line.erase (line.length () - 1);
+      msgid.append (line);
+    }
+    // Build msgstr.
+    if (stage == 2) {
+      if (line.empty ()) stage = 3;
+    }
+    if (stage == 2) {
+      if (!line.empty ()) line.erase (0, 1);
+      if (!line.empty ()) line.erase (line.length () - 1);
+      msgstr.append (line);
+    }
+    // Process data.
+    if (i == (lines.size () - 1)) stage = 3;
+    if (stage == 3) {
+      if (!msgid.empty ()) {
+        translations [msgid] = msgstr;
+      }
+      msgid.clear ();
+      msgstr.clear ();
+    }
+  }
+  return translations;
+}

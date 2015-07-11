@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/usfmresources.h>
 #include <sendreceive/externalresources.h>
 #include <sendreceive/notes.h>
+#include <sendreceive/changes.h>
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <resource/convert2resource.h>
@@ -135,6 +136,8 @@ void tasks_run_one (string filename)
     sendreceive_externalresources ();
   } else if (command == SYNCUSFMRESOURCES) {
     sendreceive_usfmresources ();
+  } else if (command == SYNCCHANGES) {
+    sendreceive_changes ();
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
   } else if (command == CONVERTBIBLE2RESOURCE) {

@@ -91,6 +91,9 @@ function usfmEditorLoadChapter ()
       type: "GET",
       data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
       success: function (response) {
+        usfmEditorWriteAccess = checksum_readwrite (response);
+        var contenteditable = ($ ("#usfmeditor").attr('contenteditable') === 'true');
+        if (usfmEditorWriteAccess != contenteditable) $ ("#usfmeditor").attr('contenteditable', usfmEditorWriteAccess);
         // Checksumming.
         response = checksum_receive (response);
         if (response !== false) {

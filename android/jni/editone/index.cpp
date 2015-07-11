@@ -84,12 +84,8 @@ string editone_index (void * webserver_request)
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
   string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
   view.set_variable ("bible", bible);
-  
-  // Write access?
-  bool write_access = access_bible_write (request, bible);
-  if (write_access) view.enable_zone ("write_access");
-  view.set_variable ("write_access", write_access ? "true" : "false");
   
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
@@ -97,12 +93,11 @@ string editone_index (void * webserver_request)
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
-  string javascript_write_access = write_access ? "true" : "false";
   string script =
   "var oneverseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var oneverseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var oneverseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var oneverseEditorWriteAccess = " + javascript_write_access + ";";
+  "var oneverseEditorWriteAccess = true;";
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible);

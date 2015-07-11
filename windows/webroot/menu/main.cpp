@@ -207,8 +207,14 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (changes_changes_acl (webserver_request)) menu->push_back ( { "", changes_changes_url (), translate ("Notifications"), NULL } );
-  if (index_listing_acl (webserver_request, "revisions")) menu->push_back ( { "", index_listing_url ("revisions"), translate ("Download"), NULL } );
-  if (changes_manage_acl (webserver_request)) menu->push_back ( { "", changes_manage_url (), translate ("Manage"), NULL } );
+  // Downloading revisions only on server, not on client.
+  if (!config_logic_client_prepared ())
+    if (index_listing_acl (webserver_request, "revisions"))
+      menu->push_back ( { "", index_listing_url ("revisions"), translate ("Download"), NULL } );
+  // Managing change notifications only on server, not on client.
+  if (!config_logic_client_prepared ())
+    if (changes_manage_acl (webserver_request))
+      menu->push_back ( { "", changes_manage_url (), translate ("Manage"), NULL } );
   if (journal_index_acl (webserver_request)) menu->push_back ( { "", journal_index_url (), translate ("Journal"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
