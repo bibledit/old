@@ -219,6 +219,13 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 
 
 // Returns an array with the verse numbers found in $usfm.
+// It handles a single verse, a range of verses, or a sequence of verses.
+// It locates separate whole verse numbers.
+// Examples:
+// 10
+// 10-12b
+// 10,11a
+// 10,12
 vector <int> usfm_get_verse_numbers (string usfm)
 {
   vector <int> verse_numbers = { 0 };
@@ -226,7 +233,55 @@ vector <int> usfm_get_verse_numbers (string usfm)
   bool extract_verse = false;
   for (string marker_or_text : markers_and_text) {
     if (extract_verse) {
-      verse_numbers.push_back (convert_to_int (marker_or_text));
+      string verse = usfm_peek_verse_number (marker_or_text);
+      
+      // If there is a range, take the beginning and the end and fill up in between.
+      if (verse.find("-") != string::npos) {
+        size_t position;
+        position = verse.find("-");
+        string start_range, end_range;
+        start_range = verse.substr (0, position);
+        verse.erase (0, ++position);
+        end_range = verse;
+        unsigned int start_verse_i = convert_to_int(number_in_string(start_range));
+        unsigned int end_verse_i = convert_to_int(number_in_string(end_range));
+        for (unsigned int i = start_verse_i; i <= end_verse_i; i++) {
+          if (i == start_verse_i)
+            verse_numbers.push_back (convert_to_int (start_range));
+          else if (i == end_verse_i)
+            verse_numbers.push_back (convert_to_int (end_range));
+          else
+            verse_numbers.push_back (i);
+        }
+      }
+      
+      // Else if there is a sequence, take each verse in the sequence, and store it.
+      else if (verse.find(",") != string::npos) {
+        int iterations = 0;
+        do {
+          // In case of an unusual range formation, do not hang, but give message.
+          iterations++;
+          if (iterations > 50) {
+            break;
+          }
+          size_t position = verse.find (",");
+          string vs;
+          if (position == string::npos) {
+            vs = verse;
+            verse.clear ();
+          } else {
+            vs = verse.substr (0, position);
+            verse.erase(0, ++position);
+          }
+          verse_numbers.push_back (convert_to_int (vs));
+        } while (!verse.empty());
+      }
+      
+      // No range and no sequence: a single verse.
+      else {
+        verse_numbers.push_back (convert_to_int (verse));
+      }
+      
       extract_verse = false;
     }
     if (marker_or_text.substr (0, 2) == "\\v") {
@@ -283,9 +338,9 @@ int usfm_versenumber_to_offset (string usfm, int verse)
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (string line : lines) {
     vector <int> verses = usfm_get_verse_numbers (line);
-    int v = 0;
-    if (!verses.empty()) v = verses [1];
-    if (v == verse) return totalOffset;
+    for (auto & v : verses) {
+      if (v == verse) return totalOffset;
+    }
     totalOffset += unicode_string_length (line);
     // Add 1 for new line.
     totalOffset += 1;

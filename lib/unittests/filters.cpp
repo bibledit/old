@@ -362,12 +362,14 @@ void test_filters_test_usfm1 ()
     evaluate (__LINE__, __func__, 2, usfm_offset_to_versenumber (usfm, 46));
     evaluate (__LINE__, __func__, 2, usfm_offset_to_versenumber (usfm, 47));
 
-    usfm = "\\p\n\\v 1 Verse 1.\n\\v 2 Verse 2.\n\\v 3 Verse 3.";
+    usfm = "\\p\n\\v 1 Verse 1.\n\\v 2 Verse 2.\n\\v 3 Verse 3.\n\\v 4-5 Verse 4 and 5.";
     evaluate (__LINE__, __func__, 3, usfm_versenumber_to_offset (usfm, 1));
     evaluate (__LINE__, __func__, 17, usfm_versenumber_to_offset (usfm, 2));
     evaluate (__LINE__, __func__, 31, usfm_versenumber_to_offset (usfm, 3));
-    evaluate (__LINE__, __func__, 44, usfm_versenumber_to_offset (usfm, 4));
-    evaluate (__LINE__, __func__, 44, usfm_versenumber_to_offset (usfm, 5));
+    evaluate (__LINE__, __func__, 45, usfm_versenumber_to_offset (usfm, 4));
+    evaluate (__LINE__, __func__, 45, usfm_versenumber_to_offset (usfm, 5));
+    evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
+    evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
 
     usfm = "\\p\n\\v 1 One";
     evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
@@ -534,6 +536,23 @@ void test_filters_test5 ()
     "\\p\n"
     "\\v 19 \nnd kosi\nd*, Nkulunkulu wamabandla, siphendule, wenze ubuso bakho bukhanye, ngakho sizasindiswa\\x + 80.3,7.\\x*.\n";
     evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, usfm_get_verse_numbers (usfm));
+  }
+  {
+    string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
+    vector <int> verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 1, 2, 3 }, verses);
+    
+    usfm = "\\v 10-12b Fragment\n\\p\n\\v 13 Fragment\n";
+    verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 10, 11, 12, 13 }, verses);
+    
+    usfm = "\\v 10,11a Fragment\n\\p\n\\v 13 Fragment\n";
+    verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 10, 11, 13 }, verses);
+    
+    usfm = "\\v 10,12 Fragment\n\\p\n\\v 13 Fragment\n";
+    verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 10, 12, 13 }, verses);
   }
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\x + Hlab. 81.5.\\x* njengomhlambi\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
