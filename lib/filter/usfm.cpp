@@ -292,16 +292,16 @@ vector <int> usfm_get_verse_numbers (string usfm)
 }
 
 
-// Returns the verse number in the string of $usfm code at line number $line_number.
-int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
+// Returns the verse numbers in the string of $usfm code at line number $line_number.
+vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 {
-  int verse_number = 0; // Initial verse number.
+  vector <int> verse_number = {0}; // Initial verse number.
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (i <= line_number) {
       vector <int> verse_numbers = usfm_get_verse_numbers (lines[i]);
       if (verse_numbers.size() >= 2) {
-        verse_number = verse_numbers[1];
+        verse_number = filter_string_array_diff (verse_numbers, {0});
       }
     }
   }
@@ -309,9 +309,9 @@ int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 }
 
 
-// Returns the verse number in the string of $usfm code at offset $offset.
+// Returns the verse numbers in the string of $usfm code at offset $offset.
 // Offset is calculated with unicode_string_length to support UTF-8.
-int usfm_offset_to_versenumber (string usfm, unsigned int offset)
+vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset)
 {
   unsigned int totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
@@ -324,7 +324,7 @@ int usfm_offset_to_versenumber (string usfm, unsigned int offset)
     // Add 1 for new line.
     totalOffset += 1;
   }
-  return 0;
+  return {0};
 }
 
 

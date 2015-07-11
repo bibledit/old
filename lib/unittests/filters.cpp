@@ -320,49 +320,83 @@ void test_filters_test2 ()
 void test_filters_test_usfm1 ()
 {
   {
-    string usfm = "\\id MIC";
-    evaluate (__LINE__, __func__, 0, usfm_linenumber_to_versenumber (usfm, 0));
-    usfm = "\\id MIC\n\\v 1 Verse";
-    evaluate (__LINE__, __func__, 1, usfm_linenumber_to_versenumber (usfm, 1));
-    usfm = "\\v 1 Verse";
-    evaluate (__LINE__, __func__, 1, usfm_linenumber_to_versenumber (usfm, 0));
-    usfm = "\\p\n\\v 3 Verse 3 (out of order).\n\\v 1 Verse 1. \n\\v 2 Verse 1.";
-    evaluate (__LINE__, __func__, 0, usfm_linenumber_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 3, usfm_linenumber_to_versenumber (usfm, 1));
-    evaluate (__LINE__, __func__, 1, usfm_linenumber_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, 2, usfm_linenumber_to_versenumber (usfm, 3));
+    string usfm =
+    "\\id MIC";
+    evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
+
+    usfm =
+    "\\id MIC\n"
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 1));
+
+    usfm =
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 0));
+    
+    usfm =
+    "\\p\n"
+    "\\v 3 Verse 3 (out of order).\n"
+    "\\v 1 Verse 1. \n"
+    "\\v 2 Verse 1.";
+    evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {3}, usfm_linenumber_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 2));
+    evaluate (__LINE__, __func__, {2}, usfm_linenumber_to_versenumber (usfm, 3));
+
+    usfm =
+    "\\id MIC\n"
+    "\\v 1-2 Verse";
+    evaluate (__LINE__, __func__, {1, 2}, usfm_linenumber_to_versenumber (usfm, 1));
 
     usfm = "\\id MIC";
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 17));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 17));
 
-    usfm = "\\id MIC\n\\v 1 Verse";
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 8));
+    usfm =
+    "\\id MIC\n"
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 8));
 
-    usfm = "\\v 1 Verse";
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 2));
+    usfm =
+    "\\id MIC\n"
+    "\\v 1-3 Verse";
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {1, 2, 3}, usfm_offset_to_versenumber (usfm, 8));
+    
+    usfm =
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 2));
 
-    usfm = "\\p\n\\v 3 Verse 3 (out of order).\n\\v 1 Verse 1.\n\\v 2 Verse 2.";
+    usfm =
+    "\\p\n"
+    "\\v 3 Verse 3 (out of order).\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.";
 
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 1));
 
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, 3, usfm_offset_to_versenumber (usfm, 3));
-    evaluate (__LINE__, __func__, 3, usfm_offset_to_versenumber (usfm, 4));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 2));
+    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 3));
+    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 4));
 
-    evaluate (__LINE__, __func__, 3, usfm_offset_to_versenumber (usfm, 31));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 32));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 33));
+    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 31));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 32));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 33));
 
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 45));
-    evaluate (__LINE__, __func__, 2, usfm_offset_to_versenumber (usfm, 46));
-    evaluate (__LINE__, __func__, 2, usfm_offset_to_versenumber (usfm, 47));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 45));
+    evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 46));
+    evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 47));
 
-    usfm = "\\p\n\\v 1 Verse 1.\n\\v 2 Verse 2.\n\\v 3 Verse 3.\n\\v 4-5 Verse 4 and 5.";
+    usfm =
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 4-5 Verse 4 and 5.";
     evaluate (__LINE__, __func__, 3, usfm_versenumber_to_offset (usfm, 1));
     evaluate (__LINE__, __func__, 17, usfm_versenumber_to_offset (usfm, 2));
     evaluate (__LINE__, __func__, 31, usfm_versenumber_to_offset (usfm, 3));
@@ -371,12 +405,39 @@ void test_filters_test_usfm1 ()
     evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
     evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
 
-    usfm = "\\p\n\\v 1 One";
+    usfm =
+    "\\p\n"
+    "\\v 1 One";
     evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
     evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0));
     evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2));
 
-    usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
+    usfm =
+    "\\c 1\n"
+    "\\s Isibingelelo\n"
+    "\\p\n"
+    "\\v 1 Umdala\n"
+    "\\p\n"
+    "\\v 2 Sithandwa\n"
+    "\\v 3 Ngoba\n"
+    "\\v 4 Kangilantokozo\n"
+    "\\s Inkathazo\n"
+    "\\p\n"
+    "\\v 5 Sithandwa\n"
+    "\\v 6 abafakazele\n"
+    "\\v 7 Ngoba\n"
+    "\\v 8 Ngakho\n"
+    "\\p\n"
+    "\\v 9 Ngabhalela\n"
+    "\\v 10 Ngakho\n"
+    "\\p\n"
+    "\\v 11 Sithandwa\n"
+    "\\v 12 NgoDemetriyu\n"
+    "\\s Isicino\n"
+    "\\p\n"
+    "\\v 13 Bengilezinto\n"
+    "\\v 14 kodwa\n"
+    "\\p Ukuthula";
     string result = "\\c 1\n\\s Isibingelelo\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
     result = "\\v 1 Umdala\n\\p";

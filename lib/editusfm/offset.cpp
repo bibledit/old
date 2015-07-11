@@ -45,18 +45,12 @@ string editusfm_offset (void * webserver_request)
   int chapter = convert_to_int (request->query ["chapter"]);
   int offset = convert_to_int (request->query ["offset"]);
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  int verse = usfm_offset_to_versenumber (usfm, offset);
-  // Only update navigation in case the verse changed.
+  vector <int> verses = usfm_offset_to_versenumber (usfm, offset);
+  // Only update navigation in case the verse differs.
   // This avoids unnecessary focus operations in the clients.
-  if (verse != Ipc_Focus::getVerse (request)) {
-    Ipc_Focus::set (request, book, chapter, verse);
+  if (!in_array (Ipc_Focus::getVerse (request), verses)) {
+    Ipc_Focus::set (request, book, chapter, verses[0]);
   }
-  //$startingOffset = usfm_versenumber_to_offset ($usfm, $verse);
-  //$endingOffset = usfm_versenumber_to_offset ($usfm, $verse + 1) - 1;
-  //$substring = unicode_string_substr ($usfm, 0, $offset);
-  //$lineNumber = unicode_string_substr_count ($substring, "\n");
-  //$data = array ("line" => $lineNumber);
-  //echo json_encode ($data);
   return "";
 }
 
