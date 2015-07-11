@@ -1778,7 +1778,7 @@ void test_client_logic ()
     // When a client is disabled in config.h, it remains disabled, no matter the setting in the database.
     // It means that this unit test depends on client mode to be off in ./configure.
     enabled = client_logic_client_enabled ();
-    evaluate (__LINE__, __func__, false, enabled);
+    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, false, enabled);
     client_logic_enable_client (false);
     enabled = client_logic_client_enabled ();
     evaluate (__LINE__, __func__, false, enabled);
