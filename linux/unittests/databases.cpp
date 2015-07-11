@@ -1199,32 +1199,6 @@ void test_database_ipc ()
     alive = database_ipc.getNotesAlive ();
     evaluate (__LINE__, __func__, convert_to_bool (message), alive);
   }
-  // Test Bible Alive.
-  {
-    refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
-    database_users.create ();
-    Webserver_Request request = Webserver_Request ();
-    Database_Ipc database_ipc = Database_Ipc (&request);
-    
-    string user = "phpunit";
-    request.session_logic ()->setUsername (user);
-    string channel = "channel";
-    string command = "biblealive";
-  
-    bool alive = database_ipc.getBibleAlive ();
-    evaluate (__LINE__, __func__, false, alive);
-  
-    string message = "1";
-    database_ipc.storeMessage (user, channel, command, message);
-    alive = database_ipc.getBibleAlive ();
-    evaluate (__LINE__, __func__, convert_to_bool (message), alive);
-  
-    message = "0";
-    database_ipc.storeMessage (user, channel, command, message);
-    alive = database_ipc.getBibleAlive ();
-    evaluate (__LINE__, __func__, convert_to_bool (message), alive);
-  }
 }
 
 

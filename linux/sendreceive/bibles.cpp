@@ -157,18 +157,15 @@ void sendreceive_bibles ()
           
           string checksum = Checksum_Logic::get (oldusfm + newusfm);
           
-          // It used to send the old and new USFM in compressed form.
-          // But the server failed to decompress it.
-          // That means that compression is not a good option.
-          
           // Generate a POST request.
           map <string, string> sendpost = post;
           sendpost ["a"]  = convert_to_string (Sync_Logic::bibles_send_chapter);
-          sendpost ["b"] = bible;
+          sendpost ["b"]  = bible;
           sendpost ["bk"] = convert_to_string (book);
-          sendpost ["c"] = convert_to_string (chapter);
-          sendpost ["o"]  = oldusfm;
-          sendpost ["n"]  = newusfm;
+          sendpost ["c"]  = convert_to_string (chapter);
+          // Safeguard the + signs that the server otherwise would remove.
+          sendpost ["o"]  = filter_url_plus_to_tag (oldusfm);
+          sendpost ["n"]  = filter_url_plus_to_tag (newusfm);
           sendpost ["s"]  = checksum;
           
           string error;

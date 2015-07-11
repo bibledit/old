@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/modifications.h>
 #include <config/globals.h>
+#include <config/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -306,11 +307,11 @@ void test_filters_test2 ()
     // Test http GET and POST
     string result, error;
     result = filter_url_http_get ("http://localhost/none", error);
-    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
     evaluate (__LINE__, __func__, "", result);
     map <string, string> values = {make_pair ("a", "value1"), make_pair ("b", "value2")};
     result = filter_url_http_post ("http://localhost/none", values, error);
-    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
     evaluate (__LINE__, __func__, "", result);
   }
 }

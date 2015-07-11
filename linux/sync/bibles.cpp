@@ -54,8 +54,10 @@ bool sync_bibles_acl (void * webserver_request)
 
 string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
 {
-  string oldusfm = request->post ["o"];
-  string newusfm = request->post ["n"];
+  // Convert the tags to plus signs, which the client had converted to tags,
+  // for safekeeping the + signs during transit.
+  string oldusfm = filter_url_tag_to_plus (request->post ["o"]);
+  string newusfm = filter_url_tag_to_plus (request->post ["n"]);
   string checksum = request->post ["s"];
 
   

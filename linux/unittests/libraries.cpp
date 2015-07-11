@@ -294,15 +294,15 @@ void test_checksum_logic ()
   // Send1
   {
     string data = "\\v Verse 1";
-    string checksum = Checksum_Logic::send (data);
-    string standard = "10\n" + data;
+    string checksum = Checksum_Logic::send (data, false);
+    string standard = "10\n0\n" + data;
     evaluate (__LINE__, __func__, standard, checksum);
   }
   // Send2
   {
     string data = "Line one\nLine 2\n";
-    string checksum = Checksum_Logic::send (data);
-    string standard = "16\n" + data;
+    string checksum = Checksum_Logic::send (data, true);
+    string standard = "16\n1\n" + data;
     evaluate (__LINE__, __func__, standard, checksum);
   }
   // Setup some data.
@@ -1392,54 +1392,6 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Missing Note Caller.
-  {
-    string standard_usfm =
-    "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.";
-
-    Webserver_Request request;
-    
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
-    
-    html = filter_string_str_replace ("+", " ", html);
-
-    Editor_Html2Usfm editor_export (&request);
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
-  }
-  // Missing Note Callers
-  {
-    string standard_usfm =
-    "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.\n"
-    "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.\n"
-    "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.\n"
-    "\\p The earth brought forth\\x + \\fk brought: \\fl Heb. \\fq explanation.\\x*.\n"
-    "\\p The earth brought forth\\fe + \\fk brought: \\fl Heb. \\fq explanation.\\fe*.";
-
-    Webserver_Request request;
-    
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
-    
-    html = filter_string_str_replace ("+", " ", html);
-    
-    Editor_Html2Usfm editor_export (&request);
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
-  }
   // Nested Text Markup 1
   {
     string usfm =
@@ -1824,8 +1776,9 @@ void test_client_logic ()
     evaluate (__LINE__, __func__, false, enabled);
     client_logic_enable_client (true);
     // When a client is disabled in config.h, it remains disabled, no matter the setting in the database.
+    // It means that this unit test depends on client mode to be off in ./configure.
     enabled = client_logic_client_enabled ();
-    evaluate (__LINE__, __func__, false, enabled);
+    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, false, enabled);
     client_logic_enable_client (false);
     enabled = client_logic_client_enabled ();
     evaluate (__LINE__, __func__, false, enabled);
