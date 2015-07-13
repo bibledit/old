@@ -349,32 +349,34 @@ int usfm_versenumber_to_offset (string usfm, int verse)
 }
 
 
-// Returns the verse text given a $verse_number and $usfm code.
+// Returns the verse text given a $verse_number and $usfm code. // Todo
 string usfm_get_verse_text (string usfm, int verse_number)
 {
-  // The start of the requested verse number.
-  string sverse = convert_to_string (verse_number);
-  size_t cleanPos = usfm.find ("\\v " + sverse + " ");
-  size_t dirtyPos = usfm.find ("\\v " + sverse);
-  size_t startPosition;
-  if (verse_number == 0) {
-    startPosition = 0;
-  } else if (cleanPos != string::npos) {
-    startPosition = cleanPos;
-  } else if (dirtyPos != string::npos) {
-    startPosition = dirtyPos;
-  } else {
-    // The verse number was not found.
-    return "";
+  vector <string> result;
+  bool hit = (verse_number == 0);
+
+  vector <string> lines = filter_string_explode (usfm, '\n');
+  for (string line : lines) {
+    vector <int> verses = usfm_get_verse_numbers (line);
+    if (verse_number == 0) {
+      if (verses.size () != 1) hit = false;
+      if (hit) result.push_back (line);
+    } else {
+      if (in_array (verse_number, verses)) {
+        // Desired verse found.
+        hit = true;
+      } else if (verses.size () == 1) {
+        // No verse found: No change in situation.
+      } else {
+        // Outside desired verse.
+        hit = false;
+      }
+      if (hit) result.push_back (line);
+    }
   }
-
-  // The end of the requested verse number.
-  size_t endPosition = usfm.find ("\\v", startPosition + 1);
-  if (endPosition == string::npos) endPosition = usfm.length ();
-
+  
   // Return the verse text.
-  string verseText = usfm.substr (startPosition, endPosition - startPosition);
-  verseText = filter_string_trim (verseText);
+  string verseText = filter_string_implode (result, "\n");
   return verseText;
 }
 

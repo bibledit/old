@@ -37,7 +37,7 @@ bool editusfm_focus_acl (void * webserver_request)
 }
 
 
-string editusfm_focus (void * webserver_request) // Todo next verse should give higher offset.
+string editusfm_focus (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string bible = request->query ["bible"];
@@ -47,9 +47,11 @@ string editusfm_focus (void * webserver_request) // Todo next verse should give 
   int verse = Ipc_Focus::getVerse (request);
   int startingOffset = usfm_versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;
-  for (unsigned int i = 1; i < 10; i++) {
+  // Todo perhaps to move this routine to filter usfm in case it is used more than once.
+  // The following deals with a situation of combined verses.
+  for (unsigned int i = 1; i < 25; i++) {
     if (startingOffset == endingOffset) {
-      endingOffset = usfm_versenumber_to_offset (usfm, verse + i); // Todo perhaps to move this routine to filter usfm in case it is used more than once.
+      endingOffset = usfm_versenumber_to_offset (usfm, verse + i);
       if (endingOffset > startingOffset) endingOffset--;
     }
   }

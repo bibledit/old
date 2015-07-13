@@ -444,6 +444,18 @@ void test_filters_test_usfm1 ()
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
     result = "\\v 12 NgoDemetriyu\n\\s Isicino\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12));
+    
+    usfm =
+    "\\v 1 Verse 1.\n"
+    "\\v 2-4 Verse 2, 3, and 4.\n"
+    "\\v 5 Verse 5.\n"
+    "\\v 6 Verse 6.";
+    result = usfm_get_verse_text (usfm, 2);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    result = usfm_get_verse_text (usfm, 3);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    result = usfm_get_verse_text (usfm, 4);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
   }
 }
 
