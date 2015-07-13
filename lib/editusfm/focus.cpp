@@ -37,7 +37,7 @@ bool editusfm_focus_acl (void * webserver_request)
 }
 
 
-string editusfm_focus (void * webserver_request)
+string editusfm_focus (void * webserver_request) // Todo next verse should give higher offset.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string bible = request->query ["bible"];
@@ -46,7 +46,14 @@ string editusfm_focus (void * webserver_request)
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   int verse = Ipc_Focus::getVerse (request);
   int startingOffset = usfm_versenumber_to_offset (usfm, verse);
-  int endingOffset = usfm_versenumber_to_offset (usfm, verse + 1) - 1;
+  int endingOffset = startingOffset;
+  for (unsigned int i = 1; i < 10; i++) {
+    if (startingOffset == endingOffset) {
+      endingOffset = usfm_versenumber_to_offset (usfm, verse + i); // Todo perhaps to move this routine to filter usfm in case it is used more than once.
+      if (endingOffset > startingOffset) endingOffset--;
+    }
+  }
+  cout << startingOffset << " " << endingOffset << endl; // Todo
   string data = convert_to_string (startingOffset) + " " + convert_to_string (endingOffset);
   return data;
 }
