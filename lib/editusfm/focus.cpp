@@ -53,7 +53,6 @@ string editusfm_focus (void * webserver_request) // Todo next verse should give 
       if (endingOffset > startingOffset) endingOffset--;
     }
   }
-  cout << startingOffset << " " << endingOffset << endl; // Todo
   string data = convert_to_string (startingOffset) + " " + convert_to_string (endingOffset);
   return data;
 }
