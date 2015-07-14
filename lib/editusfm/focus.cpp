@@ -47,8 +47,7 @@ string editusfm_focus (void * webserver_request)
   int verse = Ipc_Focus::getVerse (request);
   int startingOffset = usfm_versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;
-  // Todo perhaps to move this routine to filter usfm in case it is used more than once.
-  // The following deals with a situation of combined verses.
+  // The following deals with a combined verse.
   for (unsigned int i = 1; i < 25; i++) {
     if (startingOffset == endingOffset) {
       endingOffset = usfm_versenumber_to_offset (usfm, verse + i);

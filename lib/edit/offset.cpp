@@ -60,10 +60,10 @@ string edit_offset (void * webserver_request)
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   
-  Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
-  editor_import.load (usfm);
-  editor_import.stylesheet (stylesheet);
-  editor_import.run ();
+  Editor_Usfm2Html editor_usfm2html = Editor_Usfm2Html (request);
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.run ();
 
   
   int verse = -1;
@@ -71,11 +71,11 @@ string edit_offset (void * webserver_request)
   
   // The caret offset should be in the main text body.
   // If it is in a note body, skip the verse updating.
-  if (offset <= editor_import.textLength) {
+  if (offset <= editor_usfm2html.textLength) {
     // Look for the verse that matches the offset.
-    for (auto & item : editor_import.verseStartOffsets) {
-      int key = item.first;
-      size_t value = item.second;
+    for (auto & element : editor_usfm2html.verseStartOffsets) {
+      int key = element.first;
+      size_t value = element.second;
       if (offset >= value) {
         // A verse number was found.
         verse = key;
