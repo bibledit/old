@@ -72,7 +72,7 @@ string editverse_save (void * webserver_request)
   }
 
   
-  // Decode the + sign since it was encoded in javascript.
+  // Decode the + sign. It was encoded in javascript.
   usfm = filter_url_tag_to_plus (usfm);
 
   
@@ -100,7 +100,7 @@ string editverse_save (void * webserver_request)
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
   string oldText = request->database_bibles()->getChapter (bible, book, chapter);
   // Safely store the verse.
-  bool saved = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm); // Todo update routine. Unit tests for combined verses.
+  bool saved = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm);
   if (saved) {
     // Store details for the user's changes.
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);

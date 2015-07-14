@@ -349,7 +349,8 @@ int usfm_versenumber_to_offset (string usfm, int verse)
 }
 
 
-// Returns the verse text given a $verse_number and $usfm code. // Todo
+// Returns the verse text given a $verse_number and $usfm code.
+// Handles combined verses.
 string usfm_get_verse_text (string usfm, int verse_number)
 {
   vector <string> result;
@@ -786,6 +787,7 @@ bool usfm_safely_store_chapter (void * webserver_request, string bible, int book
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
+// It handles combined verses.
 bool usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -793,62 +795,66 @@ bool usfm_safely_store_verse (void * webserver_request, string bible, int book, 
   usfm = filter_string_trim (usfm);
 
   // Check that the USFM to be saved is for the correct verse.
-  vector <int> verses = usfm_get_verse_numbers (usfm);
-  if ((verse != 0) && !verses.empty ()) {
-    verses.erase (verses.begin());
+  vector <int> save_verses = usfm_get_verse_numbers (usfm);
+  if ((verse != 0) && !save_verses.empty ()) {
+    save_verses.erase (save_verses.begin());
   }
-  if (verses.empty ()) {
+  if (save_verses.empty ()) {
     Database_Logs::log ("The USFM contains no verse information: " + usfm);
     return false;
   }
-  if (verses.size () != 1) {
-    Database_Logs::log ("The USFM contains more than one verse: " + usfm);
-    return false;
-  }
-  int usfmverse = verses [0];
-  if (verse != usfmverse) {
-    Database_Logs::log ("The USFM contains verse " + convert_to_string (usfmverse) + ", which would overwrite existing verse " + convert_to_string (verse) + ": " + usfm);
+  if (!in_array (verse, save_verses)) {
+    vector <string> vss;
+    for (auto vs : save_verses) vss.push_back (convert_to_string (vs));
+    Database_Logs::log ("The USFM contains verse(s) " + filter_string_implode (vss, " ") + " while it wants to save to verse " + convert_to_string (verse) + ": " + usfm);
     return false;
   }
 
-  // Get the existing chapter USFM into a map of verse => USFM fragments.
-  string usfmString = request->database_bibles()->getChapter (bible, book, chapter);
-  verses = usfm_get_verse_numbers (usfmString);
-  {
-    set <int> unique (verses.begin(), verses.end());
-    verses.assign (unique.begin(), unique.end());
-  }
-  sort (verses.begin(), verses.end());
-  map <int, string> usfmMap;
-  for (auto vs : verses) {
-    usfmMap [vs] = usfm_get_verse_text (usfmString, vs);
-  }
+  // Get the existing chapter USFM.
+  string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
+  // Get the existing USFM fragment for the verse to save.
+  string existing_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+  existing_verse_usfm = filter_string_trim (existing_verse_usfm);
+  
+  // Check that there is a match between the existing verse numbers and the verse numbers to save.
+  vector <int> existing_verses = usfm_get_verse_numbers (existing_verse_usfm);
+  save_verses = usfm_get_verse_numbers (usfm);
+  bool verses_match = true;
+  if (save_verses.size () == existing_verses.size ()) {
+    for (unsigned int i = 0; i < save_verses.size (); i++) {
+      if (save_verses [i] != existing_verses [i]) verses_match = false;
+    }
+  } else {
+    verses_match = false;
+  }
+  if (!verses_match) {
+    vector <string> existing, save;
+    for (auto vs : existing_verses) existing.push_back (convert_to_string (vs));
+    for (auto vs : save_verses) save.push_back (convert_to_string (vs));
+    Database_Logs::log ("The USFM contains verse(s) " + filter_string_implode (save, " ") + " which would overwrite a fragment that contains verse(s) " + filter_string_implode (existing, " ") + ": " + usfm);
+    return false;
+  }
+
   // Bail out if the new USFM is the same as the existing.
-  if (usfm == usfmMap [verse]) {
+  if (usfm == existing_verse_usfm) {
     return true;
   }
-  
-  
+
   // Check maximum difference between new and existing USFM.
-  if (!usfm_save_is_safe (bible, usfmMap [verse], usfm, false)) {
+  if (!usfm_save_is_safe (bible, existing_verse_usfm, usfm, false)) {
     return false;
   }
   
-  
-  // Store the new verse USFM in the map.
-  usfmMap [verse] = usfm;
-  
-  
-  // Create the updated chapter USFM as a string.
-  usfm.clear ();
-  for (auto & element : usfmMap) {
-    if (!usfm.empty ()) usfm.append ("\n");
-    usfm.append (element.second);
-  }
-  
+  // Store the new verse USFM in the existing chapter USFM.
+  size_t pos = chapter_usfm.find (existing_verse_usfm);
+  size_t length = existing_verse_usfm.length ();
+  chapter_usfm.erase (pos, length);
+  chapter_usfm.insert (pos, usfm);
   
   // Safety checks have passed: Save chapter.
-  Bible_Logic::storeChapter (bible, book, chapter, usfm);
+  Bible_Logic::storeChapter (bible, book, chapter, chapter_usfm);
+
+  // Done: OK.
   return true;
 }
