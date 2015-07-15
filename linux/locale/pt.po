@@ -7,20 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-09 01:45+0200\n"
+"POT-Creation-Date: 2015-07-13 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-10 04:39+0000\n"
-"X-Generator: Launchpad (build 17608)\n"
-
-msgid "Language"
-msgstr ""
+"X-Launchpad-Export-Date: 2015-07-14 04:31+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 msgid "Set the language for Bibledit"
+msgstr ""
+
+msgid "Language"
 msgstr ""
 
 msgid "The language for Bibledit:"
@@ -1867,9 +1867,10 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-msgid ""
-"The passage has been opened in the existing Bible editor in another browser "
-"tab."
+msgid "The passage has been opened in the existing Bible editor"
+msgstr ""
+
+msgid "Open a Bible editor to edit the passage"
 msgstr ""
 
 msgid "Edit"
@@ -1903,6 +1904,9 @@ msgid "Nothing to save"
 msgstr ""
 
 msgid "Save failure"
+msgstr ""
+
+msgid "No write access"
 msgstr ""
 
 msgid "User tried to save something different from exactly one chapter."
@@ -1993,7 +1997,7 @@ msgstr ""
 msgid "Our own sample values are given below. Yours will be different."
 msgstr ""
 
-msgid "Name: Bible Translation"
+msgid "Name: Bibledit Cloud"
 msgstr ""
 
 msgid "Email address: bibletranslation@gmail.com"
@@ -8849,6 +8853,18 @@ msgid "Display subscribed notes that have been idle for a day."
 msgstr ""
 
 msgid "Display subscribed notes that have been idle for a week."
+msgstr ""
+
+msgid "The workbench configurations will work as expected on most devices."
+msgstr ""
+
+msgid "But on iOS the pages within the workbench do not scroll."
+msgstr ""
+
+msgid "Instead the pages take the full height."
+msgstr ""
+
+msgid "It may be needed to create workbenches specifically for iOS."
 msgstr ""
 
 msgid "This chapter of the target Bible contains cross references"

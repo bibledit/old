@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 01:45+0200\n"
+"POT-Creation-Date: 2015-07-15 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Language"
+msgid "Set the language for Bibledit"
 msgstr ""
 
-msgid "Set the language for Bibledit"
+msgid "Language"
 msgstr ""
 
 msgid "The language for Bibledit:"
@@ -8828,6 +8828,18 @@ msgid "Display subscribed notes that have been idle for a day."
 msgstr ""
 
 msgid "Display subscribed notes that have been idle for a week."
+msgstr ""
+
+msgid "The workbench configurations will work as expected on most devices."
+msgstr ""
+
+msgid "But on iOS the pages within the workbench do not scroll."
+msgstr ""
+
+msgid "Instead the pages take the full height."
+msgstr ""
+
+msgid "It may be needed to create workbenches specifically for iOS."
 msgstr ""
 
 msgid "This chapter of the target Bible contains cross references"

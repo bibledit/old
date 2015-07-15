@@ -97,15 +97,17 @@ function verseEditorLoadChapter ()
         // Checksumming.
         response = checksum_receive (response);
         if (response !== false) {
-          $ ("#usfmverseeditor").empty ();
-          $ ("#usfmverseeditor").append (response);
-          verseEditorStatus (verseEditorVerseLoaded);
-          verseLoadedText = response;
-          verseVerseLoaded = verseVerseLoading;
-          if (verseReload) {
-            positionCaret (verseCaretPosition);
+          if (response != verseLoadedText) {
+            $ ("#usfmverseeditor").empty ();
+            $ ("#usfmverseeditor").append (response);
+            verseEditorStatus (verseEditorVerseLoaded);
+            verseLoadedText = response;
+            verseVerseLoaded = verseVerseLoading;
+            if (verseReload) {
+              positionCaret (verseCaretPosition);
+            }
+            verseReload = false;
           }
-          verseReload = false;
         } else {
           // Checksum error: Reload.
           verseReload = true;

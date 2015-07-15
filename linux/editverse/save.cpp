@@ -72,7 +72,7 @@ string editverse_save (void * webserver_request)
   }
 
   
-  // Decode since it was encoded in javascript.
+  // Decode the + sign. It was encoded in javascript.
   usfm = filter_url_tag_to_plus (usfm);
 
   

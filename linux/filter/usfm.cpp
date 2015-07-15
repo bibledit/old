@@ -219,6 +219,13 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 
 
 // Returns an array with the verse numbers found in $usfm.
+// It handles a single verse, a range of verses, or a sequence of verses.
+// It locates separate whole verse numbers.
+// Examples:
+// 10
+// 10-12b
+// 10,11a
+// 10,12
 vector <int> usfm_get_verse_numbers (string usfm)
 {
   vector <int> verse_numbers = { 0 };
@@ -226,7 +233,55 @@ vector <int> usfm_get_verse_numbers (string usfm)
   bool extract_verse = false;
   for (string marker_or_text : markers_and_text) {
     if (extract_verse) {
-      verse_numbers.push_back (convert_to_int (marker_or_text));
+      string verse = usfm_peek_verse_number (marker_or_text);
+      
+      // If there is a range, take the beginning and the end and fill up in between.
+      if (verse.find("-") != string::npos) {
+        size_t position;
+        position = verse.find("-");
+        string start_range, end_range;
+        start_range = verse.substr (0, position);
+        verse.erase (0, ++position);
+        end_range = verse;
+        unsigned int start_verse_i = convert_to_int(number_in_string(start_range));
+        unsigned int end_verse_i = convert_to_int(number_in_string(end_range));
+        for (unsigned int i = start_verse_i; i <= end_verse_i; i++) {
+          if (i == start_verse_i)
+            verse_numbers.push_back (convert_to_int (start_range));
+          else if (i == end_verse_i)
+            verse_numbers.push_back (convert_to_int (end_range));
+          else
+            verse_numbers.push_back (i);
+        }
+      }
+      
+      // Else if there is a sequence, take each verse in the sequence, and store it.
+      else if (verse.find(",") != string::npos) {
+        int iterations = 0;
+        do {
+          // In case of an unusual range formation, do not hang, but give message.
+          iterations++;
+          if (iterations > 50) {
+            break;
+          }
+          size_t position = verse.find (",");
+          string vs;
+          if (position == string::npos) {
+            vs = verse;
+            verse.clear ();
+          } else {
+            vs = verse.substr (0, position);
+            verse.erase(0, ++position);
+          }
+          verse_numbers.push_back (convert_to_int (vs));
+        } while (!verse.empty());
+      }
+      
+      // No range and no sequence: a single verse.
+      else {
+        verse_numbers.push_back (convert_to_int (verse));
+      }
+      
       extract_verse = false;
     }
     if (marker_or_text.substr (0, 2) == "\\v") {
@@ -237,16 +292,16 @@ vector <int> usfm_get_verse_numbers (string usfm)
 }
 
 
-// Returns the verse number in the string of $usfm code at line number $line_number.
-int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
+// Returns the verse numbers in the string of $usfm code at line number $line_number.
+vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 {
-  int verse_number = 0; // Initial verse number.
+  vector <int> verse_number = {0}; // Initial verse number.
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (i <= line_number) {
       vector <int> verse_numbers = usfm_get_verse_numbers (lines[i]);
       if (verse_numbers.size() >= 2) {
-        verse_number = verse_numbers[1];
+        verse_number = filter_string_array_diff (verse_numbers, {0});
       }
     }
   }
@@ -254,9 +309,9 @@ int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 }
 
 
-// Returns the verse number in the string of $usfm code at offset $offset.
+// Returns the verse numbers in the string of $usfm code at offset $offset.
 // Offset is calculated with unicode_string_length to support UTF-8.
-int usfm_offset_to_versenumber (string usfm, unsigned int offset)
+vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset)
 {
   unsigned int totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
@@ -269,7 +324,7 @@ int usfm_offset_to_versenumber (string usfm, unsigned int offset)
     // Add 1 for new line.
     totalOffset += 1;
   }
-  return 0;
+  return {0};
 }
 
 
@@ -283,9 +338,9 @@ int usfm_versenumber_to_offset (string usfm, int verse)
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (string line : lines) {
     vector <int> verses = usfm_get_verse_numbers (line);
-    int v = 0;
-    if (!verses.empty()) v = verses [1];
-    if (v == verse) return totalOffset;
+    for (auto & v : verses) {
+      if (v == verse) return totalOffset;
+    }
     totalOffset += unicode_string_length (line);
     // Add 1 for new line.
     totalOffset += 1;
@@ -295,31 +350,34 @@ int usfm_versenumber_to_offset (string usfm, int verse)
 
 
 // Returns the verse text given a $verse_number and $usfm code.
+// Handles combined verses.
 string usfm_get_verse_text (string usfm, int verse_number)
 {
-  // The start of the requested verse number.
-  string sverse = convert_to_string (verse_number);
-  size_t cleanPos = usfm.find ("\\v " + sverse + " ");
-  size_t dirtyPos = usfm.find ("\\v " + sverse);
-  size_t startPosition;
-  if (verse_number == 0) {
-    startPosition = 0;
-  } else if (cleanPos != string::npos) {
-    startPosition = cleanPos;
-  } else if (dirtyPos != string::npos) {
-    startPosition = dirtyPos;
-  } else {
-    // The verse number was not found.
-    return "";
+  vector <string> result;
+  bool hit = (verse_number == 0);
+
+  vector <string> lines = filter_string_explode (usfm, '\n');
+  for (string line : lines) {
+    vector <int> verses = usfm_get_verse_numbers (line);
+    if (verse_number == 0) {
+      if (verses.size () != 1) hit = false;
+      if (hit) result.push_back (line);
+    } else {
+      if (in_array (verse_number, verses)) {
+        // Desired verse found.
+        hit = true;
+      } else if (verses.size () == 1) {
+        // No verse found: No change in situation.
+      } else {
+        // Outside desired verse.
+        hit = false;
+      }
+      if (hit) result.push_back (line);
+    }
   }
-
-  // The end of the requested verse number.
-  size_t endPosition = usfm.find ("\\v", startPosition + 1);
-  if (endPosition == string::npos) endPosition = usfm.length ();
-
+  
   // Return the verse text.
-  string verseText = usfm.substr (startPosition, endPosition - startPosition);
-  verseText = filter_string_trim (verseText);
+  string verseText = filter_string_implode (result, "\n");
   return verseText;
 }
 
@@ -729,6 +787,7 @@ bool usfm_safely_store_chapter (void * webserver_request, string bible, int book
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
+// It handles combined verses.
 bool usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -736,62 +795,66 @@ bool usfm_safely_store_verse (void * webserver_request, string bible, int book, 
   usfm = filter_string_trim (usfm);
 
   // Check that the USFM to be saved is for the correct verse.
-  vector <int> verses = usfm_get_verse_numbers (usfm);
-  if ((verse != 0) && !verses.empty ()) {
-    verses.erase (verses.begin());
+  vector <int> save_verses = usfm_get_verse_numbers (usfm);
+  if ((verse != 0) && !save_verses.empty ()) {
+    save_verses.erase (save_verses.begin());
   }
-  if (verses.empty ()) {
+  if (save_verses.empty ()) {
     Database_Logs::log ("The USFM contains no verse information: " + usfm);
     return false;
   }
-  if (verses.size () != 1) {
-    Database_Logs::log ("The USFM contains more than one verse: " + usfm);
-    return false;
-  }
-  int usfmverse = verses [0];
-  if (verse != usfmverse) {
-    Database_Logs::log ("The USFM contains verse " + convert_to_string (usfmverse) + ", which would overwrite existing verse " + convert_to_string (verse) + ": " + usfm);
+  if (!in_array (verse, save_verses)) {
+    vector <string> vss;
+    for (auto vs : save_verses) vss.push_back (convert_to_string (vs));
+    Database_Logs::log ("The USFM contains verse(s) " + filter_string_implode (vss, " ") + " while it wants to save to verse " + convert_to_string (verse) + ": " + usfm);
     return false;
   }
 
-  // Get the existing chapter USFM into a map of verse => USFM fragments.
-  string usfmString = request->database_bibles()->getChapter (bible, book, chapter);
-  verses = usfm_get_verse_numbers (usfmString);
-  {
-    set <int> unique (verses.begin(), verses.end());
-    verses.assign (unique.begin(), unique.end());
-  }
-  sort (verses.begin(), verses.end());
-  map <int, string> usfmMap;
-  for (auto vs : verses) {
-    usfmMap [vs] = usfm_get_verse_text (usfmString, vs);
-  }
+  // Get the existing chapter USFM.
+  string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
+  // Get the existing USFM fragment for the verse to save.
+  string existing_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+  existing_verse_usfm = filter_string_trim (existing_verse_usfm);
+  
+  // Check that there is a match between the existing verse numbers and the verse numbers to save.
+  vector <int> existing_verses = usfm_get_verse_numbers (existing_verse_usfm);
+  save_verses = usfm_get_verse_numbers (usfm);
+  bool verses_match = true;
+  if (save_verses.size () == existing_verses.size ()) {
+    for (unsigned int i = 0; i < save_verses.size (); i++) {
+      if (save_verses [i] != existing_verses [i]) verses_match = false;
+    }
+  } else {
+    verses_match = false;
+  }
+  if (!verses_match) {
+    vector <string> existing, save;
+    for (auto vs : existing_verses) existing.push_back (convert_to_string (vs));
+    for (auto vs : save_verses) save.push_back (convert_to_string (vs));
+    Database_Logs::log ("The USFM contains verse(s) " + filter_string_implode (save, " ") + " which would overwrite a fragment that contains verse(s) " + filter_string_implode (existing, " ") + ": " + usfm);
+    return false;
+  }
+
   // Bail out if the new USFM is the same as the existing.
-  if (usfm == usfmMap [verse]) {
+  if (usfm == existing_verse_usfm) {
     return true;
   }
-  
-  
+
   // Check maximum difference between new and existing USFM.
-  if (!usfm_save_is_safe (bible, usfmMap [verse], usfm, false)) {
+  if (!usfm_save_is_safe (bible, existing_verse_usfm, usfm, false)) {
     return false;
   }
   
-  
-  // Store the new verse USFM in the map.
-  usfmMap [verse] = usfm;
-  
-  
-  // Create the updated chapter USFM as a string.
-  usfm.clear ();
-  for (auto & element : usfmMap) {
-    if (!usfm.empty ()) usfm.append ("\n");
-    usfm.append (element.second);
-  }
-  
+  // Store the new verse USFM in the existing chapter USFM.
+  size_t pos = chapter_usfm.find (existing_verse_usfm);
+  size_t length = existing_verse_usfm.length ();
+  chapter_usfm.erase (pos, length);
+  chapter_usfm.insert (pos, usfm);
   
   // Safety checks have passed: Save chapter.
-  Bible_Logic::storeChapter (bible, book, chapter, usfm);
+  Bible_Logic::storeChapter (bible, book, chapter, chapter_usfm);
+
+  // Done: OK.
   return true;
 }
