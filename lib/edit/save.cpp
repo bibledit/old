@@ -32,6 +32,7 @@
 #include <locale/translate.h>
 #include <edit/logic.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string edit_save_url ()
@@ -121,7 +122,7 @@ string edit_save (void * webserver_request)
     if (server_usfm != ancestor_usfm) {
       // Prioritize the user's USFM.
       user_usfm = filter_merge_run (ancestor_usfm, server_usfm, user_usfm);
-      Database_Logs::log (translate ("Merging and saving chapter."));
+      Database_Logs::log (translate ("Merging chapter."));
     }
   }
   
@@ -130,9 +131,11 @@ string edit_save (void * webserver_request)
   
   if (!message.empty ()) return message;
 
-  // Store details for the user's changes.
-  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-  database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+  // In server configuration, store details for the user's changes.
+  if (!config_logic_client_prepared ()) {
+    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+  }
   
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");

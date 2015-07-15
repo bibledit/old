@@ -28,6 +28,7 @@
 #include <database/logs.h>
 #include <locale/translate.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string editverse_save_url ()
@@ -45,9 +46,6 @@ bool editverse_save_acl (void * webserver_request)
 string editverse_save (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-
-  
-  Database_Modifications database_modifications = Database_Modifications ();
 
   
   // Check on information about where to save the verse.
@@ -104,10 +102,13 @@ string editverse_save (void * webserver_request)
   // Safely store the verse.
   string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm);
   if (message.empty ()) {
-    // Store details for the user's changes.
-    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-    string newText = request->database_bibles()->getChapter (bible, book, chapter);
-    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+    // In server configuration, store details for the user's changes.
+    if (!config_logic_client_prepared ()) {
+      int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+      string newText = request->database_bibles()->getChapter (bible, book, chapter);
+      Database_Modifications database_modifications = Database_Modifications ();
+      database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+    }
     return translate("Saved");
   }
 

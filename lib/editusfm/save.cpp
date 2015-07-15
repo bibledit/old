@@ -30,6 +30,7 @@
 #include <locale/translate.h>
 #include <edit/logic.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string editusfm_save_url ()
@@ -89,10 +90,12 @@ string editusfm_save (void * webserver_request)
                 // Safely store the chapter.
                 string message = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
                 if (message.empty()) {
-                  // Store details for the user's changes.
-                  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-                  Database_Modifications database_modifications = Database_Modifications ();
-                  database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+                  // Server configuration: Store details for the user's changes.
+                  if (!config_logic_client_prepared ()) {
+                    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+                    Database_Modifications database_modifications = Database_Modifications ();
+                    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+                  }
                   // Store a copy of the USFM loaded in the editor for later reference.
                   storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
                   return translate("Saved");
