@@ -87,8 +87,8 @@ string editusfm_save (void * webserver_request)
               // Check on write access.
               if (access_bible_book_write (request, "", bible, book)) {
                 // Safely store the chapter.
-                bool saved = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
-                if (saved) {
+                string message = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
+                if (message.empty()) {
                   // Store details for the user's changes.
                   int newID = request->database_bibles()->getChapterId (bible, book, chapter);
                   Database_Modifications database_modifications = Database_Modifications ();
@@ -96,20 +96,19 @@ string editusfm_save (void * webserver_request)
                   // Store a copy of the USFM loaded in the editor for later reference.
                   storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
                   return translate("Saved");
-                } else {
-                  return translate("Not saved because of too many changes");
                 }
+                return message;
               } else {
                 return translate("No write access");
               }
             } else {
               Database_Logs::log ("The following data could not be saved and was discarded: " + chapter_data_to_save);
-              return translate("Save failure");
+              return translate("Passage mismatch");
             }
           }
         } else {
           Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
-          return translate("Save failure");
+          return translate("Needs Unicode");
         }
       } else {
         Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
@@ -122,5 +121,5 @@ string editusfm_save (void * webserver_request)
   } else {
     return translate("Nothing to save");
   }
-  return translate ("Server is confused");
+  return translate ("Confusing data");
 }

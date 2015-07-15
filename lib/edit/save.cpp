@@ -126,11 +126,9 @@ string edit_save (void * webserver_request)
   }
   
   // Safely store the chapter.
-  bool saved = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);
+  string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);
   
-  if (!saved) {
-    return translate("Not saved because of too many changes");
-  }
+  if (!message.empty ()) return message;
 
   // Store details for the user's changes.
   int newID = request->database_bibles()->getChapterId (bible, book, chapter);
