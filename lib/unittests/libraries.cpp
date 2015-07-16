@@ -864,8 +864,8 @@ void test_editor_roundtrip ()
     "<p class=\"mono\"><span>\\h </span><span>Header</span></p>"
     "<p class=\"mono\"><span>\\toc1 </span><span>The Book of Genesis</span></p>"
     "<p class=\"mono\"><span>\\cl </span><span>Chapter</span></p>"
-    "<p class=\"mono\"><span>\\cp </span><span>&#x2461;</span></p>"
-    "<p class=\"mono\"><span>\\cp </span><span>&#x2160;</span></p>";
+    "<p class=\"mono\"><span>\\cp </span><span>②</span></p>"
+    "<p class=\"mono\"><span>\\cp </span><span>Ⅰ</span></p>";
 
     Webserver_Request request;
     

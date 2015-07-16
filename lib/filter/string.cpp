@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <database/config/general.h>
 #include <config/logic.h>
+#include <codecvt>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -976,4 +977,49 @@ string html_tidy (string html)
 {
   html = filter_string_str_replace ("<", "\n<", html);
   return html;
+}
+
+
+// Converts elements from the HTML specification to the XML spec.
+string html2xml (string html)
+{
+  // HTML specification: <hr>, XML specification: <hr/>.
+  html = filter_string_str_replace ("<hr>", "<hr/>", html);
+
+  // HTML specification: <br>, XML specification: <br/>.
+  html = filter_string_str_replace ("<br>", "<br/>", html);
+
+  return html;
+}
+
+
+// Converts XML character entities, like e.g. "&#xB6;" to normal UTF-8 character, like e.g. "¶".
+string convert_xml_character_entities_to_characters (string data)
+{
+  bool keep_going = true;
+  int iterations = 0;
+  size_t pos1 = -1;
+  do {
+    iterations++;
+    pos1 = data.find ("&#x", pos1 + 1);
+    if (pos1 == string::npos) {
+      keep_going = false;
+      continue;
+    }
+    size_t pos2 = data.find (";", pos1);
+    if (pos2 == string::npos) {
+      keep_going = false;
+      continue;
+    }
+    string entity = data.substr (pos1 + 3, pos2 - pos1 - 3);
+    data.erase (pos1, pos2 - pos1 + 1);
+    int codepoint;
+    stringstream ss;
+    ss << hex << entity;
+    ss >> codepoint;
+    wstring_convert <codecvt_utf8 <char32_t>, char32_t> conv1;
+    string u8str = conv1.to_bytes (codepoint);
+    data.insert (pos1, u8str);
+  } while (keep_going & (iterations < 100000));
+  return data;
 }

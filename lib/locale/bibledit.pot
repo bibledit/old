@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-15 01:45+0200\n"
+"POT-Creation-Date: 2015-07-16 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1911,10 +1911,7 @@ msgstr ""
 msgid "Incorrect chapter"
 msgstr ""
 
-msgid "Merging and saving chapter."
-msgstr ""
-
-msgid "Not saved because of too many changes"
+msgid "Merging chapter."
 msgstr ""
 
 msgid "Saved"
@@ -1941,7 +1938,16 @@ msgstr ""
 msgid "Edit USFM"
 msgstr ""
 
-msgid "Server is confused"
+msgid "Merging and saving chapter."
+msgstr ""
+
+msgid "Passage mismatch"
+msgstr ""
+
+msgid "Needs Unicode"
+msgstr ""
+
+msgid "Confusing data"
 msgstr ""
 
 msgid "Mail"
@@ -2159,6 +2165,21 @@ msgid "Other information"
 msgstr ""
 
 msgid "Fallout"
+msgstr ""
+
+msgid "Text length differs too much"
+msgstr ""
+
+msgid "Text content differs too much"
+msgstr ""
+
+msgid "Missing verse number"
+msgstr ""
+
+msgid "Verse mismatch"
+msgstr ""
+
+msgid "Cannot overwrite another verse"
 msgstr ""
 
 msgid "Fonts"

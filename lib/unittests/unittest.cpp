@@ -279,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_store_bible_data (); exit (0);
+  // test_filter_string (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -344,6 +344,7 @@ int main (int argc, char **argv)
   test_check_usfm ();
   test_filter_url  ();
   test_hyphenate ();
+  test_filter_string ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

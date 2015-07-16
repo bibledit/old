@@ -4425,4 +4425,18 @@ void test_filter_url ()
 }
 
 
+void test_filter_string ()
+{
+  string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
+  string output = convert_xml_character_entities_to_characters (input);
+  string standard = filter_string_str_replace ("&#xB6;", "¶", input);
+  evaluate (__LINE__, __func__, standard, output);
+
+  input = "<span>Praise the LORD &#x5D0; all you nations</span>";
+  output = convert_xml_character_entities_to_characters (input);
+  standard = filter_string_str_replace ("&#x5D0;", "א", input);
+  evaluate (__LINE__, __func__, standard, output);
+}
+
+
 #endif
