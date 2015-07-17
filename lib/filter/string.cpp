@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <database/config/general.h>
 #include <config/logic.h>
-#include <codecvt>
+// #include <codecvt>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -994,7 +994,7 @@ string html2xml (string html)
 
 
 // Converts XML character entities, like e.g. "&#xB6;" to normal UTF-8 character, like e.g. "¶".
-string convert_xml_character_entities_to_characters (string data)
+string convert_xml_character_entities_to_characters (string data) // Todo
 {
   bool keep_going = true;
   int iterations = 0;
@@ -1017,8 +1017,21 @@ string convert_xml_character_entities_to_characters (string data)
     stringstream ss;
     ss << hex << entity;
     ss >> codepoint;
-    wstring_convert <codecvt_utf8 <char32_t>, char32_t> conv1;
-    string u8str = conv1.to_bytes (codepoint);
+    
+    // The following is not available in GNU libstdc++.
+    // wstring_convert <codecvt_utf8 <char32_t>, char32_t> conv1;
+    // string u8str = conv1.to_bytes (codepoint);
+    
+    int cp = codepoint;
+    // Adapted from: http://www.zedwood.com/article/cpp-utf8-char-to-codepoint.
+    char c[5]={ 0x00,0x00,0x00,0x00,0x00 };
+    if     (cp<=0x7F) { c[0] = cp;  }
+    else if(cp<=0x7FF) { c[0] = (cp>>6)+192; c[1] = (cp&63)+128; }
+    else if(0xd800<=cp && cp<=0xdfff) {} //invalid block of utf8
+    else if(cp<=0xFFFF) { c[0] = (cp>>12)+224; c[1]= ((cp>>6)&63)+128; c[2]=(cp&63)+128; }
+    else if(cp<=0x10FFFF) { c[0] = (cp>>18)+240; c[1] = ((cp>>12)&63)+128; c[2] = ((cp>>6)&63)+128; c[3]=(cp&63)+128; }
+    string u8str = string (c);
+    
     data.insert (pos1, u8str);
   } while (keep_going & (iterations < 100000));
   return data;
