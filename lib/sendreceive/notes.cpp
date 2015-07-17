@@ -68,6 +68,7 @@ void sendreceive_notes ()
     if (time < (sendreceive_notes_watchdog + 900)) {
       return;
     }
+    Database_Logs::log (sendreceive_notes_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
 
   sendreceive_notes_kick_watchdog ();

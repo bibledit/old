@@ -73,6 +73,7 @@ void sendreceive_bibles ()
     if (time < (sendreceive_bibles_watchdog + 900)) {
       return;
     }
+    Database_Logs::log (sendreceive_bibles_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_bibles_kick_watchdog ();
 

@@ -69,6 +69,7 @@ void sendreceive_changes ()
     if (time < (sendreceive_changes_watchdog + 900)) {
       return;
     }
+    Database_Logs::log (sendreceive_changes_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_changes_kick_watchdog ();
 

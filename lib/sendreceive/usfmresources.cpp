@@ -71,6 +71,7 @@ void sendreceive_usfmresources ()
     if (time < (sendreceive_usfmresources_watchdog + 900)) {
       return;
     }
+    Database_Logs::log (sendreceive_usfmresources_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_usfmresources_kick_watchdog ();
   

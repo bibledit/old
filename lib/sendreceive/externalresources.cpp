@@ -71,6 +71,7 @@ void sendreceive_externalresources ()
     if (time < (sendreceive_externalresources_watchdog + 900)) {
       return;
     }
+    Database_Logs::log (sendreceive_externalresources_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_externalresources_kick_watchdog ();
   

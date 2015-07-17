@@ -69,6 +69,7 @@ void sendreceive_settings ()
     if (time < (sendreceive_settings_watchdog + 900)) {
       return;
     }
+    Database_Logs::log ("Settings: " + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_settings_kick_watchdog ();
   
