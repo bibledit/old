@@ -994,7 +994,7 @@ string html2xml (string html)
 
 
 // Converts XML character entities, like e.g. "&#xB6;" to normal UTF-8 character, like e.g. "¶".
-string convert_xml_character_entities_to_characters (string data) // Todo
+string convert_xml_character_entities_to_characters (string data)
 {
   bool keep_going = true;
   int iterations = 0;

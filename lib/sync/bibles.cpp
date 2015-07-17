@@ -131,7 +131,6 @@ string sync_bibles (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
-  this_thread::sleep_for (chrono::seconds (2000)); // Todo testing sendreceive_bibles watchdog works.
 
   // Check on the credentials.
   if (!sync_logic.credentials_okay ()) return "";

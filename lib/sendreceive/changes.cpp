@@ -67,6 +67,7 @@ void sendreceive_changes ()
   if (sendreceive_changes_watchdog) {
     int time = filter_date_seconds_since_epoch ();
     if (time < (sendreceive_changes_watchdog + 900)) {
+      Database_Logs::log (sendreceive_changes_text () + translate("Still busy"), Filter_Roles::translator ());
       return;
     }
     Database_Logs::log (sendreceive_changes_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
@@ -269,7 +270,7 @@ void sendreceive_changes ()
 }
 
 
-void sendreceive_changes_kick_watchdog () // Todo test well.
+void sendreceive_changes_kick_watchdog ()
 {
   sendreceive_changes_watchdog = filter_date_seconds_since_epoch ();
 }

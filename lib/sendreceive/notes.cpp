@@ -66,6 +66,7 @@ void sendreceive_notes ()
   if (sendreceive_notes_watchdog) {
     int time = filter_date_seconds_since_epoch ();
     if (time < (sendreceive_notes_watchdog + 900)) {
+      Database_Logs::log (sendreceive_notes_text () + translate("Still busy"), Filter_Roles::translator ());
       return;
     }
     Database_Logs::log (sendreceive_notes_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
@@ -585,7 +586,7 @@ void sendreceive_notes_download (int lowId, int highId)
 }
 
 
-void sendreceive_notes_kick_watchdog () // Todo test it.
+void sendreceive_notes_kick_watchdog ()
 {
   sendreceive_notes_watchdog = filter_date_seconds_since_epoch ();
 }
