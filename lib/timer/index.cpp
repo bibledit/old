@@ -158,7 +158,7 @@ void timer_index ()
       }
       
       // Sprint burndown.
-      // It runs every hour.
+      // It runs every hour in the Cloud.
       // The script itself determines what to do at which hour of the day or day of the week or day of the month.
       if (!client) {
         if (minute == 5) {

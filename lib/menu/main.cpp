@@ -225,7 +225,9 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
 vector <Menu_Main_Item> * Menu_Main::planningmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (sprint_index_acl (webserver_request)) menu->push_back ( { "", sprint_index_url (), translate ("Sprint"), NULL } );
+  if (!config_logic_client_prepared ()) {
+    if (sprint_index_acl (webserver_request)) menu->push_back ( { "", sprint_index_url (), translate ("Sprint"), NULL } );
+  }
   if (menu->size ()) return menu;
   delete menu;
   return NULL;
