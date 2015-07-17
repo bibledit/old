@@ -123,6 +123,8 @@ public:
   void setWorkbenchWidths (string value);
   string getWorkbenchHeights ();
   void setWorkbenchHeights (string value);
+  string getEntireWorkbenchWidths ();
+  void setEntireWorkbenchWidths (string value);
   string getActiveWorkbench ();
   void setActiveWorkbench (string value);
   bool getPostponeNewNotesMails ();

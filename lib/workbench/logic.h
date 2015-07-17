@@ -33,11 +33,13 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
 void workbenchSetURLs (void * webserver_request, const map <int, string> & values);
 void workbenchSetWidths (void * webserver_request, const map <int, string> & values);
 void workbenchSetHeights (void * webserver_request, const map <int, string> & values);
+void workbenchSetEntireWidth (void * webserver_request, string value);
 map <int, string> workbenchGetValues (void * webserver_request, int selector, bool use);
 map <int, string> workbenchGetURLs (void * webserver_request, bool use);
 map <int, string> workbenchGetWidths (void * webserver_request);
 map <int, string> workbenchGetHeights (void * webserver_request);
 vector <string> workbenchGetWorkbenches (void * webserver_request);
+string workbenchGetEntireWidth (void * webserver_request);
 void workbenchDeleteWorkbench (void * webserver_request, string workbench);
 void workbenchOrderWorkbenches (void * webserver_request, const vector <string> & workbenches);
 void workbenchCacheForCloud (void * webserver_request, bool urls, bool widths, bool heights);

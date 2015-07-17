@@ -678,6 +678,16 @@ void Database_Config_User::setWorkbenchHeights (string value)
 }
 
 
+string Database_Config_User::getEntireWorkbenchWidths ()
+{
+  return getValue ("entire-workbench-widths", "");
+}
+void Database_Config_User::setEntireWorkbenchWidths (string value)
+{
+  setValue ("entire-workbench-widths", value);
+}
+
+
 string Database_Config_User::getActiveWorkbench ()
 {
   return getValue ("active-workbench", "");
