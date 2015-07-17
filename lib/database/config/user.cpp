@@ -884,3 +884,22 @@ void Database_Config_User::setLiveBibleEditor (int time)
   setIValue ("live-bible-editor", time);
 }
 
+
+int Database_Config_User::getResourceVersesBefore ()
+{
+  return getIValue ("resource-verses-before", 0);
+}
+void Database_Config_User::setResourceVersesBefore (int verses)
+{
+  setIValue ("resource-verses-before", verses);
+}
+
+
+int Database_Config_User::getResourceVersesAfter ()
+{
+  return getIValue ("resource-verses-after", 0);
+}
+void Database_Config_User::setResourceVersesAfter (int verses)
+{
+  setIValue ("resource-verses-after", verses);
+}

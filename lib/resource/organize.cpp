@@ -28,6 +28,7 @@
 #include <locale/translate.h>
 #include <resource/logic.h>
 #include <sync/logic.h>
+#include <dialog/entry.h>
 
 
 string resource_organize_url ()
@@ -100,6 +101,36 @@ string resource_organize (void * webserver_request)
     selectablesblock.append ("<a href=\"?add=" + selectable + "\">" + selectable + "</a>");
   }
   view.set_variable ("selectablesblock", selectablesblock);
+  
+  
+  // Context before.
+  if (request->query.count ("before")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), convert_to_string (request->database_config_user ()->getResourceVersesBefore ()), "before", translate ("How many verses of context to display before the focused verse."));
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("before")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 0) && (value <= 100)) {
+      request->database_config_user ()->setResourceVersesBefore (value);
+    }
+  }
+  view.set_variable ("before", convert_to_string (request->database_config_user ()->getResourceVersesBefore ()));
+
+  
+  // Context after.
+  if (request->query.count ("after")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), convert_to_string (request->database_config_user ()->getResourceVersesAfter ()), "after", translate ("How many verses of context to display after the focused verse."));
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("after")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 0) && (value <= 100)) {
+      request->database_config_user ()->setResourceVersesAfter (value);
+    }
+  }
+  view.set_variable ("after", convert_to_string (request->database_config_user ()->getResourceVersesAfter ()));
   
   
   page += view.render ("resource", "organize");

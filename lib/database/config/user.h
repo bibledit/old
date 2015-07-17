@@ -161,6 +161,10 @@ public:
   void setUserChangeNotificationsChecksum (string user, string value);
   void setLiveBibleEditor (int time);
   int getLiveBibleEditor ();
+  void setResourceVersesBefore (int verses);
+  int getResourceVersesBefore ();
+  void setResourceVersesAfter (int verses);
+  int getResourceVersesAfter ();
 private:
   void * webserver_request;
   string file (string user, const char * key);
