@@ -22,6 +22,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/merge.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <client/logic.h>
@@ -36,15 +37,12 @@
 #include <database/books.h>
 
 
-mutex mutex_sendreceive_usfmresources;
-bool sendreceive_usfmresources_running = false;
+int sendreceive_usfmresources_watchdog = 0;
 
 
 void sendreceive_usfmresources_done ()
 {
-  mutex_sendreceive_usfmresources.lock ();
-  sendreceive_usfmresources_running = false;
-  mutex_sendreceive_usfmresources.unlock ();
+  sendreceive_usfmresources_watchdog = 0;
 }
 
 
@@ -68,13 +66,13 @@ string sendreceive_usfmresources_up_to_date_text ()
 
 void sendreceive_usfmresources ()
 {
-  mutex_sendreceive_usfmresources.lock ();
-  bool bail_out = sendreceive_usfmresources_running;
-  mutex_sendreceive_usfmresources.unlock ();
-  if (bail_out) return;
-  mutex_sendreceive_usfmresources.lock ();
-  sendreceive_usfmresources_running = true;
-  mutex_sendreceive_usfmresources.unlock ();
+  if (sendreceive_usfmresources_watchdog) {
+    int time = filter_date_seconds_since_epoch ();
+    if (time < (sendreceive_usfmresources_watchdog + 900)) {
+      return;
+    }
+  }
+  sendreceive_usfmresources_kick_watchdog ();
   
   
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
@@ -228,6 +226,9 @@ void sendreceive_usfmresources ()
       for (auto & chapter : server_chapters) {
 
         
+        sendreceive_usfmresources_kick_watchdog ();
+
+        
         // Get the checksum of the chapter as it is on the server.
         post ["a"] = convert_to_string (Sync_Logic::usfmresources_get_chapter_checksum);
         post ["r"] = resource;
@@ -265,4 +266,10 @@ void sendreceive_usfmresources ()
   // Done.
   Database_Logs::log (sendreceive_usfmresources_text () + "Now up to date", Filter_Roles::translator ());
   sendreceive_usfmresources_done ();
+}
+
+
+void sendreceive_usfmresources_kick_watchdog () // Todo test it.
+{
+  sendreceive_usfmresources_watchdog = filter_date_seconds_since_epoch ();
 }

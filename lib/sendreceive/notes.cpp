@@ -584,7 +584,7 @@ void sendreceive_notes_download (int lowId, int highId)
 }
 
 
-void sendreceive_notes_kick_watchdog ()
+void sendreceive_notes_kick_watchdog () // Todo test it.
 {
   sendreceive_notes_watchdog = filter_date_seconds_since_epoch ();
 }

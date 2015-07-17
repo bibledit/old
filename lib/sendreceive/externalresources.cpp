@@ -22,6 +22,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/merge.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <client/logic.h>
@@ -36,15 +37,12 @@
 #include <database/books.h>
 
 
-mutex mutex_sendreceive_externalresources;
-bool sendreceive_externalresources_running = false;
+int sendreceive_externalresources_watchdog = 0;
 
 
 void sendreceive_externalresources_done ()
 {
-  mutex_sendreceive_externalresources.lock ();
-  sendreceive_externalresources_running = false;
-  mutex_sendreceive_externalresources.unlock ();
+  sendreceive_externalresources_watchdog = 0;
 }
 
 
@@ -68,13 +66,13 @@ string sendreceive_externalresources_up_to_date_text ()
 
 void sendreceive_externalresources ()
 {
-  mutex_sendreceive_externalresources.lock ();
-  bool bail_out = sendreceive_externalresources_running;
-  mutex_sendreceive_externalresources.unlock ();
-  if (bail_out) return;
-  mutex_sendreceive_externalresources.lock ();
-  sendreceive_externalresources_running = true;
-  mutex_sendreceive_externalresources.unlock ();
+  if (sendreceive_externalresources_watchdog) {
+    int time = filter_date_seconds_since_epoch ();
+    if (time < (sendreceive_externalresources_watchdog + 900)) {
+      return;
+    }
+  }
+  sendreceive_externalresources_kick_watchdog ();
   
   
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
@@ -195,6 +193,9 @@ void sendreceive_externalresources ()
       }
 
       
+      sendreceive_externalresources_kick_watchdog ();
+
+      
       // Download the file from the server, and store it locally on the client.
       Database_Logs::log (sendreceive_externalresources_text () + "Downloading " + resource + " " + file, Filter_Roles::translator ());
       // Create directory by saving empty file.
@@ -226,4 +227,10 @@ void sendreceive_externalresources ()
   // Done.
   Database_Logs::log (sendreceive_externalresources_text () + "Now up to date", Filter_Roles::translator ());
   sendreceive_externalresources_done ();
+}
+
+
+void sendreceive_externalresources_kick_watchdog () // Todo test it.
+{
+  sendreceive_externalresources_watchdog = filter_date_seconds_since_epoch ();
 }

@@ -22,6 +22,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/merge.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
@@ -38,15 +39,12 @@
 #include <bible/logic.h>
 
 
-mutex mutex_sendreceive_bibles;
-bool sendreceive_bibles_running = false;
+int sendreceive_bibles_watchdog = 0;
 
 
 void send_receive_bibles_done ()
 {
-  mutex_sendreceive_bibles.lock ();
-  sendreceive_bibles_running = false;
-  mutex_sendreceive_bibles.unlock ();
+  sendreceive_bibles_watchdog = 0;
 }
 
 
@@ -70,13 +68,13 @@ string sendreceive_bibles_up_to_date_text ()
 
 void sendreceive_bibles ()
 {
-  mutex_sendreceive_bibles.lock ();
-  bool bail_out = sendreceive_bibles_running;
-  mutex_sendreceive_bibles.unlock ();
-  if (bail_out) return;
-  mutex_sendreceive_bibles.lock ();
-  sendreceive_bibles_running = true;
-  mutex_sendreceive_bibles.unlock ();
+  if (sendreceive_bibles_watchdog) {
+    int time = filter_date_seconds_since_epoch ();
+    if (time < (sendreceive_bibles_watchdog + 900)) {
+      return;
+    }
+  }
+  sendreceive_bibles_kick_watchdog ();
 
   
   Database_Logs::log (sendreceive_bibles_sendreceive_text (), Filter_Roles::translator ());
@@ -138,6 +136,8 @@ void sendreceive_bibles ()
       vector <int> chapters = database_bibleactions.getChapters (bible, book);
       for (int chapter : chapters) {
         
+        sendreceive_bibles_kick_watchdog ();
+
         string bookname = Database_Books::getEnglishFromId (book);
         Database_Logs::log (sendreceive_bibles_text () + translate("Sending to server") + ": " + bible + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::translator ());
         
@@ -403,6 +403,9 @@ void sendreceive_bibles ()
           continue;
         }
         
+        
+        sendreceive_bibles_kick_watchdog ();
+
 
         // Different checksums: Get the USFM for the chapter as it is on the server.
         Database_Logs::log (sendreceive_bibles_text () + translate("Getting chapter:") + " " + bible + " " + book_name + " " + convert_to_string (chapter), Filter_Roles::translator ());
@@ -452,4 +455,10 @@ void sendreceive_bibles ()
   // Done.
   Database_Logs::log (sendreceive_bibles_text () + "Ready", Filter_Roles::translator ());
   send_receive_bibles_done ();
+}
+
+
+void sendreceive_bibles_kick_watchdog () // Todo test it.
+{
+  sendreceive_bibles_watchdog = filter_date_seconds_since_epoch ();
 }

@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
@@ -34,15 +35,12 @@
 #include <checksum/logic.h>
 
 
-mutex mutex_sendreceive_changes;
-bool sendreceive_changes_running = false;
+int sendreceive_changes_watchdog = 0;
 
 
 void send_receive_changes_done ()
 {
-  mutex_sendreceive_changes.lock ();
-  sendreceive_changes_running = false;
-  mutex_sendreceive_changes.unlock ();
+  sendreceive_changes_watchdog = 0;
 }
 
 
@@ -66,13 +64,13 @@ string sendreceive_changes_up_to_date_text ()
 
 void sendreceive_changes ()
 {
-  mutex_sendreceive_changes.lock ();
-  bool bail_out = sendreceive_changes_running;
-  mutex_sendreceive_changes.unlock ();
-  if (bail_out) return;
-  mutex_sendreceive_changes.lock ();
-  sendreceive_changes_running = true;
-  mutex_sendreceive_changes.unlock ();
+  if (sendreceive_changes_watchdog) {
+    int time = filter_date_seconds_since_epoch ();
+    if (time < (sendreceive_changes_watchdog + 900)) {
+      return;
+    }
+  }
+  sendreceive_changes_kick_watchdog ();
 
   
   Database_Logs::log (sendreceive_changes_sendreceive_text (), Filter_Roles::translator ());
@@ -207,6 +205,7 @@ void sendreceive_changes ()
   // Any identifiers on the server, but not on the client, download them from the server.
   vector <int> download_identifiers = filter_string_array_diff (server_identifiers, client_identifiers);
   for (auto & id : download_identifiers) {
+    sendreceive_changes_kick_watchdog ();
     Database_Logs::log (sendreceive_changes_text () + "Downloading notification: " + convert_to_string (id), Filter_Roles::translator ());
     post ["a"] = convert_to_string (Sync_Logic::changes_get_modification);
     post ["i"] = convert_to_string (id);
@@ -266,4 +265,10 @@ void sendreceive_changes ()
   // Done.
   Database_Logs::log (sendreceive_changes_text () + "Ready", Filter_Roles::translator ());
   send_receive_changes_done ();
+}
+
+
+void sendreceive_changes_kick_watchdog () // Todo test well.
+{
+  sendreceive_changes_watchdog = filter_date_seconds_since_epoch ();
 }

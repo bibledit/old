@@ -27,6 +27,7 @@
 string sendreceive_externalresources_sendreceive_text ();
 string sendreceive_externalresources_up_to_date_text ();
 void sendreceive_externalresources ();
+void sendreceive_externalresources_kick_watchdog ();
 
 
 #endif
