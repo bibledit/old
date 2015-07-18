@@ -107,7 +107,7 @@
 #define PARATEXT "no"
 
 /* Define the path to the shared external resources cache */
-#define RESOURCES_PATH ""
+#define RESOURCES_PATH "/tmp/resources"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
