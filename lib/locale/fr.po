@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-15 01:45+0200\n"
+"POT-Creation-Date: 2015-07-16 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-16 04:30+0000\n"
+"X-Launchpad-Export-Date: 2015-07-17 04:31+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
 msgid "Set the language for Bibledit"
@@ -1915,10 +1915,7 @@ msgstr ""
 msgid "Incorrect chapter"
 msgstr ""
 
-msgid "Merging and saving chapter."
-msgstr ""
-
-msgid "Not saved because of too many changes"
+msgid "Merging chapter."
 msgstr ""
 
 msgid "Saved"
@@ -1945,7 +1942,16 @@ msgstr ""
 msgid "Edit USFM"
 msgstr ""
 
-msgid "Server is confused"
+msgid "Merging and saving chapter."
+msgstr ""
+
+msgid "Passage mismatch"
+msgstr ""
+
+msgid "Needs Unicode"
+msgstr ""
+
+msgid "Confusing data"
 msgstr ""
 
 msgid "Mail"
@@ -2163,6 +2169,21 @@ msgid "Other information"
 msgstr ""
 
 msgid "Fallout"
+msgstr ""
+
+msgid "Text length differs too much"
+msgstr ""
+
+msgid "Text content differs too much"
+msgstr ""
+
+msgid "Missing verse number"
+msgstr ""
+
+msgid "Verse mismatch"
+msgstr ""
+
+msgid "Cannot overwrite another verse"
 msgstr ""
 
 msgid "Fonts"

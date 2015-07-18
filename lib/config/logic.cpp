@@ -113,3 +113,10 @@ bool config_logic_paratext_enabled ()
 #endif
   return false;
 }
+
+
+// Define the path for the shared external resources cache.
+string config_logic_external_resources_cache_path () // Todo
+{
+  return RESOURCES_PATH;
+}

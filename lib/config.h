@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "yes"
+#define CLIENT "no"
 
 /* Define whether it is a client installation */
-#define CLIENT_PREPARED 1
+/* #undef CLIENT_PREPARED */
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -71,7 +71,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-#define HAVE_UNITTESTS 1
+/* #undef HAVE_UNITTESTS */
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -89,7 +89,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.189"
+#define PACKAGE_STRING "bibledit 1.0.190"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -98,13 +98,16 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.189"
+#define PACKAGE_VERSION "1.0.190"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
 
 /* Define whether Paratext synchronization is enabled */
 #define PARATEXT "no"
+
+/* Define the path for the shared external resources cache */
+#define RESOURCES_PATH ""
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -113,10 +116,10 @@
 #define TINYJOURNAL "no"
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "yes"
+#define UNITTESTS "no"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.189"
+#define VERSION "1.0.190"

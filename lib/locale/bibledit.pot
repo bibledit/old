@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 01:45+0200\n"
+"POT-Creation-Date: 2015-07-18 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7364,6 +7364,15 @@ msgstr ""
 msgid "Progress will be visible in the Journal."
 msgstr ""
 
+msgid "Please enter the number of verses"
+msgstr ""
+
+msgid "How many verses of context to display before the focused verse."
+msgstr ""
+
+msgid "How many verses of context to display after the focused verse."
+msgstr ""
+
 msgid "Resource Organizer"
 msgstr ""
 
@@ -7538,6 +7547,12 @@ msgid "Send/receive"
 msgstr ""
 
 msgid "Up to date"
+msgstr ""
+
+msgid "Still busy"
+msgstr ""
+
+msgid "Watchdog timeout"
 msgstr ""
 
 msgid "Failure to initiate connection"
@@ -8743,6 +8758,9 @@ msgstr ""
 msgid "Bottom row"
 msgstr ""
 
+msgid "width"
+msgstr ""
+
 msgid "Samples"
 msgstr ""
 
@@ -8870,6 +8888,17 @@ msgid "Instead the pages take the full height."
 msgstr ""
 
 msgid "It may be needed to create workbenches specifically for iOS."
+msgstr ""
+
+msgid "You can set the width of the entire workbench."
+msgstr ""
+
+msgid ""
+"By setting the width wider than the screen, the workbench can be scrolled "
+"horizontally."
+msgstr ""
+
+msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
 
 msgid "This chapter of the target Bible contains cross references"

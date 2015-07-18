@@ -105,6 +105,9 @@
 /* Define whether Paratext synchronization is enabled */
 #undef PARATEXT
 
+/* Define the path for the shared external resources cache */
+#undef RESOURCES_PATH
+
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
