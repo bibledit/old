@@ -115,7 +115,7 @@ bool config_logic_paratext_enabled ()
 }
 
 
-// Define the path for the shared external resources cache.
+// Define the path to the shared external resources cache.
 string config_logic_external_resources_cache_path () // Todo
 {
   return RESOURCES_PATH;

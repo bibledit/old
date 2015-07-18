@@ -221,7 +221,7 @@ AC_ARG_WITH(resources-path,
 [ RESOURCES_PATH=$withval ],
 [ RESOURCES_PATH= ]
 )
-AC_DEFINE([RESOURCES_PATH], [], [Define the path for the shared external resources cache])
+AC_DEFINE([RESOURCES_PATH], [], [Define the path to the shared external resources cache])
 AC_DEFINE_UNQUOTED(RESOURCES_PATH, "$RESOURCES_PATH")
 AC_SUBST(RESOURCES_PATH)
 
