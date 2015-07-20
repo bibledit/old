@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-18 01:45+0200\n"
+"POT-Creation-Date: 2015-07-20 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7205,6 +7205,9 @@ msgid "This works faster."
 msgstr ""
 
 msgid "It takes the load off the website."
+msgstr ""
+
+msgid "Clients display only cached resources."
 msgstr ""
 
 msgid "Number of cached verses available for this resource:"

@@ -690,7 +690,9 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   
   string notes = filter_url_http_get (url, error);
   // If notes fail with an error, don't include the note text.
-  if (!error.empty ()) notes.clear ();
+  if (!error.empty ()) notes.clear (); // Todo
+  // It the verse contains no notes, the website returns an unusual message.
+  if (notes.find ("We are currently offline") != string::npos) notes.clear ();
   
   // The "bibleref" class experiences interference from other resources,
   // so that the reference would become invisible.

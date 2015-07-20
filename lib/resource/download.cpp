@@ -122,9 +122,20 @@ void resource_download_job (string resource)
         vector <int> verses = database_versifications.getVerses (versification, book, chapter);
         for (auto & verse : verses) {
           message2 += "; verse " + convert_to_string (verse) + ": ";
+          bool download_verse = false;
           if (database_offlineresources.exists (resource, book, chapter, verse)) {
             message2 += "exists";
           } else {
+            download_verse = true;
+          }
+          if (!download_verse) {
+            string contents = database_offlineresources.get (resource, book, chapter, verse);
+            if (contents.find ("http code") != string::npos) {
+              message2 += " repair ";
+              download_verse = true;
+            }
+          }
+          if (download_verse) {
             string html = resource_external_get (resource, book, chapter, verse);
             database_offlineresources.store (resource, book, chapter, verse, html);
             message2 += "size " + convert_to_string (html.length ());

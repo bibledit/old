@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-16 01:45+0200\n"
+"POT-Creation-Date: 2015-07-18 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-17 04:31+0000\n"
+"X-Launchpad-Export-Date: 2015-07-19 04:31+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
 msgid "Set the language for Bibledit"
@@ -7385,6 +7385,15 @@ msgstr ""
 msgid "Progress will be visible in the Journal."
 msgstr ""
 
+msgid "Please enter the number of verses"
+msgstr ""
+
+msgid "How many verses of context to display before the focused verse."
+msgstr ""
+
+msgid "How many verses of context to display after the focused verse."
+msgstr ""
+
 msgid "Resource Organizer"
 msgstr ""
 
@@ -7401,6 +7410,15 @@ msgid "Available resources"
 msgstr ""
 
 msgid "Click to activate:"
+msgstr ""
+
+msgid "Context"
+msgstr ""
+
+msgid "How many context verses to display before the focused verse:"
+msgstr ""
+
+msgid "How many context verses to display after the focused verse:"
 msgstr ""
 
 msgid "Select a resource to add"
@@ -7550,6 +7568,12 @@ msgid "Send/receive"
 msgstr ""
 
 msgid "Up to date"
+msgstr ""
+
+msgid "Still busy"
+msgstr ""
+
+msgid "Watchdog timeout"
 msgstr ""
 
 msgid "Failure to initiate connection"
@@ -8763,6 +8787,9 @@ msgstr ""
 msgid "Bottom row"
 msgstr ""
 
+msgid "width"
+msgstr ""
+
 msgid "Samples"
 msgstr ""
 
@@ -8890,6 +8917,17 @@ msgid "Instead the pages take the full height."
 msgstr ""
 
 msgid "It may be needed to create workbenches specifically for iOS."
+msgstr ""
+
+msgid "You can set the width of the entire workbench."
+msgstr ""
+
+msgid ""
+"By setting the width wider than the screen, the workbench can be scrolled "
+"horizontally."
+msgstr ""
+
+msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
 
 msgid "This chapter of the target Bible contains cross references"
