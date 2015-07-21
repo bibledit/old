@@ -7,20 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-09 01:45+0200\n"
+"POT-Creation-Date: 2015-07-18 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-10 04:39+0000\n"
-"X-Generator: Launchpad (build 17608)\n"
-
-msgid "Language"
-msgstr ""
+"X-Launchpad-Export-Date: 2015-07-19 04:31+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 msgid "Set the language for Bibledit"
+msgstr ""
+
+msgid "Language"
 msgstr ""
 
 msgid "The language for Bibledit:"
@@ -1867,9 +1867,10 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-msgid ""
-"The passage has been opened in the existing Bible editor in another browser "
-"tab."
+msgid "The passage has been opened in the existing Bible editor"
+msgstr ""
+
+msgid "Open a Bible editor to edit the passage"
 msgstr ""
 
 msgid "Edit"
@@ -1905,16 +1906,16 @@ msgstr ""
 msgid "Save failure"
 msgstr ""
 
+msgid "No write access"
+msgstr ""
+
 msgid "User tried to save something different from exactly one chapter."
 msgstr ""
 
 msgid "Incorrect chapter"
 msgstr ""
 
-msgid "Merging and saving chapter."
-msgstr ""
-
-msgid "Not saved because of too many changes"
+msgid "Merging chapter."
 msgstr ""
 
 msgid "Saved"
@@ -1941,7 +1942,16 @@ msgstr ""
 msgid "Edit USFM"
 msgstr ""
 
-msgid "Server is confused"
+msgid "Merging and saving chapter."
+msgstr ""
+
+msgid "Passage mismatch"
+msgstr ""
+
+msgid "Needs Unicode"
+msgstr ""
+
+msgid "Confusing data"
 msgstr ""
 
 msgid "Mail"
@@ -1993,7 +2003,7 @@ msgstr ""
 msgid "Our own sample values are given below. Yours will be different."
 msgstr ""
 
-msgid "Name: Bible Translation"
+msgid "Name: Bibledit Cloud"
 msgstr ""
 
 msgid "Email address: bibletranslation@gmail.com"
@@ -2159,6 +2169,21 @@ msgid "Other information"
 msgstr ""
 
 msgid "Fallout"
+msgstr ""
+
+msgid "Text length differs too much"
+msgstr ""
+
+msgid "Text content differs too much"
+msgstr ""
+
+msgid "Missing verse number"
+msgstr ""
+
+msgid "Verse mismatch"
+msgstr ""
+
+msgid "Cannot overwrite another verse"
 msgstr ""
 
 msgid "Fonts"
@@ -7360,6 +7385,15 @@ msgstr ""
 msgid "Progress will be visible in the Journal."
 msgstr ""
 
+msgid "Please enter the number of verses"
+msgstr ""
+
+msgid "How many verses of context to display before the focused verse."
+msgstr ""
+
+msgid "How many verses of context to display after the focused verse."
+msgstr ""
+
 msgid "Resource Organizer"
 msgstr ""
 
@@ -7376,6 +7410,15 @@ msgid "Available resources"
 msgstr ""
 
 msgid "Click to activate:"
+msgstr ""
+
+msgid "Context"
+msgstr ""
+
+msgid "How many context verses to display before the focused verse:"
+msgstr ""
+
+msgid "How many context verses to display after the focused verse:"
 msgstr ""
 
 msgid "Select a resource to add"
@@ -7525,6 +7568,12 @@ msgid "Send/receive"
 msgstr ""
 
 msgid "Up to date"
+msgstr ""
+
+msgid "Still busy"
+msgstr ""
+
+msgid "Watchdog timeout"
 msgstr ""
 
 msgid "Failure to initiate connection"
@@ -8734,6 +8783,9 @@ msgstr ""
 msgid "Bottom row"
 msgstr ""
 
+msgid "width"
+msgstr ""
+
 msgid "Samples"
 msgstr ""
 
@@ -8849,6 +8901,29 @@ msgid "Display subscribed notes that have been idle for a day."
 msgstr ""
 
 msgid "Display subscribed notes that have been idle for a week."
+msgstr ""
+
+msgid "The workbench configurations will work as expected on most devices."
+msgstr ""
+
+msgid "But on iOS the pages within the workbench do not scroll."
+msgstr ""
+
+msgid "Instead the pages take the full height."
+msgstr ""
+
+msgid "It may be needed to create workbenches specifically for iOS."
+msgstr ""
+
+msgid "You can set the width of the entire workbench."
+msgstr ""
+
+msgid ""
+"By setting the width wider than the screen, the workbench can be scrolled "
+"horizontally."
+msgstr ""
+
+msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
 
 msgid "This chapter of the target Bible contains cross references"

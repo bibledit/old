@@ -715,9 +715,16 @@ string filter_url_http_post (string url, map <string, string> values, string& er
 // It writes any error to $error.
 string filter_url_http_upload (string url, map <string, string> values, string filename, string& error)
 {
-  // Coded while looking at http://curl.haxx.se/libcurl/c/postit2.html.
   string response;
-  
+
+#ifdef CLIENT_PREPARED
+  url.clear ();
+  values.clear ();
+  filename.clear ();
+  error = "Not implemented in client configuration";
+#else
+
+  // Coded while looking at http://curl.haxx.se/libcurl/c/postit2.html.
   struct curl_httppost *formpost=NULL;
   struct curl_httppost *lastptr=NULL;
 
@@ -767,10 +774,10 @@ string filter_url_http_upload (string url, map <string, string> values, string f
     curl_easy_cleanup (curl);
     // Then cleanup the formpost chain.
     curl_formfree (formpost);
-
   }
+#endif
+
   return response;
-  
 }
 
 

@@ -179,6 +179,9 @@ function editorSaveChapter (sync)
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, html: encodedHtml, checksum: checksum },
     success: function (response) {
       editorStatus (response);
+      if (response == "Reformat") {
+        editorLoadChapter (true);
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       editorStatus (editorChapterRetrying);

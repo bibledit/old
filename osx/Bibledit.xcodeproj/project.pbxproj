@@ -200,8 +200,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAF569171B177EBD00EE957E /* MainMenu.xib in Resources */,
 				CAE0196F1B1775C6000EAF46 /* webroot in Resources */,
+				CAF569171B177EBD00EE957E /* MainMenu.xib in Resources */,
 				CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
