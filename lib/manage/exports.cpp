@@ -30,6 +30,7 @@
 #include <export/logic.h>
 #include <database/config/bible.h>
 #include <config/logic.h>
+#include <client/logic.h>
 
 
 const char * manage_exports_url ()
@@ -327,8 +328,17 @@ string manage_exports (void * webserver_request)
   view.set_variable ("password", Database_Config_Bible::getExportPassword (bible));
 
   
+  if (request->query.count ("bibledropboxnow")) {
+    string msg = translate("The Bible will be submitted to the Bible Drop Box.");
+    msg.append (" ");
+    msg.append (translate("You will receive email with further details."));
+    view.set_variable ("success", msg);
+  }
+ 
+  
   if (config_logic_client_prepared ()) {
     view.enable_zone ("client");
+    view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud to submit the Bible there")));
   } else {
     view.enable_zone ("cloud");
   }
