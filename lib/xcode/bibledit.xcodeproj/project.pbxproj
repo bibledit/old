@@ -97,6 +97,8 @@
 		CA13979A1AB095DC00071EDF /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
 		CA13979B1AB09B9700071EDF /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = notes.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA13979C1AB09B9700071EDF /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
+		CA143C291B5E595000242915 /* bibledropbox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibledropbox.cpp; sourceTree = "<group>"; };
+		CA143C2A1B5E595000242915 /* bibledropbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledropbox.h; sourceTree = "<group>"; };
 		CA180F221AC7152D006CA48B /* input.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = input.cpp; sourceTree = "<group>"; };
 		CA180F231AC7152D006CA48B /* input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
 		CA180F241AC71539006CA48B /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -1732,6 +1734,8 @@
 		CAA4D0C81A45A647003ABA25 /* export */ = {
 			isa = PBXGroup;
 			children = (
+				CA143C291B5E595000242915 /* bibledropbox.cpp */,
+				CA143C2A1B5E595000242915 /* bibledropbox.h */,
 				CAD443271AC95BC60005B8F6 /* esword.cpp */,
 				CAD443281AC95BC60005B8F6 /* esword.h */,
 				CAD4432A1AC95BC60005B8F6 /* html.cpp */,

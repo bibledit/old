@@ -262,14 +262,15 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	export/logic.$(OBJEXT) export/odt.$(OBJEXT) \
 	export/onlinebible.$(OBJEXT) export/textusfm.$(OBJEXT) \
 	export/usfm.$(OBJEXT) export/web.$(OBJEXT) \
-	xrefs/clear.$(OBJEXT) xrefs/extract.$(OBJEXT) \
-	xrefs/help.$(OBJEXT) xrefs/index.$(OBJEXT) \
-	xrefs/insert.$(OBJEXT) xrefs/interpret.$(OBJEXT) \
-	xrefs/move.$(OBJEXT) xrefs/next.$(OBJEXT) \
-	xrefs/source.$(OBJEXT) xrefs/target.$(OBJEXT) \
-	xrefs/translate.$(OBJEXT) webbible/search.$(OBJEXT) \
-	debug/index.$(OBJEXT) browser/index.$(OBJEXT) \
-	paratext/logic.$(OBJEXT) paratext/index.$(OBJEXT)
+	export/bibledropbox.$(OBJEXT) xrefs/clear.$(OBJEXT) \
+	xrefs/extract.$(OBJEXT) xrefs/help.$(OBJEXT) \
+	xrefs/index.$(OBJEXT) xrefs/insert.$(OBJEXT) \
+	xrefs/interpret.$(OBJEXT) xrefs/move.$(OBJEXT) \
+	xrefs/next.$(OBJEXT) xrefs/source.$(OBJEXT) \
+	xrefs/target.$(OBJEXT) xrefs/translate.$(OBJEXT) \
+	webbible/search.$(OBJEXT) debug/index.$(OBJEXT) \
+	browser/index.$(OBJEXT) paratext/logic.$(OBJEXT) \
+	paratext/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -796,6 +797,7 @@ libbibledit_a_SOURCES = \
 	export/textusfm.cpp \
 	export/usfm.cpp \
 	export/web.cpp \
+	export/bibledropbox.cpp \
 	xrefs/clear.cpp \
 	xrefs/extract.cpp \
 	xrefs/help.cpp \
@@ -1856,6 +1858,8 @@ export/usfm.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
 export/web.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
+export/bibledropbox.$(OBJEXT): export/$(am__dirstamp) \
+	export/$(DEPDIR)/$(am__dirstamp)
 xrefs/$(am__dirstamp):
 	@$(MKDIR_P) xrefs
 	@: > xrefs/$(am__dirstamp)
@@ -2202,6 +2206,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@esword/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/bibledropbox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/esword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/index.Po@am__quote@

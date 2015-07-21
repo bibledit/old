@@ -58,6 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/info.h>
 #include <export/esword.h>
 #include <export/onlinebible.h>
+#include <export/bibledropbox.h>
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 
@@ -182,6 +183,8 @@ void tasks_run_one (string filename)
     Paratext_Logic::setup (parameter1, parameter2);
   } else if (command == SYNCPARATEXT) {
     Paratext_Logic::synchronize ();
+  } else if (command == SUBMITBIBLEDROPBOX) {
+    export_bibledropbox (parameter1, parameter2);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

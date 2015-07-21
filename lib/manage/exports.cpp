@@ -31,6 +31,7 @@
 #include <database/config/bible.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <tasks/logic.h>
 
 
 const char * manage_exports_url ()
@@ -329,6 +330,8 @@ string manage_exports (void * webserver_request)
 
   
   if (request->query.count ("bibledropboxnow")) {
+    string username = request->session_logic()->currentUser ();
+    tasks_logic_queue (SUBMITBIBLEDROPBOX, { username, bible });
     string msg = translate("The Bible will be submitted to the Bible Drop Box.");
     msg.append (" ");
     msg.append (translate("You will receive email with further details."));
