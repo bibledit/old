@@ -29,6 +29,7 @@
 #include <locale/translate.h>
 #include <export/logic.h>
 #include <database/config/bible.h>
+#include <config/logic.h>
 
 
 const char * manage_exports_url ()
@@ -324,7 +325,14 @@ string manage_exports (void * webserver_request)
     }
   }
   view.set_variable ("password", Database_Config_Bible::getExportPassword (bible));
-                     
+
+  
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+  } else {
+    view.enable_zone ("cloud");
+  }
+
 
   page += view.render ("manage", "exports");
   page += Assets_Page::footer ();

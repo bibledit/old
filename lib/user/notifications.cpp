@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <locale/translate.h>
 #include <config/logic.h>
+#include <client/logic.h>
 
 
 string user_notifications_url ()
@@ -146,7 +147,7 @@ string user_notifications (void * webserver_request)
   
   if (config_logic_client_prepared ()) view.enable_zone ("client");
   else view.enable_zone ("server");
-  view.set_variable ("address", Database_Config_General::getServerAddress ());
+  view.set_variable ("url", client_logic_link_to_cloud (user_notifications_url (), translate("You can set the notifications in Bibledit Cloud.")));
   view.set_variable ("port", convert_to_string (Database_Config_General::getServerPort ()));
 
   page += view.render ("user", "notifications");

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-20 01:45+0200\n"
+"POT-Creation-Date: 2015-07-21 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3148,10 +3148,7 @@ msgstr ""
 msgid "Bibledit on iOS"
 msgstr ""
 
-msgid "Bibledit on Ubuntu"
-msgstr ""
-
-msgid "Bibledit on Linux Mint"
+msgid "Bibledit on Ubuntu and Linux Mint and similar"
 msgstr ""
 
 msgid "Bibledit on Debian"
@@ -3478,7 +3475,16 @@ msgstr ""
 msgid "Read more."
 msgstr ""
 
-msgid "Install Bibledit on Linux Mint"
+msgid "Install Bibledit on Ubuntu and derivatives"
+msgstr ""
+
+msgid "Download the Bibledit Linux installer."
+msgstr ""
+
+msgid "Put it in the home directory."
+msgstr ""
+
+msgid "Run the installer:"
 msgstr ""
 
 msgid "Install Bibledit on openSUSE"
@@ -3509,9 +3515,6 @@ msgid "Give it enough time to download all the data from Bibledit Cloud."
 msgstr ""
 
 msgid "Bibledit is ready for online and offline use."
-msgstr ""
-
-msgid "Install Bibledit on Ubuntu"
 msgstr ""
 
 msgid "Install Bibledit on Windows"
@@ -6149,7 +6152,13 @@ msgstr ""
 msgid "Password to secure the exports:"
 msgstr ""
 
-msgid "The Bible Drop Box assists with exporting to many more formats."
+msgid "The Bible Drop Box."
+msgstr ""
+
+msgid "It assists with exporting to many more formats."
+msgstr ""
+
+msgid "Submit to the Bible Drop Box now."
 msgstr ""
 
 msgid "The two sets of characters were saved"
