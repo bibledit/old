@@ -22,12 +22,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/date.h>
 #include <filter/md5.h>
-#include <database/sqlite.h>
 #include <notes/logic.h>
 #include <locale/translate.h>
 #include <locale/translate.h>
 #include <config/globals.h>
+#include <database/sqlite.h>
 #include <database/logs.h>
+#include <database/checksums.h>
 #include <trash/handler.h>
 
 
@@ -500,6 +501,8 @@ void Database_Notes::setIdentifier (int identifier, int new_identifier)
   sql.add (";");
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
+  // The range-based one also.
+  Database_Checksums::eraseNote (identifier);
 }
 
 
@@ -1667,6 +1670,8 @@ void Database_Notes::deleteChecksum (int identifier)
   sqlite3 * db = connect_checksums ();
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
+  // Delete from range-based checksums.
+  Database_Checksums::eraseNote (identifier);
 }
 
 
@@ -1702,7 +1707,6 @@ void Database_Notes::updateChecksum (int identifier)
 // Queries the database for the checksum for the notes given in the list of $identifiers.
 string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
 {
-  cout << filter_date_seconds_since_epoch () << endl; // Todo
   sqlite3 * db = connect_checksums ();
   string checksum;
   for (auto & identifier : identifiers) {
@@ -1718,9 +1722,7 @@ string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
     checksum.append (value);
   }
   database_sqlite_disconnect (db);
-  cout << filter_date_seconds_since_epoch () << endl; // Todo
   checksum = md5 (checksum);
-  cout << filter_date_seconds_since_epoch () << endl; // Todo
   return checksum;
 }
 

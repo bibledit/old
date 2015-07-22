@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <webserver/request.h>
 #include <database/notes.h>
+#include <database/checksums.h>
 
 
 void search_reindex_notes ()
@@ -44,6 +45,10 @@ void search_reindex_notes ()
   // Delay shortly to give existing processes a change to complete.
   // Without this delay, "locked database" errors have been seen.
   this_thread::sleep_for (chrono::seconds (1));
+
+
+  // Health of the general checksums table.
+  Database_Checksums::create ();
 
   
   // Check on health of the databases, and optionally recreate them.

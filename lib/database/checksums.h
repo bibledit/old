@@ -28,13 +28,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Checksums
 {
 public:
-  void create ();
-  void putNotes (int first, int last, const string& checksum);
-  string getNotes (int first, int last);
-  void eraseNote (int identifier);
+  static void create ();
+  static void putNotes (int first, int last, const string& checksum);
+  static string getNotes (int first, int last);
+  static void eraseNote (int identifier);
 private:
-  sqlite3 * connect ();
-  const char * name ();
+  static sqlite3 * connect ();
+  static const char * name ();
 };
 
 

@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void Database_Checksums::create ()
 {
   if (!database_sqlite_healthy (name ())) {
-    filter_url_unlink (database_sqlite_file (name ())); // Todo test health.
+    filter_url_unlink (database_sqlite_file (name ()));
   }
   sqlite3 * db = connect ();
   string sql = 
@@ -45,7 +45,7 @@ void Database_Checksums::create ()
 }
 
 
-void Database_Checksums::putNotes (int first, int last, const string& checksum) // Todo test it.
+void Database_Checksums::putNotes (int first, int last, const string& checksum)
 {
   sqlite3 * db = connect ();
   {
@@ -74,7 +74,7 @@ void Database_Checksums::putNotes (int first, int last, const string& checksum) 
 }
 
 
-string Database_Checksums::getNotes (int first, int last) // Todo test it.
+string Database_Checksums::getNotes (int first, int last)
 {
   // Receive the checksum for the exact range.
   SqliteSQL sql = SqliteSQL ();
@@ -93,7 +93,7 @@ string Database_Checksums::getNotes (int first, int last) // Todo test it.
 }
 
 
-void Database_Checksums::eraseNote (int identifier) // Todo test it.
+void Database_Checksums::eraseNote (int identifier)
 {
   // Remove ranges that contain the note identifier.
   sqlite3 * db = connect ();

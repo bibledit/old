@@ -30,6 +30,7 @@
 #include <database/notes.h>
 #include <database/noteactions.h>
 #include <database/logs.h>
+#include <database/checksums.h>
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
@@ -383,7 +384,12 @@ void sendreceive_notes_download (int lowId, int highId)
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
   vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, {}, true);
   int client_total = identifiers.size ();
-  string client_checksum = database_notes.getMultipleChecksum (identifiers);
+  // Checksum cache to speed things up in case of thousands of notes.
+  string client_checksum = Database_Checksums::getNotes (lowId, highId);
+  if (client_checksum.empty ()) {
+    client_checksum = database_notes.getMultipleChecksum (identifiers);
+    Database_Checksums::putNotes (lowId, highId, client_checksum);
+  }
   if (server_total == client_total) {
     if (server_checksum == client_checksum) {
       return;
