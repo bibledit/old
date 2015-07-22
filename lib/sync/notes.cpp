@@ -106,6 +106,7 @@ string sync_notes (void * webserver_request)
       vector <string> bibles = access_bible_bibles (webserver_request, user);
       vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
+      // Else the server would run at 100% cpu for some time to get the total checksums of notes.
       string checksum = Database_Checksums::getNotes (lowId, highId);
       if (checksum.empty ()) {
         checksum = database_notes.getMultipleChecksum (identifiers);
