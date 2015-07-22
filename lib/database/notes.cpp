@@ -1702,6 +1702,7 @@ void Database_Notes::updateChecksum (int identifier)
 // Queries the database for the checksum for the notes given in the list of $identifiers.
 string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
 {
+  cout << filter_date_seconds_since_epoch () << endl; // Todo
   sqlite3 * db = connect_checksums ();
   string checksum;
   for (auto & identifier : identifiers) {
@@ -1717,7 +1718,9 @@ string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
     checksum.append (value);
   }
   database_sqlite_disconnect (db);
+  cout << filter_date_seconds_since_epoch () << endl; // Todo
   checksum = md5 (checksum);
+  cout << filter_date_seconds_since_epoch () << endl; // Todo
   return checksum;
 }
 

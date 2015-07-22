@@ -307,6 +307,8 @@
 		CA699A171A51475C00B23E0A /* system.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = system.cpp; sourceTree = "<group>"; };
 		CA699A181A51475C00B23E0A /* system.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = system.h; sourceTree = "<group>"; };
 		CA699A191A51475C00B23E0A /* system.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = system.html; sourceTree = "<group>"; };
+		CA6EF52E1B5FDAC00006EBAB /* checksums.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = checksums.cpp; sourceTree = "<group>"; };
+		CA6EF52F1B5FDAC00006EBAB /* checksums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checksums.h; sourceTree = "<group>"; };
 		CA71AC581A641DD800EF85A8 /* search.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = search.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA71AC591A641DD800EF85A8 /* search.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = search.h; sourceTree = "<group>"; };
 		CA71AC5A1A641DD800EF85A8 /* search.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = search.html; sourceTree = "<group>"; };
@@ -1371,6 +1373,8 @@
 				CAA4D0051A45A647003ABA25 /* books.h */,
 				CAA4D0061A45A647003ABA25 /* check.cpp */,
 				CAA4D0071A45A647003ABA25 /* check.h */,
+				CA6EF52E1B5FDAC00006EBAB /* checksums.cpp */,
+				CA6EF52F1B5FDAC00006EBAB /* checksums.h */,
 				CAA4D00A1A45A647003ABA25 /* config */,
 				CAA4D0171A45A647003ABA25 /* confirm.cpp */,
 				CAA4D0181A45A647003ABA25 /* confirm.h */,

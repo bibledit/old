@@ -52,6 +52,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/modifications.h>
 #include <database/notes.h>
 #include <database/volatile.h>
+#include <database/checksums.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -3715,6 +3716,45 @@ void test_database_volatile ()
     // Another key should retrieve nothing.
     value = database_volatile.getValue (2, "key1");
     evaluate (__LINE__, __func__, "", value);
+  }
+}
+
+
+void test_database_checksums ()
+{
+  {
+    refresh_sandbox (true);
+    Database_Checksums database_checksums;
+    database_checksums.create ();
+
+    // No checksum yet.
+    evaluate (__LINE__, __func__, "", database_checksums.getNotes (100, 1000));
+
+    // Store and retrieve checksum in a defined range.
+    database_checksums.putNotes (100, 1000, "phpunit");
+    evaluate (__LINE__, __func__, "phpunit", database_checksums.getNotes (100, 1000));
+    // Store it again, with a different value.
+    database_checksums.putNotes (100, 1000, "phpunit2");
+    evaluate (__LINE__, __func__, "phpunit2", database_checksums.getNotes (100, 1000));
+
+    // Erase a note within the defined range, which should erase that range.
+    database_checksums.eraseNote (100);
+    evaluate (__LINE__, __func__, "", database_checksums.getNotes (100, 1000));
+    
+    // Define a few ranges, store checksums, and erase one note within that range, and test it.
+    database_checksums.putNotes (100, 1000, "100-1000");
+    database_checksums.putNotes (200, 1100, "200-1100");
+    database_checksums.putNotes (300, 900,  "300-900");
+    database_checksums.putNotes (2000, 9000, "2000-9000");
+    evaluate (__LINE__, __func__, "100-1000",  database_checksums.getNotes (100,  1000));
+    evaluate (__LINE__, __func__, "200-1100",  database_checksums.getNotes (200,  1100));
+    evaluate (__LINE__, __func__, "300-900",   database_checksums.getNotes (300,  900));
+    evaluate (__LINE__, __func__, "2000-9000", database_checksums.getNotes (2000, 9000));
+    database_checksums.eraseNote (500);
+    evaluate (__LINE__, __func__, "",  database_checksums.getNotes (100,  1000));
+    evaluate (__LINE__, __func__, "",  database_checksums.getNotes (200,  1100));
+    evaluate (__LINE__, __func__, "",   database_checksums.getNotes (300,  900));
+    evaluate (__LINE__, __func__, "2000-9000", database_checksums.getNotes (2000, 9000));
   }
 }
 
