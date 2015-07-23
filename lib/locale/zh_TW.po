@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-20 01:45+0200\n"
+"POT-Creation-Date: 2015-07-21 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-21 04:32+0000\n"
+"X-Launchpad-Export-Date: 2015-07-22 04:32+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
 msgid "Set the language for Bibledit"
@@ -3155,10 +3155,7 @@ msgstr ""
 msgid "Bibledit on iOS"
 msgstr ""
 
-msgid "Bibledit on Ubuntu"
-msgstr ""
-
-msgid "Bibledit on Linux Mint"
+msgid "Bibledit on Ubuntu and Linux Mint and similar"
 msgstr ""
 
 msgid "Bibledit on Debian"
@@ -3487,7 +3484,16 @@ msgstr ""
 msgid "Read more."
 msgstr ""
 
-msgid "Install Bibledit on Linux Mint"
+msgid "Install Bibledit on Ubuntu and derivatives"
+msgstr ""
+
+msgid "Download the Bibledit Linux installer."
+msgstr ""
+
+msgid "Put it in the home directory."
+msgstr ""
+
+msgid "Run the installer:"
 msgstr ""
 
 msgid "Install Bibledit on openSUSE"
@@ -3518,9 +3524,6 @@ msgid "Give it enough time to download all the data from Bibledit Cloud."
 msgstr ""
 
 msgid "Bibledit is ready for online and offline use."
-msgstr ""
-
-msgid "Install Bibledit on Ubuntu"
 msgstr ""
 
 msgid "Install Bibledit on Windows"
@@ -6169,7 +6172,13 @@ msgstr ""
 msgid "Password to secure the exports:"
 msgstr ""
 
-msgid "The Bible Drop Box assists with exporting to many more formats."
+msgid "The Bible Drop Box."
+msgstr ""
+
+msgid "It assists with exporting to many more formats."
+msgstr ""
+
+msgid "Submit to the Bible Drop Box now."
 msgstr ""
 
 msgid "The two sets of characters were saved"

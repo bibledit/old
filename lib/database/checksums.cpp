@@ -31,16 +31,23 @@ void Database_Checksums::create ()
   if (!database_sqlite_healthy (name ())) {
     filter_url_unlink (database_sqlite_file (name ()));
   }
+
   sqlite3 * db = connect ();
-  string sql = 
+  
+  string sql =
     "CREATE TABLE IF NOT EXISTS notes ("
     " first integer,"
     " last integer,"
     " value text"
     ");";
   database_sqlite_exec (db, sql);
+  
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
+  
+  sql = "VACUUM notes;";
+  database_sqlite_exec (db, sql);
+  
   database_sqlite_disconnect (db);
 }
 
