@@ -2929,7 +2929,7 @@
 /* Begin PBXLegacyTarget section */
 		CAB29AC51A4480CC00139BD7 /* bibledit */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
+			buildArgumentsString = "$(ACTION) --jobs=4";
 			buildConfigurationList = CAB29AC81A4480CC00139BD7 /* Build configuration list for PBXLegacyTarget "bibledit" */;
 			buildPhases = (
 			);
