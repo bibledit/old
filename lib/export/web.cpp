@@ -24,6 +24,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/bible.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -109,6 +110,10 @@ void export_web_book (string bible, int book)
   html_text_rich_book_index.save (filter_url_html_file_name_bible (directory, book));
   
   
+  // Clear the flag that indicated this export.
+  Database_State::clearExport (bible, book, Export_Logic::export_web);
+  
+  
   Database_Logs::log (translate("Exported to web") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }
 
@@ -172,6 +177,10 @@ void export_web_index (string bible)
   string contents = filter_url_file_get_contents (lenspath);
   lenspath = filter_url_create_path (directory, "lens.png");
   filter_url_file_put_contents (lenspath, contents);
+
+  
+  // Clear the flag that indicated this export.
+  Database_State::clearExport (bible, 0, Export_Logic::export_web_index);
 
   
   Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", Filter_Roles::translator ());

@@ -21,6 +21,7 @@
 #include <tasks/logic.h>
 #include <database/bibles.h>
 #include <database/books.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 
@@ -35,7 +36,7 @@ void Export_Logic::scheduleAll ()
 // Schedule a Bible book for export to text and basic USFM format.
 // $bible: Bible.
 // $book: book.
-void Export_Logic::scheduleTextAndBasicUsfm (string bible)
+void Export_Logic::scheduleTextAndBasicUsfm (string bible, bool force) // Todo
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -46,7 +47,7 @@ void Export_Logic::scheduleTextAndBasicUsfm (string bible)
 
 
 // Schedule a Bible for export to USFM format.
-void Export_Logic::scheduleUsfm (string bible)
+void Export_Logic::scheduleUsfm (string bible, bool force) // Todo
 {
   tasks_logic_queue (EXPORTUSFM, {bible});
 }
@@ -54,7 +55,7 @@ void Export_Logic::scheduleUsfm (string bible)
 
 // Schedule export to OpenDocument.
 // $bible: Bible.
-void Export_Logic::scheduleOpenDocument (string bible)
+void Export_Logic::scheduleOpenDocument (string bible, bool force) // Todo
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -66,7 +67,7 @@ void Export_Logic::scheduleOpenDocument (string bible)
 
 // Schedule creation info documents.
 // $bible: Bible.
-void Export_Logic::scheduleInfo (string bible)
+void Export_Logic::scheduleInfo (string bible, bool force) // Todo
 {
   tasks_logic_queue (EXPORTINFO, {bible});
 }
@@ -74,7 +75,7 @@ void Export_Logic::scheduleInfo (string bible)
 
 // Schedule export to html.
 // $bible: Bible.
-void Export_Logic::scheduleHtml (string bible)
+void Export_Logic::scheduleHtml (string bible, bool force) // Todo
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -86,31 +87,35 @@ void Export_Logic::scheduleHtml (string bible)
 
 // Schedule export to web.
 // $bible: Bible.
-void Export_Logic::scheduleWeb (string bible)
+void Export_Logic::scheduleWeb (string bible, bool force) // Todo
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTWEBMAIN, {bible, convert_to_string (book)});
+    if (force || Database_State::getExport (bible, book, Export_Logic::export_web)) {
+      tasks_logic_queue (EXPORTWEBMAIN, {bible, convert_to_string (book)});
+    }
   }
 }
 
 
 // Schedule export to web index.
 // $bible: Bible.
-void Export_Logic::scheduleWebIndex (string bible)
+void Export_Logic::scheduleWebIndex (string bible, bool force) // Todo
 {
-  tasks_logic_queue (EXPORTWEBINDEX, {bible});
+  if (force || Database_State::getExport (bible, 0, Export_Logic::export_web_index)) {
+    tasks_logic_queue (EXPORTWEBINDEX, {bible});
+  }
 }
 
 
-void Export_Logic::scheduleOnlineBible (string bible)
+void Export_Logic::scheduleOnlineBible (string bible, bool force) // Todo
 {
   tasks_logic_queue (EXPORTONLINEBIBLE, {bible});
 }
 
 
-void Export_Logic::scheduleESword (string bible)
+void Export_Logic::scheduleESword (string bible, bool force) // Todo
 {
   tasks_logic_queue (EXPORTESWORD, {bible});
 }
