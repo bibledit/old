@@ -3775,7 +3775,27 @@ void test_database_state ()
     evaluate (__LINE__, __func__, "",    Database_State::getNotesChecksum (300,  900));
     evaluate (__LINE__, __func__, "2000-9000",  Database_State::getNotesChecksum (2000, 9000));
   }
-  // Test exported states.
+  // Test export flagging.
+  {
+    // Flag some data for export.
+    Database_State::setExport ("1", 2, 3);
+    Database_State::setExport ("4", 5, 6);
+    Database_State::setExport ("7", 8, 9);
+
+    // Test the data.
+    evaluate (__LINE__, __func__, true,  Database_State::getExport ("1", 2, 3));
+    evaluate (__LINE__, __func__, true,  Database_State::getExport ("4", 5, 6));
+    evaluate (__LINE__, __func__, false,  Database_State::getExport ("1", 2, 1));
+    
+    // Clear flag.
+    Database_State::clearExport ("1", 2, 3);
+    
+    // Test the data.
+    evaluate (__LINE__, __func__, false,  Database_State::getExport ("1", 2, 3));
+    evaluate (__LINE__, __func__, true,  Database_State::getExport ("4", 5, 6));
+    evaluate (__LINE__, __func__, false,  Database_State::getExport ("1", 2, 1));
+  }
+  // Test states of being exported.
   {
     // Not yet exported by default.
     evaluate (__LINE__, __func__, false,  Database_State::getExported ("bible", 1));

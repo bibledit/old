@@ -45,6 +45,15 @@ public:
   static string baseBookFileName (int book);
   static string osisDirectory (string bible);
   static string osisSwordVariantDirectory (string interpreter, int complexity);
+  static const int export_text_and_basic_usfm = 1;
+  static const int export_full_usfm = 2;
+  static const int export_opendocument = 3;
+  static const int export_info = 4;
+  static const int export_html = 5;
+  static const int export_web = 6;
+  static const int export_web_index = 7;
+  static const int export_online_bible = 8;
+  static const int export_esword = 9;
 private:
 };
 

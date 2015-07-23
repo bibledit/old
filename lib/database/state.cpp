@@ -23,7 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 
 
-// Database resilience: It is recreated every night.
+// Database resilience: It only contains state information.
+// It is checked and optionally recreated every night.
 
 
 void Database_State::create ()
@@ -46,6 +47,14 @@ void Database_State::create ()
   database_sqlite_exec (db, sql);
   
   sql = "VACUUM notes;";
+  database_sqlite_exec (db, sql);
+  
+  sql =
+    "CREATE TABLE IF NOT EXISTS export ("
+    " bible text,"
+    " book integer,"
+    " format integer"
+  ");";
   database_sqlite_exec (db, sql);
   
   sql =
@@ -126,8 +135,63 @@ void Database_State::eraseNoteChecksum (int identifier)
 }
 
 
+// Flag export of $bible $book to $format.
+void Database_State::setExport (const string & bible, int book, int format) // Todo test
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("INSERT INTO export VALUES (");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (book);
+  sql.add (",");
+  sql.add (format);
+  sql.add (");");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
+// Get whether the $bible $book has been flagged for export in format $format.
+bool Database_State::getExport (const string & bible, int book, int format) // Todo test
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT format FROM export WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("AND format =");
+  sql.add (format);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> values = database_sqlite_query (db, sql.sql)["format"];
+  database_sqlite_disconnect (db);
+  for (auto value : values) {
+    return true;
+  }
+  return false;
+}
+
+
+// Clear the export flag for $bible $book to $format
+void Database_State::clearExport (const string & bible, int book, int format) // Todo test
+{
+  sqlite3 * db = connect ();
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("DELETE FROM export WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("AND format =");
+  sql.add (format);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
 // Set the $bible $book as exported.
-void Database_State::setExported (const string & bible, int book) // Todo test
+void Database_State::setExported (const string & bible, int book)
 {
   clearExported (bible, book);
 
@@ -146,7 +210,7 @@ void Database_State::setExported (const string & bible, int book) // Todo test
 
 
 // Get whether the $bible $book has been exported.
-bool Database_State::getExported (const string & bible, int book) // Todo test
+bool Database_State::getExported (const string & bible, int book)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT state FROM exported WHERE bible =");
@@ -166,7 +230,7 @@ bool Database_State::getExported (const string & bible, int book) // Todo test
 
 // Clear the 'exported' state for the $bible $book.
 // book = 0: clear all books.
-void Database_State::clearExported (const string & bible, int book) // Todo test
+void Database_State::clearExported (const string & bible, int book)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql = SqliteSQL ();

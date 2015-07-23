@@ -35,7 +35,6 @@ void Export_Logic::scheduleAll ()
 // Schedule a Bible book for export to text and basic USFM format.
 // $bible: Bible.
 // $book: book.
-// $force: Whether to force an update, or else just to check the existence.
 void Export_Logic::scheduleTextAndBasicUsfm (string bible)
 {
   Database_Bibles database_bibles;
