@@ -2895,6 +2895,7 @@ void test_database_notes ()
   // TrimOptimize
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -2912,6 +2913,7 @@ void test_database_notes ()
   // Identifier.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -2936,6 +2938,7 @@ void test_database_notes ()
   // SummaryContents
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -2980,6 +2983,7 @@ void test_database_notes ()
   // Subscriptions.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3018,6 +3022,7 @@ void test_database_notes ()
   // Assignments ()
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3068,6 +3073,7 @@ void test_database_notes ()
   // Bible
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3088,6 +3094,7 @@ void test_database_notes ()
   // Passage.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3115,6 +3122,7 @@ void test_database_notes ()
   // Status.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3146,6 +3154,7 @@ void test_database_notes ()
   // Severity
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3183,6 +3192,7 @@ void test_database_notes ()
   // Modified
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3207,6 +3217,7 @@ void test_database_notes ()
   // GetIdentifiers
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3231,6 +3242,7 @@ void test_database_notes ()
   // SetIdentifier
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3270,6 +3282,7 @@ void test_database_notes ()
     // after touching it 7 or 8 times, is returned as due for deletion,
     // and whether it is not yet due for deletion before that.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3301,6 +3314,7 @@ void test_database_notes ()
     // touched 6 times, then unmarked, touched again,
     // will not be due for deletion.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3327,6 +3341,7 @@ void test_database_notes ()
     // It tests whether three notes, marked for deletion on different days,
     // are properly touched so they keep their own number of days.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3362,6 +3377,7 @@ void test_database_notes ()
   // ExpireIsMarked.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3387,6 +3403,7 @@ void test_database_notes ()
   // ChecksumOne
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3472,6 +3489,7 @@ void test_database_notes ()
   // ChecksumTwo
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3494,6 +3512,7 @@ void test_database_notes ()
   // GetNotesInRangeForBibles ()
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3581,6 +3600,7 @@ void test_database_notes ()
   // SelectBible
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3720,7 +3740,7 @@ void test_database_volatile ()
 }
 
 
-void test_database_state () // Todo
+void test_database_state ()
 {
   refresh_sandbox (true);
   Database_State::create ();
