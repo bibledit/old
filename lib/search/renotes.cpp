@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <webserver/request.h>
 #include <database/notes.h>
-#include <database/checksums.h>
+#include <database/state.h>
 
 
 void search_reindex_notes ()
@@ -47,10 +47,6 @@ void search_reindex_notes ()
   this_thread::sleep_for (chrono::seconds (1));
 
 
-  // Health of the general checksums table.
-  Database_Checksums::create ();
-
-  
   // Check on health of the databases, and optionally recreate them.
   bool recreate = database_notes.checkup ();
   if (recreate) {

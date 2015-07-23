@@ -17,21 +17,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_CHECKSUMS_H
-#define INCLUDED_DATABASE_CHECKSUMS_H
+#ifndef INCLUDED_DATABASE_STATE_H
+#define INCLUDED_DATABASE_STATE_H
 
 
 #include <config/libraries.h>
 #include <sqlite3.h>
 
 
-class Database_Checksums
+class Database_State
 {
 public:
   static void create ();
-  static void putNotes (int first, int last, const string& checksum);
-  static string getNotes (int first, int last);
-  static void eraseNote (int identifier);
+  static void putNotesChecksum (int first, int last, const string& checksum);
+  static string getNotesChecksum (int first, int last);
+  static void eraseNoteChecksum (int identifier);
 private:
   static sqlite3 * connect ();
   static const char * name ();

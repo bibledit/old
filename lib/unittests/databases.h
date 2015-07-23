@@ -55,7 +55,7 @@ void test_database_modifications_team ();
 void test_database_modifications_notifications ();
 void test_database_notes ();
 void test_database_volatile ();
-void test_database_checksums ();
+void test_database_state ();
 
 
 #endif

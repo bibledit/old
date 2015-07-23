@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/sqlite.h>
 #include <database/logs.h>
-#include <database/checksums.h>
+#include <database/state.h>
 #include <trash/handler.h>
 
 
@@ -502,7 +502,7 @@ void Database_Notes::setIdentifier (int identifier, int new_identifier)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // The range-based one also.
-  Database_Checksums::eraseNote (identifier);
+  Database_State::eraseNoteChecksum (identifier);
 }
 
 
@@ -1671,7 +1671,7 @@ void Database_Notes::deleteChecksum (int identifier)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Delete from range-based checksums.
-  Database_Checksums::eraseNote (identifier);
+  Database_State::eraseNoteChecksum (identifier);
 }
 
 

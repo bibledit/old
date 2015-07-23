@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/checksums.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Database resilience: It is recreated every night.
 
 
-void Database_Checksums::create ()
+void Database_State::create ()
 {
   if (!database_sqlite_healthy (name ())) {
     filter_url_unlink (database_sqlite_file (name ()));
@@ -52,7 +52,8 @@ void Database_Checksums::create ()
 }
 
 
-void Database_Checksums::putNotes (int first, int last, const string& checksum)
+// Stores a notes checksum for a range of notes.
+void Database_State::putNotesChecksum (int first, int last, const string& checksum)
 {
   sqlite3 * db = connect ();
   {
@@ -81,7 +82,8 @@ void Database_Checksums::putNotes (int first, int last, const string& checksum)
 }
 
 
-string Database_Checksums::getNotes (int first, int last)
+// Retrieves the checksum for a range of notes.
+string Database_State::getNotesChecksum (int first, int last)
 {
   // Receive the checksum for the exact range.
   SqliteSQL sql = SqliteSQL ();
@@ -100,7 +102,8 @@ string Database_Checksums::getNotes (int first, int last)
 }
 
 
-void Database_Checksums::eraseNote (int identifier)
+// Erase the checksum for a note contained in any range.
+void Database_State::eraseNoteChecksum (int identifier)
 {
   // Remove ranges that contain the note identifier.
   sqlite3 * db = connect ();
@@ -115,13 +118,13 @@ void Database_Checksums::eraseNote (int identifier)
 }
 
 
-const char * Database_Checksums::name ()
+const char * Database_State::name ()
 {
-  return "checksums";
+  return "state";
 }
 
 
-sqlite3 * Database_Checksums::connect ()
+sqlite3 * Database_State::connect ()
 {
   return database_sqlite_connect (name ());
 }

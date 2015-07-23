@@ -29,7 +29,7 @@
 #include <database/logs.h>
 #include <database/notes.h>
 #include <database/modifications.h>
-#include <database/checksums.h>
+#include <database/state.h>
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
@@ -107,10 +107,10 @@ string sync_notes (void * webserver_request)
       vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% cpu for some time to get the total checksums of notes.
-      string checksum = Database_Checksums::getNotes (lowId, highId);
+      string checksum = Database_State::getNotesChecksum (lowId, highId);
       if (checksum.empty ()) {
         checksum = database_notes.getMultipleChecksum (identifiers);
-        Database_Checksums::putNotes (lowId, highId, checksum);
+        Database_State::putNotesChecksum (lowId, highId, checksum);
       }
       string response = convert_to_string (identifiers.size ()) + "\n" + checksum;
       return response;

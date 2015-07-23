@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <timer/index.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/state.h>
 #include <config/globals.h>
 #include <filter/string.h>
 #include <filter/date.h>
@@ -146,6 +147,7 @@ void timer_index ()
       
       // Re-index Bibles and notes.
       if ((hour == 2) && (minute == 0)) {
+        Database_State::create ();
         tasks_logic_queue (REINDEXBIBLES);
         tasks_logic_queue (REINDEXNOTES);
       }

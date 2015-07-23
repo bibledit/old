@@ -279,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_database_checksums (); exit (0);
+  // test_database_state (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -319,7 +319,7 @@ int main (int argc, char **argv)
   test_database_modifications_notifications ();
   test_database_notes ();
   test_database_volatile ();
-  test_database_checksums ();
+  test_database_state ();
   test_styles_css ();
   test_filter_custom_css ();
   test_filter_bibleworks ();

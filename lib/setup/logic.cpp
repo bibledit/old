@@ -34,7 +34,7 @@
 #include <database/modifications.h>
 #include <database/notes.h>
 #include <database/volatile.h>
-#include <database/checksums.h>
+#include <database/state.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -193,7 +193,7 @@ void setup_initialize_data ()
   database_notes.create ();
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();
-  Database_Checksums::create ();
+  Database_State::create ();
 
   // Create stylesheets.
   styles_sheets_create_all ();
