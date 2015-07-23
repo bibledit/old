@@ -3720,41 +3720,65 @@ void test_database_volatile ()
 }
 
 
-void test_database_state ()
+void test_database_state () // Todo
 {
+  refresh_sandbox (true);
+  Database_State::create ();
+  // Test notes checksums.
   {
-    refresh_sandbox (true);
-    Database_State database_checksums;
-    database_checksums.create ();
-
     // No checksum yet.
-    evaluate (__LINE__, __func__, "", database_checksums.getNotesChecksum (100, 1000));
-
+    evaluate (__LINE__, __func__, "",  Database_State::getNotesChecksum (100, 1000));
+    
     // Store and retrieve checksum in a defined range.
-    database_checksums.putNotesChecksum (100, 1000, "phpunit");
-    evaluate (__LINE__, __func__, "phpunit", database_checksums.getNotesChecksum (100, 1000));
+    Database_State::putNotesChecksum (100, 1000, "phpunit");
+    evaluate (__LINE__, __func__, "phpunit",  Database_State::getNotesChecksum (100, 1000));
     // Store it again, with a different value.
-    database_checksums.putNotesChecksum (100, 1000, "phpunit2");
-    evaluate (__LINE__, __func__, "phpunit2", database_checksums.getNotesChecksum (100, 1000));
-
+    Database_State::putNotesChecksum (100, 1000, "phpunit2");
+    evaluate (__LINE__, __func__, "phpunit2",  Database_State::getNotesChecksum (100, 1000));
+    
     // Erase a note within the defined range, which should erase that range.
-    database_checksums.eraseNoteChecksum (100);
-    evaluate (__LINE__, __func__, "", database_checksums.getNotesChecksum (100, 1000));
+    Database_State::eraseNoteChecksum (100);
+    evaluate (__LINE__, __func__, "",  Database_State::getNotesChecksum (100, 1000));
     
     // Define a few ranges, store checksums, and erase one note within that range, and test it.
-    database_checksums.putNotesChecksum (100, 1000, "100-1000");
-    database_checksums.putNotesChecksum (200, 1100, "200-1100");
-    database_checksums.putNotesChecksum (300, 900,  "300-900");
-    database_checksums.putNotesChecksum (2000, 9000, "2000-9000");
-    evaluate (__LINE__, __func__, "100-1000",  database_checksums.getNotesChecksum (100,  1000));
-    evaluate (__LINE__, __func__, "200-1100",  database_checksums.getNotesChecksum (200,  1100));
-    evaluate (__LINE__, __func__, "300-900",   database_checksums.getNotesChecksum (300,  900));
-    evaluate (__LINE__, __func__, "2000-9000", database_checksums.getNotesChecksum (2000, 9000));
-    database_checksums.eraseNoteChecksum (500);
-    evaluate (__LINE__, __func__, "",  database_checksums.getNotesChecksum (100,  1000));
-    evaluate (__LINE__, __func__, "",  database_checksums.getNotesChecksum (200,  1100));
-    evaluate (__LINE__, __func__, "",   database_checksums.getNotesChecksum (300,  900));
-    evaluate (__LINE__, __func__, "2000-9000", database_checksums.getNotesChecksum (2000, 9000));
+    Database_State::putNotesChecksum (100, 1000, "100-1000");
+    Database_State::putNotesChecksum (200, 1100, "200-1100");
+    Database_State::putNotesChecksum (300, 900,  "300-900");
+    Database_State::putNotesChecksum (2000, 9000, "2000-9000");
+    evaluate (__LINE__, __func__, "100-1000",   Database_State::getNotesChecksum (100,  1000));
+    evaluate (__LINE__, __func__, "200-1100",   Database_State::getNotesChecksum (200,  1100));
+    evaluate (__LINE__, __func__, "300-900",    Database_State::getNotesChecksum (300,  900));
+    evaluate (__LINE__, __func__, "2000-9000",  Database_State::getNotesChecksum (2000, 9000));
+    Database_State::eraseNoteChecksum (500);
+    evaluate (__LINE__, __func__, "",   Database_State::getNotesChecksum (100,  1000));
+    evaluate (__LINE__, __func__, "",   Database_State::getNotesChecksum (200,  1100));
+    evaluate (__LINE__, __func__, "",    Database_State::getNotesChecksum (300,  900));
+    evaluate (__LINE__, __func__, "2000-9000",  Database_State::getNotesChecksum (2000, 9000));
+  }
+  // Test exported states.
+  {
+    // Not yet exported by default.
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("bible", 1));
+
+    // Set and test some exports.
+    Database_State::setExported ("1", 1);
+    Database_State::setExported ("2", 2);
+    Database_State::setExported ("3", 3);
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("1", 1));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("2", 2));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("1", 2));
+
+    // Clear some.
+    Database_State::clearExported ("1", 1);
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("1", 1));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("2", 2));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
+
+    // Clear entire Bible.
+    Database_State::clearExported ("2", 0);
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("2", 2));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
   }
 }
 

@@ -32,6 +32,9 @@ public:
   static void putNotesChecksum (int first, int last, const string& checksum);
   static string getNotesChecksum (int first, int last);
   static void eraseNoteChecksum (int identifier);
+  static void setExported (const string & bible, int book);
+  static bool getExported (const string & bible, int book);
+  static void clearExported (const string & bible, int book);
 private:
   static sqlite3 * connect ();
   static const char * name ();
