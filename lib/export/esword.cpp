@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_esword (string bible, bool force) // Todo
+void export_esword (string bible, bool force)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "esword");
   if (!file_exists (directory)) filter_url_mkdir (directory);

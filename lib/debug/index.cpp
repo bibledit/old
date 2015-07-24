@@ -46,7 +46,6 @@ string debug_index (void * webserver_request)
   Assets_View view = Assets_View ();
 
   if (request->query.count ("debug")) {
-    Export_Logic::scheduleAll (); // Todo
     view.set_variable ("success", "Command activated");
   }
   

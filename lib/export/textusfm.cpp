@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_text_usfm_book (string bible, int book, bool force) // Todo
+void export_text_usfm_book (string bible, int book, bool force)
 {
   // Create folders for the clear text and the basic USFM exports.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 1);

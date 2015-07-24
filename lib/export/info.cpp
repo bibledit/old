@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_info (string bible, bool force) // Todo
+void export_info (string bible, bool force)
 {
   // Create folders for the information.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "info");

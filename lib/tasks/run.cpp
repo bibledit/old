@@ -176,7 +176,7 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTESWORD) {
     export_esword (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTONLINEBIBLE) {
-    export_onlinebible (parameter1);
+    export_onlinebible (parameter1, convert_to_bool (parameter2));
   } else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
   } else if (command == SETUPPARATEXT) {

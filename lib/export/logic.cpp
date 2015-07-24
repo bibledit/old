@@ -105,9 +105,9 @@ void Export_Logic::scheduleWebIndex (string bible, bool force)
 }
 
 
-void Export_Logic::scheduleOnlineBible (string bible, bool force) // Todo
+void Export_Logic::scheduleOnlineBible (string bible, bool force)
 {
-  tasks_logic_queue (EXPORTONLINEBIBLE, {bible});
+  tasks_logic_queue (EXPORTONLINEBIBLE, {bible, convert_to_string (force)});
 }
 
 

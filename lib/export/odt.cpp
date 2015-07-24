@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_odt_book (string bible, int book, bool force) // Todo
+void export_odt_book (string bible, int book, bool force)
 {
   // Create folders for the OpenDocument export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "opendocument");
