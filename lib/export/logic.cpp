@@ -41,13 +41,13 @@ void Export_Logic::scheduleTextAndBasicUsfm (string bible, bool force) // Todo
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTTEXTUSFM, {bible, convert_to_string (book)});
+    tasks_logic_queue (EXPORTTEXTUSFM, {bible, convert_to_string (book), convert_to_string (force)});
   }
 }
 
 
 // Schedule a Bible for export to USFM format.
-void Export_Logic::scheduleUsfm (string bible, bool force) // Todo
+void Export_Logic::scheduleUsfm (string bible, bool force)
 {
   tasks_logic_queue (EXPORTUSFM, {bible, convert_to_string (force)});
 }

@@ -136,7 +136,7 @@ void Database_State::eraseNoteChecksum (int identifier)
 
 
 // Flag export of $bible $book to $format.
-void Database_State::setExport (const string & bible, int book, int format) // Todo test
+void Database_State::setExport (const string & bible, int book, int format)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO export VALUES (");
@@ -153,7 +153,7 @@ void Database_State::setExport (const string & bible, int book, int format) // T
 
 
 // Get whether the $bible $book has been flagged for export in format $format.
-bool Database_State::getExport (const string & bible, int book, int format) // Todo test
+bool Database_State::getExport (const string & bible, int book, int format)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT format FROM export WHERE bible =");
@@ -174,7 +174,7 @@ bool Database_State::getExport (const string & bible, int book, int format) // T
 
 
 // Clear the export flag for $bible $book to $format
-void Database_State::clearExport (const string & bible, int book, int format) // Todo test
+void Database_State::clearExport (const string & bible, int book, int format)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql = SqliteSQL ();
