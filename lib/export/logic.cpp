@@ -75,19 +75,19 @@ void Export_Logic::scheduleInfo (string bible, bool force) // Todo
 
 // Schedule export to html.
 // $bible: Bible.
-void Export_Logic::scheduleHtml (string bible, bool force) // Todo
+void Export_Logic::scheduleHtml (string bible, bool force)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTHTML, {bible, convert_to_string (book)});
+    tasks_logic_queue (EXPORTHTML, {bible, convert_to_string (book), convert_to_string (force)});
   }
 }
 
 
 // Schedule export to web.
 // $bible: Bible.
-void Export_Logic::scheduleWeb (string bible, bool force) // Todo
+void Export_Logic::scheduleWeb (string bible, bool force)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -99,7 +99,7 @@ void Export_Logic::scheduleWeb (string bible, bool force) // Todo
 
 // Schedule export to web index.
 // $bible: Bible.
-void Export_Logic::scheduleWebIndex (string bible, bool force) // Todo
+void Export_Logic::scheduleWebIndex (string bible, bool force)
 {
   tasks_logic_queue (EXPORTWEBINDEX, {bible, convert_to_string (force)});
 }

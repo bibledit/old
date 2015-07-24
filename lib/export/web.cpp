@@ -37,7 +37,7 @@
 #include <styles/sheets.h>
 
 
-void export_web_book (string bible, int book, bool force) // Todo force
+void export_web_book (string bible, int book, bool force)
 {
   string directory = Export_Logic::webDirectory (bible);
   if (!file_exists (directory)) filter_url_mkdir (directory);
@@ -127,7 +127,7 @@ void export_web_book (string bible, int book, bool force) // Todo force
 }
 
 
-void export_web_index (string bible, bool force) // Todo force.
+void export_web_index (string bible, bool force)
 {
   // Create folders for the web export.
   string directory = Export_Logic::webDirectory (bible);

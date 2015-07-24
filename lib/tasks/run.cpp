@@ -164,7 +164,7 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTWEBINDEX) {
     export_web_index (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTHTML) {
-    export_html_book (parameter1, convert_to_int (parameter2));
+    export_html_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTUSFM) {
     export_usfm (parameter1);
   } else if (command == EXPORTTEXTUSFM) {
