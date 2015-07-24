@@ -36,7 +36,7 @@ void Export_Logic::scheduleAll ()
 // Schedule a Bible book for export to text and basic USFM format.
 // $bible: Bible.
 // $book: book.
-void Export_Logic::scheduleTextAndBasicUsfm (string bible, bool force) // Todo
+void Export_Logic::scheduleTextAndBasicUsfm (string bible, bool force)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -55,12 +55,12 @@ void Export_Logic::scheduleUsfm (string bible, bool force)
 
 // Schedule export to OpenDocument.
 // $bible: Bible.
-void Export_Logic::scheduleOpenDocument (string bible, bool force) // Todo
+void Export_Logic::scheduleOpenDocument (string bible, bool force)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTODT, {bible, convert_to_string (book)});
+    tasks_logic_queue (EXPORTODT, {bible, convert_to_string (book), convert_to_string (force)});
   }
 }
 

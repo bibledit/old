@@ -170,7 +170,7 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTTEXTUSFM) {
     export_text_usfm_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTODT) {
-    export_odt_book (parameter1, convert_to_int (parameter2));
+    export_odt_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTINFO) {
     export_info (parameter1);
   } else if (command == EXPORTESWORD) {

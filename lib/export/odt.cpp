@@ -23,6 +23,7 @@
 #include <database/bibles.h>
 #include <database/books.h>
 #include <database/logs.h>
+#include <database/state.h>
 #include <database/config/bible.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -34,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_odt_book (string bible, int book)
+void export_odt_book (string bible, int book, bool force) // Todo
 {
   // Create folders for the OpenDocument export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "opendocument");
@@ -47,7 +48,16 @@ void export_odt_book (string bible, int book)
   string textOnlyFilename = filter_url_create_path (directory, basename + "_text_only.odt");
   string textAndCitationsFilename = filter_url_create_path (directory, basename + "_text_and_note_citations.odt");
   string notesFilename = filter_url_create_path (directory, basename + "_notes.odt");
+
   
+  // Certain factors determine whether to run this export.
+  if (Database_State::getExport (bible, book, Export_Logic::export_opendocument)) force = true;
+  if (!file_exists (standardFilename)) force = true;
+  if (!file_exists (textOnlyFilename)) force = true;
+  if (!file_exists (textAndCitationsFilename)) force = true;
+  if (!file_exists (notesFilename)) force = true;
+  if (!force) return;
+
   
   Database_Bibles database_bibles;
   
@@ -126,6 +136,10 @@ void export_odt_book (string bible, int book)
     filter_url_unlink (notesFilename);
   }
   
+  
+  // Clear the flag that indicated this export.
+  Database_State::clearExport (bible, book, Export_Logic::export_opendocument);
+
   
   Database_Logs::log (translate("Exported to OpenDocument files") + " " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }
