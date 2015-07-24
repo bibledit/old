@@ -23,6 +23,7 @@
 #include <database/bibles.h>
 #include <database/books.h>
 #include <database/logs.h>
+#include <database/state.h>
 #include <database/config/bible.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -34,13 +35,20 @@
 #include <styles/sheets.h>
 
 
-void export_esword (string bible)
+void export_esword (string bible, bool force) // Todo
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "esword");
   if (!file_exists (directory)) filter_url_mkdir (directory);
   
   
   string filename = filter_url_create_path (directory, "bible.bblx");
+
+  
+  if (!file_exists (filename)) force = true;
+  if (Database_State::getExport (bible, 0, Export_Logic::export_esword)) force = true;
+  if (!force) return;
+
+  
   if (file_exists (filename)) filter_url_unlink (filename);
   
   
@@ -64,7 +72,10 @@ void export_esword (string bible)
   filter_text_bible.run (stylesheet);
   filter_text_bible.esword_text->finalize ();
   filter_text_bible.esword_text->createModule (filename);
+
   
+  Database_State::clearExport (bible, 0, Export_Logic::export_esword);
+
   
   Database_Logs::log (translate("Exported to e-Sword") + " " + bible, Filter_Roles::translator ());
 }

@@ -67,9 +67,9 @@ void Export_Logic::scheduleOpenDocument (string bible, bool force)
 
 // Schedule creation info documents.
 // $bible: Bible.
-void Export_Logic::scheduleInfo (string bible, bool force) // Todo
+void Export_Logic::scheduleInfo (string bible, bool force)
 {
-  tasks_logic_queue (EXPORTINFO, {bible});
+  tasks_logic_queue (EXPORTINFO, {bible, convert_to_string (force)});
 }
 
 
@@ -111,9 +111,9 @@ void Export_Logic::scheduleOnlineBible (string bible, bool force) // Todo
 }
 
 
-void Export_Logic::scheduleESword (string bible, bool force) // Todo
+void Export_Logic::scheduleESword (string bible, bool force)
 {
-  tasks_logic_queue (EXPORTESWORD, {bible});
+  tasks_logic_queue (EXPORTESWORD, {bible, convert_to_string (force)});
 }
 
 

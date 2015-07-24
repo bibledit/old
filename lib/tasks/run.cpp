@@ -172,9 +172,9 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTODT) {
     export_odt_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTINFO) {
-    export_info (parameter1);
+    export_info (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTESWORD) {
-    export_esword (parameter1);
+    export_esword (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTONLINEBIBLE) {
     export_onlinebible (parameter1);
   } else if (command == HYPHENATE) {

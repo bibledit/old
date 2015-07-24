@@ -23,6 +23,7 @@
 #include <database/bibles.h>
 #include <database/books.h>
 #include <database/logs.h>
+#include <database/state.h>
 #include <database/config/bible.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -34,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_info (string bible)
+void export_info (string bible, bool force) // Todo
 {
   // Create folders for the information.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "info");
@@ -45,6 +46,13 @@ void export_info (string bible)
   string informationdFilename = filter_url_create_path (directory, "information.html");
   string falloutFilename = filter_url_create_path (directory, "fallout.html");
   
+  
+  // Whether to run this export.
+  if (Database_State::getExport (bible, 0, Export_Logic::export_info)) force = true;
+  if (!file_exists (informationdFilename)) force = true;
+  if (!file_exists (falloutFilename)) force = true;
+  if (!force) return;
+
   
   Database_Bibles database_bibles;
   
@@ -75,6 +83,10 @@ void export_info (string bible)
   filter_text.produceInfoDocument (informationdFilename);
   filter_text.produceFalloutDocument (falloutFilename);
   
+  
+  // Clear the flag for this export.
+  Database_State::clearExport (bible, 0, Export_Logic::export_info);
+
   
   Database_Logs::log (translate("Documents with information and fallout were created") + " " + bible, Filter_Roles::translator ());
 }
