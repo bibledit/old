@@ -245,7 +245,7 @@ void Database_OfflineResources::link_to_central_cache (const string & name)
   erase (name);
   string ourname = resourceFolder (name);
   string centralname = filter_url_create_path (config_logic_external_resources_cache_path (), name);
-  symlink (centralname.c_str (), ourname.c_str());
+  if (symlink (centralname.c_str (), ourname.c_str())) {};
 }
 
 
