@@ -21,8 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
-#include <locale/translate.h>
-#include <database/notes.h>
+#include <export/logic.h>
 
 
 const char * debug_index_url ()
@@ -47,13 +46,8 @@ string debug_index (void * webserver_request)
   Assets_View view = Assets_View ();
 
   if (request->query.count ("debug")) {
-    /*
-    Database_Notes database_notes = Database_Notes (&webserver_request);
-    database_notes.trim ();
-    database_notes.trim_server ();
-    database_notes.optimize ();
-    view.set_variable ("success", translate ("Command activated"));
-    */
+    Export_Logic::scheduleAll (); // Todo
+    view.set_variable ("success", "Command activated");
   }
   
   page += view.render ("debug", "index");

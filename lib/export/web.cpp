@@ -37,13 +37,22 @@
 #include <styles/sheets.h>
 
 
-void export_web_book (string bible, int book)
+void export_web_book (string bible, int book, bool force) // Todo force
 {
-  Database_Bibles database_bibles;
-
-  
   string directory = Export_Logic::webDirectory (bible);
   if (!file_exists (directory)) filter_url_mkdir (directory);
+  
+  
+  // Three conditions to run this export:
+  // 1: Output does not exist.
+  if (!file_exists (filter_url_html_file_name_bible (directory, book))) force = true;
+  // 2: Scheduled for export.
+  if (Database_State::getExport (bible, book, Export_Logic::export_web)) force = true;
+  // 3: Force export.
+  if (!force) return;
+    
+  
+  Database_Bibles database_bibles;
   
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -110,7 +119,7 @@ void export_web_book (string bible, int book)
   html_text_rich_book_index.save (filter_url_html_file_name_bible (directory, book));
   
   
-  // Clear the flag that indicated this export.
+  // Clear the flag for this export.
   Database_State::clearExport (bible, book, Export_Logic::export_web);
   
   
@@ -118,7 +127,7 @@ void export_web_book (string bible, int book)
 }
 
 
-void export_web_index (string bible)
+void export_web_index (string bible, bool force) // Todo force.
 {
   // Create folders for the web export.
   string directory = Export_Logic::webDirectory (bible);
@@ -129,6 +138,15 @@ void export_web_index (string bible)
   string indexFile = filter_url_create_path (directory, "index.html");
   string index00 = filter_url_create_path (directory, "00_index.html");
   string filecss = filter_url_create_path (directory, "stylesheet.css");
+  
+  
+  // Run the export if any of the three conditions are true:
+  // - Scheduled for export.
+  // - Export does not yet exist.
+  // - Force export.
+  if (!file_exists (indexFile)) force = true;
+  if (Database_State::getExport (bible, 0, Export_Logic::export_web_index)) force = true;
+  if (!force) return;
   
   
   Database_Bibles database_bibles;

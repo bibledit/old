@@ -160,9 +160,9 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTALL) {
     export_index ();
   } else if (command == EXPORTWEBMAIN) {
-    export_web_book (parameter1, convert_to_int (parameter2));
+    export_web_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTWEBINDEX) {
-    export_web_index (parameter1);
+    export_web_index (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTHTML) {
     export_html_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTUSFM) {
