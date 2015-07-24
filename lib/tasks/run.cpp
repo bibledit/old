@@ -166,7 +166,7 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTHTML) {
     export_html_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTUSFM) {
-    export_usfm (parameter1);
+    export_usfm (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTTEXTUSFM) {
     export_text_usfm_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTODT) {

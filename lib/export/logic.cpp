@@ -49,7 +49,7 @@ void Export_Logic::scheduleTextAndBasicUsfm (string bible, bool force) // Todo
 // Schedule a Bible for export to USFM format.
 void Export_Logic::scheduleUsfm (string bible, bool force) // Todo
 {
-  tasks_logic_queue (EXPORTUSFM, {bible});
+  tasks_logic_queue (EXPORTUSFM, {bible, convert_to_string (force)});
 }
 
 
