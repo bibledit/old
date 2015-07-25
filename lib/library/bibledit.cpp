@@ -77,6 +77,9 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Initialize libxml2.
   xmlInitThreads ();
   xmlInitParser ();
+
+  // Initialize SQLite: Full thread safety: https://www.sqlite.org/threadsafe.html.
+  sqlite3_config (SQLITE_CONFIG_SERIALIZED);
   
   // Set the web root folder.
   config_globals_document_root = webroot;
