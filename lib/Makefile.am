@@ -134,7 +134,6 @@ libbibledit_a_SOURCES = \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \
-	sync/logic.cpp \
 	help/index.cpp \
 	confirm/worker.cpp \
 	email/index.cpp \
@@ -235,9 +234,16 @@ libbibledit_a_SOURCES = \
 	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
+	syncclient/settings.cpp \
+	syncclient/bibles.cpp \
+	syncclient/usfmresources.cpp \
+	syncclient/externalresources.cpp \
+	syncclient/notes.cpp \
+	syncclient/changes.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
+	sync/logic.cpp \
 	sync/setup.cpp \
 	sync/settings.cpp \
 	sync/bibles.cpp \
@@ -245,6 +251,14 @@ libbibledit_a_SOURCES = \
 	sync/externalresources.cpp \
 	sync/notes.cpp \
 	sync/changes.cpp \
+	syncapi/logic.cpp \
+	syncapi/setup.cpp \
+	syncapi/settings.cpp \
+	syncapi/bibles.cpp \
+	syncapi/usfmresources.cpp \
+	syncapi/externalresources.cpp \
+	syncapi/notes.cpp \
+	syncapi/changes.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \

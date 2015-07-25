@@ -913,3 +913,14 @@ void Database_Config_User::setResourceVersesAfter (int verses)
 {
   setIValue ("resource-verses-after", verses);
 }
+
+
+// Encryption key storage on server.
+string Database_Config_User::getSyncKey ()
+{
+  return getValue ("sync-key", "");
+}
+void Database_Config_User::setSyncKey (string key)
+{
+  setValue ("sync-key", key);
+}

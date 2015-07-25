@@ -1041,7 +1041,7 @@ string convert_xml_character_entities_to_characters (string data)
 
 // Encrypts the $data if the data is unencrypted.
 // Decrypts the $data if the data is encrypted.
-string encrypt_decrypt (string key, string data) // Todo
+string encrypt_decrypt (string key, string data)
 {
   // Encrypt the key.
   key = md5 (key);
@@ -1055,7 +1055,7 @@ string encrypt_decrypt (string key, string data) // Todo
 
 
 // Gets a new key for encryption and decryption.
-string get_new_key () // Todo 
+string get_new_key ()
 {
   string u = convert_to_string (filter_date_numerical_microseconds ());
   string s = convert_to_string (filter_date_seconds_since_epoch ());

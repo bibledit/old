@@ -4425,7 +4425,7 @@ void test_filter_url ()
 }
 
 
-void test_filter_string () // Todo
+void test_filter_string ()
 {
   string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
   string output = convert_xml_character_entities_to_characters (input);

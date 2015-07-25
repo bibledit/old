@@ -21,10 +21,12 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/roles.h>
+#include <filter/md5.h>
 #include <database/config/general.h>
 #include <database/users.h>
 #include <database/logs.h>
 #include <sync/setup.h>
+#include <syncapi/setup.h>
 #include <config/logic.h>
 #include <client/index.h>
 #include <locale/translate.h>
@@ -77,6 +79,39 @@ string client_logic_connection_setup (string user, string hash)
   
   string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
   
+  string error;
+  string response = filter_url_http_get (url, error);
+  int iresponse = convert_to_int (response);
+  
+  if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
+    // Set user's role on the client to be the same as on the server.
+    Database_Users database_users = Database_Users ();
+    database_users.updateUserLevel (user, iresponse);
+  } else {
+    Database_Logs::log (error, Filter_Roles::translator ());
+  }
+  
+  if (response.empty ()) response = error;
+  return response;
+}
+
+
+// This function sets up an encryption connection from the client to the server.
+// It receives user-related settings and the encryption key from the server and stores them on the client.
+// It returns an empty string on success, or a message specifying the failure.
+string client_logic_security_setup (string user, string pass)
+{
+  string encoded_user = md5 (user);
+  string encoded_pass = md5 (pass);
+  
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  
+  string url = client_logic_url (address, port, syncapi_setup_url ());
+  // The parameters should mislead packet sniffers.
+  url = filter_url_build_http_query (url, "date", encoded_user);
+  url = filter_url_build_http_query (url, "time", encoded_pass);
+ 
   string error;
   string response = filter_url_http_get (url, error);
   int iresponse = convert_to_int (response);

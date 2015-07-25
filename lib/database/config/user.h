@@ -167,6 +167,8 @@ public:
   int getResourceVersesBefore ();
   void setResourceVersesAfter (int verses);
   int getResourceVersesAfter ();
+  string getSyncKey ();
+  void setSyncKey (string key);
 private:
   void * webserver_request;
   string file (string user, const char * key);

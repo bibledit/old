@@ -175,6 +175,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <browser/index.h>
 #include <paratext/index.h>
 #include <manage/write.h>
+#include <syncapi/setup.h>
+#include <syncapi/settings.h>
+#include <syncapi/bibles.h>
+#include <syncapi/notes.h>
+#include <syncapi/usfmresources.h>
+#include <syncapi/externalresources.h>
+#include <syncapi/changes.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -353,6 +360,13 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == sync_usfmresources_url ()) && sync_usfmresources_acl (request)) request->reply = sync_usfmresources (request);
   else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
   else if ((url == sync_changes_url ()) && sync_changes_acl (request)) request->reply = sync_changes (request);
+  else if ((url == syncapi_setup_url ()) && syncapi_setup_acl (request)) request->reply = syncapi_setup (request);
+  else if ((url == syncapi_settings_url ()) && syncapi_settings_acl (request)) request->reply = syncapi_settings (request);
+  else if ((url == syncapi_bibles_url ()) && syncapi_bibles_acl (request)) request->reply = syncapi_bibles (request);
+  else if ((url == syncapi_notes_url ()) && syncapi_notes_acl (request)) request->reply = syncapi_notes (request);
+  else if ((url == syncapi_usfmresources_url ()) && syncapi_usfmresources_acl (request)) request->reply = syncapi_usfmresources (request);
+  else if ((url == syncapi_externalresources_url ()) && syncapi_externalresources_acl (request)) request->reply = syncapi_externalresources (request);
+  else if ((url == syncapi_changes_url ()) && syncapi_changes_acl (request)) request->reply = syncapi_changes (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);
