@@ -24,9 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-string manage_indexing_url ();
-bool manage_indexing_acl (void * webserver_request);
-string manage_indexing (void * webserver_request);
+string manage_index_url ();
+bool manage_index_acl (void * webserver_request);
+string manage_index (void * webserver_request);
 
 
 #endif

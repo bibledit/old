@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/index.h>
 #include <user/notifications.h>
 #include <user/account.h>
-#include <manage/indexing.h>
+#include <manage/index.h>
 #include <manage/users.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
@@ -48,7 +48,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
 #include <styles/view.h>
-#include <fonts/index.h>
 #include <versification/index.h>
 #include <versification/system.h>
 #include <bible/manage.h>
@@ -296,7 +295,7 @@ void bootstrap_index (Webserver_Request * request)
   
   // Settings menu.
   else if ((url == manage_users_url ()) && manage_users_acl (request)) request->reply = manage_users (request);
-  else if ((url == manage_indexing_url ()) && manage_indexing_acl (request)) request->reply = manage_indexing (request);
+  else if ((url == manage_index_url ()) && manage_index_acl (request)) request->reply = manage_index (request);
   else if ((url == administration_language_url ()) && administration_language_acl (request)) request->reply = administration_language (request);
   else if ((url == administration_timezone_url ()) && administration_timezone_acl (request)) request->reply = administration_timezone (request);
   else if ((url == email_index_url ()) && email_index_acl (request)) request->reply = email_index (request);
@@ -308,7 +307,6 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == versification_system_url ()) && versification_system_acl (request)) request->reply = versification_system (request);
   else if ((url == collaboration_index_url ()) && collaboration_index_acl (request)) request->reply = collaboration_index (request);
   else if ((url == client_index_url ()) && client_index_acl (request)) request->reply = client_index (request);
-  else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   else if ((url == mapping_index_url ()) && mapping_index_acl (request)) request->reply = mapping_index (request);
   else if ((url == mapping_map_url ()) && mapping_map_acl (request)) request->reply = mapping_map (request);
   else if ((url == paratext_index_url ()) && paratext_index_acl (request)) request->reply = paratext_index (request);

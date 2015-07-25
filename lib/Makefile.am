@@ -141,7 +141,7 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
-	manage/indexing.cpp \
+	manage/index.cpp \
 	manage/users.cpp \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
@@ -167,7 +167,6 @@ libbibledit_a_SOURCES = \
 	dialog/books.cpp \
 	dialog/upload.cpp \
 	fonts/logic.cpp \
-	fonts/index.cpp \
 	versification/index.cpp \
 	versification/system.cpp \
 	versification/logic.cpp \

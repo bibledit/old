@@ -293,9 +293,6 @@
 		CA699A081A4C657000B23E0A /* sheets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheets.h; sourceTree = "<group>"; };
 		CA699A091A4D6F8600B23E0A /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA699A0A1A4D6F8600B23E0A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CA699A0B1A4D8FD200B23E0A /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		CA699A0C1A4D8FD200B23E0A /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CA699A0D1A4D8FDE00B23E0A /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = index.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA699A0E1A4EE04300B23E0A /* basic.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = basic.css; sourceTree = "<group>"; };
 		CA699A0F1A4EE05800B23E0A /* editor.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = editor.css; sourceTree = "<group>"; };
 		CA699A101A4EE05800B23E0A /* exports.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = exports.css; sourceTree = "<group>"; };
@@ -613,9 +610,9 @@
 		CAA4D1C61A45A648003ABA25 /* translate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = translate.h; sourceTree = "<group>"; };
 		CAA4D1CD1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D1CF1A45A648003ABA25 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = Makefile.am; path = ../Makefile.am; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
-		CAA4D1DB1A45A648003ABA25 /* indexing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indexing.cpp; sourceTree = "<group>"; };
-		CAA4D1DC1A45A648003ABA25 /* indexing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indexing.h; sourceTree = "<group>"; };
-		CAA4D1DD1A45A648003ABA25 /* indexing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indexing.html; sourceTree = "<group>"; };
+		CAA4D1DB1A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CAA4D1DC1A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CAA4D1DD1A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA4D1E21A45A648003ABA25 /* users.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = users.cpp; sourceTree = "<group>"; };
 		CAA4D1E31A45A648003ABA25 /* users.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = users.h; sourceTree = "<group>"; };
 		CAA4D1E41A45A648003ABA25 /* users.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = users.html; sourceTree = "<group>"; };
@@ -1906,9 +1903,6 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D11E1A45A647003ABA25 /* Cardo-Regular.ttf */,
-				CA699A0B1A4D8FD200B23E0A /* index.cpp */,
-				CA699A0C1A4D8FD200B23E0A /* index.h */,
-				CA699A0D1A4D8FDE00B23E0A /* index.html */,
 				CA699A091A4D6F8600B23E0A /* logic.cpp */,
 				CA699A0A1A4D6F8600B23E0A /* logic.h */,
 				CAA4D1231A45A647003ABA25 /* SIL-Licenses.txt */,
@@ -2093,9 +2087,9 @@
 				CAFEED031ACE961800D53BF3 /* hyphenation.cpp */,
 				CAFEED041ACE961800D53BF3 /* hyphenation.h */,
 				CAD4434A1AC965130005B8F6 /* hyphenation.html */,
-				CAA4D1DB1A45A648003ABA25 /* indexing.cpp */,
-				CAA4D1DC1A45A648003ABA25 /* indexing.h */,
-				CAA4D1DD1A45A648003ABA25 /* indexing.html */,
+				CAA4D1DB1A45A648003ABA25 /* index.cpp */,
+				CAA4D1DC1A45A648003ABA25 /* index.h */,
+				CAA4D1DD1A45A648003ABA25 /* index.html */,
 				CAA4D1E21A45A648003ABA25 /* users.cpp */,
 				CAA4D1E31A45A648003ABA25 /* users.h */,
 				CAA4D1E41A45A648003ABA25 /* users.html */,
