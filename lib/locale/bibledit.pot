@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 01:45+0200\n"
+"POT-Creation-Date: 2015-07-25 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1840,12 +1840,6 @@ msgid "Name"
 msgstr ""
 
 msgid "Information"
-msgstr ""
-
-msgid "Debug"
-msgstr ""
-
-msgid "Trim notes"
 msgstr ""
 
 msgid "You are connected to a public demo of Bibledit Cloud."
@@ -6524,6 +6518,9 @@ msgid "Browser"
 msgstr ""
 
 msgid "Cross references"
+msgstr ""
+
+msgid "Debug"
 msgstr ""
 
 msgid "Styles"
