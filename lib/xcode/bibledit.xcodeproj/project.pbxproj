@@ -355,6 +355,9 @@
 		CA816D7F1B63A11A00FD276E /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		CA816D801B63A11A00FD276E /* usfmresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfmresources.cpp; sourceTree = "<group>"; };
 		CA816D811B63A11A00FD276E /* usfmresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfmresources.h; sourceTree = "<group>"; };
+		CA816D831B64047400FD276E /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CA816D841B64047400FD276E /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CA816D851B6404D100FD276E /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA82662E1A7FAA330049DFD3 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
 		CA82662F1A7FAA330049DFD3 /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		CA8266301A7FFC9C0049DFD3 /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bibles.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1148,6 +1151,17 @@
 			);
 			name = syncclient;
 			path = ../syncclient;
+			sourceTree = "<group>";
+		};
+		CA816D821B64047400FD276E /* personalize */ = {
+			isa = PBXGroup;
+			children = (
+				CA816D831B64047400FD276E /* index.cpp */,
+				CA816D851B6404D100FD276E /* index.html */,
+				CA816D841B64047400FD276E /* index.h */,
+			);
+			name = personalize;
+			path = ../personalize;
 			sourceTree = "<group>";
 		};
 		CA8AABAF1B2C157E00FCAC51 /* paratext */ = {
@@ -2917,6 +2931,7 @@
 				CAA4D2851A45A648003ABA25 /* onlinebible */,
 				CA8AABAF1B2C157E00FCAC51 /* paratext */,
 				CAA4D28C1A45A648003ABA25 /* parsewebdata */,
+				CA816D821B64047400FD276E /* personalize */,
 				CAA4D2A01A45A648003ABA25 /* pix */,
 				CAA4D2A71A45A648003ABA25 /* processes */,
 				CAA4D2B71A45A648003ABA25 /* reconfigure */,

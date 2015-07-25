@@ -68,6 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <debug/index.h>
 #include <browser/index.h>
 #include <paratext/index.h>
+#include <personalize/index.h>
 
 
 /*
@@ -263,11 +264,14 @@ vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
 vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
+  if (personalize_index_acl (webserver_request)) {
+    menu->push_back ( { "", personalize_index_url (), translate ("Personalize"), NULL } );
+  }
   if (manage_users_acl (webserver_request) && !config_logic_client_prepared ()) {
     menu->push_back ( { "", manage_users_url (), translate ("Users"), NULL } );
   }
   if (manage_index_acl (webserver_request)) {
-    menu->push_back ( { "", manage_index_url (), translate ("Management"), NULL } );
+    menu->push_back ( { "", manage_index_url (), translate ("Manage"), NULL } );
   }
   if (administration_language_acl (webserver_request)) {
     menu->push_back ( { "", administration_language_url (), translate ("Language"), NULL } );

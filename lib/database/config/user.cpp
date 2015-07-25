@@ -924,3 +924,15 @@ void Database_Config_User::setSyncKey (string key)
 {
   setValue ("sync-key", key);
 }
+
+
+int Database_Config_User::getGeneralFontSize ()
+{
+  return getIValue ("general-font-size", 100);
+}
+void Database_Config_User::setGeneralFontSize (int size)
+{
+  setIValue ("general-font-size", size);
+}
+
+

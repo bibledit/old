@@ -169,6 +169,8 @@ public:
   int getResourceVersesAfter ();
   string getSyncKey ();
   void setSyncKey (string key);
+  void setGeneralFontSize (int size);
+  int getGeneralFontSize ();
 private:
   void * webserver_request;
   string file (string user, const char * key);

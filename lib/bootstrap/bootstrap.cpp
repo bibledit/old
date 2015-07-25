@@ -181,6 +181,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <syncapi/usfmresources.h>
 #include <syncapi/externalresources.h>
 #include <syncapi/changes.h>
+#include <personalize/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -294,6 +295,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == debug_index_url ()) && debug_index_acl (request)) request->reply = debug_index (request);
   
   // Settings menu.
+  else if ((url == personalize_index_url ()) && personalize_index_acl (request)) request->reply = personalize_index (request);
   else if ((url == manage_users_url ()) && manage_users_acl (request)) request->reply = manage_users (request);
   else if ((url == manage_index_url ()) && manage_index_acl (request)) request->reply = manage_index (request);
   else if ((url == administration_language_url ()) && administration_language_acl (request)) request->reply = administration_language (request);
