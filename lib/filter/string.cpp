@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <utf8/utf8.h>
 #include <filter/url.h>
 #include <filter/md5.h>
+#include <filter/date.h>
 #include <database/config/general.h>
 #include <config/logic.h>
 // #include <codecvt>
@@ -1035,4 +1036,29 @@ string convert_xml_character_entities_to_characters (string data)
     data.insert (pos1, u8str);
   } while (keep_going & (iterations < 100000));
   return data;
+}
+
+
+// Encrypts the $data if the data is unencrypted.
+// Decrypts the $data if the data is encrypted.
+string encrypt_decrypt (string key, string data) // Todo
+{
+  // Encrypt the key.
+  key = md5 (key);
+  // Encrypt the data through the encrypted key.
+  for (size_t i = 0; i < data.size(); i++) {
+    data[i] = data[i] ^ key [i % key.length ()];
+  }
+  // Result.
+  return data;
+}
+
+
+// Gets a new key for encryption and decryption.
+string get_new_key () // Todo 
+{
+  string u = convert_to_string (filter_date_numerical_microseconds ());
+  string s = convert_to_string (filter_date_seconds_since_epoch ());
+  string r = convert_to_string ((float)random ());
+  return md5 (u + s + r);
 }

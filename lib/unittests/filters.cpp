@@ -4425,7 +4425,7 @@ void test_filter_url ()
 }
 
 
-void test_filter_string ()
+void test_filter_string () // Todo
 {
   string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
   string output = convert_xml_character_entities_to_characters (input);
@@ -4436,6 +4436,22 @@ void test_filter_string ()
   output = convert_xml_character_entities_to_characters (input);
   standard = filter_string_str_replace ("&#x5D0;", "א", input);
   evaluate (__LINE__, __func__, standard, output);
+  
+  input = "Username";
+  output = encrypt_decrypt ("key", input);
+  output = encrypt_decrypt ("key", output);
+  evaluate (__LINE__, __func__, input, output);
+
+  input = "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ";
+  output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", input);
+  output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", output);
+  evaluate (__LINE__, __func__, input, output);
+  
+  string one = get_new_key ();
+  this_thread::sleep_for (chrono::milliseconds (10));
+  string two = get_new_key ();
+  evaluate (__LINE__, __func__, 32, one.length ());
+  evaluate (__LINE__, __func__, true, one != two);
 }
 
 
