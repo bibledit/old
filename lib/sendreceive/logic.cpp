@@ -91,6 +91,11 @@ void sendreceive_queue_sync (int minute)
       } else {
         tasks_logic_queue (SYNCCHANGES);
       }
+      if (tasks_logic_queued (SYNCFILES)) {
+        Database_Logs::log ("Still synchronizing Files");
+      } else {
+        tasks_logic_queue (SYNCFILES);
+      }
     }
     
     // Paratext collaboration.

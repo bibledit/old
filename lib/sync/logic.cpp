@@ -257,3 +257,66 @@ string Sync_Logic::changes_checksum (const string & username)
   checksum = md5 (checksum);
   return checksum;
 }
+
+
+// This function returns the root directories to go though on files sync.
+// The $version influences which root directories to include.
+// The $version is passed by the client to the server,
+// so the server can adapt to the client's capabilities.
+vector <string> Sync_Logic::files_get_directories (int version) // Todo
+{
+  vector <string> directories;
+  switch (version) {
+    case 1:
+      directories = { "fonts" };
+      break;
+    default:
+      break;
+  }
+  return directories;
+}
+
+
+// This returns the total checksum for all directories and files relevant to $version.
+int Sync_Logic::files_get_total_checksum (int version) // Todo
+{
+  int checksum = 0;
+  vector <string> directories = files_get_directories (version);
+  for (auto directory : directories) {
+    checksum += files_get_directory_checksum (directory);
+  }
+  return checksum;
+}
+
+
+// This returns the total checksum for all files in one root directory.
+// It does a recursive scan for the files.
+int Sync_Logic::files_get_directory_checksum (string directory) // Todo
+{
+  int checksum = 0;
+  directory = filter_url_create_root_path (directory);
+  vector <string> paths = files_get_files (directory);
+  for (auto & path : paths) {
+    checksum += filter_url_filesize (path);
+  }
+  return checksum;
+}
+
+
+// This returns all the paths of the files within $directory.
+// It does a recursive scan for the files.
+vector <string> Sync_Logic::files_get_files (const string& directory) // Todo
+{
+  vector <string> result;
+  vector <string> paths;
+  filter_url_recursive_scandir (directory, paths);
+  for (string path : paths) {
+    if (filter_url_is_dir (path)) continue;
+    string extension = filter_url_get_extension (path);
+    if (extension == "o") continue;
+    if (extension == "h") continue;
+    if (extension == "cpp") continue;
+    result.push_back (path);
+  }
+  return result;
+}
