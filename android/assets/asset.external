@@ -229,6 +229,8 @@ database/sprint.cpp
 database/sprint.h
 database/sqlite.cpp
 database/sqlite.h
+database/state.cpp
+database/state.h
 database/styles.cpp
 database/styles.h
 database/users.cpp
@@ -370,6 +372,8 @@ email/send.cpp
 email/send.h
 esword/text.cpp
 esword/text.h
+export/bibledropbox.cpp
+export/bibledropbox.h
 export/esword.cpp
 export/esword.h
 export/html.cpp
@@ -451,6 +455,7 @@ help/freebible.html
 help/index.cpp
 help/index.h
 help/index.html
+help/install.sh
 help/installandroid.html
 help/installation.html
 help/installcentos.html
@@ -458,6 +463,7 @@ help/installcloudubuntu.html
 help/installdebian.html
 help/installfedora.html
 help/installios.html
+help/installlinux.html
 help/installlinuxmint.html
 help/installopensuse.html
 help/installosx.html
@@ -580,6 +586,9 @@ manage/hyphenate.h
 manage/hyphenation.cpp
 manage/hyphenation.h
 manage/hyphenation.html
+manage/index.cpp
+manage/index.h
+manage/index.html
 manage/indexing.cpp
 manage/indexing.h
 manage/indexing.html
@@ -756,6 +765,9 @@ parsewebdata/ParseWebData.cpp
 parsewebdata/ParseWebData.h
 parsewebdata/ParseWebData_local.h
 parsewebdata/exampleProgram.cpp
+personalize/index.cpp
+personalize/index.h
+personalize/index.html
 pix/check.png
 pix/favicon.ico
 pix/loading.gif

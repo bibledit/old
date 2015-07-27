@@ -678,6 +678,16 @@ void Database_Config_User::setWorkbenchHeights (string value)
 }
 
 
+string Database_Config_User::getEntireWorkbenchWidths ()
+{
+  return getValue ("entire-workbench-widths", "");
+}
+void Database_Config_User::setEntireWorkbenchWidths (string value)
+{
+  setValue ("entire-workbench-widths", value);
+}
+
+
 string Database_Config_User::getActiveWorkbench ()
 {
   return getValue ("active-workbench", "");
@@ -883,4 +893,46 @@ void Database_Config_User::setLiveBibleEditor (int time)
 {
   setIValue ("live-bible-editor", time);
 }
+
+
+int Database_Config_User::getResourceVersesBefore ()
+{
+  return getIValue ("resource-verses-before", 0);
+}
+void Database_Config_User::setResourceVersesBefore (int verses)
+{
+  setIValue ("resource-verses-before", verses);
+}
+
+
+int Database_Config_User::getResourceVersesAfter ()
+{
+  return getIValue ("resource-verses-after", 0);
+}
+void Database_Config_User::setResourceVersesAfter (int verses)
+{
+  setIValue ("resource-verses-after", verses);
+}
+
+
+// Encryption key storage on server.
+string Database_Config_User::getSyncKey ()
+{
+  return getValue ("sync-key", "");
+}
+void Database_Config_User::setSyncKey (string key)
+{
+  setValue ("sync-key", key);
+}
+
+
+int Database_Config_User::getGeneralFontSize ()
+{
+  return getIValue ("general-font-size", 100);
+}
+void Database_Config_User::setGeneralFontSize (int size)
+{
+  setIValue ("general-font-size", size);
+}
+
 

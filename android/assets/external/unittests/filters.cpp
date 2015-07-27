@@ -320,67 +320,142 @@ void test_filters_test2 ()
 void test_filters_test_usfm1 ()
 {
   {
-    string usfm = "\\id MIC";
-    evaluate (__LINE__, __func__, 0, usfm_linenumber_to_versenumber (usfm, 0));
-    usfm = "\\id MIC\n\\v 1 Verse";
-    evaluate (__LINE__, __func__, 1, usfm_linenumber_to_versenumber (usfm, 1));
-    usfm = "\\v 1 Verse";
-    evaluate (__LINE__, __func__, 1, usfm_linenumber_to_versenumber (usfm, 0));
-    usfm = "\\p\n\\v 3 Verse 3 (out of order).\n\\v 1 Verse 1. \n\\v 2 Verse 1.";
-    evaluate (__LINE__, __func__, 0, usfm_linenumber_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 3, usfm_linenumber_to_versenumber (usfm, 1));
-    evaluate (__LINE__, __func__, 1, usfm_linenumber_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, 2, usfm_linenumber_to_versenumber (usfm, 3));
+    string usfm =
+    "\\id MIC";
+    evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
+
+    usfm =
+    "\\id MIC\n"
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 1));
+
+    usfm =
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 0));
+    
+    usfm =
+    "\\p\n"
+    "\\v 3 Verse 3 (out of order).\n"
+    "\\v 1 Verse 1. \n"
+    "\\v 2 Verse 1.";
+    evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {3}, usfm_linenumber_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 2));
+    evaluate (__LINE__, __func__, {2}, usfm_linenumber_to_versenumber (usfm, 3));
+
+    usfm =
+    "\\id MIC\n"
+    "\\v 1-2 Verse";
+    evaluate (__LINE__, __func__, {1, 2}, usfm_linenumber_to_versenumber (usfm, 1));
 
     usfm = "\\id MIC";
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 17));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 17));
 
-    usfm = "\\id MIC\n\\v 1 Verse";
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 8));
+    usfm =
+    "\\id MIC\n"
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 8));
 
-    usfm = "\\v 1 Verse";
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 2));
+    usfm =
+    "\\id MIC\n"
+    "\\v 1-3 Verse";
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {1, 2, 3}, usfm_offset_to_versenumber (usfm, 8));
+    
+    usfm =
+    "\\v 1 Verse";
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 2));
 
-    usfm = "\\p\n\\v 3 Verse 3 (out of order).\n\\v 1 Verse 1.\n\\v 2 Verse 2.";
+    usfm =
+    "\\p\n"
+    "\\v 3 Verse 3 (out of order).\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.";
 
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 1));
 
-    evaluate (__LINE__, __func__, 0, usfm_offset_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, 3, usfm_offset_to_versenumber (usfm, 3));
-    evaluate (__LINE__, __func__, 3, usfm_offset_to_versenumber (usfm, 4));
+    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 2));
+    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 3));
+    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 4));
 
-    evaluate (__LINE__, __func__, 3, usfm_offset_to_versenumber (usfm, 31));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 32));
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 33));
+    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 31));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 32));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 33));
 
-    evaluate (__LINE__, __func__, 1, usfm_offset_to_versenumber (usfm, 45));
-    evaluate (__LINE__, __func__, 2, usfm_offset_to_versenumber (usfm, 46));
-    evaluate (__LINE__, __func__, 2, usfm_offset_to_versenumber (usfm, 47));
+    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 45));
+    evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 46));
+    evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 47));
 
-    usfm = "\\p\n\\v 1 Verse 1.\n\\v 2 Verse 2.\n\\v 3 Verse 3.";
+    usfm =
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 4-5 Verse 4 and 5.";
     evaluate (__LINE__, __func__, 3, usfm_versenumber_to_offset (usfm, 1));
     evaluate (__LINE__, __func__, 17, usfm_versenumber_to_offset (usfm, 2));
     evaluate (__LINE__, __func__, 31, usfm_versenumber_to_offset (usfm, 3));
-    evaluate (__LINE__, __func__, 44, usfm_versenumber_to_offset (usfm, 4));
-    evaluate (__LINE__, __func__, 44, usfm_versenumber_to_offset (usfm, 5));
+    evaluate (__LINE__, __func__, 45, usfm_versenumber_to_offset (usfm, 4));
+    evaluate (__LINE__, __func__, 45, usfm_versenumber_to_offset (usfm, 5));
+    evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
+    evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
 
-    usfm = "\\p\n\\v 1 One";
+    usfm =
+    "\\p\n"
+    "\\v 1 One";
     evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
     evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0));
     evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2));
 
-    usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
+    usfm =
+    "\\c 1\n"
+    "\\s Isibingelelo\n"
+    "\\p\n"
+    "\\v 1 Umdala\n"
+    "\\p\n"
+    "\\v 2 Sithandwa\n"
+    "\\v 3 Ngoba\n"
+    "\\v 4 Kangilantokozo\n"
+    "\\s Inkathazo\n"
+    "\\p\n"
+    "\\v 5 Sithandwa\n"
+    "\\v 6 abafakazele\n"
+    "\\v 7 Ngoba\n"
+    "\\v 8 Ngakho\n"
+    "\\p\n"
+    "\\v 9 Ngabhalela\n"
+    "\\v 10 Ngakho\n"
+    "\\p\n"
+    "\\v 11 Sithandwa\n"
+    "\\v 12 NgoDemetriyu\n"
+    "\\s Isicino\n"
+    "\\p\n"
+    "\\v 13 Bengilezinto\n"
+    "\\v 14 kodwa\n"
+    "\\p Ukuthula";
     string result = "\\c 1\n\\s Isibingelelo\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
     result = "\\v 1 Umdala\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
     result = "\\v 12 NgoDemetriyu\n\\s Isicino\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12));
+    
+    usfm =
+    "\\v 1 Verse 1.\n"
+    "\\v 2-4 Verse 2, 3, and 4.\n"
+    "\\v 5 Verse 5.\n"
+    "\\v 6 Verse 6.";
+    result = usfm_get_verse_text (usfm, 2);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    result = usfm_get_verse_text (usfm, 3);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    result = usfm_get_verse_text (usfm, 4);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
   }
 }
 
@@ -534,6 +609,23 @@ void test_filters_test5 ()
     "\\p\n"
     "\\v 19 \nnd kosi\nd*, Nkulunkulu wamabandla, siphendule, wenze ubuso bakho bukhanye, ngakho sizasindiswa\\x + 80.3,7.\\x*.\n";
     evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, usfm_get_verse_numbers (usfm));
+  }
+  {
+    string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
+    vector <int> verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 1, 2, 3 }, verses);
+    
+    usfm = "\\v 10-12b Fragment\n\\p\n\\v 13 Fragment\n";
+    verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 10, 11, 12, 13 }, verses);
+    
+    usfm = "\\v 10,11a Fragment\n\\p\n\\v 13 Fragment\n";
+    verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 10, 11, 13 }, verses);
+    
+    usfm = "\\v 10,12 Fragment\n\\p\n\\v 13 Fragment\n";
+    verses = usfm_get_verse_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 10, 12, 13 }, verses);
   }
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\x + Hlab. 81.5.\\x* njengomhlambi\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
@@ -4330,6 +4422,36 @@ void test_filter_url ()
   evaluate (__LINE__, __func__, "path/22-SongofSolomon-000.html", filter_url_html_file_name_bible ("path", 22, 0));
   evaluate (__LINE__, __func__, "path/33-Micah-333.html", filter_url_html_file_name_bible ("path", 33, 333));
   evaluate (__LINE__, __func__, "33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
+}
+
+
+void test_filter_string ()
+{
+  string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
+  string output = convert_xml_character_entities_to_characters (input);
+  string standard = filter_string_str_replace ("&#xB6;", "¶", input);
+  evaluate (__LINE__, __func__, standard, output);
+
+  input = "<span>Praise the LORD &#x5D0; all you nations</span>";
+  output = convert_xml_character_entities_to_characters (input);
+  standard = filter_string_str_replace ("&#x5D0;", "א", input);
+  evaluate (__LINE__, __func__, standard, output);
+  
+  input = "Username";
+  output = encrypt_decrypt ("key", input);
+  output = encrypt_decrypt ("key", output);
+  evaluate (__LINE__, __func__, input, output);
+
+  input = "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ";
+  output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", input);
+  output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", output);
+  evaluate (__LINE__, __func__, input, output);
+  
+  string one = get_new_key ();
+  this_thread::sleep_for (chrono::milliseconds (10));
+  string two = get_new_key ();
+  evaluate (__LINE__, __func__, 32, one.length ());
+  evaluate (__LINE__, __func__, true, one != two);
 }
 
 

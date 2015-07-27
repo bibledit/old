@@ -27,6 +27,7 @@
 string sendreceive_bibles_sendreceive_text ();
 string sendreceive_bibles_up_to_date_text ();
 void sendreceive_bibles ();
+void sendreceive_bibles_kick_watchdog ();
 
 
 #endif

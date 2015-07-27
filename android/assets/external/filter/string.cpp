@@ -21,8 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <utf8/utf8.h>
 #include <filter/url.h>
 #include <filter/md5.h>
+#include <filter/date.h>
 #include <database/config/general.h>
 #include <config/logic.h>
+// #include <codecvt>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -976,4 +978,87 @@ string html_tidy (string html)
 {
   html = filter_string_str_replace ("<", "\n<", html);
   return html;
+}
+
+
+// Converts elements from the HTML specification to the XML spec.
+string html2xml (string html)
+{
+  // HTML specification: <hr>, XML specification: <hr/>.
+  html = filter_string_str_replace ("<hr>", "<hr/>", html);
+
+  // HTML specification: <br>, XML specification: <br/>.
+  html = filter_string_str_replace ("<br>", "<br/>", html);
+
+  return html;
+}
+
+
+// Converts XML character entities, like e.g. "&#xB6;" to normal UTF-8 character, like e.g. "¶".
+string convert_xml_character_entities_to_characters (string data)
+{
+  bool keep_going = true;
+  int iterations = 0;
+  size_t pos1 = -1;
+  do {
+    iterations++;
+    pos1 = data.find ("&#x", pos1 + 1);
+    if (pos1 == string::npos) {
+      keep_going = false;
+      continue;
+    }
+    size_t pos2 = data.find (";", pos1);
+    if (pos2 == string::npos) {
+      keep_going = false;
+      continue;
+    }
+    string entity = data.substr (pos1 + 3, pos2 - pos1 - 3);
+    data.erase (pos1, pos2 - pos1 + 1);
+    int codepoint;
+    stringstream ss;
+    ss << hex << entity;
+    ss >> codepoint;
+    
+    // The following is not available in GNU libstdc++.
+    // wstring_convert <codecvt_utf8 <char32_t>, char32_t> conv1;
+    // string u8str = conv1.to_bytes (codepoint);
+    
+    int cp = codepoint;
+    // Adapted from: http://www.zedwood.com/article/cpp-utf8-char-to-codepoint.
+    char c[5]={ 0x00,0x00,0x00,0x00,0x00 };
+    if     (cp<=0x7F) { c[0] = cp;  }
+    else if(cp<=0x7FF) { c[0] = (cp>>6)+192; c[1] = (cp&63)+128; }
+    else if(0xd800<=cp && cp<=0xdfff) {} //invalid block of utf8
+    else if(cp<=0xFFFF) { c[0] = (cp>>12)+224; c[1]= ((cp>>6)&63)+128; c[2]=(cp&63)+128; }
+    else if(cp<=0x10FFFF) { c[0] = (cp>>18)+240; c[1] = ((cp>>12)&63)+128; c[2] = ((cp>>6)&63)+128; c[3]=(cp&63)+128; }
+    string u8str = string (c);
+    
+    data.insert (pos1, u8str);
+  } while (keep_going & (iterations < 100000));
+  return data;
+}
+
+
+// Encrypts the $data if the data is unencrypted.
+// Decrypts the $data if the data is encrypted.
+string encrypt_decrypt (string key, string data)
+{
+  // Encrypt the key.
+  key = md5 (key);
+  // Encrypt the data through the encrypted key.
+  for (size_t i = 0; i < data.size(); i++) {
+    data[i] = data[i] ^ key [i % key.length ()];
+  }
+  // Result.
+  return data;
+}
+
+
+// Gets a new key for encryption and decryption.
+string get_new_key ()
+{
+  string u = convert_to_string (filter_date_numerical_microseconds ());
+  string s = convert_to_string (filter_date_seconds_since_epoch ());
+  string r = convert_to_string ((float)random ());
+  return md5 (u + s + r);
 }

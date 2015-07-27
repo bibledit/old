@@ -48,8 +48,8 @@ vector <string> usfm_get_markers_and_text (string code);
 string usfm_get_marker (string usfm);
 vector <BookChapterData> usfm_import (string input, string stylesheet);
 vector <int> usfm_get_verse_numbers (string usfm);
-int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number);
-int usfm_offset_to_versenumber (string usfm, unsigned int offset);
+vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_number);
+vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset);
 int usfm_versenumber_to_offset (string usfm, int verse);
 string usfm_get_verse_text (string usfm, int verse_number);
 bool usfm_is_usfm_marker (string code);
@@ -66,9 +66,9 @@ string usfm_remove_notes (string usfm, const vector <string> & markers);
 string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio);
 string usfm_move_note (string usfm, int direction, int number);
 size_t usfm_get_new_note_position (string usfm, size_t position, int direction);
-bool usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter);
-bool usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm);
-bool usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm);
+string usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter);
+string usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm);
+string usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm);
 
 
 #endif

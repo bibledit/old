@@ -27,8 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Bibles
 {
 public:
-  Database_Bibles ();
-  ~Database_Bibles ();
   vector <string> getBibles ();
   int getID (string name);
   void setID (string name, int id);

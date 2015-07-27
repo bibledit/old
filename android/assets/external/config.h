@@ -88,7 +88,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.184"
+#define PACKAGE_STRING "bibledit 1.0.197"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -97,13 +97,16 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.184"
+#define PACKAGE_VERSION "1.0.197"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 3
 
 /* Define whether Paratext synchronization is enabled */
 #define PARATEXT "no"
+
+/* Define the path to the shared external resources cache */
+#define RESOURCES_PATH ""
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -118,4 +121,4 @@
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.184"
+#define VERSION "1.0.197"

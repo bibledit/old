@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <timer/index.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/state.h>
 #include <config/globals.h>
 #include <filter/string.h>
 #include <filter/date.h>
@@ -146,6 +147,7 @@ void timer_index ()
       
       // Re-index Bibles and notes.
       if ((hour == 2) && (minute == 0)) {
+        Database_State::create ();
         tasks_logic_queue (REINDEXBIBLES);
         tasks_logic_queue (REINDEXNOTES);
       }
@@ -158,7 +160,7 @@ void timer_index ()
       }
       
       // Sprint burndown.
-      // It runs every hour.
+      // It runs every hour in the Cloud.
       // The script itself determines what to do at which hour of the day or day of the week or day of the month.
       if (!client) {
         if (minute == 5) {

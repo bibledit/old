@@ -57,6 +57,7 @@ bool filter_url_email_is_valid (string email);
 string filter_url_build_http_query (string url, const string& parameter, const string& value);
 string filter_url_http_get (string url, string& error);
 string filter_url_http_post (string url, map <string, string> values, string& error, bool burst = false);
+string filter_url_http_upload (string url, map <string, string> values, string filename, string& error);
 string filter_url_http_response_code_text (int code);
 void filter_url_download_file (string url, string filename, string& error);
 string filter_url_html_file_name_bible (string path = "", int book = 0, int chapter = -1);

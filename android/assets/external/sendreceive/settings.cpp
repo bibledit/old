@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
 #include <database/config/general.h>
@@ -34,8 +35,7 @@
 #include <sync/settings.h>
 
 
-mutex mutex_sendreceive_settings;
-bool sendreceive_settings_running = false;
+int sendreceive_settings_watchdog = 0;
 
 
 string sendreceive_settings_text ()
@@ -58,21 +58,21 @@ string sendreceive_settings_up_to_date_text ()
 
 void sendreceive_settings_done ()
 {
-  mutex_sendreceive_settings.lock ();
-  sendreceive_settings_running = false;
-  mutex_sendreceive_settings.unlock ();
+  sendreceive_settings_watchdog = 0;
 }
 
 
 void sendreceive_settings ()
 {
-  mutex_sendreceive_settings.lock ();
-  bool bail_out = sendreceive_settings_running;
-  mutex_sendreceive_settings.unlock ();
-  if (bail_out) return;
-  mutex_sendreceive_settings.lock ();
-  sendreceive_settings_running = true;
-  mutex_sendreceive_settings.unlock ();
+  if (sendreceive_settings_watchdog) {
+    int time = filter_date_seconds_since_epoch ();
+    if (time < (sendreceive_settings_watchdog + 900)) {
+      Database_Logs::log ("Settings: " + translate("Still busy"), Filter_Roles::translator ());
+      return;
+    }
+    Database_Logs::log ("Settings: " + translate("Watchdog timeout"), Filter_Roles::translator ());
+  }
+  sendreceive_settings_kick_watchdog ();
   
   Database_Logs::log (sendreceive_settings_sendreceive_text (), Filter_Roles::translator ());
   
@@ -230,5 +230,11 @@ void sendreceive_settings ()
   // Done.
   Database_Logs::log ("Settings: Updated", Filter_Roles::translator ());
   sendreceive_settings_done ();
+}
+
+
+void sendreceive_settings_kick_watchdog ()
+{
+  sendreceive_settings_watchdog = filter_date_seconds_since_epoch ();
 }
 

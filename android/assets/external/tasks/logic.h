@@ -64,6 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define HYPHENATE "hyphenate"
 #define SETUPPARATEXT "setupparatext"
 #define SYNCPARATEXT "syncparatext"
+#define SUBMITBIBLEDROPBOX "submitbibledropbox"
 
 
 string tasks_logic_folder ();

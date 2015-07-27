@@ -24,6 +24,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/bible.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -34,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_text_usfm_book (string bible, int book)
+void export_text_usfm_book (string bible, int book, bool force)
 {
   // Create folders for the clear text and the basic USFM exports.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 1);
@@ -46,6 +47,13 @@ void export_text_usfm_book (string bible, int book)
   // Filenames for text and usfm.
   string usfmFilename = filter_url_create_path (usfmDirectory, Export_Logic::baseBookFileName (book) + ".usfm");
   string textFilename = filter_url_create_path (textDirectory, Export_Logic::baseBookFileName (book) + ".txt");
+  
+  
+  // Certain conditions determine whether to run this export.
+  if (!file_exists (usfmFilename)) force = true;
+  if (!file_exists (textFilename)) force = true;
+  if (Database_State::getExport (bible, book, Export_Logic::export_text_and_basic_usfm)) force = true;
+  if (!force) return;
   
   
   Database_Bibles database_bibles;
@@ -115,6 +123,10 @@ void export_text_usfm_book (string bible, int book)
   // Save the text export.
   filter_text_book.text_text->save (textFilename);
   
+  
+  // Clear the flag that indicated this export.
+  Database_State::clearExport (bible, book, Export_Logic::export_text_and_basic_usfm);
+
   
   Database_Logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }

@@ -44,10 +44,12 @@ public:
   static string offlineresources ();
   static string httpget (const string & name, const string & file);
   string filepath (const string & name, const string & file);
+  void link_to_central_cache (const string & name);
 private:
   string mainFolder ();
   string resourceFolder (string name);
   string databaseFile (string name, int book);
+  bool central_cache_linked (string name);
   sqlite3 * connect (string file);
 };
 

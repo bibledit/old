@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/import_task.h>
 #include <compare/compare.h>
 #include <database/maintenance.h>
+#include <database/config/general.h>
 #include <tmp/tmp.h>
 #include <collaboration/link.h>
 #include <sendreceive/sendreceive.h>
@@ -58,6 +59,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/info.h>
 #include <export/esword.h>
 #include <export/onlinebible.h>
+#include <export/bibledropbox.h>
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 
@@ -127,16 +129,28 @@ void tasks_run_one (string filename)
   } else if (command == SENDRECEIVEBIBLES) {
     sendreceive_sendreceive (parameter1);
   } else if (command == SYNCNOTES) {
+    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_notes ();
+    //else syncclient_notes ();
     sendreceive_notes ();
   } else if (command == SYNCBIBLES) {
+    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_bibles ();
+    //else syncclient_bibles ();
     sendreceive_bibles ();
   } else if (command == SYNCSETTINGS) {
+    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_settings ();
+    //else syncclient_settings ();
     sendreceive_settings ();
   } else if (command == SYNCEXTERNALRESOURCES) {
+    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_externalresources ();
+    //else syncclient_externalresources ();
     sendreceive_externalresources ();
   } else if (command == SYNCUSFMRESOURCES) {
+    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_usfmresources ();
+    //else syncclient_usfmresources ();
     sendreceive_usfmresources ();
   } else if (command == SYNCCHANGES) {
+    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_changes ();
+    //else syncclient_changes ();
     sendreceive_changes ();
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
@@ -159,29 +173,31 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTALL) {
     export_index ();
   } else if (command == EXPORTWEBMAIN) {
-    export_web_book (parameter1, convert_to_int (parameter2));
+    export_web_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTWEBINDEX) {
-    export_web_index (parameter1);
+    export_web_index (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTHTML) {
-    export_html_book (parameter1, convert_to_int (parameter2));
+    export_html_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTUSFM) {
-    export_usfm (parameter1);
+    export_usfm (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTTEXTUSFM) {
-    export_text_usfm_book (parameter1, convert_to_int (parameter2));
+    export_text_usfm_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTODT) {
-    export_odt_book (parameter1, convert_to_int (parameter2));
+    export_odt_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTINFO) {
-    export_info (parameter1);
+    export_info (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTESWORD) {
-    export_esword (parameter1);
+    export_esword (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTONLINEBIBLE) {
-    export_onlinebible (parameter1);
+    export_onlinebible (parameter1, convert_to_bool (parameter2));
   } else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
   } else if (command == SETUPPARATEXT) {
     Paratext_Logic::setup (parameter1, parameter2);
   } else if (command == SYNCPARATEXT) {
     Paratext_Logic::synchronize ();
+  } else if (command == SUBMITBIBLEDROPBOX) {
+    export_bibledropbox (parameter1, parameter2);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }
