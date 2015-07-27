@@ -18,6 +18,7 @@
 
 
 #include <resource/logic.h>
+#include <resource/admin.h>
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <database/usfmresources.h>
@@ -121,14 +122,15 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         html.append (" ");
         html.append (translate ("To make it available, follow these steps:"));
         html.append (" ");
-        string address = Database_Config_General::getServerAddress ();
-        int port = Database_Config_General::getServerPort ();
-        string url = client_logic_url (address, port, "");
-        html.append ("<a href=\"" + url + "\">" + translate ("Go to Bibledit Cloud.") + "</a>");
+        if (resource_admin_acl (request)) {
+          html.append (client_logic_link_to_cloud (resource_admin_url (), translate ("Go to Bibledit Cloud.")));
+          html.append (" ");
+          html.append (translate ("Cache this external resource there."));
+        } else {
+          html.append (client_logic_link_to_cloud ("", translate ("Ask a manager to cache this external resource in Bibledit Cloud.")));
+        }
         html.append (" ");
-        html.append (translate ("Cache this external resource to make it available offline there."));
-        html.append (" ");
-        html.append (translate ("Come back on the Bibledit client here."));
+        html.append (translate ("Go back on the Bibledit client here."));
         html.append (" ");
         html.append (translate ("Synchronize."));
       } else {

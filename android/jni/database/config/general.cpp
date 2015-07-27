@@ -364,3 +364,12 @@ void Database_Config_General::setParatextProjectsFolder (string value)
 }
 
 
+// Encryption / decryption key storage on client.
+string Database_Config_General::getSyncKey ()
+{
+  return getValue ("sync-key", "");
+}
+void Database_Config_General::setSyncKey (string key)
+{
+  setValue ("sync-key", key);
+}

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
+#include <config/logic.h>
 
 
 // This database is not very resilient.
@@ -34,10 +35,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void Database_OfflineResources::erase (string name)
 {
   string path = resourceFolder (name);
-  // If a folder: Delete it.
-  filter_url_rmdir (path);
   // If a file: Delete it.
   filter_url_unlink (path);
+  // If a folder: Delete it.
+  filter_url_rmdir (path);
 }
 
 
@@ -157,6 +158,8 @@ string Database_OfflineResources::get (string name, int book, int chapter, int v
 // Return the names of the available offline resources.
 vector <string> Database_OfflineResources::names ()
 {
+  // It looks for the same folder for both the normal cache, and for the central cache,
+  // because the central cache is indicated by the presence of this folder also.
   return filter_url_scandir (mainFolder ());
 }
 
@@ -171,6 +174,7 @@ vector <string> Database_OfflineResources::files (string name)
 // Returns the size of the file that contains resource name and file.
 int Database_OfflineResources::size (const string & name, string file)
 {
+  // Normal file.
   file = filter_url_create_path (resourceFolder (name), file);
   int size = 0;
   if (file_exists (file)) size = filter_url_filesize (file);
@@ -188,7 +192,7 @@ void Database_OfflineResources::unlink (const string & name, string file)
 }
 
 
-// Saves an entire database in resource name as file file.
+// Saves an entire database in resource $name as file $file.
 void Database_OfflineResources::save (const string & name, string file, const string & contents)
 {
   string path = resourceFolder (name);
@@ -235,6 +239,16 @@ string Database_OfflineResources::filepath (const string & name, const string & 
 }
 
 
+// Link resource $name to the central cache.
+void Database_OfflineResources::link_to_central_cache (const string & name)
+{
+  erase (name);
+  string ourname = resourceFolder (name);
+  string centralname = filter_url_create_path (config_logic_external_resources_cache_path (), name);
+  if (symlink (centralname.c_str (), ourname.c_str())) {};
+}
+
+
 string Database_OfflineResources::mainFolder ()
 {
   return filter_url_create_root_path (databases (), offlineresources ());
@@ -259,3 +273,8 @@ sqlite3 * Database_OfflineResources::connect (string file)
 }
 
 
+// Whether the resource $name is linked to the central cache.
+bool Database_OfflineResources::central_cache_linked (string name)
+{
+  return file_exists (resourceFolder (name));
+}

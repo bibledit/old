@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <webserver/request.h>
 #include <database/notes.h>
+#include <database/state.h>
 
 
 void search_reindex_notes ()
@@ -45,7 +46,7 @@ void search_reindex_notes ()
   // Without this delay, "locked database" errors have been seen.
   this_thread::sleep_for (chrono::seconds (1));
 
-  
+
   // Check on health of the databases, and optionally recreate them.
   bool recreate = database_notes.checkup ();
   if (recreate) {

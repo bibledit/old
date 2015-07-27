@@ -17,16 +17,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_MANAGE_INDEXING_H
-#define INCLUDED_MANAGE_INDEXING_H
+#ifndef INCLUDED_PERSONALIZE_INDEXING_H
+#define INCLUDED_PERSONALIZE_INDEXING_H
 
 
 #include <config/libraries.h>
 
 
-string manage_indexing_url ();
-bool manage_indexing_acl (void * webserver_request);
-string manage_indexing (void * webserver_request);
+string personalize_index_url ();
+bool personalize_index_acl (void * webserver_request);
+string personalize_index (void * webserver_request);
 
 
 #endif

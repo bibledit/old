@@ -17,16 +17,14 @@
  */
 
 
-#ifndef INCLUDED_FONTS_INDEX_H
-#define INCLUDED_FONTS_INDEX_H
+#ifndef INCLUDED_EXPORT_BIBLEDROPBOX_H
+#define INCLUDED_EXPORT_BIBLEDROPBOX_H
 
 
 #include <config/libraries.h>
 
 
-string fonts_index_url ();
-bool fonts_index_acl (void * webserver_request);
-string fonts_index (void * webserver_request);
+void export_bibledropbox (string user, string bible);
 
 
 #endif

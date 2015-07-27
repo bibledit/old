@@ -67,6 +67,7 @@ libbibledit_a_SOURCES = \
 	database/notes.cpp \
 	database/volatile.cpp \
 	database/maintenance.cpp \
+	database/state.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -133,7 +134,6 @@ libbibledit_a_SOURCES = \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \
-	sync/logic.cpp \
 	help/index.cpp \
 	confirm/worker.cpp \
 	email/index.cpp \
@@ -141,7 +141,7 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
-	manage/indexing.cpp \
+	manage/index.cpp \
 	manage/users.cpp \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
@@ -167,7 +167,6 @@ libbibledit_a_SOURCES = \
 	dialog/books.cpp \
 	dialog/upload.cpp \
 	fonts/logic.cpp \
-	fonts/index.cpp \
 	versification/index.cpp \
 	versification/system.cpp \
 	versification/logic.cpp \
@@ -237,6 +236,7 @@ libbibledit_a_SOURCES = \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
+	sync/logic.cpp \
 	sync/setup.cpp \
 	sync/settings.cpp \
 	sync/bibles.cpp \
@@ -294,6 +294,7 @@ libbibledit_a_SOURCES = \
 	export/textusfm.cpp \
 	export/usfm.cpp \
 	export/web.cpp \
+	export/bibledropbox.cpp \
 	xrefs/clear.cpp \
 	xrefs/extract.cpp \
 	xrefs/help.cpp \
@@ -309,7 +310,8 @@ libbibledit_a_SOURCES = \
 	debug/index.cpp \
 	browser/index.cpp \
 	paratext/logic.cpp \
-	paratext/index.cpp
+	paratext/index.cpp \
+	personalize/index.cpp
 
 bin_PROGRAMS = server unittest
 

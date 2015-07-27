@@ -167,6 +167,7 @@ string workbenchProcessUnits (string length)
 #define URLS 1
 #define WIDTHS 2
 #define HEIGHTS 3
+#define ENTIREWIDTH 4
 
 
 void workbenchSetValues (void * webserver_request, int selector, const map <int, string> & values)
@@ -178,6 +179,7 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
   if (selector == URLS) rawvalue = request->database_config_user()->getWorkbenchURLs ();
   if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkbenchWidths ();
   if (selector == HEIGHTS) rawvalue = request->database_config_user()->getWorkbenchHeights ();
+  if (selector == ENTIREWIDTH) rawvalue = request->database_config_user()->getEntireWorkbenchWidths ();
   vector <string> currentlines = filter_string_explode (rawvalue, '\n');
   vector <string> newlines;
   for (auto & line : currentlines) {
@@ -201,6 +203,10 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
   if (selector == HEIGHTS) {
     request->database_config_user()->setWorkbenchHeights (rawvalue);
     workbenchCacheForCloud (request, false, false, true);
+  }
+  if (selector == ENTIREWIDTH) {
+    request->database_config_user()->setEntireWorkbenchWidths (rawvalue);
+    workbenchCacheForCloud (request, false, true, false);
   }
 }
 
@@ -228,6 +234,13 @@ void workbenchSetHeights (void * webserver_request, const map <int, string> & va
 }
 
 
+void workbenchSetEntireWidth (void * webserver_request, string value)
+{
+  map <int, string> values = {make_pair (0, value)};
+  workbenchSetValues (webserver_request, ENTIREWIDTH, values);
+}
+
+
 map <int, string> workbenchGetValues (void * webserver_request, int selector, bool use)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -240,6 +253,7 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
   if (selector == URLS) rawvalue = request->database_config_user()->getWorkbenchURLs ();
   if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkbenchWidths ();
   if (selector == HEIGHTS) rawvalue = request->database_config_user()->getWorkbenchHeights ();
+  if (selector == ENTIREWIDTH) rawvalue = request->database_config_user()->getEntireWorkbenchWidths ();
   vector <string> lines = filter_string_explode (rawvalue, '\n');
   for (auto & line : lines) {
     if (line.find (workbench + "_") == 0) {
@@ -256,6 +270,7 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
     if (selector == URLS) values = workbenchDefaultURLs (0);
     if (selector == WIDTHS) values = workbenchDefaultWidths (0);
     if (selector == HEIGHTS) values = workbenchDefaultHeights (0);
+    if (selector == ENTIREWIDTH) values.clear ();
   }
 
   for (auto & element : values) {
@@ -287,6 +302,11 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
       element.second = workbenchProcessUnits (element.second);
     }
 
+    if (selector == ENTIREWIDTH) {
+      // Fix the units.
+      element.second = workbenchProcessUnits (element.second);
+    }
+    
   }
 
   return values;
@@ -308,6 +328,14 @@ map <int, string> workbenchGetWidths (void * webserver_request)
 map <int, string> workbenchGetHeights (void * webserver_request)
 {
   return workbenchGetValues (webserver_request, HEIGHTS, false);
+}
+
+
+string workbenchGetEntireWidth (void * webserver_request)
+{
+  map <int, string> values = workbenchGetValues (webserver_request, ENTIREWIDTH, false);
+  for (auto & element : values) return element.second;
+  return "";
 }
 
 

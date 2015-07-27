@@ -26,13 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <email/index.h>
 #include <config/logic.h>
-#include <manage/indexing.h>
+#include <manage/index.h>
 #include <manage/users.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
-#include <fonts/index.h>
 #include <versification/index.h>
 #include <bible/manage.h>
 #include <edit/index.h>
@@ -69,6 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <debug/index.h>
 #include <browser/index.h>
 #include <paratext/index.h>
+#include <personalize/index.h>
 
 
 /*
@@ -225,7 +225,9 @@ vector <Menu_Main_Item> * Menu_Main::changesmenu ()
 vector <Menu_Main_Item> * Menu_Main::planningmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (sprint_index_acl (webserver_request)) menu->push_back ( { "", sprint_index_url (), translate ("Sprint"), NULL } );
+  if (!config_logic_client_prepared ()) {
+    if (sprint_index_acl (webserver_request)) menu->push_back ( { "", sprint_index_url (), translate ("Sprint"), NULL } );
+  }
   if (menu->size ()) return menu;
   delete menu;
   return NULL;
@@ -262,11 +264,14 @@ vector <Menu_Main_Item> * Menu_Main::exportssubmenu ()
 vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
+  if (personalize_index_acl (webserver_request)) {
+    menu->push_back ( { "", personalize_index_url (), translate ("Personalize"), NULL } );
+  }
   if (manage_users_acl (webserver_request) && !config_logic_client_prepared ()) {
     menu->push_back ( { "", manage_users_url (), translate ("Users"), NULL } );
   }
-  if (manage_indexing_acl (webserver_request)) {
-    menu->push_back ( { "", manage_indexing_url (), translate ("Indexing"), NULL } );
+  if (manage_index_acl (webserver_request)) {
+    menu->push_back ( { "", manage_index_url (), translate ("Manage"), NULL } );
   }
   if (administration_language_acl (webserver_request)) {
     menu->push_back ( { "", administration_language_url (), translate ("Language"), NULL } );
@@ -301,9 +306,6 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (!config_logic_client_prepared ()) client_menu = false;
   if (config_logic_demo_enabled ()) client_menu = true;
   if (client_menu) menu->push_back ( { "", client_index_url (), translate ("Cloud"), NULL } );
-  if (fonts_index_acl (webserver_request)) {
-    menu->push_back ( { "", fonts_index_url (), translate ("Fonts"), NULL } );
-  }
   // Paratext can be enabled through ./configure --enable-paratext.
   if (config_logic_paratext_enabled ()) {
     if (paratext_index_acl (webserver_request)) {

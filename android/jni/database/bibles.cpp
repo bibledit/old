@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibles.h>
 #include <database/search.h>
 #include <database/books.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 
@@ -27,16 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This database stores its data in files in the filesystem.
 // This is a rugged and reliable system of storing data.
 // Because no real database is used, no database can get corrupted.
-
-
-Database_Bibles::Database_Bibles ()
-{
-}
-
-
-Database_Bibles::~Database_Bibles ()
-{
-}
 
 
 string Database_Bibles::mainFolder ()
@@ -127,6 +118,8 @@ int Database_Bibles::createBible (string name)
   // Store the ID
   setID (name, id);
 
+  Database_State::clearExported (name, 0);
+
   // Return new ID.
   return id;
 }
@@ -136,6 +129,7 @@ int Database_Bibles::createBible (string name)
 void Database_Bibles::deleteBible (string name)
 {
   filter_url_rmdir (bibleFolder (name));
+  Database_State::clearExported (name, 0);
 }
 
 
@@ -153,6 +147,8 @@ void Database_Bibles::storeChapter (string name, int book, int chapter_number, s
 
   // Update search fields.
   updateSearchFields (name, book, chapter_number);
+  
+  Database_State::clearExported (name, book);
 }
 
 
@@ -190,6 +186,7 @@ void Database_Bibles::deleteBook (string bible, int book)
 {
   string folder = bookFolder (bible, book);
   filter_url_rmdir (folder);
+  Database_State::clearExported (bible, book);
 }
 
 
@@ -212,6 +209,8 @@ void Database_Bibles::deleteChapter (string bible, int book, int chapter)
 {
   string folder = chapterFolder (bible, book, chapter);
   filter_url_rmdir (folder);
+  Database_State::clearExported (bible, book);
+
 }
 
 
@@ -259,7 +258,10 @@ void Database_Bibles::optimize ()
         vector <string> files2;
         for (string file : files) {
           string path = filter_url_create_path (folder, file);
-          if (filter_url_filesize (path) == 0) filter_url_unlink (path);
+          if (filter_url_filesize (path) == 0) {
+            filter_url_unlink (path);
+            Database_State::clearExported (bible, book);
+          }
           else files2.push_back (file);
         }
         // Remove the three most recent files from the array, so they don't get deleted.

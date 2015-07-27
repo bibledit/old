@@ -123,6 +123,8 @@ public:
   void setWorkbenchWidths (string value);
   string getWorkbenchHeights ();
   void setWorkbenchHeights (string value);
+  string getEntireWorkbenchWidths ();
+  void setEntireWorkbenchWidths (string value);
   string getActiveWorkbench ();
   void setActiveWorkbench (string value);
   bool getPostponeNewNotesMails ();
@@ -161,6 +163,14 @@ public:
   void setUserChangeNotificationsChecksum (string user, string value);
   void setLiveBibleEditor (int time);
   int getLiveBibleEditor ();
+  void setResourceVersesBefore (int verses);
+  int getResourceVersesBefore ();
+  void setResourceVersesAfter (int verses);
+  int getResourceVersesAfter ();
+  string getSyncKey ();
+  void setSyncKey (string key);
+  void setGeneralFontSize (int size);
+  int getGeneralFontSize ();
 private:
   void * webserver_request;
   string file (string user, const char * key);

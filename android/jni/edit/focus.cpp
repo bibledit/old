@@ -53,24 +53,32 @@ string edit_focus (void * webserver_request)
   int verse = Ipc_Focus::getVerse (request);
 
 
-  Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
-  editor_import.load (usfm);
-  editor_import.stylesheet (stylesheet);
-  editor_import.run ();
+  Editor_Usfm2Html editor_usfm2html = Editor_Usfm2Html (request);
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.run ();
   
-  
-  if (editor_import.verseStartOffsets.count (verse) == 0) return "";
-  int startingOffset = editor_import.verseStartOffsets [verse];
-  startingOffset += convert_to_string (verse).length () + 1;
-  int endingOffset = startingOffset;
-  verse++;
-  if (editor_import.verseStartOffsets.count (verse)) {
-    endingOffset = editor_import.verseStartOffsets [verse];
+  int startingOffset = 0;
+  int endingOffset = 0;
+  // To deal with a combined verse, go through the offsets, and pick the correct one.
+  for (auto element : editor_usfm2html.verseStartOffsets) {
+    int vs = element.first;
+    int offset = element.second;
+    if (vs <= verse) startingOffset = offset;
+    if (endingOffset == 0) {
+      if (vs > verse) {
+        endingOffset = offset;
+      }
+    }
+  }
+  if (verse) {
+    startingOffset += convert_to_string (verse).length () + 1;
+  }
+  if (endingOffset) {
     endingOffset--;
   } else {
-    endingOffset = editor_import.textLength;
+    endingOffset = editor_usfm2html.textLength;
   }
-
   
   string data = convert_to_string (startingOffset);
   data.append ("\n");

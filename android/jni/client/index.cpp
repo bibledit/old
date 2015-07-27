@@ -151,6 +151,8 @@ string client_index (void * webserver_request)
   int port = Database_Config_General::getServerPort ();
   view.set_variable ("port", convert_to_string (port));
   
+  view.set_variable ("url", client_logic_link_to_cloud ("", ""));
+  
   vector <string> users = request->database_users ()->getUsers ();
   for (auto & user : users) {
     int level = request->database_users()->getUserLevel (user);

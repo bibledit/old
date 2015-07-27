@@ -60,26 +60,73 @@ string edit_offset (void * webserver_request)
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   
-  Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
-  editor_import.load (usfm);
-  editor_import.stylesheet (stylesheet);
-  editor_import.run ();
-
-  
-  int verse = -1;
+  Editor_Usfm2Html editor_usfm2html = Editor_Usfm2Html (request);
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.run ();
 
   
   // The caret offset should be in the main text body.
   // If it is in a note body, skip the verse updating.
-  if (offset <= editor_import.textLength) {
-    // Look for the verse that matches the offset.
-    for (auto & item : editor_import.verseStartOffsets) {
-      int key = item.first;
-      size_t value = item.second;
-      if (offset >= value) {
-        // A verse number was found.
-        verse = key;
+  if (offset > editor_usfm2html.textLength) return "";
+
+
+  // Get the number of verses in the USFM.
+  // This covers combined verses also.
+  int last_offset = 0;
+  vector <int> verses = usfm_get_verse_numbers (usfm);
+  for (size_t i = 0; i < verses.size (); i++) {
+    if (editor_usfm2html.verseStartOffsets.count (i)) {
+      last_offset = editor_usfm2html.verseStartOffsets [i];
+    } else {
+      editor_usfm2html.verseStartOffsets [i] = last_offset;
+    }
+  }
+  
+  
+  // Get the starting offsets for each verse.
+  vector <size_t> starting_offsets;
+  for (size_t i = 0; i < verses.size (); i++) {
+    starting_offsets.push_back (editor_usfm2html.verseStartOffsets [i]);
+  }
+  starting_offsets.push_back (editor_usfm2html.textLength);
+
+  
+  // Get the ending offsets for each verse.
+  vector <size_t> ending_offsets;
+  for (size_t i = 0; i < verses.size (); i++) {
+    size_t offset = starting_offsets [i];
+    for (size_t i2 = 0; i2 < starting_offsets.size (); i2++) {
+      if (starting_offsets [i2] > offset) {
+        offset = starting_offsets [i2];
+        break;
       }
+    }
+    ending_offsets.push_back (offset);
+  }
+  
+  
+  // If the offset is between the focused verse's min and max values, then do nothing.
+  int verse = Ipc_Focus::getVerse (request);
+  for (size_t i = 0; i < verses.size (); i++) {
+    if (verse == verses[i]) {
+      if ((size_t) offset >= starting_offsets [i]) {
+        if ((size_t) offset <= ending_offsets [i]) {
+          return "";
+        }
+      }
+    }
+  }
+  
+  
+  // Look for the verse that matches the offset.
+  verse = -1;
+  for (auto & element : editor_usfm2html.verseStartOffsets) {
+    int key = element.first;
+    size_t value = element.second;
+    if (offset >= value) {
+      // A verse number was found.
+      verse = key;
     }
   }
   

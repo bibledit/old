@@ -155,6 +155,12 @@ string Assets_Header::run ()
     }
   }
 
+  int fontsize = request->database_config_user ()->getGeneralFontSize ();
+  if (fontsize != 100) {
+    string css = "body { font-size: " + convert_to_string (fontsize) + "%; }";
+    view->set_variable ("embedded_css", css);
+  }
+  
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");
 
