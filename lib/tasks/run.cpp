@@ -62,12 +62,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/bibledropbox.h>
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
-#include <syncclient/settings.h>
-#include <syncclient/bibles.h>
-#include <syncclient/usfmresources.h>
-#include <syncclient/externalresources.h>
-#include <syncclient/notes.h>
-#include <syncclient/changes.h>
 
 
 mutex mutex_tasks; 

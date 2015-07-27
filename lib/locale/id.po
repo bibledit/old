@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-23 01:45+0200\n"
+"POT-Creation-Date: 2015-07-25 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-24 04:31+0000\n"
+"X-Launchpad-Export-Date: 2015-07-26 04:31+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
 msgid "Set the language for Bibledit"
@@ -1844,12 +1844,6 @@ msgid "Name"
 msgstr ""
 
 msgid "Information"
-msgstr ""
-
-msgid "Debug"
-msgstr ""
-
-msgid "Trim notes"
 msgstr ""
 
 msgid "You are connected to a public demo of Bibledit Cloud."
@@ -6544,6 +6538,9 @@ msgid "Browser"
 msgstr ""
 
 msgid "Cross references"
+msgstr ""
+
+msgid "Debug"
 msgstr ""
 
 msgid "Styles"

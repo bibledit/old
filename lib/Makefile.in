@@ -231,20 +231,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sendreceive/usfmresources.$(OBJEXT) \
 	sendreceive/externalresources.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
-	syncclient/settings.$(OBJEXT) syncclient/bibles.$(OBJEXT) \
-	syncclient/usfmresources.$(OBJEXT) \
-	syncclient/externalresources.$(OBJEXT) \
-	syncclient/notes.$(OBJEXT) syncclient/changes.$(OBJEXT) \
 	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
 	client/logic.$(OBJEXT) sync/logic.$(OBJEXT) \
 	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT) \
 	sync/bibles.$(OBJEXT) sync/usfmresources.$(OBJEXT) \
 	sync/externalresources.$(OBJEXT) sync/notes.$(OBJEXT) \
-	sync/changes.$(OBJEXT) syncapi/logic.$(OBJEXT) \
-	syncapi/setup.$(OBJEXT) syncapi/settings.$(OBJEXT) \
-	syncapi/bibles.$(OBJEXT) syncapi/usfmresources.$(OBJEXT) \
-	syncapi/externalresources.$(OBJEXT) syncapi/notes.$(OBJEXT) \
-	syncapi/changes.$(OBJEXT) resource/index.$(OBJEXT) \
+	sync/changes.$(OBJEXT) resource/index.$(OBJEXT) \
 	resource/organize.$(OBJEXT) resource/logic.$(OBJEXT) \
 	resource/get.$(OBJEXT) resource/external.$(OBJEXT) \
 	resource/bible2resource.$(OBJEXT) \
@@ -745,12 +737,6 @@ libbibledit_a_SOURCES = \
 	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
-	syncclient/settings.cpp \
-	syncclient/bibles.cpp \
-	syncclient/usfmresources.cpp \
-	syncclient/externalresources.cpp \
-	syncclient/notes.cpp \
-	syncclient/changes.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -762,14 +748,6 @@ libbibledit_a_SOURCES = \
 	sync/externalresources.cpp \
 	sync/notes.cpp \
 	sync/changes.cpp \
-	syncapi/logic.cpp \
-	syncapi/setup.cpp \
-	syncapi/settings.cpp \
-	syncapi/bibles.cpp \
-	syncapi/usfmresources.cpp \
-	syncapi/externalresources.cpp \
-	syncapi/notes.cpp \
-	syncapi/changes.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -1688,24 +1666,6 @@ sendreceive/notes.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/changes.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
-syncclient/$(am__dirstamp):
-	@$(MKDIR_P) syncclient
-	@: > syncclient/$(am__dirstamp)
-syncclient/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) syncclient/$(DEPDIR)
-	@: > syncclient/$(DEPDIR)/$(am__dirstamp)
-syncclient/settings.$(OBJEXT): syncclient/$(am__dirstamp) \
-	syncclient/$(DEPDIR)/$(am__dirstamp)
-syncclient/bibles.$(OBJEXT): syncclient/$(am__dirstamp) \
-	syncclient/$(DEPDIR)/$(am__dirstamp)
-syncclient/usfmresources.$(OBJEXT): syncclient/$(am__dirstamp) \
-	syncclient/$(DEPDIR)/$(am__dirstamp)
-syncclient/externalresources.$(OBJEXT): syncclient/$(am__dirstamp) \
-	syncclient/$(DEPDIR)/$(am__dirstamp)
-syncclient/notes.$(OBJEXT): syncclient/$(am__dirstamp) \
-	syncclient/$(DEPDIR)/$(am__dirstamp)
-syncclient/changes.$(OBJEXT): syncclient/$(am__dirstamp) \
-	syncclient/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -1746,28 +1706,6 @@ sync/notes.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/changes.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
-syncapi/$(am__dirstamp):
-	@$(MKDIR_P) syncapi
-	@: > syncapi/$(am__dirstamp)
-syncapi/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) syncapi/$(DEPDIR)
-	@: > syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/logic.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/setup.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/settings.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/bibles.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/usfmresources.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/externalresources.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/notes.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
-syncapi/changes.$(OBJEXT): syncapi/$(am__dirstamp) \
-	syncapi/$(DEPDIR)/$(am__dirstamp)
 resource/$(am__dirstamp):
 	@$(MKDIR_P) resource
 	@: > resource/$(am__dirstamp)
@@ -2137,8 +2075,6 @@ mostlyclean-compile:
 	-rm -f statistics/*.$(OBJEXT)
 	-rm -f styles/*.$(OBJEXT)
 	-rm -f sync/*.$(OBJEXT)
-	-rm -f syncapi/*.$(OBJEXT)
-	-rm -f syncclient/*.$(OBJEXT)
 	-rm -f tasks/*.$(OBJEXT)
 	-rm -f text/*.$(OBJEXT)
 	-rm -f timer/*.$(OBJEXT)
@@ -2436,20 +2372,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/bibles.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/changes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/externalresources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/notes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/settings.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/setup.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncapi/$(DEPDIR)/usfmresources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncclient/$(DEPDIR)/bibles.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncclient/$(DEPDIR)/changes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncclient/$(DEPDIR)/externalresources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncclient/$(DEPDIR)/notes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncclient/$(DEPDIR)/settings.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@syncclient/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@
@@ -2900,10 +2822,6 @@ distclean-generic:
 	-rm -f styles/$(am__dirstamp)
 	-rm -f sync/$(DEPDIR)/$(am__dirstamp)
 	-rm -f sync/$(am__dirstamp)
-	-rm -f syncapi/$(DEPDIR)/$(am__dirstamp)
-	-rm -f syncapi/$(am__dirstamp)
-	-rm -f syncclient/$(DEPDIR)/$(am__dirstamp)
-	-rm -f syncclient/$(am__dirstamp)
 	-rm -f tasks/$(DEPDIR)/$(am__dirstamp)
 	-rm -f tasks/$(am__dirstamp)
 	-rm -f text/$(DEPDIR)/$(am__dirstamp)
@@ -2939,7 +2857,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) browser/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) syncapi/$(DEPDIR) syncclient/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) browser/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -2987,7 +2905,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) browser/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) syncapi/$(DEPDIR) syncclient/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) browser/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
