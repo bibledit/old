@@ -133,7 +133,7 @@ string filter_url_create_root_path (string part1, string part2, string part3, st
 
 // If $path contains the global document root,
 // then this function removes it, and returns the result.
-string filter_url_remove_root_path (string path) // Todo
+string filter_url_remove_root_path (string path)
 {
   size_t pos = path.find (config_globals_document_root);
   if (pos != string::npos) path.erase (0, config_globals_document_root.length ());
