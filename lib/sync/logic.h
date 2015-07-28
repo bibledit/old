@@ -133,10 +133,13 @@ public:
   static const int files_total_checksum = 1;
   static const int files_directory_checksum = 2;
   static const int files_directory_files = 3;
+  static const int files_file_checksum = 4;
+  static const int files_file_download = 5;
   static vector <string> files_get_directories (int version);
   static int files_get_total_checksum (int version);
   static int files_get_directory_checksum (string directory);
-  static vector <string> files_get_files (const string& directory);
+  static vector <string> files_get_files (string directory);
+  static int files_get_file_checksum (string directory, string file);
 
 private:
   void * webserver_request;

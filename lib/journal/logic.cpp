@@ -22,10 +22,9 @@
 #include <sendreceive/notes.h>
 #include <sendreceive/bibles.h>
 #include <sendreceive/settings.h>
-#include <sendreceive/externalresources.h>
-#include <sendreceive/usfmresources.h>
 #include <paratext/logic.h>
 #include <sendreceive/changes.h>
+#include <sendreceive/files.h>
 
 
 // This returns true if the $entry can be filtered out from the Journal.
@@ -37,14 +36,12 @@ bool journal_logic_filter_entry (const string& entry)
   if (entry.find (sendreceive_bibles_up_to_date_text ()) != string::npos) return true;
   if (entry.find (sendreceive_settings_sendreceive_text ()) != string::npos) return true;
   if (entry.find (sendreceive_settings_up_to_date_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_externalresources_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_externalresources_up_to_date_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_usfmresources_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_usfmresources_up_to_date_text ()) != string::npos) return true;
   if (entry.find (Paratext_Logic::synchronizeStartText ()) != string::npos) return true;
   if (entry.find (Paratext_Logic::synchronizeReadyText ()) != string::npos) return true;
   if (entry.find (sendreceive_changes_sendreceive_text ()) != string::npos) return true;
   if (entry.find (sendreceive_changes_up_to_date_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_files_sendreceive_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_files_up_to_date_text ()) != string::npos) return true;
   return false;
 }
 

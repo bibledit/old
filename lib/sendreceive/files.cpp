@@ -46,7 +46,7 @@ void sendreceive_files_done ()
 
 string sendreceive_files_text ()
 {
-  return translate("Fies") + ": ";
+  return translate("Files") + ": ";
 }
 
 
@@ -107,7 +107,6 @@ void sendreceive_files ()
   }
   iresponse = convert_to_int (response);
   int checksum = Sync_Logic::files_get_total_checksum (version);
-  cout << "server/client total checksum " << iresponse << " " << checksum << endl; // Todo
   if (iresponse == checksum) {
     Database_Logs::log (sendreceive_files_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_files_done ();
@@ -115,13 +114,14 @@ void sendreceive_files ()
   }
 
   
-  // Go through the relevant directories relevant to the version.
+  // Go through the directories relevant to the version.
   vector <string> directories = Sync_Logic::files_get_directories (version);
   for (size_t d = 0; d < directories.size (); d++) {
     
 
     // Not the directory name itself is posted to the server,
     // but rather the offset of the directory in the entire list.
+    // This is for security reasons.
     post ["d"] = convert_to_string (d);
     string directory = directories [d];
     
@@ -133,13 +133,12 @@ void sendreceive_files ()
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_files_text () + "Failure requesting directory checksum: " + error, Filter_Roles::translator ());
-      continue;
+      sendreceive_files_done ();
+      return;
     }
     iresponse = convert_to_int (response);
     int checksum = Sync_Logic::files_get_directory_checksum (directory);
-    cout << "server/client directory checksum " << directory << " " << iresponse << " " << checksum << endl; // Todo
     if (iresponse == checksum) {
-      Database_Logs::log (sendreceive_files_up_to_date_text (), Filter_Roles::translator ());
       continue;
     }
 
@@ -149,37 +148,33 @@ void sendreceive_files ()
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_files_text () + "Failure requesting directory files: " + error, Filter_Roles::translator ());
-      continue;
+      sendreceive_files_done ();
+      return;
     }
     vector <string> server_files = filter_string_explode (response, '\n');
-
+    
     
     // Delete files that exist locally but not on the server.
     vector <string> client_files = Sync_Logic::files_get_files (directory);
     vector <string> files = filter_string_array_diff (client_files, server_files);
     for (auto file : files) {
-      string path = filter_url_create_root_path (file);
+      Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path (directory, file), Filter_Roles::translator ());
+      string path = filter_url_create_root_path (directory, file);
+      filter_url_unlink (path);
+      // Attempt to delete the directory, which will only succeed if it is empty.
+      path = filter_url_dirname (path);
       filter_url_unlink (path);
     }
     
 
-    
-  }
-  
-  
-  /* Todo
-
-  
-  
     // Deal with each file individually.
     for (auto & file : server_files) {
-      
-      
+
+
       // Request checksum of this file,
       // compare it with the local checksum,
       // and skip the file if the checksums match.
-      post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_file_checksum);
-      post ["r"] = resource;
+      post ["a"] = convert_to_string (Sync_Logic::files_file_checksum);
       post ["f"] = file;
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
@@ -187,42 +182,37 @@ void sendreceive_files ()
         sendreceive_files_done ();
         return;
       }
-      checksum = Sync_Logic::offline_resource_file_checksum (resource, file);
-      if (response == checksum) {
+      int iresponse = convert_to_int (response);
+      int checksum = Sync_Logic::files_get_file_checksum (directory, file);
+      if (iresponse == checksum) {
         continue;
       }
-
       
-      sendreceive_files_kick_watchdog ();
 
+      sendreceive_files_kick_watchdog ();
+      
       
       // Download the file from the server, and store it locally on the client.
-      Database_Logs::log (sendreceive_files_text () + "Downloading " + resource + " " + file, Filter_Roles::translator ());
-      // Create directory by saving empty file.
-      database_offlineresources.save (resource, file, "");
-      // Obtain url for file to download from server.
-      post ["a"] = convert_to_string (Sync_Logic::offlineresources_get_file_filename);
-      post ["r"] = resource;
-      post ["f"] = file;
-      response = sync_logic.post (post, url, error);
-      if (!error.empty ()) {
-        Database_Logs::log (sendreceive_files_text () + "Failure downloading file: " + error, Filter_Roles::translator ());
-        sendreceive_files_done ();
-        return;
-      }
-      string url = client_logic_url (address, port, response);
+      Database_Logs::log (sendreceive_files_text () + "Downloading " + filter_url_create_path (directory, file), Filter_Roles::translator ());
       // Local file path where to save resource.
-      string filepath = database_offlineresources.filepath (resource, file);
+      string fullpath = filter_url_create_root_path (directory, file);
+      // Create directory if it does not yet exist.
+      string dirpath = filter_url_dirname (fullpath);
+      if (!file_exists (dirpath)) filter_url_mkdir (dirpath);
+      string download_url = filter_url_build_http_query (url, "a", convert_to_string (Sync_Logic::files_file_download));
+      download_url = filter_url_build_http_query (download_url, "v", convert_to_string (version));
+      download_url = filter_url_build_http_query (download_url, "d", convert_to_string (d));
+      download_url = filter_url_build_http_query (download_url, "f", filter_url_urlencode (file));
       // Download and save file locally.
-      filter_url_download_file (url, filepath, error);
+      filter_url_download_file (download_url, fullpath, error);
       if (!error.empty ()) {
         Database_Logs::log (sendreceive_files_text () + "Failure downloading file: " + error, Filter_Roles::translator ());
         sendreceive_files_done ();
         return;
       }
     }
+  }
 
-   */
   
   // Done.
   Database_Logs::log (sendreceive_files_text () + "Now up to date", Filter_Roles::translator ());

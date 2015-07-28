@@ -36,8 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/sendreceive.h>
 #include <sendreceive/settings.h>
 #include <sendreceive/bibles.h>
-#include <sendreceive/usfmresources.h>
-#include <sendreceive/externalresources.h>
 #include <sendreceive/notes.h>
 #include <sendreceive/changes.h>
 #include <sendreceive/files.h>
@@ -135,10 +133,6 @@ void tasks_run_one (string filename)
     sendreceive_bibles ();
   } else if (command == SYNCSETTINGS) {
     sendreceive_settings ();
-  } else if (command == SYNCEXTERNALRESOURCES) {
-    sendreceive_externalresources ();
-  } else if (command == SYNCUSFMRESOURCES) {
-    sendreceive_usfmresources ();
   } else if (command == SYNCCHANGES) {
     sendreceive_changes ();
   } else if (command == SYNCFILES) {

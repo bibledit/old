@@ -47,35 +47,48 @@ string sync_files (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
+  if (request->post.empty ()) {
+    request->post = request->query;
+  }
   int action = convert_to_int (request->post ["a"]);
   int version = convert_to_int (request->post ["v"]);
   size_t d = convert_to_int (request->post ["d"]);
-  //string file = request->post ["f"];
+  string file = request->post ["f"];
+
+  // For security reasons a client does not specify the directory of the file to be downloaded.
+  // Rather it specifies the offset within the list of allowed directories for the version.
+  vector <string> directories = Sync_Logic::files_get_directories (version);
+  if (d >= directories.size ()) {
+    request->response_code = 400;
+    return "";
+  }
+  string directory = directories [d];
   
   if (action == Sync_Logic::files_total_checksum) {
     return convert_to_string (Sync_Logic::files_get_total_checksum (version));
   }
   
   else if (action == Sync_Logic::files_directory_checksum) {
-    vector <string> directories = Sync_Logic::files_get_directories (version);
-    if (d >= directories.size ()) {
-      request->response_code = 400;
-      return "";
-    }
-    string directory = directories [d];
     int checksum = Sync_Logic::files_get_directory_checksum (directory);
     return convert_to_string (checksum);
   }
 
   else if (action == Sync_Logic::files_directory_files) {
-    vector <string> directories = Sync_Logic::files_get_directories (version);
-    if (d >= directories.size ()) {
-      request->response_code = 400;
-      return "";
-    }
-    string directory = directories [d];
     vector <string> paths = Sync_Logic::files_get_files (directory);
     return filter_string_implode (paths, "\n");
+  }
+
+  else if (action == Sync_Logic::files_file_checksum) {
+    int checksum = Sync_Logic::files_get_file_checksum (directory, file);
+    return convert_to_string (checksum);
+  }
+  
+  else if (action == Sync_Logic::files_file_download) {
+    // This triggers the correct mime type.
+    request->get = "file.download";
+    // Return the file's contents.
+    string path = filter_url_create_root_path (directory, file);
+    return filter_url_file_get_contents (path);
   }
   
   // Bad request. Delay flood of bad requests.

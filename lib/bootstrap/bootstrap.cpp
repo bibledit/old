@@ -202,6 +202,7 @@ void bootstrap_index (Webserver_Request * request)
       ) http_serve_file (request);
   
   // Serve offline resources.
+  // Note: This is no longer needed as of July 28: For security it should be removed.
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
   
   // Serve initialization notice.

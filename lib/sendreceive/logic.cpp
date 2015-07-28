@@ -76,16 +76,6 @@ void sendreceive_queue_sync (int minute)
       } else {
         tasks_logic_queue (SYNCSETTINGS);
       }
-      if (tasks_logic_queued (SYNCEXTERNALRESOURCES)) {
-        Database_Logs::log ("Still synchronizing external resources");
-      } else {
-        tasks_logic_queue (SYNCEXTERNALRESOURCES);
-      }
-      if (tasks_logic_queued (SYNCUSFMRESOURCES)) {
-        Database_Logs::log ("Still synchronizing USFM resources");
-      } else {
-        tasks_logic_queue (SYNCUSFMRESOURCES);
-      }
       if (tasks_logic_queued (SYNCCHANGES)) {
         Database_Logs::log ("Still synchronizing Changes");
       } else {
@@ -119,9 +109,8 @@ bool sendreceive_sync_queued ()
   if (tasks_logic_queued (SYNCNOTES)) return true;
   if (tasks_logic_queued (SYNCBIBLES)) return true;
   if (tasks_logic_queued (SYNCSETTINGS)) return true;
-  if (tasks_logic_queued (SYNCEXTERNALRESOURCES)) return true;
-  if (tasks_logic_queued (SYNCUSFMRESOURCES)) return true;
   if (tasks_logic_queued (SYNCCHANGES)) return true;
+  if (tasks_logic_queued (SYNCFILES)) return true;
   return false;
 }
 

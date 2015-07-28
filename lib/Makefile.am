@@ -229,8 +229,6 @@ libbibledit_a_SOURCES = \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
 	sendreceive/bibles.cpp \
-	sendreceive/usfmresources.cpp \
-	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
 	sendreceive/files.cpp \

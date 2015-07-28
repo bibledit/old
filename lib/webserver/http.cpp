@@ -172,25 +172,26 @@ void http_assemble_response (Webserver_Request * request)
   // Assemble the Content-Type.
   string extension = filter_url_get_extension (request->get);
   string content_type;
-       if (extension == "js")     content_type = "application/javascript";
-  else if (extension == "css")    content_type = "text/css";
-  else if (extension == "ico")    content_type = "image/vnd.microsoft.icon";
-  else if (extension == "gif")    content_type = "image/gif";
-  else if (extension == "jpg")    content_type = "image/jpeg";
-  else if (extension == "jpeg")   content_type = "image/jpeg";
-  else if (extension == "jpeg")   content_type = "image/png";
-  else if (extension == "svg")    content_type = "image/svg+xml";
-  else if (extension == "txt")    content_type = "text/plain";
-  else if (extension == "usfm")   content_type = "text/plain";
-  else if (extension == "otf")    content_type = "font/opentype";
-  else if (extension == "ttf")    content_type = "application/font-sfnt";
-  else if (extension == "woff")   content_type = "application/font-woff";
-  else if (extension == "sh")     content_type = "application/octet-stream";
-  else if (extension == "sqlite") content_type = "application/octet-stream";
-  else if (extension == "htm")    content_type = "text/html";
-  else if (extension == "html")   content_type = "text/html";
-  else if (extension == "")       content_type = "text/html";
-  else                            content_type = "application/octet-stream";
+       if (extension == "js")       content_type = "application/javascript";
+  else if (extension == "css")      content_type = "text/css";
+  else if (extension == "ico")      content_type = "image/vnd.microsoft.icon";
+  else if (extension == "gif")      content_type = "image/gif";
+  else if (extension == "jpg")      content_type = "image/jpeg";
+  else if (extension == "jpeg")     content_type = "image/jpeg";
+  else if (extension == "jpeg")     content_type = "image/png";
+  else if (extension == "svg")      content_type = "image/svg+xml";
+  else if (extension == "txt")      content_type = "text/plain";
+  else if (extension == "usfm")     content_type = "text/plain";
+  else if (extension == "otf")      content_type = "font/opentype";
+  else if (extension == "ttf")      content_type = "application/font-sfnt";
+  else if (extension == "woff")     content_type = "application/font-woff";
+  else if (extension == "sh")       content_type = "application/octet-stream";
+  else if (extension == "sqlite")   content_type = "application/octet-stream";
+  else if (extension == "htm")      content_type = "text/html";
+  else if (extension == "html")     content_type = "text/html";
+  else if (extension == "")         content_type = "text/html";
+  else if (extension == "download") content_type = "application/octet-stream";
+  else                              content_type = "application/octet-stream";
 
   // Assemble the complete response for the browser.
   vector <string> response;

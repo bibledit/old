@@ -228,8 +228,6 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
 	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
-	sendreceive/usfmresources.$(OBJEXT) \
-	sendreceive/externalresources.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
 	sendreceive/files.$(OBJEXT) demo/logic.$(OBJEXT) \
 	client/index.$(OBJEXT) client/logic.$(OBJEXT) \
@@ -734,8 +732,6 @@ libbibledit_a_SOURCES = \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
 	sendreceive/bibles.cpp \
-	sendreceive/usfmresources.cpp \
-	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
 	sendreceive/files.cpp \
@@ -1661,10 +1657,6 @@ sendreceive/settings.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/bibles.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
-sendreceive/usfmresources.$(OBJEXT): sendreceive/$(am__dirstamp) \
-	sendreceive/$(DEPDIR)/$(am__dirstamp)
-sendreceive/externalresources.$(OBJEXT): sendreceive/$(am__dirstamp) \
-	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/notes.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/changes.$(OBJEXT): sendreceive/$(am__dirstamp) \
@@ -2347,14 +2339,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strongs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/changes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/files.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/sendreceive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/settings.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@

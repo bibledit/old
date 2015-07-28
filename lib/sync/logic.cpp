@@ -268,7 +268,11 @@ vector <string> Sync_Logic::files_get_directories (int version) // Todo
   vector <string> directories;
   switch (version) {
     case 1:
-      directories = { "fonts" };
+      directories = {
+        "fonts",
+        "databases/usfmresources",
+        "databases/offlineresources"
+      };
       break;
     default:
       break;
@@ -294,19 +298,20 @@ int Sync_Logic::files_get_total_checksum (int version) // Todo
 int Sync_Logic::files_get_directory_checksum (string directory) // Todo
 {
   int checksum = 0;
-  directory = filter_url_create_root_path (directory);
-  vector <string> paths = files_get_files (directory);
-  for (auto & path : paths) {
-    checksum += filter_url_filesize (path);
+  vector <string> files = files_get_files (directory);
+  for (string file : files) {
+    checksum += files_get_file_checksum (directory, file);
   }
   return checksum;
 }
 
 
 // This returns all the paths of the files within $directory.
+// $directory is relative to the web root.
 // It does a recursive scan for the files.
-vector <string> Sync_Logic::files_get_files (const string& directory) // Todo
+vector <string> Sync_Logic::files_get_files (string directory) // Todo
 {
+  directory = filter_url_create_root_path (directory);
   vector <string> result;
   vector <string> paths;
   filter_url_recursive_scandir (directory, paths);
@@ -316,7 +321,17 @@ vector <string> Sync_Logic::files_get_files (const string& directory) // Todo
     if (extension == "o") continue;
     if (extension == "h") continue;
     if (extension == "cpp") continue;
+    path.erase (0, directory.length () + 1);
     result.push_back (path);
   }
   return result;
+}
+
+
+// This returns the checksum of a $file in $directory.
+int Sync_Logic::files_get_file_checksum (string directory, string file)
+{
+  string path = filter_url_create_root_path (directory, file);
+  int checksum = filter_url_filesize (path);
+  return checksum;
 }

@@ -131,6 +131,17 @@ string filter_url_create_root_path (string part1, string part2, string part3, st
 }
 
 
+// If $path contains the global document root,
+// then this function removes it, and returns the result.
+string filter_url_remove_root_path (string path) // Todo
+{
+  size_t pos = path.find (config_globals_document_root);
+  if (pos != string::npos) path.erase (0, config_globals_document_root.length ());
+  if (!path.empty ()) if (path.substr (0, 1) == DIRECTORY_SEPARATOR) path.erase (0, 1);
+  return path;
+}
+
+
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
 string filter_url_get_extension (string url)
 {
