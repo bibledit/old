@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-28 01:45+0200\n"
+"POT-Creation-Date: 2015-07-29 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7663,10 +7663,10 @@ msgstr ""
 msgid "Not downloading change notifications due to communication error"
 msgstr ""
 
-msgid "Synchronizing"
+msgid "Files"
 msgstr ""
 
-msgid "Fies"
+msgid "Synchronizing"
 msgstr ""
 
 msgid "Send/Receive"
@@ -7759,9 +7759,6 @@ msgid "Failure sending and receiving Settings"
 msgstr ""
 
 msgid "Sending settings"
-msgstr ""
-
-msgid "USFM resources"
 msgstr ""
 
 msgid "Welcome"
