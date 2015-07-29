@@ -108,6 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/usfmresources.h>
 #include <sync/externalresources.h>
 #include <sync/changes.h>
+#include <sync/files.h>
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
@@ -201,6 +202,7 @@ void bootstrap_index (Webserver_Request * request)
       ) http_serve_file (request);
   
   // Serve offline resources.
+  // Note: This is no longer needed as of July 28: For security it should be removed.
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
   
   // Serve initialization notice.
@@ -353,6 +355,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == sync_usfmresources_url ()) && sync_usfmresources_acl (request)) request->reply = sync_usfmresources (request);
   else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
   else if ((url == sync_changes_url ()) && sync_changes_acl (request)) request->reply = sync_changes (request);
+  else if ((url == sync_files_url ()) && sync_files_acl (request)) request->reply = sync_files (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

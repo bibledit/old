@@ -30,6 +30,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <locale/translate.h>
 #include <fonts/logic.h>
+#include <config/logic.h>
+#include <client/logic.h>
 
 
 string manage_index_url ()
@@ -106,12 +108,21 @@ string manage_index (void * webserver_request)
   vector <string> fontsblock;
   for (auto & font : fonts) {
     fontsblock.push_back ("<p>");
-    fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\"> ✗ </a>");
+    if (!config_logic_client_prepared ()) {
+      fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\"> ✗ </a>");
+    }
     fontsblock.push_back (font);
     fontsblock.push_back ("</p>");
   }
   view.set_variable ("fontsblock", filter_string_implode (fontsblock, "\n"));
 
+  
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+    view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), ""));
+  } else {
+    view.enable_zone ("server");
+  }
   
   
   view.set_variable ("success", success);

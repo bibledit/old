@@ -63,8 +63,9 @@ string client_logic_url (string address, int port, string path)
 // It returns an empty string in case of failure or the response from the server.
 string client_logic_connection_setup (string user, string hash)
 {
+  Database_Users database_users = Database_Users ();
+
   if (user.empty ()) {
-    Database_Users database_users = Database_Users ();
     vector <string> users = database_users.getUsers ();
     if (users.empty()) return "";
     user = users [0];
@@ -84,8 +85,11 @@ string client_logic_connection_setup (string user, string hash)
   
   if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
     // Set user's role on the client to be the same as on the server.
-    Database_Users database_users = Database_Users ();
-    database_users.updateUserLevel (user, iresponse);
+    // Do this only when it differs, to prevent excessive database writes on the client.
+    int level = database_users.getUserLevel (user);
+    if (iresponse != level) {
+      database_users.updateUserLevel (user, iresponse);
+    }
   } else {
     Database_Logs::log (error, Filter_Roles::translator ());
   }

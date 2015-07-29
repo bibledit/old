@@ -36,10 +36,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/sendreceive.h>
 #include <sendreceive/settings.h>
 #include <sendreceive/bibles.h>
-#include <sendreceive/usfmresources.h>
-#include <sendreceive/externalresources.h>
 #include <sendreceive/notes.h>
 #include <sendreceive/changes.h>
+#include <sendreceive/files.h>
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <resource/convert2resource.h>
@@ -129,29 +128,15 @@ void tasks_run_one (string filename)
   } else if (command == SENDRECEIVEBIBLES) {
     sendreceive_sendreceive (parameter1);
   } else if (command == SYNCNOTES) {
-    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_notes ();
-    //else syncclient_notes ();
     sendreceive_notes ();
   } else if (command == SYNCBIBLES) {
-    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_bibles ();
-    //else syncclient_bibles ();
     sendreceive_bibles ();
   } else if (command == SYNCSETTINGS) {
-    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_settings ();
-    //else syncclient_settings ();
     sendreceive_settings ();
-  } else if (command == SYNCEXTERNALRESOURCES) {
-    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_externalresources ();
-    //else syncclient_externalresources ();
-    sendreceive_externalresources ();
-  } else if (command == SYNCUSFMRESOURCES) {
-    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_usfmresources ();
-    //else syncclient_usfmresources ();
-    sendreceive_usfmresources ();
   } else if (command == SYNCCHANGES) {
-    //if (Database_Config_General::getSyncKey ().empty ()) sendreceive_changes ();
-    //else syncclient_changes ();
     sendreceive_changes ();
+  } else if (command == SYNCFILES) {
+    sendreceive_files ();
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
   } else if (command == CONVERTBIBLE2RESOURCE) {

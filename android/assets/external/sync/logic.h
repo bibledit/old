@@ -39,6 +39,7 @@ class Sync_Logic
 public:
   Sync_Logic (void * webserver_request_in);
   ~Sync_Logic ();
+
   static const int settings_get_total_checksum = 1;
   static const int settings_send_workbench_urls = 2;
   static const int settings_get_workbench_urls = 3;
@@ -49,6 +50,7 @@ public:
   static const int settings_send_resources_organization = 8;
   static const int settings_get_resources_organization = 9;
   static const int settings_get_bible_id = 10;
+  
   static const int bibles_get_total_checksum = 1;
   static const int bibles_get_bibles = 2;
   static const int bibles_get_bible_checksum = 3;
@@ -58,6 +60,7 @@ public:
   static const int bibles_get_chapter_checksum = 7;
   static const int bibles_send_chapter = 8;
   static const int bibles_get_chapter = 9;
+  
   static const int notes_get_total = 1;
   static const int notes_get_identifiers = 2;
   static const int notes_get_summary = 3;
@@ -85,6 +88,7 @@ public:
   static const int notes_put_mark_delete = 25;
   static const int notes_put_unmark_delete = 26;
   static const int notes_put_delete = 27;
+  
   static const int usfmresources_get_total_checksum = 1;
   static const int usfmresources_get_resources = 2;
   static const int usfmresources_get_resource_checksum = 3;
@@ -100,23 +104,43 @@ public:
   static const int offlineresources_get_file_checksum = 5;
   static const int offlineresources_get_file = 6;
   static const int offlineresources_get_file_filename = 7;
+  
   static const int changes_delete_modification = 1;
   static const int changes_get_checksum = 2;
   static const int changes_get_identifiers = 3;
   static const int changes_get_modification = 4;
+
   bool credentials_okay ();
+  
   string settings_checksum (const vector <string> & bibles);
+  
   string checksum (const vector <int> & identifiers);
   vector <Sync_Logic_Range> create_range (int start, int end);
+  
   string post (map <string, string> & post, const string& url, string & error, bool burst = false);
+  
   static string usfm_resources_checksum ();
   static string usfm_resource_checksum (const string& name);
   static string usfm_resource_book_checksum (const string& name, int book);
   static string usfm_resource_chapter_checksum (const string& name, int book, int chapter);
+  
   static string offline_resources_checksum ();
   static string offline_resource_checksum (const string& name);
   static string offline_resource_file_checksum (const string & name, const string & file);
+  
   static string changes_checksum (const string & username);
+
+  static const int files_total_checksum = 1;
+  static const int files_directory_checksum = 2;
+  static const int files_directory_files = 3;
+  static const int files_file_checksum = 4;
+  static const int files_file_download = 5;
+  static vector <string> files_get_directories (int version);
+  static int files_get_total_checksum (int version);
+  static int files_get_directory_checksum (string directory);
+  static vector <string> files_get_files (string directory);
+  static int files_get_file_checksum (string directory, string file);
+
 private:
   void * webserver_request;
 };

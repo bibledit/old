@@ -899,6 +899,8 @@ sendreceive/changes.cpp
 sendreceive/changes.h
 sendreceive/externalresources.cpp
 sendreceive/externalresources.h
+sendreceive/files.cpp
+sendreceive/files.h
 sendreceive/index.cpp
 sendreceive/index.h
 sendreceive/index.html
@@ -967,6 +969,8 @@ sync/changes.cpp
 sync/changes.h
 sync/externalresources.cpp
 sync/externalresources.h
+sync/files.cpp
+sync/files.h
 sync/logic.cpp
 sync/logic.h
 sync/notes.cpp
