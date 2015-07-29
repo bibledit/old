@@ -33,6 +33,7 @@ void filter_url_unlink (string filename);
 void filter_url_rename (const string& oldfilename, const string& newfilename);
 string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "", string part6 = "");
 string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "");
+string filter_url_remove_root_path (string path);
 string filter_url_get_extension (string url);
 bool file_exists (string url);
 void filter_url_mkdir (string directory);

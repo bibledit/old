@@ -17,17 +17,16 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_USFMRESOURCES_H
-#define INCLUDED_SENDRECEIVE_USFMRESOURCES_H
+#ifndef INCLUDED_SYNC_FILES_H
+#define INCLUDED_SYNC_FILES_H
 
 
 #include <config/libraries.h>
 
 
-string sendreceive_usfmresources_sendreceive_text ();
-string sendreceive_usfmresources_up_to_date_text ();
-void sendreceive_usfmresources ();
-void sendreceive_usfmresources_kick_watchdog ();
+string sync_files_url ();
+bool sync_files_acl (void * webserver_request);
+string sync_files (void * webserver_request);
 
 
 #endif

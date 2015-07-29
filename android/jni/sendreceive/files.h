@@ -17,17 +17,17 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_EXTERNALRESOURCES_H
-#define INCLUDED_SENDRECEIVE_EXTERNALRESOURCES_H
+#ifndef INCLUDED_SENDRECEIVE_FILES_H
+#define INCLUDED_SENDRECEIVE_FILES_H
 
 
 #include <config/libraries.h>
 
 
-string sendreceive_externalresources_sendreceive_text ();
-string sendreceive_externalresources_up_to_date_text ();
-void sendreceive_externalresources ();
-void sendreceive_externalresources_kick_watchdog ();
+string sendreceive_files_sendreceive_text ();
+string sendreceive_files_up_to_date_text ();
+void sendreceive_files ();
+void sendreceive_files_kick_watchdog ();
 
 
 #endif
