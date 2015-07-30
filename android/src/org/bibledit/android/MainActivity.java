@@ -56,6 +56,8 @@ public class MainActivity extends Activity
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
+        Log.d ("Bibledit", "onCreate");
+
         
         // The directory of the external files.
         // On a Nexus 10 this is /storage/emulated/0/Android/data/org.bibledit.android/files
@@ -124,6 +126,7 @@ public class MainActivity extends Activity
     @Override
     protected void onStart ()
     {
+        Log.d ("Bibledit", "onStart");
         super.onStart();
         StartLibrary ();
     }
@@ -133,6 +136,7 @@ public class MainActivity extends Activity
     @Override
     protected void onRestart ()
     {
+        Log.d ("Bibledit", "onRestart");
         super.onRestart();
         StartLibrary ();
         //stopTimer ();
@@ -143,6 +147,7 @@ public class MainActivity extends Activity
     @Override
     public void onResume ()
     {
+        Log.d ("Bibledit", "onResume");
         super.onResume();
         StartLibrary ();
         checkUrl ();
@@ -154,9 +159,9 @@ public class MainActivity extends Activity
     @Override
     public void onPause ()
     {
+        Log.d ("Bibledit", "onPause");
         super.onPause ();
         StopLibrary ();
-        //Log.d ("Bibledit", "onPause");
         //startTimer ();
     }
     
@@ -165,6 +170,7 @@ public class MainActivity extends Activity
     @Override
     protected void onStop ()
     {
+        Log.d ("Bibledit", "onStop");
         super.onStop();
         StopLibrary ();
         //Log.d ("Bibledit", "onStop");
@@ -176,6 +182,7 @@ public class MainActivity extends Activity
     @Override
     public void onDestroy ()
     {
+        Log.d ("Bibledit", "onDestroy");
         super.onDestroy ();
         StopLibrary ();
         // Crashes: while (IsRunning ()) {};
@@ -192,6 +199,7 @@ public class MainActivity extends Activity
     // to the <activity> element in AndroidManifest.xml.
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        Log.d ("Bibledit", "onConfigurationChanged");
         super.onConfigurationChanged(newConfig);
     }
     
