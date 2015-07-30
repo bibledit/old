@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-21 01:45+0200\n"
+"POT-Creation-Date: 2015-07-28 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-22 04:32+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-07-29 04:32+0000\n"
+"X-Generator: Launchpad (build 17646)\n"
 
 msgid "Set the language for Bibledit"
 msgstr ""
@@ -1077,6 +1077,12 @@ msgid ""
 "Or request a server instance from bibledit.org through the contact form."
 msgstr ""
 
+msgid "You are not yet connected to Bibledit Cloud."
+msgstr ""
+
+msgid "Connect."
+msgstr ""
+
 msgid "Collaboration"
 msgstr ""
 
@@ -1840,12 +1846,6 @@ msgstr ""
 msgid "Information"
 msgstr ""
 
-msgid "Debug"
-msgstr ""
-
-msgid "Trim notes"
-msgstr ""
-
 msgid "You are connected to a public demo of Bibledit Cloud."
 msgstr ""
 
@@ -2066,6 +2066,12 @@ msgid ""
 "email address of Bibledit."
 msgstr ""
 
+msgid "Submit to the Bible Drop Box"
+msgstr ""
+
+msgid "Ready"
+msgstr ""
+
 msgid "Exported to e-Sword"
 msgstr ""
 
@@ -2184,24 +2190,6 @@ msgid "Verse mismatch"
 msgstr ""
 
 msgid "Cannot overwrite another verse"
-msgstr ""
-
-msgid "Fonts"
-msgstr ""
-
-msgid "The font could not be deleted because it is in use."
-msgstr ""
-
-msgid "The font has been uploaded."
-msgstr ""
-
-msgid "Delete font"
-msgstr ""
-
-msgid "The following fonts are available within Bibledit:"
-msgstr ""
-
-msgid "You can upload a new font."
 msgstr ""
 
 msgid "About"
@@ -4430,16 +4418,11 @@ msgstr ""
 msgid "They pick one or two areas to focus for improvement."
 msgstr ""
 
-msgid "Focus the entry, enter the passage where to go, and press Enter."
+msgid ""
+"When the Navigator is displayed, it focuses the name of the Bible book."
 msgstr ""
 
 msgid "Cancel any navigation or style operation."
-msgstr ""
-
-msgid "Go back in the navigation history."
-msgstr ""
-
-msgid "Go forward in the navigation history."
 msgstr ""
 
 msgid "Navigate to the next verse."
@@ -6086,10 +6069,22 @@ msgstr ""
 msgid "The password for securing exports was saved."
 msgstr ""
 
+msgid "The Bible will be submitted to the Bible Drop Box."
+msgstr ""
+
+msgid "You will receive email with further details."
+msgstr ""
+
+msgid "Go to Bibledit Cloud to submit the Bible there"
+msgstr ""
+
 msgid "Exports"
 msgstr "Exportar"
 
-msgid "view"
+msgid "view exports"
+msgstr ""
+
+msgid "remove exports"
 msgstr ""
 
 msgid "Export to Web during the night."
@@ -6172,13 +6167,10 @@ msgstr ""
 msgid "Password to secure the exports:"
 msgstr ""
 
-msgid "The Bible Drop Box."
+msgid "The Bible Drop Box provides many additional export formats."
 msgstr ""
 
-msgid "It assists with exporting to many more formats."
-msgstr ""
-
-msgid "Submit to the Bible Drop Box now."
+msgid "Submit the Bible to the Bible Drop Box now."
 msgstr ""
 
 msgid "The two sets of characters were saved"
@@ -6267,6 +6259,18 @@ msgstr ""
 msgid "Insert the soft hyphens according to the settings."
 msgstr ""
 
+msgid "Manage"
+msgstr ""
+
+msgid "The font could not be deleted because it is in use"
+msgstr ""
+
+msgid "The font has been uploaded."
+msgstr ""
+
+msgid "Delete font"
+msgstr ""
+
 msgid "Indexing"
 msgstr ""
 
@@ -6285,6 +6289,15 @@ msgid "Recreate Bibles index."
 msgstr ""
 
 msgid "Recreate Consultation Notes index."
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
+msgid "The following fonts are available in Bibledit Cloud:"
+msgstr ""
+
+msgid "You can upload a new font."
 msgstr ""
 
 msgid "Users"
@@ -6498,9 +6511,6 @@ msgstr ""
 msgid "Organize"
 msgstr ""
 
-msgid "Manage"
-msgstr ""
-
 msgid "List"
 msgstr ""
 
@@ -6523,6 +6533,12 @@ msgid "Browser"
 msgstr ""
 
 msgid "Cross references"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Personalize"
 msgstr ""
 
 msgid "Styles"
@@ -7142,6 +7158,15 @@ msgstr ""
 msgid "Paratext: Up to date"
 msgstr ""
 
+msgid "Incorrect font size in percents"
+msgstr ""
+
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr ""
+
+msgid "Font size for everything"
+msgstr ""
+
 msgid "Download resource"
 msgstr ""
 
@@ -7356,10 +7381,13 @@ msgstr ""
 msgid "Go to Bibledit Cloud."
 msgstr ""
 
-msgid "Cache this external resource to make it available offline there."
+msgid "Cache this external resource there."
 msgstr ""
 
-msgid "Come back on the Bibledit client here."
+msgid "Ask a manager to cache this external resource in Bibledit Cloud."
+msgstr ""
+
+msgid "Go back on the Bibledit client here."
 msgstr ""
 
 msgid "Synchronize."
@@ -7658,6 +7686,9 @@ msgid "Not downloading change notifications due to communication error"
 msgstr ""
 
 msgid "Synchronizing"
+msgstr ""
+
+msgid "Fies"
 msgstr ""
 
 msgid "Send/Receive"
