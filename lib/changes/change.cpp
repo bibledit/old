@@ -162,7 +162,7 @@ string changes_change (void * webserver_request)
     if (live_notes_editor) {
       notesblock.append ("<a class=\"opennote\" href=\"" + convert_to_string (note) + "\">" + summary + "</a>\n");
     } else {
-      notesblock.append ("<a href=\"/notes/note?id=" + convert_to_string (note) + "\" ##targetblank##>" + summary + "</a>\n");
+      notesblock.append ("<a href=\"/notes/note?id=" + convert_to_string (note) + "\">" + summary + "</a>\n");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("<td>");

@@ -345,4 +345,17 @@ public class MainActivity extends Activity
     }
      */
 
+    @Override
+    public void onBackPressed() {
+        // The Android back button navigates back in the web view.
+        // That is the behaviour people expect.
+        if (webview.canGoBack()) {
+            webview.goBack();
+            return;
+        }
+        
+        // Otherwise defer to system default behavior.
+        super.onBackPressed();
+    }
+
 }

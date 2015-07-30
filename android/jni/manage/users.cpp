@@ -209,7 +209,7 @@ string manage_users (void * webserver_request)
     for (auto & bible : userBiblesIntersec) {
       bool writer = (level >= Filter_Roles::translator ());
       tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
-      tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\" " + Assets_View::target_conditional_blank () + ">" + bible + "</a>");
+      tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
       if (writer) {
         tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
         int readwritebooks = 0;

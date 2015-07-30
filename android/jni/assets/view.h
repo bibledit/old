@@ -32,7 +32,6 @@ public:
   void set_variable (string key, string value);
   void enable_zone (string zone);
   string render (string tpl1, string tpl2);
-  static string target_conditional_blank ();
 private:
   map <string, string> variables;
   map <string, bool> zones;

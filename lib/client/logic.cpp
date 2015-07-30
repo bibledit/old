@@ -173,6 +173,6 @@ string client_logic_link_to_cloud (string path, string linktext)
     linktext = url;
   }
   
-  string link = "<a href=\"" + url + "\" target=\"_blank\">" + linktext + "</a>";
+  string link = "<a href=\"" + url + "\">" + linktext + "</a>";
   return link;
 }

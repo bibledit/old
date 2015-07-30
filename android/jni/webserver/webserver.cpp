@@ -70,11 +70,6 @@ int get_line (int sock, char *buf, int size)
 }
 
 
-mutex mutex_connection; // Todo
-int connection_count = 0; // Todo
-map <string, int> active_connections; // Todo
-
-
 // Processes a single request from a web client.
 void webserver_process_request (int connfd, string clientaddress)
 {
@@ -137,11 +132,6 @@ void webserver_process_request (int connfd, string clientaddress)
           if (total_bytes_read < request.content_length) connection_healthy = false;
         }
         
-        mutex_connection.lock ();
-        connection_count++; // Todo
-        //cout << connection_count << " open  " << request.get << endl; // Todo
-        //Database_Logs::log (convert_to_string (connection_count) + " open " + request.get); // Todo
-        mutex_connection.unlock ();
         if (connection_healthy) {
 
           http_parse_post (postdata, &request);
@@ -160,15 +150,6 @@ void webserver_process_request (int connfd, string clientaddress)
         } else {
           // cerr << "Insufficient data received, closing connection" << endl;
         }
-        mutex_connection.lock ();
-        connection_count--; // Todo
-        //cout << connection_count << " close " << request.get << endl; // Todo
-        //Database_Logs::log (convert_to_string (connection_count) + " close " + request.get); // Todo
-        if (connection_count > 8) {
-          Database_Logs::log ("Connection count: " + convert_to_string (connection_count)); // Todo
-          connection_count = 0; // Todo
-        }
-        mutex_connection.unlock ();
 
       } else {
         // cerr << "Unhealthy connection was closed" << endl;
