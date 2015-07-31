@@ -31,7 +31,7 @@
 
     <activity
       android:name="MainActivity"
-      android:configChanges="orientation|keyboardHidden"
+      android:configChanges="orientation|keyboardHidden|keyboard"
       android:label="Bibledit"
       android:theme="@android:style/Theme.Light.NoTitleBar"
     >

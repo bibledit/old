@@ -56,7 +56,7 @@ public class MainActivity extends Activity
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
-        Log.d ("Bibledit", "onCreate");
+        // Log.d ("Bibledit", "onCreate");
 
         
         // The directory of the external files.
@@ -126,7 +126,7 @@ public class MainActivity extends Activity
     @Override
     protected void onStart ()
     {
-        Log.d ("Bibledit", "onStart");
+        // Log.d ("Bibledit", "onStart");
         super.onStart();
         StartLibrary ();
     }
@@ -136,7 +136,7 @@ public class MainActivity extends Activity
     @Override
     protected void onRestart ()
     {
-        Log.d ("Bibledit", "onRestart");
+        // Log.d ("Bibledit", "onRestart");
         super.onRestart();
         StartLibrary ();
         //stopTimer ();
@@ -147,7 +147,7 @@ public class MainActivity extends Activity
     @Override
     public void onResume ()
     {
-        Log.d ("Bibledit", "onResume");
+        // Log.d ("Bibledit", "onResume");
         super.onResume();
         StartLibrary ();
         checkUrl ();
@@ -159,7 +159,7 @@ public class MainActivity extends Activity
     @Override
     public void onPause ()
     {
-        Log.d ("Bibledit", "onPause");
+        // Log.d ("Bibledit", "onPause");
         super.onPause ();
         StopLibrary ();
         //startTimer ();
@@ -170,10 +170,9 @@ public class MainActivity extends Activity
     @Override
     protected void onStop ()
     {
-        Log.d ("Bibledit", "onStop");
+        // Log.d ("Bibledit", "onStop");
         super.onStop();
         StopLibrary ();
-        //Log.d ("Bibledit", "onStop");
         //startTimer ();
     }
     
@@ -182,7 +181,7 @@ public class MainActivity extends Activity
     @Override
     public void onDestroy ()
     {
-        Log.d ("Bibledit", "onDestroy");
+        // Log.d ("Bibledit", "onDestroy");
         super.onDestroy ();
         StopLibrary ();
         // Crashes: while (IsRunning ()) {};
@@ -197,9 +196,13 @@ public class MainActivity extends Activity
     // The fix was adding
     // android:configChanges="orientation|keyboardHidden"
     // to the <activity> element in AndroidManifest.xml.
+    // The app used to restart after a Bluetooth keyboard came on or went off.
+    // This is according to the specifications.
+    // But then the editor would go away, and the app would go back to the home screen after the restart.
+    // The fix was to add "keyboard" to the above "configChanges" element.
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        Log.d ("Bibledit", "onConfigurationChanged");
+        // Log.d ("Bibledit", "onConfigurationChanged");
         super.onConfigurationChanged(newConfig);
     }
     
