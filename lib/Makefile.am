@@ -34,6 +34,7 @@ libbibledit_a_SOURCES = \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
+	menu/index.cpp \
 	locale/translate.cpp \
 	locale/logic.cpp \
 	database/config/general.cpp \

@@ -128,7 +128,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
 	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
 	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	menu/main.$(OBJEXT) menu/user.$(OBJEXT) menu/index.$(OBJEXT) \
 	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
 	database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
@@ -537,6 +537,7 @@ libbibledit_a_SOURCES = \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
+	menu/index.cpp \
 	locale/translate.cpp \
 	locale/logic.cpp \
 	database/config/general.cpp \
@@ -1006,6 +1007,8 @@ menu/logic.$(OBJEXT): menu/$(am__dirstamp) \
 menu/main.$(OBJEXT): menu/$(am__dirstamp) \
 	menu/$(DEPDIR)/$(am__dirstamp)
 menu/user.$(OBJEXT): menu/$(am__dirstamp) \
+	menu/$(DEPDIR)/$(am__dirstamp)
+menu/index.$(OBJEXT): menu/$(am__dirstamp) \
 	menu/$(DEPDIR)/$(am__dirstamp)
 locale/$(am__dirstamp):
 	@$(MKDIR_P) locale
@@ -2269,6 +2272,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/write.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/user.Po@am__quote@
