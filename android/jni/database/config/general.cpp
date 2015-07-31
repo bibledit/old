@@ -373,3 +373,13 @@ void Database_Config_General::setSyncKey (string key)
 {
   setValue ("sync-key", key);
 }
+
+
+string Database_Config_General::getLastMenuClick ()
+{
+  return getValue ("last-menu-click", "");
+}
+void Database_Config_General::setLastMenuClick (string url)
+{
+  setValue ("last-menu-click", url);
+}

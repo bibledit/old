@@ -123,6 +123,8 @@ public:
   static void setTextDirection (string bible, int value);
   static string getTextFont (string bible);
   static void setTextFont (string bible, string value);
+  static string getTextFontClient (string bible);
+  static void setTextFontClient (string bible, string value);
   static int getEditingAllowedDifferenceChapter (string bible);
   static void setEditingAllowedDifferenceChapter (string bible, int value);
   static int getEditingAllowedDifferenceVerse (string bible);

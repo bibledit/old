@@ -109,7 +109,7 @@ string editusfm_index (void * webserver_request)
   
 
   string cls = Filter_CustomCSS::getClass (bible);
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible); // Todo
   int direction = Database_Config_Bible::getTextDirection (bible);
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", Filter_CustomCSS::getCss (cls, Fonts_Logic::getFontPath (font), direction));

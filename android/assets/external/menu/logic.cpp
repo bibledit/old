@@ -18,12 +18,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <menu/logic.h>
-#include <string>
-#include <vector>
+#include <menu/index.h>
+#include <filter/string.h>
+#include <database/config/general.h>
 
 
 string menu_logic_href (string href)
 {
+  href = filter_string_str_replace ("?", "__q__", href);
+  href = filter_string_str_replace ("&", "__a__", href);
+  href = filter_string_str_replace ("=", "__i__", href);
+  href.insert (0, "?item=");
+  href.insert (0, menu_index_url ());
   href.insert (0, "/");
   return href;
+}
+
+
+string menu_logic_click (string item)
+{
+  item = filter_string_str_replace ("__q__", "?", item);
+  item = filter_string_str_replace ("__a__", "&", item);
+  item = filter_string_str_replace ("__i__", "=", item);
+  Database_Config_General::setLastMenuClick (item);
+  return item;
 }

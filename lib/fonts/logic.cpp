@@ -20,6 +20,8 @@
 #include <fonts/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <database/config/bible.h>
+#include <config/logic.h>
 
 
 string Fonts_Logic::folder ()
@@ -78,3 +80,18 @@ void Fonts_Logic::erase (string font)
   filter_url_unlink (path);
 }
 
+
+
+// When a font is set for a Bible in Bibledit Cloud, this becomes the default font for the clients.
+// Ahd when the client sets its own font, this font will be taken instead.
+string Fonts_Logic::getTextFont (string bible) // Todo
+{
+  string font = Database_Config_Bible::getTextFont (bible);
+  if (config_logic_client_prepared ()) {
+    string client_font = Database_Config_Bible::getTextFontClient (bible);
+    if (!client_font.empty ()) {
+      font = client_font;
+    }
+  }
+  return font;
+}

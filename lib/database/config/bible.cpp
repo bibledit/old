@@ -559,6 +559,16 @@ void Database_Config_Bible::setTextFont (string bible, string value)
 }
 
 
+string Database_Config_Bible::getTextFontClient (string bible)
+{
+  return getValue (bible, "text-font-client", "");
+}
+void Database_Config_Bible::setTextFontClient (string bible, string value)
+{
+  setValue (bible, "text-font-client", value);
+}
+
+
 int Database_Config_Bible::getEditingAllowedDifferenceChapter (string bible)
 {
   return getIValue (bible, "editing-allowed-difference-chapter", 20);

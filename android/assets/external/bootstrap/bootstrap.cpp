@@ -176,6 +176,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <paratext/index.h>
 #include <manage/write.h>
 #include <personalize/index.h>
+#include <menu/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -211,8 +212,9 @@ void bootstrap_index (Webserver_Request * request)
   // Force setup.
   else if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) request->reply = setup_index (request);
 
-  // Home page.
+  // Home page and menu.
   else if ((url == index_index_url ()) && index_index_acl (request)) request->reply = index_index (request);
+  else if ((url == menu_index_url ()) && menu_index_acl (request)) request->reply = menu_index (request);
   
   // Login and logout.
   else if ((url == session_login_url ()) && session_login_acl (request)) request->reply = session_login (request);

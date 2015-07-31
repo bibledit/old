@@ -17,24 +17,30 @@
  */
 
 
-#ifndef INCLUDED_FONTS_LOGIC_H
-#define INCLUDED_FONTS_LOGIC_H
+#include <menu/index.h>
+#include <filter/roles.h>
+#include <filter/url.h>
+#include <webserver/request.h>
+#include <menu/logic.h>
 
 
-#include <config/libraries.h>
-
-
-class Fonts_Logic
+string menu_index_url ()
 {
-public:
-  static vector <string> getFonts ();
-  static bool fontExists (string font);
-  static string getFontPath (string font);
-  static void erase (string font);
-  static string getTextFont (string bible);
-private:
-  static string folder ();
-};
+  return "menu/index";
+}
 
 
-#endif
+bool menu_index_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+}
+
+
+string menu_index (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string item = request->query ["item"];
+  item = menu_logic_click (item);
+  redirect_browser (request, item);
+  return "";
+}

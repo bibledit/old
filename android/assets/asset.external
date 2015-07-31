@@ -613,6 +613,8 @@ mapping/index.html
 mapping/map.cpp
 mapping/map.h
 mapping/map.html
+menu/index.cpp
+menu/index.h
 menu/logic.cpp
 menu/logic.h
 menu/main.cpp

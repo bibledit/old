@@ -59,7 +59,7 @@ void export_web_book (string bible, int book, bool force)
   
   
   // Copy font to the output directory.
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible); // Todo
   if (!font.empty ()) {
     if (Fonts_Logic::fontExists (font)) {
       string fontpath = Fonts_Logic::getFontPath (font);

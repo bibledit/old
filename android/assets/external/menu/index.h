@@ -17,24 +17,16 @@
  */
 
 
-#ifndef INCLUDED_FONTS_LOGIC_H
-#define INCLUDED_FONTS_LOGIC_H
+#ifndef INCLUDED_MENU_INDEX_H
+#define INCLUDED_MENU_INDEX_H
 
 
 #include <config/libraries.h>
 
 
-class Fonts_Logic
-{
-public:
-  static vector <string> getFonts ();
-  static bool fontExists (string font);
-  static string getFontPath (string font);
-  static void erase (string font);
-  static string getTextFont (string bible);
-private:
-  static string folder ();
-};
+string menu_index_url ();
+bool menu_index_acl (void * webserver_request);
+string menu_index (void * webserver_request);
 
 
 #endif

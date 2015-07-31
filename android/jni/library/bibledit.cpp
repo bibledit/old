@@ -145,6 +145,14 @@ void bibledit_start_library ()
 }
 
 
+// Gets the last page that was opened via the menu.
+const char * bibledit_get_last_page ()
+{
+  string href = "/" + Database_Config_General::getLastMenuClick ();
+  return href.c_str();
+}
+
+
 // Returns true if Bibledit is running.
 bool bibledit_is_running ()
 {

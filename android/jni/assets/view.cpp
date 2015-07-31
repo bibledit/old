@@ -31,7 +31,7 @@ Assets_View::Assets_View ()
 {
   // On some installations like on iOS and Android, the browser has no controls.
   // Deal with this configuration setting.
-  if (config_logic_bare_browser ()) { // Todo
+  if (config_logic_bare_browser ()) {
     enable_zone ("bare_browser");
   }
 }

@@ -30,6 +30,7 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <fonts/logic.h>
+#include <config/logic.h>
 
 
 string bible_css_url ()
@@ -64,7 +65,13 @@ string bible_css (void * webserver_request)
     
     string font = request->post ["font"];
     font = filter_string_trim (font);
-    Database_Config_Bible::setTextFont (bible, font);
+    if (config_logic_client_prepared ()) {
+      // Bibledit client storage.
+      Database_Config_Bible::setTextFontClient (bible, font);
+    } else {
+      // Bibledit Cloud storage.
+      Database_Config_Bible::setTextFont (bible, font);
+    }
     
     string s_direction = request->post ["direction"];
     int i_direction = Filter_CustomCSS::directionValue (s_direction);
@@ -78,7 +85,7 @@ string bible_css (void * webserver_request)
     
   }
   
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible); // Todo
   view.set_variable ("font", font);
 
   int direction = Database_Config_Bible::getTextDirection (bible);
