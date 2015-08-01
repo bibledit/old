@@ -322,7 +322,7 @@ void Styles_Css::add_editor_styles ()
 void Styles_Css::customize (const string& bible)
 {
   string cls = Filter_CustomCSS::getClass (bible);
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible);
   bool uploaded_font = Fonts_Logic::fontExists (font);
   font = Fonts_Logic::getFontPath (font);
   int direction = Database_Config_Bible::getTextDirection (bible);

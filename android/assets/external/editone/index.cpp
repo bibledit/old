@@ -101,10 +101,16 @@ string editone_index (void * webserver_request)
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible);
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible);
   int direction = Database_Config_Bible::getTextDirection (bible);
+  int lineheight = Database_Config_Bible::getLineHeight (bible);
+  int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_CustomCSS::getCss (cls, Fonts_Logic::getFontPath (font), direction));
+  view.set_variable ("custom_css", Filter_CustomCSS::getCss (cls,
+                                                             Fonts_Logic::getFontPath (font),
+                                                             direction,
+                                                             lineheight,
+                                                             letterspacing));
   
   page += view.render ("editone", "index");
   

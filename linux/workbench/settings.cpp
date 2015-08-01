@@ -78,6 +78,8 @@ string workbench_settings (void * webserver_request)
     workbenchSetURLs (request, urls);
     workbenchSetWidths (request, widths);
     workbenchSetHeights (request, row_heights);
+    string workbenchwidth = request->post ["workbenchwidth"];
+    workbenchSetEntireWidth (request, workbenchwidth);
     redirect_browser (request, workbench_index_url ());
     return "";
   }
@@ -108,6 +110,9 @@ string workbench_settings (void * webserver_request)
     string variable = "height" + convert_to_string (row);
     view.set_variable (variable, row_heights [key]);
   }
+
+  string workbenchwidth = workbenchGetEntireWidth (request);
+  view.set_variable ("workbenchwidth", workbenchwidth);
   
   view.set_variable ("name", name);
   

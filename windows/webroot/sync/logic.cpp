@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/mail.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
 #include <database/usfmresources.h>
 #include <database/offlineresources.h>
 #include <database/modifications.h>
@@ -146,6 +147,8 @@ string Sync_Logic::settings_checksum (const vector <string> & bibles)
   for (auto & bible : bibles) {
     int id = request->database_bibles ()->getID (bible);
     checksum.append (convert_to_string (id));
+    // Download Bible text font name: It is the default name for the clients.
+    checksum.append (Database_Config_Bible::getTextFont (bible));
   }
   return md5 (checksum);
 }
@@ -255,5 +258,83 @@ string Sync_Logic::changes_checksum (const string & username)
     checksum.append (convert_to_string (id));
   }
   checksum = md5 (checksum);
+  return checksum;
+}
+
+
+// This function returns the root directories to go though on files sync.
+// The $version influences which root directories to include.
+// The $version is passed by the client to the server,
+// so the server can adapt to the client's capabilities.
+vector <string> Sync_Logic::files_get_directories (int version)
+{
+  vector <string> directories;
+  switch (version) {
+    case 1:
+      directories = {
+        "fonts",
+        "databases/usfmresources",
+        "databases/offlineresources"
+      };
+      break;
+    default:
+      break;
+  }
+  return directories;
+}
+
+
+// This returns the total checksum for all directories and files relevant to $version.
+int Sync_Logic::files_get_total_checksum (int version)
+{
+  int checksum = 0;
+  vector <string> directories = files_get_directories (version);
+  for (auto directory : directories) {
+    checksum += files_get_directory_checksum (directory);
+  }
+  return checksum;
+}
+
+
+// This returns the total checksum for all files in one root directory.
+// It does a recursive scan for the files.
+int Sync_Logic::files_get_directory_checksum (string directory)
+{
+  int checksum = 0;
+  vector <string> files = files_get_files (directory);
+  for (string file : files) {
+    checksum += files_get_file_checksum (directory, file);
+  }
+  return checksum;
+}
+
+
+// This returns all the paths of the files within $directory.
+// $directory is relative to the web root.
+// It does a recursive scan for the files.
+vector <string> Sync_Logic::files_get_files (string directory)
+{
+  directory = filter_url_create_root_path (directory);
+  vector <string> result;
+  vector <string> paths;
+  filter_url_recursive_scandir (directory, paths);
+  for (string path : paths) {
+    if (filter_url_is_dir (path)) continue;
+    string extension = filter_url_get_extension (path);
+    if (extension == "o") continue;
+    if (extension == "h") continue;
+    if (extension == "cpp") continue;
+    path.erase (0, directory.length () + 1);
+    result.push_back (path);
+  }
+  return result;
+}
+
+
+// This returns the checksum of a $file in $directory.
+int Sync_Logic::files_get_file_checksum (string directory, string file)
+{
+  string path = filter_url_create_root_path (directory, file);
+  int checksum = filter_url_filesize (path);
   return checksum;
 }

@@ -52,6 +52,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/modifications.h>
 #include <database/notes.h>
 #include <database/volatile.h>
+#include <database/state.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -2894,6 +2895,7 @@ void test_database_notes ()
   // TrimOptimize
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -2911,6 +2913,7 @@ void test_database_notes ()
   // Identifier.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -2935,6 +2938,7 @@ void test_database_notes ()
   // SummaryContents
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -2979,6 +2983,7 @@ void test_database_notes ()
   // Subscriptions.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3017,6 +3022,7 @@ void test_database_notes ()
   // Assignments ()
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3067,6 +3073,7 @@ void test_database_notes ()
   // Bible
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3087,6 +3094,7 @@ void test_database_notes ()
   // Passage.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3114,6 +3122,7 @@ void test_database_notes ()
   // Status.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3145,6 +3154,7 @@ void test_database_notes ()
   // Severity
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3182,6 +3192,7 @@ void test_database_notes ()
   // Modified
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3206,6 +3217,7 @@ void test_database_notes ()
   // GetIdentifiers
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3230,6 +3242,7 @@ void test_database_notes ()
   // SetIdentifier
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3269,6 +3282,7 @@ void test_database_notes ()
     // after touching it 7 or 8 times, is returned as due for deletion,
     // and whether it is not yet due for deletion before that.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3300,6 +3314,7 @@ void test_database_notes ()
     // touched 6 times, then unmarked, touched again,
     // will not be due for deletion.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3326,6 +3341,7 @@ void test_database_notes ()
     // It tests whether three notes, marked for deletion on different days,
     // are properly touched so they keep their own number of days.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3361,6 +3377,7 @@ void test_database_notes ()
   // ExpireIsMarked.
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3386,6 +3403,7 @@ void test_database_notes ()
   // ChecksumOne
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3471,6 +3489,7 @@ void test_database_notes ()
   // ChecksumTwo
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3493,6 +3512,7 @@ void test_database_notes ()
   // GetNotesInRangeForBibles ()
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3580,6 +3600,7 @@ void test_database_notes ()
   // SelectBible
   {
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request;
@@ -3715,6 +3736,89 @@ void test_database_volatile ()
     // Another key should retrieve nothing.
     value = database_volatile.getValue (2, "key1");
     evaluate (__LINE__, __func__, "", value);
+  }
+}
+
+
+void test_database_state ()
+{
+  refresh_sandbox (true);
+  Database_State::create ();
+  // Test notes checksums.
+  {
+    // No checksum yet.
+    evaluate (__LINE__, __func__, "",  Database_State::getNotesChecksum (100, 1000));
+    
+    // Store and retrieve checksum in a defined range.
+    Database_State::putNotesChecksum (100, 1000, "phpunit");
+    evaluate (__LINE__, __func__, "phpunit",  Database_State::getNotesChecksum (100, 1000));
+    // Store it again, with a different value.
+    Database_State::putNotesChecksum (100, 1000, "phpunit2");
+    evaluate (__LINE__, __func__, "phpunit2",  Database_State::getNotesChecksum (100, 1000));
+    
+    // Erase a note within the defined range, which should erase that range.
+    Database_State::eraseNoteChecksum (100);
+    evaluate (__LINE__, __func__, "",  Database_State::getNotesChecksum (100, 1000));
+    
+    // Define a few ranges, store checksums, and erase one note within that range, and test it.
+    Database_State::putNotesChecksum (100, 1000, "100-1000");
+    Database_State::putNotesChecksum (200, 1100, "200-1100");
+    Database_State::putNotesChecksum (300, 900,  "300-900");
+    Database_State::putNotesChecksum (2000, 9000, "2000-9000");
+    evaluate (__LINE__, __func__, "100-1000",   Database_State::getNotesChecksum (100,  1000));
+    evaluate (__LINE__, __func__, "200-1100",   Database_State::getNotesChecksum (200,  1100));
+    evaluate (__LINE__, __func__, "300-900",    Database_State::getNotesChecksum (300,  900));
+    evaluate (__LINE__, __func__, "2000-9000",  Database_State::getNotesChecksum (2000, 9000));
+    Database_State::eraseNoteChecksum (500);
+    evaluate (__LINE__, __func__, "",   Database_State::getNotesChecksum (100,  1000));
+    evaluate (__LINE__, __func__, "",   Database_State::getNotesChecksum (200,  1100));
+    evaluate (__LINE__, __func__, "",    Database_State::getNotesChecksum (300,  900));
+    evaluate (__LINE__, __func__, "2000-9000",  Database_State::getNotesChecksum (2000, 9000));
+  }
+  // Test export flagging.
+  {
+    // Flag some data for export.
+    Database_State::setExport ("1", 2, 3);
+    Database_State::setExport ("4", 5, 6);
+    Database_State::setExport ("7", 8, 9);
+
+    // Test the data.
+    evaluate (__LINE__, __func__, true,  Database_State::getExport ("1", 2, 3));
+    evaluate (__LINE__, __func__, true,  Database_State::getExport ("4", 5, 6));
+    evaluate (__LINE__, __func__, false,  Database_State::getExport ("1", 2, 1));
+    
+    // Clear flag.
+    Database_State::clearExport ("1", 2, 3);
+    
+    // Test the data.
+    evaluate (__LINE__, __func__, false,  Database_State::getExport ("1", 2, 3));
+    evaluate (__LINE__, __func__, true,  Database_State::getExport ("4", 5, 6));
+    evaluate (__LINE__, __func__, false,  Database_State::getExport ("1", 2, 1));
+  }
+  // Test states of being exported.
+  {
+    // Not yet exported by default.
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("bible", 1));
+
+    // Set and test some exports.
+    Database_State::setExported ("1", 1);
+    Database_State::setExported ("2", 2);
+    Database_State::setExported ("3", 3);
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("1", 1));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("2", 2));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("1", 2));
+
+    // Clear some.
+    Database_State::clearExported ("1", 1);
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("1", 1));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("2", 2));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
+
+    // Clear entire Bible.
+    Database_State::clearExported ("2", 0);
+    evaluate (__LINE__, __func__, false,  Database_State::getExported ("2", 2));
+    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
   }
 }
 

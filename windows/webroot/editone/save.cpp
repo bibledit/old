@@ -29,6 +29,7 @@
 #include <locale/translate.h>
 #include <editor/html2usfm.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string editone_save_url ()
@@ -106,18 +107,20 @@ string editone_save (void * webserver_request)
   string username = request->session_logic()->currentUser ();
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
   string oldText = request->database_bibles()->getChapter (bible, book, chapter);
+
+  
   // Safely store the verse.
-  bool saved = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm);
-  if (saved) {
-    // Store details for the user's changes.
-    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-    string newText = request->database_bibles()->getChapter (bible, book, chapter);
-    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm);
+  if (message.empty ()) {
+    // Server: Store details for the user's changes.
+    if (!config_logic_client_prepared ()) {
+      int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+      string newText = request->database_bibles()->getChapter (bible, book, chapter);
+      database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+    }
     return translate("Saved");
-  } else {
-    return translate("Not saved because of too many changes");
   }
 
   
-  return "";
+  return message;
 }

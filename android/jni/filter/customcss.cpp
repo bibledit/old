@@ -167,7 +167,9 @@ string Filter_CustomCSS::getClass (string bible)
 // class: The class for the CSS.
 // font: The name or URL of the font to use. It may be empty.
 // directionvalue: The value for the text direction.
-string Filter_CustomCSS::getCss (string class_, string font, int directionvalue)
+// $lineheigh: Value in percents.
+// $letterspacing: Value multiplied by 10, in pixels.
+string Filter_CustomCSS::getCss (string class_, string font, int directionvalue, int lineheight, int letterspacing)
 {
   vector <string> css;
   
@@ -212,6 +214,17 @@ string Filter_CustomCSS::getCss (string class_, string font, int directionvalue)
       default: line += tb_lr (); break;
     }
     line += ";";
+    css.push_back (line);
+  }
+  
+  if (lineheight != 100) {
+    string line = "line-height: " + convert_to_string (lineheight) + "%;";
+    css.push_back (line);
+  }
+  
+  if (letterspacing != 0) {
+    float value = letterspacing / 10;
+    string line = "letter-spacing: " + convert_to_string (value) + "px;";
     css.push_back (line);
   }
   

@@ -24,6 +24,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/bible.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -35,14 +36,19 @@
 #include <onlinebible/text.h>
 
 
-void export_onlinebible (string bible)
+void export_onlinebible (string bible, bool force)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "onlinebible");
   if (!file_exists (directory)) filter_url_mkdir (directory);
   
   
   string filename = filter_url_create_path (directory, "bible.exp");
+
   
+  if (!file_exists (filename)) force = true;
+  if (Database_State::getExport (bible, 0, Export_Logic::export_online_bible)) force = true;
+  if (!force) return;
+
   
   Database_Bibles database_bibles;
   
@@ -63,7 +69,10 @@ void export_onlinebible (string bible)
   }
   filter_text_bible.run (stylesheet);
   filter_text_bible.onlinebible_text->save (filename);
+
   
+  Database_State::clearExport (bible, 0, Export_Logic::export_online_bible);
+
   
   Database_Logs::log (translate("Exported to Online Bible") + " " + bible, Filter_Roles::translator ());
 }

@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_FONTS_INDEX_H
-#define INCLUDED_FONTS_INDEX_H
+#ifndef INCLUDED_MENU_INDEX_H
+#define INCLUDED_MENU_INDEX_H
 
 
 #include <config/libraries.h>
 
 
-string fonts_index_url ();
-bool fonts_index_acl (void * webserver_request);
-string fonts_index (void * webserver_request);
+string menu_index_url ();
+bool menu_index_acl (void * webserver_request);
+string menu_index (void * webserver_request);
 
 
 #endif

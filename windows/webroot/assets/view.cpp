@@ -29,10 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Assets_View::Assets_View ()
 {
-  // On some installations like on iOS, the browser has only one tab.
+  // On some installations like on iOS and Android, the browser has no controls.
   // Deal with this configuration setting.
   if (config_logic_bare_browser ()) {
-    set_variable ("targetblank", target_conditional_blank ());
     enable_zone ("bare_browser");
   }
 }
@@ -90,15 +89,4 @@ string Assets_View::render (string tpl1, string tpl2)
   // Get and return the page contents.
   string page = flate.render (tpl);
   return page;
-}
-
-
-// Some browsers can only open one tab.
-// This function returns the code to deal with this.
-string Assets_View::target_conditional_blank ()
-{
-  if (!config_logic_bare_browser ()) {
-    return "target=\"_blank\"";
-  }
-  return "";
 }

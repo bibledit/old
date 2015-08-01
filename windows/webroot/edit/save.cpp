@@ -29,9 +29,11 @@
 #include <database/logs.h>
 #include <checksum/logic.h>
 #include <editor/html2usfm.h>
+#include <editor/usfm2html.h>
 #include <locale/translate.h>
 #include <edit/logic.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string edit_save_url ()
@@ -49,7 +51,6 @@ bool edit_save_acl (void * webserver_request)
 string edit_save (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Modifications database_modifications = Database_Modifications ();
 
   bool post_complete = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("html") && request->post.count ("checksum"));
   if (!post_complete) {
@@ -69,7 +70,7 @@ string edit_save (void * webserver_request)
 
   html = filter_url_tag_to_plus (html);
   html = filter_string_trim (html);
-
+  
   if (html.empty ()) {
     Database_Logs::log (translate ("There was no text.") + " " + translate ("Nothing was saved.") + " " + translate ("The original text of the chapter was reloaded."));
     return translate("Nothing to save");
@@ -121,23 +122,45 @@ string edit_save (void * webserver_request)
     if (server_usfm != ancestor_usfm) {
       // Prioritize the user's USFM.
       user_usfm = filter_merge_run (ancestor_usfm, server_usfm, user_usfm);
-      Database_Logs::log (translate ("Merging and saving chapter."));
+      Database_Logs::log (translate ("Merging chapter."));
     }
   }
   
   // Safely store the chapter.
-  bool saved = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);
+  string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);
   
-  if (!saved) {
-    return translate("Not saved because of too many changes");
-  }
+  if (!message.empty ()) return message;
 
-  // Store details for the user's changes.
-  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-  database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+  // In server configuration, store details for the user's changes.
+  if (!config_logic_client_prepared ()) {
+    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+    Database_Modifications database_modifications = Database_Modifications ();
+    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+  }
   
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+  
+  // Convert the stored USFM to html.
+  // This converted html should be the same as the saved html.
+  // If it differs, signal the browser to reload the chapter.
+  // This also cares for nmbering and cleaning up any added or removed footnotes.
+  Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
+  editor_import.load (user_usfm);
+  editor_import.stylesheet (stylesheet);
+  editor_import.run ();
+  string converted_html = editor_import.get ();
+  // Convert to XML for comparison.
+  // Remove spaces before comparing, so that entering a space in the editor does not cause a reload.
+  html = html2xml (html);
+  html = filter_string_str_replace (" ", "", html);
+  html = filter_string_str_replace ("&nbsp;", "", html);
+  converted_html = html2xml (converted_html);
+  converted_html = filter_string_str_replace (" ", "", converted_html);
+  converted_html = filter_string_str_replace ("&nbsp;", "", converted_html);
+  // If round trip conversion differs, send a known string to the browser,
+  // to signal the browser to reload the reformatted chapter.
+  if (html != converted_html) return "Reformat";
 
   return translate("Saved");
 }

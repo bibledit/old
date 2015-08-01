@@ -33,6 +33,7 @@ string client_logic_create_note_encode (string bible, int book, int chapter, int
 void client_logic_create_note_decode (string data,
                                       string& bible, int& book, int& chapter, int& verse,
                                       string& summary, string& contents, bool& raw);
+string client_logic_link_to_cloud (string path, string linktext);
 
 
 #endif

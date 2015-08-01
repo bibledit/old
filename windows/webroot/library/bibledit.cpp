@@ -77,6 +77,9 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Initialize libxml2.
   xmlInitThreads ();
   xmlInitParser ();
+
+  // Initialize SQLite: Full thread safety: https://www.sqlite.org/threadsafe.html.
+  sqlite3_config (SQLITE_CONFIG_SERIALIZED);
   
   // Set the web root folder.
   config_globals_document_root = webroot;
@@ -139,6 +142,14 @@ void bibledit_start_library ()
   
   // Client should sync right after wake up.
   sendreceive_queue_startup ();
+}
+
+
+// Gets the last page that was opened via the menu.
+const char * bibledit_get_last_page ()
+{
+  string href = "/" + Database_Config_General::getLastMenuClick ();
+  return href.c_str();
 }
 
 

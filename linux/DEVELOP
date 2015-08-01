@@ -49,3 +49,6 @@ It uses shell calls to git instead.
 
 Supported web browsers: Chrome, Firefox, Internet Explorer, Safari, Opera, Edge.
 
+There is Hebrew linguistic data available from https://easy.dans.knaw.nl/ui/datasets/id/easy-dataset:58245. The ETCBC4 database is in the public domain. It contaiins a lot of useful information, but it also lacks information useful to Bible translators, in particular it lacks information defining the meaning of a word. For that reason Bibledit does not yet include this database.
+
+

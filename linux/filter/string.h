@@ -83,6 +83,10 @@ int filter_string_user_identifier (void * webserver_request);
 string bin2hex (string bin);
 string hex2bin (string hex);
 string html_tidy (string html);
+string html2xml (string html);
+string convert_xml_character_entities_to_characters (string data);
+string encrypt_decrypt (string key, string data);
+string get_new_key ();
 
 
 #endif

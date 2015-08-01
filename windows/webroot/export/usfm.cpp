@@ -24,6 +24,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/bible.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -34,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_usfm (string bible)
+void export_usfm (string bible, bool force)
 {
   Database_Bibles database_bibles;
   
@@ -53,8 +54,8 @@ void export_usfm (string bible)
   if (!file_exists (usfmDirectoryFull)) filter_url_mkdir (usfmDirectoryFull);
   
   
-  // Remove possible secured zip file.
-  filter_url_unlink (filter_url_create_path (usfmDirectoryFull, "bible.zip"));
+  // Whether to zip the whole Bible.
+  bool zip_bible = force;
   
   
   // Take the USFM from the Bible database.
@@ -63,6 +64,22 @@ void export_usfm (string bible)
   
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
+    
+    
+    // The filename for the USFM for this book.
+    string filename = Export_Logic::baseBookFileName (book);
+    string path = filter_url_create_path (usfmDirectoryFull, filename + ".usfm");
+    
+    
+    // Check whether to export this book, triggered by certain conditions.
+    bool export_book = force;
+    if (Database_State::getExport (bible, book, Export_Logic::export_full_usfm)) export_book = true;
+    if (!file_exists (path)) export_book = true;
+    if (!export_book) continue;
+    
+    
+    // Since at least one book changed, export the whole Bible also.
+    zip_bible = true;
     
     
     // The USFM data of the current book.
@@ -81,23 +98,33 @@ void export_usfm (string bible)
     }
     
     
-    // The filename for the USFM for this book.
-    string filename = Export_Logic::baseBookFileName (book);
-    string path = filter_url_create_path (usfmDirectoryFull, filename + ".usfm");
-    
-    
     // Save.
     filter_url_file_put_contents (path, bookUsfmDataFull);
+
+    
+    // Clear the flag that indicated this export.
+    Database_State::clearExport (bible, book, Export_Logic::export_full_usfm);
     
     
+    Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
   }
+
+  
+  // Base name of the zip file.
+  string zipfile = Export_Logic::baseBookFileName (0) + ".zip";
+  string zippath = filter_url_create_path (usfmDirectoryFull, zipfile);
+  
+  
+  // Under certain conditions, recreate the zip file.
+  if (!file_exists (zippath)) zip_bible = true;
+  if (Database_State::getExport (bible, 0, Export_Logic::export_full_usfm)) zip_bible = true;
+  if (!zip_bible) return;
   
   
   // Compress USFM files into one zip file.
-  string zipfile = filter_url_create_path (usfmDirectoryFull, Export_Logic::baseBookFileName (0) + ".zip");
-  filter_url_unlink (zipfile);
+  filter_url_unlink (zippath);
   string archive = filter_archive_zip_folder (usfmDirectoryFull);
-  filter_url_rename (archive, zipfile);
+  filter_url_rename (archive, zippath);
   
   
   if (Database_Config_Bible::getSecureUsfmExport (bible)) {
@@ -106,16 +133,20 @@ void export_usfm (string bible)
     // All other files will be removed.
     // It uses the external zip binary.
     vector <string> files = filter_url_scandir (usfmDirectoryFull);
-    string basefile = filter_url_basename (zipfile);
     for (auto file : files) {
-      if (file != basefile) filter_url_unlink (filter_url_create_path (usfmDirectoryFull, file));
+      if (file != zipfile) filter_url_unlink (filter_url_create_path (usfmDirectoryFull, file));
     }
     string password = Database_Config_Bible::getExportPassword (bible);
     string output, error;
-    filter_shell_run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", basefile}, &output, &error);
-    filter_url_unlink (zipfile);
+    filter_shell_run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", zipfile}, &output, &error);
+    filter_url_unlink (zippath);
+    filter_url_rename (filter_url_create_path (usfmDirectoryFull, "bible.zip"), zippath);
   }
   
+  
+  // Clear the flag that indicated this export.
+  Database_State::clearExport (bible, 0, Export_Logic::export_full_usfm);
+
   
   Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + translate("All books"), Filter_Roles::translator ());
 }

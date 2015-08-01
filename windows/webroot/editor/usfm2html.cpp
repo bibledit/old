@@ -126,6 +126,10 @@ string Editor_Usfm2Html::get ()
   // This is how the webkit browser naturally represents a new empty line.
   html = filter_string_str_replace ("<p class=\"b\"/>", "<p class=\"b\"><br></p>", html);
   
+  // Currently libxml2 produces hexadecimal character entities.
+  // This is unwanted behaviour: Convert them to normal characters.
+  html = convert_xml_character_entities_to_characters (html);
+  
   // Result.
   return html;
 }
@@ -504,6 +508,9 @@ void Editor_Usfm2Html::addText (string text)
     xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
     xmlAddChild (spanDomElement, textnode);
     xmlAddChild (currentPDomElement, spanDomElement);
+    // xmlChar * encoded_text = xmlEncodeSpecialChars (htmlDom, BAD_CAST text.c_str());
+    // xmlNodePtr spanDomElement = xmlNewChild (currentPDomElement, NULL, BAD_CAST "span", encoded_text);
+    // xmlFree (encoded_text);
     if (!currentTextStyles.empty ()) {
       // Take character style(s) as specified in this object.
       xmlNewProp (spanDomElement, BAD_CAST "class", BAD_CAST filter_string_implode (currentTextStyles, " ").c_str());

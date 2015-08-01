@@ -148,8 +148,9 @@ void webserver_process_request (int connfd, string clientaddress)
           if (written) {};
           
         } else {
-          cerr << "Insufficient data received, closing connection" << endl;
+          // cerr << "Insufficient data received, closing connection" << endl;
         }
+
       } else {
         // cerr << "Unhealthy connection was closed" << endl;
       }

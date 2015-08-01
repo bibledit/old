@@ -78,6 +78,10 @@ public:
   static void setJustStarted (bool value);
   static string getParatextProjectsFolder ();
   static void setParatextProjectsFolder (string value);
+  static string getSyncKey ();
+  static void setSyncKey (string key);
+  static string getLastMenuClick ();
+  static void setLastMenuClick (string url);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

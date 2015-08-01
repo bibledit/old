@@ -92,6 +92,17 @@ string workbench_index (void * webserver_request)
   }
   
   
+  string workbenchwidth = workbenchGetEntireWidth (request);
+  if (!workbenchwidth.empty ()) {
+    workbenchwidth.insert (0, "; width: ");
+    workbenchwidth.append ("; margin: 0 auto; overflow: hidden;");
+  }
+  view.set_variable ("workbenchwidth", workbenchwidth);
+
+  
+  // The rendered template disables framekillers through the "sandbox" attribute on the iframe elements.
+  
+  
   page += view.render ("workbench", "index");
   
   

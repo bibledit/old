@@ -328,7 +328,7 @@ string studylight_processor (string directory, int book, int chapter, int verse)
   }
   
   html = filter_string_implode (relevant_lines, "\n");
-  html += "<p><a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">" + url + "</a></p>\n";
+  html += "<p><a href=\"" + url + "\">" + url + "</a></p>\n";
   
   return html;
 }
@@ -361,7 +361,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
   filter_string_replace_between (text, "<", ">", "");
   text = filter_string_trim (text);
   
-  text += "<p><a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">" + url + "</a></p>\n";
+  text += "<p><a href=\"" + url + "\">" + url + "</a></p>\n";
   
   return text;
 }
@@ -492,8 +492,6 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   }
   
   html = filter_string_implode (filtered_lines, "\n");
-  
-  html = filter_string_str_replace ("title=", Assets_View::target_conditional_blank () + " title=", html);
   
   html = filter_string_str_replace ("/abbrev.htm", "http://biblehub.com/abbrev.htm", html);
   html = filter_string_str_replace ("/hebrew/", "http://biblehub.com/hebrew/", html);
@@ -691,6 +689,8 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   string notes = filter_url_http_get (url, error);
   // If notes fail with an error, don't include the note text.
   if (!error.empty ()) notes.clear ();
+  // It the verse contains no notes, the website returns an unusual message.
+  if (notes.find ("We are currently offline") != string::npos) notes.clear ();
   
   // The "bibleref" class experiences interference from other resources,
   // so that the reference would become invisible.
@@ -752,19 +752,19 @@ string resource_external_get_blue_letter_bible (int book, int chapter, int verse
   
   string url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=$" + convert_to_string (chapter) + "&t=KJV&ss=1";
   
-  output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">KJV</a>";
+  output += "<a href=\"" + url + "\">KJV</a>";
   
   output += " | ";
   
   url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + convert_to_string (chapter) + "&t=WLC";
   
-  output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">WLC</a>";
+  output += "<a href=\"" + url + "\">WLC</a>";
   
   output += " | ";
   
   url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + convert_to_string (chapter) + "&t=mGNT";
   
-  output += "<a href=\"" + url + "\" " + Assets_View::target_conditional_blank () + ">mGNT</a>";
+  output += "<a href=\"" + url + "\">mGNT</a>";
 
   return output;
 }

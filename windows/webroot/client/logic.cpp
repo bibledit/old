@@ -21,11 +21,14 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/roles.h>
+#include <filter/md5.h>
 #include <database/config/general.h>
 #include <database/users.h>
 #include <database/logs.h>
 #include <sync/setup.h>
 #include <config/logic.h>
+#include <client/index.h>
+#include <locale/translate.h>
 
 
 // Returns whether Client mode is enabled.
@@ -60,8 +63,9 @@ string client_logic_url (string address, int port, string path)
 // It returns an empty string in case of failure or the response from the server.
 string client_logic_connection_setup (string user, string hash)
 {
+  Database_Users database_users = Database_Users ();
+
   if (user.empty ()) {
-    Database_Users database_users = Database_Users ();
     vector <string> users = database_users.getUsers ();
     if (users.empty()) return "";
     user = users [0];
@@ -81,8 +85,11 @@ string client_logic_connection_setup (string user, string hash)
   
   if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
     // Set user's role on the client to be the same as on the server.
-    Database_Users database_users = Database_Users ();
-    database_users.updateUserLevel (user, iresponse);
+    // Do this only when it differs, to prevent excessive database writes on the client.
+    int level = database_users.getUserLevel (user);
+    if (iresponse != level) {
+      database_users.updateUserLevel (user, iresponse);
+    }
   } else {
     Database_Logs::log (error, Filter_Roles::translator ());
   }
@@ -140,3 +147,32 @@ void client_logic_create_note_decode (string data,
 }
 
 
+// This provides a html link to Bibledit Cloud / $path, and displays $linktext.
+string client_logic_link_to_cloud (string path, string linktext)
+{
+  string url;
+  if (client_logic_client_enabled ()) {
+    string address = Database_Config_General::getServerAddress ();
+    int port = Database_Config_General::getServerPort ();
+    url = address + ":" + convert_to_string (port);
+    if (!path.empty ()) {
+      url.append ("/");
+      url.append (path);
+    }
+  } else {
+    // Client disconnected: Provide the link and the text to connect to the Cloud.
+    url = "/" + client_index_url ();
+    linktext.append (" ");
+    linktext.append (translate("You are not yet connected to Bibledit Cloud."));
+    linktext.append (" ");
+    linktext.append (translate("Connect."));
+  }
+
+  if (linktext.empty ()) {
+    // Empty link text: Select the link itself as the text to display.
+    linktext = url;
+  }
+  
+  string link = "<a href=\"" + url + "\">" + linktext + "</a>";
+  return link;
+}

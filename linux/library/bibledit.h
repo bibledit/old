@@ -28,6 +28,7 @@ extern "C" {
   void bibledit_set_quit_at_midnight ();
   void bibledit_set_timezone_hours_offset_utc (int hours);
   void bibledit_start_library ();
+  const char * bibledit_get_last_page ();
   bool bibledit_is_running ();
   void bibledit_stop_library ();
   void bibledit_shutdown_library ();

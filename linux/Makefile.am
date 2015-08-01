@@ -34,6 +34,7 @@ libbibledit_a_SOURCES = \
 	menu/logic.cpp \
 	menu/main.cpp \
 	menu/user.cpp \
+	menu/index.cpp \
 	locale/translate.cpp \
 	locale/logic.cpp \
 	database/config/general.cpp \
@@ -67,6 +68,7 @@ libbibledit_a_SOURCES = \
 	database/notes.cpp \
 	database/volatile.cpp \
 	database/maintenance.cpp \
+	database/state.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -133,7 +135,6 @@ libbibledit_a_SOURCES = \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \
-	sync/logic.cpp \
 	help/index.cpp \
 	confirm/worker.cpp \
 	email/index.cpp \
@@ -141,7 +142,7 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
-	manage/indexing.cpp \
+	manage/index.cpp \
 	manage/users.cpp \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
@@ -167,7 +168,6 @@ libbibledit_a_SOURCES = \
 	dialog/books.cpp \
 	dialog/upload.cpp \
 	fonts/logic.cpp \
-	fonts/index.cpp \
 	versification/index.cpp \
 	versification/system.cpp \
 	versification/logic.cpp \
@@ -230,13 +230,13 @@ libbibledit_a_SOURCES = \
 	sendreceive/sendreceive.cpp \
 	sendreceive/settings.cpp \
 	sendreceive/bibles.cpp \
-	sendreceive/usfmresources.cpp \
-	sendreceive/externalresources.cpp \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
+	sendreceive/files.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
+	sync/logic.cpp \
 	sync/setup.cpp \
 	sync/settings.cpp \
 	sync/bibles.cpp \
@@ -244,6 +244,7 @@ libbibledit_a_SOURCES = \
 	sync/externalresources.cpp \
 	sync/notes.cpp \
 	sync/changes.cpp \
+	sync/files.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -294,6 +295,7 @@ libbibledit_a_SOURCES = \
 	export/textusfm.cpp \
 	export/usfm.cpp \
 	export/web.cpp \
+	export/bibledropbox.cpp \
 	xrefs/clear.cpp \
 	xrefs/extract.cpp \
 	xrefs/help.cpp \
@@ -309,7 +311,8 @@ libbibledit_a_SOURCES = \
 	debug/index.cpp \
 	browser/index.cpp \
 	paratext/logic.cpp \
-	paratext/index.cpp
+	paratext/index.cpp \
+	personalize/index.cpp
 
 noinst_PROGRAMS = bibledit
 

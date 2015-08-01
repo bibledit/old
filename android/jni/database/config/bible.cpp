@@ -559,6 +559,16 @@ void Database_Config_Bible::setTextFont (string bible, string value)
 }
 
 
+string Database_Config_Bible::getTextFontClient (string bible)
+{
+  return getValue (bible, "text-font-client", "");
+}
+void Database_Config_Bible::setTextFontClient (string bible, string value)
+{
+  setValue (bible, "text-font-client", value);
+}
+
+
 int Database_Config_Bible::getEditingAllowedDifferenceChapter (string bible)
 {
   return getIValue (bible, "editing-allowed-difference-chapter", 20);
@@ -598,4 +608,23 @@ void Database_Config_Bible::setParatextCollaborationEnabled (string bible, bool 
   setBValue (bible, "paratext-collaboration-enabled", value);
 }
 
+
+int Database_Config_Bible::getLineHeight (string bible)
+{
+  return getIValue (bible, "line-height", 100);
+}
+void Database_Config_Bible::setLineHeight (string bible, int value)
+{
+  setIValue (bible, "line-height", value);
+}
+
+
+int Database_Config_Bible::getLetterSpacing (string bible)
+{
+  return getIValue (bible, "letter-spacing", 0);
+}
+void Database_Config_Bible::setLetterSpacing (string bible, int value)
+{
+  setIValue (bible, "letter-spacing", value);
+}
 

@@ -17,16 +17,14 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_USFMRESOURCES_H
-#define INCLUDED_SENDRECEIVE_USFMRESOURCES_H
+#ifndef INCLUDED_EXPORT_BIBLEDROPBOX_H
+#define INCLUDED_EXPORT_BIBLEDROPBOX_H
 
 
 #include <config/libraries.h>
 
 
-string sendreceive_usfmresources_sendreceive_text ();
-string sendreceive_usfmresources_up_to_date_text ();
-void sendreceive_usfmresources ();
+void export_bibledropbox (string user, string bible);
 
 
 #endif

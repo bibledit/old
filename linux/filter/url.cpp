@@ -131,6 +131,17 @@ string filter_url_create_root_path (string part1, string part2, string part3, st
 }
 
 
+// If $path contains the global document root,
+// then this function removes it, and returns the result.
+string filter_url_remove_root_path (string path)
+{
+  size_t pos = path.find (config_globals_document_root);
+  if (pos != string::npos) path.erase (0, config_globals_document_root.length ());
+  if (!path.empty ()) if (path.substr (0, 1) == DIRECTORY_SEPARATOR) path.erase (0, 1);
+  return path;
+}
+
+
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
 string filter_url_get_extension (string url)
 {
@@ -704,6 +715,79 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     curl_easy_cleanup (curl);
   }
 #endif
+  return response;
+}
+
+
+// Sends a http POST request to $url as from a <form> with enctype="multipart/form-data".
+// It posts the $values.
+// It uploads $filename.
+// It returns the response from the server.
+// It writes any error to $error.
+string filter_url_http_upload (string url, map <string, string> values, string filename, string& error)
+{
+  string response;
+
+#ifdef CLIENT_PREPARED
+  url.clear ();
+  values.clear ();
+  filename.clear ();
+  error = "Not implemented in client configuration";
+#else
+
+  // Coded while looking at http://curl.haxx.se/libcurl/c/postit2.html.
+  struct curl_httppost *formpost=NULL;
+  struct curl_httppost *lastptr=NULL;
+
+  // Fill in the text fields to submit.
+  for (auto & element : values) {
+    curl_formadd (&formpost, &lastptr,
+                  CURLFORM_COPYNAME, element.first.c_str (),
+                  CURLFORM_COPYCONTENTS, element.second.c_str(),
+                  CURLFORM_END);
+  }
+
+  // Fill in the file upload field to submit.
+  curl_formadd(&formpost, &lastptr,
+               CURLFORM_COPYNAME, "uploadedZipFile",
+               CURLFORM_FILE, filename.c_str(),
+               CURLFORM_END);
+
+  // Get a curl handle.
+  CURL *curl = curl_easy_init ();
+  if (curl) {
+    // First set the URL that is about to receive the POST.
+    curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+    // Specify the POST data to curl.
+    curl_easy_setopt (curl, CURLOPT_HTTPPOST, formpost);
+    // Callback for the server response.
+    curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
+    curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
+    // Further options.
+    curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
+    // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    // Timeouts for very bad networks, see the GET routine above for an explanation.
+    filter_url_curl_set_timeout (curl, false);
+    // Perform the request.
+    CURLcode res = curl_easy_perform (curl);
+    // Result check.
+    if (res == CURLE_OK) {
+      error.clear ();
+      long http_code = 0;
+      curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+      if (http_code != 200) {
+        error.append ("Server response " + filter_url_http_response_code_text (http_code));
+      }
+    } else {
+      error = curl_easy_strerror (res);
+    }
+    // Always cleanup cURL.
+    curl_easy_cleanup (curl);
+    // Then cleanup the formpost chain.
+    curl_formfree (formpost);
+  }
+#endif
+
   return response;
 }
 

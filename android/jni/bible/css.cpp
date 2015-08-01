@@ -30,6 +30,7 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <fonts/logic.h>
+#include <config/logic.h>
 
 
 string bible_css_url ()
@@ -64,7 +65,13 @@ string bible_css (void * webserver_request)
     
     string font = request->post ["font"];
     font = filter_string_trim (font);
-    Database_Config_Bible::setTextFont (bible, font);
+    if (config_logic_client_prepared ()) {
+      // Bibledit client storage.
+      Database_Config_Bible::setTextFontClient (bible, font);
+    } else {
+      // Bibledit Cloud storage.
+      Database_Config_Bible::setTextFont (bible, font);
+    }
     
     string s_direction = request->post ["direction"];
     int i_direction = Filter_CustomCSS::directionValue (s_direction);
@@ -74,11 +81,25 @@ string bible_css (void * webserver_request)
     
     Database_Config_Bible::setTextDirection (bible, i_mode * 10 + i_direction);
     
-    page += Assets_Page::error ("The information was saved.");
+    int lineheight = convert_to_int (request->post["lineheight"]);
+    if (lineheight < 50) lineheight = 50;
+    if (lineheight > 300) lineheight = 300;
+    Database_Config_Bible::setLineHeight (bible, lineheight);
+
+    float letterspacing = convert_to_float (request->post["letterspacing"]);
+    if (letterspacing < -3) letterspacing = -3;
+    if (letterspacing > 3) letterspacing = 3;
+    Database_Config_Bible::setLetterSpacing (bible, 10 * letterspacing);
+    
+    page += Assets_Page::success ("The information was saved.");
     
   }
+
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+  }
   
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible);
   view.set_variable ("font", font);
 
   int direction = Database_Config_Bible::getTextDirection (bible);
@@ -92,10 +113,21 @@ string bible_css (void * webserver_request)
   view.set_variable ("mode_tbrl", Filter_CustomCSS::writingModeTopBottomRightLeft (direction));
   view.set_variable ("mode_btlr", Filter_CustomCSS::writingModeBottomTopLeftRight (direction));
   view.set_variable ("mode_btrl", Filter_CustomCSS::writingModeBottomTopRightLeft (direction));
-  
+
+  int lineheight = Database_Config_Bible::getLineHeight (bible);
+  view.set_variable ("lineheight", convert_to_string (lineheight));
+
+  float letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  letterspacing /= 10;
+  view.set_variable ("letterspacing", convert_to_string (letterspacing));
+
   string cls = Filter_CustomCSS::getClass (bible);
   view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_CustomCSS::getCss (cls, Fonts_Logic::getFontPath (font), direction));
+  view.set_variable ("custom_css", Filter_CustomCSS::getCss
+                     (cls,
+                      Fonts_Logic::getFontPath (font), direction,
+                      lineheight,
+                      Database_Config_Bible::getLetterSpacing (bible)));
 
   page += view.render ("bible", "css");
   

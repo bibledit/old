@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_EXTERNALRESOURCES_H
-#define INCLUDED_SENDRECEIVE_EXTERNALRESOURCES_H
+#ifndef INCLUDED_MENU_INDEX_H
+#define INCLUDED_MENU_INDEX_H
 
 
 #include <config/libraries.h>
 
 
-string sendreceive_externalresources_sendreceive_text ();
-string sendreceive_externalresources_up_to_date_text ();
-void sendreceive_externalresources ();
+string menu_index_url ();
+bool menu_index_acl (void * webserver_request);
+string menu_index (void * webserver_request);
 
 
 #endif

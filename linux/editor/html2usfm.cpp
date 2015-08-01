@@ -47,10 +47,9 @@ void Editor_Html2Usfm::load (string html)
   // The web editor may insert non-breaking spaces. Convert them to normal ones.
   html = filter_string_str_replace ("&nbsp;", " ", html);
   
-  // The web editor produces <hr> following the HTML specs, but Bibledit's XML parser needs <hr/>.
-  html = filter_string_str_replace ("<hr>", "<hr/>", html);
-  // Same for <br>: needs <br/>.
-  html = filter_string_str_replace ("<br>", "<br/>", html);
+  // The web editor produces <hr> and other elements following the HTML specs,
+  // but Bibledit's XML parser needs <hr/> and similar elements.
+  html = html2xml (html);
   
   // The user may add several spaces in sequence. Convert them to single spaces.
   html = filter_string_str_replace ("   ", " ", html);

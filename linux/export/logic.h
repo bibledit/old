@@ -28,15 +28,15 @@ class Export_Logic
 {
 public:
   static void scheduleAll ();
-  static void scheduleTextAndBasicUsfm (string bible);
-  static void scheduleUsfm (string bible);
-  static void scheduleOpenDocument (string bible);
-  static void scheduleInfo (string bible);
-  static void scheduleHtml (string bible);
-  static void scheduleWeb (string bible);
-  static void scheduleWebIndex (string bible);
-  static void scheduleOnlineBible (string bible);
-  static void scheduleESword (string bible);
+  static void scheduleTextAndBasicUsfm (string bible, bool force);
+  static void scheduleUsfm (string bible, bool force);
+  static void scheduleOpenDocument (string bible, bool force);
+  static void scheduleInfo (string bible, bool force);
+  static void scheduleHtml (string bible, bool force);
+  static void scheduleWeb (string bible, bool force);
+  static void scheduleWebIndex (string bible, bool force);
+  static void scheduleOnlineBible (string bible, bool force);
+  static void scheduleESword (string bible, bool force);
   static string mainDirectory ();
   static string bibleDirectory (string bible);
   static string USFMdirectory (string bible, int type);
@@ -45,6 +45,16 @@ public:
   static string baseBookFileName (int book);
   static string osisDirectory (string bible);
   static string osisSwordVariantDirectory (string interpreter, int complexity);
+  static const int export_text_and_basic_usfm = 1;
+  static const int export_full_usfm = 2;
+  static const int export_opendocument = 3;
+  static const int export_info = 4;
+  static const int export_html = 5;
+  static const int export_web = 6;
+  static const int export_web_index = 7;
+  static const int export_online_bible = 8;
+  static const int export_esword = 9;
+  static const int export_end = 10;
 private:
 };
 

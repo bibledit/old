@@ -24,6 +24,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/bible.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -36,7 +37,7 @@
 #include <styles/sheets.h>
 
 
-void export_html_book (string bible, int book)
+void export_html_book (string bible, int book, bool force)
 {
   // Create folders for the html export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "html");
@@ -47,6 +48,12 @@ void export_html_book (string bible, int book)
   string basename = Export_Logic::baseBookFileName (book);
   string filename = filter_url_create_path (directory, basename + ".html");
   string filecss = filter_url_create_path (directory, "stylesheet.css");
+  
+  
+  // Some factors determine whether this book will be exported.
+  if (!file_exists (filename)) force = true;
+  if (Database_State::getExport (bible, book, Export_Logic::export_html)) force = true;
+  if (!force) return;
   
   
   Database_Bibles database_bibles;
@@ -61,7 +68,7 @@ void export_html_book (string bible, int book)
   
   
   // Copy font to the output directory.
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible);
   if (!font.empty ()) {
     if (Fonts_Logic::fontExists (font)) {
       string fontpath = Fonts_Logic::getFontPath (font);
@@ -94,6 +101,10 @@ void export_html_book (string bible, int book)
   // Save file.
   filter_text.html_text_standard->save (filename);
   
+  
+  // Clear the flag for this export.
+  Database_State::clearExport (bible, book, Export_Logic::export_html);
+
   
   Database_Logs::log (translate("Exported to html") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }

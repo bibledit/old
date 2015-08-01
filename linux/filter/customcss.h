@@ -44,7 +44,7 @@ public:
   static string bt_rl ();
   static int writingModeValue (string mode);
   static string getClass (string bible);
-  static string getCss (string class_, string font, int directionvalue);
+  static string getCss (string class_, string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
 };
 
 

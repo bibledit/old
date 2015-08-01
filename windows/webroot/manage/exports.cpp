@@ -29,6 +29,9 @@
 #include <locale/translate.h>
 #include <export/logic.h>
 #include <database/config/bible.h>
+#include <config/logic.h>
+#include <client/logic.h>
+#include <tasks/logic.h>
 
 
 const char * manage_exports_url ()
@@ -88,8 +91,8 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("webnow")) {
-    Export_Logic::scheduleWeb (bible);
-    Export_Logic::scheduleWebIndex (bible);
+    Export_Logic::scheduleWeb (bible, true);
+    Export_Logic::scheduleWebIndex (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Web format."));
   }
   
@@ -102,7 +105,7 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("htmlnow")) {
-    Export_Logic::scheduleHtml (bible);
+    Export_Logic::scheduleHtml (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Html format."));
   }
   
@@ -115,7 +118,7 @@ string manage_exports (void * webserver_request)
  
   
   if (request->query.count ("usfmnow")) {
-    Export_Logic::scheduleUsfm (bible);
+    Export_Logic::scheduleUsfm (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to USFM format."));
   }
 
@@ -135,7 +138,7 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("textnow")) {
-    Export_Logic::scheduleTextAndBasicUsfm (bible);
+    Export_Logic::scheduleTextAndBasicUsfm (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to basic USFM format and text."));
   }
                        
@@ -148,7 +151,7 @@ string manage_exports (void * webserver_request)
 
   
   if (request->query.count ("odtnow")) {
-    Export_Logic::scheduleOpenDocument (bible);
+    Export_Logic::scheduleOpenDocument (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to OpenDocument format."));
   }
 
@@ -264,7 +267,7 @@ string manage_exports (void * webserver_request)
                    
   
   if (request->query.count ("infonow")) {
-    Export_Logic::scheduleInfo (bible);
+    Export_Logic::scheduleInfo (bible, true);
     view.set_variable ("success", translate("The info documents are being generated."));
   }
   
@@ -277,7 +280,7 @@ string manage_exports (void * webserver_request)
                      
                                           
   if (request->query.count ("eswordnow")) {
-    Export_Logic::scheduleESword (bible);
+    Export_Logic::scheduleESword (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to e-Sword format."));
   }
   
@@ -290,7 +293,7 @@ string manage_exports (void * webserver_request)
 
                      
   if (request->query.count ("onlinebiblenow")) {
-    Export_Logic::scheduleOnlineBible (bible);
+    Export_Logic::scheduleOnlineBible (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Online Bible format."));
   }
   
@@ -324,7 +327,25 @@ string manage_exports (void * webserver_request)
     }
   }
   view.set_variable ("password", Database_Config_Bible::getExportPassword (bible));
-                     
+
+  
+  if (request->query.count ("bibledropboxnow")) {
+    string username = request->session_logic()->currentUser ();
+    tasks_logic_queue (SUBMITBIBLEDROPBOX, { username, bible });
+    string msg = translate("The Bible will be submitted to the Bible Drop Box.");
+    msg.append (" ");
+    msg.append (translate("You will receive email with further details."));
+    view.set_variable ("success", msg);
+  }
+ 
+  
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+    view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud to submit the Bible there")));
+  } else {
+    view.enable_zone ("cloud");
+  }
+
 
   page += view.render ("manage", "exports");
   page += Assets_Page::footer ();

@@ -51,12 +51,20 @@ string personalize_index (void * webserver_request)
   string error;
 
 
-  // Store new fon size before displaying the header,
-  // so that the page displays the new font size immediately.
+  // Store new fon sizes before displaying the header,
+  // so that the page displays the new font sizes immediately.
   if (request->post.count ("fontsize")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 50) && (value <= 300)) {
       request->database_config_user ()->setGeneralFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  if (request->post.count ("fontsizemenu")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setMenuFontSize (value);
     } else {
       error = translate ("Incorrect font size in percents");
     }
@@ -69,7 +77,7 @@ string personalize_index (void * webserver_request)
   Assets_View view = Assets_View ();
   
   
-  // Font size.
+  // Font size for everything.
   if (request->query.count ("fontsize")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getGeneralFontSize ()), "fontsize", "");
     page += dialog_entry.run ();
@@ -77,6 +85,15 @@ string personalize_index (void * webserver_request)
   }
   view.set_variable ("fontsize", convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
 
+  
+  // Font size for the menu.
+  if (request->query.count ("fontsizemenu")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getMenuFontSize ()), "fontsizemenu", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
+  
   
   view.set_variable ("success", success);
   view.set_variable ("error", error);

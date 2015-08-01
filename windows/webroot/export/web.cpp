@@ -24,6 +24,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/bible.h>
+#include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -36,20 +37,29 @@
 #include <styles/sheets.h>
 
 
-void export_web_book (string bible, int book)
+void export_web_book (string bible, int book, bool force)
 {
-  Database_Bibles database_bibles;
-
-  
   string directory = Export_Logic::webDirectory (bible);
   if (!file_exists (directory)) filter_url_mkdir (directory);
+  
+  
+  // Three conditions to run this export:
+  // 1: Output does not exist.
+  if (!file_exists (filter_url_html_file_name_bible (directory, book))) force = true;
+  // 2: Scheduled for export.
+  if (Database_State::getExport (bible, book, Export_Logic::export_web)) force = true;
+  // 3: Force export.
+  if (!force) return;
+    
+  
+  Database_Bibles database_bibles;
   
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
   
   // Copy font to the output directory.
-  string font = Database_Config_Bible::getTextFont (bible);
+  string font = Fonts_Logic::getTextFont (bible);
   if (!font.empty ()) {
     if (Fonts_Logic::fontExists (font)) {
       string fontpath = Fonts_Logic::getFontPath (font);
@@ -109,11 +119,15 @@ void export_web_book (string bible, int book)
   html_text_rich_book_index.save (filter_url_html_file_name_bible (directory, book));
   
   
+  // Clear the flag for this export.
+  Database_State::clearExport (bible, book, Export_Logic::export_web);
+  
+  
   Database_Logs::log (translate("Exported to web") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }
 
 
-void export_web_index (string bible)
+void export_web_index (string bible, bool force)
 {
   // Create folders for the web export.
   string directory = Export_Logic::webDirectory (bible);
@@ -124,6 +138,15 @@ void export_web_index (string bible)
   string indexFile = filter_url_create_path (directory, "index.html");
   string index00 = filter_url_create_path (directory, "00_index.html");
   string filecss = filter_url_create_path (directory, "stylesheet.css");
+  
+  
+  // Run the export if any of the three conditions are true:
+  // - Scheduled for export.
+  // - Export does not yet exist.
+  // - Force export.
+  if (!file_exists (indexFile)) force = true;
+  if (Database_State::getExport (bible, 0, Export_Logic::export_web_index)) force = true;
+  if (!force) return;
   
   
   Database_Bibles database_bibles;
@@ -172,6 +195,10 @@ void export_web_index (string bible)
   string contents = filter_url_file_get_contents (lenspath);
   lenspath = filter_url_create_path (directory, "lens.png");
   filter_url_file_put_contents (lenspath, contents);
+
+  
+  // Clear the flag that indicated this export.
+  Database_State::clearExport (bible, 0, Export_Logic::export_web_index);
 
   
   Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", Filter_Roles::translator ());

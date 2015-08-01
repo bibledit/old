@@ -106,6 +106,10 @@ string sync_settings (void * webserver_request)
     {
       return convert_to_string (request->database_bibles()->getID (bible_s));
     }
+    case Sync_Logic::settings_get_bible_font:
+    {
+      return Database_Config_Bible::getTextFont (bible_s);
+    }
   }
 
   // Bad request.

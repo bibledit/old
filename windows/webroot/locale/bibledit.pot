@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 01:45+0200\n"
+"POT-Creation-Date: 2015-08-01 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Language"
+msgid "Set the language for Bibledit"
 msgstr ""
 
-msgid "Set the language for Bibledit"
+msgid "Language"
 msgstr ""
 
 msgid "The language for Bibledit:"
@@ -1076,6 +1076,12 @@ msgid ""
 "Or request a server instance from bibledit.org through the contact form."
 msgstr ""
 
+msgid "You are not yet connected to Bibledit Cloud."
+msgstr ""
+
+msgid "Connect."
+msgstr ""
+
 msgid "Collaboration"
 msgstr ""
 
@@ -1836,12 +1842,6 @@ msgstr ""
 msgid "Information"
 msgstr ""
 
-msgid "Debug"
-msgstr ""
-
-msgid "Trim notes"
-msgstr ""
-
 msgid "You are connected to a public demo of Bibledit Cloud."
 msgstr ""
 
@@ -1911,10 +1911,7 @@ msgstr ""
 msgid "Incorrect chapter"
 msgstr ""
 
-msgid "Merging and saving chapter."
-msgstr ""
-
-msgid "Not saved because of too many changes"
+msgid "Merging chapter."
 msgstr ""
 
 msgid "Saved"
@@ -1941,7 +1938,16 @@ msgstr ""
 msgid "Edit USFM"
 msgstr ""
 
-msgid "Server is confused"
+msgid "Merging and saving chapter."
+msgstr ""
+
+msgid "Passage mismatch"
+msgstr ""
+
+msgid "Needs Unicode"
+msgstr ""
+
+msgid "Confusing data"
 msgstr ""
 
 msgid "Mail"
@@ -2056,6 +2062,12 @@ msgid ""
 "email address of Bibledit."
 msgstr ""
 
+msgid "Submit to the Bible Drop Box"
+msgstr ""
+
+msgid "Ready"
+msgstr ""
+
 msgid "Exported to e-Sword"
 msgstr ""
 
@@ -2161,22 +2173,19 @@ msgstr ""
 msgid "Fallout"
 msgstr ""
 
-msgid "Fonts"
+msgid "Text length differs too much"
 msgstr ""
 
-msgid "The font could not be deleted because it is in use."
+msgid "Text content differs too much"
 msgstr ""
 
-msgid "The font has been uploaded."
+msgid "Missing verse number"
 msgstr ""
 
-msgid "Delete font"
+msgid "Verse mismatch"
 msgstr ""
 
-msgid "The following fonts are available within Bibledit:"
-msgstr ""
-
-msgid "You can upload a new font."
+msgid "Cannot overwrite another verse"
 msgstr ""
 
 msgid "About"
@@ -3127,10 +3136,7 @@ msgstr ""
 msgid "Bibledit on iOS"
 msgstr ""
 
-msgid "Bibledit on Ubuntu"
-msgstr ""
-
-msgid "Bibledit on Linux Mint"
+msgid "Bibledit on Ubuntu and Linux Mint and similar"
 msgstr ""
 
 msgid "Bibledit on Debian"
@@ -3457,7 +3463,16 @@ msgstr ""
 msgid "Read more."
 msgstr ""
 
-msgid "Install Bibledit on Linux Mint"
+msgid "Install Bibledit on Ubuntu and derivatives"
+msgstr ""
+
+msgid "Download the Bibledit Linux installer."
+msgstr ""
+
+msgid "Put it in the home directory."
+msgstr ""
+
+msgid "Run the installer:"
 msgstr ""
 
 msgid "Install Bibledit on openSUSE"
@@ -3488,9 +3503,6 @@ msgid "Give it enough time to download all the data from Bibledit Cloud."
 msgstr ""
 
 msgid "Bibledit is ready for online and offline use."
-msgstr ""
-
-msgid "Install Bibledit on Ubuntu"
 msgstr ""
 
 msgid "Install Bibledit on Windows"
@@ -4394,16 +4406,10 @@ msgstr ""
 msgid "They pick one or two areas to focus for improvement."
 msgstr ""
 
-msgid "Focus the entry, enter the passage where to go, and press Enter."
+msgid "When the Navigator is displayed, it focuses the name of the Bible book."
 msgstr ""
 
 msgid "Cancel any navigation or style operation."
-msgstr ""
-
-msgid "Go back in the navigation history."
-msgstr ""
-
-msgid "Go forward in the navigation history."
 msgstr ""
 
 msgid "Navigate to the next verse."
@@ -6042,10 +6048,22 @@ msgstr ""
 msgid "The password for securing exports was saved."
 msgstr ""
 
+msgid "The Bible will be submitted to the Bible Drop Box."
+msgstr ""
+
+msgid "You will receive email with further details."
+msgstr ""
+
+msgid "Go to Bibledit Cloud to submit the Bible there"
+msgstr ""
+
 msgid "Exports"
 msgstr ""
 
-msgid "view"
+msgid "view exports"
+msgstr ""
+
+msgid "remove exports"
 msgstr ""
 
 msgid "Export to Web during the night."
@@ -6128,7 +6146,10 @@ msgstr ""
 msgid "Password to secure the exports:"
 msgstr ""
 
-msgid "The Bible Drop Box assists with exporting to many more formats."
+msgid "The Bible Drop Box provides many additional export formats."
+msgstr ""
+
+msgid "Submit the Bible to the Bible Drop Box now."
 msgstr ""
 
 msgid "The two sets of characters were saved"
@@ -6217,6 +6238,18 @@ msgstr ""
 msgid "Insert the soft hyphens according to the settings."
 msgstr ""
 
+msgid "Manage"
+msgstr ""
+
+msgid "The font could not be deleted because it is in use"
+msgstr ""
+
+msgid "The font has been uploaded."
+msgstr ""
+
+msgid "Delete font"
+msgstr ""
+
 msgid "Indexing"
 msgstr ""
 
@@ -6235,6 +6268,18 @@ msgid "Recreate Bibles index."
 msgstr ""
 
 msgid "Recreate Consultation Notes index."
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
+msgid "The following fonts are available in Bibledit:"
+msgstr ""
+
+msgid "You can add or remove fonts in Bibledit Cloud:"
+msgstr ""
+
+msgid "You can upload a new font."
 msgstr ""
 
 msgid "Users"
@@ -6448,9 +6493,6 @@ msgstr ""
 msgid "Organize"
 msgstr ""
 
-msgid "Manage"
-msgstr ""
-
 msgid "List"
 msgstr ""
 
@@ -6473,6 +6515,12 @@ msgid "Browser"
 msgstr ""
 
 msgid "Cross references"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Personalize"
 msgstr ""
 
 msgid "Styles"
@@ -7091,6 +7139,15 @@ msgstr ""
 msgid "Paratext: Up to date"
 msgstr ""
 
+msgid "Incorrect font size in percents"
+msgstr ""
+
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr ""
+
+msgid "Font size for everything"
+msgstr ""
+
 msgid "Download resource"
 msgstr ""
 
@@ -7184,6 +7241,9 @@ msgid "This works faster."
 msgstr ""
 
 msgid "It takes the load off the website."
+msgstr ""
+
+msgid "Clients display only cached resources."
 msgstr ""
 
 msgid "Number of cached verses available for this resource:"
@@ -7302,10 +7362,13 @@ msgstr ""
 msgid "Go to Bibledit Cloud."
 msgstr ""
 
-msgid "Cache this external resource to make it available offline there."
+msgid "Cache this external resource there."
 msgstr ""
 
-msgid "Come back on the Bibledit client here."
+msgid "Ask a manager to cache this external resource in Bibledit Cloud."
+msgstr ""
+
+msgid "Go back on the Bibledit client here."
 msgstr ""
 
 msgid "Synchronize."
@@ -7343,6 +7406,15 @@ msgstr ""
 msgid "Progress will be visible in the Journal."
 msgstr ""
 
+msgid "Please enter the number of verses"
+msgstr ""
+
+msgid "How many verses of context to display before the focused verse."
+msgstr ""
+
+msgid "How many verses of context to display after the focused verse."
+msgstr ""
+
 msgid "Resource Organizer"
 msgstr ""
 
@@ -7359,6 +7431,15 @@ msgid "Available resources"
 msgstr ""
 
 msgid "Click to activate:"
+msgstr ""
+
+msgid "Context"
+msgstr ""
+
+msgid "How many context verses to display before the focused verse:"
+msgstr ""
+
+msgid "How many context verses to display after the focused verse:"
 msgstr ""
 
 msgid "Select a resource to add"
@@ -7510,6 +7591,12 @@ msgstr ""
 msgid "Up to date"
 msgstr ""
 
+msgid "Still busy"
+msgstr ""
+
+msgid "Watchdog timeout"
+msgstr ""
+
 msgid "Failure to initiate connection"
 msgstr ""
 
@@ -7577,6 +7664,9 @@ msgid "Recreate damaged modifications database"
 msgstr ""
 
 msgid "Not downloading change notifications due to communication error"
+msgstr ""
+
+msgid "Files"
 msgstr ""
 
 msgid "Synchronizing"
@@ -7672,9 +7762,6 @@ msgid "Failure sending and receiving Settings"
 msgstr ""
 
 msgid "Sending settings"
-msgstr ""
-
-msgid "USFM resources"
 msgstr ""
 
 msgid "Welcome"
@@ -8713,6 +8800,9 @@ msgstr ""
 msgid "Bottom row"
 msgstr ""
 
+msgid "width"
+msgstr ""
+
 msgid "Samples"
 msgstr ""
 
@@ -8828,6 +8918,29 @@ msgid "Display subscribed notes that have been idle for a day."
 msgstr ""
 
 msgid "Display subscribed notes that have been idle for a week."
+msgstr ""
+
+msgid "The workbench configurations will work as expected on most devices."
+msgstr ""
+
+msgid "But on iOS the pages within the workbench do not scroll."
+msgstr ""
+
+msgid "Instead the pages take the full height."
+msgstr ""
+
+msgid "It may be needed to create workbenches specifically for iOS."
+msgstr ""
+
+msgid "You can set the width of the entire workbench."
+msgstr ""
+
+msgid ""
+"By setting the width wider than the screen, the workbench can be scrolled "
+"horizontally."
+msgstr ""
+
+msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
 
 msgid "This chapter of the target Bible contains cross references"
