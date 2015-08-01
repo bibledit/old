@@ -609,3 +609,22 @@ void Database_Config_Bible::setParatextCollaborationEnabled (string bible, bool 
 }
 
 
+int Database_Config_Bible::getLineHeight (string bible)
+{
+  return getIValue (bible, "line-height", 100);
+}
+void Database_Config_Bible::setLineHeight (string bible, int value)
+{
+  setIValue (bible, "line-height", value);
+}
+
+
+int Database_Config_Bible::getLetterSpacing (string bible)
+{
+  return getIValue (bible, "letter-spacing", 0);
+}
+void Database_Config_Bible::setLetterSpacing (string bible, int value)
+{
+  setIValue (bible, "letter-spacing", value);
+}
+

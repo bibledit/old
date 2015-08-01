@@ -81,7 +81,17 @@ string bible_css (void * webserver_request)
     
     Database_Config_Bible::setTextDirection (bible, i_mode * 10 + i_direction);
     
-    page += Assets_Page::error ("The information was saved.");
+    int lineheight = convert_to_int (request->post["lineheight"]);
+    if (lineheight < 50) lineheight = 50;
+    if (lineheight > 300) lineheight = 300;
+    Database_Config_Bible::setLineHeight (bible, lineheight);
+
+    float letterspacing = convert_to_float (request->post["letterspacing"]);
+    if (letterspacing < -3) letterspacing = -3;
+    if (letterspacing > 3) letterspacing = 3;
+    Database_Config_Bible::setLetterSpacing (bible, 10 * letterspacing);
+    
+    page += Assets_Page::success ("The information was saved.");
     
   }
 
@@ -103,10 +113,21 @@ string bible_css (void * webserver_request)
   view.set_variable ("mode_tbrl", Filter_CustomCSS::writingModeTopBottomRightLeft (direction));
   view.set_variable ("mode_btlr", Filter_CustomCSS::writingModeBottomTopLeftRight (direction));
   view.set_variable ("mode_btrl", Filter_CustomCSS::writingModeBottomTopRightLeft (direction));
-  
+
+  int lineheight = Database_Config_Bible::getLineHeight (bible);
+  view.set_variable ("lineheight", convert_to_string (lineheight));
+
+  float letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  letterspacing /= 10;
+  view.set_variable ("letterspacing", convert_to_string (letterspacing));
+
   string cls = Filter_CustomCSS::getClass (bible);
   view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_CustomCSS::getCss (cls, Fonts_Logic::getFontPath (font), direction));
+  view.set_variable ("custom_css", Filter_CustomCSS::getCss
+                     (cls,
+                      Fonts_Logic::getFontPath (font), direction,
+                      lineheight,
+                      Database_Config_Bible::getLetterSpacing (bible)));
 
   page += view.render ("bible", "css");
   
