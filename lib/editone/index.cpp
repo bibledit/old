@@ -101,7 +101,7 @@ string editone_index (void * webserver_request)
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible);
-  string font = Fonts_Logic::getTextFont (bible); // Todo
+  string font = Fonts_Logic::getTextFont (bible);
   int direction = Database_Config_Bible::getTextDirection (bible);
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", Filter_CustomCSS::getCss (cls, Fonts_Logic::getFontPath (font), direction));

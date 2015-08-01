@@ -84,7 +84,7 @@ void Fonts_Logic::erase (string font)
 
 // When a font is set for a Bible in Bibledit Cloud, this becomes the default font for the clients.
 // Ahd when the client sets its own font, this font will be taken instead.
-string Fonts_Logic::getTextFont (string bible) // Todo
+string Fonts_Logic::getTextFont (string bible)
 {
   string font = Database_Config_Bible::getTextFont (bible);
   if (config_logic_client_prepared ()) {

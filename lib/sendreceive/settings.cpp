@@ -214,9 +214,11 @@ void sendreceive_settings ()
   }
   request.database_config_user()->setActiveResources (filter_string_explode (response, '\n'));
   
-  // Request the identifiers of the Bibles.
+  // Fetch values for the Bibles.
   for (auto & bible : bibles) {
     post ["b"] = bible;
+
+    // Request the identifiers of the Bible.
     post ["a"] = convert_to_string (Sync_Logic::settings_get_bible_id);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
@@ -225,6 +227,18 @@ void sendreceive_settings ()
       return;
     }
     request.database_bibles()->setID (bible, convert_to_int (response));
+    
+    // Request the font for the Bible.
+    // Note that it requests the font name from the Cloud.
+    // When the font is set by the client, it will override the font setting from the Cloud.
+    post ["a"] = convert_to_string (Sync_Logic::settings_get_bible_font);
+    response = sync_logic.post (post, url, error);
+    if (!error.empty ()) {
+      Database_Logs::log ("Failure receiving Bible font", Filter_Roles::translator ());
+      sendreceive_settings_done ();
+      return;
+    }
+    Database_Config_Bible::setTextFont (bible, response);
   }
   
   // Done.

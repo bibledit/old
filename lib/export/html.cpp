@@ -68,7 +68,7 @@ void export_html_book (string bible, int book, bool force)
   
   
   // Copy font to the output directory.
-  string font = Fonts_Logic::getTextFont (bible); // Todo
+  string font = Fonts_Logic::getTextFont (bible);
   if (!font.empty ()) {
     if (Fonts_Logic::fontExists (font)) {
       string fontpath = Fonts_Logic::getFontPath (font);

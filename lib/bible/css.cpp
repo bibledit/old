@@ -84,8 +84,12 @@ string bible_css (void * webserver_request)
     page += Assets_Page::error ("The information was saved.");
     
   }
+
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+  }
   
-  string font = Fonts_Logic::getTextFont (bible); // Todo
+  string font = Fonts_Logic::getTextFont (bible);
   view.set_variable ("font", font);
 
   int direction = Database_Config_Bible::getTextDirection (bible);

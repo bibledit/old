@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/mail.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
 #include <database/usfmresources.h>
 #include <database/offlineresources.h>
 #include <database/modifications.h>
@@ -146,6 +147,8 @@ string Sync_Logic::settings_checksum (const vector <string> & bibles)
   for (auto & bible : bibles) {
     int id = request->database_bibles ()->getID (bible);
     checksum.append (convert_to_string (id));
+    // Download Bible text font name: It is the default name for the clients.
+    checksum.append (Database_Config_Bible::getTextFont (bible));
   }
   return md5 (checksum);
 }
