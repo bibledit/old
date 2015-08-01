@@ -936,3 +936,13 @@ void Database_Config_User::setGeneralFontSize (int size)
 }
 
 
+int Database_Config_User::getMenuFontSize ()
+{
+  return getIValue ("menu-font-size", 100);
+}
+void Database_Config_User::setMenuFontSize (int size)
+{
+  setIValue ("menu-font-size", size);
+}
+
+

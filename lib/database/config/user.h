@@ -171,6 +171,8 @@ public:
   void setSyncKey (string key);
   void setGeneralFontSize (int size);
   int getGeneralFontSize ();
+  void setMenuFontSize (int size);
+  int getMenuFontSize ();
 private:
   void * webserver_request;
   string file (string user, const char * key);

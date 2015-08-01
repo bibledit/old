@@ -155,10 +155,17 @@ string Assets_Header::run ()
     }
   }
 
+  vector <string> embedded_css;
   int fontsize = request->database_config_user ()->getGeneralFontSize ();
   if (fontsize != 100) {
-    string css = "body { font-size: " + convert_to_string (fontsize) + "%; }";
-    view->set_variable ("embedded_css", css);
+    embedded_css.push_back ("body { font-size: " + convert_to_string (fontsize) + "%; }");
+  }
+  fontsize = request->database_config_user ()->getMenuFontSize ();
+  if (fontsize != 100) {
+    embedded_css.push_back (".menu { font-size: " + convert_to_string (fontsize) + "%; }");
+  }
+  if (!embedded_css.empty ()) {
+    view->set_variable ("embedded_css", filter_string_implode (embedded_css, "\n"));
   }
   
   page += view->render("assets", "xhtml_start");
