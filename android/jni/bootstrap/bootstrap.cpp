@@ -177,6 +177,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/write.h>
 #include <personalize/index.h>
 #include <menu/index.h>
+#include <fonts/logic.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -195,16 +196,13 @@ void bootstrap_index (Webserver_Request * request)
       || (extension == "gif")
       || (extension == "css")
       || (extension == "js")
-      || (extension == "ttf")
-      || (extension == "otf")
-      || (extension == "otf")
-      || (extension == "woff")
+      || (Fonts_Logic::isFont (extension))
       || (extension == "sh")
-      ) http_serve_file (request);
+      ) http_serve_cache_file (request);
   
   // Serve offline resources.
   // Note: This is no longer needed as of July 28: For security it should be removed.
-  else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_file (request);
+  else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_cache_file (request);
   
   // Serve initialization notice.
   else if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) request->reply = setup_initialization_notice ();

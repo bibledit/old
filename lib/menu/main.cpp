@@ -52,7 +52,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/print.h>
 #include <mapping/index.h>
 #include <notes/index.h>
-#include <notes/editsource.h>
 #include <changes/changes.h>
 #include <journal/index.h>
 #include <changes/manage.h>
@@ -180,7 +179,6 @@ vector <Menu_Main_Item> * Menu_Main::notesmenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   if (notes_index_acl (request)) menu->push_back ( { "", notes_index_url (), translate ("List"), NULL } );
-  if (notes_editsource_acl (request)) menu->push_back ( { "", notes_editsource_url (), translate ("Edit"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;
