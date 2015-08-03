@@ -63,6 +63,7 @@ config/globals.cpp
 menu/logic.cpp
 menu/main.cpp
 menu/user.cpp
+menu/index.cpp
 locale/translate.cpp
 locale/logic.cpp
 database/config/general.cpp
@@ -96,6 +97,7 @@ database/notes.cpp
 database/volatile.cpp
 database/maintenance.cpp
 database/localization.cpp
+database/state.cpp
 session/logic.cpp
 session/login.cpp
 session/logout.cpp
@@ -149,6 +151,7 @@ manage/exports.cpp
 manage/hyphenate.cpp
 manage/hyphenation.cpp
 manage/write.cpp
+manage/index.cpp
 administration/language.cpp
 administration/timezone.cpp
 collaboration/index.cpp
@@ -243,6 +246,7 @@ sync/settings.cpp
 sync/setup.cpp
 sync/usfmresources.cpp
 sync/changes.cpp
+sync/files.cpp
 resource/admin.cpp
 resource/bible2resource.cpp
 resource/download.cpp
@@ -315,6 +319,7 @@ export/onlinebible.cpp
 export/textusfm.cpp
 export/usfm.cpp
 export/web.cpp
+export/bibledropbox.cpp
 mapping/index.cpp
 mapping/map.cpp
 editone/index.cpp
@@ -336,6 +341,7 @@ statistics/statistics.cpp
 browser/index.cpp
 paratext/index.cpp
 paratext/logic.cpp
+personalize/index.cpp
 
 )
 
