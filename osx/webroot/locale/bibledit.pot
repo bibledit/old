@@ -8,7 +8,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-30 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,14 +138,13 @@ msgstr ""
 msgid "Font and text direction"
 msgstr ""
 
-msgid ""
-"Set the font, the text direction, and the writing mode for the Bible editors."
+msgid "Font and text settings"
+msgstr ""
+
+msgid "Make settings for font and text for the Bible editors."
 msgstr ""
 
 msgid "Font"
-msgstr ""
-
-msgid "A font can be entered in different ways:"
 msgstr ""
 
 msgid "Enter the name of a locally available font."
@@ -162,6 +160,9 @@ msgid "Then enter its name."
 msgstr ""
 
 msgid "Enter the name of a font available on the Internet."
+msgstr ""
+
+msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
 msgstr ""
 
 msgid "Direction"
@@ -191,8 +192,14 @@ msgstr ""
 msgid "Bottom to top and right to left"
 msgstr ""
 
+msgid "Line height"
+msgstr ""
+
+msgid "Letter spacing"
+msgstr ""
+
 msgid ""
-"After saving, the settings will be applied to this editable sample text."
+"After saving, the settings will be applied to the editable sample text below."
 msgstr ""
 
 msgid "Editing settings"
@@ -7146,6 +7153,9 @@ msgid "Please enter a font size between 50 and 300 percent"
 msgstr ""
 
 msgid "Font size for everything"
+msgstr ""
+
+msgid "Font size for the menu"
 msgstr ""
 
 msgid "Download resource"

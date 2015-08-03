@@ -232,6 +232,7 @@ void http_serve_cache_file (Webserver_Request * request)
   request->etag = "\"" + convert_to_string (size) + "\"";
 
   // Deal with situation that the file in the browser's cache is up to date.
+  // https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
   if (request->etag == request->if_none_match) {
     request->response_code = 304;
   }
