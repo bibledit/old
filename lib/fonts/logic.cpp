@@ -95,3 +95,13 @@ string Fonts_Logic::getTextFont (string bible)
   }
   return font;
 }
+
+
+// Returns true if the $font path has a font suffix.
+bool Fonts_Logic::isFont (string suffix)
+{
+  return (suffix == "ttf")
+      || (suffix == "otf")
+      || (suffix == "otf")
+      || (suffix == "woff");
+}

@@ -32,6 +32,7 @@ public:
   static string getFontPath (string font);
   static void erase (string font);
   static string getTextFont (string bible);
+  static bool isFont (string suffix);
 private:
   static string folder ();
 };

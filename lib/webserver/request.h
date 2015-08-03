@@ -48,9 +48,11 @@ public:
   string content_type; // The content type of the browser request.
   int content_length; // The content length of the browser request.
   map <string, string> post; // The raw POST data from the browser, item by item.
+  string if_none_match; // Header as received from the browser.
   string header; // Extra header to be sent back to the browser.
   string reply; // Body to be sent back to the browser.
   int response_code; // Response code to be sent to the browser.
+  string etag; // The requested file's size for browser caching.
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();
