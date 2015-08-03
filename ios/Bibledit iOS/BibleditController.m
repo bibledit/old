@@ -68,9 +68,13 @@ NSString * homeUrl = @"http://localhost:8080";
     bibledit_start_library ();
     NSURL *url = [webview URL];
     NSString *path = [url absoluteString];
-    path = [path substringToIndex:21];
-    BOOL equal = [path isEqualToString:homeUrl];
-    if (!equal) [BibleditController bibleditBrowseTo:homeUrl];
+    NSString *bit = [path substringToIndex:21];
+    BOOL equal = [bit isEqualToString:homeUrl];
+    if (!equal) {
+      [BibleditController bibleditBrowseTo:homeUrl];
+    } else {
+      [BibleditController bibleditBrowseTo:path];
+    }
 }
 
 

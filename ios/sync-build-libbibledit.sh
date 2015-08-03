@@ -7,6 +7,7 @@ function clean
   pushd webroot
   echo Clean source.
   make clean > /dev/null
+  find . -name "*.o" -delete
   popd
 }
 
@@ -143,7 +144,6 @@ email/send.cpp
 email/receive.cpp
 user/notifications.cpp
 user/account.cpp
-manage/indexing.cpp
 manage/users.cpp
 manage/exports.cpp
 manage/hyphenate.cpp
@@ -169,7 +169,6 @@ dialog/color.cpp
 dialog/books.cpp
 dialog/upload.cpp
 fonts/logic.cpp
-fonts/index.cpp
 versification/index.cpp
 versification/logic.cpp
 versification/system.cpp
@@ -230,8 +229,7 @@ sendreceive/index.cpp
 sendreceive/sendreceive.cpp
 sendreceive/settings.cpp
 sendreceive/bibles.cpp
-sendreceive/usfmresources.cpp
-sendreceive/externalresources.cpp
+sendreceive/files.cpp
 sendreceive/notes.cpp
 sendreceive/changes.cpp
 demo/logic.cpp
