@@ -306,15 +306,21 @@ public class MainActivity extends Activity
         resumecounter++;
         if (resumecounter <= 1) return;
         
-        Boolean reload = false;
+        Boolean load_index = false;
         String url = webview.getUrl ();
         if (url.length () >= 21) {
-            url = url.substring (0, 21);
-            if (url.compareTo (webAppUrl) != 0) {
-                reload = true;
+            String bit = url.substring (0, 21);
+            if (bit.compareTo (webAppUrl) != 0) {
+                load_index = true;
             }
-        } else reload = true;
-        if (reload) webview.loadUrl (webAppUrl);
+        } else load_index = true;
+        if (load_index) {
+            // Load the index page.
+            webview.loadUrl (webAppUrl);
+        } else {
+            // Just to be sure that any javascript runs, reload the loaded URL.
+            webview.loadUrl (url);
+        }
     }
 
     

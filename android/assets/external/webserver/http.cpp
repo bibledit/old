@@ -112,6 +112,11 @@ bool http_parse_header (string header, Webserver_Request * request)
     request->content_length = convert_to_int (header.substr (16));
   }
   
+  // Extract the ETag from a header.
+  if (header.substr (0, 13) == "If-None-Match") {
+    request->if_none_match = header.substr (15);
+  }
+  
   // Something was or could have been parsed if the header contained something.
   return !header.empty ();
 }
@@ -199,6 +204,10 @@ void http_assemble_response (Webserver_Request * request)
   response.push_back ("Accept-Ranges: bytes");
   response.push_back ("Content-Length: " + length.str());
   response.push_back ("Content-Type: " + content_type);
+  if (!request->etag.empty ()) {
+    response.push_back ("Cache-Control: max-age=120");
+    response.push_back ("ETag: " + request->etag);
+  }
   if (!request->header.empty ()) response.push_back (request->header);
   response.push_back ("");
   if (!request->reply.empty ()) response.push_back (request->reply);
@@ -212,11 +221,21 @@ void http_assemble_response (Webserver_Request * request)
 }
 
 
-// This function serves a file.
-void http_serve_file (Webserver_Request * request)
+// This function serves a file and enables caching by the browser.
+void http_serve_cache_file (Webserver_Request * request)
 {
   // Full path to the file.
   string filename = filter_url_create_root_path (filter_url_urldecode (request->get));
+  
+  // File size for browser caching.
+  int size = filter_url_filesize (filename);
+  request->etag = "\"" + convert_to_string (size) + "\"";
+
+  // Deal with situation that the file in the browser's cache is up to date.
+  // https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
+  if (request->etag == request->if_none_match) {
+    request->response_code = 304;
+  }
   
   // Get file's contents.
   request->reply = filter_url_file_get_contents (filename);
