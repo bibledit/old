@@ -71,8 +71,10 @@ NSString * homeUrl = @"http://localhost:8080";
     NSString *bit = [path substringToIndex:21];
     BOOL equal = [bit isEqualToString:homeUrl];
     if (!equal) {
+      // Reload home page.
       [BibleditController bibleditBrowseTo:homeUrl];
     } else {
+      // Reload the loaded page, just to be sure that everything works.
       [BibleditController bibleditBrowseTo:path];
     }
 }
