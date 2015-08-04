@@ -235,6 +235,7 @@ void http_serve_cache_file (Webserver_Request * request)
   // https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
   if (request->etag == request->if_none_match) {
     request->response_code = 304;
+    return;
   }
   
   // Get file's contents.
