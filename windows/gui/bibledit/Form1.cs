@@ -62,6 +62,10 @@ namespace Bibledit
 
         private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // This starts the default external web browser.
+            // It would have given a better interface to have an embedded browser for Bibledit.
+            // But since Microsoft's standard embedded browser component does not well adhere to standard, 
+            // sit is better to keep using an external browser.
             Process.Start ("http://localhost:8080");
         }
 
