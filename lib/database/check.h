@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Check_Hit
 {
 public:
-  Database_Check_Hit ();
   int rowid;
   int bible;
   int book;
@@ -42,8 +41,6 @@ public:
 class Database_Check
 {
 public:
-  Database_Check ();
-  ~Database_Check ();
   void create ();
   void optimize ();
   void truncateOutput (string bible);

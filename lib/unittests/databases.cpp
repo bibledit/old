@@ -909,6 +909,7 @@ void test_database_check ()
   {
     // Test Record Get Truncate.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -930,6 +931,7 @@ void test_database_check ()
   {
     // Test getting details.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -947,6 +949,7 @@ void test_database_check ()
   {
     // Test approvals.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -977,6 +980,7 @@ void test_database_check ()
   {
     // Test delete.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -995,6 +999,7 @@ void test_database_check ()
   {
     // Test passage.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -1007,6 +1012,23 @@ void test_database_check ()
     evaluate (__LINE__, __func__, 6, passage.book);
     evaluate (__LINE__, __func__, 7, passage.chapter);
     evaluate (__LINE__, __func__, "8", passage.verse);
+  }
+  {
+    // Test same checks overflow.
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
+    Database_Bibles database_bibles = Database_Bibles ();
+    database_bibles.createBible ("phpunit");
+    Database_Check database_check = Database_Check ();
+    database_check.create ();
+    database_check.recordOutput ("phpunit", 3, 4, 5, "once");
+    for (unsigned int i = 0; i < 100; i++) {
+      database_check.recordOutput ("phpunit", i, i, i, "multiple");
+    }
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    evaluate (__LINE__, __func__, 12, (int)hits.size());
   }
 }
 
