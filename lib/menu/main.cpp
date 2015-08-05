@@ -68,6 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <browser/index.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
+#include <resource/images.h>
 
 
 /*
@@ -194,6 +195,7 @@ vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
   if (!config_logic_client_prepared ()) {
     if (resource_manage_acl (request)) menu->push_back ( { "", resource_manage_url (), translate ("USFM"), NULL } );
     if (resource_admin_acl (request)) menu->push_back ( { "", resource_admin_url (), translate ("External"), NULL } );
+    if (resource_images_acl (request)) menu->push_back ( { "", resource_images_url (), translate ("Images"), NULL } );
   }
   if (menu->size ()) return menu;
   delete menu;
@@ -448,5 +450,3 @@ void Menu_Main::subsubmenu (xmlTextWriterPtr xmlwriter, vector <Menu_Main_Item> 
   }
   xmlTextWriterEndElement (xmlwriter); // ul
 }
-
-

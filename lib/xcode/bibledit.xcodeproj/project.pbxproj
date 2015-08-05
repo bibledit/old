@@ -191,6 +191,11 @@
 		CA35A1421A9F518900221B89 /* print.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = print.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA365A041A77DC160000613A /* sendreceive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sendreceive.cpp; sourceTree = "<group>"; };
 		CA365A051A77DC160000613A /* sendreceive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sendreceive.h; sourceTree = "<group>"; };
+		CA36667D1B70E7B00077B58F /* imageresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imageresources.cpp; sourceTree = "<group>"; };
+		CA36667E1B70E7B00077B58F /* imageresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imageresources.h; sourceTree = "<group>"; };
+		CA36667F1B70ECFC0077B58F /* images.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = images.cpp; sourceTree = "<group>"; };
+		CA3666801B70ECFC0077B58F /* images.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = images.h; sourceTree = "<group>"; };
+		CA3666811B70ECFC0077B58F /* images.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = images.html; sourceTree = "<group>"; };
 		CA3925411A51D63A009302B8 /* manage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = manage.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA3925421A51D63A009302B8 /* manage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manage.h; sourceTree = "<group>"; };
 		CA3925431A51D63A009302B8 /* manage.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = manage.html; sourceTree = "<group>"; };
@@ -1390,6 +1395,8 @@
 				CAA4D00A1A45A647003ABA25 /* config */,
 				CAA4D0171A45A647003ABA25 /* confirm.cpp */,
 				CAA4D0181A45A647003ABA25 /* confirm.h */,
+				CA36667D1B70E7B00077B58F /* imageresources.cpp */,
+				CA36667E1B70E7B00077B58F /* imageresources.h */,
 				CAA4D01B1A45A647003ABA25 /* ipc.cpp */,
 				CAA4D01C1A45A647003ABA25 /* ipc.h */,
 				CAA4D01D1A45A647003ABA25 /* jobs.cpp */,
@@ -2312,6 +2319,9 @@
 				CADE4D851A9E248800F16E49 /* external.h */,
 				CADE4D821A9E1B0600F16E49 /* get.cpp */,
 				CADE4D831A9E1B0600F16E49 /* get.h */,
+				CA36667F1B70ECFC0077B58F /* images.cpp */,
+				CA3666801B70ECFC0077B58F /* images.h */,
+				CA3666811B70ECFC0077B58F /* images.html */,
 				CADE4D7A1A9DE2FD00F16E49 /* index.cpp */,
 				CADE4D7C1A9DE99200F16E49 /* index.html */,
 				CADE4D7B1A9DE2FD00F16E49 /* index.h */,

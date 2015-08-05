@@ -178,6 +178,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <personalize/index.h>
 #include <menu/index.h>
 #include <fonts/logic.h>
+#include <resource/images.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -272,6 +273,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_manage_url ()) && resource_manage_acl (request)) request->reply = resource_manage (request);
   else if ((url == resource_admin_url ()) && resource_admin_acl (request)) request->reply = resource_admin (request);
   else if ((url == resource_download_url ()) && resource_download_acl (request)) request->reply = resource_download (request);
+  else if ((url == resource_images_url ()) && resource_images_acl (request)) request->reply = resource_images (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);

@@ -53,6 +53,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/notes.h>
 #include <database/volatile.h>
 #include <database/state.h>
+#include <database/imageresources.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -3820,6 +3821,100 @@ void test_database_state ()
     evaluate (__LINE__, __func__, false,  Database_State::getExported ("2", 2));
     evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
   }
+}
+
+
+void test_database_imageresources () // Todo
+{
+  Database_ImageResources database_imageresources;
+  // Empty
+  {
+    refresh_sandbox (true);
+    vector <string> resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 0, resources.size());
+  }
+  // Create, names, erase.
+  {
+    refresh_sandbox (true);
+
+    database_imageresources.create ("unittest");
+    vector <string> resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 1, resources.size());
+    bool hit = false;
+    for (auto & resource : resources) if (resource == "unittest") hit = true;
+    evaluate (__LINE__, __func__, true, hit);
+    
+    database_imageresources.erase ("none-existing");
+    resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 1, resources.size());
+
+    database_imageresources.erase ("unittest");
+    resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 0, resources.size());
+}
+/* Todo
+  // Store Get Chapter
+  {
+    refresh_sandbox (true);
+    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
+    string usfm = database_usfmresources.getUsfm ("bibledit", 2, 3);
+    evaluate (__LINE__, __func__, "usfm", usfm);
+    usfm = database_usfmresources.getUsfm ("bibledit", 2, 4);
+    evaluate (__LINE__, __func__, "", usfm);
+  }
+  // Books
+  {
+    refresh_sandbox (true);
+    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
+    database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
+    database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
+    database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
+    vector <int> books = database_usfmresources.getBooks ("bibledit");
+    evaluate (__LINE__, __func__, {1, 2, 3}, books);
+  }
+  // Chapters
+  {
+    refresh_sandbox (true);
+    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
+    database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
+    database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
+    database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
+    vector <int> chapters = database_usfmresources.getChapters ("bibledit", 1);
+    evaluate (__LINE__, __func__, {1, 2}, chapters);
+    chapters = database_usfmresources.getChapters ("bibledit", 2);
+    evaluate (__LINE__, __func__, {3}, chapters);
+  }
+  // Sizes
+  {
+    refresh_sandbox (true);
+    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+    
+    int size = database_usfmresources.getSize ("bibledit", 2, 3);
+    evaluate (__LINE__, __func__, 0, size);
+    
+    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
+    size = database_usfmresources.getSize ("bibledit", 2, 3);
+    evaluate (__LINE__, __func__, 4, size);
+    
+    database_usfmresources.storeChapter ("bibledit", 2, 3, "chapter");
+    size = database_usfmresources.getSize ("bibledit", 2, 3);
+    evaluate (__LINE__, __func__, 7, size);
+  }
+  // Delete Book
+  {
+    refresh_sandbox (true);
+    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
+    vector <int> books = database_usfmresources.getBooks ("bibledit");
+    evaluate (__LINE__, __func__, {2}, books);
+    database_usfmresources.deleteBook ("bibledit", 2);
+    books = database_usfmresources.getBooks ("bibledit");
+    evaluate (__LINE__, __func__, {}, books);
+  }
+*/
 }
 
 
