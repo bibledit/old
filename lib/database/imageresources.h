@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
+#include <sqlite3.h>
 
 
 class Database_ImageResources
@@ -35,11 +36,14 @@ public:
   void assign (string name, string image,
                int book1, int chapter1, int verse1,
                int book2, int chapter2, int verse2);
-  string get (string name, int book, int chapter, int verse);
+  vector <string> get (string name, int book, int chapter, int verse);
   vector <string> get (string name);
 private:
   string mainFolder ();
   string resourceFolder (const string& name);
+  string imagePath (string name, string image);
+  string databaseFile ();
+  sqlite3 * connect (string name);
 };
 
 

@@ -3849,12 +3849,15 @@ void test_database_state ()
 void test_database_imageresources () // Todo
 {
   Database_ImageResources database_imageresources;
+  string image = filter_url_create_root_path ("unittests", "tests", "Genesis-1-1-18.gif");
+
   // Empty
   {
     refresh_sandbox (true);
     vector <string> resources = database_imageresources.names ();
     evaluate (__LINE__, __func__, 0, resources.size());
   }
+  
   // Create, names, erase.
   {
     refresh_sandbox (true);
@@ -3873,70 +3876,50 @@ void test_database_imageresources () // Todo
     database_imageresources.erase ("unittest");
     resources = database_imageresources.names ();
     evaluate (__LINE__, __func__, 0, resources.size());
-}
-/* Todo
-  // Store Get Chapter
-  {
-    refresh_sandbox (true);
-    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    string usfm = database_usfmresources.getUsfm ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, "usfm", usfm);
-    usfm = database_usfmresources.getUsfm ("bibledit", 2, 4);
-    evaluate (__LINE__, __func__, "", usfm);
   }
-  // Books
+  
+  // Store, get, erase images.
   {
     refresh_sandbox (true);
-    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
-    vector <int> books = database_usfmresources.getBooks ("bibledit");
-    evaluate (__LINE__, __func__, {1, 2, 3}, books);
-  }
-  // Chapters
-  {
-    refresh_sandbox (true);
-    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
-    vector <int> chapters = database_usfmresources.getChapters ("bibledit", 1);
-    evaluate (__LINE__, __func__, {1, 2}, chapters);
-    chapters = database_usfmresources.getChapters ("bibledit", 2);
-    evaluate (__LINE__, __func__, {3}, chapters);
-  }
-  // Sizes
-  {
-    refresh_sandbox (true);
-    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     
-    int size = database_usfmresources.getSize ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, 0, size);
+    database_imageresources.create ("unittest");
+  
+    string path = "/tmp/unittest.jpg";
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_unlink (path);
+
+    vector <string> images = database_imageresources.get ("unittest");
+    evaluate (__LINE__, __func__, images, {"unittest.jpg", "unittest0.jpg"});
     
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    size = database_usfmresources.getSize ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, 4, size);
-    
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "chapter");
-    size = database_usfmresources.getSize ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, 7, size);
+    database_imageresources.erase ("unittest", "unittest.jpg");
+
+    images = database_imageresources.get ("unittest");
+    evaluate (__LINE__, __func__, images, {"unittest0.jpg"});
   }
-  // Delete Book
+  // Assign passage and get image based on passage.
   {
     refresh_sandbox (true);
-    Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    vector <int> books = database_usfmresources.getBooks ("bibledit");
-    evaluate (__LINE__, __func__, {2}, books);
-    database_usfmresources.deleteBook ("bibledit", 2);
-    books = database_usfmresources.getBooks ("bibledit");
-    evaluate (__LINE__, __func__, {}, books);
+    
+    database_imageresources.create ("unittest");
+
+    for (int i = 10; i < 20; i++) {
+      string image = "unittest" + convert_to_string (i) + ".jpg";
+      string path = "/tmp/" + image;
+      filter_url_file_cp (image, path);
+      database_imageresources.store ("unittest", path);
+      filter_url_unlink (path);
+      database_imageresources.assign ("unittest", image, i, i, i, i, i, i+10);
+    }
+    
+    vector <string> images = database_imageresources.get ("unittest", 11, 11, 13);
+    evaluate (__LINE__, __func__, images, {"unittest11.jpg"});
+    
+    images = database_imageresources.get ("unittest", 11, 11, 100);
+    evaluate (__LINE__, __func__, images, {});
   }
-*/
 }
 
 
