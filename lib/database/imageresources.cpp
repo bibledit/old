@@ -154,7 +154,7 @@ vector <string> Database_ImageResources::get (string name, int book, int chapter
   sql.add (passage);
   sql.add ("AND end >=");
   sql.add (passage);
-  sql.add (";");
+  sql.add ("ORDER BY start;");
   sqlite3 * db = connect (name);
   vector <string> images = database_sqlite_query (db, sql.sql) ["image"];
   database_sqlite_disconnect (db);
@@ -164,7 +164,27 @@ vector <string> Database_ImageResources::get (string name, int book, int chapter
 
 vector <string> Database_ImageResources::get (string name) // Todo test
 {
-  vector <string> images = filter_url_scandir (resourceFolder (name));
-  images = filter_string_array_diff (images, {databaseFile()});
+  // Get images from database, sorted on passage.
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT image FROM passages ORDER by start;");
+  sqlite3 * db = connect (name);
+  vector <string> images = database_sqlite_query (db, sql.sql) ["image"];
+  database_sqlite_disconnect (db);
+ 
+  // Get images from the folder.
+  vector <string> files = filter_url_scandir (resourceFolder (name));
+  files = filter_string_array_diff (files, {databaseFile()});
+
+  // Files not on disk, remove them from the list of images.
+  images = filter_string_array_diff (images, files);
+  
+  // Files on disk, and not in the list from the database, add them.
+  for (auto & file : files) {
+    if (!in_array (file, images)) {
+      images.push_back (file);
+    }
+  }
+  
+  // Result.
   return images;
 }

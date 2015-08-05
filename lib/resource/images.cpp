@@ -58,7 +58,7 @@ string resource_images (void * webserver_request) // Todo
   string error, success;
   
 
-  Database_ImageResources database_imageresources = Database_ImageResources ();
+  Database_ImageResources database_imageresources;
   
   
   // New image resource handler.
@@ -101,10 +101,9 @@ string resource_images (void * webserver_request) // Todo
   vector <string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
-    resourceblock.push_back ("<a href=\"?delete=" + resource + "\" title=\"" + translate("Remove") + "\">");
-    resourceblock.push_back ("✗");
-    resourceblock.push_back ("</a>");
+    resourceblock.push_back ("<a href=\"image?name=" + resource + "\">");
     resourceblock.push_back (resource);
+    resourceblock.push_back ("</a>");
     resourceblock.push_back ("</p>");
   }
   view.set_variable ("resourceblock", filter_string_implode (resourceblock, "\n"));

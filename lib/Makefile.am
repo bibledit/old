@@ -259,6 +259,7 @@ libbibledit_a_SOURCES = \
 	resource/print.cpp \
 	resource/download.cpp \
 	resource/images.cpp \
+	resource/image.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \

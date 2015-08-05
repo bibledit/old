@@ -1,0 +1,15 @@
+<h2>translate("Image resource") "##name##"</h2>
+<p class="success">##success##</p>
+<p class="error">##error##</p>
+##imageblock##
+<br>
+<p>
+  translate("Upload images and PDF files.")
+  translate("Or a compressed archive with them.")
+</p>
+<form enctype="multipart/form-data" action="?name=##name##" method="POST">
+  <input name="data" type="file" />
+  <input type="submit" name="upload" value="translate("Upload")" />
+</form>
+<br>
+<p><a href="images?delete=##name##">translate("Erase this resource.")</a></p>
