@@ -28,7 +28,7 @@
 #include <locale/translate.h>
 #include <resource/logic.h>
 #include <database/imageresources.h>
-#include <tasks/logic.h>
+#include <config/logic.h>
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
@@ -55,6 +55,7 @@ string resource_images (void * webserver_request) // Todo
   Assets_Header header = Assets_Header (translate("Image resources"), request);
   page = header.run ();
   Assets_View view = Assets_View ();
+  string error, success;
   
 
   Database_ImageResources database_imageresources = Database_ImageResources ();
@@ -66,22 +67,18 @@ string resource_images (void * webserver_request) // Todo
     page += dialog_entry.run ();
     return page;
   }
-  /* Todo
   if (request->post.count ("new")) {
     string resource = request->post ["entry"];
     vector <string> resources = database_imageresources.names ();
     if (in_array (resource, resources)) {
-      error_message = translate("This image resource already exists");
+      error = translate("This image resource already exists");
+    } else if (resource.empty ()) {
+      error = translate("Please give a name for the image resource");
     } else {
       database_imageresources.create (resource);
-      success_message = translate("The image resource was created");
+      success = translate("The image resource was created");
     }
   }
-   */
-  
-
-  
-  /* Todo
 
   
   // Delete resource.
@@ -94,53 +91,27 @@ string resource_images (void * webserver_request) // Todo
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (access_bible_write (request, remove)) {
-        database_usfmresources.deleteResource (remove);
-      } else {
-        view.set_variable ("error", translate("You do not have write access to this resource"));
-      }
+      database_imageresources.erase (remove);
+      success = translate ("The resource was deleted");
     }
   }
-  
-  
-  // Convert resource.
-  string convert = request->query ["convert"];
-  if (convert != "") {
-    string confirm = request->query ["confirm"];
-    if (confirm == "") {
-      Dialog_Yes dialog_yes = Dialog_Yes ("images", translate("Would you like to convert this resource to a Bible?"));
-      dialog_yes.add_query ("convert", convert);
-      page += dialog_yes.run ();
-      return page;
-    } if (confirm == "yes") {
-      if (access_bible_write (request, convert)) {
-        tasks_logic_queue (CONVERTRESOURCE2BIBLE, {convert});
-        redirect_browser (request, journal_index_url ());
-        return "";
-      } else {
-        view.set_variable ("error", translate("Insufficient privileges"));
-      }
-    }
-  }
-  
-  
-  vector <string> resources = database_usfmresources.getResources ();
+
+
+  vector <string> resources = database_imageresources.names ();
   vector <string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
-    resourceblock.push_back ("<a href=\"?delete=" + resource + "\" class=\"deleteresource\" title=\"" + translate("Remove") + "\">");
+    resourceblock.push_back ("<a href=\"?delete=" + resource + "\" title=\"" + translate("Remove") + "\">");
     resourceblock.push_back ("✗");
-    resourceblock.push_back ("</a>");
-    resourceblock.push_back ("<a href=\"?convert=" + resource + "\" class=\"convertresource\" title=\"" + translate("Convert") + "\">");
-    resourceblock.push_back ("♻");
     resourceblock.push_back ("</a>");
     resourceblock.push_back (resource);
     resourceblock.push_back ("</p>");
   }
   view.set_variable ("resourceblock", filter_string_implode (resourceblock, "\n"));
-  */
-  
-  
+
+   
+  view.set_variable ("success", success);
+  view.set_variable ("error", error);
   page += view.render ("resource", "images");
   page += Assets_Page::footer ();
   return page;
