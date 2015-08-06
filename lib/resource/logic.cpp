@@ -148,7 +148,7 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
   } else if (isImage) {
     vector <string> images = database_imageresources.get (resource, book, chapter, verse);
     for (auto & image : images) {
-      html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\"></div>");
+      html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
     }
     // Todo
   } else {
