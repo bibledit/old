@@ -6664,6 +6664,9 @@ msgstr ""
 msgid "Identifier"
 msgstr ""
 
+msgid "edit contents"
+msgstr ""
+
 msgid "The note will be deleted after it expires"
 msgstr ""
 
@@ -6825,22 +6828,7 @@ msgstr ""
 msgid "Unknown Note Identifier"
 msgstr ""
 
-msgid "You can edit the source of a Consultation Note."
-msgstr ""
-
-msgid "Each Consultation Notes has an identifier."
-msgstr ""
-
-msgid ""
-"The identifier of a Consultation Note can be seen through the Actions link "
-"of that note."
-msgstr ""
-
-msgid "Identifier:"
-msgstr ""
-
-msgid ""
-"Enter the identifier of the Consultation Note to be edited and press Submit."
+msgid "You can edit the source of this Consultation Note."
 msgstr ""
 
 msgid "Consultation Notes"

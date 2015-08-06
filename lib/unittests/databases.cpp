@@ -3920,6 +3920,34 @@ void test_database_imageresources () // Todo
     images = database_imageresources.get ("unittest", 11, 11, 100);
     evaluate (__LINE__, __func__, images, {});
   }
+  // Assign passage to image, and retrieve it.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+    
+    string image = "unittest.jpg";
+    string path = "/tmp/" + image;
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_unlink (path);
+    database_imageresources.assign ("unittest", image, 1, 2, 0, 1, 2, 10);
+
+    int book1, chapter1, verse1, book2, chapter2, verse2;
+    database_imageresources.get ("unittest", "none-existing",
+                                 book1, chapter1, verse1, book2, chapter2, verse2);
+    evaluate (__LINE__, __func__, book1, 0);
+    evaluate (__LINE__, __func__, chapter1, 0);
+
+    database_imageresources.get ("unittest", image,
+                                 book1, chapter1, verse1, book2, chapter2, verse2);
+    evaluate (__LINE__, __func__, book1, 1);
+    evaluate (__LINE__, __func__, chapter1, 2);
+    evaluate (__LINE__, __func__, verse1, 0);
+    evaluate (__LINE__, __func__, book2, 1);
+    evaluate (__LINE__, __func__, chapter2, 2);
+    evaluate (__LINE__, __func__, verse2, 10);
+  }
 }
 
 

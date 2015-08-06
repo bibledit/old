@@ -95,14 +95,14 @@ void Database_ImageResources::erase (string name)
 }
 
 
-void Database_ImageResources::erase (string name, string image) // Todo test
+void Database_ImageResources::erase (string name, string image)
 {
   filter_url_unlink (imagePath (name, image));
 }
 
 
 // Moves $file (path to an image file) into the database.
-void Database_ImageResources::store (string name, string file) // Todo test
+void Database_ImageResources::store (string name, string file)
 {
   string folder = resourceFolder (name);
   string basename = filter_url_basename (file);
@@ -162,7 +162,7 @@ vector <string> Database_ImageResources::get (string name, int book, int chapter
 }
 
 
-vector <string> Database_ImageResources::get (string name) // Todo test
+vector <string> Database_ImageResources::get (string name)
 {
   // Get images from database, sorted on passage.
   SqliteSQL sql = SqliteSQL ();
@@ -187,4 +187,49 @@ vector <string> Database_ImageResources::get (string name) // Todo test
   
   // Result.
   return images;
+}
+
+
+void Database_ImageResources::get (string name, string image,
+                                   int & book1, int & chapter1, int & verse1,
+                                   int & book2, int & chapter2, int & verse2)
+{
+  book1 = 0;
+  chapter1 = 0;
+  verse1 = 0;
+  book2 = 0;
+  chapter2 = 0;
+  verse2 = 0;
+
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT start, end FROM passages WHERE image =");
+  sql.add (image);
+  sql.add (";");
+  sqlite3 * db = connect (name);
+  map <string, vector <string> > results = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
+  vector <string> start = results["start"];
+  vector <string> end   = results["end"];
+
+  if (!start.empty ()) {
+    Passage passage = filter_integer_to_passage (convert_to_int (start [0]));
+    book1 = passage.book;
+    chapter1 = passage.chapter;
+    verse1 = convert_to_int (passage.verse);
+  }
+  
+  if (!end.empty ()) {
+    Passage passage = filter_integer_to_passage (convert_to_int (end [0]));
+    book2 = passage.book;
+    chapter2 = passage.chapter;
+    verse2 = convert_to_int (passage.verse);
+  }
+}
+
+
+
+string Database_ImageResources::get (string name, string image)
+{
+  string path = imagePath (name, image);
+  return filter_url_file_get_contents (path);
 }

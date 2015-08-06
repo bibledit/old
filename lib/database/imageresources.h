@@ -38,6 +38,10 @@ public:
                int book2, int chapter2, int verse2);
   vector <string> get (string name, int book, int chapter, int verse);
   vector <string> get (string name);
+  void get (string name, string image,
+            int & book1, int & chapter1, int & verse1,
+            int & book2, int & chapter2, int & verse2);
+  string get (string name, string image);
 private:
   string mainFolder ();
   string resourceFolder (const string& name);

@@ -175,16 +175,19 @@ void http_assemble_response (Webserver_Request * request)
   string http_response_code_fragment = filter_url_http_response_code_text (request->response_code);
   
   // Assemble the Content-Type.
-  string extension = filter_url_get_extension (request->get);
+  string extension = filter_url_get_extension (request->get); // Todo also for imagefetch.
+  extension = unicode_string_casefold (extension);
   string content_type;
        if (extension == "js")       content_type = "application/javascript";
   else if (extension == "css")      content_type = "text/css";
   else if (extension == "ico")      content_type = "image/vnd.microsoft.icon";
   else if (extension == "gif")      content_type = "image/gif";
+  else if (extension == "jpe")      content_type = "image/jpeg";
   else if (extension == "jpg")      content_type = "image/jpeg";
   else if (extension == "jpeg")     content_type = "image/jpeg";
-  else if (extension == "jpeg")     content_type = "image/png";
+  else if (extension == "png")      content_type = "image/png";
   else if (extension == "svg")      content_type = "image/svg+xml";
+  else if (extension == "bmp")      content_type = "image/bmp";
   else if (extension == "txt")      content_type = "text/plain";
   else if (extension == "usfm")     content_type = "text/plain";
   else if (extension == "otf")      content_type = "font/opentype";

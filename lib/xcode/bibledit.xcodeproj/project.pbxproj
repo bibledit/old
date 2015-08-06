@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		CA0090B11B739EC9006E425C /* img.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = img.cpp; sourceTree = "<group>"; };
+		CA0090B21B739EC9006E425C /* img.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = img.h; sourceTree = "<group>"; };
+		CA0090B31B739EC9006E425C /* img.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = img.html; sourceTree = "<group>"; };
+		CA0090B41B73A7B6006E425C /* imagefetch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imagefetch.cpp; sourceTree = "<group>"; };
+		CA0090B51B73A7B6006E425C /* imagefetch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imagefetch.h; sourceTree = "<group>"; };
 		CA05545D1A7D283D0023BA52 /* setup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = setup.cpp; sourceTree = "<group>"; };
 		CA05545E1A7D283D0023BA52 /* setup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = setup.h; sourceTree = "<group>"; };
 		CA0554611A7D43CC0023BA52 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
@@ -2325,9 +2330,14 @@
 				CA92C4551B728510000C3F22 /* image.cpp */,
 				CA92C4561B728510000C3F22 /* image.h */,
 				CA92C4571B728510000C3F22 /* image.html */,
+				CA0090B41B73A7B6006E425C /* imagefetch.cpp */,
+				CA0090B51B73A7B6006E425C /* imagefetch.h */,
 				CA36667F1B70ECFC0077B58F /* images.cpp */,
 				CA3666801B70ECFC0077B58F /* images.h */,
 				CA3666811B70ECFC0077B58F /* images.html */,
+				CA0090B11B739EC9006E425C /* img.cpp */,
+				CA0090B21B739EC9006E425C /* img.h */,
+				CA0090B31B739EC9006E425C /* img.html */,
 				CADE4D7A1A9DE2FD00F16E49 /* index.cpp */,
 				CADE4D7C1A9DE99200F16E49 /* index.html */,
 				CADE4D7B1A9DE2FD00F16E49 /* index.h */,

@@ -244,7 +244,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
 	resource/admin.$(OBJEXT) resource/print.$(OBJEXT) \
 	resource/download.$(OBJEXT) resource/images.$(OBJEXT) \
-	resource/image.$(OBJEXT) json/json.$(OBJEXT) \
+	resource/image.$(OBJEXT) resource/img.$(OBJEXT) \
+	resource/imagefetch.$(OBJEXT) json/json.$(OBJEXT) \
 	mapping/index.$(OBJEXT) mapping/map.$(OBJEXT) \
 	statistics/statistics.$(OBJEXT) changes/change.$(OBJEXT) \
 	changes/changes.$(OBJEXT) changes/logic.$(OBJEXT) \
@@ -765,6 +766,8 @@ libbibledit_a_SOURCES = \
 	resource/download.cpp \
 	resource/images.cpp \
 	resource/image.cpp \
+	resource/img.cpp \
+	resource/imagefetch.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \
@@ -1749,6 +1752,10 @@ resource/images.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/image.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+resource/img.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/imagefetch.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
 json/$(am__dirstamp):
 	@$(MKDIR_P) json
 	@: > json/$(am__dirstamp)
@@ -2331,7 +2338,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/external.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/get.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/image.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/imagefetch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/images.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/img.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/manage.Po@am__quote@
