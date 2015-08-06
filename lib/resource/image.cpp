@@ -112,13 +112,17 @@ string resource_image (void * webserver_request) // Todo
     // Retrieve passage range for this image.
     int book1, chapter1, verse1, book2, chapter2, verse2;
     database_imageresources.get (name, image, book1, chapter1, verse1, book2, chapter2, verse2);
-    
+
+    imageblock.append ("<td>:</td>");
+
     // From passage ...
     imageblock.append ("<td>");
     if (book1) {
       imageblock.append (filter_passage_display (book1, chapter1, convert_to_string (verse1)));
     }
     imageblock.append ("</td>");
+
+    imageblock.append ("<td>-</td>");
 
     // ... to passage.
     imageblock.append ("<td>");

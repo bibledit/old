@@ -98,6 +98,15 @@ void Database_ImageResources::erase (string name)
 void Database_ImageResources::erase (string name, string image)
 {
   filter_url_unlink (imagePath (name, image));
+  sqlite3 * db = connect (name);
+  {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("DELETE FROM passages WHERE image =");
+    sql.add (image);
+    sql.add (";");
+    database_sqlite_exec (db, sql.sql);
+  }
+  database_sqlite_disconnect (db);
 }
 
 
@@ -173,15 +182,13 @@ vector <string> Database_ImageResources::get (string name)
  
   // Get images from the folder.
   vector <string> files = filter_url_scandir (resourceFolder (name));
-  files = filter_string_array_diff (files, {databaseFile()});
-
-  // Files not on disk, remove them from the list of images.
-  images = filter_string_array_diff (images, files);
-  
+ 
   // Files on disk, and not in the list from the database, add them.
   for (auto & file : files) {
     if (!in_array (file, images)) {
-      images.push_back (file);
+      if (file != databaseFile ()) {
+        images.push_back (file);
+      }
     }
   }
   
@@ -225,7 +232,6 @@ void Database_ImageResources::get (string name, string image,
     verse2 = convert_to_int (passage.verse);
   }
 }
-
 
 
 string Database_ImageResources::get (string name, string image)

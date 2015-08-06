@@ -23,6 +23,7 @@
 #include <access/bible.h>
 #include <database/usfmresources.h>
 #include <database/offlineresources.h>
+#include <database/imageresources.h>
 #include <database/mappings.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
@@ -44,7 +45,7 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
   names.insert (names.end(), bibles.begin (), bibles.end());
   
   // Take USFM Resources.
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
+  Database_UsfmResources database_usfmresources;
   vector <string> usfm_resources = database_usfmresources.getResources ();
   names.insert (names.end(), usfm_resources.begin(), usfm_resources.end());
   
@@ -52,7 +53,11 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
   vector <string> external_resources = resource_external_names ();
   names.insert (names.end (), external_resources.begin(), external_resources.end());
   
-  names = array_unique (names);
+  // Take Image resources.
+  Database_ImageResources database_imageresources;
+  vector <string> image_resources = database_imageresources.names ();
+  names.insert (names.end (), image_resources.begin(), image_resources.end());
+  
   sort (names.begin(), names.end());
   
   return names;
@@ -84,17 +89,20 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string html;
   
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_UsfmResources database_usfmresources;
+  Database_OfflineResources database_offlineresources;
+  Database_ImageResources database_imageresources;
   Database_Mappings database_mappings = Database_Mappings ();
   
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> usfms = database_usfmresources.getResources ();
   vector <string> externals = resource_external_names ();
+  vector <string> images = database_imageresources.names ();
   
   bool isBible = find (bibles.begin(), bibles.end (), resource) != bibles.end ();
   bool isUsfm = find (usfms.begin (), usfms.end (), resource) != usfms.end ();
   bool isExternal = find (externals.begin (), externals.end (), resource) != externals.end ();
+  bool isImage = find (images.begin (), images.end (), resource) != images.end ();
   if (isBible || isUsfm) {
     string chapter_usfm;
     if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
@@ -137,6 +145,12 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true);
       }
     }
+  } else if (isImage) {
+    vector <string> images = database_imageresources.get (resource, book, chapter, verse);
+    for (auto & image : images) {
+      html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\"></div>");
+    }
+    // Todo
   } else {
     // Nothing found.
   }
