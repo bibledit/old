@@ -6534,6 +6534,9 @@ msgstr ""
 msgid "External"
 msgstr ""
 
+msgid "Images"
+msgstr ""
+
 msgid "Notifications"
 msgstr ""
 
@@ -7369,6 +7372,30 @@ msgid "The versification system and the verse mapping can be set in file"
 msgstr ""
 
 msgid "The default resource files provide examples."
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "Please enter a name for the new empty image resource"
+msgstr ""
+
+msgid "Create a new empty image resource"
+msgstr ""
+
+msgid ""
+"Image resources provide a way to display scanned pages of a Bible or book."
+msgstr ""
+
+msgid "Each page can be one or more images."
+msgstr ""
+
+msgid "Each image refers to a range of verses."
+msgstr ""
+
+msgid ""
+"When Bibledit has a certain passage focused, it can display the matching "
+"image."
 msgstr ""
 
 msgid "organize"

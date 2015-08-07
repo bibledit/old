@@ -211,7 +211,7 @@ void Database_ImageResources::get (string name, string image,
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT start, end FROM passages WHERE image =");
   sql.add (image);
-  sql.add (";");
+  sql.add ("ORDER by start;");
   sqlite3 * db = connect (name);
   map <string, vector <string> > results = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
