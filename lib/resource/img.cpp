@@ -49,7 +49,7 @@ bool resource_img_acl (void * webserver_request)
 }
 
 
-string resource_img (void * webserver_request) // Todo
+string resource_img (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_ImageResources database_imageresources;

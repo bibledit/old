@@ -3846,7 +3846,7 @@ void test_database_state ()
 }
 
 
-void test_database_imageresources () // Todo
+void test_database_imageresources ()
 {
   Database_ImageResources database_imageresources;
   string image = filter_url_create_root_path ("unittests", "tests", "Genesis-1-1-18.gif");

@@ -18,12 +18,14 @@
 
 
 #include <resource/image.h>
+#include <resource/img.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/archive.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
@@ -32,6 +34,7 @@
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
+#include <tasks/logic.h>
 
 
 string resource_image_url ()
@@ -46,7 +49,7 @@ bool resource_image_acl (void * webserver_request)
 }
 
 
-string resource_image (void * webserver_request) // Todo
+string resource_image (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_ImageResources database_imageresources;
@@ -71,9 +74,23 @@ string resource_image (void * webserver_request) // Todo
     string data = request->post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
-      success = translate("The file was uploaded.");
-      // tasks_logic_queue (IMPORTUSFM, { datafile, bible });
-      database_imageresources.store (name, file);
+      bool background_import = false;
+      if (filter_archive_is_archive (file)) background_import = true;
+      string extension = filter_url_get_extension (file);
+      extension = unicode_string_casefold (extension);
+      if (extension == "pdf") background_import = true;
+      if (background_import) {
+        tasks_logic_queue (IMPORTIMAGES, { name, file });
+        success = translate("The file was uploaded and is being processed.") + " " + translate ("View the Journal for progress");
+      } else {
+        // Store image.
+        string image = database_imageresources.store (name, file);
+        // Immediately open the uploaded image.
+        string url = filter_url_build_http_query (resource_img_url (), "name", name);
+        url = filter_url_build_http_query (url, "image", image);
+        redirect_browser (request, url);
+        return "";
+      }
     } else {
       error = translate ("Nothing was uploaded");
     }

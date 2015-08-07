@@ -27,9 +27,13 @@
 #include <database/mappings.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
+#include <database/logs.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/text.h>
+#include <filter/url.h>
+#include <filter/archive.h>
+#include <filter/shell.h>
 #include <resource/external.h>
 #include <locale/translate.h>
 #include <config/logic.h>
@@ -150,7 +154,6 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
     for (auto & image : images) {
       html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
     }
-    // Todo
   } else {
     // Nothing found.
   }
@@ -158,3 +161,56 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
   return html;
 }
 
+
+
+// Imports the file at $path into $resource.
+void resource_logic_import_images (string resource, string path)
+{
+  Database_ImageResources database_imageresources;
+  
+  Database_Logs::log ("Importing: " + filter_url_basename (path));
+  
+  // To begin with, add the path to the main file to the list of paths to be processed.
+  vector <string> paths = {path};
+  
+  while (!paths.empty ()) {
+  
+    // Take and remove the first path from the container.
+    path = paths[0];
+    paths.erase (paths.begin());
+    string basename = filter_url_basename (path);
+    string extension = filter_url_get_extension (path);
+    extension = unicode_string_casefold (extension);
+
+    if (extension == "pdf") {
+      
+      Database_Logs::log ("Processing PDF: " + basename);
+      
+      // Retrieve PDF information.
+      filter_shell_run ("", "pdfinfo", {path}, NULL, NULL);
+
+      // Convert the PDF file to separate images.
+      string folder = filter_url_tempfile ();
+      filter_url_mkdir (folder);
+      filter_shell_run (folder, "pdftocairo", {"-jpeg", path}, NULL, NULL);
+      // Add the images to the ones to be processed.
+      filter_url_recursive_scandir (folder, paths);
+      
+    } else if (filter_archive_is_archive (path)) {
+      
+      Database_Logs::log ("Unpacking archive: " + basename);
+      string folder = filter_archive_uncompress (path);
+      filter_url_recursive_scandir (folder, paths);
+      
+    } else {
+
+      if (!extension.empty ()) {
+        basename = database_imageresources.store (resource, path);
+        Database_Logs::log ("Storing image " + basename );
+      }
+      
+    }
+  }
+
+  Database_Logs::log ("Ready importing images");
+}

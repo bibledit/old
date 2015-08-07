@@ -32,7 +32,7 @@ public:
   void create (string name);
   void erase (string name);
   void erase (string name, string image);
-  void store (string name, string file);
+  string store (string name, string file);
   void assign (string name, string image,
                int book1, int chapter1, int verse1,
                int book2, int chapter2, int verse2);

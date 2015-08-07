@@ -175,7 +175,7 @@ void http_assemble_response (Webserver_Request * request)
   string http_response_code_fragment = filter_url_http_response_code_text (request->response_code);
   
   // Assemble the Content-Type.
-  string extension = filter_url_get_extension (request->get); // Todo also for imagefetch.
+  string extension = filter_url_get_extension (request->get);
   extension = unicode_string_casefold (extension);
   string content_type;
        if (extension == "js")       content_type = "application/javascript";

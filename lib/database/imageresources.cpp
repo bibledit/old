@@ -111,18 +111,19 @@ void Database_ImageResources::erase (string name, string image)
 
 
 // Moves $file (path to an image file) into the database.
-void Database_ImageResources::store (string name, string file)
+string Database_ImageResources::store (string name, string file)
 {
   string folder = resourceFolder (name);
-  string basename = filter_url_basename (file);
+  string image = filter_url_basename (file);
   string path;
   bool exists = false;
   do {
-    path = filter_url_create_path (folder, basename);
+    path = filter_url_create_path (folder, image);
     exists = file_exists (path);
-    if (exists) basename = filter_string_str_replace (".", "0.", basename);
+    if (exists) image = filter_string_str_replace (".", "0.", image);
   } while (exists);
   filter_url_rename (file, path);
+  return image;
 }
 
 
@@ -130,7 +131,7 @@ void Database_ImageResources::store (string name, string file)
 // It means that this image contains text for the passage range.
 void Database_ImageResources::assign (string name, string image,
                                       int book1, int chapter1, int verse1,
-                                      int book2, int chapter2, int verse2) // Todo test.
+                                      int book2, int chapter2, int verse2)
 {
   sqlite3 * db = connect (name);
   {
@@ -155,7 +156,7 @@ void Database_ImageResources::assign (string name, string image,
 }
 
 
-vector <string> Database_ImageResources::get (string name, int book, int chapter, int verse) // Todo write and test
+vector <string> Database_ImageResources::get (string name, int book, int chapter, int verse)
 {
   int passage = filter_passage_to_integer (Passage ("", book, chapter, convert_to_string (verse)));
   SqliteSQL sql = SqliteSQL ();
