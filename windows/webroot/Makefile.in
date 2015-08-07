@@ -147,9 +147,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
-	database/state.$(OBJEXT) session/logic.$(OBJEXT) \
-	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
-	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
+	database/imageresources.$(OBJEXT) database/state.$(OBJEXT) \
+	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
+	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
+	session/signup.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -242,7 +243,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	resource/convert2resource.$(OBJEXT) \
 	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
 	resource/admin.$(OBJEXT) resource/print.$(OBJEXT) \
-	resource/download.$(OBJEXT) json/json.$(OBJEXT) \
+	resource/download.$(OBJEXT) resource/images.$(OBJEXT) \
+	resource/image.$(OBJEXT) resource/img.$(OBJEXT) \
+	resource/imagefetch.$(OBJEXT) json/json.$(OBJEXT) \
 	mapping/index.$(OBJEXT) mapping/map.$(OBJEXT) \
 	statistics/statistics.$(OBJEXT) changes/change.$(OBJEXT) \
 	changes/changes.$(OBJEXT) changes/logic.$(OBJEXT) \
@@ -571,6 +574,7 @@ libbibledit_a_SOURCES = \
 	database/notes.cpp \
 	database/volatile.cpp \
 	database/maintenance.cpp \
+	database/imageresources.cpp \
 	database/state.cpp \
 	session/logic.cpp \
 	session/login.cpp \
@@ -760,6 +764,10 @@ libbibledit_a_SOURCES = \
 	resource/admin.cpp \
 	resource/print.cpp \
 	resource/download.cpp \
+	resource/images.cpp \
+	resource/image.cpp \
+	resource/img.cpp \
+	resource/imagefetch.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \
@@ -1093,6 +1101,8 @@ database/notes.$(OBJEXT): database/$(am__dirstamp) \
 database/volatile.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/maintenance.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/imageresources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/state.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -1738,6 +1748,14 @@ resource/print.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/download.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+resource/images.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/image.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/img.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/imagefetch.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
 json/$(am__dirstamp):
 	@$(MKDIR_P) json
 	@: > json/$(am__dirstamp)
@@ -2157,6 +2175,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/imageresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@
@@ -2318,6 +2337,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/download.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/external.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/get.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/image.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/imagefetch.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/images.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/img.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/manage.Po@am__quote@

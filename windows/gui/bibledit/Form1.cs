@@ -50,6 +50,11 @@ namespace Bibledit
                 LibBibledit.EnableRaisingEvents = true;
                 LibBibledit.Exited += new EventHandler (ProcessExited);
                 LibBibledit.Start();
+                // Set the server to run on one processor only. 
+                // That gives a huge boost to the speed of the Cygwin library.
+                // The difference in speed is clear: It runs times faster.
+                // When a background task runs in Bibledit, the GUI takes a long time to respond without this processor affinity.s
+                LibBibledit.ProcessorAffinity = (IntPtr)1;
             }
             catch (Exception exception)
             {

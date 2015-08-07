@@ -7,14 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-30 01:45+0200\n"
 "PO-Revision-Date: 2015-07-04 12:03+0000\n"
 "Last-Translator: Launchpad Translations Administrators <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-31 04:31+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 
 msgid "Set the language for Bibledit"
@@ -139,14 +137,13 @@ msgstr ""
 msgid "Font and text direction"
 msgstr ""
 
-msgid ""
-"Set the font, the text direction, and the writing mode for the Bible editors."
+msgid "Font and text settings"
+msgstr ""
+
+msgid "Make settings for font and text for the Bible editors."
 msgstr ""
 
 msgid "Font"
-msgstr ""
-
-msgid "A font can be entered in different ways:"
 msgstr ""
 
 msgid "Enter the name of a locally available font."
@@ -162,6 +159,9 @@ msgid "Then enter its name."
 msgstr ""
 
 msgid "Enter the name of a font available on the Internet."
+msgstr ""
+
+msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
 msgstr ""
 
 msgid "Direction"
@@ -191,8 +191,14 @@ msgstr ""
 msgid "Bottom to top and right to left"
 msgstr ""
 
+msgid "Line height"
+msgstr ""
+
+msgid "Letter spacing"
+msgstr ""
+
 msgid ""
-"After saving, the settings will be applied to this editable sample text."
+"After saving, the settings will be applied to the editable sample text below."
 msgstr ""
 
 msgid "Editing settings"
@@ -6526,6 +6532,9 @@ msgstr ""
 msgid "External"
 msgstr ""
 
+msgid "Images"
+msgstr ""
+
 msgid "Notifications"
 msgstr "Notificações"
 
@@ -6656,6 +6665,9 @@ msgid "This is a general note, it does not apply to any specific Bible"
 msgstr ""
 
 msgid "Identifier"
+msgstr ""
+
+msgid "edit contents"
 msgstr ""
 
 msgid "The note will be deleted after it expires"
@@ -6819,22 +6831,7 @@ msgstr ""
 msgid "Unknown Note Identifier"
 msgstr ""
 
-msgid "You can edit the source of a Consultation Note."
-msgstr ""
-
-msgid "Each Consultation Notes has an identifier."
-msgstr ""
-
-msgid ""
-"The identifier of a Consultation Note can be seen through the Actions link "
-"of that note."
-msgstr ""
-
-msgid "Identifier:"
-msgstr ""
-
-msgid ""
-"Enter the identifier of the Consultation Note to be edited and press Submit."
+msgid "You can edit the source of this Consultation Note."
 msgstr ""
 
 msgid "Consultation Notes"
@@ -7170,6 +7167,9 @@ msgstr ""
 msgid "Font size for everything"
 msgstr ""
 
+msgid "Font size for the menu"
+msgstr ""
+
 msgid "Download resource"
 msgstr ""
 
@@ -7370,6 +7370,30 @@ msgid "The versification system and the verse mapping can be set in file"
 msgstr ""
 
 msgid "The default resource files provide examples."
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "Please enter a name for the new empty image resource"
+msgstr ""
+
+msgid "Create a new empty image resource"
+msgstr ""
+
+msgid ""
+"Image resources provide a way to display scanned pages of a Bible or book."
+msgstr ""
+
+msgid "Each page can be one or more images."
+msgstr ""
+
+msgid "Each image refers to a range of verses."
+msgstr ""
+
+msgid ""
+"When Bibledit has a certain passage focused, it can display the matching "
+"image."
 msgstr ""
 
 msgid "organize"

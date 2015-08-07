@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/bibledropbox.h>
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
+#include <resource/logic.h>
 
 
 mutex mutex_tasks; 
@@ -183,6 +184,8 @@ void tasks_run_one (string filename)
     Paratext_Logic::synchronize ();
   } else if (command == SUBMITBIBLEDROPBOX) {
     export_bibledropbox (parameter1, parameter2);
+  } else if (command == IMPORTIMAGES) {
+    resource_logic_import_images (parameter1, parameter2);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

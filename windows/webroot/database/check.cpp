@@ -33,21 +33,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // before running setup.
 
 
-Database_Check_Hit::Database_Check_Hit ()
-{
-}
-
-
-Database_Check::Database_Check ()
-{
-}
-
-
-Database_Check::~Database_Check ()
-{
-}
-
-
 sqlite3 * Database_Check::connect ()
 {
   return database_sqlite_connect ("check");
@@ -108,20 +93,60 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
 {
   Database_Bibles database_bibles = Database_Bibles ();
   int bible_id = database_bibles.getID (bible);
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("INSERT INTO output VALUES (");
-  sql.add (bible_id);
-  sql.add (",");
-  sql.add (book);
-  sql.add (",");
-  sql.add (chapter);
-  sql.add (",");
-  sql.add (verse);
-  sql.add (",");
-  sql.add (data);
-  sql.add (");");
+  int count = 0;
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
+  // Check how often $data has been recorded already.
+  {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT count(*) FROM output WHERE bible =");
+    sql.add (bible_id);
+    sql.add ("AND data = ");
+    sql.add (data);
+    sql.add (";");
+    sqlite3 * db = connect ();
+    vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
+    database_sqlite_disconnect (db);
+    if (!result.empty ()) {
+      count = convert_to_int (result [0]);
+    }
+  }
+  // Record the data no more than so often.
+  if (count < 10) {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("INSERT INTO output VALUES (");
+    sql.add (bible_id);
+    sql.add (",");
+    sql.add (book);
+    sql.add (",");
+    sql.add (chapter);
+    sql.add (",");
+    sql.add (verse);
+    sql.add (",");
+    sql.add (data);
+    sql.add (");");
+    database_sqlite_exec (db, sql.sql);
+  }
+  // Store message saying that no more of this messages will be stored.
+  // This is for situations where the checks produce thousands and thousands of results.
+  // That would choke the entire server.
+  // It has been seen on a service provider that its system shut Bibledit's server down
+  // due to excessive CPU usage during a long time.
+  if (count == 9) {
+    data.append (" (displaying no more of these)");
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("INSERT INTO output VALUES (");
+    sql.add (bible_id);
+    sql.add (",");
+    sql.add (book);
+    sql.add (",");
+    sql.add (chapter);
+    sql.add (",");
+    sql.add (verse);
+    sql.add (",");
+    sql.add (data);
+    sql.add (");");
+    database_sqlite_exec (db, sql.sql);
+  }
   database_sqlite_disconnect (db);
 }
 

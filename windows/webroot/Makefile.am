@@ -68,6 +68,7 @@ libbibledit_a_SOURCES = \
 	database/notes.cpp \
 	database/volatile.cpp \
 	database/maintenance.cpp \
+	database/imageresources.cpp \
 	database/state.cpp \
 	session/logic.cpp \
 	session/login.cpp \
@@ -257,6 +258,10 @@ libbibledit_a_SOURCES = \
 	resource/admin.cpp \
 	resource/print.cpp \
 	resource/download.cpp \
+	resource/images.cpp \
+	resource/image.cpp \
+	resource/img.cpp \
+	resource/imagefetch.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \

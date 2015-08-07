@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		CA0090B11B739EC9006E425C /* img.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = img.cpp; sourceTree = "<group>"; };
+		CA0090B21B739EC9006E425C /* img.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = img.h; sourceTree = "<group>"; };
+		CA0090B31B739EC9006E425C /* img.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = img.html; sourceTree = "<group>"; };
+		CA0090B41B73A7B6006E425C /* imagefetch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imagefetch.cpp; sourceTree = "<group>"; };
+		CA0090B51B73A7B6006E425C /* imagefetch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imagefetch.h; sourceTree = "<group>"; };
 		CA05545D1A7D283D0023BA52 /* setup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = setup.cpp; sourceTree = "<group>"; };
 		CA05545E1A7D283D0023BA52 /* setup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = setup.h; sourceTree = "<group>"; };
 		CA0554611A7D43CC0023BA52 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
@@ -191,6 +196,11 @@
 		CA35A1421A9F518900221B89 /* print.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = print.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA365A041A77DC160000613A /* sendreceive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sendreceive.cpp; sourceTree = "<group>"; };
 		CA365A051A77DC160000613A /* sendreceive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sendreceive.h; sourceTree = "<group>"; };
+		CA36667D1B70E7B00077B58F /* imageresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imageresources.cpp; sourceTree = "<group>"; };
+		CA36667E1B70E7B00077B58F /* imageresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imageresources.h; sourceTree = "<group>"; };
+		CA36667F1B70ECFC0077B58F /* images.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = images.cpp; sourceTree = "<group>"; };
+		CA3666801B70ECFC0077B58F /* images.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = images.h; sourceTree = "<group>"; };
+		CA3666811B70ECFC0077B58F /* images.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = images.html; sourceTree = "<group>"; };
 		CA3925411A51D63A009302B8 /* manage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = manage.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA3925421A51D63A009302B8 /* manage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manage.h; sourceTree = "<group>"; };
 		CA3925431A51D63A009302B8 /* manage.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = manage.html; sourceTree = "<group>"; };
@@ -328,7 +338,7 @@
 		CA815E851B6647A700E2DE26 /* files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = files.h; sourceTree = "<group>"; };
 		CA815E861B66489B00E2DE26 /* files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = files.cpp; sourceTree = "<group>"; };
 		CA815E871B66489B00E2DE26 /* files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = files.h; sourceTree = "<group>"; };
-		CA816D0F1B63634C00FD276E /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
+		CA816D0F1B63634C00FD276E /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; lineEnding = 0; path = install.sh; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.sh; };
 		CA816D831B64047400FD276E /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA816D841B64047400FD276E /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA816D851B6404D100FD276E /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -363,6 +373,9 @@
 		CA8E3C551A5C43F8002180D8 /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CA8E4EFF1A6E8346001720D0 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8E4F001A6E8346001720D0 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA92C4551B728510000C3F22 /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
+		CA92C4561B728510000C3F22 /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		CA92C4571B728510000C3F22 /* image.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = image.html; sourceTree = "<group>"; };
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9DB79A1AA8E4B500D6B549 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = libgit2.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1390,6 +1403,8 @@
 				CAA4D00A1A45A647003ABA25 /* config */,
 				CAA4D0171A45A647003ABA25 /* confirm.cpp */,
 				CAA4D0181A45A647003ABA25 /* confirm.h */,
+				CA36667D1B70E7B00077B58F /* imageresources.cpp */,
+				CA36667E1B70E7B00077B58F /* imageresources.h */,
 				CAA4D01B1A45A647003ABA25 /* ipc.cpp */,
 				CAA4D01C1A45A647003ABA25 /* ipc.h */,
 				CAA4D01D1A45A647003ABA25 /* jobs.cpp */,
@@ -2312,6 +2327,17 @@
 				CADE4D851A9E248800F16E49 /* external.h */,
 				CADE4D821A9E1B0600F16E49 /* get.cpp */,
 				CADE4D831A9E1B0600F16E49 /* get.h */,
+				CA92C4551B728510000C3F22 /* image.cpp */,
+				CA92C4561B728510000C3F22 /* image.h */,
+				CA92C4571B728510000C3F22 /* image.html */,
+				CA0090B41B73A7B6006E425C /* imagefetch.cpp */,
+				CA0090B51B73A7B6006E425C /* imagefetch.h */,
+				CA36667F1B70ECFC0077B58F /* images.cpp */,
+				CA3666801B70ECFC0077B58F /* images.h */,
+				CA3666811B70ECFC0077B58F /* images.html */,
+				CA0090B11B739EC9006E425C /* img.cpp */,
+				CA0090B21B739EC9006E425C /* img.h */,
+				CA0090B31B739EC9006E425C /* img.html */,
 				CADE4D7A1A9DE2FD00F16E49 /* index.cpp */,
 				CADE4D7C1A9DE99200F16E49 /* index.html */,
 				CADE4D7B1A9DE2FD00F16E49 /* index.h */,
