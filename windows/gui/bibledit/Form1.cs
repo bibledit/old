@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -53,7 +53,10 @@ namespace Bibledit
                 // Set the server to run on one processor only. 
                 // That gives a huge boost to the speed of the Cygwin library.
                 // The difference in speed is clear: It runs times faster.
-                // When a background task runs in Bibledit, the GUI takes a long time to respond without this processor affinity.s
+                // When a background task runs in Bibledit, the GUI takes a long time to respond without this processor affinity.
+                // http://zachsaw.blogspot.nl/2012/10/multithreading-under-cygwin.html
+                // http://stackoverflow.com/questions/2510593/how-can-i-set-processor-affinity-in-net
+                // What works well too: PsExec.exe -a 1 server.exe
                 LibBibledit.ProcessorAffinity = (IntPtr)1;
             }
             catch (Exception exception)
