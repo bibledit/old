@@ -17,23 +17,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_VOLATILE_H
-#define INCLUDED_DATABASE_VOLATILE_H
+#ifndef INCLUDED_DATABASE_NOTEASSIGNMENT_H
+#define INCLUDED_DATABASE_NOTEASSIGNMENT_H
 
 
 #include <config/libraries.h>
 #include <sqlite3.h>
 
 
-class Database_Volatile
+class Database_NoteAssignment
 {
 public:
-  void create ();
-  vector <string> getKeys (int id);
-  string getValue (int id, const string& key);
-  void setValue (int id, const string& key, const string& value);
+  bool exists (string user);
+  void assignees (string user, vector <string> assignees);
+  vector <string> assignees (string user);
 private:
-  sqlite3 * connect ();
+  string path (string user);
 };
 
 

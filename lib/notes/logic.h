@@ -66,4 +66,7 @@ private:
 };
 
 
+void notes_logic_maintain_note_assignees (bool force);
+
+
 #endif

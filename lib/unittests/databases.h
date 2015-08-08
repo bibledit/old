@@ -57,6 +57,7 @@ void test_database_notes ();
 void test_database_volatile ();
 void test_database_state ();
 void test_database_imageresources ();
+void test_database_noteassignment ();
 
 
 #endif

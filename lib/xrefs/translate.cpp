@@ -29,7 +29,6 @@
 #include <tasks/logic.h>
 #include <webserver/request.h>
 #include <journal/index.h>
-#include <database/volatile.h>
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <database/logs.h>
@@ -54,9 +53,6 @@ bool xrefs_translate_acl (void * webserver_request)
 string xrefs_translate (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  
-  Database_Volatile database_volatile;
   
   
   string sourceBible = request->database_config_user()->getSourceXrefBible ();

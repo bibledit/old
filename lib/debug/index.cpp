@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
-#include <export/logic.h>
+#include <notes/logic.h>
 
 
 const char * debug_index_url ()
@@ -45,8 +45,14 @@ string debug_index (void * webserver_request)
 
   Assets_View view = Assets_View ();
 
-  if (request->query.count ("debug")) {
-    view.set_variable ("success", "Command activated");
+  string debug = request->query ["debug"];
+  if (debug == "1") {
+    notes_logic_maintain_note_assignees (false);
+    view.set_variable ("success", "notes_logic_maintain_note_assignees");
+  }
+  if (debug == "2") {
+    notes_logic_maintain_note_assignees (true);
+    view.set_variable ("success", "notes_logic_maintain_note_assignees force");
   }
   
   page += view.render ("debug", "index");

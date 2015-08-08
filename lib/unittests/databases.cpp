@@ -54,6 +54,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/volatile.h>
 #include <database/state.h>
 #include <database/imageresources.h>
+#include <database/noteassignment.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -3948,6 +3949,33 @@ void test_database_imageresources ()
     evaluate (__LINE__, __func__, chapter2, 2);
     evaluate (__LINE__, __func__, verse2, 10);
   }
+}
+
+
+void test_database_noteassignment ()
+{
+  refresh_sandbox (true);
+  Database_NoteAssignment database;
+
+  bool exists = database.exists ("unittest");
+  evaluate (__LINE__, __func__, false, exists);
+  
+  vector <string> assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {}, assignees);
+
+  database.assignees ("unittest", {"one", "two"});
+  assignees = database.assignees ("none-existing");
+  evaluate (__LINE__, __func__, {}, assignees);
+
+  exists = database.exists ("unittest");
+  evaluate (__LINE__, __func__, true, exists);
+
+  assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {"one", "two"}, assignees);
+  
+  database.assignees ("unittest", {"1", "2"});
+  assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {"1", "2"}, assignees);
 }
 
 

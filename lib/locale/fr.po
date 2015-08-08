@@ -7402,7 +7402,43 @@ msgstr ""
 msgid "Image resources"
 msgstr ""
 
+msgid "The file was uploaded."
+msgstr ""
+
+msgid "The image was deleted."
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Image resource"
+msgstr ""
+
+msgid "Upload images and PDF files."
+msgstr ""
+
+msgid "Or a compressed archive with them."
+msgstr ""
+
+msgid "Erase this resource."
+msgstr ""
+
 msgid "Please enter a name for the new empty image resource"
+msgstr ""
+
+msgid "This image resource already exists"
+msgstr ""
+
+msgid "Please give a name for the image resource"
+msgstr ""
+
+msgid "The image resource was created"
+msgstr ""
+
+msgid "Would you like to delete this resource?"
+msgstr ""
+
+msgid "The resource was deleted"
 msgstr ""
 
 msgid "Create a new empty image resource"
@@ -7450,9 +7486,6 @@ msgstr ""
 msgid "USFM Resources"
 msgstr ""
 
-msgid "Would you like to delete this resource?"
-msgstr ""
-
 msgid "You do not have write access to this resource"
 msgstr ""
 
@@ -7460,9 +7493,6 @@ msgid "Would you like to convert this resource to a Bible?"
 msgstr ""
 
 msgid "Insufficient privileges"
-msgstr ""
-
-msgid "Remove"
 msgstr ""
 
 msgid ""
