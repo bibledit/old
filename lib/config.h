@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "yes"
+#define CLIENT "no"
 
 /* Define whether it is a client installation */
-#define CLIENT_PREPARED 1
+/* #undef CLIENT_PREPARED */
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -38,7 +38,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define whether to enable Paratext synchronization */
-#define HAVE_PARATEXT 1
+/* #undef HAVE_PARATEXT */
 
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
@@ -104,7 +104,7 @@
 #define PARALLEL_TASKS 10
 
 /* Define whether Paratext synchronization is enabled */
-#define PARATEXT "yes"
+#define PARATEXT "no"
 
 /* Define the path to the shared external resources cache */
 #define RESOURCES_PATH ""

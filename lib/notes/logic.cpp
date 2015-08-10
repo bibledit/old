@@ -665,8 +665,13 @@ void notes_logic_maintain_note_assignees (bool force) // Todo
   // A user can assign notes to other users
   // who have access to the Bibles the user has access to.
   for (auto & user : users) {
-    
+
     vector <string> assignees;
+    
+    for (auto & assignee : users) {
+      
+    }
+
     bool access = false;
     for (auto & bible : bibles) {
       if (!access) {
@@ -676,6 +681,7 @@ void notes_logic_maintain_note_assignees (bool force) // Todo
     if (access) {
       assignees.push_back (user);
     }
+    
     database_noteassignment.assignees (user, assignees);
   }
 }
