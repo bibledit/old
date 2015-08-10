@@ -668,20 +668,20 @@ void notes_logic_maintain_note_assignees (bool force) // Todo
 
     vector <string> assignees;
     
-    for (auto & assignee : users) {
-      
-    }
-
-    bool access = false;
     for (auto & bible : bibles) {
-      if (!access) {
-        access = database_users.hasAccess2Bible (user, bible);
+      
+      // Continue with this Bible if the user has access to it.
+      if (database_users.hasAccess2Bible (user, bible)) {
+
+        for (auto & assignee : users) {
+          if (database_users.hasAccess2Bible (assignee, bible)) {
+            assignees.push_back (assignee);
+          }
+        }
       }
     }
-    if (access) {
-      assignees.push_back (user);
-    }
-    
+
+    assignees = array_unique (assignees);
     database_noteassignment.assignees (user, assignees);
   }
 }
