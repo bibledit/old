@@ -7265,7 +7265,10 @@ msgstr ""
 msgid "Image resources"
 msgstr ""
 
-msgid "The file was uploaded."
+msgid "The file was uploaded and is being processed."
+msgstr ""
+
+msgid "View the Journal for progress"
 msgstr ""
 
 msgid "Would you like to delete this image?"
@@ -7277,7 +7280,7 @@ msgstr ""
 msgid "Image resource"
 msgstr ""
 
-msgid "Upload an image, or a PDF file, or a compressed archive with them."
+msgid "Upload an image, or a PDF file, or a compressed archive of them."
 msgstr ""
 
 msgid "Erase this resource."

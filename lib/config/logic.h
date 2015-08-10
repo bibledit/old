@@ -37,6 +37,7 @@ int my_stoi (const string& str, void * idx = NULL, int base = 10);
 bool config_logic_paratext_enabled ();
 bool config_logic_external_resources_cache_configured ();
 string config_logic_external_resources_cache_path ();
+bool config_logic_windows ();
 
 
 #endif

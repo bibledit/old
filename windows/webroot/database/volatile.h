@@ -28,8 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Volatile
 {
 public:
-  Database_Volatile ();
-  ~Database_Volatile ();
   void create ();
   vector <string> getKeys (int id);
   string getValue (int id, const string& key);

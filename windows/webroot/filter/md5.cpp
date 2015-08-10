@@ -30,10 +30,6 @@ documentation and/or software.
  
 */
 
-#ifdef WIN32
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 
 /* interface header */
 #include "filter/md5.h"

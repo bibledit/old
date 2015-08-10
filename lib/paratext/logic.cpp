@@ -23,6 +23,7 @@
 #include <filter/roles.h>
 #include <filter/usfm.h>
 #include <filter/merge.h>
+#include <filter/shell.h>
 #include <pwd.h>
 #include <database/books.h>
 #include <database/logs.h>
@@ -282,6 +283,17 @@ void Paratext_Logic::synchronize ()
 
   
   Database_Logs::log (synchronizeStartText (), Filter_Roles::translator ());
+  
+  
+  bool paratext_running = false;
+  vector <string> processes = filter_shell_active_processes ();
+  for (auto p : processes) {
+    if (p.find ("Paratext") != string::npos) paratext_running = true;
+  }
+  if (paratext_running) {
+    Database_Logs::log ("Cannot synchronize while Paratext is running", Filter_Roles::translator ());
+    return;
+  }
   
   
   // Go through each Bible.

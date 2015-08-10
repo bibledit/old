@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.208],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.210],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
@@ -225,6 +225,17 @@ AC_DEFINE([RESOURCES_PATH], [], [Define the path to the shared external resource
 AC_DEFINE_UNQUOTED(RESOURCES_PATH, "$RESOURCES_PATH")
 AC_SUBST(RESOURCES_PATH)
 
+# Windows.
+WINDOWS=no
+AC_ARG_ENABLE(windows,
+[  --enable-windows Compile on Windows],
+[AC_DEFINE([WIN32], [1], [Define whether to compile on Windows])]
+WINDOWS=yes
+)
+AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
+AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
+AC_SUBST(WINDOWS)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -244,4 +255,5 @@ Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
 Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)               : ${PARATEXT}
 Resources cache path (--with-resources-path=path)          : ${RESOURCES_PATH}
+Windows (--enable-windows)                                 : ${WINDOWS}
 "

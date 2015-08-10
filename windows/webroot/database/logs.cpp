@@ -24,17 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/date.h>
 #include <journal/logic.h>
-#include <config.h>
-
-
-Database_Logs::Database_Logs ()
-{
-}
-
-
-Database_Logs::~Database_Logs ()
-{
-}
+#include <config/logic.h>
 
 
 string Database_Logs::folder ()
@@ -69,6 +59,10 @@ void Database_Logs::log (string description, int level)
     description.insert (0, convert_to_string (level) + " " + seconds + " ");
   }
   filter_url_file_put_contents_append (file, description);
+  // Delay to cover for lower usec granularity on Windows.
+  if (config_logic_windows ()) {
+    this_thread::sleep_for (chrono::milliseconds (1));
+  }
 }
 
 

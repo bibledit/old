@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 int filter_shell_run (string directory, string command, const vector <string> parameters,
                       string * output, string * error);
+int filter_shell_run (string command, const char * parameter, string & output);
+vector <string> filter_shell_active_processes ();
 
 
 #endif

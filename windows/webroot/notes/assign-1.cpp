@@ -74,7 +74,7 @@ string notes_assign_1 (void * webserver_request)
   }
 
 
-  // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to.
+  // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to. Todo read from the noteassignment database.
   string userblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
   vector <string> users = request->database_users ()->getUsers ();

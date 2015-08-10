@@ -7310,114 +7310,25 @@ msgstr ""
 msgid "Clear the cache if a full download is needed."
 msgstr ""
 
-msgid "Edit resource"
-msgstr ""
-
-msgid "Bibledit displays fragents of external web pages to the user."
-msgstr ""
-
-msgid "Bibledit extracts the correct bits from that web page."
-msgstr ""
-
-msgid "It passes that bit to the user."
-msgstr ""
-
-msgid "This is how it works:"
-msgstr ""
-
-msgid "Bibledit notices the active passage, for example Genesis 1:1."
-msgstr ""
-
-msgid ""
-"Bibledit then calls a defined PHP function contained in a resource PHP "
-"script."
-msgstr ""
-
-msgid "It passes book, chapter and verse to the function."
-msgstr ""
-
-msgid "The function fetches a page from the web."
-msgstr ""
-
-msgid "The function filters this web page."
-msgstr ""
-
-msgid "The script returns the filtered content."
-msgstr ""
-
-msgid "Bibledit passes that to the user."
-msgstr ""
-
-msgid "This method of serving content saves the user a lot of bandwidth."
-msgstr ""
-
-msgid ""
-"Bibledit strips a lot of stuff away, and only serves the essentials to the "
-"user."
-msgstr ""
-
-msgid "On this page you can edit and test the script."
-msgstr ""
-
-msgid "Code"
-msgstr ""
-
-msgid "Enter the code of the script."
-msgstr ""
-
-msgid "Save and test"
-msgstr ""
-
-msgid "Result"
-msgstr ""
-
-msgid "Output of running the script:"
-msgstr ""
-
-msgid ""
-"It is possible to make verse references in a Resource clickable in Bibledit "
-"while the Resource is being displayed."
-msgstr ""
-
-msgid "The code of the script should insert links as follows:"
-msgstr ""
-
-msgid "Bibledit will take care of the rest when it displays the Resource."
-msgstr ""
-
-msgid ""
-"Any changes made to the standard resources that come with Bibledit will be "
-"overwritten when upgrading the software."
-msgstr ""
-
-msgid "The script will be saved to file"
-msgstr ""
-
-msgid "The versification system and the verse mapping can be set in file"
-msgstr ""
-
-msgid "The default resource files provide examples."
-msgstr ""
-
 msgid "Image resources"
 msgstr ""
 
-msgid "The file was uploaded."
+msgid "The file was uploaded and is being processed."
+msgstr ""
+
+msgid "View the Journal for progress"
+msgstr ""
+
+msgid "Would you like to delete this image?"
 msgstr ""
 
 msgid "The image was deleted."
 msgstr ""
 
-msgid "Remove"
-msgstr ""
-
 msgid "Image resource"
 msgstr ""
 
-msgid "Upload images and PDF files."
-msgstr ""
-
-msgid "Or a compressed archive with them."
+msgid "Upload an image, or a PDF file, or a compressed archive of them."
 msgstr ""
 
 msgid "Erase this resource."
@@ -7459,6 +7370,51 @@ msgid ""
 "image."
 msgstr ""
 
+msgid "Unknown starting book."
+msgstr ""
+
+msgid "Negative starting chapter."
+msgstr ""
+
+msgid "High starting chapter."
+msgstr ""
+
+msgid "Negative starting verse."
+msgstr ""
+
+msgid "High starting verse."
+msgstr ""
+
+msgid "Unknown ending book."
+msgstr ""
+
+msgid "Negative ending chapter."
+msgstr ""
+
+msgid "High ending chapter."
+msgstr ""
+
+msgid "Negative ending verse."
+msgstr ""
+
+msgid "High ending verse."
+msgstr ""
+
+msgid "The starting passage is beyond the ending passage."
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "This image contains verses from"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Delete this image."
+msgstr ""
+
 msgid "organize"
 msgstr ""
 
@@ -7493,6 +7449,9 @@ msgid "Would you like to convert this resource to a Bible?"
 msgstr ""
 
 msgid "Insufficient privileges"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid ""
@@ -7570,9 +7529,6 @@ msgid "Set range: "
 msgstr ""
 
 msgid "From"
-msgstr ""
-
-msgid "to"
 msgstr ""
 
 msgid "Generate the document."

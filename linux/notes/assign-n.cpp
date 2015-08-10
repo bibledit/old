@@ -59,7 +59,7 @@ string notes_assign_n (void * webserver_request)
   Assets_View view = Assets_View ();
   
   
-  // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to.
+  // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to. Todo use database assignments.
   string userblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
   vector <string> users = request->database_users ()->getUsers ();

@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/notes.h>
 #include <database/noteactions.h>
+#include <database/noteassignment.h>
 #include <database/mail.h>
 #include <database/logs.h>
 #include <database/config/general.h>
@@ -642,3 +643,39 @@ string Notes_Logic::generalBibleName ()
   return "[" + translate("no Bible") + "]";
 }
 
+
+// Maintains the database with note assignees.
+// $force: Force maintenance.
+void notes_logic_maintain_note_assignees (bool force) // Todo
+{
+  Database_NoteAssignment database_noteassignment;
+  
+  Database_Users database_users;
+  vector <string> users = database_users.getUsers ();
+
+  // If even one user's assignees are absent, force rebuilding them for all users.
+  for (auto & user : users) {
+    if (!database_noteassignment.exists (user)) force = true;
+  }
+  if (!force) return;
+
+  Database_Bibles database_bibles;
+  vector <string> bibles = database_bibles.getBibles ();
+  
+  // A user can assign notes to other users
+  // who have access to the Bibles the user has access to.
+  for (auto & user : users) {
+    
+    vector <string> assignees;
+    bool access = false;
+    for (auto & bible : bibles) {
+      if (!access) {
+        access = database_users.hasAccess2Bible (user, bible);
+      }
+    }
+    if (access) {
+      assignees.push_back (user);
+    }
+    database_noteassignment.assignees (user, assignees);
+  }
+}

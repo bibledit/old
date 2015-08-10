@@ -28,8 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Logs
 {
 public:
-  Database_Logs ();
-  ~Database_Logs ();
   static void log (string description, int level = 5);
   void create ();
   void checkup ();
