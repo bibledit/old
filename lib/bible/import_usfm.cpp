@@ -64,8 +64,9 @@ string bible_import_usfm (void * webserver_request)
 
   // USFM data submission.
   if (request->post.count ("submit")) {
-    // Submission may take long if there's a lot of data and/or the network is slow.
+    // Submission may take long if there's a lot of data or the network is slow.
     string data = request->post ["data"];
+    data = filter_url_tag_to_plus (data);
     data = filter_string_trim (data);
     if (data != "") {
       if (unicode_string_is_valid (data)) {
