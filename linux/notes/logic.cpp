@@ -646,7 +646,7 @@ string Notes_Logic::generalBibleName ()
 
 // Maintains the database with note assignees.
 // $force: Force maintenance.
-void notes_logic_maintain_note_assignees (bool force) // Todo
+void notes_logic_maintain_note_assignees (bool force)
 {
   Database_NoteAssignment database_noteassignment;
   
@@ -665,17 +665,23 @@ void notes_logic_maintain_note_assignees (bool force) // Todo
   // A user can assign notes to other users
   // who have access to the Bibles the user has access to.
   for (auto & user : users) {
-    
+
     vector <string> assignees;
-    bool access = false;
+    
     for (auto & bible : bibles) {
-      if (!access) {
-        access = database_users.hasAccess2Bible (user, bible);
+      
+      // Continue with this Bible if the user has access to it.
+      if (database_users.hasAccess2Bible (user, bible)) {
+
+        for (auto & assignee : users) {
+          if (database_users.hasAccess2Bible (assignee, bible)) {
+            assignees.push_back (assignee);
+          }
+        }
       }
     }
-    if (access) {
-      assignees.push_back (user);
-    }
+
+    assignees = array_unique (assignees);
     database_noteassignment.assignees (user, assignees);
   }
 }

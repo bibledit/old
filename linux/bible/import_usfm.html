@@ -22,8 +22,8 @@
 <p>
   translate("To import the data, paste the data into the box below, and then press the Submit button.")
 </p>
-<form action="?bible=##bible##" name="form" method="post">
-  <p><textarea name="data"></textarea></p>
+<form action="?bible=##bible##" id="form" name="form" method="post">
+  <p><textarea name="data" id="data"></textarea></p>
   <p><input type="submit" name="submit" value=translate("Submit") /></p>
 </form>
 <br>
@@ -38,3 +38,5 @@
   translate("It depends on the speed of your network and on the size of the file.")
 </p>
 <p>translate("If uploading fails, it may be because the file is too large, or the network too slow.")</p>
+<script type="text/javascript" src="import_usfm.js?##VERSION##"></script>
+<script type="text/javascript" src="/filter/url.js"></script>

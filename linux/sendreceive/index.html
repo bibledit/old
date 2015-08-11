@@ -3,7 +3,7 @@
 <p class="success">##success##</p>
 <p class="error">##error##</p>
 
-<!-- #BEGINZONE client -->
+<!-- #BEGINZONE clienton -->
 
 <p>translate("Send and receive:")
 <a href="?runsync=">translate("now")</a>
@@ -32,6 +32,7 @@
 ⇇
 <!-- #ENDZONE repeatsync0 -->
 </p>
+<!-- #ENDZONE clienton -->
 
 <!-- #BEGINZONE clientoff -->
 <br>
@@ -48,14 +49,22 @@
 </p>
 <!-- #ENDZONE clienton -->
 
-<!-- #BEGINZONE paratext -->
 <br>
 <!-- #BEGINZONE paratexton -->
 <p>
-translate("It sends changes made here to Paratext on this computer.")
-translate("It receives updates from Paratext.")
+translate("The Paratext bridge sends changes from Bibledit to Paratext on this computer.")
+translate("Bibledit receives updates from Paratext.")
+</p>
+<p>
 translate("The following Bibles link to a Paratext project:")
 ##paratextbibles##.
+</p>
+<p>
+<a href="?syncparatext=">translate("Synchronize with Paratext now.")</a>
+</p>
+<p>
+translate("Do not synchronize with Paratext while Paratext is running.")
+translate("This may cause loss of changes in the chapter Paratext is displaying.")
 </p>
 <!-- #ENDZONE paratexton -->
 <!-- #BEGINZONE paratextoff -->
@@ -63,9 +72,6 @@ translate("The following Bibles link to a Paratext project:")
 translate("If Paratext were installed on this computer, and Bibles in Bibledit would be linked to Paratext projects, then Bibledit would be able to send and receive Bibles data to and from Paratext.")
 </p>
 <!-- #ENDZONE paratextoff -->
-<!-- #ENDZONE paratext -->
-
-<!-- #ENDZONE client -->
 
 <!-- #BEGINZONE server -->
 <p class="success">##successbible##</p>

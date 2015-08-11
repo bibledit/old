@@ -17,24 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_NOTEASSIGNMENT_H
-#define INCLUDED_DATABASE_NOTEASSIGNMENT_H
-
-
-#include <config/libraries.h>
-#include <sqlite3.h>
-
-
-class Database_NoteAssignment
-{
-public:
-  bool exists (string user);
-  void assignees (string user, vector <string> assignees);
-  vector <string> assignees (string user);
-  bool exists (string user, string assignee);
-private:
-  string path (string user);
-};
-
-
-#endif
+$(document).ready (function () {
+  $( "#form" ).submit (function (event) {
+    var text = $("#data").val();
+    text = filter_url_plus_to_tag (text);
+    $("#data").val (text);
+  });
+});

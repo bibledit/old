@@ -52,7 +52,6 @@ bool checks_settings_acl (void * webserver_request)
 string checks_settings (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Check database_check;
   
   
   string page;

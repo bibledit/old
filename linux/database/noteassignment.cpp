@@ -50,3 +50,10 @@ vector <string> Database_NoteAssignment::assignees (string user)
   string contents = filter_url_file_get_contents (path (user));
   return filter_string_explode (contents, '\n');
 }
+
+
+bool Database_NoteAssignment::exists (string user, string assignee)
+{
+  vector <string> users = assignees (user);
+  return in_array (assignee, users);
+}
