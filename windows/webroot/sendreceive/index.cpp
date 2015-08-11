@@ -119,8 +119,16 @@ string sendreceive_index (void * webserver_request)
   }
   
   
+  if (request->query.count ("syncparatext")) {
+    if (sendreceive_paratext_queued ()) {
+      view.set_variable ("error", translate("Still synchronizing with Paratext."));
+    }
+    sendreceive_queue_paratext ();
+    view.set_variable ("success", translate("Will send and receive."));
+  }
+  
+  
   if (config_logic_client_prepared ()) {
-    view.enable_zone ("client");
     if (client_logic_client_enabled ()) {
       view.enable_zone ("clienton");
     } else {
@@ -142,16 +150,10 @@ string sendreceive_index (void * webserver_request)
   view.enable_zone (repeatsynczone);
   
   
-  if (Database_Config_General::getServerAddress () == "") {
-    view.set_variable ("error", translate("Collaboration has not been set up for the Bibles and Consultation Notes"));
-  }
-
-  
   view.set_variable ("demo", demo_client_warning ());
 
   
   if (config_logic_paratext_enabled ()) {
-    view.enable_zone ("paratext");
     vector <string> bibles = Paratext_Logic::enabledBibles ();
     if (!bibles.empty ()) {
       view.enable_zone ("paratexton");
