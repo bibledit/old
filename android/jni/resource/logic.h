@@ -34,4 +34,7 @@ private:
 };
 
 
+void resource_logic_import_images (string resource, string path);
+
+
 #endif

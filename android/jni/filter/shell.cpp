@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <database/logs.h>
+#include <config/logic.h>
+#include <sys/wait.h>
 
 
 string filter_shell_escape_argument (string argument)
@@ -68,4 +70,68 @@ int filter_shell_run (string directory, string command, const vector <string> pa
   filter_url_unlink (standardout);
   filter_url_unlink (standarderr);
   return result;
+}
+
+
+// Runs $command with $parameters.
+// It does not run $command through the shell, but executes it straight.
+int filter_shell_run (string command, const char * parameter, string & output)
+{
+  // File descriptor for file to write child's stdout to.
+  string path = filter_url_tempfile () + ".txt";
+  int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
+  
+    // Create child process as a duplicate of this process.
+  pid_t pid = fork ();
+  
+  if (pid == 0) {
+
+    // This runs in the child.
+    dup2(fd, 1);
+    close(fd);
+    execlp (command.c_str(), parameter, (char*)0);
+    // The above only returns in case of an error.
+    Database_Logs::log (strerror (errno));
+    _exit (1);
+    close (fd);
+    return -1;
+  }
+
+  // Wait till child is ready.
+  wait(0);
+  close(fd);
+  
+  // Read the child's output.
+  output = filter_url_file_get_contents (path);
+  
+  return 0;
+}
+
+
+// Lists the running processes.
+vector <string> filter_shell_active_processes ()
+{
+  vector <string> processes;
+
+  string output, error;
+  int result;
+  
+  if (config_logic_windows ()) {
+    result = filter_shell_run ("tasklist.exe", NULL, output);
+    // Note that the above works on a system which has Cygwin installed,
+    // and fails to run on a system without Cygwin.
+    // Perhaps Bibledit needs to install components from Cygwin into the $PATH for this to run.
+    // Or use the other shell runner, and then copy bash.exe to /Windows/system32 or into the $PATH.
+  }
+  else {
+    result = filter_shell_run ("", "ps", {"ax"}, &output, &error);
+  }
+
+  if (!error.empty ()) {
+    output.append ("\n");
+    output.append (error);
+  }
+  processes = filter_string_explode (output, '\n');
+
+  return processes;
 }

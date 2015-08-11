@@ -149,6 +149,21 @@ string filter_archive_untar_gzip (string file)
 // Returns the path to the folder it created.
 string filter_archive_uncompress (string file)
 {
+  int type = filter_archive_is_archive (file);
+  if (type == 1) {
+    return filter_archive_untar_gzip (file);
+  }
+  if (type == 2) {
+    return filter_archive_unzip (file);
+  }
+  return "";
+}
+
+
+// Returns 0 is not an archive that Bibledit supports.
+// Else returns 1, 2, 3... depending on the type of archive.
+int filter_archive_is_archive (string file)
+{
   // Tar (.tar) archives, including those compressed with gzip (.tar.gz, .tgz), bzip (.tar.bz, .tbz), bzip2 (.tar.bz2, .tbz2), compress (.tar.Z, .taz), lzop (.tar.lzo, .tzo) and lzma (.tar.lzma)
   // Zip archives (.zip)
   // Jar archives (.jar, .ear, .war)
@@ -158,15 +173,13 @@ string filter_archive_uncompress (string file)
   // Single files compressed with gzip (.gz), bzip (.bz), bzip2 (.bz2), compress (.Z), lzop (.lzo) and lzma (.lzma)
   string suffix = filter_url_get_extension (file);
   if ((suffix == "tar.gz") || (suffix == "gz") || (suffix == "tgz")) {
-    return filter_archive_untar_gzip (file);
+    return 1;
   }
   if ((suffix == "zip")) {
-    return filter_archive_unzip (file);
+    return 2;
   }
   if ((suffix == "tar.bz") || (suffix == "tbz") || (suffix == "tar.bz2") || (suffix == "tbz2")) {
-    return "";
+    return 0;
   }
-  return "";
+  return 0;
 }
-
-

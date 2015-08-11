@@ -26,16 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Database resilience: It is recreated every night.
 
 
-Database_Volatile::Database_Volatile ()
-{
-}
-
-
-Database_Volatile::~Database_Volatile ()
-{
-}
-
-
 sqlite3 * Database_Volatile::connect ()
 {
   return database_sqlite_connect ("volatile");

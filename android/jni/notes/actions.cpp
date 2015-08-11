@@ -156,6 +156,9 @@ string notes_actions (void * webserver_request)
   string bible = database_notes.getBible (id);
   view.set_variable ("bible", bible);
   if (bible.empty ()) view.enable_zone ("nobible");
+
+  
+  if (level >= Filter_Roles::manager ()) view.enable_zone ("rawedit");
   
 
   if (level >= Filter_Roles::manager ()) view.enable_zone ("marknote");

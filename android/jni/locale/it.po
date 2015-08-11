@@ -137,14 +137,13 @@ msgstr ""
 msgid "Font and text direction"
 msgstr ""
 
-msgid ""
-"Set the font, the text direction, and the writing mode for the Bible editors."
+msgid "Font and text settings"
+msgstr ""
+
+msgid "Make settings for font and text for the Bible editors."
 msgstr ""
 
 msgid "Font"
-msgstr ""
-
-msgid "A font can be entered in different ways:"
 msgstr ""
 
 msgid "Enter the name of a locally available font."
@@ -160,6 +159,9 @@ msgid "Then enter its name."
 msgstr ""
 
 msgid "Enter the name of a font available on the Internet."
+msgstr ""
+
+msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
 msgstr ""
 
 msgid "Direction"
@@ -189,8 +191,14 @@ msgstr ""
 msgid "Bottom to top and right to left"
 msgstr ""
 
+msgid "Line height"
+msgstr ""
+
+msgid "Letter spacing"
+msgstr ""
+
 msgid ""
-"After saving, the settings will be applied to this editable sample text."
+"After saving, the settings will be applied to the editable sample text below."
 msgstr ""
 
 msgid "Editing settings"
@@ -6524,6 +6532,9 @@ msgstr ""
 msgid "External"
 msgstr ""
 
+msgid "Images"
+msgstr ""
+
 msgid "Notifications"
 msgstr "Notifiche"
 
@@ -6654,6 +6665,9 @@ msgid "This is a general note, it does not apply to any specific Bible"
 msgstr ""
 
 msgid "Identifier"
+msgstr ""
+
+msgid "edit contents"
 msgstr ""
 
 msgid "The note will be deleted after it expires"
@@ -6817,22 +6831,7 @@ msgstr ""
 msgid "Unknown Note Identifier"
 msgstr ""
 
-msgid "You can edit the source of a Consultation Note."
-msgstr ""
-
-msgid "Each Consultation Notes has an identifier."
-msgstr ""
-
-msgid ""
-"The identifier of a Consultation Note can be seen through the Actions link "
-"of that note."
-msgstr ""
-
-msgid "Identifier:"
-msgstr ""
-
-msgid ""
-"Enter the identifier of the Consultation Note to be edited and press Submit."
+msgid "You can edit the source of this Consultation Note."
 msgstr ""
 
 msgid "Consultation Notes"
@@ -7168,6 +7167,9 @@ msgstr ""
 msgid "Font size for everything"
 msgstr ""
 
+msgid "Font size for the menu"
+msgstr ""
+
 msgid "Download resource"
 msgstr ""
 
@@ -7281,93 +7283,109 @@ msgstr ""
 msgid "Clear the cache if a full download is needed."
 msgstr ""
 
-msgid "Edit resource"
+msgid "Image resources"
 msgstr ""
 
-msgid "Bibledit displays fragents of external web pages to the user."
+msgid "The file was uploaded and is being processed."
 msgstr ""
 
-msgid "Bibledit extracts the correct bits from that web page."
+msgid "View the Journal for progress"
 msgstr ""
 
-msgid "It passes that bit to the user."
+msgid "Would you like to delete this image?"
 msgstr ""
 
-msgid "This is how it works:"
+msgid "The image was deleted."
 msgstr ""
 
-msgid "Bibledit notices the active passage, for example Genesis 1:1."
+msgid "Image resource"
 msgstr ""
 
-msgid ""
-"Bibledit then calls a defined PHP function contained in a resource PHP "
-"script."
+msgid "Upload an image, or a PDF file, or a compressed archive of them."
 msgstr ""
 
-msgid "It passes book, chapter and verse to the function."
+msgid "Erase this resource."
 msgstr ""
 
-msgid "The function fetches a page from the web."
+msgid "Please enter a name for the new empty image resource"
 msgstr ""
 
-msgid "The function filters this web page."
+msgid "This image resource already exists"
 msgstr ""
 
-msgid "The script returns the filtered content."
+msgid "Please give a name for the image resource"
 msgstr ""
 
-msgid "Bibledit passes that to the user."
+msgid "The image resource was created"
 msgstr ""
 
-msgid "This method of serving content saves the user a lot of bandwidth."
+msgid "Would you like to delete this resource?"
 msgstr ""
 
-msgid ""
-"Bibledit strips a lot of stuff away, and only serves the essentials to the "
-"user."
+msgid "The resource was deleted"
 msgstr ""
 
-msgid "On this page you can edit and test the script."
-msgstr ""
-
-msgid "Code"
-msgstr ""
-
-msgid "Enter the code of the script."
-msgstr ""
-
-msgid "Save and test"
-msgstr ""
-
-msgid "Result"
-msgstr ""
-
-msgid "Output of running the script:"
+msgid "Create a new empty image resource"
 msgstr ""
 
 msgid ""
-"It is possible to make verse references in a Resource clickable in Bibledit "
-"while the Resource is being displayed."
+"Image resources provide a way to display scanned pages of a Bible or book."
 msgstr ""
 
-msgid "The code of the script should insert links as follows:"
+msgid "Each page can be one or more images."
 msgstr ""
 
-msgid "Bibledit will take care of the rest when it displays the Resource."
+msgid "Each image refers to a range of verses."
 msgstr ""
 
 msgid ""
-"Any changes made to the standard resources that come with Bibledit will be "
-"overwritten when upgrading the software."
+"When Bibledit has a certain passage focused, it can display the matching "
+"image."
 msgstr ""
 
-msgid "The script will be saved to file"
+msgid "Unknown starting book."
 msgstr ""
 
-msgid "The versification system and the verse mapping can be set in file"
+msgid "Negative starting chapter."
 msgstr ""
 
-msgid "The default resource files provide examples."
+msgid "High starting chapter."
+msgstr ""
+
+msgid "Negative starting verse."
+msgstr ""
+
+msgid "High starting verse."
+msgstr ""
+
+msgid "Unknown ending book."
+msgstr ""
+
+msgid "Negative ending chapter."
+msgstr ""
+
+msgid "High ending chapter."
+msgstr ""
+
+msgid "Negative ending verse."
+msgstr ""
+
+msgid "High ending verse."
+msgstr ""
+
+msgid "The starting passage is beyond the ending passage."
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "This image contains verses from"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Delete this image."
 msgstr ""
 
 msgid "organize"
@@ -7395,9 +7413,6 @@ msgid "Synchronize."
 msgstr ""
 
 msgid "USFM Resources"
-msgstr ""
-
-msgid "Would you like to delete this resource?"
 msgstr ""
 
 msgid "You do not have write access to this resource"
@@ -7487,9 +7502,6 @@ msgid "Set range: "
 msgstr ""
 
 msgid "From"
-msgstr ""
-
-msgid "to"
 msgstr ""
 
 msgid "Generate the document."

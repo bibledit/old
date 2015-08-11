@@ -7265,7 +7265,10 @@ msgstr ""
 msgid "Image resources"
 msgstr ""
 
-msgid "The file was uploaded."
+msgid "The file was uploaded and is being processed."
+msgstr ""
+
+msgid "View the Journal for progress"
 msgstr ""
 
 msgid "Would you like to delete this image?"
@@ -7277,7 +7280,7 @@ msgstr ""
 msgid "Image resource"
 msgstr ""
 
-msgid "Upload an image, or a PDF file, or a compressed archive with them."
+msgid "Upload an image, or a PDF file, or a compressed archive of them."
 msgstr ""
 
 msgid "Erase this resource."
@@ -7692,9 +7695,6 @@ msgstr ""
 msgid "Still sending and receiving from the last time."
 msgstr ""
 
-msgid "Collaboration has not been set up for the Bibles and Consultation Notes"
-msgstr ""
-
 msgid "Send / Receive"
 msgstr ""
 
@@ -7725,13 +7725,17 @@ msgstr ""
 msgid "It receives updates from Bibledit Cloud."
 msgstr ""
 
-msgid "It sends changes made here to Paratext on this computer."
+msgid ""
+"The Paratext bridge sends changes from Bibledit to Paratext on this computer."
 msgstr ""
 
-msgid "It receives updates from Paratext."
+msgid "Bibledit receives updates from Paratext."
 msgstr ""
 
 msgid "The following Bibles link to a Paratext project:"
+msgstr ""
+
+msgid "Send and receive to Paratext now"
 msgstr ""
 
 msgid ""

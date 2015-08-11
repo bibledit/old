@@ -277,6 +277,23 @@ vector <string> Sync_Logic::files_get_directories (int version)
         "databases/offlineresources"
       };
       break;
+    case 2:
+      directories = {
+        "fonts",
+        "databases/usfmresources",
+        "databases/offlineresources",
+        "databases/imageresources"
+      };
+      break;
+    case 3:
+      directories = {
+        "fonts",
+        "databases/usfmresources",
+        "databases/offlineresources",
+        "databases/imageresources",
+        "databases/client"
+      };
+      break;
     default:
       break;
   }

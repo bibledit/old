@@ -127,3 +127,10 @@ string config_logic_external_resources_cache_path ()
 {
   return RESOURCES_PATH;
 }
+
+
+// Returns whether Windows has been enabled during configure.
+bool config_logic_windows ()
+{
+  return (strcmp (WINDOWS, "yes") == 0);
+}
