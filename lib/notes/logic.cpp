@@ -646,7 +646,7 @@ string Notes_Logic::generalBibleName ()
 
 // Maintains the database with note assignees.
 // $force: Force maintenance.
-void notes_logic_maintain_note_assignees (bool force) // Todo
+void notes_logic_maintain_note_assignees (bool force)
 {
   Database_NoteAssignment database_noteassignment;
   

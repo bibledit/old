@@ -38,7 +38,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define whether to enable Paratext synchronization */
-#define HAVE_PARATEXT 1
+/* #undef HAVE_PARATEXT */
 
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
@@ -71,7 +71,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-/* #undef HAVE_UNITTESTS */
+#define HAVE_UNITTESTS 1
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -104,7 +104,7 @@
 #define PARALLEL_TASKS 10
 
 /* Define whether Paratext synchronization is enabled */
-#define PARATEXT "yes"
+#define PARATEXT "no"
 
 /* Define the path to the shared external resources cache */
 #define RESOURCES_PATH ""
@@ -116,7 +116,7 @@
 #define TINYJOURNAL "no"
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "no"
+#define UNITTESTS "yes"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"

@@ -3976,6 +3976,11 @@ void test_database_noteassignment ()
   database.assignees ("unittest", {"1", "2"});
   assignees = database.assignees ("unittest");
   evaluate (__LINE__, __func__, {"1", "2"}, assignees);
+  
+  exists = database.exists ("unittest", "1");
+  evaluate (__LINE__, __func__, true, exists);
+  exists = database.exists ("unittest", "none-existing");
+  evaluate (__LINE__, __func__, false, exists);
 }
 
 
