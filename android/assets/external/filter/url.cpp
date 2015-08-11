@@ -167,11 +167,7 @@ bool file_exists (string url)
 void filter_url_mkdir (string directory)
 {
   int status;
-#ifdef WIN32
-	status = _mkdir(directory.c_str());
-#else
   status = mkdir(directory.c_str(), 0777);
-#endif
   if (status != 0) {
     vector <string> paths;
     paths.push_back (directory);
@@ -182,11 +178,7 @@ void filter_url_mkdir (string directory)
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
-#ifdef WIN32
-		_mkdir(paths[i].c_str());
-#else
 		mkdir(paths[i].c_str(), 0777);
-#endif
     }
   }
 }

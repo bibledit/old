@@ -178,6 +178,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <personalize/index.h>
 #include <menu/index.h>
 #include <fonts/logic.h>
+#include <resource/images.h>
+#include <resource/image.h>
+#include <resource/img.h>
+#include <resource/imagefetch.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -199,7 +203,8 @@ void bootstrap_index (Webserver_Request * request)
       || (Fonts_Logic::isFont (extension))
       || (extension == "sh")
       ) http_serve_cache_file (request);
-  
+  else if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) request->reply = resource_imagefetch (request);
+
   // Serve offline resources.
   // Note: This is no longer needed as of July 28: For security it should be removed.
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_cache_file (request);
@@ -272,6 +277,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_manage_url ()) && resource_manage_acl (request)) request->reply = resource_manage (request);
   else if ((url == resource_admin_url ()) && resource_admin_acl (request)) request->reply = resource_admin (request);
   else if ((url == resource_download_url ()) && resource_download_acl (request)) request->reply = resource_download (request);
+  else if ((url == resource_images_url ()) && resource_images_acl (request)) request->reply = resource_images (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
@@ -343,6 +349,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_insert_url ()) && xrefs_insert_acl (request)) request->reply = xrefs_insert (request);
   else if ((url == webbible_search_url ()) && webbible_search_acl (request)) request->reply = webbible_search (request);
   else if ((url == manage_write_url ()) && manage_write_acl (request)) request->reply = manage_write (request);
+  else if ((url == resource_image_url ()) && resource_image_acl (request)) request->reply = resource_image (request);
+  else if ((url == resource_img_url ()) && resource_img_acl (request)) request->reply = resource_img (request);
 
   // Downloads
   else if ((url == index_listing_url (url)) && index_listing_acl (request, url)) request->reply = index_listing (request, url);

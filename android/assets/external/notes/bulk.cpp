@@ -29,6 +29,7 @@
 #include <database/notes.h>
 #include <database/volatile.h>
 #include <database/logs.h>
+#include <database/noteassignment.h>
 #include <notes/logic.h>
 #include <access/bible.h>
 #include <ipc/focus.h>
@@ -55,6 +56,8 @@ string notes_bulk (void * webserver_request)
   Database_Notes database_notes = Database_Notes (webserver_request);
   Database_Volatile database_volatile;
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_NoteAssignment database_noteassignment;
+
   
   string page;
   
@@ -150,7 +153,9 @@ string notes_bulk (void * webserver_request)
   
   if (request->query.count ("assign")) {
     string assign = request->query["assign"];
-    if (request->database_users ()->usernameExists (assign)) {
+    string user = request->session_logic ()->currentUser ();
+    vector <string> assignees = database_noteassignment.assignees (user);
+    if (in_array (assign, assignees)) {
       for (auto identifier : identifiers) {
         if (!database_notes.isAssigned (identifier, assign)) {
           notes_logic.assignUser (identifier, assign);
@@ -164,11 +169,9 @@ string notes_bulk (void * webserver_request)
   
   if (request->query.count ("unassign")) {
     string unassign = request->query["unassign"];
-    if (request->database_users ()->usernameExists (unassign)) {
-      for (auto identifier : identifiers) {
-        if (database_notes.isAssigned (identifier, unassign)) {
-          notes_logic.unassignUser (identifier, unassign);
-        }
+    for (auto identifier : identifiers) {
+      if (database_notes.isAssigned (identifier, unassign)) {
+        notes_logic.unassignUser (identifier, unassign);
       }
     }
     success = translate("The notes are no longer assigned to the user");

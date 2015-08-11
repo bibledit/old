@@ -39,11 +39,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/jobs.h>
 #include <database/config/user.h>
 #include <client/logic.h>
+#include <notes/logic.h>
 
 
 void database_maintenance ()
 {
-  Database_Logs::log ("Maintaining databases", Filter_Roles::admin ());
+  Database_Logs::log ("Maintaining databases", Filter_Roles::manager ());
   
   
   // Whether running in client mode.
@@ -124,4 +125,8 @@ void database_maintenance ()
   
   Database_Config_User database_config_user = Database_Config_User (&webserver_request);
   database_config_user.trim ();
+  
+
+  // Only maintain it when it does not yet exist, to avoid unnecessary downloads by the clients.
+  notes_logic_maintain_note_assignees (false);
 }

@@ -53,6 +53,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/notes.h>
 #include <database/volatile.h>
 #include <database/state.h>
+#include <database/imageresources.h>
+#include <database/noteassignment.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -908,6 +910,7 @@ void test_database_check ()
   {
     // Test Record Get Truncate.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -929,6 +932,7 @@ void test_database_check ()
   {
     // Test getting details.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -946,6 +950,7 @@ void test_database_check ()
   {
     // Test approvals.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -976,6 +981,7 @@ void test_database_check ()
   {
     // Test delete.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -994,6 +1000,7 @@ void test_database_check ()
   {
     // Test passage.
     refresh_sandbox (true);
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     Database_Bibles database_bibles = Database_Bibles ();
@@ -1006,6 +1013,23 @@ void test_database_check ()
     evaluate (__LINE__, __func__, 6, passage.book);
     evaluate (__LINE__, __func__, 7, passage.chapter);
     evaluate (__LINE__, __func__, "8", passage.verse);
+  }
+  {
+    // Test same checks overflow.
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
+    Database_Bibles database_bibles = Database_Bibles ();
+    database_bibles.createBible ("phpunit");
+    Database_Check database_check = Database_Check ();
+    database_check.create ();
+    database_check.recordOutput ("phpunit", 3, 4, 5, "once");
+    for (unsigned int i = 0; i < 100; i++) {
+      database_check.recordOutput ("phpunit", i, i, i, "multiple");
+    }
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    evaluate (__LINE__, __func__, 12, (int)hits.size());
   }
 }
 
@@ -3820,6 +3844,143 @@ void test_database_state ()
     evaluate (__LINE__, __func__, false,  Database_State::getExported ("2", 2));
     evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
   }
+}
+
+
+void test_database_imageresources ()
+{
+  Database_ImageResources database_imageresources;
+  string image = filter_url_create_root_path ("unittests", "tests", "Genesis-1-1-18.gif");
+
+  // Empty
+  {
+    refresh_sandbox (true);
+    vector <string> resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 0, resources.size());
+  }
+  
+  // Create, names, erase.
+  {
+    refresh_sandbox (true);
+
+    database_imageresources.create ("unittest");
+    vector <string> resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 1, resources.size());
+    bool hit = false;
+    for (auto & resource : resources) if (resource == "unittest") hit = true;
+    evaluate (__LINE__, __func__, true, hit);
+    
+    database_imageresources.erase ("none-existing");
+    resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 1, resources.size());
+
+    database_imageresources.erase ("unittest");
+    resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 0, resources.size());
+  }
+  
+  // Store, get, erase images.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+  
+    string path = "/tmp/unittest.jpg";
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_unlink (path);
+
+    vector <string> images = database_imageresources.get ("unittest");
+    evaluate (__LINE__, __func__, images, {"unittest.jpg", "unittest0.jpg"});
+    
+    database_imageresources.erase ("unittest", "unittest.jpg");
+
+    images = database_imageresources.get ("unittest");
+    evaluate (__LINE__, __func__, images, {"unittest0.jpg"});
+  }
+  // Assign passage and get image based on passage.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+
+    for (int i = 10; i < 20; i++) {
+      string image = "unittest" + convert_to_string (i) + ".jpg";
+      string path = "/tmp/" + image;
+      filter_url_file_cp (image, path);
+      database_imageresources.store ("unittest", path);
+      filter_url_unlink (path);
+      database_imageresources.assign ("unittest", image, i, i, i, i, i, i+10);
+    }
+    
+    vector <string> images = database_imageresources.get ("unittest", 11, 11, 13);
+    evaluate (__LINE__, __func__, images, {"unittest11.jpg"});
+    
+    images = database_imageresources.get ("unittest", 11, 11, 100);
+    evaluate (__LINE__, __func__, images, {});
+  }
+  // Assign passage to image, and retrieve it.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+    
+    string image = "unittest.jpg";
+    string path = "/tmp/" + image;
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_unlink (path);
+    database_imageresources.assign ("unittest", image, 1, 2, 0, 1, 2, 10);
+
+    int book1, chapter1, verse1, book2, chapter2, verse2;
+    database_imageresources.get ("unittest", "none-existing",
+                                 book1, chapter1, verse1, book2, chapter2, verse2);
+    evaluate (__LINE__, __func__, book1, 0);
+    evaluate (__LINE__, __func__, chapter1, 0);
+
+    database_imageresources.get ("unittest", image,
+                                 book1, chapter1, verse1, book2, chapter2, verse2);
+    evaluate (__LINE__, __func__, book1, 1);
+    evaluate (__LINE__, __func__, chapter1, 2);
+    evaluate (__LINE__, __func__, verse1, 0);
+    evaluate (__LINE__, __func__, book2, 1);
+    evaluate (__LINE__, __func__, chapter2, 2);
+    evaluate (__LINE__, __func__, verse2, 10);
+  }
+}
+
+
+void test_database_noteassignment ()
+{
+  refresh_sandbox (true);
+  Database_NoteAssignment database;
+
+  bool exists = database.exists ("unittest");
+  evaluate (__LINE__, __func__, false, exists);
+  
+  vector <string> assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {}, assignees);
+
+  database.assignees ("unittest", {"one", "two"});
+  assignees = database.assignees ("none-existing");
+  evaluate (__LINE__, __func__, {}, assignees);
+
+  exists = database.exists ("unittest");
+  evaluate (__LINE__, __func__, true, exists);
+
+  assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {"one", "two"}, assignees);
+  
+  database.assignees ("unittest", {"1", "2"});
+  assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {"1", "2"}, assignees);
+  
+  exists = database.exists ("unittest", "1");
+  evaluate (__LINE__, __func__, true, exists);
+  exists = database.exists ("unittest", "none-existing");
+  evaluate (__LINE__, __func__, false, exists);
 }
 
 

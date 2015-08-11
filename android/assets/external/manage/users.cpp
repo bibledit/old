@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <access/user.h>
 #include <locale/translate.h>
+#include <notes/logic.h>
 
 
 string manage_users_url ()
@@ -50,6 +51,8 @@ string manage_users (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  bool user_updated = false;
+  
   string page;
 
   page = Assets_Page::header (translate ("Users"), webserver_request, "");
@@ -73,6 +76,7 @@ string manage_users (void * webserver_request)
       page += Assets_Page::error (translate("User already exists"));
     } else {
       request->database_users ()->addNewUser(user, user, Filter_Roles::member (), "");
+      user_updated = true;
       page += Assets_Page::success (translate("User created"));
     }
   }
@@ -90,6 +94,7 @@ string manage_users (void * webserver_request)
     string message = "Deleted user " + user + " with role " + role + " and email " + email;
     Database_Logs::log (message, Filter_Roles::admin ());
     request->database_users ()->removeUser (user);
+    user_updated = true;
     page += Assets_Page::success (message);
   }
   
@@ -109,6 +114,7 @@ string manage_users (void * webserver_request)
       return page;
     } else {
       request->database_users ()->updateUserLevel (user, convert_to_int (level));
+      user_updated = true;
     }
   }
   
@@ -130,6 +136,7 @@ string manage_users (void * webserver_request)
     if (filter_url_email_is_valid (email)) {
       page += Assets_Page::success (translate("Email address was updated"));
       request->database_users ()->updateUserEmail (user, email);
+      user_updated = true;
     } else {
       page += Assets_Page::error (translate("The email address is not valid"));
     }
@@ -161,6 +168,7 @@ string manage_users (void * webserver_request)
     } else {
       Assets_Page::success (translate("The user has become a member of the translation team that works on this Bible"));
       request->database_users ()->grantAccess2Bible (user, addbible);
+      user_updated = true;
     }
   }
   
@@ -169,6 +177,7 @@ string manage_users (void * webserver_request)
   if (request->query.count ("removebible")) {
     string removebible = request->query ["removebible"];
     request->database_users ()->revokeAccess2Bible (user, removebible);
+    user_updated = true;
     Assets_Page::success (translate("The user is no longer a member of the translation team that works on this Bible"));
   }
   
@@ -232,6 +241,8 @@ string manage_users (void * webserver_request)
   page += view.render ("manage", "users");
 
   page += Assets_Page::footer ();
+  
+  if (user_updated) notes_logic_maintain_note_assignees (true);
 
   return page;
 }

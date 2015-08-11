@@ -88,14 +88,6 @@ void sendreceive_queue_sync (int minute)
       }
     }
     
-    // Paratext collaboration.
-    if (config_logic_paratext_enabled ()) {
-      if (tasks_logic_queued (SYNCPARATEXT)) {
-        Database_Logs::log ("Still synchronizing with Paratext");
-      } else {
-        tasks_logic_queue (SYNCPARATEXT);
-      }
-    }
     // Store the most recent time that the sync action ran.
     Database_Config_General::setLastSendReceive (filter_date_seconds_since_epoch ());
   }
@@ -111,6 +103,28 @@ bool sendreceive_sync_queued ()
   if (tasks_logic_queued (SYNCSETTINGS)) return true;
   if (tasks_logic_queued (SYNCCHANGES)) return true;
   if (tasks_logic_queued (SYNCFILES)) return true;
+  return false;
+}
+
+
+// Queues Paratext sync.
+void sendreceive_queue_paratext ()
+{
+  if (config_logic_paratext_enabled ()) {
+    if (sendreceive_paratext_queued ()) {
+      Database_Logs::log ("Still synchronizing with Paratext");
+    } else {
+      tasks_logic_queue (SYNCPARATEXT);
+    }
+  }
+}
+
+
+// Checks whether the Paratext sync task has been queued.
+// Returns the result as a boolean.
+bool sendreceive_paratext_queued ()
+{
+  if (tasks_logic_queued (SYNCPARATEXT)) return true;
   return false;
 }
 
