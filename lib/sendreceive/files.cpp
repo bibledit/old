@@ -87,7 +87,7 @@ void sendreceive_files ()
   string url = client_logic_url (address, port, sync_files_url ());
   
   
-  int version = 2;
+  int version = 3;
   map <string, string> post;
   post ["v"] = convert_to_string (version);
   string error;
