@@ -7695,9 +7695,6 @@ msgstr ""
 msgid "Still sending and receiving from the last time."
 msgstr ""
 
-msgid "Collaboration has not been set up for the Bibles and Consultation Notes"
-msgstr ""
-
 msgid "Send / Receive"
 msgstr ""
 
@@ -7728,13 +7725,17 @@ msgstr ""
 msgid "It receives updates from Bibledit Cloud."
 msgstr ""
 
-msgid "It sends changes made here to Paratext on this computer."
+msgid ""
+"The Paratext bridge sends changes from Bibledit to Paratext on this computer."
 msgstr ""
 
-msgid "It receives updates from Paratext."
+msgid "Bibledit receives updates from Paratext."
 msgstr ""
 
 msgid "The following Bibles link to a Paratext project:"
+msgstr ""
+
+msgid "Send and receive to Paratext now"
 msgstr ""
 
 msgid ""

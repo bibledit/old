@@ -286,14 +286,16 @@ void Paratext_Logic::synchronize ()
   
   
   bool paratext_running = false;
-  vector <string> processes = filter_shell_active_processes ();
+  vector <string> processes = filter_shell_active_processes (); // Todo
   for (auto p : processes) {
     if (p.find ("Paratext") != string::npos) paratext_running = true;
+    Database_Logs::log (p); // Todo
   }
   if (paratext_running) {
     Database_Logs::log ("Cannot synchronize while Paratext is running", Filter_Roles::translator ());
     return;
   }
+  return; // Todo
   
   
   // Go through each Bible.
