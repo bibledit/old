@@ -144,7 +144,7 @@ string edit_save (void * webserver_request)
   // Convert the stored USFM to html.
   // This converted html should be the same as the saved html.
   // If it differs, signal the browser to reload the chapter.
-  // This also cares for nmbering and cleaning up any added or removed footnotes.
+  // This also cares for renumbering and cleaning up any added or removed footnotes.
   Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
   editor_import.load (user_usfm);
   editor_import.stylesheet (stylesheet);
@@ -155,9 +155,11 @@ string edit_save (void * webserver_request)
   html = html2xml (html);
   html = filter_string_str_replace (" ", "", html);
   html = filter_string_str_replace ("&nbsp;", "", html);
+  html = filter_string_str_replace ("class=\"\"", "", html);
   converted_html = html2xml (converted_html);
   converted_html = filter_string_str_replace (" ", "", converted_html);
   converted_html = filter_string_str_replace ("&nbsp;", "", converted_html);
+  converted_html = filter_string_str_replace ("class=\"\"", "", converted_html);
   // If round trip conversion differs, send a known string to the browser,
   // to signal the browser to reload the reformatted chapter.
   if (html != converted_html) return "Reformat";
