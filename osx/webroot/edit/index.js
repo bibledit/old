@@ -339,6 +339,7 @@ function editorHandleCaretMoved ()
   // If the caret has not yet been positioned, postpone the action.
   if (!editorCaretInitialized) {
     editorCaretMovedTimeoutStart ();
+    positionCaretViaAjax ();
     return;
   }
 
@@ -375,6 +376,8 @@ function editorHandleCaretMoved ()
         editorCaretMovedTimeoutStart ();
       }
     });
+  } else {
+    editorCaretMovedTimeoutStart ();
   }
 
   editorActiveStylesFeedback ();
@@ -482,11 +485,18 @@ function getCaretCharacterOffsetWithin (element)
 
 function positionCaret (position)
 {
-  var currentPosition = getCaretPosition ();
-  if (currentPosition == undefined) return;
   if (position == undefined) return;
-  var selection = rangy.getSelection ();
-  selection.move ("character", position - currentPosition);
+  // Positioning often is not accurate the first time, so do it several times if needed.
+  var reposition = 3;
+  while (reposition > 0) {
+    var currentPosition = getCaretPosition ();
+    if (currentPosition == undefined) return;
+    var selection = rangy.getSelection ();
+    selection.move ("character", position - currentPosition);
+    currentPosition = getCaretPosition ();
+    if (position == currentPosition) return;
+    reposition--;
+  }
 }
 
 

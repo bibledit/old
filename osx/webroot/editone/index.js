@@ -321,6 +321,8 @@ function oneverseEditorLoadPrefix ()
       $ ("#oneprefix").append (response);
       oneverseScrollVerseIntoView ();
       oneversePositionCaret ();
+      $ ("#oneprefix").off ("click");
+      $ ("#oneprefix").on ("click", oneVerseHtmlClicked); // Todo
     },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorLoadPrefixRetry ();
@@ -338,6 +340,8 @@ function oneverseEditorLoadSuffix ()
     success: function (response) {
       $ ("#onesuffix").empty ();
       $ ("#onesuffix").append (response);
+      $ ("#onesuffix").off ("click");
+      $ ("#onesuffix").on ("click", oneVerseHtmlClicked); // Todo
     },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorLoadSuffixRetry ();
@@ -583,7 +587,7 @@ function oneverseWindowKeyHandler (event)
  
  Section responding to a moved caret.
  
- */
+*/
 
 
 var oneverseCaretMovedTimeoutId;
@@ -689,3 +693,14 @@ function insertHtmlAtCaret (html)
 }
 
 
+/*
+ 
+ Section for navigating to another passage.
+ 
+ */
+
+
+function oneVerseHtmlClicked (event) // Todo
+{
+    console.log (event); // Todo
+}

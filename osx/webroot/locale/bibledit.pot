@@ -7695,6 +7695,9 @@ msgstr ""
 msgid "Still sending and receiving from the last time."
 msgstr ""
 
+msgid "Still synchronizing with Paratext."
+msgstr ""
+
 msgid "Send / Receive"
 msgstr ""
 
@@ -7735,7 +7738,13 @@ msgstr ""
 msgid "The following Bibles link to a Paratext project:"
 msgstr ""
 
-msgid "Send and receive to Paratext now"
+msgid "Synchronize with Paratext now."
+msgstr ""
+
+msgid "Do not synchronize with Paratext while Paratext is running."
+msgstr ""
+
+msgid "This may cause loss of changes in the chapter Paratext is displaying."
 msgstr ""
 
 msgid ""
