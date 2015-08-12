@@ -62,7 +62,7 @@ void sendreceive_queue_sync (int minute)
     if (client_logic_client_enabled ()) {
       
       if (tasks_logic_queued (SYNCNOTES)) {
-        Database_Logs::log ("Still synchronizing notes");
+        Database_Logs::log ("Still synchronizing Notes");
       } else {
         tasks_logic_queue (SYNCNOTES);
       }
@@ -72,7 +72,7 @@ void sendreceive_queue_sync (int minute)
         tasks_logic_queue (SYNCBIBLES);
       }
       if (tasks_logic_queued (SYNCSETTINGS)) {
-        Database_Logs::log ("Still synchronizing settings");
+        Database_Logs::log ("Still synchronizing Settings");
       } else {
         tasks_logic_queue (SYNCSETTINGS);
       }
