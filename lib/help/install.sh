@@ -32,9 +32,9 @@ sleep 4
 clear
 echo Downloading Bibledit...
 echo $ cd
-echo $ wget --continue http://bibledit.org/linux/bibledit-1.0.211.tar.gz
+echo $ wget --continue http://bibledit.org/linux/bibledit-1.0.212.tar.gz
 cd
-wget --continue http://bibledit.org/linux/bibledit-1.0.211.tar.gz
+wget --continue http://bibledit.org/linux/bibledit-1.0.212.tar.gz
 if [ $? -ne 0 ]
 then
   echo Failed to download Bibledit
@@ -45,9 +45,9 @@ sleep 4
 clear
 echo Unpacking Bibledit in folder bibledit...
 $ mkdir -p bibledit
-$ tar xf bibledit-1.0.211.tar.gz -C bibledit --strip-components=1
+$ tar xf bibledit-1.0.212.tar.gz -C bibledit --strip-components=1
 mkdir -p bibledit
-tar xf bibledit-1.0.211.tar.gz -C bibledit --strip-components=1
+tar xf bibledit-1.0.212.tar.gz -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit
