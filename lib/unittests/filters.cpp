@@ -69,15 +69,6 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, 1, Filter_Roles::lowest ());
   }
   {
-    // mkdir including parents.
-    string directory = filter_url_create_path (testing_directory, "a", "b");
-    filter_url_mkdir (directory);
-    string path = filter_url_create_path (directory, "c");
-    string contents = "unittest";
-    filter_url_file_put_contents (path, contents);
-    evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (path));
-  }
-  {
     // C++ md5 function as compared to PHP's version.
     evaluate (__LINE__, __func__, "1f3870be274f6c49b3e31a0c6728957f", md5 ("apple"));
   }
@@ -192,11 +183,6 @@ void test_filters_test1 ()
     two = {2, 3, 4};
     evaluate (__LINE__, __func__, {2, 3, 4}, array_intersect (one, two));
   }
-  {
-    // Test filter_url_escape_shell_argument.
-    evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
-    evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
-  }
   // Tests for a user's identifier.
   {
     Webserver_Request request;
@@ -241,32 +227,6 @@ void test_filters_test2 ()
     evaluate (__LINE__, __func__, "0000012345", filter_string_fill ("12345", 10, '0'));
   }
   {
-    // Test URL decoder.
-    evaluate (__LINE__, __func__, "Store settings", filter_url_urldecode ("Store+settings"));
-    evaluate (__LINE__, __func__, "test@mail", filter_url_urldecode ("test%40mail"));
-    evaluate (__LINE__, __func__, "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
-    // Test URL encoder.
-    evaluate (__LINE__, __func__, "Store%20settings", filter_url_urlencode ("Store settings"));
-    evaluate (__LINE__, __func__, "test%40mail", filter_url_urlencode ("test@mail"));
-    evaluate (__LINE__, __func__, "%E1%A8%80ab%5Cd%40a", filter_url_urlencode ("ᨀab\\d@a"));
-    evaluate (__LINE__, __func__, "foo%3Dbar%26baz%3D", filter_url_urlencode ("foo=bar&baz="));
-    evaluate (__LINE__, __func__, "%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_urlencode ("בְּרֵאשִׁ֖ית"));
-  }
-  {
-    // Test dirname and basename functions.
-    evaluate (__LINE__, __func__, ".", filter_url_dirname (""));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/"));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("dir/"));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/dir"));
-    evaluate (__LINE__, __func__, "foo", filter_url_dirname ("foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar/"));
-    evaluate (__LINE__, __func__, "a.txt", filter_url_basename ("/a.txt"));
-    evaluate (__LINE__, __func__, "txt", filter_url_basename ("/txt/"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("/path/to/foo.bar"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("foo.bar"));
-  }
-  {
     // Test the date and time related functions.
     int month = filter_date_numerical_month (filter_date_seconds_since_epoch ());
     if ((month < 1) || (month > 12)) evaluate (__LINE__, __func__, "current month", convert_to_string (month));
@@ -302,17 +262,6 @@ void test_filters_test2 ()
     evaluate (__LINE__, __func__, true, in_array (needle, haystack));
     evaluate (__LINE__, __func__, true, in_array (1, {1, 2, 3}));
     evaluate (__LINE__, __func__, false, in_array (1, {2, 3}));
-  }
-  {
-    // Test http GET and POST
-    string result, error;
-    result = filter_url_http_get ("http://localhost/none", error);
-    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
-    evaluate (__LINE__, __func__, "", result);
-    map <string, string> values = {make_pair ("a", "value1"), make_pair ("b", "value2")};
-    result = filter_url_http_post ("http://localhost/none", values, error);
-    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
-    evaluate (__LINE__, __func__, "", result);
   }
 }
 
@@ -4414,14 +4363,73 @@ void test_filter_date ()
 
 void test_filter_url ()
 {
-  evaluate (__LINE__, __func__, "index.html", filter_url_html_file_name_bible ());
-  evaluate (__LINE__, __func__, "path/index.html", filter_url_html_file_name_bible ("path"));
-  evaluate (__LINE__, __func__, "path/01-Genesis.html", filter_url_html_file_name_bible ("path", 1));
-  evaluate (__LINE__, __func__, "01-Genesis.html", filter_url_html_file_name_bible ("", 1));
-  evaluate (__LINE__, __func__, "path/11-1Kings.html", filter_url_html_file_name_bible ("path", 11));
-  evaluate (__LINE__, __func__, "path/22-SongofSolomon-000.html", filter_url_html_file_name_bible ("path", 22, 0));
-  evaluate (__LINE__, __func__, "path/33-Micah-333.html", filter_url_html_file_name_bible ("path", 33, 333));
-  evaluate (__LINE__, __func__, "33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
+  {
+    // Html export filenames.
+    evaluate (__LINE__, __func__, "index.html", filter_url_html_file_name_bible ());
+    evaluate (__LINE__, __func__, "path/index.html", filter_url_html_file_name_bible ("path"));
+    evaluate (__LINE__, __func__, "path/01-Genesis.html", filter_url_html_file_name_bible ("path", 1));
+    evaluate (__LINE__, __func__, "01-Genesis.html", filter_url_html_file_name_bible ("", 1));
+    evaluate (__LINE__, __func__, "path/11-1Kings.html", filter_url_html_file_name_bible ("path", 11));
+    evaluate (__LINE__, __func__, "path/22-SongofSolomon-000.html", filter_url_html_file_name_bible ("path", 22, 0));
+    evaluate (__LINE__, __func__, "path/33-Micah-333.html", filter_url_html_file_name_bible ("path", 33, 333));
+    evaluate (__LINE__, __func__, "33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
+  }
+  {
+    // mkdir including parents.
+    string directory = filter_url_create_path (testing_directory, "a", "b");
+    filter_url_mkdir (directory);
+    string path = filter_url_create_path (directory, "c");
+    string contents = "unittest";
+    filter_url_file_put_contents (path, contents);
+    evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (path));
+  }
+  {
+    // Test filter_url_escape_shell_argument.
+    evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
+    evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
+  }
+  {
+    // Test URL decoder.
+    evaluate (__LINE__, __func__, "Store settings", filter_url_urldecode ("Store+settings"));
+    evaluate (__LINE__, __func__, "test@mail", filter_url_urldecode ("test%40mail"));
+    evaluate (__LINE__, __func__, "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
+    // Test URL encoder.
+    evaluate (__LINE__, __func__, "Store%20settings", filter_url_urlencode ("Store settings"));
+    evaluate (__LINE__, __func__, "test%40mail", filter_url_urlencode ("test@mail"));
+    evaluate (__LINE__, __func__, "%E1%A8%80ab%5Cd%40a", filter_url_urlencode ("ᨀab\\d@a"));
+    evaluate (__LINE__, __func__, "foo%3Dbar%26baz%3D", filter_url_urlencode ("foo=bar&baz="));
+    evaluate (__LINE__, __func__, "%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_urlencode ("בְּרֵאשִׁ֖ית"));
+  }
+  {
+    // Test dirname and basename functions.
+    evaluate (__LINE__, __func__, ".", filter_url_dirname (""));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("dir/"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/dir"));
+    evaluate (__LINE__, __func__, "foo", filter_url_dirname ("foo/bar"));
+    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar"));
+    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar/"));
+    evaluate (__LINE__, __func__, "a.txt", filter_url_basename ("/a.txt"));
+    evaluate (__LINE__, __func__, "txt", filter_url_basename ("/txt/"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("/path/to/foo.bar"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("foo.bar"));
+  }
+  {
+    // Test http GET and POST
+    string result, error;
+    result = filter_url_http_get ("http://localhost/none", error);
+    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    evaluate (__LINE__, __func__, "", result);
+    map <string, string> values = {make_pair ("a", "value1"), make_pair ("b", "value2")};
+    result = filter_url_http_post ("http://localhost/none", values, error);
+    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    evaluate (__LINE__, __func__, "", result);
+  }
+  {
+    string url = "https://username:password@github.com/username/repository.git";
+    url = filter_url_remove_username_password (url);
+    evaluate (__LINE__, __func__, "https://github.com/username/repository.git", url);
+  }
 }
 
 
