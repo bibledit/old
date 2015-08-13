@@ -183,6 +183,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/image.h>
 #include <resource/img.h>
 #include <resource/imagefetch.h>
+#include <lexicon/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -274,6 +275,7 @@ void bootstrap_index (Webserver_Request * request)
   // Resources menu.
   else if ((url == resource_index_url ()) && resource_index_acl (request)) request->reply = resource_index (request);
   else if ((url == resource_organize_url ()) && resource_organize_acl (request)) request->reply = resource_organize (request);
+  else if ((url == lexicon_index_url ()) && lexicon_index_acl (request)) request->reply = lexicon_index (request);
   else if ((url == resource_print_url ()) && resource_print_acl (request)) request->reply = resource_print (request);
   else if ((url == resource_manage_url ()) && resource_manage_acl (request)) request->reply = resource_manage (request);
   else if ((url == resource_admin_url ()) && resource_admin_acl (request)) request->reply = resource_admin (request);

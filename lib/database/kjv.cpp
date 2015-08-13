@@ -29,16 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Chances of corruption are nearly zero.
 
 
-Database_Kjv::Database_Kjv ()
-{
-}
-
-
-Database_Kjv::~Database_Kjv ()
-{
-}
-
-
 sqlite3 * Database_Kjv::connect ()
 {
   return database_sqlite_connect ("kjv");

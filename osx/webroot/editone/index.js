@@ -322,7 +322,7 @@ function oneverseEditorLoadPrefix ()
       oneverseScrollVerseIntoView ();
       oneversePositionCaret ();
       $ ("#oneprefix").off ("click");
-      $ ("#oneprefix").on ("click", oneVerseHtmlClicked); // Todo
+      $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorLoadPrefixRetry ();
@@ -341,7 +341,7 @@ function oneverseEditorLoadSuffix ()
       $ ("#onesuffix").empty ();
       $ ("#onesuffix").append (response);
       $ ("#onesuffix").off ("click");
-      $ ("#onesuffix").on ("click", oneVerseHtmlClicked); // Todo
+      $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorLoadSuffixRetry ();
@@ -700,7 +700,26 @@ function insertHtmlAtCaret (html)
  */
 
 
-function oneVerseHtmlClicked (event) // Todo
+function oneVerseHtmlClicked (event)
 {
-    console.log (event); // Todo
+  var verse = "";
+  
+  var target = $(event.target);
+  
+  while ((target.length) && (!target.hasClass ("v"))) {
+    target = $(target.prev ());
+  }
+  
+  if (target.length == 0) verse = "0";
+  
+  if (target.hasClass ("v")) {
+    verse = target[0].innerText;
+  }
+  
+  $.ajax ({
+    url: "verse",
+    type: "GET",
+    data: { verse: verse },
+    cache: false
+  });
 }

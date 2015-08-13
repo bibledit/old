@@ -17,31 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_KJV_H
-#define INCLUDED_DATABASE_KJV_H
+#include "../config/libraries.h"
 
 
-#include <config/libraries.h>
-#include <sqlite3.h>
-#include <filter/passage.h>
-
-
-class Database_Kjv_Item
-{
-public:
-  string strong;
-  string english;
-};
-
-
-class Database_Kjv
-{
-public:
-  vector <Database_Kjv_Item> getVerse (int book, int chapter, int verse);
-  vector <Passage> searchStrong (string strong);
-private:
-  sqlite3 * connect ();
-};
-
-
-#endif
+int main (int argc, char **argv);

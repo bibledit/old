@@ -319,7 +319,9 @@ libbibledit_a_SOURCES = \
 	browser/index.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
-	personalize/index.cpp
+	personalize/index.cpp \
+	lexicon/index.cpp \
+	lexicon/logic.cpp
 
 bin_PROGRAMS = server unittest
 

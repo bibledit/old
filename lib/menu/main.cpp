@@ -69,6 +69,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <paratext/index.h>
 #include <personalize/index.h>
 #include <resource/images.h>
+#include <lexicon/index.h>
 
 
 /*
@@ -191,6 +192,7 @@ vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (resource_index_acl (request)) menu->push_back ( { "", resource_index_url (), translate ("View"), NULL } );
+  if (lexicon_index_acl (request)) menu->push_back ( { "", lexicon_index_url (), translate ("Lexicon"), NULL } );
   if (resource_print_acl (request)) menu->push_back ( { "", resource_print_url (), translate ("Print"), NULL } );
   if (!config_logic_client_prepared ()) {
     if (resource_manage_acl (request)) menu->push_back ( { "", resource_manage_url (), translate ("USFM"), NULL } );

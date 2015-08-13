@@ -366,6 +366,19 @@
 		CA8AABB71B2C157E00FCAC51 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA8AABB81B2C157E00FCAC51 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA8AABB91B2C157E00FCAC51 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA8CF0501B7CDC1700D07FCE /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CA8CF0511B7CDC1700D07FCE /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA8CF0521B7CDC5D00D07FCE /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CA8CF0531B7CDC5D00D07FCE /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CA8CF0541B7CDC5D00D07FCE /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		CA8CF0551B7D002500D07FCE /* info.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = info.txt; sourceTree = "<group>"; };
+		CA8CF0571B7D0ADB00D07FCE /* HebrewLexicon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HebrewLexicon.pdf; sourceTree = "<group>"; };
+		CA8CF0581B7D0ADB00D07FCE /* HebrewStrong.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HebrewStrong.xml; sourceTree = "<group>"; };
+		CA8CF0591B7D0ADB00D07FCE /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		CA8CF05A1B7D0EED00D07FCE /* hebrewstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hebrewstrong.cpp; sourceTree = "<group>"; };
+		CA8CF05B1B7D0EED00D07FCE /* hebrewstrong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hebrewstrong.h; sourceTree = "<group>"; };
+		CA8CF05C1B7D0EF600D07FCE /* compile */ = {isa = PBXFileReference; lastKnownFileType = text; path = compile; sourceTree = "<group>"; };
+		CA8CF05F1B7D2DD100D07FCE /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
 		CA8E3C501A5C43D1002180D8 /* html2usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = html2usfm.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8E3C511A5C43D1002180D8 /* html2usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = html2usfm.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA8E3C521A5C43EC002180D8 /* usfm2html.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = usfm2html.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1125,6 +1138,35 @@
 			);
 			name = paratext;
 			path = ../paratext;
+			sourceTree = "<group>";
+		};
+		CA8CF04D1B7CDC1700D07FCE /* lexicon */ = {
+			isa = PBXGroup;
+			children = (
+				CA8CF0521B7CDC5D00D07FCE /* index.cpp */,
+				CA8CF0531B7CDC5D00D07FCE /* index.h */,
+				CA8CF0541B7CDC5D00D07FCE /* index.html */,
+				CA8CF0551B7D002500D07FCE /* info.txt */,
+				CA8CF0501B7CDC1700D07FCE /* logic.cpp */,
+				CA8CF0511B7CDC1700D07FCE /* logic.h */,
+			);
+			name = lexicon;
+			path = ../lexicon;
+			sourceTree = "<group>";
+		};
+		CA8CF0561B7D0ADB00D07FCE /* hebrewlexicon */ = {
+			isa = PBXGroup;
+			children = (
+				CA8CF05C1B7D0EF600D07FCE /* compile */,
+				CA8CF05F1B7D2DD100D07FCE /* clean */,
+				CA8CF0571B7D0ADB00D07FCE /* HebrewLexicon.pdf */,
+				CA8CF0581B7D0ADB00D07FCE /* HebrewStrong.xml */,
+				CA8CF05A1B7D0EED00D07FCE /* hebrewstrong.cpp */,
+				CA8CF05B1B7D0EED00D07FCE /* hebrewstrong.h */,
+				CA8CF0591B7D0ADB00D07FCE /* README.txt */,
+			);
+			name = hebrewlexicon;
+			path = ../hebrewlexicon;
 			sourceTree = "<group>";
 		};
 		CAA4CEF51A45A647003ABA25 /* access */ = {
@@ -2876,6 +2918,7 @@
 				CAA4D1161A45A647003ABA25 /* flate */,
 				CAA4D11D1A45A647003ABA25 /* fonts */,
 				CAA4D1261A45A647003ABA25 /* git */,
+				CA8CF0561B7D0ADB00D07FCE /* hebrewlexicon */,
 				CAA4D1281A45A647003ABA25 /* help */,
 				CAA4D1581A45A647003ABA25 /* html */,
 				CAA4D1601A45A647003ABA25 /* index */,
@@ -2884,6 +2927,7 @@
 				CAA4D17D1A45A647003ABA25 /* journal */,
 				CA80A7091AA0A9A800C7208F /* json */,
 				CAA4D19F1A45A648003ABA25 /* kjv */,
+				CA8CF04D1B7CDC1700D07FCE /* lexicon */,
 				CAA4D1A31A45A648003ABA25 /* library */,
 				CAA4D1AA1A45A648003ABA25 /* locale */,
 				CAA4D1CC1A45A648003ABA25 /* logbook */,

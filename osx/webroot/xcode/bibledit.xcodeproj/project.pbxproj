@@ -374,6 +374,8 @@
 		CA8E3C551A5C43F8002180D8 /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CA8E4EFF1A6E8346001720D0 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8E4F001A6E8346001720D0 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA8F23C01B7B44EE00E3719F /* verse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verse.cpp; sourceTree = "<group>"; };
+		CA8F23C11B7B44EE00E3719F /* verse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verse.h; sourceTree = "<group>"; };
 		CA919B391B7602E800217649 /* noteassignment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = noteassignment.cpp; sourceTree = "<group>"; };
 		CA919B3A1B7602E800217649 /* noteassignment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = noteassignment.h; sourceTree = "<group>"; };
 		CA92C4551B728510000C3F22 /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
@@ -1056,6 +1058,8 @@
 				CA2F06EA1AE568E2008B8BDB /* load.h */,
 				CA2F06EC1AE568E2008B8BDB /* save.cpp */,
 				CA2F06ED1AE568E2008B8BDB /* save.h */,
+				CA8F23C01B7B44EE00E3719F /* verse.cpp */,
+				CA8F23C11B7B44EE00E3719F /* verse.h */,
 			);
 			name = editone;
 			path = ../editone;
