@@ -17,20 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_STRONG_H
-#define INCLUDED_DATABASE_STRONG_H
+#include "../config/libraries.h"
 
 
-#include <config/libraries.h>
-#include <sqlite3.h>
-
-
-class Database_Strong
-{
-public:
-  string get (string strong);
-private:
-};
-
-
-#endif
+int main (int argc, char **argv);

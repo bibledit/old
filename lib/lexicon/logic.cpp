@@ -37,8 +37,7 @@ string lexicon_logic_strong_number_cleanup (string strong)
 string lexicon_logic_strong_hover_text (string strong)
 {
   Database_Strong database_strong;
-  string text = database_strong.meaning (strong);
-  if (text.empty ()) text = database_strong.usage (strong);
-  filter_string_replace_between (text, "<", ">", "");
-  return text;
+  string definition = database_strong.get (strong);
+  filter_string_replace_between (definition, "<", ">", "");
+  return definition;
 }

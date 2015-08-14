@@ -28,52 +28,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Chances of corruption are nearly zero.
 
 
-sqlite3 * Database_Strong::connectheb ()
+// Get Strong's definition for $strong's number.
+string Database_Strong::get (string strong)
 {
-  return database_sqlite_connect ("hebrewstrong");
-}
-
-
-// Get Strong's word definition for $strong's number.
-string Database_Strong::word (string strong)
-{
-  return get (strong, "word");
-}
-
-
-// Get Strong's source definition for $strong's number.
-string Database_Strong::source (string strong)
-{
-  return get (strong, "source");
-}
-
-
-// Get Strong's meaning definition for $strong's number.
-string Database_Strong::meaning (string strong)
-{
-  return get (strong, "meaning");
-}
-
-
-// Get Strong's usage definition for $strong's number.
-string Database_Strong::usage (string strong)
-{
-  return get (strong, "usage");
-}
-
-
-// Get Strong's $item definition for $strong's number.
-string Database_Strong::get (string strong, string item)
-{
+  bool greek = strong.find ("G") != string::npos;
   SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT");
-  sql.add (item.c_str ());
-  sql.add ("FROM hebrewstrong WHERE id =");
+  sql.add ("SELECT definition FROM");
+  if (greek) {
+    sql.add ("greekstrong");
+  } else {
+    sql.add ("hebrewstrong");
+  }
+  sql.add ("WHERE id =");
   sql.add (strong);
   sql.add (";");
-  sqlite3 * db = connectheb ();
-  vector <string> items = database_sqlite_query (db, sql.sql) [item];
+  sqlite3 * db;
+  if (greek) {
+    db = database_sqlite_connect ("greekstrong");
+  } else {
+    db = database_sqlite_connect ("hebrewstrong");
+  }
+  vector <string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
   database_sqlite_disconnect (db);
-  if (!items.empty ()) return items[0];
+  if (!definitions.empty ()) return definitions[0];
   return "";
 }

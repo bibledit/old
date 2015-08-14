@@ -6,5 +6,5 @@ Copyright 2010 Logos Bible Software and the Society of Biblical Literature
 sblgnt.xml
 This is the master file for the SBL Greek NT.
 
-createdatabase
+create_sblgnt_database.php
 This script imports the XML file into a SQLite database fit for use in Bibledit.

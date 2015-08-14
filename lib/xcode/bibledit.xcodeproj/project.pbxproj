@@ -701,8 +701,8 @@
 		CAA4D2C91A45A648003ABA25 /* organize.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = organize.js; sourceTree = "<group>"; };
 		CAA4D2CB1A45A648003ABA25 /* print.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = print.js; sourceTree = "<group>"; };
 		CAA4D2EE1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D2F01A45A648003ABA25 /* createdatabase.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = createdatabase.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D2F11A45A648003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		CAA4D2F01A45A648003ABA25 /* create_sblgnt_database.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = create_sblgnt_database.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
+		CAA4D2F11A45A648003ABA25 /* sblgnt.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = sblgnt.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D2F21A45A648003ABA25 /* sblgnt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = sblgnt.xml; sourceTree = "<group>"; };
 		CAA4D2FB1A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA4D2FD1A45A648003ABA25 /* originals.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = originals.js; sourceTree = "<group>"; };
@@ -921,6 +921,12 @@
 		CACC12ED1AE9660300F5E633 /* keys.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = keys.js; sourceTree = "<group>"; };
 		CAD1D0331B7DEAC400AEDA70 /* strong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = strong.cpp; sourceTree = "<group>"; };
 		CAD1D0341B7DEAC400AEDA70 /* strong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = strong.h; sourceTree = "<group>"; };
+		CAD1D0351B7DFEA300AEDA70 /* strongsgreek.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = strongsgreek.txt; sourceTree = "<group>"; };
+		CAD1D0361B7DFEA300AEDA70 /* strongsgreek.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = strongsgreek.xml; sourceTree = "<group>"; };
+		CAD1D0371B7E077600AEDA70 /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
+		CAD1D0381B7E078100AEDA70 /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = greekstrong.cpp; sourceTree = "<group>"; };
+		CAD1D0391B7E078100AEDA70 /* greekstrong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = greekstrong.h; sourceTree = "<group>"; };
+		CAD1D03A1B7E078100AEDA70 /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
 		CAD410D51A6DA1AC00088E26 /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bibledit; path = ../bibledit; sourceTree = "<group>"; };
 		CAD443251AC95A840005B8F6 /* exports.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exports.cpp; sourceTree = "<group>"; };
 		CAD443261AC95A840005B8F6 /* exports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exports.h; sourceTree = "<group>"; };
@@ -2428,9 +2434,15 @@
 		CAA4D2EF1A45A648003ABA25 /* sblgnt */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D2F01A45A648003ABA25 /* createdatabase.php */,
-				CAA4D2F11A45A648003ABA25 /* README */,
+				CAD1D0371B7E077600AEDA70 /* clean */,
+				CAA4D2F01A45A648003ABA25 /* create_sblgnt_database.php */,
+				CAD1D0381B7E078100AEDA70 /* greekstrong.cpp */,
+				CAD1D0391B7E078100AEDA70 /* greekstrong.h */,
+				CAD1D03A1B7E078100AEDA70 /* run */,
+				CAA4D2F11A45A648003ABA25 /* sblgnt.txt */,
 				CAA4D2F21A45A648003ABA25 /* sblgnt.xml */,
+				CAD1D0351B7DFEA300AEDA70 /* strongsgreek.txt */,
+				CAD1D0361B7DFEA300AEDA70 /* strongsgreek.xml */,
 			);
 			name = sblgnt;
 			path = ../sblgnt;

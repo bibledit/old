@@ -17,7 +17,7 @@
  */
 
 
-#include "hebrewstrong.h"
+#include "greekstrong.h"
 #include <libxml/xmlreader.h>
 #include <sqlite3.h>
 
@@ -93,13 +93,13 @@ string trim (string s)
 
 int main (int argc, char **argv)
 {
-  unlink ("hebrewstrong.sqlite");
+  unlink ("greekstrong.sqlite");
   sqlite3 *db;
-  sqlite3_open ("hebrewstrong.sqlite", &db);
+  sqlite3_open ("greekstrong.sqlite", &db);
   sqlite3_exec (db, "PRAGMA synchronous = OFF;", NULL, NULL, NULL);
-  sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS hebrewstrong (id text, definition text);", NULL, NULL, NULL);
+  sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS greekstrong (id text, definition text);", NULL, NULL, NULL);
   
-  xmlTextReaderPtr reader = xmlNewTextReaderFilename ("HebrewStrong.xml");
+  xmlTextReaderPtr reader = xmlNewTextReaderFilename ("strongsgreek.xml");
 
   string id;
   string definition;
@@ -111,7 +111,11 @@ int main (int argc, char **argv)
       {
         string element = (char *) xmlTextReaderName (reader);
         if (element == "entry") {
-          id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
+          id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "strongs");
+          int n = atoi (id.c_str());
+          ostringstream r;
+          r << "G" << n;
+          id = r.str();
           cout << id << endl;
           definition = (char *) xmlTextReaderReadInnerXml (reader);
         }
@@ -126,14 +130,15 @@ int main (int argc, char **argv)
       {
         string element = (char *) xmlTextReaderName(reader);
         if (element == "entry") {
-          string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
 
-          definition = str_replace (xmlns, "", definition);
           definition = convert_xml_character_entities_to_characters (definition);
           definition = str_replace ("'", "''", definition);
+          definition = str_replace ("\n", " ", definition);
+          definition = str_replace ("  ", " ", definition);
+          definition = str_replace ("  ", " ", definition);
           definition = trim (definition);
           
-          string sql = "INSERT INTO hebrewstrong VALUES ('" + id + "', '" + definition + "');";
+          string sql = "INSERT INTO greekstrong VALUES ('" + id + "', '" + definition + "');";
           char *error = NULL;
           int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
           if (rc != SQLITE_OK) {

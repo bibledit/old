@@ -3989,20 +3989,21 @@ void test_database_strong () // Todo
 {
   Database_Strong database;
 
-  string result = database.word ("H0");
+  string result = database.get ("H0");
   evaluate (__LINE__, __func__, "", result);
-
-  result = database.word ("H1");
-  evaluate (__LINE__, __func__, "<w pos=\"n-m\" pron=\"awb\" xlit=\"ʼâb\" xml:lang=\"heb\">אָב</w>", result);
-
-  result = database.source ("H2");
-  evaluate (__LINE__, __func__, "<source>(Aramaic) corresponding to <w src=\"H1\">1</w></source>", result);
   
-  result = database.meaning ("H3");
-  evaluate (__LINE__, __func__, "<meaning>a <def>green</def> plant</meaning>", result);
+  result = database.get ("G0");
+  evaluate (__LINE__, __func__, "", result);
   
-  result = database.usage ("H4");
-  evaluate (__LINE__, __func__, "<usage>fruit.</usage>", result);
+  result = database.get ("H1");
+  int length_h = result.length ();
+
+  result = database.get ("G1");
+  int length_g = result.length ();
+
+  evaluate (__LINE__, __func__, true, length_h > 100);
+  evaluate (__LINE__, __func__, true, length_g > 100);
+  evaluate (__LINE__, __func__, true, length_h != length_g);
 }
 
 
