@@ -275,7 +275,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	webbible/search.$(OBJEXT) debug/index.$(OBJEXT) \
 	browser/index.$(OBJEXT) paratext/logic.$(OBJEXT) \
 	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
-	lexicon/index.$(OBJEXT) lexicon/logic.$(OBJEXT)
+	lexicon/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
+	lexicon/english.$(OBJEXT) lexicon/definition.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -831,7 +832,9 @@ libbibledit_a_SOURCES = \
 	paratext/index.cpp \
 	personalize/index.cpp \
 	lexicon/index.cpp \
-	lexicon/logic.cpp
+	lexicon/logic.cpp \
+	lexicon/english.cpp \
+	lexicon/definition.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1976,6 +1979,10 @@ lexicon/index.$(OBJEXT): lexicon/$(am__dirstamp) \
 	lexicon/$(DEPDIR)/$(am__dirstamp)
 lexicon/logic.$(OBJEXT): lexicon/$(am__dirstamp) \
 	lexicon/$(DEPDIR)/$(am__dirstamp)
+lexicon/english.$(OBJEXT): lexicon/$(am__dirstamp) \
+	lexicon/$(DEPDIR)/$(am__dirstamp)
+lexicon/definition.$(OBJEXT): lexicon/$(am__dirstamp) \
+	lexicon/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2307,6 +2314,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@json/$(DEPDIR)/json.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/definition.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/english.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@

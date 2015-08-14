@@ -927,6 +927,11 @@
 		CAD1D0381B7E078100AEDA70 /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = greekstrong.cpp; sourceTree = "<group>"; };
 		CAD1D0391B7E078100AEDA70 /* greekstrong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = greekstrong.h; sourceTree = "<group>"; };
 		CAD1D03A1B7E078100AEDA70 /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
+		CAD1D03B1B7E34A900AEDA70 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
+		CAD1D03C1B7E35CD00AEDA70 /* english.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = english.cpp; sourceTree = "<group>"; };
+		CAD1D03D1B7E35CD00AEDA70 /* english.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = english.h; sourceTree = "<group>"; };
+		CAD1D03E1B7E5B6000AEDA70 /* definition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = definition.cpp; sourceTree = "<group>"; };
+		CAD1D03F1B7E5B6000AEDA70 /* definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = definition.h; sourceTree = "<group>"; };
 		CAD410D51A6DA1AC00088E26 /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bibledit; path = ../bibledit; sourceTree = "<group>"; };
 		CAD443251AC95A840005B8F6 /* exports.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exports.cpp; sourceTree = "<group>"; };
 		CAD443261AC95A840005B8F6 /* exports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exports.h; sourceTree = "<group>"; };
@@ -1151,9 +1156,14 @@
 		CA8CF04D1B7CDC1700D07FCE /* lexicon */ = {
 			isa = PBXGroup;
 			children = (
+				CAD1D03E1B7E5B6000AEDA70 /* definition.cpp */,
+				CAD1D03F1B7E5B6000AEDA70 /* definition.h */,
+				CAD1D03C1B7E35CD00AEDA70 /* english.cpp */,
+				CAD1D03D1B7E35CD00AEDA70 /* english.h */,
 				CA8CF0521B7CDC5D00D07FCE /* index.cpp */,
 				CA8CF0531B7CDC5D00D07FCE /* index.h */,
 				CA8CF0541B7CDC5D00D07FCE /* index.html */,
+				CAD1D03B1B7E34A900AEDA70 /* index.js */,
 				CA8CF0551B7D002500D07FCE /* info.txt */,
 				CA8CF0501B7CDC1700D07FCE /* logic.cpp */,
 				CA8CF0511B7CDC1700D07FCE /* logic.h */,

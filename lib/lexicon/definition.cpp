@@ -17,38 +17,49 @@
  */
 
 
-#include <lexicon/index.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <assets/header.h>
+#include <lexicon/definition.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <webserver/request.h>
-#include <locale/translate.h>
+#include <database/strong.h>
+#include <lexicon/logic.h>
 
 
-string lexicon_index_url ()
+string lexicon_definition_url ()
 {
-  return "lexicon/index";
+  return "lexicon/definition";
 }
 
 
-bool lexicon_index_acl (void * webserver_request)
+bool lexicon_definition_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
-string lexicon_index (void * webserver_request)
+string lexicon_definition (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  Assets_Header header = Assets_Header (translate ("Lexicon"), request);
-  header.setNavigator ();
-  string page = header.run ();
-  Assets_View view = Assets_View ();
 
-  page += view.render ("lexicon", "index");
-  page += Assets_Page::footer ();
+  string page;
+
+  string id = request->query["id"];
+
+  Database_Strong database_strong;
+  string definition = database_strong.get (id);
+  
+  cout << definition << endl; // Todo
+  /*
+   Database_Kjv database_kjv;
+  vector <Database_Kjv_Item> kjv_items = database_kjv.getVerse (book, chapter, verse);
+  for (auto & item : kjv_items) {
+    if (!page.empty ()) page.append (" ");
+    item.strong = lexicon_logic_strong_number_cleanup (item.strong);
+    string title = lexicon_logic_strong_hover_text (item.strong);
+    page.append ("<a href=\"" + item.strong + "\" title =\"" + title + "\">" + item.english + "</a>");
+  }
+   */
+  
   return page;
 }

@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_LEXICON_LOGIC_H
-#define INCLUDED_LEXICON_LOGIC_H
+#ifndef INCLUDED_LEXICON_DEFINITION_H
+#define INCLUDED_LEXICON_DEFINITION_H
 
 
 #include <config/libraries.h>
 
 
-string lexicon_logic_strong_number_cleanup (string strong);
-string lexicon_logic_strong_hover_text (string strong);
-string lexicon_logic_wrap_xml (string xml);
+string lexicon_definition_url ();
+bool lexicon_definition_acl (void * webserver_request);
+string lexicon_definition (void * webserver_request);
 
 
 #endif
