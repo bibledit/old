@@ -2,3 +2,4 @@
 
 g++ `pkg-config sqlite3 --cflags --libs` `xml2-config --cflags` `xml2-config --libs` -o hebrewstrong hebrewstrong.cpp
 
+./hebrewstrong

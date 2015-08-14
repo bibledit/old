@@ -71,6 +71,7 @@ libbibledit_a_SOURCES = \
 	database/imageresources.cpp \
 	database/state.cpp \
 	database/noteassignment.cpp \
+	database/strong.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

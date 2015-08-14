@@ -148,9 +148,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
 	database/imageresources.$(OBJEXT) database/state.$(OBJEXT) \
-	database/noteassignment.$(OBJEXT) session/logic.$(OBJEXT) \
-	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
-	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
+	database/noteassignment.$(OBJEXT) database/strong.$(OBJEXT) \
+	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
+	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
+	session/signup.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -579,6 +580,7 @@ libbibledit_a_SOURCES = \
 	database/imageresources.cpp \
 	database/state.cpp \
 	database/noteassignment.cpp \
+	database/strong.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -1113,6 +1115,8 @@ database/imageresources.$(OBJEXT): database/$(am__dirstamp) \
 database/state.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/noteassignment.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/strong.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
@@ -2217,6 +2221,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/state.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/strong.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/styles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/users.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/usfmresources.Po@am__quote@

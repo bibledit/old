@@ -20,5 +20,25 @@
 #include <lexicon/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <database/strong.h>
 
 
+// Clean up the Strong's number.
+string lexicon_logic_strong_number_cleanup (string strong)
+{
+  // When a Strong's number is given as e.g. "H01", change it to "0".
+  strong = filter_string_str_replace ("H0", "H", strong);
+  
+  return strong;
+}
+
+
+// Gets the text to show when the mouse cursor hovers above a Strong's definition.
+string lexicon_logic_strong_hover_text (string strong)
+{
+  Database_Strong database_strong;
+  string text = database_strong.meaning (strong);
+  if (text.empty ()) text = database_strong.usage (strong);
+  filter_string_replace_between (text, "<", ">", "");
+  return text;
+}

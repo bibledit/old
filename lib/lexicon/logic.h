@@ -24,4 +24,8 @@
 #include <config/libraries.h>
 
 
+string lexicon_logic_strong_number_cleanup (string strong);
+string lexicon_logic_strong_hover_text (string strong);
+
+
 #endif

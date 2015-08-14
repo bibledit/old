@@ -5925,6 +5925,12 @@ msgstr ""
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 
+msgid "Lexicon"
+msgstr ""
+
+msgid "refresh"
+msgstr ""
+
 msgid "January"
 msgstr ""
 

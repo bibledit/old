@@ -28,6 +28,8 @@
 #include <locale/translate.h>
 #include <ipc/focus.h>
 #include <database/kjv.h>
+#include <database/strong.h>
+#include <lexicon/logic.h>
 
 
 string lexicon_index_url ()
@@ -65,8 +67,9 @@ string lexicon_index (void * webserver_request)
   vector <Database_Kjv_Item> kjv_items = database_kjv.getVerse (book, chapter, verse);
   for (auto & item : kjv_items) {
     if (!englishblock.empty ()) englishblock.append (" ");
+    item.strong = lexicon_logic_strong_number_cleanup (item.strong);
     string href = filter_url_build_http_query ("strong", "s", item.strong);
-    string title = "Strong's " + item.strong;
+    string title = lexicon_logic_strong_hover_text (item.strong);
     englishblock.append ("<a href=\"" + href + "\" title =\"" + title + "\">" + item.english + "</a>");
   }
   view.set_variable ("englishblock", englishblock);
