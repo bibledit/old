@@ -7710,9 +7710,6 @@ msgstr "Invia/Ricevi"
 msgid "Will send and receive."
 msgstr ""
 
-msgid "Collaboration has not been set up for this Bible"
-msgstr ""
-
 msgid "Still sending and receiving from the last time."
 msgstr ""
 
@@ -7774,6 +7771,12 @@ msgid ""
 "Bibles data to and from Paratext."
 msgstr ""
 
+msgid "Synchronize a Bible with a git repository."
+msgstr ""
+
+msgid "This Bible has not been linked to a git repository."
+msgstr ""
+
 msgid "Bibledit sends and receives this Bible every night."
 msgstr ""
 
@@ -7789,6 +7792,13 @@ msgstr ""
 msgid ""
 "It sends changes made here to the server for use by other translators who "
 "use Bibledit."
+msgstr ""
+
+msgid ""
+"The git repository keeps the history of the Bible text with all the changes."
+msgstr ""
+
+msgid "View the history:"
 msgstr ""
 
 msgid "The Journal displays progress and diagnostic messages."

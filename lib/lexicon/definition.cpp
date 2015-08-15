@@ -22,7 +22,6 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <webserver/request.h>
-#include <database/strong.h>
 #include <lexicon/logic.h>
 
 
@@ -41,25 +40,6 @@ bool lexicon_definition_acl (void * webserver_request)
 string lexicon_definition (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-
-  string page;
-
   string id = request->query["id"];
-
-  Database_Strong database_strong;
-  string definition = database_strong.get (id);
-  
-  cout << definition << endl; // Todo
-  /*
-   Database_Kjv database_kjv;
-  vector <Database_Kjv_Item> kjv_items = database_kjv.getVerse (book, chapter, verse);
-  for (auto & item : kjv_items) {
-    if (!page.empty ()) page.append (" ");
-    item.strong = lexicon_logic_strong_number_cleanup (item.strong);
-    string title = lexicon_logic_strong_hover_text (item.strong);
-    page.append ("<a href=\"" + item.strong + "\" title =\"" + title + "\">" + item.english + "</a>");
-  }
-   */
-  
-  return page;
+  return lexicon_logic_render_definition (id);
 }

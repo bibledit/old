@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.214],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.215],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr

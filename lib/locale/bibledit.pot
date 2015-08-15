@@ -5928,7 +5928,7 @@ msgstr ""
 msgid "Lexicon"
 msgstr ""
 
-msgid "refresh"
+msgid "home"
 msgstr ""
 
 msgid "January"

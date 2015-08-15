@@ -26,7 +26,14 @@
 
 string lexicon_logic_strong_number_cleanup (string strong);
 string lexicon_logic_strong_hover_text (string strong);
-string lexicon_logic_wrap_xml (string xml);
+string lexicon_logic_create_xml_document (string xml);
+string lexicon_logic_render_definition (string strong);
+string lexicon_logic_render_part_of_speech (string value);
+string lexicon_logic_render_part_of_speech_stem (string abbrev);
+string lexicon_logic_render_part_of_speech_person (string abbrev);
+string lexicon_logic_render_part_of_speech_gender (string abbrev);
+string lexicon_logic_render_part_of_speech_number (string abbrev);
+string lexicon_logic_render_part_of_speech_state (string abbrev);
 
 
 #endif

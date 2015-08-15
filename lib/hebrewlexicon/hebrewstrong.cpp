@@ -104,6 +104,8 @@ int main (int argc, char **argv)
   string id;
   string definition;
   
+  set <string> values;
+  
   while ((xmlTextReaderRead(reader) == 1)) {
     int depth = xmlTextReaderDepth (reader);
     switch (xmlTextReaderNodeType (reader)) {
@@ -114,6 +116,13 @@ int main (int argc, char **argv)
           id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
           cout << id << endl;
           definition = (char *) xmlTextReaderReadInnerXml (reader);
+        }
+        if (element == "w") {
+          xmlChar * pos = xmlTextReaderGetAttribute (reader, BAD_CAST "pos");
+          if (pos) {
+            string value = (char *) pos;
+            values.insert (value);
+          }
         }
         break;
       }
@@ -149,6 +158,8 @@ int main (int argc, char **argv)
 
   sqlite3_close (db);
 
+  for (auto value : values) cout << value << endl;
+  
   return 0;
 }
 

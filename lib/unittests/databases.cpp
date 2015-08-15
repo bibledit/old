@@ -3985,7 +3985,7 @@ void test_database_noteassignment ()
 }
 
 
-void test_database_strong () // Todo
+void test_database_strong ()
 {
   Database_Strong database;
 
