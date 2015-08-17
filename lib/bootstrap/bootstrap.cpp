@@ -185,6 +185,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/imagefetch.h>
 #include <lexicon/index.h>
 #include <lexicon/english.h>
+#include <lexicon/original.h>
 #include <lexicon/definition.h>
 
 
@@ -406,6 +407,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_move_url ()) && xrefs_move_acl (request)) request->reply = xrefs_move (request);
   else if ((url == xrefs_next_url ()) && xrefs_next_acl (request)) request->reply = xrefs_next (request);
   else if ((url == lexicon_english_url ()) && lexicon_english_acl (request)) request->reply = lexicon_english (request);
+  else if ((url == lexicon_original_url ()) && lexicon_original_acl (request)) request->reply = lexicon_original (request);
   else if ((url == lexicon_definition_url ()) && lexicon_definition_acl (request)) request->reply = lexicon_definition (request);
 
   // Settings calls.

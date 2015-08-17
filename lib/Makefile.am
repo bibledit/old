@@ -325,7 +325,8 @@ libbibledit_a_SOURCES = \
 	lexicon/index.cpp \
 	lexicon/logic.cpp \
 	lexicon/english.cpp \
-	lexicon/definition.cpp
+	lexicon/definition.cpp \
+	lexicon/original.cpp
 
 bin_PROGRAMS = server unittest
 
