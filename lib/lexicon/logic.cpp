@@ -100,6 +100,7 @@ string lexicon_logic_render_definition (string strong)
             if (depth == 1) {
               rendering.append ("<br>");
               rendering.append ("Word: ");
+              rendering.append ("Strong's " + strong.substr (1) + " ");
             }
             xmlChar * pos = xmlTextReaderGetAttribute (reader, BAD_CAST "pos");
             if (pos) {
@@ -152,6 +153,7 @@ string lexicon_logic_render_definition (string strong)
           if (element == "strongs") {
             rendering.append ("<br>");
             rendering.append ("Word: ");
+            rendering.append ("Strong's ");
           }
           if (element == "greek") {
             xmlChar * unicode = xmlTextReaderGetAttribute (reader, BAD_CAST "unicode");
