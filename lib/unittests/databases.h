@@ -59,6 +59,7 @@ void test_database_state ();
 void test_database_imageresources ();
 void test_database_noteassignment ();
 void test_database_strong ();
+void test_database_morphology ();
 
 
 #endif

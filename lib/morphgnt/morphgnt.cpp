@@ -110,7 +110,7 @@ int main (int argc, char **argv)
       + ", "
       + convert_to_string (chapter)
       + ", "
-      + convert_to_string (chapter)
+      + convert_to_string (verse)
       + ", "
       + convert_to_string ("'" + pos + "'")
       + ", "

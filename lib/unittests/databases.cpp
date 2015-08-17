@@ -56,6 +56,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/imageresources.h>
 #include <database/noteassignment.h>
 #include <database/strong.h>
+#include <database/morphology.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -4004,6 +4005,26 @@ void test_database_strong ()
   evaluate (__LINE__, __func__, true, length_h > 100);
   evaluate (__LINE__, __func__, true, length_g > 100);
   evaluate (__LINE__, __func__, true, length_h != length_g);
+}
+
+
+void test_database_morphology () // Todo
+{
+  Database_Morphology database;
+  
+  vector <Database_Morphology_Item> results;
+  
+  //results = database.get (0, 1, 2);
+  //evaluate (__LINE__, __func__, 0, results.size ());
+
+  //results = database.get (20, 3, 4);
+  //evaluate (__LINE__, __func__, 18, results.size ());
+  
+  results = database.get (40, 5, 6);
+  evaluate (__LINE__, __func__, 10, results.size ());
+  
+  results = database.get (66, 7, 8);
+  evaluate (__LINE__, __func__, 16, results.size ());
 }
 
 
