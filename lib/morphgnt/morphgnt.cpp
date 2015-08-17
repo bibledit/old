@@ -84,7 +84,7 @@ int main (int argc, char **argv)
   closedir (dir);
 
   for (auto file : files) {
-    cout << file << endl; // Todo
+    cout << file << endl;
     string contents = file_get_contents (file);
     vector <string> lines = explode (contents, '\n');
     for (auto line : lines) {

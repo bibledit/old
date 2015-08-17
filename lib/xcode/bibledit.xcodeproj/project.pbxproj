@@ -630,47 +630,8 @@
 		CAA4D1FF1A45A648003ABA25 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 		CAA4D2001A45A648003ABA25 /* user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
 		CAA4D2011A45A648003ABA25 /* user.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user.h; sourceTree = "<group>"; };
-		CAA4D2041A45A648003ABA25 /* 1Chr.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 1Chr.xml; sourceTree = "<group>"; };
-		CAA4D2051A45A648003ABA25 /* 1Kgs.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 1Kgs.xml; sourceTree = "<group>"; };
-		CAA4D2061A45A648003ABA25 /* 1Sam.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 1Sam.xml; sourceTree = "<group>"; };
-		CAA4D2071A45A648003ABA25 /* 2Chr.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 2Chr.xml; sourceTree = "<group>"; };
-		CAA4D2081A45A648003ABA25 /* 2Kgs.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 2Kgs.xml; sourceTree = "<group>"; };
-		CAA4D2091A45A648003ABA25 /* 2Sam.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = 2Sam.xml; sourceTree = "<group>"; };
-		CAA4D20A1A45A648003ABA25 /* Amos.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Amos.xml; sourceTree = "<group>"; };
 		CAA4D20B1A45A648003ABA25 /* 0convert.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = 0convert.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D20C1A45A648003ABA25 /* Dan.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Dan.xml; sourceTree = "<group>"; };
-		CAA4D20D1A45A648003ABA25 /* Deut.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Deut.xml; sourceTree = "<group>"; };
-		CAA4D20E1A45A648003ABA25 /* Eccl.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Eccl.xml; sourceTree = "<group>"; };
-		CAA4D20F1A45A648003ABA25 /* Esth.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Esth.xml; sourceTree = "<group>"; };
-		CAA4D2101A45A648003ABA25 /* Exod.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Exod.xml; sourceTree = "<group>"; };
-		CAA4D2111A45A648003ABA25 /* Ezek.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ezek.xml; sourceTree = "<group>"; };
-		CAA4D2121A45A648003ABA25 /* Ezra.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ezra.xml; sourceTree = "<group>"; };
-		CAA4D2131A45A648003ABA25 /* Gen.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Gen.xml; sourceTree = "<group>"; };
-		CAA4D2141A45A648003ABA25 /* Hab.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Hab.xml; sourceTree = "<group>"; };
-		CAA4D2151A45A648003ABA25 /* Hag.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Hag.xml; sourceTree = "<group>"; };
-		CAA4D2161A45A648003ABA25 /* Hos.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Hos.xml; sourceTree = "<group>"; };
-		CAA4D2171A45A648003ABA25 /* Isa.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Isa.xml; sourceTree = "<group>"; };
-		CAA4D2181A45A648003ABA25 /* Jer.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Jer.xml; sourceTree = "<group>"; };
-		CAA4D2191A45A648003ABA25 /* Job.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Job.xml; sourceTree = "<group>"; };
-		CAA4D21A1A45A648003ABA25 /* Joel.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Joel.xml; sourceTree = "<group>"; };
-		CAA4D21B1A45A648003ABA25 /* Jonah.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Jonah.xml; sourceTree = "<group>"; };
-		CAA4D21C1A45A648003ABA25 /* Josh.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Josh.xml; sourceTree = "<group>"; };
-		CAA4D21D1A45A648003ABA25 /* Judg.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Judg.xml; sourceTree = "<group>"; };
-		CAA4D21E1A45A648003ABA25 /* Lam.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Lam.xml; sourceTree = "<group>"; };
-		CAA4D21F1A45A648003ABA25 /* Lev.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Lev.xml; sourceTree = "<group>"; };
-		CAA4D2201A45A648003ABA25 /* Mal.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mal.xml; sourceTree = "<group>"; };
-		CAA4D2211A45A648003ABA25 /* Mic.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mic.xml; sourceTree = "<group>"; };
-		CAA4D2221A45A648003ABA25 /* Nah.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Nah.xml; sourceTree = "<group>"; };
-		CAA4D2231A45A648003ABA25 /* Neh.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Neh.xml; sourceTree = "<group>"; };
-		CAA4D2241A45A648003ABA25 /* Num.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Num.xml; sourceTree = "<group>"; };
-		CAA4D2251A45A648003ABA25 /* Obad.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Obad.xml; sourceTree = "<group>"; };
-		CAA4D2261A45A648003ABA25 /* Prov.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Prov.xml; sourceTree = "<group>"; };
-		CAA4D2271A45A648003ABA25 /* Ps.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ps.xml; sourceTree = "<group>"; };
 		CAA4D2281A45A648003ABA25 /* 0README */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0README; sourceTree = "<group>"; };
-		CAA4D2291A45A648003ABA25 /* Ruth.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ruth.xml; sourceTree = "<group>"; };
-		CAA4D22A1A45A648003ABA25 /* Song.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Song.xml; sourceTree = "<group>"; };
-		CAA4D22B1A45A648003ABA25 /* Zech.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Zech.xml; sourceTree = "<group>"; };
-		CAA4D22C1A45A648003ABA25 /* Zeph.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Zeph.xml; sourceTree = "<group>"; };
 		CAA4D22F1A45A648003ABA25 /* nav.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nav.js; sourceTree = "<group>"; };
 		CAA4D2301A45A648003ABA25 /* nav.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = nav.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2311A45A648003ABA25 /* passage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = passage.js; sourceTree = "<group>"; };
@@ -2174,45 +2135,6 @@
 			children = (
 				CAA4D2281A45A648003ABA25 /* 0README */,
 				CAA4D20B1A45A648003ABA25 /* 0convert.php */,
-				CAA4D2041A45A648003ABA25 /* 1Chr.xml */,
-				CAA4D2051A45A648003ABA25 /* 1Kgs.xml */,
-				CAA4D2061A45A648003ABA25 /* 1Sam.xml */,
-				CAA4D2071A45A648003ABA25 /* 2Chr.xml */,
-				CAA4D2081A45A648003ABA25 /* 2Kgs.xml */,
-				CAA4D2091A45A648003ABA25 /* 2Sam.xml */,
-				CAA4D20A1A45A648003ABA25 /* Amos.xml */,
-				CAA4D20C1A45A648003ABA25 /* Dan.xml */,
-				CAA4D20D1A45A648003ABA25 /* Deut.xml */,
-				CAA4D20E1A45A648003ABA25 /* Eccl.xml */,
-				CAA4D20F1A45A648003ABA25 /* Esth.xml */,
-				CAA4D2101A45A648003ABA25 /* Exod.xml */,
-				CAA4D2111A45A648003ABA25 /* Ezek.xml */,
-				CAA4D2121A45A648003ABA25 /* Ezra.xml */,
-				CAA4D2131A45A648003ABA25 /* Gen.xml */,
-				CAA4D2141A45A648003ABA25 /* Hab.xml */,
-				CAA4D2151A45A648003ABA25 /* Hag.xml */,
-				CAA4D2161A45A648003ABA25 /* Hos.xml */,
-				CAA4D2171A45A648003ABA25 /* Isa.xml */,
-				CAA4D2181A45A648003ABA25 /* Jer.xml */,
-				CAA4D2191A45A648003ABA25 /* Job.xml */,
-				CAA4D21A1A45A648003ABA25 /* Joel.xml */,
-				CAA4D21B1A45A648003ABA25 /* Jonah.xml */,
-				CAA4D21C1A45A648003ABA25 /* Josh.xml */,
-				CAA4D21D1A45A648003ABA25 /* Judg.xml */,
-				CAA4D21E1A45A648003ABA25 /* Lam.xml */,
-				CAA4D21F1A45A648003ABA25 /* Lev.xml */,
-				CAA4D2201A45A648003ABA25 /* Mal.xml */,
-				CAA4D2211A45A648003ABA25 /* Mic.xml */,
-				CAA4D2221A45A648003ABA25 /* Nah.xml */,
-				CAA4D2231A45A648003ABA25 /* Neh.xml */,
-				CAA4D2241A45A648003ABA25 /* Num.xml */,
-				CAA4D2251A45A648003ABA25 /* Obad.xml */,
-				CAA4D2261A45A648003ABA25 /* Prov.xml */,
-				CAA4D2271A45A648003ABA25 /* Ps.xml */,
-				CAA4D2291A45A648003ABA25 /* Ruth.xml */,
-				CAA4D22A1A45A648003ABA25 /* Song.xml */,
-				CAA4D22B1A45A648003ABA25 /* Zech.xml */,
-				CAA4D22C1A45A648003ABA25 /* Zeph.xml */,
 			);
 			name = morphhb;
 			path = ../morphhb;

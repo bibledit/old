@@ -33,39 +33,42 @@ vector <Database_Morphology_Item> Database_Morphology::get (int book, int chapte
 {
   vector <Database_Morphology_Item> items;
   bool greek = (book >= 40);
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT pos, parsing, word, lemma FROM");
+  // No Hebrew morphological data yet.
   if (greek) {
-    sql.add ("morphgnt");
-  } else {
-    sql.add ("morphhb");
-  }
-  sql.add ("WHERE book =");
-  sql.add (book);
-  sql.add ("AND chapter =");
-  sql.add (chapter);
-  sql.add ("AND verse =");
-  sql.add (verse);
-  sql.add ("ORDER BY rowid;");
-  sqlite3 * db;
-  if (greek) {
-    db = database_sqlite_connect ("morphgnt");
-  } else {
-    db = database_sqlite_connect ("morphhb");
-  }
-  map <string, vector <string> > results = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
-  vector <string> parts_of_speech = results ["pos"];
-  vector <string> parsings = results ["parsing"];
-  vector <string> words = results ["word"];
-  vector <string> lemmas = results ["lemma"];
-  for (size_t i = 0; i < parts_of_speech.size (); i++) {
-    Database_Morphology_Item item;
-    item.part_of_speech = parts_of_speech [i];
-    item.parsing = parsings[i];
-    item.word = words[i];
-    item.lemma = lemmas[i];
-    items.push_back (item);
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT pos, parsing, word, lemma FROM");
+    if (greek) {
+      sql.add ("morphgnt");
+    } else {
+      sql.add ("morphhb");
+    }
+    sql.add ("WHERE book =");
+    sql.add (book);
+    sql.add ("AND chapter =");
+    sql.add (chapter);
+    sql.add ("AND verse =");
+    sql.add (verse);
+    sql.add ("ORDER BY rowid;");
+    sqlite3 * db;
+    if (greek) {
+      db = database_sqlite_connect ("morphgnt");
+    } else {
+      db = database_sqlite_connect ("morphhb");
+    }
+    map <string, vector <string> > results = database_sqlite_query (db, sql.sql);
+    database_sqlite_disconnect (db);
+    vector <string> parts_of_speech = results ["pos"];
+    vector <string> parsings = results ["parsing"];
+    vector <string> words = results ["word"];
+    vector <string> lemmas = results ["lemma"];
+    for (size_t i = 0; i < parts_of_speech.size (); i++) {
+      Database_Morphology_Item item;
+      item.part_of_speech = parts_of_speech [i];
+      item.parsing = parsings[i];
+      item.word = words[i];
+      item.lemma = lemmas[i];
+      items.push_back (item);
+    }
   }
   return items;
 }

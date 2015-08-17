@@ -4008,7 +4008,7 @@ void test_database_strong ()
 }
 
 
-void test_database_morphology () // Todo
+void test_database_morphology ()
 {
   Database_Morphology database;
   
