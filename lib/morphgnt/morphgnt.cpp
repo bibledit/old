@@ -17,150 +17,120 @@
  */
 
 
-#include "hebrewstrong.h"
-#include <libxml/xmlreader.h>
+#include "morphgnt.h"
 #include <sqlite3.h>
 
 
-string str_replace (string search, string replace, string subject)
+vector <string> explode (string value, char delimiter)
 {
-  size_t offposition = subject.find (search);
-  while (offposition != string::npos) {
-    subject.replace (offposition, search.length (), replace);
-    offposition = subject.find (search, offposition + replace.length ());
+  vector <string> result;
+  istringstream iss (value);
+  for (string token; getline (iss, token, delimiter); )
+  {
+    result.push_back (move (token));
   }
-  return subject;
+  return result;
 }
 
 
-string convert_xml_character_entities_to_characters (string data)
+string file_get_contents (string filename)
 {
-  bool keep_going = true;
-  int iterations = 0;
-  size_t pos1 = -1;
-  do {
-    iterations++;
-    pos1 = data.find ("&#x", pos1 + 1);
-    if (pos1 == string::npos) {
-      keep_going = false;
-      continue;
-    }
-    size_t pos2 = data.find (";", pos1);
-    if (pos2 == string::npos) {
-      keep_going = false;
-      continue;
-    }
-    string entity = data.substr (pos1 + 3, pos2 - pos1 - 3);
-    data.erase (pos1, pos2 - pos1 + 1);
-    int codepoint;
-    stringstream ss;
-    ss << hex << entity;
-    ss >> codepoint;
-    
-    // The following is not available in GNU libstdc++.
-    // wstring_convert <codecvt_utf8 <char32_t>, char32_t> conv1;
-    // string u8str = conv1.to_bytes (codepoint);
-    
-    int cp = codepoint;
-    // Adapted from: http://www.zedwood.com/article/cpp-utf8-char-to-codepoint.
-    char c[5]={ 0x00,0x00,0x00,0x00,0x00 };
-    if     (cp<=0x7F) { c[0] = cp;  }
-    else if(cp<=0x7FF) { c[0] = (cp>>6)+192; c[1] = (cp&63)+128; }
-    else if(0xd800<=cp && cp<=0xdfff) {} //invalid block of utf8
-    else if(cp<=0xFFFF) { c[0] = (cp>>12)+224; c[1]= ((cp>>6)&63)+128; c[2]=(cp&63)+128; }
-    else if(cp<=0x10FFFF) { c[0] = (cp>>18)+240; c[1] = ((cp>>12)&63)+128; c[2] = ((cp>>6)&63)+128; c[3]=(cp&63)+128; }
-    string u8str = string (c);
-    
-    data.insert (pos1, u8str);
-  } while (keep_going & (iterations < 100000));
-  return data;
+  ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
+  streamoff filesize = ifs.tellg();
+  ifs.seekg (0, ios::beg);
+  vector <char> bytes ((int)filesize);
+  ifs.read (&bytes[0], (int)filesize);
+  return string (&bytes[0], (int)filesize);
 }
 
 
-string trim (string s)
+int convert_to_int (string s)
 {
-  if (s.length () == 0)
-    return s;
-  // Strip spaces, tabs, new lines, carriage returns.
-  size_t beg = s.find_first_not_of(" \t\n\r");
-  size_t end = s.find_last_not_of(" \t\n\r");
-  // No non-spaces
-  if (beg == string::npos)
-    return "";
-  return string (s, beg, end - beg + 1);
+  int i = atoi (s.c_str());
+  return i;
+}
+
+
+string convert_to_string (string s)
+{
+  return s;
+}
+
+
+string convert_to_string (int i)
+{
+  ostringstream r;
+  r << i;
+  return r.str();
 }
 
 
 int main (int argc, char **argv)
 {
-  unlink ("hebrewstrong.sqlite");
+  unlink ("morphgnt.sqlite");
   sqlite3 *db;
-  sqlite3_open ("hebrewstrong.sqlite", &db);
+  sqlite3_open ("morphgnt.sqlite", &db);
   sqlite3_exec (db, "PRAGMA synchronous = OFF;", NULL, NULL, NULL);
-  sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS hebrewstrong (id text, definition text);", NULL, NULL, NULL);
-  
-  xmlTextReaderPtr reader = xmlNewTextReaderFilename ("HebrewStrong.xml");
+  sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS morphgnt (book integer, chapter integer, verse integer, pos text, parsing text, word text, lemma text);", NULL, NULL, NULL);
 
-  string id;
-  string definition;
-  
-  set <string> values;
-  
-  while ((xmlTextReaderRead(reader) == 1)) {
-    int depth = xmlTextReaderDepth (reader);
-    switch (xmlTextReaderNodeType (reader)) {
-      case XML_READER_TYPE_ELEMENT:
-      {
-        string element = (char *) xmlTextReaderName (reader);
-        if (element == "entry") {
-          id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
-          cout << id << endl;
-          definition = (char *) xmlTextReaderReadInnerXml (reader);
-        }
-        if (element == "w") {
-          xmlChar * pos = xmlTextReaderGetAttribute (reader, BAD_CAST "pos");
-          if (pos) {
-            string value = (char *) pos;
-            values.insert (value);
-          }
-        }
-        break;
-      }
-      case XML_READER_TYPE_TEXT:
-      {
-        xmlChar *text = xmlTextReaderValue(reader);
-        break;
-      }
-      case XML_READER_TYPE_END_ELEMENT:
-      {
-        string element = (char *) xmlTextReaderName(reader);
-        if (element == "entry") {
-          string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
+  vector <string> files;
+  DIR * dir = opendir (".");
+  struct dirent * direntry;
+  while ((direntry = readdir (dir)) != NULL) {
+    string name = direntry->d_name;
+    if (name.find ("morphgnt.txt") == string::npos) continue;
+    files.push_back (name);
+  }
+  closedir (dir);
 
-          definition = str_replace (xmlns, "", definition);
-          definition = convert_xml_character_entities_to_characters (definition);
-          definition = str_replace ("'", "''", definition);
-          definition = trim (definition);
-          
-          string sql = "INSERT INTO hebrewstrong VALUES ('" + id + "', '" + definition + "');";
-          char *error = NULL;
-          int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
-          if (rc != SQLITE_OK) {
-            cout << sql << endl;
-            cout << error << endl;
-            return 0;
-          }
-        }
-        break;
+  for (auto file : files) {
+    cout << file << endl; // Todo
+    string contents = file_get_contents (file);
+    vector <string> lines = explode (contents, '\n');
+    for (auto line : lines) {
+      vector <string> bits = explode (line, ' ');
+      if (bits.size () != 7) {
+        cout << line << endl;
+        cout << "Should be seven bits" << endl;
+        return 0;
+      }
+
+      string passage = bits [0];
+      int book = convert_to_int (passage.substr (0, 2)) + 39;
+      int chapter = convert_to_int (passage.substr (2, 2));
+      int verse = convert_to_int (passage.substr (4, 2));
+      string pos = bits[1];
+      string parsing = bits[2];
+      string word = bits[3];
+      string lemma = bits[6];
+      
+      string sql =
+      "INSERT INTO morphgnt VALUES ("
+      + convert_to_string (book)
+      + ", "
+      + convert_to_string (chapter)
+      + ", "
+      + convert_to_string (chapter)
+      + ", "
+      + convert_to_string ("'" + pos + "'")
+      + ", "
+      + convert_to_string ("'" + parsing + "'")
+      + ", "
+      + convert_to_string ("'" + word + "'")
+      + ", "
+      + convert_to_string ("'" + lemma + "'")
+      + ");";
+      char *error = NULL;
+      int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
+      if (rc != SQLITE_OK) {
+        cout << sql << endl;
+        cout << error << endl;
+        return 0;
       }
     }
   }
 
   sqlite3_close (db);
 
-  for (auto value : values) cout << value << endl;
-  
   return 0;
 }
-
-

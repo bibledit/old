@@ -1,5 +1,5 @@
 #!/bin/bash
 
-rm -f hebrewstrong
-rm -f hebrewstrong.sqlite
+rm -f morphgnt
+rm -f morphgnt.sqlite
 
