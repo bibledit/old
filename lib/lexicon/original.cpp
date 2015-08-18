@@ -59,7 +59,7 @@ string lexicon_original (void * webserver_request) // Todo
     string title = lexicon_logic_strong_hover_text (item.strong);
      */
     string title;
-    page.append ("<a href=\"" + passage.to_text ().substr (1) + "_" + convert_to_string (i) + "\" title =\"" + title + "\">" + morphology_items[i].word + "</a>");
+    page.append ("<a href=\"" + passage.to_text ().substr (1) + "." + convert_to_string (i) + "\" title =\"" + title + "\">" + morphology_items[i].word + "</a>");
   }
   
   return page;
