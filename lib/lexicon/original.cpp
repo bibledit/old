@@ -23,6 +23,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <database/morphology.h>
+#include <database/strong.h>
 #include <lexicon/logic.h>
 
 
@@ -38,7 +39,7 @@ bool lexicon_original_acl (void * webserver_request)
 }
 
 
-string lexicon_original (void * webserver_request) // Todo
+string lexicon_original (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -50,16 +51,20 @@ string lexicon_original (void * webserver_request) // Todo
   string page;
 
   Database_Morphology database_morphology;
+  Database_Strong database_strong;
+
   vector <Database_Morphology_Item> morphology_items = database_morphology.get (book, chapter, verse);
   for (size_t i = 0; i < morphology_items.size (); i++) {
     if (!page.empty ()) page.append (" ");
-    
-    /*
-    item.strong = lexicon_logic_strong_number_cleanup (item.strong);
-    string title = lexicon_logic_strong_hover_text (item.strong);
-     */
+
     string title;
-    page.append ("<a href=\"" + passage.to_text ().substr (1) + "." + convert_to_string (i) + "\" title =\"" + title + "\">" + morphology_items[i].word + "</a>");
+    vector <string> strongs = database_strong.strong (morphology_items[i].lemma);
+    for (auto strong : strongs) {
+      if (!title.empty ()) title.append ("\n--\n");
+      title.append (lexicon_logic_strong_hover_text (strong));
+    }
+
+    page.append ("<a href=\"" + passage.to_text ().substr (1) + "_" + convert_to_string (i) + "\" title =\"" + title + "\">" + morphology_items[i].word + "</a>");
   }
   
   return page;

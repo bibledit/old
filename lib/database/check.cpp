@@ -89,7 +89,7 @@ void Database_Check::truncateOutput (string bible)
 }
 
 
-void Database_Check::recordOutput (string bible, int book, int chapter, int verse, string data) // Todo
+void Database_Check::recordOutput (string bible, int book, int chapter, int verse, string data)
 {
   Database_Bibles database_bibles = Database_Bibles ();
   int bible_id = database_bibles.getID (bible);
@@ -175,7 +175,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
 }
 
 
-vector <Database_Check_Hit> Database_Check::getHits () // Todo easier selection mechanism: Read from output only.
+vector <Database_Check_Hit> Database_Check::getHits ()
 {
   vector <Database_Check_Hit> hits;
   string sql = "SELECT rowid, bible, book, chapter, verse, data FROM output;";
@@ -202,7 +202,7 @@ vector <Database_Check_Hit> Database_Check::getHits () // Todo easier selection 
 }
 
 
-void Database_Check::approve (int id) // Todo move from output to suppress. No copy.
+void Database_Check::approve (int id)
 {
   // The query moves all values, apart from the auto_increment id.
   sqlite3 * db = connect ();
@@ -283,7 +283,7 @@ vector <Database_Check_Hit> Database_Check::getSuppressions ()
 }
 
 
-void Database_Check::release (int id) // Todo move from suppress back to the output table.
+void Database_Check::release (int id)
 {
   sqlite3 * db = connect ();
   {

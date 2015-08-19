@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Get text and parsing.
-vector <Database_Morphology_Item> Database_Morphology::get (int book, int chapter, int verse) // Todo
+vector <Database_Morphology_Item> Database_Morphology::get (int book, int chapter, int verse)
 {
   vector <Database_Morphology_Item> items;
   bool greek = (book >= 40);

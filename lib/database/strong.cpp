@@ -28,28 +28,79 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Chances of corruption are nearly zero.
 
 
-// Get Strong's definition for $strong's number.
-string Database_Strong::get (string strong)
+// Get Strong's definition for the $strong's number.
+string Database_Strong::definition (string strong)
 {
-  bool greek = strong.find ("G") != string::npos;
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT definition FROM");
-  if (greek) {
-    sql.add ("greekstrong");
-  } else {
-    sql.add ("hebrewstrong");
-  }
-  sql.add ("WHERE id =");
-  sql.add (strong);
-  sql.add (";");
   sqlite3 * db;
-  if (greek) {
-    db = database_sqlite_connect ("greekstrong");
-  } else {
-    db = database_sqlite_connect ("hebrewstrong");
+  {
+    // Search Greek lexicon.
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT definition FROM greekstrong WHERE id =");
+    sql.add (strong);
+    sql.add (";");
+    db = connectgreek ();
+    vector <string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
+    database_sqlite_disconnect (db);
+    if (!definitions.empty ()) return definitions[0];
   }
-  vector <string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
-  database_sqlite_disconnect (db);
-  if (!definitions.empty ()) return definitions[0];
+  {
+    // Search Hebrew lexicon.
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT definition FROM hebrewstrong WHERE id =");
+    sql.add (strong);
+    sql.add (";");
+    db = connecthebrew ();
+    vector <string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
+    database_sqlite_disconnect (db);
+    if (!definitions.empty ()) return definitions[0];
+  }
+  // Nothing found.
   return "";
+}
+
+
+// Get Strong's number(s) for the $lemma.
+// Most lemma's refer to one Strong's number, but some lemma's refer to more than one.
+vector <string> Database_Strong::strong (string lemma)
+{
+  sqlite3 * db;
+  {
+    // Search Greek lexicon.
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT id FROM greekstrong WHERE lemma =");
+    sql.add (lemma);
+    sql.add (";");
+    db = connectgreek ();
+    vector <string> ids = database_sqlite_query (db, sql.sql) ["id"];
+    database_sqlite_disconnect (db);
+    if (!ids.empty ()) return ids;
+  }
+  {
+    /*
+    // Search Hebrew lexicon.  search on lemma once database has them.
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT id FROM hebrewstrong WHERE lemma =");
+    sql.add (lemma);
+    sql.add (";");
+    db = connecthebrew ();
+    vector <string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
+    vector <string> ids = database_sqlite_query (db, sql.sql) ["id"];
+    database_sqlite_disconnect (db);
+    if (!ids.empty ()) return ids;
+    */
+  }
+  // Nothing found.
+  return {};
+}
+
+
+sqlite3 * Database_Strong::connectgreek ()
+{
+  return database_sqlite_connect ("greekstrong");
+}
+
+
+sqlite3 * Database_Strong::connecthebrew ()
+{
+  return database_sqlite_connect ("hebrewstrong");
 }

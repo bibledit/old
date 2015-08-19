@@ -1,6 +1,6 @@
 #!/bin/bash
 
-g++ `pkg-config sqlite3 --cflags --libs` `xml2-config --cflags` `xml2-config --libs` -o greekstrong greekstrong.cpp
+g++ `pkg-config sqlite3 --cflags --libs` `xml2-config --cflags` `xml2-config --libs` `pkg-config icu-i18n --cflags --libs` -o greekstrong greekstrong.cpp
 
 if [ $? -ne 0 ]; then
   exit

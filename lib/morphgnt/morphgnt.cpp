@@ -19,6 +19,11 @@
 
 #include "morphgnt.h"
 #include <sqlite3.h>
+#include <unicode/ustdio.h>
+#include <unicode/normlzr.h>
+#include <unicode/utypes.h>
+#include <unicode/unistr.h>
+#include <unicode/translit.h>
 
 
 vector <string> explode (string value, char delimiter)
@@ -65,6 +70,28 @@ string convert_to_string (int i)
 }
 
 
+string normalize (string str)
+{
+  // UTF-8 std::string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (str));
+  
+  // Case folding.
+  source.foldCase ();
+  
+  // Transliterate UTF-16 UnicodeString following this rule:
+  // decompose, remove diacritics, recompose
+  UErrorCode status = U_ZERO_ERROR;
+  Transliterator *accentsConverter = Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
+  accentsConverter->transliterate(source);
+  
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  std::string result;
+  source.toUTF8String (result);
+  
+  return result;
+}
+
+
 int main (int argc, char **argv)
 {
   unlink ("morphgnt.sqlite");
@@ -103,6 +130,8 @@ int main (int argc, char **argv)
       string parsing = bits[2];
       string word = bits[3];
       string lemma = bits[6];
+      // Normalize the lemma: This enables searching on the lemma.
+      lemma = normalize (lemma);
       
       string sql =
       "INSERT INTO morphgnt VALUES ("

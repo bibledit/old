@@ -20,6 +20,11 @@
 #include "greekstrong.h"
 #include <libxml/xmlreader.h>
 #include <sqlite3.h>
+#include <unicode/ustdio.h>
+#include <unicode/normlzr.h>
+#include <unicode/utypes.h>
+#include <unicode/unistr.h>
+#include <unicode/translit.h>
 
 
 string str_replace (string search, string replace, string subject)
@@ -91,17 +96,41 @@ string trim (string s)
 }
 
 
+string normalize (string str)
+{
+  // UTF-8 std::string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (str));
+  
+  // Case folding.
+  source.foldCase ();
+  
+  // Transliterate UTF-16 UnicodeString following this rule:
+  // decompose, remove diacritics, recompose
+  UErrorCode status = U_ZERO_ERROR;
+  Transliterator *accentsConverter = Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
+  accentsConverter->transliterate(source);
+  
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  std::string result;
+  source.toUTF8String (result);
+  
+  return result;
+}
+
+
 int main (int argc, char **argv)
 {
   unlink ("greekstrong.sqlite");
   sqlite3 *db;
   sqlite3_open ("greekstrong.sqlite", &db);
   sqlite3_exec (db, "PRAGMA synchronous = OFF;", NULL, NULL, NULL);
-  sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS greekstrong (id text, definition text);", NULL, NULL, NULL);
+  sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS greekstrong (id text, lemma text, definition text);", NULL, NULL, NULL);
   
   xmlTextReaderPtr reader = xmlNewTextReaderFilename ("strongsgreek.xml");
 
   string id;
+  string lemma;
+  set <string> lemmas;
   string definition;
   
   while ((xmlTextReaderRead(reader) == 1)) {
@@ -118,6 +147,21 @@ int main (int argc, char **argv)
           id = r.str();
           cout << id << endl;
           definition = (char *) xmlTextReaderReadInnerXml (reader);
+        }
+        if (element == "greek") {
+          // Take from first <greek> element only: Any subsequent ones contain other information.
+          if (lemma.empty ()) {
+            lemma = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "unicode");
+            // Casefold the lemma: This enables searching on the lemma.
+            lemma = normalize (lemma);
+            cout << lemma << endl;
+            /*
+            if (lemmas.find (lemma) != lemmas.end ()) {
+              cout << "Double lemma" << endl;
+            }
+            lemmas.insert (lemma);
+             */
+          }
         }
         break;
       }
@@ -138,7 +182,7 @@ int main (int argc, char **argv)
           definition = str_replace ("  ", " ", definition);
           definition = trim (definition);
           
-          string sql = "INSERT INTO greekstrong VALUES ('" + id + "', '" + definition + "');";
+          string sql = "INSERT INTO greekstrong VALUES ('" + id + "', '" + lemma + "', '" + definition + "');";
           char *error = NULL;
           int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
           if (rc != SQLITE_OK) {
@@ -146,6 +190,9 @@ int main (int argc, char **argv)
             cout << error << endl;
             return 0;
           }
+          id.clear ();
+          lemma.clear ();
+          definition.clear ();
         }
         break;
       }

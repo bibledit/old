@@ -3990,21 +3990,27 @@ void test_database_strong ()
 {
   Database_Strong database;
 
-  string result = database.get ("H0");
+  string result = database.definition ("H0");
   evaluate (__LINE__, __func__, "", result);
   
-  result = database.get ("G0");
+  result = database.definition ("G0");
   evaluate (__LINE__, __func__, "", result);
   
-  result = database.get ("H1");
+  result = database.definition ("H1");
   int length_h = result.length ();
 
-  result = database.get ("G1");
+  result = database.definition ("G1");
   int length_g = result.length ();
 
   evaluate (__LINE__, __func__, true, length_h > 100);
   evaluate (__LINE__, __func__, true, length_g > 100);
   evaluate (__LINE__, __func__, true, length_h != length_g);
+
+  vector <string> results = database.strong ("χρηστόσ");
+  evaluate (__LINE__, __func__, 1, results.size ());
+  if (!results.empty ()) {
+    evaluate (__LINE__, __func__, "G5543", results[0]);
+  }
 }
 
 

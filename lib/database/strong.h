@@ -28,8 +28,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Strong
 {
 public:
-  string get (string strong);
+  string definition (string strong);
+  vector <string> strong (string lemma);
 private:
+  sqlite3 * connectgreek ();
+  sqlite3 * connecthebrew ();
 };
 
 

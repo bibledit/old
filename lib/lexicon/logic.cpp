@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/strong.h>
+#include <database/morphology.h>
 #include <libxml/xmlreader.h>
 
 
@@ -34,12 +35,48 @@ string lexicon_logic_strong_number_cleanup (string strong)
 }
 
 
+// Convert a lemma to a Strong's number.
+vector <string> lexicon_logic_convert_item_to_strong (string item)
+{
+  vector <string> strongs;
+  
+  // If the $item is a Strong's number, just take that.
+  if (!item.empty ()) {
+    string s = item.substr (0, 1);
+    if (s == "H") strongs.push_back (item);
+    if (s == "G") strongs.push_back (item);
+  }
+  
+  // No Strong's number found:
+  // Assume that the $item contains a passage and an offset to a lemma within that passage.
+  if (strongs.empty ()) {
+    vector <string> bits = filter_string_explode (item, '_');
+    if (bits.size () == 2) {
+      Passage passage = Passage::from_text (bits[0]);
+      size_t offset = convert_to_int (bits[1]);
+      Database_Morphology database_morphology;
+      vector <Database_Morphology_Item> morphology_items = database_morphology.get (passage.book, passage.chapter, convert_to_int (passage.verse));
+      if (morphology_items.size () >= offset) {
+        // The lemma.
+        string lemma = morphology_items[offset].lemma;
+        // Convert the lemma to a Strong's number.
+        Database_Strong database_strong;
+        vector <string> results = database_strong.strong (lemma);
+        strongs.insert (strongs.end (), results.begin(), results.end());
+      }
+    }
+  }
+
+  return strongs;
+}
+
+
 // Gets the text to show when the mouse cursor hovers above a Strong's definition.
 string lexicon_logic_strong_hover_text (string strong)
 {
   string hover_text;
   Database_Strong database_strong;
-  string definition = database_strong.get (strong);
+  string definition = database_strong.definition (strong);
   definition = lexicon_logic_create_xml_document (definition);
   xmlTextReaderPtr reader = xmlReaderForDoc (BAD_CAST definition.c_str(), "", "UTF-8", 0);
   while ((xmlTextReaderRead(reader) == 1)) {
@@ -84,7 +121,7 @@ string lexicon_logic_render_definition (string strong)
   string rendering;
   bool a_opened = false;
   Database_Strong database_strong;
-  string definition = database_strong.get (lexicon_logic_strong_number_cleanup (strong));
+  string definition = database_strong.definition (lexicon_logic_strong_number_cleanup (strong));
   definition = lexicon_logic_create_xml_document (definition);
   xmlTextReaderPtr reader = xmlReaderForDoc (BAD_CAST definition.c_str(), "", "UTF-8", 0);
   while ((xmlTextReaderRead(reader) == 1)) {
