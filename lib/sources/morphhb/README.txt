@@ -4,6 +4,8 @@ It contains the Open Scriptures Morphology of the Hebrew Bible.
 XML files:
 The master files for the Hebrew Bible.
 
-0convert.php:
-This script converts the data from the XML files into a SQLite database fit for use in Bibledit.
+./run
+Converts the XML files into a SQLite database fit for use in Bibledit.
 
+./clean
+Cleans up.

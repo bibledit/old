@@ -235,6 +235,11 @@
 		CA3D1DF41A9E31F700A9456A /* convert2resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = convert2resource.h; sourceTree = "<group>"; };
 		CA4150281AB7651100C30DA5 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CA4150291AB7651100C30DA5 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
+		CA42C3721B84E7A20050E0DA /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
+		CA42C3731B84E7B10050E0DA /* morphhb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = morphhb.cpp; sourceTree = "<group>"; };
+		CA42C3741B84E7B10050E0DA /* morphhb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphhb.h; sourceTree = "<group>"; };
+		CA42C3751B84E7BD0050E0DA /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
+		CA42C3761B84E8E10050E0DA /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		CA442D021A553DA6006374D3 /* git.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = git.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA442D031A553DA6006374D3 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = git.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA442D041A55466F006374D3 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -936,8 +941,7 @@
 		CAECFBAD1B84E30100B3634F /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphgnt.h; sourceTree = "<group>"; };
 		CAECFBAE1B84E30100B3634F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CAECFBAF1B84E30100B3634F /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
-		CAECFBB11B84E30100B3634F /* 0convert.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = 0convert.php; sourceTree = "<group>"; };
-		CAECFBB21B84E30100B3634F /* 0README */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0README; sourceTree = "<group>"; };
+		CAECFBB21B84E30100B3634F /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		CAECFBDB1B84E30100B3634F /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
 		CAECFBDC1B84E30100B3634F /* create_sblgnt_database.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = create_sblgnt_database.php; sourceTree = "<group>"; };
 		CAECFBDD1B84E30100B3634F /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = greekstrong.cpp; sourceTree = "<group>"; };
@@ -2896,6 +2900,7 @@
 		CAECFB821B84E30100B3634F /* sources */ = {
 			isa = PBXGroup;
 			children = (
+				CA42C3761B84E8E10050E0DA /* description.txt */,
 				CAECFB831B84E30100B3634F /* hebrewlexicon */,
 				CAECFB8B1B84E30100B3634F /* kjv */,
 				CAECFB8F1B84E30100B3634F /* morphgnt */,
@@ -2945,8 +2950,11 @@
 		CAECFBB01B84E30100B3634F /* morphhb */ = {
 			isa = PBXGroup;
 			children = (
-				CAECFBB11B84E30100B3634F /* 0convert.php */,
-				CAECFBB21B84E30100B3634F /* 0README */,
+				CA42C3721B84E7A20050E0DA /* clean */,
+				CA42C3751B84E7BD0050E0DA /* run */,
+				CA42C3731B84E7B10050E0DA /* morphhb.cpp */,
+				CA42C3741B84E7B10050E0DA /* morphhb.h */,
+				CAECFBB21B84E30100B3634F /* README.txt */,
 			);
 			path = morphhb;
 			sourceTree = "<group>";
