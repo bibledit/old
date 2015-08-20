@@ -66,6 +66,17 @@ string convert_to_string (int i)
 }
 
 
+string str_replace (string search, string replace, string subject)
+{
+  size_t offposition = subject.find (search);
+  while (offposition != string::npos) {
+    subject.replace (offposition, search.length (), replace);
+    offposition = subject.find (search, offposition + replace.length ());
+  }
+  return subject;
+}
+
+
 int main (int argc, char **argv)
 {
   unlink ("morphhb.sqlite");
@@ -157,6 +168,7 @@ int main (int argc, char **argv)
           if (verse.empty ()) continue;
           if (in_note) continue;
           string word = (char *) xmlTextReaderValue (reader);
+          word = str_replace ("/", "", word);
           string sql = "INSERT INTO morphhb VALUES (" + book + ", " + chapter + ", " + verse + ", '" + word + "', '" + lemma + "');";
           char *error = NULL;
           int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);

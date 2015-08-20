@@ -1329,7 +1329,7 @@ void test_database_morphhb ()
   Database_Morphhb database_morphhb = Database_Morphhb ();
 
   vector <string> data = database_morphhb.getVerse (18, 3, 2);
-  evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר" }, data);
+  evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר", "׃" }, data);
 
   vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
@@ -4006,7 +4006,7 @@ void test_database_strong ()
   evaluate (__LINE__, __func__, true, length_g > 100);
   evaluate (__LINE__, __func__, true, length_h != length_g);
 
-  vector <string> results = database.strong ("χρηστόσ");
+  vector <string> results = database.strong ("χρηστοσ");
   evaluate (__LINE__, __func__, 1, results.size ());
   if (!results.empty ()) {
     evaluate (__LINE__, __func__, "G5543", results[0]);

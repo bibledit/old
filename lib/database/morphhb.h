@@ -29,8 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Morphhb
 {
 public:
-  Database_Morphhb ();
-  ~Database_Morphhb ();
   vector <string> getVerse (int book, int chapter, int verse);
   vector <Passage> searchHebrew (string hebrew);
 private:

@@ -29,16 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Chances of corruption are nearly zero.
 
 
-Database_Morphhb::Database_Morphhb ()
-{
-}
-
-
-Database_Morphhb::~Database_Morphhb ()
-{
-}
-
-
 sqlite3 * Database_Morphhb::connect ()
 {
   return database_sqlite_connect ("morphhb");
@@ -49,7 +39,7 @@ sqlite3 * Database_Morphhb::connect ()
 vector <string> Database_Morphhb::getVerse (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT hebrew FROM morphhb WHERE book =");
+  sql.add ("SELECT word FROM morphhb WHERE book =");
   sql.add (book);
   sql.add ("AND chapter =");
   sql.add (chapter);
@@ -57,7 +47,7 @@ vector <string> Database_Morphhb::getVerse (int book, int chapter, int verse)
   sql.add (verse);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> words = database_sqlite_query (db, sql.sql) ["hebrew"];
+  vector <string> words = database_sqlite_query (db, sql.sql) ["word"];
   database_sqlite_disconnect (db);
   return words;
 }
@@ -67,7 +57,7 @@ vector <string> Database_Morphhb::getVerse (int book, int chapter, int verse)
 vector <Passage> Database_Morphhb::searchHebrew (string hebrew)
 {
   SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT DISTINCT book, chapter, verse FROM morphhb WHERE hebrew =");
+  sql.add ("SELECT DISTINCT book, chapter, verse FROM morphhb WHERE word =");
   sql.add (hebrew);
   sql.add (";");
   vector <Passage> hits;
@@ -86,5 +76,3 @@ vector <Passage> Database_Morphhb::searchHebrew (string hebrew)
   }
   return hits;
 }
-
-
