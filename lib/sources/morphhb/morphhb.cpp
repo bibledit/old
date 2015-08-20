@@ -87,6 +87,8 @@ int main (int argc, char **argv)
   sqlite3_exec (db, "PRAGMA journal_mode = OFF;", NULL, NULL, NULL);
   sqlite3_exec (db, "CREATE TABLE morphhb (book integer, chapter integer, verse integer, word text, lemma text);", NULL, NULL, NULL);
 
+  set <string> unique_parsings;
+
   vector <string> books = {
     "Gen",
     "Exod",
@@ -156,6 +158,8 @@ int main (int argc, char **argv)
           }
           if (element == "w") {
             lemma = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "lemma");
+            vector <string> bits = explode (lemma, '/');
+            for (auto & bit : bits) unique_parsings.insert (bit);
           }
           if (element == "note") {
             in_note = true;
@@ -193,6 +197,12 @@ int main (int argc, char **argv)
   }
 
   sqlite3_close (db);
+
+  for (auto & parsing : unique_parsings) {
+    if (convert_to_int (parsing) == 0) {
+      cout << parsing << endl;
+    }
+  }
 
   return 0;
 }

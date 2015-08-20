@@ -53,8 +53,7 @@ string lexicon_english (void * webserver_request)
   for (auto & item : kjv_items) {
     if (!page.empty ()) page.append (" ");
     item.strong = lexicon_logic_strong_number_cleanup (item.strong);
-    string title = lexicon_logic_strong_hover_text (item.strong);
-    page.append ("<a href=\"" + item.strong + "\" title =\"" + title + "\">" + item.english + "</a>");
+    page.append ("<a href=\"" + item.strong + "\">" + item.english + "</a>");
   }
   
   return page;

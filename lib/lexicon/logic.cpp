@@ -26,6 +26,16 @@
 #include <libxml/xmlreader.h>
 
 
+#define BETH_STRONG 10000
+#define CONJUNCTION_STRONG 10001
+#define DEFINITE_ARTICLE_STRONG 10002
+#define INDEFINITE_ARTICLE_STRONG 10003
+#define KAF_STRONG 10004
+#define LAMED_STRONG 10005
+#define MEM_STRONG 10006
+#define SHIN_STRONG 10007
+
+
 // Clean up the Strong's number.
 string lexicon_logic_strong_number_cleanup (string strong)
 {
@@ -37,9 +47,8 @@ string lexicon_logic_strong_number_cleanup (string strong)
 
 
 // Convert the $item to a Strong's number.
-vector <string> lexicon_logic_convert_item_to_strong (string item) // Todo
+vector <string> lexicon_logic_convert_item_to_strong (string item)
 {
-  cout << "item: " << item << endl; // Todo
   vector <string> strongs;
   
   // If the $item is a Strong's number, take that.
@@ -66,7 +75,47 @@ vector <string> lexicon_logic_convert_item_to_strong (string item) // Todo
       if (morphhb_items.size () > offset) {
         // The parsing for the word at the offset.
         string parsing = morphhb_items[offset].parsing;
-        cout << "Parsing: " << parsing << endl; // Todo
+        vector <string> bits = filter_string_explode (parsing, '/');
+        for (auto & bit : bits) {
+          int strong = convert_to_int (bit);
+          if (strong == 0) {
+            if (bit == "b") {
+              // The Hebrew letter beth ב֖.
+              strong = BETH_STRONG;
+            }
+            else if (bit == "c") {
+              // Conjunction וְ.
+              strong = CONJUNCTION_STRONG;
+            }
+            if (bit == "d") {
+              // Definite article הַ.
+              strong = DEFINITE_ARTICLE_STRONG;
+            }
+            else if (bit == "i") {
+              // The indefinite article הַ.
+              strong = INDEFINITE_ARTICLE_STRONG;
+            }
+            else if (bit == "k") {
+              // The Hebrew letter kaf כַּ.
+              strong = KAF_STRONG;
+            }
+            else if (bit == "l") {
+              // The Hebrew letter lamed לָ.
+              strong = LAMED_STRONG;
+            }
+            else if (bit == "m") {
+              // The Hebrew letter mem מִ.
+              strong = MEM_STRONG;
+            }
+            else if (bit == "s") {
+              // The Hebrew letter shin שֶׁ.
+              strong = SHIN_STRONG;
+            }
+          }
+          if (strong) {
+            strongs.push_back ("H" + convert_to_string (strong));
+          }
+        }
       }
 
       Database_MorphGnt database_morphgnt;
@@ -81,47 +130,8 @@ vector <string> lexicon_logic_convert_item_to_strong (string item) // Todo
       }
     }
   }
-  for (auto strong: strongs) cout << "Strong's: " << strong << endl; // Todo
-  cout << "Ready" << endl; // Todo
 
   return strongs;
-}
-
-
-// Gets the text to show when the mouse cursor hovers above a Strong's definition.
-string lexicon_logic_strong_hover_text (string strong)
-{
-  string hover_text;
-  Database_Strong database_strong;
-  string definition = database_strong.definition (strong);
-  definition = lexicon_logic_create_xml_document (definition);
-  xmlTextReaderPtr reader = xmlReaderForDoc (BAD_CAST definition.c_str(), "", "UTF-8", 0);
-  while ((xmlTextReaderRead(reader) == 1)) {
-    switch (xmlTextReaderNodeType (reader)) {
-      case XML_READER_TYPE_ELEMENT:
-      {
-        xmlChar * name = xmlTextReaderName (reader);
-        if (name) {
-          string element = (char *) name;
-          xmlFree (name);
-          if ((element == "meaning") || (element == "strongs_def")) {
-            xmlChar * xml = xmlTextReaderReadInnerXml (reader);
-            if (xml) {
-              hover_text.append ((char *) xml);
-              xmlFree (xml);
-            }
-          }
-        }
-        break;
-      }
-    }
-  }
-  xmlFreeTextReader (reader);
-  if (hover_text.empty ()) hover_text = definition;
-  filter_string_replace_between (hover_text, "<", ">", "");
-  hover_text = filter_string_str_replace ("\"", "", hover_text);
-  hover_text = filter_string_trim (hover_text);
-  return hover_text;
 }
 
 
@@ -293,6 +303,12 @@ string lexicon_logic_render_definition (string strong)
   }
   xmlFreeTextReader (reader);
   rendering = filter_string_trim (rendering);
+
+  // If no rendering has been found yet, try the user-defined Strong's definitions.
+  if (rendering.empty ()) {
+    rendering = lexicon_logic_define_user_strong (strong);
+  }
+  
   return rendering;
 }
 
@@ -433,4 +449,42 @@ string lexicon_logic_render_part_of_speech_number (string abbrev)
 string lexicon_logic_render_part_of_speech_state (string abbrev)
 {
   return abbrev;
+}
+
+
+// Define user-defined Strong's numbers.
+string lexicon_logic_define_user_strong (string strong)
+{
+  string definition;
+  if (!strong.empty ()) {
+    if (strong.substr (0, 1) == "H") {
+      strong.erase (0, 1);
+      int number = convert_to_int (strong);
+      if (number == BETH_STRONG) {
+        definition = "particle preposition ב: in, at, by, with, among";
+      }
+      else if (number == CONJUNCTION_STRONG) {
+        definition = "particle conjunction ו: and, so, then, when, now, or, but, that";
+      }
+      else if (number == DEFINITE_ARTICLE_STRONG) {
+        definition = "particle definite article ה: the";
+      }
+      else if (number == INDEFINITE_ARTICLE_STRONG) {
+        definition = "particle indefinite article ה: a";
+      }
+      else if (number == KAF_STRONG) {
+        definition = "particle preposition כ: like, as, at, according to, after, when, if";
+      }
+      else if (number == LAMED_STRONG) {
+        definition = "particle preposition ל: to, for, towards, belonging to, in regard to, according to, in";
+      }
+      else if (number == MEM_STRONG) {
+        definition = "particle preposition מ: from, out of, by, by reason of, at, because of, more than";
+      }
+      else if (number == SHIN_STRONG) {
+        definition = "particle relative ש: that";
+      }
+    }
+  }
+  return definition;
 }

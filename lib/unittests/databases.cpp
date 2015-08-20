@@ -1324,7 +1324,7 @@ void test_database_kjv ()
 }
 
 
-void test_database_morphhb () // Todo
+void test_database_morphhb ()
 {
   Database_MorphHb database_morphhb = Database_MorphHb ();
 
