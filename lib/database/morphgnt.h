@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sqlite3.h>
 
 
-class Database_Morphology_Item
+class Database_MorphGnt_Item
 {
 public:
   string part_of_speech;
@@ -35,10 +35,10 @@ public:
 };
 
 
-class Database_Morphology
+class Database_MorphGnt
 {
 public:
-  vector <Database_Morphology_Item> get (int book, int chapter, int verse);
+  vector <Database_MorphGnt_Item> get (int book, int chapter, int verse);
 private:
 };
 

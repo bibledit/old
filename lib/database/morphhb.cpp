@@ -24,19 +24,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 
 
-// This is the database for the Hebrew Bible.
+// This is the database for the Hebrew Bible text plus limited parsings.
 // Resilience: It is never written to.
 // Chances of corruption are nearly zero.
 
 
-sqlite3 * Database_Morphhb::connect ()
+sqlite3 * Database_MorphHb::connect ()
 {
   return database_sqlite_connect ("morphhb");
 }
 
 
 // Get Hebrew words for $book $chapter $verse.
-vector <string> Database_Morphhb::getVerse (int book, int chapter, int verse)
+vector <string> Database_MorphHb::getVerse (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT word FROM morphhb WHERE book =");
@@ -54,7 +54,7 @@ vector <string> Database_Morphhb::getVerse (int book, int chapter, int verse)
 
 
 // Get array of book / chapter / verse of all passages that contain a $hebrew word.
-vector <Passage> Database_Morphhb::searchHebrew (string hebrew)
+vector <Passage> Database_MorphHb::searchHebrew (string hebrew)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book, chapter, verse FROM morphhb WHERE word =");
@@ -75,4 +75,33 @@ vector <Passage> Database_Morphhb::searchHebrew (string hebrew)
     hits.push_back (passage);
   }
   return hits;
+}
+
+
+// Get text and parsing.
+vector <Database_MorphHb_Item> Database_MorphHb::get (int book, int chapter, int verse)
+{
+  vector <Database_MorphHb_Item> items;
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT word, lemma FROM");
+  sql.add ("morphhb");
+  sql.add ("WHERE book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("AND verse =");
+  sql.add (verse);
+  sql.add ("ORDER BY rowid;");
+  sqlite3 * db = database_sqlite_connect ("morphhb");
+  map <string, vector <string> > results = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
+  vector <string> words = results ["word"];
+  vector <string> lemmas = results ["lemma"];
+  for (size_t i = 0; i < words.size (); i++) {
+    Database_MorphHb_Item item;
+    item.word = words[i];
+    item.parsing = lemmas[i]; // The parsing is wrongly named 'lemma' in the database.
+    items.push_back (item);
+  }
+  return items;
 }

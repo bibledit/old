@@ -26,11 +26,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/passage.h>
 
 
-class Database_Morphhb
+class Database_MorphHb_Item
+{
+public:
+  string parsing;
+  string word;
+};
+
+
+class Database_MorphHb
 {
 public:
   vector <string> getVerse (int book, int chapter, int verse);
   vector <Passage> searchHebrew (string hebrew);
+  vector <Database_MorphHb_Item> get (int book, int chapter, int verse);
 private:
   sqlite3 * connect ();
 };

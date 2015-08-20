@@ -72,7 +72,7 @@ libbibledit_a_SOURCES = \
 	database/state.cpp \
 	database/noteassignment.cpp \
 	database/strong.cpp \
-	database/morphology.cpp \
+	database/morphgnt.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

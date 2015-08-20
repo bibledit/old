@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/imageresources.h>
 #include <database/noteassignment.h>
 #include <database/strong.h>
-#include <database/morphology.h>
+#include <database/morphgnt.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -1324,9 +1324,9 @@ void test_database_kjv ()
 }
 
 
-void test_database_morphhb ()
+void test_database_morphhb () // Todo
 {
-  Database_Morphhb database_morphhb = Database_Morphhb ();
+  Database_MorphHb database_morphhb = Database_MorphHb ();
 
   vector <string> data = database_morphhb.getVerse (18, 3, 2);
   evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר", "׃" }, data);
@@ -1341,6 +1341,12 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, 30,   passages[1].book);
   evaluate (__LINE__, __func__, 3,    passages[1].chapter);
   evaluate (__LINE__, __func__, "10", passages[1].verse);
+
+  vector <Database_MorphHb_Item> items = database_morphhb.get (18, 3, 2);
+  evaluate (__LINE__, __func__, 4, (int)items.size());
+  
+  evaluate (__LINE__, __func__, "c/6030 b", items[0].parsing);
+  evaluate (__LINE__, __func__, "347", items[1].parsing);
 }
 
 
@@ -4014,17 +4020,17 @@ void test_database_strong ()
 }
 
 
-void test_database_morphology ()
+void test_database_morphgnt ()
 {
-  Database_Morphology database;
+  Database_MorphGnt database;
   
-  vector <Database_Morphology_Item> results;
+  vector <Database_MorphGnt_Item> results;
   
-  //results = database.get (0, 1, 2);
-  //evaluate (__LINE__, __func__, 0, results.size ());
+  results = database.get (0, 1, 2);
+  evaluate (__LINE__, __func__, 0, results.size ());
 
-  //results = database.get (20, 3, 4);
-  //evaluate (__LINE__, __func__, 18, results.size ());
+  results = database.get (20, 3, 4);
+  evaluate (__LINE__, __func__, 0, results.size ());
   
   results = database.get (40, 5, 6);
   evaluate (__LINE__, __func__, 10, results.size ());

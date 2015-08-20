@@ -149,7 +149,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
 	database/imageresources.$(OBJEXT) database/state.$(OBJEXT) \
 	database/noteassignment.$(OBJEXT) database/strong.$(OBJEXT) \
-	database/morphology.$(OBJEXT) session/logic.$(OBJEXT) \
+	database/morphgnt.$(OBJEXT) session/logic.$(OBJEXT) \
 	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
@@ -583,7 +583,7 @@ libbibledit_a_SOURCES = \
 	database/state.cpp \
 	database/noteassignment.cpp \
 	database/strong.cpp \
-	database/morphology.cpp \
+	database/morphgnt.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -1124,7 +1124,7 @@ database/noteassignment.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/strong.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/morphology.$(OBJEXT): database/$(am__dirstamp) \
+database/morphgnt.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
@@ -2224,8 +2224,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/maintenance.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mappings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/modifications.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/morphgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/morphhb.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/morphology.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/navigation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteassignment.Po@am__quote@

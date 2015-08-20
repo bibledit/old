@@ -20,8 +20,9 @@
 #include <lexicon/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <database/morphhb.h>
+#include <database/morphgnt.h>
 #include <database/strong.h>
-#include <database/morphology.h>
 #include <libxml/xmlreader.h>
 
 
@@ -35,16 +36,16 @@ string lexicon_logic_strong_number_cleanup (string strong)
 }
 
 
-// Convert a lemma to a Strong's number.
-vector <string> lexicon_logic_convert_item_to_strong (string item)
+// Convert the $item to a Strong's number.
+vector <string> lexicon_logic_convert_item_to_strong (string item) // Todo
 {
+  cout << "item: " << item << endl; // Todo
   vector <string> strongs;
   
-  // If the $item is a Strong's number, just take that.
+  // If the $item is a Strong's number, take that.
   if (!item.empty ()) {
     string s = item.substr (0, 1);
-    if (s == "H") strongs.push_back (item);
-    if (s == "G") strongs.push_back (item);
+    if ((s == "H") || (s == "G")) strongs.push_back (item);
   }
   
   // No Strong's number found:
@@ -52,13 +53,27 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
   if (strongs.empty ()) {
     vector <string> bits = filter_string_explode (item, '_');
     if (bits.size () == 2) {
+      
       Passage passage = Passage::from_text (bits[0]);
+      int book = passage.book;
+      int chapter = passage.chapter;
+      int verse = convert_to_int (passage.verse);
+      
       size_t offset = convert_to_int (bits[1]);
-      Database_Morphology database_morphology;
-      vector <Database_Morphology_Item> morphology_items = database_morphology.get (passage.book, passage.chapter, convert_to_int (passage.verse));
-      if (morphology_items.size () >= offset) {
+
+      Database_MorphHb database_morphhb;
+      vector <Database_MorphHb_Item> morphhb_items = database_morphhb.get (book, chapter, verse);
+      if (morphhb_items.size () > offset) {
+        // The parsing for the word at the offset.
+        string parsing = morphhb_items[offset].parsing;
+        cout << "Parsing: " << parsing << endl; // Todo
+      }
+
+      Database_MorphGnt database_morphgnt;
+      vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
+      if (morphgnt_items.size () > offset) {
         // The lemma.
-        string lemma = morphology_items[offset].lemma;
+        string lemma = morphgnt_items[offset].lemma;
         // Convert the lemma to a Strong's number.
         Database_Strong database_strong;
         vector <string> results = database_strong.strong (lemma);
@@ -66,6 +81,8 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
       }
     }
   }
+  for (auto strong: strongs) cout << "Strong's: " << strong << endl; // Todo
+  cout << "Ready" << endl; // Todo
 
   return strongs;
 }
