@@ -488,3 +488,138 @@ string lexicon_logic_define_user_strong (string strong)
   }
   return definition;
 }
+
+
+// Convert the $item to a rendered morphology.
+string lexicon_logic_convert_item_to_morphology (string item)
+{
+  vector <string> renderings;
+
+  // Assume that the $item contains a passage and an offset to morphology data within that passage.
+  vector <string> bits = filter_string_explode (item, '_');
+  if (bits.size () == 2) {
+
+    Passage passage = Passage::from_text (bits[0]);
+    int book = passage.book;
+    int chapter = passage.chapter;
+    int verse = convert_to_int (passage.verse);
+    
+    size_t offset = convert_to_int (bits[1]);
+  
+    Database_MorphGnt database_morphgnt;
+    vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
+    if (morphgnt_items.size () > offset) {
+      // The part of speech.
+      string pos = morphgnt_items[offset].part_of_speech;
+      string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+      // The parsing.
+      string parsing = morphgnt_items[offset].parsing;
+      rendering = lexicon_logic_render_morphgnt_parsing_code (parsing);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+    }
+  }
+  
+  if (renderings.empty ()) return "";
+  return "<br>" + filter_string_implode (renderings, " ");
+}
+
+
+string lexicon_logic_render_morphgnt_part_of_speech (string pos)
+{
+  pos = filter_string_str_replace ("-", "", pos);
+  string rendering;
+  if (pos == "N") rendering = "noun";
+  if (pos == "V") rendering = "verb";
+  if (pos == "RA") rendering = "definite article";
+  if (pos == "C") rendering = "conjunction";
+  if (pos == "RP") rendering = "personal pronoun";
+  if (pos == "P") rendering = "preposition";
+  if (pos == "RR") rendering = "relative pronoun";
+  if (pos == "A") rendering = "adjective";
+  if (pos == "D") rendering = "adverb";
+  if (pos == "RD") rendering = "demonstrative pronoun";
+  if (pos == "X") rendering = "interjection";
+  if (pos == "RI") rendering = "indefinite adjective";
+  if (pos == "I") rendering = "interjection";
+  return rendering;
+}
+
+
+string lexicon_logic_render_morphgnt_parsing_code (string parsing)
+{
+  vector <string> renderings;
+  // person.
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "1") renderings.push_back ("first person");
+    if (p == "2") renderings.push_back ("second person");
+    if (p == "3") renderings.push_back ("third person");
+  }
+  // tense
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "A") renderings.push_back ("aorist");
+    if (p == "F") renderings.push_back ("future");
+    if (p == "I") renderings.push_back ("imperfect");
+    if (p == "P") renderings.push_back ("present");
+    if (p == "X") renderings.push_back ("perfect");
+    if (p == "Y") renderings.push_back ("pluperfect");
+  }
+  // voice
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "A") renderings.push_back ("active");
+    if (p == "M") renderings.push_back ("middle");
+    if (p == "P") renderings.push_back ("passive");
+  }
+  // mood
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "D") renderings.push_back ("imperative");
+    if (p == "I") renderings.push_back ("indicative");
+    if (p == "N") renderings.push_back ("infinitive");
+    if (p == "O") renderings.push_back ("optative");
+    if (p == "P") renderings.push_back ("participle");
+    if (p == "S") renderings.push_back ("subjunctive");
+  }
+  // case
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "A") renderings.push_back ("accusative");
+    if (p == "D") renderings.push_back ("dative");
+    if (p == "G") renderings.push_back ("genetive");
+    if (p == "N") renderings.push_back ("nominative");
+    if (p == "V") renderings.push_back ("vocative");
+  }
+  // number
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "P") renderings.push_back ("plural");
+    if (p == "S") renderings.push_back ("singular");
+  }
+  // gender
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "F") renderings.push_back ("female");
+    if (p == "M") renderings.push_back ("male");
+    if (p == "N") renderings.push_back ("neuter");
+  }
+  // degree
+  if (!parsing.empty ()) {
+    string p = parsing.substr (0, 1);
+    parsing = parsing.substr (1);
+    if (p == "C") renderings.push_back ("comparative");
+    if (p == "S") renderings.push_back ("superlative");
+  }
+  return filter_string_implode (renderings, " ");
+}
+
+

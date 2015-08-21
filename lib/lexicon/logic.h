@@ -35,6 +35,9 @@ string lexicon_logic_render_part_of_speech_gender (string abbrev);
 string lexicon_logic_render_part_of_speech_number (string abbrev);
 string lexicon_logic_render_part_of_speech_state (string abbrev);
 string lexicon_logic_define_user_strong (string strong);
+string lexicon_logic_convert_item_to_morphology (string item);
+string lexicon_logic_render_morphgnt_part_of_speech (string pos);
+string lexicon_logic_render_morphgnt_parsing_code (string parsing);
 
 
 #endif

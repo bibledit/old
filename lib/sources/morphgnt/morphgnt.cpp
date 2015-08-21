@@ -98,6 +98,8 @@ int main (int argc, char **argv)
   sqlite3 *db;
   sqlite3_open ("morphgnt.sqlite", &db);
   sqlite3_exec (db, "PRAGMA synchronous = OFF;", NULL, NULL, NULL);
+  sqlite3_exec (db, "PRAGMA temp_store = MEMORY;", NULL, NULL, NULL);
+  sqlite3_exec (db, "PRAGMA journal_mode = OFF;", NULL, NULL, NULL);
   sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS morphgnt (book integer, chapter integer, verse integer, pos text, parsing text, word text, lemma text);", NULL, NULL, NULL);
 
   vector <string> files;
@@ -110,6 +112,8 @@ int main (int argc, char **argv)
   }
   closedir (dir);
 
+  set <string> parsings;
+  
   for (auto file : files) {
     cout << file << endl;
     string contents = file_get_contents (file);
@@ -128,6 +132,7 @@ int main (int argc, char **argv)
       int verse = convert_to_int (passage.substr (4, 2));
       string pos = bits[1];
       string parsing = bits[2];
+      parsings.insert (parsing.substr (7, 1)); // degree
       string word = bits[3];
       string lemma = bits[6];
       // Normalize the lemma: This enables searching on the lemma.
@@ -161,5 +166,7 @@ int main (int argc, char **argv)
 
   sqlite3_close (db);
 
+  for (auto & parsing : parsings) cout << parsing << endl;
+  
   return 0;
 }

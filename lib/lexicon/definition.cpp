@@ -47,9 +47,10 @@ string lexicon_definition (void * webserver_request)
   vector <string> strongs = lexicon_logic_convert_item_to_strong (id);
   
   vector <string> renderings;
+  renderings.push_back (lexicon_logic_convert_item_to_morphology (id));
   for (auto& strong : strongs) {
     renderings.push_back (lexicon_logic_render_definition (strong));
   }
   
-  return filter_string_implode (renderings, "<br>");
+  return filter_string_implode (renderings, "\n");
 }
