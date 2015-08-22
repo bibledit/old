@@ -58,7 +58,7 @@ string lexicon_original (void * webserver_request)
   vector <Database_MorphHb_Item> morphhb_items = database_morphhb.get (book, chapter, verse);
   for (size_t i = 0; i < morphhb_items.size (); i++) {
     if (!page.empty ()) page.append (" ");
-    page.append ("<a href=\"" + passage.to_text ().substr (1) + "_" + convert_to_string (i) + "\">" + morphhb_items[i].word + "</a>");
+    page.append ("<a href=\"" + passage.to_text ().substr (1) + "S" + convert_to_string (i) + "\">" + morphhb_items[i].word + "</a>");
   }
   if (!morphhb_items.empty ()) cls = "hebrew";
   
@@ -66,7 +66,7 @@ string lexicon_original (void * webserver_request)
   vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
   for (size_t i = 0; i < morphgnt_items.size (); i++) {
     if (!page.empty ()) page.append (" ");
-    page.append ("<a href=\"" + passage.to_text ().substr (1) + "_" + convert_to_string (i) + "\">" + morphgnt_items[i].word + "</a>");
+    page.append ("<a href=\"" + passage.to_text ().substr (1) + "S" + convert_to_string (i) + "\">" + morphgnt_items[i].word + "</a>");
   }
   if (!morphgnt_items.empty ()) cls = "greek";
   

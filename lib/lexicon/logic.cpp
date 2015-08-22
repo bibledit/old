@@ -60,7 +60,7 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
   // No Strong's number found:
   // Assume that the $item contains a passage and an offset to a lemma within that passage.
   if (strongs.empty ()) {
-    vector <string> bits = filter_string_explode (item, '_');
+    vector <string> bits = filter_string_explode (item, 'S');
     if (bits.size () == 2) {
       
       Passage passage = Passage::from_text (bits[0]);
@@ -486,6 +486,7 @@ string lexicon_logic_define_user_strong (string strong)
       }
     }
   }
+  definition.insert (0, "<br>");
   return definition;
 }
 
@@ -496,7 +497,7 @@ string lexicon_logic_convert_item_to_morphology (string item)
   vector <string> renderings;
 
   // Assume that the $item contains a passage and an offset to morphology data within that passage.
-  vector <string> bits = filter_string_explode (item, '_');
+  vector <string> bits = filter_string_explode (item, 'S');
   if (bits.size () == 2) {
 
     Passage passage = Passage::from_text (bits[0]);

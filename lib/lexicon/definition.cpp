@@ -43,13 +43,20 @@ string lexicon_definition (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string id = request->query["id"];
   
+  vector <string> renderings;
+  
+  string morphology = lexicon_logic_convert_item_to_morphology (id);
+  if (!morphology.empty ()) {
+    renderings.push_back (morphology);
+  }
+  
   // Whatever is the identifier, convert it to one or more Strong's numbers.
   vector <string> strongs = lexicon_logic_convert_item_to_strong (id);
-  
-  vector <string> renderings;
-  renderings.push_back (lexicon_logic_convert_item_to_morphology (id));
+
+  // Render Strong's definitions.
   for (auto& strong : strongs) {
-    renderings.push_back (lexicon_logic_render_definition (strong));
+    string rendering = lexicon_logic_render_definition (strong);
+    if (!rendering.empty ()) renderings.push_back (rendering);
   }
   
   return filter_string_implode (renderings, "\n");
