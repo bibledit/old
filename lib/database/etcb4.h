@@ -41,9 +41,12 @@ public:
   vector <int> books ();
   vector <int> chapters (int book);
   vector <int> verses (int book, int chapter);
+  vector <int> rowids (int book, int chapter, int verse);
+  string word (int rowid);
 private:
   sqlite3 * connect ();
   int get_id (sqlite3 * db, const char * table_row, string item);
+  string get_item (const char * item, int rowid);
 };
 
 

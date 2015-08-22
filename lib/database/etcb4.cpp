@@ -349,6 +349,31 @@ vector <int> Database_Etcb4::verses (int book, int chapter)
 }
 
 
+vector <int> Database_Etcb4::rowids (int book, int chapter, int verse) // Todo
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT rowid FROM data WHERE book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("AND verse =");
+  sql.add (verse);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
+  database_sqlite_disconnect (db);
+  vector <int> rowids;
+  for (auto rowid : result) rowids.push_back (convert_to_int (rowid));
+  return rowids;
+}
+
+
+string Database_Etcb4::word (int rowid)
+{
+  return get_item ("word", rowid);
+}
+
+
 int Database_Etcb4::get_id (sqlite3 * db, const char * table_row, string item)
 {
   // Two iterations to be sure a rowid can be returned.
@@ -382,10 +407,33 @@ int Database_Etcb4::get_id (sqlite3 * db, const char * table_row, string item)
 }
 
 
-/*
- Row: word
- The pointed representation of a word occurrence in Hebrew script.
- All characters of the word occurrence are present: consonants, vowel pointing and other diacritical marks.
- It is hazardous to use this feature for queries. 
- From how a Hebrew word looks in printing, it cannot be determined what the order of the various diacritics of one and the same consonant is. 
-*/
+string Database_Etcb4::get_item (const char * item, int rowid) // Todo
+{
+  sqlite3 * db = connect ();
+  {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT");
+    sql.add (item);
+    sql.add ("FROM data WHERE rowid =");
+    sql.add (rowid);
+    sql.add (";");
+    vector <string> result = database_sqlite_query (db, sql.sql) [item];
+    rowid = 0;
+    if (!result.empty ()) rowid = convert_to_int (result [0]);
+  }
+  string value;
+  {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT");
+    sql.add (item);
+    sql.add ("FROM");
+    sql.add (item);
+    sql.add ("WHERE rowid =");
+    sql.add (rowid);
+    sql.add (";");
+    vector <string> result = database_sqlite_query (db, sql.sql) [item];
+    if (!result.empty ()) value = result [0];
+  }
+  database_sqlite_disconnect (db);
+  return value;
+}
