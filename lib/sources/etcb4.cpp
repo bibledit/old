@@ -157,6 +157,13 @@ void sources_etcb4_parse ()
         string state;
         string tense;
         string stem;
+        string phrase_function;
+        string phrase_type;
+        string phrase_relation;
+        string phrase_a_relation;
+        string clause_text_type;
+        string clause_type;
+        string clause_relation;
         xmlTextReaderPtr reader = xmlReaderForMemory (data.c_str(), data.length (), "", NULL, 0);
         while ((xmlTextReaderRead(reader) == 1)) {
           switch (xmlTextReaderNodeType (reader)) {
@@ -177,6 +184,13 @@ void sources_etcb4_parse ()
                 if (clazz.find ("_state") != string::npos) state = readit;
                 if (clazz.find ("_tense") != string::npos) tense = readit;
                 if (clazz.find ("_stem") != string::npos) stem = readit;
+                if (clazz.find ("ph_fun") != string::npos) phrase_function = readit;
+                if (clazz.find ("ph_typ") != string::npos) phrase_type = readit;
+                if (clazz.find ("ph_rela") != string::npos) phrase_relation = readit;
+                if (clazz.find ("ph_arela") != string::npos) phrase_a_relation = readit;
+                if (clazz.find ("cl_txt") != string::npos) clause_text_type = readit;
+                if (clazz.find ("cl_typ") != string::npos) clause_type = readit;
+                if (clazz.find ("cl_rela") != string::npos) clause_relation = readit;
               }
               break;
             }
@@ -196,6 +210,13 @@ void sources_etcb4_parse ()
               if (state == readit) state = value;
               if (tense == readit) tense = value;
               if (stem == readit) stem = value;
+              if (phrase_function == readit) phrase_function = value;
+              if (phrase_type == readit) phrase_type = value;
+              if (phrase_relation == readit) phrase_relation = value;
+              if (phrase_a_relation == readit) phrase_a_relation = value;
+              if (clause_text_type == readit) clause_text_type = value;
+              if (clause_type == readit) clause_type = value;
+              if (clause_relation == readit) clause_relation = value;
               break;
             }
             case XML_READER_TYPE_END_ELEMENT:
@@ -205,7 +226,9 @@ void sources_etcb4_parse ()
                 database_etcb4.store (book, chapter, verse,
                                       word, vocalized_lexeme, consonantal_lexeme, gloss, pos, subpos,
                                       gender, number, person,
-                                      state, tense, stem);
+                                      state, tense, stem,
+                                      phrase_function, phrase_type, phrase_relation,
+                                      phrase_a_relation, clause_text_type, clause_type, clause_relation);
                 word.clear ();
                 vocalized_lexeme.clear ();
                 consonantal_lexeme.clear ();
@@ -218,6 +241,13 @@ void sources_etcb4_parse ()
                 state.clear ();
                 tense.clear ();
                 stem.clear ();
+                phrase_function.clear ();
+                phrase_type.clear ();
+                phrase_relation.clear ();
+                phrase_a_relation.clear ();
+                clause_text_type.clear ();
+                clause_type.clear ();
+                clause_relation.clear ();
               }
               break;
             }

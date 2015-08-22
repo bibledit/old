@@ -52,7 +52,9 @@ void Database_Etcb4::create ()
   "word int, vocalized_lexeme int, consonantal_lexeme int, "
   "gloss int, pos int, subpos int, "
   "gender int, number int, person int, "
-  "state int, tense int, stem int"
+  "state int, tense int, stem int, "
+  "phrase_function int, phrase_type int, phrase_relation int, "
+  "phrase_a_relation int, clause_text_type int, clause_type int, clause_relation int"
   ");";
   database_sqlite_exec (db, sql);
   
@@ -140,6 +142,55 @@ void Database_Etcb4::create ()
   "CREATE TABLE IF NOT EXISTS stem (stem text);";
   database_sqlite_exec (db, sql);
   
+  sql =
+  "DROP TABLE IF EXISTS phrase_function;";
+  database_sqlite_exec (db, sql);
+  sql =
+  "CREATE TABLE IF NOT EXISTS phrase_function (phrase_function text);";
+  database_sqlite_exec (db, sql);
+  
+  sql =
+  "DROP TABLE IF EXISTS phrase_type;";
+  database_sqlite_exec (db, sql);
+  sql =
+  "CREATE TABLE IF NOT EXISTS phrase_type (phrase_type text);";
+  database_sqlite_exec (db, sql);
+  
+  sql =
+  "DROP TABLE IF EXISTS phrase_relation;";
+  database_sqlite_exec (db, sql);
+  sql =
+  "CREATE TABLE IF NOT EXISTS phrase_relation (phrase_relation text);";
+  database_sqlite_exec (db, sql);
+  
+  sql =
+  "DROP TABLE IF EXISTS phrase_a_relation;";
+  database_sqlite_exec (db, sql);
+  sql =
+  "CREATE TABLE IF NOT EXISTS phrase_a_relation (phrase_a_relation text);";
+  database_sqlite_exec (db, sql);
+  
+  sql =
+  "DROP TABLE IF EXISTS clause_text_type;";
+  database_sqlite_exec (db, sql);
+  sql =
+  "CREATE TABLE IF NOT EXISTS clause_text_type (clause_text_type text);";
+  database_sqlite_exec (db, sql);
+  
+  sql =
+  "DROP TABLE IF EXISTS clause_type;";
+  database_sqlite_exec (db, sql);
+  sql =
+  "CREATE TABLE IF NOT EXISTS clause_type (clause_type text);";
+  database_sqlite_exec (db, sql);
+
+  sql =
+  "DROP TABLE IF EXISTS clause_relation;";
+  database_sqlite_exec (db, sql);
+  sql =
+  "CREATE TABLE IF NOT EXISTS clause_relation (clause_relation text);";
+  database_sqlite_exec (db, sql);
+  
   database_sqlite_disconnect (db);
 }
 
@@ -197,7 +248,9 @@ void Database_Etcb4::store (int book, int chapter, int verse,
                             string word, string vocalized_lexeme, string consonantal_lexeme,
                             string gloss, string pos, string subpos,
                             string gender, string number, string person,
-                            string state, string tense, string stem)
+                            string state, string tense, string stem,
+                            string phrase_function, string phrase_type, string phrase_relation,
+                            string phrase_a_relation, string clause_text_type, string clause_type, string clause_relation)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql = SqliteSQL ();
@@ -231,6 +284,20 @@ void Database_Etcb4::store (int book, int chapter, int verse,
   sql.add (get_id (db, "tense", tense));
   sql.add (",");
   sql.add (get_id (db, "stem", stem));
+  sql.add (",");
+  sql.add (get_id (db, "phrase_function", phrase_function));
+  sql.add (",");
+  sql.add (get_id (db, "phrase_type", phrase_type));
+  sql.add (",");
+  sql.add (get_id (db, "phrase_relation", phrase_relation));
+  sql.add (",");
+  sql.add (get_id (db, "phrase_a_relation", phrase_a_relation));
+  sql.add (",");
+  sql.add (get_id (db, "clause_text_type", clause_text_type));
+  sql.add (",");
+  sql.add (get_id (db, "clause_type", clause_type));
+  sql.add (",");
+  sql.add (get_id (db, "clause_relation", clause_relation));
   sql.add (");");
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);

@@ -35,7 +35,9 @@ public:
               string word, string vocalized_lexeme, string consonantal_lexeme,
               string gloss, string pos, string subpos,
               string gender, string number, string person,
-              string state, string tense, string stem);
+              string state, string tense, string stem,
+              string phrase_function, string phrase_type, string phrase_relation,
+              string phrase_a_relation, string clause_text_type, string clause_type, string clause_relation);
   vector <int> books ();
   vector <int> chapters (int book);
   vector <int> verses (int book, int chapter);
