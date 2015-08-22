@@ -73,6 +73,7 @@ libbibledit_a_SOURCES = \
 	database/noteassignment.cpp \
 	database/strong.cpp \
 	database/morphgnt.cpp \
+	database/etcb4.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -326,7 +327,8 @@ libbibledit_a_SOURCES = \
 	lexicon/logic.cpp \
 	lexicon/english.cpp \
 	lexicon/definition.cpp \
-	lexicon/original.cpp
+	lexicon/original.cpp \
+	sources/etcb4.cpp
 
 bin_PROGRAMS = server unittest
 

@@ -293,6 +293,11 @@
 		CA5DE2CB1AA5BA3900AE051C /* externalresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = externalresources.h; sourceTree = "<group>"; };
 		CA5DE2CC1AA5F02100AE051C /* locks.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = locks.c; sourceTree = "<group>"; };
 		CA5DE2CD1AA5F02100AE051C /* locks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = locks.h; sourceTree = "<group>"; };
+		CA605ACF1B876CA400EDDBA4 /* etcb4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = etcb4.cpp; sourceTree = "<group>"; };
+		CA605AD01B876CA400EDDBA4 /* etcb4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = etcb4.h; sourceTree = "<group>"; };
+		CA605AD11B876CA400EDDBA4 /* etcb4.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = etcb4.txt; sourceTree = "<group>"; };
+		CA605AD21B876D0400EDDBA4 /* etcb4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = etcb4.cpp; sourceTree = "<group>"; };
+		CA605AD31B876D0400EDDBA4 /* etcb4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = etcb4.h; sourceTree = "<group>"; };
 		CA6339861A655A3A00514F1E /* maintenance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = maintenance.cpp; sourceTree = "<group>"; };
 		CA6339871A655A3A00514F1E /* maintenance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maintenance.h; sourceTree = "<group>"; };
 		CA6339881A65938900514F1E /* tmp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tmp.cpp; sourceTree = "<group>"; };
@@ -1430,6 +1435,8 @@
 				CAA4D00A1A45A647003ABA25 /* config */,
 				CAA4D0171A45A647003ABA25 /* confirm.cpp */,
 				CAA4D0181A45A647003ABA25 /* confirm.h */,
+				CA605AD21B876D0400EDDBA4 /* etcb4.cpp */,
+				CA605AD31B876D0400EDDBA4 /* etcb4.h */,
 				CA36667D1B70E7B00077B58F /* imageresources.cpp */,
 				CA36667E1B70E7B00077B58F /* imageresources.h */,
 				CAA4D01B1A45A647003ABA25 /* ipc.cpp */,
@@ -1450,10 +1457,10 @@
 				CAA4D0261A45A647003ABA25 /* mappings.h */,
 				CAA4D0271A45A647003ABA25 /* modifications.cpp */,
 				CAA4D0281A45A647003ABA25 /* modifications.h */,
-				CAA4D0291A45A647003ABA25 /* morphhb.cpp */,
-				CAA4D02A1A45A647003ABA25 /* morphhb.h */,
 				CAC0F0C81B81F1C000D3E989 /* morphgnt.cpp */,
 				CAC0F0C91B81F1C000D3E989 /* morphgnt.h */,
+				CAA4D0291A45A647003ABA25 /* morphhb.cpp */,
+				CAA4D02A1A45A647003ABA25 /* morphhb.h */,
 				CAA4D02B1A45A647003ABA25 /* navigation.cpp */,
 				CAA4D02C1A45A647003ABA25 /* navigation.h */,
 				CAA4D02D1A45A647003ABA25 /* noteactions.cpp */,
@@ -2900,6 +2907,9 @@
 		CAECFB821B84E30100B3634F /* sources */ = {
 			isa = PBXGroup;
 			children = (
+				CA605ACF1B876CA400EDDBA4 /* etcb4.cpp */,
+				CA605AD01B876CA400EDDBA4 /* etcb4.h */,
+				CA605AD11B876CA400EDDBA4 /* etcb4.txt */,
 				CA42C3761B84E8E10050E0DA /* description.txt */,
 				CAECFB831B84E30100B3634F /* hebrewlexicon */,
 				CAECFB8B1B84E30100B3634F /* kjv */,

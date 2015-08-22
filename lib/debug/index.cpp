@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <notes/logic.h>
+#include <tasks/logic.h>
 
 
 const char * debug_index_url ()
@@ -46,13 +47,25 @@ string debug_index (void * webserver_request)
   Assets_View view = Assets_View ();
 
   string debug = request->query ["debug"];
+  
   if (debug == "1") {
     notes_logic_maintain_note_assignees (false);
     view.set_variable ("success", "notes_logic_maintain_note_assignees");
   }
+
   if (debug == "2") {
     notes_logic_maintain_note_assignees (true);
     view.set_variable ("success", "notes_logic_maintain_note_assignees force");
+  }
+
+  if (debug == "etcb4download") {
+    tasks_logic_queue (DOWNLOADETCB4);
+    view.set_variable ("success", "Task was scheduled");
+  }
+  
+  if (debug == "etcb4parse") {
+    tasks_logic_queue (PARSEETCB4);
+    view.set_variable ("success", "Task was scheduled");
   }
   
   page += view.render ("debug", "index");
