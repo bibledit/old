@@ -374,6 +374,114 @@ string Database_Etcb4::word (int rowid)
 }
 
 
+string Database_Etcb4::vocalized_lexeme (int rowid)
+{
+  return get_item ("vocalized_lexeme", rowid);
+}
+
+
+string Database_Etcb4::consonantal_lexeme (int rowid)
+{
+  return get_item ("consonantal_lexeme", rowid);
+}
+
+
+string Database_Etcb4::gloss (int rowid)
+{
+  return get_item ("gloss", rowid);
+}
+
+
+string Database_Etcb4::pos (int rowid)
+{
+  return get_item ("pos", rowid);
+}
+
+
+string Database_Etcb4::subpos (int rowid)
+{
+  return get_item ("subpos", rowid);
+}
+
+
+string Database_Etcb4::gender (int rowid)
+{
+  return get_item ("gender", rowid);
+}
+
+
+string Database_Etcb4::number (int rowid)
+{
+  return get_item ("number", rowid);
+}
+
+
+string Database_Etcb4::person (int rowid)
+{
+  return get_item ("person", rowid);
+}
+
+
+string Database_Etcb4::state (int rowid)
+{
+  return get_item ("state", rowid);
+}
+
+
+string Database_Etcb4::tense (int rowid)
+{
+  return get_item ("tense", rowid);
+}
+
+
+string Database_Etcb4::stem (int rowid)
+{
+  return get_item ("stem", rowid);
+}
+
+
+string Database_Etcb4::phrase_function (int rowid)
+{
+  return get_item ("phrase_function", rowid);
+}
+
+
+string Database_Etcb4::phrase_type (int rowid)
+{
+  return get_item ("phrase_type", rowid);
+}
+
+
+string Database_Etcb4::phrase_relation (int rowid)
+{
+  return get_item ("phrase_relation", rowid);
+}
+
+
+string Database_Etcb4::phrase_a_relation (int rowid)
+{
+  return get_item ("phrase_a_relation", rowid);
+}
+
+
+string Database_Etcb4::clause_text_type (int rowid)
+{
+  return get_item ("clause_text_type", rowid);
+}
+
+
+string Database_Etcb4::clause_type (int rowid)
+{
+  return get_item ("clause_type", rowid);
+}
+
+
+string Database_Etcb4::clause_relation (int rowid)
+{
+  return get_item ("clause_relation", rowid);
+}
+
+
 int Database_Etcb4::get_id (sqlite3 * db, const char * table_row, string item)
 {
   // Two iterations to be sure a rowid can be returned.
@@ -409,6 +517,8 @@ int Database_Etcb4::get_id (sqlite3 * db, const char * table_row, string item)
 
 string Database_Etcb4::get_item (const char * item, int rowid) // Todo
 {
+  // The $rowid refers to the main table.
+  // Update it so it refers to the sub table.
   sqlite3 * db = connect ();
   {
     SqliteSQL sql = SqliteSQL ();
@@ -421,6 +531,7 @@ string Database_Etcb4::get_item (const char * item, int rowid) // Todo
     rowid = 0;
     if (!result.empty ()) rowid = convert_to_int (result [0]);
   }
+  // Retrieve the requested value from the sub table.
   string value;
   {
     SqliteSQL sql = SqliteSQL ();
@@ -435,5 +546,6 @@ string Database_Etcb4::get_item (const char * item, int rowid) // Todo
     if (!result.empty ()) value = result [0];
   }
   database_sqlite_disconnect (db);
+  // Done.
   return value;
 }

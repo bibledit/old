@@ -43,6 +43,24 @@ public:
   vector <int> verses (int book, int chapter);
   vector <int> rowids (int book, int chapter, int verse);
   string word (int rowid);
+  string vocalized_lexeme (int rowid);
+  string consonantal_lexeme (int rowid);
+  string gloss (int rowid);
+  string pos (int rowid);
+  string subpos (int rowid);
+  string gender (int rowid);
+  string number (int rowid);
+  string person (int rowid);
+  string state (int rowid);
+  string tense (int rowid);
+  string stem (int rowid);
+  string phrase_function (int rowid);
+  string phrase_type (int rowid);
+  string phrase_relation (int rowid);
+  string phrase_a_relation (int rowid);
+  string clause_text_type (int rowid);
+  string clause_type (int rowid);
+  string clause_relation (int rowid);
 private:
   sqlite3 * connect ();
   int get_id (sqlite3 * db, const char * table_row, string item);
