@@ -1,5 +1,7 @@
 Description of the data sources
 
 Hebrew morphologies.
-The morphhb files provide limited morphology. It is a work in progress.
-A non-free resource would be Westminster Hebrew Morphology
+* The morphhb files provide limited morphology. It is a work in progress.
+* A non-free resource would be the Westminster Hebrew Morphology.
+* The ETCB4 database provides a high quality morphology. It is a free source.
+
