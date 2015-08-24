@@ -24,8 +24,13 @@
 #include <config/libraries.h>
 
 
+#define HEBREW_ETCBE4_NAME "Hebrew (University of Amsterdam)"
+#define HEBREW_ETCBE4_PREFIX "e"
+
+
 vector <string> lexicon_logic_resource_names ();
 string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse);
+string lexicon_logic_get_script (string prefix);
 string lexicon_logic_strong_number_cleanup (string strong);
 vector <string> lexicon_logic_convert_item_to_strong (string item);
 string lexicon_logic_create_xml_document (string xml);
@@ -40,6 +45,7 @@ string lexicon_logic_define_user_strong (string strong);
 string lexicon_logic_convert_item_to_morphology (string item);
 string lexicon_logic_render_morphgnt_part_of_speech (string pos);
 string lexicon_logic_render_morphgnt_parsing_code (string parsing);
+string lexicon_logic_render_etcb4_morphology (string rowid);
 
 
 #endif

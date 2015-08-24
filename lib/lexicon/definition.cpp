@@ -45,19 +45,34 @@ string lexicon_definition (void * webserver_request)
   
   vector <string> renderings;
   
-  string morphology = lexicon_logic_convert_item_to_morphology (id);
-  if (!morphology.empty ()) {
-    renderings.push_back (morphology);
+  if (!id.empty ()) {
+    
+    string letter = id.substr (0, 1);
+    if (letter == HEBREW_ETCBE4_PREFIX) {
+      
+      // ETCBC4 database.
+      renderings.push_back (lexicon_logic_render_etcb4_morphology (id));
+      
+    } else {
+
+      string morphology = lexicon_logic_convert_item_to_morphology (id);
+      if (!morphology.empty ()) {
+        renderings.push_back (morphology);
+      }
+      
+      // Whatever is the identifier, convert it to one or more Strong's numbers.
+      vector <string> strongs = lexicon_logic_convert_item_to_strong (id);
+      
+      // Render Strong's definitions.
+      for (auto& strong : strongs) {
+        string rendering = lexicon_logic_render_definition (strong);
+        if (!rendering.empty ()) renderings.push_back (rendering);
+      }
+
+    }
+    
   }
   
-  // Whatever is the identifier, convert it to one or more Strong's numbers.
-  vector <string> strongs = lexicon_logic_convert_item_to_strong (id);
-
-  // Render Strong's definitions.
-  for (auto& strong : strongs) {
-    string rendering = lexicon_logic_render_definition (strong);
-    if (!rendering.empty ()) renderings.push_back (rendering);
-  }
   
   return filter_string_implode (renderings, "\n");
 }

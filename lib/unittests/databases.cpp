@@ -57,7 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/noteassignment.h>
 #include <database/strong.h>
 #include <database/morphgnt.h>
-#include <database/etcb4.h>
+#include <database/etcbc4.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -4041,9 +4041,9 @@ void test_database_morphgnt ()
 }
 
 
-void test_database_etcb4 () // Todo
+void test_database_etcbc4 () // Todo
 {
-  Database_Etcb4 database;
+  Database_Etcbc4 database;
   
   vector <int> rowids = database.rowids (1, 1, 1);
   evaluate (__LINE__, __func__, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}, rowids);

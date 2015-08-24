@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/etcb4.h>
+#include <database/etcbc4.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/date.h>
@@ -29,13 +29,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // The database is normally only read from.
 
 
-sqlite3 * Database_Etcb4::connect ()
+sqlite3 * Database_Etcbc4::connect ()
 {
   return database_sqlite_connect ("etcb4");
 }
 
 
-void Database_Etcb4::create ()
+void Database_Etcbc4::create ()
 {
   sqlite3 * db = connect ();
   string sql;
@@ -195,7 +195,7 @@ void Database_Etcb4::create ()
 }
 
 
-string Database_Etcb4::raw (int book, int chapter, int verse)
+string Database_Etcbc4::raw (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT data FROM rawdata WHERE book =");
@@ -213,7 +213,7 @@ string Database_Etcb4::raw (int book, int chapter, int verse)
 }
 
 
-void Database_Etcb4::store (int book, int chapter, int verse, string data)
+void Database_Etcbc4::store (int book, int chapter, int verse, string data)
 {
   sqlite3 * db = connect ();
   {
@@ -244,7 +244,7 @@ void Database_Etcb4::store (int book, int chapter, int verse, string data)
 }
 
 
-void Database_Etcb4::store (int book, int chapter, int verse,
+void Database_Etcbc4::store (int book, int chapter, int verse,
                             string word, string vocalized_lexeme, string consonantal_lexeme,
                             string gloss, string pos, string subpos,
                             string gender, string number, string person,
@@ -304,7 +304,7 @@ void Database_Etcb4::store (int book, int chapter, int verse,
 }
 
 
-vector <int> Database_Etcb4::books ()
+vector <int> Database_Etcbc4::books ()
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book FROM rawdata ORDER BY book;");
@@ -317,7 +317,7 @@ vector <int> Database_Etcb4::books ()
 }
 
 
-vector <int> Database_Etcb4::chapters (int book)
+vector <int> Database_Etcbc4::chapters (int book)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT chapter FROM rawdata WHERE book =");
@@ -332,7 +332,7 @@ vector <int> Database_Etcb4::chapters (int book)
 }
 
 
-vector <int> Database_Etcb4::verses (int book, int chapter)
+vector <int> Database_Etcbc4::verses (int book, int chapter)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT verse FROM rawdata WHERE book =");
@@ -349,7 +349,7 @@ vector <int> Database_Etcb4::verses (int book, int chapter)
 }
 
 
-vector <int> Database_Etcb4::rowids (int book, int chapter, int verse) // Todo
+vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse) // Todo
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM data WHERE book =");
@@ -368,121 +368,121 @@ vector <int> Database_Etcb4::rowids (int book, int chapter, int verse) // Todo
 }
 
 
-string Database_Etcb4::word (int rowid)
+string Database_Etcbc4::word (int rowid)
 {
   return get_item ("word", rowid);
 }
 
 
-string Database_Etcb4::vocalized_lexeme (int rowid)
+string Database_Etcbc4::vocalized_lexeme (int rowid)
 {
   return get_item ("vocalized_lexeme", rowid);
 }
 
 
-string Database_Etcb4::consonantal_lexeme (int rowid)
+string Database_Etcbc4::consonantal_lexeme (int rowid)
 {
   return get_item ("consonantal_lexeme", rowid);
 }
 
 
-string Database_Etcb4::gloss (int rowid)
+string Database_Etcbc4::gloss (int rowid)
 {
   return get_item ("gloss", rowid);
 }
 
 
-string Database_Etcb4::pos (int rowid)
+string Database_Etcbc4::pos (int rowid)
 {
   return get_item ("pos", rowid);
 }
 
 
-string Database_Etcb4::subpos (int rowid)
+string Database_Etcbc4::subpos (int rowid)
 {
   return get_item ("subpos", rowid);
 }
 
 
-string Database_Etcb4::gender (int rowid)
+string Database_Etcbc4::gender (int rowid)
 {
   return get_item ("gender", rowid);
 }
 
 
-string Database_Etcb4::number (int rowid)
+string Database_Etcbc4::number (int rowid)
 {
   return get_item ("number", rowid);
 }
 
 
-string Database_Etcb4::person (int rowid)
+string Database_Etcbc4::person (int rowid)
 {
   return get_item ("person", rowid);
 }
 
 
-string Database_Etcb4::state (int rowid)
+string Database_Etcbc4::state (int rowid)
 {
   return get_item ("state", rowid);
 }
 
 
-string Database_Etcb4::tense (int rowid)
+string Database_Etcbc4::tense (int rowid)
 {
   return get_item ("tense", rowid);
 }
 
 
-string Database_Etcb4::stem (int rowid)
+string Database_Etcbc4::stem (int rowid)
 {
   return get_item ("stem", rowid);
 }
 
 
-string Database_Etcb4::phrase_function (int rowid)
+string Database_Etcbc4::phrase_function (int rowid)
 {
   return get_item ("phrase_function", rowid);
 }
 
 
-string Database_Etcb4::phrase_type (int rowid)
+string Database_Etcbc4::phrase_type (int rowid)
 {
   return get_item ("phrase_type", rowid);
 }
 
 
-string Database_Etcb4::phrase_relation (int rowid)
+string Database_Etcbc4::phrase_relation (int rowid)
 {
   return get_item ("phrase_relation", rowid);
 }
 
 
-string Database_Etcb4::phrase_a_relation (int rowid)
+string Database_Etcbc4::phrase_a_relation (int rowid)
 {
   return get_item ("phrase_a_relation", rowid);
 }
 
 
-string Database_Etcb4::clause_text_type (int rowid)
+string Database_Etcbc4::clause_text_type (int rowid)
 {
   return get_item ("clause_text_type", rowid);
 }
 
 
-string Database_Etcb4::clause_type (int rowid)
+string Database_Etcbc4::clause_type (int rowid)
 {
   return get_item ("clause_type", rowid);
 }
 
 
-string Database_Etcb4::clause_relation (int rowid)
+string Database_Etcbc4::clause_relation (int rowid)
 {
   return get_item ("clause_relation", rowid);
 }
 
 
-int Database_Etcb4::get_id (sqlite3 * db, const char * table_row, string item)
+int Database_Etcbc4::get_id (sqlite3 * db, const char * table_row, string item)
 {
   // Two iterations to be sure a rowid can be returned.
   for (unsigned int i = 0; i < 2; i++) {
@@ -515,7 +515,7 @@ int Database_Etcb4::get_id (sqlite3 * db, const char * table_row, string item)
 }
 
 
-string Database_Etcb4::get_item (const char * item, int rowid) // Todo
+string Database_Etcbc4::get_item (const char * item, int rowid) // Todo
 {
   // The $rowid refers to the main table.
   // Update it so it refers to the sub table.

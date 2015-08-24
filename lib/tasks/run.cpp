@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 #include <resource/logic.h>
-#include <sources/etcb4.h>
+#include <sources/etcbc4.h>
 
 
 mutex mutex_tasks; 
@@ -187,9 +187,9 @@ void tasks_run_one (string filename)
     export_bibledropbox (parameter1, parameter2);
   } else if (command == IMPORTIMAGES) {
     resource_logic_import_images (parameter1, parameter2);
-  } else if (command == DOWNLOADETCB4) {
+  } else if (command == DOWNLOADETCBC4) {
     sources_etcb4_download ();
-  } else if (command == PARSEETCB4) {
+  } else if (command == PARSEETCBC4) {
     sources_etcb4_parse ();
   } else {
     Database_Logs::log ("Unknown task: " + command);

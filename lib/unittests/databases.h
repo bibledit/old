@@ -60,7 +60,7 @@ void test_database_imageresources ();
 void test_database_noteassignment ();
 void test_database_strong ();
 void test_database_morphgnt ();
-void test_database_etcb4 ();
+void test_database_etcbc4 ();
 
 
 #endif

@@ -17,9 +17,9 @@
  */
 
 
-#include <sources/etcb4.h>
+#include <sources/etcbc4.h>
 #include <database/logs.h>
-#include <database/etcb4.h>
+#include <database/etcbc4.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <libxml/xmlreader.h>
@@ -27,9 +27,9 @@
 
 void sources_etcb4_download ()
 {
-  Database_Logs::log ("Start to download the raw Hebrew morphology data from the ETCB4 database");
-  Database_Etcb4 database_etcb4;
-  database_etcb4.create ();
+  Database_Logs::log ("Start to download the raw Hebrew morphology data from the ETCBC4 database");
+  Database_Etcbc4 database_etcbc4;
+  database_etcbc4.create ();
   
   // The book names for downloading data.
   vector <string> books = {
@@ -86,7 +86,7 @@ void sources_etcb4_download ()
       for (int verse = 1; verse < 200; verse++) {
         if (book_done) continue;
 
-        string data = database_etcb4.raw (book, chapter, verse);
+        string data = database_etcbc4.raw (book, chapter, verse);
         if (!data.empty ()) continue;
         
         string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + convert_to_string (chapter) + "&verse=" + convert_to_string (verse);
@@ -102,14 +102,14 @@ void sources_etcb4_download ()
           break;
         }
         Database_Logs::log (bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse));
-        database_etcb4.store (book, chapter, verse, response);
+        database_etcbc4.store (book, chapter, verse, response);
         // Wait a second so as not to overload the website.
         this_thread::sleep_for (chrono::seconds (1));
       }
     }
   }
 
-  Database_Logs::log ("Finished downloading from the ETCB4 database");
+  Database_Logs::log ("Finished downloading from the ETCBC4 database");
 }
 
 
@@ -124,23 +124,23 @@ string sources_etcb4_clean (string item)
 }
 
 
-// Parses the raw html data as downloaded from the ETCB4 database.
+// Parses the raw html data as downloaded from the ETCBC4 database.
 // The parser is supposed to ran only by the developers.
 // No memory is freed: It leaks a lot of memory.
 void sources_etcb4_parse ()
 {
-  Database_Logs::log ("Parsing data from the ETCB4 database");
-  Database_Etcb4 database_etcb4;
-  database_etcb4.create ();
+  Database_Logs::log ("Parsing data from the ETCBC4 database");
+  Database_Etcbc4 database_etcbc4;
+  database_etcbc4.create ();
   string readit = "readit";
-  vector <int> books = database_etcb4.books ();
+  vector <int> books = database_etcbc4.books ();
   for (auto book : books) {
-    vector <int> chapters = database_etcb4.chapters (book);
+    vector <int> chapters = database_etcbc4.chapters (book);
     for (auto chapter : chapters) {
       Database_Logs::log ("Parsing book " + convert_to_string (book) + " chapter " + convert_to_string (chapter));
-      vector <int> verses = database_etcb4.verses (book, chapter);
+      vector <int> verses = database_etcbc4.verses (book, chapter);
       for (auto verse : verses) {
-        string data = database_etcb4.raw (book, chapter, verse);
+        string data = database_etcbc4.raw (book, chapter, verse);
         if (data.empty ()) continue;
         data = filter_string_str_replace ("&nbsp;", "", data);
         data.insert (0, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><bibledit>");
@@ -223,7 +223,7 @@ void sources_etcb4_parse ()
             {
               string element = (char *) xmlTextReaderName (reader);
               if (element == "table") {
-                database_etcb4.store (book, chapter, verse,
+                database_etcbc4.store (book, chapter, verse,
                                       word, vocalized_lexeme, consonantal_lexeme, gloss, pos, subpos,
                                       gender, number, person,
                                       state, tense, stem,
@@ -257,5 +257,5 @@ void sources_etcb4_parse ()
     }
   }
   
-  Database_Logs::log ("Finished parsing data from the ETCB4 database");
+  Database_Logs::log ("Finished parsing data from the ETCBC4 database");
 }

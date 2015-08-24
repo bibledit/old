@@ -17,15 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_ETCB4_H
-#define INCLUDED_DATABASE_ETCB4_H
+#ifndef INCLUDED_DATABASE_ETCBC4_H
+#define INCLUDED_DATABASE_ETCBC4_H
 
 
 #include <config/libraries.h>
 #include <sqlite3.h>
 
 
-class Database_Etcb4
+class Database_Etcbc4
 {
 public:
   void create ();

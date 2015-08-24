@@ -20,7 +20,7 @@
 #include <lexicon/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <database/etcb4.h>
+#include <database/etcbc4.h>
 #include <database/morphhb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
@@ -35,13 +35,12 @@
 #define LAMED_STRONG 10005
 #define MEM_STRONG 10006
 #define SHIN_STRONG 10007
-#define HEBREW_ETCBE4 "Hebrew (University of Amsterdam)"
 
 
 // The names of the available lexicon resources.
 vector <string> lexicon_logic_resource_names () // Todo
 {
-  return { HEBREW_ETCBE4 };
+  return { HEBREW_ETCBE4_NAME };
 }
 
 
@@ -50,34 +49,73 @@ string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
 {
   string html;
   
-  if (lexicon == HEBREW_ETCBE4) {
-    Database_Etcb4 database_etcb4;
-    // Data from the ETCB4 database.
-    vector <int> rowids = database_etcb4.rowids (book, chapter, verse);
+  if (lexicon == HEBREW_ETCBE4_NAME) {
+    string prefix = HEBREW_ETCBE4_PREFIX;
+    Database_Etcbc4 database_etcbc4;
+    // Data from the ETCBC4 database.
+    vector <int> rowids = database_etcbc4.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
-      html.append ("<div>");
+      string id = "lexicontxt" + prefix;
+      html.append ("<div id=\"" + id + "\">\n");
       for (auto rowid : rowids) {
         html.append ("<table style=\"float: right\">");
         html.append ("<tr>");
         html.append ("<td class=\"hebrew\">");
-        string word = database_etcb4.word (rowid);
-        html.append (word);
+        string word = database_etcbc4.word (rowid);
+        string link = "<a href=\"" HEBREW_ETCBE4_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
+        html.append (link);
         html.append ("</td>");
         html.append ("</tr>");
         html.append ("<tr>");
         html.append ("<td>");
-        string gloss = database_etcb4.gloss (rowid);
+        string gloss = database_etcbc4.gloss (rowid);
         gloss = filter_string_sanitize_html (gloss);
         html.append (gloss);
         html.append ("</td>");
         html.append ("</tr>");
+        html.append ("</table>");
       }
       html.append ("</div>");
+      html.append (lexicon_logic_get_script (prefix));
     }
   }
   
   return html;
 }
+
+
+// The script to put into the html for a lexicon's defined $prefix.
+string lexicon_logic_get_script (string prefix)
+{
+  string txtid = "lexicontxt" + prefix;
+  string defid = "lexicondef" + prefix;
+  string script;
+  script.append ("<div id=\"" + defid + "\" style=\"clear:both\">\n");
+  script.append ("</div>\n");
+  script.append ("<script>\n");
+  script.append ("console.log (\"" + defid + "\");\n");
+  script.append ("$(\"#" + txtid+ "\").on (\"click\", function (event) {\n");
+  script.append ("  event.preventDefault ();\n");
+  script.append ("  var href = event.target.href;\n");
+  script.append ("  href = href.substring (href.lastIndexOf ('/') + 1);\n");
+  script.append ("console.log (href);\n");
+  script.append ("  $.ajax ({\n");
+  script.append ("  url: \"/lexicon/definition\",\n");
+  script.append ("  type: \"GET\",\n");
+  script.append ("  data: { id: href },\n");
+  script.append ("  success: function (response) {\n");
+  script.append ("    if (response != \"\") {\n");
+  script.append ("      var element = $ (\"#" + defid + "\");\n");
+  script.append ("      element.empty ();\n");
+  script.append ("      element.append (response);\n");
+  script.append ("    }\n");
+  script.append ("  }\n");
+  script.append ("  });\n");
+  script.append ("});\n");
+  script.append ("</script>\n");
+  return script;
+}
+
 
 
 // Clean up the Strong's number.
@@ -668,3 +706,147 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
 }
 
 
+string lexicon_logic_render_etcb4_morphology (string rowid)
+{
+  vector <string> renderings;
+  int row = convert_to_int (rowid.substr (1));
+  Database_Etcbc4 database_etcbc4;
+
+  string word = database_etcbc4.word (row);
+  renderings.push_back ("word:");
+  renderings.push_back (word);
+
+  string vocalized_lexeme = database_etcbc4.vocalized_lexeme (row);
+  renderings.push_back (";");
+  renderings.push_back ("vocalized lexeme:");
+  renderings.push_back (vocalized_lexeme);
+
+  string consonantal_lexeme = database_etcbc4.consonantal_lexeme (row);
+  renderings.push_back (";");
+  renderings.push_back ("consonantal lexeme:");
+  renderings.push_back (consonantal_lexeme);
+
+  string gloss = database_etcbc4.gloss (row);
+  renderings.push_back (";");
+  renderings.push_back ("gloss:");
+  renderings.push_back (filter_string_sanitize_html (gloss));
+
+  string pos = database_etcbc4.pos (row);
+  if (pos == "art") pos = "article";
+  if (pos == "verb") pos = "verb";
+  if (pos == "subs") pos = "noun";
+  if (pos == "nmpr") pos = "proper noun";
+  if (pos == "advb") pos = "adverb";
+  if (pos == "prep") pos = "preposition";
+  if (pos == "conj") pos = "conjunction";
+  if (pos == "prps") pos = "personal pronoun";
+  if (pos == "prde") pos = "demonstrative pronoun";
+  if (pos == "prin") pos = "interrogative pronoun";
+  if (pos == "intj") pos = "interjection";
+  if (pos == "nega") pos = "negative particle";
+  if (pos == "inrg") pos = "interrogative particle";
+  if (pos == "adjv") pos = "adjective";
+  renderings.push_back (";");
+  renderings.push_back ("part of speech:");
+  renderings.push_back (pos);
+
+  string lexical_set = database_etcbc4.subpos (row);
+  if (lexical_set == "nmdi") lexical_set = "distributive noun";
+  if (lexical_set == "nmcp") lexical_set = "copulative noun";
+  if (lexical_set == "padv") lexical_set = "potential adverb";
+  if (lexical_set == "afad") lexical_set = "anaphoric adverb";
+  if (lexical_set == "ppre") lexical_set = "potential preposition";
+  if (lexical_set == "cjad") lexical_set = "conjunctive adverb";
+  if (lexical_set == "ordn") lexical_set = "ordinal";
+  if (lexical_set == "vbcp") lexical_set = "copulative verb";
+  if (lexical_set == "mult") lexical_set = "noun of multitude";
+  if (lexical_set == "focp") lexical_set = "focus particle";
+  if (lexical_set == "ques") lexical_set = "interrogative particle";
+  if (lexical_set == "gntl") lexical_set = "gentilic";
+  if (lexical_set == "quot") lexical_set = "quotation verb";
+  if (lexical_set == "card") lexical_set = "cardinal";
+  if (lexical_set == "none") lexical_set = "";
+  if (!lexical_set.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("lexical set:");
+    renderings.push_back (lexical_set);
+  }
+
+  string gender = database_etcbc4.gender (row);
+  if (gender == "m") gender = "masculine";
+  if (gender == "f") gender = "feminine";
+  if (gender == "NA") gender.clear ();
+  if (gender == "unknown") gender = "unknown";
+  if (!gender.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("gender:");
+    renderings.push_back (gender);
+  }
+      
+  string number = database_etcbc4.number (row);
+  if (number == "sg") number = "singular";
+  if (number == "du") number = "dual";
+  if (number == "pl") number = "plural";
+  if (number == "NA") number.clear ();
+  if (number == "unknown") number = "unknown";
+  if (!number.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("number:");
+    renderings.push_back (number);
+  }
+
+  string person = database_etcbc4.person (row);
+  if (person == "p1") person = "first person";
+  if (person == "p2") person = "second person";
+  if (person == "p3") person = "third person";
+  if (person == "NA") person.clear ();
+  if (person == "unknown") person = "unknown";
+  if (!person.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("person:");
+    renderings.push_back (person);
+  }
+
+  string state = database_etcbc4.state (row);
+  if (state == "a") state = "absolute";
+  if (state == "c") state = "construct";
+  if (state == "e") state = "emphatic";
+  if (state == "NA") state.clear ();
+  if (!state.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("state:");
+    renderings.push_back (state);
+  }
+      
+  string tense = database_etcbc4.tense (row);
+  if (tense == "perf") tense = "perfect";
+  if (tense == "impf") tense = "imperfect";
+  if (tense == "wayq") tense = "wayyiqtol";
+  if (tense == "impv") tense = "imperative";
+  if (tense == "infa") tense = "infinitive (absolute)";
+  if (tense == "infc") tense = "infinitive (construct)";
+  if (tense == "ptca") tense = "participle";
+  if (tense == "ptcp") tense = "participle (passive)";
+  if (tense == "NA") tense.clear ();
+  if (!tense.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("tense:");
+    renderings.push_back (tense);
+  }
+
+  string stem = database_etcbc4.stem (row);
+
+  
+  /*
+   string phrase_function (int rowid);
+   string phrase_type (int rowid);
+   string phrase_relation (int rowid);
+   string phrase_a_relation (int rowid);
+   string clause_text_type (int rowid);
+   string clause_type (int rowid);
+   string clause_relation (int rowid);
+
+   Put them in the order like e.g. BW, or else whatever order is most convenient for the translator.
+   */
+  return filter_string_implode (renderings, " ");
+}

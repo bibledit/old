@@ -149,7 +149,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
 	database/imageresources.$(OBJEXT) database/state.$(OBJEXT) \
 	database/noteassignment.$(OBJEXT) database/strong.$(OBJEXT) \
-	database/morphgnt.$(OBJEXT) database/etcb4.$(OBJEXT) \
+	database/morphgnt.$(OBJEXT) database/etcbc4.$(OBJEXT) \
 	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
 	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
 	session/signup.$(OBJEXT) \
@@ -278,7 +278,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
 	lexicon/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
 	lexicon/english.$(OBJEXT) lexicon/definition.$(OBJEXT) \
-	lexicon/original.$(OBJEXT) sources/etcb4.$(OBJEXT)
+	lexicon/original.$(OBJEXT) sources/etcbc4.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -585,7 +585,7 @@ libbibledit_a_SOURCES = \
 	database/noteassignment.cpp \
 	database/strong.cpp \
 	database/morphgnt.cpp \
-	database/etcb4.cpp \
+	database/etcbc4.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -840,7 +840,7 @@ libbibledit_a_SOURCES = \
 	lexicon/english.cpp \
 	lexicon/definition.cpp \
 	lexicon/original.cpp \
-	sources/etcb4.cpp
+	sources/etcbc4.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1129,7 +1129,7 @@ database/strong.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/morphgnt.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/etcb4.$(OBJEXT): database/$(am__dirstamp) \
+database/etcbc4.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
@@ -2001,7 +2001,7 @@ sources/$(am__dirstamp):
 sources/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) sources/$(DEPDIR)
 	@: > sources/$(DEPDIR)/$(am__dirstamp)
-sources/etcb4.$(OBJEXT): sources/$(am__dirstamp) \
+sources/etcbc4.$(OBJEXT): sources/$(am__dirstamp) \
 	sources/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
@@ -2228,7 +2228,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/etcb4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/etcbc4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/imageresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@
@@ -2442,7 +2442,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/signup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/etcb4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/etcbc4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/burndown.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statistics/$(DEPDIR)/statistics.Po@am__quote@

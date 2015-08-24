@@ -65,8 +65,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define SYNCPARATEXT "syncparatext"
 #define SUBMITBIBLEDROPBOX "submitbibledropbox"
 #define IMPORTIMAGES "importimages"
-#define DOWNLOADETCB4 "downloadetcb4"
-#define PARSEETCB4 "parseetcb4"
+#define DOWNLOADETCBC4 "downloadetcb4"
+#define PARSEETCBC4 "parseetcb4"
 
 
 string tasks_logic_folder ();

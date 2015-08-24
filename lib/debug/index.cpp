@@ -56,12 +56,12 @@ string debug_index (void * webserver_request)
   }
 
   if (debug == "etcb4download") {
-    // tasks_logic_queue (DOWNLOADETCB4);
+    // tasks_logic_queue (DOWNLOADETCBC4);
     view.set_variable ("success", "Task disabled");
   }
   
   if (debug == "etcb4parse") {
-    // tasks_logic_queue (PARSEETCB4);
+    // tasks_logic_queue (PARSEETCBC4);
     view.set_variable ("success", "Task disabled");
   }
   
