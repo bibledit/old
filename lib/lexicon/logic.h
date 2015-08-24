@@ -24,6 +24,8 @@
 #include <config/libraries.h>
 
 
+vector <string> lexicon_logic_resource_names ();
+string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse);
 string lexicon_logic_strong_number_cleanup (string strong);
 vector <string> lexicon_logic_convert_item_to_strong (string item);
 string lexicon_logic_create_xml_document (string xml);

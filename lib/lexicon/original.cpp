@@ -24,7 +24,6 @@
 #include <webserver/request.h>
 #include <database/morphhb.h>
 #include <database/morphgnt.h>
-#include <database/etcb4.h>
 #include <lexicon/logic.h>
 
 
@@ -54,7 +53,6 @@ string lexicon_original (void * webserver_request)
 
   Database_MorphHb database_morphhb;
   Database_MorphGnt database_morphgnt;
-  Database_Etcb4 database_etcb4;
 
   // If the $book refers to Hebrew, take the data from there.
   vector <Database_MorphHb_Item> morphhb_items = database_morphhb.get (book, chapter, verse);
@@ -64,14 +62,6 @@ string lexicon_original (void * webserver_request)
   }
   if (!morphhb_items.empty ()) cls = "hebrew";
 
-  // Data from the ETCB4 database.
-  vector <int> rowids = database_etcb4.rowids (book, chapter, verse);
-  if (!rowids.empty ()) page.append ("<br>");
-  for (auto rowid : rowids) {
-   
-    //cout << rowid << endl; // Todo
-  }
-  
   // If the $book refers to Greek, take the data from there.
   vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
   for (size_t i = 0; i < morphgnt_items.size (); i++) {

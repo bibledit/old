@@ -38,29 +38,34 @@
 #include <locale/translate.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <lexicon/logic.h>
 
 
 vector <string> Resource_Logic::getNames (void * webserver_request)
 {
   vector <string> names;
   
-  // Take Bibles the user has read access to.
+  // Bibles the user has read access to.
   vector <string> bibles = access_bible_bibles (webserver_request);
   names.insert (names.end(), bibles.begin (), bibles.end());
   
-  // Take USFM Resources.
+  // USFM resources.
   Database_UsfmResources database_usfmresources;
   vector <string> usfm_resources = database_usfmresources.getResources ();
   names.insert (names.end(), usfm_resources.begin(), usfm_resources.end());
   
-  // Take external Resources.
+  // External resources.
   vector <string> external_resources = resource_external_names ();
   names.insert (names.end (), external_resources.begin(), external_resources.end());
   
-  // Take Image resources.
+  // Image resources.
   Database_ImageResources database_imageresources;
   vector <string> image_resources = database_imageresources.names ();
   names.insert (names.end (), image_resources.begin(), image_resources.end());
+  
+  // Lexicon resources.
+  vector <string> lexicon_resources = lexicon_logic_resource_names ();
+  names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
   
   sort (names.begin(), names.end());
   
@@ -102,11 +107,13 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
   vector <string> usfms = database_usfmresources.getResources ();
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
+  vector <string> lexicons = lexicon_logic_resource_names ();
   
-  bool isBible = find (bibles.begin(), bibles.end (), resource) != bibles.end ();
-  bool isUsfm = find (usfms.begin (), usfms.end (), resource) != usfms.end ();
-  bool isExternal = find (externals.begin (), externals.end (), resource) != externals.end ();
-  bool isImage = find (images.begin (), images.end (), resource) != images.end ();
+  bool isBible = in_array (resource, bibles);
+  bool isUsfm = in_array (resource, usfms);
+  bool isExternal = in_array (resource, externals);
+  bool isImage = in_array (resource, images);
+  bool isLexicon = in_array (resource, lexicons);
   if (isBible || isUsfm) {
     string chapter_usfm;
     if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
@@ -154,6 +161,8 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
     for (auto & image : images) {
       html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
     }
+  } else if (isLexicon) {
+    html = lexicon_logic_get_html (resource, book, chapter, verse);
   } else {
     // Nothing found.
   }

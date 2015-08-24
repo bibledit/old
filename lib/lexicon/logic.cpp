@@ -20,6 +20,7 @@
 #include <lexicon/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <database/etcb4.h>
 #include <database/morphhb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
@@ -34,6 +35,49 @@
 #define LAMED_STRONG 10005
 #define MEM_STRONG 10006
 #define SHIN_STRONG 10007
+#define HEBREW_ETCBE4 "Hebrew (University of Amsterdam)"
+
+
+// The names of the available lexicon resources.
+vector <string> lexicon_logic_resource_names () // Todo
+{
+  return { HEBREW_ETCBE4 };
+}
+
+
+// Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
+string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse) // Todo
+{
+  string html;
+  
+  if (lexicon == HEBREW_ETCBE4) {
+    Database_Etcb4 database_etcb4;
+    // Data from the ETCB4 database.
+    vector <int> rowids = database_etcb4.rowids (book, chapter, verse);
+    if (!rowids.empty ()) {
+      html.append ("<div>");
+      for (auto rowid : rowids) {
+        html.append ("<table style=\"float: right\">");
+        html.append ("<tr>");
+        html.append ("<td class=\"hebrew\">");
+        string word = database_etcb4.word (rowid);
+        html.append (word);
+        html.append ("</td>");
+        html.append ("</tr>");
+        html.append ("<tr>");
+        html.append ("<td>");
+        string gloss = database_etcb4.gloss (rowid);
+        gloss = filter_string_sanitize_html (gloss);
+        html.append (gloss);
+        html.append ("</td>");
+        html.append ("</tr>");
+      }
+      html.append ("</div>");
+    }
+  }
+  
+  return html;
+}
 
 
 // Clean up the Strong's number.
