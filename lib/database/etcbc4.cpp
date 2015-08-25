@@ -349,7 +349,7 @@ vector <int> Database_Etcbc4::verses (int book, int chapter)
 }
 
 
-vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse) // Todo
+vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM data WHERE book =");
@@ -515,7 +515,7 @@ int Database_Etcbc4::get_id (sqlite3 * db, const char * table_row, string item)
 }
 
 
-string Database_Etcbc4::get_item (const char * item, int rowid) // Todo
+string Database_Etcbc4::get_item (const char * item, int rowid)
 {
   // The $rowid refers to the main table.
   // Update it so it refers to the sub table.

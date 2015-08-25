@@ -835,16 +835,206 @@ string lexicon_logic_render_etcb4_morphology (string rowid)
   }
 
   string stem = database_etcbc4.stem (row);
+  if (stem == "hif") stem = "hif‘il";
+  if (stem == "hit") stem = "hitpa“el";
+  if (stem == "hof") stem = "hof‘al";
+  if (stem == "nif") stem = "nif‘al";
+  if (stem == "piel") stem = "pi“el";
+  if (stem == "pual") stem = "pu“al";
+  if (stem == "qal") stem = "qal";
+  if (stem == "afel") stem = "af‘el";
+  if (stem == "etpa") stem = "etpa“al";
+  if (stem == "etpe") stem = "etpe‘el";
+  if (stem == "haf") stem = "haf‘el";
+  if (stem == "hop") stem = "hotpa“al";
+  if (stem == "hsht") stem = "hishtaf‘al";
+  if (stem == "htpa") stem = "hitpa“al";
+  if (stem == "htpe") stem = "hitpe‘el";
+  if (stem == "nit") stem = "nitpa“el";
+  if (stem == "pael") stem = "pa“el";
+  if (stem == "peal") stem = "pe‘al";
+  if (stem == "peil") stem = "pe‘il";
+  if (stem == "shaf") stem = "shaf‘el";
+  if (stem == "tif") stem = "tif‘al";
+  if (stem == "pasq") stem = "passiveqal";
+  if (stem == "NA") stem.clear ();
+  if (!stem.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("stem:");
+    renderings.push_back (stem);
+  }
 
+  string phrase_function = database_etcbc4.phrase_function (row);
+  if (phrase_function == "Adju") phrase_function = "adjunct";
+  if (phrase_function == "Cmpl") phrase_function = "complement";
+  if (phrase_function == "Conj") phrase_function = "conjunction";
+  if (phrase_function == "EPPr") phrase_function = "enclitic personal pronoun";
+  if (phrase_function == "ExsS") phrase_function = "existence with subject suffix";
+  if (phrase_function == "Exst") phrase_function = "existence";
+  if (phrase_function == "Frnt") phrase_function = "fronted element";
+  if (phrase_function == "Intj") phrase_function = "interjection";
+  if (phrase_function == "IntS") phrase_function = "interjection with subject suffix";
+  if (phrase_function == "Loca") phrase_function = "locative";
+  if (phrase_function == "Modi") phrase_function = "modifier";
+  if (phrase_function == "ModS") phrase_function = "modifier with subject suffix";
+  if (phrase_function == "NCop") phrase_function = "negative copula";
+  if (phrase_function == "NCoS") phrase_function = "negative copula with subject suffix";
+  if (phrase_function == "Nega") phrase_function = "negation";
+  if (phrase_function == "Objc") phrase_function = "object";
+  if (phrase_function == "PrAd") phrase_function = "predicative adjunct";
+  if (phrase_function == "PrcS") phrase_function = "predicate complement with subject suffix";
+  if (phrase_function == "PreC") phrase_function = "predicate complement";
+  if (phrase_function == "Pred") phrase_function = "predicate";
+  if (phrase_function == "PreO") phrase_function = "predicate with object suffix";
+  if (phrase_function == "PreS") phrase_function = "predicate with subject suffix";
+  if (phrase_function == "PtcO") phrase_function = "participle with object suffix";
+  if (phrase_function == "Ques") phrase_function = "question";
+  if (phrase_function == "Rela") phrase_function = "relative";
+  if (phrase_function == "Subj") phrase_function = "subject";
+  if (phrase_function == "Supp") phrase_function = "supplementary constituent";
+  if (phrase_function == "Time") phrase_function = "time reference";
+  if (phrase_function == "Unkn") phrase_function.clear (); // "unknown";
+  if (phrase_function == "Voct") phrase_function = "vocative";
+  if (!phrase_function.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("phrase function:");
+    renderings.push_back (phrase_function);
+  }
+
+  string phrase_type = database_etcbc4.phrase_type (row);
+  if (phrase_type == "VP") phrase_type = "verbal phrase";
+  if (phrase_type == "NP") phrase_type = "nominal phrase";
+  if (phrase_type == "PrNP") phrase_type = "proper-noun phrase";
+  if (phrase_type == "AdvP") phrase_type = "adverbial phrase";
+  if (phrase_type == "PP") phrase_type = "prepositional phrase";
+  if (phrase_type == "CP") phrase_type = "conjunctive phrase";
+  if (phrase_type == "PPrP") phrase_type = "personal pronoun phrase";
+  if (phrase_type == "DPrP") phrase_type = "demonstrative pronoun phrase";
+  if (phrase_type == "IPrP") phrase_type = "interrogative pronoun phrase";
+  if (phrase_type == "InjP") phrase_type = "interjectional phrase";
+  if (phrase_type == "NegP") phrase_type = "negative phrase";
+  if (phrase_type == "InrP") phrase_type = "interrogative phrase";
+  if (phrase_type == "AdjP") phrase_type = "adjective phrase";
+  renderings.push_back (";");
+  renderings.push_back ("phrase type:");
+  renderings.push_back (phrase_type);
+
+  string phrase_relation = database_etcbc4.phrase_relation (row);
+  if (phrase_relation == "PrAd") phrase_relation = "predicative adjunct";
+  if (phrase_relation == "Resu") phrase_relation = "resumption";
+  if (phrase_relation == "NA") phrase_relation.clear ();
+  if (!phrase_relation.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("phrase relation:");
+    renderings.push_back (phrase_relation);
+  }
   
+  string phrase_a_relation = database_etcbc4.phrase_a_relation (row);
+  if (phrase_a_relation == "Appo") phrase_a_relation = "apposition";
+  if (phrase_a_relation == "Sfxs") phrase_a_relation = "suffix specification";
+  if (phrase_a_relation == "Link") phrase_a_relation = "conjunction";
+  if (phrase_a_relation == "Spec") phrase_a_relation = "specification";
+  if (phrase_a_relation == "Para") phrase_a_relation = "parallel";
+  if (phrase_a_relation == "NA") phrase_a_relation.clear ();
+  if (!phrase_a_relation.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("phrase atom relation:");
+    renderings.push_back (phrase_a_relation);
+  }
+
+  string clause_text_type = database_etcbc4.clause_text_type (row);
+  string rendering;
+  while (!clause_text_type.empty ()) {
+    string type = clause_text_type.substr (clause_text_type.length () - 1);
+    clause_text_type.erase (clause_text_type.length () - 1, 1);
+    if (type == "?") type.clear ();
+    if (type == "N") type = "narrative";
+    if (type == "D") type = "discursive";
+    if (type == "Q") type = "quotation";
+    if (!type.empty ()) {
+      if (!rendering.empty ()) rendering.append (" in a ");
+      rendering.append (type);
+    }
+  }
+  if (!rendering.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("text type:");
+    renderings.push_back (rendering);
+  }
+
+  string clause_type = database_etcbc4.clause_type (row);
+  if (clause_type == "AjCl") clause_type = "adjective clause";
+  if (clause_type == "CPen") clause_type = "casus pendens";
+  if (clause_type == "Defc") clause_type = "defective clause atom";
+  if (clause_type == "Ellp") clause_type = "ellipsis";
+  if (clause_type == "InfA") clause_type = "infinitive absolute clause";
+  if (clause_type == "InfC") clause_type = "infinitive construct clause";
+  if (clause_type == "MSyn") clause_type = "macrosyntactic sign";
+  if (clause_type == "NmCl") clause_type = "nominal clause";
+  if (clause_type == "Ptcp") clause_type = "participle clause";
+  if (clause_type == "Reop") clause_type = "reopening";
+  if (clause_type == "Unkn") clause_type.clear (); // Unknown";
+  if (clause_type == "Voct") clause_type = "vocative clause";
+  if (clause_type == "Way0") clause_type = "wayyiqtol-null clause";
+  if (clause_type == "WayX") clause_type = "wayyiqtol-X clause";
+  if (clause_type == "WIm0") clause_type = "we-imperative-null clause";
+  if (clause_type == "WImX") clause_type = "we-imperative-X clause";
+  if (clause_type == "WQt0") clause_type = "we-qatal-null clause";
+  if (clause_type == "WQtX") clause_type = "we-qatal-X clause";
+  if (clause_type == "WxI0") clause_type = "we-x-imperative-null clause";
+  if (clause_type == "WXIm") clause_type = "we-X-imperative clause";
+  if (clause_type == "WxIX") clause_type = "we-x-imperative-X clause";
+  if (clause_type == "WxQ0") clause_type = "we-x-qatal-null clause";
+  if (clause_type == "WXQt") clause_type = "we-X-qatal clause";
+  if (clause_type == "WxQX") clause_type = "we-x-qatal-X clause";
+  if (clause_type == "WxY0") clause_type = "we-x-yiqtol-null clause";
+  if (clause_type == "WXYq") clause_type = "we-X-yiqtol clause";
+  if (clause_type == "WxYX") clause_type = "we-x-yiqtol-X clause";
+  if (clause_type == "WYq0") clause_type = "we-yiqtol-null clause";
+  if (clause_type == "WYqX") clause_type = "we-yiqtol-X clause";
+  if (clause_type == "xIm0") clause_type = "x-imperative-null clause";
+  if (clause_type == "XImp") clause_type = "X-imperative clause";
+  if (clause_type == "xImX") clause_type = "x-imperative-X clause";
+  if (clause_type == "XPos") clause_type = "extraposition";
+  if (clause_type == "xQt0") clause_type = "x-qatal-null clause";
+  if (clause_type == "XQtl") clause_type = "X-qatal clause";
+  if (clause_type == "xQtX") clause_type = "x-qatal-X clause";
+  if (clause_type == "xYq0") clause_type = "x-yiqtol-null clause";
+  if (clause_type == "XYqt") clause_type = "X-yiqtol clause";
+  if (clause_type == "xYqX") clause_type = "x-yiqtol-X clause";
+  if (clause_type == "ZIm0") clause_type = "zero-imperative-null clause";
+  if (clause_type == "ZImX") clause_type = "zero-imperative-X clause";
+  if (clause_type == "ZQt0") clause_type = "zero-qatal-null clause";
+  if (clause_type == "ZQtX") clause_type = "zero-qatal-X clause";
+  if (clause_type == "ZYq0") clause_type = "zero-yiqtol-null clause";
+  if (clause_type == "ZYqX") clause_type = "zero-yiqtol-X clause";
+  if (!clause_type.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("clause type:");
+    renderings.push_back (clause_type);
+  }
+
+  string clause_relation = database_etcbc4.clause_relation (row);
+  if (clause_relation == "Adju") clause_relation = "adjunctive clause";
+  if (clause_relation == "Attr") clause_relation = "attributive clause";
+  if (clause_relation == "Cmpl") clause_relation = "complement clause";
+  if (clause_relation == "Coor") clause_relation = "coordinated clause";
+  if (clause_relation == "Objc") clause_relation = "object clause";
+  if (clause_relation == "PrAd") clause_relation = "predicative adjunct clause";
+  if (clause_relation == "PreC") clause_relation = "predicative complement clause";
+  if (clause_relation == "ReVo") clause_relation = "referral to the vocative";
+  if (clause_relation == "ReSu") clause_relation = "resumptive clause";
+  if (clause_relation == "RgRc") clause_relation = "regens/rectum connection";
+  if (clause_relation == "Spec") clause_relation = "specification clause";
+  if (clause_relation == "Subj") clause_relation = "subject clause";
+  if (clause_relation == "NA") clause_relation.clear ();
+  if (!clause_relation.empty ()) {
+    renderings.push_back (";");
+    renderings.push_back ("clause relation:");
+    renderings.push_back (clause_relation);
+  }
+
   /*
-   string phrase_function (int rowid);
-   string phrase_type (int rowid);
-   string phrase_relation (int rowid);
-   string phrase_a_relation (int rowid);
-   string clause_text_type (int rowid);
-   string clause_type (int rowid);
-   string clause_relation (int rowid);
 
    Put them in the order like e.g. BW, or else whatever order is most convenient for the translator.
    */

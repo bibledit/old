@@ -4041,7 +4041,7 @@ void test_database_morphgnt ()
 }
 
 
-void test_database_etcbc4 () // Todo
+void test_database_etcbc4 ()
 {
   Database_Etcbc4 database;
   
