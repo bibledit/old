@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -f greekstrong
+rm -f greekstrong.sqlite
+

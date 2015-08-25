@@ -63,6 +63,8 @@ echo $ make clean
 echo $ make --jobs=4
 sleep 1
 cd bibledit
+# Remove bits from any older build that might cause crashes in the new build.
+find . -name "*.o" -delete
 ./configure --enable-client --enable-paratext
 if [ $? -ne 0 ]
 then

@@ -5945,6 +5945,12 @@ msgstr ""
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 
+msgid "Lexicon"
+msgstr ""
+
+msgid "home"
+msgstr ""
+
 msgid "January"
 msgstr ""
 
@@ -7710,10 +7716,10 @@ msgstr ""
 msgid "Will send and receive."
 msgstr ""
 
-msgid "Collaboration has not been set up for this Bible"
+msgid "Still sending and receiving from the last time."
 msgstr ""
 
-msgid "Still sending and receiving from the last time."
+msgid "Still synchronizing with Paratext."
 msgstr ""
 
 msgid "Send / Receive"
@@ -7756,13 +7762,25 @@ msgstr ""
 msgid "The following Bibles link to a Paratext project:"
 msgstr ""
 
-msgid "Send and receive to Paratext now"
+msgid "Synchronize with Paratext now."
+msgstr ""
+
+msgid "Do not synchronize with Paratext while Paratext is running."
+msgstr ""
+
+msgid "This may cause loss of changes in the chapter Paratext is displaying."
 msgstr ""
 
 msgid ""
 "If Paratext were installed on this computer, and Bibles in Bibledit would be "
 "linked to Paratext projects, then Bibledit would be able to send and receive "
 "Bibles data to and from Paratext."
+msgstr ""
+
+msgid "Synchronize a Bible with a git repository."
+msgstr ""
+
+msgid "This Bible has not been linked to a git repository."
 msgstr ""
 
 msgid "Bibledit sends and receives this Bible every night."
@@ -7780,6 +7798,13 @@ msgstr ""
 msgid ""
 "It sends changes made here to the server for use by other translators who "
 "use Bibledit."
+msgstr ""
+
+msgid ""
+"The git repository keeps the history of the Bible text with all the changes."
+msgstr ""
+
+msgid "View the history:"
 msgstr ""
 
 msgid "The Journal displays progress and diagnostic messages."
