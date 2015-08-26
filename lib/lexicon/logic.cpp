@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/etcbc4.h>
+#include <database/kjv.h>
 #include <database/morphhb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
@@ -38,14 +39,17 @@
 
 
 // The names of the available lexicon resources.
-vector <string> lexicon_logic_resource_names () // Todo
+vector <string> lexicon_logic_resource_names ()
 {
-  return { HEBREW_ETCBE4_NAME };
+  return {
+    HEBREW_ETCBE4_NAME,
+    KJV_LEXICON_NAME
+  };
 }
 
 
 // Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
-string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse) // Todo
+string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
 {
   string html;
   
@@ -79,7 +83,26 @@ string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
       html.append (lexicon_logic_get_script (prefix));
     }
   }
-  
+
+  if (lexicon == KJV_LEXICON_NAME) {
+    string prefix = KJV_LEXICON_PREFIX;
+    Database_Kjv database_kjv;
+    vector <int> rowids = database_kjv.rowids (book, chapter, verse);
+    if (!rowids.empty ()) {
+      string id = "lexicontxt" + prefix;
+      html.append ("<div id=\"" + id + "\">\n");
+      for (size_t i = 0; i < rowids.size (); i++) {
+        if (i) html.append (" ");
+        int rowid = rowids[i];
+        string english = database_kjv.english (rowid);
+        string link = "<a href=\"" KJV_LEXICON_PREFIX + convert_to_string (rowid) + "\">" + english + "</a>";
+        html.append (link);
+      }
+      html.append ("</div>");
+      html.append (lexicon_logic_get_script (prefix));
+    }
+  }
+
   return html;
 }
 
@@ -93,29 +116,26 @@ string lexicon_logic_get_script (string prefix)
   script.append ("<div id=\"" + defid + "\" style=\"clear:both\">\n");
   script.append ("</div>\n");
   script.append ("<script>\n");
-  script.append ("console.log (\"" + defid + "\");\n");
-  script.append ("$(\"#" + txtid+ "\").on (\"click\", function (event) {\n");
+  //script.append ("console.log (\"" + defid + "\");\n");
+  script.append ("$(\"#" + txtid + ", #" + defid + "\").on (\"click\", function (event) {\n");
   script.append ("  event.preventDefault ();\n");
   script.append ("  var href = event.target.href;\n");
   script.append ("  href = href.substring (href.lastIndexOf ('/') + 1);\n");
-  script.append ("console.log (href);\n");
+  //script.append ("console.log (href);\n");
   script.append ("  $.ajax ({\n");
   script.append ("  url: \"/lexicon/definition\",\n");
   script.append ("  type: \"GET\",\n");
   script.append ("  data: { id: href },\n");
   script.append ("  success: function (response) {\n");
-  script.append ("    if (response != \"\") {\n");
-  script.append ("      var element = $ (\"#" + defid + "\");\n");
-  script.append ("      element.empty ();\n");
-  script.append ("      element.append (response);\n");
-  script.append ("    }\n");
+  script.append ("    var element = $ (\"#" + defid + "\");\n");
+  script.append ("    element.empty ();\n");
+  script.append ("    element.append (response);\n");
   script.append ("  }\n");
   script.append ("  });\n");
   script.append ("});\n");
   script.append ("</script>\n");
   return script;
 }
-
 
 
 // Clean up the Strong's number.
@@ -244,7 +264,6 @@ string lexicon_logic_render_definition (string strong)
           xmlFree (name);
           if (element == "w") {
             if (depth == 1) {
-              rendering.append ("<br>");
               rendering.append ("Word: ");
               rendering.append ("Strong's " + strong.substr (1) + " ");
             }
@@ -1034,9 +1053,5 @@ string lexicon_logic_render_etcb4_morphology (string rowid)
     renderings.push_back (clause_relation);
   }
 
-  /*
-
-   Put them in the order like e.g. BW, or else whatever order is most convenient for the translator.
-   */
   return filter_string_implode (renderings, " ");
 }

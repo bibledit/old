@@ -26,6 +26,8 @@
 
 #define HEBREW_ETCBE4_NAME "Hebrew (University of Amsterdam)"
 #define HEBREW_ETCBE4_PREFIX "e"
+#define KJV_LEXICON_NAME "King James Bible with Lexicon"
+#define KJV_LEXICON_PREFIX "k"
 
 
 vector <string> lexicon_logic_resource_names ();

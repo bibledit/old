@@ -325,10 +325,10 @@ libbibledit_a_SOURCES = \
 	personalize/index.cpp \
 	lexicon/index.cpp \
 	lexicon/logic.cpp \
-	lexicon/english.cpp \
 	lexicon/definition.cpp \
 	lexicon/original.cpp \
-	sources/etcbc4.cpp
+	sources/etcbc4.cpp \
+	sources/kjv.cpp
 
 bin_PROGRAMS = server unittest
 

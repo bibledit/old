@@ -1306,7 +1306,7 @@ void test_database_kjv ()
 
   vector <Passage> passages = database_kjv.searchStrong ("G909");
   evaluate (__LINE__, __func__, 4, (int)passages.size());
-
+  
   evaluate (__LINE__, __func__, 41,   passages[0].book);
   evaluate (__LINE__, __func__, 7,    passages[0].chapter);
   evaluate (__LINE__, __func__, "4",  passages[0].verse);

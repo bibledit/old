@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <tasks/logic.h>
+#include <sources/kjv.h>
 
 
 const char * debug_index_url ()
@@ -63,6 +64,11 @@ string debug_index (void * webserver_request)
   if (debug == "etcb4parse") {
     // tasks_logic_queue (PARSEETCBC4);
     view.set_variable ("success", "Task disabled");
+  }
+  
+  if (debug == "parsekjv") {
+    sources_kjv_parse ();
+    view.set_variable ("success", "Task ran");
   }
   
   page += view.render ("debug", "index");

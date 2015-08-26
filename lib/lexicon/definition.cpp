@@ -23,6 +23,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <lexicon/logic.h>
+#include <database/kjv.h>
 
 
 string lexicon_definition_url ()
@@ -52,6 +53,15 @@ string lexicon_definition (void * webserver_request)
       
       // ETCBC4 database.
       renderings.push_back (lexicon_logic_render_etcb4_morphology (id));
+      
+    } else if (letter == KJV_LEXICON_PREFIX) {
+      
+      // King James Bible with Strong's numbers.
+      id = id.substr (1);
+      Database_Kjv database_kjv;
+      string strong = database_kjv.strong (convert_to_int (id));
+      string rendering = lexicon_logic_render_definition (strong);
+      if (!rendering.empty ()) renderings.push_back (rendering);
       
     } else {
 

@@ -37,10 +37,18 @@ public:
 class Database_Kjv
 {
 public:
+  void create ();
+  void optimize ();
   vector <Database_Kjv_Item> getVerse (int book, int chapter, int verse);
   vector <Passage> searchStrong (string strong);
+  void store (int book, int chapter, int verse, string strong, string english);
+  vector <int> rowids (int book, int chapter, int verse);
+  string strong (int rowid);
+  string english (int rowid);
 private:
-  sqlite3 * connect ();
+  const char * filename ();
+  int get_id (const char * table_row, string item);
+  string get_item (const char * item, int rowid);
 };
 
 
