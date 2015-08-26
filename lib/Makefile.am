@@ -351,12 +351,14 @@ AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
+AM_CXXFLAGS += $(ICU_CFLAGS)
 
 LIBS = -Wall -lpthread -L.
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
+LIBS += $(ICU_LIBS)
 
 EXTRA_DIST = a* bible bibledit bibles book bootstrap browser c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 

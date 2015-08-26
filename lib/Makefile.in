@@ -419,6 +419,8 @@ GREP = @GREP@
 GUNZIP_PATH = @GUNZIP_PATH@
 GZIP_PATH = @GZIP_PATH@
 HAVE_CXX11 = @HAVE_CXX11@
+ICU_CFLAGS = @ICU_CFLAGS@
+ICU_LIBS = @ICU_LIBS@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -427,7 +429,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. `xml2-config --libs` $(SQLITE_LIBS) \
-	$(CURL_LIBS) $(OPENSSL_LIBS)
+	$(CURL_LIBS) $(OPENSSL_LIBS) $(ICU_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -856,7 +858,7 @@ unittest_SOURCES = \
 unittest_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking \
 	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
-	$(OPENSSL_CFLAGS)
+	$(OPENSSL_CFLAGS) $(ICU_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap browser c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h

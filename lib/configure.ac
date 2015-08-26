@@ -64,6 +64,10 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
+PKG_CHECK_MODULES(ICU, icu-i18n >= 50.0,,AC_MSG_ERROR(ICU development version >= 50.0 is needed.))
+AC_SUBST(ICU_CFLAGS)
+AC_SUBST(ICU_LIBS)
+
 
 # Tag1 (leave in place)
 # Tag2 (leave in place)
