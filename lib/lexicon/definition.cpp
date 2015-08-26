@@ -64,7 +64,7 @@ string lexicon_definition (void * webserver_request)
       string rendering = lexicon_logic_render_definition (strong);
       if (!rendering.empty ()) renderings.push_back (rendering);
       
-    } else if (letter == MORPHHB_PREFIX) { // Todo
+    } else if (letter == MORPHHB_PREFIX) {
       
       // Open Scriptures Hebrew with Strong's numbers.
       id = id.substr (1);

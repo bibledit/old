@@ -72,7 +72,7 @@ void Database_MorphHb::optimize ()
 
 
 // Get Hebrew words for $book $chapter $verse.
-vector <string> Database_MorphHb::getVerse (int book, int chapter, int verse) // Todo update
+vector <string> Database_MorphHb::getVerse (int book, int chapter, int verse)
 {
   vector <string> words;
   vector <int> rows = rowids (book, chapter, verse);

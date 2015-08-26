@@ -210,7 +210,7 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
 
 
 // Converts a parsing from the Open Scriptures Hebrew database to Strong's numbers.
-vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing) // Todo
+vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing)
 {
   vector <string> strongs;
   vector <string> bits = filter_string_explode (parsing, '/');
