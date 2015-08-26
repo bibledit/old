@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <tasks/logic.h>
 #include <sources/kjv.h>
+#include <sources/morphhb.h>
 
 
 const char * debug_index_url ()
@@ -67,7 +68,12 @@ string debug_index (void * webserver_request)
   }
   
   if (debug == "parsekjv") {
-    sources_kjv_parse ();
+    // sources_kjv_parse ();
+    view.set_variable ("success", "Task disabled");
+  }
+  
+  if (debug == "parsemorphhb") {
+    sources_morphhb_parse ();
     view.set_variable ("success", "Task ran");
   }
   

@@ -278,7 +278,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
 	lexicon/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
 	lexicon/definition.$(OBJEXT) lexicon/original.$(OBJEXT) \
-	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT)
+	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
+	sources/morphhb.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -840,7 +841,8 @@ libbibledit_a_SOURCES = \
 	lexicon/definition.cpp \
 	lexicon/original.cpp \
 	sources/etcbc4.cpp \
-	sources/kjv.cpp
+	sources/kjv.cpp \
+	sources/morphhb.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -2003,6 +2005,8 @@ sources/etcbc4.$(OBJEXT): sources/$(am__dirstamp) \
 	sources/$(DEPDIR)/$(am__dirstamp)
 sources/kjv.$(OBJEXT): sources/$(am__dirstamp) \
 	sources/$(DEPDIR)/$(am__dirstamp)
+sources/morphhb.$(OBJEXT): sources/$(am__dirstamp) \
+	sources/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2443,6 +2447,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/etcbc4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/kjv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/morphhb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/burndown.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statistics/$(DEPDIR)/statistics.Po@am__quote@

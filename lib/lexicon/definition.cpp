@@ -24,6 +24,7 @@
 #include <webserver/request.h>
 #include <lexicon/logic.h>
 #include <database/kjv.h>
+#include <database/morphhb.h>
 
 
 string lexicon_definition_url ()
@@ -63,6 +64,18 @@ string lexicon_definition (void * webserver_request)
       string rendering = lexicon_logic_render_definition (strong);
       if (!rendering.empty ()) renderings.push_back (rendering);
       
+    } else if (letter == MORPHHB_PREFIX) { // Todo
+      
+      // Open Scriptures Hebrew with Strong's numbers.
+      id = id.substr (1);
+      Database_MorphHb database_morphhb;
+      string parsing = database_morphhb.parsing (convert_to_int (id));
+      vector <string> strongs = lexicon_logic_convert_morphhb_parsing_to_strong (parsing);
+      for (auto strong : strongs) {
+        string rendering = lexicon_logic_render_definition (strong);
+        if (!rendering.empty ()) renderings.push_back (rendering);
+      }
+
     } else {
 
       string morphology = lexicon_logic_convert_item_to_morphology (id);
@@ -84,5 +97,5 @@ string lexicon_definition (void * webserver_request)
   }
   
   
-  return filter_string_implode (renderings, "\n");
+  return filter_string_implode (renderings, "<br>");
 }

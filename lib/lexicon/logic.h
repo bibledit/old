@@ -28,13 +28,15 @@
 #define HEBREW_ETCBE4_PREFIX "e"
 #define KJV_LEXICON_NAME "King James Bible with Lexicon"
 #define KJV_LEXICON_PREFIX "k"
-
+#define MORPHHB_NAME "Hebrew (Open Scriptures)"
+#define MORPHHB_PREFIX "o"
 
 vector <string> lexicon_logic_resource_names ();
 string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse);
 string lexicon_logic_get_script (string prefix);
 string lexicon_logic_strong_number_cleanup (string strong);
 vector <string> lexicon_logic_convert_item_to_strong (string item);
+vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing);
 string lexicon_logic_create_xml_document (string xml);
 string lexicon_logic_render_definition (string strong);
 string lexicon_logic_render_part_of_speech (string value);

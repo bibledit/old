@@ -1325,7 +1325,7 @@ void test_database_kjv ()
 }
 
 
-void test_database_morphhb ()
+void test_database_morphhb () // Todo
 {
   Database_MorphHb database_morphhb = Database_MorphHb ();
 
@@ -1343,11 +1343,11 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, 3,    passages[1].chapter);
   evaluate (__LINE__, __func__, "10", passages[1].verse);
 
-  vector <Database_MorphHb_Item> items = database_morphhb.get (18, 3, 2);
+  vector <int> items = database_morphhb.rowids (18, 3, 2);
   evaluate (__LINE__, __func__, 4, (int)items.size());
   
-  evaluate (__LINE__, __func__, "c/6030 b", items[0].parsing);
-  evaluate (__LINE__, __func__, "347", items[1].parsing);
+  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[0]));
+  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[1]));
 }
 
 

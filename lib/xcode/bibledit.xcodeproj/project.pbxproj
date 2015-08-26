@@ -238,10 +238,6 @@
 		CA3D1DF41A9E31F700A9456A /* convert2resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = convert2resource.h; sourceTree = "<group>"; };
 		CA4150281AB7651100C30DA5 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CA4150291AB7651100C30DA5 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
-		CA42C3721B84E7A20050E0DA /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
-		CA42C3731B84E7B10050E0DA /* morphhb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = morphhb.cpp; sourceTree = "<group>"; };
-		CA42C3741B84E7B10050E0DA /* morphhb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphhb.h; sourceTree = "<group>"; };
-		CA42C3751B84E7BD0050E0DA /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
 		CA42C3761B84E8E10050E0DA /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		CA442D021A553DA6006374D3 /* git.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = git.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA442D031A553DA6006374D3 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = git.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -265,6 +261,9 @@
 		CA4E47F41AB875C30021C61E /* statistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = statistics.cpp; sourceTree = "<group>"; };
 		CA4E47F51AB875C30021C61E /* statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
 		CA4E47F61AB875C30021C61E /* statistics.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = statistics.o; sourceTree = "<group>"; };
+		CA4F51DB1B8E004500EE61A4 /* morphhb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = morphhb.cpp; sourceTree = "<group>"; };
+		CA4F51DC1B8E004500EE61A4 /* morphhb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphhb.h; sourceTree = "<group>"; };
+		CA4F51DD1B8E004500EE61A4 /* morphhb.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = morphhb.txt; sourceTree = "<group>"; };
 		CA5856E21A7BE374002BB283 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA5856E31A7BE374002BB283 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA5856E41A7BE374002BB283 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = index.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -944,7 +943,6 @@
 		CAECFBAD1B84E30100B3634F /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphgnt.h; sourceTree = "<group>"; };
 		CAECFBAE1B84E30100B3634F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CAECFBAF1B84E30100B3634F /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
-		CAECFBB21B84E30100B3634F /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		CAECFBDB1B84E30100B3634F /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
 		CAECFBDC1B84E30100B3634F /* create_sblgnt_database.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = create_sblgnt_database.php; sourceTree = "<group>"; };
 		CAECFBDD1B84E30100B3634F /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = greekstrong.cpp; sourceTree = "<group>"; };
@@ -2911,8 +2909,10 @@
 				CA00A3411B8C9925007B95BA /* kjv.cpp */,
 				CA00A3421B8C9925007B95BA /* kjv.h */,
 				CA00A3441B8C9925007B95BA /* kjv.txt */,
+				CA4F51DB1B8E004500EE61A4 /* morphhb.cpp */,
+				CA4F51DC1B8E004500EE61A4 /* morphhb.h */,
+				CA4F51DD1B8E004500EE61A4 /* morphhb.txt */,
 				CAECFB8F1B84E30100B3634F /* morphgnt */,
-				CAECFBB01B84E30100B3634F /* morphhb */,
 				CAECFBDA1B84E30100B3634F /* sblgnt */,
 			);
 			name = sources;
@@ -2943,18 +2943,6 @@
 				CAECFBAF1B84E30100B3634F /* run */,
 			);
 			path = morphgnt;
-			sourceTree = "<group>";
-		};
-		CAECFBB01B84E30100B3634F /* morphhb */ = {
-			isa = PBXGroup;
-			children = (
-				CA42C3721B84E7A20050E0DA /* clean */,
-				CA42C3751B84E7BD0050E0DA /* run */,
-				CA42C3731B84E7B10050E0DA /* morphhb.cpp */,
-				CA42C3741B84E7B10050E0DA /* morphhb.h */,
-				CAECFBB21B84E30100B3634F /* README.txt */,
-			);
-			path = morphhb;
 			sourceTree = "<group>";
 		};
 		CAECFBDA1B84E30100B3634F /* sblgnt */ = {

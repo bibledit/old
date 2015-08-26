@@ -26,22 +26,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/passage.h>
 
 
-class Database_MorphHb_Item
-{
-public:
-  string parsing;
-  string word;
-};
-
-
 class Database_MorphHb
 {
 public:
+  void create ();
+  void optimize ();
   vector <string> getVerse (int book, int chapter, int verse);
   vector <Passage> searchHebrew (string hebrew);
-  vector <Database_MorphHb_Item> get (int book, int chapter, int verse);
+  void store (int book, int chapter, int verse, string parsing, string word);
+  vector <int> rowids (int book, int chapter, int verse);
+  string parsing (int rowid);
+  string word (int rowid);
 private:
-  sqlite3 * connect ();
+  const char * filename ();
+  int get_id (const char * table_row, string item);
+  string get_item (const char * item, int rowid);
 };
 
 

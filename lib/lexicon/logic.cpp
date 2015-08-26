@@ -43,7 +43,8 @@ vector <string> lexicon_logic_resource_names ()
 {
   return {
     HEBREW_ETCBE4_NAME,
-    KJV_LEXICON_NAME
+    KJV_LEXICON_NAME,
+    MORPHHB_NAME
   };
 }
 
@@ -103,6 +104,25 @@ string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
     }
   }
 
+  if (lexicon == MORPHHB_NAME) {
+    string prefix = MORPHHB_PREFIX;
+    Database_MorphHb database_morphhb;
+    vector <int> rowids = database_morphhb.rowids (book, chapter, verse);
+    if (!rowids.empty ()) {
+      string id = "lexicontxt" + prefix;
+      html.append ("<div id=\"" + id + "\" class=\"hebrew\">\n");
+      for (size_t i = 0; i < rowids.size (); i++) {
+        if (i) html.append (" ");
+        int rowid = rowids[i];
+        string word = database_morphhb.word (rowid);
+        string link = "<a href=\"" MORPHHB_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
+        html.append (link);
+      }
+      html.append ("</div>");
+      html.append (lexicon_logic_get_script (prefix));
+    }
+  }
+  
   return html;
 }
 
@@ -172,54 +192,6 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
       
       size_t offset = convert_to_int (bits[1]);
 
-      Database_MorphHb database_morphhb;
-      vector <Database_MorphHb_Item> morphhb_items = database_morphhb.get (book, chapter, verse);
-      if (morphhb_items.size () > offset) {
-        // The parsing for the word at the offset.
-        string parsing = morphhb_items[offset].parsing;
-        vector <string> bits = filter_string_explode (parsing, '/');
-        for (auto & bit : bits) {
-          int strong = convert_to_int (bit);
-          if (strong == 0) {
-            if (bit == "b") {
-              // The Hebrew letter beth ב֖.
-              strong = BETH_STRONG;
-            }
-            else if (bit == "c") {
-              // Conjunction וְ.
-              strong = CONJUNCTION_STRONG;
-            }
-            if (bit == "d") {
-              // Definite article הַ.
-              strong = DEFINITE_ARTICLE_STRONG;
-            }
-            else if (bit == "i") {
-              // The indefinite article הַ.
-              strong = INDEFINITE_ARTICLE_STRONG;
-            }
-            else if (bit == "k") {
-              // The Hebrew letter kaf כַּ.
-              strong = KAF_STRONG;
-            }
-            else if (bit == "l") {
-              // The Hebrew letter lamed לָ.
-              strong = LAMED_STRONG;
-            }
-            else if (bit == "m") {
-              // The Hebrew letter mem מִ.
-              strong = MEM_STRONG;
-            }
-            else if (bit == "s") {
-              // The Hebrew letter shin שֶׁ.
-              strong = SHIN_STRONG;
-            }
-          }
-          if (strong) {
-            strongs.push_back ("H" + convert_to_string (strong));
-          }
-        }
-      }
-
       Database_MorphGnt database_morphgnt;
       vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
       if (morphgnt_items.size () > offset) {
@@ -233,6 +205,55 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
     }
   }
 
+  return strongs;
+}
+
+
+// Converts a parsing from the Open Scriptures Hebrew database to Strong's numbers.
+vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing) // Todo
+{
+  vector <string> strongs;
+  vector <string> bits = filter_string_explode (parsing, '/');
+  for (auto & bit : bits) {
+    int strong = convert_to_int (bit);
+    if (strong == 0) {
+      if (bit == "b") {
+        // The Hebrew letter beth ב֖.
+        strong = BETH_STRONG;
+      }
+      else if (bit == "c") {
+        // Conjunction וְ.
+        strong = CONJUNCTION_STRONG;
+      }
+      if (bit == "d") {
+        // Definite article הַ.
+        strong = DEFINITE_ARTICLE_STRONG;
+      }
+      else if (bit == "i") {
+        // The indefinite article הַ.
+        strong = INDEFINITE_ARTICLE_STRONG;
+      }
+      else if (bit == "k") {
+        // The Hebrew letter kaf כַּ.
+        strong = KAF_STRONG;
+      }
+      else if (bit == "l") {
+        // The Hebrew letter lamed לָ.
+        strong = LAMED_STRONG;
+      }
+      else if (bit == "m") {
+        // The Hebrew letter mem מִ.
+        strong = MEM_STRONG;
+      }
+      else if (bit == "s") {
+        // The Hebrew letter shin שֶׁ.
+        strong = SHIN_STRONG;
+      }
+    }
+    if (strong) {
+      strongs.push_back ("H" + convert_to_string (strong));
+    }
+  }
   return strongs;
 }
 
@@ -587,7 +608,6 @@ string lexicon_logic_define_user_strong (string strong)
       }
     }
   }
-  definition.insert (0, "<br>");
   return definition;
 }
 
