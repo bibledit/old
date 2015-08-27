@@ -66,6 +66,7 @@ int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char 
 void filter_url_curl_set_timeout (void *curl_handle, bool burst = false);
 string filter_url_plus_to_tag (string data);
 string filter_url_tag_to_plus (string data);
+string filter_url_remove_username_password (string url);
 
 
 #endif

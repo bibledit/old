@@ -71,6 +71,9 @@ libbibledit_a_SOURCES = \
 	database/imageresources.cpp \
 	database/state.cpp \
 	database/noteassignment.cpp \
+	database/strong.cpp \
+	database/morphgnt.cpp \
+	database/etcbc4.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -319,7 +322,14 @@ libbibledit_a_SOURCES = \
 	browser/index.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
-	personalize/index.cpp
+	personalize/index.cpp \
+	lexicon/index.cpp \
+	lexicon/logic.cpp \
+	lexicon/definition.cpp \
+	lexicon/original.cpp \
+	sources/etcbc4.cpp \
+	sources/kjv.cpp \
+	sources/morphhb.cpp
 
 noinst_PROGRAMS = bibledit
 
@@ -332,14 +342,16 @@ AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
+AM_CXXFLAGS += $(ICU_CFLAGS)
 
 LIBS = -Wall -lpthread -L. $(GTK_LIBS)
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
+LIBS += $(ICU_LIBS)
 
-EXTRA_DIST = a* bible bibles book bootstrap browser c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm *.sh *.1
+EXTRA_DIST = a* bible bibles book bootstrap browser c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm *.sh *.1
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`

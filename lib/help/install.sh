@@ -27,6 +27,7 @@ echo $PASSWORD | sudo -S apt-get --yes --force-yes install libcurl4-openssl-dev
 echo $PASSWORD | sudo -S apt-get --yes --force-yes install libssl-dev
 echo $PASSWORD | sudo -S apt-get --yes --force-yes install libatspi2.0-dev
 echo $PASSWORD | sudo -S apt-get --yes --force-yes install libgtk-3-dev
+echo $PASSWORD | sudo -S apt-get --yes --force-yes install libicu-dev
 sleep 4
 
 clear

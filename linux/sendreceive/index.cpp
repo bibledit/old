@@ -24,6 +24,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/passage.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
@@ -105,8 +106,12 @@ string sendreceive_index (void * webserver_request)
   view.set_variable ("repeatbible", get_tick_box (Database_Config_Bible::getRepeatSendReceive (bible)));
   
   
-  if (Database_Config_Bible::getRemoteRepositoryUrl (bible) == "") {
-    view.set_variable ("errorbible", translate("Collaboration has not been set up for this Bible"));
+  string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
+  if (url.empty ()) {
+    view.enable_zone ("collab_off");
+  } else {
+    view.enable_zone ("collab_on");
+    view.set_variable ("url", filter_url_remove_username_password (url));
   }
   
   

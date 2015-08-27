@@ -75,8 +75,12 @@ translate("If Paratext were installed on this computer, and Bibles in Bibledit w
 
 <!-- #BEGINZONE server -->
 <p class="success">##successbible##</p>
-<p class="error">##errorbible##</p>
+<p>translate("Synchronize a Bible with a git repository.")</p>
 <p>translate("Bible"): <a href="?bible=">##bible##</a>.</p>
+<!-- #BEGINZONE collab_off -->
+<p>translate("This Bible has not been linked to a git repository.")</p>
+<!-- #ENDZONE collab_off -->
+<!-- #BEGINZONE collab_on -->
 <p>translate("Bibledit sends and receives this Bible every night.")</p>
 <p><a href="?runbible=">translate("Send and receive it now.")</a></p>
 <p>
@@ -84,9 +88,15 @@ translate("If Paratext were installed on this computer, and Bibles in Bibledit w
 translate("Send and receive it every five minutes.")
 </p>
 <p>
-  translate("It receives changes made by others in other instances of Bibledit.")
-  translate("It sends changes made here to the server for use by other translators who use Bibledit.")
+translate("It receives changes made by others in other instances of Bibledit.")
+translate("It sends changes made here to the server for use by other translators who use Bibledit.")
 </p>
+<p>
+translate("The git repository keeps the history of the Bible text with all the changes.")
+translate("View the history:")
+<a href="##url##">##url##</a>
+</p>
+<!-- #ENDZONE collab_on -->
 <!-- #ENDZONE server -->
 
 <br>
