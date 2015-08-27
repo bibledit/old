@@ -17,80 +17,24 @@
  */
 
 
-#include "hebrewstrong.h"
+#include <sources/hebrewlexicon.h>
 #include <libxml/xmlreader.h>
-#include <sqlite3.h>
+#include <database/logs.h>
+#include <database/hebrewlexicon.h>
 
 
-string str_replace (string search, string replace, string subject)
+void sources_hebrewlexicon_parse () // Todo
 {
-  size_t offposition = subject.find (search);
-  while (offposition != string::npos) {
-    subject.replace (offposition, search.length (), replace);
-    offposition = subject.find (search, offposition + replace.length ());
-  }
-  return subject;
+  Database_Logs::log ("Start parsing Open Scriptures's Hebrew Lexicon");
+  Database_HebrewLexicon database_hebrewlexicon;
+  database_hebrewlexicon.create ();
+  
+  
+  
+  Database_Logs::log ("Finished parsing Open Scriptures's Hebrew Lexicon");
 }
 
-
-string convert_xml_character_entities_to_characters (string data)
-{
-  bool keep_going = true;
-  int iterations = 0;
-  size_t pos1 = -1;
-  do {
-    iterations++;
-    pos1 = data.find ("&#x", pos1 + 1);
-    if (pos1 == string::npos) {
-      keep_going = false;
-      continue;
-    }
-    size_t pos2 = data.find (";", pos1);
-    if (pos2 == string::npos) {
-      keep_going = false;
-      continue;
-    }
-    string entity = data.substr (pos1 + 3, pos2 - pos1 - 3);
-    data.erase (pos1, pos2 - pos1 + 1);
-    int codepoint;
-    stringstream ss;
-    ss << hex << entity;
-    ss >> codepoint;
-    
-    // The following is not available in GNU libstdc++.
-    // wstring_convert <codecvt_utf8 <char32_t>, char32_t> conv1;
-    // string u8str = conv1.to_bytes (codepoint);
-    
-    int cp = codepoint;
-    // Adapted from: http://www.zedwood.com/article/cpp-utf8-char-to-codepoint.
-    char c[5]={ 0x00,0x00,0x00,0x00,0x00 };
-    if     (cp<=0x7F) { c[0] = cp;  }
-    else if(cp<=0x7FF) { c[0] = (cp>>6)+192; c[1] = (cp&63)+128; }
-    else if(0xd800<=cp && cp<=0xdfff) {} //invalid block of utf8
-    else if(cp<=0xFFFF) { c[0] = (cp>>12)+224; c[1]= ((cp>>6)&63)+128; c[2]=(cp&63)+128; }
-    else if(cp<=0x10FFFF) { c[0] = (cp>>18)+240; c[1] = ((cp>>12)&63)+128; c[2] = ((cp>>6)&63)+128; c[3]=(cp&63)+128; }
-    string u8str = string (c);
-    
-    data.insert (pos1, u8str);
-  } while (keep_going & (iterations < 100000));
-  return data;
-}
-
-
-string trim (string s)
-{
-  if (s.length () == 0)
-    return s;
-  // Strip spaces, tabs, new lines, carriage returns.
-  size_t beg = s.find_first_not_of(" \t\n\r");
-  size_t end = s.find_last_not_of(" \t\n\r");
-  // No non-spaces
-  if (beg == string::npos)
-    return "";
-  return string (s, beg, end - beg + 1);
-}
-
-
+/*
 int main (int argc, char **argv)
 {
   unlink ("hebrewstrong.sqlite");
@@ -162,5 +106,5 @@ int main (int argc, char **argv)
   
   return 0;
 }
-
+*/
 

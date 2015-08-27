@@ -173,6 +173,18 @@ public:
   int getGeneralFontSize ();
   void setMenuFontSize (int size);
   int getMenuFontSize ();
+  void setRequestedEtcbc4Definition (string value);
+  string getRequestedEtcbc4Definition ();
+  void setRequestedKjvDefinition (string value);
+  string getRequestedKjvDefinition ();
+  void setRequestedMorphHbDefinition (string value);
+  string getRequestedMorphHbDefinition ();
+  void setRequestedSblGntDefinition (string value);
+  string getRequestedSblGntDefinition ();
+  void setRequestedHDefinition (string value);
+  string getRequestedHDefinition ();
+  void setRequestedGDefinition (string value);
+  string getRequestedGDefinition ();
 private:
   void * webserver_request;
   string file (string user, const char * key);

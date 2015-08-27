@@ -74,6 +74,7 @@ libbibledit_a_SOURCES = \
 	database/strong.cpp \
 	database/morphgnt.cpp \
 	database/etcbc4.cpp \
+	database/hebrewlexicon.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -328,7 +329,8 @@ libbibledit_a_SOURCES = \
 	sources/etcbc4.cpp \
 	sources/kjv.cpp \
 	sources/morphhb.cpp \
-	sources/morphgnt.cpp
+	sources/morphgnt.cpp \
+	sources/hebrewlexicon.cpp
 
 bin_PROGRAMS = server unittest
 

@@ -51,6 +51,14 @@ string resource_index (void * webserver_request)
   page = header.run ();
   Assets_View view = Assets_View ();
   
+  // Reset requested Lexicon resource definitions.
+  request->database_config_user ()->setRequestedEtcbc4Definition ("");
+  request->database_config_user ()->setRequestedKjvDefinition ("");
+  request->database_config_user ()->setRequestedMorphHbDefinition ("");
+  request->database_config_user ()->setRequestedSblGntDefinition ("");
+  request->database_config_user ()->setRequestedHDefinition ("");
+  request->database_config_user ()->setRequestedGDefinition ("");
+
   vector <string> resources = request->database_config_user()->getActiveResources ();
   string resourceblock;
   for (size_t i = 1; i <= resources.size (); i++) {

@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/kjv.h>
 #include <sources/morphhb.h>
 #include <sources/morphgnt.h>
+#include <sources/hebrewlexicon.h>
 
 
 const char * debug_index_url ()
@@ -75,7 +76,12 @@ string debug_index (void * webserver_request)
     //sources_morphgnt_parse ();
     view.set_variable ("success", "Task disabled");
   }
-  
+
+  if (debug == "parsehebrewlexicon") {
+    sources_hebrewlexicon_parse ();
+    view.set_variable ("success", "Task ran");
+  }
+
   page += view.render ("debug", "index");
   page += Assets_Page::footer ();
 

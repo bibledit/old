@@ -54,55 +54,83 @@ string lexicon_definition (void * webserver_request)
     if (letter == HEBREW_ETCBE4_PREFIX) {
       
       // ETCBC4 database.
-      renderings.push_back (lexicon_logic_render_etcb4_morphology (id));
-      
+      // When a defintion is clicked for the second time, it gets erased.
+      if (id != request->database_config_user ()->getRequestedEtcbc4Definition ()) {
+        renderings.push_back (lexicon_logic_render_etcb4_morphology (id));
+      } else {
+        id.clear ();
+      }
+      request->database_config_user ()->setRequestedEtcbc4Definition (id);
+                                                                
     } else if (letter == KJV_LEXICON_PREFIX) {
       
       // King James Bible with Strong's numbers.
-      id = id.substr (1);
-      Database_Kjv database_kjv;
-      string strong = database_kjv.strong (convert_to_int (id));
-      string rendering = lexicon_logic_render_definition (strong);
-      if (!rendering.empty ()) renderings.push_back (rendering);
+      if (id != request->database_config_user ()->getRequestedKjvDefinition ()) {
+        Database_Kjv database_kjv;
+        string strong = database_kjv.strong (convert_to_int (id.substr (1)));
+        string rendering = lexicon_logic_render_definition (strong);
+        if (!rendering.empty ()) renderings.push_back (rendering);
+      } else {
+        id.clear ();
+      }
+      request->database_config_user ()->setRequestedKjvDefinition (id);
       
     } else if (letter == MORPHHB_PREFIX) {
       
       // Open Scriptures Hebrew with Strong's numbers.
-      id = id.substr (1);
-      Database_MorphHb database_morphhb;
-      string parsing = database_morphhb.parsing (convert_to_int (id));
-      vector <string> strongs = lexicon_logic_convert_morphhb_parsing_to_strong (parsing);
-      for (auto strong : strongs) {
-        string rendering = lexicon_logic_render_definition (strong);
-        if (!rendering.empty ()) renderings.push_back (rendering);
+      if (id != request->database_config_user ()->getRequestedMorphHbDefinition ()) {
+        Database_MorphHb database_morphhb;
+        string parsing = database_morphhb.parsing (convert_to_int (id.substr (1)));
+        vector <string> strongs = lexicon_logic_convert_morphhb_parsing_to_strong (parsing);
+        for (auto strong : strongs) {
+          string rendering = lexicon_logic_render_definition (strong);
+          if (!rendering.empty ()) renderings.push_back (rendering);
+        }
+      } else {
+        id.clear ();
       }
-
+      request->database_config_user ()->setRequestedMorphHbDefinition (id);
+      
     } else if (letter == SBLGNT_PREFIX) {
       
       // SBL Greek New Testament plus morphology.
-      Database_MorphGnt database_morphgnt;
-      id = id.substr (1);
-      int rowid = convert_to_int (id);
-      // The part of speech.
-      string pos = database_morphgnt.pos (rowid);
-      string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
-      rendering.append (" ");
-      // The parsing.
-      string parsing = database_morphgnt.parsing (rowid);
-      rendering.append (lexicon_logic_render_morphgnt_parsing_code (parsing));
-      renderings.push_back (rendering);
+      if (id != request->database_config_user ()->getRequestedSblGntDefinition ()) {
+        Database_MorphGnt database_morphgnt;
+        int rowid = convert_to_int (id.substr (1));
+        // The part of speech.
+        string pos = database_morphgnt.pos (rowid);
+        string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
+        rendering.append (" ");
+        // The parsing.
+        string parsing = database_morphgnt.parsing (rowid);
+        rendering.append (lexicon_logic_render_morphgnt_parsing_code (parsing));
+        renderings.push_back (rendering);
+      } else {
+        id.clear ();
+      }
+      request->database_config_user ()->setRequestedSblGntDefinition (id);
       
     } else if (letter == "H") {
       
       // Strong's Hebrew.
-      string rendering = lexicon_logic_render_definition (id);
-      if (!rendering.empty ()) renderings.push_back (rendering);
+      if (id != request->database_config_user ()->getRequestedHDefinition ()) {
+        string rendering = lexicon_logic_render_definition (id);
+        if (!rendering.empty ()) renderings.push_back (rendering);
+      } else {
+        id.clear ();
+      }
+      request->database_config_user ()->setRequestedHDefinition (id);
       
     } else if (letter == "G") {
       
       // Strong's Greek.
-      string rendering = lexicon_logic_render_definition (id);
-      if (!rendering.empty ()) renderings.push_back (rendering);
+      if (id != request->database_config_user ()->getRequestedGDefinition ()) {
+        string rendering = lexicon_logic_render_definition (id);
+        if (!rendering.empty ()) renderings.push_back (rendering);
+      } else {
+        id.clear ();
+      }
+      request->database_config_user ()->setRequestedGDefinition (id);
       
     } else {
 
