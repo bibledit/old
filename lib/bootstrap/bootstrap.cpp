@@ -402,6 +402,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_target_url ()) && xrefs_target_acl (request)) request->reply = xrefs_target (request);
   else if ((url == xrefs_move_url ()) && xrefs_move_acl (request)) request->reply = xrefs_move (request);
   else if ((url == xrefs_next_url ()) && xrefs_next_acl (request)) request->reply = xrefs_next (request);
+  else if ((url == lexicon_definition_url ()) && lexicon_definition_acl (request)) request->reply = lexicon_definition (request);
 
   // Settings calls.
   else if ((url == administration_timeoffset_url ()) && administration_timeoffset_acl (request)) request->reply = administration_timeoffset (request);
