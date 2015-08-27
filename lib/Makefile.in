@@ -276,8 +276,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	webbible/search.$(OBJEXT) debug/index.$(OBJEXT) \
 	browser/index.$(OBJEXT) paratext/logic.$(OBJEXT) \
 	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
-	lexicon/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
-	lexicon/definition.$(OBJEXT) lexicon/original.$(OBJEXT) \
+	lexicon/logic.$(OBJEXT) lexicon/definition.$(OBJEXT) \
 	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
 	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
@@ -838,10 +837,8 @@ libbibledit_a_SOURCES = \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
-	lexicon/index.cpp \
 	lexicon/logic.cpp \
 	lexicon/definition.cpp \
-	lexicon/original.cpp \
 	sources/etcbc4.cpp \
 	sources/kjv.cpp \
 	sources/morphhb.cpp \
@@ -1990,13 +1987,9 @@ lexicon/$(am__dirstamp):
 lexicon/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) lexicon/$(DEPDIR)
 	@: > lexicon/$(DEPDIR)/$(am__dirstamp)
-lexicon/index.$(OBJEXT): lexicon/$(am__dirstamp) \
-	lexicon/$(DEPDIR)/$(am__dirstamp)
 lexicon/logic.$(OBJEXT): lexicon/$(am__dirstamp) \
 	lexicon/$(DEPDIR)/$(am__dirstamp)
 lexicon/definition.$(OBJEXT): lexicon/$(am__dirstamp) \
-	lexicon/$(DEPDIR)/$(am__dirstamp)
-lexicon/original.$(OBJEXT): lexicon/$(am__dirstamp) \
 	lexicon/$(DEPDIR)/$(am__dirstamp)
 sources/$(am__dirstamp):
 	@$(MKDIR_P) sources
@@ -2347,9 +2340,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@json/$(DEPDIR)/json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/definition.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/original.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/locks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/logic.Po@am__quote@

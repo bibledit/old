@@ -25,6 +25,7 @@
 #include <lexicon/logic.h>
 #include <database/kjv.h>
 #include <database/morphhb.h>
+#include <database/morphgnt.h>
 
 
 string lexicon_definition_url ()
@@ -76,13 +77,23 @@ string lexicon_definition (void * webserver_request)
         if (!rendering.empty ()) renderings.push_back (rendering);
       }
 
+    } else if (letter == SBLGNT_PREFIX) {
+      
+      // SBL Greek New Testament plus morphology.
+      Database_MorphGnt database_morphgnt;
+      id = id.substr (1);
+      int rowid = convert_to_int (id);
+      // The part of speech.
+      string pos = database_morphgnt.pos (rowid);
+      string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
+      rendering.append (" ");
+      // The parsing.
+      string parsing = database_morphgnt.parsing (rowid);
+      rendering.append (lexicon_logic_render_morphgnt_parsing_code (parsing));
+      renderings.push_back (rendering);
+      
     } else {
 
-      string morphology = lexicon_logic_convert_item_to_morphology (id);
-      if (!morphology.empty ()) {
-        renderings.push_back (morphology);
-      }
-      
       // Whatever is the identifier, convert it to one or more Strong's numbers.
       vector <string> strongs = lexicon_logic_convert_item_to_strong (id);
       
@@ -95,7 +106,6 @@ string lexicon_definition (void * webserver_request)
     }
     
   }
-  
   
   return filter_string_implode (renderings, "<br>");
 }

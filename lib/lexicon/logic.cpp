@@ -44,7 +44,8 @@ vector <string> lexicon_logic_resource_names ()
   return {
     HEBREW_ETCBE4_NAME,
     KJV_LEXICON_NAME,
-    MORPHHB_NAME
+    MORPHHB_NAME,
+    SBLGNT_NAME
   };
 }
 
@@ -116,6 +117,25 @@ string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
         int rowid = rowids[i];
         string word = database_morphhb.word (rowid);
         string link = "<a href=\"" MORPHHB_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
+        html.append (link);
+      }
+      html.append ("</div>");
+      html.append (lexicon_logic_get_script (prefix));
+    }
+  }
+  
+  if (lexicon == SBLGNT_NAME) {
+    string prefix = SBLGNT_PREFIX;
+    Database_MorphGnt database_morphgnt;
+    vector <int> rowids = database_morphgnt.rowids (book, chapter, verse);
+    if (!rowids.empty ()) {
+      string id = "lexicontxt" + prefix;
+      html.append ("<div id=\"" + id + "\" class=\"greek\">\n");
+      for (size_t i = 0; i < rowids.size (); i++) {
+        if (i) html.append (" ");
+        int rowid = rowids[i];
+        string word = database_morphgnt.word (rowid);
+        string link = "<a href=\"" SBLGNT_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
         html.append (link);
       }
       html.append ("</div>");
@@ -339,7 +359,6 @@ string lexicon_logic_render_definition (string strong)
             rendering.append ("<em>");
           }
           if (element == "strongs") {
-            rendering.append ("<br>");
             rendering.append ("Word: ");
             rendering.append ("Strong's ");
           }
@@ -611,43 +630,6 @@ string lexicon_logic_define_user_strong (string strong)
     }
   }
   return definition;
-}
-
-
-// Convert the $item to a rendered morphology.
-string lexicon_logic_convert_item_to_morphology (string item)
-{
-  vector <string> renderings;
-
-  // Assume that the $item contains a passage and an offset to morphology data within that passage.
-  vector <string> bits = filter_string_explode (item, 'S');
-  if (bits.size () == 2) {
-
-    Passage passage = Passage::from_text (bits[0]);
-    int book = passage.book;
-    int chapter = passage.chapter;
-    int verse = convert_to_int (passage.verse);
-    
-    size_t offset = convert_to_int (bits[1]);
-  
-    /* Todo
-    Database_MorphGnt database_morphgnt;
-    vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
-    if (morphgnt_items.size () > offset) {
-      // The part of speech.
-      string pos = morphgnt_items[offset].part_of_speech;
-      string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
-      if (!rendering.empty ()) renderings.push_back (rendering);
-      // The parsing.
-      string parsing = morphgnt_items[offset].parsing;
-      rendering = lexicon_logic_render_morphgnt_parsing_code (parsing);
-      if (!rendering.empty ()) renderings.push_back (rendering);
-    }
-     */
-  }
-  
-  if (renderings.empty ()) return "";
-  return "<br>" + filter_string_implode (renderings, " ");
 }
 
 

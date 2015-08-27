@@ -323,10 +323,8 @@ libbibledit_a_SOURCES = \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
-	lexicon/index.cpp \
 	lexicon/logic.cpp \
 	lexicon/definition.cpp \
-	lexicon/original.cpp \
 	sources/etcbc4.cpp \
 	sources/kjv.cpp \
 	sources/morphhb.cpp \
