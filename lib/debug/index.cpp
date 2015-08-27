@@ -51,14 +51,6 @@ string debug_index (void * webserver_request)
 
   string debug = request->query ["debug"];
   
-  if (debug == "1") {
-    view.set_variable ("success", "one is disabled");
-  }
-
-  if (debug == "2") {
-    view.set_variable ("success", "two is disabled");
-  }
-
   if (debug == "etcb4download") {
     // sources_etcb4_download ();
     view.set_variable ("success", "Task disabled");
@@ -80,8 +72,8 @@ string debug_index (void * webserver_request)
   }
 
   if (debug == "parsemorphgnt") {
-    sources_morphgnt_parse ();
-    view.set_variable ("success", "Task ran");
+    //sources_morphgnt_parse ();
+    view.set_variable ("success", "Task disabled");
   }
   
   page += view.render ("debug", "index");
