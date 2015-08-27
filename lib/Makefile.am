@@ -329,7 +329,8 @@ libbibledit_a_SOURCES = \
 	lexicon/original.cpp \
 	sources/etcbc4.cpp \
 	sources/kjv.cpp \
-	sources/morphhb.cpp
+	sources/morphhb.cpp \
+	sources/morphgnt.cpp
 
 bin_PROGRAMS = server unittest
 

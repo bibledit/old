@@ -102,6 +102,9 @@
 		CA12402E1A55D6BB002C4752 /* variables.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = variables.hpp; sourceTree = "<group>"; };
 		CA12402F1A55D8A1002C4752 /* diff.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = diff.cpp; sourceTree = "<group>"; };
 		CA1240301A55D8A1002C4752 /* diff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = diff.h; sourceTree = "<group>"; };
+		CA129E3F1B8F1FF7007B37B4 /* morphgnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = morphgnt.cpp; sourceTree = "<group>"; };
+		CA129E401B8F1FF7007B37B4 /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphgnt.h; sourceTree = "<group>"; };
+		CA129E411B8F1FF7007B37B4 /* morphgnt.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = morphgnt.txt; sourceTree = "<group>"; };
 		CA13979A1AB095DC00071EDF /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
 		CA13979B1AB09B9700071EDF /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = notes.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA13979C1AB09B9700071EDF /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
@@ -938,11 +941,6 @@
 		CAECFB881B84E30100B3634F /* HebrewStrong.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HebrewStrong.xml; sourceTree = "<group>"; };
 		CAECFB891B84E30100B3634F /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		CAECFB8A1B84E30100B3634F /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
-		CAECFBAB1B84E30100B3634F /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
-		CAECFBAC1B84E30100B3634F /* morphgnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = morphgnt.cpp; sourceTree = "<group>"; };
-		CAECFBAD1B84E30100B3634F /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphgnt.h; sourceTree = "<group>"; };
-		CAECFBAE1B84E30100B3634F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CAECFBAF1B84E30100B3634F /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
 		CAECFBDB1B84E30100B3634F /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
 		CAECFBDC1B84E30100B3634F /* create_sblgnt_database.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = create_sblgnt_database.php; sourceTree = "<group>"; };
 		CAECFBDD1B84E30100B3634F /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = greekstrong.cpp; sourceTree = "<group>"; };
@@ -2909,10 +2907,12 @@
 				CA00A3411B8C9925007B95BA /* kjv.cpp */,
 				CA00A3421B8C9925007B95BA /* kjv.h */,
 				CA00A3441B8C9925007B95BA /* kjv.txt */,
+				CA129E3F1B8F1FF7007B37B4 /* morphgnt.cpp */,
+				CA129E401B8F1FF7007B37B4 /* morphgnt.h */,
+				CA129E411B8F1FF7007B37B4 /* morphgnt.txt */,
 				CA4F51DB1B8E004500EE61A4 /* morphhb.cpp */,
 				CA4F51DC1B8E004500EE61A4 /* morphhb.h */,
 				CA4F51DD1B8E004500EE61A4 /* morphhb.txt */,
-				CAECFB8F1B84E30100B3634F /* morphgnt */,
 				CAECFBDA1B84E30100B3634F /* sblgnt */,
 			);
 			name = sources;
@@ -2931,18 +2931,6 @@
 				CAECFB8A1B84E30100B3634F /* run */,
 			);
 			path = hebrewlexicon;
-			sourceTree = "<group>";
-		};
-		CAECFB8F1B84E30100B3634F /* morphgnt */ = {
-			isa = PBXGroup;
-			children = (
-				CAECFBAB1B84E30100B3634F /* clean */,
-				CAECFBAC1B84E30100B3634F /* morphgnt.cpp */,
-				CAECFBAD1B84E30100B3634F /* morphgnt.h */,
-				CAECFBAE1B84E30100B3634F /* README.md */,
-				CAECFBAF1B84E30100B3634F /* run */,
-			);
-			path = morphgnt;
 			sourceTree = "<group>";
 		};
 		CAECFBDA1B84E30100B3634F /* sblgnt */ = {

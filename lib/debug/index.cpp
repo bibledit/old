@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/etcbc4.h>
 #include <sources/kjv.h>
 #include <sources/morphhb.h>
+#include <sources/morphgnt.h>
 
 
 const char * debug_index_url ()
@@ -74,7 +75,12 @@ string debug_index (void * webserver_request)
   }
   
   if (debug == "parsemorphhb") {
-    sources_morphhb_parse ();
+    // sources_morphhb_parse ();
+    view.set_variable ("success", "Task disabled");
+  }
+
+  if (debug == "parsemorphgnt") {
+    sources_morphgnt_parse ();
     view.set_variable ("success", "Task ran");
   }
   

@@ -25,21 +25,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sqlite3.h>
 
 
-class Database_MorphGnt_Item
-{
-public:
-  string part_of_speech;
-  string parsing;
-  string word;
-  string lemma;
-};
-
-
 class Database_MorphGnt
 {
 public:
-  vector <Database_MorphGnt_Item> get (int book, int chapter, int verse);
+  void create ();
+  void optimize ();
+  void store (int book, int chapter, int verse,
+              string pos, string parsing, string word, string lemma);
+  vector <int> rowids (int book, int chapter, int verse);
+  string pos (int rowid);
+  string parsing (int rowid);
+  string word (int rowid);
+  string lemma (int rowid);
 private:
+  const char * filename ();
+  int get_id (const char * table_row, string item);
+  string get_item (const char * item, int rowid);
 };
 
 

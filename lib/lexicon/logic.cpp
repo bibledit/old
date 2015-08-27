@@ -192,6 +192,7 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
       
       size_t offset = convert_to_int (bits[1]);
 
+      /* Todo
       Database_MorphGnt database_morphgnt;
       vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
       if (morphgnt_items.size () > offset) {
@@ -202,6 +203,7 @@ vector <string> lexicon_logic_convert_item_to_strong (string item)
         vector <string> results = database_strong.strong (lemma);
         strongs.insert (strongs.end (), results.begin(), results.end());
       }
+       */
     }
   }
 
@@ -628,6 +630,7 @@ string lexicon_logic_convert_item_to_morphology (string item)
     
     size_t offset = convert_to_int (bits[1]);
   
+    /* Todo
     Database_MorphGnt database_morphgnt;
     vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
     if (morphgnt_items.size () > offset) {
@@ -640,6 +643,7 @@ string lexicon_logic_convert_item_to_morphology (string item)
       rendering = lexicon_logic_render_morphgnt_parsing_code (parsing);
       if (!rendering.empty ()) renderings.push_back (rendering);
     }
+     */
   }
   
   if (renderings.empty ()) return "";
