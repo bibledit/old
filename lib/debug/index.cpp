@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <tasks/logic.h>
+#include <sources/etcbc4.h>
 #include <sources/kjv.h>
 #include <sources/morphhb.h>
 
@@ -58,12 +59,12 @@ string debug_index (void * webserver_request)
   }
 
   if (debug == "etcb4download") {
-    // tasks_logic_queue (DOWNLOADETCBC4);
+    // sources_etcb4_download ();
     view.set_variable ("success", "Task disabled");
   }
   
   if (debug == "etcb4parse") {
-    // tasks_logic_queue (PARSEETCBC4);
+    // sources_etcb4_parse ();
     view.set_variable ("success", "Task disabled");
   }
   
