@@ -106,6 +106,7 @@ string lexicon_definition (void * webserver_request)
       
     } else {
 
+      // Unknown definition request.
       renderings.push_back (id);
       
     }

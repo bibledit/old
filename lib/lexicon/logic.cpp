@@ -409,6 +409,9 @@ string lexicon_logic_render_definition (string strong)
     rendering = lexicon_logic_define_user_strong (strong);
   }
   
+  // Remove bits.
+  rendering = filter_string_str_replace ("×", "", rendering);
+  
   return rendering;
 }
 
