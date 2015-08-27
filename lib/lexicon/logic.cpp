@@ -188,49 +188,6 @@ string lexicon_logic_strong_number_cleanup (string strong)
 }
 
 
-// Convert the $item to a Strong's number.
-vector <string> lexicon_logic_convert_item_to_strong (string item)
-{
-  vector <string> strongs;
-  
-  // If the $item is a Strong's number, take that.
-  if (!item.empty ()) {
-    string s = item.substr (0, 1);
-    if ((s == "H") || (s == "G")) strongs.push_back (item);
-  }
-  
-  // No Strong's number found:
-  // Assume that the $item contains a passage and an offset to a lemma within that passage.
-  if (strongs.empty ()) {
-    vector <string> bits = filter_string_explode (item, 'S');
-    if (bits.size () == 2) {
-      
-      Passage passage = Passage::from_text (bits[0]);
-      int book = passage.book;
-      int chapter = passage.chapter;
-      int verse = convert_to_int (passage.verse);
-      
-      size_t offset = convert_to_int (bits[1]);
-
-      /* Todo
-      Database_MorphGnt database_morphgnt;
-      vector <Database_MorphGnt_Item> morphgnt_items = database_morphgnt.get (book, chapter, verse);
-      if (morphgnt_items.size () > offset) {
-        // The lemma.
-        string lemma = morphgnt_items[offset].lemma;
-        // Convert the lemma to a Strong's number.
-        Database_Strong database_strong;
-        vector <string> results = database_strong.strong (lemma);
-        strongs.insert (strongs.end (), results.begin(), results.end());
-      }
-       */
-    }
-  }
-
-  return strongs;
-}
-
-
 // Converts a parsing from the Open Scriptures Hebrew database to Strong's numbers.
 vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing)
 {

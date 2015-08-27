@@ -24,7 +24,7 @@
 #include <filter/url.h>
 
 
-void sources_morphgnt_parse () // Todo
+void sources_morphgnt_parse ()
 {
   Database_Logs::log ("Start parsing MorphGNT");
   Database_MorphGnt database_morphgnt;

@@ -92,17 +92,22 @@ string lexicon_definition (void * webserver_request)
       rendering.append (lexicon_logic_render_morphgnt_parsing_code (parsing));
       renderings.push_back (rendering);
       
+    } else if (letter == "H") {
+      
+      // Strong's Hebrew.
+      string rendering = lexicon_logic_render_definition (id);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+      
+    } else if (letter == "G") {
+      
+      // Strong's Greek.
+      string rendering = lexicon_logic_render_definition (id);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+      
     } else {
 
-      // Whatever is the identifier, convert it to one or more Strong's numbers.
-      vector <string> strongs = lexicon_logic_convert_item_to_strong (id);
+      renderings.push_back (id);
       
-      // Render Strong's definitions.
-      for (auto& strong : strongs) {
-        string rendering = lexicon_logic_render_definition (strong);
-        if (!rendering.empty ()) renderings.push_back (rendering);
-      }
-
     }
     
   }
