@@ -1,9 +1,0 @@
-#!/bin/bash
-
-g++ `pkg-config sqlite3 --cflags --libs` `pkg-config icu-i18n --cflags --libs` -std=c++11 -o morphgnt morphgnt.cpp
-
-if [ $? -ne 0 ]; then
-  exit
-fi
-
-./morphgnt
