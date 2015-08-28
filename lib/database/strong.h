@@ -31,8 +31,7 @@ public:
   string definition (string strong);
   vector <string> strong (string lemma);
 private:
-  sqlite3 * connectgreek ();
-  sqlite3 * connecthebrew ();
+  sqlite3 * connect ();
 };
 
 

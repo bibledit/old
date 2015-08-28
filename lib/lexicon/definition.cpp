@@ -26,6 +26,7 @@
 #include <database/kjv.h>
 #include <database/morphhb.h>
 #include <database/morphgnt.h>
+#include <database/strong.h>
 
 
 string lexicon_definition_url ()
@@ -96,6 +97,7 @@ string lexicon_definition (void * webserver_request)
       // SBL Greek New Testament plus morphology.
       if (id != request->database_config_user ()->getRequestedSblGntDefinition ()) {
         Database_MorphGnt database_morphgnt;
+        Database_Strong database_strong;
         int rowid = convert_to_int (id.substr (1));
         // The part of speech.
         string pos = database_morphgnt.pos (rowid);
@@ -105,6 +107,14 @@ string lexicon_definition (void * webserver_request)
         string parsing = database_morphgnt.parsing (rowid);
         rendering.append (lexicon_logic_render_morphgnt_parsing_code (parsing));
         renderings.push_back (rendering);
+        // The lemma.
+        string lemma = database_morphgnt.lemma (rowid);
+        vector <string> strongs = database_strong.strong (lemma);
+        for (auto & id : strongs) {
+          rendering = lexicon_logic_render_definition (id);
+          if (!rendering.empty ()) renderings.push_back (rendering);
+        }
+
       } else {
         id.clear ();
       }

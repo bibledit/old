@@ -25,6 +25,7 @@
 #include <database/morphhb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
+#include <database/hebrewlexicon.h>
 #include <libxml/xmlreader.h>
 
 
@@ -250,7 +251,11 @@ string lexicon_logic_render_definition (string strong)
   string rendering;
   bool a_opened = false;
   Database_Strong database_strong;
+  Database_HebrewLexicon database_hebrewlexicon;
   string definition = database_strong.definition (lexicon_logic_strong_number_cleanup (strong));
+  if (definition.empty ()) {
+    definition = database_hebrewlexicon.getstrong (lexicon_logic_strong_number_cleanup (strong));
+  }
   definition = lexicon_logic_create_xml_document (definition);
   xmlTextReaderPtr reader = xmlReaderForDoc (BAD_CAST definition.c_str(), "", "UTF-8", 0);
   while ((xmlTextReaderRead(reader) == 1)) {

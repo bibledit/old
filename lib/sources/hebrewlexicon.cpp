@@ -62,7 +62,7 @@ void sources_hebrewlexicon_parse () // Todo
             definition = convert_xml_character_entities_to_characters (definition);
             definition = filter_string_str_replace ("'", "''", definition);
             definition = filter_string_trim (definition);
-            database_hebrewlexicon.storestrong (id, definition);
+            database_hebrewlexicon.setstrong (id, definition);
           }
           break;
         }

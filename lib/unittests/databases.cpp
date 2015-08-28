@@ -58,6 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/strong.h>
 #include <database/morphgnt.h>
 #include <database/etcbc4.h>
+#include <database/hebrewlexicon.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -3997,21 +3998,13 @@ void test_database_strong ()
 {
   Database_Strong database;
 
-  string result = database.definition ("H0");
+  string result = database.definition ("G0");
   evaluate (__LINE__, __func__, "", result);
   
-  result = database.definition ("G0");
-  evaluate (__LINE__, __func__, "", result);
-  
-  result = database.definition ("H1");
+  result = database.definition ("G1");
   int length_h = result.length ();
 
-  result = database.definition ("G1");
-  int length_g = result.length ();
-
   evaluate (__LINE__, __func__, true, length_h > 100);
-  evaluate (__LINE__, __func__, true, length_g > 100);
-  evaluate (__LINE__, __func__, true, length_h != length_g);
 
   vector <string> results = database.strong ("χρηστοσ");
   evaluate (__LINE__, __func__, 1, results.size ());
@@ -4189,6 +4182,20 @@ void test_database_etcbc4 ()
   
   result = database.clause_relation (1001);
   evaluate (__LINE__, __func__, "NA", result);
+}
+
+
+void test_database_hebrewlexicon () // Todo
+{
+  Database_HebrewLexicon database;
+  
+  string result = database.getstrong ("H0");
+  evaluate (__LINE__, __func__, "", result);
+  
+  result = database.getstrong ("H1");
+  int length_h = result.length ();
+  
+  evaluate (__LINE__, __func__, true, length_h > 100);
 }
 
 

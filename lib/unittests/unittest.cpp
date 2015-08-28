@@ -279,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_database_morphgnt (); test_filter_string (); test_database_morphhb (); refresh_sandbox (true); exit (0); // Todo
+  test_database_hebrewlexicon (); test_database_strong (); refresh_sandbox (true); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -351,6 +351,7 @@ int main (int argc, char **argv)
   test_database_strong ();
   test_database_morphgnt ();
   test_database_etcbc4 ();
+  test_database_hebrewlexicon ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

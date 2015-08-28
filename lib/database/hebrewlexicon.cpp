@@ -55,7 +55,7 @@ void Database_HebrewLexicon::optimize ()
 }
 
 
-void Database_HebrewLexicon::storestrong (string strong, string definition)
+void Database_HebrewLexicon::setstrong (string strong, string definition)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("INSERT INTO strong VALUES (");
@@ -67,21 +67,15 @@ void Database_HebrewLexicon::storestrong (string strong, string definition)
 }
 
 
-/*
-vector <int> Database_HebrewLexicon::rowids (int book, int chapter, int verse)
+string Database_HebrewLexicon::getstrong (string strong)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT rowid FROM morphgnt WHERE book =");
-  sql.add (book);
-  sql.add ("AND chapter =");
-  sql.add (chapter);
-  sql.add ("AND verse =");
-  sql.add (verse);
-  sql.add ("ORDER BY rowid;");
-  vector <string> result = sql.query () ["rowid"];
-  vector <int> rowids;
-  for (auto rowid : result) rowids.push_back (convert_to_int (rowid));
-  return rowids;
+  sql.add ("SELECT definition FROM strong WHERE strong =");
+  sql.add (strong);
+  sql.add (";");
+  vector <string> result = sql.query () ["definition"];
+  if (!result.empty ()) return result [0];
+  return "";
 }
 
-*/
+
