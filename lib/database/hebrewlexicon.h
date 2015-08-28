@@ -29,8 +29,7 @@ class Database_HebrewLexicon
 public:
   void create ();
   void optimize ();
-  string definition (string strong);
-  vector <string> strong (string lemma);
+  void storestrong (string strong, string definition);
 private:
   const char * filename ();
 };

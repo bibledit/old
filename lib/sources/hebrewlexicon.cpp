@@ -21,6 +21,7 @@
 #include <libxml/xmlreader.h>
 #include <database/logs.h>
 #include <database/hebrewlexicon.h>
+#include <filter/string.h>
 
 
 void sources_hebrewlexicon_parse () // Todo
@@ -28,83 +29,47 @@ void sources_hebrewlexicon_parse () // Todo
   Database_Logs::log ("Start parsing Open Scriptures's Hebrew Lexicon");
   Database_HebrewLexicon database_hebrewlexicon;
   database_hebrewlexicon.create ();
-  
-  
-  
-  Database_Logs::log ("Finished parsing Open Scriptures's Hebrew Lexicon");
-}
 
-/*
-int main (int argc, char **argv)
-{
-  unlink ("hebrewstrong.sqlite");
-  sqlite3 *db;
-  sqlite3_open ("hebrewstrong.sqlite", &db);
-  sqlite3_exec (db, "PRAGMA synchronous = OFF;", NULL, NULL, NULL);
-  sqlite3_exec (db, "CREATE TABLE IF NOT EXISTS hebrewstrong (id text, definition text);", NULL, NULL, NULL);
-  
-  xmlTextReaderPtr reader = xmlNewTextReaderFilename ("HebrewStrong.xml");
-
-  string id;
-  string definition;
-  
-  set <string> values;
-  
-  while ((xmlTextReaderRead(reader) == 1)) {
-    int depth = xmlTextReaderDepth (reader);
-    switch (xmlTextReaderNodeType (reader)) {
-      case XML_READER_TYPE_ELEMENT:
-      {
-        string element = (char *) xmlTextReaderName (reader);
-        if (element == "entry") {
-          id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
-          cout << id << endl;
-          definition = (char *) xmlTextReaderReadInnerXml (reader);
-        }
-        if (element == "w") {
-          xmlChar * pos = xmlTextReaderGetAttribute (reader, BAD_CAST "pos");
-          if (pos) {
-            string value = (char *) pos;
-            values.insert (value);
+  {
+    Database_Logs::log ("HebrewStrong.xml");
+    xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/HebrewStrong.xml");
+    
+    string id;
+    string definition;
+    
+    while ((xmlTextReaderRead(reader) == 1)) {
+      switch (xmlTextReaderNodeType (reader)) {
+        case XML_READER_TYPE_ELEMENT:
+        {
+          string element = (char *) xmlTextReaderName (reader);
+          if (element == "entry") {
+            id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
+            definition = (char *) xmlTextReaderReadInnerXml (reader);
           }
+          break;
         }
-        break;
-      }
-      case XML_READER_TYPE_TEXT:
-      {
-        xmlChar *text = xmlTextReaderValue(reader);
-        break;
-      }
-      case XML_READER_TYPE_END_ELEMENT:
-      {
-        string element = (char *) xmlTextReaderName(reader);
-        if (element == "entry") {
-          string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-
-          definition = str_replace (xmlns, "", definition);
-          definition = convert_xml_character_entities_to_characters (definition);
-          definition = str_replace ("'", "''", definition);
-          definition = trim (definition);
-          
-          string sql = "INSERT INTO hebrewstrong VALUES ('" + id + "', '" + definition + "');";
-          char *error = NULL;
-          int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
-          if (rc != SQLITE_OK) {
-            cout << sql << endl;
-            cout << error << endl;
-            return 0;
+        case XML_READER_TYPE_TEXT:
+        {
+          //xmlChar *text = xmlTextReaderValue(reader);
+          break;
+        }
+        case XML_READER_TYPE_END_ELEMENT:
+        {
+          string element = (char *) xmlTextReaderName(reader);
+          if (element == "entry") {
+            string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
+            definition = filter_string_str_replace (xmlns, "", definition);
+            definition = convert_xml_character_entities_to_characters (definition);
+            definition = filter_string_str_replace ("'", "''", definition);
+            definition = filter_string_trim (definition);
+            database_hebrewlexicon.storestrong (id, definition);
           }
+          break;
         }
-        break;
       }
     }
   }
-
-  sqlite3_close (db);
-
-  for (auto value : values) cout << value << endl;
   
-  return 0;
+  Database_Logs::log ("Finished parsing Open Scriptures's Hebrew Lexicon");
 }
-*/
 

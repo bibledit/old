@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 const char * Database_HebrewLexicon::filename ()
 {
-  return "morphgnt";
+  return "hebrewlexicon";
 }
 
 
@@ -41,27 +41,9 @@ void Database_HebrewLexicon::create ()
   
   SqliteDatabase sql = SqliteDatabase (filename ());
 
-  /* Todo
   sql.clear ();
-  sql.add ("CREATE TABLE morphgnt (book int, chapter int, verse int, pos int, parsing int, word int, lemma int);");
+  sql.add ("CREATE TABLE IF NOT EXISTS strong (strong text, definition text);");
   sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS pos (pos text);");
-  sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS parsing (parsing text);");
-  sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS word (word text);");
-  sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS lemma (lemma text);");
-  sql.execute ();
-   */
 }
 
 
@@ -73,43 +55,19 @@ void Database_HebrewLexicon::optimize ()
 }
 
 
-/*
-void Database_HebrewLexicon::store (int book, int chapter, int verse,
-                                    string pos, string parsing, string word, string lemma)
+void Database_HebrewLexicon::storestrong (string strong, string definition)
 {
-  int pos_id = get_id ("pos", pos);
-  int parsing_id = get_id ("parsing", parsing);
-  int word_id = get_id ("word", word);
-  int lemma_id = get_id ("lemma", lemma);
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("PRAGMA temp_store = MEMORY;");
-  sql.execute ();
-  sql.clear ();
-  sql.add ("PRAGMA synchronous = OFF;");
-  sql.execute ();
-  sql.clear ();
-  sql.add ("PRAGMA journal_mode = OFF;");
-  sql.execute ();
-  sql.clear ();
-  sql.add ("INSERT INTO morphgnt VALUES (");
-  sql.add (book);
+  sql.add ("INSERT INTO strong VALUES (");
+  sql.add (strong);
   sql.add (",");
-  sql.add (chapter);
-  sql.add (",");
-  sql.add (verse);
-  sql.add (",");
-  sql.add (pos_id);
-  sql.add (",");
-  sql.add (parsing_id);
-  sql.add (",");
-  sql.add (word_id);
-  sql.add (",");
-  sql.add (lemma_id);
+  sql.add (definition);
   sql.add (");");
   sql.execute ();
 }
 
 
+/*
 vector <int> Database_HebrewLexicon::rowids (int book, int chapter, int verse)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
@@ -126,86 +84,4 @@ vector <int> Database_HebrewLexicon::rowids (int book, int chapter, int verse)
   return rowids;
 }
 
-
-string Database_HebrewLexicon::pos (int rowid)
-{
-  return get_item ("pos", rowid);
-}
-
-
-string Database_HebrewLexicon::parsing (int rowid)
-{
-  return get_item ("parsing", rowid);
-}
-
-
-string Database_HebrewLexicon::word (int rowid)
-{
-  return get_item ("word", rowid);
-}
-
-
-string Database_HebrewLexicon::lemma (int rowid)
-{
-  return get_item ("lemma", rowid);
-}
-
-
-int Database_HebrewLexicon::get_id (const char * table_row, string item)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  // Two iterations to be sure a rowid can be returned.
-  for (unsigned int i = 0; i < 2; i++) {
-    // Check on the rowid and return it if it's there.
-    sql.clear ();
-    sql.add ("SELECT rowid FROM");
-    sql.add (table_row);
-    sql.add ("WHERE");
-    sql.add (table_row);
-    sql.add ("=");
-    sql.add (item);
-    sql.add (";");
-    vector <string> result = sql.query () ["rowid"];
-    if (!result.empty ()) return convert_to_int (result [0]);
-    // The rowid was not found: Insert the word into the table.
-    // The rowid will now be found during the second iteration.
-    sql.clear ();
-    sql.add ("INSERT INTO");
-    sql.add (table_row);
-    sql.add ("VALUES (");
-    sql.add (item);
-    sql.add (");");
-    sql.execute ();
-  }
-  return 0;
-}
-
-
-string Database_HebrewLexicon::get_item (const char * item, int rowid)
-{
-  // The $rowid refers to the main table.
-  // Update it so it refers to the sub table.
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT");
-  sql.add (item);
-  sql.add ("FROM morphgnt WHERE rowid =");
-  sql.add (rowid);
-  sql.add (";");
-  vector <string> result = sql.query () [item];
-  rowid = 0;
-  if (!result.empty ()) rowid = convert_to_int (result [0]);
-  // Retrieve the requested value from the sub table.
-  sql.clear ();
-  sql.add ("SELECT");
-  sql.add (item);
-  sql.add ("FROM");
-  sql.add (item);
-  sql.add ("WHERE rowid =");
-  sql.add (rowid);
-  sql.add (";");
-  result = sql.query () [item];
-  if (!result.empty ()) return result [0];
-  // Not found.
-  return "";
-}
 */
