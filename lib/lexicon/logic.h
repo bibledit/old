@@ -35,7 +35,7 @@
 
 
 vector <string> lexicon_logic_resource_names ();
-string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse);
+string lexicon_logic_get_html (void * webserver_request, string lexicon, int book, int chapter, int verse);
 string lexicon_logic_get_script (string prefix);
 string lexicon_logic_strong_number_cleanup (string strong);
 vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing);

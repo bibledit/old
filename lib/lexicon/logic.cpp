@@ -52,11 +52,14 @@ vector <string> lexicon_logic_resource_names ()
 
 
 // Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
-string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
+string lexicon_logic_get_html (void * webserver_request, string lexicon, int book, int chapter, int verse)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   string html;
   
   if (lexicon == HEBREW_ETCBE4_NAME) {
+    request->database_config_user ()->setRequestedEtcbc4Definition ("");
     string prefix = HEBREW_ETCBE4_PREFIX;
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
@@ -88,6 +91,9 @@ string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
   }
 
   if (lexicon == KJV_LEXICON_NAME) {
+    request->database_config_user ()->setRequestedKjvDefinition ("");
+    request->database_config_user ()->setRequestedHDefinition ("");
+    request->database_config_user ()->setRequestedGDefinition ("");
     string prefix = KJV_LEXICON_PREFIX;
     Database_Kjv database_kjv;
     vector <int> rowids = database_kjv.rowids (book, chapter, verse);
@@ -107,6 +113,8 @@ string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
   }
 
   if (lexicon == MORPHHB_NAME) {
+    request->database_config_user ()->setRequestedMorphHbDefinition ("");
+    request->database_config_user ()->setRequestedHDefinition ("");
     string prefix = MORPHHB_PREFIX;
     Database_MorphHb database_morphhb;
     vector <int> rowids = database_morphhb.rowids (book, chapter, verse);
@@ -126,6 +134,8 @@ string lexicon_logic_get_html (string lexicon, int book, int chapter, int verse)
   }
   
   if (lexicon == SBLGNT_NAME) {
+    request->database_config_user ()->setRequestedSblGntDefinition ("");
+    request->database_config_user ()->setRequestedGDefinition ("");
     string prefix = SBLGNT_PREFIX;
     Database_MorphGnt database_morphgnt;
     vector <int> rowids = database_morphgnt.rowids (book, chapter, verse);

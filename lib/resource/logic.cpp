@@ -162,7 +162,7 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
       html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
     }
   } else if (isLexicon) {
-    html = lexicon_logic_get_html (resource, book, chapter, verse);
+    html = lexicon_logic_get_html (request, resource, book, chapter, verse);
   } else {
     // Nothing found.
   }
