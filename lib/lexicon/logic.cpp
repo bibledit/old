@@ -43,7 +43,7 @@
 vector <string> lexicon_logic_resource_names ()
 {
   return {
-    HEBREW_ETCBE4_NAME,
+    HEBREW_ETCBC4_NAME,
     KJV_LEXICON_NAME,
     MORPHHB_NAME,
     SBLGNT_NAME
@@ -58,9 +58,9 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
 
   string html;
   
-  if (lexicon == HEBREW_ETCBE4_NAME) {
+  if (lexicon == HEBREW_ETCBC4_NAME) {
     request->database_config_user ()->setRequestedEtcbc4Definition ("");
-    string prefix = HEBREW_ETCBE4_PREFIX;
+    string prefix = HEBREW_ETCBC4_PREFIX;
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
     vector <int> rowids = database_etcbc4.rowids (book, chapter, verse);
@@ -72,7 +72,7 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
         html.append ("<tr>");
         html.append ("<td class=\"hebrew\">");
         string word = database_etcbc4.word (rowid);
-        string link = "<a href=\"" HEBREW_ETCBE4_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
+        string link = "<a href=\"" HEBREW_ETCBC4_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
         html.append (link);
         html.append ("</td>");
         html.append ("</tr>");
@@ -200,11 +200,18 @@ string lexicon_logic_strong_number_cleanup (string strong)
 
 
 // Converts a parsing from the Open Scriptures Hebrew database to Strong's numbers.
-vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing)
+// It also provides the links to call BDB entries.
+void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
+                                                      vector <string>& strongs,
+                                                      vector <string>& bdbs)
 {
-  vector <string> strongs;
+  strongs.clear ();
+  bdbs.clear ();
   vector <string> bits = filter_string_explode (parsing, '/');
   for (auto & bit : bits) {
+    // Remove the space that is in the parsings, e.g. change "1254 a" to "1254a".
+    bit = filter_string_str_replace (" ", "", bit);
+    bdbs.push_back (bit);
     int strong = convert_to_int (bit);
     if (strong == 0) {
       if (bit == "b") {
@@ -240,11 +247,8 @@ vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing)
         strong = SHIN_STRONG;
       }
     }
-    if (strong) {
-      strongs.push_back ("H" + convert_to_string (strong));
-    }
+    strongs.push_back ("H" + convert_to_string (strong));
   }
-  return strongs;
 }
 
 
@@ -1035,4 +1039,25 @@ string lexicon_logic_render_etcb4_morphology (string rowid)
   }
 
   return filter_string_implode (renderings, " ");
+}
+
+
+// Converts a code from MorphHb into a rendered BDB entry from the HebrewLexicon.
+string lexicon_logic_render_bdb_entry (string code)
+{
+  Database_HebrewLexicon database_hebrewlexicon;
+  // Get the intermediate map value between the augmented Strong's numbers and the BDB lexicon.
+  string map = database_hebrewlexicon.getaug (code);
+  // Get the BDB entry ID.
+  string bdb = database_hebrewlexicon.getmap (map);
+  // Get the BDB definition.
+  string definition = database_hebrewlexicon.getbdb (bdb);
+  // Remove XML elements.
+  filter_string_replace_between (definition, "<", ">", "");
+  // Convert new lines to <br> to retain some formatting.
+  definition = filter_string_str_replace ("\n\n", "\n", definition);
+  definition = filter_string_str_replace ("\n\n", "\n", definition);
+  definition = filter_string_str_replace ("\n", "<br>", definition);
+  // Done.
+  return definition;
 }

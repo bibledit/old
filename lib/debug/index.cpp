@@ -73,13 +73,13 @@ string debug_index (void * webserver_request)
   }
 
   if (debug == "parsemorphgnt") {
-    //sources_morphgnt_parse ();
+    // sources_morphgnt_parse ();
     view.set_variable ("success", "Task disabled");
   }
 
   if (debug == "parsehebrewlexicon") {
-    sources_hebrewlexicon_parse ();
-    view.set_variable ("success", "Task ran");
+    // sources_hebrewlexicon_parse ();
+    view.set_variable ("success", "Task disabled");
   }
 
   page += view.render ("debug", "index");

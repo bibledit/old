@@ -42,6 +42,22 @@ void Database_HebrewLexicon::create ()
   SqliteDatabase sql = SqliteDatabase (filename ());
 
   sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS aug (aug text, target text);");
+  sql.execute ();
+  
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS bdb (id text, definition text);");
+  sql.execute ();
+  
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS map (id text, bdb text);");
+  sql.execute ();
+  
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS pos (code text, name text);");
+  sql.execute ();
+  
+  sql.clear ();
   sql.add ("CREATE TABLE IF NOT EXISTS strong (strong text, definition text);");
   sql.execute ();
 }
@@ -51,6 +67,54 @@ void Database_HebrewLexicon::optimize ()
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("VACUUM;");
+  sql.execute ();
+}
+
+
+void Database_HebrewLexicon::setaug (string aug, string target)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("INSERT INTO aug VALUES (");
+  sql.add (aug);
+  sql.add (",");
+  sql.add (target);
+  sql.add (");");
+  sql.execute ();
+}
+
+
+void Database_HebrewLexicon::setbdb (string id, string definition)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("INSERT INTO bdb VALUES (");
+  sql.add (id);
+  sql.add (",");
+  sql.add (definition);
+  sql.add (");");
+  sql.execute ();
+}
+
+
+void Database_HebrewLexicon::setmap (string id, string bdb)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("INSERT INTO map VALUES (");
+  sql.add (id);
+  sql.add (",");
+  sql.add (bdb);
+  sql.add (");");
+  sql.execute ();
+}
+
+
+void Database_HebrewLexicon::setpos (string code, string name)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("INSERT INTO pos VALUES (");
+  sql.add (code);
+  sql.add (",");
+  sql.add (name);
+  sql.add (");");
   sql.execute ();
 }
 
@@ -67,6 +131,54 @@ void Database_HebrewLexicon::setstrong (string strong, string definition)
 }
 
 
+string Database_HebrewLexicon::getaug (string aug)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("SELECT target FROM aug WHERE aug =");
+  sql.add (aug);
+  sql.add (";");
+  vector <string> result = sql.query () ["target"];
+  if (!result.empty ()) return result [0];
+  return "";
+}
+
+
+string Database_HebrewLexicon::getbdb (string id)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("SELECT definition FROM bdb WHERE id =");
+  sql.add (id);
+  sql.add (";");
+  vector <string> result = sql.query () ["definition"];
+  if (!result.empty ()) return result [0];
+  return "";
+}
+
+
+string Database_HebrewLexicon::getmap (string id)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("SELECT bdb FROM map WHERE id =");
+  sql.add (id);
+  sql.add (";");
+  vector <string> result = sql.query () ["bdb"];
+  if (!result.empty ()) return result [0];
+  return "";
+}
+
+
+string Database_HebrewLexicon::getpos (string code)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("SELECT name FROM pos WHERE code =");
+  sql.add (code);
+  sql.add (";");
+  vector <string> result = sql.query () ["name"];
+  if (!result.empty ()) return result [0];
+  return "";
+}
+
+
 string Database_HebrewLexicon::getstrong (string strong)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
@@ -77,5 +189,3 @@ string Database_HebrewLexicon::getstrong (string strong)
   if (!result.empty ()) return result [0];
   return "";
 }
-
-

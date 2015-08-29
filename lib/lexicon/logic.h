@@ -24,21 +24,24 @@
 #include <config/libraries.h>
 
 
-#define HEBREW_ETCBE4_NAME "Hebrew (University of Amsterdam)"
-#define HEBREW_ETCBE4_PREFIX "e"
+#define HEBREW_ETCBC4_NAME "Hebrew (University of Amsterdam)"
+#define HEBREW_ETCBC4_PREFIX "e"
 #define KJV_LEXICON_NAME "King James Bible with Lexicon"
 #define KJV_LEXICON_PREFIX "k"
 #define MORPHHB_NAME "Hebrew (Open Scriptures)"
 #define MORPHHB_PREFIX "o"
 #define SBLGNT_NAME "Greek (SBL)"
 #define SBLGNT_PREFIX "s"
+#define BDB_PREFIX "b"
 
 
 vector <string> lexicon_logic_resource_names ();
 string lexicon_logic_get_html (void * webserver_request, string lexicon, int book, int chapter, int verse);
 string lexicon_logic_get_script (string prefix);
 string lexicon_logic_strong_number_cleanup (string strong);
-vector <string> lexicon_logic_convert_morphhb_parsing_to_strong (string parsing);
+void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
+                                                      vector <string>& strongs,
+                                                      vector <string>& bdbs);
 string lexicon_logic_create_xml_document (string xml);
 string lexicon_logic_render_definition (string strong);
 string lexicon_logic_render_part_of_speech (string value);
@@ -51,6 +54,7 @@ string lexicon_logic_define_user_strong (string strong);
 string lexicon_logic_render_morphgnt_part_of_speech (string pos);
 string lexicon_logic_render_morphgnt_parsing_code (string parsing);
 string lexicon_logic_render_etcb4_morphology (string rowid);
+string lexicon_logic_render_bdb_entry (string code);
 
 
 #endif

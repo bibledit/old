@@ -29,7 +29,15 @@ class Database_HebrewLexicon
 public:
   void create ();
   void optimize ();
+  void setaug (string aug, string target);
+  void setbdb (string id, string definition);
+  void setmap (string id, string bdb);
+  void setpos (string code, string name);
   void setstrong (string strong, string definition);
+  string getaug (string aug);
+  string getbdb (string id);
+  string getmap (string id);
+  string getpos (string code);
   string getstrong (string strong);
 private:
   const char * filename ();

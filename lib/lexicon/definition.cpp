@@ -52,7 +52,7 @@ string lexicon_definition (void * webserver_request)
   if (!id.empty ()) {
     
     string letter = id.substr (0, 1);
-    if (letter == HEBREW_ETCBE4_PREFIX) {
+    if (letter == HEBREW_ETCBC4_PREFIX) {
       
       // ETCBC4 database.
       // When a defintion is clicked for the second time, it gets erased.
@@ -82,10 +82,14 @@ string lexicon_definition (void * webserver_request)
       if (id != request->database_config_user ()->getRequestedMorphHbDefinition ()) {
         Database_MorphHb database_morphhb;
         string parsing = database_morphhb.parsing (convert_to_int (id.substr (1)));
-        vector <string> strongs = lexicon_logic_convert_morphhb_parsing_to_strong (parsing);
-        for (auto strong : strongs) {
-          string rendering = lexicon_logic_render_definition (strong);
+        vector <string> strongs;
+        vector <string> bdbs;
+        lexicon_logic_convert_morphhb_parsing_to_strong (parsing, strongs, bdbs);
+        for (size_t i = 0; i < strongs.size (); i++) {
+          string rendering = lexicon_logic_render_definition (strongs[i]);
           if (!rendering.empty ()) renderings.push_back (rendering);
+          rendering = "<a href=\"" BDB_PREFIX + bdbs[i] + "\">Brown Driver Briggs</a>";
+          renderings.push_back (rendering);
         }
       } else {
         id.clear ();
@@ -141,6 +145,13 @@ string lexicon_definition (void * webserver_request)
         id.clear ();
       }
       request->database_config_user ()->setRequestedGDefinition (id);
+      
+    } else if (letter == BDB_PREFIX) {
+      
+      // Brown Driver Briggs lexicon.
+      string rendering = lexicon_logic_render_bdb_entry (id.substr (1));
+      if (!rendering.empty ()) renderings.push_back (rendering);
+      request->database_config_user ()->setRequestedMorphHbDefinition ("");
       
     } else {
 

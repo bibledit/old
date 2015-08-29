@@ -4185,17 +4185,43 @@ void test_database_etcbc4 ()
 }
 
 
-void test_database_hebrewlexicon () // Todo
+void test_database_hebrewlexicon ()
 {
   Database_HebrewLexicon database;
+  string result;
+
+  result = database.getaug ("1");
+  evaluate (__LINE__, __func__, "aac", result);
+
+  result = database.getaug ("10");
+  evaluate (__LINE__, __func__, "aai", result);
+
+  result = database.getbdb ("a.aa.aa");
+  evaluate (__LINE__, __func__, 160, result.length ());
   
-  string result = database.getstrong ("H0");
+  result = database.getbdb ("a.ac.ac");
+  evaluate (__LINE__, __func__, 424, result.length ());
+  
+  result = database.getmap ("aaa");
+  evaluate (__LINE__, __func__, "a.aa.aa", result);
+  
+  result = database.getmap ("aaj");
+  evaluate (__LINE__, __func__, "a.ac.af", result);
+  
+  result = database.getpos ("a");
+  evaluate (__LINE__, __func__, "adjective", result);
+  
+  result = database.getpos ("x");
+  evaluate (__LINE__, __func__, "indefinite pronoun", result);
+  
+  result = database.getstrong ("H0");
   evaluate (__LINE__, __func__, "", result);
   
   result = database.getstrong ("H1");
-  int length_h = result.length ();
+  evaluate (__LINE__, __func__, 303, result.length ());
   
-  evaluate (__LINE__, __func__, true, length_h > 100);
+  result = database.getstrong ("H2");
+  evaluate (__LINE__, __func__, 149, result.length ());
 }
 
 
