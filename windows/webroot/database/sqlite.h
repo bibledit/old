@@ -62,4 +62,21 @@ private:
 };
 
 
+class SqliteDatabase
+{
+public:
+  SqliteDatabase (string filename);
+  ~SqliteDatabase ();
+  void clear ();
+  void add (const char * fragment);
+  void add (int value);
+  void add (string value);
+  string sql;
+  void execute ();
+  map <string, vector <string> > query ();
+private:
+  sqlite3 * db;
+};
+
+
 #endif

@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.211],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.227],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
@@ -63,6 +63,10 @@ AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not fou
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
+
+PKG_CHECK_MODULES(ICU, icu-i18n >= 50.0,,AC_MSG_ERROR(ICU development version >= 50.0 is needed.))
+AC_SUBST(ICU_CFLAGS)
+AC_SUBST(ICU_LIBS)
 
 
 # Tag1 (leave in place)

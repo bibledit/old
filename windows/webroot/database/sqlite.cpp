@@ -238,3 +238,58 @@ int SqliteReader::callback (void *userdata, int argc, char **argv, char **column
   }
   return 0;
 }
+
+
+SqliteDatabase::SqliteDatabase (string filename)
+{
+  db = database_sqlite_connect (filename);
+}
+
+
+SqliteDatabase::~SqliteDatabase ()
+{
+  database_sqlite_disconnect (db);
+}
+
+
+void SqliteDatabase::clear ()
+{
+  sql.clear ();
+}
+
+
+void SqliteDatabase::add (const char * fragment)
+{
+  sql.append (" ");
+  sql.append (fragment);
+  sql.append (" ");
+}
+
+
+void SqliteDatabase::add (int value)
+{
+  sql.append (" ");
+  sql.append (convert_to_string (value));
+  sql.append (" ");
+}
+
+
+void SqliteDatabase::add (string value)
+{
+  sql.append (" '");
+  value = database_sqlite_no_sql_injection (value);
+  sql.append (value);
+  sql.append ("' ");
+}
+
+
+void SqliteDatabase::execute ()
+{
+  database_sqlite_exec (db, sql);
+}
+
+
+map <string, vector <string> > SqliteDatabase::query ()
+{
+  return database_sqlite_query (db, sql);
+}

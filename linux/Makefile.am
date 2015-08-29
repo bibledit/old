@@ -74,6 +74,7 @@ libbibledit_a_SOURCES = \
 	database/strong.cpp \
 	database/morphgnt.cpp \
 	database/etcbc4.cpp \
+	database/hebrewlexicon.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -323,13 +324,13 @@ libbibledit_a_SOURCES = \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
-	lexicon/index.cpp \
 	lexicon/logic.cpp \
 	lexicon/definition.cpp \
-	lexicon/original.cpp \
 	sources/etcbc4.cpp \
 	sources/kjv.cpp \
-	sources/morphhb.cpp
+	sources/morphhb.cpp \
+	sources/morphgnt.cpp \
+	sources/hebrewlexicon.cpp
 
 noinst_PROGRAMS = bibledit
 

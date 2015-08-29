@@ -132,6 +132,7 @@ void changes_modifications ()
       
       // Body of the email to be sent.
       string email = "<p>" + translate("You have entered the changes below in the Bible editor.") + " " + translate ("You may check if it made its way into the Bible text.") + "</p>";
+      size_t empty_email_length = email.length ();
       
       // Go through the books in that Bible.
       vector <int> books = database_modifications.getUserBooks (user, bible);
@@ -176,14 +177,15 @@ void changes_modifications ()
           
         }
       }
-      
-      // Send the user email with the user's personal changes if the user opted to receive it.
-      if (request.database_config_user()->getUserUserChangesNotification (user)) {
-        string subject = translate("Changes you entered in") + " " + bible;
-        if (!client_logic_client_enabled ()) database_mail.send (user, subject, email);
+
+      // Check whether there's any email to be sent.
+      if (email.length () != empty_email_length) {
+        // Send the user email with the user's personal changes if the user opted to receive it.
+        if (request.database_config_user()->getUserUserChangesNotification (user)) {
+          string subject = translate("Changes you entered in") + " " + bible;
+          if (!client_logic_client_enabled ()) database_mail.send (user, subject, email);
+        }
       }
-      email.clear ();
-      
     }
     
     // Clear the user's changes in the database.

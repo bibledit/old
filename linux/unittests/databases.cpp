@@ -58,6 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/strong.h>
 #include <database/morphgnt.h>
 #include <database/etcbc4.h>
+#include <database/hebrewlexicon.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -3997,21 +3998,13 @@ void test_database_strong ()
 {
   Database_Strong database;
 
-  string result = database.definition ("H0");
+  string result = database.definition ("G0");
   evaluate (__LINE__, __func__, "", result);
   
-  result = database.definition ("G0");
-  evaluate (__LINE__, __func__, "", result);
-  
-  result = database.definition ("H1");
+  result = database.definition ("G1");
   int length_h = result.length ();
 
-  result = database.definition ("G1");
-  int length_g = result.length ();
-
   evaluate (__LINE__, __func__, true, length_h > 100);
-  evaluate (__LINE__, __func__, true, length_g > 100);
-  evaluate (__LINE__, __func__, true, length_h != length_g);
 
   vector <string> results = database.strong ("χρηστοσ");
   evaluate (__LINE__, __func__, 1, results.size ());
@@ -4025,18 +4018,18 @@ void test_database_morphgnt ()
 {
   Database_MorphGnt database;
   
-  vector <Database_MorphGnt_Item> results;
+  vector <int> results;
   
-  results = database.get (0, 1, 2);
+  results = database.rowids (0, 1, 2);
   evaluate (__LINE__, __func__, 0, results.size ());
 
-  results = database.get (20, 3, 4);
+  results = database.rowids (20, 3, 4);
   evaluate (__LINE__, __func__, 0, results.size ());
   
-  results = database.get (40, 5, 6);
+  results = database.rowids (40, 5, 6);
   evaluate (__LINE__, __func__, 10, results.size ());
   
-  results = database.get (66, 7, 8);
+  results = database.rowids (66, 7, 8);
   evaluate (__LINE__, __func__, 16, results.size ());
 }
 
@@ -4189,6 +4182,46 @@ void test_database_etcbc4 ()
   
   result = database.clause_relation (1001);
   evaluate (__LINE__, __func__, "NA", result);
+}
+
+
+void test_database_hebrewlexicon ()
+{
+  Database_HebrewLexicon database;
+  string result;
+
+  result = database.getaug ("1");
+  evaluate (__LINE__, __func__, "aac", result);
+
+  result = database.getaug ("10");
+  evaluate (__LINE__, __func__, "aai", result);
+
+  result = database.getbdb ("a.aa.aa");
+  evaluate (__LINE__, __func__, 160, result.length ());
+  
+  result = database.getbdb ("a.ac.ac");
+  evaluate (__LINE__, __func__, 424, result.length ());
+  
+  result = database.getmap ("aaa");
+  evaluate (__LINE__, __func__, "a.aa.aa", result);
+  
+  result = database.getmap ("aaj");
+  evaluate (__LINE__, __func__, "a.ac.af", result);
+  
+  result = database.getpos ("a");
+  evaluate (__LINE__, __func__, "adjective", result);
+  
+  result = database.getpos ("x");
+  evaluate (__LINE__, __func__, "indefinite pronoun", result);
+  
+  result = database.getstrong ("H0");
+  evaluate (__LINE__, __func__, "", result);
+  
+  result = database.getstrong ("H1");
+  evaluate (__LINE__, __func__, 303, result.length ());
+  
+  result = database.getstrong ("H2");
+  evaluate (__LINE__, __func__, 149, result.length ());
 }
 
 

@@ -55,6 +55,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <database/imageresources.h>
 #include <database/noteassignment.h>
+#include <database/strong.h>
+#include <database/morphgnt.h>
+#include <database/etcbc4.h>
+#include <database/hebrewlexicon.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -1303,7 +1307,7 @@ void test_database_kjv ()
 
   vector <Passage> passages = database_kjv.searchStrong ("G909");
   evaluate (__LINE__, __func__, 4, (int)passages.size());
-
+  
   evaluate (__LINE__, __func__, 41,   passages[0].book);
   evaluate (__LINE__, __func__, 7,    passages[0].chapter);
   evaluate (__LINE__, __func__, "4",  passages[0].verse);
@@ -1324,10 +1328,10 @@ void test_database_kjv ()
 
 void test_database_morphhb ()
 {
-  Database_Morphhb database_morphhb = Database_Morphhb ();
+  Database_MorphHb database_morphhb = Database_MorphHb ();
 
   vector <string> data = database_morphhb.getVerse (18, 3, 2);
-  evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר" }, data);
+  evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר", "׃" }, data);
 
   vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
@@ -1339,6 +1343,12 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, 30,   passages[1].book);
   evaluate (__LINE__, __func__, 3,    passages[1].chapter);
   evaluate (__LINE__, __func__, "10", passages[1].verse);
+
+  vector <int> items = database_morphhb.rowids (18, 3, 2);
+  evaluate (__LINE__, __func__, 4, (int)items.size());
+  
+  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[0]));
+  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[1]));
 }
 
 
@@ -3976,6 +3986,242 @@ void test_database_noteassignment ()
   database.assignees ("unittest", {"1", "2"});
   assignees = database.assignees ("unittest");
   evaluate (__LINE__, __func__, {"1", "2"}, assignees);
+  
+  exists = database.exists ("unittest", "1");
+  evaluate (__LINE__, __func__, true, exists);
+  exists = database.exists ("unittest", "none-existing");
+  evaluate (__LINE__, __func__, false, exists);
+}
+
+
+void test_database_strong ()
+{
+  Database_Strong database;
+
+  string result = database.definition ("G0");
+  evaluate (__LINE__, __func__, "", result);
+  
+  result = database.definition ("G1");
+  int length_h = result.length ();
+
+  evaluate (__LINE__, __func__, true, length_h > 100);
+
+  vector <string> results = database.strong ("χρηστοσ");
+  evaluate (__LINE__, __func__, 1, results.size ());
+  if (!results.empty ()) {
+    evaluate (__LINE__, __func__, "G5543", results[0]);
+  }
+}
+
+
+void test_database_morphgnt ()
+{
+  Database_MorphGnt database;
+  
+  vector <int> results;
+  
+  results = database.rowids (0, 1, 2);
+  evaluate (__LINE__, __func__, 0, results.size ());
+
+  results = database.rowids (20, 3, 4);
+  evaluate (__LINE__, __func__, 0, results.size ());
+  
+  results = database.rowids (40, 5, 6);
+  evaluate (__LINE__, __func__, 10, results.size ());
+  
+  results = database.rowids (66, 7, 8);
+  evaluate (__LINE__, __func__, 16, results.size ());
+}
+
+
+void test_database_etcbc4 ()
+{
+  Database_Etcbc4 database;
+  
+  vector <int> rowids = database.rowids (1, 1, 1);
+  evaluate (__LINE__, __func__, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}, rowids);
+
+  rowids = database.rowids (2, 3, 4);
+  evaluate (__LINE__, __func__, {
+    29690,
+    29691,
+    29692,
+    29693,
+    29694,
+    29695,
+    29696,
+    29697,
+    29698,
+    29699,
+    29700,
+    29701,
+    29702,
+    29703,
+    29704,
+    29705,
+    29706,
+    29707,
+    29708,
+    29709,
+    29710,
+    29711
+  }, rowids);
+  
+  string result;
+  
+  result = database.word (2);
+  evaluate (__LINE__, __func__, "רֵאשִׁ֖ית", result);
+
+  result = database.word (1001);
+  evaluate (__LINE__, __func__, "טֹ֛וב", result);
+  
+  result = database.vocalized_lexeme (2);
+  evaluate (__LINE__, __func__, "רֵאשִׁית", result);
+  
+  result = database.vocalized_lexeme (1001);
+  evaluate (__LINE__, __func__, "טֹוב", result);
+
+  result = database.consonantal_lexeme (2);
+  evaluate (__LINE__, __func__, "ראשׁית", result);
+
+  result = database.consonantal_lexeme (1001);
+  evaluate (__LINE__, __func__, "טוב", result);
+  
+  result = database.gloss (2);
+  evaluate (__LINE__, __func__, "beginning", result);
+  
+  result = database.gloss (1001);
+  evaluate (__LINE__, __func__, "good", result);
+  
+  result = database.pos (2);
+  evaluate (__LINE__, __func__, "subs", result);
+  
+  result = database.pos (1001);
+  evaluate (__LINE__, __func__, "adjv", result);
+  
+  result = database.subpos (2);
+  evaluate (__LINE__, __func__, "none", result);
+  
+  result = database.subpos (1001);
+  evaluate (__LINE__, __func__, "none", result);
+  
+  result = database.gender (2);
+  evaluate (__LINE__, __func__, "f", result);
+  
+  result = database.gender (1001);
+  evaluate (__LINE__, __func__, "m", result);
+  
+  result = database.number (4);
+  evaluate (__LINE__, __func__, "pl", result);
+  
+  result = database.number (1001);
+  evaluate (__LINE__, __func__, "sg", result);
+  
+  result = database.person (3);
+  evaluate (__LINE__, __func__, "p3", result);
+  
+  result = database.person (1001);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.state (2);
+  evaluate (__LINE__, __func__, "a", result);
+  
+  result = database.state (1001);
+  evaluate (__LINE__, __func__, "a", result);
+  
+  result = database.tense (3);
+  evaluate (__LINE__, __func__, "perf", result);
+  
+  result = database.tense (1001);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.stem (3);
+  evaluate (__LINE__, __func__, "qal", result);
+  
+  result = database.stem (1001);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.phrase_function (2);
+  evaluate (__LINE__, __func__, "Time", result);
+  
+  result = database.phrase_function (1001);
+  evaluate (__LINE__, __func__, "PreC", result);
+  
+  result = database.phrase_type (2);
+  evaluate (__LINE__, __func__, "PP", result);
+  
+  result = database.phrase_type (1001);
+  evaluate (__LINE__, __func__, "AdjP", result);
+  
+  result = database.phrase_relation (2);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.phrase_relation (1001);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.phrase_a_relation (2);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.phrase_a_relation (1001);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.clause_text_type (2);
+  evaluate (__LINE__, __func__, "?", result);
+  
+  result = database.clause_text_type (1001);
+  evaluate (__LINE__, __func__, "NQ", result);
+  
+  result = database.clause_type (2);
+  evaluate (__LINE__, __func__, "xQtX", result);
+  
+  result = database.clause_type (1001);
+  evaluate (__LINE__, __func__, "AjCl", result);
+  
+  result = database.clause_relation (2);
+  evaluate (__LINE__, __func__, "NA", result);
+  
+  result = database.clause_relation (1001);
+  evaluate (__LINE__, __func__, "NA", result);
+}
+
+
+void test_database_hebrewlexicon ()
+{
+  Database_HebrewLexicon database;
+  string result;
+
+  result = database.getaug ("1");
+  evaluate (__LINE__, __func__, "aac", result);
+
+  result = database.getaug ("10");
+  evaluate (__LINE__, __func__, "aai", result);
+
+  result = database.getbdb ("a.aa.aa");
+  evaluate (__LINE__, __func__, 160, result.length ());
+  
+  result = database.getbdb ("a.ac.ac");
+  evaluate (__LINE__, __func__, 424, result.length ());
+  
+  result = database.getmap ("aaa");
+  evaluate (__LINE__, __func__, "a.aa.aa", result);
+  
+  result = database.getmap ("aaj");
+  evaluate (__LINE__, __func__, "a.ac.af", result);
+  
+  result = database.getpos ("a");
+  evaluate (__LINE__, __func__, "adjective", result);
+  
+  result = database.getpos ("x");
+  evaluate (__LINE__, __func__, "indefinite pronoun", result);
+  
+  result = database.getstrong ("H0");
+  evaluate (__LINE__, __func__, "", result);
+  
+  result = database.getstrong ("H1");
+  evaluate (__LINE__, __func__, 303, result.length ());
+  
+  result = database.getstrong ("H2");
+  evaluate (__LINE__, __func__, 149, result.length ());
 }
 
 

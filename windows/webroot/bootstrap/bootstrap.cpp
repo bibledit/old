@@ -171,6 +171,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/index.h>
 #include <editone/load.h>
 #include <editone/save.h>
+#include <editone/verse.h>
 #include <debug/index.h>
 #include <browser/index.h>
 #include <paratext/index.h>
@@ -182,6 +183,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/image.h>
 #include <resource/img.h>
 #include <resource/imagefetch.h>
+#include <lexicon/definition.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -372,6 +374,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == editverse_save_url ()) && editverse_save_acl (request)) request->reply = editverse_save (request);
   else if ((url == editone_load_url ()) && editone_load_acl (request)) request->reply = editone_load (request);
   else if ((url == editone_save_url ()) && editone_save_acl (request)) request->reply = editone_save (request);
+  else if ((url == editone_verse_url ()) && editone_verse_acl (request)) request->reply = editone_verse (request);
   else if ((url == editusfm_focus_url ()) && editusfm_focus_acl (request)) request->reply = editusfm_focus (request);
   else if ((url == editusfm_load_url ()) && editusfm_load_acl (request)) request->reply = editusfm_load (request);
   else if ((url == editusfm_offset_url ()) && editusfm_offset_acl (request)) request->reply = editusfm_offset (request);
@@ -399,6 +402,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_target_url ()) && xrefs_target_acl (request)) request->reply = xrefs_target (request);
   else if ((url == xrefs_move_url ()) && xrefs_move_acl (request)) request->reply = xrefs_move (request);
   else if ((url == xrefs_next_url ()) && xrefs_next_acl (request)) request->reply = xrefs_next (request);
+  else if ((url == lexicon_definition_url ()) && lexicon_definition_acl (request)) request->reply = lexicon_definition (request);
 
   // Settings calls.
   else if ((url == administration_timeoffset_url ()) && administration_timeoffset_acl (request)) request->reply = administration_timeoffset (request);

@@ -980,3 +980,22 @@ string filter_url_tag_to_plus (string data)
 {
   return filter_string_str_replace ("PLUSSIGN", "+", data);
 }
+
+
+// This filter removes the username and password components from the $url.
+string filter_url_remove_username_password (string url)
+{
+  string slashes = "//";
+  size_t pos = url.find (slashes);
+
+  // Consider the following URL for github:
+  // https://username:password@github.com/username/repository.git
+  if (filter_string_replace_between (url, slashes, ":", "")) {
+    if (pos != string::npos) url.insert (pos, slashes);
+  }
+  if (filter_string_replace_between (url, slashes, "@", "")) {
+    if (pos != string::npos) url.insert (pos, slashes);
+  }
+  
+  return url;
+}

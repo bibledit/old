@@ -285,6 +285,15 @@ vector <string> Sync_Logic::files_get_directories (int version)
         "databases/imageresources"
       };
       break;
+    case 3:
+      directories = {
+        "fonts",
+        "databases/usfmresources",
+        "databases/offlineresources",
+        "databases/imageresources",
+        "databases/client"
+      };
+      break;
     default:
       break;
   }
