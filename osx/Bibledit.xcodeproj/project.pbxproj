@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA0A0B0F1B923EE400E5E0FA /* libicui18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0A0B0E1B923EE400E5E0FA /* libicui18n.a */; };
+		CA0A0B111B923EF800E5E0FA /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0A0B101B923EF800E5E0FA /* libicuuc.a */; };
+		CA0A0B131B923F0500E5E0FA /* libicudata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0A0B121B923F0500E5E0FA /* libicudata.a */; };
 		CA1599F21B1759A600B26F9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F11B1759A600B26F9C /* AppDelegate.m */; };
 		CA1599F41B1759A600B26F9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F31B1759A600B26F9C /* main.m */; };
 		CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1599F51B1759A600B26F9C /* Images.xcassets */; };
@@ -28,6 +31,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA0A0B0E1B923EE400E5E0FA /* libicui18n.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicui18n.a; path = lib/libicui18n.a; sourceTree = "<group>"; };
+		CA0A0B101B923EF800E5E0FA /* libicuuc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuuc.a; path = lib/libicuuc.a; sourceTree = "<group>"; };
+		CA0A0B121B923F0500E5E0FA /* libicudata.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicudata.a; path = lib/libicudata.a; sourceTree = "<group>"; };
 		CA0CCC211B1764D300487D8E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = SOURCE_ROOT; };
 		CA0CCC231B1764DC00487D8E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		CA0CCC251B17694900487D8E /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
@@ -61,6 +67,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA0A0B131B923F0500E5E0FA /* libicudata.a in Frameworks */,
+				CA0A0B111B923EF800E5E0FA /* libicuuc.a in Frameworks */,
+				CA0A0B0F1B923EE400E5E0FA /* libicui18n.a in Frameworks */,
 				CAE235C61B176C2D005AEEBF /* libbibledit.a in Frameworks */,
 				CAE235C41B176C1C005AEEBF /* libcrypto.dylib in Frameworks */,
 				CAE235C21B176C03005AEEBF /* libsqlite3.dylib in Frameworks */,
@@ -83,6 +92,9 @@
 		CA1599E21B1759A600B26F9C = {
 			isa = PBXGroup;
 			children = (
+				CA0A0B121B923F0500E5E0FA /* libicudata.a */,
+				CA0A0B101B923EF800E5E0FA /* libicuuc.a */,
+				CA0A0B0E1B923EE400E5E0FA /* libicui18n.a */,
 				CAE0196E1B1775C6000EAF46 /* webroot */,
 				CAE33E751B176F2500BBA84A /* MainMenu.xib */,
 				CAE235C51B176C2D005AEEBF /* libbibledit.a */,

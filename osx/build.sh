@@ -28,11 +28,12 @@ SDK=`xcrun --show-sdk-path`
 
 
 # Update the Makefile.
-sed -i.bak  's#\`xml2-config --cflags\`#-I/usr/include/libxml2#g' Makefile
+sed -i.bak 's#\`xml2-config --cflags\`#-I/usr/include/libxml2#g' Makefile
 sed -i.bak 's#-pedantic#-isysroot\ '$SDK'#g' Makefile
-sed -i.bak  's#/opt/local/include#.#g' Makefile
-sed -i.bak  's#\`xml2-config --libs\`#-lxml2 -lz -lpthread -liconv -lm#g' Makefile
-sed -i.bak  's#/opt/local/lib#.#g' Makefile
+sed -i.bak 's#/opt/local/include#. -I..#g' Makefile
+sed -i.bak 's#\`xml2-config --libs\`#-lxml2 -lz -lpthread -liconv -lm#g' Makefile
+sed -i.bak 's#/opt/local/lib#.#g' Makefile
+sed -i.bak 's#-L.#-L. -L../lib#g' Makefile
 
 
 # Build the Bibledit library.
