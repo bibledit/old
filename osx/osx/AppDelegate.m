@@ -14,12 +14,25 @@
 
 @property (weak) IBOutlet WebView *webview;
 @property (weak) IBOutlet NSWindow *window;
+
+@property (strong) id activity;
+
 @end
+
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+    // When the Bibledit app is in the background, OS X puts it to sleep.
+    // This is the "App Nap".
+    // It has been noticed that even after coming out of the nap, Bibledit remains slowish,
+    // and uses a lot of CPU resources.
+    // Disable App Nap:
+    if ([[NSProcessInfo processInfo] respondsToSelector:@selector(beginActivityWithOptions:reason:)]) {
+        self.activity = [[NSProcessInfo processInfo] beginActivityWithOptions:0x00FFFFFF reason:@"runs a web server"];
+    }
+    
     NSArray *components = [NSArray arrayWithObjects:[[NSBundle mainBundle] resourcePath], @"webroot", nil];
     NSString *packagePath = [NSString pathWithComponents:components];
 

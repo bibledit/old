@@ -321,6 +321,8 @@ function oneverseEditorLoadPrefix ()
       $ ("#oneprefix").append (response);
       oneverseScrollVerseIntoView ();
       oneversePositionCaret ();
+      $ ("#oneprefix").off ("click");
+      $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorLoadPrefixRetry ();
@@ -338,6 +340,8 @@ function oneverseEditorLoadSuffix ()
     success: function (response) {
       $ ("#onesuffix").empty ();
       $ ("#onesuffix").append (response);
+      $ ("#onesuffix").off ("click");
+      $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorLoadSuffixRetry ();
@@ -583,7 +587,7 @@ function oneverseWindowKeyHandler (event)
  
  Section responding to a moved caret.
  
- */
+*/
 
 
 var oneverseCaretMovedTimeoutId;
@@ -689,3 +693,33 @@ function insertHtmlAtCaret (html)
 }
 
 
+/*
+ 
+ Section for navigating to another passage.
+ 
+ */
+
+
+function oneVerseHtmlClicked (event)
+{
+  var verse = "";
+  
+  var target = $(event.target);
+  
+  while ((target.length) && (!target.hasClass ("v"))) {
+    target = $(target.prev ());
+  }
+  
+  if (target.length == 0) verse = "0";
+  
+  if (target.hasClass ("v")) {
+    verse = target[0].innerText;
+  }
+  
+  $.ajax ({
+    url: "verse",
+    type: "GET",
+    data: { verse: verse },
+    cache: false
+  });
+}

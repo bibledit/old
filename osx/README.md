@@ -30,7 +30,6 @@ Run script "build.sh".
 
 ## Building and distributing the app
 
-* Rename /opt/local to something else so it cannot link against any of those libraries.
 * Open the Bibledit Xcode project.
 * Clean it.
 * Build it.

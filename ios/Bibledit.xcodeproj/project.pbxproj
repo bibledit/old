@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B9C181A9906C800FAB064 /* BibleditController.m */; };
+		CA8C8A261B92D9BC00E9BA18 /* build.sh in Resources */ = {isa = PBXBuildFile; fileRef = CA8C8A251B92D9BC00E9BA18 /* build.sh */; };
+		CA8C8A2A1B937AB400E9BA18 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8C8A291B937AB400E9BA18 /* libicucore.dylib */; };
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
 		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
 		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
@@ -34,6 +36,9 @@
 		CA6B9C171A9906C800FAB064 /* BibleditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditController.h; sourceTree = "<group>"; };
 		CA6B9C181A9906C800FAB064 /* BibleditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditController.m; sourceTree = "<group>"; };
 		CA73236F1B257BE4003E3387 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bibledit.h; path = include/bibledit.h; sourceTree = SOURCE_ROOT; };
+		CA8C8A231B92D9B000E9BA18 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA8C8A251B92D9BC00E9BA18 /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		CA8C8A291B937AB400E9BA18 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		CA9ADE011A8A9752000FD430 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = SOURCE_ROOT; };
 		CAB519B31A8A658F00F4ED36 /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = lib/libbibledit.a; sourceTree = "<group>"; };
 		CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -69,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA8C8A2A1B937AB400E9BA18 /* libicucore.dylib in Frameworks */,
 				CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */,
 				CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */,
 				CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */,
@@ -89,6 +95,8 @@
 			isa = PBXGroup;
 			children = (
 				CA0773801A8E80DB0061C5B7 /* develop.txt */,
+				CA8C8A231B92D9B000E9BA18 /* README.md */,
+				CA8C8A251B92D9BC00E9BA18 /* build.sh */,
 				CEA9296D19B06C9600DA3766 /* Bibledit iOS */,
 				CEA9296619B06C9600DA3766 /* Frameworks */,
 				CEA9296519B06C9600DA3766 /* Products */,
@@ -106,6 +114,7 @@
 		CEA9296619B06C9600DA3766 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA8C8A291B937AB400E9BA18 /* libicucore.dylib */,
 				CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */,
 				CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */,
 				CAB519BB1A8A6BE800F4ED36 /* libz.dylib */,
@@ -220,6 +229,7 @@
 				CA9ADE021A8A9752000FD430 /* webroot in Resources */,
 				CEA9298319B06C9700DA3766 /* Images.xcassets in Resources */,
 				CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */,
+				CA8C8A261B92D9BC00E9BA18 /* build.sh in Resources */,
 				CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
