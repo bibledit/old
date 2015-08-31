@@ -486,16 +486,26 @@ function getCaretCharacterOffsetWithin (element)
 function positionCaret (position)
 {
   if (position == undefined) return;
+  editorPositionCaretCount = 3;
+  editorPositionCaretOffset = position;
+  editorPositionCaretExecute ();
+}
+
+var editorPositionCaretCount = 0;
+var editorPositionCaretOffset = 0;
+
+function editorPositionCaretExecute ()
+{
   // Positioning often is not accurate the first time, so do it several times if needed.
-  var reposition = 3;
-  while (reposition > 0) {
+  if (editorPositionCaretCount > 0) {
     var currentPosition = getCaretPosition ();
     if (currentPosition == undefined) return;
     var selection = rangy.getSelection ();
-    selection.move ("character", position - currentPosition);
+    selection.move ("character", editorPositionCaretOffset - currentPosition);
     currentPosition = getCaretPosition ();
-    if (position == currentPosition) return;
-    reposition--;
+    if (editorPositionCaretOffset == currentPosition) return;
+    editorPositionCaretCount--;
+    setTimeout (editorPositionCaretExecute, 200);
   }
 }
 
