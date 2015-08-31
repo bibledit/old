@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B9C181A9906C800FAB064 /* BibleditController.m */; };
 		CA8C8A261B92D9BC00E9BA18 /* build.sh in Resources */ = {isa = PBXBuildFile; fileRef = CA8C8A251B92D9BC00E9BA18 /* build.sh */; };
-		CA8C8A2A1B937AB400E9BA18 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8C8A291B937AB400E9BA18 /* libicucore.dylib */; };
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
 		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
 		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
@@ -17,6 +16,13 @@
 		CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BB1A8A6BE800F4ED36 /* libz.dylib */; };
 		CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */; };
 		CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */; };
+		CAC4C88A1B94944E00FB6700 /* libicudata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8831B94944E00FB6700 /* libicudata.a */; };
+		CAC4C88B1B94944E00FB6700 /* libicui18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8841B94944E00FB6700 /* libicui18n.a */; };
+		CAC4C88C1B94944E00FB6700 /* libicuio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8851B94944E00FB6700 /* libicuio.a */; };
+		CAC4C88D1B94944E00FB6700 /* libicule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8861B94944E00FB6700 /* libicule.a */; };
+		CAC4C88E1B94944E00FB6700 /* libiculx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8871B94944E00FB6700 /* libiculx.a */; };
+		CAC4C88F1B94944E00FB6700 /* libicutu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8881B94944E00FB6700 /* libicutu.a */; };
+		CAC4C8901B94944E00FB6700 /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8891B94944E00FB6700 /* libicuuc.a */; };
 		CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE02134F19E03F9B006EE62F /* Storyboard.storyboard */; };
 		CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2F911919DC8ACA0091157F /* libxml2.dylib */; };
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
@@ -46,6 +52,13 @@
 		CAB519BB1A8A6BE800F4ED36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		CAC4C8831B94944E00FB6700 /* libicudata.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicudata.a; path = lib/libicudata.a; sourceTree = "<group>"; };
+		CAC4C8841B94944E00FB6700 /* libicui18n.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicui18n.a; path = lib/libicui18n.a; sourceTree = "<group>"; };
+		CAC4C8851B94944E00FB6700 /* libicuio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuio.a; path = lib/libicuio.a; sourceTree = "<group>"; };
+		CAC4C8861B94944E00FB6700 /* libicule.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicule.a; path = lib/libicule.a; sourceTree = "<group>"; };
+		CAC4C8871B94944E00FB6700 /* libiculx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiculx.a; path = lib/libiculx.a; sourceTree = "<group>"; };
+		CAC4C8881B94944E00FB6700 /* libicutu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicutu.a; path = lib/libicutu.a; sourceTree = "<group>"; };
+		CAC4C8891B94944E00FB6700 /* libicuuc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicuuc.a; path = lib/libicuuc.a; sourceTree = "<group>"; };
 		CE02134F19E03F9B006EE62F /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		CE2F911919DC8ACA0091157F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CE2F911B19DC8B4C0091157F /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
@@ -74,7 +87,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA8C8A2A1B937AB400E9BA18 /* libicucore.dylib in Frameworks */,
+				CAC4C88A1B94944E00FB6700 /* libicudata.a in Frameworks */,
+				CAC4C88B1B94944E00FB6700 /* libicui18n.a in Frameworks */,
+				CAC4C88C1B94944E00FB6700 /* libicuio.a in Frameworks */,
+				CAC4C88D1B94944E00FB6700 /* libicule.a in Frameworks */,
+				CAC4C88E1B94944E00FB6700 /* libiculx.a in Frameworks */,
+				CAC4C88F1B94944E00FB6700 /* libicutu.a in Frameworks */,
+				CAC4C8901B94944E00FB6700 /* libicuuc.a in Frameworks */,
 				CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */,
 				CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */,
 				CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */,
@@ -114,6 +133,13 @@
 		CEA9296619B06C9600DA3766 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CAC4C8831B94944E00FB6700 /* libicudata.a */,
+				CAC4C8841B94944E00FB6700 /* libicui18n.a */,
+				CAC4C8851B94944E00FB6700 /* libicuio.a */,
+				CAC4C8861B94944E00FB6700 /* libicule.a */,
+				CAC4C8871B94944E00FB6700 /* libiculx.a */,
+				CAC4C8881B94944E00FB6700 /* libicutu.a */,
+				CAC4C8891B94944E00FB6700 /* libicuuc.a */,
 				CA8C8A291B937AB400E9BA18 /* libicucore.dylib */,
 				CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */,
 				CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */,
