@@ -15,6 +15,7 @@ The current port of Bibledit for OS X consists of the following parts:
 ## Sandboxing
 
 With the app sandbox enabled in Xcode, the app cannot write to the webroot folder in the app's Resources. To deal with this, the app copies the webroot folder to the documents folder within the sandbox. The sandbox is at ~/Library/Containers/org.bibledit.osx/
+It needs the following entitlements: Network Server, Network Client, Printing.
 
 ## libcurl
 
