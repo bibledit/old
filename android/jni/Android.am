@@ -21,6 +21,7 @@ LOCAL_SRC_FILES := SOURCEFILES
 # LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libbibledit.a
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../sqlite/jni
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../xml2/jni/include
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../icu/jni
 # LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/library
 include $(BUILD_STATIC_LIBRARY)
 # include $(PREBUILT_STATIC_LIBRARY)
