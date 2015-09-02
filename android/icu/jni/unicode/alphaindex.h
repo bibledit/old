@@ -4,6 +4,7 @@
 *   Copyright (C) 2011-2014 International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
+*******************************************************************************
 */
 
 #ifndef INDEXCHARS_H
