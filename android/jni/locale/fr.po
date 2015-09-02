@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17656)\n"
+"X-Generator: Launchpad (build 17686)\n"
 
 msgid "Set the language for Bibledit"
 msgstr ""
@@ -5945,6 +5945,12 @@ msgstr ""
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 
+msgid "Lexicon"
+msgstr ""
+
+msgid "home"
+msgstr ""
+
 msgid "January"
 msgstr ""
 
@@ -7737,14 +7743,10 @@ msgstr ""
 msgid "Will send and receive."
 msgstr ""
 
-msgid "Collaboration has not been set up for this Bible"
-msgstr ""
-
 msgid "Still sending and receiving from the last time."
 msgstr ""
 
-msgid ""
-"Collaboration has not been set up for the Bibles and Consultation Notes"
+msgid "Still synchronizing with Paratext."
 msgstr ""
 
 msgid "Send / Receive"
@@ -7777,19 +7779,35 @@ msgstr ""
 msgid "It receives updates from Bibledit Cloud."
 msgstr ""
 
-msgid "It sends changes made here to Paratext on this computer."
+msgid ""
+"The Paratext bridge sends changes from Bibledit to Paratext on this computer."
 msgstr ""
 
-msgid "It receives updates from Paratext."
+msgid "Bibledit receives updates from Paratext."
 msgstr ""
 
 msgid "The following Bibles link to a Paratext project:"
+msgstr ""
+
+msgid "Synchronize with Paratext now."
+msgstr ""
+
+msgid "Do not synchronize with Paratext while Paratext is running."
+msgstr ""
+
+msgid "This may cause loss of changes in the chapter Paratext is displaying."
 msgstr ""
 
 msgid ""
 "If Paratext were installed on this computer, and Bibles in Bibledit would be "
 "linked to Paratext projects, then Bibledit would be able to send and receive "
 "Bibles data to and from Paratext."
+msgstr ""
+
+msgid "Synchronize a Bible with a git repository."
+msgstr ""
+
+msgid "This Bible has not been linked to a git repository."
 msgstr ""
 
 msgid "Bibledit sends and receives this Bible every night."
@@ -7807,6 +7825,13 @@ msgstr ""
 msgid ""
 "It sends changes made here to the server for use by other translators who "
 "use Bibledit."
+msgstr ""
+
+msgid ""
+"The git repository keeps the history of the Bible text with all the changes."
+msgstr ""
+
+msgid "View the history:"
 msgstr ""
 
 msgid "The Journal displays progress and diagnostic messages."

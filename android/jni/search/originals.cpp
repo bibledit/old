@@ -50,7 +50,7 @@ string search_originals (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
 
-  Database_Morphhb database_morphhb = Database_Morphhb ();
+  Database_MorphHb database_morphhb = Database_MorphHb ();
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();
   
   

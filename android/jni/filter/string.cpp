@@ -24,7 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/config/general.h>
 #include <config/logic.h>
-// #include <codecvt>
+#include <unicode/unistr.h>
+#include <unicode/translit.h>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -408,23 +409,57 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
 }
 
 
-// Optionally the unicode wrappers can use the ICU library.
-// The wrappers should then have fallback functions for platforms where the ICU library is not available.
-
-
 // Converts string so to lowercase.
-// Later on it should do casefolding with full unicode support.
 string unicode_string_casefold (string s)
 {
-  transform (s.begin(), s.end (), s.begin(), ::tolower);
-  return s;
+  // UTF-8 string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  // Case folding.
+  source.foldCase ();
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  string result;
+  source.toUTF8String (result);
+  // Ready.
+  return result;
+  /*
+   Without libicu:
+   transform (s.begin(), s.end (), s.begin(), ::tolower);
+   return s;
+   */
 }
 
 
 string unicode_string_uppercase (string s)
 {
-  transform (s.begin(), s.end (), s.begin(), ::toupper);
-  return s;
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  source.toUpper ();
+  string result;
+  source.toUTF8String (result);
+  return result;
+  //transform (s.begin(), s.end (), s.begin(), ::toupper);
+  //return s;
+}
+
+
+string unicode_string_transliterate (string s)
+{
+  // UTF-8 string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  
+  // Transliterate UTF-16 UnicodeString following this rule:
+  // decompose, remove diacritics, recompose
+  UErrorCode status = U_ZERO_ERROR;
+  Transliterator *transliterator = Transliterator::createInstance("NFD; [:M:] Remove; NFC",
+                                                                    UTRANS_FORWARD,
+                                                                    status);
+  transliterator->transliterate(source);
+  
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  string result;
+  source.toUTF8String (result);
+
+  // Done.
+  return result;
 }
 
 

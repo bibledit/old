@@ -25,47 +25,61 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // This is the database for the Strong's numbers and English glosses.
-// Resilience: It is never written to. 
+// Resilience: It is not written to.
 // Chances of corruption are nearly zero.
 
 
-Database_Kjv::Database_Kjv ()
+void Database_Kjv::create ()
 {
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("DROP TABLE IF EXISTS kjv2;");
+  sql.execute ();
+
+  sql.clear ();
+  sql.add ("CREATE TABLE kjv2 (book int, chapter int, verse int, strong int, english int);");
+  sql.execute ();
+
+  sql.clear ();
+  sql.add ("DROP TABLE IF EXISTS strong;");
+  sql.execute ();
+
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS strong (strong text);");
+  sql.execute ();
+  
+  sql.clear ();
+  sql.add ("DROP TABLE IF EXISTS english;");
+  sql.execute ();
+
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS english (english text);");
+  sql.execute ();
 }
 
 
-Database_Kjv::~Database_Kjv ()
+void Database_Kjv::optimize ()
 {
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("VACUUM;");
+  sql.execute ();
 }
 
 
-sqlite3 * Database_Kjv::connect ()
+const char * Database_Kjv::filename ()
 {
-  return database_sqlite_connect ("kjv");
+  return "kjv";
 }
 
 
 // Get Strong's numbers and English snippets for book / chapter / verse.
 vector <Database_Kjv_Item> Database_Kjv::getVerse (int book, int chapter, int verse)
 {
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT strong, english FROM kjv WHERE book =");
-  sql.add (book);
-  sql.add ("AND chapter =");
-  sql.add (chapter);
-  sql.add ("AND verse =");
-  sql.add (verse);
-  sql.add (";");
   vector <Database_Kjv_Item> hits;
-  sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
-  vector <string> strongs = result ["strong"];
-  vector <string> english = result ["english"];
-  for (unsigned int i = 0; i < strongs.size (); i++) {
-    Database_Kjv_Item item = Database_Kjv_Item ();
-    item.strong = strongs [i];
-    item.english = english [i];
+  vector <int> rows = rowids (book, chapter, verse);
+  for (auto row : rows) {
+    Database_Kjv_Item item;
+    item.strong = strong (row);
+    item.english = english (row);
     hits.push_back (item);
   }
   return hits;
@@ -75,14 +89,13 @@ vector <Database_Kjv_Item> Database_Kjv::getVerse (int book, int chapter, int ve
 // Get all passages that contain a strong's number.
 vector <Passage> Database_Kjv::searchStrong (string strong)
 {
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT DISTINCT book, chapter, verse FROM kjv WHERE strong =");
-  sql.add (strong);
-  sql.add (";");
+  int strongid = get_id ("strong", strong);
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("SELECT DISTINCT book, chapter, verse FROM kjv2 WHERE strong =");
+  sql.add (strongid);
+  sql.add ("ORDER BY rowid;");
   vector <Passage> hits;
-  sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  map <string, vector <string> > result = sql.query ();
   vector <string> books = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
@@ -97,3 +110,118 @@ vector <Passage> Database_Kjv::searchStrong (string strong)
 }
 
 
+void Database_Kjv::store (int book, int chapter, int verse, string strong, string english)
+{
+  int strongid = get_id ("strong", strong);
+  int englishid = get_id ("english", english);
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("PRAGMA temp_store = MEMORY;");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("PRAGMA synchronous = OFF;");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("PRAGMA journal_mode = OFF;");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("INSERT INTO kjv2 VALUES (");
+  sql.add (book);
+  sql.add (",");
+  sql.add (chapter);
+  sql.add (",");
+  sql.add (verse);
+  sql.add (",");
+  sql.add (strongid);
+  sql.add (",");
+  sql.add (englishid);
+  sql.add (");");
+  sql.execute ();
+}
+
+
+vector <int> Database_Kjv::rowids (int book, int chapter, int verse)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("SELECT rowid FROM kjv2 WHERE book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("AND verse =");
+  sql.add (verse);
+  sql.add ("ORDER BY rowid;");
+  vector <string> result = sql.query () ["rowid"];
+  vector <int> rowids;
+  for (auto rowid : result) rowids.push_back (convert_to_int (rowid));
+  return rowids;
+}
+
+
+string Database_Kjv::strong (int rowid)
+{
+  return get_item ("strong", rowid);
+}
+
+
+string Database_Kjv::english (int rowid)
+{
+  return get_item ("english", rowid);
+}
+
+
+int Database_Kjv::get_id (const char * table_row, string item)
+{
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  // Two iterations to be sure a rowid can be returned.
+  for (unsigned int i = 0; i < 2; i++) {
+    // Check on the rowid and return it if it's there.
+    sql.clear ();
+    sql.add ("SELECT rowid FROM");
+    sql.add (table_row);
+    sql.add ("WHERE");
+    sql.add (table_row);
+    sql.add ("=");
+    sql.add (item);
+    sql.add (";");
+    vector <string> result = sql.query () ["rowid"];
+    if (!result.empty ()) return convert_to_int (result [0]);
+    // The rowid was not found: Insert the word into the table.
+    // The rowid will now be found during the second iteration.
+    sql.clear ();
+    sql.add ("INSERT INTO");
+    sql.add (table_row);
+    sql.add ("VALUES (");
+    sql.add (item);
+    sql.add (");");
+    sql.execute ();
+  }
+  return 0;
+}
+
+
+string Database_Kjv::get_item (const char * item, int rowid)
+{
+  // The $rowid refers to the main table.
+  // Update it so it refers to the sub table.
+  SqliteDatabase sql = SqliteDatabase (filename ());
+  sql.add ("SELECT");
+  sql.add (item);
+  sql.add ("FROM kjv2 WHERE rowid =");
+  sql.add (rowid);
+  sql.add (";");
+  vector <string> result = sql.query () [item];
+  rowid = 0;
+  if (!result.empty ()) rowid = convert_to_int (result [0]);
+  // Retrieve the requested value from the sub table.
+  sql.clear ();
+  sql.add ("SELECT");
+  sql.add (item);
+  sql.add ("FROM");
+  sql.add (item);
+  sql.add ("WHERE rowid =");
+  sql.add (rowid);
+  sql.add (";");
+  result = sql.query () [item];
+  if (!result.empty ()) return result [0];
+  // Not found.
+  return "";
+}
