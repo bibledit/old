@@ -75,6 +75,12 @@
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
 
+/* Define whether ICU is disabled */
+#define ICUOFF "yes"
+
+/* Define whether ICU is disabled */
+#define ICU_DISABLED 1
+
 /* Define the network port number */
 #define NETWORK_PORT "8080"
 

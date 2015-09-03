@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config.h>
 #include <filter/string.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
@@ -24,8 +25,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/config/general.h>
 #include <config/logic.h>
+#ifndef ICU_DISABLED
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
+#endif
 
 
 // A C++ equivalent for PHP's explode function.
@@ -412,6 +415,13 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
 // Converts string so to lowercase.
 string unicode_string_casefold (string s)
 {
+#ifdef ICU_DISABLED
+
+  transform (s.begin(), s.end (), s.begin(), ::tolower);
+  return s;
+
+#else
+
   // UTF-8 string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   // Case folding.
@@ -421,28 +431,38 @@ string unicode_string_casefold (string s)
   source.toUTF8String (result);
   // Ready.
   return result;
-  /*
-   Without libicu:
-   transform (s.begin(), s.end (), s.begin(), ::tolower);
-   return s;
-   */
+
+#endif
 }
 
 
 string unicode_string_uppercase (string s)
 {
+#ifdef ICU_DISABLED
+  
+  transform (s.begin(), s.end (), s.begin(), ::toupper);
+  return s;
+  
+#else
+
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   source.toUpper ();
   string result;
   source.toUTF8String (result);
   return result;
-  //transform (s.begin(), s.end (), s.begin(), ::toupper);
-  //return s;
+
+#endif
 }
 
 
 string unicode_string_transliterate (string s)
 {
+#ifdef ICU_DISABLED
+
+  return s;
+
+#else
+
   // UTF-8 string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   
@@ -450,16 +470,18 @@ string unicode_string_transliterate (string s)
   // decompose, remove diacritics, recompose
   UErrorCode status = U_ZERO_ERROR;
   Transliterator *transliterator = Transliterator::createInstance("NFD; [:M:] Remove; NFC",
-                                                                    UTRANS_FORWARD,
-                                                                    status);
+                                                                  UTRANS_FORWARD,
+                                                                  status);
   transliterator->transliterate(source);
   
   // UTF-16 UnicodeString -> UTF-8 std::string
   string result;
   source.toUTF8String (result);
-
+  
   // Done.
   return result;
+  
+#endif
 }
 
 

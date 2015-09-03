@@ -14,19 +14,19 @@ LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libxml2.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../xml2/jni
 include $(PREBUILT_STATIC_LIBRARY)
 
-include $(CLEAR_VARS)
+# include $(CLEAR_VARS)
 
-LOCAL_MODULE := libicudata
-LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libicudata.a
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../icu/jni
-include $(PREBUILT_STATIC_LIBRARY)
+# LOCAL_MODULE := libicudata
+# LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libicudata.a
+# LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../icu/jni
+# include $(PREBUILT_STATIC_LIBRARY)
 
-include $(CLEAR_VARS)
+# include $(CLEAR_VARS)
 
-LOCAL_MODULE := libicui18n
-LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libicui18n.a
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../icu/jni
-include $(PREBUILT_STATIC_LIBRARY)
+# LOCAL_MODULE := libicui18n
+# LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libicui18n.a
+# LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../icu/jni
+# include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
@@ -35,7 +35,7 @@ LOCAL_SRC_FILES := library/bibledit.cpp library/locks.c webserver/webserver.cpp 
 # LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libbibledit.a
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../sqlite/jni
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../xml2/jni/include
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/../icu/jni
+# LOCAL_C_INCLUDES += $(LOCAL_PATH)/../icu/jni
 # LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/library
 include $(BUILD_STATIC_LIBRARY)
 # include $(PREBUILT_STATIC_LIBRARY)
@@ -45,4 +45,5 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := libbibleditjni
 LOCAL_SRC_FILES := bibleditjni.c
 LOCAL_STATIC_LIBRARIES := bibledit sqlite xml2
+# LOCAL_ALLOW_UNDEFINED_SYMBOLS := true
 include $(BUILD_SHARED_LIBRARY)
