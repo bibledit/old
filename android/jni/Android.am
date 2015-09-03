@@ -16,6 +16,20 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
+LOCAL_MODULE := libicudata
+LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libicudata.a
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../icu/jni
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := libicui18n
+LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libicui18n.a
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../icu/jni
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+
 LOCAL_MODULE := libbibledit
 LOCAL_SRC_FILES := SOURCEFILES
 # LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libbibledit.a
