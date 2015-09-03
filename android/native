@@ -62,6 +62,11 @@ echo "delete from consonantal_lexeme;" | sqlite3 jni/databases/etcb4.sqlite
 echo "delete from gloss;" | sqlite3 jni/databases/etcb4.sqlite
 echo "vacuum;" | sqlite3 jni/databases/etcb4.sqlite
 
+echo "delete from morphhb;" | sqlite3 jni/databases/morphhb.sqlite
+echo "delete from parsing;" | sqlite3 jni/databases/morphhb.sqlite
+echo "delete from word;" | sqlite3 jni/databases/morphhb.sqlite
+echo "vacuum;" | sqlite3 jni/databases/morphhb.sqlite
+
 
 # Android does not provide 'stoi' in C++.
 sed -i.bak '/HAVE_STOI/d' jni/config.h
