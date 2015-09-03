@@ -625,6 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+ICUOFF
 WINDOWS
 RESOURCES_PATH
 PARATEXT
@@ -777,6 +778,7 @@ enable_tinyjournal
 enable_paratext
 with_resources_path
 enable_windows
+enable_icu
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1433,6 +1435,7 @@ Optional Features:
   --enable-tinyjournal Enable tiny journal
   --enable-paratext Enable Paratext synchronization
   --enable-windows Compile on Windows
+  --disable-icu Disable ICU library
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6594,6 +6597,26 @@ _ACEOF
 
 
 
+# ICU availability.
+ICUOFF=no
+# Check whether --enable-icu was given.
+if test "${enable_icu+set}" = set; then :
+  enableval=$enable_icu;
+$as_echo "#define ICU_DISABLED 1" >>confdefs.h
+
+ICUOFF=yes
+
+fi
+
+
+$as_echo "#define ICUOFF /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define ICUOFF "$ICUOFF"
+_ACEOF
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -8089,4 +8112,6 @@ Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)               : ${PARATEXT}
 Resources cache path (--with-resources-path=path)          : ${RESOURCES_PATH}
 Windows (--enable-windows)                                 : ${WINDOWS}
+ICU library (--disable-icu)                                : ${ICUON}
+Disable ICU library (--disable-icu)                        : ${ICUOFF}
 "
