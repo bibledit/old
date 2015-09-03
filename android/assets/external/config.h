@@ -75,6 +75,12 @@
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
 
+/* Define whether ICU is disabled */
+#define ICUOFF "yes"
+
+/* Define whether ICU is disabled */
+#define ICU_DISABLED 1
+
 /* Define the network port number */
 #define NETWORK_PORT "8080"
 
@@ -88,7 +94,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.212"
+#define PACKAGE_STRING "bibledit 1.0.231"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -97,7 +103,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.212"
+#define PACKAGE_VERSION "1.0.231"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 3
@@ -121,7 +127,7 @@
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.212"
+#define VERSION "1.0.231"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */

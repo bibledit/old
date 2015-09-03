@@ -54,6 +54,15 @@ rm -rf sources/sblgnt
 popd
 
 
+# Remove some data so that the .apk does not exceed 50 Mbytes - the limit Google Play puts on it.
+echo "delete from data;" | sqlite3 jni/databases/etcb4.sqlite
+echo "delete from word;" | sqlite3 jni/databases/etcb4.sqlite
+echo "delete from vocalized_lexeme;" | sqlite3 jni/databases/etcb4.sqlite
+echo "delete from consonantal_lexeme;" | sqlite3 jni/databases/etcb4.sqlite
+echo "delete from gloss;" | sqlite3 jni/databases/etcb4.sqlite
+echo "vacuum;" | sqlite3 jni/databases/etcb4.sqlite
+
+
 # Android does not provide 'stoi' in C++.
 sed -i.bak '/HAVE_STOI/d' jni/config.h
 rm jni/config.h.bak

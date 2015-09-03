@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config.h>
 #include <filter/string.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
@@ -24,7 +25,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/config/general.h>
 #include <config/logic.h>
-// #include <codecvt>
+#ifndef ICU_DISABLED
+#include <unicode/unistr.h>
+#include <unicode/translit.h>
+#endif
 
 
 // A C++ equivalent for PHP's explode function.
@@ -408,23 +412,76 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
 }
 
 
-// Optionally the unicode wrappers can use the ICU library.
-// The wrappers should then have fallback functions for platforms where the ICU library is not available.
-
-
 // Converts string so to lowercase.
-// Later on it should do casefolding with full unicode support.
 string unicode_string_casefold (string s)
 {
+#ifdef ICU_DISABLED
+
   transform (s.begin(), s.end (), s.begin(), ::tolower);
   return s;
+
+#else
+
+  // UTF-8 string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  // Case folding.
+  source.foldCase ();
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  string result;
+  source.toUTF8String (result);
+  // Ready.
+  return result;
+
+#endif
 }
 
 
 string unicode_string_uppercase (string s)
 {
+#ifdef ICU_DISABLED
+  
   transform (s.begin(), s.end (), s.begin(), ::toupper);
   return s;
+  
+#else
+
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  source.toUpper ();
+  string result;
+  source.toUTF8String (result);
+  return result;
+
+#endif
+}
+
+
+string unicode_string_transliterate (string s)
+{
+#ifdef ICU_DISABLED
+
+  return s;
+
+#else
+
+  // UTF-8 string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  
+  // Transliterate UTF-16 UnicodeString following this rule:
+  // decompose, remove diacritics, recompose
+  UErrorCode status = U_ZERO_ERROR;
+  Transliterator *transliterator = Transliterator::createInstance("NFD; [:M:] Remove; NFC",
+                                                                  UTRANS_FORWARD,
+                                                                  status);
+  transliterator->transliterate(source);
+  
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  string result;
+  source.toUTF8String (result);
+  
+  // Done.
+  return result;
+  
+#endif
 }
 
 
