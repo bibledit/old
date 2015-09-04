@@ -48,7 +48,7 @@
     bibledit_start_library ();
     
     // Open the web app in the web view
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [[[self webview] mainFrame] loadRequest:urlRequest];
     [self.window setContentView:self.webview];
@@ -67,7 +67,7 @@
 
 - (void)checkForExternalBrowser {
     if (bibledit_open_browser ()) {
-        NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
+        NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
         [[NSWorkspace sharedWorkspace] openURL:url];
     }
 }
