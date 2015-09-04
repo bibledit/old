@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.228],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.232],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
@@ -240,6 +240,17 @@ AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
 AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
 AC_SUBST(WINDOWS)
 
+# ICU availability.
+ICUOFF=no
+AC_ARG_ENABLE(icu,
+[  --disable-icu Disable ICU library],
+[AC_DEFINE([ICU_DISABLED], [1], [Define whether ICU is disabled])]
+ICUOFF=yes
+)
+AC_DEFINE([ICUOFF], [], [Define whether ICU is disabled])
+AC_DEFINE_UNQUOTED(ICUOFF, "$ICUOFF")
+AC_SUBST(ICUOFF)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -260,4 +271,6 @@ Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)               : ${PARATEXT}
 Resources cache path (--with-resources-path=path)          : ${RESOURCES_PATH}
 Windows (--enable-windows)                                 : ${WINDOWS}
+ICU library (--disable-icu)                                : ${ICUON}
+Disable ICU library (--disable-icu)                        : ${ICUOFF}
 "
