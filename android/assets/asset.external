@@ -43,6 +43,10 @@ bible/css.html
 bible/editing.cpp
 bible/editing.h
 bible/editing.html
+bible/import.cpp
+bible/import.h
+bible/import.html
+bible/import.js
 bible/import_bibleworks.cpp
 bible/import_bibleworks.h
 bible/import_bibleworks.html
