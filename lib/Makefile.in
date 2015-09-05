@@ -168,29 +168,29 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	bible/manage.$(OBJEXT) bible/settings.$(OBJEXT) \
 	bible/book.$(OBJEXT) bible/chapter.$(OBJEXT) \
 	bible/import_usfm.$(OBJEXT) bible/import_bibleworks.$(OBJEXT) \
-	bible/import_task.$(OBJEXT) bible/abbreviations.$(OBJEXT) \
-	bible/order.$(OBJEXT) bible/css.$(OBJEXT) \
-	bible/editing.$(OBJEXT) notes/logic.$(OBJEXT) \
-	notes/actions.$(OBJEXT) notes/clean.$(OBJEXT) \
-	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
-	notes/assign-1.$(OBJEXT) notes/cleancli.$(OBJEXT) \
-	notes/notes.$(OBJEXT) notes/status-n.$(OBJEXT) \
-	notes/assign-n.$(OBJEXT) notes/click.$(OBJEXT) \
-	notes/poll.$(OBJEXT) notes/summary.$(OBJEXT) \
-	notes/bible-1.$(OBJEXT) notes/comment.$(OBJEXT) \
-	notes/select.$(OBJEXT) notes/unassign-n.$(OBJEXT) \
-	notes/bible-n.$(OBJEXT) notes/create.$(OBJEXT) \
-	notes/severity-1.$(OBJEXT) notes/verses.$(OBJEXT) \
-	notes/bulk.$(OBJEXT) notes/editsource.$(OBJEXT) \
-	notes/index.$(OBJEXT) notes/severity-n.$(OBJEXT) \
-	trash/handler.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/index.$(OBJEXT) manage/users.$(OBJEXT) \
-	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
-	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	bible/import_task.$(OBJEXT) bible/import.$(OBJEXT) \
+	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
+	bible/css.$(OBJEXT) bible/editing.$(OBJEXT) \
+	notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
+	notes/clean.$(OBJEXT) notes/note.$(OBJEXT) \
+	notes/status-1.$(OBJEXT) notes/assign-1.$(OBJEXT) \
+	notes/cleancli.$(OBJEXT) notes/notes.$(OBJEXT) \
+	notes/status-n.$(OBJEXT) notes/assign-n.$(OBJEXT) \
+	notes/click.$(OBJEXT) notes/poll.$(OBJEXT) \
+	notes/summary.$(OBJEXT) notes/bible-1.$(OBJEXT) \
+	notes/comment.$(OBJEXT) notes/select.$(OBJEXT) \
+	notes/unassign-n.$(OBJEXT) notes/bible-n.$(OBJEXT) \
+	notes/create.$(OBJEXT) notes/severity-1.$(OBJEXT) \
+	notes/verses.$(OBJEXT) notes/bulk.$(OBJEXT) \
+	notes/editsource.$(OBJEXT) notes/index.$(OBJEXT) \
+	notes/severity-n.$(OBJEXT) trash/handler.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/index.$(OBJEXT) \
+	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
+	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
+	manage/write.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -627,6 +627,7 @@ libbibledit_a_SOURCES = \
 	bible/import_usfm.cpp \
 	bible/import_bibleworks.cpp \
 	bible/import_task.cpp \
+	bible/import.cpp \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
 	bible/css.cpp \
@@ -1288,6 +1289,8 @@ bible/import_usfm.$(OBJEXT): bible/$(am__dirstamp) \
 bible/import_bibleworks.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/import_task.$(OBJEXT): bible/$(am__dirstamp) \
+	bible/$(DEPDIR)/$(am__dirstamp)
+bible/import.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/abbreviations.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
@@ -2186,6 +2189,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/chapter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/editing.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_task.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_usfm.Po@am__quote@

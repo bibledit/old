@@ -232,13 +232,84 @@ msgstr ""
 msgid "Verse editors"
 msgstr ""
 
-msgid "Import BibleWorks"
+msgid "Import"
 msgstr ""
 
 msgid "Import has started. See Journal for progress."
 msgstr ""
 
 msgid "Nothing was imported."
+msgstr ""
+
+msgid "Nothing was uploaded"
+msgstr ""
+
+msgid "Journal"
+msgstr ""
+
+msgid "This helps you with importing Unified Standard Format Markers data."
+msgstr ""
+
+msgid "More information about this format:"
+msgstr ""
+
+msgid "Source 1: Paratext."
+msgstr ""
+
+msgid "Source 2: UBS ICAP."
+msgstr ""
+
+msgid ""
+"The data to be imported will overwrite similar data already in the Bible."
+msgstr ""
+
+msgid ""
+"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
+"that chapter already was in the Bible."
+msgstr ""
+
+msgid "It will not overwrite anything else."
+msgstr ""
+
+msgid "If Genesis 1 was not yet there, it will be created."
+msgstr ""
+
+msgid ""
+"You can import one chapter, or several chapters, or one book, or several "
+"books, all in one go."
+msgstr ""
+
+msgid ""
+"Bibledit will recognize books through the id markup and chapters through the "
+"c markup."
+msgstr ""
+
+msgid "The text to be imported should be in Unicode UTF-8 format."
+msgstr ""
+
+msgid ""
+"To import the data, paste the data into the box below, and then press the "
+"Submit button."
+msgstr ""
+
+msgid "You can also upload a file with the text."
+msgstr ""
+
+msgid "Or a compressed archive of such files."
+msgstr ""
+
+msgid "The upload may take some time."
+msgstr ""
+
+msgid "It depends on the speed of your network and on the size of the file."
+msgstr ""
+
+msgid ""
+"If the upload fails, it could be because the file is too large, or the "
+"network is too slow."
+msgstr ""
+
+msgid "Import BibleWorks"
 msgstr ""
 
 msgid "This helps you with importing BibleWorks data."
@@ -271,64 +342,13 @@ msgstr ""
 msgid "The text of footnotes is placed between curly brackets."
 msgstr ""
 
-msgid ""
-"The data to be imported will overwrite similar data already in the Bible."
-msgstr ""
-
-msgid ""
-"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
-"that chapter already was in the Bible."
-msgstr ""
-
-msgid "It will not overwrite anything else."
-msgstr ""
-
-msgid "If Genesis 1 was not yet there, it will be created."
-msgstr ""
-
-msgid ""
-"You can import one chapter, or several chapters, or one book, or several "
-"books, all in one go."
-msgstr ""
-
 msgid "Bibledit will recognize books and chapters from the BibleWorks markup."
-msgstr ""
-
-msgid "The text to be imported should be in Unicode UTF-8 format."
-msgstr ""
-
-msgid ""
-"To import the data, paste the data into the box below, and then press the "
-"Submit button."
 msgstr ""
 
 msgid "Keep the grammatical tags"
 msgstr ""
 
 msgid "Import USFM"
-msgstr ""
-
-msgid "Nothing was uploaded"
-msgstr ""
-
-msgid "Journal"
-msgstr ""
-
-msgid "This helps you with importing Unified Standard Format Markers data."
-msgstr ""
-
-msgid "More information about this format:"
-msgstr ""
-
-msgid "Source 1: Paratext."
-msgstr ""
-
-msgid "Source 2: UBS ICAP."
-msgstr ""
-
-msgid ""
-"Bibledit will recognize books through the id markup and chapters through the "
-"c markup."
 msgstr ""
 
 msgid "You can also upload a file."
@@ -340,9 +360,6 @@ msgid ""
 msgstr ""
 
 msgid "Uploading may take some time."
-msgstr ""
-
-msgid "It depends on the speed of your network and on the size of the file."
 msgstr ""
 
 msgid ""
@@ -423,6 +440,9 @@ msgid "Versification system"
 msgstr ""
 
 msgid "Verse mapping"
+msgstr ""
+
+msgid "Import text"
 msgstr ""
 
 msgid "Copy this Bible"

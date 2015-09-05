@@ -54,6 +54,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/settings.h>
 #include <bible/book.h>
 #include <bible/chapter.h>
+#include <bible/import.h>
 #include <bible/import_usfm.h>
 #include <bible/import_bibleworks.h>
 #include <bible/abbreviations.h>
@@ -232,6 +233,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_settings_url ()) && bible_settings_acl (request)) request->reply = bible_settings (request);
   else if ((url == bible_book_url ()) && bible_book_acl (request)) request->reply = bible_book (request);
   else if ((url == bible_chapter_url ()) && bible_chapter_acl (request)) request->reply = bible_chapter (request);
+  else if ((url == bible_import_url ()) && bible_import_acl (request)) request->reply = bible_import (request);
   else if ((url == bible_import_usfm_url ()) && bible_import_usfm_acl (request)) request->reply = bible_import_usfm (request);
   else if ((url == bible_import_bibleworks_url ()) && bible_import_bibleworks_acl (request)) request->reply = bible_import_bibleworks (request);
   else if ((url == compare_index_url ()) && compare_index_acl (request)) request->reply = compare_index (request);

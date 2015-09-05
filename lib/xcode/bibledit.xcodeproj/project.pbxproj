@@ -410,6 +410,10 @@
 		CA9FAD8A1B4414FD00B43C76 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
 		CA9FAD8B1B44356A00B43C76 /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
 		CA9FAD8C1B44356A00B43C76 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
+		CAA0BC831B9A00A300115B42 /* import.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = import.cpp; sourceTree = "<group>"; };
+		CAA0BC841B9A00A300115B42 /* import.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = import.h; sourceTree = "<group>"; };
+		CAA0BC851B9A00A300115B42 /* import.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = import.html; sourceTree = "<group>"; };
+		CAA0BC861B9A00A300115B42 /* import.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = import.js; sourceTree = "<group>"; };
 		CAA4CEFB1A45A647003ABA25 /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bible.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4CEFC1A45A647003ABA25 /* bible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bible.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CEFD1A45A647003ABA25 /* user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
@@ -1195,6 +1199,10 @@
 				CABF088E1A8E29A600003101 /* editing.cpp */,
 				CABF088F1A8E29A600003101 /* editing.h */,
 				CABF08901A8E2B9400003101 /* editing.html */,
+				CAA0BC831B9A00A300115B42 /* import.cpp */,
+				CAA0BC841B9A00A300115B42 /* import.h */,
+				CAA0BC851B9A00A300115B42 /* import.html */,
+				CAA0BC861B9A00A300115B42 /* import.js */,
 				CA5A77D71A5433EC00BE1708 /* import_bibleworks.cpp */,
 				CA5A77D81A5433EC00BE1708 /* import_bibleworks.h */,
 				CA5A77D91A5433EC00BE1708 /* import_bibleworks.html */,
