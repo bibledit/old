@@ -98,6 +98,9 @@ public class MainActivity extends Activity
         
         // Install the assets if needed.
         installAssets (webroot);
+        
+        // Log information about where to find Bibledit's data.
+        Log ("Bibledit data location: " + webroot);
     }
     
     
@@ -112,6 +115,7 @@ public class MainActivity extends Activity
     public native Boolean IsRunning ();
     public native void StopLibrary ();
     public native void ShutdownLibrary ();
+    public native void Log (String message);
     public native static Boolean OpenBrowser ();
     
     

@@ -82,7 +82,7 @@ function verseEditorLoadChapter ()
     verseVerseLoading = verseNavigationVerse;
     verseIdChapter = 0;
     $ ("#usfmverseeditor").focus;
-    verseCaretPosition = getCaretPosition ();
+    verseCaretPosition = verseGetCaretPosition ();
     if (verseLoadAjaxRequest && verseLoadAjaxRequest.readystate != 4) {
       verseLoadAjaxRequest.abort();
     }
@@ -104,7 +104,9 @@ function verseEditorLoadChapter ()
             verseLoadedText = response;
             verseVerseLoaded = verseVerseLoading;
             if (verseReload) {
-              positionCaret (verseCaretPosition);
+              versePositionCaret (verseCaretPosition);
+            } else {
+              versePositionCaret (0);
             }
             verseReload = false;
           }
@@ -220,8 +222,9 @@ function verseEditorPollId ()
 }
 
 
-function getCaretPosition ()
+function verseGetCaretPosition ()
 {
+  $ ("#usfmverseeditor").focus ();
   var position = undefined;
   if ($ ("#usfmverseeditor").is (":focus")) {
     var sel = rangy.getSelection ();
@@ -232,12 +235,17 @@ function getCaretPosition ()
 }
 
 
-function positionCaret (position)
+function versePositionCaret (position)
 {
   $ ("#usfmverseeditor").focus ();
-  var currentPosition = getCaretPosition ();
+  var currentPosition = verseGetCaretPosition ();
   if (currentPosition == undefined) return;
   if (position == undefined) return;
+  if (position == 0) {
+    position = 4;
+    var vs = verseVerse.toString();
+    position += vs.length;
+  }
   var selection = rangy.getSelection ();
   selection.move ("character", position - currentPosition);
 }

@@ -111,6 +111,7 @@ libbibledit_a_SOURCES = \
 	bible/import_usfm.cpp \
 	bible/import_bibleworks.cpp \
 	bible/import_task.cpp \
+	bible/import.cpp \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
 	bible/css.cpp \
