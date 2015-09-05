@@ -73,7 +73,7 @@ string bible_import (void * webserver_request) // Todo
         string datafile = filter_url_tempfile ();
         filter_url_file_put_contents (datafile, data);
         success_message = translate("Import has started. See Journal for progress.");
-        tasks_logic_queue (IMPORTUSFM, { datafile, bible });
+        tasks_logic_queue (IMPORTBIBLE, { datafile, bible });
       } else {
         error_message = translate("Please supply valid Unicode UTF-8 text.");
       }
@@ -89,7 +89,7 @@ string bible_import (void * webserver_request) // Todo
     if (!data.empty ()) {
       filter_url_file_put_contents (datafile, data);
       success_message = translate("Import has started. See Journal for progress.");
-      tasks_logic_queue (IMPORTUSFM, { datafile, bible });
+      tasks_logic_queue (IMPORTBIBLE, { datafile, bible });
     } else {
       error_message = translate ("Nothing was uploaded");
     }

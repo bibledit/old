@@ -17,7 +17,6 @@ libbibledit_a_SOURCES = \
 	filter/text.cpp \
 	filter/passage.cpp \
 	filter/customcss.cpp \
-	filter/bibleworks.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
@@ -108,9 +107,7 @@ libbibledit_a_SOURCES = \
 	bible/settings.cpp \
 	bible/book.cpp \
 	bible/chapter.cpp \
-	bible/import_usfm.cpp \
-	bible/import_bibleworks.cpp \
-	bible/import_task.cpp \
+	bible/import_run.cpp \
 	bible/import.cpp \
 	bible/abbreviations.cpp \
 	bible/order.cpp \

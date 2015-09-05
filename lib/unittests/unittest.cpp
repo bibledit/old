@@ -323,7 +323,6 @@ int main (int argc, char **argv)
   test_database_imageresources ();
   test_styles_css ();
   test_filter_custom_css ();
-  test_filter_bibleworks ();
   test_filter_diff ();
   test_filter_abbreviations ();
   test_checksum_logic ();

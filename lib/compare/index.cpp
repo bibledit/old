@@ -23,7 +23,6 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <filter/bibleworks.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <access/bible.h>
