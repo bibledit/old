@@ -24,8 +24,8 @@
 #include <config/libraries.h>
 
 
-void bible_import_run (string location, string bible);
-void bible_import_usfm (string data, string bible);
+void bible_import_run (string location, string bible, int book, int chapter);
+void bible_import_usfm (string data, string bible, int book, int chapter);
 void bible_import_text (string text, string bible, int book, int chapter);
 
 

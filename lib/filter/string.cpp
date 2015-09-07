@@ -28,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifndef ICU_DISABLED
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
+#include <unicode/schriter.h>
+#include <unicode/uchar.h>
 #endif
 
 
@@ -489,6 +491,30 @@ string unicode_string_transliterate (string s)
 bool unicode_string_is_valid (string s)
 {
   return utf8::is_valid (s.begin(), s.end());
+}
+
+
+// Returns whether $s is Unicode punctuation.
+bool unicode_string_is_punctuation (string s)
+{
+  if (s.empty ()) return false;
+  
+#ifdef ICU_DISABLED
+  
+  char chars [s.size () + 1];
+  strcpy (chars, s.c_str());
+  int punct = ispunct (chars[0]);
+  return punct != 0;
+  
+#else
+  
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  StringCharacterIterator iter (source);
+  UChar32 character = iter.first32 ();
+  bool punctuation = u_ispunct (character);
+  return punctuation;
+  
+#endif
 }
 
 

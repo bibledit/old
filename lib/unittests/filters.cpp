@@ -4348,6 +4348,13 @@ void test_filter_string ()
     needles = filter_string_search_needles ("abc", "one abc two ABc three aBc four");
     evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
   }
+  
+  {
+    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("A"));
+    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("z"));
+    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation ("."));
+    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation (","));
+  }
 }
 
 

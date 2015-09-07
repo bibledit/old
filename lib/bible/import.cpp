@@ -20,6 +20,7 @@
 #include <bible/import.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -27,6 +28,7 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <tasks/logic.h>
+#include <ipc/focus.h>
 
 
 string bible_import_url ()
@@ -41,13 +43,15 @@ bool bible_import_acl (void * webserver_request)
 }
 
 
-string bible_import (void * webserver_request) // Todo
+string bible_import (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
   
-  page = Assets_Page::header (translate ("Import"), webserver_request, "");
+  Assets_Header header = Assets_Header (translate("Import"), webserver_request);
+  header.setNavigator ();
+  page = header.run ();
   
   Assets_View view = Assets_View ();
   
@@ -58,6 +62,9 @@ string bible_import (void * webserver_request) // Todo
   string bible = access_bible_clamp (request, request->query["bible"]);
   view.set_variable ("bible", filter_string_sanitize_html (bible));
   
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+
   // Whether the user has write access to this Bible.
   bool write_access = access_bible_write (request, bible);
   if (write_access) view.enable_zone ("write_access");
@@ -73,7 +80,7 @@ string bible_import (void * webserver_request) // Todo
         string datafile = filter_url_tempfile ();
         filter_url_file_put_contents (datafile, data);
         success_message = translate("Import has started. See Journal for progress.");
-        tasks_logic_queue (IMPORTBIBLE, { datafile, bible });
+        tasks_logic_queue (IMPORTBIBLE, { datafile, bible, convert_to_string (book), convert_to_string (chapter) });
       } else {
         error_message = translate("Please supply valid Unicode UTF-8 text.");
       }
@@ -89,7 +96,7 @@ string bible_import (void * webserver_request) // Todo
     if (!data.empty ()) {
       filter_url_file_put_contents (datafile, data);
       success_message = translate("Import has started. See Journal for progress.");
-      tasks_logic_queue (IMPORTBIBLE, { datafile, bible });
+      tasks_logic_queue (IMPORTBIBLE, { datafile, bible, convert_to_string (book), convert_to_string (chapter) });
     } else {
       error_message = translate ("Nothing was uploaded");
     }

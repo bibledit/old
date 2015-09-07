@@ -101,6 +101,11 @@ void tasks_run_one (string filename)
     parameter3 = lines [0];
     lines.erase (lines.begin ());
   }
+  string parameter4;
+  if (!lines.empty ()) {
+    parameter4 = lines [0];
+    lines.erase (lines.begin ());
+  }
   
   if (command == ROTATEJOURNAL) {
     Database_Logs database_logs = Database_Logs ();
@@ -117,7 +122,7 @@ void tasks_run_one (string filename)
   } else if (command == CREATECSS) {
     styles_sheets_create_all_run ();
   } else if (command == IMPORTBIBLE) {
-    bible_import_run (parameter1, parameter2);
+    bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
   } else if (command == COMPAREUSFM) {
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
   } else if (command == MAINTAINDATABASE) {

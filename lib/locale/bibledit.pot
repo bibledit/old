@@ -247,6 +247,24 @@ msgstr ""
 msgid "Journal"
 msgstr ""
 
+msgid "Import Bible text."
+msgstr ""
+
+msgid "Paste the text into the box below and Submit it."
+msgstr ""
+
+msgid "You can also upload a file with the text."
+msgstr ""
+
+msgid "Or a compressed archive of such files."
+msgstr ""
+
+msgid "The upload may take some time."
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
 msgid "This helps you with importing Unified Standard Format Markers data."
 msgstr ""
 
@@ -285,86 +303,6 @@ msgid ""
 msgstr ""
 
 msgid "The text to be imported should be in Unicode UTF-8 format."
-msgstr ""
-
-msgid ""
-"To import the data, paste the data into the box below, and then press the "
-"Submit button."
-msgstr ""
-
-msgid "You can also upload a file with the text."
-msgstr ""
-
-msgid "Or a compressed archive of such files."
-msgstr ""
-
-msgid "The upload may take some time."
-msgstr ""
-
-msgid "It depends on the speed of your network and on the size of the file."
-msgstr ""
-
-msgid ""
-"If the upload fails, it could be because the file is too large, or the "
-"network is too slow."
-msgstr ""
-
-msgid "Import BibleWorks"
-msgstr ""
-
-msgid "This helps you with importing BibleWorks data."
-msgstr ""
-
-msgid ""
-"Each line in this data starts with a book, and a chapter and verse, like so:"
-msgstr ""
-
-msgid "Then a space follows, and then the text of the verse."
-msgstr ""
-
-msgid "That's basically it."
-msgstr ""
-
-msgid ""
-"There may be numbers in the text that key to Strong's data and other "
-"grammatical information, like so:"
-msgstr ""
-
-msgid "Normally these tags are removed."
-msgstr ""
-
-msgid "There is a checkbox for keeping them."
-msgstr ""
-
-msgid "Words in italics are placed between square brackets, like so:"
-msgstr ""
-
-msgid "The text of footnotes is placed between curly brackets."
-msgstr ""
-
-msgid "Bibledit will recognize books and chapters from the BibleWorks markup."
-msgstr ""
-
-msgid "Keep the grammatical tags"
-msgstr ""
-
-msgid "Import USFM"
-msgstr ""
-
-msgid "You can also upload a file."
-msgstr ""
-
-msgid ""
-"The file to be uploaded can be a USFM file or a compressed archive with USFM "
-"files."
-msgstr ""
-
-msgid "Uploading may take some time."
-msgstr ""
-
-msgid ""
-"If uploading fails, it may be because the file is too large, or the network "
-"too slow."
 msgstr ""
 
 msgid "Bibles"
@@ -3058,9 +2996,6 @@ msgstr ""
 msgid "Show from the Word where this is the case."
 msgstr ""
 
-msgid "Help"
-msgstr ""
-
 msgid "Introduction"
 msgstr ""
 
@@ -3493,7 +3428,10 @@ msgstr ""
 msgid "Install Bibledit on Ubuntu and derivatives"
 msgstr ""
 
-msgid "Download the Bibledit Linux installer."
+msgid "Follow the steps below to install Bibledit"
+msgstr ""
+
+msgid "Download the Bibledit Linux installer"
 msgstr ""
 
 msgid "Put it in the home directory."
