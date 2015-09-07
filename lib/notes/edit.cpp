@@ -17,7 +17,7 @@
  */
 
 
-#include <notes/editsource.h>
+#include <notes/edit.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -34,19 +34,19 @@
 #include <notes/note.h>
 
 
-string notes_editsource_url ()
+string notes_edit_url ()
 {
-  return "notes/editsource";
+  return "notes/edit";
 }
 
 
-bool notes_editsource_acl (void * webserver_request)
+bool notes_edit_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 }
 
 
-string notes_editsource (void * webserver_request)
+string notes_edit (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Notes database_notes = Database_Notes (webserver_request);
@@ -57,7 +57,6 @@ string notes_editsource (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit Note Source"), request);
   page += header.run ();
   Assets_View view = Assets_View ();
-  string success, error;
   
   
   int identifier;
@@ -68,12 +67,14 @@ string notes_editsource (void * webserver_request)
   
   
   if (request->post.count ("data")) {
+    // Save note.
     string noteData = request->post["data"];
     if (database_notes.identifierExists (identifier)) {
       database_notes.setContents (identifier, noteData);
-      success = translate("The note was saved");
-    } else {
-      error = translate("Unknown Note Identifier");
+      string url = filter_url_build_http_query (notes_note_url (), "id", convert_to_string (identifier));
+      // View the updated note.
+      redirect_browser (request, url);
+      return "";
     }
   }
   
@@ -82,15 +83,11 @@ string notes_editsource (void * webserver_request)
     if (database_notes.identifierExists (identifier)) {
       string noteData = database_notes.getContents (identifier);
       view.set_variable ("data", noteData);
-    } else {
-      error = translate("Unknown Note Identifier");
     }
   }
   
   
-  view.set_variable ("success", success);
-  view.set_variable ("error", error);
-  page += view.render ("notes", "editsource");
+  page += view.render ("notes", "edit");
   page += Assets_Page::footer ();
   return page;
 }

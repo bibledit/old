@@ -135,7 +135,7 @@ libbibledit_a_SOURCES = \
 	notes/severity-1.cpp \
 	notes/verses.cpp \
 	notes/bulk.cpp \
-	notes/editsource.cpp \
+	notes/edit.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \

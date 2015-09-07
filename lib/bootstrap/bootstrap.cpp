@@ -137,7 +137,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/bible-1.h>
 #include <notes/bible-n.h>
 #include <notes/bulk.h>
-#include <notes/editsource.h>
+#include <notes/edit.h>
 #include <notes/summary.h>
 #include <notes/click.h>
 #include <changes/changes.h>
@@ -267,7 +267,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_bible_1_url ()) && notes_bible_1_acl (request)) request->reply = notes_bible_1 (request);
   else if ((url == notes_bible_n_url ()) && notes_bible_n_acl (request)) request->reply = notes_bible_n (request);
   else if ((url == notes_bulk_url ()) && notes_bulk_acl (request)) request->reply = notes_bulk (request);
-  else if ((url == notes_editsource_url ()) && notes_editsource_acl (request)) request->reply = notes_editsource (request);
+  else if ((url == notes_edit_url ()) && notes_edit_acl (request)) request->reply = notes_edit (request);
   else if ((url == notes_summary_url ()) && notes_summary_acl (request)) request->reply = notes_summary (request);
 
   // Resources menu.

@@ -180,7 +180,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	notes/unassign-n.$(OBJEXT) notes/bible-n.$(OBJEXT) \
 	notes/create.$(OBJEXT) notes/severity-1.$(OBJEXT) \
 	notes/verses.$(OBJEXT) notes/bulk.$(OBJEXT) \
-	notes/editsource.$(OBJEXT) notes/index.$(OBJEXT) \
+	notes/edit.$(OBJEXT) notes/index.$(OBJEXT) \
 	notes/severity-n.$(OBJEXT) trash/handler.$(OBJEXT) \
 	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
 	email/index.$(OBJEXT) email/send.$(OBJEXT) \
@@ -649,7 +649,7 @@ libbibledit_a_SOURCES = \
 	notes/severity-1.cpp \
 	notes/verses.cpp \
 	notes/bulk.cpp \
-	notes/editsource.cpp \
+	notes/edit.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \
@@ -1339,7 +1339,7 @@ notes/verses.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/bulk.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
-notes/editsource.$(OBJEXT): notes/$(am__dirstamp) \
+notes/edit.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/index.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
@@ -2370,7 +2370,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/click.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/comment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/create.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/editsource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/edit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/note.Po@am__quote@
