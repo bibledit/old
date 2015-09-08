@@ -271,6 +271,5 @@ Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)               : ${PARATEXT}
 Resources cache path (--with-resources-path=path)          : ${RESOURCES_PATH}
 Windows (--enable-windows)                                 : ${WINDOWS}
-ICU library (--disable-icu)                                : ${ICUON}
 Disable ICU library (--disable-icu)                        : ${ICUOFF}
 "

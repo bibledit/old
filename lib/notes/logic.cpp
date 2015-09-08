@@ -77,8 +77,34 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
 }
 
 
+// Set the $content of an existing note $identifier.
+void Notes_Logic::setContent (int identifier, const string& content)
+{
+  // Do nothing if there was no content.
+  if (content.empty ()) return;
+  
+  Database_Notes database_notes = Database_Notes (webserver_request);
+  // Todo database_notes.addComment (identifier, comment);
+  database_notes.setContents (identifier, content); // Todo
+
+  if (client_logic_client_enabled ()) {
+    // Client: record the action in the database.
+    string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+    Database_NoteActions database_noteactions = Database_NoteActions ();
+    database_noteactions.record (user, identifier, Sync_Logic::notes_put_contents, content);
+
+    
+    // Todo database_noteactions.record (user, identifier, Sync_Logic::notes_put_comment, comment);
+
+  } else {
+    // Server: do the notifications.
+    handlerAddComment (identifier);
+  }
+}
+
+
 // Add a comment to an exiting note identified by identifier.
-void Notes_Logic::addComment (int identifier, const string& comment)
+void Notes_Logic::addComment (int identifier, const string& comment) // Todo copy
 {
   // Do nothing if there was no content.
   if (comment == "") return;
