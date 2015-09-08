@@ -605,6 +605,11 @@ void Editor_Usfm2Html::addLink (xmlNodePtr domNode, string reference, string ide
   // The link itself, for the notes, is not editable, so it can be clicked.
   // It was disabled again due to Chrome removing content on backspace.
   // $aDomElement->setAttribute ("contenteditable", "false");
+  // Remove the blue color from the link, and the underline.
+  // The reason for this is that, if the blue and underline are there, people expect one can click on it.
+  // Clicking it does nothing. Therefore it's better to remove the typical link style.
+  xmlNewProp (aDomElement, BAD_CAST "style", BAD_CAST "text-decoration:none; color: inherit;");
+  // Style = class.
   if (style != "") xmlNewProp (aDomElement, BAD_CAST "class", BAD_CAST style.c_str());
   xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
   xmlAddChild (aDomElement, textnode);
