@@ -80,7 +80,7 @@ string notes_edit (void * webserver_request)
         if (lines[i].length () >= 6) lines[i].erase (lines[i].length () - 6);
       }
       noteData = filter_string_implode (lines, "\n");
-      notes_logic.setContent (identifier, noteData); // Todo
+      notes_logic.setContent (identifier, noteData);
       string url = filter_url_build_http_query (notes_note_url (), "id", convert_to_string (identifier));
       // View the updated note.
       redirect_browser (request, url);
