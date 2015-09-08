@@ -265,7 +265,13 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-msgid "This helps you with importing Unified Standard Format Markers data."
+msgid "This page helps with importing Bible text."
+msgstr ""
+
+msgid "It recognizes two types of text."
+msgstr ""
+
+msgid "It recognizes Unified Standard Format Markers text."
 msgstr ""
 
 msgid "More information about this format:"
@@ -275,6 +281,32 @@ msgid "Source 1: Paratext."
 msgstr ""
 
 msgid "Source 2: UBS ICAP."
+msgstr ""
+
+msgid ""
+"Bibledit will recognize books through the id markup and chapters through the "
+"c markup."
+msgstr ""
+
+msgid "It also recognizes plain text."
+msgstr ""
+
+msgid "It does that one chapter at a time."
+msgstr ""
+
+msgid ""
+"It imports the text into the book and chapter of the passage navigator at "
+"the top of the window."
+msgstr ""
+
+msgid ""
+"It considers numbers at the start of a line of text to be verse numbers."
+msgstr ""
+
+msgid "It does not discover verse numbers somewhere else in the text."
+msgstr ""
+
+msgid "After importing some text, it helps to run the checks on it."
 msgstr ""
 
 msgid ""
@@ -295,11 +327,6 @@ msgstr ""
 msgid ""
 "You can import one chapter, or several chapters, or one book, or several "
 "books, all in one go."
-msgstr ""
-
-msgid ""
-"Bibledit will recognize books through the id markup and chapters through the "
-"c markup."
 msgstr ""
 
 msgid "The text to be imported should be in Unicode UTF-8 format."
@@ -6602,10 +6629,7 @@ msgstr ""
 msgid "This is a general note, it does not apply to any specific Bible"
 msgstr ""
 
-msgid "Identifier"
-msgstr ""
-
-msgid "edit contents"
+msgid "Edit contents"
 msgstr ""
 
 msgid "The note will be deleted after it expires"
@@ -6762,13 +6786,10 @@ msgstr ""
 msgid "Edit Note Source"
 msgstr ""
 
-msgid "The note was saved"
+msgid "Edit note contents"
 msgstr ""
 
-msgid "Unknown Note Identifier"
-msgstr ""
-
-msgid "You can edit the source of this Consultation Note."
+msgid "You can edit the raw contents of this Consultation Note."
 msgstr ""
 
 msgid "Consultation Notes"

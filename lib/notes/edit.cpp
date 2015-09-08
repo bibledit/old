@@ -42,7 +42,7 @@ string notes_edit_url ()
 
 bool notes_edit_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
@@ -59,17 +59,27 @@ string notes_edit (void * webserver_request)
   Assets_View view = Assets_View ();
   
   
+  string myusername = request->session_logic ()->currentUser ();
+  
+  
   int identifier;
   if (request->query.count ("identifier")) identifier = convert_to_int (request->query ["identifier"]);
   else identifier = convert_to_int (request->post ["identifier"]);
   if (identifier) view.set_variable ("identifier", convert_to_string (identifier));
   
   
-  
   if (request->post.count ("data")) {
     // Save note.
     string noteData = request->post["data"];
     if (database_notes.identifierExists (identifier)) {
+      vector <string> lines = filter_string_explode (noteData, '\n');
+      for (size_t i = 0; i < lines.size (); i++) {
+        lines[i] = filter_string_trim (lines[i]);
+        size_t pos = lines[i].find (">");
+        if (pos != string::npos) lines[i].erase (0, pos + 1);
+        if (lines[i].length () >= 6) lines[i].erase (lines[i].length () - 6);
+      }
+      noteData = filter_string_implode (lines, "\n");
       database_notes.setContents (identifier, noteData);
       string url = filter_url_build_http_query (notes_note_url (), "id", convert_to_string (identifier));
       // View the updated note.
@@ -82,7 +92,64 @@ string notes_edit (void * webserver_request)
   if (identifier) {
     if (database_notes.identifierExists (identifier)) {
       string noteData = database_notes.getContents (identifier);
-      view.set_variable ("data", noteData);
+      bool editable = false;
+      vector <string> lines = filter_string_explode (noteData, '\n');
+      for (size_t i = 0; i < lines.size (); i++) {
+
+        lines[i] = filter_string_trim (lines[i]);
+        
+        // Retrieve possible username from the line.
+        // This is the pattern of a line with a username.
+        // <p>adminusername (8/9/2015):</p>
+        string username;
+        {
+          // Splitting on space should yield two bits.
+          vector <string> bits = filter_string_explode (lines[i], ' ');
+          if (bits.size () == 2) {
+            // First bit should contain the <p>.
+            if (bits[0].find ("<p>") == 0) {
+              bits[0].erase (0, 3);
+              // Second bit should contain colon plus p closing element.
+              size_t pos = bits[1].find (":</p>");
+              if (pos != string::npos) {
+                bits[1].erase (pos);
+                // It should also contain ( and ).
+                pos = bits[1].find ("(");
+                if (pos != string::npos) {
+                  bits[1].erase (pos, 1);
+                  pos = bits[1].find (")");
+                  if (pos != string::npos) {
+                    bits[1].erase (pos, 1);
+                    // Now deal with the data consisting of two slashes and three numbers.
+                    vector <string> date = filter_string_explode (bits[1], '/');
+                    if (date.size () == 3) {
+                      username = bits[0];
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        
+        if (!username.empty () && (username != myusername)) editable = false;
+        
+        if (editable) {
+          lines[i].insert (0, "<div contenteditable=\"true\">");
+        } else {
+          lines[i].insert (0, "<div style=\"background-color: #D3D3D3\">");
+        }
+        lines[i].append ("</div>");
+        
+        if (username == myusername) {
+          editable = true;
+        }
+        
+      }
+      
+      noteData = filter_string_implode (lines, "\n");
+      
+      view.set_variable ("noteblock", noteData);
     }
   }
   
