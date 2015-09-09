@@ -89,7 +89,7 @@ void changes_process_identifiers (Webserver_Request * request,
           email += modification;
           email += "</div>";
           if (request->database_config_user()->getUserUserChangesNotificationsOnline (user)) {
-            database_modifications.recordNotification ({user}, "☺", bible, book, chapter, verse, old_html, modification, new_html);
+            database_modifications.recordNotification ({user}, "P", bible, book, chapter, verse, old_html, modification, new_html);
           }
         }
       }
@@ -304,7 +304,7 @@ void changes_modifications ()
             }
             if (old_text != new_text) {
               string modification = filter_diff_diff (old_text, new_text);
-              database_modifications.recordNotification (changeNotificationUsers, "♺", bible, book, chapter, verse, old_html, modification, new_html);
+              database_modifications.recordNotification (changeNotificationUsers, "B", bible, book, chapter, verse, old_html, modification, new_html);
             }
           }
         }
