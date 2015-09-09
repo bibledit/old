@@ -16,7 +16,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
-	filter/customcss.cpp \
+	filter/css.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \

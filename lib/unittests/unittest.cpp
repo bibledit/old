@@ -279,7 +279,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_editor_html2usfm (); test_editor_usfm2html (); test_editor_roundtrip (); test_editor_roundtrip_verse (); refresh_sandbox (true); exit (0);
+  // test_filter_string_text2html (); test_editor_html2usfm (); test_editor_usfm2html (); test_editor_roundtrip (); test_editor_roundtrip_verse (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -351,6 +351,8 @@ int main (int argc, char **argv)
   test_database_morphgnt ();
   test_database_etcbc4 ();
   test_database_hebrewlexicon ();
+  test_filter_string_text2html ();
+
   
   // Output possible journal entries.
   refresh_sandbox (true);

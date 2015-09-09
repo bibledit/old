@@ -120,7 +120,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/roles.$(OBJEXT) filter/md5.$(OBJEXT) \
 	filter/usfm.$(OBJEXT) filter/archive.$(OBJEXT) \
 	filter/text.$(OBJEXT) filter/passage.$(OBJEXT) \
-	filter/customcss.$(OBJEXT) filter/git.$(OBJEXT) \
+	filter/css.$(OBJEXT) filter/git.$(OBJEXT) \
 	filter/diff.$(OBJEXT) filter/abbreviations.$(OBJEXT) \
 	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
 	filter/date.$(OBJEXT) flate/flate.$(OBJEXT) \
@@ -530,7 +530,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
-	filter/customcss.cpp \
+	filter/css.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
@@ -969,7 +969,7 @@ filter/text.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/passage.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
-filter/customcss.$(OBJEXT): filter/$(am__dirstamp) \
+filter/css.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/git.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
@@ -2312,7 +2312,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/web.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/abbreviations.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/archive.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/customcss.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@

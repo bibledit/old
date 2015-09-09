@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/archive.h>
 #include <filter/text.h>
-#include <filter/customcss.h>
+#include <filter/css.h>
 #include <filter/diff.h>
 #include <filter/abbreviations.h>
 #include <filter/git.h>
@@ -2562,7 +2562,6 @@ void test_filters ()
   test_filters_passage1 ();
   test_filters_passage2 ();
   test_filters_passage3 ();
-  test_filter_string_text2html ();
   test_email ();
   test_stat ();
   test_replace ();
@@ -2614,39 +2613,39 @@ void test_filter_custom_css ()
 {
   // Direction
   {
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionUnspecified (100));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionUnspecified (101));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::directionUnspecified (100));
+    evaluate (__LINE__, __func__, "", Filter_Css::directionUnspecified (101));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionLeftToRight (101));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionLeftToRight (102));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::directionLeftToRight (101));
+    evaluate (__LINE__, __func__, "", Filter_Css::directionLeftToRight (102));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionRightToLeft (102));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionRightToLeft (103));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::directionRightToLeft (102));
+    evaluate (__LINE__, __func__, "", Filter_Css::directionRightToLeft (103));
     
-    evaluate (__LINE__, __func__, 0, Filter_CustomCSS::directionValue (""));
-    evaluate (__LINE__, __func__, 1, Filter_CustomCSS::directionValue ("ltr"));
-    evaluate (__LINE__, __func__, 2, Filter_CustomCSS::directionValue ("rtl"));
+    evaluate (__LINE__, __func__, 0, Filter_Css::directionValue (""));
+    evaluate (__LINE__, __func__, 1, Filter_Css::directionValue ("ltr"));
+    evaluate (__LINE__, __func__, 2, Filter_Css::directionValue ("rtl"));
   }
   // Writing Mode
   {
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeUnspecified (102));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeUnspecified (112));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeUnspecified (102));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeUnspecified (112));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeTopBottomLeftRight (112));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeTopBottomLeftRight (122));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeTopBottomLeftRight (112));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeTopBottomLeftRight (122));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeTopBottomRightLeft (122));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeTopBottomRightLeft (132));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeTopBottomRightLeft (122));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeTopBottomRightLeft (132));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeBottomTopLeftRight (132));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeBottomTopLeftRight (142));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeBottomTopLeftRight (132));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeBottomTopLeftRight (142));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeBottomTopRightLeft (142));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeBottomTopRightLeft (152));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeBottomTopRightLeft (142));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeBottomTopRightLeft (152));
   }
   // Css
   {
-    string css = Filter_CustomCSS::getCss ("class", "", 0);
+    string css = Filter_Css::getCss ("class", "", 0);
     
     string standard =
     ".class\n"
@@ -2654,7 +2653,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("class", "", 101);
+    css = Filter_Css::getCss ("class", "", 101);
     standard =
     ".class\n"
     "{\n"
@@ -2662,7 +2661,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("class", "", 102);
+    css = Filter_Css::getCss ("class", "", 102);
     standard =
     ".class\n"
     "{\n"
@@ -2670,7 +2669,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("class", "", 110);
+    css = Filter_Css::getCss ("class", "", 110);
     standard =
     ".class\n"
     "{\n"
@@ -2678,7 +2677,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("CLass", "", 130);
+    css = Filter_Css::getCss ("CLass", "", 130);
     standard =
     ".CLass\n"
     "{\n"
@@ -2686,7 +2685,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("CLass", "", 1322);
+    css = Filter_Css::getCss ("CLass", "", 1322);
     standard =
     ".CLass\n"
     "{\n"
@@ -2695,7 +2694,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("Class", "sherif", 0);
+    css = Filter_Css::getCss ("Class", "sherif", 0);
     standard =
     ".Class\n"
     "{\n"
@@ -2703,7 +2702,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("Class", "sherif", 102);
+    css = Filter_Css::getCss ("Class", "sherif", 102);
     standard =
     ".Class\n"
     "{\n"
@@ -2712,7 +2711,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("classs", "../font.ttf", 0);
+    css = Filter_Css::getCss ("classs", "../font.ttf", 0);
     standard =
     "@font-face\n"
     "{\n"
@@ -2727,7 +2726,7 @@ void test_filter_custom_css ()
   }
   // Class.
   {
-    string clss = Filter_CustomCSS::getClass ("ആഈഘലറ");
+    string clss = Filter_Css::getClass ("ആഈഘലറ");
     evaluate (__LINE__, __func__, "customf86528", clss);
   }
 }

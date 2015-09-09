@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-class Filter_CustomCSS
+class Filter_Css
 {
 public:
   static string directionUnspecified (int value);
@@ -46,6 +46,9 @@ public:
   static string getClass (string bible);
   static string getCss (string class_, string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
 };
+
+
+string filter_css_grey_background ();
 
 
 #endif

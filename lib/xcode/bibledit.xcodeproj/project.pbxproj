@@ -318,8 +318,8 @@
 		CA699A0E1A4EE04300B23E0A /* basic.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = basic.css; sourceTree = "<group>"; };
 		CA699A0F1A4EE05800B23E0A /* editor.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = editor.css; sourceTree = "<group>"; };
 		CA699A101A4EE05800B23E0A /* exports.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = exports.css; sourceTree = "<group>"; };
-		CA699A111A4EFF6600B23E0A /* customcss.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = customcss.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CA699A121A4EFF6600B23E0A /* customcss.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = customcss.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CA699A111A4EFF6600B23E0A /* css.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = css.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		CA699A121A4EFF6600B23E0A /* css.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = css.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA699A131A51475C00B23E0A /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA699A141A51475C00B23E0A /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA699A151A51475C00B23E0A /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1822,8 +1822,8 @@
 				CA06BDD31A568F0300A051FF /* abbreviations.h */,
 				CAA4D0E41A45A647003ABA25 /* archive.cpp */,
 				CAA4D0E51A45A647003ABA25 /* archive.h */,
-				CA699A111A4EFF6600B23E0A /* customcss.cpp */,
-				CA699A121A4EFF6600B23E0A /* customcss.h */,
+				CA699A111A4EFF6600B23E0A /* css.cpp */,
+				CA699A121A4EFF6600B23E0A /* css.h */,
 				CA333CF91ABDF10500D3D4B6 /* date.cpp */,
 				CA333CFA1ABDF10500D3D4B6 /* date.h */,
 				CA12402F1A55D8A1002C4752 /* diff.cpp */,

@@ -29,7 +29,7 @@
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <filter/text.h>
-#include <filter/customcss.h>
+#include <filter/css.h>
 #include <fonts/logic.h>
 #include <html/text.h>
 #include <html/header.h>
@@ -99,7 +99,7 @@ void export_web_book (string bible, int book, bool force)
     
     // Interlinked web data for one chapter.
     filter_text_chapter.html_text_linked = new Html_Text (translate("Bible"));
-    filter_text_chapter.html_text_linked->customClass = Filter_CustomCSS::getClass (bible);
+    filter_text_chapter.html_text_linked->customClass = Filter_Css::getClass (bible);
     
     // Create breadcrumbs for the chapter.
     Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);

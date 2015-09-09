@@ -50,6 +50,7 @@ string filter_string_ltrim (string s);
 string filter_string_fill (string s, int width, char fill);
 bool filter_string_is_numeric (string s);
 string filter_string_sanitize_html (string html);
+string filter_string_desanitize_html (string html);
 string get_soft_hyphen ();
 string get_no_break_space ();
 string get_en_space ();

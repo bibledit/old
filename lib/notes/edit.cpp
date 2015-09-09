@@ -24,6 +24,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
@@ -137,7 +138,7 @@ string notes_edit (void * webserver_request)
         if (editable) {
           lines[i].insert (0, "<div contenteditable=\"true\">");
         } else {
-          lines[i].insert (0, "<div style=\"background-color: #D3D3D3\">");
+          lines[i].insert (0, "<div " + filter_css_grey_background () + ">");
         }
         lines[i].append ("</div>");
         

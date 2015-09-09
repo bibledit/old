@@ -6789,7 +6789,10 @@ msgstr ""
 msgid "Edit note contents"
 msgstr ""
 
-msgid "You can edit the raw contents of this Consultation Note."
+msgid "Click on your own contributions to this Consultation Note to edit them."
+msgstr ""
+
+msgid "Then save them."
 msgstr ""
 
 msgid "Consultation Notes"
