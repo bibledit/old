@@ -724,9 +724,9 @@
 		CAA4D4401A45A648003ABA25 /* account.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = account.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D4411A45A648003ABA25 /* account.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = account.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D4421A45A648003ABA25 /* account.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = account.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAA4D4431A45A648003ABA25 /* notifications.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notifications.cpp; sourceTree = "<group>"; };
+		CAA4D4431A45A648003ABA25 /* notifications.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = notifications.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D4441A45A648003ABA25 /* notifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notifications.h; sourceTree = "<group>"; };
-		CAA4D4451A45A648003ABA25 /* notifications.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = notifications.html; sourceTree = "<group>"; };
+		CAA4D4451A45A648003ABA25 /* notifications.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = notifications.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D44A1A45A648003ABA25 /* ChangeLog.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		CAA4D44B1A45A648003ABA25 /* checked.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checked.h; sourceTree = "<group>"; };
 		CAA4D44C1A45A648003ABA25 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -866,7 +866,7 @@
 		CAC949A61AB9998300171978 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
 		CAC949A71AB9998300171978 /* changes.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = changes.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAC949A81AB9998300171978 /* changes.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = changes.js; sourceTree = "<group>"; };
-		CAC949AA1AB9998300171978 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CAC949AA1AB9998300171978 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC949AB1AB9998300171978 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAC949AD1AB9998300171978 /* manage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = manage.cpp; sourceTree = "<group>"; };
 		CAC949AE1AB9998300171978 /* manage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manage.h; sourceTree = "<group>"; };

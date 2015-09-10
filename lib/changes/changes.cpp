@@ -35,6 +35,7 @@
 #include <trash/handler.h>
 #include <ipc/focus.h>
 #include <navigation/passage.h>
+#include <changes/logic.h>
 
 
 string changes_changes_url ()
@@ -97,7 +98,7 @@ string changes_changes (void * webserver_request)
   
   // Remove personal change proposals and their matching change notifications.
   if (request->query.count ("match")) {
-    vector <int> ids = database_modifications.clearNotificationMatches (username, "P", "B");
+    vector <int> ids = database_modifications.clearNotificationMatches (username, changes_personal_category (), changes_bible_category ());
     // Client records deletions for sending to the Cloud.
     if (config_logic_client_prepared ()) {
       for (auto & id : ids) {
@@ -117,10 +118,10 @@ string changes_changes (void * webserver_request)
   /*
   string filter = request->query ["filter"];
   if (filter == "personal") {
-    ids = database_modifications.getNotificationPersonalIdentifiers (username, "P", true);
+    ids = database_modifications.getNotificationPersonalIdentifiers (username, changes_personal_category (), true);
     view.set_variable ("filter1", active_class);
   } else if (filter == "team") {
-    ids = database_modifications.getNotificationTeamIdentifiers (username, "B", true);
+    ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), true);
     view.set_variable ("filter2", active_class);
   } else {
     ids = database_modifications.getNotificationIdentifiers (username, true);
@@ -135,14 +136,14 @@ string changes_changes (void * webserver_request)
     Passage passage = database_modifications.getNotificationPassage (id);
     string link = filter_passage_link_for_opening_editor_at (passage.book, passage.chapter, passage.verse);
     string category = database_modifications.getNotificationCategory (id);
-    if (category == "P") category = "😊";
-    if (category == "B") category = "📖";
+    if (category == changes_personal_category ()) category = "😊";
+    if (category == changes_bible_category ()) category = "📖";
     string modification = database_modifications.getNotificationModification (id);
     textblock.append ("<div id=\"entry" + convert_to_string (id) + "\">\n");
     textblock.append ("<a href=\"expand\" id=\"expand" + convert_to_string (id) + "\"> ⊞ </a>\n");
     textblock.append ("<a href=\"remove\" id=\"remove" + convert_to_string (id) + "\"> ✗ </a>\n");
     textblock.append (link + "\n");
-    textblock.append ("<span style=\"font-size:125%;\">" + category + "</span>\n");
+    textblock.append (category + "\n");
     textblock.append (modification + "\n");
     textblock.append ("</div>\n");
   }

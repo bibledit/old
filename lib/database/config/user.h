@@ -117,6 +117,9 @@ public:
   bool getUserChangesNotificationsOnline ();
   bool getUserUserChangesNotificationsOnline (string username);
   void setUserChangesNotificationsOnline (bool value);
+  bool getContributorChangesNotificationsOnline ();
+  bool getContributorChangesNotificationsOnline (string username);
+  void setContributorChangesNotificationsOnline (bool value);
   string getWorkbenchURLs ();
   void setWorkbenchURLs (string value);
   string getWorkbenchWidths ();

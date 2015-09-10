@@ -674,22 +674,7 @@ msgstr ""
 msgid "Change Notifications"
 msgstr ""
 
-msgid "View"
-msgstr ""
-
-msgid "all"
-msgstr ""
-
-msgid "personal"
-msgstr ""
-
-msgid "team"
-msgstr ""
-
-msgid "help"
-msgstr ""
-
-msgid "This page lists the change notifications."
+msgid "This page lists the notifications of the changes in the Bible text."
 msgstr ""
 
 msgid "Use the up and down arrow keys to navigate through the entries."
@@ -712,8 +697,8 @@ msgid "The expanded entry provides more information and options."
 msgstr ""
 
 msgid ""
-"It displays all the Consultation Notes that refer to passage of the Change "
-"Notification."
+"It displays all the Consultation Notes that refer to the passage of the "
+"Change Notification."
 msgstr ""
 
 msgid "If you are subscribed to a note, you can unsubscribe."
@@ -726,59 +711,51 @@ msgid "When you have a Manager role, you can delete a note."
 msgstr ""
 
 msgid ""
-"You can create a new Consultation Notes with a query about the change in the "
+"You can create a new Consultation Note with a query about the change in the "
 "text of the Bible."
 msgstr ""
 
-msgid "The change notifications are for you only."
+msgid "This page with change notifications is for you."
 msgstr ""
 
 msgid "Your colleagues have their own lists."
 msgstr ""
 
 msgid ""
-"Any changes in the text of the Bibles will be added to the list the next day."
-msgstr ""
-
-msgid "This works if enabled in your personal notifications."
+"Changes in the text of the Bibles will be added to the list the next day."
 msgstr ""
 
 msgid "The change notifications fall into two categories:"
 msgstr ""
 
-msgid "Changes marked with this symbol are your personal change proposals."
+msgid "Changes marked with a smiley face are changes made by you."
 msgstr ""
 
-msgid "Changes marked with this symbol are changes in the team's Bible text."
+msgid "This works if enabled in your notifications."
 msgstr ""
 
-msgid "Bible translation is a collabortive effort."
-msgstr ""
-
-msgid ""
-"Changes you enter into the web-based Bible editor or on a Client may be "
-"overwritten by other team members."
+msgid "Changes marked with a book symbol are changes in the Bible text."
 msgstr ""
 
 msgid ""
-"The two categories of changes enable you to find out if your change proposal "
-"made its way into the team's text."
+"They have been made either by yourself or by someone else working on this "
+"Bible."
 msgstr ""
 
-msgid "You can view 'all' the change notifications."
+msgid "Bible translation is a collaborative effort."
 msgstr ""
 
-msgid ""
-"You can also view only your 'personal' change proposals, plus the changes of "
-"the team that could have affected your change proposals."
-msgstr ""
-
-msgid "Or you can view the change notifications of the 'team'."
+msgid "Changes you enter may subsequently be updated by other team members."
 msgstr ""
 
 msgid ""
-"Automatically remove personal change proposals and their matching change "
-"notifications."
+"The two categories of change notifications enable you to find out if your "
+"change is now in the Bible text, or was subsequently updated by someone else."
+msgstr ""
+
+msgid ""
+"Dismiss the notifications of my own changes and the changes made by anyone "
+"in the same verses in case they match."
 msgstr ""
 
 msgid "Will generate lists of changes"
@@ -819,7 +796,7 @@ msgstr ""
 msgid "Users who have change notifications awaiting their approval:"
 msgstr ""
 
-msgid "You have entered the changes below in the Bible editor."
+msgid "You have entered the changes below in a Bible editor."
 msgstr ""
 
 msgid "You may check if it made its way into the Bible text."
@@ -838,6 +815,9 @@ msgid "The entry was approved and suppressed."
 msgstr ""
 
 msgid "The entry was deleted for just now."
+msgstr ""
+
+msgid "help"
 msgstr ""
 
 msgid "The page displays a list of results of running the checks."
@@ -1925,6 +1905,9 @@ msgid "Select style"
 msgstr ""
 
 msgid "cancel"
+msgstr ""
+
+msgid "all"
 msgstr ""
 
 msgid "Edit USFM"
@@ -6488,6 +6471,9 @@ msgstr ""
 msgid "List"
 msgstr ""
 
+msgid "View"
+msgstr ""
+
 msgid "Print"
 msgstr ""
 
@@ -8000,7 +7986,7 @@ msgstr ""
 msgid "statistics"
 msgstr ""
 
-msgid "Number of change notifications awaiting your approval"
+msgid "Number of change notifications"
 msgstr ""
 
 msgid "Number of consultation notes assigned to you awaiting your response"
@@ -8697,24 +8683,25 @@ msgstr ""
 msgid "Tick this setting, and you're done."
 msgstr ""
 
-msgid ""
-"Receive a daily email with the changes made by you in the online Bible text "
-"editor or on a Client."
+msgid "Receive a daily email with the changes in the Bible made by you."
+msgstr ""
+
+msgid "Receive a daily email with the changes in the Bible made by anyone."
 msgstr ""
 
 msgid ""
-"Receive a daily email with the changes accepted into the team's text of the "
-"Bibles."
+"Notifications about changes in the Bible made by anyone will be generated "
+"for you online."
 msgstr ""
 
 msgid ""
-"Notifications about changes in the Bible text will be generated for you "
-"online."
+"Notifications about changes in the Bible made by you will be generated for "
+"you online."
 msgstr ""
 
 msgid ""
-"Notifications about changes made by you in the Bible text editor will be "
-"generated for you online."
+"Notifications about changes in the Bible made by the individual contributors "
+"will be generated for you online."
 msgstr ""
 
 msgid ""

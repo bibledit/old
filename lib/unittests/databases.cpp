@@ -65,6 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <resource/external.h>
 #include <config.h>
+#include <changes/logic.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -2747,7 +2748,7 @@ void test_database_modifications_notifications ()
     // Record three notifications and reindex.
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit2", "phpunit3"}, "A", "1", 4, 5, 6, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, "B", "1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
 
     // There should be six notifications now: Two users per recordNotification call.
@@ -2875,12 +2876,12 @@ void test_database_modifications_notifications ()
     refresh_sandbox (true);
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
-    database_modifications.recordNotification ({"phpunit"}, "P", "1", 2, 3, 4, "old1", "mod1", "new1");
+    database_modifications.recordNotification ({"phpunit"}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, 2, (int)ids.size ());
-    database_modifications.clearNotificationMatches ("phpunit", "P", "T");
+    database_modifications.clearNotificationMatches ("phpunit", changes_personal_category (), "T");
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
@@ -2891,8 +2892,8 @@ void test_database_modifications_notifications ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, "B", "1", 1, 2, 3, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, "B", "1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationPersonalIdentifiers ("phpunit1", "A");
     evaluate (__LINE__, __func__, {1, 4}, ids);
@@ -2903,12 +2904,12 @@ void test_database_modifications_notifications ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, "B", "1", 1, 2, 3, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, "B", "1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", "A");
     evaluate (__LINE__, __func__, {1}, ids);
-    ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", "B");
+    ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category ());
     evaluate (__LINE__, __func__, {4}, ids);
   }
 }
