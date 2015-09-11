@@ -671,6 +671,9 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
+msgid "(all of them)"
+msgstr ""
+
 msgid "Change Notifications"
 msgstr ""
 
@@ -725,7 +728,7 @@ msgid ""
 "Changes in the text of the Bibles will be added to the list the next day."
 msgstr ""
 
-msgid "The change notifications fall into two categories:"
+msgid "The change notifications fall into several categories:"
 msgstr ""
 
 msgid "Changes marked with a smiley face are changes made by you."
@@ -742,6 +745,12 @@ msgid ""
 "Bible."
 msgstr ""
 
+msgid "user"
+msgstr ""
+
+msgid "Changes marked with the name of a user are changes made by him or her."
+msgstr ""
+
 msgid "Bible translation is a collaborative effort."
 msgstr ""
 
@@ -753,9 +762,13 @@ msgid ""
 "change is now in the Bible text, or was subsequently updated by someone else."
 msgstr ""
 
-msgid ""
-"Dismiss the notifications of my own changes and the changes made by anyone "
-"in the same verses in case they match."
+msgid "Dismiss the notifications of the changes of the following categories:"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "(if their changes and verses match)"
 msgstr ""
 
 msgid "Will generate lists of changes"
@@ -793,7 +806,7 @@ msgstr ""
 msgid "Your settings are in the notifications."
 msgstr ""
 
-msgid "Users who have change notifications awaiting their approval:"
+msgid "Change notifications per user:"
 msgstr ""
 
 msgid "You have entered the changes below in a Bible editor."
@@ -1661,9 +1674,6 @@ msgid ""
 msgstr ""
 
 msgid "Comparing Bibles"
-msgstr ""
-
-msgid "and"
 msgstr ""
 
 msgid "The Bibles are being compared..."
@@ -6041,25 +6051,28 @@ msgstr ""
 msgid "remove exports"
 msgstr ""
 
-msgid "Export to Web during the night."
+msgid "Web"
+msgstr ""
+
+msgid "Export during the night."
 msgstr ""
 
 msgid "Export now."
 msgstr ""
 
-msgid "Export to Html during the night."
+msgid "Html"
 msgstr ""
 
-msgid "Export to full USFM during the night."
+msgid "Full USFM"
 msgstr ""
 
 msgid "Secure the export with the password."
 msgstr ""
 
-msgid "Export to basic USFM and text during the night."
+msgid "Basic USFM and Text"
 msgstr ""
 
-msgid "Export to OpenDocument during the night."
+msgid "OpenDocument"
 msgstr ""
 
 msgid ""
@@ -6094,16 +6107,19 @@ msgstr ""
 msgid "Display the current date in the running headers."
 msgstr ""
 
-msgid "Generate info document during the night."
+msgid "Info document"
+msgstr ""
+
+msgid "Generate during the night."
 msgstr ""
 
 msgid "Generate now."
 msgstr ""
 
-msgid "Export to e-Sword during the night."
+msgid "e-Sword"
 msgstr ""
 
-msgid "Export to Online Bible during the night."
+msgid "Online Bible"
 msgstr ""
 
 msgid ""

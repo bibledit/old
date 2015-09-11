@@ -2,33 +2,76 @@
 
 echo Installing Bibledit on Linux.
 
-echo Please provide the password for the administrative user and press Enter:
-read PASSWORD
-echo $PASSWORD
+
+# Create a script with commands to run with root privileges.
+cat > install2.sh <<'scriptblock'
+
+#!/bin/bash
 
 clear
 echo Updating the software sources...
 echo apt-get update
 sleep 1
-echo $PASSWORD | sudo -S apt-get update
+apt-get update
 sleep 4
 
 clear
 echo Installing the software Bibledit relies on...
 echo apt-get install build-essential git zip pkgconf libxml2-dev libsqlite3-dev libcurl4-openssl-dev libssl-dev libatspi2.0-dev libgtk-3-dev libicu-dev
 sleep 1
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install build-essential
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install git
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install zip
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install pkgconf
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install libxml2-dev
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install libsqlite3-dev
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install libcurl4-openssl-dev
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install libssl-dev
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install libatspi2.0-dev
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install libgtk-3-dev
-echo $PASSWORD | sudo -S apt-get --yes --force-yes install libicu-dev
+apt-get --yes --force-yes install build-essential
+apt-get --yes --force-yes install git
+apt-get --yes --force-yes install zip
+apt-get --yes --force-yes install pkgconf
+apt-get --yes --force-yes install libxml2-dev
+apt-get --yes --force-yes install libsqlite3-dev
+apt-get --yes --force-yes install libcurl4-openssl-dev
+apt-get --yes --force-yes install libssl-dev
+apt-get --yes --force-yes install libatspi2.0-dev
+apt-get --yes --force-yes install libgtk-3-dev
+apt-get --yes --force-yes install libicu-dev
 sleep 4
+
+# Create the script to start bibledit.
+rm -f /usr/bin/bibledit
+echo #!/bin/bash >> /usr/bin/bibledit
+echo cd  >> /usr/bin/bibledit
+echo cd bibledit >> /usr/bin/bibledit
+echo ./bibledit >> /usr/bin/bibledit
+chmod +x /usr/bin/bibledit
+
+# Act as if the script ran successfully, no matter whether it really did.
+exit 0
+
+scriptblock
+# This is the end of the script to run with root privileges.
+
+
+# Run the script with root privileges.
+chmod +x install2.sh
+
+echo Please provide the password for the root user and press Enter
+su -c ./install2.sh
+
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+
+  echo No worry, the password may have been good. Trying another way...
+  echo Please provide the password for the administrative user and press Enter:
+  read PASSWORD
+  echo $PASSWORD
+  echo $PASSWORD | sudo ./install2.sh
+  EXIT_CODE=$?
+  if [ $EXIT_CODE != 0 ]; then
+    exit
+  fi
+
+fi
+
+
+# Remove the script with commands to run with root privileges.
+rm install2.sh
+
 
 clear
 echo Downloading Bibledit...
@@ -83,12 +126,11 @@ sleep 4
 
 clear
 sleep 1
-echo $PASSWORD | sudo -S cp linux/bibledit.sh /usr/bin/bibledit
 echo If there were no errors, Bibledit should be working now.
 echo Bibledit works best with the Google Chrome browser.
 echo Install the browser.
 echo To have Bibledit automatically open in Chrome, set Chrome as the default browser.
 echo --
 echo To start Bibledit, open a terminal, and type:
-echo \"bibledit\" 
+echo bibledit
 echo and press Enter.
