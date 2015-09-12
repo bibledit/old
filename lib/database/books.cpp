@@ -146,7 +146,19 @@ book_record books_table [] =
   {"3 Maccabees",                "3Macc",   "3MA",  "3Ma",  "",     85, "ap",        false},
   {"2 Esdras",                   "2Esd",    "2ES",  "2Es",  "",     86, "ap",        false},
   {"4 Maccabees",                "4Macc",   "4MA",  "4Ma",  "",     87, "ap",        false},
-  {"Daniel (Greek)",             "AddDan",  "DNT",  "Dnt",  "",     88, "ap",        false}
+  {"Daniel (Greek)",             "AddDan",  "DNT",  "Dnt",  "",     88, "ap",        false},
+  {"Introductions",              "",        "INT",  "",     "",     89, "frontback", false},
+  {"Concordance",                "",        "CNC",  "",     "",     90, "frontback", false},
+  {"Glossary",                   "",        "GLO",  "",     "",     91, "frontback", false},
+  {"Topical Index",              "",        "TDX",  "",     "",     92, "frontback", false},
+  {"Names Index",                "",        "NDX",  "",     "",     93, "frontback", false},
+  {"Extra A",                    "",        "XXA",  "",     "",     94, "frontback", false},
+  {"Extra B",                    "",        "XXB",  "",     "",     95, "frontback", false},
+  {"Extra C",                    "",        "XXC",  "",     "",     96, "frontback", false},
+  {"Extra D",                    "",        "XXD",  "",     "",     97, "frontback", false},
+  {"Extra E",                    "",        "XXE",  "",     "",     98, "frontback", false},
+  {"Extra F",                    "",        "XXF",  "",     "",     99, "frontback", false},
+  {"Extra G",                    "",        "XXG",  "",     "",    100, "frontback", false},
 };
 
 

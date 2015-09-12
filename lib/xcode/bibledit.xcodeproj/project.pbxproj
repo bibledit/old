@@ -586,7 +586,6 @@
 		CAA4D1441A45A647003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA4D1451A45A647003ABA25 /* installandroid.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installandroid.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1461A45A647003ABA25 /* installation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installation.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAA4D1471A45A647003ABA25 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcentos.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1481A45A647003ABA25 /* installios.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installios.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1491A45A647003ABA25 /* installosx.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installosx.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D14B1A45A647003ABA25 /* installlinux.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installlinux.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -856,7 +855,6 @@
 		CAC61E201B4C3C5400700C8D /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
 		CAC61E211B4C3C5400700C8D /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
 		CAC61E221B4C3C5400700C8D /* write.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = write.html; sourceTree = "<group>"; };
-		CAC758761B07CA0700A3AB21 /* installopensuse.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installopensuse.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAC758781B07CA2500A3AB21 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcentos.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAC949A11AB9998300171978 /* change.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = change.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC949A21AB9998300171978 /* change.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = change.h; sourceTree = "<group>"; };
@@ -1907,11 +1905,9 @@
 				CA816D0F1B63634C00FD276E /* install.sh */,
 				CAA4D1451A45A647003ABA25 /* installandroid.html */,
 				CAA4D1461A45A647003ABA25 /* installation.html */,
-				CAA4D1471A45A647003ABA25 /* installcentos.html */,
 				CA1A4EA51B076BF200731796 /* installcloudubuntu.html */,
 				CAA4D1481A45A647003ABA25 /* installios.html */,
 				CAA4D14B1A45A647003ABA25 /* installlinux.html */,
-				CAC758761B07CA0700A3AB21 /* installopensuse.html */,
 				CAA4D1491A45A647003ABA25 /* installosx.html */,
 				CAA4D14C1A45A647003ABA25 /* installwindows.html */,
 				CAA4D14D1A45A647003ABA25 /* introduction.html */,
