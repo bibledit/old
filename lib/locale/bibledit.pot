@@ -3118,10 +3118,7 @@ msgstr ""
 msgid "Bibledit on iOS"
 msgstr ""
 
-msgid "Bibledit on Ubuntu and Linux Mint and similar"
-msgstr ""
-
-msgid "Bibledit on Debian"
+msgid "Bibledit on Linux"
 msgstr ""
 
 msgid "Bibledit on openSUSE"
@@ -3386,16 +3383,16 @@ msgid ""
 "to configure Bibledit, and log in."
 msgstr ""
 
-msgid "Install Bibledit on Debian"
+msgid "Install Bibledit on Fedora"
 msgstr ""
 
 msgid "Become the root user:"
 msgstr ""
 
-msgid "Enter the root password."
+msgid "Provide the password."
 msgstr ""
 
-msgid "Become the normal user:"
+msgid "Become a normal user again:"
 msgstr ""
 
 msgid "Bibledit works best with the Google Chrome browser."
@@ -3410,15 +3407,6 @@ msgid ""
 msgstr ""
 
 msgid "Follow the steps below to start Bibledit."
-msgstr ""
-
-msgid "Install Bibledit on Fedora"
-msgstr ""
-
-msgid "Provide the password."
-msgstr ""
-
-msgid "Become a normal user again:"
 msgstr ""
 
 msgid "Install Bibledit iOS"
@@ -3445,10 +3433,13 @@ msgstr ""
 msgid "Read more."
 msgstr ""
 
-msgid "Install Bibledit on Ubuntu and derivatives"
+msgid "Install Bibledit on Linux"
 msgstr ""
 
 msgid "Follow the steps below to install Bibledit"
+msgstr ""
+
+msgid "Supported Linux distros:"
 msgstr ""
 
 msgid "Download the Bibledit Linux installer"

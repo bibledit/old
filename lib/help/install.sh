@@ -30,6 +30,16 @@ apt-get --yes --force-yes install libssl-dev
 apt-get --yes --force-yes install libatspi2.0-dev
 apt-get --yes --force-yes install libgtk-3-dev
 apt-get --yes --force-yes install libicu-dev
+dnf --assumeyes install gcc-c++
+dnf --assumeyes install git
+dnf --assumeyes install zip
+dnf --assumeyes install pkgconfig
+dnf --assumeyes install libxml2-devel
+dnf --assumeyes install sqlite-devel
+dnf --assumeyes install libcurl-devel
+dnf --assumeyes install openssl-devel
+dnf --assumeyes install gtk3-devel
+dnf --assumeyes install libicu-devel
 sleep 4
 
 # Create the script to start bibledit.
