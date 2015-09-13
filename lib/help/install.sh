@@ -17,38 +17,45 @@ sleep 4
 
 clear
 echo Installing the software Bibledit relies on...
-echo apt-get install build-essential git zip pkgconf libxml2-dev libsqlite3-dev libcurl4-openssl-dev libssl-dev libatspi2.0-dev libgtk-3-dev libicu-dev
-sleep 1
+
 apt-get --yes --force-yes install build-essential
 dnf --assumeyes install gcc-c++
+yum --assumeyes install gcc-c++
 zypper --non-interactive install gcc-c++
 
 apt-get --yes --force-yes install git
 dnf --assumeyes install git
+yum --assumeyes install git
 zypper --non-interactive install git
 
 apt-get --yes --force-yes install zip
 dnf --assumeyes install zip
+yum --assumeyes install zip
 zypper --non-interactive install zip
 
 apt-get --yes --force-yes install pkgconf
 dnf --assumeyes install pkgconfig
+yum --assumeyes install pkgconfig
 zypper --non-interactive install pkg-config
 
 apt-get --yes --force-yes install libxml2-dev
 dnf --assumeyes install libxml2-devel
+yum --assumeyes install libxml2-devel
 zypper --non-interactive install libxml2-devel
 
 apt-get --yes --force-yes install libsqlite3-dev
 dnf --assumeyes install sqlite-devel
+yum --assumeyes install sqlite-devel
 zypper --non-interactive install sqlite3-devel
 
 apt-get --yes --force-yes install libcurl4-openssl-dev
 dnf --assumeyes install libcurl-devel
+yum --assumeyes install libcurl-devel
 zypper --non-interactive install libcurl-devel
 
 apt-get --yes --force-yes install libssl-dev
 dnf --assumeyes install openssl-devel
+yum --assumeyes install openssl-devel
 zypper --non-interactive install libopenssl-devel
 
 apt-get --yes --force-yes install libatspi2.0-dev
@@ -57,10 +64,12 @@ zypper --non-interactive install cairo-devel
 
 apt-get --yes --force-yes install libgtk-3-dev
 dnf --assumeyes install gtk3-devel
+yum --assumeyes install gtk3-devel
 zypper --non-interactive install gtk3-devel
 
 apt-get --yes --force-yes install libicu-dev
 dnf --assumeyes install libicu-devel
+yum --assumeyes install libicu-devel
 zypper --non-interactive install libicu-devel
 
 sleep 4
