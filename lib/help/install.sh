@@ -10,10 +10,7 @@ cat > install2.sh <<'scriptblock'
 
 clear
 echo Updating the software sources...
-echo apt-get update
-sleep 1
 apt-get update
-sleep 4
 
 clear
 echo Installing the software Bibledit relies on...
@@ -72,8 +69,6 @@ dnf --assumeyes install libicu-devel
 yum --assumeyes install libicu-devel
 zypper --non-interactive install libicu-devel
 
-sleep 4
-
 # Create the script to start bibledit.
 rm -f /usr/bin/bibledit
 echo #!/bin/bash >> /usr/bin/bibledit
@@ -115,10 +110,7 @@ fi
 rm install2.sh
 
 
-clear
 echo Downloading Bibledit...
-echo cd
-echo wget --continue http://bibledit.org/linux/bibledit-1.0.239.tar.gz
 cd
 wget --continue http://bibledit.org/linux/bibledit-1.0.239.tar.gz
 if [ $? -ne 0 ]
@@ -128,10 +120,7 @@ then
 fi
 sleep 4
 
-clear
 echo Unpacking Bibledit in folder bibledit...
-echo mkdir -p bibledit
-echo tar xf bibledit-1.0.239.tar.gz -C bibledit --strip-components=1
 mkdir -p bibledit
 tar xf bibledit-1.0.239.tar.gz -C bibledit --strip-components=1
 if [ $? -ne 0 ]
@@ -139,15 +128,9 @@ then
   echo Failed to unpack Bibledit
   exit
 fi
-sleep 4
 
 clear
 echo Building Bibledit...
-echo cd bibledit
-echo ./configure --enable-client --enable-paratext
-echo make clean
-echo make --jobs=4
-sleep 1
 cd bibledit
 # Remove bits from any older build that might cause crashes in the new build.
 find . -name "*.o" -delete
@@ -164,10 +147,7 @@ then
   echo Failed to build Bibledit
   exit
 fi
-sleep 4
 
-clear
-sleep 1
 echo If there were no errors, Bibledit should be working now.
 echo Bibledit works best with the Google Chrome browser.
 echo Install the browser.
