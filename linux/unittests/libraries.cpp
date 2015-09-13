@@ -1137,10 +1137,10 @@ void test_editor_roundtrip ()
   {
     string standard_usfm = "\\p The elder\\x + 2 Joh. 1.1\\x* to the beloved Gaius.";
     string standard_html =
-    "<p class=\"p\"><span>The elder</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span> to the beloved Gaius.</span></p>"
+    "<p class=\"p\"><span>The elder</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span> to the beloved Gaius.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"x\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
+    "<p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
     "</div>";
 
     Webserver_Request request;
@@ -1165,11 +1165,11 @@ void test_editor_roundtrip ()
     "\\p The elder\\x + 2 Joh. 1.1\\x* to the beloved Gaius.\n"
     "\\v 1 The elders\\x + 2 Joh. 2.2\\x* to the beloved.";
     string standard_html =
-    "<p class=\"p\"><span>The elder</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span> to the beloved Gaius.</span><span> </span><span class=\"v\">1</span><span> </span><span>The elders</span><a href=\"#note2\" id=\"citation2\" class=\"superscript\">2</a><span> to the beloved.</span></p>"
+    "<p class=\"p\"><span>The elder</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span> to the beloved Gaius.</span><span> </span><span class=\"v\">1</span><span> </span><span>The elders</span><a href=\"#note2\" id=\"citation2\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">2</a><span> to the beloved.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"x\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
-    "<p class=\"x\"><a href=\"#citation2\" id=\"note2\">2</a><span> </span><span>+ 2 Joh. 2.2</span></p>"
+    "<p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
+    "<p class=\"x\"><a href=\"#citation2\" id=\"note2\" style=\"text-decoration:none; color: inherit;\">2</a><span> </span><span>+ 2 Joh. 2.2</span></p>"
     "</div>";
 
     Webserver_Request request;
@@ -1193,10 +1193,10 @@ void test_editor_roundtrip ()
     string standard_usfm =
     "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.";
     string standard_html =
-    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span>.</span></p>"
+    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
+    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
     "</div>";
 
     Webserver_Request request;
@@ -1240,50 +1240,50 @@ void test_editor_roundtrip ()
     "\\p Text\\fe + note\\fe*.\n"
     "\\p Text\\x + note\\x*.";
     string standard_html =
-    "<p class=\"p\"><span>Text</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note2\" id=\"citation2\" class=\"superscript\">2</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note3\" id=\"citation3\" class=\"superscript\">3</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note4\" id=\"citation4\" class=\"superscript\">4</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note5\" id=\"citation5\" class=\"superscript\">5</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note6\" id=\"citation6\" class=\"superscript\">6</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note7\" id=\"citation7\" class=\"superscript\">7</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note8\" id=\"citation8\" class=\"superscript\">8</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note9\" id=\"citation9\" class=\"superscript\">9</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note10\" id=\"citation10\" class=\"superscript\">1</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note11\" id=\"citation11\" class=\"superscript\">2</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note12\" id=\"citation12\" class=\"superscript\">3</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note13\" id=\"citation13\" class=\"superscript\">4</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note14\" id=\"citation14\" class=\"superscript\">5</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note15\" id=\"citation15\" class=\"superscript\">6</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note16\" id=\"citation16\" class=\"superscript\">7</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note17\" id=\"citation17\" class=\"superscript\">8</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note18\" id=\"citation18\" class=\"superscript\">9</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note19\" id=\"citation19\" class=\"superscript\">1</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note20\" id=\"citation20\" class=\"superscript\">2</a><span>.</span></p>"
-    "<p class=\"p\"><span>Text</span><a href=\"#note21\" id=\"citation21\" class=\"superscript\">3</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note2\" id=\"citation2\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">2</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note3\" id=\"citation3\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">3</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note4\" id=\"citation4\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">4</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note5\" id=\"citation5\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">5</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note6\" id=\"citation6\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">6</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note7\" id=\"citation7\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">7</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note8\" id=\"citation8\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">8</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note9\" id=\"citation9\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">9</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note10\" id=\"citation10\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note11\" id=\"citation11\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">2</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note12\" id=\"citation12\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">3</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note13\" id=\"citation13\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">4</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note14\" id=\"citation14\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">5</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note15\" id=\"citation15\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">6</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note16\" id=\"citation16\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">7</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note17\" id=\"citation17\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">8</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note18\" id=\"citation18\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">9</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note19\" id=\"citation19\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note20\" id=\"citation20\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">2</a><span>.</span></p>"
+    "<p class=\"p\"><span>Text</span><a href=\"#note21\" id=\"citation21\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">3</a><span>.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ note</span></p>"
-    "<p class=\"fe\"><a href=\"#citation2\" id=\"note2\">2</a><span> </span><span>+ note</span></p>"
-    "<p class=\"x\"><a href=\"#citation3\" id=\"note3\">3</a><span> </span><span>+ note</span></p>"
-    "<p class=\"f\"><a href=\"#citation4\" id=\"note4\">4</a><span> </span><span>+ note</span></p>"
-    "<p class=\"fe\"><a href=\"#citation5\" id=\"note5\">5</a><span> </span><span>+ note</span></p>"
-    "<p class=\"x\"><a href=\"#citation6\" id=\"note6\">6</a><span> </span><span>+ note</span></p>"
-    "<p class=\"f\"><a href=\"#citation7\" id=\"note7\">7</a><span> </span><span>+ note</span></p>"
-    "<p class=\"fe\"><a href=\"#citation8\" id=\"note8\">8</a><span> </span><span>+ note</span></p>"
-    "<p class=\"x\"><a href=\"#citation9\" id=\"note9\">9</a><span> </span><span>+ note</span></p>"
-    "<p class=\"f\"><a href=\"#citation10\" id=\"note10\">1</a><span> </span><span>+ note</span></p>"
-    "<p class=\"fe\"><a href=\"#citation11\" id=\"note11\">2</a><span> </span><span>+ note</span></p>"
-    "<p class=\"x\"><a href=\"#citation12\" id=\"note12\">3</a><span> </span><span>+ note</span></p>"
-    "<p class=\"f\"><a href=\"#citation13\" id=\"note13\">4</a><span> </span><span>+ note</span></p>"
-    "<p class=\"fe\"><a href=\"#citation14\" id=\"note14\">5</a><span> </span><span>+ note</span></p>"
-    "<p class=\"x\"><a href=\"#citation15\" id=\"note15\">6</a><span> </span><span>+ note</span></p>"
-    "<p class=\"f\"><a href=\"#citation16\" id=\"note16\">7</a><span> </span><span>+ note</span></p>"
-    "<p class=\"fe\"><a href=\"#citation17\" id=\"note17\">8</a><span> </span><span>+ note</span></p>"
-    "<p class=\"x\"><a href=\"#citation18\" id=\"note18\">9</a><span> </span><span>+ note</span></p>"
-    "<p class=\"f\"><a href=\"#citation19\" id=\"note19\">1</a><span> </span><span>+ note</span></p>"
-    "<p class=\"fe\"><a href=\"#citation20\" id=\"note20\">2</a><span> </span><span>+ note</span></p>"
-    "<p class=\"x\"><a href=\"#citation21\" id=\"note21\">3</a><span> </span><span>+ note</span></p>"
+    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ note</span></p>"
+    "<p class=\"fe\"><a href=\"#citation2\" id=\"note2\" style=\"text-decoration:none; color: inherit;\">2</a><span> </span><span>+ note</span></p>"
+    "<p class=\"x\"><a href=\"#citation3\" id=\"note3\" style=\"text-decoration:none; color: inherit;\">3</a><span> </span><span>+ note</span></p>"
+    "<p class=\"f\"><a href=\"#citation4\" id=\"note4\" style=\"text-decoration:none; color: inherit;\">4</a><span> </span><span>+ note</span></p>"
+    "<p class=\"fe\"><a href=\"#citation5\" id=\"note5\" style=\"text-decoration:none; color: inherit;\">5</a><span> </span><span>+ note</span></p>"
+    "<p class=\"x\"><a href=\"#citation6\" id=\"note6\" style=\"text-decoration:none; color: inherit;\">6</a><span> </span><span>+ note</span></p>"
+    "<p class=\"f\"><a href=\"#citation7\" id=\"note7\" style=\"text-decoration:none; color: inherit;\">7</a><span> </span><span>+ note</span></p>"
+    "<p class=\"fe\"><a href=\"#citation8\" id=\"note8\" style=\"text-decoration:none; color: inherit;\">8</a><span> </span><span>+ note</span></p>"
+    "<p class=\"x\"><a href=\"#citation9\" id=\"note9\" style=\"text-decoration:none; color: inherit;\">9</a><span> </span><span>+ note</span></p>"
+    "<p class=\"f\"><a href=\"#citation10\" id=\"note10\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ note</span></p>"
+    "<p class=\"fe\"><a href=\"#citation11\" id=\"note11\" style=\"text-decoration:none; color: inherit;\">2</a><span> </span><span>+ note</span></p>"
+    "<p class=\"x\"><a href=\"#citation12\" id=\"note12\" style=\"text-decoration:none; color: inherit;\">3</a><span> </span><span>+ note</span></p>"
+    "<p class=\"f\"><a href=\"#citation13\" id=\"note13\" style=\"text-decoration:none; color: inherit;\">4</a><span> </span><span>+ note</span></p>"
+    "<p class=\"fe\"><a href=\"#citation14\" id=\"note14\" style=\"text-decoration:none; color: inherit;\">5</a><span> </span><span>+ note</span></p>"
+    "<p class=\"x\"><a href=\"#citation15\" id=\"note15\" style=\"text-decoration:none; color: inherit;\">6</a><span> </span><span>+ note</span></p>"
+    "<p class=\"f\"><a href=\"#citation16\" id=\"note16\" style=\"text-decoration:none; color: inherit;\">7</a><span> </span><span>+ note</span></p>"
+    "<p class=\"fe\"><a href=\"#citation17\" id=\"note17\" style=\"text-decoration:none; color: inherit;\">8</a><span> </span><span>+ note</span></p>"
+    "<p class=\"x\"><a href=\"#citation18\" id=\"note18\" style=\"text-decoration:none; color: inherit;\">9</a><span> </span><span>+ note</span></p>"
+    "<p class=\"f\"><a href=\"#citation19\" id=\"note19\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ note</span></p>"
+    "<p class=\"fe\"><a href=\"#citation20\" id=\"note20\" style=\"text-decoration:none; color: inherit;\">2</a><span> </span><span>+ note</span></p>"
+    "<p class=\"x\"><a href=\"#citation21\" id=\"note21\" style=\"text-decoration:none; color: inherit;\">3</a><span> </span><span>+ note</span></p>"
     "</div>";
 
     Webserver_Request request;
@@ -1307,10 +1307,10 @@ void test_editor_roundtrip ()
     string standard_usfm =
     "\\p The earth brought forth\\fe + \\fk brought: \\fl Heb. \\fq explanation.\\fe*.";
     string standard_html =
-    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span>.</span></p>"
+    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"fe\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
+    "<p class=\"fe\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
     "</div>";
 
     Webserver_Request request;
@@ -1518,10 +1518,10 @@ void test_editor_roundtrip ()
     editor_import.run ();
     string output = editor_import.get ();
     string html =
-    "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span>.</span></p>"
+    "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ </span><span class=\"fk\">fk </span><span class=\"fk fdc\">key-fdc</span><span> normal</span></p>"
+    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">fk </span><span class=\"fk fdc\">key-fdc</span><span> normal</span></p>"
     "</div>";
     evaluate (__LINE__, __func__, html, output);
     
@@ -1549,10 +1549,10 @@ void test_editor_roundtrip ()
     editor_import.run ();
     string output = editor_import.get ();
     string html =
-    "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span>.</span></p>"
+    "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ </span><span class=\"fk\">fk </span><span class=\"fk fdc\">key-fdc</span><span> normal</span></p>"
+    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">fk </span><span class=\"fk fdc\">key-fdc</span><span> normal</span></p>"
     "</div>";
     evaluate (__LINE__, __func__, html, output);
 
@@ -1583,10 +1583,10 @@ void test_editor_roundtrip ()
     editor_import.run ();
     string output = editor_import.get ();
     string html =
-    "<p class=\"c\"><span>1</span><span> </span><span class=\"v\">1</span><span> </span><span>Canonical text</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span> canonical text.</span></p>"
+    "<p class=\"c\"><span>1</span><span> </span><span class=\"v\">1</span><span> </span><span>Canonical text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span> canonical text.</span></p>"
     "<div id=\"notes\">"
     "<hr/>"
-    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ </span><span class=\"fr\">1:1 </span><span class=\"fk\">Footnote fk style </span><span class=\"ft\">Footnote ft style</span></p>"
+    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fr\">1:1 </span><span class=\"fk\">Footnote fk style </span><span class=\"ft\">Footnote ft style</span></p>"
     "</div>";
     evaluate (__LINE__, __func__, html, output);
 
@@ -1627,7 +1627,7 @@ void test_editor_roundtrip ()
     string standardusfm =
     "\\p\n\\v 1 The text\\x + \\xo 1 \\xt Passage\\x*.";
     string standardhtml =
-    "<p class=\"p\"><span class=\"v\">1</span><span> </span><span>The text</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">1</a><span>.</span></p><div id=\"notes\"><hr/><p class=\"x\"><a href=\"#citation1\" id=\"note1\">1</a><span> </span><span>+ </span><span class=\"xo\">1 </span><span class=\"xt\">Passage</span></p></div>";
+    "<p class=\"p\"><span class=\"v\">1</span><span> </span><span>The text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p><div id=\"notes\"><hr/><p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"xo\">1 </span><span class=\"xt\">Passage</span></p></div>";
 
     Webserver_Request request;
     Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);

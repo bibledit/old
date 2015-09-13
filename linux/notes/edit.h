@@ -17,25 +17,16 @@
  */
 
 
-#include <changes/logic.h>
-#include <tasks/logic.h>
+#ifndef INCLUDED_NOTES_EDITSOURCE_H
+#define INCLUDED_NOTES_EDITSOURCE_H
 
 
-void changes_logic_start ()
-{
-  tasks_logic_queue (GENERATECHANGES);
-}
+#include <config/libraries.h>
 
 
-const char * changes_personal_category ()
-{
-  return "P";
-}
+string notes_edit_url ();
+bool notes_edit_acl (void * webserver_request);
+string notes_edit (void * webserver_request);
 
 
-const char * changes_bible_category ()
-{
-  return "B";
-}
-
-
+#endif

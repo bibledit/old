@@ -17,25 +17,16 @@
  */
 
 
-#include <changes/logic.h>
-#include <tasks/logic.h>
+#ifndef INCLUDED_BIBLE_IMPORT_RUN_H
+#define INCLUDED_BIBLE_IMPORT_RUN_H
 
 
-void changes_logic_start ()
-{
-  tasks_logic_queue (GENERATECHANGES);
-}
+#include <config/libraries.h>
 
 
-const char * changes_personal_category ()
-{
-  return "P";
-}
+void bible_import_run (string location, string bible, int book, int chapter);
+void bible_import_usfm (string data, string bible, int book, int chapter);
+void bible_import_text (string text, string bible, int book, int chapter);
 
 
-const char * changes_bible_category ()
-{
-  return "B";
-}
-
-
+#endif

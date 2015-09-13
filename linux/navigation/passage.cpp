@@ -49,6 +49,8 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   string user = request->session_logic()->currentUser ();
   
+  bool passage_clipped = false;
+  
   string fragment;
   
   // Links to go back and forward are grayed out or active depending on available passages to go to.
@@ -77,6 +79,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;
+      passage_clipped = true;
     }
   }
   
@@ -92,14 +95,24 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty()) chapter = chapters [0];
       else chapter = 1;
+      passage_clipped = true;
     }
   }
 
   fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></li>");
   
-  //fragment.append ("<li><span>:</span></li>");
-
   int verse = Ipc_Focus::getVerse (request);
+  
+  // The verse should exist in the chapter.
+  if (bible != "") {
+    string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    vector <int> verses = usfm_get_verse_numbers (usfm);
+    if (!in_array (verse, verses)) {
+      if (!verses.empty()) verse = verses [0];
+      else verse = 1;
+      passage_clipped = true;
+    }
+  }
   
   fragment.append ("<li><a id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></li>");
   
@@ -107,6 +120,11 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 
   fragment.append ("<li><a id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></li>");
 
+  // Store book / chapter / verse if they were clipped.
+  if (passage_clipped) {
+    Ipc_Focus::set (request, book, chapter, verse);
+  }
+  
   // The result.
   return fragment;
 }

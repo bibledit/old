@@ -122,17 +122,16 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/roles.$(OBJEXT) filter/md5.$(OBJEXT) \
 	filter/usfm.$(OBJEXT) filter/archive.$(OBJEXT) \
 	filter/text.$(OBJEXT) filter/passage.$(OBJEXT) \
-	filter/customcss.$(OBJEXT) filter/bibleworks.$(OBJEXT) \
-	filter/git.$(OBJEXT) filter/diff.$(OBJEXT) \
-	filter/abbreviations.$(OBJEXT) filter/shell.$(OBJEXT) \
-	filter/merge.$(OBJEXT) filter/date.$(OBJEXT) \
-	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
-	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/main.$(OBJEXT) menu/user.$(OBJEXT) menu/index.$(OBJEXT) \
-	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
-	database/config/general.$(OBJEXT) \
+	filter/css.$(OBJEXT) filter/git.$(OBJEXT) \
+	filter/diff.$(OBJEXT) filter/abbreviations.$(OBJEXT) \
+	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
+	filter/date.$(OBJEXT) flate/flate.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
+	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
+	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -169,30 +168,29 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	config/logic.$(OBJEXT) bible/logic.$(OBJEXT) \
 	bible/manage.$(OBJEXT) bible/settings.$(OBJEXT) \
 	bible/book.$(OBJEXT) bible/chapter.$(OBJEXT) \
-	bible/import_usfm.$(OBJEXT) bible/import_bibleworks.$(OBJEXT) \
-	bible/import_task.$(OBJEXT) bible/abbreviations.$(OBJEXT) \
-	bible/order.$(OBJEXT) bible/css.$(OBJEXT) \
-	bible/editing.$(OBJEXT) notes/logic.$(OBJEXT) \
-	notes/actions.$(OBJEXT) notes/clean.$(OBJEXT) \
-	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
-	notes/assign-1.$(OBJEXT) notes/cleancli.$(OBJEXT) \
-	notes/notes.$(OBJEXT) notes/status-n.$(OBJEXT) \
-	notes/assign-n.$(OBJEXT) notes/click.$(OBJEXT) \
-	notes/poll.$(OBJEXT) notes/summary.$(OBJEXT) \
-	notes/bible-1.$(OBJEXT) notes/comment.$(OBJEXT) \
-	notes/select.$(OBJEXT) notes/unassign-n.$(OBJEXT) \
-	notes/bible-n.$(OBJEXT) notes/create.$(OBJEXT) \
-	notes/severity-1.$(OBJEXT) notes/verses.$(OBJEXT) \
-	notes/bulk.$(OBJEXT) notes/editsource.$(OBJEXT) \
-	notes/index.$(OBJEXT) notes/severity-n.$(OBJEXT) \
-	trash/handler.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/index.$(OBJEXT) manage/users.$(OBJEXT) \
-	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
-	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	bible/import_run.$(OBJEXT) bible/import.$(OBJEXT) \
+	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
+	bible/css.$(OBJEXT) bible/editing.$(OBJEXT) \
+	notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
+	notes/clean.$(OBJEXT) notes/note.$(OBJEXT) \
+	notes/status-1.$(OBJEXT) notes/assign-1.$(OBJEXT) \
+	notes/cleancli.$(OBJEXT) notes/notes.$(OBJEXT) \
+	notes/status-n.$(OBJEXT) notes/assign-n.$(OBJEXT) \
+	notes/click.$(OBJEXT) notes/poll.$(OBJEXT) \
+	notes/summary.$(OBJEXT) notes/bible-1.$(OBJEXT) \
+	notes/comment.$(OBJEXT) notes/select.$(OBJEXT) \
+	notes/unassign-n.$(OBJEXT) notes/bible-n.$(OBJEXT) \
+	notes/create.$(OBJEXT) notes/severity-1.$(OBJEXT) \
+	notes/verses.$(OBJEXT) notes/bulk.$(OBJEXT) \
+	notes/edit.$(OBJEXT) notes/index.$(OBJEXT) \
+	notes/severity-n.$(OBJEXT) trash/handler.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/index.$(OBJEXT) \
+	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
+	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
+	manage/write.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -562,8 +560,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
-	filter/customcss.cpp \
-	filter/bibleworks.cpp \
+	filter/css.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
@@ -654,9 +651,8 @@ libbibledit_a_SOURCES = \
 	bible/settings.cpp \
 	bible/book.cpp \
 	bible/chapter.cpp \
-	bible/import_usfm.cpp \
-	bible/import_bibleworks.cpp \
-	bible/import_task.cpp \
+	bible/import_run.cpp \
+	bible/import.cpp \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
 	bible/css.cpp \
@@ -683,7 +679,7 @@ libbibledit_a_SOURCES = \
 	notes/severity-1.cpp \
 	notes/verses.cpp \
 	notes/bulk.cpp \
-	notes/editsource.cpp \
+	notes/edit.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \
@@ -1001,9 +997,7 @@ filter/text.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/passage.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
-filter/customcss.$(OBJEXT): filter/$(am__dirstamp) \
-	filter/$(DEPDIR)/$(am__dirstamp)
-filter/bibleworks.$(OBJEXT): filter/$(am__dirstamp) \
+filter/css.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/git.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
@@ -1311,11 +1305,9 @@ bible/book.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/chapter.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
-bible/import_usfm.$(OBJEXT): bible/$(am__dirstamp) \
+bible/import_run.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
-bible/import_bibleworks.$(OBJEXT): bible/$(am__dirstamp) \
-	bible/$(DEPDIR)/$(am__dirstamp)
-bible/import_task.$(OBJEXT): bible/$(am__dirstamp) \
+bible/import.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/abbreviations.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
@@ -1375,7 +1367,7 @@ notes/verses.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/bulk.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
-notes/editsource.$(OBJEXT): notes/$(am__dirstamp) \
+notes/edit.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/index.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
@@ -2189,9 +2181,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/chapter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/editing.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_bibleworks.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_task.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_run.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/manage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/order.Po@am__quote@
@@ -2324,8 +2315,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/web.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/abbreviations.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/archive.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/bibleworks.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/customcss.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@
@@ -2383,7 +2373,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/click.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/comment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/create.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/editsource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/edit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/note.Po@am__quote@

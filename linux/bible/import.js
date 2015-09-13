@@ -17,28 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-
-#ifndef INCLUDED_UNITTESTS_FILTERS_H
-#define INCLUDED_UNITTESTS_FILTERS_H
-
-
-#include <config/libraries.h>
-
-
-void test_filters ();
-void test_styles_css ();
-void test_filter_custom_css ();
-void test_filter_diff ();
-void test_filter_abbreviations ();
-void test_filter_markup ();
-void test_filter_git ();
-void test_filter_merge ();
-void test_filter_tidy ();
-void test_ipc_notes ();
-void test_filter_date ();
-void test_filter_url ();
-void test_filter_string ();
-void test_filter_string_text2html ();
-
-
-#endif
+$(document).ready (function () {
+  $( "#form" ).submit (function (event) {
+    var text = $("#data").val();
+    text = filter_url_plus_to_tag (text);
+    $("#data").val (text);
+  });
+});

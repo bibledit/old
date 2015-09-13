@@ -70,6 +70,13 @@ string editverse_save (void * webserver_request)
   }
 
   
+  // Breaks -> new lines.
+  usfm = filter_string_str_replace ("<br>", "\n", usfm);
+  usfm = filter_string_str_replace ("<div>", "\n", usfm);
+  filter_string_replace_between (usfm, "<", ">", "");
+  usfm = filter_string_desanitize_html (usfm);
+  
+  
   // Decode the + sign. It was encoded in javascript.
   usfm = filter_url_tag_to_plus (usfm);
 
