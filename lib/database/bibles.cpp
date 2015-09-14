@@ -128,7 +128,11 @@ int Database_Bibles::createBible (string name)
 // Deletes a Bible.
 void Database_Bibles::deleteBible (string name)
 {
-  filter_url_rmdir (bibleFolder (name));
+  string path = bibleFolder (name);
+  // Delete directory.
+  filter_url_rmdir (path);
+  // Just in case it was a regular file: Delete it.
+  filter_url_unlink (path);
   Database_State::clearExported (name, 0);
 }
 
