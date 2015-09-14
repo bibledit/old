@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/morphhb.h>
 #include <sources/morphgnt.h>
 #include <sources/hebrewlexicon.h>
+#include <resource/external.h>
 
 
 const char * debug_index_url ()
@@ -50,6 +51,8 @@ string debug_index (void * webserver_request)
 
   Assets_View view = Assets_View ();
 
+  string code;
+  
   string debug = request->query ["debug"];
   
   if (debug == "etcb4download") {
@@ -81,6 +84,13 @@ string debug_index (void * webserver_request)
     // sources_hebrewlexicon_parse ();
     view.set_variable ("success", "Task disabled");
   }
+
+  if (debug == "studylightcommentaries") {
+    code = resource_external_studylight_code ();
+    view.set_variable ("success", "Code is below");
+  }
+
+  view.set_variable ("code", code);
 
   page += view.render ("debug", "index");
   page += Assets_Page::footer ();

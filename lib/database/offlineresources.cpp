@@ -114,6 +114,13 @@ bool Database_OfflineResources::exists (string name, int book, int chapter, int 
 }
 
 
+bool Database_OfflineResources::exists (string name)
+{
+  string directory = resourceFolder (name);
+  return file_exists (directory);
+}
+
+
 // Counts the number of verses in the offline resource name.
 int Database_OfflineResources::count (string name)
 {

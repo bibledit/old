@@ -56,7 +56,18 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
   
   // External resources.
   vector <string> external_resources = resource_external_names ();
-  names.insert (names.end (), external_resources.begin(), external_resources.end());
+  if (config_logic_client_prepared ()) {
+    // A client displays only the downloaded external resources.
+    Database_OfflineResources database_offlineresources;
+    for (auto & resource : external_resources) {
+      if (database_offlineresources.exists (resource)) {
+        names.push_back (resource);
+      }
+    }
+  } else {
+    // A server displays all external resources.
+    names.insert (names.end (), external_resources.begin(), external_resources.end());
+  }
   
   // Image resources.
   Database_ImageResources database_imageresources;
@@ -136,23 +147,7 @@ string Resource_Logic::getHtml (void * webserver_request, string resource, int b
         html.append (database_offlineresources.get (resource, passage.book, passage.chapter, convert_to_int (passage.verse)));
       }
     } else {
-      if (config_logic_client_prepared ()) {
-        html = translate ("This resource is not available.");
-        html.append (" ");
-        html.append (translate ("To make it available, follow these steps:"));
-        html.append (" ");
-        if (resource_admin_acl (request)) {
-          html.append (client_logic_link_to_cloud (resource_admin_url (), translate ("Go to Bibledit Cloud.")));
-          html.append (" ");
-          html.append (translate ("Cache this external resource there."));
-        } else {
-          html.append (client_logic_link_to_cloud ("", translate ("Ask a manager to cache this external resource in Bibledit Cloud.")));
-        }
-        html.append (" ");
-        html.append (translate ("Go back on the Bibledit client here."));
-        html.append (" ");
-        html.append (translate ("Synchronize."));
-      } else {
+      if (!config_logic_client_prepared ()) {
         html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true);
       }
     }

@@ -3121,15 +3121,6 @@ msgstr ""
 msgid "Bibledit on Linux"
 msgstr ""
 
-msgid "Bibledit on openSUSE"
-msgstr ""
-
-msgid "Bibledit on Fedora"
-msgstr ""
-
-msgid "Bibledit on CentOS"
-msgstr ""
-
 msgid "Bibledit Cloud on Ubuntu"
 msgstr ""
 
@@ -3298,51 +3289,10 @@ msgstr ""
 msgid "Use the contact form to explain why you need a Bibledit Cloud instance."
 msgstr ""
 
-msgid "Install Bibledit on CentOS"
+msgid "Install Bibledit Cloud on Ubuntu"
 msgstr ""
 
 msgid "Follow the steps below to install Bibledit."
-msgstr ""
-
-msgid "Install Apache, PHP5 and MySQL."
-msgstr ""
-
-msgid "In the terminal issue the following commands:"
-msgstr ""
-
-msgid "Select the default settings for anything to be set up."
-msgstr ""
-
-msgid "Download Bibledit:"
-msgstr ""
-
-msgid "Install Bibledit in folder /var/www/html as user root:"
-msgstr ""
-
-msgid ""
-"Make everything readable and writable to the web server user through the "
-"following commands"
-msgstr ""
-
-msgid "Bibledit will be accessible through:"
-msgstr ""
-
-msgid ""
-"Open the web address in the browser, and follow the steps on the screen to "
-"configure Bibledit and log in."
-msgstr ""
-
-msgid ""
-"Enable the use of .htaccess files in Apache to secure some Bibledit folders."
-msgstr ""
-
-msgid "Set"
-msgstr ""
-
-msgid "in file"
-msgstr ""
-
-msgid "Install Bibledit Cloud on Ubuntu"
 msgstr ""
 
 msgid "It needs basic knowledge about working with Linux servers."
@@ -3352,6 +3302,9 @@ msgid "Update the software sources:"
 msgstr ""
 
 msgid "Install the software Bibledit relies on:"
+msgstr ""
+
+msgid "Download Bibledit:"
 msgstr ""
 
 msgid "Unpack Bibledit in folder bibledit:"
@@ -3381,32 +3334,6 @@ msgstr ""
 msgid ""
 "Open the web address in the browser, follow the instructions on the screen "
 "to configure Bibledit, and log in."
-msgstr ""
-
-msgid "Install Bibledit on Fedora"
-msgstr ""
-
-msgid "Become the root user:"
-msgstr ""
-
-msgid "Provide the password."
-msgstr ""
-
-msgid "Become a normal user again:"
-msgstr ""
-
-msgid "Bibledit works best with the Google Chrome browser."
-msgstr ""
-
-msgid "Install the browser."
-msgstr ""
-
-msgid ""
-"To have Bibledit automatically open in Chrome, set Chrome as the default "
-"browser."
-msgstr ""
-
-msgid "Follow the steps below to start Bibledit."
 msgstr ""
 
 msgid "Install Bibledit iOS"
@@ -3451,7 +3378,18 @@ msgstr ""
 msgid "Run the installer:"
 msgstr ""
 
-msgid "Install Bibledit on openSUSE"
+msgid "Bibledit works best with the Google Chrome browser."
+msgstr ""
+
+msgid "Install the browser."
+msgstr ""
+
+msgid ""
+"To have Bibledit automatically open in Chrome, set Chrome as the default "
+"browser."
+msgstr ""
+
+msgid "Follow the steps below to start Bibledit."
 msgstr ""
 
 msgid "Install Bibledit on OSX"
