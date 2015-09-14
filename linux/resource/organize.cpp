@@ -27,8 +27,11 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
+#include <resource/admin.h>
 #include <sync/logic.h>
 #include <dialog/entry.h>
+#include <config/logic.h>
+#include <client/logic.h>
 
 
 string resource_organize_url ()
@@ -102,6 +105,26 @@ string resource_organize (void * webserver_request)
   }
   view.set_variable ("selectablesblock", selectablesblock);
   
+  
+  if (config_logic_client_prepared ()) {
+    string html;
+    html = translate ("More resources may be available in Bibledit Cloud.");
+    html.append (" ");
+    html.append ("To list them here:");
+    html.append (" ");
+    if (resource_admin_acl (request)) {
+      html.append (client_logic_link_to_cloud (resource_admin_url (), translate ("Go to Bibledit Cloud.")));
+      html.append (" ");
+      html.append (translate ("Cache one or more external resources there."));
+    } else {
+      html.append (client_logic_link_to_cloud ("", translate ("Ask a manager to cache one or more external resources in Bibledit Cloud.")));
+    }
+    html.append (" ");
+    html.append (translate ("Come back to the Bibledit client here."));
+    html.append (" ");
+    html.append (translate ("Synchronize."));
+    view.set_variable ("cloudlink", html);
+  }
   
   // Context before.
   if (request->query.count ("before")) {
