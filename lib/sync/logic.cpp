@@ -355,3 +355,57 @@ int Sync_Logic::files_get_file_checksum (string directory, string file)
   int checksum = filter_url_filesize (path);
   return checksum;
 }
+
+
+/*
+
+ Notes about possible data encryptiion between server and client.
+ 
+ Make an option to use encryption between the server and the client.
+ But is this really needed at this stage?
+ The client keeps using the simple http client.
+ The user can generate the encryption key on the server.
+ This is generated per user.
+ When the user generates a key, that key will be available to the client during ten minutes after enabling that option to be available.
+ The client can then download that key during the window of ten minutes.
+ Once the client has downloaded the key, all future communications will be using that key between server and client.
+ Thus it does not use openssl or any other encryption client.
+ 
+ It is easier to enable encryption by default.
+ When a client connects to the cloud, the encryption is enabled by default.
+ Enable works automatically.
+ If the server does not yet have a key for the user, the server generates one.
+ Upon connection, the server sends a key to the client.
+ That occurs only once.
+ All subsequent communications then use that key.
+ The initial connection setup works through a standard key set that is hard coded in the software.
+ There may be a key that works in both directions.
+ This encrypted service uses a new API on the server, so old clients continue to work with the old API.
+ 
+ On the setup page for the cloud connection mention that 128 bits encryption is used.
+ No, it's more than that.
+ It's double 128 bit encryption.
+ 
+ If a client has no key yet (a newer client) then it uses the old API.
+ It also put a message in the logbook calling for a new connection setup, for encryption.
+ If a client has a key, it uses the newer API, the encrypted API.
+ 
+ The server may have to browser through the available keys for all users to find which key a certain client is using, because the server does not yet know which user is going to connect.
+ 
+ The client / server should generate a challenge and response, and the client keeps it for the duration of the session, and the server stores it in a state.sqlite database, for the remainder of the session.
+ Every night a certain counter related to the key in state.sqlite is increased, starting from 0.
+ And when it is 1, then the key is one day old, and can be deleted.
+ 
+ Create mechanism for starting sync:
+ When no key is found, it uses the old client and old api.
+ When a key is found, it uses the new client and new api.
+ Test it well by adding and removing the key.
+ 
+ After some releases, when the server receives a sync request from an unencrypted client, or a client that sends no key yet, then the server tries to determine the username, and then emails the user about it. Perhaps to mail manager or administrator also.
+ 
+ A good approach to security would be to implement it in three phases:
+ 1. The server accepts an extra POST field with a varying key per session, but does not yet require it.
+ 2. Clients gets updated over a few months so they supply that key also over time.
+ 3. The server enforces this new security mechanism.
+
+*/
