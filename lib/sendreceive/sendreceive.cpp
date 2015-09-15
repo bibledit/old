@@ -47,7 +47,7 @@ void sendreceive_sendreceive (string bible)
   }
   
   
-  Database_Logs::log ("Send/receive Bible " + bible, Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_sendreceive_sendreceive_text () + bible, Filter_Roles::translator ());
   Webserver_Request request;
   bool success = true;
   string error;
@@ -168,5 +168,17 @@ void sendreceive_sendreceive (string bible)
   if (!success) {
     Database_Logs::log ("Failure during sending and receiving", Filter_Roles::translator ());
   }
-  Database_Logs::log ("Ready sending and receiving Bible " + bible, Filter_Roles::translator ());
+  Database_Logs::log (sendreceive_sendreceive_up_to_date_text () + bible, Filter_Roles::translator ());
+}
+
+
+string sendreceive_sendreceive_sendreceive_text ()
+{
+  return "Send/receive Bible ";
+}
+
+
+string sendreceive_sendreceive_up_to_date_text ()
+{
+  return "Ready sending and receiving Bible ";
 }

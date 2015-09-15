@@ -39,8 +39,7 @@ bootstrap/bootstrap.cpp
 filter/UriCodec.cpp
 filter/abbreviations.cpp
 filter/archive.cpp
-filter/bibleworks.cpp
-filter/customcss.cpp
+filter/css.cpp
 filter/date.cpp
 filter/diff.cpp
 filter/git.cpp
@@ -137,9 +136,8 @@ bible/manage.cpp
 bible/settings.cpp
 bible/book.cpp
 bible/chapter.cpp
-bible/import_usfm.cpp
-bible/import_bibleworks.cpp
-bible/import_task.cpp
+bible/import.cpp
+bible/import_run.cpp
 bible/abbreviations.cpp
 bible/order.cpp
 bible/css.cpp
@@ -293,7 +291,7 @@ notes/cleancli.cpp
 notes/click.cpp
 notes/comment.cpp
 notes/create.cpp
-notes/editsource.cpp
+notes/edit.cpp
 notes/index.cpp
 notes/logic.cpp
 notes/note.cpp

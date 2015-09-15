@@ -7283,27 +7283,6 @@ msgstr ""
 msgid "organize"
 msgstr ""
 
-msgid "This resource is not available."
-msgstr ""
-
-msgid "To make it available, follow these steps:"
-msgstr ""
-
-msgid "Go to Bibledit Cloud."
-msgstr ""
-
-msgid "Cache this external resource there."
-msgstr ""
-
-msgid "Ask a manager to cache this external resource in Bibledit Cloud."
-msgstr ""
-
-msgid "Go back on the Bibledit client here."
-msgstr ""
-
-msgid "Synchronize."
-msgstr ""
-
 msgid "USFM Resources"
 msgstr ""
 
@@ -7331,6 +7310,25 @@ msgid "You can convert a USFM resource back to a Bible."
 msgstr ""
 
 msgid "Progress will be visible in the Journal."
+msgstr ""
+
+msgid "More resources may be available in Bibledit Cloud."
+msgstr ""
+
+msgid "Go to Bibledit Cloud."
+msgstr ""
+
+msgid "Cache one or more external resources there."
+msgstr ""
+
+msgid ""
+"Ask a manager to cache one or more external resources in Bibledit Cloud."
+msgstr ""
+
+msgid "Come back to the Bibledit client here."
+msgstr ""
+
+msgid "Synchronize."
 msgstr ""
 
 msgid "Please enter the number of verses"

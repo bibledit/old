@@ -73,7 +73,7 @@ function navigationNewPassage ()
   usfmEditorSaveChapter ();
   usfmReload = false;
   usfmEditorLoadChapter ();
-  positionCaretViaAjax ();
+  usfmPositionCaretViaAjax ();
 }
 
 
@@ -85,7 +85,7 @@ function usfmEditorLoadChapter ()
     usfmChapter = usfmNavigationChapter;
     usfmIdChapter = 0;
     $ ("#usfmeditor").focus;
-    usfmCaretPosition = getCaretPosition ();
+    usfmCaretPosition = usfmGetCaretPosition ();
     $.ajax ({
       url: "load",
       type: "GET",
@@ -102,9 +102,9 @@ function usfmEditorLoadChapter ()
           usfmEditorStatus (usfmEditorChapterLoaded);
           usfmLoadedText = response;
           if (usfmReload) {
-            positionCaret (usfmCaretPosition);
+            usfmPositionCaret (usfmCaretPosition);
           } else {
-            positionCaretViaAjax ();
+            usfmPositionCaretViaAjax ();
           }
           usfmReload = false;
         } else {
@@ -225,7 +225,7 @@ function usfmCaretChanged ()
   if (usfmCaretTimeout) {
     clearTimeout (usfmCaretTimeout);
   }
-  usfmCaretTimeout = setTimeout (usfmHandleCaret, 500);
+  usfmCaretTimeout = setTimeout (usfmHandleCaret, 1000);
   restartCaretClarifier ();
 }
 
@@ -244,7 +244,7 @@ function usfmHandleCaret ()
     return;
   }
   if ($ ("#usfmeditor").is (":focus")) {
-    var offset = getCaretPosition ();
+    var offset = usfmGetCaretPosition ();
     $.ajax ({
       url: "offset",
       type: "GET",
@@ -260,7 +260,7 @@ function usfmHandleCaret ()
 }
 
 
-function positionCaretViaAjax ()
+function usfmPositionCaretViaAjax ()
 {
   $ ("#usfmeditor").focus ();
   $.ajax ({
@@ -271,9 +271,9 @@ function positionCaretViaAjax ()
       response = response.split (" ");
       var start = parseInt (response [0], 10);
       var end = parseInt (response [1], 10);
-      var offset = getCaretPosition ();
+      var offset = usfmGetCaretPosition ();
       if ((offset < start) || (offset > end)) {
-        positionCaret (start + 3);
+        usfmPositionCaret (start + 3);
       }
       restartCaretClarifier ();
     }
@@ -281,7 +281,7 @@ function positionCaretViaAjax ()
 }
 
 
-function getCaretPosition ()
+function usfmGetCaretPosition ()
 {
   var position = undefined;
   if ($ ("#usfmeditor").is (":focus")) {
@@ -293,10 +293,10 @@ function getCaretPosition ()
 }
 
 
-function positionCaret (position)
+function usfmPositionCaret (position)
 {
   $ ("#usfmeditor").focus ();
-  var currentPosition = getCaretPosition ();
+  var currentPosition = usfmGetCaretPosition ();
   if (currentPosition == undefined) return;
   if (position == undefined) return;
   var selection = rangy.getSelection ();
@@ -306,7 +306,7 @@ function positionCaret (position)
 
 function usfmWindowFocused ()
 {
-  positionCaretViaAjax ();
+  usfmPositionCaretViaAjax ();
 }
 
 
@@ -369,3 +369,6 @@ function clarifyCaret ()
 }
 
 
+// Note that some focus operations were removed for a situation where the workbench has two editors, and the user edits in the visual editor, and then the USFM editor grabs focus, and then the user keeps typing, so he or she was expecting to type in the visual editor but is now typing in the USFM editor.
+// Due to removing the focus operations, the caret positioner no longer works when the USFM editor is not focused.
+// A new USFM chapter editor could be having multiple editors: One for each line, or rather one for each verse. These editors could be loaded from the server separately, each time it loads a verse line. This system makes placing the caret and scrolling the caret into view easier. Because the javascript just places the caret in a known <div> and scrolls that <div> into view.
