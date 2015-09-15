@@ -671,6 +671,9 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
+msgid "(all of them)"
+msgstr ""
+
 msgid "Change Notifications"
 msgstr ""
 
@@ -725,7 +728,7 @@ msgid ""
 "Changes in the text of the Bibles will be added to the list the next day."
 msgstr ""
 
-msgid "The change notifications fall into two categories:"
+msgid "The change notifications fall into several categories:"
 msgstr ""
 
 msgid "Changes marked with a smiley face are changes made by you."
@@ -742,6 +745,12 @@ msgid ""
 "Bible."
 msgstr ""
 
+msgid "user"
+msgstr ""
+
+msgid "Changes marked with the name of a user are changes made by him or her."
+msgstr ""
+
 msgid "Bible translation is a collaborative effort."
 msgstr ""
 
@@ -753,9 +762,13 @@ msgid ""
 "change is now in the Bible text, or was subsequently updated by someone else."
 msgstr ""
 
-msgid ""
-"Dismiss the notifications of my own changes and the changes made by anyone "
-"in the same verses in case they match."
+msgid "Dismiss the notifications of the changes of the following categories:"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "(if their changes and verses match)"
 msgstr ""
 
 msgid "Will generate lists of changes"
@@ -793,7 +806,7 @@ msgstr ""
 msgid "Your settings are in the notifications."
 msgstr ""
 
-msgid "Users who have change notifications awaiting their approval:"
+msgid "Change notifications per user:"
 msgstr ""
 
 msgid "You have entered the changes below in a Bible editor."
@@ -1661,9 +1674,6 @@ msgid ""
 msgstr ""
 
 msgid "Comparing Bibles"
-msgstr ""
-
-msgid "and"
 msgstr ""
 
 msgid "The Bibles are being compared..."
@@ -3108,19 +3118,7 @@ msgstr ""
 msgid "Bibledit on iOS"
 msgstr ""
 
-msgid "Bibledit on Ubuntu and Linux Mint and similar"
-msgstr ""
-
-msgid "Bibledit on Debian"
-msgstr ""
-
-msgid "Bibledit on openSUSE"
-msgstr ""
-
-msgid "Bibledit on Fedora"
-msgstr ""
-
-msgid "Bibledit on CentOS"
+msgid "Bibledit on Linux"
 msgstr ""
 
 msgid "Bibledit Cloud on Ubuntu"
@@ -3291,51 +3289,10 @@ msgstr ""
 msgid "Use the contact form to explain why you need a Bibledit Cloud instance."
 msgstr ""
 
-msgid "Install Bibledit on CentOS"
+msgid "Install Bibledit Cloud on Ubuntu"
 msgstr ""
 
 msgid "Follow the steps below to install Bibledit."
-msgstr ""
-
-msgid "Install Apache, PHP5 and MySQL."
-msgstr ""
-
-msgid "In the terminal issue the following commands:"
-msgstr ""
-
-msgid "Select the default settings for anything to be set up."
-msgstr ""
-
-msgid "Download Bibledit:"
-msgstr ""
-
-msgid "Install Bibledit in folder /var/www/html as user root:"
-msgstr ""
-
-msgid ""
-"Make everything readable and writable to the web server user through the "
-"following commands"
-msgstr ""
-
-msgid "Bibledit will be accessible through:"
-msgstr ""
-
-msgid ""
-"Open the web address in the browser, and follow the steps on the screen to "
-"configure Bibledit and log in."
-msgstr ""
-
-msgid ""
-"Enable the use of .htaccess files in Apache to secure some Bibledit folders."
-msgstr ""
-
-msgid "Set"
-msgstr ""
-
-msgid "in file"
-msgstr ""
-
-msgid "Install Bibledit Cloud on Ubuntu"
 msgstr ""
 
 msgid "It needs basic knowledge about working with Linux servers."
@@ -3345,6 +3302,9 @@ msgid "Update the software sources:"
 msgstr ""
 
 msgid "Install the software Bibledit relies on:"
+msgstr ""
+
+msgid "Download Bibledit:"
 msgstr ""
 
 msgid "Unpack Bibledit in folder bibledit:"
@@ -3376,41 +3336,6 @@ msgid ""
 "to configure Bibledit, and log in."
 msgstr ""
 
-msgid "Install Bibledit on Debian"
-msgstr ""
-
-msgid "Become the root user:"
-msgstr ""
-
-msgid "Enter the root password."
-msgstr ""
-
-msgid "Become the normal user:"
-msgstr ""
-
-msgid "Bibledit works best with the Google Chrome browser."
-msgstr ""
-
-msgid "Install the browser."
-msgstr ""
-
-msgid ""
-"To have Bibledit automatically open in Chrome, set Chrome as the default "
-"browser."
-msgstr ""
-
-msgid "Follow the steps below to start Bibledit."
-msgstr ""
-
-msgid "Install Bibledit on Fedora"
-msgstr ""
-
-msgid "Provide the password."
-msgstr ""
-
-msgid "Become a normal user again:"
-msgstr ""
-
 msgid "Install Bibledit iOS"
 msgstr ""
 
@@ -3435,10 +3360,13 @@ msgstr ""
 msgid "Read more."
 msgstr ""
 
-msgid "Install Bibledit on Ubuntu and derivatives"
+msgid "Install Bibledit on Linux"
 msgstr ""
 
 msgid "Follow the steps below to install Bibledit"
+msgstr ""
+
+msgid "Supported Linux distros:"
 msgstr ""
 
 msgid "Download the Bibledit Linux installer"
@@ -3450,7 +3378,18 @@ msgstr ""
 msgid "Run the installer:"
 msgstr ""
 
-msgid "Install Bibledit on openSUSE"
+msgid "Bibledit works best with the Google Chrome browser."
+msgstr ""
+
+msgid "Install the browser."
+msgstr ""
+
+msgid ""
+"To have Bibledit automatically open in Chrome, set Chrome as the default "
+"browser."
+msgstr ""
+
+msgid "Follow the steps below to start Bibledit."
 msgstr ""
 
 msgid "Install Bibledit on OSX"
@@ -6041,25 +5980,28 @@ msgstr ""
 msgid "remove exports"
 msgstr ""
 
-msgid "Export to Web during the night."
+msgid "Web"
+msgstr ""
+
+msgid "Export during the night."
 msgstr ""
 
 msgid "Export now."
 msgstr ""
 
-msgid "Export to Html during the night."
+msgid "Html"
 msgstr ""
 
-msgid "Export to full USFM during the night."
+msgid "Full USFM"
 msgstr ""
 
 msgid "Secure the export with the password."
 msgstr ""
 
-msgid "Export to basic USFM and text during the night."
+msgid "Basic USFM and Text"
 msgstr ""
 
-msgid "Export to OpenDocument during the night."
+msgid "OpenDocument"
 msgstr ""
 
 msgid ""
@@ -6094,16 +6036,19 @@ msgstr ""
 msgid "Display the current date in the running headers."
 msgstr ""
 
-msgid "Generate info document during the night."
+msgid "Info document"
+msgstr ""
+
+msgid "Generate during the night."
 msgstr ""
 
 msgid "Generate now."
 msgstr ""
 
-msgid "Export to e-Sword during the night."
+msgid "e-Sword"
 msgstr ""
 
-msgid "Export to Online Bible during the night."
+msgid "Online Bible"
 msgstr ""
 
 msgid ""
@@ -7338,27 +7283,6 @@ msgstr ""
 msgid "organize"
 msgstr ""
 
-msgid "This resource is not available."
-msgstr ""
-
-msgid "To make it available, follow these steps:"
-msgstr ""
-
-msgid "Go to Bibledit Cloud."
-msgstr ""
-
-msgid "Cache this external resource there."
-msgstr ""
-
-msgid "Ask a manager to cache this external resource in Bibledit Cloud."
-msgstr ""
-
-msgid "Go back on the Bibledit client here."
-msgstr ""
-
-msgid "Synchronize."
-msgstr ""
-
 msgid "USFM Resources"
 msgstr ""
 
@@ -7386,6 +7310,25 @@ msgid "You can convert a USFM resource back to a Bible."
 msgstr ""
 
 msgid "Progress will be visible in the Journal."
+msgstr ""
+
+msgid "More resources may be available in Bibledit Cloud."
+msgstr ""
+
+msgid "Go to Bibledit Cloud."
+msgstr ""
+
+msgid "Cache one or more external resources there."
+msgstr ""
+
+msgid ""
+"Ask a manager to cache one or more external resources in Bibledit Cloud."
+msgstr ""
+
+msgid "Come back to the Bibledit client here."
+msgstr ""
+
+msgid "Synchronize."
 msgstr ""
 
 msgid "Please enter the number of verses"

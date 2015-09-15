@@ -377,6 +377,7 @@
 		CA8AABB71B2C157E00FCAC51 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA8AABB81B2C157E00FCAC51 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA8AABB91B2C157E00FCAC51 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA8BC5ED1BA2EFEC00DF270E /* books.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = books.js; sourceTree = "<group>"; };
 		CA8CF0501B7CDC1700D07FCE /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8CF0511B7CDC1700D07FCE /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA8E3C501A5C43D1002180D8 /* html2usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = html2usfm.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -585,7 +586,6 @@
 		CAA4D1441A45A647003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA4D1451A45A647003ABA25 /* installandroid.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installandroid.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1461A45A647003ABA25 /* installation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installation.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAA4D1471A45A647003ABA25 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcentos.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1481A45A647003ABA25 /* installios.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installios.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D1491A45A647003ABA25 /* installosx.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installosx.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4D14B1A45A647003ABA25 /* installlinux.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installlinux.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -632,7 +632,6 @@
 		CAA4D2001A45A648003ABA25 /* user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
 		CAA4D2011A45A648003ABA25 /* user.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user.h; sourceTree = "<group>"; };
 		CAA4D22F1A45A648003ABA25 /* nav.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nav.js; sourceTree = "<group>"; };
-		CAA4D2301A45A648003ABA25 /* nav.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = nav.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D2311A45A648003ABA25 /* passage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = passage.js; sourceTree = "<group>"; };
 		CAA4D2341A45A648003ABA25 /* shortcuts.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = shortcuts.js; sourceTree = "<group>"; };
 		CAA4D2381A45A648003ABA25 /* nicedit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nicedit.js; sourceTree = "<group>"; };
@@ -855,9 +854,6 @@
 		CAC61E201B4C3C5400700C8D /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
 		CAC61E211B4C3C5400700C8D /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
 		CAC61E221B4C3C5400700C8D /* write.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = write.html; sourceTree = "<group>"; };
-		CAC758751B07C9F100A3AB21 /* installdebian.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installdebian.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAC758761B07CA0700A3AB21 /* installopensuse.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installopensuse.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAC758771B07CA1600A3AB21 /* installfedora.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installfedora.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAC758781B07CA2500A3AB21 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcentos.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAC949A11AB9998300171978 /* change.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = change.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC949A21AB9998300171978 /* change.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = change.h; sourceTree = "<group>"; };
@@ -1227,6 +1223,7 @@
 			isa = PBXGroup;
 			children = (
 				CAA4CF771A45A647003ABA25 /* books.h */,
+				CA8BC5ED1BA2EFEC00DF270E /* books.js */,
 				CA39254A1A52A960009302B8 /* create.h */,
 				CAA4CF781A45A647003ABA25 /* create.cpp */,
 			);
@@ -1907,13 +1904,9 @@
 				CA816D0F1B63634C00FD276E /* install.sh */,
 				CAA4D1451A45A647003ABA25 /* installandroid.html */,
 				CAA4D1461A45A647003ABA25 /* installation.html */,
-				CAA4D1471A45A647003ABA25 /* installcentos.html */,
 				CA1A4EA51B076BF200731796 /* installcloudubuntu.html */,
-				CAC758751B07C9F100A3AB21 /* installdebian.html */,
-				CAC758771B07CA1600A3AB21 /* installfedora.html */,
 				CAA4D1481A45A647003ABA25 /* installios.html */,
 				CAA4D14B1A45A647003ABA25 /* installlinux.html */,
-				CAC758761B07CA0700A3AB21 /* installopensuse.html */,
 				CAA4D1491A45A647003ABA25 /* installosx.html */,
 				CAA4D14C1A45A647003ABA25 /* installwindows.html */,
 				CAA4D14D1A45A647003ABA25 /* introduction.html */,
@@ -2092,7 +2085,6 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D22F1A45A648003ABA25 /* nav.js */,
-				CAA4D2301A45A648003ABA25 /* nav.php */,
 				CAA4D2311A45A648003ABA25 /* passage.js */,
 				CA06BDE81A56F39200A051FF /* passage.cpp */,
 				CA06BDE91A56F39200A051FF /* passage.h */,
