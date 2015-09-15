@@ -218,3 +218,61 @@ void resource_logic_import_images (string resource, string path)
 
   Database_Logs::log ("Ready importing images");
 }
+
+
+string resource_logic_yellow_divider ()
+{
+  return "Yellow Divider";
+}
+
+
+string resource_logic_green_divider ()
+{
+  return "Green Divider";
+}
+
+
+string resource_logic_blue_divider ()
+{
+  return "Blue Divider";
+}
+
+
+string resource_logic_violet_divider ()
+{
+  return "Violet Divider";
+}
+
+
+string resource_logic_red_divider ()
+{
+  return "Red Divider";
+}
+
+
+string resource_logic_orange_divider ()
+{
+  return "Orange Divider";
+}
+
+
+bool resource_logic_is_divider (string resource)
+{
+  if (resource == resource_logic_yellow_divider ()) return true;
+  if (resource == resource_logic_green_divider ()) return true;
+  if (resource == resource_logic_blue_divider ()) return true;
+  if (resource == resource_logic_violet_divider ()) return true;
+  if (resource == resource_logic_red_divider ()) return true;
+  if (resource == resource_logic_orange_divider ()) return true;
+  return false;
+}
+
+
+string resource_logic_get_divider (string resource)
+{
+  vector <string> bits = filter_string_explode (resource, ' ');
+  string colour = unicode_string_casefold (bits [0]);
+  // The $ influences the resource's embedding through javascript.
+  string html = "$<div class=\"fullwidth\" style=\"background-color: " + colour + ";\">&nbsp;</div>";
+  return html;
+}

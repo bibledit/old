@@ -68,6 +68,10 @@ string resource_get (void * webserver_request)
       s_resource = resources [resource];
 
 
+      // Handle a divider.
+      if (resource_logic_is_divider (s_resource)) return resource_logic_get_divider (s_resource);
+      
+      
       string bible = request->database_config_user ()->getBible ();
       string versification = Database_Config_Bible::getVersificationSystem (bible);
       Database_Versifications database_versifications;

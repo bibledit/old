@@ -37,4 +37,14 @@ private:
 void resource_logic_import_images (string resource, string path);
 
 
+string resource_logic_yellow_divider ();
+string resource_logic_green_divider ();
+string resource_logic_blue_divider ();
+string resource_logic_violet_divider ();
+string resource_logic_red_divider ();
+string resource_logic_orange_divider ();
+bool resource_logic_is_divider (string resource);
+string resource_logic_get_divider (string resource);
+
+
 #endif
