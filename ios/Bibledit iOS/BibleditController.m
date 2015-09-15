@@ -20,7 +20,7 @@
 
 UIView * mainUIView = NULL;
 WKWebView *webview;
-NSString * homeUrl = @"http://localhost:8080";
+NSString * homeUrl = @"http://localhost:8765";
 
 
 + (void) bibleditAppLaunched

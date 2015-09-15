@@ -445,7 +445,7 @@ popd
 # Run only only one parallel task so the interface is more responsive.
 # Enable the single-tab browser.
 pushd webroot
-./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal
+./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --with-network-port=8765
 popd
 
 clean
