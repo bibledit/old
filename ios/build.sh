@@ -347,7 +347,6 @@ consistency/input.cpp
 consistency/logic.cpp
 consistency/poll.cpp
 statistics/statistics.cpp
-browser/index.cpp
 paratext/index.cpp
 paratext/logic.cpp
 personalize/index.cpp
