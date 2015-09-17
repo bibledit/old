@@ -72,8 +72,11 @@ string manage_write (void * webserver_request)
   vector <string> tbody;
   vector <int> books = request->database_bibles ()->getBooks (bible);
   
-  for (auto book : books) {
-    tbody.push_back ("<tr>");
+  for (size_t i = 0; i < books.size (); i++) {
+    int book = books[i];
+    int row = (i % 4);
+    if (row == 0) tbody.push_back ("<tr>");
+    if (row > 0) tbody.push_back ("<td> | </td>");
     tbody.push_back ("<td>");
     tbody.push_back (Database_Books::getEnglishFromId (book));
     tbody.push_back ("</td>");
@@ -86,7 +89,7 @@ string manage_write (void * webserver_request)
     }
     tbody.push_back ("</a>");
     tbody.push_back ("</td>");
-    tbody.push_back ("</tr>");
+    if (row == 3) tbody.push_back ("</tr>");
   }
   if (books.empty ()) {
     tbody.push_back ("<tr>");

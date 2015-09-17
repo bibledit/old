@@ -512,6 +512,7 @@ function editorPositionCaretExecute ()
 
 function positionCaretViaAjax ()
 {
+  if (isNoVerseBook (editorLoadedBook)) return;
   $.ajax ({
     url: "focus",
     type: "GET",
@@ -548,6 +549,7 @@ Section for scrolling the caret into view.
 
 function editorScrollVerseIntoView ()
 {
+  if (isNoVerseBook (editorLoadedBook)) return;
   var iterVerse = 0;
   var navigated = false;
   $ ("#editor > p span").each (function (index) {

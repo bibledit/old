@@ -28,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifndef ICU_DISABLED
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
+#include <unicode/schriter.h>
+#include <unicode/uchar.h>
 #endif
 
 
@@ -305,6 +307,18 @@ string filter_string_sanitize_html (string html)
 }
 
 
+// Does the opposite of its counterpart.
+string filter_string_desanitize_html (string html)
+{
+  html = filter_string_str_replace ("&quot;", """", html);
+  html = filter_string_str_replace ("&amp;", "&", html);
+  html = filter_string_str_replace ("&apos;", "'", html);
+  html = filter_string_str_replace ("&lt;", "<", html);
+  html = filter_string_str_replace ("&gt;", ">", html);
+  html = filter_string_str_replace ("&nbsp;", " ", html);
+  return html;
+}
+
 
 // Returns a soft hyphen.
 string get_soft_hyphen ()
@@ -492,6 +506,30 @@ bool unicode_string_is_valid (string s)
 }
 
 
+// Returns whether $s is Unicode punctuation.
+bool unicode_string_is_punctuation (string s)
+{
+  if (s.empty ()) return false;
+  
+#ifdef ICU_DISABLED
+  
+  char chars [s.size () + 1];
+  strcpy (chars, s.c_str());
+  int punct = ispunct (chars[0]);
+  return punct != 0;
+  
+#else
+  
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  StringCharacterIterator iter (source);
+  UChar32 character = iter.first32 ();
+  bool punctuation = u_ispunct (character);
+  return punctuation;
+  
+#endif
+}
+
+
 // C++ equivalent for PHP's rand function
 int filter_string_rand (int floor, int ceiling)
 {
@@ -545,12 +583,7 @@ string filter_string_html2text (string html)
   text.append (html);
 
   // Replace xml entities with their text.
-  text = filter_string_str_replace ("&quot;", """", text);
-  text = filter_string_str_replace ("&amp;", "&", text);
-  text = filter_string_str_replace ("&apos;", "'", text);
-  text = filter_string_str_replace ("&lt;", "<", text);
-  text = filter_string_str_replace ("&gt;", ">", text);
-  text = filter_string_str_replace ("&nbsp;", " ", text);
+  text = filter_string_desanitize_html (text);
 
   while (text.find ("\n\n") != string::npos) {
     text = filter_string_str_replace ("\n\n", "\n", text);

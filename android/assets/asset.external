@@ -50,6 +50,8 @@ bible/import.js
 bible/import_bibleworks.cpp
 bible/import_bibleworks.h
 bible/import_bibleworks.html
+bible/import_run.cpp
+bible/import_run.h
 bible/import_task.cpp
 bible/import_task.h
 bible/import_usfm.cpp
@@ -73,6 +75,7 @@ bibledit.h
 bibleditjni.c
 bibles/gitflag
 book/books.h
+book/books.js
 book/create.cpp
 book/create.h
 bootstrap/bootstrap.cpp
@@ -281,6 +284,7 @@ databases/usfmresources/gitflag
 debug/index.cpp
 debug/index.h
 debug/index.html
+demo/00-FRTeng-web.usfm
 demo/00-FRTeng-web.usfm.txt
 demo/02-GENeng-web.usfm
 demo/03-EXOeng-web.usfm
@@ -291,6 +295,7 @@ demo/07-JOSeng-web.usfm
 demo/08-JDGeng-web.usfm
 demo/09-RUTeng-web.usfm
 demo/10-1SAeng-web.usfm
+demo/106-GLOeng-web.usfm
 demo/106-GLOeng-web.usfm.txt
 demo/11-2SAeng-web.usfm
 demo/12-1KIeng-web.usfm
@@ -496,6 +501,8 @@ filter/archive.cpp
 filter/archive.h
 filter/bibleworks.cpp
 filter/bibleworks.h
+filter/css.cpp
+filter/css.h
 filter/customcss.cpp
 filter/customcss.h
 filter/date.cpp
@@ -803,6 +810,10 @@ notes/comment.html
 notes/create.cpp
 notes/create.h
 notes/create.html
+notes/edit.cpp
+notes/edit.h
+notes/edit.html
+notes/edit.js
 notes/editsource.cpp
 notes/editsource.h
 notes/editsource.html

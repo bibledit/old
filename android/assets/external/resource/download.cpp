@@ -97,12 +97,17 @@ void resource_download_job (string resource)
 
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
   
+  bool download = true;
+  
   if (config_logic_external_resources_cache_configured ()) {
-
     database_offlineresources.link_to_central_cache (resource);
-    Database_Logs::log (resource + ": Linked to central cache", Filter_Roles::manager ());
+    if (database_offlineresources.exists (resource)) {
+      Database_Logs::log (resource + ": Linked to central cache", Filter_Roles::manager ());
+      download = false;
+    }
+  }
 
-  } else {
+  if (download) {
 
     Database_Versifications database_versifications = Database_Versifications ();
     

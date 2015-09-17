@@ -32,6 +32,7 @@ public:
   void store (string name, int book, int chapter, int verse, string html);
   void healthy (string file);
   bool exists (string name, int book, int chapter, int verse);
+  bool exists (string name);
   int count (string name);
   string get (string name, int book, int chapter, int verse);
   vector <string> names ();

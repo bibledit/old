@@ -92,7 +92,9 @@ void Java_org_bibledit_android_MainActivity_Log (JNIEnv* env, jobject obj, jstri
 }
 
 
-bool Java_org_bibledit_android_MainActivity_OpenBrowser (JNIEnv* env, jobject obj)
+jstring Java_org_bibledit_android_MainActivity_GetLastPage (JNIEnv* env, jobject obj)
 {
-    return bibledit_open_browser ();
+    return (*env)->NewStringUTF(env, bibledit_get_last_page ());
 }
+
+

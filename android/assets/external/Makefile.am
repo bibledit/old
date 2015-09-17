@@ -16,8 +16,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
-	filter/customcss.cpp \
-	filter/bibleworks.cpp \
+	filter/css.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
@@ -108,9 +107,7 @@ libbibledit_a_SOURCES = \
 	bible/settings.cpp \
 	bible/book.cpp \
 	bible/chapter.cpp \
-	bible/import_usfm.cpp \
-	bible/import_bibleworks.cpp \
-	bible/import_task.cpp \
+	bible/import_run.cpp \
 	bible/import.cpp \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
@@ -138,7 +135,7 @@ libbibledit_a_SOURCES = \
 	notes/severity-1.cpp \
 	notes/verses.cpp \
 	notes/bulk.cpp \
-	notes/editsource.cpp \
+	notes/edit.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \
@@ -321,7 +318,6 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
-	browser/index.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
@@ -362,7 +358,7 @@ LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(ICU_LIBS)
 
-EXTRA_DIST = a* bible bibledit bibles book bootstrap browser c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
+EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`

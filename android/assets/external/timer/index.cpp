@@ -136,8 +136,11 @@ void timer_index ()
       
       // Export the Bibles to the various output formats.
       // This may take an hour on a production machine.
-      if ((hour == 1) && (minute == 10)) {
-        Export_Logic::scheduleAll ();
+      // This hour was in PHP. In C++ it is much faster.
+      if (!client) {
+        if ((hour == 1) && (minute == 10)) {
+          Export_Logic::scheduleAll ();
+        }
       }
       
       // Delete temporal files older than a few days.

@@ -35,6 +35,7 @@
 #include <trash/handler.h>
 #include <ipc/focus.h>
 #include <navigation/passage.h>
+#include <changes/logic.h>
 
 
 string changes_changes_url ()
@@ -95,9 +96,9 @@ string changes_changes (void * webserver_request)
   }
   
   
-  // Remove personal change proposals and their matching change notifications.
+  // Remove personal changes notifications and their matching change notifications in the Bible.
   if (request->query.count ("match")) {
-    vector <int> ids = database_modifications.clearNotificationMatches (username, "☺", "♺");
+    vector <int> ids = database_modifications.clearNotificationMatches (username, changes_personal_category (), changes_bible_category ());
     // Client records deletions for sending to the Cloud.
     if (config_logic_client_prepared ()) {
       for (auto & id : ids) {
@@ -109,22 +110,54 @@ string changes_changes (void * webserver_request)
   }
   
   
-  string active_class = "class=\"active\"";
-  
-  
-  // Read the identifiers but limit the number of results.
-  vector <int> ids;
-  string filter = request->query ["filter"];
-  if (filter == "personal") {
-    ids = database_modifications.getNotificationPersonalIdentifiers (username, "☺", true);
-    view.set_variable ("filter1", active_class);
-  } else if (filter == "team") {
-    ids = database_modifications.getNotificationTeamIdentifiers (username, "♺", true);
-    view.set_variable ("filter2", active_class);
-  } else {
-    ids = database_modifications.getNotificationIdentifiers (username, true);
-    view.set_variable ("filter0", active_class);
+  // Remove all the personal change notifications.
+  if (request->query.count ("personal")) {
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), true);
+    for (auto id : ids) {
+      trash_change_notification (request, id);
+      database_modifications.deleteNotification (id);
+      if (config_logic_client_prepared ()) {
+        request->database_config_user ()->addRemovedChange (id);
+      }
+      request->database_config_user ()->setChangeNotificationsChecksum ("");
+    }
   }
+  
+  
+  // Remove all the Bible change notifications.
+  if (request->query.count ("bible")) {
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), true);
+    for (auto id : ids) {
+      trash_change_notification (request, id);
+      database_modifications.deleteNotification (id);
+      if (config_logic_client_prepared ()) {
+        request->database_config_user ()->addRemovedChange (id);
+      }
+      request->database_config_user ()->setChangeNotificationsChecksum ("");
+    }
+  }
+  
+  
+  // Remove all the change notifications made by a certain user.
+  if (request->query.count ("dismiss")) {
+    string user = request->query ["dismiss"];
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
+    for (auto id : ids) {
+      trash_change_notification (request, id);
+      database_modifications.deleteNotification (id);
+      if (config_logic_client_prepared ()) {
+        request->database_config_user ()->addRemovedChange (id);
+      }
+      request->database_config_user ()->setChangeNotificationsChecksum ("");
+    }
+  }
+  
+  
+  // Read the identifiers.
+  // Limit the number of results to keep the page reasonabley fast even if there are many notifications.
+  vector <int> personal_ids = database_modifications.getNotificationPersonalIdentifiers (username, changes_personal_category (), true);
+  vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), true);
+  vector <int> ids = database_modifications.getNotificationIdentifiers (username, true);
 
   
   string textblock;
@@ -132,12 +165,14 @@ string changes_changes (void * webserver_request)
     Passage passage = database_modifications.getNotificationPassage (id);
     string link = filter_passage_link_for_opening_editor_at (passage.book, passage.chapter, passage.verse);
     string category = database_modifications.getNotificationCategory (id);
+    if (category == changes_personal_category ()) category = "😊";
+    if (category == changes_bible_category ()) category = "📖";
     string modification = database_modifications.getNotificationModification (id);
     textblock.append ("<div id=\"entry" + convert_to_string (id) + "\">\n");
     textblock.append ("<a href=\"expand\" id=\"expand" + convert_to_string (id) + "\"> ⊞ </a>\n");
     textblock.append ("<a href=\"remove\" id=\"remove" + convert_to_string (id) + "\"> ✗ </a>\n");
     textblock.append (link + "\n");
-    textblock.append ("<span style=\"font-family:monospace;font-size:125%;\">" + category + "</span>\n");
+    textblock.append (category + "\n");
     textblock.append (modification + "\n");
     textblock.append ("</div>\n");
   }
@@ -147,7 +182,25 @@ string changes_changes (void * webserver_request)
   string loading = "\"" + translate("Loading ...") + "\"";
   string script = "var loading = " + loading + ";";
   view.set_variable ("script", script);
-                      
+
+  
+  // Enable links to dismiss categories of notifications depending on whether there's anything to dismiss.
+  if (!personal_ids.empty () && !bible_ids.empty ()) view.enable_zone ("matching");
+  if (!personal_ids.empty ()) view.enable_zone ("personal");
+  if (!bible_ids.empty ()) view.enable_zone ("bible");
+  
+  
+  // Add links to clear the notifications from the individual contributors.
+  string dismissblock;
+  vector <string> users = request->database_users ()->getUsers ();
+  for (auto & user : users) {
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
+    if (!ids.empty ()) {
+      dismissblock.append ("<p>* <a href=\"?dismiss=" + user + "\">" + user + " " + translate("(all of them)")+ "</a></p>\n");
+    }
+  }
+  view.set_variable ("dismissblock", dismissblock);
+  
   
   page += view.render ("changes", "changes");
   
