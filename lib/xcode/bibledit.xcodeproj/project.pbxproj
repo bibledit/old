@@ -122,8 +122,6 @@
 		CA180F261AC71542006CA48B /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA180F271AC71542006CA48B /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
 		CA1A4EA51B076BF200731796 /* installcloudubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcloudubuntu.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CA270C0F1B2385A40064635F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		CA270C101B2385A40064635F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA2726361AE29FA700440227 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA2726371AE29FA700440227 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA28411A1A614BAF0046C073 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1015,16 +1013,6 @@
 			);
 			name = dtl;
 			path = ../dtl;
-			sourceTree = "<group>";
-		};
-		CA270C0E1B2385A40064635F /* browser */ = {
-			isa = PBXGroup;
-			children = (
-				CA270C0F1B2385A40064635F /* index.cpp */,
-				CA270C101B2385A40064635F /* index.h */,
-			);
-			name = browser;
-			path = ../browser;
 			sourceTree = "<group>";
 		};
 		CA2F06D91AE568E2008B8BDB /* editone */ = {
@@ -2758,7 +2746,6 @@
 				CAA4CF741A45A647003ABA25 /* bibles */,
 				CAA4CF761A45A647003ABA25 /* book */,
 				CAA4CF7A1A45A647003ABA25 /* bootstrap */,
-				CA270C0E1B2385A40064635F /* browser */,
 				CAA4CF861A45A647003ABA25 /* changes */,
 				CAA4CF961A45A647003ABA25 /* checks */,
 				CAA4CFAB1A45A647003ABA25 /* checksum */,

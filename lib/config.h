@@ -113,7 +113,7 @@
 #define PARATEXT "no"
 
 /* Define the path to the shared external resources cache */
-#define RESOURCES_PATH "/Users/teus/bibledit/server/databases/offlineresources"
+#define RESOURCES_PATH ""
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
