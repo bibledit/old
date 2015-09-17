@@ -648,6 +648,20 @@ void Database_Config_User::setUserChangesNotificationsOnline (bool value)
 }
 
 
+bool Database_Config_User::getContributorChangesNotificationsOnline ()
+{
+  return getBValue ("contributor-changes-notifications-online", false);
+}
+bool Database_Config_User::getContributorChangesNotificationsOnline (string username)
+{
+  return getBValueForUser (username, "contributor-changes-notifications-online", false);
+}
+void Database_Config_User::setContributorChangesNotificationsOnline (bool value)
+{
+  setBValue ("contributor-changes-notifications-online", value);
+}
+
+
 string Database_Config_User::getWorkbenchURLs ()
 {
   return getValue ("workbench-urls", "");

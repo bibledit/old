@@ -31,16 +31,7 @@ vector <string> access_user_assignees (void * webserver_request)
   string myuser = request->session_logic ()->currentUser ();
   int mylevel = request->session_logic ()->currentLevel ();
 
-  // Bibles the user has write access to.
-  vector <string> mybibles;
-  vector <string> bibles = request->database_bibles ()->getBibles ();
-  for (auto & bible : bibles) {
-    if (access_bible_write (webserver_request, bible, myuser)) {
-      mybibles.push_back (bible);
-    }
-  }
-
-  // This holds the assignees.    
+  // This holds the assignees.
   vector <string> assignees;
 
   // Process all users.
@@ -50,16 +41,7 @@ vector <string> access_user_assignees (void * webserver_request)
     // Assignees should have a level less than or equal to mylevel.
     int level = request->database_users ()->getUserLevel (user);
     if (level <= mylevel) {
-      // Assignees should have access to mybibles or no access to any Bible.
-      // The admin has all users assigned.
-      vector <string> userBibles = request->database_users ()->getBibles4User (user);
-      vector <string> biblesInCommon;
-      sort (userBibles.begin(), userBibles.end());
-      sort (mybibles.begin(), mybibles.end());
-      set_intersection (userBibles.begin(), userBibles.end(), mybibles.begin(), mybibles.end(), back_inserter(biblesInCommon));
-      if (!biblesInCommon.empty () || userBibles.empty () || mylevel >= Filter_Roles::admin ()) {
-        assignees.push_back (user);
-      }
+      assignees.push_back (user);
     }
   }
   

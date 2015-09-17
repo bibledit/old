@@ -239,3 +239,20 @@ void webserver ()
   close (listenfd);
 }
 
+
+/*
+
+ Notes about the network port and a proxy.
+ 
+ In case a client can only connect through port 80, 
+ then this may proxy a certain folder to another port:
+ http://serverfault.com/questions/472482/proxypass-redirect-directory-url-to-non-standard-port
+ 
+ Or to write our own server in C acting as a proxy 
+ to forward incoming requests to the bibledit instances on localhost.
+ 
+ But since there are URLs requested that start with a /, 
+ that may not work with the proxy.
+ That needs a fix first.
+ 
+*/

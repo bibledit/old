@@ -116,7 +116,7 @@ public class MainActivity extends Activity
     public native void StopLibrary ();
     public native void ShutdownLibrary ();
     public native void Log (String message);
-    public native static Boolean OpenBrowser ();
+    public native String GetLastPage ();
     
     
     @Override

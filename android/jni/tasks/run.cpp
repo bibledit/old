@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/rebibles.h>
 #include <search/renotes.h>
 #include <styles/sheets.h>
-#include <bible/import_task.h>
+#include <bible/import_run.h>
 #include <compare/compare.h>
 #include <database/maintenance.h>
 #include <database/config/general.h>
@@ -101,6 +101,11 @@ void tasks_run_one (string filename)
     parameter3 = lines [0];
     lines.erase (lines.begin ());
   }
+  string parameter4;
+  if (!lines.empty ()) {
+    parameter4 = lines [0];
+    lines.erase (lines.begin ());
+  }
   
   if (command == ROTATEJOURNAL) {
     Database_Logs database_logs = Database_Logs ();
@@ -116,8 +121,8 @@ void tasks_run_one (string filename)
     search_reindex_notes ();
   } else if (command == CREATECSS) {
     styles_sheets_create_all_run ();
-  } else if (command == IMPORTUSFM) {
-    bible_import_task (parameter1, parameter2);
+  } else if (command == IMPORTBIBLE) {
+    bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
   } else if (command == COMPAREUSFM) {
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
   } else if (command == MAINTAINDATABASE) {

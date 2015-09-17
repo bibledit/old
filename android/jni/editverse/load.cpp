@@ -21,6 +21,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
+#include <filter/css.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
 
@@ -48,6 +49,28 @@ string editverse_load (void * webserver_request)
   
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   usfm = usfm_get_verse_text (usfm, verse);
+  
+  usfm = filter_string_str_replace ("\n", "<br>", usfm);
+  string chapter_verse_text;
+  string needle = "\\c";
+  if (verse) needle = "\\v";
+  size_t pos = usfm.find (needle);
+  if (pos != string::npos) {
+    if (pos < 2) {
+      usfm.erase (0, pos + 2);
+      usfm = filter_string_trim (usfm);
+      chapter_verse_text = usfm_peek_verse_number (usfm);
+      usfm.erase (0, chapter_verse_text.length ());
+      usfm = filter_string_trim (usfm);
+    }
+  }
+  usfm.insert (0, "<span contenteditable=\"true\">");
+  usfm.append ("</span>");
+  if (!chapter_verse_text.empty ()) {
+    string spacer;
+    if (verse) spacer = " ";
+    usfm.insert (0, "<span " + filter_css_grey_background () + ">" + needle + " " + chapter_verse_text + spacer + "</span>");
+  }
   
   string user = request->session_logic ()->currentUser ();
   bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);

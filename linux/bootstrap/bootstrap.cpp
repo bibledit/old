@@ -172,7 +172,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/save.h>
 #include <editone/verse.h>
 #include <debug/index.h>
-#include <browser/index.h>
 #include <paratext/index.h>
 #include <manage/write.h>
 #include <personalize/index.h>
@@ -191,9 +190,6 @@ void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
-
-  // External browser.
-  if ((url == browser_index_url ()) && browser_index_acl (request)) browser_index (request);
 
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")

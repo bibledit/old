@@ -98,7 +98,7 @@
 		CAADF4D81B0F7CD9002F0910 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = CAADF4DB1B0F7CD9002F0910 /* Build configuration list for PBXProject "android" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -119,6 +119,7 @@
 		CAADF4DC1B0F7CD9002F0910 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;

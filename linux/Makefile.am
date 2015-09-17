@@ -318,7 +318,6 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
-	browser/index.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
@@ -350,7 +349,7 @@ LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(ICU_LIBS)
 
-EXTRA_DIST = a* bible bibles book bootstrap browser c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm *.sh *.1
+EXTRA_DIST = a* bible bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm *.sh *.1
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`

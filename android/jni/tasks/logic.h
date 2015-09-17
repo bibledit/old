@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define REINDEXBIBLES "reindexbibles"
 #define REINDEXNOTES "reindexnotes"
 #define CREATECSS "createcss"
-#define IMPORTUSFM "importusfm"
+#define IMPORTBIBLE "importusfm"
 #define COMPAREUSFM "compareusfm"
 #define MAINTAINDATABASE "maintaindatabase"
 #define CLEANTMPFILES "cleantmpfiles"

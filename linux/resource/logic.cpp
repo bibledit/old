@@ -41,7 +41,7 @@
 #include <lexicon/logic.h>
 
 
-vector <string> Resource_Logic::getNames (void * webserver_request)
+vector <string> resource_logic_get_names (void * webserver_request)
 {
   vector <string> names;
   
@@ -56,18 +56,7 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
   
   // External resources.
   vector <string> external_resources = resource_external_names ();
-  if (config_logic_client_prepared ()) {
-    // A client displays only the downloaded external resources.
-    Database_OfflineResources database_offlineresources;
-    for (auto & resource : external_resources) {
-      if (database_offlineresources.exists (resource)) {
-        names.push_back (resource);
-      }
-    }
-  } else {
-    // A server displays all external resources.
-    names.insert (names.end (), external_resources.begin(), external_resources.end());
-  }
+  names.insert (names.end (), external_resources.begin(), external_resources.end());
   
   // Image resources.
   Database_ImageResources database_imageresources;
@@ -84,87 +73,107 @@ vector <string> Resource_Logic::getNames (void * webserver_request)
 }
 
 
-string Resource_Logic::getExternal (string bible, string resource, int book, int chapter, int verse, bool apply_mapping)
-{
-  vector <Passage> passages;
-  if (apply_mapping) {
-    Database_Mappings database_mappings = Database_Mappings ();
-    string bible_mapping = Database_Config_Bible::getVerseMapping (bible);
-    string resource_mapping = resource_external_mapping (resource);
-    passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
-  } else {
-    passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
-  }
-  string output;
-  for (auto passage : passages) {
-    string html = resource_external_get (resource, passage.book, passage.chapter, convert_to_int (passage.verse));
-    output.append (html);
-  }
-  return output;
-}
-
-
-string Resource_Logic::getHtml (void * webserver_request, string resource, int book, int chapter, int verse)
+string resource_logic_get_html (void * webserver_request, string resource, int book, int chapter, int verse)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   string html;
   
   Database_UsfmResources database_usfmresources;
   Database_OfflineResources database_offlineresources;
   Database_ImageResources database_imageresources;
-  Database_Mappings database_mappings = Database_Mappings ();
+  Database_Mappings database_mappings;
   
+  // Lists of the various types of resources.
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> usfms = database_usfmresources.getResources ();
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
-  
+
+  // Determine the type of the current resource.
   bool isBible = in_array (resource, bibles);
   bool isUsfm = in_array (resource, usfms);
   bool isExternal = in_array (resource, externals);
   bool isImage = in_array (resource, images);
   bool isLexicon = in_array (resource, lexicons);
+
+  // Retrieve versification system of the active Bible.
+  string bible = request->database_config_user ()->getBible ();
+  string bible_versification = Database_Config_Bible::getVersificationSystem (bible);
+
+  // Determine the versification system of the current resource.
+  string resource_versification;
   if (isBible || isUsfm) {
-    string chapter_usfm;
-    if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
-    if (isUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
-    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
-    string stylesheet = request->database_config_user()->getStylesheet ();
-    Filter_Text filter_text = Filter_Text (resource);
-    filter_text.html_text_standard = new Html_Text (translate("Bible"));
-    filter_text.addUsfmCode (verse_usfm);
-    filter_text.run (stylesheet);
-    html = filter_text.html_text_standard->getInnerHtml ();
+    resource_versification = Database_Config_Bible::getVersificationSystem (bible);
   } else if (isExternal) {
-    // Use offline copy if it exists, else fetch it online.
-    string bible = request->database_config_user()->getBible ();
-    if (database_offlineresources.exists (resource, book, chapter, verse)) {
-      string bible_mapping = Database_Config_Bible::getVerseMapping (bible);
-      string resource_mapping = resource_external_mapping (resource);
-      vector <Passage> passages = database_mappings.translate (bible_mapping, resource_mapping, book, chapter, verse);
-      for (auto& passage : passages) {
-        html.append (database_offlineresources.get (resource, passage.book, passage.chapter, convert_to_int (passage.verse)));
-      }
-    } else {
-      if (!config_logic_client_prepared ()) {
-        html = Resource_Logic::getExternal (bible, resource, book, chapter, verse, true);
-      }
-    }
+    resource_versification = resource_external_mapping (resource);
   } else if (isImage) {
-    vector <string> images = database_imageresources.get (resource, book, chapter, verse);
-    for (auto & image : images) {
-      html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
-    }
   } else if (isLexicon) {
-    html = lexicon_logic_get_html (request, resource, book, chapter, verse);
+    resource_versification = database_mappings.original ();
+    if (resource == KJV_LEXICON_NAME) resource_versification = "English";
   } else {
-    // Nothing found.
+  }
+
+  // If the resource versification system differs from the Bible's versification system,
+  // map the focused verse of the Bible to a verse in the Resource.
+  // There are resources without versification system: Do nothing about them.
+  vector <Passage> passages;
+  if ((bible_versification != resource_versification) && !resource_versification.empty ()) {
+    passages = database_mappings.translate (bible_versification, resource_versification, book, chapter, verse);
+  } else {
+    passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
+  }
+
+  for (auto passage : passages) {
+    
+    book = passage.book;
+    chapter = passage.chapter;
+    verse = convert_to_int (passage.verse);
+
+    if (isBible || isUsfm) {
+      string chapter_usfm;
+      if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
+      if (isUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
+      string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+      string stylesheet = request->database_config_user()->getStylesheet ();
+      Filter_Text filter_text = Filter_Text (resource);
+      filter_text.html_text_standard = new Html_Text (translate("Bible"));
+      filter_text.addUsfmCode (verse_usfm);
+      filter_text.run (stylesheet);
+      html.append (filter_text.html_text_standard->getInnerHtml ());
+    } else if (isExternal) {
+      if (database_offlineresources.exists (resource, book, chapter, verse)) {
+        // Use offline cached copy.
+        html.append (database_offlineresources.get (resource, book, chapter, verse));
+      } else if (config_logic_client_prepared ()) {
+        // Client gives info to the user.
+        html = translate ("Cache this resource in Bibledit Cloud to make it available here.");
+        // It would be fine if the client could download the external resource.
+        // But to do that, the client needs the cURL library.
+        // And that library has not yet been compiled for all OSes Bibledit runs on.
+        // One way to overcome this problem would be that a client requests a server
+        // to fetch an external resource on its behalf,
+        // and then returns the filtered result to the client.
+      } else {
+        // Server: Fetch it from the web.
+        html.append (resource_external_get (resource, book, chapter, verse));
+      }
+    } else if (isImage) {
+      vector <string> images = database_imageresources.get (resource, book, chapter, verse);
+      for (auto & image : images) {
+        html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
+      }
+    } else if (isLexicon) {
+      html.append (lexicon_logic_get_html (request, resource, book, chapter, verse));
+    } else {
+      // Nothing found.
+    }
+  
   }
   
   return html;
 }
-
 
 
 // Imports the file at $path into $resource.
@@ -217,4 +226,62 @@ void resource_logic_import_images (string resource, string path)
   }
 
   Database_Logs::log ("Ready importing images");
+}
+
+
+string resource_logic_yellow_divider ()
+{
+  return "Yellow Divider";
+}
+
+
+string resource_logic_green_divider ()
+{
+  return "Green Divider";
+}
+
+
+string resource_logic_blue_divider ()
+{
+  return "Blue Divider";
+}
+
+
+string resource_logic_violet_divider ()
+{
+  return "Violet Divider";
+}
+
+
+string resource_logic_red_divider ()
+{
+  return "Red Divider";
+}
+
+
+string resource_logic_orange_divider ()
+{
+  return "Orange Divider";
+}
+
+
+bool resource_logic_is_divider (string resource)
+{
+  if (resource == resource_logic_yellow_divider ()) return true;
+  if (resource == resource_logic_green_divider ()) return true;
+  if (resource == resource_logic_blue_divider ()) return true;
+  if (resource == resource_logic_violet_divider ()) return true;
+  if (resource == resource_logic_red_divider ()) return true;
+  if (resource == resource_logic_orange_divider ()) return true;
+  return false;
+}
+
+
+string resource_logic_get_divider (string resource)
+{
+  vector <string> bits = filter_string_explode (resource, ' ');
+  string colour = unicode_string_casefold (bits [0]);
+  // The $ influences the resource's embedding through javascript.
+  string html = "$<div class=\"fullwidth\" style=\"background-color: " + colour + ";\">&nbsp;</div>";
+  return html;
 }

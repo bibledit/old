@@ -25,6 +25,7 @@
 #include <paratext/logic.h>
 #include <sendreceive/changes.h>
 #include <sendreceive/files.h>
+#include <sendreceive/sendreceive.h>
 
 
 // This returns true if the $entry can be filtered out from the Journal.
@@ -42,6 +43,8 @@ bool journal_logic_filter_entry (const string& entry)
   if (entry.find (sendreceive_changes_up_to_date_text ()) != string::npos) return true;
   if (entry.find (sendreceive_files_sendreceive_text ()) != string::npos) return true;
   if (entry.find (sendreceive_files_up_to_date_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_sendreceive_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_up_to_date_text ()) != string::npos) return true;
   return false;
 }
 

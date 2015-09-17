@@ -61,9 +61,11 @@ string resource_organize (void * webserver_request)
   
   
   if (request->query.count ("remove")) {
-    string remove = request->query["remove"];
+    size_t remove = convert_to_int (request->query["remove"]);
     vector <string> resources = request->database_config_user()->getActiveResources ();
-    resources = filter_string_array_diff (resources, {remove});
+    if (remove < resources.size ()) {
+      resources.erase (resources.begin () + remove);
+    }
     request->database_config_user()->setActiveResources (resources);
     request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
   }
@@ -88,14 +90,14 @@ string resource_organize (void * webserver_request)
   // Active resources.
   vector <string> active_resources = request->database_config_user()->getActiveResources ();
   string activesblock;
-  for (auto& active : active_resources) {
-    activesblock.append ("<p><a href=\"?remove=" + active + "\"> ✗ </a>" + active + "</p>\n");
+  for (size_t i = 0; i < active_resources.size (); i++) {
+    activesblock.append ("<p><a href=\"?remove=" + convert_to_string (i) + "\"> ✗ </a>" + active_resources [i] + "</p>\n");
   }
   view.set_variable ("activesblock", activesblock);
   
   
   // The selectable resources are the available ones minus the active ones.
-  vector <string> available_resources = Resource_Logic::getNames (webserver_request);
+  vector <string> available_resources = resource_logic_get_names (webserver_request);
   vector <string> selectable_resources = filter_string_array_diff (available_resources, active_resources);
   string selectablesblock;
   for (unsigned int i = 0; i < selectable_resources.size (); i++) {
@@ -106,25 +108,23 @@ string resource_organize (void * webserver_request)
   view.set_variable ("selectablesblock", selectablesblock);
   
   
-  if (config_logic_client_prepared ()) {
-    string html;
-    html = translate ("More resources may be available in Bibledit Cloud.");
-    html.append (" ");
-    html.append ("To list them here:");
-    html.append (" ");
-    if (resource_admin_acl (request)) {
-      html.append (client_logic_link_to_cloud (resource_admin_url (), translate ("Go to Bibledit Cloud.")));
-      html.append (" ");
-      html.append (translate ("Cache one or more external resources there."));
-    } else {
-      html.append (client_logic_link_to_cloud ("", translate ("Ask a manager to cache one or more external resources in Bibledit Cloud.")));
-    }
-    html.append (" ");
-    html.append (translate ("Come back to the Bibledit client here."));
-    html.append (" ");
-    html.append (translate ("Synchronize."));
-    view.set_variable ("cloudlink", html);
+  // The dividers.
+  vector <string> dividers = {
+    resource_logic_yellow_divider (),
+    resource_logic_green_divider (),
+    resource_logic_blue_divider (),
+    resource_logic_violet_divider (),
+    resource_logic_red_divider (),
+    resource_logic_orange_divider ()
+  };
+  string dividersblock;
+  for (unsigned int i = 0; i < dividers.size (); i++) {
+    string divider = dividers [i];
+    if (i) dividersblock.append (" | ");
+    dividersblock.append ("<a href=\"?add=" + divider + "\">" + divider + "</a>");
   }
+  view.set_variable ("dividersblock", dividersblock);
+  
   
   // Context before.
   if (request->query.count ("before")) {

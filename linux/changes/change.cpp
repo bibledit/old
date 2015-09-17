@@ -61,7 +61,7 @@ string changes_change (void * webserver_request)
   if (request->post.count ("unsubscribe")) {
     string unsubscribe = request->post["unsubscribe"];
     unsubscribe.erase (0, 11);
-    database_notes.unsubscribe (convert_to_int (unsubscribe));
+    notes_logic.unsubscribe (convert_to_int (unsubscribe));
     return "";
   }
   

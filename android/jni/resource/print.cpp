@@ -72,7 +72,7 @@ string resource_print (void * webserver_request)
     if (add == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a resource to add"), "", "");
       // The selectable resources are the available ones minus the already selected ones.
-      vector <string> resources = Resource_Logic::getNames (webserver_request);
+      vector <string> resources = resource_logic_get_names (webserver_request);
       resources = filter_string_array_diff (resources, request->database_config_user()->getPrintResources ());
       for (auto & resource : resources) {
         dialog_list.add_row (resource, "add", resource);
@@ -361,7 +361,7 @@ void resource_print_job (string jobId, string user, string bible)
           for (auto & resource : resources) {
             result.push_back ("<p>");
             result.push_back (resource);
-            string html = Resource_Logic::getHtml (&request, resource, book, chapter, verse);
+            string html = resource_logic_get_html (&request, resource, book, chapter, verse);
             result.push_back (html);
             result.push_back ("</p>");
           }

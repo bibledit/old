@@ -55,8 +55,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/book.h>
 #include <bible/chapter.h>
 #include <bible/import.h>
-#include <bible/import_usfm.h>
-#include <bible/import_bibleworks.h>
 #include <bible/abbreviations.h>
 #include <bible/order.h>
 #include <bible/css.h>
@@ -139,7 +137,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/bible-1.h>
 #include <notes/bible-n.h>
 #include <notes/bulk.h>
-#include <notes/editsource.h>
+#include <notes/edit.h>
 #include <notes/summary.h>
 #include <notes/click.h>
 #include <changes/changes.h>
@@ -174,7 +172,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/save.h>
 #include <editone/verse.h>
 #include <debug/index.h>
-#include <browser/index.h>
 #include <paratext/index.h>
 #include <manage/write.h>
 #include <personalize/index.h>
@@ -193,9 +190,6 @@ void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
-
-  // External browser.
-  if ((url == browser_index_url ()) && browser_index_acl (request)) browser_index (request);
 
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")
@@ -234,8 +228,6 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_book_url ()) && bible_book_acl (request)) request->reply = bible_book (request);
   else if ((url == bible_chapter_url ()) && bible_chapter_acl (request)) request->reply = bible_chapter (request);
   else if ((url == bible_import_url ()) && bible_import_acl (request)) request->reply = bible_import (request);
-  else if ((url == bible_import_usfm_url ()) && bible_import_usfm_acl (request)) request->reply = bible_import_usfm (request);
-  else if ((url == bible_import_bibleworks_url ()) && bible_import_bibleworks_acl (request)) request->reply = bible_import_bibleworks (request);
   else if ((url == compare_index_url ()) && compare_index_acl (request)) request->reply = compare_index (request);
   else if ((url == bible_abbreviations_url ()) && bible_abbreviations_acl (request)) request->reply = bible_abbreviations (request);
   else if ((url == bible_order_url ()) && bible_order_acl (request)) request->reply = bible_order (request);
@@ -271,7 +263,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_bible_1_url ()) && notes_bible_1_acl (request)) request->reply = notes_bible_1 (request);
   else if ((url == notes_bible_n_url ()) && notes_bible_n_acl (request)) request->reply = notes_bible_n (request);
   else if ((url == notes_bulk_url ()) && notes_bulk_acl (request)) request->reply = notes_bulk (request);
-  else if ((url == notes_editsource_url ()) && notes_editsource_acl (request)) request->reply = notes_editsource (request);
+  else if ((url == notes_edit_url ()) && notes_edit_acl (request)) request->reply = notes_edit (request);
   else if ((url == notes_summary_url ()) && notes_summary_acl (request)) request->reply = notes_summary (request);
 
   // Resources menu.

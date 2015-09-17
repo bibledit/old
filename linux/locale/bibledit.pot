@@ -7283,25 +7283,7 @@ msgstr ""
 msgid "organize"
 msgstr ""
 
-msgid "This resource is not available."
-msgstr ""
-
-msgid "To make it available, follow these steps:"
-msgstr ""
-
-msgid "Go to Bibledit Cloud."
-msgstr ""
-
-msgid "Cache this external resource there."
-msgstr ""
-
-msgid "Ask a manager to cache this external resource in Bibledit Cloud."
-msgstr ""
-
-msgid "Go back on the Bibledit client here."
-msgstr ""
-
-msgid "Synchronize."
+msgid "Cache this resource in Bibledit Cloud to make it available here."
 msgstr ""
 
 msgid "USFM Resources"
@@ -7360,13 +7342,16 @@ msgstr ""
 msgid "Click to activate:"
 msgstr ""
 
+msgid "Available dividers"
+msgstr ""
+
 msgid "Context"
 msgstr ""
 
-msgid "How many context verses to display before the focused verse:"
+msgid "Number of verses to display before the focused verse:"
 msgstr ""
 
-msgid "How many context verses to display after the focused verse:"
+msgid "Number of verses to display after the focused verse:"
 msgstr ""
 
 msgid "Select a resource to add"

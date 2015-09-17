@@ -24,9 +24,9 @@
 #include <config/libraries.h>
 
 
-string notes_editsource_url ();
-bool notes_editsource_acl (void * webserver_request);
-string notes_editsource (void * webserver_request);
+string notes_edit_url ();
+bool notes_edit_acl (void * webserver_request);
+string notes_edit (void * webserver_request);
 
 
 #endif

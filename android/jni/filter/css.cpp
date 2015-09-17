@@ -17,7 +17,7 @@
  */
 
 
-#include <filter/customcss.h>
+#include <filter/css.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/md5.h>
@@ -26,7 +26,7 @@
 #include <styles/logic.h>
 
 
-string Filter_CustomCSS::directionUnspecified (int value)
+string Filter_Css::directionUnspecified (int value)
 {
   value = value % 10;
   if (value == 0) return "checked";
@@ -34,7 +34,7 @@ string Filter_CustomCSS::directionUnspecified (int value)
 }
 
 
-string Filter_CustomCSS::directionLeftToRight (int value)
+string Filter_Css::directionLeftToRight (int value)
 {
   value = value % 10;
   if (value == 1) return "checked";
@@ -42,7 +42,7 @@ string Filter_CustomCSS::directionLeftToRight (int value)
 }
 
 
-string Filter_CustomCSS::directionRightToLeft (int value)
+string Filter_Css::directionRightToLeft (int value)
 {
   value = value % 10;
   if (value == 2) return "checked";
@@ -50,19 +50,19 @@ string Filter_CustomCSS::directionRightToLeft (int value)
 }
 
 
-string Filter_CustomCSS::ltr ()
+string Filter_Css::ltr ()
 {
   return "ltr";
 }
 
 
-string Filter_CustomCSS::rtl ()
+string Filter_Css::rtl ()
 {
   return "rtl";
 }
 
 
-int Filter_CustomCSS::directionValue (string direction)
+int Filter_Css::directionValue (string direction)
 {
   if (direction == ltr ()) return 1;
   if (direction == rtl ()) return 2;
@@ -70,7 +70,7 @@ int Filter_CustomCSS::directionValue (string direction)
 }
 
 
-string Filter_CustomCSS::writingModeUnspecified (int value)
+string Filter_Css::writingModeUnspecified (int value)
 {
   value = (int) (value / 10);
   value = value % 10;
@@ -79,7 +79,7 @@ string Filter_CustomCSS::writingModeUnspecified (int value)
 }
 
 
-string Filter_CustomCSS::writingModeTopBottomLeftRight (int value)
+string Filter_Css::writingModeTopBottomLeftRight (int value)
 {
   value = (int) (value / 10);
   value = value % 10;
@@ -88,7 +88,7 @@ string Filter_CustomCSS::writingModeTopBottomLeftRight (int value)
 }
 
 
-string Filter_CustomCSS::writingModeTopBottomRightLeft (int value)
+string Filter_Css::writingModeTopBottomRightLeft (int value)
 {
   value = (int) (value / 10);
   value = value % 10;
@@ -97,7 +97,7 @@ string Filter_CustomCSS::writingModeTopBottomRightLeft (int value)
 }
 
 
-string Filter_CustomCSS::writingModeBottomTopLeftRight (int value)
+string Filter_Css::writingModeBottomTopLeftRight (int value)
 {
   value = (int) (value / 10);
   value = value % 10;
@@ -106,7 +106,7 @@ string Filter_CustomCSS::writingModeBottomTopLeftRight (int value)
 }
 
 
-string Filter_CustomCSS::writingModeBottomTopRightLeft (int value)
+string Filter_Css::writingModeBottomTopRightLeft (int value)
 {
   value = (int) (value / 10);
   value = value % 10;
@@ -115,31 +115,31 @@ string Filter_CustomCSS::writingModeBottomTopRightLeft (int value)
 }
 
 
-string Filter_CustomCSS::tb_lr ()
+string Filter_Css::tb_lr ()
 {
   return "tb-lr";
 }
 
 
-string Filter_CustomCSS::tb_rl ()
+string Filter_Css::tb_rl ()
 {
   return "tb-rl";
 }
 
 
-string Filter_CustomCSS::bt_lr ()
+string Filter_Css::bt_lr ()
 {
   return "bt-lr";
 }
 
 
-string Filter_CustomCSS::bt_rl ()
+string Filter_Css::bt_rl ()
 {
   return "bt-rl";
 }
 
 
-int Filter_CustomCSS::writingModeValue (string mode)
+int Filter_Css::writingModeValue (string mode)
 {
   if (mode == tb_lr ()) return 1;
   if (mode == tb_rl ()) return 2;
@@ -154,7 +154,7 @@ int Filter_CustomCSS::writingModeValue (string mode)
 // Since a bible can contain any Unicode character,
 // just using the bible as the class identifier will not work.
 // The function solves that.
-string Filter_CustomCSS::getClass (string bible)
+string Filter_Css::getClass (string bible)
 {
   string Class = md5 (bible);
   Class = Class.substr (0, 6);
@@ -169,7 +169,7 @@ string Filter_CustomCSS::getClass (string bible)
 // directionvalue: The value for the text direction.
 // $lineheigh: Value in percents.
 // $letterspacing: Value multiplied by 10, in pixels.
-string Filter_CustomCSS::getCss (string class_, string font, int directionvalue, int lineheight, int letterspacing)
+string Filter_Css::getCss (string class_, string font, int directionvalue, int lineheight, int letterspacing)
 {
   vector <string> css;
   
@@ -231,4 +231,10 @@ string Filter_CustomCSS::getCss (string class_, string font, int directionvalue,
   css.push_back ("}");
   
   return filter_string_implode (css, "\n");
+}
+
+
+string filter_css_grey_background ()
+{
+  return "style=\"background-color: #CCCCCC\"";
 }

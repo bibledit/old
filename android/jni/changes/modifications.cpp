@@ -39,17 +39,22 @@
 #include <client/logic.h>
 #include <access/bible.h>
 #include <config/globals.h>
+#include <changes/logic.h>
 
 
 // Helper function.
+// $user: The user whose changes are being processed.
+// $recipients: The users who opted to receive online notifications of any contributors.
 void changes_process_identifiers (Webserver_Request * request,
                                   string user,
+                                  vector <string> recipients,
                                   string bible,
                                   int book, int chapter,
                                   int oldId, int newId,
                                   string & email)
 {
   if (oldId != 0) {
+    recipients = filter_string_array_diff (recipients, {user});
     Database_Modifications database_modifications = Database_Modifications ();
     string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
     Database_Modifications_Text old_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, oldId);
@@ -89,7 +94,11 @@ void changes_process_identifiers (Webserver_Request * request,
           email += modification;
           email += "</div>";
           if (request->database_config_user()->getUserUserChangesNotificationsOnline (user)) {
-            database_modifications.recordNotification ({user}, "☺", bible, book, chapter, verse, old_html, modification, new_html);
+            database_modifications.recordNotification ({user}, changes_personal_category (), bible, book, chapter, verse, old_html, modification, new_html);
+          }
+          for (auto recipient : recipients) {
+            if (recipient == user) continue;
+            database_modifications.recordNotification ({recipient}, user, bible, book, chapter, verse, old_html, modification, new_html);
           }
         }
       }
@@ -122,6 +131,18 @@ void changes_modifications ()
   // through the web editor or through a client.
   // It runs before the team changes.
   // This produces the desired order of the notifications in the GUI.
+  
+  // Get the users who will receive the changes entered by the contributors.
+  vector <string> recipients;
+  {
+    vector <string> users = request.database_users ()->getUsers ();
+    for (auto & user : users) {
+      if (request.database_config_user ()->getContributorChangesNotificationsOnline (user)) {
+        recipients.push_back (user);
+      }
+    }
+  }
+  
   vector <string> users = database_modifications.getUserUsernames ();
   if (!users.empty ()) Database_Logs::log ("Change notifications: Per user", Filter_Roles::translator ());
   for (auto user : users) {
@@ -131,7 +152,7 @@ void changes_modifications ()
     for (auto bible : bibles) {
       
       // Body of the email to be sent.
-      string email = "<p>" + translate("You have entered the changes below in the Bible editor.") + " " + translate ("You may check if it made its way into the Bible text.") + "</p>";
+      string email = "<p>" + translate("You have entered the changes below in a Bible editor.") + " " + translate ("You may check if it made its way into the Bible text.") + "</p>";
       size_t empty_email_length = email.length ();
       
       // Go through the books in that Bible.
@@ -157,7 +178,7 @@ void changes_modifications ()
             newId = IdSet.newid;
             
             if (restart) {
-              changes_process_identifiers (&request, user, bible, book, chapter, referenceNewId, newId, email);
+              changes_process_identifiers (&request, user, recipients, bible, book, chapter, referenceNewId, newId, email);
               //referenceOldId = oldId;
               referenceNewId = newId;
               lastNewId = newId;
@@ -173,7 +194,7 @@ void changes_modifications ()
           }
           
           // Process the last set of identifiers.
-          changes_process_identifiers (&request, user, bible, book, chapter, referenceNewId, newId, email);
+          changes_process_identifiers (&request, user, recipients, bible, book, chapter, referenceNewId, newId, email);
           
         }
       }
@@ -198,7 +219,7 @@ void changes_modifications ()
   
   
   // Generate the notifications, online and by email,
-  // for the changes in the Bibles accepted by the team since the previous notifications were generated.
+  // for the changes in the Bibles entered by anyone since the previous notifications were generated.
   vector <string> bibles = database_modifications.getTeamDiffBibles ();
   for (auto bible : bibles) {
     
@@ -304,7 +325,7 @@ void changes_modifications ()
             }
             if (old_text != new_text) {
               string modification = filter_diff_diff (old_text, new_text);
-              database_modifications.recordNotification (changeNotificationUsers, "♺", bible, book, chapter, verse, old_html, modification, new_html);
+              database_modifications.recordNotification (changeNotificationUsers, changes_bible_category (), bible, book, chapter, verse, old_html, modification, new_html);
             }
           }
         }

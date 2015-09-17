@@ -17,23 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-  const char * bibledit_get_version_number ();
-  const char * bibledit_get_network_port ();
-  void bibledit_initialize_library (const char * package, const char * webroot);
-  void bibledit_set_touch_enabled (bool enabled);
-  void bibledit_set_quit_at_midnight ();
-  void bibledit_set_timezone_hours_offset_utc (int hours);
-  void bibledit_start_library ();
-  const char * bibledit_get_last_page ();
-  bool bibledit_is_running ();
-  void bibledit_stop_library ();
-  void bibledit_shutdown_library ();
-  void bibledit_log (const char * message);
-
-#ifdef __cplusplus
-}
-#endif
+$(document).ready (function () {
+  $ ("#form").submit (function (event) {
+    var text = $("#noteblock").html();
+    console.log (text);
+    $("#data").html (text);
+  });
+});

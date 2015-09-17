@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 $(document).ready (function () {
-  rangy.init ();
   navigationNewPassage ();
   $ ("#usfmverseeditor").on ("paste cut keydown", verseEditorChanged);
   $ (window).on ("unload", verseEditorUnload);
@@ -28,7 +27,6 @@ $(document).ready (function () {
     document.execCommand ("insertHTML", false, data);
   });
   verseIdPoller ();
-  $ ("#usfmverseeditor").focus ();
 });
 
 
@@ -46,7 +44,6 @@ var verseLoadedText;
 var verseIdChapter = 0;
 var verseIdTimeout;
 var verseReload = false;
-var verseCaretPosition = 0;
 var verseEditorTextChanged = false;
 var verseSaveAsync;
 var verseLoadAjaxRequest;
@@ -81,19 +78,17 @@ function verseEditorLoadChapter ()
     verseVerse = verseNavigationVerse;
     verseVerseLoading = verseNavigationVerse;
     verseIdChapter = 0;
-    $ ("#usfmverseeditor").focus;
-    verseCaretPosition = verseGetCaretPosition ();
+    if (verseEditorFocused) verseFocus ();
     if (verseLoadAjaxRequest && verseLoadAjaxRequest.readystate != 4) {
       verseLoadAjaxRequest.abort();
     }
+    verseEditorFocused = verseFocused ();
     verseLoadAjaxRequest = $.ajax ({
       url: "load",
       type: "GET",
       data: { bible: verseBible, book: verseBook, chapter: verseChapter, verse: verseVerseLoading },
       success: function (response) {
         verseEditorWriteAccess = checksum_readwrite (response);
-        var contenteditable = ($ ("#usfmverseeditor").attr('contenteditable') === 'true');
-        if (verseEditorWriteAccess != contenteditable) $ ("#usfmverseeditor").attr('contenteditable', verseEditorWriteAccess);
         // Checksumming.
         response = checksum_receive (response);
         if (response !== false) {
@@ -103,12 +98,9 @@ function verseEditorLoadChapter ()
             verseEditorStatus (verseEditorVerseLoaded);
             verseLoadedText = response;
             verseVerseLoaded = verseVerseLoading;
-            if (verseReload) {
-              versePositionCaret (verseCaretPosition);
-            } else {
-              versePositionCaret (0);
-            }
             verseReload = false;
+            if (verseEditorFocused || verseInitialFocus) verseFocus ();
+            verseInitialFocus = false;
           }
         } else {
           // Checksum error: Reload.
@@ -137,7 +129,7 @@ function verseEditorSaveChapter (sync)
   verseEditorTextChanged = false;
   if (!verseBible) return;
   if (!verseBook) return;
-  var usfm = $ ("#usfmverseeditor").text ();
+  var usfm = $ ("#usfmverseeditor").html ();
   if (usfm == verseLoadedText) return;
   verseEditorStatus (verseEditorVerseSaving);
   verseLoadedText = usfm;
@@ -222,32 +214,15 @@ function verseEditorPollId ()
 }
 
 
-function verseGetCaretPosition ()
+var verseInitialFocus = true;
+var verseEditorFocused = true;
+
+function verseFocused ()
 {
-  $ ("#usfmverseeditor").focus ();
-  var position = undefined;
-  if ($ ("#usfmverseeditor").is (":focus")) {
-    var sel = rangy.getSelection ();
-    var range = sel.getRangeAt(0);
-    position = range.startOffset;
-  }
-  return position;
+  return $ ("span[contenteditable]").is (":focus");
 }
 
-
-function versePositionCaret (position)
+function verseFocus ()
 {
-  $ ("#usfmverseeditor").focus ();
-  var currentPosition = verseGetCaretPosition ();
-  if (currentPosition == undefined) return;
-  if (position == undefined) return;
-  if (position == 0) {
-    position = 4;
-    var vs = verseVerse.toString();
-    position += vs.length;
-  }
-  var selection = rangy.getSelection ();
-  selection.move ("character", position - currentPosition);
+  $ ("span[contenteditable]").focus ();
 }
-
-

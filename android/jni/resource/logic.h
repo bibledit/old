@@ -24,17 +24,19 @@
 #include <config/libraries.h>
 
 
-class Resource_Logic
-{
-public:
-  static vector <string> getNames (void * webserver_request);
-  static string getExternal (string bible, string resource, int book, int chapter, int verse, bool apply_mapping);
-  static string getHtml (void * webserver_request, string resource, int book, int chapter, int verse);
-private:
-};
-
+string resource_logic_get_html (void * webserver_request, string resource, int book, int chapter, int verse);
+vector <string> resource_logic_get_names (void * webserver_request);
 
 void resource_logic_import_images (string resource, string path);
+
+string resource_logic_yellow_divider ();
+string resource_logic_green_divider ();
+string resource_logic_blue_divider ();
+string resource_logic_violet_divider ();
+string resource_logic_red_divider ();
+string resource_logic_orange_divider ();
+bool resource_logic_is_divider (string resource);
+string resource_logic_get_divider (string resource);
 
 
 #endif
