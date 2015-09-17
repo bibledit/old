@@ -175,7 +175,7 @@
 		CA1599E31B1759A600B26F9C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Teus Benschop";
 				TargetAttributes = {
 					CA1599EA1B1759A600B26F9C = {
@@ -273,6 +273,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -345,6 +346,7 @@
 					"$(PROJECT_DIR)/lib",
 					"$(PROJECT_DIR)/webroot",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.bibledit.osx;
 				PRODUCT_NAME = Bibledit;
 			};
 			name = Debug;
@@ -363,6 +365,7 @@
 					"$(PROJECT_DIR)/lib",
 					"$(PROJECT_DIR)/webroot",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.bibledit.osx;
 				PRODUCT_NAME = Bibledit;
 			};
 			name = Release;
