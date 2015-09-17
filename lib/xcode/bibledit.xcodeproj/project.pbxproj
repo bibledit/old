@@ -852,7 +852,6 @@
 		CAC61E201B4C3C5400700C8D /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
 		CAC61E211B4C3C5400700C8D /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
 		CAC61E221B4C3C5400700C8D /* write.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = write.html; sourceTree = "<group>"; };
-		CAC758781B07CA2500A3AB21 /* installcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcentos.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAC949A11AB9998300171978 /* change.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = change.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC949A21AB9998300171978 /* change.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = change.h; sourceTree = "<group>"; };
 		CAC949A31AB9998300171978 /* change.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = change.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1909,7 +1908,6 @@
 				CAA4D1551A45A647003ABA25 /* typesetting.html */,
 				CAA4D1561A45A647003ABA25 /* typesettingindesign.html */,
 				CAA4D1571A45A647003ABA25 /* typesettinglibreoffice.html */,
-				CAC758781B07CA2500A3AB21 /* installcentos.html */,
 			);
 			name = help;
 			path = ../help;
