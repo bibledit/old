@@ -87,6 +87,8 @@ string bible_import (void * webserver_request)
     } else {
       success_message = translate("Nothing was imported.");
     }
+    // User imported something into this Bible: Set it as the default Bible.
+    request->database_config_user()->setBible (bible);
   }
 
   // File upload.
@@ -100,6 +102,8 @@ string bible_import (void * webserver_request)
     } else {
       error_message = translate ("Nothing was uploaded");
     }
+    // User imported something into this Bible: Set it as the default Bible.
+    request->database_config_user()->setBible (bible);
   }
   
   view.set_variable ("success_message", success_message);
