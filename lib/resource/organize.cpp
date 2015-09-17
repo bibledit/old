@@ -97,7 +97,7 @@ string resource_organize (void * webserver_request)
   
   
   // The selectable resources are the available ones minus the active ones.
-  vector <string> available_resources = Resource_Logic::getNames (webserver_request);
+  vector <string> available_resources = resource_logic_get_names (webserver_request);
   vector <string> selectable_resources = filter_string_array_diff (available_resources, active_resources);
   string selectablesblock;
   for (unsigned int i = 0; i < selectable_resources.size (); i++) {
@@ -107,26 +107,6 @@ string resource_organize (void * webserver_request)
   }
   view.set_variable ("selectablesblock", selectablesblock);
   
-  
-  if (config_logic_client_prepared ()) {
-    string html;
-    html = translate ("More resources may be available in Bibledit Cloud.");
-    html.append (" ");
-    html.append ("To list them here:");
-    html.append (" ");
-    if (resource_admin_acl (request)) {
-      html.append (client_logic_link_to_cloud (resource_admin_url (), translate ("Go to Bibledit Cloud.")));
-      html.append (" ");
-      html.append (translate ("Cache one or more external resources there."));
-    } else {
-      html.append (client_logic_link_to_cloud ("", translate ("Ask a manager to cache one or more external resources in Bibledit Cloud.")));
-    }
-    html.append (" ");
-    html.append (translate ("Come back to the Bibledit client here."));
-    html.append (" ");
-    html.append (translate ("Synchronize."));
-    view.set_variable ("cloudlink", html);
-  }
   
   // The dividers.
   vector <string> dividers = {

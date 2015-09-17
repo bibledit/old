@@ -62,7 +62,7 @@ string consistency_index (void * webserver_request)
     string add = request->query ["add"];
     if (add == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Would you like to add a Resource?"), "", "");
-      vector <string> resources = Resource_Logic::getNames (webserver_request);
+      vector <string> resources = resource_logic_get_names (webserver_request);
       for (auto resource : resources) {
         dialog_list.add_row (resource, "add", resource);
       }
