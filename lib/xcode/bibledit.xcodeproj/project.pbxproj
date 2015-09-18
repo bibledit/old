@@ -671,7 +671,6 @@
 		CAA4D31A1A45A648003ABA25 /* similar.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = similar.js; sourceTree = "<group>"; };
 		CAA4D31C1A45A648003ABA25 /* strong.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = strong.js; sourceTree = "<group>"; };
 		CAA4D31E1A45A648003ABA25 /* strongs.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = strongs.js; sourceTree = "<group>"; };
-		CAA4D3371A45A648003ABA25 /* loggedin.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = loggedin.html; sourceTree = "<group>"; };
 		CAA4D3381A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D3391A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAA4D33A1A45A648003ABA25 /* login.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = login.cpp; sourceTree = "<group>"; };
@@ -679,7 +678,6 @@
 		CAA4D33C1A45A648003ABA25 /* login.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = login.html; sourceTree = "<group>"; };
 		CAA4D33D1A45A648003ABA25 /* logout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logout.cpp; sourceTree = "<group>"; };
 		CAA4D33E1A45A648003ABA25 /* logout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logout.h; sourceTree = "<group>"; };
-		CAA4D33F1A45A648003ABA25 /* logout.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = logout.html; sourceTree = "<group>"; };
 		CAA4D3401A45A648003ABA25 /* password.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = password.cpp; sourceTree = "<group>"; };
 		CAA4D3411A45A648003ABA25 /* password.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = password.h; sourceTree = "<group>"; };
 		CAA4D3421A45A648003ABA25 /* password.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = password.html; sourceTree = "<group>"; };
@@ -2389,7 +2387,6 @@
 		CAA4D32E1A45A648003ABA25 /* session */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D3371A45A648003ABA25 /* loggedin.html */,
 				CAA4D3381A45A648003ABA25 /* logic.cpp */,
 				CAA4D3391A45A648003ABA25 /* logic.h */,
 				CABA6EDA1A951731009E2C99 /* login.js */,
@@ -2398,7 +2395,6 @@
 				CAA4D33C1A45A648003ABA25 /* login.html */,
 				CAA4D33D1A45A648003ABA25 /* logout.cpp */,
 				CAA4D33E1A45A648003ABA25 /* logout.h */,
-				CAA4D33F1A45A648003ABA25 /* logout.html */,
 				CAA4D3401A45A648003ABA25 /* password.cpp */,
 				CAA4D3411A45A648003ABA25 /* password.h */,
 				CAA4D3421A45A648003ABA25 /* password.html */,
