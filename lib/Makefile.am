@@ -209,7 +209,7 @@ libbibledit_a_SOURCES = \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
-	search/search.cpp \
+	search/all.cpp \
 	search/index.cpp \
 	search/select.cpp \
 	search/replace.cpp \

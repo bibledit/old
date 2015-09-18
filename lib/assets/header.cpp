@@ -76,12 +76,6 @@ void Assets_Header::setEditorStylesheet ()
 }
 
 
-void Assets_Header::setSearchQuery (string query)
-{
-  view->set_variable ("searchquery", query);
-}
-
-
 // Whether to display the topbar.
 bool Assets_Header::displayTopbar ()
 {
@@ -143,11 +137,6 @@ string Assets_Header::run ()
     view->enable_zone ("user_full");
     Menu_User menu_user = Menu_User (webserver_request);
     view->set_variable ("usermenu", menu_user.create (loginrequest));
-    if (request->session_logic ()->currentLevel () >= 2) {
-      view->enable_zone ("display_search");
-      view->set_variable ("search", translate ("Search"));
-      view->set_variable ("searching", translate ("Searching"));
-    }
     if (displayNavigator) {
       view->enable_zone ("display_navigator");
       string bible = access_bible_clamp (request, request->database_config_user()->getBible ());

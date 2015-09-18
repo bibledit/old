@@ -39,7 +39,7 @@ string index_index (void * webserver_request)
 {
   string page;
 
-  page = Assets_Page::header ("Bibledit", webserver_request, "");
+  page = Assets_Page::header ("Bibledit", webserver_request);
 
   Assets_View view = Assets_View ();
   page += view.render ("index", "index");

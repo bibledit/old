@@ -17,7 +17,7 @@
  */
 
 
-#include <search/search.h>
+#include <search/all.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -32,19 +32,19 @@
 #include <notes/note.h>
 
 
-string search_search_url ()
+string search_all_url ()
 {
-  return "search/search";
+  return "search/all";
 }
 
 
-bool search_search_acl (void * webserver_request)
+bool search_all_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
 
-string search_search (void * webserver_request)
+string search_all (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -60,8 +60,6 @@ string search_search (void * webserver_request)
   if (request->query.count ("q")) {
     queryString = request->query ["q"];
   }
-  // Put the query string into the search box.
-  header.setSearchQuery (queryString);
 
   
   page = header.run ();
@@ -69,6 +67,10 @@ string search_search (void * webserver_request)
   
   Assets_View view = Assets_View ();
   
+  
+  // Put the query string into the search box.
+  view.set_variable ("query", queryString);
+
   
   // Clean the query string up.
   queryString = filter_string_trim (queryString);
@@ -182,7 +184,7 @@ string search_search (void * webserver_request)
   view.set_variable ("textblock", textblock);
   
   
-  page += view.render ("search", "search");
+  page += view.render ("search", "all");
   
   
   page += Assets_Page::footer ();

@@ -54,7 +54,7 @@ string consistency_index (void * webserver_request)
 
   
   string page;
-  page = Assets_Page::header (translate ("Consistency"), webserver_request, "");
+  page = Assets_Page::header (translate ("Consistency"), webserver_request);
   Assets_View view = Assets_View ();
 
   

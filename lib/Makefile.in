@@ -216,7 +216,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
 	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
 	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
-	search/search.$(OBJEXT) search/index.$(OBJEXT) \
+	search/all.$(OBJEXT) search/index.$(OBJEXT) \
 	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
 	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
 	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
@@ -722,7 +722,7 @@ libbibledit_a_SOURCES = \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
-	search/search.cpp \
+	search/all.cpp \
 	search/index.cpp \
 	search/select.cpp \
 	search/replace.cpp \
@@ -1626,7 +1626,7 @@ edit/styles.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/logic.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
-search/search.$(OBJEXT): search/$(am__dirstamp) \
+search/all.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/index.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
@@ -2395,6 +2395,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/manage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/organize.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/print.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/all.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/index.Po@am__quote@
@@ -2407,7 +2408,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/replacego2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/replacepre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/replacepre2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/search2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/similar.Po@am__quote@

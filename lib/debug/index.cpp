@@ -47,7 +47,7 @@ string debug_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string page;
 
-  page = Assets_Page::header ("Bibledit", webserver_request, "");
+  page = Assets_Page::header ("Bibledit", webserver_request);
 
   Assets_View view = Assets_View ();
 

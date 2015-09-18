@@ -24,9 +24,9 @@
 #include <config/libraries.h>
 
 
-string search_search_url ();
-bool search_search_acl (void * webserver_request);
-string search_search (void * webserver_request);
+string search_all_url ();
+bool search_all_acl (void * webserver_request);
+string search_all (void * webserver_request);
 
 
 #endif
