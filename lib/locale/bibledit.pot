@@ -6242,11 +6242,7 @@ msgid "Role"
 msgstr ""
 
 msgid ""
-"This lists the accounts of the users who have access to Bibles you have "
-"acccess to, and have roles you are responsible for."
-msgstr ""
-
-msgid "It also lists users without access to any Bibles."
+"This lists the accounts of the users who have roles you are responsible for."
 msgstr ""
 
 msgid "Click ✗ before a username to delete the account."
@@ -6267,13 +6263,10 @@ msgstr ""
 msgid "Normally users register their own account."
 msgstr ""
 
-msgid "Bible translation teams."
+msgid "Click ➕  to give a user access to a Bible."
 msgstr ""
 
-msgid "Click ➕  to make a user a member of a Bible translation team."
-msgstr ""
-
-msgid "Click ✗ before a Bible to remove that member from the team."
+msgid "Click ✗ before a Bible to remove the access of a user to that Bible."
 msgstr ""
 
 msgid "Some roles can modify the text of Bible books."
@@ -6286,9 +6279,6 @@ msgid "It shows how many of the books in the Bible the user can modify."
 msgstr ""
 
 msgid "Click it to change it."
-msgstr ""
-
-msgid "You can only see Bibles you have access to yourself."
 msgstr ""
 
 msgid ""
@@ -6435,9 +6425,6 @@ msgid "Notifications"
 msgstr ""
 
 msgid "Sync"
-msgstr ""
-
-msgid "Browser"
 msgstr ""
 
 msgid "Cross references"
