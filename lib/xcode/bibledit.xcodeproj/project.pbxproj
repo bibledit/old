@@ -934,6 +934,9 @@
 		CAEE85F61A7006B500BE3A1A /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAEE85F71A7035CD00BE3A1A /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAEE85F81A7035CD00BE3A1A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CAF0A8EF1BAD76E40066723D /* sword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sword.cpp; sourceTree = "<group>"; };
+		CAF0A8F01BAD76E40066723D /* sword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sword.h; sourceTree = "<group>"; };
+		CAF0A8F11BAD76E40066723D /* sword.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sword.html; sourceTree = "<group>"; };
 		CAF6DBEA1A72583700E5389F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DBEB1A72583700E5389F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAF6DBEC1A72583700E5389F /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -2245,10 +2248,10 @@
 				CA3D1DF01A9E31D800A9456A /* bible2resource.cpp */,
 				CA3D1DF11A9E31D800A9456A /* bible2resource.h */,
 				CA3D1DF21A9E31D800A9456A /* bible2resource.html */,
-				CA3D1DF31A9E31F700A9456A /* convert2resource.cpp */,
-				CA3D1DF41A9E31F700A9456A /* convert2resource.h */,
 				CA35A13E1A9F49CA00221B89 /* convert2bible.cpp */,
 				CA35A13F1A9F49CA00221B89 /* convert2bible.h */,
+				CA3D1DF31A9E31F700A9456A /* convert2resource.cpp */,
+				CA3D1DF41A9E31F700A9456A /* convert2resource.h */,
 				CA80A6FE1AA069FE00C7208F /* download.cpp */,
 				CA80A6FF1AA069FE00C7208F /* download.h */,
 				CA80A7001AA069FE00C7208F /* download.html */,
@@ -2268,22 +2271,25 @@
 				CA0090B21B739EC9006E425C /* img.h */,
 				CA0090B31B739EC9006E425C /* img.html */,
 				CADE4D7A1A9DE2FD00F16E49 /* index.cpp */,
-				CADE4D7C1A9DE99200F16E49 /* index.html */,
 				CADE4D7B1A9DE2FD00F16E49 /* index.h */,
+				CADE4D7C1A9DE99200F16E49 /* index.html */,
 				CAA4D2C41A45A648003ABA25 /* index.js */,
 				CADE4D801A9DF45800F16E49 /* logic.cpp */,
 				CADE4D811A9DF45800F16E49 /* logic.h */,
 				CA35A1381A9F3EE100221B89 /* manage.cpp */,
 				CA35A1391A9F3EE100221B89 /* manage.h */,
 				CA35A13A1A9F3EE100221B89 /* manage.html */,
-				CAA4D2C91A45A648003ABA25 /* organize.js */,
-				CADE4D7F1A9DF02900F16E49 /* organize.html */,
 				CADE4D7D1A9DEF2000F16E49 /* organize.cpp */,
 				CADE4D7E1A9DEF2000F16E49 /* organize.h */,
-				CAA4D2CB1A45A648003ABA25 /* print.js */,
+				CADE4D7F1A9DF02900F16E49 /* organize.html */,
+				CAA4D2C91A45A648003ABA25 /* organize.js */,
 				CA35A1401A9F518900221B89 /* print.cpp */,
 				CA35A1411A9F518900221B89 /* print.h */,
 				CA35A1421A9F518900221B89 /* print.html */,
+				CAA4D2CB1A45A648003ABA25 /* print.js */,
+				CAF0A8EF1BAD76E40066723D /* sword.cpp */,
+				CAF0A8F01BAD76E40066723D /* sword.h */,
+				CAF0A8F11BAD76E40066723D /* sword.html */,
 			);
 			name = resource;
 			path = ../resource;

@@ -67,12 +67,6 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-msgid "Search"
-msgstr ""
-
-msgid "Searching"
-msgstr ""
-
 msgid "Abbreviations"
 msgstr ""
 
@@ -5814,6 +5808,21 @@ msgstr ""
 msgid "Search the Bible"
 msgstr ""
 
+msgid "What would you like to do?"
+msgstr ""
+
+msgid "Edit Bible text"
+msgstr ""
+
+msgid "View notes"
+msgstr ""
+
+msgid "View resources"
+msgstr ""
+
+msgid "View changes"
+msgstr ""
+
 msgid "No files in this folder"
 msgstr ""
 
@@ -6383,6 +6392,9 @@ msgid "Tools"
 msgstr ""
 
 msgid "Settings"
+msgstr ""
+
+msgid "Search"
 msgstr ""
 
 msgid "Workbench"
@@ -7371,6 +7383,12 @@ msgstr ""
 msgid "Generate the document."
 msgstr ""
 
+msgid "notes"
+msgstr ""
+
+msgid "verses"
+msgstr ""
+
 msgid "Search for verses with similar Hebrew or Greek in:"
 msgstr ""
 
@@ -7391,12 +7409,6 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "notes"
-msgstr ""
-
-msgid "verses"
-msgstr ""
-
 msgid "Current book"
 msgstr ""
 
@@ -7415,10 +7427,16 @@ msgstr ""
 msgid "Display the intersection of them and the ones already on the page"
 msgstr ""
 
+msgid "Search in active Bible."
+msgstr ""
+
 msgid "Enter the search term."
 msgstr ""
 
 msgid "Press Enter."
+msgstr ""
+
+msgid "Replace in active Bible."
 msgstr ""
 
 msgid "Enter what to search for."
@@ -7445,16 +7463,19 @@ msgstr ""
 msgid "To replace all passages, click Apply all."
 msgstr ""
 
-msgid "Advanced search."
+msgid "Advanced search in active Bible."
 msgstr ""
 
 msgid "Search with more options."
 msgstr ""
 
-msgid "Advanced replace."
+msgid "Advanced replace in active Bible."
 msgstr ""
 
 msgid "Replace with more options."
+msgstr ""
+
+msgid "Search in all Bibles and all notes."
 msgstr ""
 
 msgid "Search the active Bible for verses similar to the focused verse."
@@ -7680,12 +7701,6 @@ msgstr ""
 msgid "Sending settings"
 msgstr ""
 
-msgid "Welcome"
-msgstr ""
-
-msgid "You have logged in."
-msgstr ""
-
 msgid "Username should be at least two characters long"
 msgstr ""
 
@@ -7705,12 +7720,6 @@ msgid "Not registered?"
 msgstr ""
 
 msgid "Sign up!"
-msgstr ""
-
-msgid "Goodbye"
-msgstr ""
-
-msgid "You have logged out"
 msgstr ""
 
 msgid "Username or email address is too short"
