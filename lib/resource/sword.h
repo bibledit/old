@@ -28,8 +28,13 @@ string resource_sword_url ();
 bool resource_sword_acl (void * webserver_request);
 string resource_sword (void * webserver_request);
 
+string resource_sword_get_path ();
 void resource_sword_refresh_module_list ();
 string resource_sword_module_list_path ();
+string resource_sword_get_source (string line);
+string resource_sword_get_module (string line);
+void resource_sword_install_module (string source, string module);
+void resource_sword_uninstall_module (string module);
 
 
 #endif

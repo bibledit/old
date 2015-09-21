@@ -194,6 +194,10 @@ void tasks_run_one (string filename)
     resource_logic_import_images (parameter1, parameter2);
   } else if (command == REFRESHSWORDMODULES) {
     resource_sword_refresh_module_list ();
+  } else if (command == INSTALLSWORDMODULE) {
+    resource_sword_install_module (parameter1, parameter2);
+  } else if (command == UNINSTALLSWORDMODULE) {
+    resource_sword_uninstall_module (parameter1);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

@@ -6433,6 +6433,9 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
+msgid "SWORD"
+msgstr ""
+
 msgid "Notifications"
 msgstr ""
 
@@ -7381,6 +7384,20 @@ msgid "From"
 msgstr ""
 
 msgid "Generate the document."
+msgstr ""
+
+msgid "install"
+msgstr ""
+
+msgid "uninstall"
+msgstr ""
+
+msgid "SWORD modules"
+msgstr ""
+
+msgid ""
+"Refresh the list of modules from the SWORD servers and view the progress in "
+"the journal."
 msgstr ""
 
 msgid "notes"
