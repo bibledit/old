@@ -66,6 +66,13 @@ string resource_sword (void * webserver_request)
   }
   
   
+  if (request->query.count ("update")) {
+    tasks_logic_queue (UPDATESWORDMODULE, {source, module});
+    redirect_browser (request, journal_index_url ());
+  }
+  
+  
+  
   if (request->query.count ("uninstall")) {
     tasks_logic_queue (UNINSTALLSWORDMODULE, {module});
     redirect_browser (request, journal_index_url ());
@@ -78,19 +85,36 @@ string resource_sword (void * webserver_request)
   Assets_View view = Assets_View ();
 
   
-  string contents = filter_url_file_get_contents (resource_sword_module_list_path ());
-  vector <string> lines = filter_string_explode (contents, '\n');
+  map <string, string> installed_modules;
+  {
+    vector <string> modules = resource_sword_get_installed ();
+    for (auto module : modules) {
+      string name = resource_sword_get_installed_module (module);
+      string version = resource_sword_get_version (module);
+      installed_modules [name] = version;
+    }
+  }
+  
+  vector <string> available_modules = resource_sword_get_available ();
   string moduleblock;
-  for (auto & line : lines) {
-    string source = resource_sword_get_source (line);
-    string module = resource_sword_get_module (line);
+  for (auto & available_module : available_modules) {
+    string source = resource_sword_get_source (available_module);
+    string module = resource_sword_get_remote_module (available_module);
     moduleblock.append ("<p>");
     string source_module = "&source=" + source + "&module=" + module;
-    moduleblock.append ("<a href=\"?install=" + source_module + "\">" + translate ("install") + "</a>");
-    moduleblock.append (" | ");
-    moduleblock.append ("<a href=\"?uninstall=" + source_module + "\">" + translate ("uninstall") + "</a>");
-    moduleblock.append (" | ");
-    moduleblock.append (line);
+    if (installed_modules [module].empty ()) {
+      moduleblock.append ("<a href=\"?install=" + source_module + "\">" + translate ("install") + "</a>");
+      moduleblock.append (" | ");
+    } else {
+      string version = resource_sword_get_version (available_module);
+      if (version != installed_modules[module]) {
+        moduleblock.append ("<a href=\"?update=" + source_module + "\">" + translate ("update") + "</a>");
+        moduleblock.append (" | ");
+      }
+      moduleblock.append ("<a href=\"?uninstall=" + source_module + "\">" + translate ("uninstall") + "</a>");
+      moduleblock.append (" | ");
+    }
+    moduleblock.append (available_module);
     moduleblock.append ("</p>\n");
   }
   view.set_variable ("moduleblock", moduleblock);
@@ -212,7 +236,7 @@ string resource_sword_get_source (string line)
 
 // Gets the module name of the $line like this:
 // [CrossWire] *[Shona] (1.1) - Shona Bible
-string resource_sword_get_module (string line)
+string resource_sword_get_remote_module (string line)
 {
   if (line.length () > 10) {
     line.erase (0, 2);
@@ -221,6 +245,38 @@ string resource_sword_get_module (string line)
     size_t pos = line.find ("[");
     if (pos != string::npos) line.erase (0, pos + 1);
     pos = line.find ("]");
+    if (pos != string::npos) line.erase (pos);
+  }
+  return line;
+}
+
+
+// Gets the module name of the $line like this:
+// [Shona]  (1.1)  - Shona Bible
+string resource_sword_get_installed_module (string line)
+{
+  line = filter_string_trim (line);
+  if (line.length () > 10) {
+    line.erase (0, 1);
+    size_t pos = line.find ("]");
+    if (pos != string::npos) line.erase (pos);
+  }
+  return line;
+}
+
+
+// Gets the version number of a module of the $line like this:
+// [Shona]  (1.1)  - Shona Bible
+string resource_sword_get_version (string line)
+{
+  line = filter_string_trim (line);
+  if (line.length () > 10) {
+    line.erase (0, 3);
+  }
+  if (line.length () > 10) {
+    size_t pos = line.find ("(");
+    if (pos != string::npos) line.erase (0, pos + 1);
+    pos = line.find (")");
     if (pos != string::npos) line.erase (pos);
   }
   return line;
@@ -242,6 +298,13 @@ void resource_sword_install_module (string source, string module) // Todo
 }
 
 
+void resource_sword_update_module (string source, string module) // Todo
+{
+  resource_sword_uninstall_module (module);
+  resource_sword_install_module (source, module);
+}
+
+
 void resource_sword_uninstall_module (string module) // Todo
 {
   Database_Logs::log ("Uninstall SWORD module " + module);
@@ -255,3 +318,30 @@ void resource_sword_uninstall_module (string module) // Todo
     Database_Logs::log (line);
   }
 }
+
+
+// Get available SWORD modules.
+vector <string> resource_sword_get_available () // Todo
+{
+  string contents = filter_url_file_get_contents (resource_sword_module_list_path ());
+  return filter_string_explode (contents, '\n');
+}
+
+
+// Get installed SWORD modules.
+vector <string> resource_sword_get_installed ()
+{
+  vector <string> modules;
+  string out_err;
+  string sword_path = resource_sword_get_path ();
+  filter_shell_run ("cd " + sword_path + "; installmgr -l", out_err);
+  vector <string> lines = filter_string_explode (out_err, '\n');
+  for (auto line : lines) {
+    line = filter_string_trim (line);
+    if (line.empty ()) continue;
+    if (line.find ("[") == string::npos) continue;
+    modules.push_back (line);
+  }
+  return modules;
+}
+

@@ -196,6 +196,8 @@ void tasks_run_one (string filename)
     resource_sword_refresh_module_list ();
   } else if (command == INSTALLSWORDMODULE) {
     resource_sword_install_module (parameter1, parameter2);
+  } else if (command == UPDATESWORDMODULE) {
+    resource_sword_update_module (parameter1, parameter2);
   } else if (command == UNINSTALLSWORDMODULE) {
     resource_sword_uninstall_module (parameter1);
   } else {
