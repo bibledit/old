@@ -31,6 +31,7 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <database/logs.h>
+#include <database/books.h>
 
 
 string resource_sword_url ()
@@ -145,11 +146,6 @@ void resource_sword_refresh_module_list () // Todo
   string swordconf = "[Install]\n"
                      "DataPath=" + sword_path + "/\n";
   filter_url_file_put_contents (filter_url_create_path (sword_path, "sword.conf"), swordconf);
-  filter_shell_run ("cd " + sword_path + "; cp -r /usr/share/sword/* .", out_err);
-  lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) {
-    Database_Logs::log (line);
-  }
   
   // Initialize basic user configuration
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -init", out_err);
@@ -283,6 +279,20 @@ string resource_sword_get_version (string line)
 }
 
 
+// Gets the human-readable name of a $line like this:
+// [CrossWire] *[Shona] (1.1) - Shona Bible
+string resource_sword_get_name (string line)
+{
+  vector <string> bits = filter_string_explode (line, '-');
+  if (bits.size () >= 2) {
+    bits.erase (bits.begin ());
+  }
+  line = filter_string_implode (bits, "-");
+  line = filter_string_trim (line);
+  return line;
+}
+
+
 void resource_sword_install_module (string source, string module) // Todo
 {
   Database_Logs::log ("Install SWORD module " + module + " from source " + source);
@@ -343,5 +353,18 @@ vector <string> resource_sword_get_installed ()
     modules.push_back (line);
   }
   return modules;
+}
+
+
+string resource_sword_get_text (string source, string module, int book, int chapter, int verse) // Todo
+{
+  if (source.empty ()) {};
+  // diatheke -b KJV -k Jn 3:16
+  string out_err;
+  string sword_path = resource_sword_get_path ();
+  string osis = Database_Books::getOsisFromId (book);
+  string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+  filter_shell_run (command, out_err);
+  return out_err;
 }
 
