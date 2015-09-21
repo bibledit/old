@@ -47,7 +47,7 @@ string mapping_index (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Verse Mappings"), webserver_request, "");
+  page = Assets_Page::header (translate ("Verse Mappings"), webserver_request);
   
   Assets_View view = Assets_View ();
   string error;

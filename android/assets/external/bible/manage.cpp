@@ -51,7 +51,7 @@ string bible_manage (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Bibles"), webserver_request, "");
+  page = Assets_Page::header (translate ("Bibles"), webserver_request);
   
   Assets_View view = Assets_View ();
   

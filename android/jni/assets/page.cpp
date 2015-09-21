@@ -36,10 +36,9 @@ Assets_Page::~Assets_Page ()
 }
 
 
-string Assets_Page::header (string title, void * webserver_request, string searchQuery)
+string Assets_Page::header (string title, void * webserver_request)
 {
   Assets_Header header = Assets_Header (title, webserver_request);
-  header.setSearchQuery (searchQuery);
   string page = header.run ();
   return page;
 }

@@ -68,6 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <paratext/index.h>
 #include <personalize/index.h>
 #include <resource/images.h>
+#include <resource/sword.h>
 
 
 /*
@@ -196,6 +197,7 @@ vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
     if (resource_admin_acl (request)) menu->push_back ( { "", resource_admin_url (), translate ("External"), NULL } );
     if (resource_images_acl (request)) menu->push_back ( { "", resource_images_url (), translate ("Images"), NULL } );
   }
+  if (resource_sword_acl (request)) menu->push_back ( { "", resource_sword_url (), translate ("SWORD"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;

@@ -28,7 +28,7 @@
 #include <filter/roles.h>
 
 
-void export_index ()
+void export_index () // Todo
 {
   Database_Bibles database_bibles;
   vector <string> bibles = database_bibles.getBibles ();
@@ -65,6 +65,7 @@ void export_index ()
       for (int format = 0; format < Export_Logic::export_end; format++) {
         Database_State::setExport (bible, 0, format);
       }
+      Database_State::setExported (bible, 0);
     }
     
     if (Database_Config_Bible::getExportWebDuringNight (bible)) {

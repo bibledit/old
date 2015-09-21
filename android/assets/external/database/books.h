@@ -33,6 +33,7 @@ public:
   static string getEnglishFromId (int id);
   static string getUsfmFromId (int id);
   static string getBibleworksFromId (int id);
+  static string getOsisFromId (int id);
   static int getIdFromUsfm (string usfm);
   static int getIdFromOsis (string osis);
   static int getIdFromBibleworks (string bibleworks);

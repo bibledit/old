@@ -63,7 +63,7 @@ string administration_language (void * webserver_request)
       for (auto element : localizations) {
         dialog_list.add_row (element.second, "language", element.first);
       }
-      page = Assets_Page::header ("", webserver_request, "");
+      page = Assets_Page::header ("", webserver_request);
       page += dialog_list.run ();
       return page;
     } else {
@@ -71,7 +71,7 @@ string administration_language (void * webserver_request)
     }
   }
 
-  page = Assets_Page::header (translate ("Language"), webserver_request, "");
+  page = Assets_Page::header (translate ("Language"), webserver_request);
   
   Assets_View view = Assets_View ();
 

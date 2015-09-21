@@ -359,12 +359,38 @@ vector <string> resource_sword_get_installed ()
 string resource_sword_get_text (string source, string module, int book, int chapter, int verse) // Todo
 {
   if (source.empty ()) {};
+  
+  // Fetch the module text as follows:
   // diatheke -b KJV -k Jn 3:16
-  string out_err;
+  // If the module has not been installed, the output of "diatheke" will be empty.
+  string output;
   string sword_path = resource_sword_get_path ();
   string osis = Database_Books::getOsisFromId (book);
   string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-  filter_shell_run (command, out_err);
-  return out_err;
-}
+  filter_shell_run (command, output);
 
+  // The standard output of a Bible verse starts with the passage, like so:
+  // Ruth 1:2:
+  // Remove that.
+  size_t pos = output.find (":");
+  if (pos != string::npos) {
+    output.erase (0, pos + 1);
+  }
+  pos = output.find (":");
+  if (pos != string::npos) {
+    output.erase (0, pos + 1);
+  }
+  
+  // The standard output ends with the module name, like so:
+  // (KJV)
+  // Remove that.
+  output = filter_string_str_replace ("(" + module + ")", "", output);
+  
+  // Remove any OSIS elements.
+  filter_string_replace_between (output, "<", ">", "");
+  
+  // Clean whitespace away.
+  output = filter_string_trim (output);
+  
+  return output;
+}

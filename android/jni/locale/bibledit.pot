@@ -67,12 +67,6 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-msgid "Search"
-msgstr ""
-
-msgid "Searching"
-msgstr ""
-
 msgid "Abbreviations"
 msgstr ""
 
@@ -5814,6 +5808,21 @@ msgstr ""
 msgid "Search the Bible"
 msgstr ""
 
+msgid "What would you like to do?"
+msgstr ""
+
+msgid "Edit Bible text"
+msgstr ""
+
+msgid "View notes"
+msgstr ""
+
+msgid "View resources"
+msgstr ""
+
+msgid "View changes"
+msgstr ""
+
 msgid "No files in this folder"
 msgstr ""
 
@@ -6242,11 +6251,7 @@ msgid "Role"
 msgstr ""
 
 msgid ""
-"This lists the accounts of the users who have access to Bibles you have "
-"acccess to, and have roles you are responsible for."
-msgstr ""
-
-msgid "It also lists users without access to any Bibles."
+"This lists the accounts of the users who have roles you are responsible for."
 msgstr ""
 
 msgid "Click ✗ before a username to delete the account."
@@ -6267,13 +6272,10 @@ msgstr ""
 msgid "Normally users register their own account."
 msgstr ""
 
-msgid "Bible translation teams."
+msgid "Click ➕  to give a user access to a Bible."
 msgstr ""
 
-msgid "Click ➕  to make a user a member of a Bible translation team."
-msgstr ""
-
-msgid "Click ✗ before a Bible to remove that member from the team."
+msgid "Click ✗ before a Bible to remove the access of a user to that Bible."
 msgstr ""
 
 msgid "Some roles can modify the text of Bible books."
@@ -6286,9 +6288,6 @@ msgid "It shows how many of the books in the Bible the user can modify."
 msgstr ""
 
 msgid "Click it to change it."
-msgstr ""
-
-msgid "You can only see Bibles you have access to yourself."
 msgstr ""
 
 msgid ""
@@ -6395,6 +6394,9 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+msgid "Search"
+msgstr ""
+
 msgid "Workbench"
 msgstr ""
 
@@ -6431,13 +6433,13 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
+msgid "SWORD"
+msgstr ""
+
 msgid "Notifications"
 msgstr ""
 
 msgid "Sync"
-msgstr ""
-
-msgid "Browser"
 msgstr ""
 
 msgid "Cross references"
@@ -7384,6 +7386,26 @@ msgstr ""
 msgid "Generate the document."
 msgstr ""
 
+msgid "install"
+msgstr ""
+
+msgid "uninstall"
+msgstr ""
+
+msgid "SWORD modules"
+msgstr ""
+
+msgid ""
+"Refresh the list of modules from the SWORD servers and view the progress in "
+"the journal."
+msgstr ""
+
+msgid "notes"
+msgstr ""
+
+msgid "verses"
+msgstr ""
+
 msgid "Search for verses with similar Hebrew or Greek in:"
 msgstr ""
 
@@ -7404,12 +7426,6 @@ msgid ""
 "manually."
 msgstr ""
 
-msgid "notes"
-msgstr ""
-
-msgid "verses"
-msgstr ""
-
 msgid "Current book"
 msgstr ""
 
@@ -7428,10 +7444,16 @@ msgstr ""
 msgid "Display the intersection of them and the ones already on the page"
 msgstr ""
 
+msgid "Search in active Bible."
+msgstr ""
+
 msgid "Enter the search term."
 msgstr ""
 
 msgid "Press Enter."
+msgstr ""
+
+msgid "Replace in active Bible."
 msgstr ""
 
 msgid "Enter what to search for."
@@ -7458,16 +7480,19 @@ msgstr ""
 msgid "To replace all passages, click Apply all."
 msgstr ""
 
-msgid "Advanced search."
+msgid "Advanced search in active Bible."
 msgstr ""
 
 msgid "Search with more options."
 msgstr ""
 
-msgid "Advanced replace."
+msgid "Advanced replace in active Bible."
 msgstr ""
 
 msgid "Replace with more options."
+msgstr ""
+
+msgid "Search in all Bibles and all notes."
 msgstr ""
 
 msgid "Search the active Bible for verses similar to the focused verse."
@@ -7693,12 +7718,6 @@ msgstr ""
 msgid "Sending settings"
 msgstr ""
 
-msgid "Welcome"
-msgstr ""
-
-msgid "You have logged in."
-msgstr ""
-
 msgid "Username should be at least two characters long"
 msgstr ""
 
@@ -7718,12 +7737,6 @@ msgid "Not registered?"
 msgstr ""
 
 msgid "Sign up!"
-msgstr ""
-
-msgid "Goodbye"
-msgstr ""
-
-msgid "You have logged out"
 msgstr ""
 
 msgid "Username or email address is too short"

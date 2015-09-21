@@ -51,7 +51,7 @@ bool index_listing_acl (void * webserver_request, string url)
 string index_listing (void * webserver_request, string url)
 {
   string page;
-  page = Assets_Page::header ("Bibledit", webserver_request, "");
+  page = Assets_Page::header ("Bibledit", webserver_request);
   Assets_View view = Assets_View ();
   url = filter_url_urldecode (url);
   url = filter_url_create_path ("", url);

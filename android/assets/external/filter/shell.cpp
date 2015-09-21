@@ -108,6 +108,20 @@ int filter_shell_run (string command, const char * parameter, string & output)
 }
 
 
+// Runs $command as if it were typed on the command line.
+// Does not escape anything in the $command.
+// Returns the exit code of the process.
+// The output of the process, both stdout and stderr, go into $out_err.
+int filter_shell_run (string command, string & out_err)
+{
+  string pipe = filter_url_tempfile ();
+  command.append (" > " + pipe + " 2>&1");
+  int result = system (command.c_str());
+  out_err = filter_url_file_get_contents (pipe);
+  return result;
+}
+
+
 // Lists the running processes.
 vector <string> filter_shell_active_processes ()
 {

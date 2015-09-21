@@ -48,7 +48,7 @@ string administration_timezone (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (translate ("Timezone"), webserver_request, "");
+  page = Assets_Page::header (translate ("Timezone"), webserver_request);
 
   Assets_View view = Assets_View ();
 

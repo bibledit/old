@@ -52,7 +52,7 @@ string styles_indext (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (translate ("Styles"), webserver_request, "");
+  page = Assets_Page::header (translate ("Styles"), webserver_request);
 
   Assets_View view = Assets_View ();
 

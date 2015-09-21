@@ -79,7 +79,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/offset.h>
 #include <edit/save.h>
 #include <edit/styles.h>
-#include <search/search.h>
+#include <search/all.h>
 #include <search/index.h>
 #include <search/select.h>
 #include <search/replace.h>
@@ -181,6 +181,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/image.h>
 #include <resource/img.h>
 #include <resource/imagefetch.h>
+#include <resource/sword.h>
 #include <lexicon/definition.h>
 
 
@@ -195,6 +196,7 @@ void bootstrap_index (Webserver_Request * request)
   if (   (extension == "ico")
       || (extension == "png")
       || (extension == "gif")
+      || (extension == "jpg")
       || (extension == "css")
       || (extension == "js")
       || (Fonts_Logic::isFont (extension))
@@ -274,6 +276,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_admin_url ()) && resource_admin_acl (request)) request->reply = resource_admin (request);
   else if ((url == resource_download_url ()) && resource_download_acl (request)) request->reply = resource_download (request);
   else if ((url == resource_images_url ()) && resource_images_acl (request)) request->reply = resource_images (request);
+  else if ((url == resource_sword_url ()) && resource_sword_acl (request)) request->reply = resource_sword (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
@@ -319,7 +322,7 @@ void bootstrap_index (Webserver_Request * request)
 
   // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);
-  else if ((url == search_search_url ()) && search_search_acl (request)) request->reply = search_search (request);
+  else if ((url == search_all_url ()) && search_all_acl (request)) request->reply = search_all (request);
   else if ((url == search_select_url ()) && search_select_acl (request)) request->reply = search_select (request);
   else if ((url == search_replace_url ()) && search_replace_acl (request)) request->reply = search_replace (request);
   else if ((url == search_search2_url ()) && search_search2_acl (request)) request->reply = search_search2 (request);

@@ -209,7 +209,7 @@ libbibledit_a_SOURCES = \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
-	search/search.cpp \
+	search/all.cpp \
 	search/index.cpp \
 	search/select.cpp \
 	search/replace.cpp \
@@ -266,6 +266,7 @@ libbibledit_a_SOURCES = \
 	resource/image.cpp \
 	resource/img.cpp \
 	resource/imagefetch.cpp \
+	resource/sword.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \
