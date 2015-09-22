@@ -8188,7 +8188,7 @@ Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Client edition (--enable-client)                  : ${CLIENT}
 Demo edition (--enable-demo)                      : ${DEMO}
 Maximum number of parallel tasks
-  (--with-parallel-tasks=n)                       : ${PARALLEL_TASKS}
+                       (--with-parallel-tasks=n)  : ${PARALLEL_TASKS}
 Bare browser mode (--enable-bare-browser)         : ${BARE_BROWSER}
 URL settings (--enable-urlsettings)               : ${URLSETTINGS}
 Unit tests (--enable-unittests)                   : ${UNITTESTS}
@@ -8200,6 +8200,4 @@ Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
 Disable ICU library (--disable-icu)               : ${ICUOFF}
-SWORD installmgr                                  : ${INSTALLMGR_PATH}
-SWORD diatheke                                    : ${DIATHEKE_PATH}
 "

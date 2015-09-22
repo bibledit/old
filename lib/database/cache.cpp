@@ -38,7 +38,7 @@ string Database_Cache::database_resource (string resource)
   resource = filter_string_str_replace (":",  "",  resource);
   resource = filter_string_str_replace ("*",  "",  resource);
   resource = filter_string_str_replace ("?",  "",  resource);
-  resource = filter_string_str_replace ("""", "", resource);
+  resource = filter_string_str_replace ("\"", "", resource);
   resource = filter_string_str_replace ("<",  "",  resource);
   resource = filter_string_str_replace (">",  "",  resource);
   resource = filter_string_str_replace ("|",  "",  resource);
