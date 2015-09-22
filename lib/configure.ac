@@ -42,6 +42,10 @@ if test x$UNZIP_PATH = xno; then
 fi
 
 
+AC_PATH_PROG(INSTALLMGR_PATH, installmgr, no)
+AC_PATH_PROG(DIATHEKE_PATH, diatheke, no)
+
+
 PKG_PROG_PKG_CONFIG
 AC_PATH_PROG(PKG_CONFIG_PATH, pkg-config, no)
 if test x$PKG_CONFIG_PATH = xno; then
@@ -256,20 +260,23 @@ AC_OUTPUT(Makefile)
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix                                        : ${prefix}
-Network port (--with-network-port=n)                       : ${NETWORK_PORT}
-Client edition (--enable-client)                           : ${CLIENT}
-Demo edition (--enable-demo)                               : ${DEMO}
-Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
-Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
-Unit tests (--enable-unittests)                            : ${UNITTESTS}
-Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
-Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
-Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
-Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
-Paratext synchronization (--enable-paratext)               : ${PARATEXT}
-Resources cache path (--with-resources-path=path)          : ${RESOURCES_PATH}
-Windows (--enable-windows)                                 : ${WINDOWS}
-Disable ICU library (--disable-icu)                        : ${ICUOFF}
+Installation prefix                               : ${prefix}
+Network port (--with-network-port=n)              : ${NETWORK_PORT}
+Client edition (--enable-client)                  : ${CLIENT}
+Demo edition (--enable-demo)                      : ${DEMO}
+Maximum number of parallel tasks
+  (--with-parallel-tasks=n)                       : ${PARALLEL_TASKS}
+Bare browser mode (--enable-bare-browser)         : ${BARE_BROWSER}
+URL settings (--enable-urlsettings)               : ${URLSETTINGS}
+Unit tests (--enable-unittests)                   : ${UNITTESTS}
+Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
+Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
+Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
+Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
+Paratext synchronization (--enable-paratext)      : ${PARATEXT}
+Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
+Windows (--enable-windows)                        : ${WINDOWS}
+Disable ICU library (--disable-icu)               : ${ICUOFF}
+SWORD installmgr                                  : ${INSTALLMGR_PATH}
+SWORD diatheke                                    : ${DIATHEKE_PATH}
 "

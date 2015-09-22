@@ -657,6 +657,8 @@ XML2_CONFIG
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
+DIATHEKE_PATH
+INSTALLMGR_PATH
 UNZIP_PATH
 ZIP_PATH
 FIND_TAR
@@ -5145,6 +5147,90 @@ if test x$UNZIP_PATH = xno; then
 fi
 
 
+# Extract the first word of "installmgr", so it can be a program name with args.
+set dummy installmgr; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_INSTALLMGR_PATH+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $INSTALLMGR_PATH in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_INSTALLMGR_PATH="$INSTALLMGR_PATH" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_INSTALLMGR_PATH="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_INSTALLMGR_PATH" && ac_cv_path_INSTALLMGR_PATH="no"
+  ;;
+esac
+fi
+INSTALLMGR_PATH=$ac_cv_path_INSTALLMGR_PATH
+if test -n "$INSTALLMGR_PATH"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $INSTALLMGR_PATH" >&5
+$as_echo "$INSTALLMGR_PATH" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+# Extract the first word of "diatheke", so it can be a program name with args.
+set dummy diatheke; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_DIATHEKE_PATH+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $DIATHEKE_PATH in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_DIATHEKE_PATH="$DIATHEKE_PATH" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_DIATHEKE_PATH="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_DIATHEKE_PATH" && ac_cv_path_DIATHEKE_PATH="no"
+  ;;
+esac
+fi
+DIATHEKE_PATH=$ac_cv_path_DIATHEKE_PATH
+if test -n "$DIATHEKE_PATH"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DIATHEKE_PATH" >&5
+$as_echo "$DIATHEKE_PATH" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+
+
 
 
 
@@ -8097,20 +8183,23 @@ fi
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix                                        : ${prefix}
-Network port (--with-network-port=n)                       : ${NETWORK_PORT}
-Client edition (--enable-client)                           : ${CLIENT}
-Demo edition (--enable-demo)                               : ${DEMO}
-Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
-Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
-Unit tests (--enable-unittests)                            : ${UNITTESTS}
-Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
-Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
-Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
-Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
-Paratext synchronization (--enable-paratext)               : ${PARATEXT}
-Resources cache path (--with-resources-path=path)          : ${RESOURCES_PATH}
-Windows (--enable-windows)                                 : ${WINDOWS}
-Disable ICU library (--disable-icu)                        : ${ICUOFF}
+Installation prefix                               : ${prefix}
+Network port (--with-network-port=n)              : ${NETWORK_PORT}
+Client edition (--enable-client)                  : ${CLIENT}
+Demo edition (--enable-demo)                      : ${DEMO}
+Maximum number of parallel tasks
+  (--with-parallel-tasks=n)                       : ${PARALLEL_TASKS}
+Bare browser mode (--enable-bare-browser)         : ${BARE_BROWSER}
+URL settings (--enable-urlsettings)               : ${URLSETTINGS}
+Unit tests (--enable-unittests)                   : ${UNITTESTS}
+Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
+Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
+Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
+Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
+Paratext synchronization (--enable-paratext)      : ${PARATEXT}
+Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
+Windows (--enable-windows)                        : ${WINDOWS}
+Disable ICU library (--disable-icu)               : ${ICUOFF}
+SWORD installmgr                                  : ${INSTALLMGR_PATH}
+SWORD diatheke                                    : ${DIATHEKE_PATH}
 "
