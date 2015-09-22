@@ -7386,6 +7386,9 @@ msgstr ""
 msgid "Generate the document."
 msgstr ""
 
+msgid "Resource selector"
+msgstr ""
+
 msgid "install"
 msgstr ""
 

@@ -853,6 +853,9 @@
 		CAC61E201B4C3C5400700C8D /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
 		CAC61E211B4C3C5400700C8D /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
 		CAC61E221B4C3C5400700C8D /* write.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = write.html; sourceTree = "<group>"; };
+		CAC74C281BB0937C00301C0D /* select.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = select.cpp; sourceTree = "<group>"; };
+		CAC74C291BB0937C00301C0D /* select.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = select.h; sourceTree = "<group>"; };
+		CAC74C2A1BB0937C00301C0D /* select.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = select.html; sourceTree = "<group>"; };
 		CAC949A11AB9998300171978 /* change.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = change.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC949A21AB9998300171978 /* change.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = change.h; sourceTree = "<group>"; };
 		CAC949A31AB9998300171978 /* change.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = change.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -2297,6 +2300,9 @@
 				CA35A1411A9F518900221B89 /* print.h */,
 				CA35A1421A9F518900221B89 /* print.html */,
 				CAA4D2CB1A45A648003ABA25 /* print.js */,
+				CAC74C281BB0937C00301C0D /* select.cpp */,
+				CAC74C291BB0937C00301C0D /* select.h */,
+				CAC74C2A1BB0937C00301C0D /* select.html */,
 				CAF0A8EF1BAD76E40066723D /* sword.cpp */,
 				CAF0A8F01BAD76E40066723D /* sword.h */,
 				CAF0A8F11BAD76E40066723D /* sword.html */,
