@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_usfm (string bible, bool force) // Todo keeps going.
+void export_usfm (string bible, bool force)
 {
   Database_Bibles database_bibles;
   
@@ -72,14 +72,12 @@ void export_usfm (string bible, bool force) // Todo keeps going.
     
     
     // Check whether to export this book, triggered by certain conditions.
-    Database_Logs::log (Database_Books::getEnglishFromId (book)); // Todo
-    Database_Logs::log ("Force: " + convert_to_string (force)); // Todo
-    Database_Logs::log ("getExport: " + convert_to_string (Database_State::getExport (bible, book, Export_Logic::export_full_usfm))); // Todo
-    Database_Logs::log ("Exists: " + convert_to_string (file_exists (path))); // Todo
     bool export_book = force;
     if (Database_State::getExport (bible, book, Export_Logic::export_full_usfm)) export_book = true;
     if (!file_exists (path)) export_book = true;
     if (!export_book) continue;
+    // If the USFM output is zipped, the zipping process removes the individual USFM files,
+    // which means that they are no longer found, which triggers a new export.
     
     
     // Since at least one book changed, export the whole Bible also.
