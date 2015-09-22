@@ -74,6 +74,7 @@ libbibledit_a_SOURCES = \
 	database/morphgnt.cpp \
 	database/etcbc4.cpp \
 	database/hebrewlexicon.cpp \
+	database/cache.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
