@@ -7329,25 +7329,7 @@ msgstr ""
 msgid "Resource Organizer"
 msgstr ""
 
-msgid "Active resources"
-msgstr ""
-
-msgid "To change the order, drag an item to another location."
-msgstr ""
-
-msgid "Click ✗ to remove."
-msgstr ""
-
-msgid "Available resources"
-msgstr ""
-
-msgid "Click to activate:"
-msgstr ""
-
-msgid "Available dividers"
-msgstr ""
-
-msgid "Context"
+msgid "To change the display order, drag a resource to another location."
 msgstr ""
 
 msgid "Number of verses to display before the focused verse:"
@@ -7384,6 +7366,24 @@ msgid "From"
 msgstr ""
 
 msgid "Generate the document."
+msgstr ""
+
+msgid "Select a USFM resource"
+msgstr ""
+
+msgid "Select an external resource"
+msgstr ""
+
+msgid "Select an image resource"
+msgstr ""
+
+msgid "Select a lexicon resource"
+msgstr ""
+
+msgid "Select a SWORD resource"
+msgstr ""
+
+msgid "Select a divider"
 msgstr ""
 
 msgid "Resource selector"
@@ -8720,6 +8720,9 @@ msgid "Create"
 msgstr ""
 
 msgid "Drag the list of workbenches into the desired order."
+msgstr ""
+
+msgid "Click ✗ to remove."
 msgstr ""
 
 msgid "Click ✎ to edit."
