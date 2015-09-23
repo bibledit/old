@@ -330,7 +330,8 @@ libbibledit_a_SOURCES = \
 	sources/kjv.cpp \
 	sources/morphhb.cpp \
 	sources/morphgnt.cpp \
-	sources/hebrewlexicon.cpp
+	sources/hebrewlexicon.cpp \
+	sword/logic.cpp
 
 bin_PROGRAMS = server unittest
 

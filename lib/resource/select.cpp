@@ -38,6 +38,7 @@
 #include <database/usfmresources.h>
 #include <database/imageresources.h>
 #include <lexicon/logic.h>
+#include <sword/logic.h>
 
 
 string resource_select_url ()
@@ -134,7 +135,7 @@ string resource_select (void * webserver_request)
   if (request->query.count ("sword")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), "", "");
     dialog_list.add_query ("page", request->query["page"]);
-    vector <string> resources = resource_sword_get_available ();
+    vector <string> resources = sword_logic_get_available ();
     for (auto resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }

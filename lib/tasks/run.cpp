@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 #include <resource/logic.h>
-#include <resource/sword.h>
+#include <sword/logic.h>
 
 
 mutex mutex_tasks; 
@@ -193,13 +193,13 @@ void tasks_run_one (string filename)
   } else if (command == IMPORTIMAGES) {
     resource_logic_import_images (parameter1, parameter2);
   } else if (command == REFRESHSWORDMODULES) {
-    resource_sword_refresh_module_list ();
+    sword_logic_refresh_module_list ();
   } else if (command == INSTALLSWORDMODULE) {
-    resource_sword_install_module (parameter1, parameter2);
+    sword_logic_install_module (parameter1, parameter2);
   } else if (command == UPDATESWORDMODULE) {
-    resource_sword_update_module (parameter1, parameter2);
+    rsword_logic_update_module (parameter1, parameter2);
   } else if (command == UNINSTALLSWORDMODULE) {
-    resource_sword_uninstall_module (parameter1);
+    sword_logic_uninstall_module (parameter1);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }
