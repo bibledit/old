@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/sqlite.h>
 #include <database/logs.h>
+#include <config/logic.h>
 
 
 // Databases resilience:
@@ -71,6 +72,33 @@ void Database_Cache::check () // Todo test this well.
       filter_url_unlink (file);
       create (resource);
       Database_Logs::log ("The resource cache was damaged and has been reset: " + resource);
+    }
+  }
+}
+
+
+void Database_Cache::trim () // Todo test this well.
+{
+  if (config_logic_client_prepared ()) {
+  } else {
+    // On the server, check whether a SWORD module has not been accessed during the last nnn days.
+    int now = filter_date_seconds_since_epoch () / 86400;
+    vector <string> names = filter_url_scandir (filter_url_create_root_path ("databases"));
+    string filefragment = database_resource ("");
+    for (auto & name : names) {
+      if (name.find (filefragment) != string::npos) {
+        string resource = name.substr (filefragment.length ());
+        resource = resource.substr (0, resource.length () - database_sqlite_suffix ().length ());
+        int day = days (resource, 0, 0, 0);
+        // Zero days means: Permanent cache.
+        if (day) {
+          if (day < (now - 100)) {
+            // Too old: Delete the database.
+            string file = database_sqlite_file (database_resource (resource));
+            filter_url_unlink (file);
+          }
+        }
+      }
     }
   }
 }
@@ -156,10 +184,33 @@ string Database_Cache::retrieve (string resource, int book, int chapter, int ver
       sql.clear ();
       sql.add ("UPDATE cache SET days =");
       sql.add (now);
-      sql.add (");");
+      sql.add ("WHERE book =");
+      sql.add (book);
+      sql.add ("AND chapter = ");
+      sql.add (chapter);
+      sql.add ("AND verse = ");
+      sql.add (verse);
+      sql.add (";");
       sql.execute ();
     }
   }
   
   return result ["value"] [0];
+}
+
+
+// Gets the number of days for resource/passage since the Linux epoch.
+int Database_Cache::days (string resource, int book, int chapter, int verse)
+{
+  SqliteDatabase sql = SqliteDatabase (database_resource (resource));
+  sql.add ("SELECT days FROM cache WHERE book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("AND verse =");
+  sql.add (verse);
+  sql.add (";");
+  vector <string> result = sql.query () ["days"];
+  if (result.empty ()) return 0;
+  return convert_to_int (result [0]);
 }

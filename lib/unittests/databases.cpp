@@ -4253,6 +4253,13 @@ void test_database_cache () // Todo
   exists = Database_Cache::exists ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, true, exists);
 
+  // Number of days should exist for one passage, and be 0 for the other one.
+  int days = Database_Cache::days ("unittests", 1, 2, 4);
+  evaluate (__LINE__, __func__, 0, days);
+  int now = filter_date_seconds_since_epoch () / 86400;
+  days = Database_Cache::days ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, now, days);
+  
   // Damage the database.
   filter_url_file_put_contents (filter_url_create_root_path ("databases", "cache_resource_unittests.sqlite"), "garbled data");
 

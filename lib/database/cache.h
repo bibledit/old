@@ -30,10 +30,12 @@ class Database_Cache
 public:
   static void create (string resource);
   static void check ();
+  static void trim ();
   static bool exists (string resource);
   static bool exists (string resource, int book, int chapter, int verse);
   static void cache (string resource, int book, int chapter, int verse, string value);
   static string retrieve (string resource, int book, int chapter, int verse);
+  static int days (string resource, int book, int chapter, int verse);
 private:
   static string database_resource (string resource);
 };

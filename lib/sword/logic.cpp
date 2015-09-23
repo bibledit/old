@@ -214,7 +214,7 @@ void sword_logic_install_module (string source, string module)
 }
 
 
-void rsword_logic_update_module (string source, string module)
+void sword_logic_update_module (string source, string module)
 {
   sword_logic_uninstall_module (module);
   sword_logic_install_module (source, module);
@@ -350,4 +350,45 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   }
 
   return "";
+}
+
+
+// Checks the installed modules, whether they need to be updated.
+void sword_logic_update_installed_modules ()
+{
+  Database_Logs::log ("Updating installed SWORD modules");
+
+  vector <string> available_modules = sword_logic_get_available ();
+
+  vector <string> installed_modules = sword_logic_get_installed ();
+  for (auto & installed_module : installed_modules) {
+    string module = sword_logic_get_installed_module (installed_module);
+    string installed_version = sword_logic_get_version (installed_module);
+    for (auto & available_module : available_modules) {
+      if (sword_logic_get_remote_module (available_module) == module) {
+        if (sword_logic_get_version (available_module) != installed_version) {
+          string source = sword_logic_get_source (available_module);
+          sword_logic_update_module (source, module);
+        }
+        continue;
+      }
+    }
+  }
+  
+  Database_Logs::log ("Ready updating installed SWORD modules");
+}
+
+
+// Trims the SWORD caches and the installed modules.
+void sword_logic_trim_modules () // Todo
+{
+  Database_Logs::log ("Trimming the SWORD caches and modules");
+  vector <string> modules = sword_logic_get_installed ();
+  for (auto module : modules) {
+    module = sword_logic_get_installed_module (module);
+    if (!Database_Cache::exists (module)) {
+      sword_logic_uninstall_module (module);
+    }
+  }
+  Database_Logs::log ("Ready trimming the SWORD caches and modules");
 }

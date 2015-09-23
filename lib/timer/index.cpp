@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <database/state.h>
+#include <database/cache.h>
 #include <config/globals.h>
 #include <filter/string.h>
 #include <filter/date.h>
@@ -31,7 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <changes/logic.h>
 #include <checks/logic.h>
-#include <export/logic.h>
+#include <export/logic.h> // Todo out
+#include <sword/logic.h> // Todo out.
 
 
 // CPU-intensive actions run at night.
@@ -77,6 +79,8 @@ void timer_index ()
       int fraction = second / 5;
       if (fraction != previous_fraction) {
         previous_fraction = fraction;
+        //Database_Cache::trim (); // Todo
+        //sword_logic_trim_modules (); // Todo
       }
       
       // Run the part below once per minute.
@@ -208,6 +212,13 @@ void timer_index ()
           tasks_logic_queue (REFRESHSWORDMODULES);
         }
       }
+      // Update installed SWORD modules, shortly after the module list has been refreshed.
+      if ((!client) && (hour == 3) && (minute == 15)) {
+        if (weekday == 1) {
+          tasks_logic_queue (UPDATEALLSWORDMODULES);
+        }
+      }
+      
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());

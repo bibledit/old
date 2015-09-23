@@ -72,6 +72,11 @@ string resource_sword (void * webserver_request)
   }
   
   
+  if (request->query.count ("updateall")) {
+    tasks_logic_queue (UPDATEALLSWORDMODULES, {});
+    redirect_browser (request, journal_index_url ());
+  }
+  
   
   if (request->query.count ("uninstall")) {
     tasks_logic_queue (UNINSTALLSWORDMODULE, {module});

@@ -33,11 +33,13 @@ string sword_logic_get_installed_module (string line);
 string sword_logic_get_version (string line);
 string sword_logic_get_name (string line);
 void sword_logic_install_module (string source, string module);
-void rsword_logic_update_module (string source, string module);
+void sword_logic_update_module (string source, string module);
 void sword_logic_uninstall_module (string module);
 vector <string> sword_logic_get_available ();
 vector <string> sword_logic_get_installed ();
 string sword_logic_get_text (string source, string module, int book, int chapter, int verse, bool redo = false);
+void sword_logic_update_installed_modules ();
+void sword_logic_trim_modules ();
 
 
 #endif
