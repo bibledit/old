@@ -52,7 +52,7 @@ void Database_Cache::create (string resource)
   SqliteDatabase sql = SqliteDatabase (database_resource (resource));
   sql.add ("CREATE TABLE IF NOT EXISTS cache ("
            "book integer, chapter integer, verse integer, "
-           "value text, compressed boolean, days integer);");
+           "value text, days integer);");
   sql.execute ();
 }
 
@@ -128,8 +128,6 @@ void Database_Cache::cache (string resource, int book, int chapter, int verse, s
   sql.add (verse);
   sql.add (",");
   sql.add (value);
-  sql.add (",");
-  sql.add (false);
   sql.add (",");
   sql.add (days);
   sql.add (");");

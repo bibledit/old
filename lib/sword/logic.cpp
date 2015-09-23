@@ -28,6 +28,7 @@
 #include <client/logic.h>
 #include <database/logs.h>
 #include <database/books.h>
+#include <database/cache.h>
 
 
 string sword_logic_get_path ()
@@ -277,6 +278,17 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     sword_logic_install_module (source, module);
     string text = sword_logic_get_text (source, module, book, chapter, verse, true);
     return text;
+  }
+
+  if (config_logic_client_prepared ()) {
+    
+  } else {
+    // The server hits the cache for recording the last day it was accessed.
+    // It hits passage 0.0.0 because the installed SWORD module is one data unit.
+    if (Database_Cache::retrieve (module, 0, 0, 0).empty ()) {
+      Database_Cache::create (module);
+      Database_Cache::cache (module, 0, 0, 0, "accessed");
+    }
   }
 
   // The standard output of a Bible verse starts with the passage, like so:
