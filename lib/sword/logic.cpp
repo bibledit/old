@@ -29,6 +29,8 @@
 #include <database/logs.h>
 #include <database/books.h>
 #include <database/cache.h>
+#include <database/config/general.h>
+#include <sync/resources.h>
 
 
 string sword_logic_get_path ()
@@ -37,7 +39,7 @@ string sword_logic_get_path ()
 }
 
 
-void sword_logic_refresh_module_list () // Todo
+void sword_logic_refresh_module_list ()
 {
   Database_Logs::log ("Refreshing SWORD module list");
   
@@ -197,7 +199,7 @@ string sword_logic_get_name (string line)
 }
 
 
-void sword_logic_install_module (string source, string module) // Todo
+void sword_logic_install_module (string source, string module)
 {
   Database_Logs::log ("Install SWORD module " + module + " from source " + source);
   string out_err;
@@ -212,14 +214,14 @@ void sword_logic_install_module (string source, string module) // Todo
 }
 
 
-void rsword_logic_update_module (string source, string module) // Todo
+void rsword_logic_update_module (string source, string module)
 {
   sword_logic_uninstall_module (module);
   sword_logic_install_module (source, module);
 }
 
 
-void sword_logic_uninstall_module (string module) // Todo
+void sword_logic_uninstall_module (string module)
 {
   Database_Logs::log ("Uninstall SWORD module " + module);
   string out_err;
@@ -235,7 +237,7 @@ void sword_logic_uninstall_module (string module) // Todo
 
 
 // Get available SWORD modules.
-vector <string> sword_logic_get_available () // Todo
+vector <string> sword_logic_get_available ()
 {
   string contents = filter_url_file_get_contents (sword_logic_module_list_path ());
   return filter_string_explode (contents, '\n');
@@ -260,59 +262,92 @@ vector <string> sword_logic_get_installed ()
 }
 
 
-string sword_logic_get_text (string source, string module, int book, int chapter, int verse, bool redo) // Todo
+string sword_logic_get_text (string source, string module, int book, int chapter, int verse, bool redo)
 {
-  // Fetch the module text as follows:
-  // diatheke -b KJV -k Jn 3:16
-  string output;
-  string sword_path = sword_logic_get_path ();
-  string osis = Database_Books::getOsisFromId (book);
-  string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-  filter_shell_run (command, output);
-
-  // If the module has not been installed, the output of "diatheke" will be empty.
-  // If the module was installed, but the requested passage is out of range,
-  // the output of "diatheke" contains the module name, so it won't be empty.
-  if (output.empty () && !redo) {
-    // Install the module and redo getting the passage text.
-    sword_logic_install_module (source, module);
-    string text = sword_logic_get_text (source, module, book, chapter, verse, true);
-    return text;
-  }
-
   if (config_logic_client_prepared ()) {
+
+    // Client checks for and optionally creates the cache for this SWORD module.
+    if (!Database_Cache::exists (module)) {
+      Database_Cache::create (module);
+    }
+
+    // If this module/passage exists in the cache, return it (it updates the access days in the cache).
+    if (Database_Cache::exists (module, book, chapter, verse)) {
+      return Database_Cache::retrieve (module, book, chapter, verse);
+    }
+
+    // Fetch this SWORD resource from the server.
+    string address = Database_Config_General::getServerAddress ();
+    int port = Database_Config_General::getServerPort ();
+    string url = client_logic_url (address, port, sync_resources_url ());
+    string resource = "[" + source + "][" + module + "]";
+    url = filter_url_build_http_query (url, "r", resource);
+    url = filter_url_build_http_query (url, "b", convert_to_string (book));
+    url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
+    url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+    string error;
+    string html = filter_url_http_get (url, error);
+    
+    // In case of an error, don't cache that error, but let the user see it.
+    if (!error.empty ()) return error;
+
+    // Client caches this info for later.
+    Database_Cache::cache (module, book, chapter, verse, html);
+    
+    return html;
     
   } else {
+    
+    // The server fetches the module text as follows:
+    // diatheke -b KJV -k Jn 3:16
+    string output;
+    string sword_path = sword_logic_get_path ();
+    string osis = Database_Books::getOsisFromId (book);
+    string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+    filter_shell_run (command, output);
+    
+    // If the module has not been installed, the output of "diatheke" will be empty.
+    // If the module was installed, but the requested passage is out of range,
+    // the output of "diatheke" contains the module name, so it won't be empty.
+    if (output.empty () && !redo) {
+      // Install the module and redo getting the passage text.
+      sword_logic_install_module (source, module);
+      string text = sword_logic_get_text (source, module, book, chapter, verse, true);
+      return text;
+    }
+    
     // The server hits the cache for recording the last day it was accessed.
     // It hits passage 0.0.0 because the installed SWORD module is one data unit.
     if (Database_Cache::retrieve (module, 0, 0, 0).empty ()) {
       Database_Cache::create (module);
       Database_Cache::cache (module, 0, 0, 0, "accessed");
     }
+    
+    // The standard output of a Bible verse starts with the passage, like so:
+    // Ruth 1:2:
+    // Remove that.
+    size_t pos = output.find (":");
+    if (pos != string::npos) {
+      output.erase (0, pos + 1);
+    }
+    pos = output.find (":");
+    if (pos != string::npos) {
+      output.erase (0, pos + 1);
+    }
+    
+    // The standard output ends with the module name, like so:
+    // (KJV)
+    // Remove that.
+    output = filter_string_str_replace ("(" + module + ")", "", output);
+    
+    // Remove any OSIS elements.
+    filter_string_replace_between (output, "<", ">", "");
+    
+    // Clean whitespace away.
+    output = filter_string_trim (output);
+    
+    return output;
   }
 
-  // The standard output of a Bible verse starts with the passage, like so:
-  // Ruth 1:2:
-  // Remove that.
-  size_t pos = output.find (":");
-  if (pos != string::npos) {
-    output.erase (0, pos + 1);
-  }
-  pos = output.find (":");
-  if (pos != string::npos) {
-    output.erase (0, pos + 1);
-  }
-  
-  // The standard output ends with the module name, like so:
-  // (KJV)
-  // Remove that.
-  output = filter_string_str_replace ("(" + module + ")", "", output);
-  
-  // Remove any OSIS elements.
-  filter_string_replace_between (output, "<", ">", "");
-  
-  // Clean whitespace away.
-  output = filter_string_trim (output);
-  
-  return output;
+  return "";
 }
