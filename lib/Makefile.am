@@ -251,6 +251,7 @@ libbibledit_a_SOURCES = \
 	sync/notes.cpp \
 	sync/changes.cpp \
 	sync/files.cpp \
+	sync/resources.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \

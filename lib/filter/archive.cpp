@@ -579,7 +579,7 @@ private:
    
 
 // Compresses a string through the LZW algorithm.
-string filter_archive_compress (string data) // Todo write / unit test.
+string filter_archive_compress (string data)
 {
   istringstream is (data);
   ostringstream os;
@@ -589,7 +589,7 @@ string filter_archive_compress (string data) // Todo write / unit test.
 
 
 // Decompresses a string through the LZW algorithm.
-string filter_archive_decompress (string data) // Todo write / unit test.
+string filter_archive_decompress (string data)
 {
   istringstream is (data);
   ostringstream os;

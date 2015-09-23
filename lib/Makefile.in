@@ -237,10 +237,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT) \
 	sync/usfmresources.$(OBJEXT) sync/externalresources.$(OBJEXT) \
 	sync/notes.$(OBJEXT) sync/changes.$(OBJEXT) \
-	sync/files.$(OBJEXT) resource/index.$(OBJEXT) \
-	resource/organize.$(OBJEXT) resource/logic.$(OBJEXT) \
-	resource/get.$(OBJEXT) resource/external.$(OBJEXT) \
-	resource/bible2resource.$(OBJEXT) \
+	sync/files.$(OBJEXT) sync/resources.$(OBJEXT) \
+	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
+	resource/logic.$(OBJEXT) resource/get.$(OBJEXT) \
+	resource/external.$(OBJEXT) resource/bible2resource.$(OBJEXT) \
 	resource/convert2resource.$(OBJEXT) \
 	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
 	resource/admin.$(OBJEXT) resource/print.$(OBJEXT) \
@@ -769,6 +769,7 @@ libbibledit_a_SOURCES = \
 	sync/notes.cpp \
 	sync/changes.cpp \
 	sync/files.cpp \
+	sync/resources.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -1754,6 +1755,8 @@ sync/changes.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/files.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
+sync/resources.$(OBJEXT): sync/$(am__dirstamp) \
+	sync/$(DEPDIR)/$(am__dirstamp)
 resource/$(am__dirstamp):
 	@$(MKDIR_P) resource
 	@: > resource/$(am__dirstamp)
@@ -2477,6 +2480,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/files.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/notes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@
