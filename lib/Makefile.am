@@ -239,6 +239,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
 	sendreceive/files.cpp \
+	sendreceive/resources.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \

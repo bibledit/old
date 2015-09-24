@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/notes.h>
 #include <sendreceive/changes.h>
 #include <sendreceive/files.h>
+#include <sendreceive/resources.h>
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <resource/convert2resource.h>
@@ -144,6 +145,8 @@ void tasks_run_one (string filename)
     sendreceive_changes ();
   } else if (command == SYNCFILES) {
     sendreceive_files ();
+  } else if (command == SYNCRESOURCES) {
+    sendreceive_resources ();
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
   } else if (command == CONVERTBIBLE2RESOURCE) {

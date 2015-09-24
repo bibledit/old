@@ -231,16 +231,17 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
-	sendreceive/files.$(OBJEXT) demo/logic.$(OBJEXT) \
-	client/index.$(OBJEXT) client/logic.$(OBJEXT) \
-	sync/logic.$(OBJEXT) sync/setup.$(OBJEXT) \
-	sync/settings.$(OBJEXT) sync/bibles.$(OBJEXT) \
-	sync/usfmresources.$(OBJEXT) sync/externalresources.$(OBJEXT) \
-	sync/notes.$(OBJEXT) sync/changes.$(OBJEXT) \
-	sync/files.$(OBJEXT) sync/resources.$(OBJEXT) \
-	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
-	resource/logic.$(OBJEXT) resource/get.$(OBJEXT) \
-	resource/external.$(OBJEXT) resource/bible2resource.$(OBJEXT) \
+	sendreceive/files.$(OBJEXT) sendreceive/resources.$(OBJEXT) \
+	demo/logic.$(OBJEXT) client/index.$(OBJEXT) \
+	client/logic.$(OBJEXT) sync/logic.$(OBJEXT) \
+	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT) \
+	sync/bibles.$(OBJEXT) sync/usfmresources.$(OBJEXT) \
+	sync/externalresources.$(OBJEXT) sync/notes.$(OBJEXT) \
+	sync/changes.$(OBJEXT) sync/files.$(OBJEXT) \
+	sync/resources.$(OBJEXT) resource/index.$(OBJEXT) \
+	resource/organize.$(OBJEXT) resource/logic.$(OBJEXT) \
+	resource/get.$(OBJEXT) resource/external.$(OBJEXT) \
+	resource/bible2resource.$(OBJEXT) \
 	resource/convert2resource.$(OBJEXT) \
 	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
 	resource/admin.$(OBJEXT) resource/print.$(OBJEXT) \
@@ -757,6 +758,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
 	sendreceive/files.cpp \
+	sendreceive/resources.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -1713,6 +1715,8 @@ sendreceive/changes.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
 sendreceive/files.$(OBJEXT): sendreceive/$(am__dirstamp) \
 	sendreceive/$(DEPDIR)/$(am__dirstamp)
+sendreceive/resources.$(OBJEXT): sendreceive/$(am__dirstamp) \
+	sendreceive/$(DEPDIR)/$(am__dirstamp)
 demo/$(am__dirstamp):
 	@$(MKDIR_P) demo
 	@: > demo/$(am__dirstamp)
@@ -2449,6 +2453,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/notes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/sendreceive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@

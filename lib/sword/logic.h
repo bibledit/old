@@ -40,6 +40,7 @@ vector <string> sword_logic_get_installed ();
 string sword_logic_get_text (string source, string module, int book, int chapter, int verse, bool redo = false);
 void sword_logic_update_installed_modules ();
 void sword_logic_trim_modules ();
+void sword_logic_trigger_cache (string source, string module);
 
 
 #endif
