@@ -117,7 +117,7 @@ void sendreceive_resources ()
       }
       message2 += "; done";
       if (!downloaded) message2 = ": already in cache";
-      Database_Logs::log (message1 + message2, Filter_Roles::manager ());
+      if (downloaded) Database_Logs::log (message1 + message2, Filter_Roles::manager ());
     }
   }
   

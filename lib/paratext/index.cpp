@@ -31,6 +31,7 @@
 #include <database/config/bible.h>
 #include <database/config/general.h>
 #include <tasks/logic.h>
+#include <journal/index.h>
 
 
 string paratext_index_url ()
@@ -145,16 +146,29 @@ string paratext_index (void * webserver_request)
   view.set_variable ("paratextproject", paratext_project);
   if (!paratext_project.empty ()) view.enable_zone ("paratextprojectactive");
 
-  
-  // Set collaboration up.
-  string master = request->query ["master"];
-  if (!master.empty ()) {
-    tasks_logic_queue (SETUPPARATEXT, { bible, master });
-    success = translate ("The collaboration will be set up");
-    if (Database_Config_General::getRepeatSendReceive () == 0) {
-      Database_Config_General::setRepeatSendReceive (2);
+
+  // Authoritative copy: Take from either Bibledit or else from Paratext.
+  if (request->query.count ("master")) {
+    string master = request->query["master"];
+    if (master == "") {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Where are you going to take the initial Bible data from?"), "", "");
+      dialog_list.add_query ("bible", bible);
+      dialog_list.add_row ("Bibledit", "master", "bibledit");
+      dialog_list.add_row ("Paratext", "master", "paratext");
+      page += dialog_list.run ();
+      return page;
+    } else {
+      // Set collaboration up.
+      tasks_logic_queue (SETUPPARATEXT, { bible, master });
+      success = translate ("The collaboration will be set up");
+      if (Database_Config_General::getRepeatSendReceive () == 0) {
+        Database_Config_General::setRepeatSendReceive (2);
+      }
+      view.set_variable ("master", master);
+      view.enable_zone ("setuprunning");
+      redirect_browser (request, journal_index_url ());
+      return "";
     }
-    view.enable_zone ("setuprunning");
   }
 
 

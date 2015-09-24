@@ -38,7 +38,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define whether to enable Paratext synchronization */
-/* #undef HAVE_PARATEXT */
+#define HAVE_PARATEXT 1
 
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
@@ -110,7 +110,7 @@
 #define PARALLEL_TASKS 10
 
 /* Define whether Paratext synchronization is enabled */
-#define PARATEXT "no"
+#define PARATEXT "yes"
 
 /* Define the path to the shared external resources cache */
 #define RESOURCES_PATH ""
