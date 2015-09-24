@@ -4227,7 +4227,7 @@ void test_database_hebrewlexicon ()
 }
 
 
-void test_database_cache () // Todo
+void test_database_cache ()
 {
   refresh_sandbox (true);
 

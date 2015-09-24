@@ -387,7 +387,7 @@ void sword_logic_update_installed_modules ()
 
 
 // Trims the installed SWORD modules.
-void sword_logic_trim_modules () // Todo
+void sword_logic_trim_modules ()
 {
   if (!config_logic_client_prepared ()) {
     Database_Logs::log ("Trimming the SWORD caches and modules");

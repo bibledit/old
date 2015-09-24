@@ -32,8 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <changes/logic.h>
 #include <checks/logic.h>
-#include <export/logic.h> // Todo out
-#include <sword/logic.h> // Todo out.
+#include <export/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -79,8 +78,6 @@ void timer_index ()
       int fraction = second / 5;
       if (fraction != previous_fraction) {
         previous_fraction = fraction;
-        //Database_Cache::trim (); // Todo
-        //sword_logic_trim_modules (); // Todo
       }
       
       // Run the part below once per minute.

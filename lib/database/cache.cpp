@@ -60,7 +60,7 @@ void Database_Cache::create (string resource)
 
 // Does a checkup on the health of the main database.
 // Optionally recreates it.
-void Database_Cache::check () // Todo test this well.
+void Database_Cache::check ()
 {
   vector <string> names = filter_url_scandir (filter_url_create_root_path ("databases"));
   string filefragment = database_resource ("");
@@ -77,7 +77,7 @@ void Database_Cache::check () // Todo test this well.
 }
 
 
-void Database_Cache::trim () // Todo test this well.
+void Database_Cache::trim ()
 {
   if (config_logic_client_prepared ()) {
     // A client trims nothing at all of the cache.

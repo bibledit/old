@@ -134,6 +134,6 @@ void database_maintenance ()
   
   
   Database_Cache::check ();
-  Database_Cache::trim (); // Todo test
-  sword_logic_trim_modules (); // Todo test.
+  Database_Cache::trim ();
+  sword_logic_trim_modules ();
 }

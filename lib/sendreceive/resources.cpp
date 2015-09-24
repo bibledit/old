@@ -52,7 +52,7 @@ void sendreceive_resources_done ()
 }
 
 
-void sendreceive_resources () // Todo
+void sendreceive_resources ()
 {
   if (sendreceive_resources_watchdog) {
     int time = filter_date_seconds_since_epoch ();
@@ -113,6 +113,7 @@ void sendreceive_resources () // Todo
           message2 += "size " + convert_to_string (html.length ());
           downloaded = true;
         }
+        sendreceive_resources_kick_watchdog ();
       }
       message2 += "; done";
       if (!downloaded) message2 = ": already in cache";
