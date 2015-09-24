@@ -383,16 +383,18 @@ void sword_logic_update_installed_modules ()
 }
 
 
-// Trims the SWORD caches and the installed modules.
+// Trims the installed SWORD modules.
 void sword_logic_trim_modules () // Todo
 {
-  Database_Logs::log ("Trimming the SWORD caches and modules");
-  vector <string> modules = sword_logic_get_installed ();
-  for (auto module : modules) {
-    module = sword_logic_get_installed_module (module);
-    if (!Database_Cache::exists (module)) {
-      sword_logic_uninstall_module (module);
+  if (!config_logic_client_prepared ()) {
+    Database_Logs::log ("Trimming the SWORD caches and modules");
+    vector <string> modules = sword_logic_get_installed ();
+    for (auto module : modules) {
+      module = sword_logic_get_installed_module (module);
+      if (!Database_Cache::exists (module)) {
+        sword_logic_uninstall_module (module);
+      }
     }
+    Database_Logs::log ("Ready trimming the SWORD caches and modules");
   }
-  Database_Logs::log ("Ready trimming the SWORD caches and modules");
 }

@@ -80,6 +80,9 @@ void Database_Cache::check () // Todo test this well.
 void Database_Cache::trim () // Todo test this well.
 {
   if (config_logic_client_prepared ()) {
+    // A client trims nothing at all of the cache.
+    // If it would trim, then a client wihtout internet might find itself without resources
+    // at an inconvenient moment.
   } else {
     // On the server, check whether a SWORD module has not been accessed during the last nnn days.
     int now = filter_date_seconds_since_epoch () / 86400;

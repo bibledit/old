@@ -31,6 +31,7 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <sword/logic.h>
+#include <config/logic.h>
 
 
 string resource_sword_url ()
@@ -124,6 +125,13 @@ string resource_sword (void * webserver_request)
   }
   view.set_variable ("moduleblock", moduleblock);
 
+  
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+  } else {
+    view.enable_zone ("server");
+  }
+  
   
   page += view.render ("resource", "sword");
   page += Assets_Page::footer ();
