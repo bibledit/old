@@ -7403,6 +7403,14 @@ msgid ""
 "the journal."
 msgstr ""
 
+msgid ""
+"Update the installed SWORD modules if needed now and view the progress in "
+"the journal."
+msgstr ""
+
+msgid "Every week modules get updated automatically."
+msgstr ""
+
 msgid "notes"
 msgstr ""
 
