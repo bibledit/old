@@ -6439,7 +6439,7 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-msgid "Sync"
+msgid "Send / receive"
 msgstr ""
 
 msgid "Cross references"
@@ -6959,6 +6959,9 @@ msgstr ""
 msgid "Which Paratext project are you going to use?"
 msgstr ""
 
+msgid "Where are you going to take the initial Bible data from?"
+msgstr ""
+
 msgid "The collaboration will be set up"
 msgstr ""
 
@@ -6992,10 +6995,13 @@ msgstr ""
 msgid "Paratext project"
 msgstr ""
 
+msgid "Take initial data from"
+msgstr ""
+
 msgid ""
 "The first time to synchronize the Bible in Bibledit with the project in "
-"Paratext, there is going to be an authoritative copy that overwrites the "
-"other."
+"Paratext, the system needs to have an authoritative copy of Bible data that "
+"overwrites the other."
 msgstr ""
 
 msgid ""
@@ -7009,9 +7015,6 @@ msgid ""
 msgstr ""
 
 msgid "This only occurs once during the setup phase."
-msgstr ""
-
-msgid "Set the collaboration up and pick the authoritative copy:"
 msgstr ""
 
 msgid ""
@@ -7409,6 +7412,14 @@ msgid ""
 msgstr ""
 
 msgid "Every week modules get updated automatically."
+msgstr ""
+
+msgid ""
+"An installed SWORD module that has not been used for 100 days in a row will "
+"be uninstalled."
+msgstr ""
+
+msgid "When it starts to be used again, it will be installed on the fly."
 msgstr ""
 
 msgid "notes"

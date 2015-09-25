@@ -96,36 +96,6 @@ string resource_organize (void * webserver_request)
   view.set_variable ("activesblock", activesblock);
   
   
-  // The selectable resources are the available ones minus the active ones.
-  vector <string> available_resources = resource_logic_get_names (webserver_request);
-  vector <string> selectable_resources = filter_string_array_diff (available_resources, active_resources);
-  string selectablesblock;
-  for (unsigned int i = 0; i < selectable_resources.size (); i++) {
-    string selectable = selectable_resources [i];
-    if (i) selectablesblock.append (" | ");
-    selectablesblock.append ("<a href=\"?add=" + selectable + "\">" + selectable + "</a>");
-  }
-  view.set_variable ("selectablesblock", selectablesblock);
-  
-  
-  // The dividers.
-  vector <string> dividers = {
-    resource_logic_yellow_divider (),
-    resource_logic_green_divider (),
-    resource_logic_blue_divider (),
-    resource_logic_violet_divider (),
-    resource_logic_red_divider (),
-    resource_logic_orange_divider ()
-  };
-  string dividersblock;
-  for (unsigned int i = 0; i < dividers.size (); i++) {
-    string divider = dividers [i];
-    if (i) dividersblock.append (" | ");
-    dividersblock.append ("<a href=\"?add=" + divider + "\">" + divider + "</a>");
-  }
-  view.set_variable ("dividersblock", dividersblock);
-  
-  
   // Context before.
   if (request->query.count ("before")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), convert_to_string (request->database_config_user ()->getResourceVersesBefore ()), "before", translate ("How many verses of context to display before the focused verse."));

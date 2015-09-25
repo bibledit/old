@@ -189,6 +189,8 @@ database/bibles.cpp
 database/bibles.h
 database/books.cpp
 database/books.h
+database/cache.cpp
+database/cache.h
 database/check.cpp
 database/check.h
 database/commits.cpp
@@ -954,6 +956,9 @@ resource/print.cpp
 resource/print.h
 resource/print.html
 resource/print.js
+resource/select.cpp
+resource/select.h
+resource/select.html
 resource/sword.cpp
 resource/sword.h
 resource/sword.html
@@ -1037,6 +1042,8 @@ sendreceive/logic.cpp
 sendreceive/logic.h
 sendreceive/notes.cpp
 sendreceive/notes.h
+sendreceive/resources.cpp
+sendreceive/resources.h
 sendreceive/sendreceive.cpp
 sendreceive/sendreceive.h
 sendreceive/settings.cpp
@@ -1200,6 +1207,8 @@ sword/locales.d/zh_Hans-utf8.conf
 sword/locales.d/zh_Hant-utf8.conf
 sword/locales.d/zh_TW-utf8.conf
 sword/locales.d/zh_english-utf8.conf
+sword/logic.cpp
+sword/logic.h
 sword/mods.d/globals.conf
 sync/bibles.cpp
 sync/bibles.h
@@ -1213,6 +1222,8 @@ sync/logic.cpp
 sync/logic.h
 sync/notes.cpp
 sync/notes.h
+sync/resources.cpp
+sync/resources.h
 sync/settings.cpp
 sync/settings.h
 sync/setup.cpp

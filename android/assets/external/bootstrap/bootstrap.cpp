@@ -108,6 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/externalresources.h>
 #include <sync/changes.h>
 #include <sync/files.h>
+#include <sync/resources.h>
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
@@ -116,6 +117,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/admin.h>
 #include <resource/print.h>
 #include <resource/download.h>
+#include <resource/select.h>
 #include <mapping/index.h>
 #include <mapping/map.h>
 #include <notes/index.h>
@@ -277,6 +279,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_download_url ()) && resource_download_acl (request)) request->reply = resource_download (request);
   else if ((url == resource_images_url ()) && resource_images_acl (request)) request->reply = resource_images (request);
   else if ((url == resource_sword_url ()) && resource_sword_acl (request)) request->reply = resource_sword (request);
+  else if ((url == resource_select_url ()) && resource_select_acl (request)) request->reply = resource_select (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
@@ -363,6 +366,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
   else if ((url == sync_changes_url ()) && sync_changes_acl (request)) request->reply = sync_changes (request);
   else if ((url == sync_files_url ()) && sync_files_acl (request)) request->reply = sync_files (request);
+  else if ((url == sync_resources_url ()) && sync_resources_acl (request)) request->reply = sync_resources (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

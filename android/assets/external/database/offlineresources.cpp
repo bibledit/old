@@ -272,7 +272,7 @@ string Database_OfflineResources::resourceFolder (string name)
 
 string Database_OfflineResources::databaseFile (string name, int book)
 {
-  return filter_url_create_path (resourceFolder (name), convert_to_string (book) + ".sqlite");
+  return filter_url_create_path (resourceFolder (name), convert_to_string (book) + database_sqlite_suffix ());
 }
 
 

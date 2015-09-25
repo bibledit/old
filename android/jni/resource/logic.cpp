@@ -39,7 +39,7 @@
 #include <config/logic.h>
 #include <client/logic.h>
 #include <lexicon/logic.h>
-#include <resource/sword.h>
+#include <sword/logic.h>
 
 
 vector <string> resource_logic_get_names (void * webserver_request)
@@ -69,7 +69,7 @@ vector <string> resource_logic_get_names (void * webserver_request)
   names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
   
   // SWORD resources
-  vector <string> sword_resources = resource_sword_get_available ();
+  vector <string> sword_resources = sword_logic_get_available ();
   names.insert (names.end (), sword_resources.begin(), sword_resources.end());
   
   sort (names.begin(), names.end());
@@ -97,8 +97,8 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
   vector <string> lexicons = lexicon_logic_resource_names ();
 
   // Possible SWORD details.
-  string sword_module = resource_sword_get_remote_module (resource);
-  string sword_source = resource_sword_get_installed_module (resource);
+  string sword_module = sword_logic_get_remote_module (resource);
+  string sword_source = sword_logic_get_installed_module (resource);
   
   // Determine the type of the current resource.
   bool isBible = in_array (resource, bibles);
@@ -179,7 +179,7 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
     } else if (isLexicon) {
       html.append (lexicon_logic_get_html (request, resource, book, chapter, verse));
     } else if (isSword) {
-      html.append (resource_sword_get_text (sword_source, sword_module, book, chapter, verse));
+      html.append (sword_logic_get_text (sword_source, sword_module, book, chapter, verse));
     } else {
       // Nothing found.
     }

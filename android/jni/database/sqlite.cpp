@@ -105,9 +105,15 @@ sqlite3 * database_sqlite_connect_file (string filename)
 string database_sqlite_file (string database)
 {
   if (filter_url_dirname (database) == ".") {
-    return filter_url_create_root_path ("databases", database + ".sqlite");
+    return filter_url_create_root_path ("databases", database + database_sqlite_suffix ());
   }
   return database;
+}
+
+
+string database_sqlite_suffix ()
+{
+  return ".sqlite";
 }
 
 

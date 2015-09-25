@@ -86,6 +86,8 @@ void sendreceive_queue_sync (int minute)
       } else {
         tasks_logic_queue (SYNCFILES);
       }
+      // Sync resources always, because it checks on its own whether to do something.
+      tasks_logic_queue (SYNCRESOURCES);
     }
     
     // Store the most recent time that the sync action ran.

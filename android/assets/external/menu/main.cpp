@@ -196,8 +196,8 @@ vector <Menu_Main_Item> * Menu_Main::resourcesmenu ()
     if (resource_manage_acl (request)) menu->push_back ( { "", resource_manage_url (), translate ("USFM"), NULL } );
     if (resource_admin_acl (request)) menu->push_back ( { "", resource_admin_url (), translate ("External"), NULL } );
     if (resource_images_acl (request)) menu->push_back ( { "", resource_images_url (), translate ("Images"), NULL } );
+    if (resource_sword_acl (request)) menu->push_back ( { "", resource_sword_url (), translate ("SWORD"), NULL } );
   }
-  if (resource_sword_acl (request)) menu->push_back ( { "", resource_sword_url (), translate ("SWORD"), NULL } );
   if (menu->size ()) return menu;
   delete menu;
   return NULL;
@@ -238,7 +238,7 @@ vector <Menu_Main_Item> * Menu_Main::planningmenu ()
 vector <Menu_Main_Item> * Menu_Main::toolsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), translate ("Sync"), NULL } );
+  if (sendreceive_index_acl (webserver_request)) menu->push_back ( { "", sendreceive_index_url (), translate ("Send / receive"), NULL } );
   if (index_listing_acl (webserver_request, "exports")) menu->push_back ( { "", index_listing_url ("exports"), translate ("Exports"), exportssubmenu () } );
   if (manage_hyphenation_acl (webserver_request)) menu->push_back ( { "", manage_hyphenation_url (), translate ("Hyphenation"), NULL } );
   if (xrefs_index_acl (webserver_request)) menu->push_back ( { "", xrefs_index_url (), translate ("Cross references"), NULL } );

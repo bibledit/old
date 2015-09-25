@@ -35,6 +35,14 @@ translate("And changes made in Paratext will be transferred to Bibledit.")
     <td>##paratextproject##</td>
     <td><a href="?bible=##bible##&paratextproject">[translate ("change")]</a></td>
   </tr>
+  <!-- #BEGINZONE paratextprojectactive -->
+  <tr>
+    <td>translate("Take initial data from")</td>
+    <td>:</td>
+    <td>##master##</td>
+    <td><a href="?bible=##bible##&master">[translate ("change")]</a></td>
+  </tr>
+  <!-- #ENDZONE paratextprojectactive -->
   <!-- #ENDZONE paratextprojectsactive -->
   <!-- #ENDZONE bibleactive -->
 </table>
@@ -44,18 +52,10 @@ translate("And changes made in Paratext will be transferred to Bibledit.")
 <!-- #BEGINZONE paratextprojectactive -->
 <br>
 <p>
-translate("The first time to synchronize the Bible in Bibledit with the project in Paratext, there is going to be an authoritative copy that overwrites the other.")
+translate("The first time to synchronize the Bible in Bibledit with the project in Paratext, the system needs to have an authoritative copy of Bible data that overwrites the other.")
 translate("Either the Bible books in the Paratext project overwrite the Bible books in Bibledit.")
 translate("Or the Bible books in Bibledit overwrite the Bible books in the Paratext project")
 translate("This only occurs once during the setup phase.")
-</p>
-
-<br>
-<p>
-translate("Set the collaboration up and pick the authoritative copy:")
-<a href="?bible=##bible##&master=bibledit">Bibledit</a>
-|
-<a href="?bible=##bible##&master=paratext">Paratext</a>.
 </p>
 
 <br>

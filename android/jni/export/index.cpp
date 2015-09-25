@@ -28,7 +28,7 @@
 #include <filter/roles.h>
 
 
-void export_index () // Todo
+void export_index ()
 {
   Database_Bibles database_bibles;
   vector <string> bibles = database_bibles.getBibles ();

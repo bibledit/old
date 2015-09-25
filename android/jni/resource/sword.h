@@ -28,20 +28,5 @@ string resource_sword_url ();
 bool resource_sword_acl (void * webserver_request);
 string resource_sword (void * webserver_request);
 
-string resource_sword_get_path ();
-void resource_sword_refresh_module_list ();
-string resource_sword_module_list_path ();
-string resource_sword_get_source (string line);
-string resource_sword_get_remote_module (string line);
-string resource_sword_get_installed_module (string line);
-string resource_sword_get_version (string line);
-string resource_sword_get_name (string line);
-void resource_sword_install_module (string source, string module);
-void resource_sword_update_module (string source, string module);
-void resource_sword_uninstall_module (string module);
-vector <string> resource_sword_get_available ();
-vector <string> resource_sword_get_installed ();
-string resource_sword_get_text (string source, string module, int book, int chapter, int verse);
-
 
 #endif

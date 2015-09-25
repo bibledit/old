@@ -4357,4 +4357,13 @@ void test_filter_string ()
 }
 
 
+void test_filter_archive ()
+{
+  string plain = "This is data that is data to be compressed.";
+  string compressed = filter_archive_compress (plain);
+  string output = filter_archive_decompress (compressed);
+  evaluate (__LINE__, __func__, plain, output);
+}
+
+
 #endif

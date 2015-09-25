@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <database/state.h>
+#include <database/cache.h>
 #include <config/globals.h>
 #include <filter/string.h>
 #include <filter/date.h>
@@ -208,6 +209,13 @@ void timer_index ()
           tasks_logic_queue (REFRESHSWORDMODULES);
         }
       }
+      // Update installed SWORD modules, shortly after the module list has been refreshed.
+      if ((!client) && (hour == 3) && (minute == 15)) {
+        if (weekday == 1) {
+          tasks_logic_queue (UPDATEALLSWORDMODULES);
+        }
+      }
+      
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());

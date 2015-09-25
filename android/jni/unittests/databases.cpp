@@ -59,6 +59,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/morphgnt.h>
 #include <database/etcbc4.h>
 #include <database/hebrewlexicon.h>
+#include <database/cache.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -4223,6 +4224,62 @@ void test_database_hebrewlexicon ()
   
   result = database.getstrong ("H2");
   evaluate (__LINE__, __func__, 149, result.length ());
+}
+
+
+void test_database_cache ()
+{
+  refresh_sandbox (true);
+
+  // Initially database should not exist.
+  bool exists = Database_Cache::exists ("");
+  evaluate (__LINE__, __func__, false, exists);
+
+  // Initially the database should not exist, but after creating, it should be there.
+  exists = Database_Cache::exists ("unittests");
+  evaluate (__LINE__, __func__, false, exists);
+  Database_Cache::create ("unittests");
+  exists = Database_Cache::exists ("unittests");
+  evaluate (__LINE__, __func__, true, exists);
+  
+  // Cache and retrieve value.
+  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
+  string value = Database_Cache::retrieve ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, "cached", value);
+
+  // Cache does not exist for one passage, but does exist for the other passage.
+  exists = Database_Cache::exists ("unittests", 1, 2, 4);
+  evaluate (__LINE__, __func__, false, exists);
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, true, exists);
+
+  // Number of days should exist for one passage, and be 0 for the other one.
+  int days = Database_Cache::days ("unittests", 1, 2, 4);
+  evaluate (__LINE__, __func__, 0, days);
+  int now = filter_date_seconds_since_epoch () / 86400;
+  days = Database_Cache::days ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, now, days);
+  
+  // Damage the database.
+  filter_url_file_put_contents (filter_url_create_root_path ("databases", "cache_resource_unittests.sqlite"), "garbled data");
+
+  // Cached values should not exist, not even after caching, because the database is damaged.
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, false, exists);
+  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, false, exists);
+
+  // Check: Repair damaged database.
+  Database_Cache::check ();
+
+  // Caching should work again because the database is now OK again.
+  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, false, exists);
+
+  // Clear journal messages about damaged database.
+  refresh_sandbox (false);
 }
 
 
