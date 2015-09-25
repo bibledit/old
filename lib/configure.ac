@@ -1,5 +1,6 @@
 AC_INIT([bibledit],[1.0.250],[http://bibledit.org])
 AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
 
@@ -8,7 +9,6 @@ AC_PROG_CXX
 AC_LANG([C++])
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_PROG_RANLIB
-AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADER(config.h)
 
 
