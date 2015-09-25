@@ -31,8 +31,6 @@ void styles_sheets_create_all_run ();
 class Styles_Sheets
 {
 public:
-  Styles_Sheets ();
-  ~Styles_Sheets ();
   void recreate ();
   void create (string stylesheet, string path, bool editor, string export_bible);
   string get_location (string sheet, bool editor);
