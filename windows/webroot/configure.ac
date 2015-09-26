@@ -1,5 +1,6 @@
-AC_INIT([bibledit],[1.0.227],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.251],[http://bibledit.org])
 AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
 
@@ -8,7 +9,6 @@ AC_PROG_CXX
 AC_LANG([C++])
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_PROG_RANLIB
-AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADER(config.h)
 
 
@@ -40,6 +40,10 @@ AC_PATH_PROG(UNZIP_PATH, unzip, no)
 if test x$UNZIP_PATH = xno; then
   AC_MSG_ERROR(Program "unzip" is needed. Install this first.)
 fi
+
+
+AC_PATH_PROG(INSTALLMGR_PATH, installmgr, no)
+AC_PATH_PROG(DIATHEKE_PATH, diatheke, no)
 
 
 PKG_PROG_PKG_CONFIG
@@ -240,24 +244,37 @@ AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
 AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
 AC_SUBST(WINDOWS)
 
+# ICU availability.
+ICUOFF=no
+AC_ARG_ENABLE(icu,
+[  --disable-icu Disable ICU library],
+[AC_DEFINE([ICU_DISABLED], [1], [Define whether ICU is disabled])]
+ICUOFF=yes
+)
+AC_DEFINE([ICUOFF], [], [Define whether ICU is disabled])
+AC_DEFINE_UNQUOTED(ICUOFF, "$ICUOFF")
+AC_SUBST(ICUOFF)
+
 AC_OUTPUT(Makefile)
 
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix                                        : ${prefix}
-Network port (--with-network-port=n)                       : ${NETWORK_PORT}
-Client edition (--enable-client)                           : ${CLIENT}
-Demo edition (--enable-demo)                               : ${DEMO}
-Maximum number of parallel tasks (--with-parallel-tasks=n) : ${PARALLEL_TASKS}
-Bare browser mode (--enable-bare-browser)                  : ${BARE_BROWSER}
-URL settings (--enable-urlsettings)                        : ${URLSETTINGS}
-Unit tests (--enable-unittests)                            : ${UNITTESTS}
-Admin username (--with-admin-username=username)            : ${ADMIN_USERNAME}
-Admin password (--with-admin-password=password)            : ${ADMIN_PASSWORD}
-Admin email (--with-admin-email=email)                     : ${ADMIN_EMAIL}
-Tiny journal (--enable-tinyjournal)                        : ${TINYJOURNAL}
-Paratext synchronization (--enable-paratext)               : ${PARATEXT}
-Resources cache path (--with-resources-path=path)          : ${RESOURCES_PATH}
-Windows (--enable-windows)                                 : ${WINDOWS}
+Installation prefix                               : ${prefix}
+Network port (--with-network-port=n)              : ${NETWORK_PORT}
+Client edition (--enable-client)                  : ${CLIENT}
+Demo edition (--enable-demo)                      : ${DEMO}
+Maximum number of parallel tasks
+                       (--with-parallel-tasks=n)  : ${PARALLEL_TASKS}
+Bare browser mode (--enable-bare-browser)         : ${BARE_BROWSER}
+URL settings (--enable-urlsettings)               : ${URLSETTINGS}
+Unit tests (--enable-unittests)                   : ${UNITTESTS}
+Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
+Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
+Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
+Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
+Paratext synchronization (--enable-paratext)      : ${PARATEXT}
+Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
+Windows (--enable-windows)                        : ${WINDOWS}
+Disable ICU library (--disable-icu)               : ${ICUOFF}
 "

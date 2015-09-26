@@ -27,8 +27,11 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
+#include <resource/admin.h>
 #include <sync/logic.h>
 #include <dialog/entry.h>
+#include <config/logic.h>
+#include <client/logic.h>
 
 
 string resource_organize_url ()
@@ -58,9 +61,11 @@ string resource_organize (void * webserver_request)
   
   
   if (request->query.count ("remove")) {
-    string remove = request->query["remove"];
+    size_t remove = convert_to_int (request->query["remove"]);
     vector <string> resources = request->database_config_user()->getActiveResources ();
-    resources = filter_string_array_diff (resources, {remove});
+    if (remove < resources.size ()) {
+      resources.erase (resources.begin () + remove);
+    }
     request->database_config_user()->setActiveResources (resources);
     request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
   }
@@ -85,22 +90,10 @@ string resource_organize (void * webserver_request)
   // Active resources.
   vector <string> active_resources = request->database_config_user()->getActiveResources ();
   string activesblock;
-  for (auto& active : active_resources) {
-    activesblock.append ("<p><a href=\"?remove=" + active + "\"> ✗ </a>" + active + "</p>\n");
+  for (size_t i = 0; i < active_resources.size (); i++) {
+    activesblock.append ("<p><a href=\"?remove=" + convert_to_string (i) + "\"> ✗ </a>" + active_resources [i] + "</p>\n");
   }
   view.set_variable ("activesblock", activesblock);
-  
-  
-  // The selectable resources are the available ones minus the active ones.
-  vector <string> available_resources = Resource_Logic::getNames (webserver_request);
-  vector <string> selectable_resources = filter_string_array_diff (available_resources, active_resources);
-  string selectablesblock;
-  for (unsigned int i = 0; i < selectable_resources.size (); i++) {
-    string selectable = selectable_resources [i];
-    if (i) selectablesblock.append (" | ");
-    selectablesblock.append ("<a href=\"?add=" + selectable + "\">" + selectable + "</a>");
-  }
-  view.set_variable ("selectablesblock", selectablesblock);
   
   
   // Context before.

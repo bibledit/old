@@ -164,6 +164,8 @@ void Checks_Usfm::markerInStylesheet ()
 void Checks_Usfm::malformedId ()
 {
   string item = usfmItem.substr (0, 3);
+  string ide = usfmItem.substr (0, 4);
+  if (ide == "\\ide") return;
   if (item == "\\id") {
     string code = usfm_peek_text_following_marker (usfmMarkersAndText, usfmMarkersAndTextPointer);
     string sid =  code.substr (0, 3);

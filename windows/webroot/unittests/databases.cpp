@@ -59,12 +59,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/morphgnt.h>
 #include <database/etcbc4.h>
 #include <database/hebrewlexicon.h>
+#include <database/cache.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
 #include <styles/logic.h>
 #include <resource/external.h>
 #include <config.h>
+#include <changes/logic.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -2747,7 +2749,7 @@ void test_database_modifications_notifications ()
     // Record three notifications and reindex.
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit2", "phpunit3"}, "A", "1", 4, 5, 6, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, "B", "1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
 
     // There should be six notifications now: Two users per recordNotification call.
@@ -2875,12 +2877,12 @@ void test_database_modifications_notifications ()
     refresh_sandbox (true);
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
-    database_modifications.recordNotification ({"phpunit"}, "P", "1", 2, 3, 4, "old1", "mod1", "new1");
+    database_modifications.recordNotification ({"phpunit"}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, 2, (int)ids.size ());
-    database_modifications.clearNotificationMatches ("phpunit", "P", "T");
+    database_modifications.clearNotificationMatches ("phpunit", changes_personal_category (), "T");
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
@@ -2891,8 +2893,8 @@ void test_database_modifications_notifications ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, "B", "1", 1, 2, 3, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, "B", "1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationPersonalIdentifiers ("phpunit1", "A");
     evaluate (__LINE__, __func__, {1, 4}, ids);
@@ -2903,12 +2905,12 @@ void test_database_modifications_notifications ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, "B", "1", 1, 2, 3, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, "B", "1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", "A");
     evaluate (__LINE__, __func__, {1}, ids);
-    ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", "B");
+    ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category ());
     evaluate (__LINE__, __func__, {4}, ids);
   }
 }
@@ -4222,6 +4224,62 @@ void test_database_hebrewlexicon ()
   
   result = database.getstrong ("H2");
   evaluate (__LINE__, __func__, 149, result.length ());
+}
+
+
+void test_database_cache ()
+{
+  refresh_sandbox (true);
+
+  // Initially database should not exist.
+  bool exists = Database_Cache::exists ("");
+  evaluate (__LINE__, __func__, false, exists);
+
+  // Initially the database should not exist, but after creating, it should be there.
+  exists = Database_Cache::exists ("unittests");
+  evaluate (__LINE__, __func__, false, exists);
+  Database_Cache::create ("unittests");
+  exists = Database_Cache::exists ("unittests");
+  evaluate (__LINE__, __func__, true, exists);
+  
+  // Cache and retrieve value.
+  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
+  string value = Database_Cache::retrieve ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, "cached", value);
+
+  // Cache does not exist for one passage, but does exist for the other passage.
+  exists = Database_Cache::exists ("unittests", 1, 2, 4);
+  evaluate (__LINE__, __func__, false, exists);
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, true, exists);
+
+  // Number of days should exist for one passage, and be 0 for the other one.
+  int days = Database_Cache::days ("unittests", 1, 2, 4);
+  evaluate (__LINE__, __func__, 0, days);
+  int now = filter_date_seconds_since_epoch () / 86400;
+  days = Database_Cache::days ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, now, days);
+  
+  // Damage the database.
+  filter_url_file_put_contents (filter_url_create_root_path ("databases", "cache_resource_unittests.sqlite"), "garbled data");
+
+  // Cached values should not exist, not even after caching, because the database is damaged.
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, false, exists);
+  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, false, exists);
+
+  // Check: Repair damaged database.
+  Database_Cache::check ();
+
+  // Caching should work again because the database is now OK again.
+  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
+  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  evaluate (__LINE__, __func__, false, exists);
+
+  // Clear journal messages about damaged database.
+  refresh_sandbox (false);
 }
 
 

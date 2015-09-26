@@ -36,6 +36,7 @@
 #include <book/create.h>
 #include <bible/logic.h>
 #include <client/logic.h>
+#include <bible/manage.h>
 
 
 string bible_settings_url ()
@@ -56,7 +57,7 @@ string bible_settings (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Bible"), webserver_request, "");
+  page = Assets_Page::header (translate ("Bible"), webserver_request);
   
   Assets_View view = Assets_View ();
   
@@ -123,6 +124,8 @@ string bible_settings (void * webserver_request)
       vector <string> feedback;
       if (write_access) book_create (bible, convert_to_int (createbook), -1, feedback);
     }
+    // User create a book in this Bible: Set it as the default Bible.
+    request->database_config_user()->setBible (bible);
   }
   
   // Viewable by all users.
@@ -161,7 +164,12 @@ string bible_settings (void * webserver_request)
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
 
-  if (!client_logic_client_enabled ()) view.enable_zone ("server");
+  if (client_logic_client_enabled ()) {
+    view.enable_zone ("client");
+    view.set_variable ("cloudlink", client_logic_link_to_cloud (bible_manage_url (), translate ("More operations in the Cloud")));
+  } else {
+    view.enable_zone ("server");
+  }
 
   page += view.render ("bible", "settings");
   

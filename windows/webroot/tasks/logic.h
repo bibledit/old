@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define REINDEXBIBLES "reindexbibles"
 #define REINDEXNOTES "reindexnotes"
 #define CREATECSS "createcss"
-#define IMPORTUSFM "importusfm"
+#define IMPORTBIBLE "importusfm"
 #define COMPAREUSFM "compareusfm"
 #define MAINTAINDATABASE "maintaindatabase"
 #define CLEANTMPFILES "cleantmpfiles"
@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define SYNCSETTINGS "syncsettings"
 #define SYNCCHANGES "syncchanges"
 #define SYNCFILES "syncfiles"
+#define SYNCRESOURCES "syncresources"
 #define CLEANDEMO "cleandemo"
 #define CONVERTBIBLE2RESOURCE "convertbible2resource"
 #define CONVERTRESOURCE2BIBLE "convertresource2bible"
@@ -65,6 +66,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define SYNCPARATEXT "syncparatext"
 #define SUBMITBIBLEDROPBOX "submitbibledropbox"
 #define IMPORTIMAGES "importimages"
+#define REFRESHSWORDMODULES "refreshswordmodules"
+#define INSTALLSWORDMODULE "installswordmodule"
+#define UPDATESWORDMODULE "updateswordmodule"
+#define UNINSTALLSWORDMODULE "uninstallswordmodule"
+#define UPDATEALLSWORDMODULES "updateallswordmodules"
 
 
 string tasks_logic_folder ();

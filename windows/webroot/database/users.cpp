@@ -151,14 +151,14 @@ string Database_Users::timestampFile (string user)
 
 void Database_Users::trim ()
 {
-  // Remove persistent logins after two days of inactivity.
-  int daysAgo = filter_date_seconds_since_epoch () - (2 * 86400);
+  // Remove persistent logins after 365 days of inactivity.
+  int yearAgo = filter_date_seconds_since_epoch () - (365 * 86400);
   vector <string> users = getUsers ();
   sqlite3 * db = connect ();
   for (unsigned int i = 0; i < users.size(); i++) {
     string username = users [i];
     int timestamp = getTimestamp (username);
-    if (timestamp < daysAgo) {
+    if (timestamp < yearAgo) {
       username = database_sqlite_no_sql_injection (username);
       string sql = "UPDATE logins SET fingerprint = '' WHERE username = '" + username + "';";
       database_sqlite_exec (db, sql);

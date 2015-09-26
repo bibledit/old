@@ -79,6 +79,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   xmlInitParser ();
 
   // Initialize SQLite: Full thread safety: https://www.sqlite.org/threadsafe.html.
+  // This is supported to prevent "database locked" errors.
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
   
   // Set the web root folder.
@@ -148,7 +149,7 @@ void bibledit_start_library ()
 // Gets the last page that was opened via the menu.
 const char * bibledit_get_last_page ()
 {
-  string href = "/" + Database_Config_General::getLastMenuClick ();
+  string href = Database_Config_General::getLastMenuClick ();
   return href.c_str();
 }
 
@@ -214,19 +215,4 @@ void bibledit_shutdown_library ()
 void bibledit_log (const char * message)
 {
   Database_Logs::log (message);
-}
-
-
-// Returns true if the external browser is to be opened.
-bool bibledit_open_browser ()
-{
-  // Upon first call, the menu option for the external browser will be enabled.
-  config_globals_external_browser_enabled = true;
-  
-  // Return whether the link in the menu was clicked.
-  if (config_globals_external_browser_clicked) {
-    config_globals_external_browser_clicked = false;
-    return true;
-  }
-  return false;
 }

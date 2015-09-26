@@ -32,7 +32,6 @@ extern bool config_globals_mail_send_running;
 extern bool config_globals_quit_at_midnight;
 extern int config_globals_touch_enabled;
 extern int config_globals_timezone_offset_utc;
-extern bool config_globals_external_browser_enabled;
-extern bool config_globals_external_browser_clicked;
 extern bool config_globals_change_notifications_available;
+extern int config_globals_setup_progress;
 

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <database/state.h>
+#include <database/cache.h>
 #include <config/globals.h>
 #include <filter/string.h>
 #include <filter/date.h>
@@ -64,6 +65,7 @@ void timer_index ()
       int second = filter_date_numerical_second (local_seconds);
       int minute = filter_date_numerical_minute (local_seconds);
       int hour = filter_date_numerical_hour (local_seconds);
+      int weekday = filter_date_numerical_week_day (local_seconds);
       
       // Run once per second.
       if (second == previous_second) continue;
@@ -136,8 +138,11 @@ void timer_index ()
       
       // Export the Bibles to the various output formats.
       // This may take an hour on a production machine.
-      if ((hour == 1) && (minute == 10)) {
-        Export_Logic::scheduleAll ();
+      // This hour was in PHP. In C++ it is much faster.
+      if (!client) {
+        if ((hour == 1) && (minute == 10)) {
+          Export_Logic::scheduleAll ();
+        }
       }
       
       // Delete temporal files older than a few days.
@@ -196,6 +201,21 @@ void timer_index ()
           tasks_logic_queue (NOTESSTATISTICS);
         }
       }
+      
+      // Refresh SWORD module list.
+      if ((!client) && (hour == 3) && (minute == 5)) {
+        Database_Logs::log ("Weekday: " + convert_to_string (weekday));
+        if (weekday == 1) {
+          tasks_logic_queue (REFRESHSWORDMODULES);
+        }
+      }
+      // Update installed SWORD modules, shortly after the module list has been refreshed.
+      if ((!client) && (hour == 3) && (minute == 15)) {
+        if (weekday == 1) {
+          tasks_logic_queue (UPDATEALLSWORDMODULES);
+        }
+      }
+      
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());

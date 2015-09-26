@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/rebibles.h>
 #include <search/renotes.h>
 #include <styles/sheets.h>
-#include <bible/import_task.h>
+#include <bible/import_run.h>
 #include <compare/compare.h>
 #include <database/maintenance.h>
 #include <database/config/general.h>
@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/notes.h>
 #include <sendreceive/changes.h>
 #include <sendreceive/files.h>
+#include <sendreceive/resources.h>
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <resource/convert2resource.h>
@@ -62,6 +63,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 #include <resource/logic.h>
+#include <sword/logic.h>
 
 
 mutex mutex_tasks; 
@@ -101,6 +103,11 @@ void tasks_run_one (string filename)
     parameter3 = lines [0];
     lines.erase (lines.begin ());
   }
+  string parameter4;
+  if (!lines.empty ()) {
+    parameter4 = lines [0];
+    lines.erase (lines.begin ());
+  }
   
   if (command == ROTATEJOURNAL) {
     Database_Logs database_logs = Database_Logs ();
@@ -116,8 +123,8 @@ void tasks_run_one (string filename)
     search_reindex_notes ();
   } else if (command == CREATECSS) {
     styles_sheets_create_all_run ();
-  } else if (command == IMPORTUSFM) {
-    bible_import_task (parameter1, parameter2);
+  } else if (command == IMPORTBIBLE) {
+    bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
   } else if (command == COMPAREUSFM) {
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
   } else if (command == MAINTAINDATABASE) {
@@ -138,6 +145,8 @@ void tasks_run_one (string filename)
     sendreceive_changes ();
   } else if (command == SYNCFILES) {
     sendreceive_files ();
+  } else if (command == SYNCRESOURCES) {
+    sendreceive_resources ();
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
   } else if (command == CONVERTBIBLE2RESOURCE) {
@@ -186,6 +195,16 @@ void tasks_run_one (string filename)
     export_bibledropbox (parameter1, parameter2);
   } else if (command == IMPORTIMAGES) {
     resource_logic_import_images (parameter1, parameter2);
+  } else if (command == REFRESHSWORDMODULES) {
+    sword_logic_refresh_module_list ();
+  } else if (command == INSTALLSWORDMODULE) {
+    sword_logic_install_module (parameter1, parameter2);
+  } else if (command == UPDATESWORDMODULE) {
+    sword_logic_update_module (parameter1, parameter2);
+  } else if (command == UNINSTALLSWORDMODULE) {
+    sword_logic_uninstall_module (parameter1);
+  } else if (command == UPDATEALLSWORDMODULES) {
+    sword_logic_update_installed_modules ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

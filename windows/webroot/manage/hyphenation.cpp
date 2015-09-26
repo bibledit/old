@@ -47,7 +47,7 @@ string manage_hyphenation (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header ("Hyphenation", webserver_request, "");
+  page = Assets_Page::header ("Hyphenation", webserver_request);
   Assets_View view = Assets_View ();
   
   

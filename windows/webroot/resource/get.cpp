@@ -68,6 +68,10 @@ string resource_get (void * webserver_request)
       s_resource = resources [resource];
 
 
+      // Handle a divider.
+      if (resource_logic_is_divider (s_resource)) return resource_logic_get_divider (s_resource);
+      
+      
       string bible = request->database_config_user ()->getBible ();
       string versification = Database_Config_Bible::getVersificationSystem (bible);
       Database_Versifications database_versifications;
@@ -99,12 +103,12 @@ string resource_get (void * webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_before.size (); i++) {
-        bits.push_back (Resource_Logic::getHtml (request, s_resource, book, chapters_before[i], verses_before[i]));
+        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_before[i], verses_before[i]));
       }
       
 
       // Focused verse.
-      bits.push_back (Resource_Logic::getHtml (request, s_resource, book, chapter, verse));
+      bits.push_back (resource_logic_get_html (request, s_resource, book, chapter, verse));
 
     
       // Context after the focused verse.
@@ -132,7 +136,7 @@ string resource_get (void * webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_after.size (); i++) {
-        bits.push_back (Resource_Logic::getHtml (request, s_resource, book, chapters_after[i], verses_after[i]));
+        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_after[i], verses_after[i]));
       }
     }
   }

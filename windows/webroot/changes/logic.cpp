@@ -25,3 +25,17 @@ void changes_logic_start ()
 {
   tasks_logic_queue (GENERATECHANGES);
 }
+
+
+const char * changes_personal_category ()
+{
+  return "P";
+}
+
+
+const char * changes_bible_category ()
+{
+  return "B";
+}
+
+

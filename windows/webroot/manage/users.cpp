@@ -55,7 +55,7 @@ string manage_users (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (translate ("Users"), webserver_request, "");
+  page = Assets_Page::header (translate ("Users"), webserver_request);
 
   Assets_View view = Assets_View ();
 
@@ -143,15 +143,8 @@ string manage_users (void * webserver_request)
   }
   
   
-  // Fetch the Bibles the current user has access to.
+  // Fetch all available Bibles.
   vector <string> allbibles = request->database_bibles ()->getBibles ();
-  vector <string> accessibleBibles;
-  for (auto & bible : allbibles) {
-    if (request->database_users ()->hasAccess2Bible (currentUser, bible)) {
-      accessibleBibles.push_back (bible);
-    }
-  }
-  sort (accessibleBibles.begin(), accessibleBibles.end());
   
   
   // Add Bible to user account.
@@ -160,7 +153,7 @@ string manage_users (void * webserver_request)
     if (addbible == "") {
       Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), "", "");
       dialog_list.add_query ("user", user);
-      for (auto bible : accessibleBibles) {
+      for (auto bible : allbibles) {
         dialog_list.add_row (bible, "addbible", bible);
       }
       page += dialog_list.run ();
@@ -179,15 +172,6 @@ string manage_users (void * webserver_request)
     request->database_users ()->revokeAccess2Bible (user, removebible);
     user_updated = true;
     Assets_Page::success (translate("The user is no longer a member of the translation team that works on this Bible"));
-  }
-  
-  
-  // The level and Bibles of the user who works on this page.
-  // The admin has access to all Bibles.
-  int mylevel = request->session_logic ()->currentLevel ();
-  vector <string> mybibles = request->database_users ()->getBibles4User (currentUser);
-  if (mylevel >= Filter_Roles::admin ()) {
-    mybibles = request->database_bibles ()->getBibles ();
   }
   
   
@@ -210,12 +194,9 @@ string manage_users (void * webserver_request)
     tbody.push_back ("<td><a href=\"?user=" + username + "&email\">" + email + "</a></td>");
     tbody.push_back ("<td>│</td>");
     tbody.push_back ("<td>");
-    // List no more than those Bibles the currently logged-in user has access to.
-    // So the currently logged-in user cannot remove any Bibles he or she has no access to.
+
     sort (userBibles.begin(), userBibles.end());
-    vector <string> userBiblesIntersec;
-    set_intersection (userBibles.begin(), userBibles.end(), accessibleBibles.begin(), accessibleBibles.end(), back_inserter(userBiblesIntersec));
-    for (auto & bible : userBiblesIntersec) {
+    for (auto & bible : userBibles) {
       bool writer = (level >= Filter_Roles::translator ());
       tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
       tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");

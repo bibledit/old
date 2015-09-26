@@ -62,6 +62,7 @@ void test_database_strong ();
 void test_database_morphgnt ();
 void test_database_etcbc4 ();
 void test_database_hebrewlexicon ();
+void test_database_cache ();
 
 
 #endif

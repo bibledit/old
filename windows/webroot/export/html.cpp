@@ -29,7 +29,7 @@
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <filter/text.h>
-#include <filter/customcss.h>
+#include <filter/css.h>
 #include <fonts/logic.h>
 #include <html/text.h>
 #include <html/header.h>
@@ -81,7 +81,7 @@ void export_html_book (string bible, int book, bool force)
   
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new Html_Text (translate("Bible"));
-  filter_text.html_text_standard->customClass = Filter_CustomCSS::getClass (bible);
+  filter_text.html_text_standard->customClass = Filter_Css::getClass (bible);
   
   
   // Load one book.

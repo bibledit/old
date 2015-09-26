@@ -114,6 +114,13 @@ bool Database_OfflineResources::exists (string name, int book, int chapter, int 
 }
 
 
+bool Database_OfflineResources::exists (string name)
+{
+  string directory = resourceFolder (name);
+  return file_exists (directory);
+}
+
+
 // Counts the number of verses in the offline resource name.
 int Database_OfflineResources::count (string name)
 {
@@ -245,7 +252,9 @@ void Database_OfflineResources::link_to_central_cache (const string & name)
   erase (name);
   string ourname = resourceFolder (name);
   string centralname = filter_url_create_path (config_logic_external_resources_cache_path (), name);
-  if (symlink (centralname.c_str (), ourname.c_str())) {};
+  if (file_exists (centralname)) {
+    if (symlink (centralname.c_str (), ourname.c_str())) {};
+  }
 }
 
 
@@ -263,7 +272,7 @@ string Database_OfflineResources::resourceFolder (string name)
 
 string Database_OfflineResources::databaseFile (string name, int book)
 {
-  return filter_url_create_path (resourceFolder (name), convert_to_string (book) + ".sqlite");
+  return filter_url_create_path (resourceFolder (name), convert_to_string (book) + database_sqlite_suffix ());
 }
 
 

@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config.h>
 #include <filter/string.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
@@ -24,11 +25,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/config/general.h>
 #include <config/logic.h>
-#include <unicode/ustdio.h>
-#include <unicode/normlzr.h>
-#include <unicode/utypes.h>
+#ifndef ICU_DISABLED
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
+#include <unicode/schriter.h>
+#include <unicode/uchar.h>
+#endif
 
 
 // A C++ equivalent for PHP's explode function.
@@ -305,6 +307,18 @@ string filter_string_sanitize_html (string html)
 }
 
 
+// Does the opposite of its counterpart.
+string filter_string_desanitize_html (string html)
+{
+  html = filter_string_str_replace ("&quot;", """", html);
+  html = filter_string_str_replace ("&amp;", "&", html);
+  html = filter_string_str_replace ("&apos;", "'", html);
+  html = filter_string_str_replace ("&lt;", "<", html);
+  html = filter_string_str_replace ("&gt;", ">", html);
+  html = filter_string_str_replace ("&nbsp;", " ", html);
+  return html;
+}
+
 
 // Returns a soft hyphen.
 string get_soft_hyphen ()
@@ -415,6 +429,13 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
 // Converts string so to lowercase.
 string unicode_string_casefold (string s)
 {
+#ifdef ICU_DISABLED
+
+  transform (s.begin(), s.end (), s.begin(), ::tolower);
+  return s;
+
+#else
+
   // UTF-8 string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   // Case folding.
@@ -424,28 +445,38 @@ string unicode_string_casefold (string s)
   source.toUTF8String (result);
   // Ready.
   return result;
-  /*
-   Without libicu:
-   transform (s.begin(), s.end (), s.begin(), ::tolower);
-   return s;
-   */
+
+#endif
 }
 
 
 string unicode_string_uppercase (string s)
 {
+#ifdef ICU_DISABLED
+  
+  transform (s.begin(), s.end (), s.begin(), ::toupper);
+  return s;
+  
+#else
+
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   source.toUpper ();
   string result;
   source.toUTF8String (result);
   return result;
-  //transform (s.begin(), s.end (), s.begin(), ::toupper);
-  //return s;
+
+#endif
 }
 
 
 string unicode_string_transliterate (string s)
 {
+#ifdef ICU_DISABLED
+
+  return s;
+
+#else
+
   // UTF-8 string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   
@@ -453,16 +484,18 @@ string unicode_string_transliterate (string s)
   // decompose, remove diacritics, recompose
   UErrorCode status = U_ZERO_ERROR;
   Transliterator *transliterator = Transliterator::createInstance("NFD; [:M:] Remove; NFC",
-                                                                    UTRANS_FORWARD,
-                                                                    status);
+                                                                  UTRANS_FORWARD,
+                                                                  status);
   transliterator->transliterate(source);
   
   // UTF-16 UnicodeString -> UTF-8 std::string
   string result;
   source.toUTF8String (result);
-
+  
   // Done.
   return result;
+  
+#endif
 }
 
 
@@ -470,6 +503,30 @@ string unicode_string_transliterate (string s)
 bool unicode_string_is_valid (string s)
 {
   return utf8::is_valid (s.begin(), s.end());
+}
+
+
+// Returns whether $s is Unicode punctuation.
+bool unicode_string_is_punctuation (string s)
+{
+  if (s.empty ()) return false;
+  
+#ifdef ICU_DISABLED
+  
+  char chars [s.size () + 1];
+  strcpy (chars, s.c_str());
+  int punct = ispunct (chars[0]);
+  return punct != 0;
+  
+#else
+  
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  StringCharacterIterator iter (source);
+  UChar32 character = iter.first32 ();
+  bool punctuation = u_ispunct (character);
+  return punctuation;
+  
+#endif
 }
 
 
@@ -526,12 +583,7 @@ string filter_string_html2text (string html)
   text.append (html);
 
   // Replace xml entities with their text.
-  text = filter_string_str_replace ("&quot;", """", text);
-  text = filter_string_str_replace ("&amp;", "&", text);
-  text = filter_string_str_replace ("&apos;", "'", text);
-  text = filter_string_str_replace ("&lt;", "<", text);
-  text = filter_string_str_replace ("&gt;", ">", text);
-  text = filter_string_str_replace ("&nbsp;", " ", text);
+  text = filter_string_desanitize_html (text);
 
   while (text.find ("\n\n") != string::npos) {
     text = filter_string_str_replace ("\n\n", "\n", text);

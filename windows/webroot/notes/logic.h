@@ -38,6 +38,7 @@ public:
   static const int notifyNoteDelete = 3;
   static const int notifyMarkNoteForDeletion = 4;
   int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
+  void setContent (int identifier, const string& content);
   void addComment (int identifier, const string& comment);
   void setSummary (int identifier, const string& summary);
   void subscribe (int identifier);

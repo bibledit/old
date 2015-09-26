@@ -419,7 +419,7 @@ void Filter_Text::processUsfm ()
                 }
                 case IdentifierSubtypeEncoding:
                 {
-                  addToFallout ("Text encoding indicator not supported. Encoding is always in UTF8: \\" + marker, true);
+                  addToInfo ("Text encoding: \\" + marker, true);
                   break;
                 }
                 case IdentifierSubtypeComment:

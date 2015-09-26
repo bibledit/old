@@ -383,3 +383,15 @@ void Database_Config_General::setLastMenuClick (string url)
 {
   setValue ("last-menu-click", url);
 }
+
+
+vector <string> Database_Config_General::getResourcesToCache ()
+{
+  return getList ("resources-to-cache");
+}
+
+
+void Database_Config_General::setResourcesToCache (vector <string> values)
+{
+  setList ("resources-to-cache", values);
+}

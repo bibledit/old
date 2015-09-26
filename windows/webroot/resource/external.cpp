@@ -32,7 +32,7 @@ unsigned int resource_external_count ();
 int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint32_t length);
 string gbs_digitaal_processor (string url, int chapter, int verse);
 string gbs_digitaal_plus_processor (string url, int verse);
-string studylight_processor (string directory, int book, int chapter, int verse);
+string resource_external_studylight_processor (string directory, int book, int chapter, int verse);
 string bibleserver_processor (string directory, int book, int chapter, int verse);
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse);
 string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int verse);
@@ -42,10 +42,100 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
 string resource_external_get_biblehub_scrivener (int book, int chapter, int verse);
 string resource_external_get_biblehub_westminster (int book, int chapter, int verse);
 string resource_external_get_net_bible (int book, int chapter, int verse);
-string resource_external_get_calvin_commentaries (int book, int chapter, int verse);
-string resource_external_get_jamieson_fausset_brown (int book, int chapter, int verse);
-string resource_external_get_john_gill_exposition_whole_bible (int book, int chapter, int verse);
-string resource_external_get_matthew_poole_annotations (int book, int chapter, int verse);
+// Start of Studylight commentaries forward declarations
+string resource_external_studylight_commentary_get_acc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_ain (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_bbc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_bcc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_bch (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_bnb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_box (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_bul (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_cal (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_cgt (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_cob (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_cpc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_csc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_dcb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_dcc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_dcp (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_dsb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_dsn (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_dun (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_ebc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_egt (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_fam (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_fbh (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_fbm (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_gab (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_gcc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_gcm (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_geb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_ges (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_ghc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_gmt (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_gsb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_guz (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_hac (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_hal (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_hcc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_hdg (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_hmc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_hms (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_ice (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_isn (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jab (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jbc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jbm (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jec (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jfb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jfu (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jgc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jlc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_joc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jsc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_jtc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_kdo (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_kpc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_lmg (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_lwc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_mac (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_mhm (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_mhn (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_mlg (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_mpc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_nfp (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_oca (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_pet (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_pfc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_phc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_pmc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_pnt (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_rbc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_rsc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_rwp (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_ryl (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_sbc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_scn (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_shh (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_sor (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_spe (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_srn (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_tbi (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_tcc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_teb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_tfg (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_tgc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_tod (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_tpc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_tsk (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_ttb (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_vnt (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_wbc (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_wen (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_whe (int book, int chapter, int verse);
+string resource_external_studylight_commentary_get_wnc (int book, int chapter, int verse);
+// End of Studylight commentaries forward declarations
 string resource_external_get_blue_letter_bible (int book, int chapter, int verse);
 string resource_external_get_elberfelder_bibel (int book, int chapter, int verse);
 string resource_external_convert_book_biblehub (int book);
@@ -76,10 +166,100 @@ resource_record resource_table [] =
   { "Scrivener Greek", "English", "English", & resource_external_get_biblehub_scrivener },
   { "Westminster Hebrew", "English", "English", & resource_external_get_biblehub_westminster },
   { "NET Bible", "English", "English", & resource_external_get_net_bible },
-  { "Calvin Commentaries", "English", "English", & resource_external_get_calvin_commentaries },
-  { "Jamieson Fausset Brown", "English", "English", & resource_external_get_jamieson_fausset_brown },
-  { "John Gill Exposition Whole Bible", "English", "English", & resource_external_get_john_gill_exposition_whole_bible },
-  { "Matthew Poole Annotations", "English", "English", & resource_external_get_matthew_poole_annotations },
+  // Start of Studylight commentaries resources table entries
+  { "Clarke's Commentary", "English", "English", & resource_external_studylight_commentary_get_acc },
+  { "Abbott's Illustrated New Testament", "English", "English", & resource_external_studylight_commentary_get_ain },
+  { "Bridgeway Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_bbc },
+  { "Coffman's Commentaries on the Bible", "English", "English", & resource_external_studylight_commentary_get_bcc },
+  { "Light & Truth: Bible Thoughts and Themes on Revelation", "English", "English", & resource_external_studylight_commentary_get_bch },
+  { "Barnes' Notes on the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_bnb },
+  { "Box's Commentary on Seleted Books of the Bible", "English", "English", & resource_external_studylight_commentary_get_box },
+  { "Bullinger's Companion Bible Notes", "English", "English", & resource_external_studylight_commentary_get_bul },
+  { "Calvin's Commentaries on the Bible", "English", "English", & resource_external_studylight_commentary_get_cal },
+  { "Cambridge Greek Testament for Schools and Colleges", "English", "English", & resource_external_studylight_commentary_get_cgt },
+  { "Cobb's Commentary on Philemon", "English", "English", & resource_external_studylight_commentary_get_cob },
+  { "Nisbet's Church Pulpit Commentary", "English", "English", & resource_external_studylight_commentary_get_cpc },
+  { "Smith's Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_csc },
+  { "Dummelow's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_dcb },
+  { "Expository Notes of Dr. Constable", "English", "English", & resource_external_studylight_commentary_get_dcc },
+  { "F. B. Meyer's - A Devotional Commentary on Philippians", "English", "English", & resource_external_studylight_commentary_get_dcp },
+  { "Barclay's Daily Study Bible", "English", "English", & resource_external_studylight_commentary_get_dsb },
+  { "Darby's Synopsis of the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_dsn },
+  { "Dunagan's Commentary on Selected Books", "English", "English", & resource_external_studylight_commentary_get_dun },
+  { "Ellicott's Commentary for English Readers", "English", "English", & resource_external_studylight_commentary_get_ebc },
+  { "The Expositor's Greek Testament", "English", "English", & resource_external_studylight_commentary_get_egt },
+  { "Edwards' Family Bible New Testament Notes", "English", "English", & resource_external_studylight_commentary_get_fam },
+  { "Hole's Old and New Testament Commentary", "English", "English", & resource_external_studylight_commentary_get_fbh },
+  { "Meyer's \"Through the Bible\" Commentary", "English", "English", & resource_external_studylight_commentary_get_fbm },
+  { "Gaebelein's \"The Annotated Bible\"", "English", "English", & resource_external_studylight_commentary_get_gab },
+  { "Golden Chain Commentary on the Gospels", "English", "English", & resource_external_studylight_commentary_get_gcc },
+  { "Morgan's Exposition on the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_gcm },
+  { "Gill's Exposition of the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_geb },
+  { "Godbey's Commentary on the New Testament", "English", "English", & resource_external_studylight_commentary_get_ges },
+  { "Hampton's Commentary on Selected Books", "English", "English", & resource_external_studylight_commentary_get_ghc },
+  { "George Milligan - Paul's Epistle to the Thessalonians", "English", "English", & resource_external_studylight_commentary_get_gmt },
+  { "Geneva Study Bible", "English", "English", & resource_external_studylight_commentary_get_gsb },
+  { "Guzik's Commentaries on the Bible", "English", "English", & resource_external_studylight_commentary_get_guz },
+  { "Greek Testament Critical Exegetical Commentary", "English", "English", & resource_external_studylight_commentary_get_hac },
+  { "Haldane's Commentary on Romans", "English", "English", & resource_external_studylight_commentary_get_hal },
+  { "Haydock's Catholic Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_hcc },
+  { "Hodge's Commentary on Romans, Ephesians and First Corintians", "English", "English", & resource_external_studylight_commentary_get_hdg },
+  { "Meyer's Critical and Exegetical Commentary on the New Testament", "English", "English", & resource_external_studylight_commentary_get_hmc },
+  { "Henry Mahan's Commentary on Selected Books of the New Testament", "English", "English", & resource_external_studylight_commentary_get_hms },
+  { "The Bible Study New Testament", "English", "English", & resource_external_studylight_commentary_get_ice },
+  { "Ironside's Notes on Selected Books", "English", "English", & resource_external_studylight_commentary_get_isn },
+  { "Bengel's Gnomon of the New Testament", "English", "English", & resource_external_studylight_commentary_get_jab },
+  { "Beet's Commentary on Selected Books of the New Testament", "English", "English", & resource_external_studylight_commentary_get_jbc },
+  { "Broadus' Commentary on Matthew", "English", "English", & resource_external_studylight_commentary_get_jbm },
+  { "Eadie's Commentary on Galatians, Ephesians, Philippians and Colossians", "English", "English", & resource_external_studylight_commentary_get_jec },
+  { "Commentary Critical and Explanatory on the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_jfb },
+  { "Commentary Critical and Explanatory on the Whole Bible - Unabridged", "English", "English", & resource_external_studylight_commentary_get_jfu },
+  { "Gray's Concise Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_jgc },
+  { "Lightfoot's Commentary on the Gospels", "English", "English", & resource_external_studylight_commentary_get_jlc },
+  { "Owen's Exposition of Hebrews", "English", "English", & resource_external_studylight_commentary_get_joc },
+  { "Sutcliffe's Commentary on the Old and New Testaments", "English", "English", & resource_external_studylight_commentary_get_jsc },
+  { "Trapp's Complete Commentary", "English", "English", & resource_external_studylight_commentary_get_jtc },
+  { "Keil and Delitzsch Commentary on the Old Testament", "English", "English", & resource_external_studylight_commentary_get_kdo },
+  { "Kretzmann's Popular Commentary", "English", "English", & resource_external_studylight_commentary_get_kpc },
+  { "Grant's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_lmg },
+  { "Neighbour's Living Water Commentary", "English", "English", & resource_external_studylight_commentary_get_lwc },
+  { "MacLaren's Exposition of the Holy Scripture", "English", "English", & resource_external_studylight_commentary_get_mac },
+  { "Henry's Complete Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_mhm },
+  { "Henry's Concise Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_mhn },
+  { "Luther's Commentary on Galatians", "English", "English", & resource_external_studylight_commentary_get_mlg },
+  { "Poole's English Annotations on the Holy Bible", "English", "English", & resource_external_studylight_commentary_get_mpc },
+  { "Macintosh's Notes on the Pentateuch", "English", "English", & resource_external_studylight_commentary_get_nfp },
+  { "McGarvey's Original Commentary on Acts", "English", "English", & resource_external_studylight_commentary_get_oca },
+  { "Pett's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_pet },
+  { "Peake's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_pfc },
+  { "Preacher's Complete Homiletical Commentary", "English", "English", & resource_external_studylight_commentary_get_phc },
+  { "Hawker's Poor Man's Commentary", "English", "English", & resource_external_studylight_commentary_get_pmc },
+  { "People's New Testament ", "English", "English", & resource_external_studylight_commentary_get_pnt },
+  { "Benson's Commentary on the Old and New Testaments", "English", "English", & resource_external_studylight_commentary_get_rbc },
+  { "Stedman's Expository Studies", "English", "English", & resource_external_studylight_commentary_get_rsc },
+  { "Robertson's Word Pictures in the New Testament", "English", "English", & resource_external_studylight_commentary_get_rwp },
+  { "J. C. Ryle's Expository Thoughts on the Gospels", "English", "English", & resource_external_studylight_commentary_get_ryl },
+  { "Sermon Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_sbc },
+  { "Schaff's Popular Commentary on the New Testament", "English", "English", & resource_external_studylight_commentary_get_scn },
+  { "Simeon's Horae Homileticae", "English", "English", & resource_external_studylight_commentary_get_shh },
+  { "Scott's Commentary on Revelation", "English", "English", & resource_external_studylight_commentary_get_sor },
+  { "Spurgeon's Verse Expositions of the Bible", "English", "English", & resource_external_studylight_commentary_get_spe },
+  { "Scofield's Reference Notes", "English", "English", & resource_external_studylight_commentary_get_srn },
+  { "The Biblical Illustrator", "English", "English", & resource_external_studylight_commentary_get_tbi },
+  { "Coke's Commentary on the Holy Bible", "English", "English", & resource_external_studylight_commentary_get_tcc },
+  { "The Expositor's Bible", "English", "English", & resource_external_studylight_commentary_get_teb },
+  { "The Fourfold Gospel", "English", "English", & resource_external_studylight_commentary_get_tfg },
+  { "The Gospels Compared", "English", "English", & resource_external_studylight_commentary_get_tgc },
+  { "Spurgeon's The Treasury of David", "English", "English", & resource_external_studylight_commentary_get_tod },
+  { "The Pulpit Commentary", "English", "English", & resource_external_studylight_commentary_get_tpc },
+  { "The Treasury of Scripture Knowlege", "English", "English", & resource_external_studylight_commentary_get_tsk },
+  { "McGee's \"Thru the Bible\"", "English", "English", & resource_external_studylight_commentary_get_ttb },
+  { "Vincent's Word Studies", "English", "English", & resource_external_studylight_commentary_get_vnt },
+  { "Burkitt's Commentary", "English", "English", & resource_external_studylight_commentary_get_wbc },
+  { "Wesley's Explanatory Notes", "English", "English", & resource_external_studylight_commentary_get_wen },
+  { "Whedon's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_whe },
+  { "Newell's Commentary on Romans and Revelation", "English", "English", & resource_external_studylight_commentary_get_wnc },
+  // End of Studylight commentaries resources table entries
   { "Blue Letter Bible", "English", "English", & resource_external_get_blue_letter_bible },
   { "Elberfelder Bibel", "English", "English", & resource_external_get_elberfelder_bibel },
 };
@@ -299,8 +479,8 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
 }
 
 
-// This function commentaries from www.studylight.org.
-string studylight_processor (string directory, int book, int chapter, int verse)
+// This function retrieves commentaries from www.studylight.org.
+string resource_external_studylight_processor (string directory, int book, int chapter, int verse)
 {
   // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
   book--;
@@ -705,40 +885,652 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
 }
 
 
-// Calvin Commentaries
-string resource_external_get_calvin_commentaries (int book, int chapter, int verse)
+// Start of Studylight commentaries implementation functions
+// Clarke's Commentary
+string resource_external_studylight_commentary_get_acc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "acc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Abbott's Illustrated New Testament
+string resource_external_studylight_commentary_get_ain (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "ain";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Bridgeway Bible Commentary
+string resource_external_studylight_commentary_get_bbc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "bbc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Coffman's Commentaries on the Bible
+string resource_external_studylight_commentary_get_bcc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "bcc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Light & Truth: Bible Thoughts and Themes on Revelation
+string resource_external_studylight_commentary_get_bch (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "bch";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Barnes' Notes on the Whole Bible
+string resource_external_studylight_commentary_get_bnb (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "bnb";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Box's Commentary on Seleted Books of the Bible
+string resource_external_studylight_commentary_get_box (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "box";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Bullinger's Companion Bible Notes
+string resource_external_studylight_commentary_get_bul (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "bul";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Calvin's Commentaries on the Bible
+string resource_external_studylight_commentary_get_cal (int book, int chapter, int verse)
 {
   // The directory on studylight.org
   string directory = "cal";
-  return studylight_processor (directory, book, chapter, verse);
+  return resource_external_studylight_processor (directory, book, chapter, verse);
 }
-
-
-// Jamieson Fausset Brown
-string resource_external_get_jamieson_fausset_brown (int book, int chapter, int verse)
+// Cambridge Greek Testament for Schools and Colleges
+string resource_external_studylight_commentary_get_cgt (int book, int chapter, int verse)
 {
   // The directory on studylight.org
-  string directory = "jfb";
-  return studylight_processor (directory, book, chapter, verse);
+  string directory = "cgt";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
 }
-
-
-// John Gill Exposition Whole Bible
-string resource_external_get_john_gill_exposition_whole_bible (int book, int chapter, int verse)
+// Cobb's Commentary on Philemon
+string resource_external_studylight_commentary_get_cob (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "cob";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Nisbet's Church Pulpit Commentary
+string resource_external_studylight_commentary_get_cpc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "cpc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Smith's Bible Commentary
+string resource_external_studylight_commentary_get_csc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "csc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Dummelow's Commentary on the Bible
+string resource_external_studylight_commentary_get_dcb (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "dcb";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Expository Notes of Dr. Constable
+string resource_external_studylight_commentary_get_dcc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "dcc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// F. B. Meyer's - A Devotional Commentary on Philippians
+string resource_external_studylight_commentary_get_dcp (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "dcp";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Barclay's Daily Study Bible
+string resource_external_studylight_commentary_get_dsb (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "dsb";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Darby's Synopsis of the Whole Bible
+string resource_external_studylight_commentary_get_dsn (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "dsn";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Dunagan's Commentary on Selected Books
+string resource_external_studylight_commentary_get_dun (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "dun";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Ellicott's Commentary for English Readers
+string resource_external_studylight_commentary_get_ebc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "ebc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Expositor's Greek Testament
+string resource_external_studylight_commentary_get_egt (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "egt";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Edwards' Family Bible New Testament Notes
+string resource_external_studylight_commentary_get_fam (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "fam";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Hole's Old and New Testament Commentary
+string resource_external_studylight_commentary_get_fbh (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "fbh";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Meyer's "Through the Bible" Commentary
+string resource_external_studylight_commentary_get_fbm (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "fbm";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Gaebelein's "The Annotated Bible"
+string resource_external_studylight_commentary_get_gab (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "gab";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Golden Chain Commentary on the Gospels
+string resource_external_studylight_commentary_get_gcc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "gcc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Morgan's Exposition on the Whole Bible
+string resource_external_studylight_commentary_get_gcm (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "gcm";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Gill's Exposition of the Whole Bible
+string resource_external_studylight_commentary_get_geb (int book, int chapter, int verse)
 {
   // The directory on studylight.org
   string directory = "geb";
-  return studylight_processor (directory, book, chapter, verse);
+  return resource_external_studylight_processor (directory, book, chapter, verse);
 }
-
-
-// Matthew Poole Annotations
-string resource_external_get_matthew_poole_annotations (int book, int chapter, int verse)
+// Godbey's Commentary on the New Testament
+string resource_external_studylight_commentary_get_ges (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "ges";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Hampton's Commentary on Selected Books
+string resource_external_studylight_commentary_get_ghc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "ghc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// George Milligan - Paul's Epistle to the Thessalonians
+string resource_external_studylight_commentary_get_gmt (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "gmt";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Geneva Study Bible
+string resource_external_studylight_commentary_get_gsb (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "gsb";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Guzik's Commentaries on the Bible
+string resource_external_studylight_commentary_get_guz (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "guz";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Greek Testament Critical Exegetical Commentary
+string resource_external_studylight_commentary_get_hac (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "hac";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Haldane's Commentary on Romans
+string resource_external_studylight_commentary_get_hal (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "hal";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Haydock's Catholic Bible Commentary
+string resource_external_studylight_commentary_get_hcc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "hcc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Hodge's Commentary on Romans, Ephesians and First Corintians
+string resource_external_studylight_commentary_get_hdg (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "hdg";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Meyer's Critical and Exegetical Commentary on the New Testament
+string resource_external_studylight_commentary_get_hmc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "hmc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Henry Mahan's Commentary on Selected Books of the New Testament
+string resource_external_studylight_commentary_get_hms (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "hms";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Bible Study New Testament
+string resource_external_studylight_commentary_get_ice (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "ice";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Ironside's Notes on Selected Books
+string resource_external_studylight_commentary_get_isn (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "isn";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Bengel's Gnomon of the New Testament
+string resource_external_studylight_commentary_get_jab (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jab";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Beet's Commentary on Selected Books of the New Testament
+string resource_external_studylight_commentary_get_jbc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jbc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Broadus' Commentary on Matthew
+string resource_external_studylight_commentary_get_jbm (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jbm";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Eadie's Commentary on Galatians, Ephesians, Philippians and Colossians
+string resource_external_studylight_commentary_get_jec (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jec";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Commentary Critical and Explanatory on the Whole Bible
+string resource_external_studylight_commentary_get_jfb (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jfb";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Commentary Critical and Explanatory on the Whole Bible - Unabridged
+string resource_external_studylight_commentary_get_jfu (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jfu";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Gray's Concise Bible Commentary
+string resource_external_studylight_commentary_get_jgc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jgc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Lightfoot's Commentary on the Gospels
+string resource_external_studylight_commentary_get_jlc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jlc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Owen's Exposition of Hebrews
+string resource_external_studylight_commentary_get_joc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "joc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Sutcliffe's Commentary on the Old and New Testaments
+string resource_external_studylight_commentary_get_jsc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jsc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Trapp's Complete Commentary
+string resource_external_studylight_commentary_get_jtc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "jtc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Keil and Delitzsch Commentary on the Old Testament
+string resource_external_studylight_commentary_get_kdo (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "kdo";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Kretzmann's Popular Commentary
+string resource_external_studylight_commentary_get_kpc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "kpc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Grant's Commentary on the Bible
+string resource_external_studylight_commentary_get_lmg (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "lmg";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Neighbour's Living Water Commentary
+string resource_external_studylight_commentary_get_lwc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "lwc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// MacLaren's Exposition of the Holy Scripture
+string resource_external_studylight_commentary_get_mac (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "mac";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Henry's Complete Commentary on the Bible
+string resource_external_studylight_commentary_get_mhm (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "mhm";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Henry's Concise Commentary on the Bible
+string resource_external_studylight_commentary_get_mhn (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "mhn";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Luther's Commentary on Galatians
+string resource_external_studylight_commentary_get_mlg (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "mlg";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Poole's English Annotations on the Holy Bible
+string resource_external_studylight_commentary_get_mpc (int book, int chapter, int verse)
 {
   // The directory on studylight.org
   string directory = "mpc";
-  return studylight_processor (directory, book, chapter, verse);
+  return resource_external_studylight_processor (directory, book, chapter, verse);
 }
+// Macintosh's Notes on the Pentateuch
+string resource_external_studylight_commentary_get_nfp (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "nfp";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// McGarvey's Original Commentary on Acts
+string resource_external_studylight_commentary_get_oca (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "oca";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Pett's Commentary on the Bible
+string resource_external_studylight_commentary_get_pet (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "pet";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Peake's Commentary on the Bible
+string resource_external_studylight_commentary_get_pfc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "pfc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Preacher's Complete Homiletical Commentary
+string resource_external_studylight_commentary_get_phc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "phc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Hawker's Poor Man's Commentary
+string resource_external_studylight_commentary_get_pmc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "pmc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// People's New Testament
+string resource_external_studylight_commentary_get_pnt (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "pnt";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Benson's Commentary on the Old and New Testaments
+string resource_external_studylight_commentary_get_rbc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "rbc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Stedman's Expository Studies
+string resource_external_studylight_commentary_get_rsc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "rsc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Robertson's Word Pictures in the New Testament
+string resource_external_studylight_commentary_get_rwp (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "rwp";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// J. C. Ryle's Expository Thoughts on the Gospels
+string resource_external_studylight_commentary_get_ryl (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "ryl";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Sermon Bible Commentary
+string resource_external_studylight_commentary_get_sbc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "sbc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Schaff's Popular Commentary on the New Testament
+string resource_external_studylight_commentary_get_scn (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "scn";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Simeon's Horae Homileticae
+string resource_external_studylight_commentary_get_shh (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "shh";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Scott's Commentary on Revelation
+string resource_external_studylight_commentary_get_sor (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "sor";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Spurgeon's Verse Expositions of the Bible
+string resource_external_studylight_commentary_get_spe (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "spe";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Scofield's Reference Notes
+string resource_external_studylight_commentary_get_srn (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "srn";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Biblical Illustrator
+string resource_external_studylight_commentary_get_tbi (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "tbi";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Coke's Commentary on the Holy Bible
+string resource_external_studylight_commentary_get_tcc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "tcc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Expositor's Bible
+string resource_external_studylight_commentary_get_teb (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "teb";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Fourfold Gospel
+string resource_external_studylight_commentary_get_tfg (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "tfg";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Gospels Compared
+string resource_external_studylight_commentary_get_tgc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "tgc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Spurgeon's The Treasury of David
+string resource_external_studylight_commentary_get_tod (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "tod";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Pulpit Commentary
+string resource_external_studylight_commentary_get_tpc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "tpc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// The Treasury of Scripture Knowlege
+string resource_external_studylight_commentary_get_tsk (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "tsk";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// McGee's "Thru the Bible"
+string resource_external_studylight_commentary_get_ttb (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "ttb";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Vincent's Word Studies
+string resource_external_studylight_commentary_get_vnt (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "vnt";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Burkitt's Commentary
+string resource_external_studylight_commentary_get_wbc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "wbc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Wesley's Explanatory Notes
+string resource_external_studylight_commentary_get_wen (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "wen";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Whedon's Commentary on the Bible
+string resource_external_studylight_commentary_get_whe (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "whe";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// Newell's Commentary on Romans and Revelation
+string resource_external_studylight_commentary_get_wnc (int book, int chapter, int verse)
+{
+  // The directory on studylight.org
+  string directory = "wnc";
+  return resource_external_studylight_processor (directory, book, chapter, verse);
+}
+// End of Studylight commentaries implementation functions
 
 
 // Blue Letter Bible.
@@ -1147,3 +1939,64 @@ string resource_external_convert_book_bibleserver (int book)
   return mapping [book];
 }
 
+
+string resource_external_studylight_code ()
+{
+  string error;
+  string html = filter_url_http_get ("http://www.studylight.org/commentaries", error);
+  if (!error.empty ()) return error;
+  map <string, string> commentaries;
+  vector <string> lines = filter_string_explode (html, '\n');
+  for (auto & line : lines) {
+    if (line.find ("<!--") != string::npos) continue;
+    if (line.find ("<h2>") == string::npos) continue;
+    line = filter_string_str_replace ("<br />", " ", line);
+    size_t pos = line.find ("href");
+    if (pos == string::npos) continue;
+    line.erase (0, pos + 6);
+    string href = line.substr (0, 3);
+    pos = line.find (">");
+    line.erase (0, pos + 1);
+    pos = line.find ("<");
+    string title = line.substr (0, pos);
+    commentaries [href] = title;
+  }
+  
+  string function_1 = "resource_external_studylight_commentary_get_";
+  string function_2 = " (int book, int chapter, int verse)";
+  vector <string> code;
+  code.push_back ("// Start of Studylight commentaries forward declarations");
+  for (auto element : commentaries) {
+    string line = "string " + function_1 + element.first + function_2 + ";";
+    code.push_back (line);
+  }
+  code.push_back ("// End of Studylight commentaries forward declarations");
+  code.push_back ("");
+  code.push_back ("");
+  code.push_back ("// Start of Studylight commentaries resources table entries");
+  for (auto element : commentaries) {
+    string href = element.first;
+    string title = element.second;
+    title = filter_string_str_replace ("\"", "\\\"", title);
+    string line = "{ \"" + title + "\", \"English\", \"English\", & " + function_1 + href + " },";
+    code.push_back (line);
+  }
+  code.push_back ("// End of Studylight commentaries resources table entries");
+  code.push_back ("");
+  code.push_back ("");
+  code.push_back ("// Start of Studylight commentaries implementation functions");
+  for (auto element : commentaries) {
+    string href = element.first;
+    string title = element.second;
+    code.push_back ("// " + title);
+    code.push_back ("string " + function_1 + href + function_2);
+    code.push_back ("{");
+    code.push_back ("  // The directory on studylight.org");
+    code.push_back ("  string directory = \"" + href + "\";");
+    code.push_back ("  return resource_external_studylight_processor (directory, book, chapter, verse);");
+    code.push_back ("}");
+  }
+  code.push_back ("// End of Studylight commentaries implementation functions");
+
+  return filter_string_implode (code, "\n");
+}

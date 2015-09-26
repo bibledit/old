@@ -23,7 +23,7 @@
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <filter/customcss.h>
+#include <filter/css.h>
 #include <webserver/request.h>
 #include <database/config/bible.h>
 #include <database/books.h>
@@ -74,10 +74,10 @@ string bible_css (void * webserver_request)
     }
     
     string s_direction = request->post ["direction"];
-    int i_direction = Filter_CustomCSS::directionValue (s_direction);
+    int i_direction = Filter_Css::directionValue (s_direction);
     
     string s_mode = request->post ["mode"];
-    int i_mode = Filter_CustomCSS::writingModeValue (s_mode);
+    int i_mode = Filter_Css::writingModeValue (s_mode);
     
     Database_Config_Bible::setTextDirection (bible, i_mode * 10 + i_direction);
     
@@ -104,15 +104,15 @@ string bible_css (void * webserver_request)
 
   int direction = Database_Config_Bible::getTextDirection (bible);
   
-  view.set_variable ("direction_none", Filter_CustomCSS::directionUnspecified (direction));
-  view.set_variable ("direction_ltr", Filter_CustomCSS::directionLeftToRight (direction));
-  view.set_variable ("direction_rtl", Filter_CustomCSS::directionRightToLeft (direction));
+  view.set_variable ("direction_none", Filter_Css::directionUnspecified (direction));
+  view.set_variable ("direction_ltr", Filter_Css::directionLeftToRight (direction));
+  view.set_variable ("direction_rtl", Filter_Css::directionRightToLeft (direction));
   
-  view.set_variable ("mode_none", Filter_CustomCSS::writingModeUnspecified (direction));
-  view.set_variable ("mode_tblr", Filter_CustomCSS::writingModeTopBottomLeftRight (direction));
-  view.set_variable ("mode_tbrl", Filter_CustomCSS::writingModeTopBottomRightLeft (direction));
-  view.set_variable ("mode_btlr", Filter_CustomCSS::writingModeBottomTopLeftRight (direction));
-  view.set_variable ("mode_btrl", Filter_CustomCSS::writingModeBottomTopRightLeft (direction));
+  view.set_variable ("mode_none", Filter_Css::writingModeUnspecified (direction));
+  view.set_variable ("mode_tblr", Filter_Css::writingModeTopBottomLeftRight (direction));
+  view.set_variable ("mode_tbrl", Filter_Css::writingModeTopBottomRightLeft (direction));
+  view.set_variable ("mode_btlr", Filter_Css::writingModeBottomTopLeftRight (direction));
+  view.set_variable ("mode_btrl", Filter_Css::writingModeBottomTopRightLeft (direction));
 
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   view.set_variable ("lineheight", convert_to_string (lineheight));
@@ -121,9 +121,9 @@ string bible_css (void * webserver_request)
   letterspacing /= 10;
   view.set_variable ("letterspacing", convert_to_string (letterspacing));
 
-  string cls = Filter_CustomCSS::getClass (bible);
+  string cls = Filter_Css::getClass (bible);
   view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_CustomCSS::getCss
+  view.set_variable ("custom_css", Filter_Css::getCss
                      (cls,
                       Fonts_Logic::getFontPath (font), direction,
                       lineheight,

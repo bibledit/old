@@ -49,7 +49,7 @@ string user_notifications (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (translate("Notifications"), webserver_request, "");
+  page = Assets_Page::header (translate("Notifications"), webserver_request);
 
   Assets_View view = Assets_View ();
 
@@ -110,30 +110,35 @@ string user_notifications (void * webserver_request)
   }
   view.set_variable ("postpone_new_notes_mails", get_tick_box (database_config_user.getPostponeNewNotesMails ()));
   
-  if (request->query.count ("biblechangesnotificationtoggle")) {
+  if (request->query.count ("anyonechangesemailnotificationtoggle")) {
     database_config_user.setBibleChangesNotification(!database_config_user.getBibleChangesNotification());
   }
-  view.set_variable ("bible_changes_notification", get_tick_box (database_config_user.getBibleChangesNotification ()));
+  view.set_variable ("anyone_changes_email_notification", get_tick_box (database_config_user.getBibleChangesNotification ()));
   
-  if (request->query.count ("changenotificationstoggle")) {
+  if (request->query.count ("anyonechangesonlinenotificationstoggle")) {
     database_config_user.setGenerateChangeNotifications(!database_config_user.getGenerateChangeNotifications());
   }
-  view.set_variable ("change_notifications", get_tick_box (database_config_user.getGenerateChangeNotifications ()));
+  view.set_variable ("anyone_changes_online_notifications", get_tick_box (database_config_user.getGenerateChangeNotifications ()));
   
   if (request->query.count ("pendingchangenotificationstoggle")) {
     database_config_user.setPendingChangesNotification (!database_config_user.getPendingChangesNotification ());
   }
   view.set_variable ("pending_changes_notifications", get_tick_box (database_config_user.getPendingChangesNotification ()));
   
-  if (request->query.count ("userchangesnotificationstoggle")) {
+  if (request->query.count ("mychangesemailnotificationstoggle")) {
     database_config_user.setUserChangesNotification (!database_config_user.getUserChangesNotification ());
   }
-  view.set_variable ("user_changes_notifications", get_tick_box (database_config_user.getUserChangesNotification ()));
+  view.set_variable ("my_changes_email_notifications", get_tick_box (database_config_user.getUserChangesNotification ()));
   
-  if (request->query.count ("userchangenotificationsonlinetoggle")) {
+  if (request->query.count ("mychangesonlinenotificationstoggle")) {
     database_config_user.setUserChangesNotificationsOnline (!database_config_user.getUserChangesNotificationsOnline ());
   }
-  view.set_variable ("user_changes_notifications_online", get_tick_box (database_config_user.getUserChangesNotificationsOnline ()));
+  view.set_variable ("my_changes_online_notifications", get_tick_box (database_config_user.getUserChangesNotificationsOnline ()));
+  
+  if (request->query.count ("contributorschangesonlinenotificationstoggle")) {
+    database_config_user.setContributorChangesNotificationsOnline (!database_config_user.getContributorChangesNotificationsOnline ());
+  }
+  view.set_variable ("contributors_changes_online_notifications", get_tick_box (database_config_user.getContributorChangesNotificationsOnline ()));
   
   if (request->query.count ("biblechecksnotificationtoggle")) {
     database_config_user.setBibleChecksNotification (!database_config_user.getBibleChecksNotification ());

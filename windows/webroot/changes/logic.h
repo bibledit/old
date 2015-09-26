@@ -25,6 +25,8 @@
 
 
 void changes_logic_start ();
+const char * changes_personal_category ();
+const char * changes_bible_category ();
 
 
 #endif

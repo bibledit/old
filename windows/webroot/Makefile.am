@@ -16,8 +16,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
-	filter/customcss.cpp \
-	filter/bibleworks.cpp \
+	filter/css.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
 	filter/abbreviations.cpp \
@@ -75,6 +74,7 @@ libbibledit_a_SOURCES = \
 	database/morphgnt.cpp \
 	database/etcbc4.cpp \
 	database/hebrewlexicon.cpp \
+	database/cache.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -108,9 +108,8 @@ libbibledit_a_SOURCES = \
 	bible/settings.cpp \
 	bible/book.cpp \
 	bible/chapter.cpp \
-	bible/import_usfm.cpp \
-	bible/import_bibleworks.cpp \
-	bible/import_task.cpp \
+	bible/import_run.cpp \
+	bible/import.cpp \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
 	bible/css.cpp \
@@ -137,7 +136,7 @@ libbibledit_a_SOURCES = \
 	notes/severity-1.cpp \
 	notes/verses.cpp \
 	notes/bulk.cpp \
-	notes/editsource.cpp \
+	notes/edit.cpp \
 	notes/index.cpp \
 	notes/severity-n.cpp \
 	trash/handler.cpp \
@@ -211,7 +210,7 @@ libbibledit_a_SOURCES = \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
-	search/search.cpp \
+	search/all.cpp \
 	search/index.cpp \
 	search/select.cpp \
 	search/replace.cpp \
@@ -240,6 +239,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
 	sendreceive/files.cpp \
+	sendreceive/resources.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -252,6 +252,7 @@ libbibledit_a_SOURCES = \
 	sync/notes.cpp \
 	sync/changes.cpp \
 	sync/files.cpp \
+	sync/resources.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -268,6 +269,8 @@ libbibledit_a_SOURCES = \
 	resource/image.cpp \
 	resource/img.cpp \
 	resource/imagefetch.cpp \
+	resource/sword.cpp \
+	resource/select.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \
@@ -320,7 +323,6 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
-	browser/index.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
@@ -330,7 +332,8 @@ libbibledit_a_SOURCES = \
 	sources/kjv.cpp \
 	sources/morphhb.cpp \
 	sources/morphgnt.cpp \
-	sources/hebrewlexicon.cpp
+	sources/hebrewlexicon.cpp \
+	sword/logic.cpp
 
 bin_PROGRAMS = server unittest
 
@@ -361,7 +364,7 @@ LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(ICU_LIBS)
 
-EXTRA_DIST = a* bible bibledit bibles book bootstrap browser c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
+EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`

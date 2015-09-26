@@ -48,7 +48,7 @@ string versification_system (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Versification system"), webserver_request, "");
+  page = Assets_Page::header (translate ("Versification system"), webserver_request);
   
   Assets_View view = Assets_View ();
   

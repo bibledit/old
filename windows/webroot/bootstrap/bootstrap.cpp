@@ -54,8 +54,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/settings.h>
 #include <bible/book.h>
 #include <bible/chapter.h>
-#include <bible/import_usfm.h>
-#include <bible/import_bibleworks.h>
+#include <bible/import.h>
 #include <bible/abbreviations.h>
 #include <bible/order.h>
 #include <bible/css.h>
@@ -80,7 +79,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/offset.h>
 #include <edit/save.h>
 #include <edit/styles.h>
-#include <search/search.h>
+#include <search/all.h>
 #include <search/index.h>
 #include <search/select.h>
 #include <search/replace.h>
@@ -109,6 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/externalresources.h>
 #include <sync/changes.h>
 #include <sync/files.h>
+#include <sync/resources.h>
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
@@ -117,6 +117,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/admin.h>
 #include <resource/print.h>
 #include <resource/download.h>
+#include <resource/select.h>
 #include <mapping/index.h>
 #include <mapping/map.h>
 #include <notes/index.h>
@@ -138,7 +139,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/bible-1.h>
 #include <notes/bible-n.h>
 #include <notes/bulk.h>
-#include <notes/editsource.h>
+#include <notes/edit.h>
 #include <notes/summary.h>
 #include <notes/click.h>
 #include <changes/changes.h>
@@ -173,7 +174,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/save.h>
 #include <editone/verse.h>
 #include <debug/index.h>
-#include <browser/index.h>
 #include <paratext/index.h>
 #include <manage/write.h>
 #include <personalize/index.h>
@@ -183,6 +183,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/image.h>
 #include <resource/img.h>
 #include <resource/imagefetch.h>
+#include <resource/sword.h>
 #include <lexicon/definition.h>
 
 
@@ -193,13 +194,11 @@ void bootstrap_index (Webserver_Request * request)
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
 
-  // External browser.
-  if ((url == browser_index_url ()) && browser_index_acl (request)) browser_index (request);
-
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")
       || (extension == "png")
       || (extension == "gif")
+      || (extension == "jpg")
       || (extension == "css")
       || (extension == "js")
       || (Fonts_Logic::isFont (extension))
@@ -232,8 +231,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_settings_url ()) && bible_settings_acl (request)) request->reply = bible_settings (request);
   else if ((url == bible_book_url ()) && bible_book_acl (request)) request->reply = bible_book (request);
   else if ((url == bible_chapter_url ()) && bible_chapter_acl (request)) request->reply = bible_chapter (request);
-  else if ((url == bible_import_usfm_url ()) && bible_import_usfm_acl (request)) request->reply = bible_import_usfm (request);
-  else if ((url == bible_import_bibleworks_url ()) && bible_import_bibleworks_acl (request)) request->reply = bible_import_bibleworks (request);
+  else if ((url == bible_import_url ()) && bible_import_acl (request)) request->reply = bible_import (request);
   else if ((url == compare_index_url ()) && compare_index_acl (request)) request->reply = compare_index (request);
   else if ((url == bible_abbreviations_url ()) && bible_abbreviations_acl (request)) request->reply = bible_abbreviations (request);
   else if ((url == bible_order_url ()) && bible_order_acl (request)) request->reply = bible_order (request);
@@ -269,7 +267,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == notes_bible_1_url ()) && notes_bible_1_acl (request)) request->reply = notes_bible_1 (request);
   else if ((url == notes_bible_n_url ()) && notes_bible_n_acl (request)) request->reply = notes_bible_n (request);
   else if ((url == notes_bulk_url ()) && notes_bulk_acl (request)) request->reply = notes_bulk (request);
-  else if ((url == notes_editsource_url ()) && notes_editsource_acl (request)) request->reply = notes_editsource (request);
+  else if ((url == notes_edit_url ()) && notes_edit_acl (request)) request->reply = notes_edit (request);
   else if ((url == notes_summary_url ()) && notes_summary_acl (request)) request->reply = notes_summary (request);
 
   // Resources menu.
@@ -280,6 +278,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_admin_url ()) && resource_admin_acl (request)) request->reply = resource_admin (request);
   else if ((url == resource_download_url ()) && resource_download_acl (request)) request->reply = resource_download (request);
   else if ((url == resource_images_url ()) && resource_images_acl (request)) request->reply = resource_images (request);
+  else if ((url == resource_sword_url ()) && resource_sword_acl (request)) request->reply = resource_sword (request);
+  else if ((url == resource_select_url ()) && resource_select_acl (request)) request->reply = resource_select (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
@@ -325,7 +325,7 @@ void bootstrap_index (Webserver_Request * request)
 
   // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);
-  else if ((url == search_search_url ()) && search_search_acl (request)) request->reply = search_search (request);
+  else if ((url == search_all_url ()) && search_all_acl (request)) request->reply = search_all (request);
   else if ((url == search_select_url ()) && search_select_acl (request)) request->reply = search_select (request);
   else if ((url == search_replace_url ()) && search_replace_acl (request)) request->reply = search_replace (request);
   else if ((url == search_search2_url ()) && search_search2_acl (request)) request->reply = search_search2 (request);
@@ -366,6 +366,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
   else if ((url == sync_changes_url ()) && sync_changes_acl (request)) request->reply = sync_changes (request);
   else if ((url == sync_files_url ()) && sync_files_acl (request)) request->reply = sync_files (request);
+  else if ((url == sync_resources_url ()) && sync_resources_acl (request)) request->reply = sync_resources (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);

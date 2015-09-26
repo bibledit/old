@@ -23,7 +23,6 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <filter/bibleworks.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <access/bible.h>
@@ -51,7 +50,7 @@ string compare_index (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Compare"), webserver_request, "");
+  page = Assets_Page::header (translate ("Compare"), webserver_request);
   
   Assets_View view = Assets_View ();
   

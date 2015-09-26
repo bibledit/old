@@ -28,7 +28,6 @@ class Styles_Css
 {
 public:
   Styles_Css (void * webserver_request_in, string stylesheet_in);
-  ~Styles_Css ();
   void editor ();
   void exports ();
   void generate ();

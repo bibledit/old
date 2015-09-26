@@ -66,9 +66,14 @@ function resourceGet (i)
       if (response == "") {
         $ ("#line" + i).hide ();
         $ ("#name" + i).hide ();
+      } else {
+        if (response.charAt (0) == "$") {
+          $ ("#name" + i).hide ();
+          response = response.substring (1);
+        }
+        $ ("#content" + i).append (response);
       }
       $ ("#loading" + i).hide ();
-      $ ("#content" + i).append (response);
       navigationSetup ();
     },
     error: function (jqXHR, textStatus, errorThrown) {

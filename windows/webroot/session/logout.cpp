@@ -17,13 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <assets/view.h>
-#include <assets/page.h>
-#include <assets/header.h>
-#include <session/login.h>
-#include <locale/translate.h>
 #include <webserver/request.h>
 #include <filter/roles.h>
+#include <filter/url.h>
+#include <index/index.h>
 
 
 const char * session_logout_url ()
@@ -42,12 +39,8 @@ string session_logout (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   request->session_logic ()->logout ();
-  string page;
-  page += Assets_Page::header (translate ("Logout"), webserver_request, "");
-  Assets_View view = Assets_View ();
-  page += view.render ("session", "logout");
-  page += Assets_Page::footer ();
-  return page;
+  redirect_browser (request, index_index_url ());
+  return "";
 }
 
 

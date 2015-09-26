@@ -52,7 +52,7 @@ string manage_index (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (translate ("Manage"), webserver_request, "");
+  page = Assets_Page::header (translate ("Manage"), webserver_request);
 
   Assets_View view = Assets_View ();
   string success;

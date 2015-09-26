@@ -220,7 +220,7 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
 
     // It is easiest to schedule an import task.
     // The task will take care of everything, including recording what to send to the Cloud.
-    tasks_logic_queue (IMPORTUSFM, { path, bible });
+    tasks_logic_queue (IMPORTBIBLE, { path, bible });
 
     // Ancestor data needed for future merge.
     string usfm = filter_url_file_get_contents (path);

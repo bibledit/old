@@ -29,7 +29,7 @@ class Assets_Page
 public:
   Assets_Page (const char * file);
   ~Assets_Page ();
-  static string header (string title, void * webserver_request, string searchQuery);
+  static string header (string title, void * webserver_request);
   static string success (string message);
   static string error (string message);
   static string message (string message);

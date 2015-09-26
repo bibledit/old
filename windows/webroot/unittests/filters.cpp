@@ -37,8 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/archive.h>
 #include <filter/text.h>
-#include <filter/customcss.h>
-#include <filter/bibleworks.h>
+#include <filter/css.h>
 #include <filter/diff.h>
 #include <filter/abbreviations.h>
 #include <filter/git.h>
@@ -2563,7 +2562,6 @@ void test_filters ()
   test_filters_passage1 ();
   test_filters_passage2 ();
   test_filters_passage3 ();
-  test_filter_string_text2html ();
   test_email ();
   test_stat ();
   test_replace ();
@@ -2615,39 +2613,39 @@ void test_filter_custom_css ()
 {
   // Direction
   {
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionUnspecified (100));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionUnspecified (101));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::directionUnspecified (100));
+    evaluate (__LINE__, __func__, "", Filter_Css::directionUnspecified (101));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionLeftToRight (101));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionLeftToRight (102));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::directionLeftToRight (101));
+    evaluate (__LINE__, __func__, "", Filter_Css::directionLeftToRight (102));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::directionRightToLeft (102));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::directionRightToLeft (103));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::directionRightToLeft (102));
+    evaluate (__LINE__, __func__, "", Filter_Css::directionRightToLeft (103));
     
-    evaluate (__LINE__, __func__, 0, Filter_CustomCSS::directionValue (""));
-    evaluate (__LINE__, __func__, 1, Filter_CustomCSS::directionValue ("ltr"));
-    evaluate (__LINE__, __func__, 2, Filter_CustomCSS::directionValue ("rtl"));
+    evaluate (__LINE__, __func__, 0, Filter_Css::directionValue (""));
+    evaluate (__LINE__, __func__, 1, Filter_Css::directionValue ("ltr"));
+    evaluate (__LINE__, __func__, 2, Filter_Css::directionValue ("rtl"));
   }
   // Writing Mode
   {
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeUnspecified (102));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeUnspecified (112));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeUnspecified (102));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeUnspecified (112));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeTopBottomLeftRight (112));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeTopBottomLeftRight (122));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeTopBottomLeftRight (112));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeTopBottomLeftRight (122));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeTopBottomRightLeft (122));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeTopBottomRightLeft (132));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeTopBottomRightLeft (122));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeTopBottomRightLeft (132));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeBottomTopLeftRight (132));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeBottomTopLeftRight (142));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeBottomTopLeftRight (132));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeBottomTopLeftRight (142));
     
-    evaluate (__LINE__, __func__, "checked", Filter_CustomCSS::writingModeBottomTopRightLeft (142));
-    evaluate (__LINE__, __func__, "", Filter_CustomCSS::writingModeBottomTopRightLeft (152));
+    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeBottomTopRightLeft (142));
+    evaluate (__LINE__, __func__, "", Filter_Css::writingModeBottomTopRightLeft (152));
   }
   // Css
   {
-    string css = Filter_CustomCSS::getCss ("class", "", 0);
+    string css = Filter_Css::getCss ("class", "", 0);
     
     string standard =
     ".class\n"
@@ -2655,7 +2653,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("class", "", 101);
+    css = Filter_Css::getCss ("class", "", 101);
     standard =
     ".class\n"
     "{\n"
@@ -2663,7 +2661,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("class", "", 102);
+    css = Filter_Css::getCss ("class", "", 102);
     standard =
     ".class\n"
     "{\n"
@@ -2671,7 +2669,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("class", "", 110);
+    css = Filter_Css::getCss ("class", "", 110);
     standard =
     ".class\n"
     "{\n"
@@ -2679,7 +2677,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("CLass", "", 130);
+    css = Filter_Css::getCss ("CLass", "", 130);
     standard =
     ".CLass\n"
     "{\n"
@@ -2687,7 +2685,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("CLass", "", 1322);
+    css = Filter_Css::getCss ("CLass", "", 1322);
     standard =
     ".CLass\n"
     "{\n"
@@ -2696,7 +2694,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("Class", "sherif", 0);
+    css = Filter_Css::getCss ("Class", "sherif", 0);
     standard =
     ".Class\n"
     "{\n"
@@ -2704,7 +2702,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("Class", "sherif", 102);
+    css = Filter_Css::getCss ("Class", "sherif", 102);
     standard =
     ".Class\n"
     "{\n"
@@ -2713,7 +2711,7 @@ void test_filter_custom_css ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_CustomCSS::getCss ("classs", "../font.ttf", 0);
+    css = Filter_Css::getCss ("classs", "../font.ttf", 0);
     standard =
     "@font-face\n"
     "{\n"
@@ -2728,152 +2726,8 @@ void test_filter_custom_css ()
   }
   // Class.
   {
-    string clss = Filter_CustomCSS::getClass ("ആഈഘലറ");
+    string clss = Filter_Css::getClass ("ആഈഘലറ");
     evaluate (__LINE__, __func__, "customf86528", clss);
-  }
-}
-
-
-void test_filter_bibleworks ()
-{
-  // Import1
-  {
-    string bwdata =
-    "Hab 1:1  La sentència ... profeta <05030> Habacuc <02265>.\n"
-    "Hab 1:2 ¿Fins <05704> quan <0575>, Jahveh ... no [em] salvaràs <03467>(08686)?\n"
-    "Hab 1:3 ¿Per què ... i la controvèrsia <04066>.\n";
-    string usfmdata =
-    "\\id HAB\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 La sentència ... profeta <05030> Habacuc <02265>.\n"
-    "\\v 2 ¿Fins <05704> quan <0575>, Jahveh ... no \\add em\\add* salvaràs <03467>(08686)?\n"
-    "\\v 3 ¿Per què ... i la controvèrsia <04066>.";
-    string data = Filter_Bibleworks::import (bwdata, true);
-    evaluate (__LINE__, __func__, usfmdata, data);
-  }
-  // Import2
-  {
-    string bwdata =
-    "Hab 1:1  La sentència ... profeta <05030> Habacuc <02265>.\n"
-    "Hab 1:2 ¿Fins <05704> quan <0575>, Jahveh ... no [em] salvaràs <03467>(08686)?\n"
-    "Hab 1:3 ¿Per què ... i la controvèrsia <04066>.\n";
-    string usfmdata =
-    "\\id HAB\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 La sentència ... profeta  Habacuc .\n"
-    "\\v 2 ¿Fins  quan , Jahveh ... no \\add em\\add* salvaràs ?\n"
-    "\\v 3 ¿Per què ... i la controvèrsia .";
-    string data = Filter_Bibleworks::import (bwdata, false);
-    evaluate (__LINE__, __func__, usfmdata, data);
-  }
-  // Italics1
-  {
-    string data = Filter_Bibleworks::italics ("Normal text and [italics].");
-    evaluate (__LINE__, __func__, data, "Normal text and \\add italics\\add*.");
-  }
-  // Italics2
-  {
-    string data = Filter_Bibleworks::italics ("Normal text, [italics], and [italics again].");
-    evaluate (__LINE__, __func__, data, "Normal text, \\add italics\\add*, and \\add italics again\\add*.");
-  }
-  // Italics3
-  {
-    string data = Filter_Bibleworks::italics ("[Italics] and [malformed italics.");
-    evaluate (__LINE__, __func__, data, "\\add Italics\\add* and [malformed italics.");
-  }
-  // Italics4
-  {
-    string data = Filter_Bibleworks::italics ("[Italics] and malformed italics].");
-    evaluate (__LINE__, __func__, data, "\\add Italics\\add* and malformed italics].");
-  }
-  // Italics5
-  {
-    string data = Filter_Bibleworks::italics ("Mal]formed [italics].");
-    evaluate (__LINE__, __func__, data, "Mal]formed \\add italics\\add*.");
-  }
-  // Notes1
-  {
-    string data = Filter_Bibleworks::notes ("Normal text and {notes}.");
-    evaluate (__LINE__, __func__, data, "Normal text and \\f + notes\\f*.");
-  }
-  // Notes2
-  {
-    string data = Filter_Bibleworks::notes ("Normal text, {notes}, and {notes again}.");
-    evaluate (__LINE__, __func__, data, "Normal text, \\f + notes\\f*, and \\f + notes again\\f*.");
-  }
-  // Notes3
-  {
-    string data = Filter_Bibleworks::notes ("{notes} and {malformed notes.");
-    evaluate (__LINE__, __func__, data, "\\f + notes\\f* and {malformed notes.");
-  }
-  // Notes4
-  {
-    string data = Filter_Bibleworks::notes ("{notes} and malformed notes}.");
-    evaluate (__LINE__, __func__, data, "\\f + notes\\f* and malformed notes}.");
-  }
-  // Notes5
-  {
-    string data = Filter_Bibleworks::notes ("Mal}formed {notes}.");
-    evaluate (__LINE__, __func__, data, "Mal}formed \\f + notes\\f*.");
-  }
-  // Parenthesis1
-  {
-    vector <string >malformed;
-    string data = Filter_Bibleworks::parenthesis ("Normal text.", malformed);
-    evaluate (__LINE__, __func__, data, "Normal text.");
-  }
-  // Parenthesis2.
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08804).", malformed);
-    evaluate (__LINE__, __func__, data, "Text in parenthesis.");
-  }
-  // Parenthesis3
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08804a).", malformed);
-    evaluate (__LINE__, __func__, data, "Text in parenthesis(08804a).");
-    evaluate (__LINE__, __func__, malformed, {"(08804a)"});
-  }
-  // Parenthesis4
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08(804).", malformed);
-    evaluate (__LINE__, __func__, data, "Text in parenthesis(08.");
-    evaluate (__LINE__, __func__, malformed, {"(08(804)"});
-  }
-  // Chevrons1
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::chevrons ("Normal text.", malformed);
-    evaluate (__LINE__, __func__, data, "Normal text.");
-  }
-  // Chevrons2
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::chevrons ("Text in chevrons<01004>.", malformed);
-    evaluate (__LINE__, __func__, data, "Text in chevrons.");
-  }
-  // Chevrons3
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::chevrons ("Text in chevrons<01004b>.", malformed);
-    evaluate (__LINE__, __func__, data, "Text in chevrons.");
-  }
-  // Chevrons4()
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::chevrons ("Text in chevrons<06030, 06031>.", malformed);
-    evaluate (__LINE__, __func__, data, "Text in chevrons.");
-  }
-  // Chevrons5
-  {
-    vector <string> malformed;
-    string data = Filter_Bibleworks::chevrons ("Text in chevrons<06030; abc>.", malformed);
-    evaluate (__LINE__, __func__, data, "Text in chevrons<06030; abc>.");
-    evaluate (__LINE__, __func__, malformed, {"<06030; abc>"});
   }
 }
 
@@ -4493,6 +4347,22 @@ void test_filter_string ()
     needles = filter_string_search_needles ("abc", "one abc two ABc three aBc four");
     evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
   }
+  
+  {
+    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("A"));
+    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("z"));
+    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation ("."));
+    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation (","));
+  }
+}
+
+
+void test_filter_archive ()
+{
+  string plain = "This is data that is data to be compressed.";
+  string compressed = filter_archive_compress (plain);
+  string output = filter_archive_decompress (compressed);
+  evaluate (__LINE__, __func__, plain, output);
 }
 
 
