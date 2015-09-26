@@ -65,6 +65,7 @@ void export_index ()
       for (int format = 0; format < Export_Logic::export_end; format++) {
         Database_State::setExport (bible, 0, format);
       }
+      Database_State::setExported (bible, 0);
     }
     
     if (Database_Config_Bible::getExportWebDuringNight (bible)) {

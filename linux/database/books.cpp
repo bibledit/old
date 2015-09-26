@@ -221,6 +221,17 @@ string Database_Books::getBibleworksFromId (int id)
 }
 
 
+string Database_Books::getOsisFromId (int id)
+{
+  for (unsigned int i = 0; i < data_count(); i++) {
+    if (id == books_table[i].id) {
+      return books_table[i].osis;
+    }
+  }
+  return "Unknown";
+}
+
+
 int Database_Books::getIdFromUsfm (string usfm)
 {
   for (unsigned int i = 0; i < data_count(); i++) {

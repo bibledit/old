@@ -46,7 +46,7 @@ string user_account (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (translate("Account"), webserver_request, "");
+  page = Assets_Page::header (translate("Account"), webserver_request);
 
   Assets_View view = Assets_View ();
 

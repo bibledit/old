@@ -38,18 +38,8 @@ void styles_sheets_create_all ()
 void styles_sheets_create_all_run ()
 {
   Database_Logs::log ("Creating stylesheet.css files", Filter_Roles::admin ());
-  Styles_Sheets styles_sheets = Styles_Sheets ();
+  Styles_Sheets styles_sheets;
   styles_sheets.recreate ();
-}
-
-
-Styles_Sheets::Styles_Sheets ()
-{
-}
-
-
-Styles_Sheets::~Styles_Sheets ()
-{
 }
 
 

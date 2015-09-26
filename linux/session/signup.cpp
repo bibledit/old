@@ -56,7 +56,7 @@ string session_signup (void * webserver_request)
 
   string page;
 
-  page += Assets_Page::header (translate ("Signup"), webserver_request, "");
+  page += Assets_Page::header (translate ("Signup"), webserver_request);
   Assets_View view = Assets_View ();
 
   // Some security questions.

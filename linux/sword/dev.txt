@@ -1,0 +1,3 @@
+The configuration in folder "sword" can be copied after installing the sword library on Linux or on OS X.
+
+When the SWORD configuration is in /usr/local/share/sword, then just copy the entire folder to here.

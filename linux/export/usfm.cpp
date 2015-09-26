@@ -76,6 +76,8 @@ void export_usfm (string bible, bool force)
     if (Database_State::getExport (bible, book, Export_Logic::export_full_usfm)) export_book = true;
     if (!file_exists (path)) export_book = true;
     if (!export_book) continue;
+    // If the USFM output is zipped, the zipping process removes the individual USFM files,
+    // which means that they are no longer found, which triggers a new export.
     
     
     // Since at least one book changed, export the whole Bible also.

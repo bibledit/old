@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/notes.h>
 #include <sendreceive/changes.h>
 #include <sendreceive/files.h>
+#include <sendreceive/resources.h>
 #include <demo/logic.h>
 #include <config/logic.h>
 #include <resource/convert2resource.h>
@@ -62,6 +63,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 #include <resource/logic.h>
+#include <sword/logic.h>
 
 
 mutex mutex_tasks; 
@@ -143,6 +145,8 @@ void tasks_run_one (string filename)
     sendreceive_changes ();
   } else if (command == SYNCFILES) {
     sendreceive_files ();
+  } else if (command == SYNCRESOURCES) {
+    sendreceive_resources ();
   } else if (command == CLEANDEMO) {
     demo_clean_data ();
   } else if (command == CONVERTBIBLE2RESOURCE) {
@@ -191,6 +195,16 @@ void tasks_run_one (string filename)
     export_bibledropbox (parameter1, parameter2);
   } else if (command == IMPORTIMAGES) {
     resource_logic_import_images (parameter1, parameter2);
+  } else if (command == REFRESHSWORDMODULES) {
+    sword_logic_refresh_module_list ();
+  } else if (command == INSTALLSWORDMODULE) {
+    sword_logic_install_module (parameter1, parameter2);
+  } else if (command == UPDATESWORDMODULE) {
+    sword_logic_update_module (parameter1, parameter2);
+  } else if (command == UNINSTALLSWORDMODULE) {
+    sword_logic_uninstall_module (parameter1);
+  } else if (command == UPDATEALLSWORDMODULES) {
+    sword_logic_update_installed_modules ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

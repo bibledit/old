@@ -54,7 +54,7 @@ string help_index (void * webserver_request, const string& url)
 {
   string page;
 
-  page = Assets_Page::header (translate("Help"), webserver_request, "");
+  page = Assets_Page::header (translate("Help"), webserver_request);
 
   Assets_View view = Assets_View ();
 

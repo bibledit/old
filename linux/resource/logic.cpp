@@ -39,6 +39,7 @@
 #include <config/logic.h>
 #include <client/logic.h>
 #include <lexicon/logic.h>
+#include <sword/logic.h>
 
 
 vector <string> resource_logic_get_names (void * webserver_request)
@@ -67,6 +68,10 @@ vector <string> resource_logic_get_names (void * webserver_request)
   vector <string> lexicon_resources = lexicon_logic_resource_names ();
   names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
   
+  // SWORD resources
+  vector <string> sword_resources = sword_logic_get_available ();
+  names.insert (names.end (), sword_resources.begin(), sword_resources.end());
+  
   sort (names.begin(), names.end());
   
   return names;
@@ -91,12 +96,17 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
 
+  // Possible SWORD details.
+  string sword_module = sword_logic_get_remote_module (resource);
+  string sword_source = sword_logic_get_installed_module (resource);
+  
   // Determine the type of the current resource.
   bool isBible = in_array (resource, bibles);
   bool isUsfm = in_array (resource, usfms);
   bool isExternal = in_array (resource, externals);
   bool isImage = in_array (resource, images);
   bool isLexicon = in_array (resource, lexicons);
+  bool isSword = (!sword_source.empty () && !sword_module.empty ());
 
   // Retrieve versification system of the active Bible.
   string bible = request->database_config_user ()->getBible ();
@@ -112,6 +122,8 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
   } else if (isLexicon) {
     resource_versification = database_mappings.original ();
     if (resource == KJV_LEXICON_NAME) resource_versification = "English";
+  } else if (isSword) {
+    resource_versification = "English";
   } else {
   }
 
@@ -166,6 +178,8 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
       }
     } else if (isLexicon) {
       html.append (lexicon_logic_get_html (request, resource, book, chapter, verse));
+    } else if (isSword) {
+      html.append (sword_logic_get_text (sword_source, sword_module, book, chapter, verse));
     } else {
       // Nothing found.
     }

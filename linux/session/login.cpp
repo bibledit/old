@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <config/logic.h>
+#include <index/index.h>
 
 
 const char * session_login_url ()
@@ -111,10 +112,11 @@ string session_login (void * webserver_request)
     if (forward != "") {
       // After login, the user is forwarded to the originally requested URL, if any.
       redirect_browser (request, forward);
-      return page;
+      return "";
     }
-    page += session_login_display_header (webserver_request);
-    page += view.render ("session", "loggedin");
+    // After login, go to the main page.
+    redirect_browser (request, index_index_url ());
+    return "";
   } else {
     page += session_login_display_header (webserver_request);
     view.set_variable ("forward", forward);

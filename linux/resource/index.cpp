@@ -26,6 +26,7 @@
 #include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <sword/logic.h>
 
 
 string resource_index_url ()
@@ -55,7 +56,13 @@ string resource_index (void * webserver_request)
   string resourceblock;
   for (size_t i = 1; i <= resources.size (); i++) {
     resourceblock.append ("<div id=\"line" + convert_to_string (i) + "\" style=\"clear:both\">\n");
-    resourceblock.append ("<span id=\"name" + convert_to_string (i) + "\" class=\"small\">" + resources[i - 1] + "</span>\n");
+    string resource = resources[i - 1];
+    if (!sword_logic_get_remote_module (resource).empty ()) {
+      if (!sword_logic_get_installed_module (resource).empty ()) {
+        resource = sword_logic_get_name (resource);
+      }
+    }
+    resourceblock.append ("<span id=\"name" + convert_to_string (i) + "\" class=\"small\">" + resource + "</span>\n");
     resourceblock.append ("<span id=\"loading" + convert_to_string (i) + "\"><img src=\"/pix/loading.gif\"></span>\n");
     resourceblock.append ("<span id=\"content" + convert_to_string (i) + "\"></span>\n");
     resourceblock.append ("<hr style=\"clear:both\">");

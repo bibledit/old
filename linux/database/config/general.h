@@ -82,6 +82,8 @@ public:
   static void setSyncKey (string key);
   static string getLastMenuClick ();
   static void setLastMenuClick (string url);
+  static vector <string> getResourcesToCache ();
+  static void setResourcesToCache (vector <string> values);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);
@@ -90,7 +92,7 @@ private:
   static void setBValue (const char * key, bool value);
   static int getIValue (const char * key, int default_value);
   static void setIValue (const char * key, int value);
-  vector <string> getList (const char * key);
+  static vector <string> getList (const char * key);
   static void setList (const char * key, vector <string> values);
 };
 

@@ -35,11 +35,6 @@ Styles_Css::Styles_Css (void * webserver_request_in, string stylesheet_in)
 }
 
 
-Styles_Css::~Styles_Css ()
-{
-}
-
-
 // Call this method to add styles suitable for the Bible editor.
 void Styles_Css::editor ()
 {

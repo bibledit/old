@@ -74,6 +74,7 @@ libbibledit_a_SOURCES = \
 	database/morphgnt.cpp \
 	database/etcbc4.cpp \
 	database/hebrewlexicon.cpp \
+	database/cache.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -209,7 +210,7 @@ libbibledit_a_SOURCES = \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
-	search/search.cpp \
+	search/all.cpp \
 	search/index.cpp \
 	search/select.cpp \
 	search/replace.cpp \
@@ -238,6 +239,7 @@ libbibledit_a_SOURCES = \
 	sendreceive/notes.cpp \
 	sendreceive/changes.cpp \
 	sendreceive/files.cpp \
+	sendreceive/resources.cpp \
 	demo/logic.cpp \
 	client/index.cpp \
 	client/logic.cpp \
@@ -250,6 +252,7 @@ libbibledit_a_SOURCES = \
 	sync/notes.cpp \
 	sync/changes.cpp \
 	sync/files.cpp \
+	sync/resources.cpp \
 	resource/index.cpp \
 	resource/organize.cpp \
 	resource/logic.cpp \
@@ -266,6 +269,8 @@ libbibledit_a_SOURCES = \
 	resource/image.cpp \
 	resource/img.cpp \
 	resource/imagefetch.cpp \
+	resource/sword.cpp \
+	resource/select.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \
@@ -327,7 +332,8 @@ libbibledit_a_SOURCES = \
 	sources/kjv.cpp \
 	sources/morphhb.cpp \
 	sources/morphgnt.cpp \
-	sources/hebrewlexicon.cpp
+	sources/hebrewlexicon.cpp \
+	sword/logic.cpp
 
 noinst_PROGRAMS = bibledit
 

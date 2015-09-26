@@ -55,7 +55,7 @@ string manage_users (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (translate ("Users"), webserver_request, "");
+  page = Assets_Page::header (translate ("Users"), webserver_request);
 
   Assets_View view = Assets_View ();
 

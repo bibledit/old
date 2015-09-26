@@ -32,6 +32,8 @@ string filter_archive_tar_gzip_folder (string folder);
 string filter_archive_untar_gzip (string file);
 string filter_archive_uncompress (string file);
 int filter_archive_is_archive (string file);
+string filter_archive_compress (string data);
+string filter_archive_decompress (string data);
 
 
 #endif

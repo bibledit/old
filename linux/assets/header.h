@@ -34,7 +34,6 @@ public:
   void setNavigator ();
   void setStylesheet ();
   void setEditorStylesheet ();
-  void setSearchQuery (string query);
   bool displayTopbar ();
   void refresh (int seconds, string url = "");
   string run ();

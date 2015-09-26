@@ -39,6 +39,7 @@ void test_filter_date ();
 void test_filter_url ();
 void test_filter_string ();
 void test_filter_string_text2html ();
+void test_filter_archive ();
 
 
 #endif
