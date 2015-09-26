@@ -392,6 +392,9 @@ msgstr ""
 msgid "Would you like to delete this book?"
 msgstr ""
 
+msgid "More operations in the Cloud"
+msgstr ""
+
 msgid "Available books"
 msgstr ""
 
