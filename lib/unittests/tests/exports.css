@@ -78,7 +78,6 @@ font-style: italic;
 }
 .f {
 font-size: 12pt;
-font-style: italic;
 text-align: left;
 margin-top: 0mm;
 margin-bottom: 0mm;
@@ -90,7 +89,6 @@ text-indent: 0mm;
 }
 .fe {
 font-size: 12pt;
-font-style: italic;
 text-align: left;
 margin-top: 0mm;
 margin-bottom: 0mm;
@@ -998,7 +996,6 @@ color: #FF0000;
 }
 .x {
 font-size: 12pt;
-font-style: italic;
 text-align: left;
 margin-top: 0mm;
 margin-bottom: 0mm;
