@@ -111,7 +111,7 @@ rm install2.sh
 
 echo Downloading Bibledit...
 cd
-wget --continue http://bibledit.org/linux/bibledit-1.0.243.tar.gz
+wget --continue http://bibledit.org/linux/bibledit-1.0.251.tar.gz
 if [ $? -ne 0 ]
 then
   echo Failed to download Bibledit
@@ -121,7 +121,7 @@ sleep 4
 
 echo Unpacking Bibledit in folder bibledit...
 mkdir -p bibledit
-tar xf bibledit-1.0.243.tar.gz -C bibledit --strip-components=1
+tar xf bibledit-1.0.251.tar.gz -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit
