@@ -96,7 +96,6 @@ if [ $EXIT_CODE != 0 ]; then
   echo No worry, the password may have been good. Trying another way...
   echo Please provide the password for the administrative user and press Enter:
   read PASSWORD
-  echo $PASSWORD
   echo $PASSWORD | sudo ./install2.sh
   EXIT_CODE=$?
   if [ $EXIT_CODE != 0 ]; then
@@ -112,7 +111,7 @@ rm install2.sh
 
 echo Downloading Bibledit...
 cd
-wget --continue http://bibledit.org/linux/bibledit-1.0.240.tar.gz
+wget --continue http://bibledit.org/linux/bibledit-1.0.251.tar.gz
 if [ $? -ne 0 ]
 then
   echo Failed to download Bibledit
@@ -122,7 +121,7 @@ sleep 4
 
 echo Unpacking Bibledit in folder bibledit...
 mkdir -p bibledit
-tar xf bibledit-1.0.240.tar.gz -C bibledit --strip-components=1
+tar xf bibledit-1.0.251.tar.gz -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit

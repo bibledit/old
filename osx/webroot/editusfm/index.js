@@ -284,12 +284,32 @@ function usfmPositionCaretViaAjax ()
 function usfmGetCaretPosition ()
 {
   var position = undefined;
-  if ($ ("#usfmeditor").is (":focus")) {
-    var sel = rangy.getSelection ();
-    var range = sel.getRangeAt(0);
-    position = range.startOffset;
+  var editor = $ ("#usfmeditor");
+  if (editor.is (":focus")) {
+    var element = editor.get (0);
+    position = usfmGetCaretCharacterOffsetWithin (element);
   }
   return position;
+}
+
+
+function usfmGetCaretCharacterOffsetWithin (element)
+{
+  var caretOffset = 0;
+  if (typeof window.getSelection != "undefined") {
+    var range = window.getSelection().getRangeAt(0);
+    var preCaretRange = range.cloneRange();
+    preCaretRange.selectNodeContents(element);
+    preCaretRange.setEnd(range.endContainer, range.endOffset);
+    caretOffset = preCaretRange.toString().length;
+  } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
+    var textRange = document.selection.createRange();
+    var preCaretTextRange = document.body.createTextRange();
+    preCaretTextRange.moveToElementText(element);
+    preCaretTextRange.setEndPoint("EndToEnd", textRange);
+    caretOffset = preCaretTextRange.text.length;
+  }
+  return caretOffset;
 }
 
 

@@ -13,6 +13,9 @@
 		CA1599F21B1759A600B26F9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F11B1759A600B26F9C /* AppDelegate.m */; };
 		CA1599F41B1759A600B26F9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F31B1759A600B26F9C /* main.m */; };
 		CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1599F51B1759A600B26F9C /* Images.xcassets */; };
+		CA43E08B1BB851BE00347EE1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */; };
+		CA43E08D1BB851EC00347EE1 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08C1BB851EC00347EE1 /* libxml2.tbd */; };
+		CA43E08F1BB851F700347EE1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */; };
 		CA99CFA11B175B8B00696023 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA99CFA01B175B8B00696023 /* WebKit.framework */; };
 		CAE0196F1B1775C6000EAF46 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CAE0196E1B1775C6000EAF46 /* webroot */; };
 		CAE235B51B176BAF005AEEBF /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235AF1B176BAF005AEEBF /* libcrypto.a */; };
@@ -21,11 +24,6 @@
 		CAE235B81B176BAF005AEEBF /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B21B176BAF005AEEBF /* libidn.a */; };
 		CAE235B91B176BAF005AEEBF /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B31B176BAF005AEEBF /* libintl.a */; };
 		CAE235BA1B176BAF005AEEBF /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B41B176BAF005AEEBF /* libssl.a */; };
-		CAE235BC1B176BDB005AEEBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235BB1B176BDB005AEEBF /* libxml2.dylib */; };
-		CAE235BE1B176BEA005AEEBF /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235BD1B176BEA005AEEBF /* libc++.dylib */; };
-		CAE235C01B176BF6005AEEBF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235BF1B176BF6005AEEBF /* libz.dylib */; };
-		CAE235C21B176C03005AEEBF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235C11B176C03005AEEBF /* libsqlite3.dylib */; };
-		CAE235C41B176C1C005AEEBF /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235C31B176C1C005AEEBF /* libcrypto.dylib */; };
 		CAE235C61B176C2D005AEEBF /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235C51B176C2D005AEEBF /* libbibledit.a */; };
 		CAF569171B177EBD00EE957E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAE33E751B176F2500BBA84A /* MainMenu.xib */; };
 /* End PBXBuildFile section */
@@ -44,6 +42,9 @@
 		CA1599F31B1759A600B26F9C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CA1599F51B1759A600B26F9C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CA1599F81B1759A600B26F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		CA43E08C1BB851EC00347EE1 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CA99CFA01B175B8B00696023 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CAE0196E1B1775C6000EAF46 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
 		CAE235AF1B176BAF005AEEBF /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
@@ -52,11 +53,6 @@
 		CAE235B21B176BAF005AEEBF /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = lib/libidn.a; sourceTree = "<group>"; };
 		CAE235B31B176BAF005AEEBF /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = lib/libintl.a; sourceTree = "<group>"; };
 		CAE235B41B176BAF005AEEBF /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
-		CAE235BB1B176BDB005AEEBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		CAE235BD1B176BEA005AEEBF /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		CAE235BF1B176BF6005AEEBF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		CAE235C11B176C03005AEEBF /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		CAE235C31B176C1C005AEEBF /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		CAE235C51B176C2D005AEEBF /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
 		CAE33E761B176F2500BBA84A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = osx/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		CAFBC78D1B17624E0063BA33 /* osx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = osx.entitlements; sourceTree = "<group>"; };
@@ -67,15 +63,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA43E08F1BB851F700347EE1 /* libsqlite3.tbd in Frameworks */,
+				CA43E08D1BB851EC00347EE1 /* libxml2.tbd in Frameworks */,
+				CA43E08B1BB851BE00347EE1 /* libstdc++.tbd in Frameworks */,
 				CA0A0B131B923F0500E5E0FA /* libicudata.a in Frameworks */,
 				CA0A0B111B923EF800E5E0FA /* libicuuc.a in Frameworks */,
 				CA0A0B0F1B923EE400E5E0FA /* libicui18n.a in Frameworks */,
 				CAE235C61B176C2D005AEEBF /* libbibledit.a in Frameworks */,
-				CAE235C41B176C1C005AEEBF /* libcrypto.dylib in Frameworks */,
-				CAE235C21B176C03005AEEBF /* libsqlite3.dylib in Frameworks */,
-				CAE235C01B176BF6005AEEBF /* libz.dylib in Frameworks */,
-				CAE235BE1B176BEA005AEEBF /* libc++.dylib in Frameworks */,
-				CAE235BC1B176BDB005AEEBF /* libxml2.dylib in Frameworks */,
 				CAE235B51B176BAF005AEEBF /* libcrypto.a in Frameworks */,
 				CAE235B61B176BAF005AEEBF /* libcurl.a in Frameworks */,
 				CAE235B71B176BAF005AEEBF /* libiconv.a in Frameworks */,
@@ -92,17 +86,15 @@
 		CA1599E21B1759A600B26F9C = {
 			isa = PBXGroup;
 			children = (
+				CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */,
+				CA43E08C1BB851EC00347EE1 /* libxml2.tbd */,
+				CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */,
 				CA0A0B121B923F0500E5E0FA /* libicudata.a */,
 				CA0A0B101B923EF800E5E0FA /* libicuuc.a */,
 				CA0A0B0E1B923EE400E5E0FA /* libicui18n.a */,
 				CAE0196E1B1775C6000EAF46 /* webroot */,
 				CAE33E751B176F2500BBA84A /* MainMenu.xib */,
 				CAE235C51B176C2D005AEEBF /* libbibledit.a */,
-				CAE235C31B176C1C005AEEBF /* libcrypto.dylib */,
-				CAE235C11B176C03005AEEBF /* libsqlite3.dylib */,
-				CAE235BF1B176BF6005AEEBF /* libz.dylib */,
-				CAE235BD1B176BEA005AEEBF /* libc++.dylib */,
-				CAE235BB1B176BDB005AEEBF /* libxml2.dylib */,
 				CAE235AF1B176BAF005AEEBF /* libcrypto.a */,
 				CAE235B01B176BAF005AEEBF /* libcurl.a */,
 				CAE235B11B176BAF005AEEBF /* libiconv.a */,

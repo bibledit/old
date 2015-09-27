@@ -44,7 +44,6 @@
     const char * webroot = [webrootPath UTF8String];
     
     bibledit_initialize_library (package, webroot);
-    bibledit_open_browser ();
     bibledit_start_library ();
     
     // Open the web app in the web view
@@ -66,7 +65,7 @@
 }
 
 - (void)checkForExternalBrowser {
-    if (bibledit_open_browser ()) {
+    if (false) {
         NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
         [[NSWorkspace sharedWorkspace] openURL:url];
     }
