@@ -53,4 +53,11 @@
 }
 
 
+// http://stackoverflow.com/questions/32236204/cgcontextsavegstate-invalid-context-0x0-error-only-on-device
+- (BOOL) prefersStatusBarHidden
+{
+  return YES;
+}
+
+
 @end

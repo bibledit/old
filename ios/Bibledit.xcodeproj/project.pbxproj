@@ -28,8 +28,8 @@
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
 		CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */; };
 		CEA9296819B06C9600DA3766 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296719B06C9600DA3766 /* Foundation.framework */; };
-		CEA9296A19B06C9600DA3766 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296919B06C9600DA3766 /* CoreGraphics.framework */; };
-		CEA9296C19B06C9600DA3766 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296B19B06C9600DA3766 /* UIKit.framework */; };
+		CEA9296A19B06C9600DA3766 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296919B06C9600DA3766 /* CoreGraphics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		CEA9296C19B06C9600DA3766 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296B19B06C9600DA3766 /* UIKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEA9297019B06C9600DA3766 /* InfoPlist.strings */; };
 		CEA9297419B06C9600DA3766 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9297319B06C9600DA3766 /* main.m */; };
 		CEA9297819B06C9600DA3766 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9297719B06C9600DA3766 /* AppDelegate.m */; };
@@ -375,6 +375,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bibledit iOS/bibledit-ios-Prefix.pch";
@@ -405,6 +406,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bibledit iOS/bibledit-ios-Prefix.pch";

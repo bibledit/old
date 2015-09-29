@@ -103,6 +103,7 @@ database/etcbc4.cpp
 database/hebrewlexicon.cpp
 database/morphgnt.cpp
 database/strong.cpp
+database/cache.cpp
 session/logic.cpp
 session/login.cpp
 session/logout.cpp
@@ -209,7 +210,6 @@ edit/offset.cpp
 edit/save.cpp
 edit/styles.cpp
 edit/logic.cpp
-search/search.cpp
 search/index.cpp
 search/select.cpp
 search/replace.cpp
@@ -225,6 +225,7 @@ search/similar.cpp
 search/strongs.cpp
 search/strong.cpp
 search/originals.cpp
+search/all.cpp
 tmp/tmp.cpp
 workbench/index.cpp
 workbench/logic.cpp
@@ -239,6 +240,7 @@ sendreceive/bibles.cpp
 sendreceive/files.cpp
 sendreceive/notes.cpp
 sendreceive/changes.cpp
+sendreceive/resources.cpp
 demo/logic.cpp
 client/index.cpp
 client/logic.cpp
@@ -251,6 +253,7 @@ sync/setup.cpp
 sync/usfmresources.cpp
 sync/changes.cpp
 sync/files.cpp
+sync/resources.cpp
 resource/admin.cpp
 resource/bible2resource.cpp
 resource/download.cpp
@@ -267,6 +270,8 @@ resource/imagefetch.cpp
 resource/images.cpp
 resource/image.cpp
 resource/img.cpp
+resource/sword.cpp
+resource/select.cpp
 checks/headers.cpp
 checks/index.cpp
 checks/logic.cpp
@@ -352,6 +357,7 @@ paratext/logic.cpp
 personalize/index.cpp
 lexicon/logic.cpp
 lexicon/definition.cpp
+sword/logic.cpp
 
 )
 

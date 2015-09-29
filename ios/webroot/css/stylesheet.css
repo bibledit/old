@@ -333,48 +333,6 @@ textarea {
   padding-left: 0.1em;
 }
 
-/* Search box and stuff */
-
-#searchwrapper {
-  float: right;
-}
-
-#search {
-  display: block;
-  float: right;
-  padding-top: 0.5em;
-}
-
-#search input {
-  background: #fff;
-  border: 1px solid #f3f3f3;
-  color: #ccc;
-  padding: 0 0.3em;
-  transition: all 0.3s ease-in-out;
-  border: 1px solid #ddd;
-  color: #000;
-}
-
-#topbar:hover #search input {
-  border: 1px solid #ddd;
-  color: #000;
-}
-
-#topbar:hover #search input[type=submit] {
-  background: #f6f6f6;
-}
-
-#search input:hover,
-#search input:focus {
-  border-color: #999;
-  box-shadow: none;
-}
-
-#search input:focus {
-  border-color: #ccc;
-  color: #666;
-}
-
 /* User menu settings */
 #usermenu {
   float: right;
