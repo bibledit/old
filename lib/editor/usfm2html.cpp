@@ -31,7 +31,7 @@
 #include <database/logs.h>
 
 
-Editor_Usfm2Html::Editor_Usfm2Html (void * webserver_request_in)
+Editor_Usfm2Html::Editor_Usfm2Html (void * webserver_request_in) // Todo
 {
   webserver_request = webserver_request_in;
 }
@@ -275,7 +275,7 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeFootEndNote:
+          case StyleTypeFootEndNote: // Todo
           {
             switch (style.subtype)
             {
@@ -313,7 +313,7 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeCrossreference:
+          case StyleTypeCrossreference: // Todo
           {
             switch (style.subtype)
             {
@@ -525,7 +525,7 @@ void Editor_Usfm2Html::addText (string text)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
+void Editor_Usfm2Html::addNote (string citation, string style, bool endnote) // Todo
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!currentPDomElement) {

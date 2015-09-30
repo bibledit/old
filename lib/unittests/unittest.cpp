@@ -279,7 +279,11 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_styles_css (); refresh_sandbox (true); exit (0);
+  // test_editor_html2usfm ();
+  test_editor_usfm2html ();
+  // test_editor_roundtrip ();
+  // test_editor_roundtrip_verse ();
+  refresh_sandbox (true); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();

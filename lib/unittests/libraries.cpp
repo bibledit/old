@@ -752,6 +752,24 @@ void test_editor_usfm2html ()
     "<p class=\"c\"><span>1</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>";
     evaluate (__LINE__, __func__, standard, html);
   }
+  // Unmatched note opener.
+  {
+    string usfm =
+    "\\c 117\n"
+    "\\p\n"
+    "\\v 1 Praise Yahweh\\f all you nations!\n"
+    "\\v 2 For his loving kindness is great toward us.\n";
+    Webserver_Request request;
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string html = editor_import.get ();
+    string standard =
+    "<p class=\"c\"><span>1</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>";
+    // Todo evaluate (__LINE__, __func__, standard, html);
+    cout << html << endl; // Todo
+  }
 }
 
 
