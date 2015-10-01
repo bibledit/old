@@ -35,6 +35,9 @@
 #include <styles/sheets.h>
 #include <locale/logic.h>
 #include <bible/logic.h>
+#include <edit/index.h>
+#include <resource/index.h>
+#include <workbench/logic.h>
 
 
 // Returns true for correct credentials for a demo installation.
@@ -99,13 +102,9 @@ void demo_clean_data ()
   request.session_logic ()->setUsername (session_admin_credentials ());
   
   
-  // Delete the "Standard" stylesheet and re-create it.
   // Delete empty sheet that may have been there.
-  request.database_styles()->deleteSheet (styles_logic_standard_sheet ());
   request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
   request.database_styles()->deleteSheet ("");
-  request.database_styles()->createSheet (styles_logic_standard_sheet ());
-  request.database_styles()->grantWriteAccess (session_admin_credentials (), styles_logic_standard_sheet ());
   styles_sheets_create_all ();
   
   
@@ -175,6 +174,10 @@ void demo_clean_data ()
   
   // Create sample notes.
   demo_create_sample_notes (&request);
+  
+  
+  // Create samples for the workbenches. Todo
+  demo_create_sample_workbenches (&request);
 }
 
 
@@ -223,4 +226,44 @@ void demo_create_sample_notes (void * webserver_request)
       database_notes.storeNewNote (demo_sample_bible_name (), i, i, i, "Sample Note " + convert_to_string (i), "Sample Contents for note " + convert_to_string (i), false);
     }
   }
+}
+
+
+string demo_workbench ()
+{
+  return "Translation";
+}
+
+
+void demo_create_sample_workbenches (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  request->database_config_user()->setActiveWorkbench (demo_workbench ());
+
+  map <int, string> urls;
+  map <int, string> widths;
+  for (int i = 0; i < 15; i++) {
+    string url;
+    string width;
+    if (i == 0) {
+      url = edit_index_url ();
+      width = "45%";
+    }
+    if (i == 1) {
+      url = resource_index_url ();
+      width = "45%";
+    }
+    urls [i] = url;
+    widths [i] = width;
+  }
+  map <int, string> row_heights = {
+    make_pair (0, "90%"),
+    make_pair (1, ""),
+    make_pair (2, "")
+  };
+
+  workbenchSetURLs (request, urls);
+  workbenchSetWidths (request, widths);
+  workbenchSetHeights (request, row_heights);
 }
