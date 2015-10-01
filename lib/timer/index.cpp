@@ -52,7 +52,6 @@ void timer_index ()
   int previous_second = -1;
   int previous_minute = -1;
   int previous_fraction = -1;
-  bool clean_demo = true; // Todo out!
   while (config_globals_running) {
 
     try {
@@ -75,11 +74,6 @@ void timer_index ()
       // Every second: Deal with queued and/or active tasks.
       tasks_run_check ();
       
-      if (clean_demo) {
-        tasks_logic_queue (CLEANDEMO); // Todo out!
-        clean_demo = false;
-      }
-
       // Run the part below every so many seconds.
       int fraction = second / 5;
       if (fraction != previous_fraction) {

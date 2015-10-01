@@ -36,8 +36,10 @@
 #include <locale/logic.h>
 #include <bible/logic.h>
 #include <edit/index.h>
+#include <editusfm/index.h>
 #include <resource/index.h>
 #include <workbench/logic.h>
+#include <ipc/focus.h>
 
 
 // Returns true for correct credentials for a demo installation.
@@ -176,8 +178,26 @@ void demo_clean_data ()
   demo_create_sample_notes (&request);
   
   
-  // Create samples for the workbenches. Todo
+  // Create samples for the workbenches.
   demo_create_sample_workbenches (&request);
+  
+  
+  // Set navigator to John 3:16.
+  Ipc_Focus::set (&request, 43, 3, 16);
+  
+  
+  // Set and/or trim resources to display.
+  vector <string> resources = request.database_config_user()->getActiveResources ();
+  bool reset_resources = false;
+  if (!in_array ((string) "Bibledit Sample Bible", resources)) reset_resources = true;
+  if (!in_array ((string) "Violet Divider", resources)) reset_resources = true;
+  if (!in_array ((string) "Biblehub Interlinear", resources)) reset_resources = true;
+  if (!in_array ((string) "NET Bible", resources)) reset_resources = true;
+  if (!in_array ((string) "Greek (SBL)", resources)) reset_resources = true;
+  if (reset_resources) {
+    resources = { "Bibledit Sample Bible", "Violet Divider", "Biblehub Interlinear", "NET Bible", "Greek (SBL)" };
+    request.database_config_user()->setActiveResources (resources);
+  }
 }
 
 
@@ -239,15 +259,13 @@ void demo_create_sample_workbenches (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  request->database_config_user()->setActiveWorkbench (demo_workbench ());
-
   map <int, string> urls;
   map <int, string> widths;
   for (int i = 0; i < 15; i++) {
     string url;
     string width;
     if (i == 0) {
-      url = edit_index_url ();
+      url = editusfm_index_url ();
       width = "45%";
     }
     if (i == 1) {
@@ -263,6 +281,15 @@ void demo_create_sample_workbenches (void * webserver_request)
     make_pair (2, "")
   };
 
+  request->database_config_user()->setActiveWorkbench ("USFM");
+  workbenchSetURLs (request, urls);
+  workbenchSetWidths (request, widths);
+  workbenchSetHeights (request, row_heights);
+
+  urls[0] = edit_index_url ();
+  urls[1] = resource_index_url ();
+
+  request->database_config_user()->setActiveWorkbench (demo_workbench ());
   workbenchSetURLs (request, urls);
   workbenchSetWidths (request, widths);
   workbenchSetHeights (request, row_heights);
