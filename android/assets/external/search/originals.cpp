@@ -68,19 +68,23 @@ string search_originals (void * webserver_request)
     
     string type = Database_Books::getType (book);
     
+    string classs;
+    
     // Get Hebrew or Greek words.
     string searchtext;
     vector <string> details;
     if (type == "ot") {
       details = database_morphhb.getVerse (book, chapter, verse);
+      classs = "hebrew";
     }
     if (type == "nt") {
       details = database_sblgnt.getVerse (book, chapter, verse);
+      classs = "greek";
     }
     searchtext = filter_string_implode (details, " ");
     searchtext = filter_string_trim (searchtext);
     
-    return searchtext;
+    return classs + "\n" + searchtext;
   }
   
   

@@ -217,7 +217,6 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   
   // Paragraph layout properties
   if (paragraph) {
-    string alignment;
     string spacebefore = convert_to_string (style->spacebefore);
     string spaceafter = convert_to_string (style->spaceafter);
     string leftmargin = convert_to_string (style->leftmargin);
@@ -225,11 +224,15 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     string firstlineindent = convert_to_string (style->firstlineindent);
     
     // Text alignment options.
+    string alignment;
     switch (style->justification) {
       case AlignmentLeft:    alignment = "left"; break;
       case AlignmentCenter:  alignment = "center"; break;
       case AlignmentRight:   alignment = "right"; break;
       case AlignmentJustify: alignment = "justify"; break;
+    }
+    if (!alignment.empty ()) {
+      
     }
     code.push_back ("text-align: " + alignment + ";");
     

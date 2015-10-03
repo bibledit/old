@@ -960,6 +960,26 @@ void Database_Config_User::setMenuFontSize (int size)
 }
 
 
+int Database_Config_User::getHebrewFontSize ()
+{
+  return getIValue ("hebrew-font-size", 100);
+}
+void Database_Config_User::setHebrewFontSize (int size)
+{
+  setIValue ("hebrew-font-size", size);
+}
+
+
+int Database_Config_User::getGreekFontSize ()
+{
+  return getIValue ("greek-font-size", 100);
+}
+void Database_Config_User::setGreekFontSize (int size)
+{
+  setIValue ("greek-font-size", size);
+}
+
+
 void Database_Config_User::setRequestedEtcbc4Definition (string value)
 {
   setValue ("requested-etcbc4-def", value);
