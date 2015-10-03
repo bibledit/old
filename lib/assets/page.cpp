@@ -25,17 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
-Assets_Page::Assets_Page (const char * file)
-{
-  if (file) {};
-}
-
-
-Assets_Page::~Assets_Page ()
-{
-}
-
-
 string Assets_Page::header (string title, void * webserver_request)
 {
   Assets_Header header = Assets_Header (title, webserver_request);
