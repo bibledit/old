@@ -29,8 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Versifications
 {
 public:
-  Database_Versifications ();
-  ~Database_Versifications ();
   void create ();
   void defaults ();
   void optimize ();
@@ -46,7 +44,7 @@ public:
   vector <int> getVerses (const string& name, int book, int chapter);
 private:
   sqlite3 * connect ();
-  bool creating_defaults;
+  bool creating_defaults = false;
 };
 
 

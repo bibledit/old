@@ -176,6 +176,10 @@ public:
   int getGeneralFontSize ();
   void setMenuFontSize (int size);
   int getMenuFontSize ();
+  void setHebrewFontSize (int size);
+  int getHebrewFontSize ();
+  void setGreekFontSize (int size);
+  int getGreekFontSize ();
   void setRequestedEtcbc4Definition (string value);
   string getRequestedEtcbc4Definition ();
   void setRequestedKjvDefinition (string value);

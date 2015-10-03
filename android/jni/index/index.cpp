@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <index/index.h>
 #include <assets/view.h>
+#include <assets/header.h>
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -27,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/index.h>
 #include <resource/index.h>
 #include <changes/changes.h>
+#include <workbench/index.h>
+#include <config/logic.h>
 
 
 const char * index_index_url ()
@@ -44,10 +47,13 @@ bool index_index_acl (void * webserver_request)
 string index_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  string page;
 
-  page = Assets_Page::header ("Bibledit", webserver_request);
+  Assets_Header header = Assets_Header ("Bibledit", webserver_request);
+  if (config_logic_demo_enabled ()) {
+    header.refresh (5, "/" + workbench_index_url ());
+  }
+  string page = header.run ();
+
 
   Assets_View view = Assets_View ();
   
