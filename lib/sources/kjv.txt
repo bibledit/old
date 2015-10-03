@@ -7,3 +7,4 @@ kjv.xml: XML source data, originally named kjvfull.xml.
 createdatabase
 This script imports the XML file into a SQLite database fit for use in Bibledit.
 
+Info and download: http://www.crosswire.org/~dmsmith/kjv2006/
