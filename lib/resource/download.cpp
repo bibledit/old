@@ -56,7 +56,6 @@ string resource_download (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_OfflineResources database_offlineresources = Database_OfflineResources ();
-  Database_Versifications database_versifications = Database_Versifications ();
   
   
   string page;
@@ -109,7 +108,7 @@ void resource_download_job (string resource)
 
   if (download) {
 
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     
     string versification = resource_external_versification (resource);
     
