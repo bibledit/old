@@ -690,25 +690,9 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   ".tablefloat {\n"
   "  float: left;\n"
   "}\n"
-  "@font-face {\n"
-  "  font-family: \"Cardo\";\n"
-  "src: url(/fonts/Cardo-Regular.ttf);\n"
-  "}\n"
-  ".greek {\n"
-  "  font-family: Cardo;\n"
-  "  font-size: large;\n"
-  "}\n"
   ".tablefloatheb\n"
   "{\n"
   "  float : right;\n"
-  "}\n"
-  "@font-face {\n"
-  "  font-family: \"Ezra SIL\";\n"
-  "src: url(/fonts/SILEOT.ttf);\n"
-  "}\n"
-  ".hebrew {\n"
-  "  font-family: \"Ezra SIL\";\n"
-  "  font-size: x-large;\n"
   "}\n"
   "span[class*='ref'] {\n"
   "display: none;\n"
@@ -762,14 +746,6 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   
   string stylesheet =
   "<style>\n"
-  "@font-face {\n"
-  "  font-family: Cardo;\n"
-  "src: url(/fonts/Cardo-Regular.ttf);\n"
-  "}\n"
-  ".greek {\n"
-  "  font-family: Cardo;\n"
-  "  font-size: large;\n"
-  "}\n"
   "</style>\n";
   
   return stylesheet + "\n" + html;
@@ -820,18 +796,14 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   
   if (html.empty ()) return html;
   
+  // Change class "heb" to "hebrew", because that is what Bibledit uses for all Hebrew text.
+  html = filter_string_str_replace ("heb", "hebrew", html);
+  
+  
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.
   string stylesheet =
   "<style>\n"
-  "@font-face {\n"
-  "  font-family: \"Ezra SIL\";\n"
-  "src: url(/fonts/SILEOT.ttf);\n"
-  "}\n"
-  ".heb {\n"
-  "  font-family: \"Ezra SIL\";\n"
-  "  font-size: x-large;\n"
-  "}\n"
   "</style>\n";
 
   string output = stylesheet;

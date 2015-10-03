@@ -153,6 +153,14 @@ string Assets_Header::run ()
   if (fontsize != 100) {
     embedded_css.push_back (".menu { font-size: " + convert_to_string (fontsize) + "%; }");
   }
+  fontsize = request->database_config_user ()->getHebrewFontSize ();
+  if (fontsize != 100) {
+    embedded_css.push_back (".hebrew { font-size: " + convert_to_string (fontsize) + "%; }");
+  }
+  fontsize = request->database_config_user ()->getGreekFontSize ();
+  if (fontsize != 100) {
+    embedded_css.push_back (".greek { font-size: " + convert_to_string (fontsize) + "%; }");
+  }
   if (!embedded_css.empty ()) {
     view->set_variable ("embedded_css", filter_string_implode (embedded_css, "\n"));
   }
