@@ -22,14 +22,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <sqlite3.h>
 
 
 class Database_BibleActions
 {
 public:
-  Database_BibleActions ();
-  ~Database_BibleActions ();
   void create ();
   void clear ();
   void optimize ();
@@ -40,7 +37,7 @@ public:
   string getUsfm (string bible, int book, int chapter);
   void erase (string bible, int book, int chapter);
 private:
-  sqlite3 * connect ();
+  const char * filename ();
 };
 
 

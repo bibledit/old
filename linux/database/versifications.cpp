@@ -29,15 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Resilience: It is normally not written to, so corruption is unlikely.
 
 
-Database_Versifications::Database_Versifications ()
-{
-  creating_defaults = false;
-}
-
-
-Database_Versifications::~Database_Versifications ()
-{
-}
+// Versification information is also available from the Bible Organisational System.
+// (This system contains versification information, no mapping data.)
+// See http://freely-given.org/Software/BibleOrganisationalSystem/
+// See https://github.com/openscriptures/BibleOrgSys/
 
 
 sqlite3 * Database_Versifications::connect ()

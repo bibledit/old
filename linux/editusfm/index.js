@@ -376,7 +376,7 @@ function clarifyCaret ()
   usfmPreviousCaretTop = caretTop;
   var viewportHeight = $(window).height ();
   $ ("body,html").stop (true);
-  $ ("body,html").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
+  $ ("body,html").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500); // Todo
   var barOffset = $ ("#caretbar").offset ().top;
   $ ("#caretbar").empty ();
   $ ("#caretbar").prepend ("<span><mark>￫</mark></span>");

@@ -181,7 +181,7 @@ textarea {
 .hebrew {
   font-family: "Ezra SIL";
   direction: rtl;
-  font-size: normal;
+  /* font-size: normal; : dynamically generated */
 }
 
 
@@ -191,7 +191,7 @@ textarea {
 }
 .greek {
   font-family: Cardo;
-  font-size: normal;
+  /* font-size: normal; : dynamically generated */
 }
 
 

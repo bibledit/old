@@ -960,6 +960,26 @@ void Database_Config_User::setMenuFontSize (int size)
 }
 
 
+int Database_Config_User::getHebrewFontSize ()
+{
+  return getIValue ("hebrew-font-size", 100);
+}
+void Database_Config_User::setHebrewFontSize (int size)
+{
+  setIValue ("hebrew-font-size", size);
+}
+
+
+int Database_Config_User::getGreekFontSize ()
+{
+  return getIValue ("greek-font-size", 100);
+}
+void Database_Config_User::setGreekFontSize (int size)
+{
+  setIValue ("greek-font-size", size);
+}
+
+
 void Database_Config_User::setRequestedEtcbc4Definition (string value)
 {
   setValue ("requested-etcbc4-def", value);
@@ -1017,4 +1037,14 @@ void Database_Config_User::setRequestedGDefinition (string value)
 string Database_Config_User::getRequestedGDefinition ()
 {
   return getValue ("requested-g-def", "");
+}
+
+
+int Database_Config_User::getVerticalCaretPosition ()
+{
+  return getIValue ("vertical-caret-position", 50);
+}
+void Database_Config_User::setVerticalCaretPosition (int position)
+{
+  setIValue ("vertical-caret-position", position);
 }

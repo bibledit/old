@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <database/books.h>
 #include <database/versifications.h>
+#include <database/state.h>
 #include <checksum/logic.h>
 #include <editor/html2usfm.h>
 #include <editor/usfm2html.h>
@@ -308,6 +309,7 @@ void test_checksum_logic ()
   // Setup some data.
   refresh_sandbox (true);
   Webserver_Request request;
+  Database_State::create ();
   request.database_search()->create ();
   request.database_bibles()->storeChapter ("phpunit1", 1, 2, "data1");
   request.database_bibles()->storeChapter ("phpunit1", 1, 3, "data2");
@@ -359,6 +361,7 @@ void test_checksum_logic ()
 void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
 {
   refresh_sandbox (true);
+  Database_State::create ();
   request->database_search()->create ();
   request->database_bibles()->createBible ("phpunit");
   request->database_bibles()->storeChapter ("phpunit", 1, 1, usfm);
@@ -1643,7 +1646,102 @@ void test_editor_roundtrip ()
     editor_export.run ();
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standardusfm, usfm);
-}
+  }
+  // Unmatched note opener and xref opener.
+  {
+    string standard_usfm =
+    "\\c 117\n"
+    "\\p\n"
+    "\\v 1 Praise Yahweh\\f all you nations!\n"
+    "\\v 2 For his loving kindness\\x is great toward us.\n";
+    Webserver_Request request;
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string html = editor_import.get ();
+    string standard_html =
+    "<p class=\"c\"><span>117</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Praise Yahweh</span><span>\\f </span><span>all you nations!</span><span> </span><span class=\"v\">2</span><span> </span><span>For his loving kindness</span><span>\\x </span><span>is great toward us.</span></p>";
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Html2Usfm editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+  }
+  // Inline opener without matching inline closer.
+  {
+    Webserver_Request request;
+
+    string standard_usfm =
+    "\\p The \\add Lord God is calling you";
+    string standard_html =
+    "<p class=\"p\"><span>The </span><span>\\add </span><span>Lord God is calling you</span></p>";
+    
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Html2Usfm editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+  }
+  // Inline opener without matching inline closer but with other inline markup.
+  {
+    Webserver_Request request;
+    
+    string standard_usfm =
+    "\\p The \\add Lord \\nd God\\nd* is calling you\n"
+    "\\v 2 Verse text";
+    string standard_html =
+    "<p class=\"p\"><span>The </span><span>\\add </span><span>Lord </span><span class=\"nd\">God</span><span> is calling you</span><span> </span><span class=\"v\">2</span><span> </span><span>Verse text</span></p>";
+    
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Html2Usfm editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+  }
+  // Inline opener without matching inline closer and with a paragraph after that.
+  {
+    Webserver_Request request;
+    
+    string standard_usfm =
+    "\\p The \\add Lord God is calling you\n"
+    "\\p Paragraph";
+    string standard_html =
+    "<p class=\"p\"><span>The </span><span>\\add </span><span>Lord God is calling you</span></p><p class=\"p\"><span>Paragraph</span></p>";
+    
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string html = editor_import.get ();
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Html2Usfm editor_export (&request);
+    editor_export.load (html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+  }
   refresh_sandbox (false);
 }
 
@@ -2596,6 +2694,12 @@ void test_hyphenate ()
   "\\s \\nd UNku­lu­nku­lu\\nd* u\\add ba\\add*­xwa­yi­sa ngo­ku­lu­nga oku­ngo­kwa­ba­ntu 文字a­b化け\n"
   "\\s Uku­lu­nga oku­ku\\nd Kri­stu\\nd* אבa­bגד ku­yi­nzu­zo אבגד ab";
   evaluate (__LINE__, __func__, standard, output);
+}
+
+
+// Temporal testing of bits.
+void test_libraries_temporal ()
+{
 }
 
 

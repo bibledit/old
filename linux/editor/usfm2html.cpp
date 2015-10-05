@@ -234,7 +234,12 @@ void Editor_Usfm2Html::process ()
           case StyleTypeInlineText:
           {
             if (isOpeningMarker) {
-              openTextStyle (style, false, isEmbeddedMarker);
+              // Be sure the road ahead is clear.
+              if (roadIsClear ()) {
+                openTextStyle (style, false, isEmbeddedMarker);
+              } else {
+                addText (usfm_get_opening_usfm (marker));
+              }
             } else {
               closeTextStyle (false, isEmbeddedMarker);
             }
@@ -284,12 +289,10 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false, false);
                 if (isOpeningMarker) {
-                  noteOpened = true;
                   int caller = noteCount % 9 + 1;
                   addNote (convert_to_string (caller), marker, false);
                 } else {
                   closeCurrentNote ();
-                  noteOpened = false;
                 }
                 break;
               }
@@ -321,12 +324,10 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false, false);
                 if (isOpeningMarker) {
-                  noteOpened = true;
                   int caller = (noteCount) % 9 + 1;
                   addNote (convert_to_string (caller), marker, false);
                 } else {
                   closeCurrentNote ();
-                  noteOpened = false;
                 }
                 break;
               }
@@ -527,6 +528,13 @@ void Editor_Usfm2Html::addText (string text)
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
 void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
 {
+  // Be sure the road ahead is clear.
+  if (!roadIsClear ()) {
+    addText (usfm_get_opening_usfm (style));
+    return;
+  }
+  
+  
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!currentPDomElement) {
     newParagraph ();
@@ -536,6 +544,7 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   if (endnote) {};
   
   noteCount++;
+  noteOpened = true;
   
   // Add the link with all relevant data for the note citation.
   string reference = "#note" + convert_to_string (noteCount);
@@ -566,18 +575,17 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
 // $text: The text to add.
 void Editor_Usfm2Html::addNoteText (string text)
 {
-  if (text != "") {
-    if (!notePDomElement) {
-      addNote ("?", "");
-    }
-    xmlNodePtr spanDomElement = newElement ("span");
-    xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
-    xmlAddChild (spanDomElement, textnode);
-    xmlAddChild (notePDomElement, spanDomElement);
-    if (!currentNoteTextStyles.empty()) {
-      // Take character style as specified in this object.
-      xmlNewProp (spanDomElement, BAD_CAST "class", BAD_CAST filter_string_implode (currentNoteTextStyles, " ").c_str());
-    }
+  if (text.empty ()) return;
+  if (!notePDomElement) {
+    addNote ("?", "");
+  }
+  xmlNodePtr spanDomElement = newElement ("span");
+  xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
+  xmlAddChild (spanDomElement, textnode);
+  xmlAddChild (notePDomElement, spanDomElement);
+  if (!currentNoteTextStyles.empty()) {
+    // Take character style as specified in this object.
+    xmlNewProp (spanDomElement, BAD_CAST "class", BAD_CAST filter_string_implode (currentNoteTextStyles, " ").c_str());
   }
 }
 
@@ -585,8 +593,10 @@ void Editor_Usfm2Html::addNoteText (string text)
 // This function closes the current footnote.
 void Editor_Usfm2Html::closeCurrentNote ()
 {
-  closeTextStyle (true, false);
+  // If a note was opened, close that, else close the standard text.
+  closeTextStyle (noteOpened, false);
   notePDomElement = NULL;
+  noteOpened = false;
 }
 
 
@@ -613,4 +623,145 @@ void Editor_Usfm2Html::addLink (xmlNodePtr domNode, string reference, string ide
   if (style != "") xmlNewProp (aDomElement, BAD_CAST "class", BAD_CAST style.c_str());
   xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
   xmlAddChild (aDomElement, textnode);
+}
+
+
+// Returns true if the road ahead is clear for the current marker.
+bool Editor_Usfm2Html::roadIsClear ()
+{
+  // Determine the input.
+  string input_marker;
+  bool input_opener = false;
+  bool input_embedded = false;
+  int input_type = 0;
+  int input_subtype = 0;
+  {
+    string currentItem = markersAndText[markersAndTextPointer];
+    if (!usfm_is_usfm_marker (currentItem)) return true;
+    input_opener = usfm_is_opening_marker (currentItem);
+    input_embedded = usfm_is_embedded_marker (currentItem);
+    string marker = usfm_get_marker (currentItem);
+    input_marker = marker;
+    if (!styles.count (marker)) return true;
+    Database_Styles_Item style = styles [marker];
+    input_type = style.type;
+    input_subtype = style.subtype;
+  }
+  
+  // Determine the road ahead.
+  vector <string> markers;
+  vector <int> types;
+  vector <int> subtypes;
+  vector <bool> openers;
+  vector <bool> embeddeds;
+
+  bool end_chapter_reached = false;
+  {
+    bool done = false;
+    unsigned int markersAndTextCount = markersAndText.size();
+    for (size_t pointer = markersAndTextPointer + 1; pointer < markersAndTextCount; pointer++) {
+      if (done) continue;
+      string currentItem = markersAndText[pointer];
+      if (usfm_is_usfm_marker (currentItem))
+      {
+        string marker = usfm_get_marker (currentItem);
+        if (styles.count (marker))
+        {
+          Database_Styles_Item style = styles [marker];
+          markers.push_back (marker);
+          types.push_back (style.type);
+          subtypes.push_back (style.subtype);
+          openers.push_back (usfm_is_opening_marker (currentItem));
+          embeddeds.push_back (usfm_is_embedded_marker (currentItem));
+          // Don't go beyond the next verse marker.
+          if (style.type == StyleTypeVerseNumber) done = true;
+        }
+      }
+    }
+    if (!done) end_chapter_reached = true;
+  }
+  
+  // Go through the road ahead, and assess it.
+  for (size_t i = 0; i < types.size (); i++) {
+    
+    string marker = markers [i];
+    int type = types [i];
+    int subtype = subtypes [i];
+    int opener = openers [i];
+    int embedded = embeddeds [i];
+    
+    if (embedded) {}
+    
+    // The input is a note opener.
+    if (input_type == StyleTypeFootEndNote) {
+      if (input_opener) {
+        if ((input_subtype == FootEndNoteSubtypeFootnote) || (input_subtype == FootEndNoteSubtypeEndnote)) {
+          // Encounters note closer: road is clear.
+          // Encounters another note opener: blocker.
+          if (type == StyleTypeFootEndNote) {
+            if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
+              if (opener) return false;
+              else return true;
+            }
+          }
+          // Encounters a verse: blocker.
+          if (type == StyleTypeVerseNumber) return false;
+          // Encounters any type of cross reference markup: blocker.
+          if (type == StyleTypeCrossreference) return false;
+        }
+      }
+    }
+    
+    // The input is a cross reference opener.
+    if (input_type == StyleTypeCrossreference) {
+      if (input_opener) {
+        if (input_subtype == CrossreferenceSubtypeCrossreference) {
+          // Encounters xref closer: road is clear.
+          // Encounters another xref opener: blocker.
+          if (type == StyleTypeCrossreference) {
+            if (subtype == CrossreferenceSubtypeCrossreference) {
+              if (opener) return false;
+              else return true;
+            }
+          }
+          // Encounters a verse: blocker.
+          if (type == StyleTypeVerseNumber) return false;
+          // Encounters any type of foot- or endnote markup: blocker.
+          if (type == StyleTypeFootEndNote) return false;
+        }
+      }
+    }
+    
+    // The input to check the road ahead for is an inline text opener, non-embedded, like "\add ".
+    if (input_type == StyleTypeInlineText) {
+      // If the input is embedded, declare the road ahead to be clear.
+      if (input_embedded) return true;
+      if (input_opener && !input_embedded) {
+        if (type == StyleTypeInlineText) {
+          if (embedded) {
+            // An embedded inline marker is OK: Road ahead is clear.
+            return true;
+          } else {
+            // It it encounters another non-embedded inline opening marker, that's a blocker.
+            if (opener) return false;
+            // If it finds a matching closing marker: OK.
+            if (input_marker == marker) {
+              if (!opener) return true;
+            }
+          }
+        }
+        // The inline text opener encounters a verse: blocker.
+        if (type == StyleTypeVerseNumber) return false;
+        // The inline text opener encounters a paragraph: blocker.
+        if (type == StyleTypeStartsParagraph) return false;
+      }
+    }
+    
+  }
+
+  // Nothing clearing the way was found, and if it reached the end of the chapter, that's a blocker.
+  if (end_chapter_reached) return false;
+  
+  // No blockers found: The road is clear.
+  return true;
 }
