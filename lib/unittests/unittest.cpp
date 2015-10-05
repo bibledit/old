@@ -62,7 +62,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  //test_database_notes (); refresh_sandbox (true); exit (0); // Todo
+  //test_database_check (); refresh_sandbox (true); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -129,7 +129,6 @@ int main (int argc, char **argv)
   test_styles_css ();
   test_filter_custom_css ();
   test_filter_diff ();
-  refresh_sandbox (true); exit (0); // Todo
   test_filter_abbreviations ();
   test_checksum_logic ();
   test_store_bible_data ();
