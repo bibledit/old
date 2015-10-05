@@ -110,11 +110,13 @@ string edit_index (void * webserver_request)
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
+  int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var editorChapterLoaded = '" + chapterLoaded + "';\n"
   "var editorChapterSaving = '" + chapterSaving + "';\n"
   "var editorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var editorWriteAccess = true;\n";
+  "var editorWriteAccess = true;\n"
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   view.set_variable ("script", script);
   
   
