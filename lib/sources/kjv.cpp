@@ -26,6 +26,18 @@
 #include <libxml/xmlreader.h>
 
 
+void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
+{
+  Database_Kjv database_kjv;
+  vector <string> lemmas = filter_string_explode (lemma, ' ');
+  for (auto strong : lemmas) {
+    if (strong.find ("strong") == string::npos) continue;
+    strong = filter_string_str_replace ("strong:", "", strong);
+    database_kjv.store (book, chapter, verse, strong, english);
+  }
+}
+
+
 // Parses the XML data from kjv.xml.
 // The parser is supposed to be ran only by the developers.
 // No memory is freed: It leaks a lot of memory.
@@ -38,6 +50,7 @@ void sources_kjv_parse ()
   int book = 0;
   int chapter = 0;
   int verse = 0;
+  bool within_verse = false;
   string lemma;
   string english;
 
@@ -64,6 +77,11 @@ void sources_kjv_parse ()
           char * sID = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "sID");
           if (sID) {
             verse++;
+            within_verse = true;
+          }
+          char * eID = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "eID");
+          if (eID) {
+            within_verse = false;
           }
         }
         if (element == "w") {
@@ -76,22 +94,17 @@ void sources_kjv_parse ()
       }
       case XML_READER_TYPE_TEXT:
       {
-        string value = (char *) xmlTextReaderValue (reader);
-        english = filter_string_trim (value);
+        string english = (char *) xmlTextReaderValue (reader);
+        if (within_verse) {
+          sources_kjv_store (book, chapter, verse, lemma, english);
+          lemma.clear ();
+        }
         break;
       }
       case XML_READER_TYPE_END_ELEMENT:
       {
         string element = (char *) xmlTextReaderName (reader);
         if (element == "w") {
-          vector <string> lemmas = filter_string_explode (lemma, ' ');
-          for (auto strong : lemmas) {
-            if (strong.find ("strong") == string::npos) continue;
-            strong = filter_string_str_replace ("strong:", "", strong);
-            database_kjv.store (book, chapter, verse, strong, english);
-          }
-          lemma.clear ();
-          english.clear ();
         }
         break;
       }
