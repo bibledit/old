@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
+#include <sqlite3.h>
 
 
 // Database resilience.
@@ -36,12 +37,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 const char * Database_Check::filename ()
 {
   return "check";
-}
-
-
-sqlite3 * Database_Check::connect ()
-{
-  return database_sqlite_connect (filename ());
 }
 
 

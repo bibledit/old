@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <sqlite3.h>
 #include <filter/passage.h>
 
 
@@ -53,7 +52,6 @@ public:
   void release (int id);
 private:
   const char * filename ();
-  sqlite3 * connect ();
 };
 
 
