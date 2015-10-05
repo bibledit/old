@@ -35,6 +35,9 @@ void sources_kjv_store (int book, int chapter, int verse, string lemma, string e
     strong = filter_string_str_replace ("strong:", "", strong);
     database_kjv.store (book, chapter, verse, strong, english);
   }
+  if (lemmas.empty ()) {
+    database_kjv.store (book, chapter, verse, "", english);
+  }
 }
 
 
