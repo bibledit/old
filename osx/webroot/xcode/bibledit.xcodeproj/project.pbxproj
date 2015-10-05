@@ -609,8 +609,6 @@
 		CAA4D1661A45A647003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAA4D1671A45A647003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D1681A45A647003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		CAA4D1721A45A647003ABA25 /* getmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = getmessage.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D1751A45A647003ABA25 /* setmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = setmessage.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D1821A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAA4D1831A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D1841A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1973,10 +1971,8 @@
 			children = (
 				CA06BDEA1A570E1900A051FF /* focus.cpp */,
 				CA06BDEB1A570E1900A051FF /* focus.h */,
-				CAA4D1721A45A647003ABA25 /* getmessage.php */,
 				CA4150281AB7651100C30DA5 /* notes.cpp */,
 				CA4150291AB7651100C30DA5 /* notes.h */,
-				CAA4D1751A45A647003ABA25 /* setmessage.php */,
 			);
 			name = ipc;
 			path = ../ipc;
