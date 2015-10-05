@@ -52,6 +52,7 @@ public:
   vector <Database_Check_Hit> getSuppressions ();
   void release (int id);
 private:
+  const char * filename ();
   sqlite3 * connect ();
 };
 

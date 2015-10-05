@@ -33,109 +33,107 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // before running setup.
 
 
+const char * Database_Check::filename ()
+{
+  return "check";
+}
+
+
 sqlite3 * Database_Check::connect ()
 {
-  return database_sqlite_connect ("check");
+  return database_sqlite_connect (filename ());
 }
 
 
 void Database_Check::create ()
 {
-  sqlite3 * db = connect ();
-  string sql = "CREATE TABLE IF NOT EXISTS output ("
-               " bible integer,"
-               " book integer,"
-               " chapter integer,"
-               " verse integer,"
-               " data text"
-               ");";
-  database_sqlite_exec (db, sql);
-  sql =        "CREATE TABLE IF NOT EXISTS suppress ("
-               " bible integer,"
-               " book integer,"
-               " chapter integer,"
-               " verse integer,"
-               " data text"
-               ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("CREATE TABLE IF NOT EXISTS output ("
+           " bible integer,"
+           " book integer,"
+           " chapter integer,"
+           " verse integer,"
+           " data text"
+           ");");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS suppress ("
+           " bible integer,"
+           " book integer,"
+           " chapter integer,"
+           " verse integer,"
+           " data text"
+           ");");
+  sql.execute ();
 }
 
 
 void Database_Check::optimize ()
 {
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM output;");
-  database_sqlite_exec (db, "VACUUM suppress;");
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("VACUUM output;");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("VACUUM suppress;");
+  sql.execute ();
 }
 
 
 void Database_Check::truncateOutput (string bible)
 {
-  sqlite3 * db = connect ();
+  SqliteDatabase sql (filename ());
   if (bible == "") {
-    database_sqlite_exec (db, "DELETE FROM output;");
+    sql.add ("DELETE FROM output;");
   } else {
     Database_Bibles database_bibles = Database_Bibles ();
     int bible_id = database_bibles.getID (bible);
-    SqliteSQL sql = SqliteSQL ();
     sql.add ("DELETE FROM output WHERE bible =");
     sql.add (bible_id);
     sql.add (";");
-    database_sqlite_exec (db, sql.sql);
   }
-  database_sqlite_disconnect (db);
+  sql.execute ();
 }
 
 
 void Database_Check::recordOutput (string bible, int book, int chapter, int verse, string data)
 {
+  SqliteDatabase sql (filename ());
   Database_Bibles database_bibles = Database_Bibles ();
   int bible_id = database_bibles.getID (bible);
   int count = 0;
-  sqlite3 * db = connect ();
   // Check whether this is a suppressed item.
   // If it was suppressed, do not record it.
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("SELECT count(*) FROM suppress WHERE bible =");
-    sql.add (bible_id);
-    sql.add ("AND book = ");
-    sql.add (book);
-    sql.add ("AND chapter = ");
-    sql.add (chapter);
-    sql.add ("AND verse = ");
-    sql.add (verse);
-    sql.add ("AND data = ");
-    sql.add (data);
-    sql.add (";");
-    sqlite3 * db = connect ();
-    vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-    database_sqlite_disconnect (db);
-    if (!result.empty ()) {
-      count = convert_to_int (result [0]);
-    }
+  sql.clear ();
+  sql.add ("SELECT count(*) FROM suppress WHERE bible =");
+  sql.add (bible_id);
+  sql.add ("AND book = ");
+  sql.add (book);
+  sql.add ("AND chapter = ");
+  sql.add (chapter);
+  sql.add ("AND verse = ");
+  sql.add (verse);
+  sql.add ("AND data = ");
+  sql.add (data);
+  sql.add (";");
+  vector <string> result = sql.query () ["count(*)"];
+  if (!result.empty ()) {
+    count = convert_to_int (result [0]);
   }
   if (count == 0) {
     // Check how often $data has been recorded already.
-    {
-      SqliteSQL sql = SqliteSQL ();
-      sql.add ("SELECT count(*) FROM output WHERE bible =");
-      sql.add (bible_id);
-      sql.add ("AND data = ");
-      sql.add (data);
-      sql.add (";");
-      sqlite3 * db = connect ();
-      vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-      database_sqlite_disconnect (db);
-      if (!result.empty ()) {
-        count = convert_to_int (result [0]);
-      }
+    sql.clear ();
+    sql.add ("SELECT count(*) FROM output WHERE bible =");
+    sql.add (bible_id);
+    sql.add ("AND data = ");
+    sql.add (data);
+    sql.add (";");
+    vector <string> result = sql.query () ["count(*)"];
+    if (!result.empty ()) {
+      count = convert_to_int (result [0]);
     }
     // Record the data no more than so often.
     if (count < 10) {
-      SqliteSQL sql = SqliteSQL ();
+      sql.clear ();
       sql.add ("INSERT INTO output VALUES (");
       sql.add (bible_id);
       sql.add (",");
@@ -147,7 +145,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
       sql.add (",");
       sql.add (data);
       sql.add (");");
-      database_sqlite_exec (db, sql.sql);
+      sql.execute ();
     }
     // Store message saying that no more of this messages will be stored.
     // This is for situations where the checks produce thousands and thousands of results.
@@ -156,7 +154,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     // due to excessive CPU usage during a long time.
     if (count == 9) {
       data.append (" (displaying no more of these)");
-      SqliteSQL sql = SqliteSQL ();
+      sql.clear ();
       sql.add ("INSERT INTO output VALUES (");
       sql.add (bible_id);
       sql.add (",");
@@ -168,20 +166,18 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
       sql.add (",");
       sql.add (data);
       sql.add (");");
-      database_sqlite_exec (db, sql.sql);
+      sql.execute ();
     }
   }
-  database_sqlite_disconnect (db);
 }
 
 
 vector <Database_Check_Hit> Database_Check::getHits ()
 {
   vector <Database_Check_Hit> hits;
-  string sql = "SELECT rowid, bible, book, chapter, verse, data FROM output;";
-  sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM output;");
+  map <string, vector <string> > result = sql.query ();
   vector <string> rowids = result ["rowid"];
   vector <string> bibles = result ["bible"];
   vector <string> books = result ["book"];
@@ -205,46 +201,36 @@ vector <Database_Check_Hit> Database_Check::getHits ()
 void Database_Check::approve (int id)
 {
   // The query moves all values, apart from the auto_increment id.
-  sqlite3 * db = connect ();
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO suppress (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM output WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM output WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("INSERT INTO suppress (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM output WHERE rowid =");
+  sql.add (id);
+  sql.add (";");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("DELETE FROM output WHERE rowid =");
+  sql.add (id);
+  sql.add (";");
+  sql.execute ();
 }
 
 
 void Database_Check::erase (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM output WHERE rowid =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  sql.execute ();
 }
 
 
 Passage Database_Check::getPassage (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT book, chapter, verse FROM output WHERE rowid =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  map <string, vector <string> > result = sql.query ();
   vector <string> books = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
@@ -258,11 +244,10 @@ Passage Database_Check::getPassage (int id)
 
 vector <Database_Check_Hit> Database_Check::getSuppressions ()
 {
+  SqliteDatabase sql (filename ());
   vector <Database_Check_Hit> hits;
-  string sql = "SELECT rowid, bible, book, chapter, verse, data FROM suppress;";
-  sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql);
-  database_sqlite_disconnect (db);
+  sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM suppress;");
+  map <string, vector <string> > result = sql.query ();
   vector <string> rowids = result ["rowid"];
   vector <string> bibles = result ["bible"];
   vector <string> books = result ["book"];
@@ -285,21 +270,15 @@ vector <Database_Check_Hit> Database_Check::getSuppressions ()
 
 void Database_Check::release (int id)
 {
-  sqlite3 * db = connect ();
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO output (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM suppress WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM suppress WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("INSERT INTO output (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM suppress WHERE rowid =");
+  sql.add (id);
+  sql.add (";");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("DELETE FROM suppress WHERE rowid =");
+  sql.add (id);
+  sql.add (";");
+  sql.execute ();
 }
 
