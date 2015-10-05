@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <database/modifications.h>
+#include <database/state.h>
 #include <config/globals.h>
 #include <config/logic.h>
 #include <filter/url.h>
@@ -60,8 +61,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_UNITTESTS
 
 
-void test_filters_test1 ()
+void test_filters_various1 ()
 {
+  refresh_sandbox (true);
   {
     // Filter_Roles.
     evaluate (__LINE__, __func__, 3, Filter_Roles::consultant ());
@@ -209,10 +211,11 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, "", bin2hex (bin));
     evaluate (__LINE__, __func__, bin, hex2bin (hex));
   }
+  refresh_sandbox (true);
 }
 
 
-void test_filters_test2 ()
+void test_filters_various2 ()
 {
   {
     // Test string modifiers.
@@ -265,7 +268,7 @@ void test_filters_test2 ()
 }
 
 
-void test_filters_test_usfm1 ()
+void test_filters_usfm2 ()
 {
   {
     string usfm =
@@ -408,7 +411,7 @@ void test_filters_test_usfm1 ()
 }
 
 
-void test_filters_test_usfm2 ()
+void test_filters_usfm3 ()
 {
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
@@ -451,7 +454,7 @@ void test_filters_test_usfm2 ()
 }
 
 
-void test_filters_usfm3 ()
+void test_filters_usfm1 ()
 {
   // Test the USFM filter functions.
   {
@@ -502,14 +505,14 @@ void test_filters_usfm3 ()
     evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
   {
-    string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "1jn.usfm"));
+    string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "92-1JNeng-web.usfm"));
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 6, (int)import.size());
   }
 }
 
 
-void test_filters_test5 ()
+void test_filters_usfm4 ()
 {
   {
     evaluate (__LINE__, __func__, "\\id ", usfm_get_opening_usfm ("id"));
@@ -629,7 +632,7 @@ void test_filters_test5 ()
 }
 
 
-void test_filters_test6 ()
+void test_filters_usfm5 ()
 {
   {
     // Test inserting empty notes
@@ -915,7 +918,7 @@ void test_filters_export2 ()
   }
 }
 
-void test_filters_test8 ()
+void test_html_text ()
 {
   // Test Html_Text paragraphs.
   {
@@ -1065,7 +1068,7 @@ void test_filters_test8 ()
 }
 
 
-void test_filters_test9 ()
+void test_filters_archive ()
 {
   // Prepare for testing the archive functions.  
   string file1 = "/tmp/testarchive1";
@@ -1169,8 +1172,9 @@ void test_filters_test9 ()
 }
 
 
-void test_filters_test10 ()
+void test_odf_text ()
 {
+  refresh_sandbox (true);
   string OdfTextTestDotOdt = "/tmp/OdfTextTest.odt";
   string Odt2TxtOutput = "/tmp/Odt2TxtOutput.txt";
   // Test Odf converter paragraphs.
@@ -1406,10 +1410,11 @@ void test_filters_test10 ()
   }
   filter_url_unlink (OdfTextTestDotOdt);
   filter_url_unlink (Odt2TxtOutput);
+  refresh_sandbox (true);
 }
 
 
-void test_filters_test11 ()
+void test_filter_text1 ()
 {
   string TextTestOdt  = "/tmp/TextTest.odt";
   string TextTestHtml = "/tmp/TextTest.html";
@@ -1617,8 +1622,8 @@ void test_filters_test11 ()
       "Text Matthew 2\n"
       "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
-    evaluate (__LINE__, __func__, {"Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \\ide XYZ", "Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}, filter_text.fallout);
-    evaluate (__LINE__, __func__, {"Matthew 2:0 Comment: \\rem Comment"}, filter_text.info);
+    evaluate (__LINE__, __func__, {"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}, filter_text.fallout);
+    evaluate (__LINE__, __func__, {"Genesis 0:0 Text encoding: \\ide XYZ", "Matthew 2:0 Comment: \\rem Comment"}, filter_text.info);
   }
   // Test transformation of verse numbers and text following.
   {
@@ -1697,8 +1702,9 @@ void test_filters_test11 ()
 }
 
 
-void test_filters_test12 ()
+void test_filter_text2 ()
 {
+  refresh_sandbox (true);
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
   string TextTestOdt  = "/tmp/TextTest.odt";
@@ -2056,11 +2062,13 @@ void test_filters_test12 ()
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
   filter_url_unlink (TextTestTxt);
+  refresh_sandbox (true);
 }
 
 
-void test_filters_test13 ()
+void test_filter_url1 ()
 {
+  refresh_sandbox (true);
   // Test unique filename.
   string filename = "/tmp/unique";
   filter_url_file_put_contents (filename, "");
@@ -2073,10 +2081,11 @@ void test_filters_test13 ()
   filter_url_unlink (filename);
   filter_url_unlink (filename1);
   filter_url_unlink (filename2);
+  refresh_sandbox (true);
 }
 
 
-void test_filters_test14 ()
+void test_filter_string_rand ()
 {
   int floor = 100000;
   int ceiling = 999999;
@@ -2088,7 +2097,7 @@ void test_filters_test14 ()
 }
 
 
-void test_filters_test15 ()
+void test_filter_passage1 ()
 {
   Passage passage = Passage ();
   evaluate (__LINE__, __func__, "", passage.bible);
@@ -2106,7 +2115,7 @@ void test_filters_test15 ()
 }
 
 
-void test_filters_passage1 ()
+void test_filter_passage2 ()
 {
   // Convert Passage to/from text.
   {
@@ -2240,7 +2249,7 @@ void test_filters_passage1 ()
 }
 
 
-void test_filters_passage2 ()
+void test_filter_passage3 ()
 {
   // InterpretBookOnlineBibleAbbreviations.
   {
@@ -2328,7 +2337,7 @@ void test_filters_passage2 ()
 }
 
 
-void test_filters_passage3 ()
+void test_filter_passage4 ()
 {
   // Sequence And Range None.
   {
@@ -2363,7 +2372,8 @@ void test_filters_passage3 ()
   // Test ordered books.
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
+    Database_State::create ();
     Database_Search database_search = Database_Search ();
     database_search.create ();
     
@@ -2532,39 +2542,6 @@ void test_replace ()
   evaluate (__LINE__, __func__, "ABXEFG", substr_replace ("ABCDEFG", "X", 2, 2));
   evaluate (__LINE__, __func__, "ABX", substr_replace ("ABCDEFG", "X", 2, 5));
   evaluate (__LINE__, __func__, "ABXG", substr_replace ("ABCDEFG", "X", 2, 4));
-}
-
-
-// Tests for the filters in the filter folder.
-void test_filters ()
-{
-  refresh_sandbox (true);
-  test_filters_test1 ();
-  test_filters_test2 ();
-  test_filters_usfm3 ();
-  test_filters_test_usfm1 ();
-  test_filters_test_usfm2 ();
-  test_filters_test5 ();
-  test_filters_test6 ();
-  test_filters_export1 ();
-  test_filters_export2 ();
-  test_filters_test8 ();
-  test_filters_test9 ();
-  test_filters_test10 ();
-  refresh_sandbox (true);
-  test_filters_test11 ();
-  refresh_sandbox (true);
-  test_filters_test12 ();
-  refresh_sandbox (true);
-  test_filters_test13 ();
-  test_filters_test14 ();
-  test_filters_test15 ();
-  test_filters_passage1 ();
-  test_filters_passage2 ();
-  test_filters_passage3 ();
-  test_email ();
-  test_stat ();
-  test_replace ();
 }
 
 
@@ -2897,6 +2874,7 @@ void test_filter_diff ()
     refresh_sandbox (true);
     Webserver_Request request;
     Database_Modifications database_modifications = Database_Modifications ();
+    Database_State::create ();
 
     request.database_search ()->create ();
     client_logic_enable_client (false);
