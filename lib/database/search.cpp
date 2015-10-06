@@ -47,7 +47,7 @@ sqlite3 * Database_Search::connect ()
 }
 
 
-void Database_Search::create () // Todo
+void Database_Search::create ()
 {
   // Searching in SQLite could use the FTS3 or FTS4 module.
   // This module is optional. 
