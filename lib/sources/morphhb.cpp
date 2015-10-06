@@ -84,6 +84,7 @@ void sources_morphhb_parse ()
     int verse;
     string lemma;
     bool in_note = false;
+    bool in_rdg = false;
     
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType (reader)) {
@@ -102,13 +103,17 @@ void sources_morphhb_parse ()
           if (element == "note") {
             in_note = true;
           }
+          if (element == "rdg") {
+            in_rdg = true;
+            database_morphhb.store (book, chapter, verse, "", "/");
+          }
           break;
         }
         case XML_READER_TYPE_TEXT:
         {
           if (chapter == 0) continue;
           if (verse == 0) continue;
-          if (in_note) continue;
+          if (!in_rdg) if (in_note) continue;
           string word = (char *) xmlTextReaderValue (reader);
           word = filter_string_str_replace ("/", "", word);
           database_morphhb.store (book, chapter, verse, lemma, word);
@@ -116,11 +121,21 @@ void sources_morphhb_parse ()
           word.clear ();
           break;
         }
+        case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
+        {
+          if (chapter == 0) continue;
+          if (verse == 0) continue;
+          if (!in_rdg) if (in_note) continue;
+          database_morphhb.store (book, chapter, verse, "", " ");
+        }
         case XML_READER_TYPE_END_ELEMENT:
         {
           string element = (char *) xmlTextReaderName (reader);
           if (element == "note") {
             in_note = false;
+          }
+          if (element == "rdg") {
+            in_rdg = false;
           }
           break;
         }
