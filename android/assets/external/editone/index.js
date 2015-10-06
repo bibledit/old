@@ -382,7 +382,7 @@ function oneverseScrollVerseIntoView ()
   var offset = element.offset ();
   var verseTop = offset.top;
   var viewportHeight = $(window).height ();
-  var scrollTo = verseTop - (viewportHeight / 2);
+  var scrollTo = verseTop - (viewportHeight / 2); // Todo
   $ ("body,html").animate ({ scrollTop: scrollTo }, 500);
 }
 

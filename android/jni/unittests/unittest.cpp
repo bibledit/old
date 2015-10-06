@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/styles.h>
 #include <database/search.h>
 #include <database/books.h>
+#include <database/state.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -37,224 +38,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <config.h>
 #include <libxml/parser.h>
-
-
-#ifdef HAVE_UNITTESTS
-
-
-// Tests for Database_Bibles.
-void test_database_bibles ()
-{
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    vector <string> standard;
-    vector <string> bibles = database_bibles.getBibles ();
-    evaluate (__LINE__, __func__, standard, bibles);
-  }
-  {
-    // Test whether optimizing works without errors.
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    int id = database_bibles.createBible ("phpunit");
-    if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
-    database_bibles.storeChapter ("phpunit", 2, 3, "a");
-    database_bibles.storeChapter ("phpunit", 2, 3, "b");
-    database_bibles.storeChapter ("phpunit", 2, 3, "c");
-    database_bibles.storeChapter ("phpunit", 2, 3, "d");
-    database_bibles.storeChapter ("phpunit", 2, 3, "e");
-    database_bibles.storeChapter ("phpunit", 2, 3, "f");
-    database_bibles.storeChapter ("phpunit", 2, 3, "g");
-    database_bibles.optimize ();
-    string usfm = database_bibles.getChapter ("phpunit", 2, 3);
-    evaluate (__LINE__, __func__, "g", usfm);
-  }
-  {
-    // Test whether optimizing removes files with 0 size.
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    int id = database_bibles.createBible ("phpunit");
-    if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
-    database_bibles.storeChapter ("phpunit", 2, 3, "a");
-    database_bibles.storeChapter ("phpunit", 2, 3, "b");
-    database_bibles.storeChapter ("phpunit", 2, 3, "c");
-    database_bibles.storeChapter ("phpunit", 2, 3, "d");
-    database_bibles.storeChapter ("phpunit", 2, 3, "e");
-    database_bibles.storeChapter ("phpunit", 2, 3, "f");
-    database_bibles.storeChapter ("phpunit", 2, 3, "");
-    string usfm = database_bibles.getChapter ("phpunit", 2, 3);
-    evaluate (__LINE__, __func__, "", usfm);
-    database_bibles.optimize ();
-    usfm = database_bibles.getChapter ("phpunit", 2, 3);
-    evaluate (__LINE__, __func__, "f", usfm);
-  }
-  // Test create / get / delete Bibles.
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-
-    int id = database_bibles.createBible ("phpunit");
-    evaluate (__LINE__, __func__, 1, id);
-    
-    vector <string> bibles = database_bibles.getBibles ();
-    vector <string> standard = {"phpunit"};
-    evaluate (__LINE__, __func__, standard, bibles);
-
-    id = database_bibles.getID ("phpunit2");
-    evaluate (__LINE__, __func__, 0, id);
-    
-    database_bibles.deleteBible ("phpunit");
-
-    id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 0, id);
-  }
-  // Test names / identifiers.
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-
-    int id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 0, id);
-
-    string bible = database_bibles.getName (0);
-    evaluate (__LINE__, __func__, "Unknown", bible);
-
-    id = database_bibles.createBible ("phpunit");
-    evaluate (__LINE__, __func__, 1, id);
-
-    id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 1, id);
-
-    bible = database_bibles.getName (1);
-    evaluate (__LINE__, __func__, "phpunit", bible);
-    
-    bible = database_bibles.getName (2);
-    evaluate (__LINE__, __func__, "Unknown", bible);
-    
-    database_bibles.setID ("phpunit", 10);
-    
-    id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 10, id);
-  }
-  // Test storeChapter / getChapter
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-
-    database_bibles.createBible ("phpunit");
-    string usfm = "\\c 1\n\\p\n\\v 1 Verse 1";
-    database_bibles.storeChapter ("phpunit", 2, 1, usfm);
-    string result = database_bibles.getChapter ("phpunit", 2, 1);
-    evaluate (__LINE__, __func__, usfm, result);
-    result = database_bibles.getChapter ("phpunit2", 2, 1);
-    evaluate (__LINE__, __func__, "", result);
-    result = database_bibles.getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, "", result);
-  }
-  // Test books
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-
-    database_bibles.createBible ("phpunit");
-    vector <int> books = database_bibles.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { }, books);
-
-    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
-    books = database_bibles.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { 1 }, books);
-
-    database_bibles.storeChapter ("phpunit", 2, 3, "\\c 0");
-    books = database_bibles.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { 1, 2 }, books);
-
-    database_bibles.deleteBook ("phpunit", 3);
-    books = database_bibles.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { 1, 2 }, books);
-
-    database_bibles.deleteBook ("phpunit", 1);
-    books = database_bibles.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { 2 }, books);
-
-    database_bibles.deleteBook ("phpunit2", 2);
-    books = database_bibles.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { 2 }, books);
-  }
-  // Test chapters ()
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-
-    database_bibles.createBible ("phpunit");
-    vector <int> chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate (__LINE__, __func__, { }, chapters);
- 
-    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
-    chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate (__LINE__, __func__, { 2 }, chapters);
-    
-    chapters = database_bibles.getChapters ("phpunit", 2);
-    evaluate (__LINE__, __func__, { }, chapters);
-
-    database_bibles.storeChapter ("phpunit", 1, 3, "\\c 1");
-    chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
-
-    database_bibles.deleteChapter ("phpunit", 3, 3);
-    chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
-
-    database_bibles.deleteChapter ("phpunit", 1, 2);
-    chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate (__LINE__, __func__, { 3 }, chapters);
-
-    database_bibles.deleteChapter ("phpunit", 1, 3);
-    chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate (__LINE__, __func__, { }, chapters);
-  }
-  // Test chapter IDs
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-
-    database_bibles.createBible ("phpunit");
-    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
-    int id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate (__LINE__, __func__, 100000001, id);
-    
-    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
-    id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate (__LINE__, __func__, 100000002, id);
-
-    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
-    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
-    id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate (__LINE__, __func__, 100000004, id);
-
-    database_bibles.storeChapter ("phpunit", 2, 3, "\\c 1");
-    id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate (__LINE__, __func__, 100000004, id);
-  }
-}
-
-
-#endif
 
 
 int main (int argc, char **argv) 
@@ -279,7 +62,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  // test_libraries_temporal (); test_editor_html2usfm (); test_editor_usfm2html (); test_editor_roundtrip ();  test_editor_roundtrip_verse (); refresh_sandbox (true); exit (0);
+  //test_database_confirm (); refresh_sandbox (true); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -287,7 +70,29 @@ int main (int argc, char **argv)
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  test_filters ();
+  test_filters_various1 ();
+  test_filters_various2 ();
+  test_filters_usfm1 ();
+  test_filters_usfm2 ();
+  test_filters_usfm3 ();
+  test_filters_usfm4 ();
+  test_filters_usfm5 ();
+  test_filters_export1 ();
+  test_filters_export2 ();
+  test_html_text ();
+  test_filters_archive ();
+  test_odf_text ();
+  test_filter_text1 ();
+  test_filter_text2 ();
+  test_filter_url1 ();
+  test_filter_string_rand ();
+  test_filter_passage1 ();
+  test_filter_passage2 ();
+  test_filter_passage3 ();
+  test_filter_passage4 ();
+  test_email ();
+  test_stat ();
+  test_replace ();
   test_database_users ();
   test_session_logic ();
   test_empty_folders ();

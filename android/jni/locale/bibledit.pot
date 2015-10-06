@@ -7064,10 +7064,16 @@ msgstr ""
 msgid "Please enter a font size between 50 and 300 percent"
 msgstr ""
 
-msgid "Font size for everything"
+msgid "General font size for everything"
 msgstr ""
 
-msgid "Font size for the menu"
+msgid "Relative font size for the menu"
+msgstr ""
+
+msgid "Relative font size for Hebrew resources"
+msgstr ""
+
+msgid "Relative font size for Greek resources"
 msgstr ""
 
 msgid "Download resource"

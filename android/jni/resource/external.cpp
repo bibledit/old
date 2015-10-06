@@ -815,6 +815,9 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   output += html;
 
   return output;
+
+  // In Job 24:14, it lacks a space between two words, making it hard to read.
+  // In Job 31:36, one letter is joined to the wrong word.
 }
 
 

@@ -192,6 +192,8 @@ public:
   string getRequestedHDefinition ();
   void setRequestedGDefinition (string value);
   string getRequestedGDefinition ();
+  void setVerticalCaretPosition (int position);
+  int getVerticalCaretPosition ();
 private:
   void * webserver_request;
   string file (string user, const char * key);

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/sqlite.h>
 #include <filter/date.h>
+#include <sqlite3.h>
 
 
 // Handles email and web page confirmations.
@@ -29,43 +30,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It does not contain essential information.
 
 
-Database_Confirm::Database_Confirm ()
+const char * Database_Confirm::filename ()
 {
-}
-
-
-Database_Confirm::~Database_Confirm ()
-{
-}
-
-
-sqlite3 * Database_Confirm::connect ()
-{
-  return database_sqlite_connect ("confirm");
+  return "confirm";
 }
 
 
 void Database_Confirm::create ()
 {
-  sqlite3 * db = connect ();
-  string sql = "CREATE TABLE IF NOT EXISTS confirm ("
-               " id integer,"
-               " query text,"
-               " timestamp integer,"
-               " mailto text,"
-               " subject text,"
-               " body text"
-               ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("CREATE TABLE IF NOT EXISTS confirm ("
+           " id integer,"
+           " query text,"
+           " timestamp integer,"
+           " mailto text,"
+           " subject text,"
+           " body text"
+           ");");
+  sql.execute ();
 }
 
 
 void Database_Confirm::optimize ()
 {
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM confirm;");
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("VACUUM confirm;");
+  sql.execute ();
 }
 
 
@@ -83,13 +73,11 @@ unsigned int Database_Confirm::getNewID ()
 // Returns true if the $id exists
 bool Database_Confirm::IDExists (unsigned int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> ids = database_sqlite_query (db, sql.sql) ["id"];
-  database_sqlite_disconnect (db);
+  vector <string> ids = sql.query () ["id"];
   return !ids.empty ();
 }
 
@@ -97,7 +85,7 @@ bool Database_Confirm::IDExists (unsigned int id)
 // stores a confirmation cycle
 void Database_Confirm::store (unsigned int id, string query, string to, string subject, string body)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("INSERT INTO confirm VALUES (");
   sql.add (id);
   sql.add (",");
@@ -111,9 +99,7 @@ void Database_Confirm::store (unsigned int id, string query, string to, string s
   sql.add (",");
   sql.add (body);
   sql.add (");");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  sql.execute ();
 }
 
 
@@ -121,9 +107,9 @@ void Database_Confirm::store (unsigned int id, string query, string to, string s
 // If it exists, it returns the ID number, else it returns 0.
 unsigned int Database_Confirm::searchID (string subject)
 {
-  sqlite3 * db = connect ();
-  vector <string> ids = database_sqlite_query (db, "SELECT id FROM confirm;") ["id"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT id FROM confirm;");
+  vector <string> ids = sql.query () ["id"];
   for (string id : ids) {
     size_t pos = subject.find (id);
     if (pos != string::npos) {
@@ -137,13 +123,11 @@ unsigned int Database_Confirm::searchID (string subject)
 // Returns the query for $id.
 string Database_Confirm::getQuery (unsigned int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT query FROM confirm WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["query"];
-  database_sqlite_disconnect (db);
+  vector <string> result = sql.query () ["query"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -152,13 +136,11 @@ string Database_Confirm::getQuery (unsigned int id)
 // Returns the To: address for $id.
 string Database_Confirm::getMailTo (unsigned int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT mailto FROM confirm WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["mailto"];
-  database_sqlite_disconnect (db);
+  vector <string> result = sql.query () ["mailto"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -167,13 +149,11 @@ string Database_Confirm::getMailTo (unsigned int id)
 // Returns the Subject: for $id.
 string Database_Confirm::getSubject (unsigned int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT subject FROM confirm WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["subject"];
-  database_sqlite_disconnect (db);
+  vector <string> result = sql.query () ["subject"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -182,13 +162,11 @@ string Database_Confirm::getSubject (unsigned int id)
 // Returns the email's body for $id.
 string Database_Confirm::getBody (unsigned int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT body FROM confirm WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["body"];
-  database_sqlite_disconnect (db);
+  vector <string> result = sql.query () ["body"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -197,13 +175,11 @@ string Database_Confirm::getBody (unsigned int id)
 // Deletes $id from the table.
 void Database_Confirm::erase (unsigned int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM confirm WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  sql.execute ();
 }
 
 
@@ -211,13 +187,9 @@ void Database_Confirm::trim ()
 {
   // Leave entries for no more than 30 days.
   unsigned int time = filter_date_seconds_since_epoch () - 2592000; 
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM confirm WHERE timestamp <");
   sql.add (time);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  sql.execute ();
 }
-
-

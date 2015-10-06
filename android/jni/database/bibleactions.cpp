@@ -22,58 +22,48 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
+#include <sqlite3.h>
 
 
-Database_BibleActions::Database_BibleActions ()
+const char * Database_BibleActions::filename ()
 {
-}
-
-
-Database_BibleActions::~Database_BibleActions ()
-{
-}
-
-
-sqlite3 * Database_BibleActions::connect ()
-{
-  return database_sqlite_connect ("bibleactions");
+  return "bibleactions";
 }
 
 
 void Database_BibleActions::create ()
 {
-  sqlite3 * db = connect ();
-  string sql = "CREATE TABLE IF NOT EXISTS bibleactions ("
-               " bible text,"
-               " book integer,"
-               " chapter integer,"
-               " usfm text"
-               ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("CREATE TABLE IF NOT EXISTS bibleactions ("
+           " bible text,"
+           " book integer,"
+           " chapter integer,"
+           " usfm text"
+           ");");
+  sql.execute ();
 }
 
 
 void Database_BibleActions::clear ()
 {
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "DROP TABLE IF EXISTS bibleactions;");
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("DROP TABLE IF EXISTS bibleactions;");
+  sql.execute ();
 }
 
 
 void Database_BibleActions::optimize ()
 {
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM bibleactions;");
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("VACUUM bibleactions;");
+  sql.execute ();
 }
 
 
 void Database_BibleActions::record (string bible, int book, int chapter, string usfm)
 {
   if (getUsfm (bible, book, chapter).empty ()) {
-    SqliteSQL sql = SqliteSQL ();
+    SqliteDatabase sql (filename ());
     sql.add ("INSERT INTO bibleactions VALUES (");
     sql.add (bible);
     sql.add (",");
@@ -83,31 +73,27 @@ void Database_BibleActions::record (string bible, int book, int chapter, string 
     sql.add (",");
     sql.add (usfm);
     sql.add (");");
-    sqlite3 * db = connect ();
-    database_sqlite_exec (db, sql.sql);
-    database_sqlite_disconnect (db);
+    sql.execute ();
   }
 }
 
 
 vector <string> Database_BibleActions::getBibles ()
 {
-  sqlite3 * db = connect ();
-  vector <string> notes = database_sqlite_query (db, "SELECT DISTINCT bible FROM bibleactions ORDER BY bible;")["bible"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT DISTINCT bible FROM bibleactions ORDER BY bible;");
+  vector <string> notes = sql.query ()["bible"];
   return notes;
 }
 
 
 vector <int> Database_BibleActions::getBooks (string bible)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT book FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("ORDER BY book;");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql)["book"];
-  database_sqlite_disconnect (db);
+  vector <string> result = sql.query ()["book"];
   vector <int> books;
   for (auto book : result) books.push_back (convert_to_int (book));
   return books;
@@ -116,15 +102,13 @@ vector <int> Database_BibleActions::getBooks (string bible)
 
 vector <int> Database_BibleActions::getChapters (string bible, int book)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT chapter FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
   sql.add (book);
   sql.add ("ORDER BY chapter;");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql)["chapter"];
-  database_sqlite_disconnect (db);
+  vector <string> result = sql.query ()["chapter"];
   vector <int> chapters;
   for (auto chapter : result) chapters.push_back (convert_to_int (chapter));
   return chapters;
@@ -133,7 +117,7 @@ vector <int> Database_BibleActions::getChapters (string bible, int book)
 
 string Database_BibleActions::getUsfm (string bible, int book, int chapter)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("SELECT usfm FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
@@ -141,9 +125,7 @@ string Database_BibleActions::getUsfm (string bible, int book, int chapter)
   sql.add ("AND chapter =");
   sql.add (chapter);
   sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql)["usfm"];
-  database_sqlite_disconnect (db);
+  vector <string> result = sql.query ()["usfm"];
   for (auto usfm : result) return usfm;
   return "";
 }
@@ -151,7 +133,7 @@ string Database_BibleActions::getUsfm (string bible, int book, int chapter)
 
 void Database_BibleActions::erase (string bible, int book, int chapter)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
@@ -159,8 +141,6 @@ void Database_BibleActions::erase (string bible, int book, int chapter)
   sql.add ("AND chapter =");
   sql.add (chapter);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  sql.execute ();
 }
  

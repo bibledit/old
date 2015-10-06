@@ -129,6 +129,23 @@ string personalize_index (void * webserver_request)
   view.set_variable ("fontsizegreek", convert_to_string (request->database_config_user ()->getGreekFontSize ()));
   
   
+  // Vertical caret position in chapter editors.
+  if (request->query.count ("caretposition")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a caret position 20 and 80 percent"), convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()), "caretposition", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("caretposition")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 20) && (value <= 80)) {
+      request->database_config_user ()->setVerticalCaretPosition (value);
+    } else {
+      error = translate ("Incorrect caret position in percents");
+    }
+  }
+  view.set_variable ("caretposition", convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()));
+  
+  
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("personalize", "index");

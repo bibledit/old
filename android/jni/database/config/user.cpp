@@ -1038,3 +1038,13 @@ string Database_Config_User::getRequestedGDefinition ()
 {
   return getValue ("requested-g-def", "");
 }
+
+
+int Database_Config_User::getVerticalCaretPosition ()
+{
+  return getIValue ("vertical-caret-position", 50);
+}
+void Database_Config_User::setVerticalCaretPosition (int position)
+{
+  setIValue ("vertical-caret-position", position);
+}

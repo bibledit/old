@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <sqlite3.h>
 #include <filter/passage.h>
 
 
@@ -52,7 +51,7 @@ public:
   vector <Database_Check_Hit> getSuppressions ();
   void release (int id);
 private:
-  sqlite3 * connect ();
+  const char * filename ();
 };
 
 
