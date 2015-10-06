@@ -187,8 +187,10 @@ void demo_clean_data ()
   
   
   // Set and/or trim resources to display.
+  // Too many resources crash the demo, so limit the amount.
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources = false;
+  if (resources.size () > 25) reset_resources = true;
   if (!in_array ((string) "Bibledit Sample Bible", resources)) reset_resources = true;
   if (!in_array ((string) "Violet Divider", resources)) reset_resources = true;
   if (!in_array ((string) "Biblehub Interlinear", resources)) reset_resources = true;

@@ -101,7 +101,6 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
       string id = "lexicontxt" + prefix;
       html.append ("<div id=\"" + id + "\">\n");
       for (size_t i = 0; i < rowids.size (); i++) {
-        if (i) html.append (" ");
         int rowid = rowids[i];
         string english = database_kjv.english (rowid);
         string link = "<a href=\"" KJV_LEXICON_PREFIX + convert_to_string (rowid) + "\">" + english + "</a>";
