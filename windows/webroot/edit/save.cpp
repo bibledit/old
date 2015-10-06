@@ -155,11 +155,11 @@ string edit_save (void * webserver_request)
   html = html2xml (html);
   html = filter_string_str_replace (" ", "", html);
   html = filter_string_str_replace ("&nbsp;", "", html);
-  html = filter_string_str_replace ("class=\"\"", "", html);
+  filter_string_replace_between (html, "<", ">", "");
   converted_html = html2xml (converted_html);
   converted_html = filter_string_str_replace (" ", "", converted_html);
   converted_html = filter_string_str_replace ("&nbsp;", "", converted_html);
-  converted_html = filter_string_str_replace ("class=\"\"", "", converted_html);
+  filter_string_replace_between (converted_html, "<", ">", "");
   // If round trip conversion differs, send a known string to the browser,
   // to signal the browser to reload the reformatted chapter.
   if (html != converted_html) return "Reformat";

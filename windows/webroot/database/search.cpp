@@ -37,16 +37,6 @@ Suggestion: Improved searching on bible and notes, also using concepts like 'nea
 */
 
 
-Database_Search::Database_Search ()
-{
-}
-
-
-Database_Search::~Database_Search ()
-{
-}
-
-
 sqlite3 * Database_Search::connect ()
 {
   sqlite3 * db = database_sqlite_connect ("search");
@@ -57,7 +47,7 @@ sqlite3 * Database_Search::connect ()
 }
 
 
-void Database_Search::create ()
+void Database_Search::create () // Todo
 {
   // Searching in SQLite could use the FTS3 or FTS4 module.
   // This module is optional. 
@@ -76,7 +66,12 @@ void Database_Search::create ()
                "plainlower text"
                ");";
   database_sqlite_exec (db, sql);
-  sql = "CREATE INDEX IF NOT EXISTS speedup ON bibles (bible, book, chapter)";
+  // No index: Saving will be faster on low power devices.
+  // Since a translator usually saves more frequently than searching,
+  // the database is optimized for saving, not for searching.
+  // sql = "CREATE INDEX IF NOT EXISTS speedup ON bibles (bible, book, chapter)";
+  // database_sqlite_exec (db, sql);
+  sql = "DROP INDEX IF EXISTS speedup";
   database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }

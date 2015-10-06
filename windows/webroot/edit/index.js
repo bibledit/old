@@ -42,7 +42,7 @@ $ (document).ready (function ()
   $ (window).on ("keydown", editorWindowKeyHandler);
 
   $ (window).scroll (function () {
-    $ ('#editorinnerheader').toggleClass('editorheaderscroll', $ (window).scrollTop () > $ ('#editorheader').offset ().top);
+    editorToolbarScrollingTimerStart ();
   });
   
   positionCaretViaAjax ();
@@ -561,7 +561,8 @@ function editorScrollVerseIntoView ()
           var offset = element.offset ();
           var verseTop = offset.top;
           var viewportHeight = $(window).height ();
-          var scrollTo = verseTop - (viewportHeight / 2);
+          var scrollTo = verseTop - (viewportHeight * verticalCaretPosition / 100);
+            console.log (verticalCaretPosition); // Todo
           var currentScrollTop = $ (document).scrollTop ();
           var lowerBoundary = currentScrollTop - (viewportHeight / 10);
           var upperBoundary = currentScrollTop + (viewportHeight / 10);
@@ -902,4 +903,26 @@ function editorPositioningRun ()
   }
 }
 
+
+
+// Keeping the editor toolbar in view.
+
+
+
+var editorToolbarScrollingTimerId;
+
+
+function editorToolbarScrollingTimerStart ()
+{
+  if (editorToolbarScrollingTimerId) clearTimeout (editorToolbarScrollingTimerId);
+  editorToolbarScrollingTimerId = setTimeout (editorToolbarScrollingRun, 200);
+}
+
+
+// The reason for scrolling the editor toolbar via a timer is
+// so it does not interfere with scrolling the window to bring the focused verse into view.
+function editorToolbarScrollingRun ()
+{
+  $ ('#editorinnerheader').toggleClass('editorheaderscroll', $ (window).scrollTop () > $ ('#editorheader').offset ().top);
+}
 

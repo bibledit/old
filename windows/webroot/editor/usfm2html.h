@@ -82,6 +82,8 @@ private:
   void addNoteText (string text);
   void closeCurrentNote ();
   void addLink (xmlNodePtr domNode, string reference, string identifier, string style, string text);
+  
+  bool roadIsClear ();
 };
 
 

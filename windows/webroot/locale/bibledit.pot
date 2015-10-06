@@ -7064,10 +7064,25 @@ msgstr ""
 msgid "Please enter a font size between 50 and 300 percent"
 msgstr ""
 
-msgid "Font size for everything"
+msgid "Please enter a caret position 20 and 80 percent"
 msgstr ""
 
-msgid "Font size for the menu"
+msgid "Incorrect caret position in percents"
+msgstr ""
+
+msgid "General font size for everything"
+msgstr ""
+
+msgid "Relative font size for the menu"
+msgstr ""
+
+msgid "Relative font size for Hebrew resources"
+msgstr ""
+
+msgid "Relative font size for Greek resources"
+msgstr ""
+
+msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
 msgid "Download resource"

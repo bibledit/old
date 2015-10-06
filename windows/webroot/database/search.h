@@ -29,8 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Search
 {
 public:
-  Database_Search ();
-  ~Database_Search ();
   void create ();
   void optimize ();
   bool checkup (bool recreate = false);

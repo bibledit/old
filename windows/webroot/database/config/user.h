@@ -176,6 +176,10 @@ public:
   int getGeneralFontSize ();
   void setMenuFontSize (int size);
   int getMenuFontSize ();
+  void setHebrewFontSize (int size);
+  int getHebrewFontSize ();
+  void setGreekFontSize (int size);
+  int getGreekFontSize ();
   void setRequestedEtcbc4Definition (string value);
   string getRequestedEtcbc4Definition ();
   void setRequestedKjvDefinition (string value);
@@ -188,6 +192,8 @@ public:
   string getRequestedHDefinition ();
   void setRequestedGDefinition (string value);
   string getRequestedGDefinition ();
+  void setVerticalCaretPosition (int position);
+  int getVerticalCaretPosition ();
 private:
   void * webserver_request;
   string file (string user, const char * key);

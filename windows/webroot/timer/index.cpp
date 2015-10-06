@@ -73,7 +73,7 @@ void timer_index ()
 
       // Every second: Deal with queued and/or active tasks.
       tasks_run_check ();
-
+      
       // Run the part below every so many seconds.
       int fraction = second / 5;
       if (fraction != previous_fraction) {
@@ -201,17 +201,15 @@ void timer_index ()
           tasks_logic_queue (NOTESSTATISTICS);
         }
       }
-      
-      // Refresh SWORD module list.
-      if ((!client) && (hour == 3) && (minute == 5)) {
-        Database_Logs::log ("Weekday: " + convert_to_string (weekday));
-        if (weekday == 1) {
+
+      // Update SWORD stuff once a week.
+      if (weekday == 1) {
+        // Refresh module list.
+        if ((!client) && (hour == 3) && (minute == 5)) {
           tasks_logic_queue (REFRESHSWORDMODULES);
         }
-      }
-      // Update installed SWORD modules, shortly after the module list has been refreshed.
-      if ((!client) && (hour == 3) && (minute == 15)) {
-        if (weekday == 1) {
+        // Update installed SWORD modules, shortly after the module list has been refreshed.
+        if ((!client) && (hour == 3) && (minute == 15)) {
           tasks_logic_queue (UPDATEALLSWORDMODULES);
         }
       }
