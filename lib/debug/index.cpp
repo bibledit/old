@@ -66,14 +66,12 @@ string debug_index (void * webserver_request)
   }
   
   if (debug == "parsekjv") {
-    //
-    sources_kjv_parse (); // Todo
+    // sources_kjv_parse ();
     view.set_variable ("success", "Task disabled");
   }
   
   if (debug == "parsemorphhb") {
-    //
-    sources_morphhb_parse (); // Todo
+    // sources_morphhb_parse ();
     view.set_variable ("success", "Task disabled");
   }
 
