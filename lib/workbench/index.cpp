@@ -59,7 +59,7 @@ string workbench_index (void * webserver_request)
   string page;
 
   
-  Assets_Header header = Assets_Header (translate("Workbench"), request);
+  Assets_Header header = Assets_Header (translate("Desktop"), request);
   header.setNavigator ();
   page = header.run ();
   

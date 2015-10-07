@@ -120,7 +120,7 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   if (bible_edit_menu ()) menu->push_back ( { "", "",  translate ("Edit"), bible_edit_menu () } );
   if (search_index_acl (request)) menu->push_back ( { "", search_index_url (), translate ("Search"), NULL } );
-  if (bible_workbench_menu ()) menu->push_back ( { "", "", translate ("Workbench"), bible_workbench_menu () } );
+  if (bible_workbench_menu ()) menu->push_back ( { "", "", translate ("Desktops"), bible_workbench_menu () } );
   if (checks_index_acl (request)) menu->push_back ( { "", checks_index_url (), translate ("Checks"), bible_checks_menu () } );
   if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), translate ("Bibles"), NULL} );
   if (menu->size ()) return menu;
