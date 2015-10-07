@@ -28,6 +28,7 @@
 #include <locale/translate.h>
 #include <sword/logic.h>
 #include <demo/logic.h>
+#include <resource/external.h>
 
 
 string resource_index_url ()
@@ -63,7 +64,8 @@ string resource_index (void * webserver_request)
     resources = {
       demo_sample_bible_name (),
       "Biblehub Interlinear",
-      "NET Bible",
+      resource_external_net_bible_name (),
+      "Yellow Divider",
       "Hebrew (Open Scriptures)",
       "Greek (SBL)"
     };

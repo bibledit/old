@@ -29,6 +29,7 @@ string resource_external_versification (string name);
 string resource_external_mapping (string name);
 string resource_external_get (string name, int book, int chapter, int verse);
 string resource_external_studylight_code ();
+const char * resource_external_net_bible_name ();
 
 
 #endif

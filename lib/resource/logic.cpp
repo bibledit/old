@@ -158,17 +158,9 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
       if (database_offlineresources.exists (resource, book, chapter, verse)) {
         // Use offline cached copy.
         html.append (database_offlineresources.get (resource, book, chapter, verse));
-      } else if (config_logic_client_prepared ()) {
-        // Client gives info to the user.
-        html = translate ("Cache this resource in Bibledit Cloud to make it available here.");
-        // It would be fine if the client could download the external resource.
-        // But to do that, the client needs the cURL library.
-        // And that library has not yet been compiled for all OSes Bibledit runs on.
-        // One way to overcome this problem would be that a client requests a server
-        // to fetch an external resource on its behalf,
-        // and then returns the filtered result to the client.
       } else {
-        // Server: Fetch it from the web.
+        // The server fetches it from the web.
+        // A client does that too, or via Bibledit Cloud.
         html.append (resource_external_get (resource, book, chapter, verse));
       }
     } else if (isImage) {

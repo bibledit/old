@@ -25,6 +25,7 @@
 
 
 void sendreceive_resources ();
+string sendreceive_resources_get (string resource, int book, int chapter, int verse);
 
 
 #endif
