@@ -127,11 +127,11 @@ string sword_logic_module_list_path ()
 // [CrossWire] *[Shona] (1.1) - Shona Bible
 string sword_logic_get_source (string line)
 {
-  if (line.length () > 10) {
-    line.erase (0, 1);
-    size_t pos = line.find ("]");
-    if (pos != string::npos) line.erase (pos);
-  }
+  if (line.length () < 10) return "";
+  line.erase (0, 1);
+  size_t pos = line.find ("]");
+  if (pos == string::npos) return "";
+  line.erase (pos);
   return line;
 }
 
@@ -140,15 +140,15 @@ string sword_logic_get_source (string line)
 // [CrossWire] *[Shona] (1.1) - Shona Bible
 string sword_logic_get_remote_module (string line)
 {
-  if (line.length () > 10) {
-    line.erase (0, 2);
-  }
-  if (line.length () > 10) {
-    size_t pos = line.find ("[");
-    if (pos != string::npos) line.erase (0, pos + 1);
-    pos = line.find ("]");
-    if (pos != string::npos) line.erase (pos);
-  }
+  if (line.length () < 10) return "";
+  line.erase (0, 2);
+  if (line.length () < 10) return "";
+  size_t pos = line.find ("[");
+  if (pos == string::npos) return "";
+  line.erase (0, pos + 1);
+  pos = line.find ("]");
+  if (pos == string::npos) return "";
+  line.erase (pos);
   return line;
 }
 

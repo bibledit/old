@@ -98,7 +98,7 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
 
   // Possible SWORD details.
   string sword_module = sword_logic_get_remote_module (resource);
-  string sword_source = sword_logic_get_installed_module (resource);
+  string sword_source = sword_logic_get_source (resource);
   
   // Determine the type of the current resource.
   bool isBible = in_array (resource, bibles);
