@@ -60,6 +60,9 @@ string index_index (void * webserver_request)
   vector <string> menublock;
   if (request->session_logic ()->loggedIn ()) {
     menublock.push_back ("<p>" + translate ("What would you like to do?") + "</p>");
+    if (workbench_index_acl (request)) {
+      menublock.push_back ("<p><a href=\"/" + workbench_index_url () + "\">" + translate ("Open last used desktop") + "</a></p>");
+    }
     if (edit_index_acl (request)) {
       menublock.push_back ("<p><a href=\"/" + edit_index_url () + "\">" + translate ("Edit Bible text") + "</a></p>");
     }
