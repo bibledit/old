@@ -6400,7 +6400,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-msgid "Workbench"
+msgid "Desktops"
 msgstr ""
 
 msgid "Visual chapter"
@@ -7304,9 +7304,6 @@ msgid "Delete this image."
 msgstr ""
 
 msgid "organize"
-msgstr ""
-
-msgid "Cache this resource in Bibledit Cloud to make it available here."
 msgstr ""
 
 msgid "USFM Resources"
@@ -8739,6 +8736,9 @@ msgid "It will overwrite whatever was there before."
 msgstr ""
 
 msgid "chapters"
+msgstr ""
+
+msgid "Desktop"
 msgstr ""
 
 msgid "Workbenches"
