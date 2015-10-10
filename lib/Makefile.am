@@ -31,8 +31,6 @@ libbibledit_a_SOURCES = \
 	index/listing.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
-	menu/main.cpp \
-	menu/user.cpp \
 	menu/index.cpp \
 	locale/translate.cpp \
 	locale/logic.cpp \

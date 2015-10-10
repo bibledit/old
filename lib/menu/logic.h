@@ -27,5 +27,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 string menu_logic_href (string href);
 string menu_logic_click (string item);
 
+string menu_logic_create_item (string href, string text, bool history);
+
+string menu_logic_main_categories (void * webserver_request);
+string menu_logic_translate_category (void * webserver_request);
+string menu_logic_search_category (void * webserver_request);
+string menu_logic_tools_category (void * webserver_request);
+string menu_logic_settings_category (void * webserver_request);
+string menu_logic_help_category (void * webserver_request);
+
 
 #endif

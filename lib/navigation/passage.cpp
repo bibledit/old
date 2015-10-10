@@ -54,21 +54,21 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   string fragment;
   
   // Links to go back and forward are grayed out or active depending on available passages to go to.
-  fragment.append ("<li>");
+  fragment.append ("<span>");
   if (database_navigation.previousExists (user)) {
     fragment.append ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
   } else {
     fragment.append ("<span class=\"grayedout\">↶</span>");
   }
-  fragment.append ("</li>");
-  fragment.append ("<li>");
+  fragment.append ("</span>");
+  fragment.append ("<span>");
   fragment.append (" ");
   if (database_navigation.nextExists (user)) {
     fragment.append ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
   } else {
     fragment.append ("<span class=\"grayedout\">↷</span>");
   }
-  fragment.append ("</li>");
+  fragment.append ("</span>");
   fragment.append ("\n");
   
   int book = Ipc_Focus::getBook (request);
@@ -85,7 +85,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   string bookName = Database_Books::getEnglishFromId (book);
 
-  fragment.append ("<li><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></li>");
+  fragment.append ("<span><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></span>");
   
   int chapter = Ipc_Focus::getChapter (request);
   
@@ -99,7 +99,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     }
   }
 
-  fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></li>");
+  fragment.append ("<span><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></span>");
   
   int verse = Ipc_Focus::getVerse (request);
   
@@ -114,11 +114,11 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     }
   }
   
-  fragment.append ("<li><a id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></li>");
+  fragment.append ("<span><a id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></span>");
   
-  fragment.append ("<li><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></li>");
+  fragment.append ("<span><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></span>");
 
-  fragment.append ("<li><a id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></li>");
+  fragment.append ("<span><a id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></span>");
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
@@ -152,8 +152,8 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
   html.append ("</span>");
 
-  html.insert (0, "<li>");
-  html.append ("</li>");
+  html.insert (0, "<div>");
+  html.append ("</div>");
   
   return html;
 }
@@ -182,8 +182,8 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
   html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
   html.append ("</span>");
 
-  html.insert (0, "<li>");
-  html.append ("</li>");
+  html.insert (0, "<div>");
+  html.append ("</div>");
   
   return html;
 }
@@ -211,8 +211,8 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
   html.insert (0, "<span id=\"applyverse\">" + translate ("Select verse"));
   html.append ("</span>");
 
-  html.insert (0, "<li>");
-  html.append ("</li>");
+  html.insert (0, "<div>");
+  html.append ("</div>");
   
   return html;
 }

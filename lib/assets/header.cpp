@@ -21,12 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/globals.h>
-#include <menu/main.h>
-#include <menu/user.h>
 #include <locale/translate.h>
 #include <config/logic.h>
 #include <access/bible.h>
 #include <navigation/passage.h>
+#include <menu/logic.h>
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
@@ -132,11 +131,27 @@ string Assets_Header::run ()
   
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
-    Menu_Main menu_main = Menu_Main (webserver_request);
-    view->set_variable ("mainmenu", menu_main.create ());
+    
+    string menublock;
+    string item = request->query ["item"];
+    if (item == "main") {
+      menublock = menu_logic_main_categories (webserver_request);
+    } else if (item == "translate") {
+      menublock = menu_logic_translate_category (webserver_request);
+    } else if (item == "search") {
+      menublock = menu_logic_search_category (webserver_request);
+    } else if (item == "tools") {
+      menublock = menu_logic_tools_category (webserver_request);
+    } else if (item == "settings") {
+      menublock = menu_logic_settings_category (webserver_request);
+    } else if (item == "help") {
+      menublock = menu_logic_help_category (webserver_request);
+    }
+    view->set_variable ("mainmenu", menublock); // Todo
+    
     view->enable_zone ("user_full");
-    Menu_User menu_user = Menu_User (webserver_request);
-    view->set_variable ("usermenu", menu_user.create (loginrequest));
+    //Menu_User menu_user = Menu_User (webserver_request);
+    //view->set_variable ("usermenu", menu_user.create (loginrequest));
     if (displayNavigator) {
       view->enable_zone ("display_navigator");
       string bible = access_bible_clamp (request, request->database_config_user()->getBible ());

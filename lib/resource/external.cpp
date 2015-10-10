@@ -683,7 +683,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   //html = filter_string_str_replace ("height=\"165\"", "", html);
   html = filter_string_str_replace ("height=\"160\"", "", html);
   html = filter_string_str_replace ("height=\"145\"", "", html);
-  html = filter_string_str_replace ("&nbsp;&nbsp;", "&nbsp;", html);
+  html = filter_string_str_replace (non_breaking_space () + non_breaking_space (), non_breaking_space (), html);
   
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.

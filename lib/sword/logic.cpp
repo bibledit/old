@@ -427,8 +427,8 @@ void sword_logic_trigger_cache (string source, string module)
 }
 
 
-// Test saying that the Cloud will install the requested SWORD module.
+// Text saying that the Cloud will install the requested SWORD module.
 string sword_logic_installing_module_text ()
 {
-  return "The requested SWORD module is not yet installed. Bibledit Cloud will install it shortly. Please check after a few minutes.";
+  return "The requested SWORD module is not yet installed. Bibledit Cloud will install it shortly. Please check back after a few minutes.";
 }
