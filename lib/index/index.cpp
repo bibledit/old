@@ -50,26 +50,27 @@ string index_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  // When not logged in, forward to the login page. Todo
+  Assets_Header header = Assets_Header ("Bibledit", webserver_request);
+  
+  // When not logged in, forward to the login page.
   if (request->session_logic ()->currentUser ().empty ()) {
     // html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
     // convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login")
     redirect_browser (request, session_login_url ());
     return "";
   }
-  
 
+  // After a delay, the demo forwards to a set active workbench, when there's no active menu.
+  if (config_logic_demo_enabled ()) {
+    if (request->query.empty ()) {
+      header.refresh (5, "/" + workbench_index_url ());
+    }
+  }
+  
   // Normally a page does not show the extended main menu.
   // But the home page of Bibledit shows the main menu.
   if (request->query.count ("item") == 0) {
     request->query ["item"] = "main";
-  }
-
-  Assets_Header header = Assets_Header ("Bibledit", webserver_request);
-  
-  // After a delay, the demo forwards to a set active workbench.
-  if (config_logic_demo_enabled ()) {
-    header.refresh (5, "/" + workbench_index_url ());
   }
 
   string page = header.run ();
