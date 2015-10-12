@@ -171,12 +171,6 @@ string menu_logic_main_categories (void * webserver_request)
     html.push_back (menu_logic_create_item ("help", menu_logic_help_text (), false));
   }
 
-  string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  if (username.empty ()) {
-    html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
-    // convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login")
-  }
-  
   return filter_string_implode (html, "\n");
 }
 

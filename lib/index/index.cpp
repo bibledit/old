@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <locale/translate.h>
 #include <edit/index.h>
 #include <notes/index.h>
@@ -30,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/changes.h>
 #include <workbench/index.h>
 #include <config/logic.h>
+#include <session/login.h>
 
 
 const char * index_index_url ()
@@ -48,6 +50,15 @@ string index_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
+  // When not logged in, forward to the login page. Todo
+  if (request->session_logic ()->currentUser ().empty ()) {
+    // html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
+    // convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login")
+    redirect_browser (request, session_login_url ());
+    return "";
+  }
+  
+
   // Normally a page does not show the extended main menu.
   // But the home page of Bibledit shows the main menu.
   if (request->query.count ("item") == 0) {
