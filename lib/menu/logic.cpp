@@ -116,29 +116,59 @@ string menu_logic_create_item (string href, string text, bool history)
 }
 
 
+string menu_logic_translate_text ()
+{
+  return translate ("Translate");
+}
+
+
+string menu_logic_search_text ()
+{
+  return translate ("Search");
+}
+
+
+string menu_logic_tools_text ()
+{
+  return translate ("Tools");
+}
+
+
+string menu_logic_settings_text ()
+{
+  return translate ("Settings");
+}
+
+
+string menu_logic_help_text ()
+{
+  return translate ("Help");
+}
+
+
 // Returns the html for the main menu categories.
 string menu_logic_main_categories (void * webserver_request)
 {
   vector <string> html;
 
   if (!menu_logic_translate_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("translate", translate ("Translate"), false));
+    html.push_back (menu_logic_create_item ("translate", menu_logic_translate_text (), false));
   }
   
   if (!menu_logic_search_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("search", translate ("Search"), false));
+    html.push_back (menu_logic_create_item ("search", menu_logic_search_text (), false));
   }
 
   if (!menu_logic_tools_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("tools", translate ("Tools"), false));
+    html.push_back (menu_logic_create_item ("tools", menu_logic_tools_text (), false));
   }
 
   if (!menu_logic_settings_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("settings", translate ("Settings"), false));
+    html.push_back (menu_logic_create_item ("settings", menu_logic_settings_text (), false));
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("help", translate ("Help"), false));
+    html.push_back (menu_logic_create_item ("help", menu_logic_help_text (), false));
   }
 
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -208,6 +238,10 @@ string menu_logic_translate_category (void * webserver_request)
   if (index_listing_acl (webserver_request, "exports")) {
     html.push_back (menu_logic_create_item (index_listing_url ("exports"), translate ("Exports"), true));
   }
+  
+  if (!html.empty ()) {
+    html.insert (html.begin (), menu_logic_translate_text () + ": ");
+  }
 
   return filter_string_implode (html, "\n");
 }
@@ -219,6 +253,10 @@ string menu_logic_search_category (void * webserver_request)
 
   if (search_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (search_index_url (), translate ("Search"), true));
+  }
+  
+  if (!html.empty ()) {
+    html.insert (html.begin (), menu_logic_search_text () + ": ");
   }
   
   return filter_string_implode (html, "\n");
@@ -276,6 +314,10 @@ string menu_logic_tools_category (void * webserver_request)
     html.push_back (menu_logic_create_item (manage_exports_url (), translate ("Export Bibles"), true));
   }
 
+  if (!html.empty ()) {
+    html.insert (html.begin (), menu_logic_tools_text () + ": ");
+  }
+  
   return filter_string_implode (html, "\n");
 }
 
@@ -421,6 +463,10 @@ string menu_logic_settings_category (void * webserver_request)
     }
   }
 
+  if (!html.empty ()) {
+    html.insert (html.begin (), menu_logic_settings_text () + ": ");
+  }
+  
   return filter_string_implode (html, "\n");
 }
 
@@ -435,5 +481,9 @@ string menu_logic_help_category (void * webserver_request)
     html.push_back (menu_logic_create_item (journal_index_url (), translate ("Journal"), true));
   }
     
+  if (!html.empty ()) {
+    html.insert (html.begin (), menu_logic_help_text () + ": ");
+  }
+  
   return filter_string_implode (html, "\n");
 }

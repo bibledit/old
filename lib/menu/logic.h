@@ -29,7 +29,14 @@ string menu_logic_click (string item);
 
 string menu_logic_create_item (string href, string text, bool history);
 
+string menu_logic_translate_text ();
+string menu_logic_search_text ();
+string menu_logic_tools_text ();
+string menu_logic_settings_text ();
+string menu_logic_help_text ();
+
 string menu_logic_main_categories (void * webserver_request);
+
 string menu_logic_translate_category (void * webserver_request);
 string menu_logic_search_category (void * webserver_request);
 string menu_logic_tools_category (void * webserver_request);
