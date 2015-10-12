@@ -46,6 +46,14 @@ bool index_index_acl (void * webserver_request)
 
 string index_index (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Normally a page does not show the extended main menu.
+  // But the home page of Bibledit shows the main menu.
+  if (request->query.count ("item") == 0) {
+    request->query ["item"] = "main";
+  }
+
   Assets_Header header = Assets_Header ("Bibledit", webserver_request);
   
   // After a delay, the demo forwards to a set active workbench.

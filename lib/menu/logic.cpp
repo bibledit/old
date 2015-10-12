@@ -117,7 +117,7 @@ string menu_logic_create_item (string href, string text, bool history)
 
 
 // Returns the html for the main menu categories.
-string menu_logic_main_categories (void * webserver_request) // Todo
+string menu_logic_main_categories (void * webserver_request)
 {
   vector <string> html;
 

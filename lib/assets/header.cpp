@@ -147,7 +147,7 @@ string Assets_Header::run ()
     } else if (item == "help") {
       menublock = menu_logic_help_category (webserver_request);
     }
-    view->set_variable ("mainmenu", menublock); // Todo
+    view->set_variable ("mainmenu", menublock);
     
     view->enable_zone ("user_full");
     //Menu_User menu_user = Menu_User (webserver_request);

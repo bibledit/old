@@ -42,6 +42,17 @@
 #include <ipc/focus.h>
 
 
+/*
+
+ A demo installation is an open installation.
+ A user is always considered to be logged in as admin.
+ 
+ During the course of October 2015 the demo began to often refuse web connections. Todo
+ It appears that the server keeps running most of the times, but also crashed often during certain periods.
+ The number of parallel connections was traced to see if that was the cause.
+ 
+*/
+
 // Returns true for correct credentials for a demo installation.
 // Else returns false.
 bool demo_acl (string user, string pass)
