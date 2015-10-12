@@ -168,7 +168,7 @@ string menu_logic_main_categories (void * webserver_request)
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("help", menu_logic_help_text (), false));
+    html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true));
   }
 
   return filter_string_implode (html, "\n");
@@ -308,6 +308,10 @@ string menu_logic_tools_category (void * webserver_request)
     html.push_back (menu_logic_create_item (manage_exports_url (), translate ("Export Bibles"), true));
   }
 
+  if (journal_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (journal_index_url (), translate ("Journal"), true));
+  }
+  
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_tools_text () + ": ");
   }
@@ -465,16 +469,16 @@ string menu_logic_settings_category (void * webserver_request)
 }
 
 
+// Not now in use.
+// Kept for the future.
 string menu_logic_help_category (void * webserver_request)
 {
-  vector <string> html;
+  if (webserver_request) {};
   
+  vector <string> html;
+
   html.push_back (menu_logic_create_item ("help/index", translate ("Help and About"), true));
 
-  if (journal_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (journal_index_url (), translate ("Journal"), true));
-  }
-    
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_help_text () + ": ");
   }
