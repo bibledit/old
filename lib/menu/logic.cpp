@@ -209,7 +209,7 @@ string menu_logic_translate_category (void * webserver_request)
     html.push_back (menu_logic_create_item (index_listing_url ("exports"), translate ("Exports"), true));
   }
 
-  return filter_string_implode (html, non_breaking_space () + non_breaking_space () + non_breaking_space ());
+  return filter_string_implode (html, "\n");
 }
 
 
@@ -221,7 +221,7 @@ string menu_logic_search_category (void * webserver_request)
     html.push_back (menu_logic_create_item (search_index_url (), translate ("Search"), true));
   }
   
-  return filter_string_implode (html, non_breaking_space () + non_breaking_space () + non_breaking_space ());
+  return filter_string_implode (html, "\n");
 }
 
 
@@ -252,7 +252,7 @@ string menu_logic_tools_category (void * webserver_request)
 
   if (!config_logic_client_prepared ()) {
     if (sprint_index_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (sprint_index_url (), translate ("Sprint"), true));
+      html.push_back (menu_logic_create_item (sprint_index_url (), translate ("Planning"), true));
     }
   }
 
@@ -276,7 +276,7 @@ string menu_logic_tools_category (void * webserver_request)
     html.push_back (menu_logic_create_item (manage_exports_url (), translate ("Export Bibles"), true));
   }
 
-  return filter_string_implode (html, non_breaking_space () + non_breaking_space () + non_breaking_space ());
+  return filter_string_implode (html, "\n");
 }
 
 
@@ -421,7 +421,7 @@ string menu_logic_settings_category (void * webserver_request)
     }
   }
 
-  return filter_string_implode (html, non_breaking_space () + non_breaking_space () + non_breaking_space ());
+  return filter_string_implode (html, "\n");
 }
 
 
@@ -435,5 +435,5 @@ string menu_logic_help_category (void * webserver_request)
     html.push_back (menu_logic_create_item (journal_index_url (), translate ("Journal"), true));
   }
     
-  return filter_string_implode (html, non_breaking_space () + non_breaking_space () + non_breaking_space ());
+  return filter_string_implode (html, "\n");
 }

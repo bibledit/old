@@ -6379,6 +6379,9 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+msgid "Login"
+msgstr ""
+
 msgid "desktop"
 msgstr ""
 
@@ -6439,13 +6442,13 @@ msgstr ""
 msgid "SWORD resources"
 msgstr ""
 
-msgid "XXX"
-msgstr ""
-
 msgid "Personalize"
 msgstr ""
 
-msgid "Styles"
+msgid "Indexes and Fonts"
+msgstr ""
+
+msgid "Select stylesheet"
 msgstr ""
 
 msgid "Versifications"
@@ -6457,10 +6460,7 @@ msgstr ""
 msgid "Paratext"
 msgstr ""
 
-msgid "Help and About"
-msgstr ""
-
-msgid "Login"
+msgid "Edit stylesheet"
 msgstr ""
 
 msgid "Logout"
@@ -6470,6 +6470,9 @@ msgid "Notifications"
 msgstr ""
 
 msgid "Account"
+msgstr ""
+
+msgid "Help and About"
 msgstr ""
 
 msgid "Back"
@@ -7982,6 +7985,9 @@ msgid "Inactive for a day"
 msgstr ""
 
 msgid "Inactive for a week"
+msgstr ""
+
+msgid "Styles"
 msgstr ""
 
 msgid "This stylesheet already exists"
