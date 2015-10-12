@@ -275,12 +275,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	xrefs/next.$(OBJEXT) xrefs/source.$(OBJEXT) \
 	xrefs/target.$(OBJEXT) xrefs/translate.$(OBJEXT) \
 	webbible/search.$(OBJEXT) debug/index.$(OBJEXT) \
-	paratext/logic.$(OBJEXT) paratext/index.$(OBJEXT) \
-	personalize/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
-	lexicon/definition.$(OBJEXT) sources/etcbc4.$(OBJEXT) \
-	sources/kjv.$(OBJEXT) sources/morphhb.$(OBJEXT) \
-	sources/morphgnt.$(OBJEXT) sources/hebrewlexicon.$(OBJEXT) \
-	sword/logic.$(OBJEXT)
+	debug/logic.$(OBJEXT) paratext/logic.$(OBJEXT) \
+	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
+	lexicon/logic.$(OBJEXT) lexicon/definition.$(OBJEXT) \
+	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
+	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
+	sources/hebrewlexicon.$(OBJEXT) sword/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -840,6 +840,7 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
+	debug/logic.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
@@ -1967,6 +1968,8 @@ debug/$(DEPDIR)/$(am__dirstamp):
 	@: > debug/$(DEPDIR)/$(am__dirstamp)
 debug/index.$(OBJEXT): debug/$(am__dirstamp) \
 	debug/$(DEPDIR)/$(am__dirstamp)
+debug/logic.$(OBJEXT): debug/$(am__dirstamp) \
+	debug/$(DEPDIR)/$(am__dirstamp)
 paratext/$(am__dirstamp):
 	@$(MKDIR_P) paratext
 	@: > paratext/$(am__dirstamp)
@@ -2277,6 +2280,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@debug/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@debug/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@demo/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/color.Po@am__quote@

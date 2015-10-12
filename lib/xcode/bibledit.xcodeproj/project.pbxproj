@@ -152,6 +152,8 @@
 		CA2F06EA1AE568E2008B8BDB /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
 		CA2F06EC1AE568E2008B8BDB /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = save.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA2F06ED1AE568E2008B8BDB /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
+		CA2FAA271BCBC7CD00D05DFC /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CA2FAA281BCBC7CD00D05DFC /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA31D6C71A69201300C3324A /* strongs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = strongs.cpp; sourceTree = "<group>"; };
 		CA31D6C81A69201300C3324A /* strongs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = strongs.h; sourceTree = "<group>"; };
 		CA31D6C91A69201300C3324A /* strongs.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = strongs.html; sourceTree = "<group>"; };
@@ -2868,6 +2870,8 @@
 		CAB5DE051B04BCFC00245D9F /* debug */ = {
 			isa = PBXGroup;
 			children = (
+				CA2FAA271BCBC7CD00D05DFC /* logic.cpp */,
+				CA2FAA281BCBC7CD00D05DFC /* logic.h */,
 				CAB5DE0B1B04BCFC00245D9F /* index.cpp */,
 				CAB5DE0C1B04BCFC00245D9F /* index.h */,
 				CAB5DE0D1B04BCFC00245D9F /* index.html */,
