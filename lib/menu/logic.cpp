@@ -19,62 +19,70 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <menu/logic.h>
 #include <menu/index.h>
-#include <filter/string.h>
+#include <administration/language.h>
+#include <administration/timezone.h>
+#include <bible/manage.h>
+#include <changes/changes.h>
+#include <changes/manage.h>
+#include <checks/index.h>
+#include <checks/settings.h>
+#include <client/index.h>
+#include <client/logic.h>
+#include <collaboration/index.h>
+#include <config/globals.h>
+#include <config/logic.h>
+#include <consistency/index.h>
 #include <database/config/general.h>
-#include <locale/translate.h>
-#include <index/index.h>
-#include <journal/index.h>
+#include <debug/index.h>
 #include <edit/index.h>
 #include <editone/index.h>
 #include <editusfm/index.h>
 #include <editverse/index.h>
-#include <workbench/organize.h>
-#include <workbench/index.h>
-#include <workbench/logic.h>
-#include <notes/index.h>
-#include <resource/index.h>
-#include <search/index.h>
 #include <email/index.h>
-#include <manage/index.h>
-#include <manage/users.h>
-#include <administration/language.h>
-#include <administration/timezone.h>
-#include <styles/indext.h>
-#include <styles/indexm.h>
-#include <versification/index.h>
-#include <bible/manage.h>
-#include <workbench/logic.h>
-#include <collaboration/index.h>
-#include <client/index.h>
-#include <client/logic.h>
-#include <sendreceive/index.h>
-#include <config/globals.h>
-#include <resource/manage.h>
-#include <resource/admin.h>
-#include <resource/print.h>
-#include <mapping/index.h>
-#include <changes/changes.h>
-#include <changes/manage.h>
+#include <filter/string.h>
+#include <index/index.h>
 #include <index/listing.h>
-#include <sprint/index.h>
-#include <checks/index.h>
-#include <checks/settings.h>
-#include <consistency/index.h>
+#include <journal/index.h>
+#include <locale/translate.h>
 #include <manage/exports.h>
 #include <manage/hyphenation.h>
-#include <xrefs/index.h>
-#include <debug/index.h>
+#include <manage/index.h>
+#include <manage/users.h>
+#include <mapping/index.h>
+#include <notes/index.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
+#include <resource/admin.h>
 #include <resource/images.h>
+#include <resource/index.h>
+#include <resource/manage.h>
+#include <resource/print.h>
 #include <resource/sword.h>
+#include <search/index.h>
+#include <search/replace.h>
+#include <search/search2.h>
+#include <search/replace2.h>
+#include <search/all.h>
+#include <search/similar.h>
+#include <search/strongs.h>
+#include <search/strong.h>
+#include <search/originals.h>
+#include <sendreceive/index.h>
+#include <session/login.h>
+#include <session/logout.h>
+#include <sprint/index.h>
+#include <styles/indexm.h>
+#include <styles/indext.h>
+#include <user/account.h>
+#include <user/notifications.h>
+#include <versification/index.h>
+#include <workbench/index.h>
+#include <workbench/logic.h>
+#include <workbench/logic.h>
 #include <workbench/logic.h>
 #include <workbench/organize.h>
-#include <config/logic.h>
-#include <session/logout.h>
-#include <session/login.h>
-#include <user/notifications.h>
-#include <user/account.h>
+#include <workbench/organize.h>
+#include <xrefs/index.h>
 
 
 string menu_logic_href (string href)
@@ -239,12 +247,44 @@ string menu_logic_translate_category (void * webserver_request)
 }
 
 
-string menu_logic_search_category (void * webserver_request)
+string menu_logic_search_category (void * webserver_request) // Todo
 {
   vector <string> html;
 
   if (search_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (search_index_url (), translate ("Search"), true));
+  }
+  
+  if (search_replace_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_replace_url (), translate ("Replace"), true));
+  }
+  
+  if (search_search2_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_search2_url (), translate ("Advanced search"), true));
+  }
+  
+  if (search_replace2_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_replace2_url (), translate ("Advanced replace"), true));
+  }
+  
+  if (search_all_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_all_url (), translate ("Search all Bibles and notes"), true));
+  }
+
+  if (search_similar_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_similar_url (), translate ("Search Bible for similar verses"), true));
+  }
+
+  if (search_strongs_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_strongs_url (), translate ("Search Bible for similar Strong's numbers"), true));
+  }
+
+  if (search_strong_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_strong_url (), translate ("Search Bible for Strong's number"), true));
+  }
+
+  if (search_originals_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (search_originals_url (), translate ("Search Bible for similar Hebrew or Greek words"), true));
   }
   
   if (!html.empty ()) {

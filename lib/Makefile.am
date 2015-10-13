@@ -210,7 +210,6 @@ libbibledit_a_SOURCES = \
 	edit/logic.cpp \
 	search/all.cpp \
 	search/index.cpp \
-	search/select.cpp \
 	search/replace.cpp \
 	search/getids.cpp \
 	search/replacepre.cpp \
