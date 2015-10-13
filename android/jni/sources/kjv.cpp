@@ -104,6 +104,13 @@ void sources_kjv_parse ()
         }
         break;
       }
+      case XML_READER_TYPE_WHITESPACE:
+      case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
+      {
+        if (within_verse) {
+          sources_kjv_store (book, chapter, verse, "", " ");
+        }
+      }
       case XML_READER_TYPE_END_ELEMENT:
       {
         string element = (char *) xmlTextReaderName (reader);

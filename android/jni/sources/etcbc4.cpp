@@ -142,7 +142,7 @@ void sources_etcb4_parse ()
       for (auto verse : verses) {
         string data = database_etcbc4.raw (book, chapter, verse);
         if (data.empty ()) continue;
-        data = filter_string_str_replace ("&nbsp;", "", data);
+        data = filter_string_str_replace (non_breaking_space (), "", data);
         data.insert (0, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><bibledit>");
         data.append ("</bibledit>");
         string word;

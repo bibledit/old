@@ -100,11 +100,13 @@ string editusfm_index (void * webserver_request)
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
+  int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var usfmEditorChapterLoaded = \"" + chapterLoaded + "\";\n"
   "var usfmEditorChapterSaving = \"" + chapterSaving + "\";\n"
   "var usfmEditorChapterRetrying = \"" + chapterRetrying + "\";\n"
-  "var usfmEditorWriteAccess = true;\n";
+  "var usfmEditorWriteAccess = true;\n"
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   view.set_variable ("script", script);
   
 

@@ -51,6 +51,7 @@ function startSearch ()
   $ ("progress").show ();
   $ ("#searchresults").empty ();
   $ ("#hitcount").empty ();
+  $ ("#help").hide ();
   hits.length = 0;
   ajaxRequest = $.ajax ({
     url: "index",

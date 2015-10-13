@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <locale/translate.h>
 #include <edit/index.h>
 #include <notes/index.h>
@@ -30,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/changes.h>
 #include <workbench/index.h>
 #include <config/logic.h>
+#include <session/login.h>
 
 
 const char * index_index_url ()
@@ -47,37 +49,35 @@ bool index_index_acl (void * webserver_request)
 string index_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-
+  
   Assets_Header header = Assets_Header ("Bibledit", webserver_request);
+  
+  // When not logged in, forward to the login page.
+  if (request->session_logic ()->currentUser ().empty ()) {
+    // html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
+    // convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login")
+    redirect_browser (request, session_login_url ());
+    return "";
+  }
+
+  // After a delay, the demo forwards to a set active workbench, when there's no active menu.
   if (config_logic_demo_enabled ()) {
-    header.refresh (5, "/" + workbench_index_url ());
+    if (request->query.empty ()) {
+      header.refresh (5, "/" + workbench_index_url ());
+    }
   }
+  
+  // Normally a page does not show the extended main menu.
+  // But the home page of Bibledit shows the main menu.
+  if (request->query.count ("item") == 0) {
+    request->query ["item"] = "main";
+  }
+
   string page = header.run ();
-
-
+  
   Assets_View view = Assets_View ();
-  
-  vector <string> menublock;
-  if (request->session_logic ()->loggedIn ()) {
-    menublock.push_back ("<p>" + translate ("What would you like to do?") + "</p>");
-    if (edit_index_acl (request)) {
-      menublock.push_back ("<p><a href=\"/" + edit_index_url () + "\">" + translate ("Edit Bible text") + "</a></p>");
-    }
-    if (notes_index_acl (request)) {
-      menublock.push_back ("<p><a href=\"/" + notes_index_url () + "\">" + translate ("View notes") + "</a></p>");
-    }
-    if (resource_index_acl (request)) {
-      menublock.push_back ("<p><a href=\"/" + resource_index_url () + "\">" + translate ("View resources") + "</a></p>");
-    }
-    if (changes_changes_acl (request)) {
-      menublock.push_back ("<p><a href=\"/" + changes_changes_url () + "\">" + translate ("View changes") + "</a></p>");
-    }
-  }
-  view.set_variable ("menublock", filter_string_implode (menublock, "\n"));
-  
+
   page += view.render ("index", "index");
-
   page += Assets_Page::footer ();
-
   return page;
 }
