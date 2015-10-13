@@ -99,7 +99,7 @@ string menu_logic_click (string item)
 string menu_logic_create_item (string href, string text, bool history)
 {
   string item;
-  item.append ("<span>");
+  item.append ("<span class=\"nowrap\">");
   item.append ("<a href=\"/");
   if (history) {
     item.append (menu_index_url ());

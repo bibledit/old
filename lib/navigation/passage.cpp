@@ -145,16 +145,13 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   for (auto book : books) {
     string bookName = Database_Books::getEnglishFromId (book);
     bool selected = (book == activeBook);
-    addSelectorLink (html, convert_to_string (book), "applybook", translate ("Select book"), bookName, selected);
+    addSelectorLink (html, convert_to_string (book), "applybook", bookName, selected);
   }
-  addSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
   html.append ("</span>");
 
-  html.insert (0, "<div>");
-  html.append ("</div>");
-  
   return html;
 }
 
@@ -170,21 +167,18 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
     chapters = request->database_bibles()->getChapters (bible, book);
   }
   string html;
-  addSelectorLink (html, "previous", "applychapter", translate ("Previous chapter"), "[" + translate ("previous") + "]", false);
-  addSelectorLink (html, "next", "applychapter", translate ("Next chapter"), "[" + translate ("next") + "]", false);
-  addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "previous", "applychapter", "[" + translate ("previous") + "]", false);
+  addSelectorLink (html, "next", "applychapter", "[" + translate ("next") + "]", false);
+  addSelectorLink (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false);
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
-    addSelectorLink (html, convert_to_string (ch), "applychapter", translate ("Select chapter"), convert_to_string (ch), selected);
+    addSelectorLink (html, convert_to_string (ch), "applychapter", convert_to_string (ch), selected);
   }
-  addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
   html.append ("</span>");
 
-  html.insert (0, "<div>");
-  html.append ("</div>");
-  
   return html;
 }
 
@@ -200,20 +194,17 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
     verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
   }
   string html;
-  addSelectorLink (html, "previous", "applyverse", translate ("Previous verse"), "[" + translate ("previous") + "]", false);
-  addSelectorLink (html, "next", "applyverse", translate ("Next verse"), "[" + translate ("next") + "]", false);
+  addSelectorLink (html, "previous", "applyverse", "[" + translate ("previous") + "]", false);
+  addSelectorLink (html, "next", "applyverse", "[" + translate ("next") + "]", false);
   for (auto vs : verses) {
     bool selected = (verse == vs);
-    addSelectorLink (html, convert_to_string (vs), "applyverse", translate ("Select verse"), convert_to_string (vs), selected);
+    addSelectorLink (html, convert_to_string (vs), "applyverse", convert_to_string (vs), selected);
   }
-  addSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applyverse", "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applyverse\">" + translate ("Select verse"));
   html.append ("</span>");
 
-  html.insert (0, "<div>");
-  html.append ("</div>");
-  
   return html;
 }
 
@@ -425,12 +416,17 @@ void Navigation_Passage::goForward (void * webserver_request)
 }
 
 
-void Navigation_Passage::addSelectorLink (string& html, string id, string href, string title, string text, bool selected)
+void Navigation_Passage::addSelectorLink (string& html, string id, string href, string text, bool selected)
 {
-  if (!html.empty ()) html.append ("|");
+  // Add bit to cause wrapping between the books or chapters or verses.
+  if (!html.empty ()) html.append (" ");
+
   if (selected) html.append ("<mark>");
-  html.append ("<a id=\"" + id + "apply\" href=\"" + href + "\" title=\"" + title + "\"> ");
+  
+  // No wrapping of a book name made of more than one word.
+  html.append ("<span class=\"nowrap\"><a id=\"" + id + "apply\" href=\"" + href + "\"> ");
   html.append (text);
-  html.append (" </a>");
+  html.append (" </a></span>");
+  
   if (selected) html.append ("</mark>");
 }
