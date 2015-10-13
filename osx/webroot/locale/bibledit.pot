@@ -5811,21 +5811,6 @@ msgstr ""
 msgid "Search the Bible"
 msgstr ""
 
-msgid "What would you like to do?"
-msgstr ""
-
-msgid "Edit Bible text"
-msgstr ""
-
-msgid "View notes"
-msgstr ""
-
-msgid "View resources"
-msgstr ""
-
-msgid "View changes"
-msgstr ""
-
 msgid "No files in this folder"
 msgstr ""
 
@@ -6382,13 +6367,10 @@ msgstr ""
 msgid "Delete this mapping"
 msgstr ""
 
-msgid "Notes"
+msgid "Translate"
 msgstr ""
 
-msgid "Resources"
-msgstr ""
-
-msgid "Planning"
+msgid "Search"
 msgstr ""
 
 msgid "Tools"
@@ -6397,49 +6379,40 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "Search"
+msgid "desktop"
 msgstr ""
 
-msgid "Workbench"
+msgid "Visual chapter editor"
 msgstr ""
 
-msgid "Visual chapter"
+msgid "Visual verse editor"
 msgstr ""
 
-msgid "Visual verse"
+msgid "USFM chapter editor"
 msgstr ""
 
-msgid "USFM chapter"
+msgid "USFM verse editor"
 msgstr ""
 
-msgid "USFM verse"
+msgid "Consultation notes"
 msgstr ""
 
-msgid "Organize"
+msgid "View resources"
 msgstr ""
 
-msgid "List"
+msgid "Change notifications"
 msgstr ""
 
-msgid "View"
+msgid "Mechanical checks"
 msgstr ""
 
-msgid "Print"
+msgid "Print resources"
 msgstr ""
 
-msgid "USFM"
+msgid "Download changes"
 msgstr ""
 
-msgid "External"
-msgstr ""
-
-msgid "Images"
-msgstr ""
-
-msgid "SWORD"
-msgstr ""
-
-msgid "Notifications"
+msgid "Planning"
 msgstr ""
 
 msgid "Send / receive"
@@ -6451,10 +6424,31 @@ msgstr ""
 msgid "Debug"
 msgstr ""
 
+msgid "Export Bibles"
+msgstr ""
+
+msgid "Desktops"
+msgstr ""
+
+msgid "USFM resources"
+msgstr ""
+
+msgid "External resources"
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "SWORD resources"
+msgstr ""
+
 msgid "Personalize"
 msgstr ""
 
-msgid "Styles"
+msgid "Indexes and Fonts"
+msgstr ""
+
+msgid "Select stylesheet"
 msgstr ""
 
 msgid "Versifications"
@@ -6466,13 +6460,19 @@ msgstr ""
 msgid "Paratext"
 msgstr ""
 
-msgid "Login"
+msgid "Edit stylesheet"
 msgstr ""
 
 msgid "Logout"
 msgstr ""
 
+msgid "Notifications"
+msgstr ""
+
 msgid "Account"
+msgstr ""
+
+msgid "Help and About"
 msgstr ""
 
 msgid "Back"
@@ -6732,6 +6732,9 @@ msgid "Then save them."
 msgstr ""
 
 msgid "Consultation Notes"
+msgstr ""
+
+msgid "Notes"
 msgstr ""
 
 msgid "select"
@@ -7085,10 +7088,10 @@ msgstr ""
 msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
-msgid "Download resource"
+msgid "Resources"
 msgstr ""
 
-msgid "External resources"
+msgid "Download resource"
 msgstr ""
 
 msgid "Cache a resource to make it available offline."
@@ -7198,9 +7201,6 @@ msgstr ""
 msgid "Clear the cache if a full download is needed."
 msgstr ""
 
-msgid "Image resources"
-msgstr ""
-
 msgid "The file was uploaded and is being processed."
 msgstr ""
 
@@ -7306,9 +7306,6 @@ msgstr ""
 msgid "organize"
 msgstr ""
 
-msgid "Cache this resource in Bibledit Cloud to make it available here."
-msgstr ""
-
 msgid "USFM Resources"
 msgstr ""
 
@@ -7357,6 +7354,9 @@ msgid "Number of verses to display before the focused verse:"
 msgstr ""
 
 msgid "Number of verses to display after the focused verse:"
+msgstr ""
+
+msgid "Print"
 msgstr ""
 
 msgid "Select a resource to add"
@@ -7767,6 +7767,12 @@ msgstr ""
 msgid "Username or email address or password are not correct"
 msgstr ""
 
+msgid "Login"
+msgstr ""
+
+msgid "Bibledit Login"
+msgstr ""
+
 msgid "Username or email address"
 msgstr ""
 
@@ -7985,6 +7991,9 @@ msgid "Inactive for a day"
 msgstr ""
 
 msgid "Inactive for a week"
+msgstr ""
+
+msgid "Styles"
 msgstr ""
 
 msgid "This stylesheet already exists"
@@ -8739,6 +8748,9 @@ msgid "It will overwrite whatever was there before."
 msgstr ""
 
 msgid "chapters"
+msgstr ""
+
+msgid "Desktop"
 msgstr ""
 
 msgid "Workbenches"

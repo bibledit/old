@@ -199,10 +199,6 @@ textarea {
   background: lightyellow;
 }
 
-#mainmenu {
-  float: left;
-}
-
 .clearfix {
   clear: both;
 }
@@ -237,83 +233,17 @@ textarea {
   clear: both;
 }
 
-/* Main menu styles */
+/* Menu styles */
+
 .menu {
-  z-index: 5;
   margin: 0.2em;
-}
-
-.menu, .menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-.menu ul {
-  position: absolute;
-  display: none;
-  background: #d9d9d9;
-}
-
-.menu ul li {
-  min-width: 10em;
-}
-
-.menu ul li ul {
-  margin-left: 8em;
+  padding: 0.2em;
 }
 
 .menu span {
-  cursor: default;
-}
-
-.menu ul a,
-.menu ul span {
-  padding: 0.8em;
-  display: block;
-}
-
-.menu > li {
-  float: left;
-}
-
-.menu > li > a,
-.menu > li > span {
-  display: block;
-  padding: 0.4em;
-  border-radius: 0.3em 0.3em 0.0em 0.0em;
-}
-
-.menu li.hover,
-.menu li.hover a,
-.menu li.hover span {
-  color: #000 !important;
-}
-
-.menu > li:hover > a,
-.menu > li.hover > a,
-.menu > li:hover > span,
-.menu > li.hover > span {
-  background: #d9d9d9;
-}
-
-.menu > li > a:hover,
-.menu ul a:hover,
-.menu li.hover a {
-  background: #d0d0d0;
-}
-
-.menu a:hover {
-  background: #d0d0d0;
-}
-
-.menu > li:hover > ul,
-.menu > li.hover > ul {
-  display: block;
-}
-
-.menu li li:hover ul,
-.menu li li.hover ul {
-  display: block;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  white-space: nowrap;
 }
 
 #previousverse {
@@ -331,15 +261,6 @@ textarea {
 #nextverse {
   margin-left: 0.1em;
   padding-left: 0.1em;
-}
-
-/* User menu settings */
-#usermenu {
-  float: right;
-}
-
-#usermenu ul {
-  margin-left: -6em;
 }
 
 /* Verse picker */
@@ -381,13 +302,6 @@ textarea {
 #handpicker:hover,
 #handpicker.hover {
   display: block;
-}
-
-/* Search page styles */
-
-#searchbox {
-  padding-top: 2em;
-  text-align: center;
 }
 
 /* Print */

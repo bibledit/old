@@ -6379,9 +6379,6 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "Login"
-msgstr ""
-
 msgid "desktop"
 msgstr ""
 
@@ -6413,6 +6410,9 @@ msgid "Print resources"
 msgstr ""
 
 msgid "Download changes"
+msgstr ""
+
+msgid "Planning"
 msgstr ""
 
 msgid "Send / receive"
@@ -7765,6 +7765,12 @@ msgid "Password should be at least four characters long"
 msgstr ""
 
 msgid "Username or email address or password are not correct"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Bibledit Login"
 msgstr ""
 
 msgid "Username or email address"
