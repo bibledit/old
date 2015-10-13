@@ -82,9 +82,6 @@ string menu_logic_href (string href)
   href = filter_string_str_replace ("?", "__q__", href);
   href = filter_string_str_replace ("&", "__a__", href);
   href = filter_string_str_replace ("=", "__i__", href);
-  href.insert (0, "?item=");
-  href.insert (0, menu_index_url ());
-  href.insert (0, "/");
   return href;
 }
 
@@ -110,7 +107,7 @@ string menu_logic_create_item (string href, string text, bool history)
     item.append (index_index_url ());
   }
   item.append ("?item=");
-  item.append (href + "\">" + text + "</a>");
+  item.append (menu_logic_href (href) + "\">" + text + "</a>");
   item.append ("</span>");
   return item;
 }
@@ -197,6 +194,7 @@ string menu_logic_translate_category (void * webserver_request)
   if (workbench_organize_acl (webserver_request)) {
     vector <string> workbenches = workbenchGetWorkbenches (webserver_request);
     for (size_t i = 0; i < workbenches.size(); i++) {
+      string item = menu_logic_create_item (workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i] + " " + translate ("desktop"), true);
       html.push_back (menu_logic_create_item (workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i] + " " + translate ("desktop"), true));
     }
   }
