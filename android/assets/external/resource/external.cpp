@@ -23,6 +23,8 @@
 #include <webserver/request.h>
 #include "json/json.h"
 #include "assets/view.h"
+#include "config/logic.h"
+#include "sendreceive/resources.h"
 
 
 // Local forward declarations:
@@ -165,7 +167,7 @@ resource_record resource_table [] =
   { "Biblehub Interlinear", "English", "English", & resource_external_get_biblehub_interlinear },
   { "Scrivener Greek", "English", "English", & resource_external_get_biblehub_scrivener },
   { "Westminster Hebrew", "English", "English", & resource_external_get_biblehub_westminster },
-  { "NET Bible", "English", "English", & resource_external_get_net_bible },
+  { resource_external_net_bible_name (), "English", "English", & resource_external_get_net_bible },
   // Start of Studylight commentaries resources table entries
   { "Clarke's Commentary", "English", "English", & resource_external_studylight_commentary_get_acc },
   { "Abbott's Illustrated New Testament", "English", "English", & resource_external_studylight_commentary_get_ain },
@@ -681,7 +683,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   //html = filter_string_str_replace ("height=\"165\"", "", html);
   html = filter_string_str_replace ("height=\"160\"", "", html);
   html = filter_string_str_replace ("height=\"145\"", "", html);
-  html = filter_string_str_replace ("&nbsp;&nbsp;", "&nbsp;", html);
+  html = filter_string_str_replace (non_breaking_space () + non_breaking_space (), non_breaking_space (), html);
   
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.
@@ -824,6 +826,17 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
 // This displays the text and the notes of the NET Bible.
 string resource_external_get_net_bible (int book, int chapter, int verse)
 {
+  if (config_logic_client_prepared ()) {
+    // It would be fine if the client could download the external resource.
+    // But to do that, in case of https, the client needs the cURL library.
+    // And that library has not yet been compiled for all OSes Bibledit runs on.
+    // One way to overcome this problem would be that a client requests a server
+    // to fetch an external resource on its behalf,
+    // and then returns the filtered result to the client.
+    // This is what it now does for the NET Bible, currrently the sole secure resource.
+    return sendreceive_resources_get (filter_url_urlencode (resource_external_net_bible_name ()), book, chapter, verse);
+  }
+
   string bookname = resource_external_convert_book_netbible (book);
   
   string url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
@@ -834,8 +847,6 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   string text = filter_url_http_get (url, error);
   
   string output = text;
-  
-  output += "\n";
   
   url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
   url = filter_url_urlencode (url);
@@ -853,8 +864,6 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   notes = filter_string_str_replace ("class=\"bibleref\"", "", notes);
   
   output += notes;
-  
-  output += "\n";
   
   return output;
 }
@@ -1974,4 +1983,10 @@ string resource_external_studylight_code ()
   code.push_back ("// End of Studylight commentaries implementation functions");
 
   return filter_string_implode (code, "\n");
+}
+
+
+const char * resource_external_net_bible_name ()
+{
+  return "NET Bible";
 }

@@ -31,8 +31,6 @@ libbibledit_a_SOURCES = \
 	index/listing.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
-	menu/main.cpp \
-	menu/user.cpp \
 	menu/index.cpp \
 	locale/translate.cpp \
 	locale/logic.cpp \
@@ -212,7 +210,6 @@ libbibledit_a_SOURCES = \
 	edit/logic.cpp \
 	search/all.cpp \
 	search/index.cpp \
-	search/select.cpp \
 	search/replace.cpp \
 	search/getids.cpp \
 	search/replacepre.cpp \
@@ -323,6 +320,7 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
+	debug/logic.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \

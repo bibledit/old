@@ -547,7 +547,7 @@ Section for scrolling the caret into view.
 */
 
 
-function editorScrollVerseIntoView () // Todo
+function editorScrollVerseIntoView ()
 {
   if (isNoVerseBook (editorLoadedBook)) return;
   var iterVerse = 0;
@@ -561,8 +561,7 @@ function editorScrollVerseIntoView () // Todo
           var offset = element.offset ();
           var verseTop = offset.top;
           var viewportHeight = $(window).height ();
-          var scrollTo = verseTop - (viewportHeight * verticalCaretPosition / 100); // Todo
-            console.log (verticalCaretPosition); // Todo
+          var scrollTo = verseTop - (viewportHeight * verticalCaretPosition / 100);
           var currentScrollTop = $ (document).scrollTop ();
           var lowerBoundary = currentScrollTop - (viewportHeight / 10);
           var upperBoundary = currentScrollTop + (viewportHeight / 10);

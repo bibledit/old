@@ -1843,7 +1843,7 @@ void test_workbench_logic ()
     evaluate (__LINE__, __func__, "100px", workbenchProcessUnits ("100 px"));
   }
   {
-    evaluate (__LINE__, __func__, "default", workbenchGetActiveWorkbench (&request));
+    evaluate (__LINE__, __func__, "Default", workbenchGetActiveWorkbench (&request));
     request.database_config_user()->setActiveWorkbench ("unittest");
     evaluate (__LINE__, __func__, "unittest", workbenchGetActiveWorkbench (&request));
   }

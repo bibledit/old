@@ -315,7 +315,7 @@ string filter_string_desanitize_html (string html)
   html = filter_string_str_replace ("&apos;", "'", html);
   html = filter_string_str_replace ("&lt;", "<", html);
   html = filter_string_str_replace ("&gt;", ">", html);
-  html = filter_string_str_replace ("&nbsp;", " ", html);
+  html = filter_string_str_replace (non_breaking_space (), " ", html);
   return html;
 }
 
@@ -591,7 +591,6 @@ string filter_string_html2text (string html)
   text = filter_string_trim (text);
   return text;
 }
-
 
 
 // Extracts the pure email address from a string.
@@ -1151,4 +1150,10 @@ string get_new_key ()
   string s = convert_to_string (filter_date_seconds_since_epoch ());
   string r = convert_to_string ((float)random ());
   return md5 (u + s + r);
+}
+
+
+string non_breaking_space ()
+{
+  return "&nbsp;";
 }

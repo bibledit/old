@@ -35,6 +35,7 @@
 #include <sync/logic.h>
 #include <sync/resources.h>
 #include <sword/logic.h>
+#include <demo/logic.h>
 
 
 int sendreceive_resources_watchdog = 0;
@@ -133,3 +134,26 @@ void sendreceive_resources ()
 }
 
 
+// This function gets a passage from $resource from Bibledit Cloud.
+string sendreceive_resources_get (string resource, int book, int chapter, int verse)
+{
+  // Fetch this SWORD resource from the server.
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  // If the client has not been connected to a cloud instance,
+  // fetch the resource from the Bibledit Cloud demo.
+  if (!client_logic_client_enabled ()) {
+    address = demo_address ();
+    port = demo_port ();
+  }
+  
+  string url = client_logic_url (address, port, sync_resources_url ());
+  url = filter_url_build_http_query (url, "r", resource);
+  url = filter_url_build_http_query (url, "b", convert_to_string (book));
+  url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
+  url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+  string error;
+  string html = filter_url_http_get (url, error);
+  if (!error.empty ()) return error;
+  return html;
+}

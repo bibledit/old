@@ -42,6 +42,17 @@
 #include <ipc/focus.h>
 
 
+/*
+
+ A demo installation is an open installation.
+ A user is always considered to be logged in as admin.
+ 
+ During the course of October 2015 the demo began to often refuse web connections. Todo
+ It appears that the server keeps running most of the times, but also crashed often during certain periods.
+ The number of parallel connections was traced to see if that was the cause.
+ 
+*/
+
 // Returns true for correct credentials for a demo installation.
 // Else returns false.
 bool demo_acl (string user, string pass)
@@ -187,8 +198,10 @@ void demo_clean_data ()
   
   
   // Set and/or trim resources to display.
+  // Too many resources crash the demo, so limit the amount.
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources = false;
+  if (resources.size () > 25) reset_resources = true;
   if (!in_array ((string) "Bibledit Sample Bible", resources)) reset_resources = true;
   if (!in_array ((string) "Violet Divider", resources)) reset_resources = true;
   if (!in_array ((string) "Biblehub Interlinear", resources)) reset_resources = true;
