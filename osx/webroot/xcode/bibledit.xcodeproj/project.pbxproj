@@ -275,9 +275,6 @@
 		CA5856E41A7BE374002BB283 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = index.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA5856E51A7BE374002BB283 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA5856E61A7BE374002BB283 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CA5C2F801A6677CC0077B16C /* select.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = select.cpp; sourceTree = "<group>"; };
-		CA5C2F811A6677CC0077B16C /* select.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = select.h; sourceTree = "<group>"; };
-		CA5C2F821A66795A0077B16C /* select.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = select.html; sourceTree = "<group>"; };
 		CA5C2F831A667E3C0077B16C /* replace.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = replace.cpp; sourceTree = "<group>"; };
 		CA5C2F841A667E3C0077B16C /* replace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = replace.h; sourceTree = "<group>"; };
 		CA5C2F851A667E3C0077B16C /* replace.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = replace.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -2362,9 +2359,6 @@
 				CA5C2F8E1A66EC860077B16C /* search2.h */,
 				CA5C2F8F1A66EC860077B16C /* search2.html */,
 				CAA4D3171A45A648003ABA25 /* search2.js */,
-				CA5C2F801A6677CC0077B16C /* select.cpp */,
-				CA5C2F811A6677CC0077B16C /* select.h */,
-				CA5C2F821A66795A0077B16C /* select.html */,
 				CA32E6B71A683A73005AE0C4 /* similar.cpp */,
 				CA32E6B81A683A73005AE0C4 /* similar.h */,
 				CA32E6B91A683A73005AE0C4 /* similar.html */,

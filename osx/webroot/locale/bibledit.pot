@@ -6379,6 +6379,9 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+msgid "Desktop"
+msgstr ""
+
 msgid "desktop"
 msgstr ""
 
@@ -6401,6 +6404,30 @@ msgid "View resources"
 msgstr ""
 
 msgid "Change notifications"
+msgstr ""
+
+msgid "Replace"
+msgstr ""
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Advanced replace"
+msgstr ""
+
+msgid "Search all Bibles and notes"
+msgstr ""
+
+msgid "Search Bible for similar verses"
+msgstr ""
+
+msgid "Search Bible for similar Strong's numbers"
+msgstr ""
+
+msgid "Search Bible for Strong's number"
+msgstr ""
+
+msgid "Search Bible for similar Hebrew or Greek words"
 msgstr ""
 
 msgid "Mechanical checks"
@@ -6496,22 +6523,10 @@ msgstr ""
 msgid "Go to next verse"
 msgstr ""
 
-msgid "Previous chapter"
-msgstr ""
-
 msgid "previous"
 msgstr ""
 
-msgid "Next chapter"
-msgstr ""
-
 msgid "next"
-msgstr ""
-
-msgid "Previous verse"
-msgstr ""
-
-msgid "Next verse"
 msgstr ""
 
 msgid "Note actions"
@@ -7440,19 +7455,57 @@ msgstr ""
 msgid "When it starts to be used again, it will be installed on the fly."
 msgstr ""
 
+msgid "Search for verses similar to the focused verse in:"
+msgstr ""
+
 msgid "notes"
 msgstr ""
 
 msgid "verses"
 msgstr ""
 
-msgid "Search for verses with similar Hebrew or Greek in:"
+msgid "Search in active Bible."
 msgstr ""
 
-msgid "Replace"
+msgid "Enter the search term."
+msgstr ""
+
+msgid "Press Enter."
+msgstr ""
+
+msgid ""
+"Search for verses with most Hebrew or Greek words similar to the focused "
+"verse in:"
 msgstr ""
 
 msgid "Case sensitive"
+msgstr ""
+
+msgid "Replace in active Bible."
+msgstr ""
+
+msgid "Enter what to search for."
+msgstr ""
+
+msgid "Enter what to replace with."
+msgstr ""
+
+msgid "Wait till the preview appears."
+msgstr ""
+
+msgid "Replace the text:"
+msgstr ""
+
+msgid "To replace in one passage, click ✔."
+msgstr ""
+
+msgid "To remove a passage, click ✗."
+msgstr ""
+
+msgid "To open a passage for edit, click that passage."
+msgstr ""
+
+msgid "To replace all passages, click Apply all."
 msgstr ""
 
 msgid "main text without notes"
@@ -7484,79 +7537,11 @@ msgstr ""
 msgid "Display the intersection of them and the ones already on the page"
 msgstr ""
 
-msgid "Search in active Bible."
-msgstr ""
-
-msgid "Enter the search term."
-msgstr ""
-
-msgid "Press Enter."
-msgstr ""
-
-msgid "Replace in active Bible."
-msgstr ""
-
-msgid "Enter what to search for."
-msgstr ""
-
-msgid "Enter what to replace with."
-msgstr ""
-
-msgid "Wait till the preview appears."
-msgstr ""
-
-msgid "Replace the text:"
-msgstr ""
-
-msgid "To replace in one passage, click ✔."
-msgstr ""
-
-msgid "To remove a passage, click ✗."
-msgstr ""
-
-msgid "To open a passage for edit, click that passage."
-msgstr ""
-
-msgid "To replace all passages, click Apply all."
-msgstr ""
-
-msgid "Advanced search in active Bible."
-msgstr ""
-
-msgid "Search with more options."
-msgstr ""
-
-msgid "Advanced replace in active Bible."
-msgstr ""
-
-msgid "Replace with more options."
-msgstr ""
-
-msgid "Search in all Bibles and all notes."
-msgstr ""
-
-msgid "Search the active Bible for verses similar to the focused verse."
-msgstr ""
-
-msgid ""
-"Search for verses with most Strong's numbers similar to the focused verse."
-msgstr ""
-
-msgid "Search for all verses with a certain Strong's number."
-msgstr ""
-
-msgid ""
-"Search for verses with most Hebrew or Greek words similar to the focused "
-"verse."
-msgstr ""
-
-msgid "Search for similar verses in:"
-msgstr ""
-
 msgid "Search for verses with a certain Strong's number in:"
 msgstr ""
 
-msgid "Search for verses with similar Strong's numbers in:"
+msgid ""
+"Search for verses with most Strong's numbers similar to the focused verse in:"
 msgstr ""
 
 msgid "Send/receive"
@@ -8748,9 +8733,6 @@ msgid "It will overwrite whatever was there before."
 msgstr ""
 
 msgid "chapters"
-msgstr ""
-
-msgid "Desktop"
 msgstr ""
 
 msgid "Workbenches"
