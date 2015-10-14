@@ -20,3 +20,5 @@ ERROR ITMS-90035: Invalid Signature. Code object is not signed at all. Make sure
 Possible answers in http://stackoverflow.com/questions/29859996/error-itms-90035
 Search for #! through grep -R '#!' * and remove those scripts.
 
+App Transport Security in iOS 9 was disabled in the .plist file so the webview can fetch http content from non-secure servers, like Bibledit has.
+

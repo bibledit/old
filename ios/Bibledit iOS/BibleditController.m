@@ -28,12 +28,12 @@ NSString * homeUrl = @"http://localhost:8765";
     // Directory where the Bibledit resources reside.
     NSString * resources = [BibleditPaths resources];
     const char * resources_path = [resources UTF8String];
-    NSLog(@"Resources %@", resources);
+    // NSLog(@"Resources %@", resources);
 
     // Directory where the Bibledit web app's webroot resides.
     NSString * webroot = [BibleditPaths documents];
     const char * webroot_path = [webroot UTF8String];
-    NSLog(@"Webroot %@", webroot);
+    // NSLog(@"Webroot %@", webroot);
 
     bibledit_initialize_library (resources_path, webroot_path);
     
@@ -71,20 +71,18 @@ NSString * homeUrl = @"http://localhost:8765";
     NSString *bit = [path substringToIndex:21];
     BOOL equal = [bit isEqualToString:homeUrl];
     if (!equal) {
-      // Reload home page.
-      [BibleditController bibleditBrowseTo:homeUrl];
-        NSLog(@"To home URL %@", homeUrl);
-
+        // Reload home page.
+        [BibleditController bibleditBrowseTo:homeUrl];
     } else {
-      // Reload the loaded page, just to be sure that everything works.
-      [BibleditController bibleditBrowseTo:path];
-        NSLog(@"To URL %@", path);
+        // Reload the loaded page, just to be sure that everything works.
+        [BibleditController bibleditBrowseTo:path];
     }
 }
 
 
 + (void) bibleditBrowseTo:(NSString*)urlString
 {
+    // NSLog(@"To URL %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [webview loadRequest:urlRequest];
