@@ -23,7 +23,6 @@
 #include <filter/string.h>
 
 
-void debug_logic_log_connections () // Todo
+void debug_logic_log_connections ()
 {
-  Database_Logs::log ("Simultaneous connection count: " + convert_to_string (config_globals_simultaneous_connection_count));
 }
