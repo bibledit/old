@@ -60,8 +60,6 @@ index/index.cpp
 index/listing.cpp
 config/globals.cpp
 menu/logic.cpp
-menu/main.cpp
-menu/user.cpp
 menu/index.cpp
 locale/translate.cpp
 locale/logic.cpp
@@ -211,7 +209,6 @@ edit/save.cpp
 edit/styles.cpp
 edit/logic.cpp
 search/index.cpp
-search/select.cpp
 search/replace.cpp
 search/getids.cpp
 search/replacepre.cpp

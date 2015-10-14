@@ -48,6 +48,7 @@ $(document).ready (function () {
 var hits = [];
 var hitCounter;
 var ajaxRequest;
+var classs = "";
 
 
 function startLoad ()
@@ -59,7 +60,12 @@ function startLoad ()
     type: "GET",
     data: { b: searchBible, load: true },
     success: function (response) {
+      if (classs != "") $ ("#searchentry").removeClass (classs);
+      var lines = response.split ("\n");
+      classs = lines.splice (0, 1) [0];
+      response = lines.join ("\n");
       $ ("#searchentry").val (response);
+      $ ("#searchentry").addClass (classs);
       $ ("#searchentry").focus ();
       $ ("#searchbutton").removeAttr ("disabled");
     },
