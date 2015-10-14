@@ -301,6 +301,7 @@ void Database_Logs::debug (string description)
   timestamp.append (convert_to_string (filter_date_numerical_second (seconds)));
   
   description.insert (0, timestamp + " ");
+  description.append ("\n");
   
   string file = filter_url_create_root_path ("tmp", "debug.txt");
   filter_url_file_put_contents_append (file, description);
