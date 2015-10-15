@@ -139,6 +139,7 @@ string Assets_Header::run ()
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
     
+    // The start button to be displayed only when there's no menu.
     bool start_button = true;
     
     string menublock;
@@ -159,7 +160,9 @@ string Assets_Header::run ()
     }
     view->set_variable ("mainmenu", menublock);
     
-    if (start_button) view->enable_zone ("start_button");
+    if (start_button) {
+      view->enable_zone ("start_button");
+    }
     
     if (!fadingmenu.empty ()) {
       view->enable_zone ("fading_menu");
