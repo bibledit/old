@@ -236,6 +236,7 @@
 		CA3925591A534AD7009302B8 /* upload.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = upload.html; sourceTree = "<group>"; };
 		CA3A31EF1B6B5CDB00B2633E /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA3A31F01B6B5CDB00B2633E /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CA3A57621BD019A40042ADEE /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA3D1DF01A9E31D800A9456A /* bible2resource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bible2resource.cpp; sourceTree = "<group>"; };
 		CA3D1DF11A9E31D800A9456A /* bible2resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bible2resource.h; sourceTree = "<group>"; };
 		CA3D1DF21A9E31D800A9456A /* bible2resource.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = bible2resource.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1335,6 +1336,7 @@
 		CAA4CFB51A45A647003ABA25 /* config */ = {
 			isa = PBXGroup;
 			children = (
+				CA3A57621BD019A40042ADEE /* config.h */,
 				CAA4CFBB1A45A647003ABA25 /* globals.cpp */,
 				CAA4CFBC1A45A647003ABA25 /* globals.h */,
 				CAA4CFBE1A45A647003ABA25 /* libraries.h */,
