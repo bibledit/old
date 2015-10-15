@@ -6382,9 +6382,6 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-msgid "desktop"
-msgstr ""
-
 msgid "Visual chapter editor"
 msgstr ""
 
