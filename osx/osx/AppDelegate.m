@@ -20,6 +20,8 @@
 @end
 
 
+
+
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -57,7 +59,7 @@
     
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector (checkForExternalBrowser) userInfo:nil repeats:YES];
     
-    self.webview.UIDelegate = self;
+    //self.webview.UIDelegate = MyUIDelegate;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -88,7 +90,7 @@
     // Enable the selection of directories in the dialog.
     [openDlg setCanChooseDirectories:NO];
     
-    if ( [openDlg runModal] == NSOKButton )
+    if ( [openDlg runModal] == NSModalResponseOK )
     {
         NSArray* files = [[openDlg URLs]valueForKey:@"relativePath"];
         [resultListener chooseFilenames:files];

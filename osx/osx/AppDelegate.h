@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@import WebKit;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @end
-
