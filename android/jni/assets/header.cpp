@@ -98,6 +98,13 @@ void Assets_Header::refresh (int seconds, string url)
 }
 
 
+// Adds a menu item to the fading menu.
+void Assets_Header::setFadingMenu (string html) // Todo
+{
+  fadingmenu = html;
+}
+
+
 // Runs the header.
 string Assets_Header::run ()
 {
@@ -149,9 +156,12 @@ string Assets_Header::run ()
     }
     view->set_variable ("mainmenu", menublock);
     
-    view->enable_zone ("user_full");
-    //Menu_User menu_user = Menu_User (webserver_request);
-    //view->set_variable ("usermenu", menu_user.create (loginrequest));
+    if (!fadingmenu.empty ()) {
+      view->enable_zone ("fading_menu");
+      view->set_variable ("fadingmenu", fadingmenu);
+      fadingmenu.clear ();
+    }
+
     if (displayNavigator) {
       view->enable_zone ("display_navigator");
       string bible = access_bible_clamp (request, request->database_config_user()->getBible ());

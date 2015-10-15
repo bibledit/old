@@ -214,11 +214,6 @@ void timer_index ()
           tasks_logic_queue (UPDATEALLSWORDMODULES);
         }
       }
-      
-      // Debug stuff.
-      if (config_logic_demo_enabled ()) {
-        debug_logic_log_connections ();
-      }
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());

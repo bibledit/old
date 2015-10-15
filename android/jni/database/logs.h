@@ -36,6 +36,7 @@ public:
   string getNext (string &filename);
   void update (int oldseconds, int newseconds);
   void clear ();
+  static void debug (string description);
 private:
   static string folder ();
   sqlite3 * connect ();

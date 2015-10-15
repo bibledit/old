@@ -184,6 +184,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/imagefetch.h>
 #include <resource/sword.h>
 #include <lexicon/definition.h>
+#include <database/logs.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -192,6 +193,16 @@ void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
+  
+  if (config_logic_demo_enabled ()) { // Todo debug
+    Database_Logs::debug (request->get);
+    for (auto element : request->query) {
+      Database_Logs::debug (element.first + "=" + element.second);
+    }
+    for (auto element : request->post) {
+      Database_Logs::debug (element.first + "=" + element.second);
+    }
+  }
 
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")

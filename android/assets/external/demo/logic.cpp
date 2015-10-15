@@ -49,7 +49,13 @@
  
  During the course of October 2015 the demo began to often refuse web connections. Todo
  It appears that the server keeps running most of the times, but also crashed often during certain periods.
- The number of parallel connections was traced to see if that was the cause.
+
+ The number of parallel connections was traced to see if that was the cause. 
+ The parallel connection count was mostly 0, at times 1, and higher at rare occassions.
+ So this should be excluded as the cause.
+ 
+ Continuous crashes of the server could be the cause.
+ The page requests are now being logged to see what happens.
  
 */
 
