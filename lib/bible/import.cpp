@@ -107,10 +107,11 @@ string bible_import (void * webserver_request)
     request->database_config_user()->setBible (bible);
   }
   
-  if (CONFIG_ENABLE_FILE_UPLOAD)
-    view.enable_zone ("enable_upload");
-  else
-    view.enable_zone ("disable_upload");
+#ifdef CONFIG_ENABLE_FILE_UPLOAD
+  view.enable_zone ("enable_upload");
+#else
+  view.enable_zone ("disable_upload");
+#endif
   
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
