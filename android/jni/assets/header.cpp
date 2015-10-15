@@ -139,10 +139,13 @@ string Assets_Header::run ()
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
     
+    bool start_button = true;
+    
     string menublock;
     string item = request->query ["item"];
     if (item == "main") {
       menublock = menu_logic_main_categories (webserver_request);
+      start_button = false;
     } else if (item == "translate") {
       menublock = menu_logic_translate_category (webserver_request);
     } else if (item == "search") {
@@ -155,6 +158,8 @@ string Assets_Header::run ()
       menublock = menu_logic_help_category (webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
+    
+    if (start_button) view->enable_zone ("start_button");
     
     if (!fadingmenu.empty ()) {
       view->enable_zone ("fading_menu");

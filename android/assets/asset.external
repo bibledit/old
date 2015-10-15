@@ -391,6 +391,11 @@ dialog/upload.html
 dialog/yes.cpp
 dialog/yes.h
 dialog/yes.html
+dropzone/dropzone.css
+dropzone/dropzone.js
+dropzone/dropzone.min.css
+dropzone/dropzone.min.js
+dropzone/readme.txt
 dtl/CONTRIBUTORS
 dtl/COPYING
 dtl/ChangeLog

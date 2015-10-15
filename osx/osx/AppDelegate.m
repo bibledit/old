@@ -56,6 +56,8 @@
     bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
     
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector (checkForExternalBrowser) userInfo:nil repeats:YES];
+    
+    self.webview.UIDelegate = self;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -73,6 +75,24 @@
 
 -(BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)app {
     return YES;
+}
+
+- (void)webView:(WebView *)sender runOpenPanelForFileButtonWithResultListener:(id < WebOpenPanelResultListener >)resultListener
+{
+    // Create the File Open Dialog class.
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    
+    // Enable the selection of files in the dialog.
+    [openDlg setCanChooseFiles:YES];
+    
+    // Enable the selection of directories in the dialog.
+    [openDlg setCanChooseDirectories:NO];
+    
+    if ( [openDlg runModal] == NSOKButton )
+    {
+        NSArray* files = [[openDlg URLs]valueForKey:@"relativePath"];
+        [resultListener chooseFilenames:files];
+    }
 }
 
 @end

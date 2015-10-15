@@ -106,6 +106,9 @@ string bible_import (void * webserver_request)
     request->database_config_user()->setBible (bible);
   }
   
+  // Todo
+  for (auto element : request->post) cout << element.first << " " << element.second.length () << endl; // Todo
+  
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
   
