@@ -36,6 +36,10 @@ sed -i.bak 's#/opt/local/lib#.#g' Makefile
 sed -i.bak 's#-L.#-L. -L../lib#g' Makefile
 
 
+# Update the configuration.
+sed -i.bak '/CONFIG_ENABLE_FILE_UPLOAD/d' config/config.h
+
+
 # Build the Bibledit library.
 make -j `sysctl -n hw.logicalcpu_max`
 
