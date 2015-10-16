@@ -708,30 +708,15 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
 }
 
 
-string lexicon_logic_render_etcb4_morphology (string rowid)
+string lexicon_logic_render_etcb4_morphology (string rowid) // Todo
 {
+  // The order of the rendered morphological information is such
+  // that the pieces of information most relevant to the Bible translator come first,
+  // and the remaining bits come after.
+  
   vector <string> renderings;
   int row = convert_to_int (rowid.substr (1));
   Database_Etcbc4 database_etcbc4;
-
-  string word = database_etcbc4.word (row);
-  renderings.push_back ("word:");
-  renderings.push_back (word);
-
-  string vocalized_lexeme = database_etcbc4.vocalized_lexeme (row);
-  renderings.push_back (";");
-  renderings.push_back ("vocalized lexeme:");
-  renderings.push_back (vocalized_lexeme);
-
-  string consonantal_lexeme = database_etcbc4.consonantal_lexeme (row);
-  renderings.push_back (";");
-  renderings.push_back ("consonantal lexeme:");
-  renderings.push_back (consonantal_lexeme);
-
-  string gloss = database_etcbc4.gloss (row);
-  renderings.push_back (";");
-  renderings.push_back ("gloss:");
-  renderings.push_back (filter_string_sanitize_html (gloss));
 
   string pos = database_etcbc4.pos (row);
   if (pos == "art") pos = "article";
@@ -748,10 +733,10 @@ string lexicon_logic_render_etcb4_morphology (string rowid)
   if (pos == "nega") pos = "negative particle";
   if (pos == "inrg") pos = "interrogative particle";
   if (pos == "adjv") pos = "adjective";
-  renderings.push_back (";");
-  renderings.push_back ("part of speech:");
+  //renderings.push_back (";");
+  //renderings.push_back ("part of speech:");
   renderings.push_back (pos);
-
+  
   string lexical_set = database_etcbc4.subpos (row);
   if (lexical_set == "nmdi") lexical_set = "distributive noun";
   if (lexical_set == "nmcp") lexical_set = "copulative noun";
@@ -769,71 +754,9 @@ string lexicon_logic_render_etcb4_morphology (string rowid)
   if (lexical_set == "card") lexical_set = "cardinal";
   if (lexical_set == "none") lexical_set = "";
   if (!lexical_set.empty ()) {
-    renderings.push_back (";");
-    renderings.push_back ("lexical set:");
-    renderings.push_back (lexical_set);
-  }
-
-  string gender = database_etcbc4.gender (row);
-  if (gender == "m") gender = "masculine";
-  if (gender == "f") gender = "feminine";
-  if (gender == "NA") gender.clear ();
-  if (gender == "unknown") gender = "unknown";
-  if (!gender.empty ()) {
-    renderings.push_back (";");
-    renderings.push_back ("gender:");
-    renderings.push_back (gender);
-  }
-      
-  string number = database_etcbc4.number (row);
-  if (number == "sg") number = "singular";
-  if (number == "du") number = "dual";
-  if (number == "pl") number = "plural";
-  if (number == "NA") number.clear ();
-  if (number == "unknown") number = "unknown";
-  if (!number.empty ()) {
-    renderings.push_back (";");
-    renderings.push_back ("number:");
-    renderings.push_back (number);
-  }
-
-  string person = database_etcbc4.person (row);
-  if (person == "p1") person = "first person";
-  if (person == "p2") person = "second person";
-  if (person == "p3") person = "third person";
-  if (person == "NA") person.clear ();
-  if (person == "unknown") person = "unknown";
-  if (!person.empty ()) {
-    renderings.push_back (";");
-    renderings.push_back ("person:");
-    renderings.push_back (person);
-  }
-
-  string state = database_etcbc4.state (row);
-  if (state == "a") state = "absolute";
-  if (state == "c") state = "construct";
-  if (state == "e") state = "emphatic";
-  if (state == "NA") state.clear ();
-  if (!state.empty ()) {
-    renderings.push_back (";");
-    renderings.push_back ("state:");
-    renderings.push_back (state);
-  }
-      
-  string tense = database_etcbc4.tense (row);
-  if (tense == "perf") tense = "perfect";
-  if (tense == "impf") tense = "imperfect";
-  if (tense == "wayq") tense = "wayyiqtol";
-  if (tense == "impv") tense = "imperative";
-  if (tense == "infa") tense = "infinitive (absolute)";
-  if (tense == "infc") tense = "infinitive (construct)";
-  if (tense == "ptca") tense = "participle";
-  if (tense == "ptcp") tense = "participle (passive)";
-  if (tense == "NA") tense.clear ();
-  if (!tense.empty ()) {
-    renderings.push_back (";");
-    renderings.push_back ("tense:");
-    renderings.push_back (tense);
+    // renderings.push_back (";");
+    // renderings.push_back ("lexical set:");
+    renderings.push_back ("(" + lexical_set + ")");
   }
 
   string stem = database_etcbc4.stem (row);
@@ -861,10 +784,94 @@ string lexicon_logic_render_etcb4_morphology (string rowid)
   if (stem == "pasq") stem = "passiveqal";
   if (stem == "NA") stem.clear ();
   if (!stem.empty ()) {
-    renderings.push_back (";");
-    renderings.push_back ("stem:");
+    //renderings.push_back (";");
+    //renderings.push_back ("stem:");
     renderings.push_back (stem);
   }
+  
+  string tense = database_etcbc4.tense (row);
+  if (tense == "perf") tense = "perfect";
+  if (tense == "impf") tense = "imperfect";
+  if (tense == "wayq") tense = "wayyiqtol";
+  if (tense == "impv") tense = "imperative";
+  if (tense == "infa") tense = "infinitive (absolute)";
+  if (tense == "infc") tense = "infinitive (construct)";
+  if (tense == "ptca") tense = "participle";
+  if (tense == "ptcp") tense = "participle (passive)";
+  if (tense == "NA") tense.clear ();
+  if (!tense.empty ()) {
+    //renderings.push_back (";");
+    //renderings.push_back ("tense:");
+    renderings.push_back (tense);
+  }
+  
+  string person = database_etcbc4.person (row);
+  if (person == "p1") person = "first person";
+  if (person == "p2") person = "second person";
+  if (person == "p3") person = "third person";
+  if (person == "NA") person.clear ();
+  if (person == "unknown") person = "unknown";
+  if (!person.empty ()) {
+    //renderings.push_back (";");
+    //renderings.push_back ("person:");
+    renderings.push_back (person);
+  }
+  
+  string gender = database_etcbc4.gender (row);
+  if (gender == "m") gender = "masculine";
+  if (gender == "f") gender = "feminine";
+  if (gender == "NA") gender.clear ();
+  if (gender == "unknown") gender = "unknown";
+  if (!gender.empty ()) {
+    // renderings.push_back (";");
+    // renderings.push_back ("gender:");
+    renderings.push_back (gender);
+  }
+  
+  string number = database_etcbc4.number (row);
+  if (number == "sg") number = "singular";
+  if (number == "du") number = "dual";
+  if (number == "pl") number = "plural";
+  if (number == "NA") number.clear ();
+  if (number == "unknown") number = "unknown";
+  if (!number.empty ()) {
+    // renderings.push_back (";");
+    // renderings.push_back ("number:");
+    renderings.push_back (number);
+  }
+  
+  string state = database_etcbc4.state (row);
+  if (state == "a") state = "absolute";
+  if (state == "c") state = "construct";
+  if (state == "e") state = "emphatic";
+  if (state == "NA") state.clear ();
+  if (!state.empty ()) {
+    // renderings.push_back (";");
+    // renderings.push_back ("state:");
+    renderings.push_back (state);
+  }
+  
+  string gloss = database_etcbc4.gloss (row);
+  //renderings.push_back (";");
+  //renderings.push_back ("gloss:");
+  renderings.push_back ("-");
+  renderings.push_back (filter_string_sanitize_html (gloss));
+  
+  renderings.push_back ("<br>");
+  
+  string word = database_etcbc4.word (row);
+  renderings.push_back ("word:");
+  renderings.push_back (word);
+
+  string vocalized_lexeme = database_etcbc4.vocalized_lexeme (row);
+  renderings.push_back (";");
+  renderings.push_back ("vocalized lexeme:");
+  renderings.push_back (vocalized_lexeme);
+
+  string consonantal_lexeme = database_etcbc4.consonantal_lexeme (row);
+  renderings.push_back (";");
+  renderings.push_back ("consonantal lexeme:");
+  renderings.push_back (consonantal_lexeme);
 
   string phrase_function = database_etcbc4.phrase_function (row);
   if (phrase_function == "Adju") phrase_function = "adjunct";

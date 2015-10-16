@@ -244,7 +244,7 @@ msgstr ""
 msgid "Import Bible text."
 msgstr ""
 
-msgid "Paste the text into the box below and Submit it."
+msgid "Paste the text into the box below and submit it."
 msgstr ""
 
 msgid "You can also upload a file with the text."
@@ -254,6 +254,9 @@ msgid "Or a compressed archive of such files."
 msgstr ""
 
 msgid "The upload may take some time."
+msgstr ""
+
+msgid "This can be done in Bibledit Cloud."
 msgstr ""
 
 msgid "Help"

@@ -38,6 +38,7 @@ sed -i.bak 's#-L.#-L. -L../lib#g' Makefile
 
 # Update the configuration.
 sed -i.bak '/CONFIG_ENABLE_FILE_UPLOAD/d' config/config.h
+rm config/*.bak
 
 
 # Build the Bibledit library.
