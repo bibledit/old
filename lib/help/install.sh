@@ -113,7 +113,8 @@ rm install2.sh
 
 echo Downloading Bibledit...
 cd
-wget http://bibledit.org/linux
+rm -f index.html
+wget http://bibledit.org/linux -O index.html
 if [ $? -ne 0 ]
 then
   echo Failed to list tarballs
