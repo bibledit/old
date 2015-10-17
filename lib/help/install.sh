@@ -109,9 +109,21 @@ fi
 rm install2.sh
 
 
+
+
 echo Downloading Bibledit...
 cd
-wget --continue http://bibledit.org/linux/bibledit-1.0.258.tar.gz
+wget http://bibledit.org/linux
+if [ $? -ne 0 ]
+then
+  echo Failed to list tarballs
+  exit
+fi
+cat index.html | grep "bibledit-" | grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//' | tail -n 1 > tarball.txt
+rm index.html
+TARBALL=`cat tarball.txt`
+rm tarball.txt
+wget --continue http://bibledit.org/linux/$TARBALL
 if [ $? -ne 0 ]
 then
   echo Failed to download Bibledit
