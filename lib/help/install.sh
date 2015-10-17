@@ -134,7 +134,7 @@ sleep 4
 
 echo Unpacking Bibledit in folder bibledit...
 mkdir -p bibledit
-tar xf bibledit-1.0.258.tar.gz -C bibledit --strip-components=1
+tar xf $TARBALL -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit
