@@ -397,6 +397,10 @@
 		CA92C4551B728510000C3F22 /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		CA92C4561B728510000C3F22 /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		CA92C4571B728510000C3F22 /* image.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = image.html; sourceTree = "<group>"; };
+		CA97857B1BD24A0600E13388 /* livetest.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = livetest.sh; sourceTree = "<group>"; };
+		CA97857C1BD24A9E00E13388 /* initialize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = initialize.sh; sourceTree = "<group>"; };
+		CA97857D1BD24AAA00E13388 /* paths.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = paths.sh; sourceTree = "<group>"; };
+		CA97857E1BD251A600E13388 /* livetest.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = livetest.js; sourceTree = "<group>"; };
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9DB79A1AA8E4B500D6B549 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = libgit2.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1123,6 +1127,18 @@
 			);
 			name = lexicon;
 			path = ../lexicon;
+			sourceTree = "<group>";
+		};
+		CA97857A1BD24A0600E13388 /* livetest */ = {
+			isa = PBXGroup;
+			children = (
+				CA97857C1BD24A9E00E13388 /* initialize.sh */,
+				CA97857E1BD251A600E13388 /* livetest.js */,
+				CA97857B1BD24A0600E13388 /* livetest.sh */,
+				CA97857D1BD24AAA00E13388 /* paths.sh */,
+			);
+			name = livetest;
+			path = ../livetest;
 			sourceTree = "<group>";
 		};
 		CAA4CEF51A45A647003ABA25 /* access */ = {
@@ -2813,6 +2829,7 @@
 				CA80A7091AA0A9A800C7208F /* json */,
 				CA8CF04D1B7CDC1700D07FCE /* lexicon */,
 				CAA4D1A31A45A648003ABA25 /* library */,
+				CA97857A1BD24A0600E13388 /* livetest */,
 				CAA4D1AA1A45A648003ABA25 /* locale */,
 				CAA4D1CC1A45A648003ABA25 /* logbook */,
 				CAA4D1CF1A45A648003ABA25 /* Makefile.am */,
