@@ -99,7 +99,7 @@ void Assets_Header::refresh (int seconds, string url)
 
 
 // Adds a menu item to the fading menu.
-void Assets_Header::setFadingMenu (string html) // Todo
+void Assets_Header::setFadingMenu (string html)
 {
   fadingmenu = html;
 }

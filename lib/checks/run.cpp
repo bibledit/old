@@ -24,6 +24,7 @@
 #include <database/mail.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <database/config/general.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -37,6 +38,7 @@
 #include <checks/space.h>
 #include <checks/usfm.h>
 #include <checks/verses.h>
+#include <checks/index.h>
 
 
 void checks_run (string bible)
@@ -174,6 +176,13 @@ void checks_run (string bible)
       string result = "<p>" + passage + " " + data + "</p>";
       emailBody.push_back (result);
     }
+  }
+  
+  
+  // Add a link to the online checking results.
+  if (!emailBody.empty ()) {
+    string siteUrl = Database_Config_General::getSiteURL ();
+    emailBody.push_back ("<p><a href=\"" + siteUrl + checks_index_url () + "\">" + translate("The checking results are also available online.") + "</a></p>");
   }
   
   

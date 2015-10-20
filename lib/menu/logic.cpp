@@ -259,7 +259,7 @@ string menu_logic_translate_category (void * webserver_request)
 }
 
 
-string menu_logic_search_category (void * webserver_request) // Todo
+string menu_logic_search_category (void * webserver_request)
 {
   vector <string> html;
 
