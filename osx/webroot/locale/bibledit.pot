@@ -854,6 +854,9 @@ msgstr ""
 msgid "Suppressed entries"
 msgstr ""
 
+msgid "The checking results are also available online."
+msgstr ""
+
 msgid "Bible Checks"
 msgstr ""
 
