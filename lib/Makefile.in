@@ -862,6 +862,7 @@ unittest_SOURCES = \
 	unittests/databases.cpp
 
 unittest_LDADD = libbibledit.a
+AM_CFLAGS = -Wall -Wextra -pedantic $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking \
 	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
 	$(OPENSSL_CFLAGS) $(ICU_CFLAGS)
