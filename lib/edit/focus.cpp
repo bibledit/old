@@ -51,7 +51,7 @@ string edit_focus (void * webserver_request)
   if (!book) return "";
   // Get chapter.
   int chapter = convert_to_int (request->query ["chapter"]);
-
+  
   
   string stylesheet = request->database_config_user()->getStylesheet ();
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
