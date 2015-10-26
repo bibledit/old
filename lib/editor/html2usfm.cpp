@@ -97,7 +97,7 @@ void Editor_Html2Usfm::load (string html)
   xmlFreeParserCtxt (context);
   xml_parse_result result = document2.load_string (xml.c_str());
   pugixml_utils_error_logger (&result, xml);
-  cout << html << endl; // Todo
+  //cout << html << endl; // Todo
 }
 
 
@@ -172,8 +172,8 @@ void Editor_Html2Usfm::process ()
     mainnode = mainnode->next;
   }
 
-  simple_walker walker;
-  document2.traverse (walker);
+  //simple_walker walker;
+  //document2.traverse (walker);
 }
 
 

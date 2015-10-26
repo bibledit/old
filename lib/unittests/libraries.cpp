@@ -592,7 +592,7 @@ void test_editor_html2usfm ()
     string standard = "\\p The earth brought forth.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-  return; // Todo
+  //return; // Todo
   // Non-Breaking Spaces
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
