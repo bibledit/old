@@ -321,16 +321,24 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     // If the module was installed, but the requested passage is out of range,
     // the output of "diatheke" contains the module name, so it won't be empty.
     if (output.empty ()) {
-      // Schedule SWORD module installation.
-      // (It used to be the case that this function, to get the text,
-      // would wait till the SWORD module was installed, and then after installation,
-      // return the text from that module.
-      // But due to long waiting on Bibledit demo, while it would install multiple modules,
-      // the Bibledit demo would become unresponsive.
-      // So, it's better to return immediately with an informative text.)
-      tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
-      // Return standard 'installing' information. Client knows not to cache this.
-      return sword_logic_installing_module_text ();
+      
+      // Check whether the SWORD module exists.
+      vector <string> modules = sword_logic_get_available ();
+      string smodules = filter_string_implode (modules, "");
+      if (smodules.find ("[" + module + "]") != string::npos) {
+        // Schedule SWORD module installation.
+        // (It used to be the case that this function, to get the text,
+        // would wait till the SWORD module was installed, and then after installation,
+        // return the text from that module.
+        // But due to long waiting on Bibledit demo, while it would install multiple modules,
+        // the Bibledit demo would become unresponsive.
+        // So, it's better to return immediately with an informative text.)
+        tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+        // Return standard 'installing' information. Client knows not to cache this.
+        return sword_logic_installing_module_text ();
+      } else {
+        return "Cannot find SWORD module " + module;
+      }
     }
     
     // The server hits the cache for recording the last day it was accessed.
