@@ -332,7 +332,8 @@ libbibledit_a_SOURCES = \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
 	sword/logic.cpp \
-	pugixml/pugixml.cpp
+	pugixml/pugixml.cpp \
+	pugixml/utils.cpp
 
 bin_PROGRAMS = server unittest
 

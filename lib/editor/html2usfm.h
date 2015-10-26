@@ -24,21 +24,25 @@
 #include <config/libraries.h>
 #include <libxml/tree.h>
 #include <database/styles.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 class Editor_Html2Usfm
 {
 public:
-  Editor_Html2Usfm (void * webserver_request_in);
+  Editor_Html2Usfm ();
   ~Editor_Html2Usfm ();
   void load (string html);
   void stylesheet (string stylesheet);
   void run ();
   string get ();
 private:
-  void * webserver_request;
   static void error_handler (void *ctx, const char *msg, ...);
   xmlDocPtr document = NULL; // DOMDocument holding the html.
+  xml_document document2;
   map <string, Database_Styles_Item> styles; // Style information.
   vector <string> output; // Output USFM.
   string currentLine; // Growing current USFM line.
@@ -64,7 +68,7 @@ private:
 };
 
 
-string editor_export_verse (void * webserver_request, string stylesheet, string html);
+string editor_export_verse (string stylesheet, string html);
 
 
 #endif

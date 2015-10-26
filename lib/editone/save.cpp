@@ -100,7 +100,7 @@ string editone_save (void * webserver_request)
 
   
   // Convert the html back to USFM in the special way for editing one verse.
-  string usfm = editor_export_verse (webserver_request, stylesheet, html);
+  string usfm = editor_export_verse (stylesheet, html);
 
   
   // Collect some data about the changes for this user.

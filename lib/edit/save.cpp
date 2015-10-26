@@ -87,7 +87,7 @@ string edit_save (void * webserver_request)
   
   string stylesheet = request->database_config_user()->getStylesheet();
   
-  Editor_Html2Usfm editor_export = Editor_Html2Usfm (request);
+  Editor_Html2Usfm editor_export;
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();

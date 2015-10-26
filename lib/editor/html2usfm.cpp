@@ -21,17 +21,16 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
-#include <webserver/request.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <database/logs.h>
+#include <pugixml/utils.h>
 
 
-Editor_Html2Usfm::Editor_Html2Usfm (void * webserver_request_in)
+Editor_Html2Usfm::Editor_Html2Usfm ()
 {
-  webserver_request = webserver_request_in;
 }
 
 
@@ -96,19 +95,22 @@ void Editor_Html2Usfm::load (string html)
   xmlParserCtxtPtr context = xmlNewParserCtxt();
   document = xmlCtxtReadMemory (context, xml.c_str(), xml.length(), "", "UTF-8", XML_PARSE_RECOVER);
   xmlFreeParserCtxt (context);
+  xml_parse_result result = document2.load_string (xml.c_str());
+  pugixml_utils_error_logger (&result, xml);
+  cout << html << endl; // Todo
 }
 
 
 void Editor_Html2Usfm::stylesheet (string stylesheet)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
   styles.clear ();
   noteOpeners.clear ();
   characterStyles.clear ();
-  vector <string> markers = request->database_styles()->getMarkers (stylesheet);
+  Database_Styles database_styles;
+  vector <string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (string & marker : markers) {
-    Database_Styles_Item style = request->database_styles()->getMarkerData (stylesheet, marker);
+    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     // Get markers with should not have endmarkers.
     bool suppress = false;
@@ -141,6 +143,17 @@ void Editor_Html2Usfm::run ()
 }
 
 
+struct simple_walker: xml_tree_walker
+{
+  virtual bool for_each (xml_node& node)
+  {
+    for (int i = 0; i < depth (); ++i) cout << " ";
+    cout << node.name () << " " << node.value () << endl; // Todo
+    return true;
+  }
+};
+
+
 void Editor_Html2Usfm::process ()
 {
   // Walk the tree to retrieve the "p" elements, then process them.
@@ -158,6 +171,9 @@ void Editor_Html2Usfm::process ()
     }
     mainnode = mainnode->next;
   }
+
+  simple_walker walker;
+  document2.traverse (walker);
 }
 
 
@@ -518,7 +534,7 @@ xmlNodePtr Editor_Html2Usfm::get_note_pointer (xmlNodePtr node, string id)
 // This function takes the html from an editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
-string editor_export_verse (void * webserver_request, string stylesheet, string html)
+string editor_export_verse (string stylesheet, string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.
@@ -529,7 +545,7 @@ string editor_export_verse (void * webserver_request, string stylesheet, string 
   }
 
   // Convert html to USFM.
-  Editor_Html2Usfm editor_export (webserver_request);
+  Editor_Html2Usfm editor_export;
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();

@@ -281,7 +281,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
 	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
 	sources/hebrewlexicon.$(OBJEXT) sword/logic.$(OBJEXT) \
-	pugixml/pugixml.$(OBJEXT)
+	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -852,7 +852,8 @@ libbibledit_a_SOURCES = \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
 	sword/logic.cpp \
-	pugixml/pugixml.cpp
+	pugixml/pugixml.cpp \
+	pugixml/utils.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -2030,6 +2031,8 @@ pugixml/$(DEPDIR)/$(am__dirstamp):
 	@: > pugixml/$(DEPDIR)/$(am__dirstamp)
 pugixml/pugixml.$(OBJEXT): pugixml/$(am__dirstamp) \
 	pugixml/$(DEPDIR)/$(am__dirstamp)
+pugixml/utils.$(OBJEXT): pugixml/$(am__dirstamp) \
+	pugixml/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2417,6 +2420,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@personalize/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/pugixml.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/admin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bible2resource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2bible.Po@am__quote@
