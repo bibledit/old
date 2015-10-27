@@ -1677,7 +1677,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
 
     // Use current time.
@@ -1721,7 +1721,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
     // Use current time.
     int time = filter_date_seconds_since_epoch ();
@@ -1737,7 +1737,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
     // Use current time.
     int time = filter_date_seconds_since_epoch ();
@@ -1753,7 +1753,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
     // Use current time.
     int time = filter_date_seconds_since_epoch ();
@@ -1771,7 +1771,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
     // Use current time.
     int time = filter_date_seconds_since_epoch ();
@@ -1793,7 +1793,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
     // There should be no next passage.
     Passage passage = database.getNext ("phpunit");
@@ -1803,7 +1803,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
     // Use current time.
     int time = filter_date_seconds_since_epoch ();
@@ -1824,7 +1824,7 @@ void test_database_navigation ()
   }
   {
     refresh_sandbox (true);
-    Database_Navigation database = Database_Navigation ();
+    Database_Navigation database;
     database.create ();
     // Record two entries at an interval.
     int time = filter_date_seconds_since_epoch ();

@@ -57,6 +57,68 @@
  Continuous crashes of the server could be the cause.
  The page requests are now being logged to see what happens.
  
+ 2015-10-14 13:22:17 /edit/focus
+ 2015-10-14 13:22:17 bible=Beria Bible
+ 2015-10-14 13:22:17 book=43
+ 2015-10-14 13:22:17 chapter=3
+ 2015-10-14 13:22:29 The server started
+ 
+ 2015-10-17 15:8:52 bible=Beria Bible
+ 2015-10-17 15:8:52 book=43
+ 2015-10-17 15:8:52 chapter=3
+ 2015-10-17 15:8:53 The server started
+ 
+ 2015-10-17 15:38:42 /edit/focus
+ 2015-10-17 15:38:42 bible=Beria Bible
+ 2015-10-17 15:38:42 book=43
+ 2015-10-17 15:38:42 chapter=3
+ 2015-10-17 15:38:43 The server started
+ 
+ 2015-10-17 16:4:42 /edit/focus
+ 2015-10-17 16:4:42 bible=Beria Bible
+ 2015-10-17 16:4:42 book=43
+ 2015-10-17 16:4:42 chapter=3
+ 2015-10-17 16:4:43 The server started
+ 
+ 2015-10-20 15:22:19 /edit/id
+ 2015-10-20 15:22:19 bible=Beria Bible
+ 2015-10-20 15:22:19 book=43
+ 2015-10-20 15:22:19 chapter=3
+ 2015-10-20 15:22:27 The server started
+
+ 2015-10-14 13:22:17 /edit/focus
+ 2015-10-14 13:22:17 bible=Beria Bible
+ 2015-10-14 13:22:17 book=43
+ 2015-10-14 13:22:17 chapter=3
+ 2015-10-14 13:22:29 The server started
+ 
+ 2015-10-14 13:34:17 /checks/2001008
+ 2015-10-14 13:35:58 The server started
+ 
+ 2015-10-16 7:40:15 /bible/book
+ 2015-10-16 7:40:15 bible=Beria Bible
+ 2015-10-16 7:40:15 book=52
+ 2015-10-16 7:40:15 createchapter=
+ 2015-10-16 7:41:59 The server started
+ 
+ 2015-10-17 15:8:52 /edit/focus
+ 2015-10-17 15:8:52 bible=Beria Bible
+ 2015-10-17 15:8:52 book=43
+ 2015-10-17 15:8:52 chapter=3
+ 2015-10-17 15:8:53 The server started
+ 
+ 2015-10-17 16:4:42 /edit/focus
+ 2015-10-17 16:4:42 bible=Beria Bible
+ 2015-10-17 16:4:42 book=43
+ 2015-10-17 16:4:42 chapter=3
+ 2015-10-17 16:4:43 The server started
+ 
+ 2015-10-20 15:22:19 /edit/id
+ 2015-10-20 15:22:19 bible=Beria Bible
+ 2015-10-20 15:22:19 book=43
+ 2015-10-20 15:22:19 chapter=3
+ 2015-10-20 15:22:27 The server started
+ 
 */
 
 // Returns true for correct credentials for a demo installation.

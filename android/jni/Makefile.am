@@ -331,7 +331,9 @@ libbibledit_a_SOURCES = \
 	sources/morphhb.cpp \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
-	sword/logic.cpp
+	sword/logic.cpp \
+	pugixml/pugixml.cpp \
+	pugixml/utils.cpp
 
 bin_PROGRAMS = server unittest
 
@@ -347,6 +349,9 @@ unittest_SOURCES = \
 	unittests/databases.cpp
 
 unittest_LDADD = libbibledit.a
+
+AM_CFLAGS = -Wall -Wextra -pedantic
+AM_CFLAGS += $(OPENSSL_CFLAGS)
 
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
 AM_CXXFLAGS += `xml2-config --cflags`	
