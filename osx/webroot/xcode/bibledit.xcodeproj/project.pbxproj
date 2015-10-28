@@ -845,6 +845,11 @@
 		CABB91D91AAB1CAA00D500FF /* verses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verses.cpp; sourceTree = "<group>"; };
 		CABB91DA1AAB1CAA00D500FF /* verses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verses.h; sourceTree = "<group>"; };
 		CABB91DB1AAB1CAA00D500FF /* verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = verses.html; sourceTree = "<group>"; };
+		CABE4D0C1BDBC996000547DB /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
+		CABE4D0D1BDBC996000547DB /* pugixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
+		CABE4D0E1BDBC996000547DB /* pugixml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
+		CABE4D101BDBE8DF000547DB /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
+		CABE4D111BDBE8DF000547DB /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		CABF088E1A8E29A600003101 /* editing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editing.cpp; sourceTree = "<group>"; };
 		CABF088F1A8E29A600003101 /* editing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = editing.h; sourceTree = "<group>"; };
 		CABF08901A8E2B9400003101 /* editing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editing.html; sourceTree = "<group>"; };
@@ -2846,6 +2851,7 @@
 				CA816D821B64047400FD276E /* personalize */,
 				CAA4D2A01A45A648003ABA25 /* pix */,
 				CAA4D2A71A45A648003ABA25 /* processes */,
+				CABE4D0B1BDBC996000547DB /* pugixml */,
 				CAA4D2B71A45A648003ABA25 /* reconfigure */,
 				CAA4D2B91A45A648003ABA25 /* resource */,
 				CAA4D2ED1A45A648003ABA25 /* revisions */,
@@ -2891,6 +2897,19 @@
 			);
 			name = debug;
 			path = ../debug;
+			sourceTree = "<group>";
+		};
+		CABE4D0B1BDBC996000547DB /* pugixml */ = {
+			isa = PBXGroup;
+			children = (
+				CABE4D0C1BDBC996000547DB /* pugiconfig.hpp */,
+				CABE4D0D1BDBC996000547DB /* pugixml.cpp */,
+				CABE4D0E1BDBC996000547DB /* pugixml.hpp */,
+				CABE4D101BDBE8DF000547DB /* utils.cpp */,
+				CABE4D111BDBE8DF000547DB /* utils.h */,
+			);
+			name = pugixml;
+			path = ../pugixml;
 			sourceTree = "<group>";
 		};
 		CAECFB821B84E30100B3634F /* sources */ = {

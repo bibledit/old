@@ -1911,9 +1911,6 @@ msgstr ""
 msgid "Cannot save: Needs Unicode"
 msgstr ""
 
-msgid "Saving Editor text"
-msgstr ""
-
 msgid "Select style"
 msgstr ""
 
