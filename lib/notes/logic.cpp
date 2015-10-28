@@ -168,9 +168,9 @@ void Notes_Logic::assignUser (int identifier, const string& user)
   Database_Notes database_notes = Database_Notes (webserver_request);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-    Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, Sync_Logic::notes_put_assign, user);
+    string myuser = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+    Database_NoteActions database_noteactions;
+    database_noteactions.record (myuser, identifier, Sync_Logic::notes_put_assign, user);
   } else {
     // Server: do the notifications.
     // Assign logic comes before the database action in this particular case.

@@ -85,7 +85,7 @@ string sync_notes (void * webserver_request)
   string user = hex2bin (request->post ["u"]);
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
     if (!request->database_users ()->usernameExists (user)) {
-      Database_Logs::log ("A client passes non existing user " + user, Filter_Roles::manager ());
+      Database_Logs::log ("A client passes a non-existing user " + user, Filter_Roles::manager ());
       return "";
     }
   }
