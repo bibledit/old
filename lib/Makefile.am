@@ -333,7 +333,8 @@ libbibledit_a_SOURCES = \
 	sources/hebrewlexicon.cpp \
 	sword/logic.cpp \
 	pugixml/pugixml.cpp \
-	pugixml/utils.cpp
+	pugixml/utils.cpp \
+	public/index.cpp
 
 bin_PROGRAMS = server unittest
 

@@ -853,6 +853,9 @@
 		CABF088E1A8E29A600003101 /* editing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editing.cpp; sourceTree = "<group>"; };
 		CABF088F1A8E29A600003101 /* editing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = editing.h; sourceTree = "<group>"; };
 		CABF08901A8E2B9400003101 /* editing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editing.html; sourceTree = "<group>"; };
+		CAC0E0411BE23B2C00640BFE /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CAC0E0421BE23B2C00640BFE /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CAC0E0431BE23B2C00640BFE /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAC0F0C81B81F1C000D3E989 /* morphgnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = morphgnt.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC0F0C91B81F1C000D3E989 /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = morphgnt.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAC518A11B9EDFC5006F6D70 /* edit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = edit.js; sourceTree = "<group>"; };
@@ -2851,6 +2854,7 @@
 				CA816D821B64047400FD276E /* personalize */,
 				CAA4D2A01A45A648003ABA25 /* pix */,
 				CAA4D2A71A45A648003ABA25 /* processes */,
+				CAC0E03B1BE23B2C00640BFE /* public */,
 				CABE4D0B1BDBC996000547DB /* pugixml */,
 				CAA4D2B71A45A648003ABA25 /* reconfigure */,
 				CAA4D2B91A45A648003ABA25 /* resource */,
@@ -2910,6 +2914,17 @@
 			);
 			name = pugixml;
 			path = ../pugixml;
+			sourceTree = "<group>";
+		};
+		CAC0E03B1BE23B2C00640BFE /* public */ = {
+			isa = PBXGroup;
+			children = (
+				CAC0E0411BE23B2C00640BFE /* index.cpp */,
+				CAC0E0421BE23B2C00640BFE /* index.h */,
+				CAC0E0431BE23B2C00640BFE /* index.html */,
+			);
+			name = public;
+			path = ../public;
 			sourceTree = "<group>";
 		};
 		CAECFB821B84E30100B3634F /* sources */ = {

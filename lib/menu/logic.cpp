@@ -154,6 +154,8 @@ string menu_logic_help_text ()
 // Returns the html for the main menu categories.
 string menu_logic_main_categories (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   vector <string> html;
 
   if (workbench_index_acl (webserver_request)) {
@@ -178,6 +180,11 @@ string menu_logic_main_categories (void * webserver_request)
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
     html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true));
+  }
+
+  // When not logged in, display Login menu item.
+  if (request->session_logic ()->currentUser ().empty ()) {
+    html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
   }
 
   return filter_string_implode (html, "\n");
