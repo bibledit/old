@@ -196,12 +196,12 @@ void bootstrap_index (Webserver_Request * request)
   string url = request->get.substr (1);
   
   if (config_logic_demo_enabled ()) { // Todo debug
-    Database_Logs::debug (request->get);
+    //Database_Logs::debug (request->get);
     for (auto element : request->query) {
-      Database_Logs::debug (element.first + "=" + element.second);
+      //Database_Logs::debug (element.first + "=" + element.second);
     }
     for (auto element : request->post) {
-      Database_Logs::debug (element.first + "=" + element.second);
+      //Database_Logs::debug (element.first + "=" + element.second);
     }
   }
 

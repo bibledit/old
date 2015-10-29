@@ -119,6 +119,64 @@
  2015-10-20 15:22:19 chapter=3
  2015-10-20 15:22:27 The server started
  
+ 2015-10-22 19:57:2 /resource/get
+ 2015-10-22 19:57:2 book=1
+ 2015-10-22 19:57:2 chapter=1
+ 2015-10-22 19:57:2 resource=5
+ 2015-10-22 19:57:2 verse=5
+ 2015-10-22 19:57:2 The server started
+
+ 2015-10-22 20:12:11 /resource/get
+ 2015-10-22 20:12:11 book=43
+ 2015-10-22 20:12:11 chapter=3
+ 2015-10-22 20:12:11 resource=6
+ 2015-10-22 20:12:11 verse=16
+ 2015-10-22 20:12:12 The server started
+
+ 2015-10-23 1:44:18 /resource/get
+ 2015-10-23 1:44:18 book=1
+ 2015-10-23 1:44:18 chapter=1
+ 2015-10-23 1:44:18 resource=6
+ 2015-10-23 1:44:18 verse=0
+ 2015-10-23 1:44:19 The server started
+
+ 2015-10-23 2:44:16 /resource/get
+ 2015-10-23 2:44:16 book=43
+ 2015-10-23 2:44:16 chapter=3
+ 2015-10-23 2:44:16 resource=6
+ 2015-10-23 2:44:16 verse=16
+ 2015-10-23 2:44:18 The server started
+
+ 2015-10-23 2:44:21 /resource/get
+ 2015-10-23 2:44:21 book=1
+ 2015-10-23 2:44:21 chapter=1
+ 2015-10-23 2:44:21 resource=6
+ 2015-10-23 2:44:21 verse=0
+ 2015-10-23 2:44:23 The server started
+
+ 2015-10-23 2:56:23 /resource/get
+ 2015-10-23 2:56:23 book=1
+ 2015-10-23 2:56:23 chapter=0
+ 2015-10-23 2:56:23 resource=6
+ 2015-10-23 2:56:23 verse=0
+ 2015-10-23 2:56:25 The server started
+
+ 2015-10-23 2:56:54 /resource/get
+ 2015-10-23 2:56:54 book=51
+ 2015-10-23 2:56:54 chapter=1
+ 2015-10-23 2:56:54 resource=6
+ 2015-10-23 2:56:54 verse=1
+ 2015-10-23 2:56:56 The server started
+
+ 2015-10-23 2:57:17 /resource/get
+ 2015-10-23 2:57:17 book=1
+ 2015-10-23 2:57:17 chapter=1
+ 2015-10-23 2:57:17 resource=6
+ 2015-10-23 2:57:17 verse=1
+ 2015-10-23 2:57:18 The server started
+
+ And so on...: Often /resource/get
+ 
 */
 
 // Returns true for correct credentials for a demo installation.
