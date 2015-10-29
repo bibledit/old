@@ -34,6 +34,7 @@ string menu_logic_search_text ();
 string menu_logic_tools_text ();
 string menu_logic_settings_text ();
 string menu_logic_help_text ();
+string menu_logic_public_feedback_text ();
 
 string menu_logic_main_categories (void * webserver_request);
 

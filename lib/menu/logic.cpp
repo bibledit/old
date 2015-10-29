@@ -83,6 +83,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/organize.h>
 #include <workbench/organize.h>
 #include <xrefs/index.h>
+#include <public/index.h>
 
 
 string menu_logic_href (string href)
@@ -151,6 +152,12 @@ string menu_logic_help_text ()
 }
 
 
+string menu_logic_public_feedback_text ()
+{
+  return translate ("Public feedback");
+}
+
+
 // Returns the html for the main menu categories.
 string menu_logic_main_categories (void * webserver_request)
 {
@@ -180,6 +187,11 @@ string menu_logic_main_categories (void * webserver_request)
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
     html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true));
+  }
+
+  // When a user is not logged in, put the public feedback into the main menu, rather than in a sub menu.
+  if (request->session_logic ()->currentUser ().empty ()) {
+    html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
   }
 
   // When not logged in, display Login menu item.
@@ -224,6 +236,8 @@ string menu_logic_workbenche_category (void * webserver_request)
 
 string menu_logic_translate_category (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   vector <string> html;
   
   if (edit_index_acl (webserver_request)) {
@@ -256,6 +270,11 @@ string menu_logic_translate_category (void * webserver_request)
 
   if (index_listing_acl (webserver_request, "exports")) {
     html.push_back (menu_logic_create_item (index_listing_url ("exports"), translate ("Exports"), true));
+  }
+  
+  // When a user is logged in, put the public feedback into this sub menu, rather than in the main menu.
+  if (!request->session_logic ()->currentUser ().empty ()) {
+    html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
   }
   
   if (!html.empty ()) {
@@ -526,15 +545,15 @@ string menu_logic_settings_category (void * webserver_request)
 }
 
 
-// Not now in use.
-// Kept for the future.
 string menu_logic_help_category (void * webserver_request)
 {
-  if (webserver_request) {};
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   vector <string> html;
 
-  html.push_back (menu_logic_create_item ("help/index", translate ("Help and About"), true));
+  if (!request->session_logic ()->currentUser ().empty ()) {
+    html.push_back (menu_logic_create_item ("help/index", translate ("Help and About"), true));
+  }
 
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_help_text () + ": ");

@@ -71,7 +71,7 @@ string public_index (void * webserver_request)
   if (request->query.count ("bible")) {
     bible = request->query ["bible"];
     if (bible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the public for"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display"), "", "");
       vector <string> bibles = access_bible_bibles (request);
       for (auto & bible : bibles) {
         dialog_list.add_row (bible, "bible", bible);

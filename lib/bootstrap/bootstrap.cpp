@@ -185,6 +185,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/sword.h>
 #include <lexicon/definition.h>
 #include <database/logs.h>
+#include <public/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -333,6 +334,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == user_notifications_url ()) && user_notifications_acl (request)) request->reply = user_notifications (request);
   else if ((url == user_account_url ()) && user_account_acl (request)) request->reply = user_account (request);
 
+  // Public feedback menu.
+  else if ((url == public_index_url ()) && public_index_acl (request)) request->reply = public_index (request);
+  
   // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);
   else if ((url == search_all_url ()) && search_all_acl (request)) request->reply = search_all (request);
