@@ -27,8 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Users
 {
 public:
-  Database_Users ();
-  ~Database_Users ();
   void create ();
   void upgrade ();
   void trim ();
