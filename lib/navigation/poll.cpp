@@ -32,7 +32,7 @@ string navigation_poll_url ()
 
 bool navigation_poll_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
 
