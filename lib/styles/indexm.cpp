@@ -57,7 +57,7 @@ string styles_indexm (void * webserver_request)
   
   page = Assets_Page::header (translate ("Styles"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   Database_Styles database_styles = Database_Styles ();
   

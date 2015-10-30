@@ -65,7 +65,7 @@ string notes_note (void * webserver_request)
 
   
   page += header.run();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success;
 
   

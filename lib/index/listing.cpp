@@ -52,7 +52,7 @@ string index_listing (void * webserver_request, string url)
 {
   string page;
   page = Assets_Page::header ("Bibledit", webserver_request);
-  Assets_View view = Assets_View ();
+  Assets_View view;
   url = filter_url_urldecode (url);
   url = filter_url_create_path ("", url);
   view.set_variable ("url", url);

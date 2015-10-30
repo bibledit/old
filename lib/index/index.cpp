@@ -67,7 +67,7 @@ string index_index (void * webserver_request)
 
   string page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   page += view.render ("index", "index");
   page += Assets_Page::footer ();

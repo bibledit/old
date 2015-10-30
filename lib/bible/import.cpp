@@ -54,7 +54,7 @@ string bible_import (void * webserver_request)
   header.setNavigator ();
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   string success_message;
   string error_message;

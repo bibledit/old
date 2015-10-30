@@ -50,7 +50,7 @@ string session_password (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
   page += header.run ();
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   // Form submission handler.
   if (request->post["submit"] != "") {

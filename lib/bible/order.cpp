@@ -52,7 +52,7 @@ string bible_order (void * webserver_request)
   header.jQueryUIOn ();
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   string success_message;
   string error_message;

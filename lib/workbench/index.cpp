@@ -60,7 +60,7 @@ string workbench_index (void * webserver_request)
   header.setNavigator ();
   header.setFadingMenu (menu_logic_workbenche_category (webserver_request));
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   map <int, string> urls = workbenchGetURLs (request, true);
   map <int, string> widths = workbenchGetWidths (request);

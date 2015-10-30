@@ -65,7 +65,7 @@ string search_all (void * webserver_request)
   page = header.run ();
 
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   // Put the query string into the search box.

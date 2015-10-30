@@ -50,7 +50,7 @@ string resource_admin (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   
   vector <string> resources = resource_external_names ();

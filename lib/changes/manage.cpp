@@ -60,7 +60,7 @@ string changes_manage (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Changes"), request);
   page += header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   if (request->query.count("clear")) {

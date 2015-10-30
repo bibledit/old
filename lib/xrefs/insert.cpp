@@ -171,7 +171,7 @@ string xrefs_insert (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Cross references"), webserver_request);
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   page += view.render ("xrefs", "insert");
   page += Assets_Page::footer ();
   return page;

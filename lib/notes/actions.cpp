@@ -58,7 +58,7 @@ string notes_actions (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Note actions"), request);
   page += header.run();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success, error;
 
   

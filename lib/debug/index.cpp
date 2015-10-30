@@ -49,7 +49,7 @@ string debug_index (void * webserver_request)
 
   page = Assets_Page::header ("Bibledit", webserver_request);
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   string code;
   

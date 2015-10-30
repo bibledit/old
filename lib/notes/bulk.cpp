@@ -64,7 +64,7 @@ string notes_bulk (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Bulk update"), request);
   page += header.run();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success, error;
 
   

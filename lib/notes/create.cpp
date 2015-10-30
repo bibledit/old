@@ -57,7 +57,7 @@ string notes_create (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Create note"), request);
   page += header.run();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   
   // Is is possible to pass a Bible to this script.

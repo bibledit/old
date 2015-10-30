@@ -63,7 +63,7 @@ string editverse_index (void * webserver_request)
   header.setNavigator ();
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];

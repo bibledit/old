@@ -61,7 +61,7 @@ string changes_changes (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Changes"), request);
   header.setStylesheet ();
   page += header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   string username = request->session_logic()->currentUser ();

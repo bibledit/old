@@ -89,7 +89,7 @@ string workbench_settings (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit workbench"), request);
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   map <int, string> urls = workbenchGetURLs (request, false);
   map <int, string> widths = workbenchGetWidths (request);

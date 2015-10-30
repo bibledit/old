@@ -57,7 +57,7 @@ string session_signup (void * webserver_request)
   string page;
 
   page += Assets_Page::header (translate ("Signup"), webserver_request);
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   // Some security questions.
   vector <Verification> verifications;
