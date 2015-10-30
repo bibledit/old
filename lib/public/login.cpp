@@ -46,7 +46,6 @@ bool public_login_acl (void * webserver_request)
 
 string public_login (void * webserver_request)
 {
-
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
@@ -54,57 +53,46 @@ string public_login (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("Public login"), request);
   page = header.run ();
 
+  
   Assets_View view;
 
   // Form submission handler.
+  for (auto element : request->post) cout << element.first << " " << element.second << endl; // Todo
   if (request->post["submit"] != "") {
     bool form_is_valid = true;
-    string user = request->post["user"];
-    string pass = request->post["pass"];
+    string name = request->post["name"];
+    string email = request->post["email"];
     // During login it determines whether the the device is a touch enabled device.
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.
     bool touch_enabled = convert_to_bool (request->post["touch"]);
-    if (user.length () < 2) {
+    if (name.length () < 2) {
       form_is_valid = false;
-      view.set_variable ("username_email_invalid", translate ("Username should be at least two characters long"));
+      view.set_variable ("name_invalid", translate ("The name should be at least two characters long"));
     }
-    if (pass.length() < 4) {
+    if (!filter_url_email_is_valid (email)) {
       form_is_valid = false;
-      view.set_variable ("password_invalid", translate ("Password should be at least four characters long"));
+      view.set_variable ("email_invalid", translate("The email address is not valid"));
     }
     if (form_is_valid) {
-      if (request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
+      // For public login, the password is taken to be the same as the username.
+      if (request->session_logic()->attemptLogin (name, name, touch_enabled)) {
         // Log the login.
         Database_Logs::log (request->session_logic()->currentUser () + " logged in");
-        // Store web site's base URL.
-        string siteUrl = get_base_url (request);
-        Database_Config_General::setSiteURL (siteUrl);
-
       } else {
-        view.set_variable ("error_message", translate ("Username or email address or password are not correct"));
+        
+        
+        
+        
         request->session_logic()->logout();
-        // Log the login failure for the Administrator(s) only.
-        // Others with lower roles should not be able to reverse engineer a user's password
-        // based on the failure information.
-        Database_Logs::log ("Failed login attempt for user " + user + " with password " + pass, Filter_Roles::admin ());
       }
     }
   }
   
-  view.set_variable ("VERSION", config_logic_version ());
 
 
-  string forward = request->query ["request"];
-  
   if (request->session_logic ()->loggedIn ()) {
-    if (forward != "") {
-      // After login, the user is forwarded to the originally requested URL, if any.
-      redirect_browser (request, forward);
-      return "";
-    }
-    // After login, go to the main page.
     redirect_browser (request, index_index_url ());
     return "";
   }

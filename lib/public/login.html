@@ -1,24 +1,25 @@
-<h3>translate ("Login")</h3>
-<form action="login?request=##forward##" name="form" method="post">
+<h3>translate ("Public feedback")</h3>
+<p>translate ("Thank you for being interested in providing feedback on the Bible that is being translated.")</p>
+<p>translate ("Please provide your name and email address.")</p>
+<p>translate ("You will then receive email about any feedback you give.")</p>
+<br>
+<form action="login" name="form" method="post">
   <table>
-    <p class="error">##error_message##</p>
     <tr>
-      <td align="right">translate ("Username or email address")</td>
-      <td><input type="text" name="user" maxlength="30" /></td>
-      <td class="error">##username_email_invalid##</td>
+      <td align="right">translate ("Name")</td>
+      <td><input type="text" name="name" maxlength="30" /></td>
+      <td class="error">##name_invalid##</td>
     </tr>
     <tr>
-      <td align="right">translate ("Password")</td>
-      <td><input type="password" name="pass" maxlength="30" /></td>
-      <td class="error">##password_invalid##</td>
+      <td align="right">translate ("Email address")</td>
+      <td><input type="text" name="email" maxlength="50" /></td>
+      <td class="error">##email_invalid##</td>
     </tr>
     <tr>
       <td align="right"></td>
-      <td><input type="submit" id="test" name="submit" value="translate ("Login")" /></td>
+      <td><input type="submit" id="test" name="submit" value="translate ("Submit")" /></td>
     </tr>
   </table>
   <td><input type="hidden" id="touch" name="touch" value="1" /></td>
-  <p><a href="password">translate ("Forgot password?")</a></p>
-  <p>translate ("Not registered?") <a href="signup">translate ("Sign up!")</a></p>
 </form>
-<script type="text/javascript" src="login.js?##VERSION##"></script>
+<script type="text/javascript" src="../session/login.js?##VERSION##"></script>
