@@ -6382,7 +6382,13 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+msgid "Public feedback"
+msgstr ""
+
 msgid "Desktop"
+msgstr ""
+
+msgid "Login"
 msgstr ""
 
 msgid "Visual chapter editor"
@@ -7103,6 +7109,9 @@ msgstr ""
 msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
+msgid "Select which Bible to display"
+msgstr ""
+
 msgid "Resources"
 msgstr ""
 
@@ -7750,12 +7759,6 @@ msgid "Password should be at least four characters long"
 msgstr ""
 
 msgid "Username or email address or password are not correct"
-msgstr ""
-
-msgid "Login"
-msgstr ""
-
-msgid "Bibledit Login"
 msgstr ""
 
 msgid "Username or email address"

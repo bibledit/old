@@ -186,6 +186,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <lexicon/definition.h>
 #include <database/logs.h>
 #include <public/index.h>
+#include <public/login.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -336,6 +337,7 @@ void bootstrap_index (Webserver_Request * request)
 
   // Public feedback menu.
   else if ((url == public_index_url ()) && public_index_acl (request)) request->reply = public_index (request);
+  else if ((url == public_login_url ()) && public_login_acl (request)) request->reply = public_login (request);
   
   // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);

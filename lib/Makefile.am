@@ -334,7 +334,9 @@ libbibledit_a_SOURCES = \
 	sword/logic.cpp \
 	pugixml/pugixml.cpp \
 	pugixml/utils.cpp \
-	public/index.cpp
+	public/index.cpp \
+	public/logic.cpp \
+	public/login.cpp
 
 bin_PROGRAMS = server unittest
 

@@ -23,15 +23,13 @@
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <filter/passage.h>
-#include <filter/date.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
-#include <database/config/general.h>
-#include <database/config/bible.h>
 #include <access/bible.h>
 #include <dialog/list.h>
+#include <public/login.h>
 
 
 string public_index_url ()
@@ -50,9 +48,16 @@ string public_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+
+  // If the person providing public feedback is not known, foward to the page for entering details.
+  if (!request->session_logic ()->loggedIn ()) {
+    redirect_browser (request, public_login_url ());
+    return "";
+  }
+
   
   string page;
-  Assets_Header header = Assets_Header (translate("Public feedback"), request);
+  Assets_Header header = Assets_Header (translate ("Public feedback"), request);
   page = header.run ();
   Assets_View view = Assets_View ();
   
