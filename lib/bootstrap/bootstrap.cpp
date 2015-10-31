@@ -187,6 +187,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <public/index.h>
 #include <public/login.h>
+#include <public/chapter.h>
+#include <public/notes.h>
+#include <public/new.h>
+#include <public/create.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -338,6 +342,10 @@ void bootstrap_index (Webserver_Request * request)
   // Public feedback menu.
   else if ((url == public_index_url ()) && public_index_acl (request)) request->reply = public_index (request);
   else if ((url == public_login_url ()) && public_login_acl (request)) request->reply = public_login (request);
+  else if ((url == public_chapter_url ()) && public_chapter_acl (request)) request->reply = public_chapter (request);
+  else if ((url == public_notes_url ()) && public_notes_acl (request)) request->reply = public_notes (request);
+  else if ((url == public_new_url ()) && public_new_acl (request)) request->reply = public_new (request);
+  else if ((url == public_create_url ()) && public_create_acl (request)) request->reply = public_create (request);
   
   // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);

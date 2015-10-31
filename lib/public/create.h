@@ -14,14 +14,19 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+ */
 
 
-#ifndef INCLUDED_PUBLIC_LOGIC_H
-#define INCLUDED_PUBLIC_LOGIC_H
+#ifndef INCLUDED_PUBLIC_CREATE_H
+#define INCLUDED_PUBLIC_CREATE_H
 
 
 #include <config/libraries.h>
+
+
+string public_create_url ();
+bool public_create_acl (void * webserver_request);
+string public_create (void * webserver_request);
 
 
 #endif

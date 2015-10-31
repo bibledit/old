@@ -14,14 +14,19 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+ */
 
 
-#ifndef INCLUDED_PUBLIC_LOGIC_H
-#define INCLUDED_PUBLIC_LOGIC_H
+#ifndef INCLUDED_PUBLIC_CHAPTER_H
+#define INCLUDED_PUBLIC_CHAPTER_H
 
 
 #include <config/libraries.h>
+
+
+string public_chapter_url ();
+bool public_chapter_acl (void * webserver_request);
+string public_chapter (void * webserver_request);
 
 
 #endif

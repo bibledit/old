@@ -190,8 +190,10 @@ string menu_logic_main_categories (void * webserver_request)
   }
 
   // When a user is not logged in, put the public feedback into the main menu, rather than in a sub menu.
-  if (request->session_logic ()->currentUser ().empty ()) {
-    html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+  if (!config_logic_client_prepared ()) {
+    if (request->session_logic ()->currentUser ().empty ()) {
+      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+    }
   }
 
   // When not logged in, display Login menu item.
@@ -273,8 +275,10 @@ string menu_logic_translate_category (void * webserver_request)
   }
   
   // When a user is logged in, put the public feedback into this sub menu, rather than in the main menu.
-  if (!request->session_logic ()->currentUser ().empty ()) {
-    html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+  if (!config_logic_client_prepared ()) {
+    if (!request->session_logic ()->currentUser ().empty ()) {
+      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+    }
   }
   
   if (!html.empty ()) {

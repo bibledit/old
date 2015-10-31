@@ -7112,6 +7112,26 @@ msgstr ""
 msgid "Select which Bible to display"
 msgstr ""
 
+msgid "Public login"
+msgstr ""
+
+msgid "The name should be at least two characters long"
+msgstr ""
+
+msgid "Please login the other way, through Menu / Login"
+msgstr ""
+
+msgid ""
+"Thank you for being interested in providing feedback on the Bible that is "
+"being translated."
+msgstr ""
+
+msgid "Please provide your name and email address."
+msgstr ""
+
+msgid "You will then receive email about any feedback you give."
+msgstr ""
+
 msgid "Resources"
 msgstr ""
 

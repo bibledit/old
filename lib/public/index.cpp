@@ -24,12 +24,16 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <access/bible.h>
 #include <dialog/list.h>
 #include <public/login.h>
+#include <fonts/logic.h>
+#include <database/config/bible.h>
+#include <styles/css.h>
 
 
 string public_index_url ()
@@ -59,6 +63,7 @@ string public_index (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate ("Public feedback"), request);
   header.setNavigator ();
+  header.setStylesheet ();
   page = header.run ();
   Assets_View view;
   
@@ -68,7 +73,8 @@ string public_index (void * webserver_request)
   
   
   string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
-  
+  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+
   
   if (request->post.count ("add")) {
   }
@@ -95,6 +101,24 @@ string public_index (void * webserver_request)
   
   view.set_variable ("bible", bible);
 
+  
+  string clss = Filter_Css::getClass (bible);
+  string font = Fonts_Logic::getTextFont (bible);
+  int direction = Database_Config_Bible::getTextDirection (bible);
+  int lineheight = Database_Config_Bible::getLineHeight (bible);
+  int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  view.set_variable ("custom_class", clss);
+  view.set_variable ("custom_css", Filter_Css::getCss (clss,
+                                                       Fonts_Logic::getFontPath (font),
+                                                       direction,
+                                                       lineheight,
+                                                       letterspacing));
+  
+  Styles_Css styles_css = Styles_Css (&request, stylesheet);
+  styles_css.exports ();
+  styles_css.generate ();
+  string css = styles_css.css ();
+  view.set_variable ("exports_css", css);
   
   page += view.render ("public", "index");
   page += Assets_Page::footer ();

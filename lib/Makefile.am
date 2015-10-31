@@ -336,7 +336,11 @@ libbibledit_a_SOURCES = \
 	pugixml/utils.cpp \
 	public/index.cpp \
 	public/logic.cpp \
-	public/login.cpp
+	public/login.cpp \
+	public/chapter.cpp \
+	public/notes.cpp \
+	public/new.cpp \
+	public/create.cpp
 
 bin_PROGRAMS = server unittest
 
