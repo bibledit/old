@@ -7109,7 +7109,22 @@ msgstr ""
 msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
+msgid "Feedback"
+msgstr ""
+
+msgid "Create feedback on"
+msgstr ""
+
+msgid "Summary (no more than 30 characters long)"
+msgstr ""
+
+msgid "Your feedback"
+msgstr ""
+
 msgid "Select which Bible to display"
+msgstr ""
+
+msgid "Create new"
 msgstr ""
 
 msgid "Public login"
@@ -7130,6 +7145,18 @@ msgid "Please provide your name and email address."
 msgstr ""
 
 msgid "You will then receive email about any feedback you give."
+msgstr ""
+
+msgid "New feedback"
+msgstr ""
+
+msgid "Is this the verse you wish to give feedback on?"
+msgstr ""
+
+msgid "If it is not, use the navigator at the top to go to the correct verse."
+msgstr ""
+
+msgid "Yes, this is the correct verse"
 msgstr ""
 
 msgid "Resources"

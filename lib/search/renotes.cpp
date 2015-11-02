@@ -35,7 +35,7 @@ void search_reindex_notes ()
 
 
   // Database.
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes (&request);
 
 
   // Set a flag indicating that the notes databases are not available to clients and other parties.

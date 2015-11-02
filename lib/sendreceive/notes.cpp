@@ -95,7 +95,7 @@ bool sendreceive_notes_upload ()
 {
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes (&request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
   Notes_Logic notes_logic = Notes_Logic (&request);
   
@@ -313,7 +313,7 @@ bool sendreceive_notes_upload ()
 bool sendreceive_notes_download (int lowId, int highId)
 {
   Webserver_Request request;
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes (&request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
   Sync_Logic sync_logic = Sync_Logic (&request);
   Notes_Logic notes_logic = Notes_Logic (&request);

@@ -38,7 +38,7 @@ void statistics_statistics ()
   Webserver_Request request;
   Database_Mail database_mail = Database_Mail (&request);
   Database_Modifications database_modifications;
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes (&request);
   
   
   Database_Logs::log (translate("Sending statistics"), Filter_Roles::manager ());

@@ -123,7 +123,7 @@ void test_database_config_user ()
     refresh_sandbox (true);
     Webserver_Request request = Webserver_Request ();
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");
     request.session_logic ()->attemptLogin ("username", "password", true);
@@ -318,7 +318,7 @@ void test_database_users ()
   // Tests for Database_Users.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     database_users.upgrade ();
 
@@ -368,7 +368,7 @@ void test_database_users ()
   }
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
 
     string username1 = "unit test1";
@@ -397,7 +397,7 @@ void test_database_users ()
   }
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
 
     string username = "unit test";
@@ -420,7 +420,7 @@ void test_database_users ()
   // Test touch-enabled settings.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
 
     string username = "unittest";
@@ -441,7 +441,7 @@ void test_database_users ()
   }
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
 
     string username1 = "unit test 1";
@@ -479,7 +479,7 @@ void test_database_users ()
   }
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
 
     string username1 = "unit test 1";
@@ -519,7 +519,7 @@ void test_database_users ()
   // Test upgrading read-only settings.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     database_users.upgrade ();
 
@@ -1157,7 +1157,7 @@ void test_database_ipc ()
   // Test Get Focus
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
     Database_Ipc database_ipc = Database_Ipc (&request);
@@ -1183,7 +1183,7 @@ void test_database_ipc ()
   // Test Get Note.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
     Database_Ipc database_ipc = Database_Ipc (&request);
@@ -1209,7 +1209,7 @@ void test_database_ipc ()
   // Test Notes Alive.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
     Database_Ipc database_ipc = Database_Ipc (&request);
@@ -1591,7 +1591,7 @@ void test_database_mail ()
   // Optimize / Trim.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
     Database_Mail database_mail = Database_Mail (&request);
@@ -1602,7 +1602,7 @@ void test_database_mail ()
   // Empty.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
     Database_Mail database_mail = Database_Mail (&request);
@@ -1621,7 +1621,7 @@ void test_database_mail ()
   // Normal Cycle
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
     Database_Mail database_mail = Database_Mail (&request);
@@ -1648,7 +1648,7 @@ void test_database_mail ()
   // Normal Postpone
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
     Database_Mail database_mail = Database_Mail (&request);
@@ -2933,7 +2933,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     string path = database_notes.database_path ();
     evaluate (__LINE__, __func__, filter_url_create_root_path ("databases", "notes.sqlite"), path);
     path = database_notes.checksums_database_path ();
@@ -2943,10 +2943,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
     database_notes.optimize ();
     int identifier = database_notes.storeNewNote ("", 0, 0, 0, "", "", false);
@@ -2961,10 +2961,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     int identifier = Notes_Logic::lowNoteIdentifier;
@@ -2986,10 +2986,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
     // Test inserting data for both summary and contents.
     string summary = "Summary";
@@ -3031,10 +3031,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
     Notes_Logic notes_logic = Notes_Logic(&request);
     Database_Mail database_mail = Database_Mail (&request);
@@ -3070,10 +3070,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
@@ -3121,10 +3121,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     request.session_logic()->setUsername ("PHPUnit");
@@ -3142,10 +3142,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     request.session_logic()->setUsername ("PHPUnit");
@@ -3170,10 +3170,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     request.session_logic()->setUsername ("PHPUnit");
@@ -3202,10 +3202,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     request.session_logic()->setUsername ("PHPUnit");
@@ -3240,10 +3240,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     request.session_logic()->setUsername ("PHPUnit");
@@ -3265,10 +3265,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     request.session_logic()->setUsername ("phpunit");
@@ -3290,10 +3290,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     // Create note.
@@ -3330,10 +3330,10 @@ void test_database_notes ()
     // and whether it is not yet due for deletion before that.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     int identifier = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
@@ -3362,10 +3362,10 @@ void test_database_notes ()
     // will not be due for deletion.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     int identifier = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
@@ -3389,10 +3389,10 @@ void test_database_notes ()
     // are properly touched so they keep their own number of days.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     int identifier1 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
@@ -3421,14 +3421,14 @@ void test_database_notes ()
     identifiers = database_notes.getDueForDeletion ();
     evaluate (__LINE__, __func__, {identifier3}, identifiers);
   }  
-  // ExpireIsMarked.
+  // ExpireIsMarked
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     int identifier1 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
@@ -3451,10 +3451,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     // Create note to work with.
@@ -3537,10 +3537,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     // Create notes to work with.
@@ -3560,10 +3560,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     // Create a couple of notes to work with.
@@ -3648,10 +3648,10 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     // Create a couple of notes to work with.
@@ -3684,10 +3684,10 @@ void test_database_notes ()
   // ResilienceNotes.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     bool healthy = database_notes.healthy ();
@@ -3707,10 +3707,10 @@ void test_database_notes ()
   // ResilienceChecksumsNotes.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
 
     bool healthy = database_notes.checksums_healthy ();
@@ -3730,16 +3730,49 @@ void test_database_notes ()
   // Availability.
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
-    Database_Notes database_notes = Database_Notes (&request);
+    Database_Notes database_notes (&request);
     database_notes.create ();
     evaluate (__LINE__, __func__, true, database_notes.available ());
     database_notes.set_availability (false);
     evaluate (__LINE__, __func__, false, database_notes.available ());
     database_notes.set_availability (true);
     evaluate (__LINE__, __func__, true, database_notes.available ());
+  }
+  // Testing public notes.
+  {
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Users database_users;
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes (&request);
+    database_notes.create ();
+    
+    // Create a couple of notes to work with.
+    int identifier1 = database_notes.storeNewNote ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int identifier2 = database_notes.storeNewNote ("bible2", 1, 2, 3, "summary2", "contents2", false);
+    int identifier3 = database_notes.storeNewNote ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    
+    // None of them, or others, are public notes.
+    evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier1));
+    evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier2));
+    evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier3));
+    evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier1 + 1));
+    
+    // Set some public.
+    database_notes.setPublic (identifier1, true);
+    database_notes.setPublic (identifier2, true);
+    evaluate (__LINE__, __func__, true, database_notes.getPublic (identifier1));
+    evaluate (__LINE__, __func__, true, database_notes.getPublic (identifier2));
+    evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier3));
+    
+    // Unset some of them.
+    database_notes.setPublic (identifier1, false);
+    evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier1));
+    evaluate (__LINE__, __func__, true, database_notes.getPublic (identifier2));
   }
 }
 

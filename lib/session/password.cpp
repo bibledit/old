@@ -61,7 +61,7 @@ string session_password (void * webserver_request)
       form_is_valid = false;
     }
     string email;
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     if (form_is_valid) {
       form_is_valid = false;
       email = database_users.getUserToEmail (user);

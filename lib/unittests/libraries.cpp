@@ -82,7 +82,7 @@ void test_session_logic ()
     refresh_sandbox (true);
     
     // The session logic depends on users in the database.
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     
     // In an demo installation, a client is always logged in as user admin, even after logging out.
@@ -105,7 +105,7 @@ void test_session_logic ()
   {
     // In a client installation, a client is logged in as admin when there's no user in the database.
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     config_globals_client_prepared = true;
     Webserver_Request request = Webserver_Request ();
@@ -117,7 +117,7 @@ void test_session_logic ()
   {
     // In a client installation, a client is logged in as the first user in the database.
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     string username = "ঃইঝম";
     int level = 10;
@@ -131,7 +131,7 @@ void test_session_logic ()
   }
   {
     refresh_sandbox (true);
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
 
