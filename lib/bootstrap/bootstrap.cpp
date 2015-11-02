@@ -191,6 +191,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/notes.h>
 #include <public/new.h>
 #include <public/create.h>
+#include <public/note.h>
+#include <public/comment.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -346,6 +348,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == public_notes_url ()) && public_notes_acl (request)) request->reply = public_notes (request);
   else if ((url == public_new_url ()) && public_new_acl (request)) request->reply = public_new (request);
   else if ((url == public_create_url ()) && public_create_acl (request)) request->reply = public_create (request);
+  else if ((url == public_note_url ()) && public_note_acl (request)) request->reply = public_note (request);
+  else if ((url == public_comment_url ()) && public_comment_acl (request)) request->reply = public_comment (request);
   
   // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);

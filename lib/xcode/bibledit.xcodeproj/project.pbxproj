@@ -123,6 +123,12 @@
 		CA180F261AC71542006CA48B /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA180F271AC71542006CA48B /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
 		CA1A4EA51B076BF200731796 /* installcloudubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcloudubuntu.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CA1CE6431BE79710008E0F06 /* note.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = note.cpp; sourceTree = "<group>"; };
+		CA1CE6441BE79710008E0F06 /* note.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = note.h; sourceTree = "<group>"; };
+		CA1CE6451BE79710008E0F06 /* note.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = note.html; sourceTree = "<group>"; };
+		CA1CE6461BE7A0D1008E0F06 /* comment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comment.cpp; sourceTree = "<group>"; };
+		CA1CE6471BE7A0D1008E0F06 /* comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comment.h; sourceTree = "<group>"; };
+		CA1CE6481BE7A0D1008E0F06 /* comment.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comment.html; sourceTree = "<group>"; };
 		CA2726361AE29FA700440227 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA2726371AE29FA700440227 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA28411A1A614BAF0046C073 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -2939,6 +2945,9 @@
 			children = (
 				CA30DA591BE3F7130036F3E8 /* chapter.cpp */,
 				CA30DA5A1BE3F7130036F3E8 /* chapter.h */,
+				CA1CE6461BE7A0D1008E0F06 /* comment.cpp */,
+				CA1CE6471BE7A0D1008E0F06 /* comment.h */,
+				CA1CE6481BE7A0D1008E0F06 /* comment.html */,
 				CA2ABC2E1BE53B0500C7E429 /* create.cpp */,
 				CA2ABC2F1BE53B0500C7E429 /* create.h */,
 				CA2ABC301BE53B0500C7E429 /* create.html */,
@@ -2958,6 +2967,9 @@
 				CA2ABC2D1BE52F3A00C7E429 /* new.js */,
 				CA2ABC281BE4DFA400C7E429 /* notes.cpp */,
 				CA2ABC291BE4DFA400C7E429 /* notes.h */,
+				CA1CE6431BE79710008E0F06 /* note.cpp */,
+				CA1CE6441BE79710008E0F06 /* note.h */,
+				CA1CE6451BE79710008E0F06 /* note.html */,
 			);
 			name = public;
 			path = ../public;

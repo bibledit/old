@@ -285,7 +285,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
 	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
 	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
-	public/create.$(OBJEXT)
+	public/create.$(OBJEXT) public/note.$(OBJEXT) \
+	public/comment.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -864,7 +865,9 @@ libbibledit_a_SOURCES = \
 	public/chapter.cpp \
 	public/notes.cpp \
 	public/new.cpp \
-	public/create.cpp
+	public/create.cpp \
+	public/note.cpp \
+	public/comment.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -2064,6 +2067,10 @@ public/new.$(OBJEXT): public/$(am__dirstamp) \
 	public/$(DEPDIR)/$(am__dirstamp)
 public/create.$(OBJEXT): public/$(am__dirstamp) \
 	public/$(DEPDIR)/$(am__dirstamp)
+public/note.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/comment.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2452,11 +2459,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@personalize/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/chapter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/comment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/create.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/new.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/note.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/pugixml.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/utils.Po@am__quote@

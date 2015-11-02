@@ -58,6 +58,7 @@ string public_notes (void * webserver_request)
     // Display only public notes.
     if (database_notes.getPublic (identifier)) {
       notesblock.append ("<p class=\"nowrap\">");
+      notesblock.append ("<a href=\"note?id=" + convert_to_string (identifier) + "\">");
       vector <Passage> passages = database_notes.getPassages (identifier);
       string verses;
       for (auto & passage : passages) {
@@ -70,6 +71,7 @@ string public_notes (void * webserver_request)
       notesblock.append (" | ");
       string summary = database_notes.getSummary (identifier);
       notesblock.append (summary);
+      notesblock.append ("</a>");
       notesblock.append ("</p>");
     }
   }
