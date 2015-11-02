@@ -167,6 +167,11 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("mark");
   
   
+  if (database_notes.getPublic (id)) {
+    view.enable_zone ("public");
+  }
+
+  
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("notes", "actions");
