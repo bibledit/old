@@ -51,7 +51,7 @@ bool public_create_acl (void * webserver_request)
 string public_create (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   
   
@@ -82,7 +82,13 @@ string public_create (void * webserver_request)
     string summary = filter_string_trim (request->post["summary"]);
     if (summary.empty ()) summary = translate ("Feedback");
     string contents = "<p>" + versetext + "</p>" + filter_string_trim (request->post["contents"]);
-    notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
+    int identifier = notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
+    // A note created by a public user is made public to all.
+    database_notes.setPublic (identifier, true);
+    // Subscribe the user to the note.
+    // Then the user receives email about any updates made on this note.
+    database_notes.subscribe (identifier);
+    // Go to the main public notes page.
     redirect_browser (request, public_index_url ());
     return "";
   }

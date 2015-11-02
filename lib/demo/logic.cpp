@@ -378,7 +378,7 @@ void demo_create_sample_bible (void * webserver_request)
 // Create sample notes.
 void demo_create_sample_notes (void * webserver_request)
 {
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   vector <int> identifiers = database_notes.getIdentifiers ();
   if (identifiers.size () < 10) {
     for (size_t i = 1; i <= 10; i++) {

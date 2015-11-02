@@ -51,7 +51,7 @@ bool notes_actions_acl (void * webserver_request)
 string notes_actions (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
 
   

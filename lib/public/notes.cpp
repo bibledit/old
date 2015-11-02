@@ -42,7 +42,7 @@ bool public_notes_acl (void * webserver_request)
 string public_notes (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
 
   
   string bible = request->query ["bible"];
@@ -55,20 +55,23 @@ string public_notes (void * webserver_request)
   
   string notesblock;
   for (auto & identifier : identifiers) {
-    notesblock.append ("<p class=\"nowrap\">");
-    vector <Passage> passages = database_notes.getPassages (identifier);
-    string verses;
-    for (auto & passage : passages) {
-      if (passage.book != book) continue;
-      if (passage.chapter != chapter) continue;
-      if (!verses.empty ()) verses.append (" ");
-      verses.append (passage.verse);
+    // Display only public notes.
+    if (database_notes.getPublic (identifier)) {
+      notesblock.append ("<p class=\"nowrap\">");
+      vector <Passage> passages = database_notes.getPassages (identifier);
+      string verses;
+      for (auto & passage : passages) {
+        if (passage.book != book) continue;
+        if (passage.chapter != chapter) continue;
+        if (!verses.empty ()) verses.append (" ");
+        verses.append (passage.verse);
+      }
+      notesblock.append (verses);
+      notesblock.append (" | ");
+      string summary = database_notes.getSummary (identifier);
+      notesblock.append (summary);
+      notesblock.append ("</p>");
     }
-    notesblock.append (verses);
-    notesblock.append (" | ");
-    string summary = database_notes.getSummary (identifier);
-    notesblock.append (summary);
-    notesblock.append ("</p>");
   }
   
   

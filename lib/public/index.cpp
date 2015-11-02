@@ -68,17 +68,9 @@ string public_index (void * webserver_request)
   Assets_View view;
   
   
-  if (request->query.count ("previouspublic")) {
-  }
-  
-  
   string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
-  
-  if (request->post.count ("add")) {
-  }
-  
   
   if (request->query.count ("bible")) {
     bible = request->query ["bible"];
@@ -97,8 +89,6 @@ string public_index (void * webserver_request)
   
   
   bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
-  
-  
   view.set_variable ("bible", bible);
 
   
