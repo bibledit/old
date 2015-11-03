@@ -1454,14 +1454,14 @@ void Database_Notes::setModified (int identifier, int time)
 }
 
 
-bool Database_Notes::getPublic (int identifier) // Todo
+bool Database_Notes::getPublic (int identifier)
 {
   string file = publicFile (identifier);
   return file_exists (file);
 }
 
 
-void Database_Notes::setPublic (int identifier, bool value) // Todo
+void Database_Notes::setPublic (int identifier, bool value)
 {
   string file = publicFile (identifier);
   if (value) {

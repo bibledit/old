@@ -35,15 +35,18 @@ string menu_logic_tools_text ();
 string menu_logic_settings_text ();
 string menu_logic_help_text ();
 string menu_logic_public_feedback_text ();
+string menu_logic_logout_text ();
 
 string menu_logic_main_categories (void * webserver_request);
 
-string menu_logic_workbenche_category (void * webserver_request);
+string menu_logic_desktop_category (void * webserver_request);
 string menu_logic_translate_category (void * webserver_request);
 string menu_logic_search_category (void * webserver_request);
 string menu_logic_tools_category (void * webserver_request);
 string menu_logic_settings_category (void * webserver_request);
 string menu_logic_help_category (void * webserver_request);
+
+bool menu_logic_public_or_guest (void * webserver_request);
 
 
 #endif

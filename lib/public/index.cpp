@@ -28,7 +28,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
-#include <access/bible.h>
+#include <public/logic.h>
 #include <dialog/list.h>
 #include <public/login.h>
 #include <fonts/logic.h>
@@ -53,7 +53,7 @@ string public_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
 
-  // If the person providing public feedback is not known, foward to the page for entering details.
+  // If the person providing public feedback is not logged in, foward to the page for entering details.
   if (!request->session_logic ()->loggedIn ()) {
     redirect_browser (request, public_login_url ());
     return "";
@@ -67,8 +67,19 @@ string public_index (void * webserver_request)
   page = header.run ();
   Assets_View view;
   
+
+  // Take the Bible for this user, and ensure that it is one of the Bibles that have public feedback enabled.
+  string bible = request->database_config_user()->getBible ();
+  vector <string> public_bibles = public_logic_bibles (webserver_request);
+  if (!in_array (bible, public_bibles)) {
+    bible.clear ();
+    if (!public_bibles.empty ()) {
+      bible = public_bibles [0];
+    }
+    request->database_config_user()->setBible (bible);
+  }
   
-  string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   
@@ -76,8 +87,7 @@ string public_index (void * webserver_request)
     bible = request->query ["bible"];
     if (bible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display"), "", "");
-      vector <string> bibles = access_bible_bibles (request);
-      for (auto & bible : bibles) {
+      for (auto & bible : public_bibles) {
         dialog_list.add_row (bible, "bible", bible);
       }
       page += dialog_list.run();
@@ -88,8 +98,14 @@ string public_index (void * webserver_request)
   }
   
   
-  bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  bible = request->database_config_user()->getBible ();
   view.set_variable ("bible", bible);
+  
+  
+  // If there's more than one Bible with public feedback enabled, the public can select a Bible.
+  if (public_bibles.size () > 1) {
+    view.enable_zone ("bibles");
+  }
 
   
   string clss = Filter_Css::getClass (bible);

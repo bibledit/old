@@ -875,7 +875,6 @@
 		CABF088E1A8E29A600003101 /* editing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = editing.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CABF088F1A8E29A600003101 /* editing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = editing.h; sourceTree = "<group>"; };
 		CABF08901A8E2B9400003101 /* editing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editing.html; sourceTree = "<group>"; };
-		CAC0E0411BE23B2C00640BFE /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAC0E0421BE23B2C00640BFE /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAC0E0431BE23B2C00640BFE /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAC0E0441BE284CD00640BFE /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -2952,7 +2951,6 @@
 				CA2ABC2F1BE53B0500C7E429 /* create.h */,
 				CA2ABC301BE53B0500C7E429 /* create.html */,
 				CA2ABC311BE53B0500C7E429 /* index.cpp */,
-				CAC0E0411BE23B2C00640BFE /* index.cpp */,
 				CAC0E0421BE23B2C00640BFE /* index.h */,
 				CAC0E0431BE23B2C00640BFE /* index.html */,
 				CA30DA581BE3F7130036F3E8 /* index.js */,

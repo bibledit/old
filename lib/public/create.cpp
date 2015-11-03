@@ -61,7 +61,7 @@ string public_create (void * webserver_request)
   Assets_View view;
 
   
-  string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = request->database_config_user()->getBible ();
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);

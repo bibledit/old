@@ -18,5 +18,19 @@
 
 
 #include <public/logic.h>
+#include <webserver/request.h>
+#include <database/config/bible.h>
 
 
+vector <string> public_logic_bibles (void * webserver_request)
+{
+  vector <string> public_bibles;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  vector <string> bibles = request->database_bibles ()->getBibles ();
+  for (auto & bible : bibles) {
+    if (Database_Config_Bible::getPublicFeedbackEnabled (bible)) {
+      public_bibles.push_back (bible);
+    }
+  }
+  return public_bibles;
+}

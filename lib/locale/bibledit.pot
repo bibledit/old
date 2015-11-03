@@ -425,6 +425,9 @@ msgstr ""
 msgid "Viewable by all users"
 msgstr ""
 
+msgid "The public can give feedback"
+msgstr ""
+
 msgid "Front Matter"
 msgstr ""
 
@@ -6598,6 +6601,9 @@ msgstr ""
 msgid "Delete the note now"
 msgstr ""
 
+msgid "This note is public"
+msgstr ""
+
 msgid "Assign note"
 msgstr ""
 
@@ -7110,6 +7116,9 @@ msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
 msgid "Feedback"
+msgstr ""
+
+msgid "Back to chapter"
 msgstr ""
 
 msgid "Create feedback on"

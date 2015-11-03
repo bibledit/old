@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editverse/index.h>
 #include <email/index.h>
 #include <filter/string.h>
+#include <filter/roles.h>
 #include <index/index.h>
 #include <index/listing.h>
 #include <journal/index.h>
@@ -84,6 +85,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/organize.h>
 #include <xrefs/index.h>
 #include <public/index.h>
+#include <public/logic.h>
 
 
 string menu_logic_href (string href)
@@ -158,6 +160,12 @@ string menu_logic_public_feedback_text ()
 }
 
 
+string menu_logic_logout_text ()
+{
+  return translate ("Logout");
+}
+
+
 // Returns the html for the main menu categories.
 string menu_logic_main_categories (void * webserver_request)
 {
@@ -189,13 +197,26 @@ string menu_logic_main_categories (void * webserver_request)
     html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true));
   }
 
-  // When a user is not logged in, put the public feedback into the main menu, rather than in a sub menu.
+  // When a user is not logged in, or a guest,
+  // put the public feedback into the main menu, rather than in a sub menu.
   if (!config_logic_client_prepared ()) {
-    if (request->session_logic ()->currentUser ().empty ()) {
-      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+    if (menu_logic_public_or_guest (webserver_request)) {
+      if (!public_logic_bibles (webserver_request).empty ()) {
+        html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+      }
     }
   }
 
+  // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
+  if (request->session_logic ()->loggedIn ()) {
+    if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
+      if (session_logout_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true));
+      }
+    }
+  }
+
+  
   // When not logged in, display Login menu item.
   if (request->session_logic ()->currentUser ().empty ()) {
     html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
@@ -218,7 +239,7 @@ string menu_logic_main_categories (void * webserver_request)
 */
 
 
-string menu_logic_workbenche_category (void * webserver_request)
+string menu_logic_desktop_category (void * webserver_request)
 {
   vector <string> html;
 
@@ -274,10 +295,15 @@ string menu_logic_translate_category (void * webserver_request)
     html.push_back (menu_logic_create_item (index_listing_url ("exports"), translate ("Exports"), true));
   }
   
-  // When a user is logged in, put the public feedback into this sub menu, rather than in the main menu.
+  // When a user is logged in, but not a guest,
+  // put the public feedback into this sub menu, rather than in the main menu.
   if (!config_logic_client_prepared ()) {
     if (!request->session_logic ()->currentUser ().empty ()) {
-      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+      if (!menu_logic_public_or_guest (webserver_request)) {
+        if (!public_logic_bibles (webserver_request).empty ()) {
+          html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+        }
+      }
     }
   }
   
@@ -402,6 +428,7 @@ string menu_logic_tools_category (void * webserver_request)
 
 string menu_logic_settings_category (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   bool client = client_logic_client_enabled ();
   bool demo = config_logic_demo_enabled ();
 
@@ -523,10 +550,12 @@ string menu_logic_settings_category (void * webserver_request)
   }
 
   if (!(client || demo)) {
-    string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-    if (!username.empty ()) {
-      if (session_logout_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (session_logout_url (), translate ("Logout"), true));
+    // If logged in, but not as guest, put the Logout menu here.
+    if (request->session_logic ()->loggedIn ()) {
+      if (request->session_logic ()->currentLevel () != Filter_Roles::guest ()) {
+        if (session_logout_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true));
+        }
       }
     }
   }
@@ -564,4 +593,15 @@ string menu_logic_help_category (void * webserver_request)
   }
   
   return filter_string_implode (html, "\n");
+}
+
+
+// Returns true in case the user is a public user, that is, not logged-in,
+// or when the user has the role of Guest.
+bool menu_logic_public_or_guest (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  if (request->session_logic ()->currentUser ().empty ()) return true;
+  if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) return true;
+  return false;
 }

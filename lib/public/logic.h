@@ -24,4 +24,7 @@
 #include <config/libraries.h>
 
 
+vector <string> public_logic_bibles (void * webserver_request);
+
+
 #endif
