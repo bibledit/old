@@ -670,7 +670,7 @@ void test_editor_html2usfm ()
 }
 
 
-void test_editor_usfm2html ()
+void test_editor_usfm2html () // Todo
 {
   // Text Length One
   {
@@ -679,13 +679,14 @@ void test_editor_usfm2html ()
       "\\p\n"
       "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n";
     Webserver_Request request;
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    evaluate (__LINE__, __func__, 60, (int)editor_import.textLength);
-    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 1) }, editor_import.verseStartOffsets);
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    evaluate (__LINE__, __func__, 60, (int)editor_usfm2html.textLength);
+    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 1) }, editor_usfm2html.verseStartOffsets);
   }
+  //return; // Todo
   // Text Length More
   {
     string usfm =
@@ -701,11 +702,11 @@ void test_editor_usfm2html ()
     "\\v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.\n"
     "\\v 7 IN\\nd kosi\\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\\x*.\n";
     Webserver_Request request;
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    evaluate (__LINE__, __func__, 910, (int)editor_import.textLength);
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    evaluate (__LINE__, __func__, 910, (int)editor_usfm2html.textLength);
     evaluate (__LINE__, __func__, { make_pair (0, 0),
                                     make_pair (1, 1),
                                     make_pair (2, 61),
@@ -714,7 +715,7 @@ void test_editor_usfm2html ()
                                     make_pair (5, 466),
                                     make_pair (6, 673),
                                     make_pair (7, 755) },
-                                    editor_import.verseStartOffsets);
+                                    editor_usfm2html.verseStartOffsets);
   }
   // Space After Starting Marker
   {
@@ -723,11 +724,11 @@ void test_editor_usfm2html ()
     "\\p\n"
     "\\v 2 Text \\add of the \\add*1st\\add  second verse\\add*.\n";
     Webserver_Request request;
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     string standard =
     "<p class=\"c\"><span>1</span></p>"
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>Text </span><span class=\"add\">of the </span><span>1st</span><span class=\"add\"> second verse</span><span>.</span></p>";
@@ -740,11 +741,11 @@ void test_editor_usfm2html ()
     "\\p\n"
     "\\v 1 Judha muranda waJesu Kristu, uye munin'ina waJakobho ...\n";
     Webserver_Request request;
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     string standard =
     "<p class=\"c\"><span>1</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>";
     evaluate (__LINE__, __func__, standard, html);
@@ -762,11 +763,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
 
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, filter_string_trim (html));
     
     Editor_Html2Usfm editor_export;
@@ -787,11 +788,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
 
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -808,11 +809,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -833,11 +834,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -866,11 +867,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -887,11 +888,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -912,11 +913,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -933,11 +934,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -954,11 +955,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -979,11 +980,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1004,11 +1005,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1029,11 +1030,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1056,11 +1057,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1087,11 +1088,11 @@ void test_editor_roundtrip ()
     "<p class=\"mono\"><span>\\tr </span><span class=\"tc1\">Gad </span><span class=\"tc2\">Eliasaph son of Reuel </span><span class=\"tcr3\">45650</span></p>"
     "<p class=\"mono\"><span>\\tr </span><span class=\"tcr2\">Total: </span><span class=\"tcr3\">151450</span></p>";
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     standard_usfm =
@@ -1116,11 +1117,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1142,11 +1143,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1171,11 +1172,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1198,11 +1199,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1285,11 +1286,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1312,11 +1313,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1350,11 +1351,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
 
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     
     Editor_Html2Usfm editor_export;
     editor_export.load (html);
@@ -1410,11 +1411,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     
     Editor_Html2Usfm editor_export;
     editor_export.load (html);
@@ -1431,11 +1432,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
 
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     string html =
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span class=\"add\">add</span><span class=\"add nd\">addnd</span><span>.</span></p>";
     evaluate (__LINE__, __func__, html, output);
@@ -1458,11 +1459,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     string html =
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span class=\"add\">add</span><span class=\"add nd\">addnd</span><span>.</span></p>";
     evaluate (__LINE__, __func__, html, output);
@@ -1484,11 +1485,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     string html =
     "<p class=\"p\"><span>The </span><span class=\"add nd\">Lord God</span><span class=\"add\"> is</span><span> calling you</span></p>";
     evaluate (__LINE__, __func__, html, output);
@@ -1509,11 +1510,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     string html =
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
@@ -1540,11 +1541,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     string html =
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
@@ -1574,11 +1575,11 @@ void test_editor_roundtrip ()
 
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     string html =
     "<p class=\"c\"><span>1</span><span> </span><span class=\"v\">1</span><span> </span><span>Canonical text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span> canonical text.</span></p>"
     "<div id=\"notes\">"
@@ -1605,11 +1606,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1627,11 +1628,11 @@ void test_editor_roundtrip ()
     "<p class=\"p\"><span class=\"v\">1</span><span> </span><span>The text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p><div id=\"notes\"><hr/><p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"xo\">1 </span><span class=\"xt\">Passage</span></p></div>";
 
     Webserver_Request request;
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standardusfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standardusfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standardhtml, html);
 
     Editor_Html2Usfm editor_export;
@@ -1649,11 +1650,11 @@ void test_editor_roundtrip ()
     "\\v 1 Praise Yahweh\\f all you nations!\n"
     "\\v 2 For his loving kindness\\x is great toward us.\n";
     Webserver_Request request;
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     string standard_html =
     "<p class=\"c\"><span>117</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Praise Yahweh</span><span>\\f </span><span>all you nations!</span><span> </span><span class=\"v\">2</span><span> </span><span>For his loving kindness</span><span>\\x </span><span>is great toward us.</span></p>";
     evaluate (__LINE__, __func__, standard_html, html);
@@ -1674,11 +1675,11 @@ void test_editor_roundtrip ()
     string standard_html =
     "<p class=\"p\"><span>The </span><span>\\add </span><span>Lord God is calling you</span></p>";
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1698,11 +1699,11 @@ void test_editor_roundtrip ()
     string standard_html =
     "<p class=\"p\"><span>The </span><span>\\add </span><span>Lord </span><span class=\"nd\">God</span><span> is calling you</span><span> </span><span class=\"v\">2</span><span> </span><span>Verse text</span></p>";
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1722,11 +1723,11 @@ void test_editor_roundtrip ()
     string standard_html =
     "<p class=\"p\"><span>The </span><span>\\add </span><span>Lord God is calling you</span></p><p class=\"p\"><span>Paragraph</span></p>";
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string html = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_export;
@@ -1742,11 +1743,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     
     string html = "<p><span class=\"v\">1</span><span> </span><span>God created</span></p>";
     evaluate (__LINE__, __func__, html, output);
@@ -1761,11 +1762,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     
     string html = "<p class=\"c\"><span>1</span></p><p class=\"p\"/>";
     evaluate (__LINE__, __func__, html, output);
@@ -1783,11 +1784,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     
     string html = "<p class=\"mono\"><span>\\id </span><span>GEN Genesis</span></p><p class=\"mono\"><span>\\h </span><span>Genesis</span></p><p class=\"mono\"><span>\\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class=\"mt1\"><span>The First Book of Moses, called Genesis</span></p>";
     evaluate (__LINE__, __func__, html, output);
@@ -1801,11 +1802,11 @@ void test_editor_roundtrip ()
     
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output = editor_import.get ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
     
     string html = "<p class=\"p\"><span>And God called the firmament Heaven</span></p>";
     evaluate (__LINE__, __func__, html, output);
@@ -1813,38 +1814,42 @@ void test_editor_roundtrip ()
     output = editor_export_verse (styles_logic_standard_sheet (), html);
     evaluate (__LINE__, __func__, usfm, output);
   }
-  refresh_sandbox (false);
-}
-
-
-// Testing development of the editor logic.
-void test_editor_development ()
-{
-  refresh_sandbox (true);
   // Testing \add in a footnote.
   {
     string standard_usfm = "\\p Praise Yahweh\\f \\add I\\add* am\\f*, all you nations!";
     
     Webserver_Request request;
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
-    editor_import.load (standard_usfm);
-    editor_import.stylesheet (styles_logic_standard_sheet ());
-    editor_import.run ();
-    string output_html = editor_import.get ();
-    cout << output_html << endl; // Todo
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output_html = editor_usfm2html.get ();
+    //cout << output_html << endl; // Todo
     
-    return; // Todo
     string standard_html = "<p class=\"p\"><span>Praise Yahweh, all you nations!</span></p>";
-    evaluate (__LINE__, __func__, standard_html, output_html);
+    // evaluate (__LINE__, __func__, standard_html, output_html);
     
     Editor_Html2Usfm editor_export;
     editor_export.load (output_html);
     editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string output_usfm = editor_export.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    // evaluate (__LINE__, __func__, standard_usfm, output_usfm);
   }
+  
+  
+  refresh_sandbox (false);
+}
+
+
+// Testing development of the editor logic.
+void test_editor_development () // Todo
+{
+  refresh_sandbox (true);
+
+  
+  
   
 }
 

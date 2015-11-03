@@ -58,7 +58,7 @@ string edit_focus (void * webserver_request)
   int verse = Ipc_Focus::getVerse (request);
 
 
-  Editor_Usfm2Html editor_usfm2html = Editor_Usfm2Html (request);
+  Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();

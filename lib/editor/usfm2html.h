@@ -22,14 +22,18 @@
 
 
 #include <config/libraries.h>
-#include <libxml/tree.h>
+#include <libxml/tree.h> // Todo out.
 #include <database/styles.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 class Editor_Usfm2Html
 {
 public:
-  Editor_Usfm2Html (void * webserver_request_in);
+  Editor_Usfm2Html ();
   ~Editor_Usfm2Html ();
   void load (string usfm);
   void stylesheet (string stylesheet);
@@ -38,8 +42,6 @@ public:
   size_t textLength;
   map <int, int> verseStartOffsets;
 private:
-  void * webserver_request;
-
   vector <string> markersAndText; // Strings alternating between USFM and text.
   unsigned int markersAndTextPointer = 0;
   

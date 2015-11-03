@@ -21,25 +21,20 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
-#include <webserver/request.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
-#include <libxml/xmlmemory.h>
+#include <libxml/xmlmemory.h> // Todo out, all of them.
 #include <libxml/parser.h>
-#include <libxml/HTMLparser.h>
-#include <libxml/HTMLtree.h>
 #include <database/logs.h>
 
 
-Editor_Usfm2Html::Editor_Usfm2Html (void * webserver_request_in)
+Editor_Usfm2Html::Editor_Usfm2Html ()
 {
-  webserver_request = webserver_request_in;
 }
 
 
 Editor_Usfm2Html::~Editor_Usfm2Html ()
 {
-  //xmlDocDump (stdout, htmlDom);
   if (htmlDom) xmlFreeDoc (htmlDom);
 }
 
@@ -58,12 +53,12 @@ void Editor_Usfm2Html::load (string usfm)
 
 void Editor_Usfm2Html::stylesheet (string stylesheet)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Database_Styles database_styles;
   styles.clear();
-  vector <string> markers = request->database_styles()->getMarkers (stylesheet);
+  vector <string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (auto & marker : markers) {
-    Database_Styles_Item style = request->database_styles()->getMarkerData (stylesheet, marker);
+    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
