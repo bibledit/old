@@ -1736,18 +1736,10 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
   }
-  refresh_sandbox (false);
-}
-
-
-// Testing roundtrip for when editing one verse.
-void test_editor_roundtrip_verse ()
-{
-  refresh_sandbox (true);
-  // Testing a verse without a starting paragraph.
+  // Testing editing one verse, which does not have a starting paragraph.
   {
     string usfm = "\\v 1 God created";
-
+    
     Webserver_Request request;
     
     Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
@@ -1762,10 +1754,10 @@ void test_editor_roundtrip_verse ()
     output = editor_export_verse (styles_logic_standard_sheet (), html);
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Testing chapter number, or verse 0.
+  // Testing editing one verse: The chapter number, or verse 0.
   {
     string usfm = "\\c 1\n"
-                  "\\p";
+    "\\p";
     
     Webserver_Request request;
     
@@ -1781,7 +1773,7 @@ void test_editor_roundtrip_verse ()
     output = editor_export_verse (styles_logic_standard_sheet (), html);
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Chapter 0 verse 0.
+  // One-verse editor, testing chapter 0 verse 0.
   {
     string usfm =
     "\\id GEN Genesis\n"
@@ -1803,7 +1795,7 @@ void test_editor_roundtrip_verse ()
     output = editor_export_verse (styles_logic_standard_sheet (), html);
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Testing a paragraph with content.
+  // Testing one verse: a paragraph with content.
   {
     string usfm = "\\p And God called the firmament Heaven";
     
@@ -1821,6 +1813,39 @@ void test_editor_roundtrip_verse ()
     output = editor_export_verse (styles_logic_standard_sheet (), html);
     evaluate (__LINE__, __func__, usfm, output);
   }
+  refresh_sandbox (false);
+}
+
+
+// Testing development of the editor logic.
+void test_editor_development ()
+{
+  refresh_sandbox (true);
+  // Testing \add in a footnote.
+  {
+    string standard_usfm = "\\p Praise Yahweh\\f \\add I\\add* am\\f*, all you nations!";
+    
+    Webserver_Request request;
+    
+    Editor_Usfm2Html editor_import = Editor_Usfm2Html (&request);
+    editor_import.load (standard_usfm);
+    editor_import.stylesheet (styles_logic_standard_sheet ());
+    editor_import.run ();
+    string output_html = editor_import.get ();
+    cout << output_html << endl; // Todo
+    
+    return; // Todo
+    string standard_html = "<p class=\"p\"><span>Praise Yahweh, all you nations!</span></p>";
+    evaluate (__LINE__, __func__, standard_html, output_html);
+    
+    Editor_Html2Usfm editor_export;
+    editor_export.load (output_html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string output_usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+  }
+  
 }
 
 
