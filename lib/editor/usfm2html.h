@@ -44,23 +44,23 @@ private:
   
   map <string, Database_Styles_Item> styles; // All the style information.
   
-  // Html DOMNodes.
-  xml_document htmlDom;
-  xml_node bodyDomNode;
-  xml_node notesDomNode;
+  // XML nodes.
+  xml_document document;
+  xml_node body_node;
+  xml_node notes_node;
   
   // Standard content markers for notes.
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
   
-  xml_node currentPDomElement; // The current p DOM element.
+  xml_node currentPnode; // The current p node.
   bool current_p_open = false;
   string currentParagraphStyle;
   string currentParagraphContent;
   vector <string> currentTextStyles;
   
   int noteCount = 0;
-  xml_node notePDomElement; // The p DOM element of the current footnote, if any.
+  xml_node notePnode; // The p DOM element of the current footnote, if any.
   bool note_p_open = false;
   vector <string> currentNoteTextStyles;
   
@@ -75,8 +75,8 @@ private:
   void postprocess ();
   void outputAsIs (string marker, bool isOpeningMarker);
   void newParagraph (string style = "");
-  void openTextStyle (Database_Styles_Item & style, bool note, bool embed);
-  void closeTextStyle (bool note, bool embed);
+  void openTextStyle (Database_Styles_Item & style, bool embed);
+  void closeTextStyle (bool embed);
   void addText (string text);
   void addNote (string citation, string style, bool endnote = false);
   void addNoteText (string text);

@@ -1594,9 +1594,8 @@ void test_editor_roundtrip ()
     output = editor_export.get ();
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // \b Blank line Todo
+  // \b Blank line
   {
-    // Move this into place. Todo
     string standard_usfm =
     "\\p paragraph\n"
     "\\b\n"
@@ -1814,7 +1813,7 @@ void test_editor_roundtrip ()
     output = editor_export_verse (styles_logic_standard_sheet (), html);
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Testing \add in a footnote.
+  // Testing \add ..\add* markup in a footnote.
   {
     string standard_usfm = "\\p Praise Yahweh\\f \\add I\\add* am\\f*, all you nations!";
     
@@ -1826,18 +1825,60 @@ void test_editor_roundtrip ()
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
     
-    string standard_html = "<p class=\"p\"><span>Praise Yahweh, all you nations!</span></p>";
-    // evaluate (__LINE__, __func__, standard_html, output_html);
+    string standard_html = "<p class=\"p\"><span>Praise Yahweh</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>, all you nations!</span></p><div id=\"notes\"><hr /><p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span class=\"add\">I</span><span> am</span></p></div>";
+    evaluate (__LINE__, __func__, standard_html, output_html);
     
     Editor_Html2Usfm editor_export;
     editor_export.load (output_html);
     editor_export.stylesheet (styles_logic_standard_sheet ());
     editor_export.run ();
     string output_usfm = editor_export.get ();
-    // evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
   }
-  
-  
+  // Testing \xt in a footnote.
+  {
+    string standard_usfm = "\\p Praise Yahweh\\f I am, see \\xt Exod.6.3.\\f*, all you nations!";
+    
+    Webserver_Request request;
+    
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output_html = editor_usfm2html.get ();
+    
+    string standard_html = "<p class=\"p\"><span>Praise Yahweh</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>, all you nations!</span></p><div id=\"notes\"><hr /><p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>I am, see </span><span class=\"xt\">Exod.6.3.</span></p></div>";
+    evaluate (__LINE__, __func__, standard_html, output_html);
+    
+    Editor_Html2Usfm editor_export;
+    editor_export.load (output_html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string output_usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+  }
+  // Testing \xt and \add markup in a footnote, in Romans 2.15, received from a user.
+  {
+    string standard_usfm = "\\p \\f + \\fr 2:15 \\ft „tokie“ – t. „kurie“\\f*tokie parodo savo širdyse įrašytą įstatymo \\f + \\fr 2:15 \\ft „darbą“ – arba „poveikį“\\f*darbą, jų sąžinei kartu \\add tiems dalykams\\add* paliudijant, ir \\add jų\\add* mintims \\f + \\fr 2:15 \\ft „tuo tarpu \\add juos\\add* kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą \\add juos\\add* kaltindamos arba net gindamos“; žr. - \\xt Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones\\f*tuo tarpu \\add juos\\add* kaltinant arba net ginant) –";
+    
+    Webserver_Request request;
+    
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    string output_html = editor_usfm2html.get ();
+    
+    string standard_html = "<p class=\"p\"><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>tokie parodo savo širdyse įrašytą įstatymo </span><a href=\"#note2\" id=\"citation2\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">2</a><span>darbą, jų sąžinei kartu </span><span class=\"add\">tiems dalykams</span><span> paliudijant, ir </span><span class=\"add\">jų</span><span> mintims </span><a href=\"#note3\" id=\"citation3\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">3</a><span>tuo tarpu </span><span class=\"add\">juos</span><span> kaltinant arba net ginant) –</span></p><div id=\"notes\"><hr /><p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fr\">2:15 </span><span class=\"ft\">„tokie“ – t. „kurie“</span></p><p class=\"f\"><a href=\"#citation2\" id=\"note2\" style=\"text-decoration:none; color: inherit;\">2</a><span> </span><span>+ </span><span class=\"fr\">2:15 </span><span class=\"ft\">„darbą“ – arba „poveikį“</span></p><p class=\"f\"><a href=\"#citation3\" id=\"note3\" style=\"text-decoration:none; color: inherit;\">3</a><span> </span><span>+ </span><span class=\"fr\">2:15 </span><span class=\"ft\">„tuo tarpu </span><span class=\"add\">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class=\"add\">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class=\"xt\">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p></div>";
+    evaluate (__LINE__, __func__, standard_html, output_html);
+    
+    Editor_Html2Usfm editor_export;
+    editor_export.load (output_html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string output_usfm = editor_export.get ();
+    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+  }
   refresh_sandbox (false);
 }
 
@@ -1846,10 +1887,6 @@ void test_editor_roundtrip ()
 void test_editor_development () // Todo
 {
   refresh_sandbox (true);
-
-  
-  
-  
 }
 
 

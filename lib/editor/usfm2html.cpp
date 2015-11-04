@@ -73,14 +73,14 @@ string Editor_Usfm2Html::get ()
 {
   // If there are notes, move the notes <div> after everything else.
   // (It has the <hr> as a child).
-  size_t count = distance (notesDomNode.begin (), notesDomNode.end ());
+  size_t count = distance (notes_node.begin (), notes_node.end ());
   if (count > 1) {
-    bodyDomNode.append_move (notesDomNode);
+    body_node.append_move (notes_node);
   }
   
   // Get the html code, including body, without head.
   stringstream output;
-  bodyDomNode.print (output, "", format_raw);
+  body_node.print (output, "", format_raw);
   string html = output.str ();
   
   // Remain with the stuff within the <body> elements.
@@ -149,21 +149,22 @@ void Editor_Usfm2Html::preprocess ()
   
   // Done parsing.
   htmlFreeParserCtxt (context);
+
+  XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
+  It crashes here: bodyDomNode = nodes->nodeTab [0];
+  Therefore use another method: Build the document from scratch.
+  After the move to pugixml, the above no longer applies.
+  Even so, the document is built from scratch.
   */
 
-  // XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
-  // It crashes here: bodyDomNode = nodes->nodeTab [0];
-  // Therefore use another method: Build the document from scratch.
-  // After the move to pugixml, the above no longer applies.
-  // Even so, the document is built from scratch.
-  bodyDomNode = htmlDom.append_child ("body");
+  body_node = document.append_child ("body");
   
-  // Create notes xml document and node.
+  // Create notes xml node.
   // It comes at the start of the document.
   // (Later, it will either be deleted, or moved to the end).
-  notesDomNode = htmlDom.append_child ("div");
-  notesDomNode.append_attribute ("id") = "notes";
-  notesDomNode.append_child ("hr");
+  notes_node = document.append_child ("div");
+  notes_node.append_attribute ("id") = "notes";
+  notes_node.append_child ("hr");
 }
 
  
@@ -189,13 +190,13 @@ void Editor_Usfm2Html::process ()
           case StyleTypeNotUsedComment:
           case StyleTypeNotUsedRunningHeader:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypeStartsParagraph:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             newParagraph (marker);
             break;
           }
@@ -204,36 +205,36 @@ void Editor_Usfm2Html::process ()
             if (isOpeningMarker) {
               // Be sure the road ahead is clear.
               if (roadIsClear ()) {
-                openTextStyle (style, false, isEmbeddedMarker);
+                openTextStyle (style, isEmbeddedMarker);
               } else {
                 addText (usfm_get_opening_usfm (marker));
               }
             } else {
-              closeTextStyle (false, isEmbeddedMarker);
+              closeTextStyle (isEmbeddedMarker);
             }
             break;
           }
           case StyleTypeChapterNumber:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             newParagraph (marker);
             break;
           }
           case StyleTypeVerseNumber:
           {
             // Close any existing text style.
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             // Output the space before the verse number in case the paragraph already has some text.
             if (currentParagraphContent != "") {
               addText (" ");
             }
             // Open verse style, record verse/length, add verse number, close style again, and add a space.
-            openTextStyle (style, false, false);
+            openTextStyle (style, false);
             string textFollowingMarker = usfm_get_text_following_marker (markersAndText, markersAndTextPointer);
             string number = usfm_peek_verse_number (textFollowingMarker);
             verseStartOffsets [convert_to_int (number)] = textLength;
             addText (number);
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             addText (" ");
             // If there was any text following the \v marker, remove the verse number,
             // put the remainder back into the object, and update the pointer.
@@ -255,7 +256,7 @@ void Editor_Usfm2Html::process ()
               case FootEndNoteSubtypeFootnote:
               case FootEndNoteSubtypeEndnote:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 if (isOpeningMarker) {
                   int caller = noteCount % 9 + 1;
                   addNote (convert_to_string (caller), marker, false);
@@ -269,16 +270,16 @@ void Editor_Usfm2Html::process ()
               case FootEndNoteSubtypeContentWithEndmarker:
               {
                 if (isOpeningMarker) {
-                  openTextStyle (style, true, isEmbeddedMarker);
+                  openTextStyle (style, isEmbeddedMarker);
                 } else {
-                  closeTextStyle (true, isEmbeddedMarker);
+                  closeTextStyle (isEmbeddedMarker);
                 }
                 break;
               }
               case FootEndNoteSubtypeParagraph:
               default:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 break;
               }
             }
@@ -290,7 +291,7 @@ void Editor_Usfm2Html::process ()
             {
               case CrossreferenceSubtypeCrossreference:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 if (isOpeningMarker) {
                   int caller = (noteCount) % 9 + 1;
                   addNote (convert_to_string (caller), marker, false);
@@ -304,15 +305,15 @@ void Editor_Usfm2Html::process ()
               case CrossreferenceSubtypeStandardContent:
               {
                 if (isOpeningMarker) {
-                  openTextStyle (style, true, isEmbeddedMarker);
+                  openTextStyle (style, isEmbeddedMarker);
                 } else {
-                  closeTextStyle (true, isEmbeddedMarker);
+                  closeTextStyle (isEmbeddedMarker);
                 }
                 break;
               }
               default:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 break;
               }
             }
@@ -320,25 +321,25 @@ void Editor_Usfm2Html::process ()
           }
           case StyleTypePeripheral:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypePicture:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypePageBreak:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypeTableElement:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             switch (style.subtype)
             {
               case TableElementSubtypeRow:
@@ -349,12 +350,12 @@ void Editor_Usfm2Html::process ()
               case TableElementSubtypeHeading:
               case TableElementSubtypeCell:
               {
-                openTextStyle (style, false, false);
+                openTextStyle (style, false);
                 break;
               }
               default:
               {
-                openTextStyle (style, false, false);
+                openTextStyle (style, false);
                 break;
               }
             }
@@ -363,23 +364,23 @@ void Editor_Usfm2Html::process ()
           case StyleTypeWordlistElement:
           {
             if (isOpeningMarker) {
-              openTextStyle (style, false, false);
+              openTextStyle (style, false);
             } else {
-              closeTextStyle (false, false);
+              closeTextStyle (false);
             }
             break;
           }
           default:
           {
             // This marker is known in the stylesheet, but not yet implemented here.
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
         }
       } else {
         // This is a marker unknown in the stylesheet.
-        closeTextStyle (false, false);
+        closeTextStyle (false);
         outputAsIs (marker, isOpeningMarker);
       }
     } else {
@@ -415,10 +416,10 @@ void Editor_Usfm2Html::outputAsIs (string marker, bool isOpeningMarker)
 
 void Editor_Usfm2Html::newParagraph (string style)
 {
-  currentPDomElement = bodyDomNode.append_child ("p");
+  currentPnode = body_node.append_child ("p");
   current_p_open = true;
   if (!style.empty()) {
-    currentPDomElement.append_attribute ("class") = style.c_str();
+    currentPnode.append_attribute ("class") = style.c_str();
   }
   currentParagraphStyle = style;
   currentParagraphContent.clear();
@@ -428,12 +429,11 @@ void Editor_Usfm2Html::newParagraph (string style)
 
 // This opens a text style.
 // $style: the array containing the style variables.
-// $note: boolean: Whether this refers to a note.
 // $embed: boolean: Whether to open embedded / nested style.
-void Editor_Usfm2Html::openTextStyle (Database_Styles_Item & style, bool note, bool embed)
+void Editor_Usfm2Html::openTextStyle (Database_Styles_Item & style, bool embed)
 {
   string marker = style.marker;
-  if (note) {
+  if (noteOpened) {
     if (!embed) currentNoteTextStyles.clear();
     currentNoteTextStyles.push_back (marker);
   } else {
@@ -444,11 +444,10 @@ void Editor_Usfm2Html::openTextStyle (Database_Styles_Item & style, bool note, b
 
 
 // This closes any open text style.
-// $note: Whether this refers to a note.
 // $embed: boolean: Whether to close embedded character style.
-void Editor_Usfm2Html::closeTextStyle (bool note, bool embed)
+void Editor_Usfm2Html::closeTextStyle (bool embed)
 {
-  if (note) {
+  if (noteOpened) {
     if (!currentNoteTextStyles.empty ()) currentNoteTextStyles.pop_back ();
     if (!embed) currentNoteTextStyles.clear ();
   } else {
@@ -466,10 +465,10 @@ void Editor_Usfm2Html::addText (string text)
     if (!current_p_open) {
       newParagraph ();
     }
-    xml_node spanDomElement = currentPDomElement.append_child ("span");
+    xml_node spanDomElement = currentPnode.append_child ("span");
     spanDomElement.text ().set (text.c_str());
     // xmlChar * encoded_text = xmlEncodeSpecialChars (htmlDom, BAD_CAST text.c_str());
-    // xmlNodePtr spanDomElement = xmlNewChild (currentPDomElement, NULL, BAD_CAST "span", encoded_text);
+    // xmlNodePtr spanDomElement = xmlNewChild (currentPnode, NULL, BAD_CAST "span", encoded_text);
     // xmlFree (encoded_text);
     if (!currentTextStyles.empty ()) {
       // Take character style(s) as specified in this object.
@@ -508,19 +507,19 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   // Add the link with all relevant data for the note citation.
   string reference = "#note" + convert_to_string (noteCount);
   string identifier = "citation" + convert_to_string (noteCount);
-  addLink (currentPDomElement, reference, identifier, "superscript", citation);
+  addLink (currentPnode, reference, identifier, "superscript", citation);
   
   // Open a paragraph element for the note body.
-  notePDomElement = notesDomNode.append_child ("p");
+  notePnode = notes_node.append_child ("p");
   note_p_open = true;
-  notePDomElement.append_attribute ("class") = style.c_str();
+  notePnode.append_attribute ("class") = style.c_str();
   
-  closeTextStyle (true, false);
+  closeTextStyle (false);
   
   // Add the link with all relevant data for the note body.
   reference = "#citation" + convert_to_string (noteCount);
   identifier = "note" + convert_to_string (noteCount);
-  addLink (notePDomElement, reference, identifier, "", citation);
+  addLink (notePnode, reference, identifier, "", citation);
   
   // Add a space.
   addNoteText (" ");
@@ -538,7 +537,7 @@ void Editor_Usfm2Html::addNoteText (string text)
   if (!note_p_open) {
     addNote ("?", "");
   }
-  xml_node spanDomElement = notePDomElement.append_child ("span");
+  xml_node spanDomElement = notePnode.append_child ("span");
   spanDomElement.text ().set (text.c_str());
   if (!currentNoteTextStyles.empty()) {
     // Take character style as specified in this object.
@@ -551,7 +550,7 @@ void Editor_Usfm2Html::addNoteText (string text)
 void Editor_Usfm2Html::closeCurrentNote ()
 {
   // If a note was opened, close that, else close the standard text.
-  closeTextStyle (noteOpened, false);
+  closeTextStyle (false);
   note_p_open = false;
   noteOpened = false;
 }
@@ -661,8 +660,13 @@ bool Editor_Usfm2Html::roadIsClear ()
           }
           // Encounters a verse: blocker.
           if (type == StyleTypeVerseNumber) return false;
-          // Encounters any type of cross reference markup: blocker.
-          if (type == StyleTypeCrossreference) return false;
+          // Encounters cross reference opener: blocker.
+          // Other \x.. markup is allowed.
+          if (type == StyleTypeCrossreference) {
+            if (subtype == CrossreferenceSubtypeCrossreference) {
+              return false;
+            }
+          }
         }
       }
     }
@@ -681,8 +685,13 @@ bool Editor_Usfm2Html::roadIsClear ()
           }
           // Encounters a verse: blocker.
           if (type == StyleTypeVerseNumber) return false;
-          // Encounters any type of foot- or endnote markup: blocker.
-          if (type == StyleTypeFootEndNote) return false;
+          // Encounters foot- or endnote opener: blocker.
+          // Other \f.. markup is allowed.
+          if (type == StyleTypeFootEndNote) {
+            if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
+              return false;
+            }
+          }
         }
       }
     }
