@@ -22,7 +22,6 @@
 
 
 #include <config/libraries.h>
-#include <libxml/tree.h> // Todo out.
 #include <database/styles.h>
 #include <pugixml/pugixml.hpp>
 
@@ -33,8 +32,6 @@ using namespace pugi;
 class Editor_Usfm2Html
 {
 public:
-  Editor_Usfm2Html ();
-  ~Editor_Usfm2Html ();
   void load (string usfm);
   void stylesheet (string stylesheet);
   void run ();
@@ -48,21 +45,23 @@ private:
   map <string, Database_Styles_Item> styles; // All the style information.
   
   // Html DOMNodes.
-  xmlDocPtr htmlDom;
-  xmlNodePtr bodyDomNode;
-  xmlNodePtr notesDomNode;
+  xml_document htmlDom;
+  xml_node bodyDomNode;
+  xml_node notesDomNode;
   
   // Standard content markers for notes.
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
   
-  xmlNodePtr currentPDomElement; // The current p DOMElement.
+  xml_node currentPDomElement; // The current p DOM element.
+  bool current_p_open = false;
   string currentParagraphStyle;
   string currentParagraphContent;
   vector <string> currentTextStyles;
   
   int noteCount = 0;
-  xmlNodePtr notePDomElement; // The text:p DOMElement of the current footnote, if any.
+  xml_node notePDomElement; // The p DOM element of the current footnote, if any.
+  bool note_p_open = false;
   vector <string> currentNoteTextStyles;
   
   // Whether note is open.
@@ -75,7 +74,6 @@ private:
   void process ();
   void postprocess ();
   void outputAsIs (string marker, bool isOpeningMarker);
-  xmlNodePtr newElement (string element);
   void newParagraph (string style = "");
   void openTextStyle (Database_Styles_Item & style, bool note, bool embed);
   void closeTextStyle (bool note, bool embed);
@@ -83,11 +81,10 @@ private:
   void addNote (string citation, string style, bool endnote = false);
   void addNoteText (string text);
   void closeCurrentNote ();
-  void addLink (xmlNodePtr domNode, string reference, string identifier, string style, string text);
+  void addLink (xml_node domNode, string reference, string identifier, string style, string text);
   
   bool roadIsClear ();
 };
 
 
 #endif
-

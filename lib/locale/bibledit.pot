@@ -6388,6 +6388,9 @@ msgstr ""
 msgid "Public feedback"
 msgstr ""
 
+msgid "Logout"
+msgstr ""
+
 msgid "Desktop"
 msgstr ""
 
@@ -6497,9 +6500,6 @@ msgid "Paratext"
 msgstr ""
 
 msgid "Edit stylesheet"
-msgstr ""
-
-msgid "Logout"
 msgstr ""
 
 msgid "Notifications"

@@ -670,7 +670,7 @@ void test_editor_html2usfm ()
 }
 
 
-void test_editor_usfm2html () // Todo
+void test_editor_usfm2html ()
 {
   // Text Length One
   {
@@ -686,7 +686,6 @@ void test_editor_usfm2html () // Todo
     evaluate (__LINE__, __func__, 60, (int)editor_usfm2html.textLength);
     evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 1) }, editor_usfm2html.verseStartOffsets);
   }
-  //return; // Todo
   // Text Length More
   {
     string usfm =
@@ -1137,7 +1136,7 @@ void test_editor_roundtrip ()
     string standard_html =
     "<p class=\"p\"><span>The elder</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span> to the beloved Gaius.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
     "</div>";
 
@@ -1165,7 +1164,7 @@ void test_editor_roundtrip ()
     string standard_html =
     "<p class=\"p\"><span>The elder</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span> to the beloved Gaius.</span><span> </span><span class=\"v\">1</span><span> </span><span>The elders</span><a href=\"#note2\" id=\"citation2\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">2</a><span> to the beloved.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
     "<p class=\"x\"><a href=\"#citation2\" id=\"note2\" style=\"text-decoration:none; color: inherit;\">2</a><span> </span><span>+ 2 Joh. 2.2</span></p>"
     "</div>";
@@ -1193,7 +1192,7 @@ void test_editor_roundtrip ()
     string standard_html =
     "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
     "</div>";
 
@@ -1260,7 +1259,7 @@ void test_editor_roundtrip ()
     "<p class=\"p\"><span>Text</span><a href=\"#note20\" id=\"citation20\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">2</a><span>.</span></p>"
     "<p class=\"p\"><span>Text</span><a href=\"#note21\" id=\"citation21\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">3</a><span>.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ note</span></p>"
     "<p class=\"fe\"><a href=\"#citation2\" id=\"note2\" style=\"text-decoration:none; color: inherit;\">2</a><span> </span><span>+ note</span></p>"
     "<p class=\"x\"><a href=\"#citation3\" id=\"note3\" style=\"text-decoration:none; color: inherit;\">3</a><span> </span><span>+ note</span></p>"
@@ -1307,7 +1306,7 @@ void test_editor_roundtrip ()
     string standard_html =
     "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"fe\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
     "</div>";
 
@@ -1518,7 +1517,7 @@ void test_editor_roundtrip ()
     string html =
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">fk </span><span class=\"fk fdc\">key-fdc</span><span> normal</span></p>"
     "</div>";
     evaluate (__LINE__, __func__, html, output);
@@ -1549,7 +1548,7 @@ void test_editor_roundtrip ()
     string html =
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">fk </span><span class=\"fk fdc\">key-fdc</span><span> normal</span></p>"
     "</div>";
     evaluate (__LINE__, __func__, html, output);
@@ -1583,7 +1582,7 @@ void test_editor_roundtrip ()
     string html =
     "<p class=\"c\"><span>1</span><span> </span><span class=\"v\">1</span><span> </span><span>Canonical text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span> canonical text.</span></p>"
     "<div id=\"notes\">"
-    "<hr/>"
+    "<hr />"
     "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fr\">1:1 </span><span class=\"fk\">Footnote fk style </span><span class=\"ft\">Footnote ft style</span></p>"
     "</div>";
     evaluate (__LINE__, __func__, html, output);
@@ -1595,8 +1594,9 @@ void test_editor_roundtrip ()
     output = editor_export.get ();
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // \b Blank line
+  // \b Blank line Todo
   {
+    // Move this into place. Todo
     string standard_usfm =
     "\\p paragraph\n"
     "\\b\n"
@@ -1625,7 +1625,7 @@ void test_editor_roundtrip ()
     string standardusfm =
     "\\p\n\\v 1 The text\\x + \\xo 1 \\xt Passage\\x*.";
     string standardhtml =
-    "<p class=\"p\"><span class=\"v\">1</span><span> </span><span>The text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p><div id=\"notes\"><hr/><p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"xo\">1 </span><span class=\"xt\">Passage</span></p></div>";
+    "<p class=\"p\"><span class=\"v\">1</span><span> </span><span>The text</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p><div id=\"notes\"><hr /><p class=\"x\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"xo\">1 </span><span class=\"xt\">Passage</span></p></div>";
 
     Webserver_Request request;
     Editor_Usfm2Html editor_usfm2html;
@@ -1768,7 +1768,7 @@ void test_editor_roundtrip ()
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     
-    string html = "<p class=\"c\"><span>1</span></p><p class=\"p\"/>";
+    string html = "<p class=\"c\"><span>1</span></p><p class=\"p\" />";
     evaluate (__LINE__, __func__, html, output);
     
     output = editor_export_verse (styles_logic_standard_sheet (), html);
@@ -1825,7 +1825,6 @@ void test_editor_roundtrip ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
-    //cout << output_html << endl; // Todo
     
     string standard_html = "<p class=\"p\"><span>Praise Yahweh, all you nations!</span></p>";
     // evaluate (__LINE__, __func__, standard_html, output_html);

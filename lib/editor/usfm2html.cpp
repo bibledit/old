@@ -23,20 +23,7 @@
 #include <filter/usfm.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
-#include <libxml/xmlmemory.h> // Todo out, all of them.
-#include <libxml/parser.h>
 #include <database/logs.h>
-
-
-Editor_Usfm2Html::Editor_Usfm2Html ()
-{
-}
-
-
-Editor_Usfm2Html::~Editor_Usfm2Html ()
-{
-  if (htmlDom) xmlFreeDoc (htmlDom);
-}
 
 
 void Editor_Usfm2Html::load (string usfm)
@@ -84,27 +71,21 @@ void Editor_Usfm2Html::run ()
 
 string Editor_Usfm2Html::get ()
 {
-  // If there are notes, add the notes <div> after everything else.
+  // If there are notes, move the notes <div> after everything else.
   // (It has the <hr> as a child).
-  if (xmlChildElementCount (notesDomNode) > 1) {
-    xmlAddChild (bodyDomNode, notesDomNode);
+  size_t count = distance (notesDomNode.begin (), notesDomNode.end ());
+  if (count > 1) {
+    bodyDomNode.append_move (notesDomNode);
   }
   
-  // Get the entire html code, including head.
-  xmlChar * contents;
-  int size;
-  //xmlDocDumpFormatMemory (htmlDom, &contents, &size, 1);
-  xmlDocDumpFormatMemory (htmlDom, &contents, &size, 0);
-  string html;
-  if (contents) {
-    html = (char *) contents;
-    xmlFree (contents);
-  }
+  // Get the html code, including body, without head.
+  stringstream output;
+  bodyDomNode.print (output, "", format_raw);
+  string html = output.str ();
   
   // Remain with the stuff within the <body> elements.
   size_t pos = html.find ("<body>");
   if (pos != string::npos) {
-    // html.erase (0, pos + 7);
     html.erase (0, pos + 6);
     pos = html.find ("</body>");
     if (pos != string::npos) {
@@ -114,12 +95,12 @@ string Editor_Usfm2Html::get ()
 
   // Deal with a blank line.
   // The \b in USFM, a blank line, gets converted to:
-  // <p class="b"/>
+  // <p class="b" />
   // But this does not display a blank in the web browser.
   // Therefore convert it to the following:
   // <p class="b"><br></p>
   // This is how the webkit browser naturally represents a new empty line.
-  html = filter_string_str_replace ("<p class=\"b\"/>", "<p class=\"b\"><br></p>", html);
+  html = filter_string_str_replace ("<p class=\"b\" />", "<p class=\"b\"><br></p>", html);
   
   // Currently libxml2 produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.
@@ -140,8 +121,8 @@ void Editor_Usfm2Html::preprocess ()
   paragraphCount = 0;
   textLength = 0;
   verseStartOffsets = { make_pair (0, 0) };
-  currentPDomElement = NULL;
-  notePDomElement = NULL;
+  current_p_open = false;
+  note_p_open = false;
 
   /*
   // Load and parse the template.
@@ -173,24 +154,16 @@ void Editor_Usfm2Html::preprocess ()
   // XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
   // It crashes here: bodyDomNode = nodes->nodeTab [0];
   // Therefore use another method: Build the document from scratch.
-  htmlDom = xmlNewDoc (BAD_CAST "1.0");
-  xmlNodePtr rootnode = xmlNewNode (NULL, BAD_CAST "html");
-  xmlDocSetRootElement (htmlDom, rootnode);
-  xmlNodePtr headnode = xmlNewNode (NULL, BAD_CAST "head");
-  xmlAddChild (rootnode, headnode);
-  xmlNodePtr metanode = xmlNewNode  (NULL, BAD_CAST "meta");
-  xmlAddChild (headnode, metanode);
-  xmlNewProp (metanode, BAD_CAST "http-equiv", BAD_CAST "content-type");
-  xmlNewProp (metanode, BAD_CAST "http-equiv", BAD_CAST "text/html; charset=UTF-8");
-  bodyDomNode = xmlNewNode (NULL, BAD_CAST "body");
-  xmlAddChild (rootnode, bodyDomNode);
+  // After the move to pugixml, the above no longer applies.
+  // Even so, the document is built from scratch.
+  bodyDomNode = htmlDom.append_child ("body");
   
-  // Create notes node.
-  // It will not yet be inserted into the html document.
-  notesDomNode = newElement ("div");
-  xmlNewProp (notesDomNode, BAD_CAST "id", BAD_CAST "notes");
-  xmlNodePtr node = newElement ("hr");
-  xmlAddChild (notesDomNode, node);
+  // Create notes xml document and node.
+  // It comes at the start of the document.
+  // (Later, it will either be deleted, or moved to the end).
+  notesDomNode = htmlDom.append_child ("div");
+  notesDomNode.append_attribute ("id") = "notes";
+  notesDomNode.append_child ("hr");
 }
 
  
@@ -440,20 +413,13 @@ void Editor_Usfm2Html::outputAsIs (string marker, bool isOpeningMarker)
 }
 
 
-xmlNodePtr Editor_Usfm2Html::newElement (string element)
-{
-  xmlNodePtr node = xmlNewNode (NULL, BAD_CAST element.c_str());
-  return node;
-}
-
-
 void Editor_Usfm2Html::newParagraph (string style)
 {
-  currentPDomElement = newElement ("p");
+  currentPDomElement = bodyDomNode.append_child ("p");
+  current_p_open = true;
   if (!style.empty()) {
-    xmlNewProp (currentPDomElement, BAD_CAST "class", BAD_CAST style.c_str());
+    currentPDomElement.append_attribute ("class") = style.c_str();
   }
-  xmlAddChild (bodyDomNode, currentPDomElement);
   currentParagraphStyle = style;
   currentParagraphContent.clear();
   paragraphCount++;
@@ -497,19 +463,17 @@ void Editor_Usfm2Html::closeTextStyle (bool note, bool embed)
 void Editor_Usfm2Html::addText (string text)
 {
   if (text != "") {
-    if (!currentPDomElement) {
+    if (!current_p_open) {
       newParagraph ();
     }
-    xmlNodePtr spanDomElement = newElement ("span");
-    xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
-    xmlAddChild (spanDomElement, textnode);
-    xmlAddChild (currentPDomElement, spanDomElement);
+    xml_node spanDomElement = currentPDomElement.append_child ("span");
+    spanDomElement.text ().set (text.c_str());
     // xmlChar * encoded_text = xmlEncodeSpecialChars (htmlDom, BAD_CAST text.c_str());
     // xmlNodePtr spanDomElement = xmlNewChild (currentPDomElement, NULL, BAD_CAST "span", encoded_text);
     // xmlFree (encoded_text);
     if (!currentTextStyles.empty ()) {
       // Take character style(s) as specified in this object.
-      xmlNewProp (spanDomElement, BAD_CAST "class", BAD_CAST filter_string_implode (currentTextStyles, " ").c_str());
+      spanDomElement.append_attribute ("class") = filter_string_implode (currentTextStyles, " ").c_str();
     }
     currentParagraphContent.append (text);
   }
@@ -531,7 +495,7 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   
   
   // Ensure that a paragraph is open, so that the note can be added to it.
-  if (!currentPDomElement) {
+  if (!current_p_open) {
     newParagraph ();
   }
   
@@ -547,9 +511,9 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   addLink (currentPDomElement, reference, identifier, "superscript", citation);
   
   // Open a paragraph element for the note body.
-  notePDomElement = newElement ("p");
-  xmlAddChild (notesDomNode, notePDomElement);
-  xmlNewProp (notePDomElement, BAD_CAST "class", BAD_CAST style.c_str());
+  notePDomElement = notesDomNode.append_child ("p");
+  note_p_open = true;
+  notePDomElement.append_attribute ("class") = style.c_str();
   
   closeTextStyle (true, false);
   
@@ -571,16 +535,14 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
 void Editor_Usfm2Html::addNoteText (string text)
 {
   if (text.empty ()) return;
-  if (!notePDomElement) {
+  if (!note_p_open) {
     addNote ("?", "");
   }
-  xmlNodePtr spanDomElement = newElement ("span");
-  xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
-  xmlAddChild (spanDomElement, textnode);
-  xmlAddChild (notePDomElement, spanDomElement);
+  xml_node spanDomElement = notePDomElement.append_child ("span");
+  spanDomElement.text ().set (text.c_str());
   if (!currentNoteTextStyles.empty()) {
     // Take character style as specified in this object.
-    xmlNewProp (spanDomElement, BAD_CAST "class", BAD_CAST filter_string_implode (currentNoteTextStyles, " ").c_str());
+    spanDomElement.append_attribute ("class") = filter_string_implode (currentNoteTextStyles, " ").c_str();
   }
 }
 
@@ -590,7 +552,7 @@ void Editor_Usfm2Html::closeCurrentNote ()
 {
   // If a note was opened, close that, else close the standard text.
   closeTextStyle (noteOpened, false);
-  notePDomElement = NULL;
+  note_p_open = false;
   noteOpened = false;
 }
 
@@ -601,23 +563,21 @@ void Editor_Usfm2Html::closeCurrentNote ()
 // $identifier: The link's identifier. Others can link to it.
 // $style: The link text's style.
 // $text: The link's text.
-void Editor_Usfm2Html::addLink (xmlNodePtr domNode, string reference, string identifier, string style, string text)
+void Editor_Usfm2Html::addLink (xml_node domNode, string reference, string identifier, string style, string text)
 {
-  xmlNodePtr aDomElement = newElement ("a");
-  xmlAddChild (domNode, aDomElement);
-  xmlNewProp (aDomElement, BAD_CAST "href", BAD_CAST reference.c_str());
-  xmlNewProp (aDomElement, BAD_CAST "id", BAD_CAST identifier.c_str());
+  xml_node aDomElement = domNode.append_child ("a");
+  aDomElement.append_attribute ("href") = reference.c_str();
+  aDomElement.append_attribute ("id") = identifier.c_str();
   // The link itself, for the notes, is not editable, so it can be clicked.
   // It was disabled again due to Chrome removing content on backspace.
   // $aDomElement->setAttribute ("contenteditable", "false");
   // Remove the blue color from the link, and the underline.
   // The reason for this is that, if the blue and underline are there, people expect one can click on it.
   // Clicking it does nothing. Therefore it's better to remove the typical link style.
-  xmlNewProp (aDomElement, BAD_CAST "style", BAD_CAST "text-decoration:none; color: inherit;");
+  aDomElement.append_attribute ("style") = "text-decoration:none; color: inherit;";
   // Style = class.
-  if (style != "") xmlNewProp (aDomElement, BAD_CAST "class", BAD_CAST style.c_str());
-  xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
-  xmlAddChild (aDomElement, textnode);
+  if (style != "") aDomElement.append_attribute ("class") = style.c_str();
+  aDomElement.text ().set (text.c_str());
 }
 
 
