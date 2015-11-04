@@ -28,6 +28,9 @@
 /* define if the compiler supports basic C++11 syntax */
 /* #undef HAVE_CXX11 */
 
+/* Define whether execinfo.h is present */
+#define HAVE_EXECINFO 1
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 

@@ -26,12 +26,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_LIBPROC
 #include <libproc.h>
 #endif
+#ifdef HAVE_EXECINFO
+#include <execinfo.h>
+#endif
 
 
 void sigint_handler (int s)
 {
   if (s) {};
   bibledit_stop_library ();
+}
+
+
+void sigsegv_handler (int sig)
+{
+  void *array[10];
+  size_t size;
+  
+  // get void*'s for all entries on the stack
+  size = backtrace (array, 10);
+  
+  // print out all the frames to stderr
+  fprintf (stderr, "Error: signal %d:\n", sig);
+  backtrace_symbols_fd (array, size, STDERR_FILENO);
+  exit (1);
 }
 
 
@@ -46,6 +64,11 @@ int main (int argc, char **argv)
   sigemptyset (&sigIntHandler.sa_mask);
   sigIntHandler.sa_flags = 0;
   sigaction (SIGINT, &sigIntHandler, NULL);
+  
+#ifdef HAVE_EXECINFO
+  // Handler for segmentation fault.
+  signal (SIGSEGV, sigsegv_handler);
+#endif
 
   // Get the executable path and base the document root on it.
   string webroot;

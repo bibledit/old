@@ -6555,6 +6555,15 @@ fi
 
 
 
+ac_fn_cxx_check_header_mongrel "$LINENO" "execinfo.h" "ac_cv_header_execinfo_h" "$ac_includes_default"
+if test "x$ac_cv_header_execinfo_h" = xyes; then :
+
+$as_echo "#define HAVE_EXECINFO 1" >>confdefs.h
+
+fi
+
+
+
 
 $as_echo "#define DIRECTORY_SEPARATOR \"/\"" >>confdefs.h
 
