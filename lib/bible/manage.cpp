@@ -48,8 +48,8 @@ bool bible_manage_acl (void * webserver_request)
 string bible_manage (void * webserver_request)
 {
   // Todo
-  int *foo = (int*)-1; // make a bad pointer
-  printf ("%d\n", *foo); // causes segfault
+  //int *foo = (int*)-1; // make a bad pointer
+  //printf ("%d\n", *foo); // causes segfault
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
