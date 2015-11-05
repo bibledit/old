@@ -1884,7 +1884,7 @@ void test_editor_roundtrip ()
 
 
 // Testing development of the editor logic.
-void test_editor_development () // Todo
+void test_editor_development ()
 {
   refresh_sandbox (true);
 }

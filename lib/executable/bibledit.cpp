@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <config/libraries.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <config/logic.h>
 #include <unistd.h>
 #include <config.h>
@@ -29,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_EXECINFO
 #include <execinfo.h>
 #endif
+#include <database/logs.h>
 
 
 void sigint_handler (int s)
@@ -38,17 +40,32 @@ void sigint_handler (int s)
 }
 
 
+string backtrace_path ()
+{
+  string path = filter_url_create_root_path ("tmp", "backtrace.txt");
+  return path;
+}
+
+
+// http://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
 void sigsegv_handler (int sig)
 {
+  if (sig) {};
+
+  // Information.
+  cout << "Segmentation fault, writing backtrace to " << backtrace_path () << endl;
+
   void *array[10];
   size_t size;
   
-  // get void*'s for all entries on the stack
+  // Get void*'s for all entries on the stack
   size = backtrace (array, 10);
-  
-  // print out all the frames to stderr
-  fprintf (stderr, "Error: signal %d:\n", sig);
-  backtrace_symbols_fd (array, size, STDERR_FILENO);
+
+  // Write entries to file (to be logged next time bibledit starts).
+  int fd = open (backtrace_path ().c_str (), O_WRONLY|O_CREAT, 0666);
+  backtrace_symbols_fd (array, size, fd);
+  close (fd);
+
   exit (1);
 }
 
@@ -59,11 +76,7 @@ int main (int argc, char **argv)
   if (argv[0]) {};
   
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
-  struct sigaction sigIntHandler;
-  sigIntHandler.sa_handler = sigint_handler;
-  sigemptyset (&sigIntHandler.sa_mask);
-  sigIntHandler.sa_flags = 0;
-  sigaction (SIGINT, &sigIntHandler, NULL);
+  signal (SIGINT, sigint_handler);
   
 #ifdef HAVE_EXECINFO
   // Handler for segmentation fault.
@@ -101,7 +114,18 @@ int main (int argc, char **argv)
   bibledit_log ("The server started");
   cout << "Listening on http://localhost:" << config_logic_network_port () << endl;
   cout << "Press Ctrl-C to quit" << endl;
-  
+
+  // Log possible backtrace from a previous crash.
+  string backtrace = filter_url_file_get_contents (backtrace_path ());
+  filter_url_unlink (backtrace_path ());
+  if (!backtrace.empty ()) {
+    Database_Logs::log ("Backtrace of the last segmentation fault:");
+    vector <string> lines = filter_string_explode (backtrace, '\n');
+    for (auto & line : lines) {
+      Database_Logs::log (line);
+    }
+  }
+
   // Bibledit Cloud should restart itself at midnight.
   // This is to be sure that any memory leaks don't accumulate too much
   // in case Bibledit Cloud runs for months and years.
