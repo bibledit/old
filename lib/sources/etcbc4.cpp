@@ -103,7 +103,7 @@ void sources_etcb4_download ()
         }
         Database_Logs::log (bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse));
         database_etcbc4.store (book, chapter, verse, response);
-        // Wait a second so as not to overload the website.
+        // Wait a second: Be polite: Do not overload the website.
         this_thread::sleep_for (chrono::seconds (1));
       }
     }
