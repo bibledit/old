@@ -55,13 +55,13 @@ string debug_index (void * webserver_request)
   
   string debug = request->query ["debug"];
   
-  if (debug == "etcb4download") {
-    // sources_etcb4_download ();
+  if (debug == "etcbc4download") {
+    // sources_etcbc4_download ();
     view.set_variable ("success", "Task disabled");
   }
   
-  if (debug == "etcb4parse") {
-    //sources_etcb4_parse ();
+  if (debug == "etcbc4parse") {
+    //sources_etcbc4_parse ();
     view.set_variable ("success", "Task disabled");
   }
   

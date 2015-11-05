@@ -28,7 +28,7 @@
 using namespace pugi;
 
 
-void sources_etcb4_download ()
+void sources_etcbc4_download ()
 {
   Database_Logs::log ("Start to download the raw Hebrew morphology data from the ETCBC4 database");
   Database_Etcbc4 database_etcbc4;
@@ -116,7 +116,7 @@ void sources_etcb4_download ()
 }
 
 
-string sources_etcb4_clean (string item)
+string sources_etcbc4_clean (string item)
 {
   item = filter_string_str_replace ("/", "", item);
   item = filter_string_str_replace ("]", "", item);
@@ -129,7 +129,7 @@ string sources_etcb4_clean (string item)
 
 // Parses the raw html data as downloaded from the ETCBC4 database.
 // The parser is supposed to be ran only by the developers.
-void sources_etcb4_parse ()
+void sources_etcbc4_parse ()
 {
   Database_Logs::log ("Parsing data from the ETCBC4 database");
   Database_Etcbc4 database_etcbc4;
@@ -176,12 +176,13 @@ void sources_etcb4_parse ()
             // Iterate through the <td> elements.
             for (xml_node td : tr.children ()) {
               // Iterate through the one or more <span> elements within this table cell.
-              // Each <span> elements has grammatical tags.
+              // Each <span> elements has a grammatical tag.
               for (xml_node span : td.children ()) {
                 // Get the text this <span> contains.
                 xml_node txtnode = span.first_child ();
                 string value = txtnode.text ().get ();
-                value = sources_etcb4_clean (value);
+                value = sources_etcbc4_clean (value);
+                // The class of the <span> element indicates what kind of grammatical tag it has.
                 string clazz = span.attribute ("class").value ();
                 if (clazz == "ht") word = value;
                 if (clazz.find ("hl_hlv") != string::npos) vocalized_lexeme = value;

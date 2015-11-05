@@ -708,7 +708,7 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
 }
 
 
-string lexicon_logic_render_etcb4_morphology (string rowid)
+string lexicon_logic_render_etcbc4_morphology (string rowid)
 {
   // The order of the rendered morphological information is such
   // that the pieces of information most relevant to the Bible translator come first,

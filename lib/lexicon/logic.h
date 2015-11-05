@@ -53,7 +53,7 @@ string lexicon_logic_render_part_of_speech_state (string abbrev);
 string lexicon_logic_define_user_strong (string strong);
 string lexicon_logic_render_morphgnt_part_of_speech (string pos);
 string lexicon_logic_render_morphgnt_parsing_code (string parsing);
-string lexicon_logic_render_etcb4_morphology (string rowid);
+string lexicon_logic_render_etcbc4_morphology (string rowid);
 string lexicon_logic_render_bdb_entry (string code);
 
 
