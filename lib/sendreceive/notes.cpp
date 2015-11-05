@@ -455,8 +455,14 @@ bool sendreceive_notes_download (int lowId, int highId)
   // But it skips the notes that have actions recorded for them,
   // as these notes are scheduled to be sent to the server first.
   identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
+  int delete_counter = 0;
   for (auto identifier : identifiers) {
     if (database_noteactions.exists (identifier)) continue;
+    // It has been seen that a client started to delete all notes, thousands of them, for an unknown reason.
+    // And then, next send/receive, it started to re-download all thousands of them from the server.
+    // Therefore limit the number of notes a client can delete in one go.
+    delete_counter++;
+    if (delete_counter > 15) continue;
     string summary = database_notes.getSummary (identifier);
     database_notes.erase (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, Filter_Roles::translator ());
