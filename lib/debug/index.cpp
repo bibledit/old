@@ -91,8 +91,8 @@ string debug_index (void * webserver_request)
   }
 
   if (debug == "crash") { // Todo disable.
-    int *foo = (int*)-1; // make a bad pointer
-    printf ("%d\n", *foo); // cause segfault
+    // int *foo = (int*)-1; // make a bad pointer
+    // printf ("%d\n", *foo); // cause segfault
     view.set_variable ("success", "Task disabled");
   }
   
