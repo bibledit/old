@@ -425,6 +425,9 @@ msgstr ""
 msgid "Viewable by all users"
 msgstr ""
 
+msgid "The public can give feedback"
+msgstr ""
+
 msgid "Front Matter"
 msgstr ""
 
@@ -6382,7 +6385,16 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+msgid "Public feedback"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
 msgid "Desktop"
+msgstr ""
+
+msgid "Login"
 msgstr ""
 
 msgid "Visual chapter editor"
@@ -6490,9 +6502,6 @@ msgstr ""
 msgid "Edit stylesheet"
 msgstr ""
 
-msgid "Logout"
-msgstr ""
-
 msgid "Notifications"
 msgstr ""
 
@@ -6590,6 +6599,9 @@ msgid "Mark the note for deletion after a week"
 msgstr ""
 
 msgid "Delete the note now"
+msgstr ""
+
+msgid "This note is public"
 msgstr ""
 
 msgid "Assign note"
@@ -7101,6 +7113,59 @@ msgid "Relative font size for Greek resources"
 msgstr ""
 
 msgid "Vertical position of the caret in the Bible editors"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+msgid "Back to chapter"
+msgstr ""
+
+msgid "Create feedback on"
+msgstr ""
+
+msgid "Summary (no more than 30 characters long)"
+msgstr ""
+
+msgid "Your feedback"
+msgstr ""
+
+msgid "Select which Bible to display"
+msgstr ""
+
+msgid "Create new"
+msgstr ""
+
+msgid "Public login"
+msgstr ""
+
+msgid "The name should be at least two characters long"
+msgstr ""
+
+msgid "Please login the other way, through Menu / Login"
+msgstr ""
+
+msgid ""
+"Thank you for being interested in providing feedback on the Bible that is "
+"being translated."
+msgstr ""
+
+msgid "Please provide your name and email address."
+msgstr ""
+
+msgid "You will then receive email about any feedback you give."
+msgstr ""
+
+msgid "New feedback"
+msgstr ""
+
+msgid "Is this the verse you wish to give feedback on?"
+msgstr ""
+
+msgid "If it is not, use the navigator at the top to go to the correct verse."
+msgstr ""
+
+msgid "Yes, this is the correct verse"
 msgstr ""
 
 msgid "Resources"
@@ -7750,12 +7815,6 @@ msgid "Password should be at least four characters long"
 msgstr ""
 
 msgid "Username or email address or password are not correct"
-msgstr ""
-
-msgid "Login"
-msgstr ""
-
-msgid "Bibledit Login"
 msgstr ""
 
 msgid "Username or email address"
