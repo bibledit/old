@@ -359,17 +359,17 @@ unittest_SOURCES = \
 
 unittest_LDADD = libbibledit.a
 
-AM_CFLAGS = -Wall -Wextra -pedantic
+AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g -rdynamic
 AM_CXXFLAGS += `xml2-config --cflags`	
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(ICU_CFLAGS)
 
-LIBS = -Wall -lpthread -L.
+LIBS = -Wall -lpthread -L. -g -rdynamic
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
