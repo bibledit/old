@@ -43,7 +43,11 @@ string index_listing_url (string url)
 
 bool index_listing_acl (void * webserver_request, string url)
 {
-  if (url.empty ()) {};
+  // Bible exports are public.
+  if (url.find ("exports") == 0) {
+    return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  }
+  // Any other files are for people with at least a member role.
   return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 

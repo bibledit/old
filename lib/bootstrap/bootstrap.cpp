@@ -196,7 +196,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // This function is the first function to be called when a client requests a page or file.
-// Based on the request from the client, it decides what other functions to call to assemble the response.
+// Based on the request from the client, it decides which other function to call to assemble the response.
 void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
