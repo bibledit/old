@@ -61,7 +61,7 @@ string debug_index (void * webserver_request)
   }
   
   if (debug == "etcb4parse") {
-    // sources_etcb4_parse ();
+    //sources_etcb4_parse ();
     view.set_variable ("success", "Task disabled");
   }
   
@@ -90,7 +90,7 @@ string debug_index (void * webserver_request)
     view.set_variable ("success", "Task disabled");
   }
 
-  if (debug == "crash") { // Todo disable.
+  if (debug == "crash") {
     // int *foo = (int*)-1; // make a bad pointer
     // printf ("%d\n", *foo); // cause segfault
     view.set_variable ("success", "Task disabled");
