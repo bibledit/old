@@ -32,7 +32,7 @@
 #define THREAD_ID        pthread_self(  )
 
 
-// This array will store all of the mutexes available to OpenSSL.
+/* This array will store all of the mutexes available to OpenSSL. */
 static MUTEX_TYPE *mutex_buf = NULL;
 
 
