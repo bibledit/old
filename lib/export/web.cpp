@@ -77,7 +77,7 @@ void export_web_book (string bible, int book, bool force)
   
   
   // Web index file for the book.
-  Html_Text html_text_rich_book_index = Html_Text (bibleBookText);
+  Html2_Text html_text_rich_book_index (bibleBookText);
   Html_Header htmlHeader = Html_Header (&html_text_rich_book_index);
   htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
   htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()) });
@@ -102,10 +102,12 @@ void export_web_book (string bible, int book, bool force)
     filter_text_chapter.html_text_linked->customClass = Filter_Css::getClass (bible);
     
     // Create breadcrumbs for the chapter.
+    /* Todo put back
     Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);
     htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
     htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()), make_pair (convert_to_string (chapter), filter_url_html_file_name_bible ("", book))});
-    
+    */
+     
     // Create interlinked html for the chapter.
     filter_text_chapter.run (stylesheet);
     filter_text_chapter.html_text_linked->save (filter_url_html_file_name_bible (directory, book, chapter));
@@ -164,7 +166,7 @@ void export_web_index (string bible, bool force)
   
   
   // Main index file.
-  Html_Text html_text_rich_bible_index = Html_Text (bible);
+  Html2_Text html_text_rich_bible_index (bible);
   // On top are the breadcrumbs, starting with a clickable Bible name.
   Html_Header htmlHeader = Html_Header (&html_text_rich_bible_index);
   htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
