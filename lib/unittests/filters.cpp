@@ -922,7 +922,7 @@ void test_html_text ()
 {
   // Test Html_Text paragraphs.
   {
-    Html_Text html_text = Html_Text ("TestOne");
+    Html2_Text html_text ("TestOne");
     html_text.newParagraph ();
     evaluate (__LINE__, __func__, "", html_text.currentParagraphStyle);
     html_text.addText ("Paragraph One");
@@ -937,32 +937,24 @@ void test_html_text ()
     html_text.addText ("Paragraph Three");
     string html = html_text.getInnerHtml ();
     string standard =
-      "<p>"
-      "<span>Paragraph One</span>"
-      "</p>"
-      "<p>"
-      "<span>Paragraph Two</span>"
-      "</p>"
+      "<p><span>Paragraph One</span></p>"
+      "<p><span>Paragraph Two</span></p>"
       "<h1>Heading One</h1>"
-      "<p>"
-      "<span>Paragraph Three</span>"
-      "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p><span>Paragraph Three</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text automatic paragraph.
   {
-    Html_Text html_text = Html_Text ("TestTwo");
+    Html2_Text html_text ("TestTwo");
     html_text.addText ("Should create new paragraph automatically");
     string html = html_text.getInnerHtml ();
     string standard = 
-      "<p>"
-      "<span>Should create new paragraph automatically</span>"
-      "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p><span>Should create new paragraph automatically</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text basic note
   {
-    Html_Text html_text = Html_Text ("TestThree");
+    Html2_Text html_text ("TestThree");
     html_text.newParagraph ();
     html_text.addText ("Text1");
     html_text.addNote ("†", "");
@@ -970,41 +962,29 @@ void test_html_text ()
     html_text.addText (".");
     string html = html_text.getInnerHtml ();
     string standard = 
-      "<p>"
-      "<span>Text1</span>"
-      "<a href=\"#note1\" id=\"citation1\" class=\"superscript\">†</a>"
-      "<span>.</span>"
-      "</p>"
+      "<p><span>Text1</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">†</a><span>.</span></p>"
       "<div>"
-      "<p class=\"\">"
-      "<a href=\"#citation1\" id=\"note1\">†</a>"
-      "<span> </span>"
-      "<span>Note1.</span>"
-      "</p>"
-      "</div>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p class=\"\"><a href=\"#citation1\" id=\"note1\">†</a><span> </span><span>Note1.</span></p>"
+      "</div>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text getInnerHtml ()
   {
-    Html_Text html_text = Html_Text ("test");
+    Html2_Text html_text ("test");
     html_text.newParagraph ();
     html_text.addText ("Paragraph One");
     html_text.newParagraph ();
     html_text.addText ("Paragraph Two");
     string html = html_text.getInnerHtml ();
     string standard = 
-      "<p>"
-      "<span>Paragraph One</span>"
-      "</p>"
-      "<p>"
-      "<span>Paragraph Two</span>"
-      "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p><span>Paragraph One</span></p>"
+      "<p><span>Paragraph Two</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text basic formatted note ()
   {
     Database_Styles_Item style;
-    Html_Text html_text = Html_Text ("");
+    Html2_Text html_text ("");
     html_text.newParagraph ();
     html_text.addText ("Text");
     html_text.addNote ("𐌰", "f");
@@ -1028,13 +1008,13 @@ void test_html_text ()
       "<span class=\"add\">Add</span>"
       "<span>normal</span>"
       "</p>"
-      "</div>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "</div>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text embedded formatted note
   {
     Database_Styles_Item style;
-    Html_Text html_text = Html_Text ("");
+    Html2_Text html_text ("");
     html_text.newParagraph ();
     html_text.addText ("text");
     html_text.addNote ("𐌰", "f");
@@ -1062,8 +1042,8 @@ void test_html_text ()
       "<span class=\"add nd\">nd</span>"
       "<span>normal</span>"
       "</p>"
-      "</div>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "</div>";
+    evaluate (__LINE__, __func__, standard, html);
   }
 }
 
