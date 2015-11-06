@@ -18,7 +18,6 @@
 
 
 #include <sources/hebrewlexicon.h>
-#include <libxml/xmlreader.h>
 #include <database/logs.h>
 #include <database/hebrewlexicon.h>
 #include <filter/string.h>
@@ -29,6 +28,7 @@ void sources_hebrewlexicon_parse ()
   Database_Logs::log ("Start parsing Open Scriptures's Hebrew Lexicon");
   Database_HebrewLexicon database_hebrewlexicon;
   database_hebrewlexicon.create ();
+  /* To redo this with pugixml
 
   {
     Database_Logs::log ("AugIndex.xml");
@@ -217,6 +217,7 @@ void sources_hebrewlexicon_parse ()
       }
     }
   }
+   */
   
   Database_Logs::log ("Finished parsing Open Scriptures's Hebrew Lexicon");
 }

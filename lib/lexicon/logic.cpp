@@ -26,7 +26,7 @@
 #include <database/morphgnt.h>
 #include <database/strong.h>
 #include <database/hebrewlexicon.h>
-#include <libxml/xmlreader.h>
+#include <libxml/xmlreader.h> // Todo out
 
 
 #define BETH_STRONG 10000
