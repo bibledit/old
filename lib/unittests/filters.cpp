@@ -882,7 +882,7 @@ void test_filters_export2 ()
     string filename = "/tmp/module.bblx";
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
-    evaluate (__LINE__, __func__, 4096, filesize);
+    evaluate (__LINE__, __func__, 16384, filesize);
     filter_url_unlink (filename);
   }
   // Test class OnlineBible_Text.
@@ -922,7 +922,7 @@ void test_html_text ()
 {
   // Test Html_Text paragraphs.
   {
-    Html2_Text html_text ("TestOne");
+    Html_Text html_text ("TestOne");
     html_text.newParagraph ();
     evaluate (__LINE__, __func__, "", html_text.currentParagraphStyle);
     html_text.addText ("Paragraph One");
@@ -945,7 +945,7 @@ void test_html_text ()
   }
   // Test Html_Text automatic paragraph.
   {
-    Html2_Text html_text ("TestTwo");
+    Html_Text html_text ("TestTwo");
     html_text.addText ("Should create new paragraph automatically");
     string html = html_text.getInnerHtml ();
     string standard = 
@@ -954,7 +954,7 @@ void test_html_text ()
   }
   // Test Html_Text basic note
   {
-    Html2_Text html_text ("TestThree");
+    Html_Text html_text ("TestThree");
     html_text.newParagraph ();
     html_text.addText ("Text1");
     html_text.addNote ("†", "");
@@ -970,7 +970,7 @@ void test_html_text ()
   }
   // Test Html_Text getInnerHtml ()
   {
-    Html2_Text html_text ("test");
+    Html_Text html_text ("test");
     html_text.newParagraph ();
     html_text.addText ("Paragraph One");
     html_text.newParagraph ();
@@ -984,7 +984,7 @@ void test_html_text ()
   // Test Html_Text basic formatted note ()
   {
     Database_Styles_Item style;
-    Html2_Text html_text ("");
+    Html_Text html_text ("");
     html_text.newParagraph ();
     html_text.addText ("Text");
     html_text.addNote ("𐌰", "f");
@@ -1014,7 +1014,7 @@ void test_html_text ()
   // Test Html_Text embedded formatted note
   {
     Database_Styles_Item style;
-    Html2_Text html_text ("");
+    Html_Text html_text ("");
     html_text.newParagraph ();
     html_text.addText ("text");
     html_text.addNote ("𐌰", "f");

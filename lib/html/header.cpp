@@ -53,7 +53,7 @@ void Html_Header::searchBackLink (string url, string text)
 
 void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
 {
-  Html2_Text * html_text = (Html2_Text *) htmlText;
+  Html_Text * html_text = (Html_Text *) htmlText;
   xml_node tableElement = html_text->newTable ();
   xml_node tableRowElement = html_text->newTableRow (tableElement);
   xml_node tableDataElement = html_text->newTableData (tableRowElement);

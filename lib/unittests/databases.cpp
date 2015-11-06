@@ -1298,7 +1298,7 @@ void test_database_kjv ()
   Database_Kjv database_kjv = Database_Kjv ();
 
   vector <Database_Kjv_Item> data = database_kjv.getVerse (43, 11, 35);
-  evaluate (__LINE__, __func__, 3, (int)data.size());
+  evaluate (__LINE__, __func__, 5, (int)data.size());
 
   evaluate (__LINE__, __func__, "G3588", data[0].strong);
   evaluate (__LINE__, __func__, "Jesus", data[0].english);
@@ -1306,8 +1306,8 @@ void test_database_kjv ()
   evaluate (__LINE__, __func__, "G2424", data[1].strong);
   evaluate (__LINE__, __func__, "Jesus", data[1].english);
 
-  evaluate (__LINE__, __func__, "G1145", data[2].strong);
-  evaluate (__LINE__, __func__, "wept",  data[2].english);
+  evaluate (__LINE__, __func__, "G1145", data[3].strong);
+  evaluate (__LINE__, __func__, "wept",  data[3].english);
 
   vector <Passage> passages = database_kjv.searchStrong ("G909");
   evaluate (__LINE__, __func__, 4, (int)passages.size());
@@ -1335,7 +1335,26 @@ void test_database_morphhb ()
   Database_MorphHb database_morphhb = Database_MorphHb ();
 
   vector <string> data = database_morphhb.getVerse (18, 3, 2);
-  evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר", "׃" }, data);
+  vector <string> standard = {
+    " "
+    ,
+    "וַיַּ֥עַן"
+    ,
+    " "
+    ,
+    "אִיּ֗וֹב"
+    ,
+    " "
+    ,
+    "וַיֹּאמַֽר"
+    ,
+    "׃"
+    ,
+    " "
+    ,
+    " "
+  };
+  evaluate (__LINE__, __func__, standard, data);
 
   vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
@@ -1349,10 +1368,10 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, "10", passages[1].verse);
 
   vector <int> items = database_morphhb.rowids (18, 3, 2);
-  evaluate (__LINE__, __func__, 4, (int)items.size());
+  evaluate (__LINE__, __func__, 9, (int)items.size());
   
-  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[0]));
-  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[1]));
+  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[1]));
+  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[3]));
 }
 
 
@@ -1446,13 +1465,13 @@ void test_database_offlineresourcese ()
     int size = database_offlineresources.size ("phpunit", "1.sqlite");
     evaluate (__LINE__, __func__, 0, size);
   
-    database_offlineresources.store ("phpunit", 1, 2, 3, string (100, 's'));
+    database_offlineresources.store ("phpunit", 1, 2, 3, string (1000, 's'));
     size = database_offlineresources.size ("phpunit", "1.sqlite");
-    evaluate (__LINE__, __func__, 2048, size);
+    evaluate (__LINE__, __func__, 8192, size);
   
-    database_offlineresources.store ("phpunit", 1, 3, 4, string (1000, 's'));
+    database_offlineresources.store ("phpunit", 1, 3, 4, string (10000, 's'));
     size = database_offlineresources.size ("phpunit", "1.sqlite");
-    evaluate (__LINE__, __func__, 3072, size);
+    evaluate (__LINE__, __func__, 16384, size);
   }
   // Test Save / Load.
   {
