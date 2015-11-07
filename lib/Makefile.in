@@ -438,8 +438,8 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBS = -Wall -lpthread -L. -g -rdynamic `xml2-config --libs` \
-	$(SQLITE_LIBS) $(CURL_LIBS) $(OPENSSL_LIBS) $(ICU_LIBS)
+LIBS = -Wall -lpthread -L. -g -rdynamic $(SQLITE_LIBS) $(CURL_LIBS) \
+	$(OPENSSL_LIBS) $(ICU_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -473,9 +473,6 @@ UNZIP_PATH = @UNZIP_PATH@
 URLSETTINGS = @URLSETTINGS@
 VERSION = @VERSION@
 WINDOWS = @WINDOWS@
-XML2_CONFIG = @XML2_CONFIG@
-XML_CPPFLAGS = @XML_CPPFLAGS@
-XML_LIBS = @XML_LIBS@
 ZIP_PATH = @ZIP_PATH@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -881,8 +878,8 @@ unittest_SOURCES = \
 unittest_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
-	-rdynamic `xml2-config --cflags` $(SQLITE_CFLAGS) \
-	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(ICU_CFLAGS)
+	-rdynamic $(SQLITE_CFLAGS) $(CURL_CFLAGS) $(OPENSSL_CFLAGS) \
+	$(ICU_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h

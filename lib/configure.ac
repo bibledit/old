@@ -52,8 +52,6 @@ if test x$PKG_CONFIG_PATH = xno; then
   AC_MSG_ERROR(Program "pkg-config" is needed. Install this first.)
 fi
 
-AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this first.))
-
 PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(libsqlite3-dev version >= 3.0.0 is needed.))
 AC_SUBST(SQLITE_CFLAGS)
 AC_SUBST(SQLITE_LIBS)
