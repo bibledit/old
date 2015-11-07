@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <libxml/threads.h>
 #include <thread>
 #include <timer/index.h>
 #include <config/logic.h>
@@ -74,10 +73,6 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Thread locking.
   thread_setup ();
   
-  // Initialize libxml2.
-  xmlInitThreads ();
-  xmlInitParser ();
-
   // Initialize SQLite: Full thread safety: https://www.sqlite.org/threadsafe.html.
   // This is supported to prevent "database locked" errors.
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
@@ -199,10 +194,6 @@ void bibledit_stop_library ()
 // To be called exactly once during the lifetime of the app.
 void bibledit_shutdown_library ()
 {
-  // Libxml2.
-  xmlCleanupThreads();
-  xmlCleanupParser();
-  
   // Remove thread locks.
   thread_cleanup ();
 

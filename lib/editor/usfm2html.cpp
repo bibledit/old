@@ -467,9 +467,6 @@ void Editor_Usfm2Html::addText (string text)
     }
     xml_node spanDomElement = currentPnode.append_child ("span");
     spanDomElement.text ().set (text.c_str());
-    // xmlChar * encoded_text = xmlEncodeSpecialChars (htmlDom, BAD_CAST text.c_str());
-    // xmlNodePtr spanDomElement = xmlNewChild (currentPnode, NULL, BAD_CAST "span", encoded_text);
-    // xmlFree (encoded_text);
     if (!currentTextStyles.empty ()) {
       // Take character style(s) as specified in this object.
       spanDomElement.append_attribute ("class") = filter_string_implode (currentTextStyles, " ").c_str();

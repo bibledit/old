@@ -34,12 +34,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 Odf_Text::Odf_Text (string bible_in)
 {
   bible = bible_in;
-  currentTextPDomElement = NULL;
+  current_text_p_opened = false;
   currentParagraphStyle.clear();
   currentParagraphContent.clear();
   currentTextStyle.clear();
   frameCount = 0;
-  noteTextPDomElement = NULL;
+  note_text_p_opened = false;
   noteCount = 0;
   currentNoteTextStyle.clear();
 
@@ -55,8 +55,6 @@ Odf_Text::Odf_Text (string bible_in)
 
 Odf_Text::~Odf_Text ()
 {
-  xmlFreeDoc (contentDom);
-  xmlFreeDoc (stylesDom);
   filter_url_rmdir (unpackedOdtFolder);
 }
 
@@ -64,164 +62,137 @@ Odf_Text::~Odf_Text ()
 // Build the default content.xml for the template.
 void Odf_Text::initialize_content_xml ()
 {
-  contentDom = xmlNewDoc (BAD_CAST "1.0");
+  xml_node rootnode = contentDom.append_child ("office:document-content");
 
-  xmlNodePtr rootnode = xmlNewNode (NULL, BAD_CAST "office:document-content");
-  xmlDocSetRootElement (contentDom, rootnode);
+  rootnode.append_attribute ("xmlns:office") = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
+  rootnode.append_attribute ("xmlns:style") = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+  rootnode.append_attribute ("xmlns:text") = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+  rootnode.append_attribute ("xmlns:table") = "urn:oasis:names:tc:opendocument:xmlns:table:1.0";
+  rootnode.append_attribute ("xmlns:draw") = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0";
+  rootnode.append_attribute ("xmlns:fo") = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0";
+  rootnode.append_attribute ("xmlns:xlink") = "http://www.w3.org/1999/xlink";
+  rootnode.append_attribute ("xmlns:dc") = "http://purl.org/dc/elements/1.1/";
+  rootnode.append_attribute ("xmlns:meta") = "urn:oasis:names:tc:opendocument:xmlns:meta:1.0";
+  rootnode.append_attribute ("xmlns:number") = "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0";
+  rootnode.append_attribute ("xmlns:svg") = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0";
+  rootnode.append_attribute ("xmlns:chart") = "urn:oasis:names:tc:opendocument:xmlns:chart:1.0";
+  rootnode.append_attribute ("xmlns:dr3d") = "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0";
+  rootnode.append_attribute ("xmlns:math") = "http://www.w3.org/1998/Math/MathML";
+  rootnode.append_attribute ("xmlns:form") = "urn:oasis:names:tc:opendocument:xmlns:form:1.0";
+  rootnode.append_attribute ("xmlns:script") = "urn:oasis:names:tc:opendocument:xmlns:script:1.0";
+  rootnode.append_attribute ("xmlns:ooo") = "http://openoffice.org/2004/office";
+  rootnode.append_attribute ("xmlns:ooow") = "http://openoffice.org/2004/writer";
+  rootnode.append_attribute ("xmlns:oooc") = "http://openoffice.org/2004/calc";
+  rootnode.append_attribute ("xmlns:dom") = "http://www.w3.org/2001/xml-events";
+  rootnode.append_attribute ("xmlns:xforms") = "http://www.w3.org/2002/xforms";
+  rootnode.append_attribute ("xmlns:xsd") = "http://www.w3.org/2001/XMLSchema";
+  rootnode.append_attribute ("xmlns:xsi") = "http://www.w3.org/2001/XMLSchema-instance";
+  rootnode.append_attribute ("xmlns:rpt") = "http://openoffice.org/2005/report";
+  rootnode.append_attribute ("xmlns:of") = "urn:oasis:names:tc:opendocument:xmlns:of:1.2";
+  rootnode.append_attribute ("xmlns:xhtml") = "http://www.w3.org/1999/xhtml";
+  rootnode.append_attribute ("xmlns:grddl") = "http://www.w3.org/2003/g/data-view#";
+  rootnode.append_attribute ("xmlns:tableooo") = "http://openoffice.org/2009/table";
+  rootnode.append_attribute ("xmlns:field") = "urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0";
+  rootnode.append_attribute ("xmlns:formx") = "urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0";
+  rootnode.append_attribute ("xmlns:css3t") = "http://www.w3.org/TR/css3-text/";
+  rootnode.append_attribute ("office:version") = "1.2";
+  rootnode.append_attribute ("grddl:transformation") = "http://docs.oasis-open.org/office/1.2/xslt/odf2rdf.xsl";
 
-  xmlNewProp (rootnode, BAD_CAST "xmlns:office", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:office:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:style", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:style:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:text", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:text:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:table", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:table:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:draw", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:fo", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:xlink", BAD_CAST "http://www.w3.org/1999/xlink");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:dc", BAD_CAST "http://purl.org/dc/elements/1.1/");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:meta", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:number", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:svg", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:chart", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:chart:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:dr3d", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:math", BAD_CAST "http://www.w3.org/1998/Math/MathML");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:form", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:form:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:script", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:script:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:ooo", BAD_CAST "http://openoffice.org/2004/office");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:ooow", BAD_CAST "http://openoffice.org/2004/writer");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:oooc", BAD_CAST "http://openoffice.org/2004/calc");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:dom", BAD_CAST "http://www.w3.org/2001/xml-events");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:xforms", BAD_CAST "http://www.w3.org/2002/xforms");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:xsd", BAD_CAST "http://www.w3.org/2001/XMLSchema");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:xsi", BAD_CAST "http://www.w3.org/2001/XMLSchema-instance");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:rpt", BAD_CAST "http://openoffice.org/2005/report");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:of", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:of:1.2");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:xhtml", BAD_CAST "http://www.w3.org/1999/xhtml");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:grddl", BAD_CAST "http://www.w3.org/2003/g/data-view#");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:tableooo", BAD_CAST "http://openoffice.org/2009/table");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:field", BAD_CAST "urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:formx", BAD_CAST "urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:css3t", BAD_CAST "http://www.w3.org/TR/css3-text/");
-  xmlNewProp (rootnode, BAD_CAST "office:version", BAD_CAST "1.2");
-  xmlNewProp (rootnode, BAD_CAST "grddl:transformation", BAD_CAST "http://docs.oasis-open.org/office/1.2/xslt/odf2rdf.xsl");
+  xml_node office_scripts = rootnode.append_child ("office:scripts");
+  if (office_scripts) {}
 
-  xmlNodePtr office_scripts = xmlNewNode (NULL, BAD_CAST "office:scripts");
-  xmlAddChild (rootnode, office_scripts);
-
-  xmlNodePtr office_font_face_decls = xmlNewNode (NULL, BAD_CAST "office:font-face-decls");
-  xmlAddChild (rootnode, office_font_face_decls);
+  xml_node office_font_face_decls = rootnode.append_child ("office:font-face-decls");
   {
-    xmlNodePtr childnode = NULL;
+    xml_node childnode;
 
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Lohit Hindi1");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Lohit Hindi'");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Lohit Hindi1";
+    childnode.append_attribute ("svg:font-family") = "'Lohit Hindi'";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Times New Roman");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Times New Roman'");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "roman");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Times New Roman";
+    childnode.append_attribute ("svg:font-family") = "'Times New Roman'";
+    childnode.append_attribute ("style:font-family-generic") = "roman";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Arial");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "Arial");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "swiss");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Arial";
+    childnode.append_attribute ("svg:font-family") = "Arial";
+    childnode.append_attribute ("style:font-family-generic") = "swiss";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Droid Sans Fallback");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Droid Sans Fallback'");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "system");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Droid Sans Fallback";
+    childnode.append_attribute ("svg:font-family") = "'Droid Sans Fallback'";
+    childnode.append_attribute ("style:font-family-generic") = "system";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Lohit Hindi");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Lohit Hindi'");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "system");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Lohit Hindi";
+    childnode.append_attribute ("svg:font-family") = "'Lohit Hindi'";
+    childnode.append_attribute ("style:font-family-generic") = "system";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   }
 
-  xmlNodePtr office_automatic_styles = xmlNewNode (NULL, BAD_CAST "office:automatic-styles");
-  xmlAddChild (rootnode, office_automatic_styles);
+  xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
   {
-    xmlNodePtr style_style = NULL;
-    style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (office_automatic_styles, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "P1");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Header");
+    xml_node style_style;
+    style_style = office_automatic_styles.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "P1";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = "Header";
     {
-      xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-      xmlAddChild (style_style, style_paragraph_properties);
+      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xmlNodePtr style_tab_stops = xmlNewNode (NULL, BAD_CAST "style:tab-stops");
-        xmlAddChild (style_paragraph_properties, style_tab_stops);
+        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
-          xmlNodePtr style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST "9.005cm");
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "center");
-          style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST "17.986cm");
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "right");
+          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = "9.005cm";
+          style_tab_stop.append_attribute ("style:type") = "center";
+          style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = "17.986cm";
+          style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
     }
-    style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (office_automatic_styles, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "P2");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Header_20_left");
+    style_style = office_automatic_styles.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "P2";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = "Header_20_left";
     {
-      xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-      xmlAddChild (style_style, style_paragraph_properties);
+      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xmlNodePtr style_tab_stops = xmlNewNode (NULL, BAD_CAST "style:tab-stops");
-        xmlAddChild (style_paragraph_properties, style_tab_stops);
+        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
-          xmlNodePtr style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST "8.193cm");
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "center");
-          style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST "17.963cm");
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "right");
+          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = "8.193cm";
+          style_tab_stop.append_attribute ("style:type") = "center";
+          style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = "17.963cm";
+          style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
     }
   }
 
-  xmlNodePtr office_body = xmlNewNode (NULL, BAD_CAST "office:body");
-  xmlAddChild (rootnode, office_body);
+  xml_node office_body = rootnode.append_child ("office:body");
   {
-    officeTextDomNode = xmlNewNode (NULL, BAD_CAST "office:text");
-    xmlAddChild (office_body, officeTextDomNode);
+    officeTextDomNode = office_body.append_child ("office:text");
     {
-      xmlNodePtr text_sequence_decls = xmlNewNode (NULL, BAD_CAST "text:sequence-decls");
-      xmlAddChild (officeTextDomNode, text_sequence_decls);
+      xml_node text_sequence_decls = officeTextDomNode.append_child ("text:sequence-decls");
       {
-        xmlNodePtr text_sequence_decl = xmlNewNode (NULL, BAD_CAST "text:sequence-decl");
-        xmlAddChild (text_sequence_decls, text_sequence_decl);
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:display-outline-level", BAD_CAST "0");
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:name", BAD_CAST "Illustration");
-        text_sequence_decl = xmlNewNode (NULL, BAD_CAST "text:sequence-decl");
-        xmlAddChild (text_sequence_decls, text_sequence_decl);
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:display-outline-level", BAD_CAST "0");
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:name", BAD_CAST "Table");
-        text_sequence_decl = xmlNewNode (NULL, BAD_CAST "text:sequence-decl");
-        xmlAddChild (text_sequence_decls, text_sequence_decl);
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:display-outline-level", BAD_CAST "0");
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:name", BAD_CAST "Text");
-        text_sequence_decl = xmlNewNode (NULL, BAD_CAST "text:sequence-decl");
-        xmlAddChild (text_sequence_decls, text_sequence_decl);
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:display-outline-level", BAD_CAST "0");
-        xmlNewProp (text_sequence_decl, BAD_CAST "text:name", BAD_CAST "Drawing");
+        xml_node text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
+        text_sequence_decl.append_attribute ("text:display-outline-level") = "0";
+        text_sequence_decl.append_attribute ("text:name") = "Illustration";
+        text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
+        text_sequence_decl.append_attribute ("text:display-outline-level") = "0";
+        text_sequence_decl.append_attribute ("text:name") = "Table";
+        text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
+        text_sequence_decl.append_attribute ("text:display-outline-level") = "0";
+        text_sequence_decl.append_attribute ("text:name") = "Text";
+        text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
+        text_sequence_decl.append_attribute ("text:display-outline-level") = "0";
+        text_sequence_decl.append_attribute ("text:name") = "Drawing";
       }
       // The default text:p element is not added so the document appears empty.
     }
@@ -232,377 +203,325 @@ void Odf_Text::initialize_content_xml ()
 // Build the default styles.xml for the template.
 void Odf_Text::initialize_styles_xml ()
 {
-  stylesDom = xmlNewDoc (BAD_CAST "1.0");
+  xml_node rootnode = stylesDom.append_child ("office:document-styles");
 
-  xmlNodePtr rootnode = xmlNewNode (NULL, BAD_CAST "office:document-styles");
-  xmlDocSetRootElement (stylesDom, rootnode);
+  rootnode.append_attribute ("xmlns:office") = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
+  rootnode.append_attribute ("xmlns:style") = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+  rootnode.append_attribute ("xmlns:text") = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+  rootnode.append_attribute ("xmlns:table") = "urn:oasis:names:tc:opendocument:xmlns:table:1.0";
+  rootnode.append_attribute ("xmlns:draw") = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0";
+  rootnode.append_attribute ("xmlns:fo") = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0";
+  rootnode.append_attribute ("xmlns:xlink") = "http://www.w3.org/1999/xlink";
+  rootnode.append_attribute ("xmlns:dc") = "http://purl.org/dc/elements/1.1/";
+  rootnode.append_attribute ("xmlns:meta") = "urn:oasis:names:tc:opendocument:xmlns:meta:1.0";
+  rootnode.append_attribute ("xmlns:number") = "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0";
+  rootnode.append_attribute ("xmlns:svg") = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0";
+  rootnode.append_attribute ("xmlns:chart") = "urn:oasis:names:tc:opendocument:xmlns:chart:1.0";
+  rootnode.append_attribute ("xmlns:dr3d") = "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0";
+  rootnode.append_attribute ("xmlns:math") = "http://www.w3.org/1998/Math/MathML";
+  rootnode.append_attribute ("xmlns:form") = "urn:oasis:names:tc:opendocument:xmlns:form:1.0";
+  rootnode.append_attribute ("xmlns:script") = "urn:oasis:names:tc:opendocument:xmlns:script:1.0";
+  rootnode.append_attribute ("xmlns:ooo") = "http://openoffice.org/2004/office";
+  rootnode.append_attribute ("xmlns:ooow") = "http://openoffice.org/2004/writer";
+  rootnode.append_attribute ("xmlns:oooc") = "http://openoffice.org/2004/calc";
+  rootnode.append_attribute ("xmlns:dom") = "http://www.w3.org/2001/xml-events";
+  rootnode.append_attribute ("xmlns:rpt") = "http://openoffice.org/2005/report";
+  rootnode.append_attribute ("xmlns:of") = "urn:oasis:names:tc:opendocument:xmlns:of:1.2";
+  rootnode.append_attribute ("xmlns:xhtml") = "http://www.w3.org/1999/xhtml";
+  rootnode.append_attribute ("xmlns:grddl") = "http://www.w3.org/2003/g/data-view#";
+  rootnode.append_attribute ("xmlns:tableooo") = "http://openoffice.org/2009/table";
+  rootnode.append_attribute ("xmlns:css3t") = "http://www.w3.org/TR/css3-text/";
+  rootnode.append_attribute ("office:version") = "1.2";
+  rootnode.append_attribute ("grddl:transformation") = "http://docs.oasis-open.org/office/1.2/xslt/odf2rdf.xsl";
 
-  xmlNewProp (rootnode, BAD_CAST "xmlns:office", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:office:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:style", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:style:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:text", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:text:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:table", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:table:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:draw", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:fo", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:xlink", BAD_CAST "http://www.w3.org/1999/xlink");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:dc", BAD_CAST "http://purl.org/dc/elements/1.1/");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:meta", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:number", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:svg", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:chart", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:chart:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:dr3d", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:math", BAD_CAST "http://www.w3.org/1998/Math/MathML");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:form", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:form:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:script", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:script:1.0");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:ooo", BAD_CAST "http://openoffice.org/2004/office");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:ooow", BAD_CAST "http://openoffice.org/2004/writer");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:oooc", BAD_CAST "http://openoffice.org/2004/calc");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:dom", BAD_CAST "http://www.w3.org/2001/xml-events");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:rpt", BAD_CAST "http://openoffice.org/2005/report");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:of", BAD_CAST "urn:oasis:names:tc:opendocument:xmlns:of:1.2");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:xhtml", BAD_CAST "http://www.w3.org/1999/xhtml");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:grddl", BAD_CAST "http://www.w3.org/2003/g/data-view#");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:tableooo", BAD_CAST "http://openoffice.org/2009/table");
-  xmlNewProp (rootnode, BAD_CAST "xmlns:css3t", BAD_CAST "http://www.w3.org/TR/css3-text/");
-  xmlNewProp (rootnode, BAD_CAST "office:version", BAD_CAST "1.2");
-  xmlNewProp (rootnode, BAD_CAST "grddl:transformation", BAD_CAST "http://docs.oasis-open.org/office/1.2/xslt/odf2rdf.xsl");
-
-  xmlNodePtr office_font_face_decls = xmlNewNode (NULL, BAD_CAST "office:font-face-decls");
-  xmlAddChild (rootnode, office_font_face_decls);
+  xml_node office_font_face_decls = rootnode.append_child ("office:font-face-decls");
   {
-    xmlNodePtr childnode = NULL;
+    xml_node childnode;
 
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Lohit Hindi1");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Lohit Hindi'");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Lohit Hindi1";
+    childnode.append_attribute ("svg:font-family") = "'Lohit Hindi'";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Times New Roman");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Times New Roman'");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "roman");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Times New Roman";
+    childnode.append_attribute ("svg:font-family") = "'Times New Roman'";
+    childnode.append_attribute ("style:font-family-generic") = "roman";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Arial");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "Arial");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "swiss");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Arial";
+    childnode.append_attribute ("svg:font-family") = "Arial";
+    childnode.append_attribute ("style:font-family-generic") = "swiss";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Droid Sans Fallback");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Droid Sans Fallback'");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "system");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Droid Sans Fallback";
+    childnode.append_attribute ("svg:font-family") = "'Droid Sans Fallback'";
+    childnode.append_attribute ("style:font-family-generic") = "system";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   
-    childnode = xmlNewNode (NULL, BAD_CAST "style:font-face");
-    xmlAddChild (office_font_face_decls, childnode);
-    xmlNewProp (childnode, BAD_CAST "style:name", BAD_CAST "Lohit Hindi");
-    xmlNewProp (childnode, BAD_CAST "svg:font-family", BAD_CAST "'Lohit Hindi'");
-    xmlNewProp (childnode, BAD_CAST "style:font-family-generic", BAD_CAST "system");
-    xmlNewProp (childnode, BAD_CAST "style:font-pitch", BAD_CAST "variable");
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = "Lohit Hindi";
+    childnode.append_attribute ("svg:font-family") = "'Lohit Hindi'";
+    childnode.append_attribute ("style:font-family-generic") = "system";
+    childnode.append_attribute ("style:font-pitch") = "variable";
   }
 
-  officeStylesDomNode = xmlNewNode (NULL, BAD_CAST "office:styles");
-  xmlAddChild (rootnode, officeStylesDomNode);
+  officeStylesDomNode = rootnode.append_child ("office:styles");
   {
-    xmlNodePtr style_default_style = xmlNewNode (NULL, BAD_CAST "style:default-style");
-    xmlAddChild (officeStylesDomNode, style_default_style);
-    xmlNewProp (style_default_style, BAD_CAST "style:family", BAD_CAST "graphic");
-    xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-    xmlAddChild (style_default_style, style_paragraph_properties);
-    xmlNodePtr style_text_properties = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-    xmlAddChild (style_default_style, style_text_properties);
+    xml_node style_default_style = officeStylesDomNode.append_child ("style:default-style");
+    style_default_style.append_attribute ("style:family") = "graphic";
+    xml_node style_paragraph_properties = style_default_style.append_child ("style:paragraph-properties");
+    if (style_paragraph_properties) {}
+    xml_node style_text_properties = style_default_style.append_child ("style:text-properties");
+    if (style_text_properties) {}
   }
   {
-    xmlNodePtr style_default_style = xmlNewNode (NULL, BAD_CAST "style:default-style");
-    xmlAddChild (officeStylesDomNode, style_default_style);
-    xmlNewProp (style_default_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-    xmlAddChild (style_default_style, style_paragraph_properties);
-    xmlNodePtr style_text_properties = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-    xmlAddChild (style_default_style, style_text_properties);
+    xml_node style_default_style = officeStylesDomNode.append_child ("style:default-style");
+    style_default_style.append_attribute ("style:family") = "paragraph";
+    xml_node style_paragraph_properties = style_default_style.append_child ("style:paragraph-properties");
+    if (style_paragraph_properties) {}
+    xml_node style_text_properties = style_default_style.append_child ("style:text-properties");
+    if (style_text_properties) {}
   }
   {
-    xmlNodePtr style_default_style = xmlNewNode (NULL, BAD_CAST "style:default-style");
-    xmlAddChild (officeStylesDomNode, style_default_style);
-    xmlNewProp (style_default_style, BAD_CAST "style:family", BAD_CAST "table");
+    xml_node style_default_style = officeStylesDomNode.append_child ("style:default-style");
+    style_default_style.append_attribute ("style:family") = "table";
   }
   {
-    xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (officeStylesDomNode, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST styles_logic_standard_sheet ().c_str());
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "text");
+    xml_node style_style = officeStylesDomNode.append_child ("style:style");
+    style_style.append_attribute ("style:name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:class") = "text";
   }
   {
-    xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (officeStylesDomNode, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Heading");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
-    xmlNewProp (style_style, BAD_CAST "style:next-style-name", BAD_CAST "Text_20_body");
-    xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "text");
+    xml_node style_style = officeStylesDomNode.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "Heading";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:next-style-name") = "Text_20_body";
+    style_style.append_attribute ("style:class") = "text";
     {
-      xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-      xmlAddChild (style_style, style_paragraph_properties);
-      xmlNewProp (style_paragraph_properties, BAD_CAST "fo:margin-top", BAD_CAST "0.423cm");
-      xmlNewProp (style_paragraph_properties, BAD_CAST "fo:margin-bottom", BAD_CAST "0.212cm");
-      xmlNewProp (style_paragraph_properties, BAD_CAST "fo:keep-with-next", BAD_CAST "always");
+      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      style_paragraph_properties.append_attribute ("fo:margin-top") = "0.423cm";
+      style_paragraph_properties.append_attribute ("fo:margin-bottom") = "0.212cm";
+      style_paragraph_properties.append_attribute ("fo:keep-with-next") = "always";
     }
   }
   {
-    xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (officeStylesDomNode, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Text_20_body");
-    xmlNewProp (style_style, BAD_CAST "style:display-name", BAD_CAST "Text body");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
-    xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "text");
+    xml_node style_style = officeStylesDomNode.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "Text_20_body";
+    style_style.append_attribute ("style:display-name") = "Text body";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:class") = "text";
     {
-      xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-      xmlAddChild (style_style, style_paragraph_properties);
-      xmlNewProp (style_paragraph_properties, BAD_CAST "fo:margin-top", BAD_CAST "0cm");
-      xmlNewProp (style_paragraph_properties, BAD_CAST "fo:margin-bottom", BAD_CAST "0.212cm");
+      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      style_paragraph_properties.append_attribute ("fo:margin-top") = "0cm";
+      style_paragraph_properties.append_attribute ("fo:margin-bottom") = "0.212cm";
     }
   }
   {
-    xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (officeStylesDomNode, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Header");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
-    xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "extra");
+    xml_node style_style = officeStylesDomNode.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "Header";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:class") = "extra";
   }
   {
-    xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (officeStylesDomNode, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "Header_20_left");
-    xmlNewProp (style_style, BAD_CAST "style:display-name", BAD_CAST "Header left");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST styles_logic_standard_sheet ().c_str());
-    xmlNewProp (style_style, BAD_CAST "style:class", BAD_CAST "extra");
+    xml_node style_style = officeStylesDomNode.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "Header_20_left";
+    style_style.append_attribute ("style:display-name") = "Header left";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:class") = "extra";
   }
 
   // Update the tab-stops in the header style. The tab stops depend on page and margin dimensions.
   int centerPosition = convert_to_int (Database_Config_Bible::getPageWidth (bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (bible));
 
-  xmlNodePtr office_automatic_styles = xmlNewNode (NULL, BAD_CAST "office:automatic-styles");
-  xmlAddChild (rootnode, office_automatic_styles);
+  xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
   {
-    xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (office_automatic_styles, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "MP1");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Header");
+    xml_node style_style = office_automatic_styles.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "MP1";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = "Header";
     {
-      xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-      xmlAddChild (style_style, style_paragraph_properties);
+      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xmlNodePtr style_tab_stops = xmlNewNode (NULL, BAD_CAST "style:tab-stops");
-        xmlAddChild (style_paragraph_properties, style_tab_stops);
+        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         centerPosition /= 2;
         {
-          xmlNodePtr style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST convert_to_string (convert_to_string (centerPosition) + "mm").c_str());
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "center");
+          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
-          xmlNodePtr style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST convert_to_string (convert_to_string (centerPosition * 2) + "mm").c_str());
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "right");
+          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition * 2) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
     }
   }
   {
-    xmlNodePtr style_style = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlAddChild (office_automatic_styles, style_style);
-    xmlNewProp (style_style, BAD_CAST "style:name", BAD_CAST "MP2");
-    xmlNewProp (style_style, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (style_style, BAD_CAST "style:parent-style-name", BAD_CAST "Header_20_left");
+    xml_node style_style = office_automatic_styles.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "MP2";
+    style_style.append_attribute ("style:family") = "paragraph";
+    style_style.append_attribute ("style:parent-style-name") = "Header_20_left";
     {
-      xmlNodePtr style_paragraph_properties = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-      xmlAddChild (style_style, style_paragraph_properties);
+      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xmlNodePtr style_tab_stops = xmlNewNode (NULL, BAD_CAST "style:tab-stops");
-        xmlAddChild (style_paragraph_properties, style_tab_stops);
+        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
-          xmlNodePtr style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST convert_to_string (convert_to_string (centerPosition) + "mm").c_str());
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "center");
+          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
-          xmlNodePtr style_tab_stop = xmlNewNode (NULL, BAD_CAST "style:tab-stop");
-          xmlAddChild (style_tab_stops, style_tab_stop);
-          xmlNewProp (style_tab_stop, BAD_CAST "style:position", BAD_CAST convert_to_string (convert_to_string (centerPosition * 2) + "mm").c_str());
-          xmlNewProp (style_tab_stop, BAD_CAST "style:type", BAD_CAST "right");
+          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition * 2) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
     }
   }
   {
-    xmlNodePtr style_page_layout = xmlNewNode (NULL, BAD_CAST "style:page-layout");
-    xmlAddChild (office_automatic_styles, style_page_layout);
-    xmlNewProp (style_page_layout, BAD_CAST "style:name", BAD_CAST "Mpm1");
-    xmlNewProp (style_page_layout, BAD_CAST "style:page-usage", BAD_CAST "mirrored");
+    xml_node style_page_layout = office_automatic_styles.append_child ("style:page-layout");
+    style_page_layout.append_attribute ("style:name") = "Mpm1";
+    style_page_layout.append_attribute ("style:page-usage") = "mirrored";
     {
-      xmlNodePtr style_page_layout_properties = xmlNewNode (NULL, BAD_CAST "style:page-layout-properties");
-      xmlAddChild (style_page_layout, style_page_layout_properties);
+      xml_node style_page_layout_properties = style_page_layout.append_child ("style:page-layout-properties");
       // Take the page size and margins from the Bible's settings.
-      xmlNewProp (style_page_layout_properties, BAD_CAST "fo:page-width", BAD_CAST convert_to_string (Database_Config_Bible::getPageWidth (bible) + "mm").c_str());
-      xmlNewProp (style_page_layout_properties, BAD_CAST "fo:page-height", BAD_CAST convert_to_string (Database_Config_Bible::getPageHeight (bible) + "mm").c_str());
-      xmlNewProp (style_page_layout_properties, BAD_CAST "style:num-format", BAD_CAST "1");
-      xmlNewProp (style_page_layout_properties, BAD_CAST "style:print-orientation", BAD_CAST "portrait");
-      xmlNewProp (style_page_layout_properties, BAD_CAST "fo:margin-top", BAD_CAST convert_to_string (Database_Config_Bible::getTopMargin (bible) + "mm").c_str());
-      xmlNewProp (style_page_layout_properties, BAD_CAST "fo:margin-bottom", BAD_CAST convert_to_string (Database_Config_Bible::getBottomMargin (bible) + "mm").c_str());
-      xmlNewProp (style_page_layout_properties, BAD_CAST "fo:margin-left", BAD_CAST convert_to_string (Database_Config_Bible::getInnerMargin (bible) + "mm").c_str());
-      xmlNewProp (style_page_layout_properties, BAD_CAST "fo:margin-right", BAD_CAST convert_to_string (Database_Config_Bible::getOuterMargin (bible) + "mm").c_str());
-      xmlNewProp (style_page_layout_properties, BAD_CAST "style:writing-mode", BAD_CAST "lr-tb");
-      xmlNewProp (style_page_layout_properties, BAD_CAST "style:footnote-max-height", BAD_CAST "0cm");
+      style_page_layout_properties.append_attribute ("fo:page-width") = convert_to_string (Database_Config_Bible::getPageWidth (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:page-height") = convert_to_string (Database_Config_Bible::getPageHeight (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("style:num-format") = "1";
+      style_page_layout_properties.append_attribute ("style:print-orientation") = "portrait";
+      style_page_layout_properties.append_attribute ("fo:margin-top") = convert_to_string (Database_Config_Bible::getTopMargin (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-bottom") = convert_to_string (Database_Config_Bible::getBottomMargin (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-left") = convert_to_string (Database_Config_Bible::getInnerMargin (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-right") = convert_to_string (Database_Config_Bible::getOuterMargin (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("style:writing-mode") = "lr-tb";
+      style_page_layout_properties.append_attribute ("style:footnote-max-height") = "0cm";
       {
-        xmlNodePtr style_footnote_sep = xmlNewNode (NULL, BAD_CAST "style:footnote-sep");
-        xmlAddChild (style_page_layout_properties, style_footnote_sep);
-        xmlNewProp (style_footnote_sep, BAD_CAST "style:width", BAD_CAST "0.018cm");
-        xmlNewProp (style_footnote_sep, BAD_CAST "style:distance-before-sep", BAD_CAST "0.101cm");
-        xmlNewProp (style_footnote_sep, BAD_CAST "style:distance-after-sep", BAD_CAST "0.101cm");
-        xmlNewProp (style_footnote_sep, BAD_CAST "style:adjustment", BAD_CAST "left");
-        xmlNewProp (style_footnote_sep, BAD_CAST "style:rel-width", BAD_CAST "25%");
-        xmlNewProp (style_footnote_sep, BAD_CAST "style:color", BAD_CAST "#000000");
+        xml_node style_footnote_sep = style_page_layout_properties.append_child ("style:footnote-sep");
+        style_footnote_sep.append_attribute ("style:width") = "0.018cm";
+        style_footnote_sep.append_attribute ("style:distance-before-sep") = "0.101cm";
+        style_footnote_sep.append_attribute ("style:distance-after-sep") = "0.101cm";
+        style_footnote_sep.append_attribute ("style:adjustment") = "left";
+        style_footnote_sep.append_attribute ("style:rel-width") = "25%";
+        style_footnote_sep.append_attribute ("style:color") = "#000000";
       }
     }
     {
-      xmlNodePtr style_header_style = xmlNewNode (NULL, BAD_CAST "style:header-style");
-      xmlAddChild (style_page_layout, style_header_style);
+      xml_node style_header_style = style_page_layout.append_child ("style:header-style");
       {
-        xmlNodePtr style_header_footer_properties = xmlNewNode (NULL, BAD_CAST "style:header-footer-properties");
-        xmlAddChild (style_header_style, style_header_footer_properties);
-        xmlNewProp (style_header_footer_properties, BAD_CAST "fo:min-height", BAD_CAST "0.799cm");
-        xmlNewProp (style_header_footer_properties, BAD_CAST "fo:margin-left", BAD_CAST "0cm");
-        xmlNewProp (style_header_footer_properties, BAD_CAST "fo:margin-right", BAD_CAST "0cm");
-        xmlNewProp (style_header_footer_properties, BAD_CAST "fo:margin-bottom", BAD_CAST "0.3cm");
-        xmlNewProp (style_header_footer_properties, BAD_CAST "style:dynamic-spacing", BAD_CAST "false");
+        xml_node style_header_footer_properties = style_header_style.append_child ("style:header-footer-properties");
+        style_header_footer_properties.append_attribute ("fo:min-height") = "0.799cm";
+        style_header_footer_properties.append_attribute ("fo:margin-left") = "0cm";
+        style_header_footer_properties.append_attribute ("fo:margin-right") = "0cm";
+        style_header_footer_properties.append_attribute ("fo:margin-bottom") = "0.3cm";
+        style_header_footer_properties.append_attribute ("style:dynamic-spacing") = "false";
       }
-      xmlNodePtr style_footer_style = xmlNewNode (NULL, BAD_CAST "style:footer-style");
-      xmlAddChild (style_page_layout, style_footer_style);
+      xml_node style_footer_style = style_page_layout.append_child ("style:footer-style");
+      if (style_footer_style) {}
     }
   }
   {
     // Do not write the date style for the running headers, so that it takes the default style.
     /*
-    xmlNodePtr number_date_style = xmlNewNode (NULL, BAD_CAST "number:date-style");
+    xml_node number_date_style = .append_child ("number:date-style");
     xmlAddChild (office_automatic_styles, number_date_style);
-    xmlNewProp (number_date_style, BAD_CAST "style:name", BAD_CAST "N81");
+    .append_attribute (number_date_style,  "style:name") = "N81";
     {
-      xmlNodePtr number_day = xmlNewNode (NULL, BAD_CAST "number:day");
+      xml_node number_day = .append_child ("number:day");
       xmlAddChild (number_date_style, number_day);
-      xmlNodePtr number_text = xmlNewNode (NULL, BAD_CAST "number:text");
+      xml_node number_text = .append_child ("number:text");
       xmlAddChild (number_date_style, number_text);
       {
-        xmlNodePtr textnode = xmlNewText(BAD_CAST ".");
+        xml_node textnode = xmlNewText( ".");
         xmlAddChild (number_text, textnode);
       }
-      xmlNodePtr number_month = xmlNewNode (NULL, BAD_CAST "number:month");
+      xml_node number_month = .append_child ("number:month");
       xmlAddChild (number_date_style, number_month);
       {
-        xmlNewProp (number_month, BAD_CAST "number:style", BAD_CAST "long");
-        xmlNewProp (number_month, BAD_CAST "number:textual", BAD_CAST "true");
+        .append_attribute (number_month,  "number:style") = "long";
+        .append_attribute (number_month,  "number:textual") = "true";
       }
-      number_text = xmlNewNode (NULL, BAD_CAST "number:text");
+      number_text = .append_child ("number:text");
       xmlAddChild (number_date_style, number_text);
-      xmlNodePtr number_year = xmlNewNode (NULL, BAD_CAST "number:year");
+      xml_node number_year = .append_child ("number:year");
       xmlAddChild (number_date_style, number_year);
       {
-        xmlNewProp (number_year, BAD_CAST "number:style", BAD_CAST "long");
+        .append_attribute (number_year,  "number:style") = "long";
       }
     }
     */
   }
-  xmlNodePtr office_master_styles = xmlNewNode (NULL, BAD_CAST "office:master-styles");
-  xmlAddChild (rootnode, office_master_styles);
+  xml_node office_master_styles = rootnode.append_child ("office:master-styles");
   {
-    xmlNodePtr style_master_page = xmlNewNode (NULL, BAD_CAST "style:master-page");
-    xmlAddChild (office_master_styles, style_master_page);
-    xmlNewProp (style_master_page, BAD_CAST "style:name", BAD_CAST styles_logic_standard_sheet ().c_str());
-    xmlNewProp (style_master_page, BAD_CAST "style:page-layout-name", BAD_CAST "Mpm1");
+    xml_node style_master_page = office_master_styles.append_child ("style:master-page");
+    style_master_page.append_attribute ("style:name") = styles_logic_standard_sheet ().c_str();
+    style_master_page.append_attribute ("style:page-layout-name") = "Mpm1";
     {
-      xmlNodePtr style_header = xmlNewNode (NULL, BAD_CAST "style:header");
-      xmlAddChild (style_master_page, style_header);
+      xml_node style_header = style_master_page.append_child ("style:header");
       {
-        xmlNodePtr text_p = xmlNewNode (NULL, BAD_CAST "text:p");
-        xmlAddChild (style_header, text_p);
-        xmlNewProp (text_p, BAD_CAST "text:style-name", BAD_CAST "MP1");
+        xml_node text_p = style_header.append_child ("text:p");
+        text_p.append_attribute ("text:style-name") = "MP1";
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:page-number");
-          xmlAddChild (text_p, node);
-          xmlNewProp (node, BAD_CAST "text:select-page", BAD_CAST "current");
-          xmlNodePtr textnode = xmlNewText(BAD_CAST "1");
-          xmlAddChild (node, textnode);
+          xml_node node = text_p.append_child ("text:page-number");
+          node.append_attribute ("text:select-page") = "current";
+          node.text ().set ("1");
         }
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:tab");
-          xmlAddChild (text_p, node);
+          xml_node node = text_p.append_child ("text:tab");
+          if (node) {}
         }
         // Whether and how to put the date in the running headers.
         if (Database_Config_Bible::getDateInHeader (bible)) {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:date");
-          xmlAddChild (text_p, node);
-          xmlNewProp (node, BAD_CAST "style:data-style-name", BAD_CAST "N81");
-          xmlNewProp (node, BAD_CAST "text:date-value", BAD_CAST "");
-          xmlNodePtr textnode = xmlNewText(BAD_CAST "");
-          xmlAddChild (node, textnode);
+          xml_node node = text_p.append_child ("text:date");
+          node.append_attribute ("style:data-style-name") = "N81";
+          node.append_attribute ("text:date-value") = "";
+          node.text ().set ("");
         }
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:tab");
-          xmlAddChild (text_p, node);
+          xml_node node = text_p.append_child ("text:tab");
+          if (node) {}
         }
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:chapter");
-          xmlAddChild (text_p, node);
-          xmlNewProp (node, BAD_CAST "text:display", BAD_CAST "name");
-          xmlNewProp (node, BAD_CAST "text:outline-level", BAD_CAST "1");
+          xml_node node = text_p.append_child ("text:chapter");
+          node.append_attribute ("text:display") = "name";
+          node.append_attribute ("text:outline-level") = "1";
         }
       }
-      xmlNodePtr style_header_left = xmlNewNode (NULL, BAD_CAST "style:header-left");
-      xmlAddChild (style_master_page, style_header_left);
+      xml_node style_header_left = style_master_page.append_child ("style:header-left");
       {
-        xmlNodePtr text_p = xmlNewNode (NULL, BAD_CAST "text:p");
-        xmlAddChild (style_header_left, text_p);
-        xmlNewProp (text_p, BAD_CAST "text:style-name", BAD_CAST "MP2");
+        xml_node text_p = style_header_left.append_child ("text:p");
+        text_p.append_attribute ("text:style-name") = "MP2";
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:chapter");
-          xmlAddChild (text_p, node);
-          xmlNewProp (node, BAD_CAST "text:display", BAD_CAST "name");
-          xmlNewProp (node, BAD_CAST "text:outline-level", BAD_CAST "1");
+          xml_node node = text_p.append_child ("text:chapter");
+          node.append_attribute ("text:display") = "name";
+          node.append_attribute ("text:outline-level") = "1";
         }
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:tab");
-          xmlAddChild (text_p, node);
+          xml_node node = text_p.append_child ("text:tab");
+          if (node) {}
         }
         // Whether and how to put the date in the running headers.
         if (Database_Config_Bible::getDateInHeader (bible)) {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:date");
-          xmlAddChild (text_p, node);
-          xmlNewProp (node, BAD_CAST "style:data-style-name", BAD_CAST "N81");
-          xmlNewProp (node, BAD_CAST "text:date-value", BAD_CAST "");
-          xmlNodePtr textnode = xmlNewText(BAD_CAST "");
-          xmlAddChild (node, textnode);
+          xml_node node = text_p.append_child ("text:date");
+          node.append_attribute ("style:data-style-name") = "N81";
+          node.append_attribute ("text:date-value") = "";
+          node.text ().set ("");
         }
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:tab");
-          xmlAddChild (text_p, node);
+          xml_node node = text_p.append_child ("text:tab");
+          if (node) {}
         }
         {
-          xmlNodePtr node = xmlNewNode (NULL, BAD_CAST "text:page-number");
-          xmlAddChild (text_p, node);
-          xmlNewProp (node, BAD_CAST "text:select-page", BAD_CAST "current");
-          xmlNodePtr textnode = xmlNewText(BAD_CAST "1");
-          xmlAddChild (node, textnode);
+          xml_node node = text_p.append_child ("text:page-number");
+          node.append_attribute ("text:select-page") = "current";
+          node.text ().set ("1");
         }
       }
     }
@@ -612,9 +531,9 @@ void Odf_Text::initialize_styles_xml ()
 
 void Odf_Text::newParagraph (string style)
 {
-  currentTextPDomElement = xmlNewNode (NULL, BAD_CAST "text:p");
-  currentTextPDomElementNameNode = xmlNewProp (currentTextPDomElement, BAD_CAST "text:style-name", BAD_CAST style.c_str());
-  xmlAddChild (officeTextDomNode, currentTextPDomElement);
+  currentTextPDomElement = officeTextDomNode.append_child ("text:p");
+  currentTextPDomElementNameNode = currentTextPDomElement.append_attribute ("text:style-name") = style.c_str();
+  current_text_p_opened = true;
   currentParagraphStyle = style;
   currentParagraphContent.clear();
 }
@@ -628,24 +547,22 @@ void Odf_Text::addText (string text)
   if (text.empty()) return;
 
   // Ensure a paragraph has started.
-  if (!currentTextPDomElement) newParagraph ();
+  if (!current_text_p_opened) newParagraph ();
   
   // Temporal styles array should have at least one style for the code below to work.
   vector <string> styles (currentTextStyle.begin (), currentTextStyle.end ());
   if (styles.empty()) styles.push_back ("");
   
   // Write a text span element, nesting the second and later ones.
-  xmlNodePtr domElement = currentTextPDomElement;
+  xml_node domElement = currentTextPDomElement;
   for (string style : styles) {
-    xmlNodePtr textSpanDomElement = xmlNewNode (NULL, BAD_CAST "text:span");
-    xmlAddChild (domElement, textSpanDomElement);
+    xml_node textSpanDomElement = domElement.append_child ("text:span");
     if (!style.empty ()) {
-      xmlNewProp (textSpanDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (style).c_str());
+      textSpanDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
     }
     domElement = textSpanDomElement;
   }
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
-  xmlAddChild (domElement, textnode);
+  domElement.text ().set (filter_string_sanitize_html (text).c_str());
   
   // Update public paragraph text.
   currentParagraphContent += text;
@@ -668,24 +585,21 @@ void Odf_Text::createPageBreakStyle ()
   // <style:paragraph-properties fo:break-after="page" fo:line-height="0.05cm" fo:margin-bottom="0cm" fo:margin-top="0cm"/>
   // <style:text-properties fo:font-size="2pt" style:font-size-asian="2pt" style:font-size-complex="2pt"/>
   // </style:style>
-  xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
-  xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST "Page_20_Break");
-  xmlNewProp (styleDomElement, BAD_CAST "style:display-name", BAD_CAST "Page Break");
-  xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "paragraph");
-  xmlAddChild (officeStylesDomNode, styleDomElement);
+  xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
+  styleDomElement.append_attribute ("style:name") = "Page_20_Break";
+  styleDomElement.append_attribute ("style:display-name") = "Page Break";
+  styleDomElement.append_attribute ("style:family") = "paragraph";
 
-  xmlNodePtr styleParagraphPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:break-after", BAD_CAST "page");
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:line-height", BAD_CAST "0.05cm");
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-bottom", BAD_CAST "0cm");
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-top", BAD_CAST "0cm");
-  xmlAddChild (styleDomElement, styleParagraphPropertiesDomElement);
+  xml_node styleParagraphPropertiesDomElement = styleDomElement.append_child ("style:paragraph-properties");
+  styleParagraphPropertiesDomElement.append_attribute ("fo:break-after") = "page";
+  styleParagraphPropertiesDomElement.append_attribute ("fo:line-height") = "0.05cm";
+  styleParagraphPropertiesDomElement.append_attribute ("fo:margin-bottom") = "0cm";
+  styleParagraphPropertiesDomElement.append_attribute ("fo:margin-top") = "0cm";
 
-  xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST "2pt");
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST "2pt");
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST "2pt");
-  xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
+  xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
+  styleTextPropertiesDomElement.append_attribute ("fo:font-size") = "2pt";
+  styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = "2pt";
+  styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = "2pt";
 }
 
 
@@ -693,9 +607,10 @@ void Odf_Text::createPageBreakStyle ()
 void Odf_Text::newPageBreak ()
 {
   newParagraph ("Page_20_Break");
-  // Always make the paragraph null, because we don't want subsequent text to be added to this page break,
+  // Always clear the paragraph-opened-flag,
+  // because we don't want subsequent text to be added to this page break,
   // since it would be nearly invisible, and thus text would mysteriously get lost.
-  currentTextPDomElement = NULL;
+  current_text_p_opened = false;
   currentParagraphStyle.clear ();
   currentParagraphContent.clear ();
 }
@@ -714,41 +629,38 @@ void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, in
   //   <style:paragraph-properties>
   //   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
   // </style:style>
-  xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
-  xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST convertStyleName (name).c_str());
-  xmlNewProp (styleDomElement, BAD_CAST "style:display-name", BAD_CAST name.c_str());
-  xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "paragraph");
-  xmlAddChild (officeStylesDomNode, styleDomElement);
+  xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
+  styleDomElement.append_attribute ("style:name") = convertStyleName (name).c_str();
+  styleDomElement.append_attribute ("style:display-name") = name.c_str();
+  styleDomElement.append_attribute ("style:family") = "paragraph";
 
-  xmlNodePtr styleParagraphPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-  xmlAddChild (styleDomElement, styleParagraphPropertiesDomElement);
+  xml_node styleParagraphPropertiesDomElement = styleDomElement.append_child ("style:paragraph-properties");
 
-  xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-  xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
+  xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
 
   string sfontsize = convert_to_string (fontsize) + "pt";
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST sfontsize.c_str());
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST sfontsize.c_str());
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST sfontsize.c_str());
+  styleTextPropertiesDomElement.append_attribute ("fo:font-size") = sfontsize.c_str();
+  styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = sfontsize.c_str();
+  styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = sfontsize.c_str();
 
   // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
   if (italic != ooitOff) {
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style", BAD_CAST "italic");
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-asian", BAD_CAST "italic");
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-complex", BAD_CAST "italic");
+    styleTextPropertiesDomElement.append_attribute ("fo:font-style") = "italic";
+    styleTextPropertiesDomElement.append_attribute ("fo:font-style-asian") = "italic";
+    styleTextPropertiesDomElement.append_attribute ("fo:font-style-complex") = "italic";
   }
   if (bold != ooitOff) {
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight", BAD_CAST "bold");
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-asian", BAD_CAST "bold");
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-complex", BAD_CAST "bold");
+    styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
+    styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
+    styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
   }
   if (underline != ooitOff) {
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-style", BAD_CAST "solid");
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-width", BAD_CAST "auto");
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-color", BAD_CAST "font-color");
+    styleTextPropertiesDomElement.append_attribute ("style:text-underline-style") = "solid";
+    styleTextPropertiesDomElement.append_attribute ("style:text-underline-width") = "auto";
+    styleTextPropertiesDomElement.append_attribute ("style:text-underline-color") = "font-color";
   }
   if (smallcaps != ooitOff) {
-    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-variant", BAD_CAST "small-caps");
+    styleTextPropertiesDomElement.append_attribute ("fo:font-variant") = "small-caps";
   }
 
   // Text alignment can be: AlignmentLeft, AlignmentCenter, AlignmentRight, AlignmentJustify.
@@ -759,34 +671,33 @@ void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, in
     case AlignmentRight:   alignmenttext = "end"; break;
     case AlignmentJustify: alignmenttext = "justify"; break;
   }
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-align", BAD_CAST alignmenttext.c_str());
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "style:justify-single-word", BAD_CAST "false");
+  styleParagraphPropertiesDomElement.append_attribute ("fo:text-align") = alignmenttext.c_str();
+  styleParagraphPropertiesDomElement.append_attribute ("style:justify-single-word") = "false";
 
   // Paragraph measurements; given in mm.
   string sspacebefore = convert_to_string (spacebefore) + "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-top", BAD_CAST sspacebefore.c_str());
+  styleParagraphPropertiesDomElement.append_attribute ("fo:margin-top") = sspacebefore.c_str();
   string sspaceafter = convert_to_string (spaceafter) + "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-bottom", BAD_CAST sspaceafter.c_str());
+  styleParagraphPropertiesDomElement.append_attribute ("fo:margin-bottom") = sspaceafter.c_str();
   string sleftmargin = convert_to_string (leftmargin) + "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-left", BAD_CAST sleftmargin.c_str());
+  styleParagraphPropertiesDomElement.append_attribute ("fo:margin-left") = sleftmargin.c_str();
   string srightmargin = convert_to_string (rightmargin) + "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-right", BAD_CAST srightmargin.c_str());
+  styleParagraphPropertiesDomElement.append_attribute ("fo:margin-right") = srightmargin.c_str();
   string sfirstlineindent = convert_to_string (firstlineindent) + "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-indent", BAD_CAST sfirstlineindent.c_str());
+  styleParagraphPropertiesDomElement.append_attribute ("fo:text-indent") = sfirstlineindent.c_str();
 
   if (keepWithNext) {
-    xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:keep-together", BAD_CAST "always");
-    xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:keep-with-next", BAD_CAST "always");
+    styleParagraphPropertiesDomElement.append_attribute ("fo:keep-together") = "always";
+    styleParagraphPropertiesDomElement.append_attribute ("fo:keep-with-next") = "always";
   }
 
   if (dropcaps > 0) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
     string length = convert_to_string (dropcaps);
-    xmlNodePtr styleDropCapDomElement = xmlNewNode (NULL, BAD_CAST "style:drop-cap");
-    xmlAddChild (styleParagraphPropertiesDomElement, styleDropCapDomElement);
-    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:lines", BAD_CAST "2");
-    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:length", BAD_CAST length.c_str());
-    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:distance", BAD_CAST "0.15cm");
+    xml_node styleDropCapDomElement = styleParagraphPropertiesDomElement.append_child ("style:drop-cap");
+    styleDropCapDomElement.append_attribute ("style:lines") = "2";
+    styleDropCapDomElement.append_attribute ("style:length") = length.c_str();
+    styleDropCapDomElement.append_attribute ("style:distance") = "0.15cm";
   }
 }
 
@@ -795,9 +706,10 @@ void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, in
 // $name: the name of the style, e.g. 'p'.
 void Odf_Text::updateCurrentParagraphStyle (string name)
 {
-  if (!currentTextPDomElement) newParagraph ();
-  xmlRemoveProp (currentTextPDomElementNameNode);
-  currentTextPDomElementNameNode = xmlNewProp (currentTextPDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (name).c_str());
+  if (!current_text_p_opened) newParagraph ();
+  currentTextPDomElement.remove_attribute (currentTextPDomElementNameNode);
+  currentTextPDomElementNameNode = currentTextPDomElement.append_attribute ("text:style-name");
+  currentTextPDomElementNameNode = convertStyleName (name).c_str();
 }
 
 
@@ -821,48 +733,46 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
     // <style:style style:name="T1" style:family="text">
     // <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
     // </style:style>
-    xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST convertStyleName (marker).c_str());
-    xmlNewProp (styleDomElement, BAD_CAST "style:display-name", BAD_CAST marker.c_str());
-    xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "text");
-    xmlAddChild (officeStylesDomNode, styleDomElement);
+    xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
+    styleDomElement.append_attribute ("style:name") = convertStyleName (marker).c_str();
+    styleDomElement.append_attribute ("style:display-name") = marker.c_str();
+    styleDomElement.append_attribute ("style:family") = "text";
 
-    xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-    xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
+    xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
 
     // Italics, bold, underline, small caps can be ooitOff or ooitOn or ooitInherit or ooitToggle.
     // Not all features are implemented.
     if ((italic == ooitOn) || (italic == ooitToggle)) {
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style", BAD_CAST "italic");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-asian", BAD_CAST "italic");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-complex", BAD_CAST "italic");
+      styleTextPropertiesDomElement.append_attribute ("fo:font-style") = "italic";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-style-asian") = "italic";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-style-complex") = "italic";
     }
     if ((bold == ooitOn) || (bold == ooitToggle)) {
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight", BAD_CAST "bold");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-asian", BAD_CAST "bold");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-complex", BAD_CAST "bold");
+      styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
     }
     if ((underline == ooitOn) || (underline == ooitToggle)) {
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-style", BAD_CAST "solid");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-width", BAD_CAST "auto");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-color", BAD_CAST "font-color");
+      styleTextPropertiesDomElement.append_attribute ("style:text-underline-style") = "solid";
+      styleTextPropertiesDomElement.append_attribute ("style:text-underline-width") = "auto";
+      styleTextPropertiesDomElement.append_attribute ("style:text-underline-color") = "font-color";
     }
     if ((smallcaps == ooitOn) || (smallcaps == ooitToggle)) {
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-variant", BAD_CAST "small-caps");
+      styleTextPropertiesDomElement.append_attribute ("fo:font-variant") = "small-caps";
     }
 
     if (superscript) {
       //$styleTextPropertiesDomElement->setAttribute ("style:text-position", "super 58%");
       // If the percentage is not specified, an appropriate font height is used.
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-position", BAD_CAST "super");
+      styleTextPropertiesDomElement.append_attribute ("style:text-position") = "super";
       // The mere setting of the superscript value makes the font smaller. No need to set it manually.
-      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%");
-      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%");
-      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
+      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%";
+      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%";
+      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%";
     }
 
     if (color != "#000000") {
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:color", BAD_CAST color.c_str());
+      styleTextPropertiesDomElement.append_attribute ("fo:color") = color.c_str();
     }
 
   }
@@ -905,7 +815,7 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
 
   // The frame goes in an existing paragraph (text:p) element, just like a 'text:span' element.
   // Ensure that a paragraph is open.
-  if (!currentTextPDomElement) newParagraph ();
+  if (!current_text_p_opened) newParagraph ();
 
   // The frame looks like this, in content.xml:
   // <draw:frame draw:style-name="fr1" draw:name="frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
@@ -913,25 +823,21 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
   //     <text:p text:style-name="c">1</text:p>
   //   </draw:text-box>
   // </draw:frame>
-  xmlNodePtr drawFrameDomElement = xmlNewNode (NULL, BAD_CAST "draw:frame");
-  xmlAddChild (currentTextPDomElement, drawFrameDomElement);
-  xmlNewProp (drawFrameDomElement, BAD_CAST "draw:style-name", BAD_CAST "chapterframe");
+  xml_node drawFrameDomElement = currentTextPDomElement.append_child ("draw:frame");
+  drawFrameDomElement.append_attribute ("draw:style-name") = "chapterframe";
   frameCount++;
-  xmlNewProp (drawFrameDomElement, BAD_CAST "draw:name", BAD_CAST convert_to_string ("frame" + convert_to_string (frameCount)).c_str());
-  xmlNewProp (drawFrameDomElement, BAD_CAST "text:anchor-type", BAD_CAST "paragraph");
-  xmlNewProp (drawFrameDomElement, BAD_CAST "svg:y", BAD_CAST "0cm");
-  xmlNewProp (drawFrameDomElement, BAD_CAST "fo:min-width", BAD_CAST "0.34cm");
-  xmlNewProp (drawFrameDomElement, BAD_CAST "draw:z-index", BAD_CAST "0");
+  drawFrameDomElement.append_attribute ("draw:name") = convert_to_string ("frame" + convert_to_string (frameCount)).c_str();
+  drawFrameDomElement.append_attribute ("text:anchor-type") = "paragraph";
+  drawFrameDomElement.append_attribute ("svg:y") = "0cm";
+  drawFrameDomElement.append_attribute ("fo:min-width") = "0.34cm";
+  drawFrameDomElement.append_attribute ("draw:z-index") = "0";
 
-  xmlNodePtr drawTextBoxDomElement = xmlNewNode (NULL, BAD_CAST "draw:text-box");
-  xmlAddChild (drawFrameDomElement, drawTextBoxDomElement);
-  xmlNewProp (drawTextBoxDomElement, BAD_CAST "fo:min-height", BAD_CAST "0.34cm");
+  xml_node drawTextBoxDomElement = drawFrameDomElement.append_child ("draw:text-box");
+  drawTextBoxDomElement.append_attribute ("fo:min-height") = "0.34cm";
 
-  xmlNodePtr textPDomElement = xmlNewNode (NULL, BAD_CAST "text:p");
-  xmlAddChild (drawTextBoxDomElement, textPDomElement);
-  xmlNewProp (textPDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (style).c_str());
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
-  xmlAddChild (textPDomElement, textnode);
+  xml_node textPDomElement = drawTextBoxDomElement.append_child ("text:p");
+  textPDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
+  textPDomElement.text().set( filter_string_sanitize_html (text).c_str());
 
   // File styles.xml contains the appropriate styles for this frame and text box and paragraph.
   // Create the styles once for the whole document.
@@ -944,31 +850,28 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
       //   <style:paragraph-properties fo:text-align="justify" style:justify-single-word="false"/>
       //   <style:text-properties fo:font-size="24pt" fo:font-weight="bold" style:font-size-asian="24pt" style:font-weight-asian="bold" style:font-size-complex="24pt" style:font-weight-complex="bold"/>
       // </style:style>
-      xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
-      xmlAddChild (officeStylesDomNode, styleDomElement);
-      xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST convertStyleName (style).c_str());
-      xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "paragraph");
+      xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
+      styleDomElement.append_attribute ("style:name") = convertStyleName (style).c_str();
+      styleDomElement.append_attribute ("style:family") = "paragraph";
   
-      xmlNodePtr styleParagraphPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
-      xmlAddChild (styleDomElement, styleParagraphPropertiesDomElement);
-      xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-align", BAD_CAST "justify");
-      xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "style:justify-single-word", BAD_CAST "false");
+      xml_node styleParagraphPropertiesDomElement = styleDomElement.append_child ("style:paragraph-properties");
+      styleParagraphPropertiesDomElement.append_attribute ("fo:text-align") = "justify";
+      styleParagraphPropertiesDomElement.append_attribute ("style:justify-single-word") = "false";
   
-      xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-      xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
+      xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
       string sfontsize = convert_to_string (fontsize) + "pt";
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST sfontsize.c_str());
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST sfontsize.c_str());
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST sfontsize.c_str());
+      styleTextPropertiesDomElement.append_attribute ("fo:font-size") = sfontsize.c_str();
+      styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = sfontsize.c_str();
+      styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = sfontsize.c_str();
       if (italic != ooitOff) {
-        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style", BAD_CAST "italic");
-        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-asian", BAD_CAST "italic");
-        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-complex", BAD_CAST "italic");
+        styleTextPropertiesDomElement.append_attribute ("fo:font-style") = "italic";
+        styleTextPropertiesDomElement.append_attribute ("fo:font-style-asian") = "italic";
+        styleTextPropertiesDomElement.append_attribute ("fo:font-style-complex") = "italic";
       }
       if (bold != ooitOff) {
-        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight", BAD_CAST "bold");
-        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-asian", BAD_CAST "bold");
-        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-complex", BAD_CAST "bold");
+        styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
+        styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
+        styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
       }
     }
     {
@@ -978,27 +881,25 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
       //   <style:background-image/>
       //   </style:graphic-properties>
       // </style:style>
-      xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
-      xmlAddChild (officeStylesDomNode, styleDomElement);
-      xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST "chapterframe");
-      xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "graphic");
+      xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
+      styleDomElement.append_attribute ("style:name") = "chapterframe";
+      styleDomElement.append_attribute ("style:family") = "graphic";
   
-      xmlNodePtr styleGraphicPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:graphic-properties");
-      xmlAddChild (styleDomElement, styleGraphicPropertiesDomElement);
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-left", BAD_CAST "0cm");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-right", BAD_CAST "0.2cm");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-top", BAD_CAST "0cm");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-bottom", BAD_CAST "0cm");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:vertical-pos", BAD_CAST "from-top");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:vertical-rel", BAD_CAST "paragraph-content");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:horizontal-pos", BAD_CAST "left");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:horizontal-rel", BAD_CAST "paragraph");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:background-color", BAD_CAST "transparent");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:background-transparency", BAD_CAST "100%");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:padding", BAD_CAST "0cm");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:border", BAD_CAST "none");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:shadow", BAD_CAST "none");
-      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:flow-with-text", BAD_CAST "true");
+      xml_node styleGraphicPropertiesDomElement = styleDomElement.append_child ("style:graphic-properties");
+      styleGraphicPropertiesDomElement.append_attribute ("fo:margin-left") = "0cm";
+      styleGraphicPropertiesDomElement.append_attribute ("fo:margin-right") = "0.2cm";
+      styleGraphicPropertiesDomElement.append_attribute ("fo:margin-top") = "0cm";
+      styleGraphicPropertiesDomElement.append_attribute ("fo:margin-bottom") = "0cm";
+      styleGraphicPropertiesDomElement.append_attribute ("style:vertical-pos") = "from-top";
+      styleGraphicPropertiesDomElement.append_attribute ("style:vertical-rel") = "paragraph-content";
+      styleGraphicPropertiesDomElement.append_attribute ("style:horizontal-pos") = "left";
+      styleGraphicPropertiesDomElement.append_attribute ("style:horizontal-rel") = "paragraph";
+      styleGraphicPropertiesDomElement.append_attribute ("fo:background-color") = "transparent";
+      styleGraphicPropertiesDomElement.append_attribute ("style:background-transparency") = "100%";
+      styleGraphicPropertiesDomElement.append_attribute ("fo:padding") = "0cm";
+      styleGraphicPropertiesDomElement.append_attribute ("fo:border") = "none";
+      styleGraphicPropertiesDomElement.append_attribute ("style:shadow") = "none";
+      styleGraphicPropertiesDomElement.append_attribute ("style:flow-with-text") = "true";
     }
   }
 
@@ -1012,20 +913,18 @@ void Odf_Text::createSuperscriptStyle ()
   // <style:style style:name="superscript" style:family="text">
   //   <style:text-properties style:text-position="super 58%"/>
   // </style:style>
-  xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
-  xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST "superscript");
-  xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "text");
-  xmlAddChild (officeStylesDomNode, styleDomElement);
+  xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
+  styleDomElement.append_attribute ("style:name") = "superscript";
+  styleDomElement.append_attribute ("style:family") = "text";
 
-  xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-  xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
+  xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
   //$styleTextPropertiesDomElement->setAttribute ("style:text-position", "super 58%");
   // If the percentage is not specified, an appropriate font height is used.
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-position", BAD_CAST "super");
+  styleTextPropertiesDomElement.append_attribute ("style:text-position") = "super";
   // Setting the superscript attribute automatically makes the font smaller. No need to set it manually.
-  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%");
-  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%");
-  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
+  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%";
+  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%";
+  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%";
 }
 
 
@@ -1036,31 +935,26 @@ void Odf_Text::createSuperscriptStyle ()
 void Odf_Text::addNote (string caller, string style, bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
-  if (!currentTextPDomElement) newParagraph ();
+  if (!current_text_p_opened) newParagraph ();
 
-  xmlNodePtr textNoteDomElement = xmlNewNode (NULL, BAD_CAST "text:note");
-  xmlAddChild (currentTextPDomElement, textNoteDomElement);
-  xmlNewProp (textNoteDomElement, BAD_CAST "text:id", BAD_CAST convert_to_string ("ftn" + convert_to_string (noteCount)).c_str());
+  xml_node textNoteDomElement = currentTextPDomElement.append_child ("text:note");
+  textNoteDomElement.append_attribute ("text:id") = convert_to_string ("ftn" + convert_to_string (noteCount)).c_str();
   noteCount++;
   string noteclass;
   if (endnote) noteclass = "endnote";
   else noteclass = "footnote";
-  xmlNewProp (textNoteDomElement, BAD_CAST "text:note-class", BAD_CAST noteclass.c_str());
+  textNoteDomElement.append_attribute ("text:note-class") = noteclass.c_str();
 
   // The note citation, the 'caller' is normally in superscript in the OpenDocument.
   // The default values of the application are used. The Bibledit stylesheet is not consulted.
-  xmlNodePtr textNoteCitationDomElement = xmlNewNode (NULL, BAD_CAST "text:note-citation");
-  xmlAddChild (textNoteDomElement, textNoteCitationDomElement);
-  xmlNewProp (textNoteCitationDomElement, BAD_CAST "text:label", BAD_CAST filter_string_sanitize_html (caller).c_str());
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (caller).c_str());
-  xmlAddChild (textNoteCitationDomElement, textnode);
+  xml_node textNoteCitationDomElement = textNoteDomElement.append_child ("text:note-citation");
+  textNoteCitationDomElement.append_attribute ("text:label") = filter_string_sanitize_html (caller).c_str();
+  textNoteCitationDomElement.text().set( filter_string_sanitize_html (caller).c_str());
 
-  xmlNodePtr textNoteBodyDomElement = xmlNewNode (NULL, BAD_CAST "text:note-body");
-  xmlAddChild (textNoteDomElement, textNoteBodyDomElement);
+  xml_node textNoteBodyDomElement = textNoteDomElement.append_child ("text:note-body");
 
-  noteTextPDomElement = xmlNewNode (NULL, BAD_CAST "text:p");
-  xmlAddChild (textNoteBodyDomElement, noteTextPDomElement);
-  xmlNewProp (noteTextPDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (style).c_str());
+  noteTextPDomElement = textNoteBodyDomElement.append_child ("text:p");
+  noteTextPDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
 
   closeTextStyle (true, false);
 }
@@ -1074,24 +968,22 @@ void Odf_Text::addNoteText (string text)
   if (text == "") return;
 
   // Ensure a note has started.
-  if (!noteTextPDomElement) addNote ("?", "");
+  if (!note_text_p_opened) addNote ("?", "");
 
   // Temporal styles array should have at least one style for the code below to work.
   vector <string> styles (currentNoteTextStyle.begin(), currentNoteTextStyle.end());
   if (styles.empty ()) styles.push_back ("");
 
   // Write a text span element, nesting the second and later ones.
-  xmlNodePtr domElement = noteTextPDomElement;
+  xml_node domElement = noteTextPDomElement;
   for (string style : styles) {
-    xmlNodePtr textSpanDomElement = xmlNewNode (NULL, BAD_CAST "text:span");
-    xmlAddChild (domElement, textSpanDomElement);
+    xml_node textSpanDomElement = domElement.append_child ("text:span");
     if (!style.empty()) {
-      xmlNewProp (textSpanDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (style).c_str());
+      textSpanDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
     }
     domElement = textSpanDomElement;
   }
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
-  xmlAddChild (domElement, textnode);
+  domElement.text().set( filter_string_sanitize_html (text).c_str());
 }
 
 
@@ -1099,7 +991,7 @@ void Odf_Text::addNoteText (string text)
 void Odf_Text::closeCurrentNote ()
 {
   closeTextStyle (true, false);
-  noteTextPDomElement = NULL;
+  note_text_p_opened = false;
 }
 
 
@@ -1110,12 +1002,10 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
 {
   // Heading looks like this in content.xml:
   // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>
-  xmlNodePtr textHDomElement = xmlNewNode (NULL, BAD_CAST "text:h");
-  xmlNewProp (textHDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (style).c_str());
-  xmlNewProp (textHDomElement, BAD_CAST "text:outline-level", BAD_CAST "1");
-  xmlAddChild (officeTextDomNode, textHDomElement);
-  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
-  xmlAddChild (textHDomElement, textnode);
+  xml_node textHDomElement = officeTextDomNode.append_child ("text:h");
+  textHDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
+  textHDomElement.append_attribute ("text:outline-level") = "1";
+  textHDomElement.text().set(filter_string_sanitize_html (text).c_str());
 
   // Heading style looks like this in styles.xml:
   // <style:style style:name="Heading_20_1" style:display-name="Heading 1" style:family="paragraph" style:parent-style-name="Heading" style:next-style-name="Text_20_body" style:default-outline-level="1" style:class="text">
@@ -1123,33 +1013,31 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
   // </style:style>
   // Create the style if it does not yet exist.
   if (find (createdStyles.begin(), createdStyles.end (), style) == createdStyles.end()) {
-    xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
-    xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST convertStyleName (style).c_str());
-    xmlNewProp (styleDomElement, BAD_CAST "style:display-name", BAD_CAST style.c_str());
-    xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "paragraph");
-    xmlNewProp (styleDomElement, BAD_CAST "style:parent-style-name", BAD_CAST "Heading");
-    xmlNewProp (styleDomElement, BAD_CAST "style:next-style-name", BAD_CAST "Text_20_body");
-    xmlNewProp (styleDomElement, BAD_CAST "style:default-outline-level", BAD_CAST "1");
-    xmlNewProp (styleDomElement, BAD_CAST "style:class", BAD_CAST "text");
-    xmlAddChild (officeStylesDomNode, styleDomElement);
+    xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
+    styleDomElement.append_attribute ("style:name") = convertStyleName (style).c_str();
+    styleDomElement.append_attribute ("style:display-name"), style.c_str();
+    styleDomElement.append_attribute ("style:family") = "paragraph";
+    styleDomElement.append_attribute ("style:parent-style-name") = "Heading";
+    styleDomElement.append_attribute ("style:next-style-name") = "Text_20_body";
+    styleDomElement.append_attribute ("style:default-outline-level") = "1";
+    styleDomElement.append_attribute ("style:class") = "text";
     {
-      xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST "115%");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight", BAD_CAST "bold");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST "115%");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-asian", BAD_CAST "bold");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST "115%");
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-complex", BAD_CAST "bold");
+      xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
+      styleTextPropertiesDomElement.append_attribute ("fo:font-size") = "115%";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = "115%";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = "115%";
+      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
       if (hide) {
-        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "text:display", BAD_CAST "none");
+        styleTextPropertiesDomElement.append_attribute ("text:display") = "none";
       }
-      xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
     }
     createdStyles.push_back (style);
   }
 
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
-  currentTextPDomElement = NULL;
+  current_text_p_opened = false;
   currentParagraphStyle.clear ();
   currentParagraphContent.clear ();
 }
@@ -1171,14 +1059,18 @@ string Odf_Text::convertStyleName (string style)
 void Odf_Text::save (string name)
 {
   // Create the content.xml file.
-  // No formatting because some white space is processed. $this->contentDom->formatOutput = true;
-  string contentXml = filter_url_create_path (unpackedOdtFolder, "content.xml");
-  xmlSaveFormatFileEnc (contentXml.c_str(), contentDom, "UTF-8", 0);
+  // No formatting because some white space is processed.
+  string contentXmlPath = filter_url_create_path (unpackedOdtFolder, "content.xml");
+  stringstream contentXml;
+  contentDom.print (contentXml, "", format_raw);
+  filter_url_file_put_contents (contentXmlPath, contentXml.str ());
 
   // Create the styles.xml file.
-  // No formatting because some white space is processed. $this->stylesDom->formatOutput = true;
-  string stylesXml = filter_url_create_path (unpackedOdtFolder, "styles.xml");
-  xmlSaveFormatFileEnc (stylesXml.c_str(), stylesDom, "UTF-8", 0);
+  // No formatting because some white space is processed.
+  string stylesXmlPath = filter_url_create_path (unpackedOdtFolder, "styles.xml");
+  stringstream stylesXml;
+  stylesDom.print (stylesXml, "", format_raw);
+  filter_url_file_put_contents (stylesXmlPath, stylesXml.str ());
 
   // Save the OpenDocument file.
   string zippedfile = filter_archive_zip_folder (unpackedOdtFolder);

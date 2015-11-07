@@ -1159,7 +1159,7 @@ void test_odf_text ()
   string Odt2TxtOutput = "/tmp/Odt2TxtOutput.txt";
   // Test Odf converter paragraphs.
   {
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.createPageBreakStyle ();
     odf_text.newParagraph ();
     evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.currentParagraphStyle);
@@ -1194,7 +1194,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test Automatic Paragraph
   {
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.addText ("Should create new paragraph automatically");
     odf_text.save (OdfTextTestDotOdt);
     string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
@@ -1209,7 +1209,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test Basic Note
   {
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("Text");
     odf_text.addNote ("†", "");
@@ -1235,7 +1235,7 @@ void test_odf_text ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
     odf_text.openTextStyle (add, false, false);
@@ -1258,7 +1258,7 @@ void test_odf_text ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("Text");
     odf_text.addNote ("𐌰", "f");
@@ -1300,7 +1300,7 @@ void test_odf_text ()
     nd.smallcaps = ooitOn;
     nd.superscript = false;
     nd.color = "#000000";
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
     odf_text.openTextStyle (add, false, false);
@@ -1338,7 +1338,7 @@ void test_odf_text ()
     nd.smallcaps = ooitOn;
     nd.superscript = false;
     nd.color = "#000000";
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
     odf_text.addNote ("𐌰", "f");
@@ -1369,7 +1369,7 @@ void test_odf_text ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
     Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.createParagraphStyle (d.marker, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style");
