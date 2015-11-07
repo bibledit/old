@@ -26,7 +26,10 @@
 #include <database/morphgnt.h>
 #include <database/strong.h>
 #include <database/hebrewlexicon.h>
-#include <libxml/xmlreader.h> // Todo out
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 #define BETH_STRONG 10000
@@ -250,175 +253,130 @@ void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
 }
 
 
-string lexicon_logic_create_xml_document (string xml)
-{
-  xml.insert (0, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><bibledit>");
-  xml.append ("</bibledit>");
-  return xml;
-}
-
-
 string lexicon_logic_render_definition (string strong)
 {
-  string rendering;
-  bool a_opened = false;
+  vector <string> renderings;
   Database_Strong database_strong;
   Database_HebrewLexicon database_hebrewlexicon;
   string definition = database_strong.definition (lexicon_logic_strong_number_cleanup (strong));
   if (definition.empty ()) {
     definition = database_hebrewlexicon.getstrong (lexicon_logic_strong_number_cleanup (strong));
   }
-  definition = lexicon_logic_create_xml_document (definition);
-  xmlTextReaderPtr reader = xmlReaderForDoc (BAD_CAST definition.c_str(), "", "UTF-8", 0);
-  while ((xmlTextReaderRead(reader) == 1)) {
-    int depth = xmlTextReaderDepth (reader);
-    switch (xmlTextReaderNodeType (reader)) {
-      case XML_READER_TYPE_ELEMENT:
-      {
-        xmlChar * name = xmlTextReaderName (reader);
-        if (name) {
-          string element = (char *) name;
-          xmlFree (name);
-          if (element == "w") {
-            if (depth == 1) {
-              rendering.append ("Word: ");
-              rendering.append ("Strong's " + strong.substr (1) + " ");
+  vector <string> lines = filter_string_explode (definition, '\n');
+  for (auto & line : lines) {
+    line = filter_string_trim (line);
+    line = filter_string_str_replace ("  ", " ", line);
+    size_t position;
+    // The first <w> element describes it.
+    position = line.find ("<w");
+    if (position == 0) {
+      // Strong's number.
+      renderings.push_back ("Strong's " + strong.substr (1));
+      // Part of speech.
+      string pos = lexicon_logic_get_remove_attribute (line, "pos");
+      if (!pos.empty ()) {
+        pos = lexicon_logic_render_part_of_speech (pos);
+        renderings.push_back (pos);
+      }
+      // Pronounciation.
+      string pron = lexicon_logic_get_remove_attribute (line, "pron");
+      if (!pron.empty ()) {
+        renderings.push_back (pron);
+      }
+      // Transliteration.
+      string xlit = lexicon_logic_get_remove_attribute (line, "xlit");
+      if (!xlit.empty ()) {
+        renderings.push_back (xlit);
+      }
+      // Original word.
+      string word = lexicon_logic_get_text (line);
+      if (!word.empty ()) {
+        renderings.push_back (word);
+      }
+    } else {
+      // Transform link to a source Strong's number.
+      line = filter_string_str_replace ("<w ", "<a ", line);
+      line = filter_string_str_replace ("src=", "href=", line);
+      line = filter_string_str_replace ("</w>", "</a>", line);
+      // Elements referring to the source/derivation can be removed.
+      line = filter_string_str_replace ("<source>", "", line);
+      line = filter_string_str_replace ("</source>", "", line);
+      line = filter_string_str_replace ("<strongs_derivation>", "", line);
+      line = filter_string_str_replace ("</strongs_derivation>", "", line);
+      // Remove elements referring to the meaning.
+      line = filter_string_str_replace ("<meaning>", "", line);
+      line = filter_string_str_replace ("</meaning>", "", line);
+      line = filter_string_str_replace ("<strongs_def>", "", line);
+      line = filter_string_str_replace ("</strongs_def>", "", line);
+      // Transform markup for usage in the King James Bible.
+      line = filter_string_str_replace ("<usage>", "; usage in King James Bible: ", line);
+      line = filter_string_str_replace ("</usage>", "", line);
+      line = filter_string_str_replace ("<kjv_def>", "; usage in King James Bible", line);
+      line = filter_string_str_replace ("</kjv_def>", "", line);
+      // Mark the definitions.
+      line = filter_string_str_replace ("<def>", "<em>", line);
+      line = filter_string_str_replace ("</def>", "</em>", line);
+      // Clarify Strong's number.
+      line = filter_string_str_replace ("<strongs>", "Strong's ", line);
+      line = filter_string_str_replace ("</strongs>", "", line);
+      // Get the <greek /> line to extract information from it.
+      position = line.find ("<greek ");
+      if (position != string::npos) {
+        size_t position2 = line.find ("/>", position);
+        if (position2 != string::npos) {
+          string greek = line.substr (position, position2 - position + 2);
+          string xml = greek;
+          // Greek in Unicode.
+          string unicode = lexicon_logic_get_remove_attribute (xml, "unicode");
+          // Greek in transliteration.
+          string translit = lexicon_logic_get_remove_attribute (xml, "translit");
+          // Put the updated fragment back.
+          line = filter_string_str_replace (greek, unicode + " " + translit, line);
+        }
+      }
+      // Get the <pronunciation /> line to extract information from it.
+      position = line.find ("<pronunciation ");
+      if (position != string::npos) {
+        size_t position2 = line.find ("/>", position);
+        if (position2 != string::npos) {
+          string pronunciation = line.substr (position, position2 - position + 2);
+          string xml = pronunciation;
+          // Greek in strongs.
+          string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
+          // Put the updated fragment back.
+          line = filter_string_str_replace (pronunciation, strongs, line);
+        }
+      }
+      // Get the <see /> line to extract information from it.
+      // Do the same for the <strongsref />.
+      // The difference is that the entire <see /> line is removed, and the other one converted.
+      for (int i = 0; i <= 1; i++) {
+        string tag = "see";
+        if (i) tag = "strongsref";
+        position = line.find ("<" + tag + " ");
+        if (position != string::npos) {
+          size_t position2 = line.find ("/>", position);
+          if (position2 != string::npos) {
+            string see_strongsref = line.substr (position, position2 - position + 2);
+            string xml = see_strongsref;
+            // Strong's reference.
+            string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
+            // Language.
+            string language = lexicon_logic_get_remove_attribute (xml, "language");
+            // Put the updated fragment back, with a link.
+            string replacement;
+            if (i) {
+              replacement = "<a href=\"" + language.substr (0, 1) + strongs + "\">" + strongs + "</a>";
             }
-            xmlChar * pos = xmlTextReaderGetAttribute (reader, BAD_CAST "pos");
-            if (pos) {
-              // Part of speech
-              string s = lexicon_logic_render_part_of_speech ((char *) pos);
-              rendering.append (s);
-              xmlFree (pos);
-            }
-            xmlChar * pron = xmlTextReaderGetAttribute (reader, BAD_CAST "pron");
-            if (pron) {
-              // Pronunciation.
-              rendering.append (" ");
-              rendering.append ((char *) pron);
-              rendering.append (" ");
-              xmlFree (pron);
-            }
-            xmlChar * xlit = xmlTextReaderGetAttribute (reader, BAD_CAST "xlit");
-            if (xlit) {
-              // Transliteration.
-              rendering.append (" ");
-              rendering.append ((char *) xlit);
-              rendering.append (" ");
-              xmlFree (xlit);
-            }
-            xmlChar * src = xmlTextReaderGetAttribute (reader, BAD_CAST "src");
-            if (src) {
-              // Transliteration.
-              rendering.append ("<a href=\"");
-              rendering.append ((char *) src);
-              rendering.append ("\">");
-              a_opened = true;
-              xmlFree (src);
-            }
-          }
-          if ((element == "source") || (element == "strongs_derivation")) {
-            rendering.append ("<br>");
-            rendering.append ("Source: ");
-          }
-          if ((element == "meaning") || (element == "strongs_def")) {
-            rendering.append ("<br>");
-            rendering.append ("Meaning: ");
-          }
-          if ((element == "usage") || (element == "kjv_def")) {
-            rendering.append ("<br>");
-            rendering.append ("Usage in King James Bible: ");
-          }
-          if (element == "def") {
-            rendering.append ("<em>");
-          }
-          if (element == "strongs") {
-            rendering.append ("Word: ");
-            rendering.append ("Strong's ");
-          }
-          if (element == "greek") {
-            xmlChar * unicode = xmlTextReaderGetAttribute (reader, BAD_CAST "unicode");
-            if (unicode) {
-              // Greek in Unicode.
-              rendering.append (" ");
-              rendering.append ((char *) unicode);
-              rendering.append (" ");
-              xmlFree (unicode);
-            }
-            xmlChar * translit = xmlTextReaderGetAttribute (reader, BAD_CAST "translit");
-            if (translit) {
-              // Greek in translit.
-              rendering.append (" ");
-              rendering.append ((char *) translit);
-              rendering.append (" ");
-              xmlFree (translit);
-            }
-          }
-          if (element == "pronunciation") {
-            xmlChar * strongs = xmlTextReaderGetAttribute (reader, BAD_CAST "strongs");
-            if (strongs) {
-              // Greek in strongs.
-              rendering.append (" ");
-              rendering.append ((char *) strongs);
-              rendering.append (" ");
-              xmlFree (strongs);
-            }
-          }
-          if (element == "see") {
-            // The information inside this element is superfluous,
-            // because it is already elsewhere in the defintion.
-            // Therefore it can be skipped.
-          }
-          if (element == "strongsref") {
-            string prefix;
-            xmlChar * language = xmlTextReaderGetAttribute (reader, BAD_CAST "language");
-            if (language) {
-              prefix = (char *) language;
-              prefix = prefix.substr (0, 1);
-              xmlFree (language);
-            }
-            xmlChar * strongs = xmlTextReaderGetAttribute (reader, BAD_CAST "strongs");
-            if (strongs) {
-              rendering.append ("<a href=\"");
-              rendering.append (prefix);
-              rendering.append ((char *) strongs);
-              rendering.append ("\">");
-              rendering.append ((char *) strongs);
-              rendering.append ("</a>");
-              xmlFree (strongs);
-            }
+            line = filter_string_str_replace (see_strongsref, replacement, line);
           }
         }
-        break;
       }
-      case XML_READER_TYPE_TEXT:
-      {
-        xmlChar *value = xmlTextReaderValue(reader);
-        if (value) {
-          rendering.append ((char *) value);
-          xmlFree (value);
-        }
-        break;
-      }
-      case XML_READER_TYPE_END_ELEMENT:
-      {
-        xmlChar * name = xmlTextReaderName (reader);
-        if (name) {
-          string element = (char *) name;
-          xmlFree (name);
-          if (a_opened) {
-            rendering.append ("</a>");
-            a_opened = false;
-          }
-          if (element == "def") {
-            rendering.append ("</em>");
-          }
-        }
-        break;
-      }
+      // Add the updated line to the rendering.
+      renderings.push_back (line);
     }
   }
-  xmlFreeTextReader (reader);
+  string rendering = filter_string_implode (renderings, " ");
   rendering = filter_string_trim (rendering);
 
   // If no rendering has been found yet, try the user-defined Strong's definitions.
@@ -1065,4 +1023,47 @@ string lexicon_logic_render_bdb_entry (string code)
   definition = filter_string_str_replace ("\n", "<br>", definition);
   // Done.
   return definition;
+}
+
+
+// Gets and removes an attribute from $xml, and updates $xml.
+// Returns the attribute.
+string lexicon_logic_get_remove_attribute (string & xml, const char * key)
+{
+  string value;
+  xml_document document;
+  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata_single);
+  if (result) {
+    xml_node child = document.first_child ();
+    xml_attribute attribute = child.attribute (key);
+    if (attribute) {
+      value = attribute.value ();
+      child.remove_attribute (attribute);
+      stringstream output;
+      child.print (output, "", format_raw);
+      xml = output.str ();
+    }
+  }
+  return value;
+}
+
+
+// Gets the text contents of the $xml node.
+string lexicon_logic_get_text (string & xml)
+{
+  string value;
+  xml_document document;
+  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata_single);
+  if (result) {
+    xml_node child = document.first_child ();
+    xml_text text = child.text ();
+    if (text) {
+      value = text.get ();
+      text.set ("");
+      stringstream output;
+      child.print (output, "", format_raw);
+      xml = output.str ();
+    }
+  }
+  return value;
 }
