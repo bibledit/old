@@ -940,6 +940,7 @@ void Odf_Text::addNote (string caller, string style, bool endnote)
   xml_node textNoteDomElement = currentTextPDomElement.append_child ("text:note");
   textNoteDomElement.append_attribute ("text:id") = convert_to_string ("ftn" + convert_to_string (noteCount)).c_str();
   noteCount++;
+  note_text_p_opened = true;
   string noteclass;
   if (endnote) noteclass = "endnote";
   else noteclass = "footnote";
