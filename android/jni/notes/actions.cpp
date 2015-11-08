@@ -51,14 +51,14 @@ bool notes_actions_acl (void * webserver_request)
 string notes_actions (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
 
   
   string page;
   Assets_Header header = Assets_Header (translate("Note actions"), request);
   page += header.run();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success, error;
 
   
@@ -166,6 +166,11 @@ string notes_actions (void * webserver_request)
   if (marked) view.enable_zone ("marked");
   else view.enable_zone ("mark");
   
+  
+  if (database_notes.getPublic (id)) {
+    view.enable_zone ("public");
+  }
+
   
   view.set_variable ("success", success);
   view.set_variable ("error", error);

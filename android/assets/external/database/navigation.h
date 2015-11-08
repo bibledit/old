@@ -29,8 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Navigation
 {
 public:
-  Database_Navigation ();
-  ~Database_Navigation ();
   void create ();
   void trim ();
   void record (int time, string user, int book, int chapter, int verse);

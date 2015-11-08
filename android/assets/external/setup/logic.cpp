@@ -196,7 +196,7 @@ void setup_initialize_data ()
   config_globals_setup_progress = 70;
   Database_Modifications database_modifications = Database_Modifications ();
   database_modifications.create ();
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes (&request);
   database_notes.create ();
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();

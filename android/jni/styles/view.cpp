@@ -57,7 +57,7 @@ string styles_view (void * webserver_request)
   
   page = Assets_Page::header (translate ("Style"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
 
   Database_Styles database_styles = Database_Styles ();

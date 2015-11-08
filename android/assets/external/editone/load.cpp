@@ -65,12 +65,12 @@ string editone_load (void * webserver_request)
     }
     usfm = filter_string_implode (lines, "\n");
 
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (stylesheet);
-    editor_import.run ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.run ();
     
-    string html = editor_import.get ();
+    string html = editor_usfm2html.get ();
     
     html = editone_load_remove_id_notes (html);
     
@@ -80,12 +80,12 @@ string editone_load (void * webserver_request)
   if (part == "verse") {
     usfm = usfm_get_verse_text (usfm, verse);
 
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (stylesheet);
-    editor_import.run ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.run ();
     
-    string html = editor_import.get ();
+    string html = editor_usfm2html.get ();
 
     string user = request->session_logic ()->currentUser ();
     bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
@@ -105,12 +105,12 @@ string editone_load (void * webserver_request)
 
     usfm = filter_string_implode (lines, "\n");
     
-    Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
-    editor_import.load (usfm);
-    editor_import.stylesheet (stylesheet);
-    editor_import.run ();
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.run ();
     
-    string html = editor_import.get ();
+    string html = editor_usfm2html.get ();
     
     html = editone_load_remove_id_notes (html);
 

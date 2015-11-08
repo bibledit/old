@@ -36,16 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // In the unlikely case of corruption, it will get fixed next time it is written to.
 
 
-Database_Users::Database_Users ()
-{
-}
-
-
-Database_Users::~Database_Users ()
-{
-}
-
-
 sqlite3 * Database_Users::connect ()
 {
   return database_sqlite_connect ("users");

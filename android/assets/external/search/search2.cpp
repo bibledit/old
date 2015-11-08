@@ -191,7 +191,7 @@ string search_search2 (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Search"), request);
   header.setNavigator ();
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   view.set_variable ("bible", bible);
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);

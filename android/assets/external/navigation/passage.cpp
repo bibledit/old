@@ -45,7 +45,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   
   string user = request->session_logic()->currentUser ();
   
@@ -387,7 +387,7 @@ void Navigation_Passage::recordHistory (void * webserver_request, int book, int 
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   database_navigation.record (filter_date_seconds_since_epoch (), user, book, chapter, verse);
 }
 
@@ -395,7 +395,7 @@ void Navigation_Passage::recordHistory (void * webserver_request, int book, int 
 void Navigation_Passage::goBack (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.getPrevious (user);
   if (passage.book) {
@@ -407,7 +407,7 @@ void Navigation_Passage::goBack (void * webserver_request)
 void Navigation_Passage::goForward (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.getNext (user);
   if (passage.book) {

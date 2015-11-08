@@ -18,7 +18,6 @@
 
 
 #include <sources/morphhb.h>
-#include <libxml/xmlreader.h>
 #include <database/morphhb.h>
 #include <database/logs.h>
 #include <filter/string.h>
@@ -30,6 +29,7 @@ void sources_morphhb_parse ()
   Database_MorphHb database_morphhb;
   database_morphhb.create ();
 
+  /* To redo this with pugixml
   vector <string> books = {
     "Gen",
     "Exod",
@@ -142,6 +142,7 @@ void sources_morphhb_parse ()
       }
     }
   }
+   */
 
   database_morphhb.optimize ();
   Database_Logs::log ("Finished parsing Open Scriptures's Hebrew");

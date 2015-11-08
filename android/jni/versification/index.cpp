@@ -48,7 +48,7 @@ string versification_index (void * webserver_request)
   
   page = Assets_Page::header (translate ("Versifications"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   Database_Versifications database_versifications = Database_Versifications();
 

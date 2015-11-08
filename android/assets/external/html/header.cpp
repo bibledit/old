@@ -23,10 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <database/books.h>
 #include <html/text.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
 #include <locale/translate.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 // Class for creating a html Bible header with breadcrumbs and search box.
@@ -53,46 +54,39 @@ void Html_Header::searchBackLink (string url, string text)
 void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
 {
   Html_Text * html_text = (Html_Text *) htmlText;
-  xmlNodePtr tableElement = html_text->newTable ();
-  xmlNodePtr tableRowElement = html_text->newTableRow (tableElement);
-  xmlNodePtr tableDataElement = html_text->newTableData (tableRowElement);
+  xml_node tableElement = html_text->newTable ();
+  xml_node tableRowElement = html_text->newTableRow (tableElement);
+  xml_node tableDataElement = html_text->newTableData (tableRowElement);
   bool crumbAdded = false;
   for (auto breadcrumb : breadcrumbs) {
     if (crumbAdded) {
-      xmlNodePtr spanElement = xmlNewNode (NULL, BAD_CAST "span");
-      xmlNodePtr textnode = xmlNewText(BAD_CAST "»");
-      xmlAddChild (spanElement, textnode);
-      xmlAddChild (tableDataElement, spanElement);
+      xml_node spanElement = tableDataElement.append_child ("span");
+      spanElement.text ().set ("»");
     }
     html_text->addLink (tableDataElement, breadcrumb.second, "", breadcrumb.first, "", ' ' + breadcrumb.first + ' ');
     crumbAdded = true;
   }
   tableDataElement = html_text->newTableData (tableRowElement, true);
-  xmlNodePtr formElement = xmlNewNode (NULL, BAD_CAST "form");
-  xmlAddChild (tableDataElement, formElement);
-  xmlNewProp (formElement, BAD_CAST "action", BAD_CAST "/webbible/search");
-  xmlNewProp (formElement, BAD_CAST "method", BAD_CAST "GET");
-  xmlNewProp (formElement, BAD_CAST "name", BAD_CAST "search");
-  xmlNewProp (formElement, BAD_CAST "id", BAD_CAST "search");
-  xmlNodePtr inputElement = xmlNewNode (NULL, BAD_CAST "input");
-  xmlAddChild (formElement, inputElement);
-  xmlNewProp (inputElement, BAD_CAST "name", BAD_CAST "q");
-  xmlNewProp (inputElement, BAD_CAST "type", BAD_CAST "text");
-  xmlNewProp (inputElement, BAD_CAST "placeholder", BAD_CAST translate("Search the Bible").c_str());
-  inputElement = xmlNewNode (NULL, BAD_CAST "input");
-  xmlAddChild (formElement, inputElement);
-  xmlNewProp (inputElement, BAD_CAST "type", BAD_CAST "image");
-  xmlNewProp (inputElement, BAD_CAST "name", BAD_CAST "search");
-  xmlNewProp (inputElement, BAD_CAST "src", BAD_CAST "lens.png");
-  inputElement = xmlNewNode (NULL, BAD_CAST "input");
-  xmlAddChild (formElement, inputElement);
-  xmlNewProp (inputElement, BAD_CAST "type", BAD_CAST "hidden");
-  xmlNewProp (inputElement, BAD_CAST "name", BAD_CAST "url");
-  xmlNewProp (inputElement, BAD_CAST "value", BAD_CAST searchBackLinkUrl.c_str ());
-  inputElement = xmlNewNode (NULL, BAD_CAST "input");
-  xmlAddChild (formElement, inputElement);
-  xmlNewProp (inputElement, BAD_CAST "type", BAD_CAST "hidden");
-  xmlNewProp (inputElement, BAD_CAST "name", BAD_CAST "text");
-  xmlNewProp (inputElement, BAD_CAST "value", BAD_CAST searchBackLinkText.c_str ());
+  xml_node formElement = tableDataElement.append_child ("form");
+  formElement.append_attribute ("action") = "/webbible/search";
+  formElement.append_attribute ("method") = "GET";
+  formElement.append_attribute ("name") = "search";
+  formElement.append_attribute ("id") = "search";
+  xml_node inputElement = formElement.append_child ("input");
+  inputElement.append_attribute ("name") = "q";
+  inputElement.append_attribute ("type") = "text";
+  inputElement.append_attribute ("placeholder") = translate ("Search the Bible").c_str();
+  inputElement = formElement.append_child ("input");
+  inputElement.append_attribute ("type") = "image";
+  inputElement.append_attribute ("name") = "search";
+  inputElement.append_attribute ("src") = "lens.png";
+  inputElement = formElement.append_child ("input");
+  inputElement.append_attribute ("type") = "hidden";
+  inputElement.append_attribute ("name") = "url";
+  inputElement.append_attribute ("value") = searchBackLinkUrl.c_str ();
+  inputElement = formElement.append_child ("input");
+  inputElement.append_attribute ("type") = "hidden";
+  inputElement.append_attribute ("name") = "text";
+  inputElement.append_attribute ("value") = searchBackLinkText.c_str ();
 }
 

@@ -7,12 +7,12 @@ LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libsqlite.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../sqlite/jni
 include $(PREBUILT_STATIC_LIBRARY)
 
-include $(CLEAR_VARS)
+# include $(CLEAR_VARS)
 
-LOCAL_MODULE := libxml2
-LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libxml2.a
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../xml2/jni
-include $(PREBUILT_STATIC_LIBRARY)
+# LOCAL_MODULE := libxml2
+# LOCAL_SRC_FILES := ../obj/local/$(TARGET_ARCH_ABI)/libxml2.a
+# LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../xml2/jni
+# include $(PREBUILT_STATIC_LIBRARY)
 
 # include $(CLEAR_VARS)
 

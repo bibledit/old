@@ -48,7 +48,7 @@ string user_account (void * webserver_request)
 
   page = Assets_Page::header (translate("Account"), webserver_request);
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   string username = request->session_logic()->currentUser ();
   string email = request->database_users()->getUserToEmail (username);

@@ -62,6 +62,7 @@ public:
   string contentsFile (int identifier);
   string subscriptionsFile (int identifier);
   string assignedFile (int identifier);
+  string publicFile (int identifier);
   bool identifierExists (int identifier);
   void setIdentifier (int identifier, int new_identifier);
   int getNewUniqueIdentifier ();
@@ -106,6 +107,8 @@ public:
   vector <Database_Notes_Text> getPossibleSeverities ();
   int getModified (int identifier);
   void setModified (int identifier, int time);
+  bool getPublic (int identifier);
+  void setPublic (int identifier, bool value);
   vector <int> selectDuplicateNotes (const string& rawpassage, const string& summary, const string& contents);
   void updateSearchFields (int identifier);
   string getSearchField (int identifier);

@@ -145,11 +145,11 @@ string edit_save (void * webserver_request)
   // This converted html should be the same as the saved html.
   // If it differs, signal the browser to reload the chapter.
   // This also cares for renumbering and cleaning up any added or removed footnotes.
-  Editor_Usfm2Html editor_import = Editor_Usfm2Html (request);
-  editor_import.load (user_usfm);
-  editor_import.stylesheet (stylesheet);
-  editor_import.run ();
-  string converted_html = editor_import.get ();
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (user_usfm);
+  editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.run ();
+  string converted_html = editor_usfm2html.get ();
   // Convert to XML for comparison.
   // Remove spaces before comparing, so that entering a space in the editor does not cause a reload.
   html = html2xml (html);

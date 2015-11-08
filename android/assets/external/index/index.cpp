@@ -52,14 +52,6 @@ string index_index (void * webserver_request)
   
   Assets_Header header = Assets_Header ("Bibledit", webserver_request);
   
-  // When not logged in, forward to the login page.
-  if (request->session_logic ()->currentUser ().empty ()) {
-    // html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
-    // convert_to_string (session_login_url ()) + "?request=" + request, translate ("Login")
-    redirect_browser (request, session_login_url ());
-    return "";
-  }
-
   // After a delay, the demo forwards to a set active workbench, when there's no active menu.
   if (config_logic_demo_enabled ()) {
     if (request->query.empty ()) {
@@ -75,7 +67,7 @@ string index_index (void * webserver_request)
 
   string page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   page += view.render ("index", "index");
   page += Assets_Page::footer ();

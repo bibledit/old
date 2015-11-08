@@ -53,7 +53,7 @@ string resource_index (void * webserver_request)
   header.setNavigator ();
   header.setStylesheet ();
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   vector <string> resources = request->database_config_user()->getActiveResources ();

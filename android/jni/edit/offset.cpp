@@ -60,7 +60,7 @@ string edit_offset (void * webserver_request)
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   
-  Editor_Usfm2Html editor_usfm2html = Editor_Usfm2Html (request);
+  Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();

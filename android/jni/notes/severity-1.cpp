@@ -49,14 +49,14 @@ bool notes_severity_1_acl (void * webserver_request)
 string notes_severity_1 (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   
   
   string page;
   Assets_Header header = Assets_Header (translate("Severity"), request);
   page += header.run();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success, error;
   
   

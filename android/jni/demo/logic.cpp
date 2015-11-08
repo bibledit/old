@@ -47,77 +47,18 @@
  A demo installation is an open installation.
  A user is always considered to be logged in as admin.
  
- During the course of October 2015 the demo began to often refuse web connections. Todo
+ During the course of October 2015 the demo began to often refuse web connections.
  It appears that the server keeps running most of the times, but also crashed often during certain periods.
 
  The number of parallel connections was traced to see if that was the cause. 
  The parallel connection count was mostly 0, at times 1, and higher at rare occassions.
  So this should be excluded as the cause.
  
- Continuous crashes of the server could be the cause.
+ Continuous crashes of the server are the likely cause.
  The page requests are now being logged to see what happens.
- 
- 2015-10-14 13:22:17 /edit/focus
- 2015-10-14 13:22:17 bible=Beria Bible
- 2015-10-14 13:22:17 book=43
- 2015-10-14 13:22:17 chapter=3
- 2015-10-14 13:22:29 The server started
- 
- 2015-10-17 15:8:52 bible=Beria Bible
- 2015-10-17 15:8:52 book=43
- 2015-10-17 15:8:52 chapter=3
- 2015-10-17 15:8:53 The server started
- 
- 2015-10-17 15:38:42 /edit/focus
- 2015-10-17 15:38:42 bible=Beria Bible
- 2015-10-17 15:38:42 book=43
- 2015-10-17 15:38:42 chapter=3
- 2015-10-17 15:38:43 The server started
- 
- 2015-10-17 16:4:42 /edit/focus
- 2015-10-17 16:4:42 bible=Beria Bible
- 2015-10-17 16:4:42 book=43
- 2015-10-17 16:4:42 chapter=3
- 2015-10-17 16:4:43 The server started
- 
- 2015-10-20 15:22:19 /edit/id
- 2015-10-20 15:22:19 bible=Beria Bible
- 2015-10-20 15:22:19 book=43
- 2015-10-20 15:22:19 chapter=3
- 2015-10-20 15:22:27 The server started
+ After logging them, it appears that the crash often comes after /resource/get
 
- 2015-10-14 13:22:17 /edit/focus
- 2015-10-14 13:22:17 bible=Beria Bible
- 2015-10-14 13:22:17 book=43
- 2015-10-14 13:22:17 chapter=3
- 2015-10-14 13:22:29 The server started
- 
- 2015-10-14 13:34:17 /checks/2001008
- 2015-10-14 13:35:58 The server started
- 
- 2015-10-16 7:40:15 /bible/book
- 2015-10-16 7:40:15 bible=Beria Bible
- 2015-10-16 7:40:15 book=52
- 2015-10-16 7:40:15 createchapter=
- 2015-10-16 7:41:59 The server started
- 
- 2015-10-17 15:8:52 /edit/focus
- 2015-10-17 15:8:52 bible=Beria Bible
- 2015-10-17 15:8:52 book=43
- 2015-10-17 15:8:52 chapter=3
- 2015-10-17 15:8:53 The server started
- 
- 2015-10-17 16:4:42 /edit/focus
- 2015-10-17 16:4:42 bible=Beria Bible
- 2015-10-17 16:4:42 book=43
- 2015-10-17 16:4:42 chapter=3
- 2015-10-17 16:4:43 The server started
- 
- 2015-10-20 15:22:19 /edit/id
- 2015-10-20 15:22:19 bible=Beria Bible
- 2015-10-20 15:22:19 book=43
- 2015-10-20 15:22:19 chapter=3
- 2015-10-20 15:22:27 The server started
+ Next a crash handler was installed, which gives some sort of backtrace in the Journal. Todo
  
 */
 
@@ -320,7 +261,7 @@ void demo_create_sample_bible (void * webserver_request)
 // Create sample notes.
 void demo_create_sample_notes (void * webserver_request)
 {
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   vector <int> identifiers = database_notes.getIdentifiers ();
   if (identifiers.size () < 10) {
     for (size_t i = 1; i <= 10; i++) {

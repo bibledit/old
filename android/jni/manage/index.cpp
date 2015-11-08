@@ -54,7 +54,7 @@ string manage_index (void * webserver_request)
 
   page = Assets_Page::header (translate ("Manage"), webserver_request);
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success;
   string error;
   

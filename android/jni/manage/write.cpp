@@ -48,7 +48,7 @@ string manage_write (void * webserver_request)
 
   page = Assets_Page::header (translate ("Read/write"), webserver_request);
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   string user = request->query["user"];
   view.set_variable ("user", user);

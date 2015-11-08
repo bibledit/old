@@ -165,7 +165,7 @@ string search_similar (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Search"), request);
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   view.set_variable ("bible", bible);
   

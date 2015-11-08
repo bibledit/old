@@ -87,7 +87,7 @@ string workbench_organize (void * webserver_request)
   }
   
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   vector <string> workbenchblock;

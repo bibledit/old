@@ -42,7 +42,6 @@ string lexicon_logic_strong_number_cleanup (string strong);
 void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
                                                       vector <string>& strongs,
                                                       vector <string>& bdbs);
-string lexicon_logic_create_xml_document (string xml);
 string lexicon_logic_render_definition (string strong);
 string lexicon_logic_render_part_of_speech (string value);
 string lexicon_logic_render_part_of_speech_stem (string abbrev);
@@ -53,8 +52,10 @@ string lexicon_logic_render_part_of_speech_state (string abbrev);
 string lexicon_logic_define_user_strong (string strong);
 string lexicon_logic_render_morphgnt_part_of_speech (string pos);
 string lexicon_logic_render_morphgnt_parsing_code (string parsing);
-string lexicon_logic_render_etcb4_morphology (string rowid);
+string lexicon_logic_render_etcbc4_morphology (string rowid);
 string lexicon_logic_render_bdb_entry (string code);
+string lexicon_logic_get_remove_attribute (string & xml, const char * key);
+string lexicon_logic_get_text (string & xml);
 
 
 #endif

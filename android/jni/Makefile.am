@@ -333,7 +333,16 @@ libbibledit_a_SOURCES = \
 	sources/hebrewlexicon.cpp \
 	sword/logic.cpp \
 	pugixml/pugixml.cpp \
-	pugixml/utils.cpp
+	pugixml/utils.cpp \
+	public/index.cpp \
+	public/logic.cpp \
+	public/login.cpp \
+	public/chapter.cpp \
+	public/notes.cpp \
+	public/new.cpp \
+	public/create.cpp \
+	public/note.cpp \
+	public/comment.cpp
 
 bin_PROGRAMS = server unittest
 
@@ -350,18 +359,16 @@ unittest_SOURCES = \
 
 unittest_LDADD = libbibledit.a
 
-AM_CFLAGS = -Wall -Wextra -pedantic
+AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
-AM_CXXFLAGS += `xml2-config --cflags`	
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g -rdynamic
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(ICU_CFLAGS)
 
-LIBS = -Wall -lpthread -L.
-LIBS += `xml2-config --libs`
+LIBS = -Wall -lpthread -L. -g -rdynamic
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)

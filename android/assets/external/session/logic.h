@@ -38,6 +38,7 @@ public:
   string currentUser ();
   bool touchEnabled ();
   int currentLevel (bool force = false);
+  string remoteAddress ();
   void logout ();
 private:
   int level = 0;               // The level of the user.
@@ -48,7 +49,6 @@ private:
   void * webserver_request;    // Pointer to instance of Webserver_Request.
   void Open ();
   bool openAccess ();
-  string remoteAddress ();
   string fingerprint ();
   bool clientAccess ();
 };

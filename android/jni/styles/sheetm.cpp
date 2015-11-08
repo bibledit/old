@@ -55,7 +55,7 @@ string styles_sheetm (void * webserver_request)
   
   page = Assets_Page::header (translate ("Stylesheet"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   string name = request->query["name"];
   view.set_variable ("name", filter_string_sanitize_html (name));

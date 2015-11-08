@@ -54,7 +54,7 @@ string bible_css (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Font and text direction"), request);
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   // The name of the Bible.
   string bible = access_bible_clamp (request, request->query ["bible"]);

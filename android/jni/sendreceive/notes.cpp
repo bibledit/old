@@ -95,7 +95,7 @@ bool sendreceive_notes_upload ()
 {
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes (&request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
   Notes_Logic notes_logic = Notes_Logic (&request);
   
@@ -313,7 +313,7 @@ bool sendreceive_notes_upload ()
 bool sendreceive_notes_download (int lowId, int highId)
 {
   Webserver_Request request;
-  Database_Notes database_notes = Database_Notes (&request);
+  Database_Notes database_notes (&request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
   Sync_Logic sync_logic = Sync_Logic (&request);
   Notes_Logic notes_logic = Notes_Logic (&request);
@@ -455,8 +455,15 @@ bool sendreceive_notes_download (int lowId, int highId)
   // But it skips the notes that have actions recorded for them,
   // as these notes are scheduled to be sent to the server first.
   identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
+  int delete_counter = 0;
   for (auto identifier : identifiers) {
     if (database_noteactions.exists (identifier)) continue;
+    // It has been seen that a client started to delete all notes, thousands of them, for an unknown reason.
+    // The reason may have been a miscommunication between client and server.
+    // And then, next send/receive, it started to re-download all thousands of them from the server.
+    // Therefore limit the number of notes a client can delete in one go.
+    delete_counter++;
+    if (delete_counter > 15) continue;
     string summary = database_notes.getSummary (identifier);
     database_notes.erase (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, Filter_Roles::translator ());

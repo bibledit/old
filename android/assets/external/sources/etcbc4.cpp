@@ -22,10 +22,13 @@
 #include <database/etcbc4.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <libxml/xmlreader.h>
+#include <pugixml/pugixml.hpp>
 
 
-void sources_etcb4_download ()
+using namespace pugi;
+
+
+void sources_etcbc4_download ()
 {
   Database_Logs::log ("Start to download the raw Hebrew morphology data from the ETCBC4 database");
   Database_Etcbc4 database_etcbc4;
@@ -103,7 +106,7 @@ void sources_etcb4_download ()
         }
         Database_Logs::log (bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse));
         database_etcbc4.store (book, chapter, verse, response);
-        // Wait a second so as not to overload the website.
+        // Wait a second: Be polite: Do not overload the website.
         this_thread::sleep_for (chrono::seconds (1));
       }
     }
@@ -113,7 +116,7 @@ void sources_etcb4_download ()
 }
 
 
-string sources_etcb4_clean (string item)
+string sources_etcbc4_clean (string item)
 {
   item = filter_string_str_replace ("/", "", item);
   item = filter_string_str_replace ("]", "", item);
@@ -125,14 +128,12 @@ string sources_etcb4_clean (string item)
 
 
 // Parses the raw html data as downloaded from the ETCBC4 database.
-// The parser is supposed to ran only by the developers.
-// No memory is freed: It leaks a lot of memory.
-void sources_etcb4_parse ()
+// The parser is supposed to be ran only by the developers.
+void sources_etcbc4_parse ()
 {
   Database_Logs::log ("Parsing data from the ETCBC4 database");
   Database_Etcbc4 database_etcbc4;
   database_etcbc4.create ();
-  string readit = "readit";
   vector <int> books = database_etcbc4.books ();
   for (auto book : books) {
     vector <int> chapters = database_etcbc4.chapters (book);
@@ -140,118 +141,78 @@ void sources_etcb4_parse ()
       Database_Logs::log ("Parsing book " + convert_to_string (book) + " chapter " + convert_to_string (chapter));
       vector <int> verses = database_etcbc4.verses (book, chapter);
       for (auto verse : verses) {
+        // The raw data for the verse.
         string data = database_etcbc4.raw (book, chapter, verse);
         if (data.empty ()) continue;
         data = filter_string_str_replace (non_breaking_space (), "", data);
-        data.insert (0, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><bibledit>");
-        data.append ("</bibledit>");
-        string word;
-        string vocalized_lexeme;
-        string consonantal_lexeme;
-        string gloss;
-        string pos;
-        string subpos;
-        string gender;
-        string number;
-        string person;
-        string state;
-        string tense;
-        string stem;
-        string phrase_function;
-        string phrase_type;
-        string phrase_relation;
-        string phrase_a_relation;
-        string clause_text_type;
-        string clause_type;
-        string clause_relation;
-        xmlTextReaderPtr reader = xmlReaderForMemory (data.c_str(), data.length (), "", NULL, 0);
-        while ((xmlTextReaderRead(reader) == 1)) {
-          switch (xmlTextReaderNodeType (reader)) {
-            case XML_READER_TYPE_ELEMENT:
-            {
-              string element = (char *) xmlTextReaderName (reader);
-              if (element == "span") {
-                string clazz = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "class");
-                if (clazz == "ht") word = readit;
-                if (clazz.find ("hl_hlv") != string::npos) vocalized_lexeme = readit;
-                if (clazz.find ("hl_hlc") != string::npos) consonantal_lexeme = readit;
-                if (clazz == "gl") gloss = readit;
-                if (clazz.find ("_pos") != string::npos) pos = readit;
-                if (clazz.find ("_subpos") != string::npos) subpos = readit;
-                if (clazz.find ("_gender") != string::npos) gender = readit;
-                if (clazz.find ("_gnumber") != string::npos) number = readit;
-                if (clazz.find ("_person") != string::npos) person = readit;
-                if (clazz.find ("_state") != string::npos) state = readit;
-                if (clazz.find ("_tense") != string::npos) tense = readit;
-                if (clazz.find ("_stem") != string::npos) stem = readit;
-                if (clazz.find ("ph_fun") != string::npos) phrase_function = readit;
-                if (clazz.find ("ph_typ") != string::npos) phrase_type = readit;
-                if (clazz.find ("ph_rela") != string::npos) phrase_relation = readit;
-                if (clazz.find ("ph_arela") != string::npos) phrase_a_relation = readit;
-                if (clazz.find ("cl_txt") != string::npos) clause_text_type = readit;
-                if (clazz.find ("cl_typ") != string::npos) clause_type = readit;
-                if (clazz.find ("cl_rela") != string::npos) clause_relation = readit;
+        // Parse the data.
+        xml_document document;
+        document.load_string (data.c_str());
+        // Iterate through the <table> elements, one element per word or word fragment.
+        for (xml_node table : document.children()) {
+          // The relevant grammatical information to be extracted from the data.
+          string word;
+          string vocalized_lexeme;
+          string consonantal_lexeme;
+          string gloss;
+          string pos;
+          string subpos;
+          string gender;
+          string number;
+          string person;
+          string state;
+          string tense;
+          string stem;
+          string phrase_function;
+          string phrase_type;
+          string phrase_relation;
+          string phrase_a_relation;
+          string clause_text_type;
+          string clause_type;
+          string clause_relation;
+          // Iterate through the <tr> elements.
+          // Each element contains one or more table cells with information.
+          for (xml_node tr : table.children ()) {
+            // Iterate through the <td> elements.
+            for (xml_node td : tr.children ()) {
+              // Iterate through the one or more <span> elements within this table cell.
+              // Each <span> elements has a grammatical tag.
+              for (xml_node span : td.children ()) {
+                // Get the text this <span> contains.
+                xml_node txtnode = span.first_child ();
+                string value = txtnode.text ().get ();
+                value = sources_etcbc4_clean (value);
+                // The class of the <span> element indicates what kind of grammatical tag it has.
+                string clazz = span.attribute ("class").value ();
+                if (clazz == "ht") word = value;
+                if (clazz.find ("hl_hlv") != string::npos) vocalized_lexeme = value;
+                if (clazz.find ("hl_hlc") != string::npos) consonantal_lexeme = value;
+                if (clazz == "gl") gloss = value;
+                if (clazz.find ("_pos") != string::npos) pos = value;
+                if (clazz.find ("_subpos") != string::npos) subpos = value;
+                if (clazz.find ("_gender") != string::npos) gender = value;
+                if (clazz.find ("_gnumber") != string::npos) number = value;
+                if (clazz.find ("_person") != string::npos) person = value;
+                if (clazz.find ("_state") != string::npos) state = value;
+                if (clazz.find ("_tense") != string::npos) tense = value;
+                if (clazz.find ("_stem") != string::npos) stem = value;
+                if (clazz.find ("ph_fun") != string::npos) phrase_function = value;
+                if (clazz.find ("ph_typ") != string::npos) phrase_type = value;
+                if (clazz.find ("ph_rela") != string::npos) phrase_relation = value;
+                if (clazz.find ("ph_arela") != string::npos) phrase_a_relation = value;
+                if (clazz.find ("cl_txt") != string::npos) clause_text_type = value;
+                if (clazz.find ("cl_typ") != string::npos) clause_type = value;
+                if (clazz.find ("cl_rela") != string::npos) clause_relation = value;
               }
-              break;
-            }
-            case XML_READER_TYPE_TEXT:
-            {
-              string value = (char *) xmlTextReaderValue (reader);
-              value = sources_etcb4_clean (value);
-              if (word == readit) word = value;
-              if (vocalized_lexeme == readit) vocalized_lexeme = value;
-              if (consonantal_lexeme == readit) consonantal_lexeme = value;
-              if (gloss == readit) gloss = value;
-              if (pos == readit) pos = value;
-              if (subpos == readit) subpos = value;
-              if (gender == readit) gender = value;
-              if (number == readit) number = value;
-              if (person == readit) person = value;
-              if (state == readit) state = value;
-              if (tense == readit) tense = value;
-              if (stem == readit) stem = value;
-              if (phrase_function == readit) phrase_function = value;
-              if (phrase_type == readit) phrase_type = value;
-              if (phrase_relation == readit) phrase_relation = value;
-              if (phrase_a_relation == readit) phrase_a_relation = value;
-              if (clause_text_type == readit) clause_text_type = value;
-              if (clause_type == readit) clause_type = value;
-              if (clause_relation == readit) clause_relation = value;
-              break;
-            }
-            case XML_READER_TYPE_END_ELEMENT:
-            {
-              string element = (char *) xmlTextReaderName (reader);
-              if (element == "table") {
-                database_etcbc4.store (book, chapter, verse,
-                                      word, vocalized_lexeme, consonantal_lexeme, gloss, pos, subpos,
-                                      gender, number, person,
-                                      state, tense, stem,
-                                      phrase_function, phrase_type, phrase_relation,
-                                      phrase_a_relation, clause_text_type, clause_type, clause_relation);
-                word.clear ();
-                vocalized_lexeme.clear ();
-                consonantal_lexeme.clear ();
-                gloss.clear ();
-                pos.clear ();
-                subpos.clear ();
-                gender.clear ();
-                number.clear ();
-                person.clear ();
-                state.clear ();
-                tense.clear ();
-                stem.clear ();
-                phrase_function.clear ();
-                phrase_type.clear ();
-                phrase_relation.clear ();
-                phrase_a_relation.clear ();
-                clause_text_type.clear ();
-                clause_type.clear ();
-                clause_relation.clear ();
-              }
-              break;
             }
           }
+          // The table element has been done: Store it.
+          database_etcbc4.store (book, chapter, verse,
+                                 word, vocalized_lexeme, consonantal_lexeme, gloss, pos, subpos,
+                                 gender, number, person,
+                                 state, tense, stem,
+                                 phrase_function, phrase_type, phrase_relation,
+                                 phrase_a_relation, clause_text_type, clause_type, clause_relation);
         }
       }
     }

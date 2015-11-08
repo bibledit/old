@@ -52,7 +52,7 @@ string compare_index (void * webserver_request)
   
   page = Assets_Page::header (translate ("Compare"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   string bible = request->query ["bible"];
   view.set_variable ("bible", bible);

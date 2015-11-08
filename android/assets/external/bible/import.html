@@ -8,7 +8,7 @@ translate("Bible"): <a href="settings?bible=##bible##">##bible##</a>
 </p>
 <p>
 translate("Import Bible text.")
-translate("Paste the text into the box below and Submit it.")
+translate("Paste the text into the box below and submit it.")
 </p>
 <form action="?bible=##bible##" id="form" name="form" method="post">
   <p><textarea name="data" id="data"></textarea></p>
@@ -19,13 +19,16 @@ translate("Paste the text into the box below and Submit it.")
 translate("You can also upload a file with the text.")
 translate("Or a compressed archive of such files.")
 </p>
+<!-- #BEGINZONE enable_upload -->
 <form enctype="multipart/form-data" action="?bible=##bible##" method="POST">
   <input name="data" type="file" />
   <input type="submit" name="upload" value="translate("Upload")" />
 </form>
-<p>
-translate("The upload may take some time.")
-</p>
+<p>translate("The upload may take some time.")</p>
+<!-- #ENDZONE enable_upload -->
+<!-- #BEGINZONE disable_upload -->
+<p>translate("This can be done in Bibledit Cloud.")</p>
+<!-- #ENDZONE disable_upload -->
 <script type="text/javascript" src="import.js?##VERSION##"></script>
 <script type="text/javascript" src="/filter/url.js"></script>
 <h3>translate("Help")</h3>

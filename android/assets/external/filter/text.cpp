@@ -1221,7 +1221,7 @@ void Filter_Text::processNote ()
 */
 void Filter_Text::produceInfoDocument (string path)
 {
-  Html_Text information = Html_Text (translate("Information"));
+  Html_Text information (translate("Information"));
 
   // Number of chapters per book.
   information.newHeading1 (translate("Number of chapters per book"));
@@ -1377,7 +1377,7 @@ void Filter_Text::addToWordList (vector <string>  & list)
 */
 void Filter_Text::produceFalloutDocument (string path)
 {
-  Html_Text html_text = Html_Text (translate("Fallout"));
+  Html_Text html_text (translate("Fallout"));
   html_text.newHeading1 (translate("Fallout"));
   for (string line : fallout) {
     html_text.newParagraph ();

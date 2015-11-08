@@ -81,7 +81,7 @@ bool Sync_Logic::credentials_okay ()
 // Calculates the checksum of the array of note identifiers.
 string Sync_Logic::checksum (const vector <int> & identifiers)
 {
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   vector <string> checksums;
   for (const auto & identifier : identifiers) {
     checksums.push_back (database_notes.getChecksum (identifier));

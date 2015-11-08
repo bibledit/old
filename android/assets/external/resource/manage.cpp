@@ -54,7 +54,7 @@ string resource_manage (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("USFM Resources"), request);
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();

@@ -37,7 +37,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <session/logic.h>
 #include <config.h>
-#include <libxml/parser.h>
 
 
 int main (int argc, char **argv) 
@@ -62,11 +61,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  //test_editor_usfm2html (); // Todo
-  //test_editor_roundtrip ();
-  //test_editor_roundtrip_verse ();
-  //test_editor_html2usfm ();
-  //refresh_sandbox (true); exit (0); // Todo
+  test_odf_text (); refresh_sandbox (true); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -139,7 +134,7 @@ int main (int argc, char **argv)
   test_editor_html2usfm ();
   test_editor_usfm2html ();
   test_editor_roundtrip ();
-  test_editor_roundtrip_verse ();
+  test_editor_development ();
   test_filter_markup ();
   test_workbench_logic ();
   test_filter_git ();

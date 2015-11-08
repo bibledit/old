@@ -185,25 +185,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/sword.h>
 #include <lexicon/definition.h>
 #include <database/logs.h>
+#include <public/index.h>
+#include <public/login.h>
+#include <public/chapter.h>
+#include <public/notes.h>
+#include <public/new.h>
+#include <public/create.h>
+#include <public/note.h>
+#include <public/comment.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
-// Based on the request from the client, it decides what other functions to call to assemble the response.
+// Based on the request from the client, it decides which other function to call to assemble the response.
 void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
   
-  if (config_logic_demo_enabled ()) { // Todo debug
-    Database_Logs::debug (request->get);
-    for (auto element : request->query) {
-      Database_Logs::debug (element.first + "=" + element.second);
-    }
-    for (auto element : request->post) {
-      Database_Logs::debug (element.first + "=" + element.second);
-    }
-  }
-
   // Serve graphics, stylesheets, JavaScript, fonts.
   if (   (extension == "ico")
       || (extension == "png")
@@ -333,6 +331,16 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == user_notifications_url ()) && user_notifications_acl (request)) request->reply = user_notifications (request);
   else if ((url == user_account_url ()) && user_account_acl (request)) request->reply = user_account (request);
 
+  // Public feedback menu.
+  else if ((url == public_index_url ()) && public_index_acl (request)) request->reply = public_index (request);
+  else if ((url == public_login_url ()) && public_login_acl (request)) request->reply = public_login (request);
+  else if ((url == public_chapter_url ()) && public_chapter_acl (request)) request->reply = public_chapter (request);
+  else if ((url == public_notes_url ()) && public_notes_acl (request)) request->reply = public_notes (request);
+  else if ((url == public_new_url ()) && public_new_acl (request)) request->reply = public_new (request);
+  else if ((url == public_create_url ()) && public_create_acl (request)) request->reply = public_create (request);
+  else if ((url == public_note_url ()) && public_note_acl (request)) request->reply = public_note (request);
+  else if ((url == public_comment_url ()) && public_comment_acl (request)) request->reply = public_comment (request);
+  
   // Pages not in any menu.
   else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);
   else if ((url == search_all_url ()) && search_all_acl (request)) request->reply = search_all (request);

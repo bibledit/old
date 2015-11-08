@@ -51,7 +51,7 @@ string email_index (void * webserver_request)
 
   page = Assets_Page::header (translate("Mail"), webserver_request);
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   // Site name and email.
   if (request->post ["email"] != "") {

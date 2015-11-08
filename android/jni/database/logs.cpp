@@ -35,9 +35,6 @@ string Database_Logs::folder ()
 
 void Database_Logs::log (string description, int level)
 {
-  if (config_logic_demo_enabled ()) {
-    debug (description); // Todo debug
-  }
   // No new lines.
   description = filter_string_str_replace ("\n", " ", description);
   // Discard empty line.

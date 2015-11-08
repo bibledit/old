@@ -46,7 +46,7 @@ string edit_id (void * webserver_request)
   
   // Update the timestamp indicating that the Bible editor is alive.
   request->database_config_user()->setLiveBibleEditor (filter_date_seconds_since_epoch ());
-  
+
   
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);

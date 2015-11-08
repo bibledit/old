@@ -74,7 +74,7 @@ string personalize_index (void * webserver_request)
   page = Assets_Page::header (translate ("Personalize"), webserver_request);
 
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   // Font size for everything.

@@ -43,7 +43,11 @@ string index_listing_url (string url)
 
 bool index_listing_acl (void * webserver_request, string url)
 {
-  if (url.empty ()) {};
+  // Bible exports are public.
+  if (url.find ("exports") == 0) {
+    return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  }
+  // Any other files are for people with at least a member role.
   return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 
@@ -52,7 +56,7 @@ string index_listing (void * webserver_request, string url)
 {
   string page;
   page = Assets_Page::header ("Bibledit", webserver_request);
-  Assets_View view = Assets_View ();
+  Assets_View view;
   url = filter_url_urldecode (url);
   url = filter_url_create_path ("", url);
   view.set_variable ("url", url);

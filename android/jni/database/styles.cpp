@@ -21,8 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <libxml/xmlreader.h>
-#include <libxml/xmlwriter.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
 

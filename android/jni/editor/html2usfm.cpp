@@ -156,9 +156,6 @@ void Editor_Html2Usfm::openElementNode (xml_node node)
   
   if (tagName == "p")
   {
-    // If within the notes div, bail out.
-    //string parent_id = node.parent ().attribute ("id").value ();
-    //if (parent_id == "notes") return; // Todo
     // While editing, it may occur that the p element does not have a class.
     // Use the 'p' class in such cases.
     if (className.empty ()) className = "p";
@@ -201,9 +198,6 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
   
   if (tagName == "p")
   {
-    // If within the notes div, bail out.
-    //string parent_id = node.parent ().attribute ("id").value ();
-    //if (parent_id == "notes") return; // Todo
     // While editing it happens that the p element does not have a class.
     // Use the 'p' class in such cases.
     if (className == "") className = "p";

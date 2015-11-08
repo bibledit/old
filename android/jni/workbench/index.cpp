@@ -58,9 +58,9 @@ string workbench_index (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Desktop"), request);
   header.setNavigator ();
-  header.setFadingMenu (menu_logic_workbenche_category (webserver_request));
+  header.setFadingMenu (menu_logic_desktop_category (webserver_request));
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   map <int, string> urls = workbenchGetURLs (request, true);
   map <int, string> widths = workbenchGetWidths (request);

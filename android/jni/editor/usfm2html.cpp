@@ -21,27 +21,9 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
-#include <webserver/request.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-#include <libxml/HTMLparser.h>
-#include <libxml/HTMLtree.h>
 #include <database/logs.h>
-
-
-Editor_Usfm2Html::Editor_Usfm2Html (void * webserver_request_in)
-{
-  webserver_request = webserver_request_in;
-}
-
-
-Editor_Usfm2Html::~Editor_Usfm2Html ()
-{
-  //xmlDocDump (stdout, htmlDom);
-  if (htmlDom) xmlFreeDoc (htmlDom);
-}
 
 
 void Editor_Usfm2Html::load (string usfm)
@@ -58,12 +40,12 @@ void Editor_Usfm2Html::load (string usfm)
 
 void Editor_Usfm2Html::stylesheet (string stylesheet)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Database_Styles database_styles;
   styles.clear();
-  vector <string> markers = request->database_styles()->getMarkers (stylesheet);
+  vector <string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (auto & marker : markers) {
-    Database_Styles_Item style = request->database_styles()->getMarkerData (stylesheet, marker);
+    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
@@ -89,27 +71,21 @@ void Editor_Usfm2Html::run ()
 
 string Editor_Usfm2Html::get ()
 {
-  // If there are notes, add the notes <div> after everything else.
+  // If there are notes, move the notes <div> after everything else.
   // (It has the <hr> as a child).
-  if (xmlChildElementCount (notesDomNode) > 1) {
-    xmlAddChild (bodyDomNode, notesDomNode);
+  size_t count = distance (notes_node.begin (), notes_node.end ());
+  if (count > 1) {
+    body_node.append_move (notes_node);
   }
   
-  // Get the entire html code, including head.
-  xmlChar * contents;
-  int size;
-  //xmlDocDumpFormatMemory (htmlDom, &contents, &size, 1);
-  xmlDocDumpFormatMemory (htmlDom, &contents, &size, 0);
-  string html;
-  if (contents) {
-    html = (char *) contents;
-    xmlFree (contents);
-  }
+  // Get the html code, including body, without head.
+  stringstream output;
+  body_node.print (output, "", format_raw);
+  string html = output.str ();
   
   // Remain with the stuff within the <body> elements.
   size_t pos = html.find ("<body>");
   if (pos != string::npos) {
-    // html.erase (0, pos + 7);
     html.erase (0, pos + 6);
     pos = html.find ("</body>");
     if (pos != string::npos) {
@@ -119,12 +95,12 @@ string Editor_Usfm2Html::get ()
 
   // Deal with a blank line.
   // The \b in USFM, a blank line, gets converted to:
-  // <p class="b"/>
+  // <p class="b" />
   // But this does not display a blank in the web browser.
   // Therefore convert it to the following:
   // <p class="b"><br></p>
   // This is how the webkit browser naturally represents a new empty line.
-  html = filter_string_str_replace ("<p class=\"b\"/>", "<p class=\"b\"><br></p>", html);
+  html = filter_string_str_replace ("<p class=\"b\" />", "<p class=\"b\"><br></p>", html);
   
   // Currently libxml2 produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.
@@ -145,8 +121,8 @@ void Editor_Usfm2Html::preprocess ()
   paragraphCount = 0;
   textLength = 0;
   verseStartOffsets = { make_pair (0, 0) };
-  currentPDomElement = NULL;
-  notePDomElement = NULL;
+  current_p_open = false;
+  note_p_open = false;
 
   /*
   // Load and parse the template.
@@ -173,29 +149,22 @@ void Editor_Usfm2Html::preprocess ()
   
   // Done parsing.
   htmlFreeParserCtxt (context);
+
+  XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
+  It crashes here: bodyDomNode = nodes->nodeTab [0];
+  Therefore use another method: Build the document from scratch.
+  After the move to pugixml, the above no longer applies.
+  Even so, the document is built from scratch.
   */
 
-  // XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
-  // It crashes here: bodyDomNode = nodes->nodeTab [0];
-  // Therefore use another method: Build the document from scratch.
-  htmlDom = xmlNewDoc (BAD_CAST "1.0");
-  xmlNodePtr rootnode = xmlNewNode (NULL, BAD_CAST "html");
-  xmlDocSetRootElement (htmlDom, rootnode);
-  xmlNodePtr headnode = xmlNewNode (NULL, BAD_CAST "head");
-  xmlAddChild (rootnode, headnode);
-  xmlNodePtr metanode = xmlNewNode  (NULL, BAD_CAST "meta");
-  xmlAddChild (headnode, metanode);
-  xmlNewProp (metanode, BAD_CAST "http-equiv", BAD_CAST "content-type");
-  xmlNewProp (metanode, BAD_CAST "http-equiv", BAD_CAST "text/html; charset=UTF-8");
-  bodyDomNode = xmlNewNode (NULL, BAD_CAST "body");
-  xmlAddChild (rootnode, bodyDomNode);
+  body_node = document.append_child ("body");
   
-  // Create notes node.
-  // It will not yet be inserted into the html document.
-  notesDomNode = newElement ("div");
-  xmlNewProp (notesDomNode, BAD_CAST "id", BAD_CAST "notes");
-  xmlNodePtr node = newElement ("hr");
-  xmlAddChild (notesDomNode, node);
+  // Create notes xml node.
+  // It comes at the start of the document.
+  // (Later, it will either be deleted, or moved to the end).
+  notes_node = document.append_child ("div");
+  notes_node.append_attribute ("id") = "notes";
+  notes_node.append_child ("hr");
 }
 
  
@@ -221,13 +190,13 @@ void Editor_Usfm2Html::process ()
           case StyleTypeNotUsedComment:
           case StyleTypeNotUsedRunningHeader:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypeStartsParagraph:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             newParagraph (marker);
             break;
           }
@@ -236,36 +205,36 @@ void Editor_Usfm2Html::process ()
             if (isOpeningMarker) {
               // Be sure the road ahead is clear.
               if (roadIsClear ()) {
-                openTextStyle (style, false, isEmbeddedMarker);
+                openTextStyle (style, isEmbeddedMarker);
               } else {
                 addText (usfm_get_opening_usfm (marker));
               }
             } else {
-              closeTextStyle (false, isEmbeddedMarker);
+              closeTextStyle (isEmbeddedMarker);
             }
             break;
           }
           case StyleTypeChapterNumber:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             newParagraph (marker);
             break;
           }
           case StyleTypeVerseNumber:
           {
             // Close any existing text style.
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             // Output the space before the verse number in case the paragraph already has some text.
             if (currentParagraphContent != "") {
               addText (" ");
             }
             // Open verse style, record verse/length, add verse number, close style again, and add a space.
-            openTextStyle (style, false, false);
+            openTextStyle (style, false);
             string textFollowingMarker = usfm_get_text_following_marker (markersAndText, markersAndTextPointer);
             string number = usfm_peek_verse_number (textFollowingMarker);
             verseStartOffsets [convert_to_int (number)] = textLength;
             addText (number);
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             addText (" ");
             // If there was any text following the \v marker, remove the verse number,
             // put the remainder back into the object, and update the pointer.
@@ -287,7 +256,7 @@ void Editor_Usfm2Html::process ()
               case FootEndNoteSubtypeFootnote:
               case FootEndNoteSubtypeEndnote:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 if (isOpeningMarker) {
                   int caller = noteCount % 9 + 1;
                   addNote (convert_to_string (caller), marker, false);
@@ -301,16 +270,16 @@ void Editor_Usfm2Html::process ()
               case FootEndNoteSubtypeContentWithEndmarker:
               {
                 if (isOpeningMarker) {
-                  openTextStyle (style, true, isEmbeddedMarker);
+                  openTextStyle (style, isEmbeddedMarker);
                 } else {
-                  closeTextStyle (true, isEmbeddedMarker);
+                  closeTextStyle (isEmbeddedMarker);
                 }
                 break;
               }
               case FootEndNoteSubtypeParagraph:
               default:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 break;
               }
             }
@@ -322,7 +291,7 @@ void Editor_Usfm2Html::process ()
             {
               case CrossreferenceSubtypeCrossreference:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 if (isOpeningMarker) {
                   int caller = (noteCount) % 9 + 1;
                   addNote (convert_to_string (caller), marker, false);
@@ -336,15 +305,15 @@ void Editor_Usfm2Html::process ()
               case CrossreferenceSubtypeStandardContent:
               {
                 if (isOpeningMarker) {
-                  openTextStyle (style, true, isEmbeddedMarker);
+                  openTextStyle (style, isEmbeddedMarker);
                 } else {
-                  closeTextStyle (true, isEmbeddedMarker);
+                  closeTextStyle (isEmbeddedMarker);
                 }
                 break;
               }
               default:
               {
-                closeTextStyle (false, false);
+                closeTextStyle (false);
                 break;
               }
             }
@@ -352,25 +321,25 @@ void Editor_Usfm2Html::process ()
           }
           case StyleTypePeripheral:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypePicture:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypePageBreak:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
           case StyleTypeTableElement:
           {
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             switch (style.subtype)
             {
               case TableElementSubtypeRow:
@@ -381,12 +350,12 @@ void Editor_Usfm2Html::process ()
               case TableElementSubtypeHeading:
               case TableElementSubtypeCell:
               {
-                openTextStyle (style, false, false);
+                openTextStyle (style, false);
                 break;
               }
               default:
               {
-                openTextStyle (style, false, false);
+                openTextStyle (style, false);
                 break;
               }
             }
@@ -395,23 +364,23 @@ void Editor_Usfm2Html::process ()
           case StyleTypeWordlistElement:
           {
             if (isOpeningMarker) {
-              openTextStyle (style, false, false);
+              openTextStyle (style, false);
             } else {
-              closeTextStyle (false, false);
+              closeTextStyle (false);
             }
             break;
           }
           default:
           {
             // This marker is known in the stylesheet, but not yet implemented here.
-            closeTextStyle (false, false);
+            closeTextStyle (false);
             outputAsIs (marker, isOpeningMarker);
             break;
           }
         }
       } else {
         // This is a marker unknown in the stylesheet.
-        closeTextStyle (false, false);
+        closeTextStyle (false);
         outputAsIs (marker, isOpeningMarker);
       }
     } else {
@@ -445,20 +414,13 @@ void Editor_Usfm2Html::outputAsIs (string marker, bool isOpeningMarker)
 }
 
 
-xmlNodePtr Editor_Usfm2Html::newElement (string element)
-{
-  xmlNodePtr node = xmlNewNode (NULL, BAD_CAST element.c_str());
-  return node;
-}
-
-
 void Editor_Usfm2Html::newParagraph (string style)
 {
-  currentPDomElement = newElement ("p");
+  currentPnode = body_node.append_child ("p");
+  current_p_open = true;
   if (!style.empty()) {
-    xmlNewProp (currentPDomElement, BAD_CAST "class", BAD_CAST style.c_str());
+    currentPnode.append_attribute ("class") = style.c_str();
   }
-  xmlAddChild (bodyDomNode, currentPDomElement);
   currentParagraphStyle = style;
   currentParagraphContent.clear();
   paragraphCount++;
@@ -467,12 +429,11 @@ void Editor_Usfm2Html::newParagraph (string style)
 
 // This opens a text style.
 // $style: the array containing the style variables.
-// $note: boolean: Whether this refers to a note.
 // $embed: boolean: Whether to open embedded / nested style.
-void Editor_Usfm2Html::openTextStyle (Database_Styles_Item & style, bool note, bool embed)
+void Editor_Usfm2Html::openTextStyle (Database_Styles_Item & style, bool embed)
 {
   string marker = style.marker;
-  if (note) {
+  if (noteOpened) {
     if (!embed) currentNoteTextStyles.clear();
     currentNoteTextStyles.push_back (marker);
   } else {
@@ -483,11 +444,10 @@ void Editor_Usfm2Html::openTextStyle (Database_Styles_Item & style, bool note, b
 
 
 // This closes any open text style.
-// $note: Whether this refers to a note.
 // $embed: boolean: Whether to close embedded character style.
-void Editor_Usfm2Html::closeTextStyle (bool note, bool embed)
+void Editor_Usfm2Html::closeTextStyle (bool embed)
 {
-  if (note) {
+  if (noteOpened) {
     if (!currentNoteTextStyles.empty ()) currentNoteTextStyles.pop_back ();
     if (!embed) currentNoteTextStyles.clear ();
   } else {
@@ -502,19 +462,14 @@ void Editor_Usfm2Html::closeTextStyle (bool note, bool embed)
 void Editor_Usfm2Html::addText (string text)
 {
   if (text != "") {
-    if (!currentPDomElement) {
+    if (!current_p_open) {
       newParagraph ();
     }
-    xmlNodePtr spanDomElement = newElement ("span");
-    xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
-    xmlAddChild (spanDomElement, textnode);
-    xmlAddChild (currentPDomElement, spanDomElement);
-    // xmlChar * encoded_text = xmlEncodeSpecialChars (htmlDom, BAD_CAST text.c_str());
-    // xmlNodePtr spanDomElement = xmlNewChild (currentPDomElement, NULL, BAD_CAST "span", encoded_text);
-    // xmlFree (encoded_text);
+    xml_node spanDomElement = currentPnode.append_child ("span");
+    spanDomElement.text ().set (text.c_str());
     if (!currentTextStyles.empty ()) {
       // Take character style(s) as specified in this object.
-      xmlNewProp (spanDomElement, BAD_CAST "class", BAD_CAST filter_string_implode (currentTextStyles, " ").c_str());
+      spanDomElement.append_attribute ("class") = filter_string_implode (currentTextStyles, " ").c_str();
     }
     currentParagraphContent.append (text);
   }
@@ -536,7 +491,7 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   
   
   // Ensure that a paragraph is open, so that the note can be added to it.
-  if (!currentPDomElement) {
+  if (!current_p_open) {
     newParagraph ();
   }
   
@@ -549,19 +504,19 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   // Add the link with all relevant data for the note citation.
   string reference = "#note" + convert_to_string (noteCount);
   string identifier = "citation" + convert_to_string (noteCount);
-  addLink (currentPDomElement, reference, identifier, "superscript", citation);
+  addLink (currentPnode, reference, identifier, "superscript", citation);
   
   // Open a paragraph element for the note body.
-  notePDomElement = newElement ("p");
-  xmlAddChild (notesDomNode, notePDomElement);
-  xmlNewProp (notePDomElement, BAD_CAST "class", BAD_CAST style.c_str());
+  notePnode = notes_node.append_child ("p");
+  note_p_open = true;
+  notePnode.append_attribute ("class") = style.c_str();
   
-  closeTextStyle (true, false);
+  closeTextStyle (false);
   
   // Add the link with all relevant data for the note body.
   reference = "#citation" + convert_to_string (noteCount);
   identifier = "note" + convert_to_string (noteCount);
-  addLink (notePDomElement, reference, identifier, "", citation);
+  addLink (notePnode, reference, identifier, "", citation);
   
   // Add a space.
   addNoteText (" ");
@@ -576,16 +531,14 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
 void Editor_Usfm2Html::addNoteText (string text)
 {
   if (text.empty ()) return;
-  if (!notePDomElement) {
+  if (!note_p_open) {
     addNote ("?", "");
   }
-  xmlNodePtr spanDomElement = newElement ("span");
-  xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
-  xmlAddChild (spanDomElement, textnode);
-  xmlAddChild (notePDomElement, spanDomElement);
+  xml_node spanDomElement = notePnode.append_child ("span");
+  spanDomElement.text ().set (text.c_str());
   if (!currentNoteTextStyles.empty()) {
     // Take character style as specified in this object.
-    xmlNewProp (spanDomElement, BAD_CAST "class", BAD_CAST filter_string_implode (currentNoteTextStyles, " ").c_str());
+    spanDomElement.append_attribute ("class") = filter_string_implode (currentNoteTextStyles, " ").c_str();
   }
 }
 
@@ -594,8 +547,8 @@ void Editor_Usfm2Html::addNoteText (string text)
 void Editor_Usfm2Html::closeCurrentNote ()
 {
   // If a note was opened, close that, else close the standard text.
-  closeTextStyle (noteOpened, false);
-  notePDomElement = NULL;
+  closeTextStyle (false);
+  note_p_open = false;
   noteOpened = false;
 }
 
@@ -606,23 +559,21 @@ void Editor_Usfm2Html::closeCurrentNote ()
 // $identifier: The link's identifier. Others can link to it.
 // $style: The link text's style.
 // $text: The link's text.
-void Editor_Usfm2Html::addLink (xmlNodePtr domNode, string reference, string identifier, string style, string text)
+void Editor_Usfm2Html::addLink (xml_node domNode, string reference, string identifier, string style, string text)
 {
-  xmlNodePtr aDomElement = newElement ("a");
-  xmlAddChild (domNode, aDomElement);
-  xmlNewProp (aDomElement, BAD_CAST "href", BAD_CAST reference.c_str());
-  xmlNewProp (aDomElement, BAD_CAST "id", BAD_CAST identifier.c_str());
+  xml_node aDomElement = domNode.append_child ("a");
+  aDomElement.append_attribute ("href") = reference.c_str();
+  aDomElement.append_attribute ("id") = identifier.c_str();
   // The link itself, for the notes, is not editable, so it can be clicked.
   // It was disabled again due to Chrome removing content on backspace.
   // $aDomElement->setAttribute ("contenteditable", "false");
   // Remove the blue color from the link, and the underline.
   // The reason for this is that, if the blue and underline are there, people expect one can click on it.
   // Clicking it does nothing. Therefore it's better to remove the typical link style.
-  xmlNewProp (aDomElement, BAD_CAST "style", BAD_CAST "text-decoration:none; color: inherit;");
+  aDomElement.append_attribute ("style") = "text-decoration:none; color: inherit;";
   // Style = class.
-  if (style != "") xmlNewProp (aDomElement, BAD_CAST "class", BAD_CAST style.c_str());
-  xmlNodePtr textnode = xmlNewText (BAD_CAST text.c_str());
-  xmlAddChild (aDomElement, textnode);
+  if (style != "") aDomElement.append_attribute ("class") = style.c_str();
+  aDomElement.text ().set (text.c_str());
 }
 
 
@@ -706,8 +657,13 @@ bool Editor_Usfm2Html::roadIsClear ()
           }
           // Encounters a verse: blocker.
           if (type == StyleTypeVerseNumber) return false;
-          // Encounters any type of cross reference markup: blocker.
-          if (type == StyleTypeCrossreference) return false;
+          // Encounters cross reference opener: blocker.
+          // Other \x.. markup is allowed.
+          if (type == StyleTypeCrossreference) {
+            if (subtype == CrossreferenceSubtypeCrossreference) {
+              return false;
+            }
+          }
         }
       }
     }
@@ -726,8 +682,13 @@ bool Editor_Usfm2Html::roadIsClear ()
           }
           // Encounters a verse: blocker.
           if (type == StyleTypeVerseNumber) return false;
-          // Encounters any type of foot- or endnote markup: blocker.
-          if (type == StyleTypeFootEndNote) return false;
+          // Encounters foot- or endnote opener: blocker.
+          // Other \f.. markup is allowed.
+          if (type == StyleTypeFootEndNote) {
+            if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
+              return false;
+            }
+          }
         }
       }
     }

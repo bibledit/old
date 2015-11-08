@@ -29,6 +29,7 @@
 #include <access/bible.h>
 #include <tasks/logic.h>
 #include <ipc/focus.h>
+#include <config/config.h>
 
 
 string bible_import_url ()
@@ -53,7 +54,7 @@ string bible_import (void * webserver_request)
   header.setNavigator ();
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   string success_message;
   string error_message;
@@ -106,8 +107,11 @@ string bible_import (void * webserver_request)
     request->database_config_user()->setBible (bible);
   }
   
-  // Todo
-  for (auto element : request->post) cout << element.first << " " << element.second.length () << endl; // Todo
+#ifdef CONFIG_ENABLE_FILE_UPLOAD
+  view.enable_zone ("enable_upload");
+#else
+  view.enable_zone ("disable_upload");
+#endif
   
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
