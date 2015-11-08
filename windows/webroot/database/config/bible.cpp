@@ -628,3 +628,12 @@ void Database_Config_Bible::setLetterSpacing (string bible, int value)
   setIValue (bible, "letter-spacing", value);
 }
 
+
+bool Database_Config_Bible::getPublicFeedbackEnabled (string bible)
+{
+  return getBValue (bible, "public-feedback-enabled", true);
+}
+void Database_Config_Bible::setPublicFeedbackEnabled (string bible, bool value)
+{
+  setBValue (bible, "public-feedback-enabled", value);
+}

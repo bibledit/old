@@ -70,7 +70,7 @@ string session_login (void * webserver_request)
     bool form_is_valid = true;
     string user = request->post["user"];
     string pass = request->post["pass"];
-    // During login it determines whether the the device is a touch enabled device.
+    // During login it determines whether the device is a touch enabled device.
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.

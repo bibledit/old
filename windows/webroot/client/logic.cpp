@@ -63,7 +63,7 @@ string client_logic_url (string address, int port, string path)
 // It returns an empty string in case of failure or the response from the server.
 string client_logic_connection_setup (string user, string hash)
 {
-  Database_Users database_users = Database_Users ();
+  Database_Users database_users;
 
   if (user.empty ()) {
     vector <string> users = database_users.getUsers ();

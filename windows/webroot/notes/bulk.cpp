@@ -53,7 +53,7 @@ bool notes_bulk_acl (void * webserver_request)
 string notes_bulk (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   Database_Volatile database_volatile;
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   Database_NoteAssignment database_noteassignment;
@@ -64,7 +64,7 @@ string notes_bulk (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Bulk update"), request);
   page += header.run();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success, error;
 
   
@@ -91,12 +91,24 @@ string notes_bulk (void * webserver_request)
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
 
   
-  // In case there are no GET variables yet,
+  
+  // Action to take.
+  bool subscribe = request->query.count ("subscribe");
+  bool unsubscribe = request->query.count ("unsubscribe");
+  bool assign = request->query.count ("assign");
+  bool unassign = request->query.count ("unassign");
+  bool status = request->query.count ("status");
+  bool severity = request->query.count ("severity");
+  bool bible = request->query.count ("bible");
+  bool erase = request->query.count ("delete");
+  
+  
+  // In case there is no relevant GET action yet,
   // that is, the first time the page gets opened,
   // assemble the list of identifiers of notes to operate on.
   // This is done to remember them as long as this page is active.
   // Thus erroneous bulk operations on notes can be rectified somewhat easier.
-  if (request->query.empty ()) {
+  if (!subscribe && !unsubscribe && !assign && !unassign && !status && !severity && !bible && !erase) {
     vector <int> identifiers = database_notes.selectNotes (bibles,
                                               book,
                                               chapter,
@@ -135,7 +147,7 @@ string notes_bulk (void * webserver_request)
   
   
 
-  if (request->query.count ("subscribe")) {
+  if (subscribe) {
     for (auto identifier : identifiers) {
       notes_logic.subscribe (identifier);
     }
@@ -143,7 +155,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  if (request->query.count ("unsubscribe")) {
+  if (unsubscribe) {
     for (auto identifier : identifiers) {
       notes_logic.unsubscribe (identifier);
     }
@@ -151,7 +163,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  if (request->query.count ("assign")) {
+  if (assign) {
     string assign = request->query["assign"];
     string user = request->session_logic ()->currentUser ();
     vector <string> assignees = database_noteassignment.assignees (user);
@@ -167,7 +179,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  if (request->query.count ("unassign")) {
+  if (unassign) {
     string unassign = request->query["unassign"];
     for (auto identifier : identifiers) {
       if (database_notes.isAssigned (identifier, unassign)) {
@@ -179,7 +191,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  if (request->query.count ("status")) {
+  if (status) {
     string status = request->query["status"];
     for (auto identifier : identifiers) {
       if (database_notes.getRawStatus (identifier) != status) {
@@ -191,7 +203,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  if (request->query.count ("severity")) {
+  if (severity) {
     int severity = convert_to_int (request->query["severity"]);
     for (auto identifier : identifiers) {
       if (database_notes.getRawSeverity (identifier) != severity) {
@@ -203,7 +215,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  if (request->query.count ("bible")) {
+  if (bible) {
     string bible = request->query["bible"];
     if (bible == notes_logic.generalBibleName ()) bible = "";
     for (auto identifier : identifiers) {
@@ -216,7 +228,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  if (request->query.count ("delete")) {
+  if (erase) {
     string confirm = request->query["confirm"];
     if (confirm != "yes") {
       Dialog_Yes dialog_yes = Dialog_Yes ("bulk", translate("Would you like to delete the notes?"));

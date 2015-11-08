@@ -61,7 +61,7 @@ string resource_select (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   
   string caller = request->query["page"];

@@ -57,7 +57,7 @@ string session_signup (void * webserver_request)
   string page;
 
   page += Assets_Page::header (translate ("Signup"), webserver_request);
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   // Some security questions.
   vector <Verification> verifications;
@@ -116,7 +116,7 @@ string session_signup (void * webserver_request)
       form_is_valid = false;
       view.set_variable ("answer_invalid_message", translate("The answer to the question is not correct"));
     }
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     if (form_is_valid) {
       if (database_users.usernameExists (user)) {
         view.set_variable ("error_message", translate("The username that you have chosen has already been taken. Please choose another one."));

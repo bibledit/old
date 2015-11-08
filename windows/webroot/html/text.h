@@ -22,10 +22,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
 #include <database/styles.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 class Html_Text
@@ -34,7 +35,7 @@ public:
   Html_Text (string title);
   ~Html_Text ();
   void newParagraph (string style = "");
-  void addText (string text, xmlNodePtr domNode = NULL);
+  void addText (string text);
   string getHtml ();
   string getInnerHtml ();
   void newHeading1 (string text, bool hide = false);
@@ -44,27 +45,28 @@ public:
   void addNote (string citation, string style, bool endnote = false);
   void addNoteText (string text);
   void closeCurrentNote ();
-  void addLink (xmlNodePtr domNode, string reference, string identifier, string title, string style, string text);
-  xmlNodePtr newTable ();
-  xmlNodePtr newTableRow (xmlNodePtr tableElement);
-  xmlNodePtr newTableData (xmlNodePtr tableRowElement, bool alignRight = false);
+  void addLink (xml_node domNode, string reference, string identifier, string title, string style, string text);
+  xml_node newTable ();
+  xml_node newTableRow (xml_node tableElement);
+  xml_node newTableData (xml_node tableRowElement, bool alignRight = false);
   void save (string name);
-  xmlNodePtr currentPDomElement; // The current text:p DOMElement.
+  xml_node currentPDomElement; // The current p element.
   string currentParagraphStyle;
   string currentParagraphContent;
   vector <string> currentTextStyle;
   string customClass = ""; // This class to be added to each paragraph. The class to be defined in the stylesheet.css.
 private:
-  xmlDocPtr htmlDom;
-  xmlNodePtr headDomNode;
-  xmlNodePtr bodyDomNode;
-  xmlNodePtr notesDivDomNode;
+  xml_document htmlDom;
+  xml_node headDomNode;
+  xml_node bodyDomNode;
+  xml_node notesDivDomNode;
+  bool current_p_node_open = false;
   int noteCount;
-  xmlNodePtr notePDomElement; // The text:p DOMElement of the current footnote, if any.
+  xml_node notePDomElement; // The p element of the current footnote, if any.
+  bool note_p_node_open = false;
   vector <string> currentNoteTextStyle;
   void newNamedHeading (string style, string text, bool hide = false);
 };
 
 
 #endif
-

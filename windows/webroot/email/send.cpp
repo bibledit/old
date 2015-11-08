@@ -45,7 +45,7 @@ void email_send ()
   // The databases involved.
   Webserver_Request request;
   Database_Mail database_mail = Database_Mail (&request);
-  Database_Users database_users = Database_Users ();
+  Database_Users database_users;
 
   vector <int> mails = database_mail.getMailsToSend ();
   for (auto id : mails) {

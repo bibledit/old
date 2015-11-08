@@ -56,7 +56,7 @@ string xrefs_index (void * webserver_request)
   header.setNavigator ();
   header.setEditorStylesheet ();
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   string success;

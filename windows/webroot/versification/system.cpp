@@ -50,7 +50,7 @@ string versification_system (void * webserver_request)
   
   page = Assets_Page::header (translate ("Versification system"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   Database_Versifications database_versifications = Database_Versifications();
 

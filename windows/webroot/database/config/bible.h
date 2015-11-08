@@ -137,6 +137,8 @@ public:
   static void setLineHeight (string bible, int value);
   static int getLetterSpacing (string bible);
   static void setLetterSpacing (string bible, int value);
+  static bool getPublicFeedbackEnabled (string bible);
+  static void setPublicFeedbackEnabled (string bible, bool value);
 private:
   static string file (string bible, const char * key);
   static string getValue (string bible, const char * key, const char * default_value);

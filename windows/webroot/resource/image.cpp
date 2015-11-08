@@ -58,7 +58,7 @@ string resource_image (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Image resources"), request);
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string error, success;
   
   

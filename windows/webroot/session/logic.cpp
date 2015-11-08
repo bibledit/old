@@ -95,7 +95,7 @@ void Session_Logic::Open ()
   if (request->user_agent.size () > 10000) return;
   string agent = request->user_agent;
   string finger_print = fingerprint ();
-  Database_Users database_users = Database_Users ();
+  Database_Users database_users;
   string username = database_users.getUsername (address, agent, finger_print);
   if (username != "") {
     setUsername (username);
@@ -237,7 +237,7 @@ int Session_Logic::currentLevel (bool force)
 void Session_Logic::logout ()
 {
   string username = currentUser ();
-  Database_Users database_users = Database_Users ();
+  Database_Users database_users;
   database_users.removeTokens (username);
   setUsername ("");
   level = Filter_Roles::guest();
@@ -250,7 +250,7 @@ bool Session_Logic::clientAccess ()
   // log in as the first username in the user database,
   // or as the admin in case no user has been set up yet.
   if (config_globals_client_prepared) {
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     vector <string> users = database_users.getUsers ();
     string user;
     if (users.empty ()) {

@@ -99,7 +99,7 @@ string journal_index (void * webserver_request)
   string page = header.run ();
 
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
   view.set_variable ("journal", translate ("Journal"));
 
 

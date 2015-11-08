@@ -45,7 +45,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   
   string user = request->session_logic()->currentUser ();
   
@@ -54,21 +54,21 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   string fragment;
   
   // Links to go back and forward are grayed out or active depending on available passages to go to.
-  fragment.append ("<li>");
+  fragment.append ("<span>");
   if (database_navigation.previousExists (user)) {
     fragment.append ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
   } else {
     fragment.append ("<span class=\"grayedout\">↶</span>");
   }
-  fragment.append ("</li>");
-  fragment.append ("<li>");
+  fragment.append ("</span>");
+  fragment.append ("<span>");
   fragment.append (" ");
   if (database_navigation.nextExists (user)) {
     fragment.append ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
   } else {
     fragment.append ("<span class=\"grayedout\">↷</span>");
   }
-  fragment.append ("</li>");
+  fragment.append ("</span>");
   fragment.append ("\n");
   
   int book = Ipc_Focus::getBook (request);
@@ -85,7 +85,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   string bookName = Database_Books::getEnglishFromId (book);
 
-  fragment.append ("<li><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></li>");
+  fragment.append ("<span><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></span>");
   
   int chapter = Ipc_Focus::getChapter (request);
   
@@ -99,7 +99,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     }
   }
 
-  fragment.append ("<li><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></li>");
+  fragment.append ("<span><a id=\"selectchapter\" href=\"selectchapter\" title=\"" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></span>");
   
   int verse = Ipc_Focus::getVerse (request);
   
@@ -114,11 +114,11 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     }
   }
   
-  fragment.append ("<li><a id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></li>");
+  fragment.append ("<span><a id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></span>");
   
-  fragment.append ("<li><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></li>");
+  fragment.append ("<span><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></span>");
 
-  fragment.append ("<li><a id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></li>");
+  fragment.append ("<span><a id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></span>");
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
@@ -145,16 +145,13 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   for (auto book : books) {
     string bookName = Database_Books::getEnglishFromId (book);
     bool selected = (book == activeBook);
-    addSelectorLink (html, convert_to_string (book), "applybook", translate ("Select book"), bookName, selected);
+    addSelectorLink (html, convert_to_string (book), "applybook", bookName, selected);
   }
-  addSelectorLink (html, "cancel", "applybook", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
   html.append ("</span>");
 
-  html.insert (0, "<li>");
-  html.append ("</li>");
-  
   return html;
 }
 
@@ -170,21 +167,18 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
     chapters = request->database_bibles()->getChapters (bible, book);
   }
   string html;
-  addSelectorLink (html, "previous", "applychapter", translate ("Previous chapter"), "[" + translate ("previous") + "]", false);
-  addSelectorLink (html, "next", "applychapter", translate ("Next chapter"), "[" + translate ("next") + "]", false);
-  addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "previous", "applychapter", "[" + translate ("previous") + "]", false);
+  addSelectorLink (html, "next", "applychapter", "[" + translate ("next") + "]", false);
+  addSelectorLink (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false);
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
-    addSelectorLink (html, convert_to_string (ch), "applychapter", translate ("Select chapter"), convert_to_string (ch), selected);
+    addSelectorLink (html, convert_to_string (ch), "applychapter", convert_to_string (ch), selected);
   }
-  addSelectorLink (html, "cancel", "applychapter", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
   html.append ("</span>");
 
-  html.insert (0, "<li>");
-  html.append ("</li>");
-  
   return html;
 }
 
@@ -200,20 +194,17 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
     verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
   }
   string html;
-  addSelectorLink (html, "previous", "applyverse", translate ("Previous verse"), "[" + translate ("previous") + "]", false);
-  addSelectorLink (html, "next", "applyverse", translate ("Next verse"), "[" + translate ("next") + "]", false);
+  addSelectorLink (html, "previous", "applyverse", "[" + translate ("previous") + "]", false);
+  addSelectorLink (html, "next", "applyverse", "[" + translate ("next") + "]", false);
   for (auto vs : verses) {
     bool selected = (verse == vs);
-    addSelectorLink (html, convert_to_string (vs), "applyverse", translate ("Select verse"), convert_to_string (vs), selected);
+    addSelectorLink (html, convert_to_string (vs), "applyverse", convert_to_string (vs), selected);
   }
-  addSelectorLink (html, "cancel", "applyverse", translate ("Cancel"), "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applyverse", "[" + translate ("cancel") + "]", false);
 
   html.insert (0, "<span id=\"applyverse\">" + translate ("Select verse"));
   html.append ("</span>");
 
-  html.insert (0, "<li>");
-  html.append ("</li>");
-  
   return html;
 }
 
@@ -396,7 +387,7 @@ void Navigation_Passage::recordHistory (void * webserver_request, int book, int 
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   database_navigation.record (filter_date_seconds_since_epoch (), user, book, chapter, verse);
 }
 
@@ -404,7 +395,7 @@ void Navigation_Passage::recordHistory (void * webserver_request, int book, int 
 void Navigation_Passage::goBack (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.getPrevious (user);
   if (passage.book) {
@@ -416,7 +407,7 @@ void Navigation_Passage::goBack (void * webserver_request)
 void Navigation_Passage::goForward (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Navigation database_navigation = Database_Navigation ();
+  Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.getNext (user);
   if (passage.book) {
@@ -425,12 +416,17 @@ void Navigation_Passage::goForward (void * webserver_request)
 }
 
 
-void Navigation_Passage::addSelectorLink (string& html, string id, string href, string title, string text, bool selected)
+void Navigation_Passage::addSelectorLink (string& html, string id, string href, string text, bool selected)
 {
-  if (!html.empty ()) html.append ("|");
+  // Add bit to cause wrapping between the books or chapters or verses.
+  if (!html.empty ()) html.append (" ");
+
   if (selected) html.append ("<mark>");
-  html.append ("<a id=\"" + id + "apply\" href=\"" + href + "\" title=\"" + title + "\"> ");
+  
+  // No wrapping of a book name made of more than one word.
+  html.append ("<span class=\"nowrap\"><a id=\"" + id + "apply\" href=\"" + href + "\"> ");
   html.append (text);
-  html.append (" </a>");
+  html.append (" </a></span>");
+  
   if (selected) html.append ("</mark>");
 }

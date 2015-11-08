@@ -36,6 +36,7 @@ public:
   void setEditorStylesheet ();
   bool displayTopbar ();
   void refresh (int seconds, string url = "");
+  void setFadingMenu (string html);
   string run ();
 private:
   Assets_View * view;
@@ -46,6 +47,7 @@ private:
   string includedEditorStylesheet;
   void * webserver_request;
   string loginrequest;
+  string fadingmenu;
 };
 
 

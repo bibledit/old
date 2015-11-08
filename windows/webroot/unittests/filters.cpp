@@ -882,7 +882,7 @@ void test_filters_export2 ()
     string filename = "/tmp/module.bblx";
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
-    evaluate (__LINE__, __func__, 4096, filesize);
+    evaluate (__LINE__, __func__, 16384, filesize);
     filter_url_unlink (filename);
   }
   // Test class OnlineBible_Text.
@@ -922,7 +922,7 @@ void test_html_text ()
 {
   // Test Html_Text paragraphs.
   {
-    Html_Text html_text = Html_Text ("TestOne");
+    Html_Text html_text ("TestOne");
     html_text.newParagraph ();
     evaluate (__LINE__, __func__, "", html_text.currentParagraphStyle);
     html_text.addText ("Paragraph One");
@@ -937,32 +937,24 @@ void test_html_text ()
     html_text.addText ("Paragraph Three");
     string html = html_text.getInnerHtml ();
     string standard =
-      "<p>"
-      "<span>Paragraph One</span>"
-      "</p>"
-      "<p>"
-      "<span>Paragraph Two</span>"
-      "</p>"
+      "<p><span>Paragraph One</span></p>"
+      "<p><span>Paragraph Two</span></p>"
       "<h1>Heading One</h1>"
-      "<p>"
-      "<span>Paragraph Three</span>"
-      "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p><span>Paragraph Three</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text automatic paragraph.
   {
-    Html_Text html_text = Html_Text ("TestTwo");
+    Html_Text html_text ("TestTwo");
     html_text.addText ("Should create new paragraph automatically");
     string html = html_text.getInnerHtml ();
     string standard = 
-      "<p>"
-      "<span>Should create new paragraph automatically</span>"
-      "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p><span>Should create new paragraph automatically</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text basic note
   {
-    Html_Text html_text = Html_Text ("TestThree");
+    Html_Text html_text ("TestThree");
     html_text.newParagraph ();
     html_text.addText ("Text1");
     html_text.addNote ("†", "");
@@ -970,41 +962,29 @@ void test_html_text ()
     html_text.addText (".");
     string html = html_text.getInnerHtml ();
     string standard = 
-      "<p>"
-      "<span>Text1</span>"
-      "<a href=\"#note1\" id=\"citation1\" class=\"superscript\">†</a>"
-      "<span>.</span>"
-      "</p>"
+      "<p><span>Text1</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">†</a><span>.</span></p>"
       "<div>"
-      "<p class=\"\">"
-      "<a href=\"#citation1\" id=\"note1\">†</a>"
-      "<span> </span>"
-      "<span>Note1.</span>"
-      "</p>"
-      "</div>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p class=\"\"><a href=\"#citation1\" id=\"note1\">†</a><span> </span><span>Note1.</span></p>"
+      "</div>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text getInnerHtml ()
   {
-    Html_Text html_text = Html_Text ("test");
+    Html_Text html_text ("test");
     html_text.newParagraph ();
     html_text.addText ("Paragraph One");
     html_text.newParagraph ();
     html_text.addText ("Paragraph Two");
     string html = html_text.getInnerHtml ();
     string standard = 
-      "<p>"
-      "<span>Paragraph One</span>"
-      "</p>"
-      "<p>"
-      "<span>Paragraph Two</span>"
-      "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "<p><span>Paragraph One</span></p>"
+      "<p><span>Paragraph Two</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text basic formatted note ()
   {
     Database_Styles_Item style;
-    Html_Text html_text = Html_Text ("");
+    Html_Text html_text ("");
     html_text.newParagraph ();
     html_text.addText ("Text");
     html_text.addNote ("𐌰", "f");
@@ -1028,13 +1008,13 @@ void test_html_text ()
       "<span class=\"add\">Add</span>"
       "<span>normal</span>"
       "</p>"
-      "</div>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "</div>";
+    evaluate (__LINE__, __func__, standard, html);
   }
   // Test Html_Text embedded formatted note
   {
     Database_Styles_Item style;
-    Html_Text html_text = Html_Text ("");
+    Html_Text html_text ("");
     html_text.newParagraph ();
     html_text.addText ("text");
     html_text.addNote ("𐌰", "f");
@@ -1062,8 +1042,8 @@ void test_html_text ()
       "<span class=\"add nd\">nd</span>"
       "<span>normal</span>"
       "</p>"
-      "</div>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+      "</div>";
+    evaluate (__LINE__, __func__, standard, html);
   }
 }
 
@@ -1179,7 +1159,7 @@ void test_odf_text ()
   string Odt2TxtOutput = "/tmp/Odt2TxtOutput.txt";
   // Test Odf converter paragraphs.
   {
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.createPageBreakStyle ();
     odf_text.newParagraph ();
     evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.currentParagraphStyle);
@@ -1214,7 +1194,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test Automatic Paragraph
   {
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.addText ("Should create new paragraph automatically");
     odf_text.save (OdfTextTestDotOdt);
     string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
@@ -1229,7 +1209,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test Basic Note
   {
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("Text");
     odf_text.addNote ("†", "");
@@ -1255,7 +1235,7 @@ void test_odf_text ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
     odf_text.openTextStyle (add, false, false);
@@ -1278,7 +1258,7 @@ void test_odf_text ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("Text");
     odf_text.addNote ("𐌰", "f");
@@ -1320,7 +1300,7 @@ void test_odf_text ()
     nd.smallcaps = ooitOn;
     nd.superscript = false;
     nd.color = "#000000";
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
     odf_text.openTextStyle (add, false, false);
@@ -1358,7 +1338,7 @@ void test_odf_text ()
     nd.smallcaps = ooitOn;
     nd.superscript = false;
     nd.color = "#000000";
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
     odf_text.addNote ("𐌰", "f");
@@ -1389,7 +1369,7 @@ void test_odf_text ()
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
     Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
-    Odf_Text odf_text = Odf_Text ("phpunit");
+    Odf_Text odf_text ("phpunit");
     odf_text.createParagraphStyle (d.marker, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style");

@@ -244,7 +244,7 @@ msgstr ""
 msgid "Import Bible text."
 msgstr ""
 
-msgid "Paste the text into the box below and Submit it."
+msgid "Paste the text into the box below and submit it."
 msgstr ""
 
 msgid "You can also upload a file with the text."
@@ -254,6 +254,9 @@ msgid "Or a compressed archive of such files."
 msgstr ""
 
 msgid "The upload may take some time."
+msgstr ""
+
+msgid "This can be done in Bibledit Cloud."
 msgstr ""
 
 msgid "Help"
@@ -420,6 +423,9 @@ msgid "Compare with ..."
 msgstr ""
 
 msgid "Viewable by all users"
+msgstr ""
+
+msgid "The public can give feedback"
 msgstr ""
 
 msgid "Front Matter"
@@ -849,6 +855,9 @@ msgid "The Manager should enable the checks."
 msgstr ""
 
 msgid "Suppressed entries"
+msgstr ""
+
+msgid "The checking results are also available online."
 msgstr ""
 
 msgid "Bible Checks"
@@ -1903,9 +1912,6 @@ msgid "Don't know where to save"
 msgstr ""
 
 msgid "Cannot save: Needs Unicode"
-msgstr ""
-
-msgid "Saving Editor text"
 msgstr ""
 
 msgid "Select style"
@@ -5811,21 +5817,6 @@ msgstr ""
 msgid "Search the Bible"
 msgstr ""
 
-msgid "What would you like to do?"
-msgstr ""
-
-msgid "Edit Bible text"
-msgstr ""
-
-msgid "View notes"
-msgstr ""
-
-msgid "View resources"
-msgstr ""
-
-msgid "View changes"
-msgstr ""
-
 msgid "No files in this folder"
 msgstr ""
 
@@ -6382,13 +6373,10 @@ msgstr ""
 msgid "Delete this mapping"
 msgstr ""
 
-msgid "Notes"
+msgid "Translate"
 msgstr ""
 
-msgid "Resources"
-msgstr ""
-
-msgid "Planning"
+msgid "Search"
 msgstr ""
 
 msgid "Tools"
@@ -6397,49 +6385,73 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "Search"
+msgid "Public feedback"
 msgstr ""
 
-msgid "Workbench"
+msgid "Logout"
 msgstr ""
 
-msgid "Visual chapter"
+msgid "Desktop"
 msgstr ""
 
-msgid "Visual verse"
+msgid "Login"
 msgstr ""
 
-msgid "USFM chapter"
+msgid "Visual chapter editor"
 msgstr ""
 
-msgid "USFM verse"
+msgid "Visual verse editor"
 msgstr ""
 
-msgid "Organize"
+msgid "USFM chapter editor"
 msgstr ""
 
-msgid "List"
+msgid "USFM verse editor"
 msgstr ""
 
-msgid "View"
+msgid "Consultation notes"
 msgstr ""
 
-msgid "Print"
+msgid "View resources"
 msgstr ""
 
-msgid "USFM"
+msgid "Change notifications"
 msgstr ""
 
-msgid "External"
+msgid "Replace"
 msgstr ""
 
-msgid "Images"
+msgid "Advanced search"
 msgstr ""
 
-msgid "SWORD"
+msgid "Advanced replace"
 msgstr ""
 
-msgid "Notifications"
+msgid "Search all Bibles and notes"
+msgstr ""
+
+msgid "Search Bible for similar verses"
+msgstr ""
+
+msgid "Search Bible for similar Strong's numbers"
+msgstr ""
+
+msgid "Search Bible for Strong's number"
+msgstr ""
+
+msgid "Search Bible for similar Hebrew or Greek words"
+msgstr ""
+
+msgid "Mechanical checks"
+msgstr ""
+
+msgid "Print resources"
+msgstr ""
+
+msgid "Download changes"
+msgstr ""
+
+msgid "Planning"
 msgstr ""
 
 msgid "Send / receive"
@@ -6451,10 +6463,31 @@ msgstr ""
 msgid "Debug"
 msgstr ""
 
+msgid "Export Bibles"
+msgstr ""
+
+msgid "Desktops"
+msgstr ""
+
+msgid "USFM resources"
+msgstr ""
+
+msgid "External resources"
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "SWORD resources"
+msgstr ""
+
 msgid "Personalize"
 msgstr ""
 
-msgid "Styles"
+msgid "Indexes and Fonts"
+msgstr ""
+
+msgid "Select stylesheet"
 msgstr ""
 
 msgid "Versifications"
@@ -6466,13 +6499,16 @@ msgstr ""
 msgid "Paratext"
 msgstr ""
 
-msgid "Login"
+msgid "Edit stylesheet"
 msgstr ""
 
-msgid "Logout"
+msgid "Notifications"
 msgstr ""
 
 msgid "Account"
+msgstr ""
+
+msgid "Help and About"
 msgstr ""
 
 msgid "Back"
@@ -6496,22 +6532,10 @@ msgstr ""
 msgid "Go to next verse"
 msgstr ""
 
-msgid "Previous chapter"
-msgstr ""
-
 msgid "previous"
 msgstr ""
 
-msgid "Next chapter"
-msgstr ""
-
 msgid "next"
-msgstr ""
-
-msgid "Previous verse"
-msgstr ""
-
-msgid "Next verse"
 msgstr ""
 
 msgid "Note actions"
@@ -6575,6 +6599,9 @@ msgid "Mark the note for deletion after a week"
 msgstr ""
 
 msgid "Delete the note now"
+msgstr ""
+
+msgid "This note is public"
 msgstr ""
 
 msgid "Assign note"
@@ -6732,6 +6759,9 @@ msgid "Then save them."
 msgstr ""
 
 msgid "Consultation Notes"
+msgstr ""
+
+msgid "Notes"
 msgstr ""
 
 msgid "select"
@@ -7085,10 +7115,63 @@ msgstr ""
 msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
-msgid "Download resource"
+msgid "Feedback"
 msgstr ""
 
-msgid "External resources"
+msgid "Back to chapter"
+msgstr ""
+
+msgid "Create feedback on"
+msgstr ""
+
+msgid "Summary (no more than 30 characters long)"
+msgstr ""
+
+msgid "Your feedback"
+msgstr ""
+
+msgid "Select which Bible to display"
+msgstr ""
+
+msgid "Create new"
+msgstr ""
+
+msgid "Public login"
+msgstr ""
+
+msgid "The name should be at least two characters long"
+msgstr ""
+
+msgid "Please login the other way, through Menu / Login"
+msgstr ""
+
+msgid ""
+"Thank you for being interested in providing feedback on the Bible that is "
+"being translated."
+msgstr ""
+
+msgid "Please provide your name and email address."
+msgstr ""
+
+msgid "You will then receive email about any feedback you give."
+msgstr ""
+
+msgid "New feedback"
+msgstr ""
+
+msgid "Is this the verse you wish to give feedback on?"
+msgstr ""
+
+msgid "If it is not, use the navigator at the top to go to the correct verse."
+msgstr ""
+
+msgid "Yes, this is the correct verse"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "Download resource"
 msgstr ""
 
 msgid "Cache a resource to make it available offline."
@@ -7198,9 +7281,6 @@ msgstr ""
 msgid "Clear the cache if a full download is needed."
 msgstr ""
 
-msgid "Image resources"
-msgstr ""
-
 msgid "The file was uploaded and is being processed."
 msgstr ""
 
@@ -7306,9 +7386,6 @@ msgstr ""
 msgid "organize"
 msgstr ""
 
-msgid "Cache this resource in Bibledit Cloud to make it available here."
-msgstr ""
-
 msgid "USFM Resources"
 msgstr ""
 
@@ -7357,6 +7434,9 @@ msgid "Number of verses to display before the focused verse:"
 msgstr ""
 
 msgid "Number of verses to display after the focused verse:"
+msgstr ""
+
+msgid "Print"
 msgstr ""
 
 msgid "Select a resource to add"
@@ -7440,19 +7520,57 @@ msgstr ""
 msgid "When it starts to be used again, it will be installed on the fly."
 msgstr ""
 
+msgid "Search for verses similar to the focused verse in:"
+msgstr ""
+
 msgid "notes"
 msgstr ""
 
 msgid "verses"
 msgstr ""
 
-msgid "Search for verses with similar Hebrew or Greek in:"
+msgid "Search in active Bible."
 msgstr ""
 
-msgid "Replace"
+msgid "Enter the search term."
+msgstr ""
+
+msgid "Press Enter."
+msgstr ""
+
+msgid ""
+"Search for verses with most Hebrew or Greek words similar to the focused "
+"verse in:"
 msgstr ""
 
 msgid "Case sensitive"
+msgstr ""
+
+msgid "Replace in active Bible."
+msgstr ""
+
+msgid "Enter what to search for."
+msgstr ""
+
+msgid "Enter what to replace with."
+msgstr ""
+
+msgid "Wait till the preview appears."
+msgstr ""
+
+msgid "Replace the text:"
+msgstr ""
+
+msgid "To replace in one passage, click ✔."
+msgstr ""
+
+msgid "To remove a passage, click ✗."
+msgstr ""
+
+msgid "To open a passage for edit, click that passage."
+msgstr ""
+
+msgid "To replace all passages, click Apply all."
 msgstr ""
 
 msgid "main text without notes"
@@ -7484,79 +7602,11 @@ msgstr ""
 msgid "Display the intersection of them and the ones already on the page"
 msgstr ""
 
-msgid "Search in active Bible."
-msgstr ""
-
-msgid "Enter the search term."
-msgstr ""
-
-msgid "Press Enter."
-msgstr ""
-
-msgid "Replace in active Bible."
-msgstr ""
-
-msgid "Enter what to search for."
-msgstr ""
-
-msgid "Enter what to replace with."
-msgstr ""
-
-msgid "Wait till the preview appears."
-msgstr ""
-
-msgid "Replace the text:"
-msgstr ""
-
-msgid "To replace in one passage, click ✔."
-msgstr ""
-
-msgid "To remove a passage, click ✗."
-msgstr ""
-
-msgid "To open a passage for edit, click that passage."
-msgstr ""
-
-msgid "To replace all passages, click Apply all."
-msgstr ""
-
-msgid "Advanced search in active Bible."
-msgstr ""
-
-msgid "Search with more options."
-msgstr ""
-
-msgid "Advanced replace in active Bible."
-msgstr ""
-
-msgid "Replace with more options."
-msgstr ""
-
-msgid "Search in all Bibles and all notes."
-msgstr ""
-
-msgid "Search the active Bible for verses similar to the focused verse."
-msgstr ""
-
-msgid ""
-"Search for verses with most Strong's numbers similar to the focused verse."
-msgstr ""
-
-msgid "Search for all verses with a certain Strong's number."
-msgstr ""
-
-msgid ""
-"Search for verses with most Hebrew or Greek words similar to the focused "
-"verse."
-msgstr ""
-
-msgid "Search for similar verses in:"
-msgstr ""
-
 msgid "Search for verses with a certain Strong's number in:"
 msgstr ""
 
-msgid "Search for verses with similar Strong's numbers in:"
+msgid ""
+"Search for verses with most Strong's numbers similar to the focused verse in:"
 msgstr ""
 
 msgid "Send/receive"
@@ -7985,6 +8035,9 @@ msgid "Inactive for a day"
 msgstr ""
 
 msgid "Inactive for a week"
+msgstr ""
+
+msgid "Styles"
 msgstr ""
 
 msgid "This stylesheet already exists"

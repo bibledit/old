@@ -48,7 +48,7 @@ string manage_hyphenation (void * webserver_request)
   
   string page;
   page = Assets_Page::header ("Hyphenation", webserver_request);
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());

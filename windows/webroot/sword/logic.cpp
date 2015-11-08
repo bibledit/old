@@ -31,6 +31,7 @@
 #include <database/cache.h>
 #include <database/config/general.h>
 #include <sync/resources.h>
+#include <tasks/logic.h>
 
 
 string sword_logic_get_path ()
@@ -127,11 +128,11 @@ string sword_logic_module_list_path ()
 // [CrossWire] *[Shona] (1.1) - Shona Bible
 string sword_logic_get_source (string line)
 {
-  if (line.length () > 10) {
-    line.erase (0, 1);
-    size_t pos = line.find ("]");
-    if (pos != string::npos) line.erase (pos);
-  }
+  if (line.length () < 10) return "";
+  line.erase (0, 1);
+  size_t pos = line.find ("]");
+  if (pos == string::npos) return "";
+  line.erase (pos);
   return line;
 }
 
@@ -140,15 +141,15 @@ string sword_logic_get_source (string line)
 // [CrossWire] *[Shona] (1.1) - Shona Bible
 string sword_logic_get_remote_module (string line)
 {
-  if (line.length () > 10) {
-    line.erase (0, 2);
-  }
-  if (line.length () > 10) {
-    size_t pos = line.find ("[");
-    if (pos != string::npos) line.erase (0, pos + 1);
-    pos = line.find ("]");
-    if (pos != string::npos) line.erase (pos);
-  }
+  if (line.length () < 10) return "";
+  line.erase (0, 2);
+  if (line.length () < 10) return "";
+  size_t pos = line.find ("[");
+  if (pos == string::npos) return "";
+  line.erase (0, pos + 1);
+  pos = line.find ("]");
+  if (pos == string::npos) return "";
+  line.erase (pos);
   return line;
 }
 
@@ -266,7 +267,7 @@ vector <string> sword_logic_get_installed ()
 }
 
 
-string sword_logic_get_text (string source, string module, int book, int chapter, int verse, bool redo)
+string sword_logic_get_text (string source, string module, int book, int chapter, int verse)
 {
   if (config_logic_client_prepared ()) {
 
@@ -296,7 +297,10 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     if (!error.empty ()) return error;
 
     // Client caches this info for later.
-    Database_Cache::cache (module, book, chapter, verse, html);
+    // Except when the Cloud is now installing the SWORD module.
+    if (html != sword_logic_installing_module_text ()) {
+      Database_Cache::cache (module, book, chapter, verse, html);
+    }
     
     // Client triggers a cache of the entire SWORD module.
     sword_logic_trigger_cache (source, module);
@@ -316,11 +320,25 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     // If the module has not been installed, the output of "diatheke" will be empty.
     // If the module was installed, but the requested passage is out of range,
     // the output of "diatheke" contains the module name, so it won't be empty.
-    if (output.empty () && !redo) {
-      // Install the module and redo getting the passage text.
-      sword_logic_install_module (source, module);
-      string text = sword_logic_get_text (source, module, book, chapter, verse, true);
-      return text;
+    if (output.empty ()) {
+      
+      // Check whether the SWORD module exists.
+      vector <string> modules = sword_logic_get_available ();
+      string smodules = filter_string_implode (modules, "");
+      if (smodules.find ("[" + module + "]") != string::npos) {
+        // Schedule SWORD module installation.
+        // (It used to be the case that this function, to get the text,
+        // would wait till the SWORD module was installed, and then after installation,
+        // return the text from that module.
+        // But due to long waiting on Bibledit demo, while it would install multiple modules,
+        // the Bibledit demo would become unresponsive.
+        // So, it's better to return immediately with an informative text.)
+        tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+        // Return standard 'installing' information. Client knows not to cache this.
+        return sword_logic_installing_module_text ();
+      } else {
+        return "Cannot find SWORD module " + module;
+      }
     }
     
     // The server hits the cache for recording the last day it was accessed.
@@ -414,4 +432,11 @@ void sword_logic_trigger_cache (string source, string module)
     resources.push_back (resource);
     Database_Config_General::setResourcesToCache (resources);
   }
+}
+
+
+// Text saying that the Cloud will install the requested SWORD module.
+string sword_logic_installing_module_text ()
+{
+  return "The requested SWORD module is not yet installed. Bibledit Cloud will install it shortly. Please check back after a few minutes.";
 }

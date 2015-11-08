@@ -27,16 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Database resilience: It is re-created every night 
 
 
-Database_Navigation::Database_Navigation ()
-{
-}
-
-
-Database_Navigation::~Database_Navigation ()
-{
-}
-
-
 sqlite3 * Database_Navigation::connect ()
 {
   return database_sqlite_connect ("navigation");
@@ -55,7 +45,7 @@ void Database_Navigation::create ()
     "  verse integer,"
     "  active boolean"
     ");";
-    database_sqlite_exec (db, sql);
+  database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }
 
@@ -125,31 +115,29 @@ Passage Database_Navigation::getPrevious (const string& user)
   if (id == 0) return Passage ();
 
   // Update the 'active' flag.
-  sqlite3 * db = connect ();
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("UPDATE navigation SET active = 0 WHERE username =");
-    sql.add (user);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("UPDATE navigation SET active = 1 WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
+  SqliteSQL sql1 = SqliteSQL ();
+  sql1.add ("UPDATE navigation SET active = 0 WHERE username =");
+  sql1.add (user);
+  sql1.add (";");
+  SqliteSQL sql2 = SqliteSQL ();
+  sql2.add ("UPDATE navigation SET active = 1 WHERE rowid =");
+  sql2.add (id);
+  sql2.add (";");
+
   // Read the passage.
   map <string, vector <string> > result;
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    result = database_sqlite_query (db, sql.sql);
-  }
+  SqliteSQL sql3 = SqliteSQL ();
+  sql3.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
+  sql3.add (id);
+  sql3.add (";");
+
+  // Run all of the SQL at once, to minimize the database connection time.
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql1.sql);
+  database_sqlite_exec (db, sql2.sql);
+  result = database_sqlite_query (db, sql3.sql);
   database_sqlite_disconnect (db);
+  
   vector <string> books = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
@@ -170,31 +158,29 @@ Passage Database_Navigation::getNext (const string& user)
   if (id == 0) return Passage ();
 
   // Update the 'active' flag.
-  sqlite3 * db = connect ();
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("UPDATE navigation SET active = 0 WHERE username =");
-    sql.add (user);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("UPDATE navigation SET active = 1 WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
+  SqliteSQL sql1 = SqliteSQL ();
+  sql1.add ("UPDATE navigation SET active = 0 WHERE username =");
+  sql1.add (user);
+  sql1.add (";");
+  SqliteSQL sql2 = SqliteSQL ();
+  sql2.add ("UPDATE navigation SET active = 1 WHERE rowid =");
+  sql2.add (id);
+  sql2.add (";");
+
   // Read the passage.
   map <string, vector <string> > result;
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
-    sql.add (id);
-    sql.add (";");
-    result = database_sqlite_query (db, sql.sql);
-  }
+  SqliteSQL sql3 = SqliteSQL ();
+  sql3.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
+  sql3.add (id);
+  sql3.add (";");
+
+  // Run all of the SQL at once.
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql1.sql);
+  database_sqlite_exec (db, sql2.sql);
+  result = database_sqlite_query (db, sql3.sql);
   database_sqlite_disconnect (db);
+  
   vector <string> books = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];

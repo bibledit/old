@@ -277,3 +277,31 @@ void Database_Logs::clear ()
   checkup ();
   log ("The journal was cleared");
 }
+
+
+void Database_Logs::debug (string description)
+{
+  int seconds = filter_date_seconds_since_epoch ();
+  seconds = filter_date_local_seconds (seconds);
+  
+  string timestamp;
+  timestamp.append (convert_to_string (filter_date_numerical_year (seconds)));
+  timestamp.append ("-");
+  timestamp.append (convert_to_string (filter_date_numerical_month (seconds)));
+  timestamp.append ("-");
+  timestamp.append (convert_to_string (filter_date_numerical_month_day (seconds)));
+  timestamp.append (" ");
+  timestamp.append (convert_to_string (filter_date_numerical_hour (seconds)));
+  timestamp.append (":");
+  timestamp.append (convert_to_string (filter_date_numerical_minute (seconds)));
+  timestamp.append (":");
+  timestamp.append (convert_to_string (filter_date_numerical_second (seconds)));
+  
+  description.insert (0, timestamp + " ");
+  description.append ("\n");
+  
+  string file = filter_url_create_root_path ("tmp", "debug.txt");
+  filter_url_file_put_contents_append (file, description);
+}
+
+

@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_SEARCH_SELECT_H
-#define INCLUDED_SEARCH_SELECT_H
+#ifndef INCLUDED_PUBLIC_COMMENT_H
+#define INCLUDED_PUBLIC_COMMENT_H
 
 
 #include <config/libraries.h>
 
 
-string search_select_url ();
-bool search_select_acl (void * webserver_request);
-string search_select (void * webserver_request);
+string public_comment_url ();
+bool public_comment_acl (void * webserver_request);
+string public_comment (void * webserver_request);
 
 
 #endif

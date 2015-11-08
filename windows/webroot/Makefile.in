@@ -127,9 +127,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
 	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
 	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
-	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
-	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/index.$(OBJEXT) \
+	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
+	database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -218,17 +218,17 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
 	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
-	search/select.$(OBJEXT) search/replace.$(OBJEXT) \
-	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
-	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
-	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
-	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
-	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
-	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT) workbench/index.$(OBJEXT) \
-	workbench/logic.$(OBJEXT) workbench/settings.$(OBJEXT) \
-	workbench/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
+	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
+	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
+	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
+	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
+	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
+	workbench/index.$(OBJEXT) workbench/logic.$(OBJEXT) \
+	workbench/settings.$(OBJEXT) workbench/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
 	sendreceive/files.$(OBJEXT) sendreceive/resources.$(OBJEXT) \
@@ -275,12 +275,18 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	xrefs/next.$(OBJEXT) xrefs/source.$(OBJEXT) \
 	xrefs/target.$(OBJEXT) xrefs/translate.$(OBJEXT) \
 	webbible/search.$(OBJEXT) debug/index.$(OBJEXT) \
-	paratext/logic.$(OBJEXT) paratext/index.$(OBJEXT) \
-	personalize/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
-	lexicon/definition.$(OBJEXT) sources/etcbc4.$(OBJEXT) \
-	sources/kjv.$(OBJEXT) sources/morphhb.$(OBJEXT) \
-	sources/morphgnt.$(OBJEXT) sources/hebrewlexicon.$(OBJEXT) \
-	sword/logic.$(OBJEXT)
+	debug/logic.$(OBJEXT) paratext/logic.$(OBJEXT) \
+	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
+	lexicon/logic.$(OBJEXT) lexicon/definition.$(OBJEXT) \
+	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
+	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
+	sources/hebrewlexicon.$(OBJEXT) sword/logic.$(OBJEXT) \
+	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
+	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
+	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
+	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
+	public/create.$(OBJEXT) public/note.$(OBJEXT) \
+	public/comment.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -432,8 +438,8 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBS = -Wall -lpthread -L. `xml2-config --libs` $(SQLITE_LIBS) \
-	$(CURL_LIBS) $(OPENSSL_LIBS) $(ICU_LIBS)
+LIBS = -Wall -lpthread -L. -g -rdynamic $(SQLITE_LIBS) $(CURL_LIBS) \
+	$(OPENSSL_LIBS) $(ICU_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -467,9 +473,6 @@ UNZIP_PATH = @UNZIP_PATH@
 URLSETTINGS = @URLSETTINGS@
 VERSION = @VERSION@
 WINDOWS = @WINDOWS@
-XML2_CONFIG = @XML2_CONFIG@
-XML_CPPFLAGS = @XML_CPPFLAGS@
-XML_LIBS = @XML_LIBS@
 ZIP_PATH = @ZIP_PATH@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -550,8 +553,6 @@ libbibledit_a_SOURCES = \
 	index/listing.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
-	menu/main.cpp \
-	menu/user.cpp \
 	menu/index.cpp \
 	locale/translate.cpp \
 	locale/logic.cpp \
@@ -731,7 +732,6 @@ libbibledit_a_SOURCES = \
 	edit/logic.cpp \
 	search/all.cpp \
 	search/index.cpp \
-	search/select.cpp \
 	search/replace.cpp \
 	search/getids.cpp \
 	search/replacepre.cpp \
@@ -842,6 +842,7 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
+	debug/logic.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
@@ -852,7 +853,18 @@ libbibledit_a_SOURCES = \
 	sources/morphhb.cpp \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
-	sword/logic.cpp
+	sword/logic.cpp \
+	pugixml/pugixml.cpp \
+	pugixml/utils.cpp \
+	public/index.cpp \
+	public/logic.cpp \
+	public/login.cpp \
+	public/chapter.cpp \
+	public/notes.cpp \
+	public/new.cpp \
+	public/create.cpp \
+	public/note.cpp \
+	public/comment.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -864,9 +876,10 @@ unittest_SOURCES = \
 	unittests/databases.cpp
 
 unittest_LDADD = libbibledit.a
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking \
-	`xml2-config --cflags` $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
-	$(OPENSSL_CFLAGS) $(ICU_CFLAGS)
+AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic $(OPENSSL_CFLAGS)
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
+	-rdynamic $(SQLITE_CFLAGS) $(CURL_CFLAGS) $(OPENSSL_CFLAGS) \
+	$(ICU_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h
@@ -1038,10 +1051,6 @@ menu/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) menu/$(DEPDIR)
 	@: > menu/$(DEPDIR)/$(am__dirstamp)
 menu/logic.$(OBJEXT): menu/$(am__dirstamp) \
-	menu/$(DEPDIR)/$(am__dirstamp)
-menu/main.$(OBJEXT): menu/$(am__dirstamp) \
-	menu/$(DEPDIR)/$(am__dirstamp)
-menu/user.$(OBJEXT): menu/$(am__dirstamp) \
 	menu/$(DEPDIR)/$(am__dirstamp)
 menu/index.$(OBJEXT): menu/$(am__dirstamp) \
 	menu/$(DEPDIR)/$(am__dirstamp)
@@ -1644,8 +1653,6 @@ search/all.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/index.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
-search/select.$(OBJEXT): search/$(am__dirstamp) \
-	search/$(DEPDIR)/$(am__dirstamp)
 search/replace.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/getids.$(OBJEXT): search/$(am__dirstamp) \
@@ -1973,6 +1980,8 @@ debug/$(DEPDIR)/$(am__dirstamp):
 	@: > debug/$(DEPDIR)/$(am__dirstamp)
 debug/index.$(OBJEXT): debug/$(am__dirstamp) \
 	debug/$(DEPDIR)/$(am__dirstamp)
+debug/logic.$(OBJEXT): debug/$(am__dirstamp) \
+	debug/$(DEPDIR)/$(am__dirstamp)
 paratext/$(am__dirstamp):
 	@$(MKDIR_P) paratext
 	@: > paratext/$(am__dirstamp)
@@ -2025,6 +2034,40 @@ sword/$(DEPDIR)/$(am__dirstamp):
 	@: > sword/$(DEPDIR)/$(am__dirstamp)
 sword/logic.$(OBJEXT): sword/$(am__dirstamp) \
 	sword/$(DEPDIR)/$(am__dirstamp)
+pugixml/$(am__dirstamp):
+	@$(MKDIR_P) pugixml
+	@: > pugixml/$(am__dirstamp)
+pugixml/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) pugixml/$(DEPDIR)
+	@: > pugixml/$(DEPDIR)/$(am__dirstamp)
+pugixml/pugixml.$(OBJEXT): pugixml/$(am__dirstamp) \
+	pugixml/$(DEPDIR)/$(am__dirstamp)
+pugixml/utils.$(OBJEXT): pugixml/$(am__dirstamp) \
+	pugixml/$(DEPDIR)/$(am__dirstamp)
+public/$(am__dirstamp):
+	@$(MKDIR_P) public
+	@: > public/$(am__dirstamp)
+public/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) public/$(DEPDIR)
+	@: > public/$(DEPDIR)/$(am__dirstamp)
+public/index.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/logic.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/login.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/chapter.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/notes.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/new.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/create.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/note.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
+public/comment.$(OBJEXT): public/$(am__dirstamp) \
+	public/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2159,6 +2202,8 @@ mostlyclean-compile:
 	-rm -f paratext/*.$(OBJEXT)
 	-rm -f parsewebdata/*.$(OBJEXT)
 	-rm -f personalize/*.$(OBJEXT)
+	-rm -f public/*.$(OBJEXT)
+	-rm -f pugixml/*.$(OBJEXT)
 	-rm -f resource/*.$(OBJEXT)
 	-rm -f search/*.$(OBJEXT)
 	-rm -f sendreceive/*.$(OBJEXT)
@@ -2283,6 +2328,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@debug/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@debug/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@demo/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/color.Po@am__quote@
@@ -2374,8 +2420,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/poll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/update.Po@am__quote@
@@ -2411,6 +2455,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@personalize/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/chapter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/comment.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/create.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/login.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/new.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/note.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/notes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/pugixml.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/admin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bible2resource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2bible.Po@am__quote@
@@ -2443,7 +2498,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/replacepre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/replacepre2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/search2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/similar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strong.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/strongs.Po@am__quote@
@@ -2921,6 +2975,10 @@ distclean-generic:
 	-rm -f parsewebdata/$(am__dirstamp)
 	-rm -f personalize/$(DEPDIR)/$(am__dirstamp)
 	-rm -f personalize/$(am__dirstamp)
+	-rm -f public/$(DEPDIR)/$(am__dirstamp)
+	-rm -f public/$(am__dirstamp)
+	-rm -f pugixml/$(DEPDIR)/$(am__dirstamp)
+	-rm -f pugixml/$(am__dirstamp)
 	-rm -f resource/$(DEPDIR)/$(am__dirstamp)
 	-rm -f resource/$(am__dirstamp)
 	-rm -f search/$(DEPDIR)/$(am__dirstamp)
@@ -2978,7 +3036,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -3026,7 +3084,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

@@ -28,6 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
+mutex mutex_requests;
+
+
 /**********************************************************************/
 /* Get a line from a socket, whether the line ends in a newline,
  * carriage return, or a CRLF combination.  Terminates the string read
@@ -73,6 +76,10 @@ int get_line (int sock, char *buf, int size)
 // Processes a single request from a web client.
 void webserver_process_request (int connfd, string clientaddress)
 {
+  mutex_requests.lock ();
+  config_globals_simultaneous_connection_count++;
+  mutex_requests.unlock ();
+
   // The environment for this request.
   // It gets passed around from function to function during the entire request.
   // This provides thread-safety to the request.
@@ -169,13 +176,17 @@ void webserver_process_request (int connfd, string clientaddress)
   
   // Done: Close.
   close (connfd);
+
+  mutex_requests.lock ();
+  config_globals_simultaneous_connection_count--;
+  mutex_requests.unlock ();
 }
 
 
 void webserver ()
 {
   // Setup server behaviour.
-  config_globals_client_prepared = config_logic_client_prepared ();;
+  config_globals_client_prepared = config_logic_client_prepared ();
   if (strcmp (DEMO, "yes") == 0) config_globals_open_installation = true;
 
   // Create a listening socket.

@@ -46,7 +46,7 @@ string edit_offset (void * webserver_request)
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
-  
+
   
   // At first the browser used the rangy library to get the offset of the caret.
   // But the rangy library provides the offset relative to the element that contains the caret,
@@ -60,7 +60,7 @@ string edit_offset (void * webserver_request)
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   
-  Editor_Usfm2Html editor_usfm2html = Editor_Usfm2Html (request);
+  Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();

@@ -28,6 +28,9 @@
 /* define if the compiler supports basic C++11 syntax */
 /* #undef HAVE_CXX11 */
 
+/* Define whether execinfo.h is present */
+/* #undef HAVE_EXECINFO */
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
@@ -95,7 +98,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.259"
+#define PACKAGE_STRING "bibledit 1.0.288"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -104,7 +107,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.259"
+#define PACKAGE_VERSION "1.0.288"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 1
@@ -128,7 +131,7 @@
 #define URLSETTINGS "yes"
 
 /* Version number of package */
-#define VERSION "1.0.259"
+#define VERSION "1.0.288"
 
 /* Define whether to compile on Windows */
 #define WIN32 1

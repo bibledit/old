@@ -53,7 +53,7 @@ string bible_manage (void * webserver_request)
   
   page = Assets_Page::header (translate ("Bibles"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   string success_message;
   string error_message;

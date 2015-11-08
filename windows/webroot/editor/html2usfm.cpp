@@ -21,31 +21,16 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
-#include <webserver/request.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
 #include <database/logs.h>
-
-
-Editor_Html2Usfm::Editor_Html2Usfm (void * webserver_request_in)
-{
-  webserver_request = webserver_request_in;
-}
-
-
-Editor_Html2Usfm::~Editor_Html2Usfm ()
-{
-  //xmlDocDump (stdout, document);
-  xmlFreeDoc (document);
-}
+#include <pugixml/utils.h>
 
 
 void Editor_Html2Usfm::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal ones.
-  html = filter_string_str_replace ("&nbsp;", " ", html);
+  html = filter_string_str_replace (non_breaking_space (), " ", html);
   
   // The web editor produces <hr> and other elements following the HTML specs,
   // but Bibledit's XML parser needs <hr/> and similar elements.
@@ -55,60 +40,26 @@ void Editor_Html2Usfm::load (string html)
   html = filter_string_str_replace ("   ", " ", html);
   html = filter_string_str_replace ("  ", " ", html);
   
-  // DOMDocument deals well with imperfect markup, but it may throw warnings to the default error handler.
-  // Therefore keep the errors separate.
-  xmlGenericErrorFunc handler = (xmlGenericErrorFunc) error_handler;
-  initGenericErrorDefaultFunc (&handler);
-  
-  // To help loadHTML() process utf8 correctly, set the correct meta tag before any other text.
-  /*
-  string prefix =
-  "<!DOCTYPE html>\n"
-  "<html>\n"
-  "<head>\n"
-  "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n"
-  "</head>\n"
-  "<body>\n";
-  string suffix =
-  "\n"
-  "</body>\n"
-  "</html>\n";
-  string xml = prefix + html + suffix;
-  htmlParserCtxtPtr context = htmlNewParserCtxt();
-  document = htmlCtxtReadMemory (context, xml.c_str(), xml.length(), "", "UTF-8", HTML_PARSE_RECOVER);
-  htmlFreeParserCtxt (context);
-   */
-
-  // On Android, the HTML parser fails. It returns a NULL document.
-  // Therefore use the XML parser instead of the HTML one.
-  string prefix =
-  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-  "<html>\n"
-  "<head>\n"
-  "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></meta>\n"
-  "</head>\n"
-  "<body>\n";
-  string suffix =
-  "\n"
-  "</body>\n"
-  "</html>\n";
-  string xml = prefix + html + suffix;
-  xmlParserCtxtPtr context = xmlNewParserCtxt();
-  document = xmlCtxtReadMemory (context, xml.c_str(), xml.length(), "", "UTF-8", XML_PARSE_RECOVER);
-  xmlFreeParserCtxt (context);
+  string xml = "<body>\n" + html + "\n</body>";
+  // Parse document with important option, so it parses the white space in the following:
+  //   <node> </node>
+  // This is significant for, for example, the space after verse numbers, among others.
+  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata_single);
+  // Log parsing errors.
+  pugixml_utils_error_logger (&result, xml);
 }
 
 
 void Editor_Html2Usfm::stylesheet (string stylesheet)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
   styles.clear ();
   noteOpeners.clear ();
   characterStyles.clear ();
-  vector <string> markers = request->database_styles()->getMarkers (stylesheet);
+  Database_Styles database_styles;
+  vector <string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (string & marker : markers) {
-    Database_Styles_Item style = request->database_styles()->getMarkerData (stylesheet, marker);
+    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     // Get markers with should not have endmarkers.
     bool suppress = false;
@@ -143,20 +94,16 @@ void Editor_Html2Usfm::run ()
 
 void Editor_Html2Usfm::process ()
 {
-  // Walk the tree to retrieve the "p" elements, then process them.
-  xmlNodePtr mainnode = xmlDocGetRootElement (document);
-  mainnode = mainnode->xmlChildrenNode;
-  while (mainnode != NULL) {
-    if ((!xmlStrcmp (mainnode->name, (const xmlChar *)"body"))) {
-      xmlNodePtr pnode = mainnode->xmlChildrenNode;
-      while (pnode != NULL) {
-        if ((!xmlStrcmp (pnode->name, (const xmlChar *)"p"))) {
-          processNode (pnode);
-        }
-        pnode = pnode->next;
-      }
-    }
-    mainnode = mainnode->next;
+  // Walk the children to retrieve the "p" elements, then process them.
+  xml_node body = document.first_child ();
+  for (xml_node node : body.children()) {
+    // Do not process the notes <div>,
+    // because it is at the end of the text body,
+    // and data has already been gleaned from it.
+    string id = node.attribute ("id").value ();
+    if (id == "notes") continue;
+    // Process the node.
+    processNode (node);
   }
 }
 
@@ -172,58 +119,40 @@ string Editor_Html2Usfm::get ()
 }
 
 
-void Editor_Html2Usfm::processNode (xmlNodePtr node)
+void Editor_Html2Usfm::processNode (xml_node node)
 {
-  switch (node->type) {
-    case XML_ELEMENT_NODE:
+  switch (node.type ()) {
+    case node_element:
     {
       openElementNode (node);
-      processNodeChildren (node);
+      for (xml_node child : node.children()) {
+        processNode (child);
+      }
       closeElementNode (node);
       break;
     }
-    case XML_ATTRIBUTE_NODE:
+    case node_pcdata:
     {
-      processAttributeNode (node);
-      break;
-    }
-    case XML_TEXT_NODE:
-    {
-      processTextNode (node);
-      break;
-    }
-    case XML_CDATA_SECTION_NODE:
-    case XML_ENTITY_REF_NODE:
-    case XML_ENTITY_NODE:
-    case XML_PI_NODE:
-    case XML_COMMENT_NODE:
-    case XML_DOCUMENT_NODE:
-    case XML_DOCUMENT_TYPE_NODE:
-    case XML_DOCUMENT_FRAG_NODE:
-    case XML_NOTATION_NODE:
-    {
+      // Add the text to the current USFM line.
+      string text = node.text ().get ();
+      currentLine += text;
       break;
     }
     default:
     {
-      string nodename ((char *) node->name);
-      Database_Logs::log ("Unknown DOM node " + nodename + " while saving editor text");
+      string nodename = node.name ();
+      Database_Logs::log ("Unknown XML node " + nodename + " while saving editor text");
       break;
     }
   }
 }
 
 
-void Editor_Html2Usfm::openElementNode (xmlNodePtr node)
+void Editor_Html2Usfm::openElementNode (xml_node node)
 {
   // The tag and class names of this element node.
-  string tagName ((char *) node->name);
-  string className;
-  xmlChar * property = xmlGetProp (node, BAD_CAST "class");
-  if (property) {
-    className = (char *) property;
-    xmlFree (property);
-  }
+  string tagName = node.name ();
+  string className = node.attribute ("class").value ();
   
   if (tagName == "p")
   {
@@ -258,30 +187,14 @@ void Editor_Html2Usfm::openElementNode (xmlNodePtr node)
   {
     processNoteCitation (node);
   }
-  
 }
 
 
-void Editor_Html2Usfm::processNodeChildren (xmlNodePtr node)
-{
-  node = node->xmlChildrenNode;
-  while (node != NULL) {
-    processNode (node);
-    node = node->next;
-  }
-}
-
-
-void Editor_Html2Usfm::closeElementNode (xmlNodePtr node)
+void Editor_Html2Usfm::closeElementNode (xml_node node)
 {
   // The tag and class names of this element node.
-  string tagName ((char *) node->name);
-  string className;
-  xmlChar * property = xmlGetProp (node, BAD_CAST "class");
-  if (property) {
-    className = (char *) property;
-    xmlFree (property);
-  }
+  string tagName = node.name ();
+  string className = node.attribute ("class").value ();
   
   if (tagName == "p")
   {
@@ -324,26 +237,6 @@ void Editor_Html2Usfm::closeElementNode (xmlNodePtr node)
   {
     // Do nothing for note citations in the text.
   }
-  
-}
-
-
-void Editor_Html2Usfm::processAttributeNode (xmlNodePtr node)
-{
-  string tagName ((char *) node->name);
-  Database_Logs::log ("Unprocessed XML_ATTRIBUTE_NODE while saving editor text " + tagName);
-}
-
-
-void Editor_Html2Usfm::processTextNode (xmlNodePtr node)
-{
-  // Add the text to the current USFM line.
-  xmlChar * contents = xmlNodeGetContent (node);
-  if (contents) {
-    string text ((char *) contents);
-    currentLine += text;
-    xmlFree (contents);
-  }
 }
 
 
@@ -368,43 +261,36 @@ void Editor_Html2Usfm::openInline (string className)
 }
 
 
-void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node)
+void Editor_Html2Usfm::processNoteCitation (xml_node node)
 {
   // Remove the note citation from the text.
-  xmlNodePtr child = node->xmlChildrenNode;
-  while (child != NULL) {
-    xmlNodePtr cache = child;
-    child = child->next;
-    xmlUnlinkNode (cache);
-    xmlFree (cache);
-  }
-  
+  // It means that this:
+  //   <a href="#note1" id="citation1" class="superscript">x</a>
+  // becomes this:
+  //   <a href="#note1" id="citation1" class="superscript" />
+  xml_node child = node.first_child ();
+  node.remove_child (child);
+
   // Get more information about the footnote to retrieve.
-  string href;
-  string id;
-  xmlChar * property = xmlGetProp (node, BAD_CAST "href");
-  if (property) {
-    href = (char *) property;
-    xmlFree (property);
-    id = href.substr (1);
-  }
-  
+  string href = node.attribute ("href").value ();
+  string id = href.substr (1);
+
   // Sample footnote body.
   // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
   // Retrieve the <a> element from it.
-  // At first this was done through an XPath expression: 
+  // At first this was done through an XPath expression:
   // http://www.grinninglizard.com/tinyxml2docs/index.html
-  // But XPath crashes on Android.
+  // But XPath crashes on Android with libxml2.
   // Therefore now it iterates of all the nodes to find the required <a> element.
-  xmlNodePtr aElement = get_note_pointer (xmlDocGetRootElement (document), id);
+  // (After moving to pugixml, the XPath expression could have been used again, but this was not done.)
+  xml_node aElement = get_note_pointer (document.first_child (), id);
   if (aElement) {
 
     // It now has the 'a' element: Get its 'p' parent, and then remove that 'a' element.
     // So we remain with:
     // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-    xmlNodePtr pElement = aElement->parent;
-    xmlUnlinkNode (aElement);
-    xmlFree (aElement);
+    xml_node pElement = aElement.parent ();
+    pElement.remove_child (aElement);
     
     // Preserve active character styles in the main text, and reset them for the note.
     vector <string> preservedCharacterStyles = characterStyles;
@@ -419,8 +305,8 @@ void Editor_Html2Usfm::processNoteCitation (xmlNodePtr node)
     characterStyles = preservedCharacterStyles;
     
     // Remove this element so it can't be processed again.
-    xmlUnlinkNode (pElement);
-    xmlFree (pElement);
+    xml_node div_notes = pElement.parent ();
+    div_notes.remove_child (pElement);
     
   } else {
     Database_Logs::log ("Discarding note with id " + id + " and href " + href);
@@ -446,24 +332,6 @@ void Editor_Html2Usfm::preprocess ()
   output.clear ();
   currentLine.clear ();
   mono = false;
-  //document->encoding = BAD_CAST "UTF-8";
-  //document->preserveWhiteSpace = false;
-}
-
-
-// Log errors to the logbook.
-void Editor_Html2Usfm::error_handler (void *ctx, const char *msg, ...)
-{
-  if (ctx) {};
-  char buf [256];
-  va_list arg_ptr;
-  va_start (arg_ptr, msg);
-  vsnprintf (buf, 256, msg, arg_ptr);
-  va_end (arg_ptr);
-  string error (translate ("Saving Editor text") + ": ");
-  error.append (buf);
-  Database_Logs::log (error);
-  return;
 }
 
 
@@ -488,37 +356,32 @@ void Editor_Html2Usfm::postprocess ()
 // Retrieves a pointer to a relevant footnote element in the XML.
 // Sample footnote element:
 // <a href="#citation1" id="note1">x</a>
-xmlNodePtr Editor_Html2Usfm::get_note_pointer (xmlNodePtr node, string id)
+xml_node Editor_Html2Usfm::get_note_pointer (xml_node node, string id)
 {
   if (node) {
 
-    if (xmlStrEqual(node->name, BAD_CAST "a")) {
-      string note_id;
-      xmlChar * property = xmlGetProp (node, BAD_CAST "id");
-      if (property) {
-        note_id = (char *) property;
-        xmlFree (property);
-      }
+    string name = node.name ();
+    if (name == "a") {
+      string note_id = node.attribute ("id").value ();
       if (id == note_id) return node;
     }
     
-    xmlNodePtr child = node->children;
-
-    while (child != NULL) {
-      xmlNodePtr note = get_note_pointer (child, id);
+    for (xml_node child : node.children ()) {
+      xml_node note = get_note_pointer (child, id);
       if (note) return note;
-      child = child->next;
     }
+
   }
   
-  return NULL;
+  xml_node null_node;
+  return null_node;
 }
 
 
 // This function takes the html from an editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
-string editor_export_verse (void * webserver_request, string stylesheet, string html)
+string editor_export_verse (string stylesheet, string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.
@@ -529,7 +392,7 @@ string editor_export_verse (void * webserver_request, string stylesheet, string 
   }
 
   // Convert html to USFM.
-  Editor_Html2Usfm editor_export (webserver_request);
+  Editor_Html2Usfm editor_export;
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();

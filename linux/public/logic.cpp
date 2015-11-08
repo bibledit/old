@@ -17,43 +17,20 @@
  */
 
 
-#include <search/select.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <assets/header.h>
-#include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/passage.h>
+#include <public/logic.h>
 #include <webserver/request.h>
-#include <locale/translate.h>
+#include <database/config/bible.h>
 
 
-string search_select_url ()
+vector <string> public_logic_bibles (void * webserver_request)
 {
-  return "search/select";
-}
-
-
-bool search_select_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
-}
-
-
-string search_select (void * webserver_request)
-{
+  vector <string> public_bibles;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  string page;
-  
-  Assets_Header header = Assets_Header (translate("Search"), request);
-  page = header.run ();
-  
-  Assets_View view = Assets_View ();
-  
-  page += view.render ("search", "select");
-  
-  page += Assets_Page::footer ();
-  
-  return page;
+  vector <string> bibles = request->database_bibles ()->getBibles ();
+  for (auto & bible : bibles) {
+    if (Database_Config_Bible::getPublicFeedbackEnabled (bible)) {
+      public_bibles.push_back (bible);
+    }
+  }
+  return public_bibles;
 }

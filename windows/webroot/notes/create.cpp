@@ -49,7 +49,7 @@ bool notes_create_acl (void * webserver_request)
 string notes_create (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   
   string page;
@@ -57,7 +57,7 @@ string notes_create (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Create note"), request);
   page += header.run();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   
   // Is is possible to pass a Bible to this script.

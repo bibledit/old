@@ -67,7 +67,7 @@ string sendreceive_index (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Send/Receive"), request);
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   string bible;
