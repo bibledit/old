@@ -57,7 +57,7 @@ string lexicon_definition (void * webserver_request)
       // ETCBC4 database.
       // When a defintion is clicked for the second time, it gets erased.
       if (id != request->database_config_user ()->getRequestedEtcbc4Definition ()) {
-        renderings.push_back (lexicon_logic_render_etcb4_morphology (id));
+        renderings.push_back (lexicon_logic_render_etcbc4_morphology (id));
       } else {
         id.clear ();
       }

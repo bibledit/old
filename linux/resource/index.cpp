@@ -27,6 +27,8 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <sword/logic.h>
+#include <demo/logic.h>
+#include <resource/external.h>
 
 
 string resource_index_url ()
@@ -45,14 +47,32 @@ string resource_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
+  
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.setNavigator ();
   header.setStylesheet ();
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
+  
   
   vector <string> resources = request->database_config_user()->getActiveResources ();
+  
+  
+  // If no resources are displayed, set a default selection of them.
+  if (resources.empty ()) {
+    resources = {
+      demo_sample_bible_name (),
+      "Biblehub Interlinear",
+      resource_external_net_bible_name (),
+      "Yellow Divider",
+      "Hebrew (Open Scriptures)",
+      "Greek (SBL)"
+    };
+    request->database_config_user()->setActiveResources (resources);
+  }
+
+  
   string resourceblock;
   for (size_t i = 1; i <= resources.size (); i++) {
     resourceblock.append ("<div id=\"line" + convert_to_string (i) + "\" style=\"clear:both\">\n");
@@ -69,10 +89,12 @@ string resource_index (void * webserver_request)
     resourceblock.append ("</div>\n");
   }
   view.set_variable ("resourceblock", resourceblock);
-                      
+  
+  
   int resource_count = resources.size ();
   string script = "var resourceCount = " + convert_to_string (resource_count) + ";";
   view.set_variable ("script", script);
+  
   
   page += view.render ("resource", "index");
   page += Assets_Page::footer ();

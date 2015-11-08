@@ -40,7 +40,7 @@ string search_all_url ()
 
 bool search_all_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
@@ -65,7 +65,7 @@ string search_all (void * webserver_request)
   page = header.run ();
 
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   // Put the query string into the search box.

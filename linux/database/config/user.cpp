@@ -180,7 +180,7 @@ void Database_Config_User::trim ()
   // When a user visits the Sprint page after a few days, it will then display the current Sprint.
   // If the Sprint is not reset, the user may enter new tasks in the wrong sprint.
   int time = filter_date_seconds_since_epoch () - (2 * 24 * 3600);
-  Database_Users database_users = Database_Users ();
+  Database_Users database_users;
   vector <string> users = database_users.getUsers ();
   for (unsigned int i = 0; i < users.size(); i++) {
     string filename = file (users[i], keySprintMonth ());

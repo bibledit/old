@@ -501,7 +501,10 @@ function editorPositionCaretExecute ()
     var currentPosition = getCaretPosition ();
     if (currentPosition == undefined) return;
     var selection = rangy.getSelection ();
-    selection.move ("character", editorPositionCaretOffset - currentPosition);
+    var desiredPosition = parseInt (editorPositionCaretOffset);
+    // Fix bug that it jumps to the previous verse through positioning the cursor slightly off-location.
+    if (editorPositionCaretCount == 3) desiredPosition += 5;
+    selection.move ("character", desiredPosition - currentPosition);
     currentPosition = getCaretPosition ();
     if (editorPositionCaretOffset == currentPosition) return;
     editorPositionCaretCount--;
@@ -547,7 +550,7 @@ Section for scrolling the caret into view.
 */
 
 
-function editorScrollVerseIntoView () // Todo
+function editorScrollVerseIntoView ()
 {
   if (isNoVerseBook (editorLoadedBook)) return;
   var iterVerse = 0;
@@ -561,8 +564,7 @@ function editorScrollVerseIntoView () // Todo
           var offset = element.offset ();
           var verseTop = offset.top;
           var viewportHeight = $(window).height ();
-          var scrollTo = verseTop - (viewportHeight * verticalCaretPosition / 100); // Todo
-            console.log (verticalCaretPosition); // Todo
+          var scrollTo = verseTop - (viewportHeight * verticalCaretPosition / 100);
           var currentScrollTop = $ (document).scrollTop ();
           var lowerBoundary = currentScrollTop - (viewportHeight / 10);
           var upperBoundary = currentScrollTop + (viewportHeight / 10);
@@ -914,6 +916,7 @@ var editorToolbarScrollingTimerId;
 
 function editorToolbarScrollingTimerStart ()
 {
+  //editorLog ("editorToolbarScrollingTimerStart"); // Todo
   if (editorToolbarScrollingTimerId) clearTimeout (editorToolbarScrollingTimerId);
   editorToolbarScrollingTimerId = setTimeout (editorToolbarScrollingRun, 200);
 }
@@ -923,6 +926,21 @@ function editorToolbarScrollingTimerStart ()
 // so it does not interfere with scrolling the window to bring the focused verse into view.
 function editorToolbarScrollingRun ()
 {
+  //editorLog ("editorToolbarScrollingRun"); // Todo
   $ ('#editorinnerheader').toggleClass('editorheaderscroll', $ (window).scrollTop () > $ ('#editorheader').offset ().top);
+}
+
+
+
+// Debug
+
+
+
+function editorLog (msg)
+{
+  var date = new Date();
+  var seconds = date.getSeconds();
+  var milliseconds = date.getMilliseconds();
+  console.log (seconds + " " + milliseconds + ": " + msg);
 }
 

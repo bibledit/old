@@ -73,7 +73,7 @@ string administration_language (void * webserver_request)
 
   page = Assets_Page::header (translate ("Language"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   string language = locale_logic_filter_default_language (Database_Config_General::getSiteLanguage ());
   language = localizations [language];

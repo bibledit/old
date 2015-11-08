@@ -141,6 +141,8 @@ vector <string> filter_shell_active_processes ()
     result = filter_shell_run ("", "ps", {"ax"}, &output, &error);
   }
 
+  if (result) {}
+  
   if (!error.empty ()) {
     output.append ("\n");
     output.append (error);

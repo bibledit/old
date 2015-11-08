@@ -136,7 +136,7 @@ string workbenchGetActiveWorkbench (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string workbench = request->database_config_user()->getActiveWorkbench ();
   if (workbench.empty ()) {
-    workbench = "default";
+    workbench = "Default";
   }
   return workbench;
 }

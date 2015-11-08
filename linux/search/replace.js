@@ -75,6 +75,7 @@ function fetchIdentifiers ()
   $ ("#searchresults").empty ();
   $ ("#hitcount").empty ();
   $ ("#applybutton").hide ();
+  $ ("#help").hide ();
   hits.length = 0;
   replacingAll = false;
   ajaxRequest = $.ajax ({

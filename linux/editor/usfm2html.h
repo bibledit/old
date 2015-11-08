@@ -22,15 +22,16 @@
 
 
 #include <config/libraries.h>
-#include <libxml/tree.h>
 #include <database/styles.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 class Editor_Usfm2Html
 {
 public:
-  Editor_Usfm2Html (void * webserver_request_in);
-  ~Editor_Usfm2Html ();
   void load (string usfm);
   void stylesheet (string stylesheet);
   void run ();
@@ -38,29 +39,29 @@ public:
   size_t textLength;
   map <int, int> verseStartOffsets;
 private:
-  void * webserver_request;
-
   vector <string> markersAndText; // Strings alternating between USFM and text.
   unsigned int markersAndTextPointer = 0;
   
   map <string, Database_Styles_Item> styles; // All the style information.
   
-  // Html DOMNodes.
-  xmlDocPtr htmlDom;
-  xmlNodePtr bodyDomNode;
-  xmlNodePtr notesDomNode;
+  // XML nodes.
+  xml_document document;
+  xml_node body_node;
+  xml_node notes_node;
   
   // Standard content markers for notes.
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
   
-  xmlNodePtr currentPDomElement; // The current p DOMElement.
+  xml_node currentPnode; // The current p node.
+  bool current_p_open = false;
   string currentParagraphStyle;
   string currentParagraphContent;
   vector <string> currentTextStyles;
   
   int noteCount = 0;
-  xmlNodePtr notePDomElement; // The text:p DOMElement of the current footnote, if any.
+  xml_node notePnode; // The p DOM element of the current footnote, if any.
+  bool note_p_open = false;
   vector <string> currentNoteTextStyles;
   
   // Whether note is open.
@@ -73,19 +74,17 @@ private:
   void process ();
   void postprocess ();
   void outputAsIs (string marker, bool isOpeningMarker);
-  xmlNodePtr newElement (string element);
   void newParagraph (string style = "");
-  void openTextStyle (Database_Styles_Item & style, bool note, bool embed);
-  void closeTextStyle (bool note, bool embed);
+  void openTextStyle (Database_Styles_Item & style, bool embed);
+  void closeTextStyle (bool embed);
   void addText (string text);
   void addNote (string citation, string style, bool endnote = false);
   void addNoteText (string text);
   void closeCurrentNote ();
-  void addLink (xmlNodePtr domNode, string reference, string identifier, string style, string text);
+  void addLink (xml_node domNode, string reference, string identifier, string style, string text);
   
   bool roadIsClear ();
 };
 
 
 #endif
-

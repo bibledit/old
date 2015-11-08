@@ -56,11 +56,11 @@ string xrefs_source (void * webserver_request)
   usfm = usfm_get_verse_text (usfm, verse);
   
   
-  Editor_Usfm2Html editor_import = Editor_Usfm2Html (webserver_request);
-  editor_import.load (usfm);
-  editor_import.stylesheet (stylesheet);
-  editor_import.run ();
-  string html = editor_import.get ();
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.run ();
+  string html = editor_usfm2html.get ();
   
   
   // The source text has notes and cross references.

@@ -57,7 +57,7 @@ string manage_users (void * webserver_request)
 
   page = Assets_Page::header (translate ("Users"), webserver_request);
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
 
   string currentUser = request->session_logic ()->currentUser ();

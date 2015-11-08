@@ -31,8 +31,6 @@ libbibledit_a_SOURCES = \
 	index/listing.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
-	menu/main.cpp \
-	menu/user.cpp \
 	menu/index.cpp \
 	locale/translate.cpp \
 	locale/logic.cpp \
@@ -212,7 +210,6 @@ libbibledit_a_SOURCES = \
 	edit/logic.cpp \
 	search/all.cpp \
 	search/index.cpp \
-	search/select.cpp \
 	search/replace.cpp \
 	search/getids.cpp \
 	search/replacepre.cpp \
@@ -323,6 +320,7 @@ libbibledit_a_SOURCES = \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
 	debug/index.cpp \
+	debug/logic.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
@@ -333,7 +331,18 @@ libbibledit_a_SOURCES = \
 	sources/morphhb.cpp \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
-	sword/logic.cpp
+	sword/logic.cpp \
+	pugixml/pugixml.cpp \
+	pugixml/utils.cpp \
+	public/index.cpp \
+	public/logic.cpp \
+	public/login.cpp \
+	public/chapter.cpp \
+	public/notes.cpp \
+	public/new.cpp \
+	public/create.cpp \
+	public/note.cpp \
+	public/comment.cpp
 
 noinst_PROGRAMS = bibledit
 
@@ -341,15 +350,16 @@ bibledit_SOURCES = executable/bibledit.cpp
 
 bibledit_LDADD = libbibledit.a
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking $(GTK_CFLAGS)
-AM_CXXFLAGS += `xml2-config --cflags`	
+AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic
+AM_CFLAGS += $(OPENSSL_CFLAGS)
+
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g -rdynamic $(GTK_CFLAGS)
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(ICU_CFLAGS)
 
-LIBS = -Wall -lpthread -L. $(GTK_LIBS)
-LIBS += `xml2-config --libs`
+LIBS = -Wall -lpthread -L. -g -rdynamic $(GTK_LIBS)
 LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)

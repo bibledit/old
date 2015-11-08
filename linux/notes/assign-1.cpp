@@ -50,7 +50,7 @@ bool notes_assign_1_acl (void * webserver_request)
 string notes_assign_1 (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   Database_NoteAssignment database_noteassignment;
   
@@ -58,7 +58,7 @@ string notes_assign_1 (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Assign note"), request);
   page += header.run();
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string success, error;
 
   

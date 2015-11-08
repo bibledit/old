@@ -456,6 +456,12 @@ string Database_Notes::assignedFile (int identifier)
 }
 
 
+string Database_Notes::publicFile (int identifier)
+{
+  return filter_url_create_path (noteFolder (identifier), "public");
+}
+
+
 string Database_Notes::expiryFile (int identifier)
 {
   return filter_url_create_path (noteFolder (identifier), "expiry");
@@ -1445,6 +1451,24 @@ void Database_Notes::setModified (int identifier, int time)
   database_sqlite_disconnect (db);
   // Update checksum.
   updateChecksum (identifier);
+}
+
+
+bool Database_Notes::getPublic (int identifier)
+{
+  string file = publicFile (identifier);
+  return file_exists (file);
+}
+
+
+void Database_Notes::setPublic (int identifier, bool value)
+{
+  string file = publicFile (identifier);
+  if (value) {
+    filter_url_file_put_contents (file, "");
+  } else {
+    filter_url_unlink (file);
+  }
 }
 
 

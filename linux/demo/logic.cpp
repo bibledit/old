@@ -42,6 +42,26 @@
 #include <ipc/focus.h>
 
 
+/*
+
+ A demo installation is an open installation.
+ A user is always considered to be logged in as admin.
+ 
+ During the course of October 2015 the demo began to often refuse web connections.
+ It appears that the server keeps running most of the times, but also crashed often during certain periods.
+
+ The number of parallel connections was traced to see if that was the cause. 
+ The parallel connection count was mostly 0, at times 1, and higher at rare occassions.
+ So this should be excluded as the cause.
+ 
+ Continuous crashes of the server are the likely cause.
+ The page requests are now being logged to see what happens.
+ After logging them, it appears that the crash often comes after /resource/get
+
+ Next a crash handler was installed, which gives some sort of backtrace in the Journal. Todo
+ 
+*/
+
 // Returns true for correct credentials for a demo installation.
 // Else returns false.
 bool demo_acl (string user, string pass)
@@ -187,8 +207,10 @@ void demo_clean_data ()
   
   
   // Set and/or trim resources to display.
+  // Too many resources crash the demo, so limit the amount.
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources = false;
+  if (resources.size () > 25) reset_resources = true;
   if (!in_array ((string) "Bibledit Sample Bible", resources)) reset_resources = true;
   if (!in_array ((string) "Violet Divider", resources)) reset_resources = true;
   if (!in_array ((string) "Biblehub Interlinear", resources)) reset_resources = true;
@@ -239,7 +261,7 @@ void demo_create_sample_bible (void * webserver_request)
 // Create sample notes.
 void demo_create_sample_notes (void * webserver_request)
 {
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   vector <int> identifiers = database_notes.getIdentifiers ();
   if (identifiers.size () < 10) {
     for (size_t i = 1; i <= 10; i++) {

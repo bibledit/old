@@ -61,7 +61,7 @@ void database_maintenance ()
   // Therefore this type of maintenance should not be done automatically.
   
   
-  Database_Users database_users = Database_Users ();
+  Database_Users database_users;
   database_users.trim ();
   database_users.optimize ();
   

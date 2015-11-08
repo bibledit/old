@@ -49,7 +49,7 @@ string mapping_index (void * webserver_request)
   
   page = Assets_Page::header (translate ("Verse Mappings"), webserver_request);
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   string error;
   string success;
 

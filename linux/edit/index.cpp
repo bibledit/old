@@ -94,7 +94,7 @@ string edit_index (void * webserver_request)
   }
   
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   
   // Active Bible, and check access.

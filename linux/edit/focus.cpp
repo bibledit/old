@@ -43,17 +43,22 @@ string edit_focus (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
  
   
+  // Get Bible: If an empty Bible is given, bail out.
   string bible = request->query ["bible"];
+  if (bible.empty ()) return "";
+  // Get book: If no book is given: Bail out.
   int book = convert_to_int (request->query ["book"]);
+  if (!book) return "";
+  // Get chapter.
   int chapter = convert_to_int (request->query ["chapter"]);
-
+  
   
   string stylesheet = request->database_config_user()->getStylesheet ();
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   int verse = Ipc_Focus::getVerse (request);
 
 
-  Editor_Usfm2Html editor_usfm2html = Editor_Usfm2Html (request);
+  Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();
@@ -83,6 +88,7 @@ string edit_focus (void * webserver_request)
   string data = convert_to_string (startingOffset);
   data.append ("\n");
   data.append (convert_to_string (endingOffset));
+  
   return data;
 }
 

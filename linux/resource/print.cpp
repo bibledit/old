@@ -58,7 +58,7 @@ string resource_print (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Print"), request);
   header.jQueryUIOn ();
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   
   Database_Jobs database_jobs = Database_Jobs ();

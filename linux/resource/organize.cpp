@@ -84,7 +84,7 @@ string resource_organize (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.jQueryUIOn ();
   page = header.run ();
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   
   // Active resources.

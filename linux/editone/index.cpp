@@ -64,7 +64,7 @@ string editone_index (void * webserver_request)
   header.setEditorStylesheet ();
   page = header.run ();
   
-  Assets_View view = Assets_View ();
+  Assets_View view;
   
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];
@@ -93,11 +93,13 @@ string editone_index (void * webserver_request)
   string chapterLoaded = translate("Loaded");
   string chapterSaving = translate("Saving...");
   string chapterRetrying = translate("Retrying...");
+  int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var oneverseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var oneverseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var oneverseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var oneverseEditorWriteAccess = true;";
+  "var oneverseEditorWriteAccess = true;"
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   view.set_variable ("script", script);
   
   string cls = Filter_Css::getClass (bible);

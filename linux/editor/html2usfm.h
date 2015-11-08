@@ -22,23 +22,22 @@
 
 
 #include <config/libraries.h>
-#include <libxml/tree.h>
 #include <database/styles.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 class Editor_Html2Usfm
 {
 public:
-  Editor_Html2Usfm (void * webserver_request_in);
-  ~Editor_Html2Usfm ();
   void load (string html);
   void stylesheet (string stylesheet);
   void run ();
   string get ();
 private:
-  void * webserver_request;
-  static void error_handler (void *ctx, const char *msg, ...);
-  xmlDocPtr document = NULL; // DOMDocument holding the html.
+  xml_document document; // DOMDocument holding the html.
   map <string, Database_Styles_Item> styles; // Style information.
   vector <string> output; // Output USFM.
   string currentLine; // Growing current USFM line.
@@ -51,20 +50,17 @@ private:
   void flushLine ();
   void postprocess ();
   void process ();
-  void processNode (xmlNodePtr node);
-  void openElementNode (xmlNodePtr node);
-  void processNodeChildren (xmlNodePtr node);
-  void closeElementNode (xmlNodePtr node);
-  void processAttributeNode (xmlNodePtr node);
-  void processTextNode (xmlNodePtr node);
+  void processNode (xml_node node);
+  void openElementNode (xml_node node);
+  void closeElementNode (xml_node node);
   void openInline (string className);
-  void processNoteCitation (xmlNodePtr node);
+  void processNoteCitation (xml_node node);
   string cleanUSFM (string usfm);
-  xmlNodePtr get_note_pointer (xmlNodePtr node, string id);
+  xml_node get_note_pointer (xml_node node, string id);
 };
 
 
-string editor_export_verse (void * webserver_request, string stylesheet, string html);
+string editor_export_verse (string stylesheet, string html);
 
 
 #endif

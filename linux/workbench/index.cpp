@@ -27,6 +27,7 @@
 #include <locale/translate.h>
 #include <database/config/general.h>
 #include <workbench/logic.h>
+#include <menu/logic.h>
 
 
 string workbench_index_url ()
@@ -44,7 +45,6 @@ bool workbench_index_acl (void * webserver_request)
 string workbench_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
 
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
@@ -55,17 +55,12 @@ string workbench_index (void * webserver_request)
     }
   }
   
-  
   string page;
-
-  
-  Assets_Header header = Assets_Header (translate("Workbench"), request);
+  Assets_Header header = Assets_Header (translate("Desktop"), request);
   header.setNavigator ();
+  header.setFadingMenu (menu_logic_desktop_category (webserver_request));
   page = header.run ();
-  
-  
-  Assets_View view = Assets_View ();
-  
+  Assets_View view;
 
   map <int, string> urls = workbenchGetURLs (request, true);
   map <int, string> widths = workbenchGetWidths (request);
@@ -81,7 +76,6 @@ string workbench_index (void * webserver_request)
     if (convert_to_int (width) > 0) view.enable_zone (variable);
   }
   
-  
   map <int, string> heights = workbenchGetHeights (request);
   for (unsigned int key = 0; key < 3; key++) {
     string height = heights [key];
@@ -91,23 +85,15 @@ string workbench_index (void * webserver_request)
     if (convert_to_int (height) > 0) view.enable_zone (variable);
   }
   
-  
   string workbenchwidth = workbenchGetEntireWidth (request);
   if (!workbenchwidth.empty ()) {
     workbenchwidth.insert (0, "; width: ");
     workbenchwidth.append ("; margin: 0 auto; overflow: hidden;");
   }
   view.set_variable ("workbenchwidth", workbenchwidth);
-
   
   // The rendered template disables framekillers through the "sandbox" attribute on the iframe elements.
-  
-  
   page += view.render ("workbench", "index");
-  
-  
   page += Assets_Page::footer ();
-  
-  
   return page;
 }

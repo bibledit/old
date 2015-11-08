@@ -22,11 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
 #include <database/styles.h>
 #include <styles/logic.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 class Odf_Text
@@ -55,17 +56,19 @@ public:
 private:
   string bible;
   string unpackedOdtFolder;
-  xmlDocPtr contentDom; // The content.xml DOMDocument.
-  xmlNodePtr officeTextDomNode; // The office:text DOMNode.
-  xmlDocPtr stylesDom; // The styles.xml DOMDocument.
+  xml_document contentDom; // The content.xml DOMDocument.
+  xml_node officeTextDomNode; // The office:text DOMNode.
+  xml_document stylesDom; // The styles.xml DOMDocument.
   vector <string> createdStyles; // An array with styles already created in the $stylesDom.
-  xmlNodePtr officeStylesDomNode; // The office:styles DOMNode.
-  //xmlNodePtr officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
-  xmlNodePtr currentTextPDomElement; // The current text:p DOMElement.
-  xmlAttrPtr currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
+  xml_node officeStylesDomNode; // The office:styles DOMNode.
+  //xml_node officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
+  xml_node currentTextPDomElement; // The current text:p DOMElement.
+  bool current_text_p_opened = false; // Whether the text:p element has been opened.
+  xml_attribute currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
   int frameCount;
   int noteCount;
-  xmlNodePtr noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
+  xml_node noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
+  bool note_text_p_opened = false; // Whether the text:p for notes has been opened.
   vector <string> currentNoteTextStyle;
   void initialize_content_xml ();
   void initialize_styles_xml ();

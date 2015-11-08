@@ -50,7 +50,7 @@ string session_password (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
   page += header.run ();
 
-  Assets_View view = Assets_View ();
+  Assets_View view;
 
   // Form submission handler.
   if (request->post["submit"] != "") {
@@ -61,7 +61,7 @@ string session_password (void * webserver_request)
       form_is_valid = false;
     }
     string email;
-    Database_Users database_users = Database_Users ();
+    Database_Users database_users;
     if (form_is_valid) {
       form_is_valid = false;
       email = database_users.getUserToEmail (user);

@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/logic.h>
 #include <checks/logic.h>
 #include <export/logic.h>
+#include <debug/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -213,7 +214,6 @@ void timer_index ()
           tasks_logic_queue (UPDATEALLSWORDMODULES);
         }
       }
-      
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());

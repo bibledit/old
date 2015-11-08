@@ -39,7 +39,7 @@ void trash_change_notification (void * webserver_request, int id)
 
 void trash_consultation_note (void * webserver_request, int id)
 {
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   vector <Passage> passages = database_notes.getPassages (id);
   string passageText = filter_passage_display_inline (passages);
   string summary = database_notes.getSummary (id);

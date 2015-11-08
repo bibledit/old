@@ -23,7 +23,6 @@
 #include <database/sqlite.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <libxml/xmlreader.h>
 
 
 void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
@@ -50,6 +49,7 @@ void sources_kjv_parse ()
   Database_Kjv database_kjv;
   database_kjv.create ();
 
+  /* To redo this with pugixml
   int book = 0;
   int chapter = 0;
   int verse = 0;
@@ -104,6 +104,13 @@ void sources_kjv_parse ()
         }
         break;
       }
+      case XML_READER_TYPE_WHITESPACE:
+      case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
+      {
+        if (within_verse) {
+          sources_kjv_store (book, chapter, verse, "", " ");
+        }
+      }
       case XML_READER_TYPE_END_ELEMENT:
       {
         string element = (char *) xmlTextReaderName (reader);
@@ -113,6 +120,7 @@ void sources_kjv_parse ()
       }
     }
   }
+   */
   database_kjv.optimize ();
   Database_Logs::log ("Finished parsing data from the KJV XML file");
 }
