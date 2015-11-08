@@ -14,7 +14,6 @@
 		CA1599F41B1759A600B26F9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F31B1759A600B26F9C /* main.m */; };
 		CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1599F51B1759A600B26F9C /* Images.xcassets */; };
 		CA43E08B1BB851BE00347EE1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */; };
-		CA43E08D1BB851EC00347EE1 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08C1BB851EC00347EE1 /* libxml2.tbd */; };
 		CA43E08F1BB851F700347EE1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */; };
 		CA99CFA11B175B8B00696023 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA99CFA01B175B8B00696023 /* WebKit.framework */; };
 		CAE0196F1B1775C6000EAF46 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CAE0196E1B1775C6000EAF46 /* webroot */; };
@@ -43,7 +42,6 @@
 		CA1599F51B1759A600B26F9C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CA1599F81B1759A600B26F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		CA43E08C1BB851EC00347EE1 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CA99CFA01B175B8B00696023 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CAE0196E1B1775C6000EAF46 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
@@ -64,7 +62,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA43E08F1BB851F700347EE1 /* libsqlite3.tbd in Frameworks */,
-				CA43E08D1BB851EC00347EE1 /* libxml2.tbd in Frameworks */,
 				CA43E08B1BB851BE00347EE1 /* libstdc++.tbd in Frameworks */,
 				CA0A0B131B923F0500E5E0FA /* libicudata.a in Frameworks */,
 				CA0A0B111B923EF800E5E0FA /* libicuuc.a in Frameworks */,
@@ -87,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */,
-				CA43E08C1BB851EC00347EE1 /* libxml2.tbd */,
 				CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */,
 				CA0A0B121B923F0500E5E0FA /* libicudata.a */,
 				CA0A0B101B923EF800E5E0FA /* libicuuc.a */,

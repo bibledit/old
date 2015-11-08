@@ -35,11 +35,6 @@ dnf --assumeyes install pkgconfig
 yum --assumeyes install pkgconfig
 zypper --non-interactive install pkg-config
 
-apt-get --yes --force-yes install libxml2-dev
-dnf --assumeyes install libxml2-devel
-yum --assumeyes install libxml2-devel
-zypper --non-interactive install libxml2-devel
-
 apt-get --yes --force-yes install libsqlite3-dev
 dnf --assumeyes install sqlite-devel
 yum --assumeyes install sqlite-devel
