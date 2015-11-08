@@ -47,6 +47,7 @@ string backtrace_path ()
 }
 
 
+#ifdef HAVE_EXECINFO
 // http://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
 void sigsegv_handler (int sig)
 {
@@ -68,6 +69,7 @@ void sigsegv_handler (int sig)
 
   exit (1);
 }
+#endif
 
 
 int main (int argc, char **argv) 
