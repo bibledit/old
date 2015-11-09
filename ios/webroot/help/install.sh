@@ -35,11 +35,6 @@ dnf --assumeyes install pkgconfig
 yum --assumeyes install pkgconfig
 zypper --non-interactive install pkg-config
 
-apt-get --yes --force-yes install libxml2-dev
-dnf --assumeyes install libxml2-devel
-yum --assumeyes install libxml2-devel
-zypper --non-interactive install libxml2-devel
-
 apt-get --yes --force-yes install libsqlite3-dev
 dnf --assumeyes install sqlite-devel
 yum --assumeyes install sqlite-devel
@@ -109,9 +104,22 @@ fi
 rm install2.sh
 
 
+
+
 echo Downloading Bibledit...
 cd
-wget --continue http://bibledit.org/linux/bibledit-1.0.258.tar.gz
+rm -f index.html
+wget http://bibledit.org/linux -O index.html
+if [ $? -ne 0 ]
+then
+  echo Failed to list tarballs
+  exit
+fi
+cat index.html | grep "bibledit-" | grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//' | tail -n 1 > tarball.txt
+rm index.html
+TARBALL=`cat tarball.txt`
+rm tarball.txt
+wget --continue http://bibledit.org/linux/$TARBALL
 if [ $? -ne 0 ]
 then
   echo Failed to download Bibledit
@@ -121,7 +129,7 @@ sleep 4
 
 echo Unpacking Bibledit in folder bibledit...
 mkdir -p bibledit
-tar xf bibledit-1.0.258.tar.gz -C bibledit --strip-components=1
+tar xf $TARBALL -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit

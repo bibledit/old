@@ -24,7 +24,6 @@
 		CAC4C88F1B94944E00FB6700 /* libicutu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8881B94944E00FB6700 /* libicutu.a */; };
 		CAC4C8901B94944E00FB6700 /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8891B94944E00FB6700 /* libicuuc.a */; };
 		CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE02134F19E03F9B006EE62F /* Storyboard.storyboard */; };
-		CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2F911919DC8ACA0091157F /* libxml2.dylib */; };
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
 		CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */; };
 		CEA9296819B06C9600DA3766 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9296719B06C9600DA3766 /* Foundation.framework */; };
@@ -100,7 +99,6 @@
 				CAB519BA1A8A6BDD00F4ED36 /* Security.framework in Frameworks */,
 				CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */,
 				CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */,
-				CE2F911A19DC8ACA0091157F /* libxml2.dylib in Frameworks */,
 				CEA9296A19B06C9600DA3766 /* CoreGraphics.framework in Frameworks */,
 				CEA9296C19B06C9600DA3766 /* UIKit.framework in Frameworks */,
 				CEA9296819B06C9600DA3766 /* Foundation.framework in Frameworks */,

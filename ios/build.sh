@@ -355,6 +355,17 @@ personalize/index.cpp
 lexicon/logic.cpp
 lexicon/definition.cpp
 sword/logic.cpp
+public/chapter.cpp
+public/login.cpp
+public/comment.cpp
+public/new.cpp
+public/create.cpp
+public/note.cpp
+public/index.cpp
+public/notes.cpp
+public/logic.cpp
+pugixml/pugixml.cpp
+pugixml/utils.cpp
 
 )
 
