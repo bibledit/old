@@ -416,6 +416,11 @@
 		CA8F23C11B7B44EE00E3719F /* verse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verse.h; sourceTree = "<group>"; };
 		CA919B391B7602E800217649 /* noteassignment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = noteassignment.cpp; sourceTree = "<group>"; };
 		CA919B3A1B7602E800217649 /* noteassignment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = noteassignment.h; sourceTree = "<group>"; };
+		CA9232541BF0CC8400060FDC /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		CA9232551BF0CC8400060FDC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA9232561BF0CC8400060FDC /* utf8proc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utf8proc.c; sourceTree = "<group>"; };
+		CA9232571BF0CC8400060FDC /* utf8proc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utf8proc.h; sourceTree = "<group>"; };
+		CA9232581BF0CC8400060FDC /* utf8proc_data.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utf8proc_data.c; sourceTree = "<group>"; };
 		CA92C4551B728510000C3F22 /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = image.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA92C4561B728510000C3F22 /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		CA92C4571B728510000C3F22 /* image.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = image.html; sourceTree = "<group>"; };
@@ -1158,6 +1163,19 @@
 			);
 			name = lexicon;
 			path = ../lexicon;
+			sourceTree = "<group>";
+		};
+		CA9232531BF0CC8400060FDC /* utf8proc */ = {
+			isa = PBXGroup;
+			children = (
+				CA9232541BF0CC8400060FDC /* LICENSE.md */,
+				CA9232551BF0CC8400060FDC /* README.md */,
+				CA9232561BF0CC8400060FDC /* utf8proc.c */,
+				CA9232571BF0CC8400060FDC /* utf8proc.h */,
+				CA9232581BF0CC8400060FDC /* utf8proc_data.c */,
+			);
+			name = utf8proc;
+			path = ../utf8proc;
 			sourceTree = "<group>";
 		};
 		CA97857A1BD24A0600E13388 /* livetest */ = {
@@ -2901,6 +2919,7 @@
 				CAA4D3B41A45A648003ABA25 /* unittests */,
 				CAA4D43A1A45A648003ABA25 /* user */,
 				CAA4D4461A45A648003ABA25 /* utf8 */,
+				CA9232531BF0CC8400060FDC /* utf8proc */,
 				CAA4D45A1A45A648003ABA25 /* valgrind */,
 				CAA4D45D1A45A648003ABA25 /* versification */,
 				CAA4D4641A45A649003ABA25 /* webbible */,

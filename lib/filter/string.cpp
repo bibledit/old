@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unicode/schriter.h>
 #include <unicode/uchar.h>
 #endif
+#include <utf8proc/utf8proc.h>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -426,15 +427,37 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
 }
 
 
-// Converts string so to lowercase.
+// Converts string $s to lowercase.
 string unicode_string_casefold (string s)
 {
-#ifdef ICU_DISABLED
-
-  transform (s.begin(), s.end (), s.begin(), ::tolower);
-  return s;
-
-#else
+  string casefolded;
+  // The UTF8 processor works with one Unicode point at a time.
+  size_t string_length = unicode_string_length (s);
+  for (unsigned int pos = 0; pos < string_length; pos++) {
+    // Get one UTF-8 character.
+    string character = unicode_string_substr (s, pos, 1);
+    // Convert it to a Unicode point.
+    const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+    utf8proc_ssize_t len = character.length ();
+    utf8proc_int32_t dst;
+    utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
+    // Convert the Unicode point to lower case.
+    utf8proc_int32_t luc = utf8proc_tolower (dst);
+    // Convert the Unicode point back to a UTF-8 string.
+    utf8proc_uint8_t buffer [10];
+    output = utf8proc_encode_char (luc, buffer);
+    buffer [output] = 0;
+    stringstream ss;
+    ss << buffer;
+    // Add the casefolded UTF-8 character to the result.
+    casefolded.append (ss.str ());
+  }
+  // Done.
+  return casefolded;
+/*
+ The code below shows how to do it through the ICU library.
+ But the ICU library could not be compiled properly for Android.
+ Therefore it is not used throughout all platforms.
 
   // UTF-8 string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
@@ -445,38 +468,68 @@ string unicode_string_casefold (string s)
   source.toUTF8String (result);
   // Ready.
   return result;
-
-#endif
+ 
+*/
 }
 
 
 string unicode_string_uppercase (string s)
 {
-#ifdef ICU_DISABLED
-  
-  transform (s.begin(), s.end (), s.begin(), ::toupper);
-  return s;
-  
-#else
-
+  string uppercase;
+  // The UTF8 processor works with one Unicode point at a time.
+  size_t string_length = unicode_string_length (s);
+  for (unsigned int pos = 0; pos < string_length; pos++) {
+    // Get one UTF-8 character.
+    string character = unicode_string_substr (s, pos, 1);
+    // Convert it to a Unicode point.
+    const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+    utf8proc_ssize_t len = character.length ();
+    utf8proc_int32_t dst;
+    utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
+    // Convert the Unicode point to lower case.
+    utf8proc_int32_t luc = utf8proc_toupper (dst);
+    // Convert the Unicode point back to a UTF-8 string.
+    utf8proc_uint8_t buffer [10];
+    output = utf8proc_encode_char (luc, buffer);
+    buffer [output] = 0;
+    stringstream ss;
+    ss << buffer;
+    // Add the casefolded UTF-8 character to the result.
+    uppercase.append (ss.str ());
+  }
+  // Done.
+  return uppercase;
+/*
+ How to do the above through the ICU library.
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   source.toUpper ();
   string result;
   source.toUTF8String (result);
   return result;
-
-#endif
+*/
 }
 
 
 string unicode_string_transliterate (string s)
 {
-#ifdef ICU_DISABLED
-
-  return s;
-
-#else
-
+  string transliteration;
+  size_t string_length = unicode_string_length (s);
+  for (unsigned int pos = 0; pos < string_length; pos++) {
+    string character = unicode_string_substr (s, pos, 1);
+    const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+    utf8proc_ssize_t len = character.length ();
+    uint8_t *dest;
+    utf8proc_option_t options = (utf8proc_option_t) (UTF8PROC_DECOMPOSE | UTF8PROC_STRIPMARK);
+    utf8proc_ssize_t output = utf8proc_map (str, len, &dest, options);
+    (void) output;
+    stringstream ss;
+    ss << dest;
+    transliteration.append (ss.str ());
+    free (dest);
+  }
+  return transliteration;
+/*
+ Code showing how to do the transliteration through the ICU library.
   // UTF-8 string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   
@@ -494,8 +547,7 @@ string unicode_string_transliterate (string s)
   
   // Done.
   return result;
-  
-#endif
+ */
 }
 
 
@@ -507,26 +559,29 @@ bool unicode_string_is_valid (string s)
 
 
 // Returns whether $s is Unicode punctuation.
-bool unicode_string_is_punctuation (string s)
+bool unicode_string_is_punctuation (string s) // Todo
 {
   if (s.empty ()) return false;
-  
-#ifdef ICU_DISABLED
-  
-  char chars [s.size () + 1];
-  strcpy (chars, s.c_str());
-  int punct = ispunct (chars[0]);
-  return punct != 0;
-  
-#else
-  
+  // Be sure to take only one character.
+  s = unicode_string_substr (s, 0, 1);
+  // Convert the string to a Unicode point.
+  const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
+  utf8proc_ssize_t len = s.length ();
+  utf8proc_int32_t codepoint;
+  utf8proc_ssize_t output = utf8proc_iterate (str, len, &codepoint);
+  (void) output;
+  // Get category.
+  utf8proc_category_t category = utf8proc_category	(codepoint);
+  if ((category >= UTF8PROC_CATEGORY_PC) && (category <= UTF8PROC_CATEGORY_PO)) return true;
+  return false;
+  /* 
+  The following code shows how to do the above code through the ICU library.
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
   StringCharacterIterator iter (source);
   UChar32 character = iter.first32 ();
   bool punctuation = u_ispunct (character);
   return punctuation;
-  
-#endif
+  */
 }
 
 
