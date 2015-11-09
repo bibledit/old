@@ -60,6 +60,20 @@
 
  Next a crash handler was installed, which gives some sort of backtrace in the Journal. Todo
  
+ 00:30:03 | Check Bibledit Sample Bible: Start
+ 00:32:09 | The server started
+ 00:32:09 | Backtrace of the last segmentation fault:
+ 00:32:09 | ./bibleditserver(_Z15sigsegv_handleri+0x5a)[0x44d6ea]
+ 00:32:09 | /lib/x86_64-linux-gnu/libc.so.6(+0x36d40)[0x7f4c2bf31d40]
+ 00:32:09 | /usr/lib/x86_64-linux-gnu/libstdc++.so.6(_ZNSs6assignERKSs+0x10)[0x7f4c2c897480]
+ 00:32:09 | ./bibleditserver(_ZN16Checks_Sentences10paragraphsESt3mapIiSsSt4lessIiESaISt4pairIKiSsEEESt6vectorIiSaIiEE+0x490)[0x6d1900]
+ 00:32:09 | ./bibleditserver(_Z10checks_runSs+0x17d1)[0x6c83c1]
+ 00:32:09 | ./bibleditserver(_Z13tasks_run_oneSs+0x1551)[0x4f7d61]
+ 00:32:09 | ./bibleditserver(_ZNSt6thread5_ImplISt12_Bind_simpleIFPFvSsESsEEE6_M_runEv+0x21)[0x4f90d1]
+ 00:32:09 | /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0xb1a40)[0x7f4c2c88da40]
+ 00:32:09 | /lib/x86_64-linux-gnu/libpthread.so.0(+0x8182)[0x7f4c2db63182]
+ 00:32:09 | /lib/x86_64-linux-gnu/libc.so.6(clone+0x6d)[0x7f4c2bff547d]
+
 */
 
 // Returns true for correct credentials for a demo installation.
