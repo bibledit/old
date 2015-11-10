@@ -374,6 +374,7 @@ CFILES=(
 webserver/io.c
 json/json.c
 library/locks.c
+utf8proc/utf8proc.c
 
 )
 

@@ -16,13 +16,6 @@
 		CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BB1A8A6BE800F4ED36 /* libz.dylib */; };
 		CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BD1A8A6BF900F4ED36 /* CFNetwork.framework */; };
 		CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519BF1A8A6C0D00F4ED36 /* libsqlite3.dylib */; };
-		CAC4C88A1B94944E00FB6700 /* libicudata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8831B94944E00FB6700 /* libicudata.a */; };
-		CAC4C88B1B94944E00FB6700 /* libicui18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8841B94944E00FB6700 /* libicui18n.a */; };
-		CAC4C88C1B94944E00FB6700 /* libicuio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8851B94944E00FB6700 /* libicuio.a */; };
-		CAC4C88D1B94944E00FB6700 /* libicule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8861B94944E00FB6700 /* libicule.a */; };
-		CAC4C88E1B94944E00FB6700 /* libiculx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8871B94944E00FB6700 /* libiculx.a */; };
-		CAC4C88F1B94944E00FB6700 /* libicutu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8881B94944E00FB6700 /* libicutu.a */; };
-		CAC4C8901B94944E00FB6700 /* libicuuc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC4C8891B94944E00FB6700 /* libicuuc.a */; };
 		CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE02134F19E03F9B006EE62F /* Storyboard.storyboard */; };
 		CE8E8AE219C49FAE0025EAC2 /* BibleditPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE119C49FAE0025EAC2 /* BibleditPaths.m */; };
 		CE8E8AE519C4A4E50025EAC2 /* BibleditInstallation.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E8AE419C4A4E50025EAC2 /* BibleditInstallation.m */; };
@@ -86,13 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAC4C88A1B94944E00FB6700 /* libicudata.a in Frameworks */,
-				CAC4C88B1B94944E00FB6700 /* libicui18n.a in Frameworks */,
-				CAC4C88C1B94944E00FB6700 /* libicuio.a in Frameworks */,
-				CAC4C88D1B94944E00FB6700 /* libicule.a in Frameworks */,
-				CAC4C88E1B94944E00FB6700 /* libiculx.a in Frameworks */,
-				CAC4C88F1B94944E00FB6700 /* libicutu.a in Frameworks */,
-				CAC4C8901B94944E00FB6700 /* libicuuc.a in Frameworks */,
 				CAB519C01A8A6C0D00F4ED36 /* libsqlite3.dylib in Frameworks */,
 				CAB519BE1A8A6BF900F4ED36 /* CFNetwork.framework in Frameworks */,
 				CAB519BC1A8A6BE800F4ED36 /* libz.dylib in Frameworks */,
