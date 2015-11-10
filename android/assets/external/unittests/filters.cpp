@@ -4279,7 +4279,7 @@ void test_filter_string ()
   {
     evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
     evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
-    evaluate (__LINE__, __func__, "θεοσ", unicode_string_casefold ("Θεος"));
+    evaluate (__LINE__, __func__, "θεος", unicode_string_casefold ("Θεος"));
     evaluate (__LINE__, __func__, "α α β β", unicode_string_casefold ("Α α Β β"));
     evaluate (__LINE__, __func__, "אָבּגּדּהּ", unicode_string_casefold ("אָבּגּדּהּ"));
   }

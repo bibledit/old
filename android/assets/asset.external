@@ -680,6 +680,7 @@ locale/it.mo
 locale/it.po
 locale/logic.cpp
 locale/logic.h
+locale/lt.po
 locale/nl.mo
 locale/nl.po
 locale/ny.mo
@@ -1338,6 +1339,11 @@ utf8/documentation.txt
 utf8/unchecked.h
 utf8/utf8.h
 utf8/utf8cpp.html
+utf8proc/LICENSE.md
+utf8proc/README.md
+utf8proc/utf8proc.c
+utf8proc/utf8proc.h
+utf8proc/utf8proc_data.c
 versification/Dutch_Traditional.txt
 versification/English.txt
 versification/Original.txt

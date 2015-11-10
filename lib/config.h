@@ -20,7 +20,7 @@
 /* #undef CLIENT_PREPARED */
 
 /* Define whether it is a demo installation */
-#define DEMO "yes"
+#define DEMO "no"
 
 /* Define the directory separator as Windows differs from Linux */
 #define DIRECTORY_SEPARATOR "/"
