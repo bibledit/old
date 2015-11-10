@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.288],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.290],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -65,10 +65,6 @@ AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not fou
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
-
-PKG_CHECK_MODULES(ICU, icu-i18n >= 50.0,,AC_MSG_ERROR(ICU development version >= 50.0 is needed.))
-AC_SUBST(ICU_CFLAGS)
-AC_SUBST(ICU_LIBS)
 
 
 # Tag1 (leave in place)
@@ -244,17 +240,6 @@ AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
 AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
 AC_SUBST(WINDOWS)
 
-# ICU availability.
-ICUOFF=no
-AC_ARG_ENABLE(icu,
-[  --disable-icu Disable ICU library],
-[AC_DEFINE([ICU_DISABLED], [1], [Define whether ICU is disabled])]
-ICUOFF=yes
-)
-AC_DEFINE([ICUOFF], [], [Define whether ICU is disabled])
-AC_DEFINE_UNQUOTED(ICUOFF, "$ICUOFF")
-AC_SUBST(ICUOFF)
-
 AC_OUTPUT(Makefile)
 
 echo "
@@ -276,5 +261,4 @@ Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
-Disable ICU library (--disable-icu)               : ${ICUOFF}
 "
