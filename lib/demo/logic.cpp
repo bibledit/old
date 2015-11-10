@@ -74,6 +74,19 @@
  00:32:09 | /lib/x86_64-linux-gnu/libpthread.so.0(+0x8182)[0x7f4c2db63182]
  00:32:09 | /lib/x86_64-linux-gnu/libc.so.6(clone+0x6d)[0x7f4c2bff547d]
 
+ 00:30:03 | Check Bibledit Sample Bible: Start
+ 00:32:04 | The server started
+ 00:32:04 | Backtrace of the last segmentation fault:
+ 00:32:04 | ./bibleditserver(_Z15sigsegv_handleri+0x5a)[0x44d35a]
+ 00:32:04 | /lib/x86_64-linux-gnu/libc.so.6(+0x36d40)[0x7ffc161a1d40]
+ 00:32:04 | /usr/lib/x86_64-linux-gnu/libstdc++.so.6(_ZNSs6assignERKSs+0x10)[0x7ffc16b07480]
+ 00:32:04 | ./bibleditserver(_ZN16Checks_Sentences10paragraphsESt3mapIiSsSt4lessIiESaISt4pairIKiSsEEESt6vectorIiSaIiEE+0x490)[0x6d2aa0]
+ 00:32:04 | ./bibleditserver(_Z10checks_runSs+0x17d1)[0x6c9561]
+ 00:32:04 | ./bibleditserver(_Z13tasks_run_oneSs+0x1551)[0x4f8f01]
+ 00:32:04 | ./bibleditserver(_ZNSt6thread5_ImplISt12_Bind_simpleIFPFvSsESsEEE6_M_runEv+0x21)[0x4fa271]
+ 00:32:04 | /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0xb1a40)[0x7ffc16afda40]
+ 00:32:04 | /lib/x86_64-linux-gnu/libpthread.so.0(+0x8182)[0x7ffc17653182]
+ 00:32:04 | /lib/x86_64-linux-gnu/libc.so.6(clone+0x6d)[0x7ffc1626547d]
 */
 
 // Returns true for correct credentials for a demo installation.
