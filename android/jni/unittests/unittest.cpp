@@ -61,7 +61,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_odf_text (); refresh_sandbox (true); exit (0); // Todo
+  test_filter_string (); refresh_sandbox (true); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
