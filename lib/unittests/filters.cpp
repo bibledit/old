@@ -882,7 +882,7 @@ void test_filters_export2 ()
     string filename = "/tmp/module.bblx";
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
-    evaluate (__LINE__, __func__, 16384, filesize);
+    evaluate (__LINE__, __func__, 4096, filesize);
     filter_url_unlink (filename);
   }
   // Test class OnlineBible_Text.
@@ -1759,7 +1759,7 @@ void test_filter_text2 ()
       "\\p\n"
       "\\v 1 Verse one.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse ();
+    filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
@@ -1781,7 +1781,7 @@ void test_filter_text2 ()
       "\\p\n"
       "\\v 3 Verse three\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse ();
+    filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
@@ -1809,7 +1809,7 @@ void test_filter_text2 ()
       "\\p\n"
       "\\v 1 Verse one\\x + \\xt Isa. 1.1.\\x*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse ();
+    filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
@@ -1833,7 +1833,7 @@ void test_filter_text2 ()
       "\\p I will sing to the Lord.\n"
       "\\v 2 The Lord is my strength.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse ();
+    filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
@@ -1854,7 +1854,7 @@ void test_filter_text2 ()
       "\\v 2 The Lord is my strength.\n"
       "\\p I trust in Him.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse ();
+    filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     vector <int> output = filter_text.paragraph_start_positions;
@@ -1869,7 +1869,7 @@ void test_filter_text2 ()
       "\\v 1 He said: I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n"
       "\\v 2 The \\nd Lord\\nd* is my strength.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse ();
+    filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
@@ -2354,7 +2354,7 @@ void test_filter_passage4 ()
     refresh_sandbox (true);
     Database_Bibles database_bibles;
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
+    Database_Search database_search;
     database_search.create ();
     
     string bible = "php unit";

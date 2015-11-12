@@ -81,7 +81,7 @@ void export_text_usfm_book (string bible, int book, bool force)
     
     
     // Basic USFM for this chapter.
-    filter_text_chapter.initializeHeadingsAndTextPerVerse ();
+    filter_text_chapter.initializeHeadingsAndTextPerVerse (false);
     
     
     // Get the USFM code for the current chapter.

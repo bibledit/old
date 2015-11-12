@@ -43,7 +43,7 @@ bool search_replacego2_acl (void * webserver_request)
 }
 
 
-string search_replacego2 (void * webserver_request)
+string search_replacego2 (void * webserver_request) // Todo fix it similar to search_replacego.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -128,7 +128,7 @@ string search_replacego2 (void * webserver_request)
   // This is for search/replace in plain text, not in USFM.
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.text_text = new Text_Text ();
-  filter_text.initializeHeadingsAndTextPerVerse ();
+  filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.addUsfmCode (updatedUsfm);
   filter_text.run (stylesheet);
 

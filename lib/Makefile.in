@@ -286,7 +286,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
 	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
 	public/create.$(OBJEXT) public/note.$(OBJEXT) \
-	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT)
+	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
+	search/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -862,7 +863,8 @@ libbibledit_a_SOURCES = \
 	public/create.cpp \
 	public/note.cpp \
 	public/comment.cpp \
-	utf8proc/utf8proc.c
+	utf8proc/utf8proc.c \
+	search/logic.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -2073,6 +2075,8 @@ utf8proc/$(DEPDIR)/$(am__dirstamp):
 	@: > utf8proc/$(DEPDIR)/$(am__dirstamp)
 utf8proc/utf8proc.$(OBJEXT): utf8proc/$(am__dirstamp) \
 	utf8proc/$(DEPDIR)/$(am__dirstamp)
+search/logic.$(OBJEXT): search/$(am__dirstamp) \
+	search/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2494,6 +2498,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/originals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/rebibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/renotes.Po@am__quote@

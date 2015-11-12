@@ -133,7 +133,7 @@ bool sendreceive_paratext_queued ()
 
 void sendreceive_queue_all (bool now)
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
   vector <string> bibles = database_bibles.getBibles ();
   for (auto & bible : bibles) {
     if (Database_Config_Bible::getRemoteRepositoryUrl (bible) != "") {

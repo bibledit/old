@@ -343,7 +343,8 @@ libbibledit_a_SOURCES = \
 	public/create.cpp \
 	public/note.cpp \
 	public/comment.cpp \
-	utf8proc/utf8proc.c
+	utf8proc/utf8proc.c \
+	search/logic.cpp
 
 bin_PROGRAMS = server unittest
 

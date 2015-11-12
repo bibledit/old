@@ -18,11 +18,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/bibles.h>
-#include <database/search.h>
 #include <database/books.h>
 #include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <search/logic.h>
 
 
 // This database stores its data in files in the filesystem.
@@ -158,8 +158,7 @@ void Database_Bibles::storeChapter (string name, int book, int chapter_number, s
 
 void Database_Bibles::updateSearchFields (string name, int book, int chapter)
 {
-  Database_Search database_search = Database_Search ();
-  database_search.updateSearchFields (name, book, chapter);
+  search_logic_index_chapter (name, book, chapter);
 }
 
 

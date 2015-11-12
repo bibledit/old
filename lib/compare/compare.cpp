@@ -44,7 +44,7 @@ void compare_compare (string bible, string compare, int jobId)
 
   
   Database_Jobs database_jobs = Database_Jobs ();
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);

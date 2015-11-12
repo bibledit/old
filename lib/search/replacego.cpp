@@ -43,7 +43,7 @@ bool search_replacego_acl (void * webserver_request)
 }
 
 
-string search_replacego (void * webserver_request)
+string search_replacego (void * webserver_request) // Todo fix it.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -123,7 +123,7 @@ string search_replacego (void * webserver_request)
   // Text filter for getting the new plain text from the new USFM.
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.text_text = new Text_Text ();
-  filter_text.initializeHeadingsAndTextPerVerse ();
+  filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.addUsfmCode (updatedUsfm);
   filter_text.run (stylesheet);
   

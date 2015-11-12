@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void Bible_Logic::storeChapter (const string& bible, int book, int chapter, const string& usfm)
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
 
   // Record data of the chapter to be stored prior to storing the new version.
   if (client_logic_client_enabled ()) {
@@ -54,7 +54,7 @@ void Bible_Logic::storeChapter (const string& bible, int book, int chapter, cons
 
 void Bible_Logic::deleteChapter (const string& bible, int book, int chapter)
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
 
   // Record data of the chapter to be deleted prior to deletion.
   if (client_logic_client_enabled ()) {
@@ -79,7 +79,7 @@ void Bible_Logic::deleteChapter (const string& bible, int book, int chapter)
 
 void Bible_Logic::deleteBook (const string& bible, int book)
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
 
   // Record data of the book to be deleted prior to deletion.
   if (client_logic_client_enabled ()) {
@@ -107,7 +107,7 @@ void Bible_Logic::deleteBook (const string& bible, int book)
 
 void Bible_Logic::deleteBible (const string& bible)
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
 
   // Record data of the Bible to be deleted prior to deletion.
   if (client_logic_client_enabled ()) {

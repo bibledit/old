@@ -26,8 +26,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-void search_reindex_bibles ()
+bool search_reindex_bibles_running = false;
+
+
+void search_reindex_bibles () // Todo
 {
+  // One simultaneous instance.
+  if (search_reindex_bibles_running) {
+    Database_Logs::log ("Still indexing Bibles", Filter_Roles::manager ());
+    return;
+  }
+  search_reindex_bibles_running = true;
+  
+  
   // This does not run as a result of a webserver request, so create one.
   Webserver_Request request;
 
@@ -35,7 +46,7 @@ void search_reindex_bibles ()
   // Health check on the database.
   bool recreate = request.database_search ()->checkup ();
   if (recreate) {
-    Database_Logs::log ("Recreating damaged search database" , Filter_Roles::manager ());
+    Database_Logs::log ("Recreating damaged search database", Filter_Roles::manager ());
   }
   
   
@@ -51,7 +62,7 @@ void search_reindex_bibles ()
   
   
   // Check for and delete extra Bibles from the search database.
-  Database_Logs::log ("Trimming search database" , Filter_Roles::manager ());
+  Database_Logs::log ("Trimming search database", Filter_Roles::manager ());
   vector <string> bibles = request.database_bibles ()->getBibles ();
   vector <string> searchBibles = request.database_search ()->getBibles ();
   for (auto & searchBible : searchBibles) {
@@ -123,5 +134,6 @@ void search_reindex_bibles ()
   
   
   Database_Logs::log ("Recreating Bible indexes ready", Filter_Roles::manager ());
+  search_reindex_bibles_running = false;
 }
 

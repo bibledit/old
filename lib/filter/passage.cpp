@@ -410,7 +410,7 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
 // This function returns either the standard order, or a custom order in case it is available for the $bible.
 vector <int> filter_passage_get_ordered_books (const string& bible)
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
 
   // The available books from the Bible.
   vector <int> projectbooks = database_bibles.getBooks (bible);

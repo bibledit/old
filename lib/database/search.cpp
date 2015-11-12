@@ -103,13 +103,12 @@ bool Database_Search::checkup (bool recreate)
 
 
 // Updates the search fields for a chapter in Bible $name.
-void Database_Search::updateSearchFields (string name, int book, int chapter)
+void Database_Search::updateSearchFields (string name, int book, int chapter) // Todo create verse version.
 {
-  Database_Bibles database_bibles = Database_Bibles ();
-  Database_Config_Bible database_config_bible = Database_Config_Bible ();
+  Database_Bibles database_bibles;
 
   string usfm = database_bibles.getChapter (name, book, chapter);
-  string stylesheet = database_config_bible.getExportStylesheet (name);
+  string stylesheet = Database_Config_Bible::getExportStylesheet (name);
 
   // Data to store.
   map <int, string> usfmraw;
@@ -134,7 +133,7 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
   // Text filter for getting the plain text.
   Filter_Text filter_text = Filter_Text (name);
   filter_text.text_text = new Text_Text ();
-  filter_text.initializeHeadingsAndTextPerVerse ();
+  filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.addUsfmCode (usfm);
   filter_text.run (stylesheet);
 

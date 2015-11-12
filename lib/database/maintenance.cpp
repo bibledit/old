@@ -81,7 +81,7 @@ void database_maintenance ()
   // Database_Styles database_styles = Database_Styles ();
   
   
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
   database_bibles.optimize ();
 
   
