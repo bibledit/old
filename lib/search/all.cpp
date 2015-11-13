@@ -30,6 +30,7 @@
 #include <database/config/general.h>
 #include <access/bible.h>
 #include <notes/note.h>
+#include <search/logic.h>
 
 
 string search_all_url ()
@@ -141,7 +142,7 @@ string search_all (void * webserver_request)
   
   
   // Search the Bible text.
-  vector <int> hits = request->database_search()->searchText (queryString, bibles);
+  vector <Passage> hits = search_logic_search_text (queryString, bibles); // Todo test well.
   
   
   int textCount = hits.size ();
@@ -151,16 +152,14 @@ string search_all (void * webserver_request)
   // Assemble the search results.
   string textblock;
   for (auto & hit : hits) {
-    // Get the details of this search hit.
-    Passage details = request->database_search()->getBiblePassage (hit);
-    string bible = details.bible;
-    int book = details.book;
-    int chapter = details.chapter;
-    string verse = details.verse;
+    string bible = hit.bible;
+    int book = hit.book;
+    int chapter = hit.chapter;
+    string verse = hit.verse;
     // The title plus link.
     string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
     // The excerpt.
-    string stext = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string stext = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     vector <string> vtext = filter_string_explode (stext, '\n');
     string excerpt;
     // Go through each line of text separately.

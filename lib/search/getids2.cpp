@@ -52,6 +52,7 @@ string search_getids2 (void * webserver_request)
   
   // Do the search.
   vector <int> hits;
+  /* Todo
   if (casesensitive) {
     if (searchplain) {
       hits = request->database_search()->searchBibleTextCaseSensitive (bible, searchfor);
@@ -65,6 +66,7 @@ string search_getids2 (void * webserver_request)
       hits = request->database_search()->searchBibleUsfm (bible, searchfor);
     }
   }
+   */
   
   
   // Output identifiers of the search results.

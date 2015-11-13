@@ -133,16 +133,15 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
-	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
-	database/books.$(OBJEXT) database/bibleactions.$(OBJEXT) \
-	database/check.$(OBJEXT) database/localization.$(OBJEXT) \
-	database/confirm.$(OBJEXT) database/ipc.$(OBJEXT) \
-	database/jobs.$(OBJEXT) database/kjv.$(OBJEXT) \
-	database/morphhb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
-	database/offlineresources.$(OBJEXT) database/sprint.$(OBJEXT) \
-	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
-	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
-	database/noteactions.$(OBJEXT) \
+	database/bibles.$(OBJEXT) database/books.$(OBJEXT) \
+	database/bibleactions.$(OBJEXT) database/check.$(OBJEXT) \
+	database/localization.$(OBJEXT) database/confirm.$(OBJEXT) \
+	database/ipc.$(OBJEXT) database/jobs.$(OBJEXT) \
+	database/kjv.$(OBJEXT) database/morphhb.$(OBJEXT) \
+	database/sblgnt.$(OBJEXT) database/offlineresources.$(OBJEXT) \
+	database/sprint.$(OBJEXT) database/mail.$(OBJEXT) \
+	database/navigation.$(OBJEXT) database/usfmresources.$(OBJEXT) \
+	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
@@ -562,7 +561,6 @@ libbibledit_a_SOURCES = \
 	database/sqlite.cpp \
 	database/styles.cpp \
 	database/bibles.cpp \
-	database/search.cpp \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
@@ -1090,8 +1088,6 @@ database/sqlite.$(OBJEXT): database/$(am__dirstamp) \
 database/styles.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/bibles.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
-database/search.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/books.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -2324,7 +2320,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/offlineresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/state.Po@am__quote@

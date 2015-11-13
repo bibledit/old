@@ -54,6 +54,7 @@ string search_replacepre (void * webserver_request)
   
   
   // Get the Bible and passage for this identifier.
+  /* Todo
   Passage details = request->database_search()->getBiblePassage (id);
   string bible = details.bible;
   int book = convert_to_int (details.book);
@@ -62,8 +63,7 @@ string search_replacepre (void * webserver_request)
   
   
   // Get the plain text.
-  string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
-  
+  string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
   
   // Clickable passage.
   string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
@@ -102,4 +102,5 @@ string search_replacepre (void * webserver_request)
   
   // Output to browser.
   return output;
+   */
 }

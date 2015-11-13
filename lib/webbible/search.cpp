@@ -74,6 +74,7 @@ string webbible_search (void * webserver_request)
   
   
   // Search the Bible text in the exported Bible.
+  /* Todo
   vector <int> ids = request->database_search()->searchText (queryString, {exportedBible});
   
   
@@ -111,7 +112,7 @@ string webbible_search (void * webserver_request)
     
     
     // The excerpt.
-    string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     vector <string> v_text = filter_string_explode (text, '\n');
     // Go through each line of text separately.
     for (auto line : v_text) {
@@ -124,7 +125,7 @@ string webbible_search (void * webserver_request)
   }
   
   view.set_variable ("hitsblock", hitsblock);
-
+  */
   
   return view.render ("webbible", "search");
 }

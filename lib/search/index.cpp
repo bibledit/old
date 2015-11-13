@@ -57,7 +57,7 @@ string search_index (void * webserver_request)
   bool q_is_set = request->query.count ("q");
   string q = request->query ["q"];
   
-  
+  /* Todo
   if (request->query.count ("id")) {
     int id = convert_to_int (request->query ["id"]);
     
@@ -69,7 +69,7 @@ string search_index (void * webserver_request)
     string verse = details.verse;
     
     // Get the plain text.
-    string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
@@ -79,8 +79,9 @@ string search_index (void * webserver_request)
     // Output to browser.
     return output;
   }
-  
+  */
 
+  /* Todo
   if (q_is_set) {
     // Search in the active Bible.
     vector <int> hits = request->database_search()->searchBibleText (bible, q);
@@ -92,6 +93,7 @@ string search_index (void * webserver_request)
     }
     return output;
   }
+   */
 
   
   string page;

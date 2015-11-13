@@ -42,7 +42,6 @@ libbibledit_a_SOURCES = \
 	database/sqlite.cpp \
 	database/styles.cpp \
 	database/bibles.cpp \
-	database/search.cpp \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \

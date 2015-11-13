@@ -310,8 +310,6 @@ void test_checksum_logic ()
   // Setup some data.
   refresh_sandbox (true);
   Webserver_Request request;
-  Database_State::create ();
-  request.database_search()->create ();
   request.database_bibles()->storeChapter ("phpunit1", 1, 2, "data1");
   request.database_bibles()->storeChapter ("phpunit1", 1, 3, "data2");
   request.database_bibles()->storeChapter ("phpunit1", 1, 4, "data3");
@@ -362,8 +360,6 @@ void test_checksum_logic ()
 void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
 {
   refresh_sandbox (true);
-  Database_State::create ();
-  request->database_search()->create ();
   request->database_bibles()->createBible ("phpunit");
   request->database_bibles()->storeChapter ("phpunit", 1, 1, usfm);
 }

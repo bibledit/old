@@ -29,6 +29,7 @@
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <bible/logic.h>
+#include <search/logic.h>
 
 
 string search_replacego_url ()
@@ -77,7 +78,7 @@ string search_replacego (void * webserver_request) // Todo fix it.
   // As a standard to compare against, get the plain text from the search database,
   // do the replacements, get the length difference due to the replacemenents, and get the desired new plain text.
   int plain_replacement_count = 0;
-  string standardPlainText = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+  string standardPlainText = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
   if (casesensitive) {
     standardPlainText = filter_string_str_replace (searchfor, replacewith, standardPlainText, &plain_replacement_count);
   } else {

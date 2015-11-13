@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <database/config/user.h>
 #include <database/styles.h>
-#include <database/search.h>
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <database/modifications.h>
@@ -2354,8 +2353,6 @@ void test_filter_passage4 ()
     refresh_sandbox (true);
     Database_Bibles database_bibles;
     Database_State::create ();
-    Database_Search database_search;
-    database_search.create ();
     
     string bible = "php unit";
 
@@ -2856,7 +2853,6 @@ void test_filter_diff ()
     Database_Modifications database_modifications = Database_Modifications ();
     Database_State::create ();
 
-    request.database_search ()->create ();
     client_logic_enable_client (false);
     database_modifications.truncateTeams ();
     
@@ -3066,7 +3062,6 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   request->user_agent = "unittest";
   request->database_users ()->create ();
   request->session_logic ()->setUsername ("unittest");
-  request->database_search()->create ();
   request->database_bibles()->createBible (bible);
 
   bool result;

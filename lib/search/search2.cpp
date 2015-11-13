@@ -67,6 +67,7 @@ string search_search2 (void * webserver_request)
 
   
   // Get one search hit.
+  /* Todo
   if (hit_is_set) {
     
     
@@ -87,7 +88,7 @@ string search_search2 (void * webserver_request)
     // Get the plain text or USFM.
     string text;
     if (plaintext) {
-      text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+      text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     } else {
       text = request->database_search()->getBibleVerseUsfm (bible, book, chapter, convert_to_int (verse));
     }
@@ -184,6 +185,7 @@ string search_search2 (void * webserver_request)
     // Output results.
     return output;
   }
+   */
   
   
   // Build the advanced search page.

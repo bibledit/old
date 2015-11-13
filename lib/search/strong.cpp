@@ -29,6 +29,7 @@
 #include <database/config/bible.h>
 #include <database/kjv.h>
 #include <ipc/focus.h>
+#include <search/logic.h>
 
 
 string search_strong_url ()
@@ -113,7 +114,7 @@ string search_strong (void * webserver_request)
     string verse = passage.verse;
     
     // Get the plain text.
-    string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

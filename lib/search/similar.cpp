@@ -59,14 +59,14 @@ string search_similar (void * webserver_request)
     bible = request->query ["b"];
   }
 
-  
+  /*
   if (request->query.count ("load")) {
     int book = Ipc_Focus::getBook (request);
     int chapter = Ipc_Focus::getChapter (request);
     int verse = Ipc_Focus::getVerse (request);
     // Text of the focused verse in the active Bible.
     // Remove all punctuation from it.
-    string versetext = request->database_search()->getBibleVerseText (bible, book, chapter, verse);
+    string versetext = search_logic_get_bible_verse_text (bible, book, chapter, verse);
     vector <string> punctuation = filter_string_explode (Database_Config_Bible::getSentenceStructureEndPunctuation (bible), ' ');
     for (auto & sign : punctuation) {
       versetext = filter_string_str_replace (sign, "", versetext);
@@ -145,7 +145,7 @@ string search_similar (void * webserver_request)
     string verse = details.verse;
     
     // Get the plain text.
-    string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     
     // Get search words.
     vector <string> words = filter_string_explode (database_volatile.getValue (myIdentifier, "searchsimilar"), ' ');
@@ -158,7 +158,7 @@ string search_similar (void * webserver_request)
     // Output to browser.
     return output;
   }
-
+*/
   
   string page;
   
