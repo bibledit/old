@@ -203,7 +203,7 @@
 		CA32E6B01A680E39005AE0C4 /* replace2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = replace2.html; sourceTree = "<group>"; };
 		CA32E6B11A681706005AE0C4 /* replacepre2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = replacepre2.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA32E6B21A681706005AE0C4 /* replacepre2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = replacepre2.h; sourceTree = "<group>"; };
-		CA32E6B31A681D2A005AE0C4 /* getids2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = getids2.cpp; sourceTree = "<group>"; };
+		CA32E6B31A681D2A005AE0C4 /* getids2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = getids2.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA32E6B41A681D2A005AE0C4 /* getids2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = getids2.h; sourceTree = "<group>"; };
 		CA32E6B51A6829C5005AE0C4 /* replacego2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = replacego2.cpp; sourceTree = "<group>"; };
 		CA32E6B61A6829C5005AE0C4 /* replacego2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = replacego2.h; sourceTree = "<group>"; };

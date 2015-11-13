@@ -61,7 +61,7 @@ string search_getids2 (void * webserver_request)
     }
   } else {
     if (searchplain) {
-      hits = request->database_search()->searchBibleText (bible, searchfor);
+      hits = search_logic_search_bible_text (bible, searchfor);
     } else {
       hits = request->database_search()->searchBibleUsfm (bible, searchfor);
     }

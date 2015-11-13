@@ -127,7 +127,7 @@ string search_search2 (void * webserver_request)
       if (casesensitive) {
         hits = request->database_search()->searchBibleTextCaseSensitive (bible, query);
       } else {
-        hits = request->database_search()->searchBibleText (bible, query);
+        hits = search_logic_search_bible_text (bible, query);
       }
     } else {
       if (casesensitive) {

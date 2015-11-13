@@ -49,18 +49,18 @@ string search_getids (void * webserver_request)
   bool casesensitive = (request->query ["c"] == "true");
 
   // Do the search.
-  vector <Passage> hits;
+  vector <Passage> passages;
   if (casesensitive) {
-    hits = search_logic_search_bible_text_case_sensitive (bible, searchfor); // Todo test well.
+    passages = search_logic_search_bible_text_case_sensitive (bible, searchfor); // Todo test well.
   } else {
-    hits = search_logic_search_bible_text (bible, searchfor); // Todo test well.
+    passages = search_logic_search_bible_text (bible, searchfor); // Todo test well.
   }
 
   // Output identifiers of the search results.
   string output;
-  for (auto & hit : hits) {
+  for (auto & passage : passages) {
     if (!output.empty ()) output.append ("\n");
-    // output.append (convert_to_string (hit)); Todo perhaps to convert it to something else.
+    output.append (passage.to_text ());
   }
   return output;
 }

@@ -44,7 +44,7 @@ bool search_replacego_acl (void * webserver_request)
 }
 
 
-string search_replacego (void * webserver_request) // Todo fix it.
+string search_replacego (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

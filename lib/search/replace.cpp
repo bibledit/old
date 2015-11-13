@@ -54,14 +54,13 @@ string search_replace (void * webserver_request)
     bible = request->query ["b"];
   }
   
-  bool id_is_set = request->query.count ("id");
   string searchfor = request->query ["q"];
   string replacewith = request->query ["r"];
   int id = convert_to_int (request->query ["id"]);
   
-  /* Todo
-  if (id_is_set) {
+  if (request->query.count ("id")) {
     
+    /* Todo
     // Get the Bible and passage for this identifier.
     Passage details = request->database_search()->getBiblePassage (id);
     string bible = details.bible;
@@ -87,8 +86,8 @@ string search_replace (void * webserver_request)
     
     // Output to browser.
     return output;
+     */
   }
-   */
   
   string page;
   

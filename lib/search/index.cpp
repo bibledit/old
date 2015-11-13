@@ -26,9 +26,7 @@
 #include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <database/notes.h>
-#include <database/config/general.h>
-#include <access/bible.h>
+#include <search/logic.h>
 
 
 string search_index_url ()
@@ -57,16 +55,16 @@ string search_index (void * webserver_request)
   bool q_is_set = request->query.count ("q");
   string q = request->query ["q"];
   
-  /* Todo
+
   if (request->query.count ("id")) {
-    int id = convert_to_int (request->query ["id"]);
-    
+    string id = request->query ["id"];
+
     // Get the Bible and passage for this identifier.
-    Passage details = request->database_search()->getBiblePassage (id);
-    string bible = details.bible;
-    int book = details.book;
-    int chapter = details.chapter;
-    string verse = details.verse;
+    Passage passage = Passage::from_text (id);
+    string bible = passage.bible;
+    int book = passage.book;
+    int chapter = passage.chapter;
+    string verse = passage.verse;
     
     // Get the plain text.
     string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
@@ -79,21 +77,19 @@ string search_index (void * webserver_request)
     // Output to browser.
     return output;
   }
-  */
+  
 
-  /* Todo
   if (q_is_set) {
     // Search in the active Bible.
-    vector <int> hits = request->database_search()->searchBibleText (bible, q);
+    vector <Passage> passages = search_logic_search_bible_text (bible, q);
     // Output results.
     string output;
-    for (auto & hit : hits) {
+    for (auto & passage : passages) {
       if (!output.empty ()) output.append ("\n");
-      output.append (convert_to_string (hit));
+      output.append (passage.to_text ());
     }
     return output;
   }
-   */
 
   
   string page;

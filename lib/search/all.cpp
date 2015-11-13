@@ -77,7 +77,7 @@ string search_all (void * webserver_request)
   queryString = filter_string_trim (queryString);
   
   
-  // Generate search words for emphasizing the search hits.
+  // Generate search words for emphasizing the search passages.
   vector <string> queryWords = filter_string_explode (queryString, ' ');
   
   
@@ -98,7 +98,7 @@ string search_all (void * webserver_request)
   view.set_variable ("noteCount", convert_to_string (noteCount));
   
   
-  // Assemble the block of search results.
+  // Assemble the block of search results for the consultation notes.
   string notesblock;
   for (auto identifier : identifiers) {
     
@@ -142,20 +142,20 @@ string search_all (void * webserver_request)
   
   
   // Search the Bible text.
-  vector <Passage> hits = search_logic_search_text (queryString, bibles); // Todo test well.
+  vector <Passage> passages = search_logic_search_text (queryString, bibles);
   
   
-  int textCount = hits.size ();
+  int textCount = passages.size ();
   view.set_variable ("textCount", convert_to_string (textCount));
   
   
-  // Assemble the search results.
+  // Assemble the search results for the Bible text.
   string textblock;
-  for (auto & hit : hits) {
-    string bible = hit.bible;
-    int book = hit.book;
-    int chapter = hit.chapter;
-    string verse = hit.verse;
+  for (auto & passage : passages) {
+    string bible = passage.bible;
+    int book = passage.book;
+    int chapter = passage.chapter;
+    string verse = passage.verse;
     // The title plus link.
     string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
     // The excerpt.
@@ -191,4 +191,3 @@ string search_all (void * webserver_request)
   
   return page;
 }
-

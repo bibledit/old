@@ -99,7 +99,7 @@ string search_similar (void * webserver_request)
     for (auto & word : vwords) {
       
       // Find out how often this word occurs in the Bible. Skip if too often.
-      vector <int> ids = request->database_search()->searchBibleText (bible, word);
+      vector <int> ids = search_logic_search_bible_text (bible, word);
       if (ids.size () > maxcount) continue;
       
       // Store the identifiers and their count.
