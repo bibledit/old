@@ -553,7 +553,7 @@ bool unicode_string_is_valid (string s)
 
 
 // Returns whether $s is Unicode punctuation.
-bool unicode_string_is_punctuation (string s) // Todo
+bool unicode_string_is_punctuation (string s)
 {
   if (s.empty ()) return false;
   // Be sure to take only one character.

@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 bool search_reindex_bibles_running = false;
 
 
-void search_reindex_bibles () // Todo
+void search_reindex_bibles ()
 {
   // One simultaneous instance.
   if (search_reindex_bibles_running) {
