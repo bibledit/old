@@ -65,7 +65,12 @@ void Database_Cache::check ()
   vector <string> names = filter_url_scandir (filter_url_create_root_path ("databases"));
   string filefragment = database_resource ("");
   for (auto & name : names) {
-    if (name.find (filefragment) != string::npos) {
+    if (name.find (".sqlite.sqlite") != string::npos) {
+      // Because of a bug elsewhere it generates *.sqlite.sqlite files in the Cloud.
+      // Delete them.
+      string path = filter_url_create_root_path ("databases", name);
+      filter_url_unlink (path);
+    } else if (name.find (filefragment) != string::npos) {
       if (database_sqlite_healthy (name)) continue;
       string resource = name.substr (filefragment.length ());
       string file = database_sqlite_file (database_resource (resource));
