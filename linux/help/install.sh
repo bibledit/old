@@ -59,11 +59,6 @@ dnf --assumeyes install gtk3-devel
 yum --assumeyes install gtk3-devel
 zypper --non-interactive install gtk3-devel
 
-apt-get --yes --force-yes install libicu-dev
-dnf --assumeyes install libicu-devel
-yum --assumeyes install libicu-devel
-zypper --non-interactive install libicu-devel
-
 # Create the script to start bibledit.
 rm -f /usr/bin/bibledit
 echo #!/bin/bash >> /usr/bin/bibledit

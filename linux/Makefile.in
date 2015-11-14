@@ -135,16 +135,15 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
-	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
-	database/books.$(OBJEXT) database/bibleactions.$(OBJEXT) \
-	database/check.$(OBJEXT) database/localization.$(OBJEXT) \
-	database/confirm.$(OBJEXT) database/ipc.$(OBJEXT) \
-	database/jobs.$(OBJEXT) database/kjv.$(OBJEXT) \
-	database/morphhb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
-	database/offlineresources.$(OBJEXT) database/sprint.$(OBJEXT) \
-	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
-	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
-	database/noteactions.$(OBJEXT) \
+	database/bibles.$(OBJEXT) database/books.$(OBJEXT) \
+	database/bibleactions.$(OBJEXT) database/check.$(OBJEXT) \
+	database/localization.$(OBJEXT) database/confirm.$(OBJEXT) \
+	database/ipc.$(OBJEXT) database/jobs.$(OBJEXT) \
+	database/kjv.$(OBJEXT) database/morphhb.$(OBJEXT) \
+	database/sblgnt.$(OBJEXT) database/offlineresources.$(OBJEXT) \
+	database/sprint.$(OBJEXT) database/mail.$(OBJEXT) \
+	database/navigation.$(OBJEXT) database/usfmresources.$(OBJEXT) \
+	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
@@ -288,7 +287,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
 	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
 	public/create.$(OBJEXT) public/note.$(OBJEXT) \
-	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT)
+	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
+	search/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 PROGRAMS = $(noinst_PROGRAMS)
 am_bibledit_OBJECTS = executable/bibledit.$(OBJEXT)
@@ -591,7 +591,6 @@ libbibledit_a_SOURCES = \
 	database/sqlite.cpp \
 	database/styles.cpp \
 	database/bibles.cpp \
-	database/search.cpp \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
@@ -892,7 +891,8 @@ libbibledit_a_SOURCES = \
 	public/create.cpp \
 	public/note.cpp \
 	public/comment.cpp \
-	utf8proc/utf8proc.c
+	utf8proc/utf8proc.c \
+	search/logic.cpp
 
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
@@ -1117,8 +1117,6 @@ database/sqlite.$(OBJEXT): database/$(am__dirstamp) \
 database/styles.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/bibles.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
-database/search.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/books.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -2102,6 +2100,8 @@ utf8proc/$(DEPDIR)/$(am__dirstamp):
 	@: > utf8proc/$(DEPDIR)/$(am__dirstamp)
 utf8proc/utf8proc.$(OBJEXT): utf8proc/$(am__dirstamp) \
 	utf8proc/$(DEPDIR)/$(am__dirstamp)
+search/logic.$(OBJEXT): search/$(am__dirstamp) \
+	search/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2324,7 +2324,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/offlineresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/state.Po@am__quote@
@@ -2498,6 +2497,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/getids2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/originals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/rebibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@search/$(DEPDIR)/renotes.Po@am__quote@

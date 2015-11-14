@@ -34,7 +34,7 @@
 bool book_create (string bible, int book, int chapter, vector <string> & feedback)
 
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
   Database_Versifications database_versifications = Database_Versifications ();
   int bible_id = database_bibles.getID (bible);
   if (bible_id == 0) {

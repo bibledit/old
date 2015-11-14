@@ -111,7 +111,7 @@ void checks_run (string bible)
       
       
       Filter_Text filter_text = Filter_Text (bible);
-      filter_text.initializeHeadingsAndTextPerVerse ();
+      filter_text.initializeHeadingsAndTextPerVerse (false);
       filter_text.addUsfmCode (chapterUsfm);
       filter_text.run (stylesheet);
       map <int, string>  verses_headings = filter_text.verses_headings;

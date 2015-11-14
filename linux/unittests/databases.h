@@ -31,7 +31,6 @@ void test_database_logs ();
 void test_database_users ();
 void test_database_styles ();
 void test_database_books ();
-void test_database_search ();
 void test_database_bibleactions ();
 void test_database_check ();
 void test_database_localization ();

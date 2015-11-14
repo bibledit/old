@@ -42,7 +42,6 @@ libbibledit_a_SOURCES = \
 	database/sqlite.cpp \
 	database/styles.cpp \
 	database/bibles.cpp \
-	database/search.cpp \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
@@ -343,7 +342,8 @@ libbibledit_a_SOURCES = \
 	public/create.cpp \
 	public/note.cpp \
 	public/comment.cpp \
-	utf8proc/utf8proc.c
+	utf8proc/utf8proc.c \
+	search/logic.cpp
 
 noinst_PROGRAMS = bibledit
 
