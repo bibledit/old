@@ -68,8 +68,8 @@ string search_replacego (void * webserver_request)
   if (details.size () > 1) book = convert_to_int (details [1]);
   int chapter = -1;
   if (details.size () > 2) chapter = convert_to_int (details [2]);
-  string verse;
-  if (details.size () > 3) verse = details [3];
+  int verse = -1;
+  if (details.size () > 3) verse = convert_to_int (details [3]);
   
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -78,7 +78,7 @@ string search_replacego (void * webserver_request)
   // As a standard to compare against, get the plain text from the search database,
   // do the replacements, get the length difference due to the replacemenents, and get the desired new plain text.
   int plain_replacement_count = 0;
-  string standardPlainText = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
+  string standardPlainText = search_logic_get_bible_verse_text (bible, book, chapter, verse);
   if (casesensitive) {
     standardPlainText = filter_string_str_replace (searchfor, replacewith, standardPlainText, &plain_replacement_count);
   } else {
@@ -89,35 +89,31 @@ string search_replacego (void * webserver_request)
   }
   
   
-  // Get the old USFM into a map of verse => USFM fragment.
-  map <int, string> usfmArray;
-  string usfmString = request->database_bibles()->getChapter (bible, book, chapter);
-  vector <int> verses = usfm_get_verse_numbers (usfmString);
-  sort (verses.begin(), verses.end());
-  for (auto & vs : verses) {
-    usfmArray [vs] = usfm_get_verse_text (usfmString, vs);
-  }
+  // Get the old chapter and verse USFM.
+  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
   
   
-  // Do the replacing in the correct verse of the raw USFM, and count how many replacement were made.
-  string usfm = usfmArray [convert_to_int (verse)];
+  // Do the replacing in the verse USFM, and count how many replacement were made.
   int usfm_replacement_count = 0;
+  string new_verse_usfm = old_verse_usfm;
   if (casesensitive) {
-    usfm = filter_string_str_replace (searchfor, replacewith, usfm, &usfm_replacement_count);
+    new_verse_usfm = filter_string_str_replace (searchfor, replacewith, new_verse_usfm, &usfm_replacement_count);
   } else {
-    vector <string> needles = filter_string_search_needles (searchfor, usfm);
+    vector <string> needles = filter_string_search_needles (searchfor, old_verse_usfm);
     for (auto & needle : needles) {
-      usfm = filter_string_str_replace (needle, replacewith, usfm, &usfm_replacement_count);
+      new_verse_usfm = filter_string_str_replace (needle, replacewith, new_verse_usfm, &usfm_replacement_count);
     }
   }
-  usfmArray [convert_to_int (verse)] = usfm;
   
   
   // Create the updated chapter USFM as a string.
-  string updatedUsfm;
-  for (auto & element : usfmArray) {
-    if (!updatedUsfm.empty ()) updatedUsfm.append ("\n");
-    updatedUsfm.append (element.second);
+  string new_chapter_usfm = old_chapter_usfm;
+  size_t pos = new_chapter_usfm.find (old_verse_usfm);
+  if (pos != string::npos) {
+    size_t length = old_verse_usfm.length ();
+    new_chapter_usfm.erase (pos, length);
+    new_chapter_usfm.insert (pos, new_verse_usfm);
   }
   
   
@@ -125,7 +121,7 @@ string search_replacego (void * webserver_request)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.text_text = new Text_Text ();
   filter_text.initializeHeadingsAndTextPerVerse (false);
-  filter_text.addUsfmCode (updatedUsfm);
+  filter_text.addUsfmCode (new_chapter_usfm);
   filter_text.run (stylesheet);
   
   
@@ -135,13 +131,13 @@ string search_replacego (void * webserver_request)
   for (auto & element : texts) {
     int vs = element.first;
     string text = element.second;
-    if (convert_to_string (vs) == verse) updatedPlainText.append (text + "\n");
+    if (vs == verse) updatedPlainText.append (text + "\n");
   }
   map <int, string> headings = filter_text.verses_headings;
   for (auto & element : headings) {
     int vs = element.first;
     string heading = element.second;
-    if (convert_to_string (vs) == verse) updatedPlainText.append (heading + "\n");
+    if (vs == verse) updatedPlainText.append (heading + "\n");
   }
   
   
@@ -162,7 +158,7 @@ string search_replacego (void * webserver_request)
   
   // Store the new chapter in the database on success.
   if (replacementOkay) {
-    Bible_Logic::storeChapter (bible, book, chapter, updatedUsfm);
+    Bible_Logic::storeChapter (bible, book, chapter, new_chapter_usfm);
   }
   
   
@@ -171,7 +167,7 @@ string search_replacego (void * webserver_request)
   
   
   // Clickable passage.
-  string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+  string link = filter_passage_link_for_opening_editor_at (book, chapter, convert_to_string (verse));
   
   
   // Success or failure message.
