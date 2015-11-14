@@ -916,7 +916,6 @@ var editorToolbarScrollingTimerId;
 
 function editorToolbarScrollingTimerStart ()
 {
-  //editorLog ("editorToolbarScrollingTimerStart"); // Todo
   if (editorToolbarScrollingTimerId) clearTimeout (editorToolbarScrollingTimerId);
   editorToolbarScrollingTimerId = setTimeout (editorToolbarScrollingRun, 200);
 }
@@ -926,7 +925,6 @@ function editorToolbarScrollingTimerStart ()
 // so it does not interfere with scrolling the window to bring the focused verse into view.
 function editorToolbarScrollingRun ()
 {
-  //editorLog ("editorToolbarScrollingRun"); // Todo
   $ ('#editorinnerheader').toggleClass('editorheaderscroll', $ (window).scrollTop () > $ ('#editorheader').offset ().top);
 }
 

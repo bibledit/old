@@ -42,6 +42,7 @@
 #include <config/globals.h>
 #include <demo/logic.h>
 #include <locale/logic.h>
+#include <tasks/logic.h>
 
 
 void setup_conditionally (const char * package)
@@ -158,7 +159,6 @@ void setup_initialize_data ()
   Database_Logs database_logs = Database_Logs ();
   database_logs.create ();
   request.database_styles ()->create ();
-  request.database_search ()->create ();
   request.database_bibleactions ()->create ();
   request.database_check ()->create ();
   config_globals_setup_progress = 30;
@@ -210,6 +210,9 @@ void setup_initialize_data ()
   vector <string> bibles = request.database_bibles()->getBibles ();
   if (bibles.empty ()) demo_create_sample_bible (&request);
   config_globals_setup_progress = 90;
+  
+  // Schedule reindexing Bible search data.
+  tasks_logic_queue (REINDEXBIBLES);
 }
 
 

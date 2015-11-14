@@ -152,7 +152,7 @@ public:
   Text_Text * text_text; // Object for exporting to plain text.
 
 public:
-  void initializeHeadingsAndTextPerVerse ();
+  void initializeHeadingsAndTextPerVerse (bool start_text_now);
   map <int, string> getVersesText ();
   map <int, string> verses_headings; // Vector with objects to hold verse numbers and the text of the headings.
   vector <int> paragraph_start_positions; // Positions, in unicode characters, where paragraphs start in verses_text.

@@ -281,6 +281,7 @@ databases/morphgnt.sqlite
 databases/morphhb.sqlite
 databases/offlineresources/gitflag
 databases/sblgnt.sqlite
+databases/search/gitflag
 databases/styles/gitflag
 databases/users/gitflag
 databases/usfmresources/gitflag
@@ -1026,6 +1027,8 @@ search/index.cpp
 search/index.h
 search/index.html
 search/index.js
+search/logic.cpp
+search/logic.h
 search/originals.cpp
 search/originals.h
 search/originals.html

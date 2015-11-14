@@ -38,7 +38,6 @@ Webserver_Request::~Webserver_Request ()
   if (database_users_instance) delete database_users_instance;
   if (database_styles_instance) delete database_styles_instance;
   if (database_bibles_instance) delete database_bibles_instance;
-  if (database_search_instance) delete database_search_instance;
   if (database_bibleactions_instance) delete database_bibleactions_instance;
   if (database_check_instance) delete database_check_instance;
   if (database_ipc_instance) delete database_ipc_instance;
@@ -83,13 +82,6 @@ Database_Bibles * Webserver_Request::database_bibles ()
 {
   if (!database_bibles_instance) database_bibles_instance = new Database_Bibles ();
   return database_bibles_instance;
-}
-
-
-Database_Search * Webserver_Request::database_search ()
-{
-  if (!database_search_instance) database_search_instance = new Database_Search ();
-  return database_search_instance;
 }
 
 

@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/date.h>
 #include <database/config/general.h>
+#include <database/logs.h>
 #include <config/logic.h>
 #include <utf8proc/utf8proc.h>
 
@@ -407,7 +408,6 @@ size_t unicode_string_strpos (string haystack, string needle, size_t offset)
 // Case-insensitive version of "unicode_string_strpos".
 size_t unicode_string_strpos_case_insensitive (string haystack, string needle, size_t offset)
 {
-  // C++Port uses ICU library eventually for this: It has a search service.
   haystack = unicode_string_casefold (haystack);
   needle = unicode_string_casefold (needle);
   
@@ -425,26 +425,29 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
 string unicode_string_casefold (string s)
 {
   string casefolded;
-  // The UTF8 processor works with one Unicode point at a time.
-  size_t string_length = unicode_string_length (s);
-  for (unsigned int pos = 0; pos < string_length; pos++) {
-    // Get one UTF-8 character.
-    string character = unicode_string_substr (s, pos, 1);
-    // Convert it to a Unicode point.
-    const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
-    utf8proc_ssize_t len = character.length ();
-    utf8proc_int32_t dst;
-    utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
-    // Convert the Unicode point to lower case.
-    utf8proc_int32_t luc = utf8proc_tolower (dst);
-    // Convert the Unicode point back to a UTF-8 string.
-    utf8proc_uint8_t buffer [10];
-    output = utf8proc_encode_char (luc, buffer);
-    buffer [output] = 0;
-    stringstream ss;
-    ss << buffer;
-    // Add the casefolded UTF-8 character to the result.
-    casefolded.append (ss.str ());
+  try {
+    // The UTF8 processor works with one Unicode point at a time.
+    size_t string_length = unicode_string_length (s);
+    for (unsigned int pos = 0; pos < string_length; pos++) {
+      // Get one UTF-8 character.
+      string character = unicode_string_substr (s, pos, 1);
+      // Convert it to a Unicode point.
+      const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+      utf8proc_ssize_t len = character.length ();
+      utf8proc_int32_t dst;
+      utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
+      // Convert the Unicode point to lower case.
+      utf8proc_int32_t luc = utf8proc_tolower (dst);
+      // Convert the Unicode point back to a UTF-8 string.
+      utf8proc_uint8_t buffer [10];
+      output = utf8proc_encode_char (luc, buffer);
+      buffer [output] = 0;
+      stringstream ss;
+      ss << buffer;
+      // Add the casefolded UTF-8 character to the result.
+      casefolded.append (ss.str ());
+    }
+  } catch (...) {
   }
   // Done.
   return casefolded;
@@ -462,7 +465,6 @@ string unicode_string_casefold (string s)
   source.toUTF8String (result);
   // Ready.
   return result;
- 
 */
 }
 
@@ -470,26 +472,29 @@ string unicode_string_casefold (string s)
 string unicode_string_uppercase (string s)
 {
   string uppercase;
-  // The UTF8 processor works with one Unicode point at a time.
-  size_t string_length = unicode_string_length (s);
-  for (unsigned int pos = 0; pos < string_length; pos++) {
-    // Get one UTF-8 character.
-    string character = unicode_string_substr (s, pos, 1);
-    // Convert it to a Unicode point.
-    const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
-    utf8proc_ssize_t len = character.length ();
-    utf8proc_int32_t dst;
-    utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
-    // Convert the Unicode point to lower case.
-    utf8proc_int32_t luc = utf8proc_toupper (dst);
-    // Convert the Unicode point back to a UTF-8 string.
-    utf8proc_uint8_t buffer [10];
-    output = utf8proc_encode_char (luc, buffer);
-    buffer [output] = 0;
-    stringstream ss;
-    ss << buffer;
-    // Add the casefolded UTF-8 character to the result.
-    uppercase.append (ss.str ());
+  try {
+    // The UTF8 processor works with one Unicode point at a time.
+    size_t string_length = unicode_string_length (s);
+    for (unsigned int pos = 0; pos < string_length; pos++) {
+      // Get one UTF-8 character.
+      string character = unicode_string_substr (s, pos, 1);
+      // Convert it to a Unicode point.
+      const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+      utf8proc_ssize_t len = character.length ();
+      utf8proc_int32_t dst;
+      utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
+      // Convert the Unicode point to lower case.
+      utf8proc_int32_t luc = utf8proc_toupper (dst);
+      // Convert the Unicode point back to a UTF-8 string.
+      utf8proc_uint8_t buffer [10];
+      output = utf8proc_encode_char (luc, buffer);
+      buffer [output] = 0;
+      stringstream ss;
+      ss << buffer;
+      // Add the casefolded UTF-8 character to the result.
+      uppercase.append (ss.str ());
+    }
+  } catch (...) {
   }
   // Done.
   return uppercase;
@@ -507,19 +512,22 @@ string unicode_string_uppercase (string s)
 string unicode_string_transliterate (string s)
 {
   string transliteration;
-  size_t string_length = unicode_string_length (s);
-  for (unsigned int pos = 0; pos < string_length; pos++) {
-    string character = unicode_string_substr (s, pos, 1);
-    const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
-    utf8proc_ssize_t len = character.length ();
-    uint8_t *dest;
-    utf8proc_option_t options = (utf8proc_option_t) (UTF8PROC_DECOMPOSE | UTF8PROC_STRIPMARK);
-    utf8proc_ssize_t output = utf8proc_map (str, len, &dest, options);
-    (void) output;
-    stringstream ss;
-    ss << dest;
-    transliteration.append (ss.str ());
-    free (dest);
+  try {
+    size_t string_length = unicode_string_length (s);
+    for (unsigned int pos = 0; pos < string_length; pos++) {
+      string character = unicode_string_substr (s, pos, 1);
+      const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+      utf8proc_ssize_t len = character.length ();
+      uint8_t *dest;
+      utf8proc_option_t options = (utf8proc_option_t) (UTF8PROC_DECOMPOSE | UTF8PROC_STRIPMARK);
+      utf8proc_ssize_t output = utf8proc_map (str, len, &dest, options);
+      (void) output;
+      stringstream ss;
+      ss << dest;
+      transliteration.append (ss.str ());
+      free (dest);
+    }
+  } catch (...) {
   }
   return transliteration;
 /*
@@ -553,20 +561,23 @@ bool unicode_string_is_valid (string s)
 
 
 // Returns whether $s is Unicode punctuation.
-bool unicode_string_is_punctuation (string s) // Todo
+bool unicode_string_is_punctuation (string s)
 {
-  if (s.empty ()) return false;
-  // Be sure to take only one character.
-  s = unicode_string_substr (s, 0, 1);
-  // Convert the string to a Unicode point.
-  const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
-  utf8proc_ssize_t len = s.length ();
-  utf8proc_int32_t codepoint;
-  utf8proc_ssize_t output = utf8proc_iterate (str, len, &codepoint);
-  (void) output;
-  // Get category.
-  utf8proc_category_t category = utf8proc_category	(codepoint);
-  if ((category >= UTF8PROC_CATEGORY_PC) && (category <= UTF8PROC_CATEGORY_PO)) return true;
+  try {
+    if (s.empty ()) return false;
+    // Be sure to take only one character.
+    s = unicode_string_substr (s, 0, 1);
+    // Convert the string to a Unicode point.
+    const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
+    utf8proc_ssize_t len = s.length ();
+    utf8proc_int32_t codepoint;
+    utf8proc_ssize_t output = utf8proc_iterate (str, len, &codepoint);
+    (void) output;
+    // Get category.
+    utf8proc_category_t category = utf8proc_category	(codepoint);
+    if ((category >= UTF8PROC_CATEGORY_PC) && (category <= UTF8PROC_CATEGORY_PO)) return true;
+  } catch (...) {
+  }
   return false;
   /* 
   The following code shows how to do the above code through the ICU library.

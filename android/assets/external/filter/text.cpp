@@ -1604,9 +1604,12 @@ void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item 
 * The object will only use the array when it has been initialized.
 * The resulting arrays use the verse numbers as keys. Therefore it only works reliably within one chapter.
 */
-void Filter_Text::initializeHeadingsAndTextPerVerse ()
+void Filter_Text::initializeHeadingsAndTextPerVerse (bool start_text_now)
 {
   headings_text_per_verse_active = true;
+  // Normally collecting the plain text starts only after the first normal paragraph marker.
+  // But this can be force to start immediately
+  if (start_text_now) text_started = true;
 }
 
 

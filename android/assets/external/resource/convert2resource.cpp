@@ -30,7 +30,7 @@
 
 void convert_bible_to_resource (string bible)
 {
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   
   

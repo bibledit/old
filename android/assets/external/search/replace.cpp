@@ -29,6 +29,7 @@
 #include <database/notes.h>
 #include <database/config/general.h>
 #include <access/bible.h>
+#include <search/logic.h>
 
 
 string search_replace_url ()
@@ -54,22 +55,21 @@ string search_replace (void * webserver_request)
     bible = request->query ["b"];
   }
   
-  bool id_is_set = request->query.count ("id");
   string searchfor = request->query ["q"];
   string replacewith = request->query ["r"];
-  int id = convert_to_int (request->query ["id"]);
+  string id = request->query ["id"];
   
-  if (id_is_set) {
+  if (!id.empty ()) {
     
     // Get the Bible and passage for this identifier.
-    Passage details = request->database_search()->getBiblePassage (id);
-    string bible = details.bible;
-    int book = details.book;
-    int chapter = details.chapter;
-    string verse = details.verse;
+    Passage passage = Passage::from_text (id);
+    string bible = passage.bible;
+    int book = passage.book;
+    int chapter = passage.chapter;
+    string verse = passage.verse;
     
     // Get the plain text.
-    string text = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
