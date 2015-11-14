@@ -46,54 +46,9 @@ bool search_replace2_acl (void * webserver_request)
 
 string search_replace2 (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-
-  
-  string siteUrl = Database_Config_General::getSiteURL ();
-  
-  
-  string bible = request->database_config_user()->getBible ();
-  if (request->query.count ("b")) bible = request->query ["b"];
-
-  
-  string searchfor = request->query ["q"];
-  string replacewith = request->query ["r"];
-  // bool casesensitive = (request->query ["c"] == "true");
-  bool id_is_set = request->query.count ("id");
-  int id = convert_to_int (request->query ["id"]);
-  
-  /* Todo
-  if (id_is_set) {
-    
-    // Get the Bible and passage for this identifier.
-    Passage details = request->database_search()->getBiblePassage (id);
-    string bible = details.bible;
-    int book = details.book;
-    int chapter = details.chapter;
-    string verse = details.verse;
-    
-    // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
-    
-    // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    string oldtext = text;
-    string newtext = filter_string_str_replace (searchfor, replacewith, text);
-    if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);
-    
-    string output =
-    "<div id=\"" + convert_to_string (id) + "\">\n"
-    "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\"> ✗ </a> " + link + "</p>\n"
-    "<p>" + oldtext + "</p>\n"
-    "<p>" + newtext + "</p>\n"
-    "</div>\n";
-    
-    // Output to browser.
-    return output;
-  }
-  */
-  
   // Build the advanced replace page.
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string bible = request->database_config_user()->getBible ();
   string page;
   Assets_Header header = Assets_Header (translate("Replace"), request);
   page = header.run ();

@@ -24,6 +24,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <search/logic.h>
 
 
 string search_replacepre2_url ()
@@ -50,13 +51,12 @@ string search_replacepre2 (void * webserver_request)
   string searchfor = request->query ["q"];
   string replacewith = request->query ["r"];
   bool casesensitive = (request->query ["c"] == "true");
-  int id = convert_to_int (request->query ["id"]);
+  string id = request->query ["id"];
   bool searchplain = (request->query ["p"] == "true");
   
   
   // Get the Bible and passage for this identifier.
-  /* Todo
-  Passage details = request->database_search()->getBiblePassage (id);
+  Passage details = Passage::from_text (id);
   string bible = details.bible;
   int book = details.book;
   int chapter = details.chapter;
@@ -68,7 +68,7 @@ string search_replacepre2 (void * webserver_request)
   if (searchplain) {
     text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
   } else {
-    text = request->database_search()->getBibleVerseUsfm (bible, book, chapter, convert_to_int (verse));
+    text = search_logic_get_bible_verse_usfm (bible, book, chapter, convert_to_int (verse));
   }
   
   // Clickable passage.
@@ -107,5 +107,4 @@ string search_replacepre2 (void * webserver_request)
   
   // Output to browser.
   return output;
-   */
 }

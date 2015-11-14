@@ -80,7 +80,7 @@ string search_replacego2 (void * webserver_request) // Todo fix it similar to se
   // do the replacements, count the replacements, and then get the desired new plain text.
   // This only applies when searching/replacing in the plain text, not when doing it in the USFM.
   int standardReplacementCount = 0;
-  string standardPlainText = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse)); // Todo test
+  string standardPlainText = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
   if (searchplain) {
     if (casesensitive) {
       standardPlainText = filter_string_str_replace (searchfor, replacewith, standardPlainText, &standardReplacementCount);

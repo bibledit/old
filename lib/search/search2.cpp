@@ -30,6 +30,7 @@
 #include <database/config/general.h>
 #include <access/bible.h>
 #include <ipc/focus.h>
+#include <search/logic.h>
 
 
 string search_search2_url ()
@@ -63,11 +64,10 @@ string search_search2 (void * webserver_request)
   bool query_is_set = request->query.count ("q");
   int identifier = convert_to_int (request->query ["i"]);
   string query = request->query ["q"];
-  int hit = convert_to_int (request->query ["h"]);
+  string hit = request->query ["h"];
 
   
   // Get one search hit.
-  /* Todo
   if (hit_is_set) {
     
     
@@ -78,7 +78,7 @@ string search_search2 (void * webserver_request)
     
     
     // Get the Bible and passage for this identifier.
-    Passage details = request->database_search()->getBiblePassage (hit);
+    Passage details = Passage::from_text (hit);
     string bible = details.bible;
     int book = details.book;
     int chapter = details.chapter;
@@ -90,7 +90,7 @@ string search_search2 (void * webserver_request)
     if (plaintext) {
       text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     } else {
-      text = request->database_search()->getBibleVerseUsfm (bible, book, chapter, convert_to_int (verse));
+      text = search_logic_get_bible_verse_usfm (bible, book, chapter, convert_to_int (verse));
     }
     
     
@@ -120,20 +120,20 @@ string search_search2 (void * webserver_request)
     
     
     // Deal with case sensitivity.
-    // Deal with whether to search in the main text without notes, or in the raw USFM.
+    // Deal with whether to search the plain text without notes, or the raw USFM.
     // Fetch the initial set of hits.
-    vector <int> hits;
+    vector <Passage> passages;
     if (plaintext) {
       if (casesensitive) {
-        hits = request->database_search()->searchBibleTextCaseSensitive (bible, query);
+        passages = search_logic_search_bible_text_case_sensitive (bible, query);
       } else {
-        hits = search_logic_search_bible_text (bible, query);
+        passages = search_logic_search_bible_text (bible, query);
       }
     } else {
       if (casesensitive) {
-        hits = request->database_search()->searchBibleUsfmCaseSensitive (bible, query);
+        passages = search_logic_search_bible_usfm_case_sensitive (bible, query);
       } else {
-        hits = request->database_search()->searchBibleUsfm (bible, query);
+        passages = search_logic_search_bible_usfm (bible, query);
       }
     }
     
@@ -141,51 +141,47 @@ string search_search2 (void * webserver_request)
     // Deal with possible searching in the current book only.
     if (currentbook) {
       int book = Ipc_Focus::getBook (request);
-      vector <int> bookhits;
-      for (auto & hit : hits) {
-        Passage details = request->database_search()->getBiblePassage (hit);
-        if (book == details.book) {
-          bookhits.push_back (hit);
+      vector <Passage> bookpassages;
+      for (auto & passage : passages) {
+        if (book == passage.book) {
+          bookpassages.push_back (passage);
         }
       }
-      hits = bookhits;
+      passages = bookpassages;
     }
     
-    
+
     // Deal with how to share the results.
+    vector <string> hits;
+    for (auto & passage : passages) {
+      hits.push_back (passage.to_text ());
+    }
     if (sharing != "load") {
-      vector <int> loadedHits;
-      vector <string> s_loadedHits = filter_string_explode (database_volatile.getValue (identifier, "hits"), '\n');
-      for (auto & hit : s_loadedHits) loadedHits.push_back (convert_to_int (hit));
+      vector <string> loaded_hits = filter_string_explode (database_volatile.getValue (identifier, "hits"), '\n');
       if (sharing == "add") {
-        hits.insert (hits.end(), loadedHits.begin(), loadedHits.end());
+        hits.insert (hits.end(), loaded_hits.begin(), loaded_hits.end());
       }
       if (sharing == "remove") {
-        hits = filter_string_array_diff (loadedHits, hits);
+        hits = filter_string_array_diff (loaded_hits, hits);
       }
       if (sharing == "intersect") {
-        hits = array_intersect (loadedHits, hits);
+        hits = array_intersect (loaded_hits, hits);
       }
       hits = array_unique (hits);
     }
-    
-    
-    // Generate one string from the hits.
-    string output;
-    for (auto & hit : hits) {
-      if (!output.empty ()) output.append ("\n");
-      output.append (convert_to_string (hit));
-    }
 
-    
+
+    // Generate one string from the hits.
+    string output = filter_string_implode (hits, "\n");
+
+
     // Store search hits in the volatile database.
     database_volatile.setValue (identifier, "hits", output);
-    
-    
+
+
     // Output results.
     return output;
   }
-   */
   
   
   // Build the advanced search page.

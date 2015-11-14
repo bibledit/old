@@ -24,6 +24,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <search/logic.h>
 
 
 string webbible_search_url ()
@@ -74,23 +75,21 @@ string webbible_search (void * webserver_request)
   
   
   // Search the Bible text in the exported Bible.
-  /* Todo
-  vector <int> ids = request->database_search()->searchText (queryString, {exportedBible});
+  vector <Passage> passages = search_logic_search_text (queryString, {exportedBible});
   
   
   // Hit count.
-  view.set_variable ("hitCount", convert_to_string (ids.size ()));
+  view.set_variable ("hitCount", convert_to_string (passages.size ()));
   
   
   string hitsblock;
   
   
   // Go through the search hits.
-  for (auto id : ids) {
+  for (auto & passage : passages) {
     
     
     // Get the passage of this search hit.
-    Passage passage = request->database_search()->getBiblePassage (id);
     if (passage.book == 0) continue;
     string bible = passage.bible;
     int book = passage.book;
@@ -125,7 +124,6 @@ string webbible_search (void * webserver_request)
   }
   
   view.set_variable ("hitsblock", hitsblock);
-  */
   
   return view.render ("webbible", "search");
 }

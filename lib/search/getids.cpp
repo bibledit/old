@@ -51,9 +51,9 @@ string search_getids (void * webserver_request)
   // Do the search.
   vector <Passage> passages;
   if (casesensitive) {
-    passages = search_logic_search_bible_text_case_sensitive (bible, searchfor); // Todo test well.
+    passages = search_logic_search_bible_text_case_sensitive (bible, searchfor);
   } else {
-    passages = search_logic_search_bible_text (bible, searchfor); // Todo test well.
+    passages = search_logic_search_bible_text (bible, searchfor);
   }
 
   // Output identifiers of the search results.
