@@ -24,6 +24,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <search/logic.h>
 
 
 string search_getids_url ()
@@ -48,18 +49,18 @@ string search_getids (void * webserver_request)
   bool casesensitive = (request->query ["c"] == "true");
 
   // Do the search.
-  vector <int> hits;
+  vector <Passage> passages;
   if (casesensitive) {
-    hits = request->database_search()->searchBibleTextCaseSensitive (bible, searchfor);
+    passages = search_logic_search_bible_text_case_sensitive (bible, searchfor);
   } else {
-    hits = request->database_search()->searchBibleText (bible, searchfor);
+    passages = search_logic_search_bible_text (bible, searchfor);
   }
 
   // Output identifiers of the search results.
   string output;
-  for (auto & hit : hits) {
+  for (auto & passage : passages) {
     if (!output.empty ()) output.append ("\n");
-    output.append (convert_to_string (hit));
+    output.append (passage.to_text ());
   }
   return output;
 }

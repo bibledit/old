@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <database/users.h>
 #include <database/books.h>
-#include <database/search.h>
 #include <database/bibleactions.h>
 #include <database/check.h>
 #include <database/localization.h>
@@ -127,8 +126,6 @@ void test_database_config_user ()
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");
     request.session_logic ()->attemptLogin ("username", "password", true);
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
     evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());
@@ -694,172 +691,6 @@ void test_database_books ()
 }
 
 
-// Tests for Database_Search
-void test_database_search_setup ()
-{
-  string standardUSFM1 =  "\\c 1"
-                          "\\p"
-                          "\\v 1 Text of the first verse."
-                          "\\v 2 \\add Text of the second \\add*verse."
-                          "\\s Heading"
-                          "\\p"
-                          "\\v 3 Text of the 3rd third verse."
-                          "\\v 4 Text of the 4th \\add fourth\\add* verse."
-                          "\\v 5 Text of the 5th fifth verse is this: Verse five ✆."
-                          "\\v 6 Text of the 6th sixth verse ✆."
-                          "\\v 7 Text of the seventh verse with some UTF-8 characters: ✆ ❼ ሯ."
-                          "\\v 8 Verse eight ✆ ❼ ሯ."
-                          "\\v 9 Verse nine nine."
-                          "\\v 10 خدا بود و کلمه کلمه خدا بود. در ابتدا کلمه بود و کلمه نزد.";
-  string standardUSFM2 =  "\\c 1"
-                          "\\p"
-                          "\\v 3 And he said.";
-  Database_Search database_search = Database_Search ();
-  database_search.create ();
-  Database_State::create ();
-  Database_Bibles database_bibles = Database_Bibles ();
-  database_bibles.createBible ("phpunit");
-  database_bibles.storeChapter ("phpunit", 2, 3, standardUSFM1);
-  database_bibles.createBible ("phpunit2");
-  database_bibles.storeChapter ("phpunit2", 4, 5, standardUSFM2);
-}
-
-
-void test_database_search ()
-{
-  // Test create, optimize, health.
-  {
-    refresh_sandbox (true);
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-
-    database_search.optimize ();
-    bool healthy = database_search.checkup ();
-    evaluate (__LINE__, __func__, false, healthy);
-
-    string path = filter_url_create_root_path ("databases", "search.sqlite");
-    filter_url_file_put_contents (path, "damaged database");
-    healthy = database_search.checkup ();
-    evaluate (__LINE__, __func__, true, healthy);
-    healthy = database_search.checkup ();
-    evaluate (__LINE__, __func__, false, healthy);
-    refresh_sandbox (false);
-  }
-  // Test updating search fields.
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    database_search.updateSearchFields ("phpunit", 2, 3);
-  }
-  // Test searching and getting Bible passage
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    database_search.updateSearchFields ("phpunit", 2, 3);
-    vector <int> hits = database_search.searchText ("sixth", {"phpunit"});
-    evaluate (__LINE__, __func__, 1, (int)hits.size());
-    if (!hits.empty ()) {
-      int id = hits [0];
-      Passage passage = database_search.getBiblePassage (id);
-      evaluate (__LINE__, __func__, "phpunit", passage.bible);
-      evaluate (__LINE__, __func__, 2, passage.book);
-      evaluate (__LINE__, __func__, 3, passage.chapter);
-      evaluate (__LINE__, __func__, "6", passage.verse);
-    }
-  }
-  // Test getting Bible verse text.
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    database_search.updateSearchFields ("phpunit", 2, 3);
-    string text = database_search.getBibleVerseText ("phpunit", 2, 3, 5);
-    evaluate (__LINE__, __func__, "Text of the 5th fifth verse is this: Verse five ✆.", filter_string_trim (text));
-  }
-  // Test search Bible
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    database_search.updateSearchFields ("phpunit", 2, 3);
-    database_search.updateSearchFields ("phpunit2", 4, 5);
-    vector <int> ids = database_search.searchBibleText ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, (int)ids.size ());
-    ids = database_search.searchBibleText ("phpunit2", "sixth");
-    evaluate (__LINE__, __func__, 0, (int)ids.size ());
-    ids = database_search.searchBibleText ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, (int)ids.size ());
-  }
-  // Test search Bible case sensitive.
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    database_search.updateSearchFields ("phpunit", 2, 1);
-    database_search.updateSearchFields ("phpunit", 2, 3);
-    database_search.updateSearchFields ("phpunit2", 4, 5);
-    vector <int> ids = database_search.searchBibleTextCaseSensitive ("phpunit", "Verse");
-    evaluate (__LINE__, __func__, 3, (int)ids.size ());
-    ids = database_search.searchBibleText ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, (int)ids.size ());
-    ids = database_search.searchBibleText ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, (int)ids.size ());
-  }
-  // Test getting Bibles.
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    vector <string> bibles = database_search.getBibles ();
-    evaluate (__LINE__, __func__, { "phpunit", "phpunit2" }, bibles);
-    database_search.deleteBible ("phpunit");
-    bibles = database_search.getBibles ();
-    evaluate (__LINE__, __func__, { "phpunit2" }, bibles);
-  }
-  // Test getting books.
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    vector <int> books = database_search.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { 2 }, books);
-    database_search.deleteBook ("phpunit", 2);
-    books = database_search.getBooks ("phpunit");
-    evaluate (__LINE__, __func__, { }, books);
-  }
-  // Test getting chapters.
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    vector <int> chapters = database_search.getChapters ("phpunit", 2);
-    evaluate (__LINE__, __func__, { 3 }, chapters);
-    database_search.deleteChapter ("phpunit", 2, 3);
-    chapters = database_search.getChapters ("phpunit", 2);
-    evaluate (__LINE__, __func__, { }, chapters);
-  }
-  // Test getVerses.
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    vector <int> verses = database_search.getVerses ("phpunit", 2, 3);
-    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, verses);
-  }
-  // Test getVerseCount ()
-  {
-    refresh_sandbox (true);
-    test_database_search_setup ();
-    Database_Search database_search = Database_Search ();
-    database_search.updateSearchFields ("phpunit", 2, 3);
-    int count = database_search.getVerseCount ("phpunit");
-    evaluate (__LINE__, __func__, 11, count);
-  }
-}
-
-
 void test_database_bibleactions ()
 {
   refresh_sandbox (true);
@@ -919,9 +750,7 @@ void test_database_check ()
     // Test Record Get Truncate.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
@@ -941,9 +770,7 @@ void test_database_check ()
     // Test getting details.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
@@ -959,9 +786,7 @@ void test_database_check ()
     // Test approvals.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
@@ -990,9 +815,7 @@ void test_database_check ()
     // Test delete.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
@@ -1009,9 +832,7 @@ void test_database_check ()
     // Test passage.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
@@ -1026,9 +847,7 @@ void test_database_check ()
     // Test same checks overflow.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
@@ -1467,11 +1286,11 @@ void test_database_offlineresourcese ()
   
     database_offlineresources.store ("phpunit", 1, 2, 3, string (1000, 's'));
     size = database_offlineresources.size ("phpunit", "1.sqlite");
-    evaluate (__LINE__, __func__, 8192, size);
+    evaluate (__LINE__, __func__, 3072, size);
   
     database_offlineresources.store ("phpunit", 1, 3, 4, string (10000, 's'));
     size = database_offlineresources.size ("phpunit", "1.sqlite");
-    evaluate (__LINE__, __func__, 16384, size);
+    evaluate (__LINE__, __func__, 12288, size);
   }
   // Test Save / Load.
   {
@@ -2456,9 +2275,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
   }
@@ -2468,9 +2285,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
  
@@ -2498,9 +2313,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -2530,9 +2343,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -2563,9 +2374,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -2593,9 +2402,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -2618,9 +2425,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -2647,9 +2452,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search;
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -2671,9 +2474,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -2693,9 +2494,7 @@ void test_database_modifications_team ()
     Database_Modifications database_modifications = Database_Modifications ();
     database_modifications.create ();
     Database_State::create ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
 
@@ -4351,7 +4150,7 @@ void test_database_bibles ()
 {
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     vector <string> standard;
     vector <string> bibles = database_bibles.getBibles ();
@@ -4360,9 +4159,7 @@ void test_database_bibles ()
   {
     // Test whether optimizing works without errors.
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     int id = database_bibles.createBible ("phpunit");
     if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
@@ -4380,9 +4177,7 @@ void test_database_bibles ()
   {
     // Test whether optimizing removes files with 0 size.
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     int id = database_bibles.createBible ("phpunit");
     if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
@@ -4402,9 +4197,7 @@ void test_database_bibles ()
   // Test create / get / delete Bibles.
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     
     int id = database_bibles.createBible ("phpunit");
@@ -4425,9 +4218,7 @@ void test_database_bibles ()
   // Test names / identifiers.
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     
     int id = database_bibles.getID ("phpunit");
@@ -4456,9 +4247,7 @@ void test_database_bibles ()
   // Test storeChapter / getChapter
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     
     database_bibles.createBible ("phpunit");
@@ -4474,9 +4263,7 @@ void test_database_bibles ()
   // Test books
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     
     database_bibles.createBible ("phpunit");
@@ -4506,9 +4293,7 @@ void test_database_bibles ()
   // Test chapters ()
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     
     database_bibles.createBible ("phpunit");
@@ -4541,9 +4326,7 @@ void test_database_bibles ()
   // Test chapter IDs
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles = Database_Bibles ();
-    Database_Search database_search = Database_Search ();
-    database_search.create ();
+    Database_Bibles database_bibles;
     Database_State::create ();
     
     database_bibles.createBible ("phpunit");

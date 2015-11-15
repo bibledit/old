@@ -22,16 +22,6 @@
 #include <filter/string.h>
 
 
-Checks_Sentences::Checks_Sentences ()
-{
-}
-
-
-Checks_Sentences::~Checks_Sentences ()
-{
-}
-
-
 void Checks_Sentences::enterCapitals (string capitals_in)
 {
   capitals = filter_string_explode (capitals_in, ' ');
@@ -244,7 +234,7 @@ void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragra
     string grapheme;
     if (offset < graphemes.size ()) grapheme = graphemes [offset];
     string previousGrapheme;
-    if (offset) previousGrapheme = graphemes [offset - 1];
+    if (offset) if (offset < graphemes.size ()) previousGrapheme = graphemes [offset - 1];
     isEndMark = in_array (grapheme, this->end_marks) || in_array (previousGrapheme, this->end_marks);
     if (!isEndMark) {
       checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme));

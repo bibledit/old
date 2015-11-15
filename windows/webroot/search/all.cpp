@@ -30,6 +30,7 @@
 #include <database/config/general.h>
 #include <access/bible.h>
 #include <notes/note.h>
+#include <search/logic.h>
 
 
 string search_all_url ()
@@ -76,7 +77,7 @@ string search_all (void * webserver_request)
   queryString = filter_string_trim (queryString);
   
   
-  // Generate search words for emphasizing the search hits.
+  // Generate search words for emphasizing the search passages.
   vector <string> queryWords = filter_string_explode (queryString, ' ');
   
   
@@ -97,7 +98,7 @@ string search_all (void * webserver_request)
   view.set_variable ("noteCount", convert_to_string (noteCount));
   
   
-  // Assemble the block of search results.
+  // Assemble the block of search results for the consultation notes.
   string notesblock;
   for (auto identifier : identifiers) {
     
@@ -141,26 +142,24 @@ string search_all (void * webserver_request)
   
   
   // Search the Bible text.
-  vector <int> hits = request->database_search()->searchText (queryString, bibles);
+  vector <Passage> passages = search_logic_search_text (queryString, bibles);
   
   
-  int textCount = hits.size ();
+  int textCount = passages.size ();
   view.set_variable ("textCount", convert_to_string (textCount));
   
   
-  // Assemble the search results.
+  // Assemble the search results for the Bible text.
   string textblock;
-  for (auto & hit : hits) {
-    // Get the details of this search hit.
-    Passage details = request->database_search()->getBiblePassage (hit);
-    string bible = details.bible;
-    int book = details.book;
-    int chapter = details.chapter;
-    string verse = details.verse;
+  for (auto & passage : passages) {
+    string bible = passage.bible;
+    int book = passage.book;
+    int chapter = passage.chapter;
+    string verse = passage.verse;
     // The title plus link.
     string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
     // The excerpt.
-    string stext = request->database_search()->getBibleVerseText (bible, book, chapter, convert_to_int (verse));
+    string stext = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     vector <string> vtext = filter_string_explode (stext, '\n');
     string excerpt;
     // Go through each line of text separately.
@@ -192,4 +191,3 @@ string search_all (void * webserver_request)
   
   return page;
 }
-

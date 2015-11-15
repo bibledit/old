@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <database/config/user.h>
 #include <database/styles.h>
-#include <database/search.h>
 #include <database/books.h>
 #include <database/state.h>
 #include <config/globals.h>
@@ -61,7 +60,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_filter_string (); refresh_sandbox (true); exit (0); // Todo
+  //test_filters_export2 (); test_database_offlineresourcese (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -98,7 +97,6 @@ int main (int argc, char **argv)
   test_flate ();
   test_database_styles ();
   test_database_bibles ();
-  test_database_search ();
   test_database_books ();
   test_database_bibleactions ();
   test_database_check ();
@@ -158,6 +156,7 @@ int main (int argc, char **argv)
   test_filter_string_text2html ();
   test_database_cache ();
   test_filter_archive ();
+  test_search_logic ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

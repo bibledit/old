@@ -81,7 +81,7 @@ int main (int argc, char **argv)
   signal (SIGINT, sigint_handler);
   
 #ifdef HAVE_EXECINFO
-  // Handler for segmentation fault.
+  // Handler for logging segmentation fault.
   signal (SIGSEGV, sigsegv_handler);
 #endif
 

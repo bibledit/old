@@ -80,7 +80,7 @@ void Database_Check::truncateOutput (string bible)
   if (bible == "") {
     sql.add ("DELETE FROM output;");
   } else {
-    Database_Bibles database_bibles = Database_Bibles ();
+    Database_Bibles database_bibles;
     int bible_id = database_bibles.getID (bible);
     sql.add ("DELETE FROM output WHERE bible =");
     sql.add (bible_id);
@@ -93,7 +93,7 @@ void Database_Check::truncateOutput (string bible)
 void Database_Check::recordOutput (string bible, int book, int chapter, int verse, string data)
 {
   SqliteDatabase sql (filename ());
-  Database_Bibles database_bibles = Database_Bibles ();
+  Database_Bibles database_bibles;
   int bible_id = database_bibles.getID (bible);
   int count = 0;
   // Check whether this is a suppressed item.
