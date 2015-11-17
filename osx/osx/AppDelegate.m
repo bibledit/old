@@ -20,8 +20,6 @@
 @end
 
 
-
-
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -48,8 +46,9 @@
     bibledit_initialize_library (package, webroot);
     bibledit_start_library ();
     
-    // Open the web app in the web view
+    // Open the web app in the web view.
     NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
+    // NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [[[self webview] mainFrame] loadRequest:urlRequest];
     [self.window setContentView:self.webview];
