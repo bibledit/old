@@ -543,6 +543,7 @@ filter/url.h
 filter/url.js
 filter/usfm.cpp
 filter/usfm.h
+filter/usfm.js
 flate/flate.cpp
 flate/flate.h
 fonts/Cardo-Regular.ttf
