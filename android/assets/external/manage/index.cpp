@@ -61,6 +61,7 @@ string manage_index (void * webserver_request)
   
   // Reindex Bibles.
   if (request->query ["reindex"] == "bibles") {
+    Database_Config_General::setIndexBibles (true);
     tasks_logic_queue (REINDEXBIBLES);
     redirect_browser (request, journal_index_url ());
     return "";
@@ -69,6 +70,7 @@ string manage_index (void * webserver_request)
   
   // Re-index consultation notes.
   if (request->query ["reindex"] == "notes") {
+    Database_Config_General::setIndexNotes (true);
     tasks_logic_queue (REINDEXNOTES);
     redirect_browser (request, journal_index_url ());
     return "";

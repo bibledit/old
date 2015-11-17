@@ -154,7 +154,9 @@ void timer_index ()
       // Re-index Bibles and notes.
       if ((hour == 2) && (minute == 0)) {
         Database_State::create ();
+        Database_Config_General::setIndexBibles (true);
         tasks_logic_queue (REINDEXBIBLES);
+        Database_Config_General::setIndexNotes (true);
         tasks_logic_queue (REINDEXNOTES);
       }
       

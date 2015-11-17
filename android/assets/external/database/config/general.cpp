@@ -395,3 +395,23 @@ void Database_Config_General::setResourcesToCache (vector <string> values)
 {
   setList ("resources-to-cache", values);
 }
+
+
+bool Database_Config_General::getIndexNotes ()
+{
+  return getBValue ("index-notes", false);
+}
+void Database_Config_General::setIndexNotes (bool value)
+{
+  setBValue ("index-notes", value);
+}
+
+
+bool Database_Config_General::getIndexBibles ()
+{
+  return getBValue ("index-bibles", false);
+}
+void Database_Config_General::setIndexBibles (bool value)
+{
+  setBValue ("index-bibles", value);
+}

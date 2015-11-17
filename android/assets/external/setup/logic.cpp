@@ -100,6 +100,15 @@ void setup_conditionally (const char * package)
     }
     
   }
+
+  // Run the indexers if a flag was set for it.
+  // This mechanism is suitable for low power devices as Android and iOS.
+  // If Bibles or Notes are scheduled to be indexed, since the tasks take a lot of time,
+  // the app may shut down before the tasks have been completed.
+  // Next time the app starts, the tasks will be restarted here, and they will run if a flag was set for them.
+  // Once the tasks are really complete, they will clear the flag.
+  tasks_logic_queue (REINDEXBIBLES);
+  tasks_logic_queue (REINDEXNOTES);
 }
 
 
@@ -212,6 +221,7 @@ void setup_initialize_data ()
   config_globals_setup_progress = 90;
   
   // Schedule reindexing Bible search data.
+  Database_Config_General::setIndexBibles (true);
   tasks_logic_queue (REINDEXBIBLES);
 }
 
