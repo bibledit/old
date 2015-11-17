@@ -47,11 +47,14 @@
     bibledit_start_library ();
     
     // Open the web app in the web view.
+    // The server listens on another port than 8080 so as not to interfere with possible development on the same host.
     NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
     // NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [[[self webview] mainFrame] loadRequest:urlRequest];
     [self.window setContentView:self.webview];
+    // For the developer console in the webview, enter the following from a terminal:
+    // defaults write org.bibledit.osx WebKitDeveloperExtras TRUE
     
     float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
     bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
