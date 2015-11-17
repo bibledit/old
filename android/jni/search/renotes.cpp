@@ -26,10 +26,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <database/notes.h>
 #include <database/state.h>
+#include <database/config/general.h>
+
+
+bool search_reindex_notes_running = false;
 
 
 void search_reindex_notes ()
 {
+  if (!Database_Config_General::getIndexNotes ()) return;
+  
+  
+  // One simultaneous instance.
+  if (search_reindex_notes_running) {
+    Database_Logs::log ("Still indexing Consultation Notes", Filter_Roles::manager ());
+    return;
+  }
+  search_reindex_notes_running = true;
+  
+  
   // This does not run as a result of a webserver request, so create one.
   Webserver_Request request;
 
@@ -72,5 +87,6 @@ void search_reindex_notes ()
   
   
   Database_Logs::log ("Updating Consultation Notes databases ready", Filter_Roles::manager ());
+  Database_Config_General::setIndexNotes (false);
+  search_reindex_notes_running = false;
 }
-
