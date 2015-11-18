@@ -84,6 +84,10 @@ public:
   static void setLastMenuClick (string url);
   static vector <string> getResourcesToCache ();
   static void setResourcesToCache (vector <string> values);
+  static bool getIndexNotes ();
+  static void setIndexNotes (bool value);
+  static bool getIndexBibles ();
+  static void setIndexBibles (bool value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

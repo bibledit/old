@@ -74,7 +74,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-#define HAVE_UNITTESTS 1
+/* #undef HAVE_UNITTESTS */
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -119,7 +119,7 @@
 #define TINYJOURNAL "no"
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "yes"
+#define UNITTESTS "no"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"

@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <database/logs.h>
 #include <database/bibles.h>
+#include <database/config/general.h>
 #include <search/logic.h>
 
 
@@ -32,6 +33,9 @@ bool search_reindex_bibles_running = false;
 
 void search_reindex_bibles ()
 {
+  if (!Database_Config_General::getIndexBibles ()) return;
+  
+  
   // One simultaneous instance.
   if (search_reindex_bibles_running) {
     Database_Logs::log ("Still indexing Bibles", Filter_Roles::manager ());
@@ -62,5 +66,6 @@ void search_reindex_bibles ()
   
   
   Database_Logs::log ("Indexing Bible: Ready", Filter_Roles::manager ());
+  Database_Config_General::setIndexBibles (false);
   search_reindex_bibles_running = false;
 }

@@ -46,7 +46,6 @@ string sync_resources (void * webserver_request)
   int verse = convert_to_int (request->query ["v"]);
   
   if (book) {
-    cout << resource << " " << book << " " << chapter << " " << verse << endl; // Todo
     return resource_logic_get_html (webserver_request, resource, book, chapter, verse);
   }
   
