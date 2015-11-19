@@ -123,6 +123,7 @@
 		CA180F261AC71542006CA48B /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA180F271AC71542006CA48B /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
 		CA1A4EA51B076BF200731796 /* installcloudubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcloudubuntu.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CA1B82161BFDD68E006DFA7D /* licenses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = licenses.html; sourceTree = "<group>"; };
 		CA1CE6431BE79710008E0F06 /* note.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = note.cpp; sourceTree = "<group>"; };
 		CA1CE6441BE79710008E0F06 /* note.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = note.h; sourceTree = "<group>"; };
 		CA1CE6451BE79710008E0F06 /* note.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = note.html; sourceTree = "<group>"; };
@@ -1986,6 +1987,7 @@
 				CAA4D14D1A45A647003ABA25 /* introduction.html */,
 				CAA4D14E1A45A647003ABA25 /* leanmanagement.html */,
 				CA9F197A1A8BB28B004FF341 /* libgit2.html */,
+				CA1B82161BFDD68E006DFA7D /* licenses.html */,
 				CAA4D14F1A45A647003ABA25 /* methodology.html */,
 				CAA4D1501A45A647003ABA25 /* navigation.html */,
 				CAA4D1511A45A647003ABA25 /* scrum.html */,
