@@ -74,7 +74,7 @@ namespace Bibledit
             // It would have given a better interface to have an embedded browser for Bibledit.
             // But since Microsoft's standard embedded browser component does not well adhere to standard, 
             // sit is better to keep using an external browser.
-            Process.Start ("http://localhost:9876s");
+            Process.Start ("http://localhost:9876");
         }
 
 
@@ -108,7 +108,7 @@ namespace Bibledit
                 // Set the timezone in the Bibledit library.
                 TimeZoneInfo localZone = TimeZoneInfo.Local;
                 int utcOffsetHours = TimeZoneInfo.Local.BaseUtcOffset.Hours;
-                String uri = "http://localhost:9876s/administration/timeoffset?offset=" + utcOffsetHours.ToString();
+                String uri = "http://localhost:9876/administration/timeoffset?offset=" + utcOffsetHours.ToString();
                 WebRequest request = WebRequest.Create(uri);
                 WebResponse response = request.GetResponse();
                 response.Close();
