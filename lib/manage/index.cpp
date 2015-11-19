@@ -59,10 +59,10 @@ string manage_index (void * webserver_request)
   string error;
   
   
-  // Reindex Bibles.
+  // Force re-index Bibles.
   if (request->query ["reindex"] == "bibles") {
     Database_Config_General::setIndexBibles (true);
-    tasks_logic_queue (REINDEXBIBLES);
+    tasks_logic_queue (REINDEXBIBLES, {"1"});
     redirect_browser (request, journal_index_url ());
     return "";
   }
