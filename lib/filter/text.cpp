@@ -644,7 +644,8 @@ void Filter_Text::processUsfm ()
               // Output chapter number for other formats.
               if (esword_text) esword_text->newChapter (currentChapterNumber);
 
-              // Open a paragraph for the notes. It takes the style of the footnote content marker, usually 'ft'.
+              // Open a paragraph for the notes.
+              // It takes the style of the footnote content marker, usually 'ft'.
               // This is done specifically for the version that has the notes only.
               ensureNoteParagraphStyle (standardContentMarkerFootEndNote, styles[standardContentMarkerFootEndNote]);
               if (odf_text_notes) odf_text_notes->newParagraph (standardContentMarkerFootEndNote);
@@ -1040,6 +1041,7 @@ void Filter_Text::processNote ()
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote);
                   // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+                  if (text_text) text_text->note ();
                 } else {
                   goto noteDone;
                 }
@@ -1063,6 +1065,7 @@ void Filter_Text::processNote ()
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote, true);
                   // Online Bible: Leave note out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+                  if (text_text) text_text->note ();
                 } else {
                   goto noteDone;
                 }
@@ -1102,6 +1105,7 @@ void Filter_Text::processNote ()
                 if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
                 if (html_text_standard) html_text_standard->closeTextStyle (true, false);
                 if (html_text_linked) html_text_linked->closeTextStyle (true, false);
+                if (text_text) text_text->note ();
                 break;
               }
               default:
@@ -1143,6 +1147,7 @@ void Filter_Text::processNote ()
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerCrossReference);
                   // Online Bible: Skip notes.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+                  if (text_text) text_text->note ();
                 } else {
                   goto noteDone;
                 }
@@ -1198,6 +1203,7 @@ void Filter_Text::processNote ()
       if (odf_text_notes) odf_text_notes->addText (currentItem);
       if (html_text_standard) html_text_standard->addNoteText (currentItem);
       if (html_text_linked) html_text_linked->addNoteText (currentItem);
+      if (text_text) text_text->addnotetext (currentItem);
     }
   }
   

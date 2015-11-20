@@ -59,7 +59,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  // test_editor_development (); refresh_sandbox (true); exit (0);
+  test_filter_text2 (); test_filters_export1 (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();

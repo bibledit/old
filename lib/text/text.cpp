@@ -22,12 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-// Class for creating Text documents.
-
-
-Text_Text::Text_Text ()
-{
-}
+// Class for creating plain text documents.
 
 
 void Text_Text::paragraph (string text)
@@ -67,3 +62,29 @@ void Text_Text::save (string name)
 {
   filter_url_file_put_contents (name, get ());
 }
+
+
+// Opens a new clear text note.
+void Text_Text::note (string text)
+{
+  if (!thisnoteline.empty ()) {
+    notes.push_back (thisnoteline);
+    thisnoteline.clear ();
+  }
+  addnotetext (text);
+}
+
+
+void Text_Text::addnotetext (string text)
+{
+  thisnoteline.append (text);
+}
+
+
+string Text_Text::getnote ()
+{
+  note ();
+  return filter_string_implode (notes, "\n");
+}
+
+
