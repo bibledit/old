@@ -29,6 +29,7 @@
 #include <database/volatile.h>
 #include <database/config/bible.h>
 #include <ipc/focus.h>
+#include <search/logic.h>
 
 
 string search_similar_url ()
@@ -59,7 +60,7 @@ string search_similar (void * webserver_request)
     bible = request->query ["b"];
   }
 
-  /* // Todo fix it: Make it work again.
+
   if (request->query.count ("load")) {
     int book = Ipc_Focus::getBook (request);
     int chapter = Ipc_Focus::getChapter (request);
@@ -89,7 +90,7 @@ string search_similar (void * webserver_request)
     vector <string> vwords = filter_string_explode (words, ' ');
     
     // Include items if there are no more search hits than 30% of the total number of verses in the Bible.
-    size_t maxcount = round (0.3 * request->database_search()->getVerseCount (bible));
+    size_t maxcount = round (0.3 * search_logic_get_verse_count (bible));
     
     // Store how often a verse occurs in an array.
     // The keys are the identifiers of the search results.
@@ -99,11 +100,12 @@ string search_similar (void * webserver_request)
     for (auto & word : vwords) {
       
       // Find out how often this word occurs in the Bible. Skip if too often.
-      vector <int> ids = search_logic_search_bible_text (bible, word);
-      if (ids.size () > maxcount) continue;
+      vector <Passage> passages = search_logic_search_bible_text (bible, word);
+      if (passages.size () > maxcount) continue;
       
       // Store the identifiers and their count.
-      for (auto & id : ids) {
+      for (auto & passage : passages) {
+        int id = filter_passage_to_integer (passage);
         if (identifiers.count (id)) identifiers [id]++;
         else identifiers [id] = 1;
       }
@@ -138,11 +140,12 @@ string search_similar (void * webserver_request)
     int id = convert_to_int (request->query ["id"]);
     
     // Get the Bible and passage for this identifier.
-    Passage details = request->database_search()->getBiblePassage (id);
-    string bible = details.bible;
-    int book = details.book;
-    int chapter = details.chapter;
-    string verse = details.verse;
+    Passage passage = filter_integer_to_passage (id);
+    string bible = request->database_config_user()->getBible ();
+    // string bible = passage.bible;
+    int book = passage.book;
+    int chapter = passage.chapter;
+    string verse = passage.verse;
     
     // Get the plain text.
     string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
@@ -158,11 +161,12 @@ string search_similar (void * webserver_request)
     // Output to browser.
     return output;
   }
-*/
+
   
   string page;
   
   Assets_Header header = Assets_Header (translate("Search"), request);
+  header.setNavigator ();
   page = header.run ();
   
   Assets_View view;
