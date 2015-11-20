@@ -59,7 +59,7 @@ string search_similar (void * webserver_request)
     bible = request->query ["b"];
   }
 
-  /*
+  /* // Todo fix it: Make it work again.
   if (request->query.count ("load")) {
     int book = Ipc_Focus::getBook (request);
     int chapter = Ipc_Focus::getChapter (request);
