@@ -760,7 +760,7 @@ void test_filters_usfm5 ()
 }
 
 
-void test_filters_export1 () // Todo
+void test_filters_export1 ()
 {
   // Test object Text_Text.
   {
@@ -1689,7 +1689,7 @@ void test_filter_text1 ()
 }
 
 
-void test_filter_text2 () // Todo
+void test_filter_text2 ()
 {
   refresh_sandbox (true);
   Database_Styles database_styles = Database_Styles ();
