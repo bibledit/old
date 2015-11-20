@@ -2182,6 +2182,9 @@ msgstr ""
 msgid "The Free Bible"
 msgstr ""
 
+msgid "Licenses"
+msgstr ""
+
 msgid "Upgrade from Bibledit-Web to Bibledit Cloud"
 msgstr ""
 
