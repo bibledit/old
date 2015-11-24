@@ -120,7 +120,7 @@ string search_search2 (void * webserver_request)
     
     
     // Deal with case sensitivity.
-    // Deal with whether to search the plain text without notes, or the raw USFM.
+    // Deal with whether to search the plain text, or the raw USFM.
     // Fetch the initial set of hits.
     vector <Passage> passages;
     if (plaintext) {
