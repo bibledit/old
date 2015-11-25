@@ -50,17 +50,22 @@ string workbench_organize (void * webserver_request)
   if (request->post.count ("add")) {
     string add = request->post["add"];
     request->database_config_user()->setActiveWorkbench (add);
-    workbenchSetURLs    (request, workbenchDefaultURLs (0));
-    workbenchSetWidths  (request, workbenchDefaultWidths (0));
-    workbenchSetHeights (request, workbenchDefaultHeights (0));
+    workbench_set_urls    (request, workbench_get_default_urls (0));
+    workbench_set_widths  (request, workbench_get_default_widths (0));
+    workbench_set_heights (request, workbench_get_default_heights (0));
   }
   
   
   if (request->post.count ("workbenches")) {
     string s_workbenches = request->post ["workbenches"];
     vector <string> workbenches = filter_string_explode (s_workbenches, ',');
-    workbenchOrderWorkbenches (request, workbenches);
+    workbench_reorder (request, workbenches);
     return "";
+  }
+  
+  
+  if (request->query.count ("defaults")) {
+    workbench_create_defaults (webserver_request);
   }
   
   
@@ -82,7 +87,7 @@ string workbench_organize (void * webserver_request)
       return page;
     }
     if (confirm == "yes") {
-      workbenchDeleteWorkbench (request, remove);
+      workbench_delete (request, remove);
     }
   }
   
@@ -91,7 +96,7 @@ string workbench_organize (void * webserver_request)
   
   
   vector <string> workbenchblock;
-  vector <string> workbenches = workbenchGetWorkbenches (request);
+  vector <string> workbenches = workbench_get_names (request);
   for (auto & workbench : workbenches) {
     workbenchblock.push_back ("<p>");
     workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");

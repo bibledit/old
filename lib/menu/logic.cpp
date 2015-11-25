@@ -246,7 +246,7 @@ string menu_logic_desktop_category (void * webserver_request)
   // Add the available configured desktops to the menu.
   // The user's role should be sufficiently high.
   if (workbench_organize_acl (webserver_request)) {
-    vector <string> workbenches = workbenchGetWorkbenches (webserver_request);
+    vector <string> workbenches = workbench_get_names (webserver_request);
     for (size_t i = 0; i < workbenches.size(); i++) {
       string item = menu_logic_create_item (workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i], true);
       html.push_back (item);
