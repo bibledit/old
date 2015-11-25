@@ -46,6 +46,7 @@ string workbench_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
     vector <string> workbenches = workbench_get_names (request);
@@ -55,6 +56,18 @@ string workbench_index (void * webserver_request)
     }
   }
   
+  
+  // Create default workbenches if there are none.
+  vector <string> names = workbench_get_names (webserver_request);
+  bool create = names.empty ();
+  if (!create) {
+    create = (names [0] == workbench_get_default_name ());
+  }
+  if (create) {
+    workbench_create_defaults (webserver_request);
+  }
+
+  
   string page;
   Assets_Header header = Assets_Header (translate("Desktop"), request);
   header.setNavigator ();
@@ -62,6 +75,7 @@ string workbench_index (void * webserver_request)
   page = header.run ();
   Assets_View view;
 
+  
   map <int, string> urls = workbench_get_urls (request, true);
   map <int, string> widths = workbench_get_widths (request);
   for (unsigned int key = 0; key < 15; key++) {
@@ -76,6 +90,7 @@ string workbench_index (void * webserver_request)
     if (convert_to_int (width) > 0) view.enable_zone (variable);
   }
   
+  
   map <int, string> heights = workbench_get_heights (request);
   for (unsigned int key = 0; key < 3; key++) {
     string height = heights [key];
@@ -85,12 +100,14 @@ string workbench_index (void * webserver_request)
     if (convert_to_int (height) > 0) view.enable_zone (variable);
   }
   
+  
   string workbenchwidth = workbench_get_entire_width (request);
   if (!workbenchwidth.empty ()) {
     workbenchwidth.insert (0, "; width: ");
     workbenchwidth.append ("; margin: 0 auto; overflow: hidden;");
   }
   view.set_variable ("workbenchwidth", workbenchwidth);
+  
   
   // The rendered template disables framekillers through the "sandbox" attribute on the iframe elements.
   page += view.render ("workbench", "index");

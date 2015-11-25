@@ -45,6 +45,7 @@ string workbench_get_entire_width (void * webserver_request);
 void workbench_delete (void * webserver_request, string workbench);
 void workbench_reorder (void * webserver_request, const vector <string> & workbenches);
 void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights);
+string workbench_get_default_name ();
 
 
 #endif

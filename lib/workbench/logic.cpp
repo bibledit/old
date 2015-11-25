@@ -171,7 +171,7 @@ string workbench_get_active_name (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string workbench = request->database_config_user()->getActiveWorkbench ();
   if (workbench.empty ()) {
-    workbench = "Default"; // Todo create default ones.
+    workbench = workbench_get_default_name ();
   }
   return workbench;
 }
@@ -490,4 +490,10 @@ void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths
     if (heights)
       request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
   }
+}
+
+
+string workbench_get_default_name ()
+{
+  return "Default";
 }
