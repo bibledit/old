@@ -116,6 +116,15 @@ string workbench_settings (void * webserver_request)
   
   view.set_variable ("name", name);
   
+  
+  vector <string> samples = workbench_get_default_names ();
+  for (size_t i = 0; i < samples.size (); i++) {
+    string sample = "<a href=\"settings?name=##name##&preset=" + convert_to_string (i + 1) + "\">" + samples[i] + "</a>";
+    samples [i] = sample;
+  }
+  view.set_variable ("samples", filter_string_implode (samples, "\n|\n"));
+  
+ 
   page += view.render ("workbench", "settings");
   
   page += Assets_Page::footer ();
