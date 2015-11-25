@@ -101,7 +101,7 @@ string workbench_organize (void * webserver_request)
     workbenchblock.push_back ("<p>");
     workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");
     workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit workbench") + "\"> ✎ </a>");
+    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
     workbenchblock.push_back ("</p>");

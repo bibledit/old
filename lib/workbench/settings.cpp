@@ -86,7 +86,7 @@ string workbench_settings (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Edit workbench"), request);
+  Assets_Header header = Assets_Header (translate("Edit desktop"), request);
   page = header.run ();
   
   Assets_View view;
