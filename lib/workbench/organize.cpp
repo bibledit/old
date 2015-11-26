@@ -28,6 +28,7 @@
 #include <database/config/general.h>
 #include <workbench/logic.h>
 #include <dialog/yes.h>
+#include <dialog/entry.h>
 
 
 string workbench_organize_url ()
@@ -56,6 +57,7 @@ string workbench_organize (void * webserver_request)
   }
   
   
+  // Re-ordering workbenches.
   if (request->post.count ("workbenches")) {
     string s_workbenches = request->post ["workbenches"];
     vector <string> workbenches = filter_string_explode (s_workbenches, ',');
@@ -64,6 +66,7 @@ string workbench_organize (void * webserver_request)
   }
   
   
+  // Create and reset all default desktops.
   if (request->query.count ("defaults")) {
     workbench_create_defaults (webserver_request);
   }
@@ -92,6 +95,21 @@ string workbench_organize (void * webserver_request)
   }
   
   
+  // Copy desktop.
+  if (request->query.count ("copy")) {
+    string desktop = request->query ["copy"];
+    Dialog_Entry dialog_entry ("organize", translate("Please enter a name for the new desktop"), "", "destination", "");
+    dialog_entry.add_query ("source", desktop);
+    page.append (dialog_entry.run ());
+    return page;
+  }
+  if (request->query.count ("source")) {
+    string source = request->query ["source"];
+    string destination = request->post ["entry"];
+    workbench_copy (webserver_request, source, destination);
+  }
+  
+  
   Assets_View view;
   
   
@@ -102,6 +120,8 @@ string workbench_organize (void * webserver_request)
     workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
+    workbenchblock.push_back ("|");
+    workbenchblock.push_back ("<a href=\"?copy=" + workbench + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
     workbenchblock.push_back ("</p>");

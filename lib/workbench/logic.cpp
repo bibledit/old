@@ -33,7 +33,7 @@
 #include <locale/translate.h>
 
 
-vector <string> workbench_get_default_names () // Todo
+vector <string> workbench_get_default_names ()
 {
   return {
     translate ("Editor and Resources"),
@@ -474,6 +474,31 @@ void workbench_reorder (void * webserver_request, const vector <string> & workbe
 
   // Schedule for sending to Cloud.
   workbench_cache_for_cloud (request, true, false, false);
+}
+
+
+// Copy desktop $source to $destination
+void workbench_copy (void * webserver_request, string source, string destination)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // Save current active desktop.
+  string active_desktop = request->database_config_user()->getActiveWorkbench ();
+  
+  // Copy source desktop to destination.
+  request->database_config_user()->setActiveWorkbench (source);
+  map <int, string> urls = workbench_get_urls (webserver_request, false);
+  map <int, string> widths = workbench_get_widths (webserver_request);
+  map <int, string> heights = workbench_get_heights (webserver_request);
+  string entire_width = workbench_get_entire_width (webserver_request);
+  request->database_config_user()->setActiveWorkbench (destination);
+  workbench_set_urls (webserver_request, urls);
+  workbench_set_widths (webserver_request, widths);
+  workbench_set_heights (webserver_request, heights);
+  workbench_set_entire_width (webserver_request, entire_width);
+  
+  // Restore current active desktop.
+  request->database_config_user()->setActiveWorkbench (active_desktop);
 }
 
 

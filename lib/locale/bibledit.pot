@@ -8797,6 +8797,21 @@ msgstr ""
 msgid "chapters"
 msgstr ""
 
+msgid "Editor and Resources"
+msgstr ""
+
+msgid "Editor and Notes"
+msgstr ""
+
+msgid "Resources, Editor, Notes"
+msgstr ""
+
+msgid "Editor and Consistency tool"
+msgstr ""
+
+msgid "Visual editor and USFM editor"
+msgstr ""
+
 msgid "Workbenches"
 msgstr ""
 
@@ -8806,13 +8821,13 @@ msgstr ""
 msgid "Delete workbench"
 msgstr ""
 
-msgid "Edit workbench"
+msgid "Edit desktop"
 msgstr ""
 
 msgid "Create"
 msgstr ""
 
-msgid "Drag the list of workbenches into the desired order."
+msgid "Drag the list of desktops into the desired order."
 msgstr ""
 
 msgid "Click ✗ to remove."
@@ -8821,7 +8836,10 @@ msgstr ""
 msgid "Click ✎ to edit."
 msgstr ""
 
-msgid "Or create a new workbench."
+msgid "Create a new desktop."
+msgstr ""
+
+msgid "Reset all default desktops."
 msgstr ""
 
 msgid "Top row"
@@ -8848,27 +8866,14 @@ msgstr ""
 msgid "Samples"
 msgstr ""
 
-msgid "Editor and Resources"
+msgid "Samples to load in the current desktop:"
 msgstr ""
 
-msgid "Editor and Notes"
-msgstr ""
-
-msgid "Resources, Editor, Notes"
-msgstr ""
-
-msgid "Editor and Consistency tool"
-msgstr ""
-
-msgid "Visual editor and USFM editor"
-msgstr ""
-
-msgid "This page is for configuring the layout of a workbench."
+msgid "This page is for configuring the layout of a desktop."
 msgstr ""
 
 msgid ""
-"A workbench enables you to display parts of Bibledit or websites side-by-"
-"side."
+"A desktop enables you to display parts of Bibledit or websites side-by-side."
 msgstr ""
 
 msgid "There are three rows:"
@@ -8926,7 +8931,7 @@ msgstr ""
 msgid "There are many more of them."
 msgstr ""
 
-msgid "To edit two Bibles side-by side, add two editors to the workbench."
+msgid "To edit two Bibles side-by side, add two editors to the desktop."
 msgstr ""
 
 msgid "Add the following to each of them:"
@@ -8943,7 +8948,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"When this workbench will be opened, it will display all the notes that refer "
+"When this desktop will be opened, it will display all the notes that refer "
 "to the focused passage."
 msgstr ""
 
@@ -8962,23 +8967,23 @@ msgstr ""
 msgid "Display subscribed notes that have been idle for a week."
 msgstr ""
 
-msgid "The workbench configurations will work as expected on most devices."
+msgid "The desktop configurations will work as expected on most devices."
 msgstr ""
 
-msgid "But on iOS the pages within the workbench do not scroll."
+msgid "But on iOS the pages within the desktop do not scroll."
 msgstr ""
 
 msgid "Instead the pages take the full height."
 msgstr ""
 
-msgid "It may be needed to create workbenches specifically for iOS."
+msgid "It may be needed to create desktops specifically for iOS."
 msgstr ""
 
-msgid "You can set the width of the entire workbench."
+msgid "You can set the width of the entire desktop."
 msgstr ""
 
 msgid ""
-"By setting the width wider than the screen, the workbench can be scrolled "
+"By setting the width wider than the screen, the desktop can be scrolled "
 "horizontally."
 msgstr ""
 

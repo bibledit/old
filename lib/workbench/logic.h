@@ -40,10 +40,11 @@ map <int, string> workbench_get_values (void * webserver_request, int selector, 
 map <int, string> workbench_get_urls (void * webserver_request, bool use);
 map <int, string> workbench_get_widths (void * webserver_request);
 map <int, string> workbench_get_heights (void * webserver_request);
-vector <string> workbench_get_names (void * webserver_request);
 string workbench_get_entire_width (void * webserver_request);
+vector <string> workbench_get_names (void * webserver_request);
 void workbench_delete (void * webserver_request, string workbench);
 void workbench_reorder (void * webserver_request, const vector <string> & workbenches);
+void workbench_copy (void * webserver_request, string source, string destination);
 void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights);
 string workbench_get_default_name ();
 
