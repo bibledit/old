@@ -124,6 +124,8 @@ string workbench_settings (void * webserver_request)
   }
   view.set_variable ("samples", filter_string_implode (samples, "\n|\n"));
   
+  
+  view.set_variable ("help", translate ("See the help below for information about what to enter"));
  
   page += view.render ("workbench", "settings");
   
