@@ -960,6 +960,16 @@ void Database_Config_User::setMenuFontSize (int size)
 }
 
 
+int Database_Config_User::getBibleEditorsFontSize ()
+{
+  return getIValue ("bible-editors-font-size", 100);
+}
+void Database_Config_User::setBibleEditorsFontSize (int size)
+{
+  setIValue ("bible-editors-font-size", size);
+}
+
+
 int Database_Config_User::getResourcesFontSize ()
 {
   return getIValue ("resources-font-size", 100);

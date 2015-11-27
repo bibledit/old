@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/user.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
+#include <styles/sheets.h>
 
 
 string personalize_index_url ()
@@ -93,6 +94,24 @@ string personalize_index (void * webserver_request)
     return page;
   }
   view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
+  
+  
+  // Font size for the Bible editors.
+  if (request->query.count ("fontsizeeditors")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()), "fontsizeeditors", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizeeditors")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setBibleEditorsFontSize (value);
+      styles_sheets_create_all ();
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizeeditors", convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()));
   
   
   // Font size for the resources.

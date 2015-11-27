@@ -186,7 +186,11 @@ string Assets_Header::run ()
   if (fontsize != 100) {
     embedded_css.push_back (".menu { font-size: " + convert_to_string (fontsize) + "%; }");
   }
-  fontsize = request->database_config_user ()->getResourcesFontSize (); // Todo add resources.
+  fontsize = request->database_config_user ()->getBibleEditorsFontSize ();
+  if (fontsize != 100) {
+    embedded_css.push_back (".bibleeditor { font-size: " + convert_to_string (fontsize) + "% !important; }");
+  }
+  fontsize = request->database_config_user ()->getResourcesFontSize ();
   if (fontsize != 100) {
     embedded_css.push_back (".resource { font-size: " + convert_to_string (fontsize) + "% !important; }");
   }

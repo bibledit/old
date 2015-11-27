@@ -169,10 +169,12 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   code.push_back ("." + class_ + " {");
   
   // Font size.
+  // Since it is html and not pdf for paper, a font size of 12pt is considered to be equal to 100%.
   if (paragraph) {
-    string fontsize = convert_to_string (style->fontsize);
-    fontsize += "pt";
-    code.push_back ("font-size: " + fontsize + ";");
+    float points = style->fontsize;
+    float percents = points * 100 / 12;
+    int fontsize = convert_to_int (percents);
+    code.push_back ("font-size: " + convert_to_string (fontsize) + "%;");
   }
   
   // Italics, bold, underline, small caps.

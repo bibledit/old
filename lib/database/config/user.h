@@ -177,6 +177,8 @@ public:
   void setMenuFontSize (int size);
   int getMenuFontSize ();
   void setResourcesFontSize (int size);
+  int getBibleEditorsFontSize ();
+  void setBibleEditorsFontSize (int size);
   int getResourcesFontSize ();
   void setHebrewFontSize (int size);
   int getHebrewFontSize ();
