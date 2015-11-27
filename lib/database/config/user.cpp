@@ -960,6 +960,16 @@ void Database_Config_User::setMenuFontSize (int size)
 }
 
 
+int Database_Config_User::getResourcesFontSize ()
+{
+  return getIValue ("resources-font-size", 100);
+}
+void Database_Config_User::setResourcesFontSize (int size)
+{
+  setIValue ("resources-font-size", size);
+}
+
+
 int Database_Config_User::getHebrewFontSize ()
 {
   return getIValue ("hebrew-font-size", 100);

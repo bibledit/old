@@ -178,6 +178,21 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
   
   }
   
+  // Any font size given in a paragraph style may interfere with the font size setting for the resources
+  // as given in Bibledit. For that reason remove the class name from a paragraph style.
+  for (unsigned int i = 0; i < 5; i++) {
+    string fragment = "p class=\"";
+    size_t pos = html.find (fragment);
+    if (pos != string::npos) {
+      size_t pos2 = html.find ("\"", pos + fragment.length () + 1);
+      if (pos2 != string::npos) {
+        html.erase (pos + 1, pos2 - pos + 1);
+      }
+    }
+  }
+  // NET Bible updates.
+  html = filter_string_str_replace ("<span class=\"s ", "<span class=\"", html);
+  
   return html;
 }
 

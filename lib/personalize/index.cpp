@@ -95,6 +95,23 @@ string personalize_index (void * webserver_request)
   view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
   
   
+  // Font size for the resources.
+  if (request->query.count ("fontsizeresources")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getResourcesFontSize ()), "fontsizeresources", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizeresources")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setResourcesFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizeresources", convert_to_string (request->database_config_user ()->getResourcesFontSize ()));
+  
+  
   // Font size for Hebrew resources.
   if (request->query.count ("fontsizehebrew")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getHebrewFontSize ()), "fontsizehebrew", "");

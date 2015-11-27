@@ -176,6 +176,8 @@ public:
   int getGeneralFontSize ();
   void setMenuFontSize (int size);
   int getMenuFontSize ();
+  void setResourcesFontSize (int size);
+  int getResourcesFontSize ();
   void setHebrewFontSize (int size);
   int getHebrewFontSize ();
   void setGreekFontSize (int size);

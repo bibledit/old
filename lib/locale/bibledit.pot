@@ -7103,16 +7103,38 @@ msgstr ""
 msgid "Incorrect caret position in percents"
 msgstr ""
 
-msgid "General font size for everything"
+msgid "General font size for the interface"
+msgstr ""
+
+msgid "Size throughout the interface."
 msgstr ""
 
 msgid "Relative font size for the menu"
 msgstr ""
 
+msgid "The size of the font for the menu, relative to the general font size."
+msgstr ""
+
+msgid "Relative font size for the resources"
+msgstr ""
+
+msgid ""
+"The size of the font for the resources, relative to the general font size."
+msgstr ""
+
 msgid "Relative font size for Hebrew resources"
 msgstr ""
 
+msgid ""
+"The size of Hebrew text within resources, relative to the resources font "
+"size."
+msgstr ""
+
 msgid "Relative font size for Greek resources"
+msgstr ""
+
+msgid ""
+"The size of Greek text within resources, relative to the resources font size."
 msgstr ""
 
 msgid "Vertical position of the caret in the Bible editors"
@@ -8818,10 +8840,16 @@ msgstr ""
 msgid "Would you like to delete this workbench configuration?"
 msgstr ""
 
+msgid "Please enter a name for the new desktop"
+msgstr ""
+
 msgid "Delete workbench"
 msgstr ""
 
 msgid "Edit desktop"
+msgstr ""
+
+msgid "Copy desktop"
 msgstr ""
 
 msgid "Create"
@@ -8836,10 +8864,16 @@ msgstr ""
 msgid "Click ✎ to edit."
 msgstr ""
 
+msgid "Click ⎘ to copy."
+msgstr ""
+
 msgid "Create a new desktop."
 msgstr ""
 
 msgid "Reset all default desktops."
+msgstr ""
+
+msgid "See the help below for information about what to enter"
 msgstr ""
 
 msgid "Top row"
