@@ -198,6 +198,8 @@ public:
   string getRequestedGDefinition ();
   void setVerticalCaretPosition (int position);
   int getVerticalCaretPosition ();
+  bool getDisplayBreadcrumbs ();
+  void setDisplayBreadcrumbs (bool value);
 private:
   void * webserver_request;
   string file (string user, const char * key);

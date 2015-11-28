@@ -51,6 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <mapping/index.h>
 #include <notes/index.h>
+#include <notes/select.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
 #include <resource/admin.h>
@@ -86,6 +87,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <xrefs/index.h>
 #include <public/index.h>
 #include <public/logic.h>
+#include <filter/url.h>
 
 
 string menu_logic_href (string href)
@@ -124,45 +126,15 @@ string menu_logic_create_item (string href, string text, bool history)
 }
 
 
-string menu_logic_translate_text ()
+string menu_logic_translate_menu ()
 {
-  return translate ("Translate");
+  return "translate";
 }
 
 
-string menu_logic_search_text ()
+string menu_logic_search_menu ()
 {
-  return translate ("Search");
-}
-
-
-string menu_logic_tools_text ()
-{
-  return translate ("Tools");
-}
-
-
-string menu_logic_settings_text ()
-{
-  return translate ("Settings");
-}
-
-
-string menu_logic_help_text ()
-{
-  return translate ("Help");
-}
-
-
-string menu_logic_public_feedback_text ()
-{
-  return translate ("Public feedback");
-}
-
-
-string menu_logic_logout_text ()
-{
-  return translate ("Logout");
+  return "search";
 }
 
 
@@ -178,11 +150,11 @@ string menu_logic_main_categories (void * webserver_request)
   }
 
   if (!menu_logic_translate_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("translate", menu_logic_translate_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false));
   }
   
   if (!menu_logic_search_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("search", menu_logic_search_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false));
   }
 
   if (!menu_logic_tools_category (webserver_request).empty ()) {
@@ -280,7 +252,7 @@ string menu_logic_translate_category (void * webserver_request)
   }
   
   if (notes_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Consultation notes"), true));
+    html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true));
   }
 
   if (resource_index_acl (webserver_request)) {
@@ -605,3 +577,105 @@ bool menu_logic_public_or_guest (void * webserver_request)
   if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) return true;
   return false;
 }
+
+
+// Returns the text that belongs to a certain menu item.
+string menu_logic_menu_text (string menu_item) // Todo
+{
+  if (menu_item == menu_logic_translate_menu ()) {
+    return menu_logic_translate_text ();
+  }
+  if (menu_item == notes_index_url ()) {
+    return menu_logic_consultation_notes_text ();
+  }
+  if (menu_item == menu_logic_search_menu ()) {
+    return menu_logic_search_text ();
+  }
+  return translate ("Menu");
+}
+
+
+// Returns the URL that belongs to $menu_item.
+string menu_logic_menu_url (string menu_item)
+{
+  if ((menu_item == menu_logic_translate_menu () || (menu_item == menu_logic_search_menu ()))) {
+    return filter_url_build_http_query (index_index_url (), "item", menu_item);
+  }
+
+  return menu_item;
+}
+
+
+string menu_logic_breadcrumbs (void * webserver_request, vector <string> crumbs)
+{
+  string result;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
+    result.append ("<p>");
+    result.append ("<a href=\"/");
+    result.append (index_index_url ());
+    result.append ("\">");
+    result.append (menu_logic_menu_text (""));
+    result.append ("</a>");
+    for (auto crumb : crumbs) {
+      result.append (" » ");
+      result.append ("<a href=\"/");
+      result.append (menu_logic_menu_url (crumb));
+      result.append ("\">");
+      result.append (menu_logic_menu_text (crumb));
+      result.append ("</a>");
+    }
+    result.append ("</p>");
+  }
+  return result;
+}
+
+
+string menu_logic_translate_text ()
+{
+  return translate ("Translate");
+}
+
+
+string menu_logic_search_text ()
+{
+  return translate ("Search");
+}
+
+
+string menu_logic_tools_text ()
+{
+  return translate ("Tools");
+}
+
+
+string menu_logic_settings_text ()
+{
+  return translate ("Settings");
+}
+
+
+string menu_logic_help_text ()
+{
+  return translate ("Help");
+}
+
+
+string menu_logic_public_feedback_text ()
+{
+  return translate ("Public feedback");
+}
+
+
+string menu_logic_logout_text ()
+{
+  return translate ("Logout");
+}
+
+
+string menu_logic_consultation_notes_text ()
+{
+  return translate ("Consultation notes");
+}
+
+

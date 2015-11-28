@@ -1068,3 +1068,13 @@ void Database_Config_User::setVerticalCaretPosition (int position)
 {
   setIValue ("vertical-caret-position", position);
 }
+
+
+bool Database_Config_User::getDisplayBreadcrumbs ()
+{
+  return getBValue ("display-breadcrumbs", false);
+}
+void Database_Config_User::setDisplayBreadcrumbs (bool value)
+{
+  setBValue ("display-breadcrumbs", value);
+}

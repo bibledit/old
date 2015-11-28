@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <notes/index.h>
 #include <database/modifications.h>
+#include <menu/logic.h>
 
 
 string notes_create_url ()
@@ -58,6 +59,9 @@ string notes_create (void * webserver_request)
   page += header.run();
   
   Assets_View view;
+
+  
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu (), notes_index_url ()}));
 
   
   // Is is possible to pass a Bible to this script.

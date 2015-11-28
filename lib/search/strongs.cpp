@@ -30,6 +30,7 @@
 #include <database/kjv.h>
 #include <ipc/focus.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_strongs_url ()
@@ -167,6 +168,8 @@ string search_strongs (void * webserver_request)
   
   Assets_View view;
   
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
+
   view.set_variable ("bible", bible);
   
   string script = "var searchBible = \"" + bible + "\";";

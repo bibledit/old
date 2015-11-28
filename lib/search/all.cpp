@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <notes/note.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_all_url ()
@@ -68,6 +69,9 @@ string search_all (void * webserver_request)
   
   Assets_View view;
   
+  
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
+
   
   // Put the query string into the search box.
   view.set_variable ("query", queryString);

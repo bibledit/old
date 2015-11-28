@@ -29,6 +29,7 @@
 #include <sword/logic.h>
 #include <demo/logic.h>
 #include <resource/external.h>
+#include <menu/logic.h>
 
 
 string resource_index_url ()
@@ -55,6 +56,9 @@ string resource_index (void * webserver_request)
   page = header.run ();
   Assets_View view;
   
+  
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
+
   
   vector <string> resources = request->database_config_user()->getActiveResources ();
   

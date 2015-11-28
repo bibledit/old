@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <styles/sheets.h>
+#include <styles/logic.h>
 
 
 string personalize_index_url ()
@@ -180,6 +181,15 @@ string personalize_index (void * webserver_request)
     }
   }
   view.set_variable ("caretposition", convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()));
+  
+
+  // Whether to display bread crumbs.
+  if (request->query.count ("breadcrumbs")) {
+    bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
+    request->database_config_user ()->setDisplayBreadcrumbs (!state);
+  }
+  string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDisplayBreadcrumbs ());
+  view.set_variable ("breadcrumbs", on_off);
   
   
   view.set_variable ("success", success);

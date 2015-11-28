@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <notes/index.h>
+#include <menu/logic.h>
 
 
 string notes_select_url ()
@@ -59,6 +60,9 @@ string notes_select (void * webserver_request)
   Assets_View view;
   string success;
   
+  
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu (), notes_index_url ()}));
+
   
   if (request->query.count ("passageselector")) {
     int passage_selector = convert_to_int (request->query["passageselector"]);

@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_search2_url ()
@@ -190,6 +191,7 @@ string search_search2 (void * webserver_request)
   header.setNavigator ();
   page = header.run ();
   Assets_View view;
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
   view.set_variable ("bible", bible);
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);

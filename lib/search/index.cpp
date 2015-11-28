@@ -27,6 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_index_url ()
@@ -99,6 +100,8 @@ string search_index (void * webserver_request)
   
   Assets_View view;
   
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
+
   view.set_variable ("bible", bible);
   
   string script = "var searchBible = \"" + bible + "\";";

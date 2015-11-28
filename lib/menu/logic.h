@@ -29,13 +29,8 @@ string menu_logic_click (string item);
 
 string menu_logic_create_item (string href, string text, bool history);
 
-string menu_logic_translate_text ();
-string menu_logic_search_text ();
-string menu_logic_tools_text ();
-string menu_logic_settings_text ();
-string menu_logic_help_text ();
-string menu_logic_public_feedback_text ();
-string menu_logic_logout_text ();
+string menu_logic_translate_menu ();
+string menu_logic_search_menu ();
 
 string menu_logic_main_categories (void * webserver_request);
 
@@ -48,5 +43,18 @@ string menu_logic_help_category (void * webserver_request);
 
 bool menu_logic_public_or_guest (void * webserver_request);
 
+string menu_logic_menu_text (string menu_item);
+string menu_logic_menu_url (string menu_item);
+
+string menu_logic_breadcrumbs (void * webserver_request, vector <string> crumbs);
+
+string menu_logic_translate_text ();
+string menu_logic_search_text ();
+string menu_logic_tools_text ();
+string menu_logic_settings_text ();
+string menu_logic_help_text ();
+string menu_logic_public_feedback_text ();
+string menu_logic_logout_text ();
+string menu_logic_consultation_notes_text ();
 
 #endif

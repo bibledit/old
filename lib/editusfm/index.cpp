@@ -32,6 +32,7 @@
 #include <navigation/passage.h>
 #include <dialog/list.h>
 #include <ipc/focus.h>
+#include <menu/logic.h>
 
 
 string editusfm_index_url ()
@@ -84,6 +85,9 @@ string editusfm_index (void * webserver_request)
 
   
   Assets_View view;
+
+
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
 
   
   // Get active Bible, and check read access to it.

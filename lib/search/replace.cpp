@@ -30,6 +30,7 @@
 #include <database/config/general.h>
 #include <access/bible.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_replace_url ()
@@ -94,7 +95,9 @@ string search_replace (void * webserver_request)
   page = header.run ();
   
   Assets_View view;
-  
+
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
+
   view.set_variable ("bible", bible);
   
   string script = "var searchBible = \"" + bible + "\";";

@@ -36,6 +36,7 @@
 #include <notes/index.h>
 #include <dialog/yes.h>
 #include <trash/handler.h>
+#include <menu/logic.h>
 
 
 string notes_bulk_url ()
@@ -66,6 +67,9 @@ string notes_bulk (void * webserver_request)
   
   Assets_View view;
   string success, error;
+
+  
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu (), notes_index_url ()}));
 
   
   vector <string> bibles = access_bible_bibles (webserver_request);

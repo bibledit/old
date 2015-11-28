@@ -25,6 +25,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
+#include <menu/logic.h>
 
 
 string notes_index_url ()
@@ -53,6 +54,8 @@ string notes_index (void * webserver_request)
   Assets_View view;
   string error;
   string success;
+
+  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
 
   // Presets for notes selectors.
   // This is for the daily statistics and the workbench.
