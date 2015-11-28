@@ -59,7 +59,7 @@ string styles_indexm (void * webserver_request)
   
   Assets_View view;
   
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   
   string username = request->session_logic ()->currentUser ();
   int userlevel = request->session_logic ()->currentLevel ();

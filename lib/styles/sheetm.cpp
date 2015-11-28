@@ -60,7 +60,7 @@ string styles_sheetm (void * webserver_request)
   string name = request->query["name"];
   view.set_variable ("name", filter_string_sanitize_html (name));
 
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   
   string username = request->session_logic ()->currentUser ();
   int userlevel = request->session_logic ()->currentLevel ();

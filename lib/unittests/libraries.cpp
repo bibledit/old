@@ -2318,7 +2318,7 @@ void test_check_versification ()
 void test_check_usfm ()
 {
   refresh_sandbox (true);
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   database_styles.create ();
   // Test Malformed Verse
   {

@@ -197,7 +197,7 @@ void Filter_Text::getStyles (string stylesheet)
   if (odf_text_text_only) odf_text_text_only->createPageBreakStyle ();
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createPageBreakStyle ();
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createSuperscriptStyle ();
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   vector <string> markers = database_styles.getMarkers (stylesheet);
   for (auto marker : markers) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);

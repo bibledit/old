@@ -7115,6 +7115,14 @@ msgstr ""
 msgid "The size of the font for the menu, relative to the general font size."
 msgstr ""
 
+msgid "Relative font size for the Bible editors"
+msgstr ""
+
+msgid ""
+"The size of the font for the Bible editors, relative to the general font "
+"size."
+msgstr ""
+
 msgid "Relative font size for the resources"
 msgstr ""
 
