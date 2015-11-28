@@ -263,7 +263,7 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     
   }
   
-  // Superscript and color for inline text.
+  // Superscript and colors for inline text.
   if (!paragraph) {
     
     bool superscript = style->superscript;
@@ -275,6 +275,11 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     string color = style->color;
     if (color != "#000000") {
       code.push_back ("color: " + color + ";");
+    }
+    
+    string backgroundcolor = style->backgroundcolor;
+    if (color != "#FFFFFF") {
+      code.push_back ("background-color: " + backgroundcolor + ";");
     }
     
   }
