@@ -49,13 +49,12 @@ string notes_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Consultation Notes"), request);
   header.setNavigator ();
-  page += header.run();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  page = header.run();
   
   Assets_View view;
   string error;
   string success;
-
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
 
   // Presets for notes selectors.
   // This is for the daily statistics and the workbench.

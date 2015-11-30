@@ -61,12 +61,10 @@ string changes_changes (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Changes"), request);
   header.setStylesheet ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page += header.run ();
   Assets_View view;
   
-  
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
-
   
   string username = request->session_logic()->currentUser ();
   

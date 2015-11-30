@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/bible.h>
 #include <navigation/passage.h>
 #include <menu/logic.h>
+#include <index/index.h>
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
@@ -102,6 +103,13 @@ void Assets_Header::refresh (int seconds, string url)
 void Assets_Header::setFadingMenu (string html)
 {
   fadingmenu = html;
+}
+
+
+// Add one breadcrumb $item with $text.
+void Assets_Header::addBreadCrumb (string item, string text) // Todo
+{
+  breadcrumbs.push_back (make_pair (item, text));
 }
 
 
@@ -206,8 +214,30 @@ string Assets_Header::run ()
     view->set_variable ("embedded_css", filter_string_implode (embedded_css, "\n"));
   }
   
+  if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
+    if (!breadcrumbs.empty ()) {
+      string track;
+      track.append ("<a href=\"/");
+      track.append (index_index_url ());
+      track.append ("\">");
+      track.append (menu_logic_menu_text (""));
+      track.append ("</a>");
+      for (auto & crumb : breadcrumbs) { // Todo
+        track.append (" » ");
+        track.append ("<a href=\"/");
+        track.append (menu_logic_menu_url (crumb.first));
+        track.append ("\">");
+        track.append (crumb.second);
+        track.append ("</a>");
+      }
+      view->set_variable ("breadcrumbs", track);
+    }
+  }
+  
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");
 
   return page;
 }
+
+

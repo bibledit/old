@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <menu/logic.h>
 
 
 const char * journal_index_url ()
@@ -96,11 +97,11 @@ string journal_index (void * webserver_request)
 
   
   Assets_Header header = Assets_Header (translate ("Journal"), webserver_request);
+  header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   string page = header.run ();
 
 
   Assets_View view;
-  view.set_variable ("journal", translate ("Journal"));
 
 
   if (request->query.count ("clear")) {

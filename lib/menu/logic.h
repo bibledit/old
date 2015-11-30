@@ -31,6 +31,8 @@ string menu_logic_create_item (string href, string text, bool history);
 
 string menu_logic_translate_menu ();
 string menu_logic_search_menu ();
+string menu_logic_tools_menu ();
+string menu_logic_settings_menu ();
 
 string menu_logic_main_categories (void * webserver_request);
 

@@ -52,28 +52,22 @@ string search_all (void * webserver_request)
 
   
   string page;
- 
-  
   Assets_Header header = Assets_Header (translate("Search"), request);
-
-  
-  // The query: The word or string to search for.
-  string queryString;
-  if (request->query.count ("q")) {
-    queryString = request->query ["q"];
-  }
-
-  
+  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
 
   
   Assets_View view;
   
   
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
-
-  
+  // The query: The word or string to search for.
   // Put the query string into the search box.
+  string queryString;
+  if (request->query.count ("q")) {
+    queryString = request->query ["q"];
+  }
+  
+  
   view.set_variable ("query", queryString);
 
   

@@ -168,12 +168,11 @@ string search_similar (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Search"), request);
   header.setNavigator ();
+  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
   Assets_View view;
   
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
-
   view.set_variable ("bible", bible);
   
   string script = "var searchBible = \"" + bible + "\";";

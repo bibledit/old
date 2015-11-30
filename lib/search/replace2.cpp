@@ -52,9 +52,9 @@ string search_replace2 (void * webserver_request)
   string bible = request->database_config_user()->getBible ();
   string page;
   Assets_Header header = Assets_Header (translate("Replace"), request);
+  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   Assets_View view;
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_search_menu ()}));
   view.set_variable ("bible", bible);
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);

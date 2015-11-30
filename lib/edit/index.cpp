@@ -68,6 +68,7 @@ string edit_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
   
@@ -96,9 +97,6 @@ string edit_index (void * webserver_request)
   
   
   Assets_View view;
-  
-  
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
   
   
   // Active Bible, and check access.

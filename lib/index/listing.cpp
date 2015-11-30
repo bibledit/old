@@ -57,8 +57,8 @@ string index_listing (void * webserver_request, string url)
 {
   string page;
   page = Assets_Page::header ("Bibledit", webserver_request);
+  // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
   url = filter_url_urldecode (url);
   url = filter_url_create_path ("", url);
   view.set_variable ("url", url);

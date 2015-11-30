@@ -67,6 +67,9 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+msgid "Menu"
+msgstr ""
+
 msgid "Abbreviations"
 msgstr ""
 
@@ -6376,24 +6379,6 @@ msgstr ""
 msgid "Delete this mapping"
 msgstr ""
 
-msgid "Translate"
-msgstr ""
-
-msgid "Search"
-msgstr ""
-
-msgid "Tools"
-msgstr ""
-
-msgid "Settings"
-msgstr ""
-
-msgid "Public feedback"
-msgstr ""
-
-msgid "Logout"
-msgstr ""
-
 msgid "Desktop"
 msgstr ""
 
@@ -6412,13 +6397,13 @@ msgstr ""
 msgid "USFM verse editor"
 msgstr ""
 
-msgid "Consultation notes"
-msgstr ""
-
 msgid "View resources"
 msgstr ""
 
 msgid "Change notifications"
+msgstr ""
+
+msgid "Search"
 msgstr ""
 
 msgid "Replace"
@@ -6512,6 +6497,24 @@ msgid "Account"
 msgstr ""
 
 msgid "Help and About"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Tools"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Public feedback"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Consultation notes"
 msgstr ""
 
 msgid "Back"
@@ -7148,6 +7151,9 @@ msgstr ""
 msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
+msgid "Show breadcrumbs"
+msgstr ""
+
 msgid "Feedback"
 msgstr ""
 
@@ -7553,7 +7559,7 @@ msgstr ""
 msgid "When it starts to be used again, it will be installed on the fly."
 msgstr ""
 
-msgid "Search for verses similar to the focused verse in:"
+msgid "Search all Bibles and consultation notes:"
 msgstr ""
 
 msgid "notes"
@@ -7633,6 +7639,9 @@ msgid "Remove them from the ones already on the page"
 msgstr ""
 
 msgid "Display the intersection of them and the ones already on the page"
+msgstr ""
+
+msgid "Search for verses similar to the focused verse in:"
 msgstr ""
 
 msgid "Search for verses with a certain Strong's number in:"
@@ -8594,6 +8603,9 @@ msgid "Span columns"
 msgstr ""
 
 msgid "Color"
+msgstr ""
+
+msgid "Background color"
 msgstr ""
 
 msgid "Note numbering"

@@ -53,12 +53,10 @@ string resource_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.setNavigator ();
   header.setStylesheet ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view;
   
-  
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu ()}));
-
   
   vector <string> resources = request->database_config_user()->getActiveResources ();
   

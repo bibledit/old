@@ -138,6 +138,18 @@ string menu_logic_search_menu ()
 }
 
 
+string menu_logic_tools_menu ()
+{
+  return "tools";
+}
+
+
+string menu_logic_settings_menu ()
+{
+  return "settings";
+}
+
+
 // Returns the html for the main menu categories.
 string menu_logic_main_categories (void * webserver_request)
 {
@@ -158,11 +170,11 @@ string menu_logic_main_categories (void * webserver_request)
   }
 
   if (!menu_logic_tools_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("tools", menu_logic_tools_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false));
   }
 
   if (!menu_logic_settings_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("settings", menu_logic_settings_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false));
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
@@ -591,6 +603,12 @@ string menu_logic_menu_text (string menu_item) // Todo
   if (menu_item == menu_logic_search_menu ()) {
     return menu_logic_search_text ();
   }
+  if (menu_item == menu_logic_tools_menu ()) {
+    return menu_logic_tools_text ();
+  }
+  if (menu_item == menu_logic_settings_menu ()) {
+    return menu_logic_settings_text ();
+  }
   return translate ("Menu");
 }
 
@@ -598,7 +616,15 @@ string menu_logic_menu_text (string menu_item) // Todo
 // Returns the URL that belongs to $menu_item.
 string menu_logic_menu_url (string menu_item)
 {
-  if ((menu_item == menu_logic_translate_menu () || (menu_item == menu_logic_search_menu ()))) {
+  if (
+      (menu_item == menu_logic_translate_menu ())
+      ||
+      (menu_item == menu_logic_search_menu ())
+      ||
+      (menu_item == menu_logic_tools_menu ())
+      ||
+      (menu_item == menu_logic_settings_menu ())
+    ) {
     return filter_url_build_http_query (index_index_url (), "item", menu_item);
   }
 
@@ -606,7 +632,7 @@ string menu_logic_menu_url (string menu_item)
 }
 
 
-string menu_logic_breadcrumbs (void * webserver_request, vector <string> crumbs)
+string menu_logic_breadcrumbs (void * webserver_request, vector <string> crumbs) // Todo out.
 {
   string result;
   Webserver_Request * request = (Webserver_Request *) webserver_request;

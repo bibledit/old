@@ -56,12 +56,11 @@ string notes_create (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Create note"), request);
-  page += header.run();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
+  page = header.run();
   
   Assets_View view;
-
-  
-  view.set_variable ("breadcrumbs", menu_logic_breadcrumbs (webserver_request, {menu_logic_translate_menu (), notes_index_url ()}));
 
   
   // Is is possible to pass a Bible to this script.
