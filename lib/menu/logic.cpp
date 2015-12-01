@@ -427,7 +427,7 @@ string menu_logic_settings_category (void * webserver_request)
   }
 
   if (checks_settings_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (checks_settings_url (), translate ("Checks"), true));
+    html.push_back (menu_logic_create_item (checks_settings_url (), menu_logic_checks_settings_text (), true));
   }
 
   if (!config_logic_client_prepared ()) {
@@ -438,13 +438,13 @@ string menu_logic_settings_category (void * webserver_request)
 
   if (!config_logic_client_prepared ()) {
     if (resource_admin_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_admin_url (), translate ("External resources"), true));
+      html.push_back (menu_logic_create_item (resource_admin_url (), menu_logic_resource_admin_text (), true));
     }
   }
   
   if (!config_logic_client_prepared ()) {
     if (resource_images_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_images_url (), translate ("Image resources"), true));
+      html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
     }
   }
   
@@ -467,7 +467,7 @@ string menu_logic_settings_category (void * webserver_request)
 
   if (!config_logic_client_prepared ()) {
     if (manage_users_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (manage_users_url (), translate ("Users"), true));
+      html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true));
     }
   }
 
@@ -716,3 +716,26 @@ string menu_logic_workbench_organize_text ()
   return translate ("Desktops");
 }
 
+
+string menu_logic_checks_settings_text ()
+{
+  return translate ("Checks");
+}
+
+
+string menu_logic_resource_admin_text ()
+{
+  return translate ("External resources");
+}
+
+
+string menu_logic_resource_images_text ()
+{
+  return translate ("Image resources");
+}
+
+
+string menu_logic_manage_users_text ()
+{
+  return translate ("Users");
+}

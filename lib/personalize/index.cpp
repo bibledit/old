@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <personalize/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -30,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/entry.h>
 #include <styles/sheets.h>
 #include <styles/logic.h>
+#include <menu/logic.h>
 
 
 string personalize_index_url ()
@@ -73,7 +75,9 @@ string personalize_index (void * webserver_request)
   }
   
   
-  page = Assets_Page::header (translate ("Personalize"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Personalize"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
   
   Assets_View view;

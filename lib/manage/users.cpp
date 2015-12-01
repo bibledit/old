@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
 #include <filter/roles.h>
@@ -33,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/user.h>
 #include <locale/translate.h>
 #include <notes/logic.h>
+#include <menu/logic.h>
 
 
 string manage_users_url ()
@@ -54,9 +56,11 @@ string manage_users (void * webserver_request)
   bool user_updated = false;
   
   string page;
+  Assets_Header header = Assets_Header (translate("Users"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
-  page = Assets_Page::header (translate ("Users"), webserver_request);
-
+  
   Assets_View view;
 
 

@@ -25,6 +25,9 @@
 #include <locale/translate.h>
 #include <database/config/bible.h>
 #include <access/bible.h>
+#include <assets/header.h>
+#include <menu/logic.h>
+#include <checks/settings.h>
 
 
 string checks_settingspatterns_url ()
@@ -45,7 +48,10 @@ string checks_settingspatterns (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header (translate ("Patterns"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Patterns"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (checks_settings_url (), menu_logic_checks_settings_text ());
+  page = header.run ();
   Assets_View view;
   
   
