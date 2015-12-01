@@ -20,6 +20,7 @@
 #include <bible/manage.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/git.h>
 #include <filter/url.h>
@@ -31,6 +32,7 @@
 #include <access/bible.h>
 #include <bible/logic.h>
 #include <client/logic.h>
+#include <menu/logic.h>
 
 
 string bible_manage_url ()
@@ -51,7 +53,9 @@ string bible_manage (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Bibles"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Bibles"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
   
   Assets_View view;
   

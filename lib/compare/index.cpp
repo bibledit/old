@@ -30,6 +30,9 @@
 #include <database/jobs.h>
 #include <database/usfmresources.h>
 #include <jobs/index.h>
+#include <assets/header.h>
+#include <menu/logic.h>
+#include <bible/manage.h>
 
 
 string compare_index_url ()
@@ -50,7 +53,10 @@ string compare_index (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Compare"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Compare"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
+  page = header.run ();
   
   Assets_View view;
   

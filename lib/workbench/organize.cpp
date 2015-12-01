@@ -29,6 +29,7 @@
 #include <workbench/logic.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
+#include <menu/logic.h>
 
 
 string workbench_organize_url ()
@@ -77,6 +78,7 @@ string workbench_organize (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Workbenches"), request);
   header.jQueryUIOn ();
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
   

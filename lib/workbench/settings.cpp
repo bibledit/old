@@ -30,6 +30,8 @@
 #include <workbench/index.h>
 #include <dialog/yes.h>
 #include <filter/url.h>
+#include <menu/logic.h>
+#include <workbench/organize.h>
 
 
 string workbench_settings_url ()
@@ -87,6 +89,8 @@ string workbench_settings (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit desktop"), request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (workbench_organize_url (), menu_logic_workbench_organize_text ());
   page = header.run ();
   
   Assets_View view;

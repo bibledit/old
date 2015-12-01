@@ -419,11 +419,11 @@ string menu_logic_settings_category (void * webserver_request)
   vector <string> html;
 
   if (bible_manage_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (bible_manage_url (), translate ("Bibles"), true));
+    html.push_back (menu_logic_create_item (bible_manage_url (), menu_logic_bible_manage_text (), true));
   }
   
   if (workbench_organize_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (workbench_organize_url (), translate ("Desktops"), true));
+    html.push_back (menu_logic_create_item (workbench_organize_url (), menu_logic_workbench_organize_text (), true));
   }
 
   if (checks_settings_acl (webserver_request)) {
@@ -704,4 +704,15 @@ string menu_logic_consultation_notes_text ()
   return translate ("Consultation notes");
 }
 
+
+string menu_logic_bible_manage_text ()
+{
+  return translate ("Bibles");
+}
+
+
+string menu_logic_workbench_organize_text ()
+{
+  return translate ("Desktops");
+}
 

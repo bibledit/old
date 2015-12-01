@@ -5880,6 +5880,9 @@ msgstr ""
 msgid "Month"
 msgstr ""
 
+msgid "Export"
+msgstr ""
+
 msgid "Select a Bible"
 msgstr ""
 

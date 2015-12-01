@@ -224,11 +224,15 @@ string Assets_Header::run ()
       track.append ("</a>");
       for (auto & crumb : breadcrumbs) { // Todo
         track.append (" » ");
-        track.append ("<a href=\"/");
-        track.append (menu_logic_menu_url (crumb.first));
-        track.append ("\">");
+        if (!crumb.first.empty ()) {
+          track.append ("<a href=\"/");
+          track.append (menu_logic_menu_url (crumb.first));
+          track.append ("\">");
+        }
         track.append (crumb.second);
-        track.append ("</a>");
+        if (!crumb.first.empty ()) {
+          track.append ("</a>");
+        }
       }
       view->set_variable ("breadcrumbs", track);
     }

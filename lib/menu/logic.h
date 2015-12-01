@@ -58,5 +58,7 @@ string menu_logic_help_text ();
 string menu_logic_public_feedback_text ();
 string menu_logic_logout_text ();
 string menu_logic_consultation_notes_text ();
+string menu_logic_bible_manage_text ();
+string menu_logic_workbench_organize_text ();
 
 #endif
