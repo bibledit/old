@@ -28,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <locale/translate.h>
 #include <config.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string administration_timezone_url ()
@@ -48,7 +50,9 @@ string administration_timezone (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (translate ("Timezone"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Timezone"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
   Assets_View view;
 

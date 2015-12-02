@@ -64,6 +64,8 @@ string menu_logic_checks_settings_text ();
 string menu_logic_resource_admin_text ();
 string menu_logic_resource_images_text ();
 string menu_logic_manage_users_text ();
+string menu_logic_versification_index_text ();
+string menu_logic_mapping_index_text ();
 
 
 #endif

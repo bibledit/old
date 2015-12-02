@@ -6457,16 +6457,7 @@ msgstr ""
 msgid "Export Bibles"
 msgstr ""
 
-msgid "Desktops"
-msgstr ""
-
 msgid "USFM resources"
-msgstr ""
-
-msgid "External resources"
-msgstr ""
-
-msgid "Image resources"
 msgstr ""
 
 msgid "SWORD resources"
@@ -6518,6 +6509,15 @@ msgid "Logout"
 msgstr ""
 
 msgid "Consultation notes"
+msgstr ""
+
+msgid "Desktops"
+msgstr ""
+
+msgid "External resources"
+msgstr ""
+
+msgid "Image resources"
 msgstr ""
 
 msgid "Back"

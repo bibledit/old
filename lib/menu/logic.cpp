@@ -500,11 +500,11 @@ string menu_logic_settings_category (void * webserver_request)
   }
   
   if (versification_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (versification_index_url (), translate ("Versifications"), true));
+    html.push_back (menu_logic_create_item (versification_index_url (), menu_logic_versification_index_text (), true));
   }
   
   if (mapping_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (mapping_index_url (), translate ("Verse mappings"), true));
+    html.push_back (menu_logic_create_item (mapping_index_url (), menu_logic_mapping_index_text (), true));
   }
   
   if (collaboration_index_acl (webserver_request)) {
@@ -738,4 +738,16 @@ string menu_logic_resource_images_text ()
 string menu_logic_manage_users_text ()
 {
   return translate ("Users");
+}
+
+
+string menu_logic_versification_index_text ()
+{
+  return translate ("Versifications");
+}
+
+
+string menu_logic_mapping_index_text ()
+{
+  return translate ("Verse mappings");
 }
