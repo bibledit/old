@@ -6472,9 +6472,6 @@ msgstr ""
 msgid "Select stylesheet"
 msgstr ""
 
-msgid "Versifications"
-msgstr ""
-
 msgid "Cloud"
 msgstr ""
 
@@ -6518,6 +6515,9 @@ msgid "External resources"
 msgstr ""
 
 msgid "Image resources"
+msgstr ""
+
+msgid "Versifications"
 msgstr ""
 
 msgid "Back"

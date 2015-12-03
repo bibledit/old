@@ -35,6 +35,9 @@
 #include <access/user.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
+#include <assets/header.h>
+#include <menu/logic.h>
+#include <styles/indexm.h>
 
 
 string styles_view_url ()
@@ -55,7 +58,10 @@ string styles_view (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Style"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Style"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
+  page = header.run ();
   
   Assets_View view;
 

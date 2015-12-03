@@ -530,7 +530,7 @@ string menu_logic_settings_category (void * webserver_request)
   }
   
   if (styles_indexm_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (styles_indexm_url (), translate ("Edit stylesheet"), true));
+    html.push_back (menu_logic_create_item (styles_indexm_url (), menu_logic_styles_indexm_text (), true));
   }
 
   if (!(client || demo)) {
@@ -750,4 +750,10 @@ string menu_logic_versification_index_text ()
 string menu_logic_mapping_index_text ()
 {
   return translate ("Verse mappings");
+}
+
+
+string menu_logic_styles_indexm_text ()
+{
+  return translate ("Edit stylesheet");
 }
