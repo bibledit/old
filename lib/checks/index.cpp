@@ -64,7 +64,7 @@ string checks_index (void * webserver_request)
   if (request->query.count ("approve")) {
     int approve = convert_to_int (request->query["approve"]);
     database_check.approve (approve);
-    view.set_variable ("success", translate("The entry was approved and suppressed."));
+    view.set_variable ("success", translate("The entry was suppressed."));
   }
   
                         
