@@ -830,7 +830,7 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
-msgid "The entry was approved and suppressed."
+msgid "The entry was suppressed."
 msgstr ""
 
 msgid "The entry was deleted for just now."
@@ -842,7 +842,7 @@ msgstr ""
 msgid "The page displays a list of results of running the checks."
 msgstr ""
 
-msgid "Click ✔ to approve and suppress the entry."
+msgid "Click ✔ to suppress the entry."
 msgstr ""
 
 msgid "Click ✗ to remove the entry for just now."
@@ -851,7 +851,7 @@ msgstr ""
 msgid "It will be back next day, unless the text of the Bible is corrected."
 msgstr ""
 
-msgid "Click an entry to open the chapter in the text editor."
+msgid "Click a passage to open it in the Bible text editor."
 msgstr ""
 
 msgid "The Manager should enable the checks."
@@ -963,37 +963,36 @@ msgstr ""
 msgid "The names that may occur after mid-sentence punctuation were stored"
 msgstr ""
 
-msgid ""
-"The settings here will be used by several checks on the structure of the "
-"sentence."
+msgid "Sentence structure"
+msgstr ""
+
+msgid "The settings apply to different checks on the sentence structure."
+msgstr ""
+
+msgid "Enter all possible capitals in the text of the Bible."
+msgstr ""
+
+msgid "Separate them by a space."
+msgstr ""
+
+msgid "For example:"
+msgstr ""
+
+msgid "Enter all possible small letters in the text of the Bible."
+msgstr ""
+
+msgid "Enter all possible punctuation marks at the end of a sentence."
+msgstr ""
+
+msgid "Enter all possible punctuation marks within a sentence."
+msgstr ""
+
+msgid "Enter all possible characters that should be allowed within a sentence."
 msgstr ""
 
 msgid ""
-"Enter all the possible capitals in the text of the Bible, separated by a "
-"space."
-msgstr ""
-
-msgid "For example"
-msgstr ""
-
-msgid ""
-"Enter all the possible small letters in the text of the Bible, separated by "
-"a space."
-msgstr ""
-
-msgid ""
-"Enter all the possible punctuation marks at the ends of sentences, separated "
-"by a space."
-msgstr ""
-
-msgid ""
-"Enter all the possible punctuation marks within sentences, separated by a "
-"space."
-msgstr ""
-
-msgid ""
-"Enter all the possible characters that should be disregarded within "
-"sentences, separated by a space."
+"The characters will be treated by the checks algorithm to be valid in any "
+"context."
 msgstr ""
 
 msgid ""
@@ -1004,10 +1003,13 @@ msgstr ""
 msgid "Separate the names by a space."
 msgstr ""
 
+msgid "For example"
+msgstr ""
+
 msgid "Suppressed check results"
 msgstr ""
 
-msgid "The check result will no longer be suppressed."
+msgid "The check result is no longer suppressed."
 msgstr ""
 
 msgid "back"
@@ -2478,9 +2480,6 @@ msgstr ""
 msgid ""
 "Create a new email to the site's email address. The subject line contains "
 "'New note', then the passage, and finally the summary."
-msgstr ""
-
-msgid "For example:"
 msgstr ""
 
 msgid "The body of the email will be the first comment on that note."
@@ -6478,9 +6477,6 @@ msgstr ""
 msgid "Paratext"
 msgstr ""
 
-msgid "Edit stylesheet"
-msgstr ""
-
 msgid "Notifications"
 msgstr ""
 
@@ -6518,6 +6514,9 @@ msgid "Image resources"
 msgstr ""
 
 msgid "Versifications"
+msgstr ""
+
+msgid "Edit stylesheet"
 msgstr ""
 
 msgid "Back"
