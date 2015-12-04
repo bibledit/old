@@ -107,7 +107,7 @@ void Assets_Header::setFadingMenu (string html)
 
 
 // Add one breadcrumb $item with $text.
-void Assets_Header::addBreadCrumb (string item, string text) // Todo
+void Assets_Header::addBreadCrumb (string item, string text)
 {
   breadcrumbs.push_back (make_pair (item, text));
 }
@@ -222,7 +222,7 @@ string Assets_Header::run ()
       track.append ("\">");
       track.append (menu_logic_menu_text (""));
       track.append ("</a>");
-      for (auto & crumb : breadcrumbs) { // Todo
+      for (auto & crumb : breadcrumbs) {
         track.append (" » ");
         if (!crumb.first.empty ()) {
           track.append ("<a href=\"/");

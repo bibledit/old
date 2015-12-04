@@ -592,7 +592,7 @@ bool menu_logic_public_or_guest (void * webserver_request)
 
 
 // Returns the text that belongs to a certain menu item.
-string menu_logic_menu_text (string menu_item) // Todo
+string menu_logic_menu_text (string menu_item)
 {
   if (menu_item == menu_logic_translate_menu ()) {
     return menu_logic_translate_text ();
@@ -629,31 +629,6 @@ string menu_logic_menu_url (string menu_item)
   }
 
   return menu_item;
-}
-
-
-string menu_logic_breadcrumbs (void * webserver_request, vector <string> crumbs) // Todo out.
-{
-  string result;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
-    result.append ("<p>");
-    result.append ("<a href=\"/");
-    result.append (index_index_url ());
-    result.append ("\">");
-    result.append (menu_logic_menu_text (""));
-    result.append ("</a>");
-    for (auto crumb : crumbs) {
-      result.append (" » ");
-      result.append ("<a href=\"/");
-      result.append (menu_logic_menu_url (crumb));
-      result.append ("\">");
-      result.append (menu_logic_menu_text (crumb));
-      result.append ("</a>");
-    }
-    result.append ("</p>");
-  }
-  return result;
 }
 
 

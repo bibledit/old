@@ -48,8 +48,6 @@ bool menu_logic_public_or_guest (void * webserver_request);
 string menu_logic_menu_text (string menu_item);
 string menu_logic_menu_url (string menu_item);
 
-string menu_logic_breadcrumbs (void * webserver_request, vector <string> crumbs);
-
 string menu_logic_translate_text ();
 string menu_logic_search_text ();
 string menu_logic_tools_text ();

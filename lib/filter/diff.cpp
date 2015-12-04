@@ -178,10 +178,10 @@ void filter_diff_produce_verse_level (string bible, string directory)
         string old_verse_text = usfm_get_verse_text (old_chapter_usfm, verse);
         string new_verse_text = usfm_get_verse_text (new_chapter_usfm, verse);
         if (old_verse_text != new_verse_text) {
-          string usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + " " + old_verse_text;
+          string usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + ": " + old_verse_text;
           old_vs_usfm.push_back (usfmCode);
           filter_text_old.addUsfmCode (usfmCode);
-          usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + " " + new_verse_text;
+          usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + ": " + new_verse_text;
           new_vs_usfm.push_back (usfmCode);
           filter_text_new.addUsfmCode (usfmCode);
         }

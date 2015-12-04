@@ -192,6 +192,7 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   for (auto & line : bodylines) {
     if (filter_string_trim (line).empty ()) payload_text.push_back (" ");
     else payload_text.push_back (line);
+    payload_text.push_back ("\n");
   }
   payload_text.push_back ("</body>");
   payload_text.push_back ("</html>\n");
