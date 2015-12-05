@@ -137,12 +137,23 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
     passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
   }
 
+  // If there's been a mapping, the resource should include the verse number for clarity.
+  bool include_verse = passages.size () != 1;
+  for (auto passage : passages) {
+    if (verse != convert_to_int (passage.verse)) {
+      include_verse = true;
+    }
+  }
+  
   for (auto passage : passages) {
     
-    book = passage.book;
-    chapter = passage.chapter;
-    verse = convert_to_int (passage.verse);
-
+    int book = passage.book;
+    int chapter = passage.chapter;
+    int verse = convert_to_int (passage.verse);
+    
+    string possible_included_verse;
+    if (include_verse) possible_included_verse = convert_to_string (verse) + " ";
+    
     if (isBible || isUsfm) {
       string chapter_usfm;
       if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
@@ -153,8 +164,10 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
       filter_text.html_text_standard = new Html_Text (translate("Bible"));
       filter_text.addUsfmCode (verse_usfm);
       filter_text.run (stylesheet);
+      html.append (possible_included_verse);
       html.append (filter_text.html_text_standard->getInnerHtml ());
     } else if (isExternal) {
+      html.append (possible_included_verse);
       if (database_offlineresources.exists (resource, book, chapter, verse)) {
         // Use offline cached copy.
         html.append (database_offlineresources.get (resource, book, chapter, verse));
@@ -169,13 +182,15 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
         html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
       }
     } else if (isLexicon) {
+      html.append (possible_included_verse);
       html.append (lexicon_logic_get_html (request, resource, book, chapter, verse));
     } else if (isSword) {
+      html.append (possible_included_verse);
       html.append (sword_logic_get_text (sword_source, sword_module, book, chapter, verse));
     } else {
       // Nothing found.
     }
-  
+    
   }
   
   // Any font size given in a paragraph style may interfere with the font size setting for the resources
