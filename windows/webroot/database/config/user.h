@@ -176,6 +176,10 @@ public:
   int getGeneralFontSize ();
   void setMenuFontSize (int size);
   int getMenuFontSize ();
+  void setResourcesFontSize (int size);
+  int getBibleEditorsFontSize ();
+  void setBibleEditorsFontSize (int size);
+  int getResourcesFontSize ();
   void setHebrewFontSize (int size);
   int getHebrewFontSize ();
   void setGreekFontSize (int size);
@@ -194,6 +198,8 @@ public:
   string getRequestedGDefinition ();
   void setVerticalCaretPosition (int position);
   int getVerticalCaretPosition ();
+  bool getDisplayBreadcrumbs ();
+  void setDisplayBreadcrumbs (bool value);
 private:
   void * webserver_request;
   string file (string user, const char * key);

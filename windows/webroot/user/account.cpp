@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <confirm/worker.h>
 #include <locale/translate.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string user_account_url ()
@@ -46,7 +48,9 @@ string user_account (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (translate("Account"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Account"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
   Assets_View view;
 

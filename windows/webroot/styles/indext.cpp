@@ -32,6 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <access/user.h>
 #include <locale/translate.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string styles_indext_url ()
@@ -52,7 +54,9 @@ string styles_indext (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (translate ("Styles"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Styles"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
   Assets_View view;
 

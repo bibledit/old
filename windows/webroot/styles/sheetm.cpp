@@ -33,6 +33,9 @@
 #include <access/user.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
+#include <assets/header.h>
+#include <menu/logic.h>
+#include <styles/indexm.h>
 
 
 string styles_sheetm_url ()
@@ -53,14 +56,17 @@ string styles_sheetm (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Stylesheet"), webserver_request);
-  
+  Assets_Header header = Assets_Header (translate("Stylesheet"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
+  page = header.run ();
+
   Assets_View view;
   
   string name = request->query["name"];
   view.set_variable ("name", filter_string_sanitize_html (name));
 
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   
   string username = request->session_logic ()->currentUser ();
   int userlevel = request->session_logic ()->currentLevel ();

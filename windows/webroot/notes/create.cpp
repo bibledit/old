@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <notes/index.h>
 #include <database/modifications.h>
+#include <menu/logic.h>
 
 
 string notes_create_url ()
@@ -55,7 +56,9 @@ string notes_create (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Create note"), request);
-  page += header.run();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
+  page = header.run();
   
   Assets_View view;
 

@@ -25,6 +25,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
+#include <menu/logic.h>
 
 
 string notes_index_url ()
@@ -48,7 +49,8 @@ string notes_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Consultation Notes"), request);
   header.setNavigator ();
-  page += header.run();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  page = header.run();
   
   Assets_View view;
   string error;

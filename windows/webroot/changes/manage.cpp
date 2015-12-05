@@ -36,6 +36,7 @@
 #include <ipc/focus.h>
 #include <access/user.h>
 #include <changes/logic.h>
+#include <menu/logic.h>
 
 
 string changes_manage_url ()
@@ -59,7 +60,8 @@ string changes_manage (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Changes"), request);
-  page += header.run ();
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
   Assets_View view;
   
   

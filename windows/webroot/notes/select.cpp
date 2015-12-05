@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <notes/index.h>
+#include <menu/logic.h>
 
 
 string notes_select_url ()
@@ -54,7 +55,9 @@ string notes_select (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Select notes"), request);
-  page += header.run();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
+  page = header.run();
   
   Assets_View view;
   string success;

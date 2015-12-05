@@ -30,6 +30,8 @@
 #include <tasks/logic.h>
 #include <ipc/focus.h>
 #include <config/config.h>
+#include <menu/logic.h>
+#include <bible/manage.h>
 
 
 string bible_import_url ()
@@ -52,6 +54,8 @@ string bible_import (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Import"), webserver_request);
   header.setNavigator ();
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
   Assets_View view;

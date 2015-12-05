@@ -28,7 +28,6 @@ class Database_Styles_Item
 {
 public:
   Database_Styles_Item ();
-  ~Database_Styles_Item ();
   string marker;
   string name;
   string info;
@@ -59,14 +58,13 @@ public:
   string userstring1;
   string userstring2;
   string userstring3;
+  string backgroundcolor;
 };
 
 
 class Database_Styles
 {
 public:
-  Database_Styles ();
-  ~Database_Styles ();
   void create ();
   void createSheet (string sheet);
   vector <string> getSheets ();
@@ -104,6 +102,7 @@ public:
   void updateUserstring1 (string sheet, string marker, string userstring1);
   void updateUserstring2 (string sheet, string marker, string userstring2);
   void updateUserstring3 (string sheet, string marker, string userstring3);
+  void updateBackgroundColor (string sheet, string marker, string color);
   void grantWriteAccess (string user, string sheet);
   void revokeWriteAccess (string user, string sheet);
   bool hasWriteAccess (string user, string sheet);

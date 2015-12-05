@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/bible.h>
 #include <navigation/passage.h>
 #include <menu/logic.h>
+#include <index/index.h>
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
@@ -102,6 +103,13 @@ void Assets_Header::refresh (int seconds, string url)
 void Assets_Header::setFadingMenu (string html)
 {
   fadingmenu = html;
+}
+
+
+// Add one breadcrumb $item with $text.
+void Assets_Header::addBreadCrumb (string item, string text)
+{
+  breadcrumbs.push_back (make_pair (item, text));
 }
 
 
@@ -186,16 +194,48 @@ string Assets_Header::run ()
   if (fontsize != 100) {
     embedded_css.push_back (".menu { font-size: " + convert_to_string (fontsize) + "%; }");
   }
+  fontsize = request->database_config_user ()->getBibleEditorsFontSize ();
+  if (fontsize != 100) {
+    embedded_css.push_back (".bibleeditor { font-size: " + convert_to_string (fontsize) + "% !important; }");
+  }
+  fontsize = request->database_config_user ()->getResourcesFontSize ();
+  if (fontsize != 100) {
+    embedded_css.push_back (".resource { font-size: " + convert_to_string (fontsize) + "% !important; }");
+  }
   fontsize = request->database_config_user ()->getHebrewFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".hebrew { font-size: " + convert_to_string (fontsize) + "%; }");
+    embedded_css.push_back (".hebrew { font-size: " + convert_to_string (fontsize) + "%!important; }");
   }
   fontsize = request->database_config_user ()->getGreekFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".greek { font-size: " + convert_to_string (fontsize) + "%; }");
+    embedded_css.push_back (".greek { font-size: " + convert_to_string (fontsize) + "%!important; }");
   }
   if (!embedded_css.empty ()) {
     view->set_variable ("embedded_css", filter_string_implode (embedded_css, "\n"));
+  }
+  
+  if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
+    if (!breadcrumbs.empty ()) {
+      string track;
+      track.append ("<a href=\"/");
+      track.append (index_index_url ());
+      track.append ("\">");
+      track.append (menu_logic_menu_text (""));
+      track.append ("</a>");
+      for (auto & crumb : breadcrumbs) {
+        track.append (" » ");
+        if (!crumb.first.empty ()) {
+          track.append ("<a href=\"/");
+          track.append (menu_logic_menu_url (crumb.first));
+          track.append ("\">");
+        }
+        track.append (crumb.second);
+        if (!crumb.first.empty ()) {
+          track.append ("</a>");
+        }
+      }
+      view->set_variable ("breadcrumbs", track);
+    }
   }
   
   page += view->render("assets", "xhtml_start");
@@ -203,3 +243,5 @@ string Assets_Header::run ()
 
   return page;
 }
+
+

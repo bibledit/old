@@ -28,6 +28,8 @@
 #include <database/books.h>
 #include <locale/translate.h>
 #include <access/bible.h>
+#include <menu/logic.h>
+#include <bible/manage.h>
 
 
 string bible_order_url ()
@@ -50,6 +52,8 @@ string bible_order (void * webserver_request)
 
   Assets_Header header = Assets_Header (translate("Order"), request);
   header.jQueryUIOn ();
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
   Assets_View view;

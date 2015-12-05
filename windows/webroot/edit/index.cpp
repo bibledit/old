@@ -32,6 +32,7 @@
 #include <navigation/passage.h>
 #include <dialog/list.h>
 #include <ipc/focus.h>
+#include <menu/logic.h>
 
 
 string edit_index_url ()
@@ -67,6 +68,7 @@ string edit_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
   

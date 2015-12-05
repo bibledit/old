@@ -30,6 +30,8 @@
 #include <workbench/index.h>
 #include <dialog/yes.h>
 #include <filter/url.h>
+#include <menu/logic.h>
+#include <workbench/organize.h>
 
 
 string workbench_settings_url ()
@@ -53,9 +55,9 @@ string workbench_settings (void * webserver_request)
   
   if (request->query.count ("preset")) {
     int preset = convert_to_int (request->query ["preset"]);
-    workbenchSetURLs (request, workbenchDefaultURLs (preset));
-    workbenchSetWidths (request, workbenchDefaultWidths (preset));
-    workbenchSetHeights (request, workbenchDefaultHeights (preset));
+    workbench_set_urls (request, workbench_get_default_urls (preset));
+    workbench_set_widths (request, workbench_get_default_widths (preset));
+    workbench_set_heights (request, workbench_get_default_heights (preset));
   }
   
   if (request->post.count ("save")) {
@@ -75,24 +77,26 @@ string workbench_settings (void * webserver_request)
       row_heights [to2] = request->post ["height" + key];
       to2++;
     }
-    workbenchSetURLs (request, urls);
-    workbenchSetWidths (request, widths);
-    workbenchSetHeights (request, row_heights);
+    workbench_set_urls (request, urls);
+    workbench_set_widths (request, widths);
+    workbench_set_heights (request, row_heights);
     string workbenchwidth = request->post ["workbenchwidth"];
-    workbenchSetEntireWidth (request, workbenchwidth);
+    workbench_set_entire_width (request, workbenchwidth);
     redirect_browser (request, workbench_index_url ());
     return "";
   }
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Edit workbench"), request);
+  Assets_Header header = Assets_Header (translate("Edit desktop"), request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (workbench_organize_url (), menu_logic_workbench_organize_text ());
   page = header.run ();
   
   Assets_View view;
   
-  map <int, string> urls = workbenchGetURLs (request, false);
-  map <int, string> widths = workbenchGetWidths (request);
+  map <int, string> urls = workbench_get_urls (request, false);
+  map <int, string> widths = workbench_get_widths (request);
   for (auto & element : urls) {
     int key = element.first;
     int row = round (key / 5) + 1;
@@ -103,7 +107,7 @@ string workbench_settings (void * webserver_request)
     view.set_variable (variable, widths[key]);
   }
   
-  map <int, string> row_heights = workbenchGetHeights (request);
+  map <int, string> row_heights = workbench_get_heights (request);
   for (auto & element : row_heights) {
     int key = element.first;
     int row = key + 1;
@@ -111,11 +115,22 @@ string workbench_settings (void * webserver_request)
     view.set_variable (variable, row_heights [key]);
   }
 
-  string workbenchwidth = workbenchGetEntireWidth (request);
+  string workbenchwidth = workbench_get_entire_width (request);
   view.set_variable ("workbenchwidth", workbenchwidth);
   
   view.set_variable ("name", name);
   
+  
+  vector <string> samples = workbench_get_default_names ();
+  for (size_t i = 0; i < samples.size (); i++) {
+    string sample = "<a href=\"settings?name=##name##&preset=" + convert_to_string (i + 1) + "\">" + samples[i] + "</a>";
+    samples [i] = sample;
+  }
+  view.set_variable ("samples", filter_string_implode (samples, "\n|\n"));
+  
+  
+  view.set_variable ("help", translate ("See the help below for information about what to enter"));
+ 
   page += view.render ("workbench", "settings");
   
   page += Assets_Page::footer ();

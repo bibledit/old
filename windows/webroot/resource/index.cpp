@@ -29,6 +29,7 @@
 #include <sword/logic.h>
 #include <demo/logic.h>
 #include <resource/external.h>
+#include <menu/logic.h>
 
 
 string resource_index_url ()
@@ -52,6 +53,7 @@ string resource_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.setNavigator ();
   header.setStylesheet ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view;
   
@@ -84,7 +86,7 @@ string resource_index (void * webserver_request)
     }
     resourceblock.append ("<span id=\"name" + convert_to_string (i) + "\" class=\"small\">" + resource + "</span>\n");
     resourceblock.append ("<span id=\"loading" + convert_to_string (i) + "\"><img src=\"/pix/loading.gif\"></span>\n");
-    resourceblock.append ("<span id=\"content" + convert_to_string (i) + "\"></span>\n");
+    resourceblock.append ("<span id=\"content" + convert_to_string (i) + "\" class=\"resource\"></span>\n");
     resourceblock.append ("<hr style=\"clear:both\">");
     resourceblock.append ("</div>\n");
   }

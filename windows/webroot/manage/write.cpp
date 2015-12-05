@@ -20,12 +20,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/write.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <database/books.h>
 #include <locale/translate.h>
+#include <menu/logic.h>
+#include <manage/users.h>
 
 
 string manage_write_url ()
@@ -46,7 +49,10 @@ string manage_write (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (translate ("Read/write"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Read/write"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (manage_users_url (), menu_logic_manage_users_text ());
+  page = header.run ();
 
   Assets_View view;
 
