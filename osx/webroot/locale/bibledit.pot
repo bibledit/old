@@ -67,6 +67,9 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+msgid "Menu"
+msgstr ""
+
 msgid "Abbreviations"
 msgstr ""
 
@@ -821,13 +824,28 @@ msgstr ""
 msgid "Changes you entered in"
 msgstr ""
 
-msgid "Recent changes"
+msgid "The following passage has no change in the text."
+msgstr ""
+
+msgid "The change is in the formatting only."
+msgstr ""
+
+msgid "The USFM code is given for reference."
+msgstr ""
+
+msgid "Old code:"
+msgstr ""
+
+msgid "New code:"
+msgstr ""
+
+msgid "Recent changes:"
 msgstr ""
 
 msgid "Checks"
 msgstr ""
 
-msgid "The entry was approved and suppressed."
+msgid "The entry was suppressed."
 msgstr ""
 
 msgid "The entry was deleted for just now."
@@ -839,7 +857,7 @@ msgstr ""
 msgid "The page displays a list of results of running the checks."
 msgstr ""
 
-msgid "Click ✔ to approve and suppress the entry."
+msgid "Click ✔ to suppress the entry."
 msgstr ""
 
 msgid "Click ✗ to remove the entry for just now."
@@ -848,7 +866,7 @@ msgstr ""
 msgid "It will be back next day, unless the text of the Bible is corrected."
 msgstr ""
 
-msgid "Click an entry to open the chapter in the text editor."
+msgid "Click a passage to open it in the Bible text editor."
 msgstr ""
 
 msgid "The Manager should enable the checks."
@@ -960,37 +978,36 @@ msgstr ""
 msgid "The names that may occur after mid-sentence punctuation were stored"
 msgstr ""
 
-msgid ""
-"The settings here will be used by several checks on the structure of the "
-"sentence."
+msgid "Sentence structure"
+msgstr ""
+
+msgid "The settings apply to different checks on the sentence structure."
+msgstr ""
+
+msgid "Enter all possible capitals in the text of the Bible."
+msgstr ""
+
+msgid "Separate them by a space."
+msgstr ""
+
+msgid "For example:"
+msgstr ""
+
+msgid "Enter all possible small letters in the text of the Bible."
+msgstr ""
+
+msgid "Enter all possible punctuation marks at the end of a sentence."
+msgstr ""
+
+msgid "Enter all possible punctuation marks within a sentence."
+msgstr ""
+
+msgid "Enter all possible characters that should be allowed within a sentence."
 msgstr ""
 
 msgid ""
-"Enter all the possible capitals in the text of the Bible, separated by a "
-"space."
-msgstr ""
-
-msgid "For example"
-msgstr ""
-
-msgid ""
-"Enter all the possible small letters in the text of the Bible, separated by "
-"a space."
-msgstr ""
-
-msgid ""
-"Enter all the possible punctuation marks at the ends of sentences, separated "
-"by a space."
-msgstr ""
-
-msgid ""
-"Enter all the possible punctuation marks within sentences, separated by a "
-"space."
-msgstr ""
-
-msgid ""
-"Enter all the possible characters that should be disregarded within "
-"sentences, separated by a space."
+"The characters will be treated by the checks algorithm to be valid in any "
+"context."
 msgstr ""
 
 msgid ""
@@ -1001,10 +1018,13 @@ msgstr ""
 msgid "Separate the names by a space."
 msgstr ""
 
+msgid "For example"
+msgstr ""
+
 msgid "Suppressed check results"
 msgstr ""
 
-msgid "The check result will no longer be suppressed."
+msgid "The check result is no longer suppressed."
 msgstr ""
 
 msgid "back"
@@ -2182,6 +2202,9 @@ msgstr ""
 msgid "The Free Bible"
 msgstr ""
 
+msgid "Licenses"
+msgstr ""
+
 msgid "Upgrade from Bibledit-Web to Bibledit Cloud"
 msgstr ""
 
@@ -2472,9 +2495,6 @@ msgstr ""
 msgid ""
 "Create a new email to the site's email address. The subject line contains "
 "'New note', then the passage, and finally the summary."
-msgstr ""
-
-msgid "For example:"
 msgstr ""
 
 msgid "The body of the email will be the first comment on that note."
@@ -5874,6 +5894,9 @@ msgstr ""
 msgid "Month"
 msgstr ""
 
+msgid "Export"
+msgstr ""
+
 msgid "Select a Bible"
 msgstr ""
 
@@ -6373,24 +6396,6 @@ msgstr ""
 msgid "Delete this mapping"
 msgstr ""
 
-msgid "Translate"
-msgstr ""
-
-msgid "Search"
-msgstr ""
-
-msgid "Tools"
-msgstr ""
-
-msgid "Settings"
-msgstr ""
-
-msgid "Public feedback"
-msgstr ""
-
-msgid "Logout"
-msgstr ""
-
 msgid "Desktop"
 msgstr ""
 
@@ -6409,13 +6414,13 @@ msgstr ""
 msgid "USFM verse editor"
 msgstr ""
 
-msgid "Consultation notes"
-msgstr ""
-
 msgid "View resources"
 msgstr ""
 
 msgid "Change notifications"
+msgstr ""
+
+msgid "Search"
 msgstr ""
 
 msgid "Replace"
@@ -6466,16 +6471,7 @@ msgstr ""
 msgid "Export Bibles"
 msgstr ""
 
-msgid "Desktops"
-msgstr ""
-
 msgid "USFM resources"
-msgstr ""
-
-msgid "External resources"
-msgstr ""
-
-msgid "Image resources"
 msgstr ""
 
 msgid "SWORD resources"
@@ -6490,16 +6486,10 @@ msgstr ""
 msgid "Select stylesheet"
 msgstr ""
 
-msgid "Versifications"
-msgstr ""
-
 msgid "Cloud"
 msgstr ""
 
 msgid "Paratext"
-msgstr ""
-
-msgid "Edit stylesheet"
 msgstr ""
 
 msgid "Notifications"
@@ -6509,6 +6499,39 @@ msgid "Account"
 msgstr ""
 
 msgid "Help and About"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Tools"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Public feedback"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Consultation notes"
+msgstr ""
+
+msgid "Desktops"
+msgstr ""
+
+msgid "External resources"
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "Versifications"
+msgstr ""
+
+msgid "Edit stylesheet"
 msgstr ""
 
 msgid "Back"
@@ -7100,19 +7123,52 @@ msgstr ""
 msgid "Incorrect caret position in percents"
 msgstr ""
 
-msgid "General font size for everything"
+msgid "General font size for the interface"
+msgstr ""
+
+msgid "Size throughout the interface."
 msgstr ""
 
 msgid "Relative font size for the menu"
 msgstr ""
 
+msgid "The size of the font for the menu, relative to the general font size."
+msgstr ""
+
+msgid "Relative font size for the Bible editors"
+msgstr ""
+
+msgid ""
+"The size of the font for the Bible editors, relative to the general font "
+"size."
+msgstr ""
+
+msgid "Relative font size for the resources"
+msgstr ""
+
+msgid ""
+"The size of the font for the resources, relative to the general font size."
+msgstr ""
+
 msgid "Relative font size for Hebrew resources"
+msgstr ""
+
+msgid ""
+"The size of Hebrew text within resources, relative to the resources font "
+"size."
 msgstr ""
 
 msgid "Relative font size for Greek resources"
 msgstr ""
 
+msgid ""
+"The size of Greek text within resources, relative to the resources font size."
+msgstr ""
+
 msgid "Vertical position of the caret in the Bible editors"
+msgstr ""
+
+msgid "Show breadcrumbs"
 msgstr ""
 
 msgid "Feedback"
@@ -7520,7 +7576,7 @@ msgstr ""
 msgid "When it starts to be used again, it will be installed on the fly."
 msgstr ""
 
-msgid "Search for verses similar to the focused verse in:"
+msgid "Search all Bibles and consultation notes:"
 msgstr ""
 
 msgid "notes"
@@ -7573,7 +7629,7 @@ msgstr ""
 msgid "To replace all passages, click Apply all."
 msgstr ""
 
-msgid "main text without notes"
+msgid "plain text"
 msgstr ""
 
 msgid "underlying USFM"
@@ -7600,6 +7656,9 @@ msgid "Remove them from the ones already on the page"
 msgstr ""
 
 msgid "Display the intersection of them and the ones already on the page"
+msgstr ""
+
+msgid "Search for verses similar to the focused verse in:"
 msgstr ""
 
 msgid "Search for verses with a certain Strong's number in:"
@@ -8563,6 +8622,9 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
+msgid "Background color"
+msgstr ""
+
 msgid "Note numbering"
 msgstr ""
 
@@ -8794,22 +8856,43 @@ msgstr ""
 msgid "chapters"
 msgstr ""
 
+msgid "Editor and Resources"
+msgstr ""
+
+msgid "Editor and Notes"
+msgstr ""
+
+msgid "Resources, Editor, Notes"
+msgstr ""
+
+msgid "Editor and Consistency tool"
+msgstr ""
+
+msgid "Visual editor and USFM editor"
+msgstr ""
+
 msgid "Workbenches"
 msgstr ""
 
 msgid "Would you like to delete this workbench configuration?"
 msgstr ""
 
+msgid "Please enter a name for the new desktop"
+msgstr ""
+
 msgid "Delete workbench"
 msgstr ""
 
-msgid "Edit workbench"
+msgid "Edit desktop"
+msgstr ""
+
+msgid "Copy desktop"
 msgstr ""
 
 msgid "Create"
 msgstr ""
 
-msgid "Drag the list of workbenches into the desired order."
+msgid "Drag the list of desktops into the desired order."
 msgstr ""
 
 msgid "Click ✗ to remove."
@@ -8818,7 +8901,16 @@ msgstr ""
 msgid "Click ✎ to edit."
 msgstr ""
 
-msgid "Or create a new workbench."
+msgid "Click ⎘ to copy."
+msgstr ""
+
+msgid "Create a new desktop."
+msgstr ""
+
+msgid "Reset all default desktops."
+msgstr ""
+
+msgid "See the help below for information about what to enter"
 msgstr ""
 
 msgid "Top row"
@@ -8845,27 +8937,14 @@ msgstr ""
 msgid "Samples"
 msgstr ""
 
-msgid "Editor and Resources"
+msgid "Samples to load in the current desktop:"
 msgstr ""
 
-msgid "Editor and Notes"
-msgstr ""
-
-msgid "Resources, Editor, Notes"
-msgstr ""
-
-msgid "Editor and Consistency tool"
-msgstr ""
-
-msgid "Visual editor and USFM editor"
-msgstr ""
-
-msgid "This page is for configuring the layout of a workbench."
+msgid "This page is for configuring the layout of a desktop."
 msgstr ""
 
 msgid ""
-"A workbench enables you to display parts of Bibledit or websites side-by-"
-"side."
+"A desktop enables you to display parts of Bibledit or websites side-by-side."
 msgstr ""
 
 msgid "There are three rows:"
@@ -8923,7 +9002,7 @@ msgstr ""
 msgid "There are many more of them."
 msgstr ""
 
-msgid "To edit two Bibles side-by side, add two editors to the workbench."
+msgid "To edit two Bibles side-by side, add two editors to the desktop."
 msgstr ""
 
 msgid "Add the following to each of them:"
@@ -8940,7 +9019,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"When this workbench will be opened, it will display all the notes that refer "
+"When this desktop will be opened, it will display all the notes that refer "
 "to the focused passage."
 msgstr ""
 
@@ -8959,23 +9038,23 @@ msgstr ""
 msgid "Display subscribed notes that have been idle for a week."
 msgstr ""
 
-msgid "The workbench configurations will work as expected on most devices."
+msgid "The desktop configurations will work as expected on most devices."
 msgstr ""
 
-msgid "But on iOS the pages within the workbench do not scroll."
+msgid "But on iOS the pages within the desktop do not scroll."
 msgstr ""
 
 msgid "Instead the pages take the full height."
 msgstr ""
 
-msgid "It may be needed to create workbenches specifically for iOS."
+msgid "It may be needed to create desktops specifically for iOS."
 msgstr ""
 
-msgid "You can set the width of the entire workbench."
+msgid "You can set the width of the entire desktop."
 msgstr ""
 
 msgid ""
-"By setting the width wider than the screen, the workbench can be scrolled "
+"By setting the width wider than the screen, the desktop can be scrolled "
 "horizontally."
 msgstr ""
 
