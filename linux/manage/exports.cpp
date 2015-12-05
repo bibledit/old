@@ -20,6 +20,7 @@
 #include <manage/exports.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -32,6 +33,7 @@
 #include <config/logic.h>
 #include <client/logic.h>
 #include <tasks/logic.h>
+#include <menu/logic.h>
 
 
 const char * manage_exports_url ()
@@ -52,7 +54,9 @@ string manage_exports (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header ("Export", webserver_request);
+  Assets_Header header = Assets_Header (translate ("Export"), webserver_request);
+  header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
+  page = header.run ();
   Assets_View view;
   
   

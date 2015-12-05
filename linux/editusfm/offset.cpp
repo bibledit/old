@@ -49,7 +49,9 @@ string editusfm_offset (void * webserver_request)
   // Only update navigation in case the verse differs.
   // This avoids unnecessary focus operations in the clients.
   if (!in_array (Ipc_Focus::getVerse (request), verses)) {
-    Ipc_Focus::set (request, book, chapter, verses[0]);
+    if (!verses.empty ()) {
+      Ipc_Focus::set (request, book, chapter, verses[0]);
+    }
   }
   return "";
 }

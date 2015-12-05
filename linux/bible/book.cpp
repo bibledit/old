@@ -36,6 +36,9 @@
 #include <book/create.h>
 #include <bible/logic.h>
 #include <client/logic.h>
+#include <assets/header.h>
+#include <menu/logic.h>
+#include <bible/manage.h>
 
 
 string bible_book_url ()
@@ -56,7 +59,10 @@ string bible_book (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Book"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Book"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
+  page = header.run ();
   
   Assets_View view;
   

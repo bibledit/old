@@ -486,7 +486,7 @@ void test_filters_usfm1 ()
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
   }
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   database_styles.create ();
   {
     evaluate (__LINE__, __func__, 0, (int)usfm_import ("", styles_logic_standard_sheet ()).size());
@@ -762,18 +762,26 @@ void test_filters_usfm5 ()
 
 void test_filters_export1 ()
 {
+  // Test object Text_Text.
   {
-    // Test object Text_Text.
-    Text_Text text_text = Text_Text ();
+    Text_Text text_text;
     text_text.addtext ("text one");
+    text_text.addnotetext ("note one");
     evaluate (__LINE__, __func__, "text one", text_text.get ());
-  
-    text_text = Text_Text ();
+    evaluate (__LINE__, __func__, "note one", text_text.getnote ());
+  }
+  {
+    Text_Text text_text;
     text_text.paragraph ("paragraph1");
+    text_text.note ("note1");
     text_text.paragraph ("paragraph2");
+    text_text.note ("note");
+    text_text.addnotetext ("2");
     evaluate (__LINE__, __func__, "paragraph1\nparagraph2", text_text.get ());
-  
-    text_text = Text_Text ();
+    evaluate (__LINE__, __func__, "note1\nnote2", text_text.getnote ());
+  }
+  {
+    Text_Text text_text;
     text_text.paragraph ("paragraph");
     evaluate (__LINE__, __func__, "paragraph", text_text.line ());
   }
@@ -1231,7 +1239,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // TestBasicFormattedText
   {
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text ("phpunit");
@@ -1254,7 +1262,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test Basic Formatted Note
   {
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text ("phpunit");
@@ -1283,7 +1291,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test Embedded Formatted Text.
   {
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
@@ -1321,7 +1329,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test Embedded Formatted Note.
   {
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
@@ -1365,7 +1373,7 @@ void test_odf_text ()
   filter_url_unlink (Odt2TxtOutput);
   // Test paragraph formatting.
   {
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.create ();
     Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
     Odf_Text odf_text ("phpunit");
@@ -1402,7 +1410,7 @@ void test_filter_text1 ()
 
   // The unittests depend on known settings and values.
   Database_Config_Bible::setExportChapterDropCapsFrames (bible, true);
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   database_styles.create ();
 
   // Test extraction of all sorts of information from USFM code
@@ -1684,7 +1692,7 @@ void test_filter_text1 ()
 void test_filter_text2 ()
 {
   refresh_sandbox (true);
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   database_styles.create ();
   string TextTestOdt  = "/tmp/TextTest.odt";
   string TextTestHtml = "/tmp/TextTest.html";
@@ -1706,12 +1714,20 @@ void test_filter_text2 ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
-    string standard = 
+    string notes = filter_text.text_text->getnote ();
+    string standard =
       "The book of\n"
       "Genesis\n"
       "1\n"
-      "1 In the beginning, God created the heavens and the earth.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (output));
+      "1 In the beginning, God created the heavens and the earth.";
+    evaluate (__LINE__, __func__, standard, output);
+    string standardnotes =
+      "Isa. 1.1.\n"
+      "Isa. 2.2.\n"
+      "Word1: Heb. Explanation1.\n"
+      "Word2: Heb. Explanation2.\n"
+      "Test: Heb. Note at the very end.";
+    evaluate (__LINE__, __func__, standardnotes, notes);
   }
   // Test Clear Text Export 2
   {
@@ -1730,12 +1746,14 @@ void test_filter_text2 ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
-    string standard = 
+    string notes = filter_text.text_text->getnote ();
+    string standard =
       "1\n"
       "1 Chapter 1, verse one. 2 Verse two.\n"
       "2\n"
       "1 Chapter 2, verse one. 2 Verse two.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (output));
+    evaluate (__LINE__, __func__, "", notes);
   }
   // Test Verses Headings 1
   {
@@ -2528,7 +2546,7 @@ void test_styles_css ()
   // Basic.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.createSheet ("phpunit");
     Styles_Css styles_css = Styles_Css (&request, "phpunit");
     styles_css.generate ();
@@ -2539,7 +2557,7 @@ void test_styles_css ()
   // Export.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.createSheet ("phpunit");
     Styles_Css styles_css = Styles_Css (&request, "phpunit");
     styles_css.exports ();
@@ -2551,7 +2569,7 @@ void test_styles_css ()
   // Editor.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.createSheet ("phpunit");
     Styles_Css styles_css = Styles_Css (&request, "phpunit");
     styles_css.editor ();

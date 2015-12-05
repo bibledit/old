@@ -508,12 +508,23 @@ function editorPositionCaretExecute ()
     currentPosition = getCaretPosition ();
     if (editorPositionCaretOffset == currentPosition) return;
     editorPositionCaretCount--;
-    setTimeout (editorPositionCaretExecute, 200);
+    setTimeout (editorPositionCaretExecute, 10);
   }
 }
 
 
+var editorPositionCaretViaAjaxTimerId;
+
+
 function positionCaretViaAjax ()
+{
+  // Very frequent focus calls have been seen in some browsers, so they are filtered here.
+  if (editorPositionCaretViaAjaxTimerId) clearTimeout (editorPositionCaretViaAjaxTimerId);
+  editorPositionCaretViaAjaxTimerId = setTimeout (positionCaretViaAjaxExecute, 100);
+}
+
+
+function positionCaretViaAjaxExecute ()
 {
   if (isNoVerseBook (editorLoadedBook)) return;
   $.ajax ({
@@ -553,13 +564,14 @@ Section for scrolling the caret into view.
 function editorScrollVerseIntoView ()
 {
   if (isNoVerseBook (editorLoadedBook)) return;
-  var iterVerse = 0;
+
+  var verses = [0];
   var navigated = false;
   $ ("#editor > p span").each (function (index) {
     var element = $(this);
     if (element.hasClass ("v")) {
-      iterVerse = element[0].textContent;
-      if (iterVerse == editorNavigationVerse) {
+      verses = usfm_get_verse_numbers (element[0].textContent);
+      if (verses.indexOf (parseInt (editorNavigationVerse)) >= 0) {
         if (navigated == false) {
           var offset = element.offset ();
           var verseTop = offset.top;
@@ -575,7 +587,7 @@ function editorScrollVerseIntoView ()
         }
       }
     }
-    if (iterVerse == editorNavigationVerse) element.addClass ("focusedverse");
+    if (verses.indexOf (parseInt (editorNavigationVerse)) >= 0) element.addClass ("focusedverse");
     else element.removeClass ("focusedverse");
 
   });
@@ -941,4 +953,3 @@ function editorLog (msg)
   var milliseconds = date.getMilliseconds();
   console.log (seconds + " " + milliseconds + ": " + msg);
 }
-

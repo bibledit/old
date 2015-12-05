@@ -56,11 +56,6 @@ Checks_Usfm::Checks_Usfm (string bible)
 }
 
 
-Checks_Usfm::~Checks_Usfm ()
-{
-}
-
-
 void Checks_Usfm::initialize ()
 {
   checkingResults.clear ();
@@ -271,3 +266,15 @@ void Checks_Usfm::addResult (string text, int modifier)
   }
   checkingResults.push_back (make_pair (verseNumber, text));
 }
+
+
+/*
+
+ The official usfm.sty from paratext.org shows where each marker occurs under.
+ That could be used to do a mechanical check on the position of the various markers.
+ But this is not implemented just now because it is not the purpose of Bibledit 
+ to exactly check every aspect of USFM.
+ Rather Bibledit checks some important issues that may occur in daily USFM editing.
+ Checking every aspect of USFM is a bit of an overkill.
+
+*/

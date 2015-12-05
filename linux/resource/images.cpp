@@ -32,6 +32,7 @@
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
+#include <menu/logic.h>
 
 
 string resource_images_url ()
@@ -53,6 +54,7 @@ string resource_images (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Image resources"), request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
   string error, success;

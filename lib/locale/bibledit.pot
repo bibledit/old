@@ -824,7 +824,22 @@ msgstr ""
 msgid "Changes you entered in"
 msgstr ""
 
-msgid "Recent changes"
+msgid "The following passage has no change in the text."
+msgstr ""
+
+msgid "The change is in the formatting only."
+msgstr ""
+
+msgid "The USFM code is given for reference."
+msgstr ""
+
+msgid "Old code:"
+msgstr ""
+
+msgid "New code:"
+msgstr ""
+
+msgid "Recent changes:"
 msgstr ""
 
 msgid "Checks"

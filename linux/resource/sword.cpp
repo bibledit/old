@@ -32,6 +32,7 @@
 #include <journal/index.h>
 #include <sword/logic.h>
 #include <config/logic.h>
+#include <menu/logic.h>
 
 
 string resource_sword_url ()
@@ -87,6 +88,7 @@ string resource_sword (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
 

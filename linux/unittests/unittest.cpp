@@ -40,9 +40,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 int main (int argc, char **argv) 
 {
-  // No compile warnings.
-  if (argc) {};
-  if (argv[0]) {};
+  (void) argc;
+  (void) argv;
 
 #ifdef HAVE_UNITTESTS
 
@@ -59,8 +58,8 @@ int main (int argc, char **argv)
   
   // Flag for unit tests.
   config_globals_unit_testing = true;
-  
-  //test_filters_export2 (); test_database_offlineresourcese (); refresh_sandbox (true); exit (0);
+
+  test_database_styles (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();

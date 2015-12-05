@@ -118,7 +118,7 @@ void tasks_run_one (string filename)
   } else if (command == SENDEMAIL) {
     email_send ();
   } else if (command == REINDEXBIBLES) {
-    search_reindex_bibles ();
+    search_reindex_bibles (convert_to_bool (parameter1));
   } else if (command == REINDEXNOTES) {
     search_reindex_notes ();
   } else if (command == CREATECSS) {

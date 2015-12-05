@@ -32,6 +32,7 @@
 #include <database/books.h>
 #include <ipc/focus.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_originals_url ()
@@ -184,6 +185,8 @@ string search_originals (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Search"), request);
+  header.setNavigator ();
+  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
   Assets_View view;

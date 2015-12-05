@@ -32,6 +32,7 @@
 #include <navigation/passage.h>
 #include <dialog/list.h>
 #include <ipc/focus.h>
+#include <menu/logic.h>
 
 
 string edit_index_url ()
@@ -67,6 +68,7 @@ string edit_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
   
@@ -127,10 +129,10 @@ string edit_index (void * webserver_request)
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("custom_class", clss);
   view.set_variable ("custom_css", Filter_Css::getCss (clss,
-                                                             Fonts_Logic::getFontPath (font),
-                                                             direction,
-                                                             lineheight,
-                                                             letterspacing));
+                                                       Fonts_Logic::getFontPath (font),
+                                                       direction,
+                                                       lineheight,
+                                                       letterspacing));
   
   page += view.render ("edit", "index");
   

@@ -305,15 +305,15 @@ void demo_create_sample_workbenches (void * webserver_request)
   };
 
   request->database_config_user()->setActiveWorkbench ("USFM");
-  workbenchSetURLs (request, urls);
-  workbenchSetWidths (request, widths);
-  workbenchSetHeights (request, row_heights);
+  workbench_set_urls (request, urls);
+  workbench_set_widths (request, widths);
+  workbench_set_heights (request, row_heights);
 
   urls[0] = edit_index_url ();
   urls[1] = resource_index_url ();
 
   request->database_config_user()->setActiveWorkbench (demo_workbench ());
-  workbenchSetURLs (request, urls);
-  workbenchSetWidths (request, widths);
-  workbenchSetHeights (request, row_heights);
+  workbench_set_urls (request, urls);
+  workbench_set_widths (request, widths);
+  workbench_set_heights (request, row_heights);
 }

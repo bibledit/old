@@ -34,6 +34,7 @@
 #include <access/bible.h>
 #include <dialog/list.h>
 #include <sprint/burndown.h>
+#include <menu/logic.h>
 
 
 string sprint_index_url ()
@@ -56,6 +57,7 @@ string sprint_index (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Sprint"), request);
+  header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;
   

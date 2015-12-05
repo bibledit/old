@@ -20,6 +20,7 @@
 #include <checks/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -32,6 +33,7 @@
 #include <sendreceive/logic.h>
 #include <config/logic.h>
 #include <access/bible.h>
+#include <menu/logic.h>
 
 
 string checks_index_url ()
@@ -53,14 +55,16 @@ string checks_index (void * webserver_request)
 
   
   string page;
-  page = Assets_Page::header (translate ("Checks"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Checks"), webserver_request);
+  header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
+  page = header.run ();
   Assets_View view;
   
-  
+
   if (request->query.count ("approve")) {
     int approve = convert_to_int (request->query["approve"]);
     database_check.approve (approve);
-    view.set_variable ("success", translate("The entry was approved and suppressed."));
+    view.set_variable ("success", translate("The entry was suppressed."));
   }
   
                         

@@ -24,14 +24,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <database/logs.h>
 #include <database/bibles.h>
+#include <database/config/general.h>
 #include <search/logic.h>
 
 
 bool search_reindex_bibles_running = false;
 
 
-void search_reindex_bibles ()
+void search_reindex_bibles (bool force)
 {
+  if (!Database_Config_General::getIndexBibles ()) return;
+  
+  
   // One simultaneous instance.
   if (search_reindex_bibles_running) {
     Database_Logs::log ("Still indexing Bibles", Filter_Roles::manager ());
@@ -51,7 +55,7 @@ void search_reindex_bibles ()
       vector <int> chapters = database_bibles.getChapters (bible, book);
       for (auto chapter : chapters) {
         string index = search_logic_chapter_file (bible, book, chapter);
-        if (!file_exists (index)) {
+        if (!file_exists (index) || force) {
           string msg = "Indexing Bible: " + bible + " " + filter_passage_display (book, chapter, "");
           Database_Logs::log (msg, Filter_Roles::manager ());
           search_logic_index_chapter (bible, book, chapter);
@@ -62,5 +66,6 @@ void search_reindex_bibles ()
   
   
   Database_Logs::log ("Indexing Bible: Ready", Filter_Roles::manager ());
+  Database_Config_General::setIndexBibles (false);
   search_reindex_bibles_running = false;
 }
