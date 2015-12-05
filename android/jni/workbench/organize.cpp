@@ -28,6 +28,8 @@
 #include <database/config/general.h>
 #include <workbench/logic.h>
 #include <dialog/yes.h>
+#include <dialog/entry.h>
+#include <menu/logic.h>
 
 
 string workbench_organize_url ()
@@ -50,17 +52,24 @@ string workbench_organize (void * webserver_request)
   if (request->post.count ("add")) {
     string add = request->post["add"];
     request->database_config_user()->setActiveWorkbench (add);
-    workbenchSetURLs    (request, workbenchDefaultURLs (0));
-    workbenchSetWidths  (request, workbenchDefaultWidths (0));
-    workbenchSetHeights (request, workbenchDefaultHeights (0));
+    workbench_set_urls    (request, workbench_get_default_urls (0));
+    workbench_set_widths  (request, workbench_get_default_widths (0));
+    workbench_set_heights (request, workbench_get_default_heights (0));
   }
   
   
+  // Re-ordering workbenches.
   if (request->post.count ("workbenches")) {
     string s_workbenches = request->post ["workbenches"];
     vector <string> workbenches = filter_string_explode (s_workbenches, ',');
-    workbenchOrderWorkbenches (request, workbenches);
+    workbench_reorder (request, workbenches);
     return "";
+  }
+  
+  
+  // Create and reset all default desktops.
+  if (request->query.count ("defaults")) {
+    workbench_create_defaults (webserver_request);
   }
   
   
@@ -69,6 +78,7 @@ string workbench_organize (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Workbenches"), request);
   header.jQueryUIOn ();
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
   
@@ -82,8 +92,23 @@ string workbench_organize (void * webserver_request)
       return page;
     }
     if (confirm == "yes") {
-      workbenchDeleteWorkbench (request, remove);
+      workbench_delete (request, remove);
     }
+  }
+  
+  
+  // Copy desktop.
+  if (request->query.count ("copy")) {
+    string desktop = request->query ["copy"];
+    Dialog_Entry dialog_entry ("organize", translate("Please enter a name for the new desktop"), "", "destination", "");
+    dialog_entry.add_query ("source", desktop);
+    page.append (dialog_entry.run ());
+    return page;
+  }
+  if (request->query.count ("source")) {
+    string source = request->query ["source"];
+    string destination = request->post ["entry"];
+    workbench_copy (webserver_request, source, destination);
   }
   
   
@@ -91,12 +116,14 @@ string workbench_organize (void * webserver_request)
   
   
   vector <string> workbenchblock;
-  vector <string> workbenches = workbenchGetWorkbenches (request);
+  vector <string> workbenches = workbench_get_names (request);
   for (auto & workbench : workbenches) {
     workbenchblock.push_back ("<p>");
     workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");
     workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit workbench") + "\"> ✎ </a>");
+    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
+    workbenchblock.push_back ("|");
+    workbenchblock.push_back ("<a href=\"?copy=" + workbench + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
     workbenchblock.push_back ("</p>");

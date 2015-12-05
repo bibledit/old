@@ -122,6 +122,9 @@ void search_logic_index_chapter (string bible, int book, int chapter)
     for (auto & element : headings) {
       raw_plain.append (element.second + "\n");
     }
+    // Add any footnotes.
+    raw_plain.append (filter_text.text_text->getnote ());
+    // Clean up.
     raw_plain = filter_string_trim (raw_plain);
     
     index.push_back (search_logic_index_separator ());

@@ -27,15 +27,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Text_Text
 {
 public:
-  Text_Text ();
   void paragraph (string text = "");
   string line ();
   void addtext (string text);
   string get ();
   void save (string name);
+  void note (string text = "");
+  void addnotetext (string text);
+  string getnote ();
 private:
   vector <string> output;
   string thisline;
+  vector <string> notes;
+  string thisnoteline;
 };
 
 

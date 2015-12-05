@@ -51,6 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <mapping/index.h>
 #include <notes/index.h>
+#include <notes/select.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
 #include <resource/admin.h>
@@ -86,6 +87,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <xrefs/index.h>
 #include <public/index.h>
 #include <public/logic.h>
+#include <filter/url.h>
 
 
 string menu_logic_href (string href)
@@ -124,45 +126,27 @@ string menu_logic_create_item (string href, string text, bool history)
 }
 
 
-string menu_logic_translate_text ()
+string menu_logic_translate_menu ()
 {
-  return translate ("Translate");
+  return "translate";
 }
 
 
-string menu_logic_search_text ()
+string menu_logic_search_menu ()
 {
-  return translate ("Search");
+  return "search";
 }
 
 
-string menu_logic_tools_text ()
+string menu_logic_tools_menu ()
 {
-  return translate ("Tools");
+  return "tools";
 }
 
 
-string menu_logic_settings_text ()
+string menu_logic_settings_menu ()
 {
-  return translate ("Settings");
-}
-
-
-string menu_logic_help_text ()
-{
-  return translate ("Help");
-}
-
-
-string menu_logic_public_feedback_text ()
-{
-  return translate ("Public feedback");
-}
-
-
-string menu_logic_logout_text ()
-{
-  return translate ("Logout");
+  return "settings";
 }
 
 
@@ -178,19 +162,19 @@ string menu_logic_main_categories (void * webserver_request)
   }
 
   if (!menu_logic_translate_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("translate", menu_logic_translate_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false));
   }
   
   if (!menu_logic_search_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("search", menu_logic_search_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false));
   }
 
   if (!menu_logic_tools_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("tools", menu_logic_tools_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false));
   }
 
   if (!menu_logic_settings_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("settings", menu_logic_settings_text (), false));
+    html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false));
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
@@ -246,7 +230,7 @@ string menu_logic_desktop_category (void * webserver_request)
   // Add the available configured desktops to the menu.
   // The user's role should be sufficiently high.
   if (workbench_organize_acl (webserver_request)) {
-    vector <string> workbenches = workbenchGetWorkbenches (webserver_request);
+    vector <string> workbenches = workbench_get_names (webserver_request);
     for (size_t i = 0; i < workbenches.size(); i++) {
       string item = menu_logic_create_item (workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i], true);
       html.push_back (item);
@@ -280,7 +264,7 @@ string menu_logic_translate_category (void * webserver_request)
   }
   
   if (notes_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Consultation notes"), true));
+    html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true));
   }
 
   if (resource_index_acl (webserver_request)) {
@@ -435,15 +419,15 @@ string menu_logic_settings_category (void * webserver_request)
   vector <string> html;
 
   if (bible_manage_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (bible_manage_url (), translate ("Bibles"), true));
+    html.push_back (menu_logic_create_item (bible_manage_url (), menu_logic_bible_manage_text (), true));
   }
   
   if (workbench_organize_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (workbench_organize_url (), translate ("Desktops"), true));
+    html.push_back (menu_logic_create_item (workbench_organize_url (), menu_logic_workbench_organize_text (), true));
   }
 
   if (checks_settings_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (checks_settings_url (), translate ("Checks"), true));
+    html.push_back (menu_logic_create_item (checks_settings_url (), menu_logic_checks_settings_text (), true));
   }
 
   if (!config_logic_client_prepared ()) {
@@ -454,13 +438,13 @@ string menu_logic_settings_category (void * webserver_request)
 
   if (!config_logic_client_prepared ()) {
     if (resource_admin_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_admin_url (), translate ("External resources"), true));
+      html.push_back (menu_logic_create_item (resource_admin_url (), menu_logic_resource_admin_text (), true));
     }
   }
   
   if (!config_logic_client_prepared ()) {
     if (resource_images_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_images_url (), translate ("Image resources"), true));
+      html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
     }
   }
   
@@ -483,7 +467,7 @@ string menu_logic_settings_category (void * webserver_request)
 
   if (!config_logic_client_prepared ()) {
     if (manage_users_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (manage_users_url (), translate ("Users"), true));
+      html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true));
     }
   }
 
@@ -516,11 +500,11 @@ string menu_logic_settings_category (void * webserver_request)
   }
   
   if (versification_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (versification_index_url (), translate ("Versifications"), true));
+    html.push_back (menu_logic_create_item (versification_index_url (), menu_logic_versification_index_text (), true));
   }
   
   if (mapping_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (mapping_index_url (), translate ("Verse mappings"), true));
+    html.push_back (menu_logic_create_item (mapping_index_url (), menu_logic_mapping_index_text (), true));
   }
   
   if (collaboration_index_acl (webserver_request)) {
@@ -546,7 +530,7 @@ string menu_logic_settings_category (void * webserver_request)
   }
   
   if (styles_indexm_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (styles_indexm_url (), translate ("Edit stylesheet"), true));
+    html.push_back (menu_logic_create_item (styles_indexm_url (), menu_logic_styles_indexm_text (), true));
   }
 
   if (!(client || demo)) {
@@ -604,4 +588,147 @@ bool menu_logic_public_or_guest (void * webserver_request)
   if (request->session_logic ()->currentUser ().empty ()) return true;
   if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) return true;
   return false;
+}
+
+
+// Returns the text that belongs to a certain menu item.
+string menu_logic_menu_text (string menu_item)
+{
+  if (menu_item == menu_logic_translate_menu ()) {
+    return menu_logic_translate_text ();
+  }
+  if (menu_item == notes_index_url ()) {
+    return menu_logic_consultation_notes_text ();
+  }
+  if (menu_item == menu_logic_search_menu ()) {
+    return menu_logic_search_text ();
+  }
+  if (menu_item == menu_logic_tools_menu ()) {
+    return menu_logic_tools_text ();
+  }
+  if (menu_item == menu_logic_settings_menu ()) {
+    return menu_logic_settings_text ();
+  }
+  return translate ("Menu");
+}
+
+
+// Returns the URL that belongs to $menu_item.
+string menu_logic_menu_url (string menu_item)
+{
+  if (
+      (menu_item == menu_logic_translate_menu ())
+      ||
+      (menu_item == menu_logic_search_menu ())
+      ||
+      (menu_item == menu_logic_tools_menu ())
+      ||
+      (menu_item == menu_logic_settings_menu ())
+    ) {
+    return filter_url_build_http_query (index_index_url (), "item", menu_item);
+  }
+
+  return menu_item;
+}
+
+
+string menu_logic_translate_text ()
+{
+  return translate ("Translate");
+}
+
+
+string menu_logic_search_text ()
+{
+  return translate ("Search");
+}
+
+
+string menu_logic_tools_text ()
+{
+  return translate ("Tools");
+}
+
+
+string menu_logic_settings_text ()
+{
+  return translate ("Settings");
+}
+
+
+string menu_logic_help_text ()
+{
+  return translate ("Help");
+}
+
+
+string menu_logic_public_feedback_text ()
+{
+  return translate ("Public feedback");
+}
+
+
+string menu_logic_logout_text ()
+{
+  return translate ("Logout");
+}
+
+
+string menu_logic_consultation_notes_text ()
+{
+  return translate ("Consultation notes");
+}
+
+
+string menu_logic_bible_manage_text ()
+{
+  return translate ("Bibles");
+}
+
+
+string menu_logic_workbench_organize_text ()
+{
+  return translate ("Desktops");
+}
+
+
+string menu_logic_checks_settings_text ()
+{
+  return translate ("Checks");
+}
+
+
+string menu_logic_resource_admin_text ()
+{
+  return translate ("External resources");
+}
+
+
+string menu_logic_resource_images_text ()
+{
+  return translate ("Image resources");
+}
+
+
+string menu_logic_manage_users_text ()
+{
+  return translate ("Users");
+}
+
+
+string menu_logic_versification_index_text ()
+{
+  return translate ("Versifications");
+}
+
+
+string menu_logic_mapping_index_text ()
+{
+  return translate ("Verse mappings");
+}
+
+
+string menu_logic_styles_indexm_text ()
+{
+  return translate ("Edit stylesheet");
 }

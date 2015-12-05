@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <locale/translate.h>
+#include <menu/logic.h>
 
 
 bool index_listing_match (string url)
@@ -56,6 +57,7 @@ string index_listing (void * webserver_request, string url)
 {
   string page;
   page = Assets_Page::header ("Bibledit", webserver_request);
+  // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);
   url = filter_url_create_path ("", url);

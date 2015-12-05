@@ -768,7 +768,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   if (person == "p2") person = "second person";
   if (person == "p3") person = "third person";
   if (person == "NA") person.clear ();
-  if (person == "unknown") person = "unknown";
+  if (person == "unknown") person = "unknown person";
   if (!person.empty ()) {
     //renderings.push_back (";");
     //renderings.push_back ("person:");
@@ -779,7 +779,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   if (gender == "m") gender = "masculine";
   if (gender == "f") gender = "feminine";
   if (gender == "NA") gender.clear ();
-  if (gender == "unknown") gender = "unknown";
+  if (gender == "unknown") gender = "unknown gender";
   if (!gender.empty ()) {
     // renderings.push_back (";");
     // renderings.push_back ("gender:");
@@ -791,7 +791,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   if (number == "du") number = "dual";
   if (number == "pl") number = "plural";
   if (number == "NA") number.clear ();
-  if (number == "unknown") number = "unknown";
+  if (number == "unknown") number = "unknown number";
   if (!number.empty ()) {
     // renderings.push_back (";");
     // renderings.push_back ("number:");

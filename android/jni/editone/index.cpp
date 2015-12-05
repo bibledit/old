@@ -32,6 +32,7 @@
 #include <navigation/passage.h>
 #include <dialog/list.h>
 #include <ipc/focus.h>
+#include <menu/logic.h>
 
 
 string editone_index_url ()
@@ -62,6 +63,7 @@ string editone_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit verse"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
   Assets_View view;

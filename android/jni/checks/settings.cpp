@@ -35,6 +35,8 @@
 #include <access/bible.h>
 #include <dialog/list.h>
 #include <checks/logic.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string checks_settings_url ()
@@ -55,7 +57,9 @@ string checks_settings (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header (translate ("Manage Checks"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Manage Checks"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
   Assets_View view;
   
   

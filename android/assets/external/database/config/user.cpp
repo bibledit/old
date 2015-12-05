@@ -960,6 +960,26 @@ void Database_Config_User::setMenuFontSize (int size)
 }
 
 
+int Database_Config_User::getBibleEditorsFontSize ()
+{
+  return getIValue ("bible-editors-font-size", 100);
+}
+void Database_Config_User::setBibleEditorsFontSize (int size)
+{
+  setIValue ("bible-editors-font-size", size);
+}
+
+
+int Database_Config_User::getResourcesFontSize ()
+{
+  return getIValue ("resources-font-size", 100);
+}
+void Database_Config_User::setResourcesFontSize (int size)
+{
+  setIValue ("resources-font-size", size);
+}
+
+
 int Database_Config_User::getHebrewFontSize ()
 {
   return getIValue ("hebrew-font-size", 100);
@@ -1047,4 +1067,14 @@ int Database_Config_User::getVerticalCaretPosition ()
 void Database_Config_User::setVerticalCaretPosition (int position)
 {
   setIValue ("vertical-caret-position", position);
+}
+
+
+bool Database_Config_User::getDisplayBreadcrumbs ()
+{
+  return getBValue ("display-breadcrumbs", false);
+}
+void Database_Config_User::setDisplayBreadcrumbs (bool value)
+{
+  setBValue ("display-breadcrumbs", value);
 }

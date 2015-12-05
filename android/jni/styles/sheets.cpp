@@ -46,7 +46,7 @@ void styles_sheets_create_all_run ()
 // Recreates the various stylesheets.css files.
 void Styles_Sheets::recreate ()
 {
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   vector <string> stylesheets = database_styles.getSheets ();
   for (auto & stylesheet : stylesheets) {
     string path = get_location (stylesheet, false);

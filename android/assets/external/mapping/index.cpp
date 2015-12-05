@@ -26,6 +26,8 @@
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string mapping_index_url ()
@@ -47,7 +49,9 @@ string mapping_index (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Verse Mappings"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Verse Mappings"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
   
   Assets_View view;
   string error;

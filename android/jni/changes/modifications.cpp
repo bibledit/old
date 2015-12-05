@@ -40,6 +40,7 @@
 #include <access/bible.h>
 #include <config/globals.h>
 #include <changes/logic.h>
+#include <styles/css.h>
 
 
 // Helper function.
@@ -270,17 +271,8 @@ void changes_modifications ()
     filter_diff_run_file (filter_url_create_path (directory, "verses_old.txt"), filter_url_create_path (directory, "verses_new.txt"), versesoutputfile);
     
     
-    // Email users.
-    string subject = translate("Recent changes") + " " + bible;
-    string emailBody = filter_url_file_get_contents (versesoutputfile);
-    users = request.database_users ()->getUsers ();
-    for (auto user : users) {
-      if (request.database_config_user()->getUserBibleChangesNotification (user)) {
-        if (access_bible_read (&request, bible, user)) {
-          if (!client_logic_client_enabled ()) database_mail.send (user, subject, emailBody);
-        }
-      }
-    }
+    // Storage for body of the email with the changes.
+    vector <string> email_changes;
     
     
     // Generate the online change notifications.
@@ -310,8 +302,8 @@ void changes_modifications ()
             if (processedChangesCount < 800) {
               Filter_Text filter_text_old = Filter_Text (bible);
               Filter_Text filter_text_new = Filter_Text (bible);
-              filter_text_old.html_text_standard = new Html_Text (translate("Bible"));
-              filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
+              filter_text_old.html_text_standard = new Html_Text ("");
+              filter_text_new.html_text_standard = new Html_Text ("");
               filter_text_old.text_text = new Text_Text ();
               filter_text_new.text_text = new Text_Text ();
               filter_text_old.addUsfmCode (old_verse_usfm);
@@ -323,9 +315,16 @@ void changes_modifications ()
               old_text = filter_text_old.text_text->get ();
               new_text = filter_text_new.text_text->get ();
             }
+            string modification = filter_diff_diff (old_text, new_text);
+            database_modifications.recordNotification (changeNotificationUsers, changes_bible_category (), bible, book, chapter, verse, old_html, modification, new_html);
+            string passage = filter_passage_display (book, chapter, convert_to_string (verse))   + ": ";
             if (old_text != new_text) {
-              string modification = filter_diff_diff (old_text, new_text);
-              database_modifications.recordNotification (changeNotificationUsers, changes_bible_category (), bible, book, chapter, verse, old_html, modification, new_html);
+              email_changes.push_back (passage  + modification);
+            } else {
+              email_changes.push_back (translate ("The following passage has no change in the text.") + " " + translate ("The change is in the formatting only.") + " " + translate ("The USFM code is given for reference."));
+              email_changes.push_back (passage);
+              email_changes.push_back (translate ("Old code:") + " " + old_verse_usfm);
+              email_changes.push_back (translate ("New code:") + " " + new_verse_usfm);
             }
           }
         }
@@ -336,6 +335,28 @@ void changes_modifications ()
         database_modifications.deleteTeamDiffChapter (bible, book, chapter);
       }
     }
+    
+    
+    // Email the changes to the subscribed users.
+    if (!email_changes.empty ()) {
+      string body;
+      for (auto & line : email_changes) {
+        body.append ("<div>");
+        body.append (line);
+        body.append ("</div>\n");
+      }
+      string subject = translate("Recent changes:") + " " + bible;
+      vector <string> users = request.database_users ()->getUsers ();
+      for (auto & user : users) {
+        if (request.database_config_user()->getUserBibleChangesNotification (user)) {
+          if (access_bible_read (&request, bible, user)) {
+            if (!client_logic_client_enabled ()) database_mail.send (user, subject, body);
+          }
+        }
+      }
+    }
+    
+    
   }
 
   

@@ -18,6 +18,7 @@
 
 
 #include <versification/system.h>
+#include <versification/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
@@ -28,6 +29,8 @@
 #include <database/books.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string versification_system_url ()
@@ -48,7 +51,10 @@ string versification_system (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Versification system"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Versification system"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (versification_index_url (), menu_logic_versification_index_text ());
+  page = header.run ();
   
   Assets_View view;
   

@@ -203,7 +203,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
         chapter_data = "";
         store_chapter_data = false;
       }
-      Database_Styles database_styles = Database_Styles ();
+      Database_Styles database_styles;
       Database_Styles_Item marker_data = database_styles.getMarkerData (stylesheet, marker);
       int type = marker_data.type;
       int subtype = marker_data.subtype;

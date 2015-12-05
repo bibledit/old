@@ -37,6 +37,7 @@ public:
   bool displayTopbar ();
   void refresh (int seconds, string url = "");
   void setFadingMenu (string html);
+  void addBreadCrumb (string item, string text);
   string run ();
 private:
   Assets_View * view;
@@ -48,6 +49,7 @@ private:
   void * webserver_request;
   string loginrequest;
   string fadingmenu;
+  vector <pair <string, string> > breadcrumbs;
 };
 
 

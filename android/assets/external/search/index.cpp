@@ -27,6 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_index_url ()
@@ -95,6 +96,7 @@ string search_index (void * webserver_request)
   string page;
 
   Assets_Header header = Assets_Header (translate("Search"), request);
+  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
   Assets_View view;

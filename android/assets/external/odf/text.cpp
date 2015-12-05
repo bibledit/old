@@ -727,6 +727,7 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
     int smallcaps = style.smallcaps;
     int superscript = style.superscript;
     string color = style.color;
+    string backgroundcolor = style.backgroundcolor;
     createdStyles.push_back (marker);
 
     // The style entry looks like this in styles.xml, e.g., for italic:
@@ -773,6 +774,10 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
 
     if (color != "#000000") {
       styleTextPropertiesDomElement.append_attribute ("fo:color") = color.c_str();
+    }
+
+    if (backgroundcolor != "#FFFFFF") {
+      styleTextPropertiesDomElement.append_attribute ("fo:background-color") = backgroundcolor.c_str();
     }
 
   }

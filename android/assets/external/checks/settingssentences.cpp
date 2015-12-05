@@ -20,6 +20,7 @@
 #include <checks/settingssentences.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -33,6 +34,8 @@
 #include <sendreceive/logic.h>
 #include <config/logic.h>
 #include <access/bible.h>
+#include <menu/logic.h>
+#include <checks/settings.h>
 
 
 string checks_settingssentences_url ()
@@ -53,7 +56,10 @@ string checks_settingssentences (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header (translate ("Sentence Structure"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Sentence Structure"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (checks_settings_url (), menu_logic_checks_settings_text ());
+  page = header.run ();
   Assets_View view;
   
   

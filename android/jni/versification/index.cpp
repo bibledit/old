@@ -26,6 +26,8 @@
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string versification_index_url ()
@@ -46,7 +48,9 @@ string versification_index (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Versifications"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Versifications"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
   
   Assets_View view;
 

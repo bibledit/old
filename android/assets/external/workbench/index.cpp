@@ -46,14 +46,27 @@ string workbench_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
-    vector <string> workbenches = workbenchGetWorkbenches (request);
+    vector <string> workbenches = workbench_get_names (request);
     if (bench < workbenches.size ()) {
       string workbench = workbenches [bench];
       request->database_config_user()->setActiveWorkbench (workbench);
     }
   }
+  
+  
+  // Create default workbenches if there are none.
+  vector <string> names = workbench_get_names (webserver_request);
+  bool create = names.empty ();
+  if (!create) {
+    create = (names [0] == workbench_get_default_name ());
+  }
+  if (create) {
+    workbench_create_defaults (webserver_request);
+  }
+
   
   string page;
   Assets_Header header = Assets_Header (translate("Desktop"), request);
@@ -62,8 +75,9 @@ string workbench_index (void * webserver_request)
   page = header.run ();
   Assets_View view;
 
-  map <int, string> urls = workbenchGetURLs (request, true);
-  map <int, string> widths = workbenchGetWidths (request);
+  
+  map <int, string> urls = workbench_get_urls (request, true);
+  map <int, string> widths = workbench_get_widths (request);
   for (unsigned int key = 0; key < 15; key++) {
     string url = urls [key];
     string width = widths [key];
@@ -76,7 +90,8 @@ string workbench_index (void * webserver_request)
     if (convert_to_int (width) > 0) view.enable_zone (variable);
   }
   
-  map <int, string> heights = workbenchGetHeights (request);
+  
+  map <int, string> heights = workbench_get_heights (request);
   for (unsigned int key = 0; key < 3; key++) {
     string height = heights [key];
     int row = key + 1;
@@ -85,12 +100,14 @@ string workbench_index (void * webserver_request)
     if (convert_to_int (height) > 0) view.enable_zone (variable);
   }
   
-  string workbenchwidth = workbenchGetEntireWidth (request);
+  
+  string workbenchwidth = workbench_get_entire_width (request);
   if (!workbenchwidth.empty ()) {
     workbenchwidth.insert (0, "; width: ");
     workbenchwidth.append ("; margin: 0 auto; overflow: hidden;");
   }
   view.set_variable ("workbenchwidth", workbenchwidth);
+  
   
   // The rendered template disables framekillers through the "sandbox" attribute on the iframe elements.
   page += view.render ("workbench", "index");

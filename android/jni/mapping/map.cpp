@@ -18,6 +18,7 @@
 
 
 #include <mapping/map.h>
+#include <mapping/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
@@ -26,6 +27,8 @@
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string mapping_map_url ()
@@ -47,8 +50,12 @@ string mapping_map (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Verse mappings"), webserver_request);
-  
+  Assets_Header header = Assets_Header (translate("Verse mappings"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (mapping_index_url (), menu_logic_mapping_index_text ());
+
+  page = header.run ();
+
   Assets_View view;
   string success;
   

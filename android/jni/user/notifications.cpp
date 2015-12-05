@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string user_notifications_url ()
@@ -49,7 +51,9 @@ string user_notifications (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header (translate("Notifications"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Notifications"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
   Assets_View view;
 

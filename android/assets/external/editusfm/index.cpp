@@ -32,6 +32,7 @@
 #include <navigation/passage.h>
 #include <dialog/list.h>
 #include <ipc/focus.h>
+#include <menu/logic.h>
 
 
 string editusfm_index_url ()
@@ -65,6 +66,7 @@ string editusfm_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Edit USFM"), request);
   header.setNavigator ();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
   if (request->query.count("changebible")) {
@@ -85,7 +87,7 @@ string editusfm_index (void * webserver_request)
   
   Assets_View view;
 
-  
+
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
   string bible = access_bible_clamp (request, request->database_config_user()->getBible ());

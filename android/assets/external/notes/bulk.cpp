@@ -36,6 +36,7 @@
 #include <notes/index.h>
 #include <dialog/yes.h>
 #include <trash/handler.h>
+#include <menu/logic.h>
 
 
 string notes_bulk_url ()
@@ -62,7 +63,9 @@ string notes_bulk (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Bulk update"), request);
-  page += header.run();
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
+  page = header.run();
   
   Assets_View view;
   string success, error;

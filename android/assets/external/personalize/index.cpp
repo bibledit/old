@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <personalize/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -28,6 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/user.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
+#include <styles/sheets.h>
+#include <styles/logic.h>
+#include <menu/logic.h>
 
 
 string personalize_index_url ()
@@ -71,7 +75,9 @@ string personalize_index (void * webserver_request)
   }
   
   
-  page = Assets_Page::header (translate ("Personalize"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Personalize"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
   
   Assets_View view;
@@ -93,6 +99,41 @@ string personalize_index (void * webserver_request)
     return page;
   }
   view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
+  
+  
+  // Font size for the Bible editors.
+  if (request->query.count ("fontsizeeditors")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()), "fontsizeeditors", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizeeditors")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setBibleEditorsFontSize (value);
+      styles_sheets_create_all ();
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizeeditors", convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()));
+  
+  
+  // Font size for the resources.
+  if (request->query.count ("fontsizeresources")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getResourcesFontSize ()), "fontsizeresources", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizeresources")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setResourcesFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizeresources", convert_to_string (request->database_config_user ()->getResourcesFontSize ()));
   
   
   // Font size for Hebrew resources.
@@ -144,6 +185,15 @@ string personalize_index (void * webserver_request)
     }
   }
   view.set_variable ("caretposition", convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()));
+  
+
+  // Whether to display bread crumbs.
+  if (request->query.count ("breadcrumbs")) {
+    bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
+    request->database_config_user ()->setDisplayBreadcrumbs (!state);
+  }
+  string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDisplayBreadcrumbs ());
+  view.set_variable ("breadcrumbs", on_off);
   
   
   view.set_variable ("success", success);

@@ -35,6 +35,9 @@
 #include <access/user.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
+#include <assets/header.h>
+#include <menu/logic.h>
+#include <styles/indexm.h>
 
 
 string styles_view_url ()
@@ -55,12 +58,15 @@ string styles_view (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Style"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Style"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
+  page = header.run ();
   
   Assets_View view;
 
 
-  Database_Styles database_styles = Database_Styles ();
+  Database_Styles database_styles;
   
   
   string sheet = request->query ["sheet"];
@@ -465,11 +471,13 @@ string styles_view (void * webserver_request)
   
   // Color.
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
+  
   string color = marker_data.color;
-  if (request->query.count ("color")) {
+  if (request->query.count ("textcolor")) {
     color = request->query["color"];
     if (color == "") {
       Dialog_Color dialog_color = Dialog_Color ("view", translate("Please specify a new color"));
+      dialog_color.add_query ("textcolor", "true");
       dialog_color.add_query ("sheet", sheet);
       dialog_color.add_query ("style", style);
       page += dialog_color.run ();
@@ -481,7 +489,27 @@ string styles_view (void * webserver_request)
     }
   }
   view.set_variable ("color", color);
-  
+
+  string backgroundcolor = marker_data.backgroundcolor;
+  if (request->query.count ("backgroundcolor")) {
+    backgroundcolor = request->query["color"];
+    if (backgroundcolor == "") {
+      Dialog_Color dialog_color = Dialog_Color ("view", translate("Please specify a new color"));
+      dialog_color.add_query ("backgroundcolor", "true");
+      dialog_color.add_query ("sheet", sheet);
+      dialog_color.add_query ("style", style);
+      page += dialog_color.run ();
+      return page;
+    } else {
+      if (backgroundcolor.find ("#") == string::npos) backgroundcolor.insert (0, "#");
+      if (backgroundcolor.length () != 7) backgroundcolor = "#FFFFFF";
+      if (write) {
+        database_styles.updateBackgroundColor (sheet, style, backgroundcolor);
+      }
+    }
+  }
+  view.set_variable ("backgroundcolor", backgroundcolor);
+
 
   // Whether to print this style.
   if (styles_logic_print_is_relevant (type, subtype)) view.enable_zone ("print_relevant");

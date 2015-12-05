@@ -542,7 +542,7 @@ void test_database_styles ()
   // Tests for Database_Styles.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
 
     vector <string> sheets = database_styles.getSheets ();
     evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
@@ -561,7 +561,7 @@ void test_database_styles ()
   }
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.createSheet ("phpunit");
 
     vector <string> markers;
@@ -596,7 +596,7 @@ void test_database_styles ()
   }
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.createSheet ("phpunit");
     Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
     evaluate (__LINE__, __func__, "add", data.marker);
@@ -604,7 +604,7 @@ void test_database_styles ()
   }
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.createSheet ("phpunit");
     database_styles.updateName ("phpunit", "add", "Addition");
     Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
@@ -615,7 +615,7 @@ void test_database_styles ()
   }
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.create ();
     database_styles.createSheet ("phpunit");
 
@@ -649,7 +649,7 @@ void test_database_styles ()
   }
   {
     refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
+    Database_Styles database_styles;
     database_styles.create ();
     database_styles.createSheet ("phpunit");
 

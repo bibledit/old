@@ -27,6 +27,8 @@
 #include <database/config/bible.h>
 #include <locale/translate.h>
 #include <access/bible.h>
+#include <menu/logic.h>
+#include <bible/manage.h>
 
 
 string bible_editing_url ()
@@ -48,6 +50,8 @@ string bible_editing (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Editing settings"), request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
   Assets_View view;

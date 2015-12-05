@@ -30,9 +30,22 @@
 #include <consistency/index.h>
 #include <sync/logic.h>
 #include <config/logic.h>
+#include <locale/translate.h>
 
 
-map <int, string> workbenchDefaultURLs (int id)
+vector <string> workbench_get_default_names ()
+{
+  return {
+    translate ("Editor and Resources"),
+    translate ("Editor and Notes"),
+    translate ("Resources, Editor, Notes"),
+    translate ("Editor and Consistency tool"),
+    translate ("Visual editor and USFM editor")
+  };
+}
+
+
+map <int, string> workbench_get_default_urls (int id)
 {
   map <int, string> urls;
   switch (id) {
@@ -69,7 +82,7 @@ map <int, string> workbenchDefaultURLs (int id)
 }
 
 
-map <int, string> workbenchDefaultWidths (int id)
+map <int, string> workbench_get_default_widths (int id)
 {
   map <int, string> widths;
   switch (id) {
@@ -106,7 +119,7 @@ map <int, string> workbenchDefaultWidths (int id)
 }
 
 
-map <int, string> workbenchDefaultHeights (int id)
+map <int, string> workbench_get_default_heights (int id)
 {
   map <int, string> heights;
   switch (id) {
@@ -131,19 +144,41 @@ map <int, string> workbenchDefaultHeights (int id)
 }
 
 
-string workbenchGetActiveWorkbench (void * webserver_request)
+void workbench_create_defaults (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // Save current active desktop.
+  string desktop = request->database_config_user()->getActiveWorkbench ();
+
+  // Create or update the default desktops.
+  vector <string> names = workbench_get_default_names ();
+  for (unsigned int i = 0; i < names.size (); i++) {
+    request->database_config_user()->setActiveWorkbench (names [i]);
+    int bench = i + 1;
+    workbench_set_urls (request, workbench_get_default_urls (bench));
+    workbench_set_widths (request, workbench_get_default_widths (bench));
+    workbench_set_heights (request, workbench_get_default_heights (bench));
+  }
+
+  // Restore current active desktop.
+  request->database_config_user()->setActiveWorkbench (desktop);
+}
+
+
+string workbench_get_active_name (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string workbench = request->database_config_user()->getActiveWorkbench ();
   if (workbench.empty ()) {
-    workbench = "Default";
+    workbench = workbench_get_default_name ();
   }
   return workbench;
 }
 
 
 // This function processes the units for a $length value.
-string workbenchProcessUnits (string length)
+string workbench_process_units (string length)
 {
   // If no unit is found, add %.
   if (length == convert_to_string (convert_to_int (length))) {
@@ -170,11 +205,11 @@ string workbenchProcessUnits (string length)
 #define ENTIREWIDTH 4
 
 
-void workbenchSetValues (void * webserver_request, int selector, const map <int, string> & values)
+void workbench_set_values (void * webserver_request, int selector, const map <int, string> & values)
 {
   // Store values locally, and for a client, store them also for sending to the server.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  string workbench = workbenchGetActiveWorkbench (request);
+  string workbench = workbench_get_active_name (request);
   string rawvalue;
   if (selector == URLS) rawvalue = request->database_config_user()->getWorkbenchURLs ();
   if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkbenchWidths ();
@@ -194,60 +229,60 @@ void workbenchSetValues (void * webserver_request, int selector, const map <int,
   rawvalue = filter_string_implode (newlines, "\n");
   if (selector == URLS) {
     request->database_config_user()->setWorkbenchURLs (rawvalue);
-    workbenchCacheForCloud (request, true, false, false);
+    workbench_cache_for_cloud (request, true, false, false);
   }
   if (selector == WIDTHS) {
     request->database_config_user()->setWorkbenchWidths (rawvalue);
-    workbenchCacheForCloud (request, false, true, false);
+    workbench_cache_for_cloud (request, false, true, false);
   }
   if (selector == HEIGHTS) {
     request->database_config_user()->setWorkbenchHeights (rawvalue);
-    workbenchCacheForCloud (request, false, false, true);
+    workbench_cache_for_cloud (request, false, false, true);
   }
   if (selector == ENTIREWIDTH) {
     request->database_config_user()->setEntireWorkbenchWidths (rawvalue);
-    workbenchCacheForCloud (request, false, true, false);
+    workbench_cache_for_cloud (request, false, true, false);
   }
 }
 
 
-void workbenchSetURLs (void * webserver_request, const map <int, string> & values)
+void workbench_set_urls (void * webserver_request, const map <int, string> & values)
 {
   // Get current order of the workbenches.
-  vector <string> order = workbenchGetWorkbenches (webserver_request);
+  vector <string> order = workbench_get_names (webserver_request);
   // Update the values: This reorders the workbenches.
-  workbenchSetValues (webserver_request, URLS, values);
+  workbench_set_values (webserver_request, URLS, values);
   // Put the workbenches in the original order.
-  workbenchOrderWorkbenches (webserver_request, order);
+  workbench_reorder (webserver_request, order);
 }
 
 
-void workbenchSetWidths (void * webserver_request, const map <int, string> & values)
+void workbench_set_widths (void * webserver_request, const map <int, string> & values)
 {
-  workbenchSetValues (webserver_request, WIDTHS, values);
+  workbench_set_values (webserver_request, WIDTHS, values);
 }
 
 
-void workbenchSetHeights (void * webserver_request, const map <int, string> & values)
+void workbench_set_heights (void * webserver_request, const map <int, string> & values)
 {
-  workbenchSetValues (webserver_request, HEIGHTS, values);
+  workbench_set_values (webserver_request, HEIGHTS, values);
 }
 
 
-void workbenchSetEntireWidth (void * webserver_request, string value)
+void workbench_set_entire_width (void * webserver_request, string value)
 {
   map <int, string> values = {make_pair (0, value)};
-  workbenchSetValues (webserver_request, ENTIREWIDTH, values);
+  workbench_set_values (webserver_request, ENTIREWIDTH, values);
 }
 
 
-map <int, string> workbenchGetValues (void * webserver_request, int selector, bool use)
+map <int, string> workbench_get_values (void * webserver_request, int selector, bool use)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   map <int, string> values;
   
-  string workbench = workbenchGetActiveWorkbench (request);
+  string workbench = workbench_get_active_name (request);
   
   string rawvalue;
   if (selector == URLS) rawvalue = request->database_config_user()->getWorkbenchURLs ();
@@ -267,9 +302,9 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
   }
   
   if (values.empty ()) {
-    if (selector == URLS) values = workbenchDefaultURLs (0);
-    if (selector == WIDTHS) values = workbenchDefaultWidths (0);
-    if (selector == HEIGHTS) values = workbenchDefaultHeights (0);
+    if (selector == URLS) values = workbench_get_default_urls (0);
+    if (selector == WIDTHS) values = workbench_get_default_widths (0);
+    if (selector == HEIGHTS) values = workbench_get_default_heights (0);
     if (selector == ENTIREWIDTH) values.clear ();
   }
 
@@ -294,17 +329,17 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
 
     if (selector == WIDTHS) {
       // Fix the units.
-      element.second = workbenchProcessUnits (element.second);
+      element.second = workbench_process_units (element.second);
     }
 
     if (selector == HEIGHTS) {
       // Fix the units.
-      element.second = workbenchProcessUnits (element.second);
+      element.second = workbench_process_units (element.second);
     }
 
     if (selector == ENTIREWIDTH) {
       // Fix the units.
-      element.second = workbenchProcessUnits (element.second);
+      element.second = workbench_process_units (element.second);
     }
     
   }
@@ -313,34 +348,34 @@ map <int, string> workbenchGetValues (void * webserver_request, int selector, bo
 }
 
 
-map <int, string> workbenchGetURLs (void * webserver_request, bool use)
+map <int, string> workbench_get_urls (void * webserver_request, bool use)
 {
-  return workbenchGetValues (webserver_request, URLS, use);
+  return workbench_get_values (webserver_request, URLS, use);
 }
 
 
-map <int, string> workbenchGetWidths (void * webserver_request)
+map <int, string> workbench_get_widths (void * webserver_request)
 {
-  return workbenchGetValues (webserver_request, WIDTHS, false);
+  return workbench_get_values (webserver_request, WIDTHS, false);
 }
 
 
-map <int, string> workbenchGetHeights (void * webserver_request)
+map <int, string> workbench_get_heights (void * webserver_request)
 {
-  return workbenchGetValues (webserver_request, HEIGHTS, false);
+  return workbench_get_values (webserver_request, HEIGHTS, false);
 }
 
 
-string workbenchGetEntireWidth (void * webserver_request)
+string workbench_get_entire_width (void * webserver_request)
 {
-  map <int, string> values = workbenchGetValues (webserver_request, ENTIREWIDTH, false);
+  map <int, string> values = workbench_get_values (webserver_request, ENTIREWIDTH, false);
   for (auto & element : values) return element.second;
   return "";
 }
 
 
 // Returns the names of the available workbenches.
-vector <string> workbenchGetWorkbenches (void * webserver_request)
+vector <string> workbench_get_names (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <string> workbenches;
@@ -355,12 +390,12 @@ vector <string> workbenchGetWorkbenches (void * webserver_request)
       }
     }
   }
-  if (workbenches.empty ()) workbenches.push_back (workbenchGetActiveWorkbench (request));
+  if (workbenches.empty ()) workbenches.push_back (workbench_get_active_name (request));
   return workbenches;
 }
 
 
-void workbenchDeleteWorkbench (void * webserver_request, string workbench)
+void workbench_delete (void * webserver_request, string workbench)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -398,13 +433,13 @@ void workbenchDeleteWorkbench (void * webserver_request, string workbench)
   request->database_config_user()->setActiveWorkbench ("");
   
   // For a client, store the setting for sending to the server.
-  workbenchCacheForCloud (request, true, true, true);
+  workbench_cache_for_cloud (request, true, true, true);
 }
 
 
 // This orders the workbenches.
 // It takes the order as in array $workbenches.
-void workbenchOrderWorkbenches (void * webserver_request, const vector <string> & workbenches)
+void workbench_reorder (void * webserver_request, const vector <string> & workbenches)
 {
   // The order of the workbenches is taken from the URLs.
   // Widths and heights are not considered for the order.
@@ -438,12 +473,37 @@ void workbenchOrderWorkbenches (void * webserver_request, const vector <string> 
   request->database_config_user()->setWorkbenchURLs (rawvalue);
 
   // Schedule for sending to Cloud.
-  workbenchCacheForCloud (request, true, false, false);
+  workbench_cache_for_cloud (request, true, false, false);
+}
+
+
+// Copy desktop $source to $destination
+void workbench_copy (void * webserver_request, string source, string destination)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // Save current active desktop.
+  string active_desktop = request->database_config_user()->getActiveWorkbench ();
+  
+  // Copy source desktop to destination.
+  request->database_config_user()->setActiveWorkbench (source);
+  map <int, string> urls = workbench_get_urls (webserver_request, false);
+  map <int, string> widths = workbench_get_widths (webserver_request);
+  map <int, string> heights = workbench_get_heights (webserver_request);
+  string entire_width = workbench_get_entire_width (webserver_request);
+  request->database_config_user()->setActiveWorkbench (destination);
+  workbench_set_urls (webserver_request, urls);
+  workbench_set_widths (webserver_request, widths);
+  workbench_set_heights (webserver_request, heights);
+  workbench_set_entire_width (webserver_request, entire_width);
+  
+  // Restore current active desktop.
+  request->database_config_user()->setActiveWorkbench (active_desktop);
 }
 
 
 // Store updated workbench settings for sending to the cloud.
-void workbenchCacheForCloud (void * webserver_request, bool urls, bool widths, bool heights)
+void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights)
 {
   if (config_logic_client_prepared ()) {
     // For a client, store the setting for sending to the server.
@@ -455,4 +515,10 @@ void workbenchCacheForCloud (void * webserver_request, bool urls, bool widths, b
     if (heights)
       request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
   }
+}
+
+
+string workbench_get_default_name ()
+{
+  return "Default";
 }

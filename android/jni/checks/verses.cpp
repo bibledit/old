@@ -48,7 +48,8 @@ void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter
     string text = element.second;
     if (verse == 0) continue;
     if (text.empty ()) continue;
-    string lastCharacter = text.substr (text.length () - 1);
+    size_t text_length = unicode_string_length (text);
+    string lastCharacter = unicode_string_substr (text, text_length - 1, 1);
     if (in_array (lastCharacter, centermarks)) continue;
     if (in_array (lastCharacter, endmarks)) continue;
     database_check.recordOutput (bible, book, chapter, verse, "No punctuation at end of verse: " + lastCharacter);

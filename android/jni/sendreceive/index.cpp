@@ -37,6 +37,7 @@
 #include <demo/logic.h>
 #include <client/logic.h>
 #include <paratext/logic.h>
+#include <menu/logic.h>
 
 
 string sendreceive_index_url ()
@@ -66,6 +67,7 @@ string sendreceive_index (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Send/Receive"), request);
+  header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;
   

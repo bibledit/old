@@ -32,6 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <fonts/logic.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string manage_index_url ()
@@ -52,17 +54,19 @@ string manage_index (void * webserver_request)
 
   string page;
 
-  page = Assets_Page::header (translate ("Manage"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Manage"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
 
   Assets_View view;
   string success;
   string error;
   
   
-  // Reindex Bibles.
+  // Force re-index Bibles.
   if (request->query ["reindex"] == "bibles") {
     Database_Config_General::setIndexBibles (true);
-    tasks_logic_queue (REINDEXBIBLES);
+    tasks_logic_queue (REINDEXBIBLES, {"1"});
     redirect_browser (request, journal_index_url ());
     return "";
   }

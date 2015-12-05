@@ -35,6 +35,7 @@
 #include <journal/index.h>
 #include <jobs/index.h>
 #include <dialog/list.h>
+#include <menu/logic.h>
 
 
 string resource_print_url ()
@@ -57,6 +58,7 @@ string resource_print (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Print"), request);
   header.jQueryUIOn ();
+  header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;
 

@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <search/logic.h>
+#include <menu/logic.h>
 
 
 string search_search2_url ()
@@ -120,7 +121,7 @@ string search_search2 (void * webserver_request)
     
     
     // Deal with case sensitivity.
-    // Deal with whether to search the plain text without notes, or the raw USFM.
+    // Deal with whether to search the plain text, or the raw USFM.
     // Fetch the initial set of hits.
     vector <Passage> passages;
     if (plaintext) {
@@ -188,6 +189,7 @@ string search_search2 (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Search"), request);
   header.setNavigator ();
+  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   Assets_View view;
   view.set_variable ("bible", bible);

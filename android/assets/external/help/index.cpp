@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <config/logic.h>
 #include <locale/translate.h>
+#include <assets/header.h>
 
 
 string help_index_html (const string& url)
@@ -54,7 +55,8 @@ string help_index (void * webserver_request, const string& url)
 {
   string page;
 
-  page = Assets_Page::header (translate("Help"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Help"), webserver_request);
+  page = header.run ();
 
   Assets_View view;
 

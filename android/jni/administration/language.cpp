@@ -24,12 +24,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <webserver/request.h>
-#include <confirm/worker.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <dialog/list.h>
 #include <config/logic.h>
 #include <database/config/general.h>
+#include <assets/header.h>
+#include <menu/logic.h>
 
 
 string administration_language_url ()
@@ -71,7 +72,9 @@ string administration_language (void * webserver_request)
     }
   }
 
-  page = Assets_Page::header (translate ("Language"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Language"), webserver_request);
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  page = header.run ();
   
   Assets_View view;
 
