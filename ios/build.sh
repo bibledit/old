@@ -165,6 +165,7 @@ collaboration/link.cpp
 collaboration/direction.cpp
 search/rebibles.cpp
 search/renotes.cpp
+search/logic.cpp
 access/user.cpp
 access/bible.cpp
 dialog/entry.cpp
