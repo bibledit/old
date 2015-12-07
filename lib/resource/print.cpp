@@ -363,7 +363,7 @@ void resource_print_job (string jobId, string user, string bible)
           for (auto & resource : resources) {
             result.push_back ("<p>");
             result.push_back (resource);
-            string html = resource_logic_get_html (&request, resource, book, chapter, verse);
+            string html = resource_logic_get_html (&request, resource, book, chapter, verse, false);
             result.push_back (html);
             result.push_back ("</p>");
           }

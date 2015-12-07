@@ -78,7 +78,9 @@ vector <string> resource_logic_get_names (void * webserver_request)
 }
 
 
-string resource_logic_get_html (void * webserver_request, string resource, int book, int chapter, int verse)
+string resource_logic_get_html (void * webserver_request,
+                                string resource, int book, int chapter, int verse,
+                                bool add_verse_numbers)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -138,10 +140,10 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
   }
 
   // If there's been a mapping, the resource should include the verse number for clarity.
-  bool include_verse = passages.size () != 1;
+  if (passages.size () != 1) add_verse_numbers = true;
   for (auto passage : passages) {
     if (verse != convert_to_int (passage.verse)) {
-      include_verse = true;
+      add_verse_numbers = true;
     }
   }
   
@@ -152,7 +154,7 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
     int verse = convert_to_int (passage.verse);
     
     string possible_included_verse;
-    if (include_verse) possible_included_verse = convert_to_string (verse) + " ";
+    if (add_verse_numbers) possible_included_verse = convert_to_string (verse) + " ";
     
     if (isBible || isUsfm) {
       string chapter_usfm;

@@ -24,7 +24,9 @@
 #include <config/libraries.h>
 
 
-string resource_logic_get_html (void * webserver_request, string resource, int book, int chapter, int verse);
+string resource_logic_get_html (void * webserver_request,
+                                string resource, int book, int chapter, int verse,
+                                bool add_verse_numbers);
 vector <string> resource_logic_get_names (void * webserver_request);
 
 void resource_logic_import_images (string resource, string path);
