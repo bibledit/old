@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/date.h>
+#include <filter/shell.h>
 #include <database/sqlite.h>
 #include <database/logs.h>
 #include <config/logic.h>
@@ -33,17 +34,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Database_Cache::database_resource (string resource)
 {
-  // Remove invalid characters in Windows filenames.
-  resource = filter_string_str_replace ("\\", "", resource);
-  resource = filter_string_str_replace ("/",  "",  resource);
-  resource = filter_string_str_replace (":",  "",  resource);
-  resource = filter_string_str_replace ("*",  "",  resource);
-  resource = filter_string_str_replace ("?",  "",  resource);
-  resource = filter_string_str_replace ("\"", "", resource);
-  resource = filter_string_str_replace ("<",  "",  resource);
-  resource = filter_string_str_replace (">",  "",  resource);
-  resource = filter_string_str_replace ("|",  "",  resource);
   // Name of the database for this resource.
+  resource = database_cache_clean_name (resource);
   return "cache_resource_" + resource;
 }
 
@@ -221,4 +213,79 @@ int Database_Cache::days (string resource, int book, int chapter, int verse)
   vector <string> result = sql.query () ["days"];
   if (result.empty ()) return 0;
   return convert_to_int (result [0]);
+}
+
+
+string database_cache_clean_name (string name)
+{
+  // Remove invalid characters in Windows filenames.
+  name = filter_string_str_replace ("\\", "", name);
+  name = filter_string_str_replace ("/",  "", name);
+  name = filter_string_str_replace (":",  "", name);
+  name = filter_string_str_replace ("*",  "", name);
+  name = filter_string_str_replace ("?",  "", name);
+  name = filter_string_str_replace ("\"", "", name);
+  name = filter_string_str_replace ("<",  "", name);
+  name = filter_string_str_replace (">",  "", name);
+  name = filter_string_str_replace ("|",  "", name);
+  return name;
+}
+
+
+string database_cache_full_path (string file)
+{
+  return filter_url_create_root_path ("databases", "cache", file);
+}
+
+
+string database_cache_split_file (string file)
+{
+  if (file.size () > 9) file.insert (9, "/");
+  if (file.size () > 18) file.insert (18, "/");
+  if (file.size () > 27) file.insert (27, "/");
+  file.append (".txt");
+  return file;
+}
+
+
+bool database_cache_exists (string schema)
+{
+  schema = database_cache_clean_name (schema);
+  schema = database_cache_split_file (schema);
+  schema = database_cache_full_path (schema);
+  return file_exists (schema);
+}
+
+
+void database_cache_put (string schema, string contents)
+{
+  schema = database_cache_clean_name (schema);
+  schema = database_cache_split_file (schema);
+  schema = database_cache_full_path (schema);
+  string path = filter_url_dirname (schema);
+  if (!file_exists (path)) filter_url_mkdir (path);
+  filter_url_file_put_contents (schema, contents);
+}
+
+
+string database_cache_get (string schema)
+{
+  schema = database_cache_clean_name (schema);
+  schema = database_cache_split_file (schema);
+  schema = database_cache_full_path (schema);
+  return filter_url_file_get_contents (schema);
+}
+
+
+// Deletes items older than x days from the cache.
+// It uses a Linux shell command. This can be done because it runs on the server only.
+// On some clients, shell commands don't work.
+void database_cache_trim ()
+{
+  Database_Logs::log ("trim cache"); // Todo
+  string path = database_cache_full_path ("");
+  string output, error;
+  filter_shell_run (path, "find", {path, "-atime", "+5", "-delete"}, &output, &error);
+  if (!output.empty ()) Database_Logs::log (output);
+  if (!error.empty ()) Database_Logs::log (error);
 }

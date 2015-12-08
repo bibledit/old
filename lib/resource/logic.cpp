@@ -28,6 +28,7 @@
 #include <database/config/bible.h>
 #include <database/config/general.h>
 #include <database/logs.h>
+#include <database/cache.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/text.h>
@@ -321,5 +322,31 @@ string resource_logic_get_divider (string resource)
   string colour = unicode_string_casefold (bits [0]);
   // The $ influences the resource's embedding through javascript.
   string html = "$<div class=\"fullwidth\" style=\"background-color: " + colour + ";\">&nbsp;</div>";
+  return html;
+}
+
+
+// In Cloud mode, this function wraps around http GET.
+// It fetches existing content from the cache, and caches new content.
+string resource_logic_get_cache_url (string url, string & error)
+{
+  // On the Cloud, check if the URL is in the cache.
+  if (!config_logic_client_prepared ()) {
+    if (database_cache_exists (url)) {
+      return database_cache_get (url);
+    }
+  }
+  // Fetch the URL from the network.
+  // Do not cache the response in an error situation.
+  error.clear ();
+  string html = filter_url_http_get (url, error);
+  if (!error.empty ()) {
+    return html;
+  }
+  // In the Cloud, cache the response.
+  if (!config_logic_client_prepared ()) {
+    database_cache_put (url, html);
+  }
+  // Done.
   return html;
 }

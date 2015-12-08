@@ -4142,6 +4142,17 @@ void test_database_cache ()
 
   // Clear journal messages about damaged database.
   refresh_sandbox (false);
+
+  string url = "https://netbible.org/bible/1/2/3";
+  string contents = "Bible contents";
+  evaluate (__LINE__, __func__, false, database_cache_exists (url));
+  evaluate (__LINE__, __func__, "", database_cache_get (url));
+  database_cache_put (url, contents);
+  evaluate (__LINE__, __func__, true, database_cache_exists (url));
+  evaluate (__LINE__, __func__, contents, database_cache_get (url));
+  database_cache_trim ();
+
+  refresh_sandbox (true);
 }
 
 

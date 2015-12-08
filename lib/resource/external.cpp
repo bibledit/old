@@ -25,6 +25,7 @@
 #include "assets/view.h"
 #include "config/logic.h"
 #include "sendreceive/resources.h"
+#include "resource/logic.h"
 
 
 // Local forward declarations:
@@ -303,7 +304,7 @@ string gbs_digitaal_processor (string url, int verse)
 {
   string text;
 
-  string json = filter_url_http_get (url, text);
+  string json = resource_logic_get_cache_url (url, text);
 
   vector <string> history;
   
@@ -357,7 +358,7 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
 {
   string text;
   
-  string json = filter_url_http_get (url, text);
+  string json = resource_logic_get_cache_url (url, text);
 
   vector <string> history;
   
@@ -491,7 +492,7 @@ string resource_external_studylight_processor (string directory, int book, int c
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = filter_url_http_get (url, error);
+  string html = resource_logic_get_cache_url (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
  
@@ -524,7 +525,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
   string url = "http://www.bibleserver.com/text/" + directory + "/" + bookname + convert_to_string (chapter);
   
   string error;
-  string text = filter_url_http_get (url, error);
+  string text = resource_logic_get_cache_url (url, error);
   string tidy = html_tidy (text);
   vector <string> tidied = filter_string_explode (tidy, '\n');
 
@@ -649,7 +650,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = filter_url_http_get (url, error);
+  string html = resource_logic_get_cache_url (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
   
@@ -719,7 +720,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = filter_url_http_get (url, error);
+  string html = resource_logic_get_cache_url (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
 
@@ -770,7 +771,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = filter_url_http_get (url, error);
+  string html = resource_logic_get_cache_url (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
   
@@ -844,7 +845,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   url.insert (0, "https://net.bible.org/resource/netTexts/");
   
   string error;
-  string text = filter_url_http_get (url, error);
+  string text = resource_logic_get_cache_url (url, error);
   
   string output = text;
   
@@ -852,7 +853,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   url = filter_url_urlencode (url);
   url.insert (0, "https://net.bible.org/resource/netNotes/");
   
-  string notes = filter_url_http_get (url, error);
+  string notes = resource_logic_get_cache_url (url, error);
   // If notes fail with an error, don't include the note text.
   if (!error.empty ()) notes.clear ();
   // It the verse contains no notes, the website returns an unusual message.
@@ -1927,7 +1928,7 @@ string resource_external_convert_book_bibleserver (int book)
 string resource_external_studylight_code ()
 {
   string error;
-  string html = filter_url_http_get ("http://www.studylight.org/commentaries", error);
+  string html = resource_logic_get_cache_url ("http://www.studylight.org/commentaries", error);
   if (!error.empty ()) return error;
   map <string, string> commentaries;
   vector <string> lines = filter_string_explode (html, '\n');

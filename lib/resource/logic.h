@@ -40,5 +40,7 @@ string resource_logic_orange_divider ();
 bool resource_logic_is_divider (string resource);
 string resource_logic_get_divider (string resource);
 
+string resource_logic_get_cache_url (string url, string & error);
+
 
 #endif

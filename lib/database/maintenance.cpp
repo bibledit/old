@@ -136,4 +136,5 @@ void database_maintenance ()
   Database_Cache::check ();
   Database_Cache::trim ();
   sword_logic_trim_modules ();
+  database_cache_trim ();
 }
