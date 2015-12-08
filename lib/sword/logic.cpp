@@ -308,14 +308,30 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     return html;
     
   } else {
-    
-    // The server fetches the module text as follows:
-    // diatheke -b KJV -k Jn 3:16
-    string output;
-    string sword_path = sword_logic_get_path ();
+
+    // Name of the book.
     string osis = Database_Books::getOsisFromId (book);
-    string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-    filter_shell_run (command, output);
+
+    // The virtual URL for caching purposes.
+    string schema = "sword_" + module + "_" + osis + "_chapter_" + convert_to_string (chapter) + "_verse_" + convert_to_string (verse);
+
+    // The module text.
+    string output;
+
+    if (database_cache_exists (schema)) {
+
+      // Access cache for speed.
+      output = database_cache_get (schema);
+      
+    } else {
+
+      // The server fetches the module text as follows:
+      // diatheke -b KJV -k Jn 3:16
+      string sword_path = sword_logic_get_path ();
+      string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+      filter_shell_run (command, output);
+
+    }
     
     // If the module has not been installed, the output of "diatheke" will be empty.
     // If the module was installed, but the requested passage is out of range,
@@ -341,11 +357,16 @@ string sword_logic_get_text (string source, string module, int book, int chapter
       }
     }
     
-    // The server hits the cache for recording the last day it was accessed.
+    // The server hits the cache for recording the last day the module was queried.
     // It hits passage 0.0.0 because the installed SWORD module is one data unit.
     if (Database_Cache::retrieve (module, 0, 0, 0).empty ()) {
       Database_Cache::create (module);
       Database_Cache::cache (module, 0, 0, 0, "accessed");
+    }
+    
+    // If the module verse output was not cached yet, cache it here.
+    if (!database_cache_exists (schema)) {
+      database_cache_put (schema, output);
     }
     
     // The standard output of a Bible verse starts with the passage, like so:
