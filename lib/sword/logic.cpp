@@ -212,10 +212,6 @@ void sword_logic_install_module (string source, string module)
     if (line.empty ()) continue;
     Database_Logs::log (line);
   }
-  // List this resource in the cache as being accessed,
-  // so it won't disappear straight away next time the caches are trimmed. Todo needed?
-  Database_Cache::create (module);
-  Database_Cache::cache (module, 0, 0, 0, "installed");
 }
 
 

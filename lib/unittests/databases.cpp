@@ -4122,27 +4122,7 @@ void test_database_cache ()
   days = Database_Cache::days ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, now, days);
   
-  // Damage the database.
-  filter_url_file_put_contents (filter_url_create_root_path ("databases", "cache_resource_unittests.sqlite"), "garbled data");
-
-  // Cached values should not exist, not even after caching, because the database is damaged.
-  exists = Database_Cache::exists ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, false, exists);
-  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  exists = Database_Cache::exists ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, false, exists);
-
-  // Check: Repair damaged database.
-  Database_Cache::check ();
-
-  // Caching should work again because the database is now OK again.
-  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  exists = Database_Cache::exists ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, false, exists);
-
-  // Clear journal messages about damaged database.
-  refresh_sandbox (false);
-
+  // Excercise the file-based cache.
   string url = "https://netbible.org/bible/1/2/3";
   string contents = "Bible contents";
   evaluate (__LINE__, __func__, false, database_cache_exists (url));

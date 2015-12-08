@@ -133,8 +133,6 @@ void database_maintenance ()
   notes_logic_maintain_note_assignees (false);
   
   
-  Database_Cache::check ();
-  Database_Cache::trim ();
   database_cache_trim ();
   sword_logic_trim_modules ();
 }
