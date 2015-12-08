@@ -238,6 +238,9 @@ string database_cache_full_path (string file)
 }
 
 
+// The purpose of splitting the file up into paths is
+// to avoid that the cache folder would contain too many files
+// and so would become slow.
 string database_cache_split_file (string file)
 {
   if (file.size () > 9) file.insert (9, "/");
