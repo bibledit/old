@@ -42,6 +42,7 @@ void sword_logic_update_installed_modules ();
 void sword_logic_trim_modules ();
 void sword_logic_trigger_cache (string source, string module);
 string sword_logic_installing_module_text ();
+string sword_logic_virtual_url (const string & module, int book, int chapter, int verse);
 
 
 #endif

@@ -213,7 +213,7 @@ void sword_logic_install_module (string source, string module)
     Database_Logs::log (line);
   }
   // List this resource in the cache as being accessed,
-  // so it won't disappear straight away next time the caches are trimmed.
+  // so it won't disappear straight away next time the caches are trimmed. Todo needed?
   Database_Cache::create (module);
   Database_Cache::cache (module, 0, 0, 0, "installed");
 }
@@ -309,25 +309,23 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     
   } else {
 
-    // Name of the book.
-    string osis = Database_Books::getOsisFromId (book);
-
     // The virtual URL for caching purposes.
-    string schema = "sword_" + module + "_" + osis + "_chapter_" + convert_to_string (chapter) + "_verse_" + convert_to_string (verse);
+    string url = sword_logic_virtual_url (module, book, chapter, verse);
 
     // The module text.
     string output;
 
-    if (database_cache_exists (schema)) {
+    if (database_cache_exists (url)) {
 
       // Access cache for speed.
-      output = database_cache_get (schema);
+      output = database_cache_get (url);
       
     } else {
 
       // The server fetches the module text as follows:
       // diatheke -b KJV -k Jn 3:16
       string sword_path = sword_logic_get_path ();
+      string osis = Database_Books::getOsisFromId (book);
       string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
       filter_shell_run (command, output);
 
@@ -359,14 +357,15 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     
     // The server hits the cache for recording the last day the module was queried.
     // It hits passage 0.0.0 because the installed SWORD module is one data unit.
-    if (Database_Cache::retrieve (module, 0, 0, 0).empty ()) {
-      Database_Cache::create (module);
-      Database_Cache::cache (module, 0, 0, 0, "accessed");
+    string module_url = sword_logic_virtual_url (module, 0, 0, 0);
+    if (!database_cache_exists (module_url)) {
+      database_cache_put (module_url, "accessed");
     }
+    database_cache_get (module_url);
     
     // If the module verse output was not cached yet, cache it here.
-    if (!database_cache_exists (schema)) {
-      database_cache_put (schema, output);
+    if (!database_cache_exists (url)) {
+      database_cache_put (url, output);
     }
     
     // The standard output of a Bible verse starts with the passage, like so:
@@ -429,11 +428,12 @@ void sword_logic_update_installed_modules ()
 void sword_logic_trim_modules ()
 {
   if (!config_logic_client_prepared ()) {
-    Database_Logs::log ("Trimming the SWORD caches and modules");
+    Database_Logs::log ("Trimming the installed SWORD modules");
     vector <string> modules = sword_logic_get_installed ();
     for (auto module : modules) {
       module = sword_logic_get_installed_module (module);
-      if (!Database_Cache::exists (module)) {
+      string url = sword_logic_virtual_url (module, 0, 0, 0);
+      if (!database_cache_exists (url)) {
         sword_logic_uninstall_module (module);
       }
     }
@@ -460,4 +460,12 @@ void sword_logic_trigger_cache (string source, string module)
 string sword_logic_installing_module_text ()
 {
   return "The requested SWORD module is not yet installed. Bibledit Cloud will install it shortly. Please check back after a few minutes.";
+}
+
+
+// The virtual URL for caching purposes.
+string sword_logic_virtual_url (const string & module, int book, int chapter, int verse) // Todo
+{
+  string url = "sword_" + module + "_" + convert_to_string (book) + "_chapter_" + convert_to_string (chapter) + "_verse_" + convert_to_string (verse);
+  return url;
 }
