@@ -324,7 +324,7 @@ void Database_Versifications::defaults ()
 
 
 // This returns all possible books in any versification system.
-vector <int> Database_Versifications::getMaximumBooks () // Todo write and test it.
+vector <int> Database_Versifications::getMaximumBooks ()
 {
   vector <int> books;
   SqliteSQL sql = SqliteSQL ();
@@ -340,7 +340,7 @@ vector <int> Database_Versifications::getMaximumBooks () // Todo write and test 
 
 
 // This returns all possible chapters in a book of any versification system.
-vector <int> Database_Versifications::getMaximumChapters (int book) // Todo write and test it.
+vector <int> Database_Versifications::getMaximumChapters (int book)
 {
   vector <int> chapters;
   chapters.push_back (0);
@@ -359,7 +359,7 @@ vector <int> Database_Versifications::getMaximumChapters (int book) // Todo writ
 
 
 // This returns all possible verses in a book / chapter of any versification system.
-vector <int> Database_Versifications::getMaximumVerses (int book, int chapter) // Todo write and test it.
+vector <int> Database_Versifications::getMaximumVerses (int book, int chapter)
 {
   vector <int> verses;
   SqliteSQL sql = SqliteSQL ();

@@ -2081,7 +2081,7 @@ void test_database_noteactions ()
 }
 
 
-void test_database_versifications () // Todo
+void test_database_versifications ()
 {
   // Basic operations, create, delete.
   {

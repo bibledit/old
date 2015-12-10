@@ -836,6 +836,9 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
     // and then returns the filtered result to the client.
     // This is what it now does for the NET Bible, currrently the sole secure resource.
     // Later on: It fetches any external content via Bibledit Cloud.
+    // An advantage of this is that this system minimizes network data transfer:
+    // The Cloud fetches the full html pages from the internet, then filters it,
+    // then passes a small fraction of it on to the client.
     string html, error;
     sendreceive_resources_get (filter_url_urlencode (resource_external_net_bible_name ()), book, chapter, verse, html, error);
     return html;
