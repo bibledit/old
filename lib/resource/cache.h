@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_SENDRECEIVE_RESOURCES_H
-#define INCLUDED_SENDRECEIVE_RESOURCES_H
+#ifndef INCLUDED_RESOURCE_CACHE_H
+#define INCLUDED_RESOURCE_CACHE_H
 
 
 #include <config/libraries.h>
 
 
-void sendreceive_resources ();
-void sendreceive_resources_get (string resource, int book, int chapter, int verse, string & html, string & error);
-void sendreceive_resources_clear_all ();
+string resource_cache_url ();
+bool resource_cache_acl (void * webserver_request);
+string resource_cache (void * webserver_request);
 
 
 #endif

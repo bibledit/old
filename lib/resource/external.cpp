@@ -835,7 +835,10 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
     // to fetch an external resource on its behalf,
     // and then returns the filtered result to the client.
     // This is what it now does for the NET Bible, currrently the sole secure resource.
-    return sendreceive_resources_get (filter_url_urlencode (resource_external_net_bible_name ()), book, chapter, verse);
+    // Later on: It fetches any external content via Bibledit Cloud.
+    string html, error;
+    sendreceive_resources_get (filter_url_urlencode (resource_external_net_bible_name ()), book, chapter, verse, html, error);
+    return html;
   }
 
   string bookname = resource_external_convert_book_netbible (book);

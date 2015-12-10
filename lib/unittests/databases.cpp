@@ -2086,7 +2086,7 @@ void test_database_versifications ()
   // Basic operations, create, delete.
   {
     refresh_sandbox (true);
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.optimize ();
     int id = database_versifications.createSystem ("phpunit");
@@ -2101,7 +2101,7 @@ void test_database_versifications ()
   }
   {
     refresh_sandbox (true);
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
 
@@ -2143,7 +2143,7 @@ void test_database_versifications ()
   // Import Export
   {
     refresh_sandbox (true);
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     database_versifications.create ();
     string input = 
       "Genesis 1:31\n"
@@ -4097,17 +4097,26 @@ void test_database_cache ()
   bool exists = Database_Cache::exists ("");
   evaluate (__LINE__, __func__, false, exists);
 
-  // Initially the database should not exist, but after creating, it should be there.
+  // Initially the database should not exist, and have 0 verses.
+  // After creating, it should be there, and still have 0 verses.
   exists = Database_Cache::exists ("unittests");
   evaluate (__LINE__, __func__, false, exists);
+  int count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 0, count);
   Database_Cache::create ("unittests");
   exists = Database_Cache::exists ("unittests");
   evaluate (__LINE__, __func__, true, exists);
+  count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 0, count);
   
   // Cache and retrieve value.
   Database_Cache::cache ("unittests", 1, 2, 3, "cached");
   string value = Database_Cache::retrieve ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, "cached", value);
+
+  // Verse count check.
+  count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 1, count);
 
   // Cache does not exist for one passage, but does exist for the other passage.
   exists = Database_Cache::exists ("unittests", 1, 2, 4);
@@ -4115,12 +4124,6 @@ void test_database_cache ()
   exists = Database_Cache::exists ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, true, exists);
 
-  // Number of days should exist for one passage, and be 0 for the other one.
-  int days = Database_Cache::days ("unittests", 1, 2, 4);
-  evaluate (__LINE__, __func__, 0, days);
-  int now = filter_date_seconds_since_epoch () / 86400;
-  days = Database_Cache::days ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, now, days);
   
   // Excercise the file-based cache.
   string url = "https://netbible.org/bible/1/2/3";

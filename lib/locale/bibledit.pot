@@ -6498,6 +6498,9 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
+msgid "Resources"
+msgstr ""
+
 msgid "Help and About"
 msgstr ""
 
@@ -7224,9 +7227,6 @@ msgstr ""
 msgid "Yes, this is the correct verse"
 msgstr ""
 
-msgid "Resources"
-msgstr ""
-
 msgid "Download resource"
 msgstr ""
 
@@ -7278,6 +7278,9 @@ msgstr ""
 msgid "You can view the conversion process in the Journal."
 msgstr ""
 
+msgid "Click a resource for more information on its status."
+msgstr ""
+
 msgid "Converting USFM Resource to Bible"
 msgstr ""
 
@@ -7290,51 +7293,45 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-msgid "Cache resource"
+msgid "Bibledit can display this resource."
 msgstr ""
 
-msgid "Bibledit can display external resources to the user."
+msgid "It fetches the resource from the Internet."
 msgstr ""
 
-msgid "It fetches the resources from websites on the Internet."
+msgid "Bibledit may not always be able to reach the Internet."
 msgstr ""
 
-msgid "Some of those websites may be slow to respond."
+msgid "Or the connection is slow."
 msgstr ""
 
-msgid "Bibledit may not always be able to reach them."
-msgstr ""
-
-msgid "To address these issues, you can cache external resources."
+msgid "You can install the resource."
 msgstr ""
 
 msgid ""
-"When a cached resource is needed, Bibledit can fetch the data from its cache "
-"rather than from the external website."
+"When the resource is displayed, the content is fetched from the installed "
+"copy, rather than from the Internet."
 msgstr ""
 
 msgid "This works faster."
 msgstr ""
 
-msgid "It takes the load off the website."
+msgid "And you can work offline."
 msgstr ""
 
-msgid "Clients display only cached resources."
+msgid "Number of installed verses for this resource:"
 msgstr ""
 
-msgid "Number of cached verses available for this resource:"
+msgid "Start installing the resource and view the progress in the Journal."
 msgstr ""
 
-msgid "Start caching this resource and view the progress in the Journal."
-msgstr ""
-
-msgid "It takes the existing cache in account."
+msgid "Installing the resource takes the existing installed verses in account."
 msgstr ""
 
 msgid "It only downloads the missing pieces."
 msgstr ""
 
-msgid "Clear the cache if a full download is needed."
+msgid "Clear the installed resource to do a clean installation."
 msgstr ""
 
 msgid "The file was uploaded and is being processed."

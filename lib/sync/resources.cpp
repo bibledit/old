@@ -46,7 +46,7 @@ string sync_resources (void * webserver_request)
   int verse = convert_to_int (request->query ["v"]);
   
   if (book) {
-    return resource_logic_get_html (webserver_request, resource, book, chapter, verse, false);
+    return resource_logic_get_contents_server2client (resource, book, chapter, verse);
   }
   
   // Bad request. Delay flood of bad requests.

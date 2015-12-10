@@ -155,8 +155,6 @@ void tasks_run_one (string filename)
     convert_resource_to_bible (parameter1);
   } else if (command == PRINTRESOURCES) {
     resource_print_job (parameter1, parameter2, parameter3);
-  } else if (command == DOWNLOADRESOURCE) {
-    resource_download_job (parameter1);
   } else if (command == NOTESSTATISTICS) {
     statistics_statistics ();
   } else if (command == GENERATECHANGES) {

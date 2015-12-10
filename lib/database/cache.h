@@ -29,11 +29,12 @@ class Database_Cache
 {
 public:
   static void create (string resource);
+  static void remove (string resource);
   static bool exists (string resource);
   static bool exists (string resource, int book, int chapter, int verse);
   static void cache (string resource, int book, int chapter, int verse, string value);
   static string retrieve (string resource, int book, int chapter, int verse);
-  static int days (string resource, int book, int chapter, int verse);
+  static int count (string resource);
 private:
   static string database_resource (string resource);
 };

@@ -29,7 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Databases resilience:
 // They contain cached data.
-// They are checked on health every night.
+// Rarely written to.
+// Often read from.
 
 
 string Database_Cache::database_resource (string resource)
@@ -47,6 +48,13 @@ void Database_Cache::create (string resource)
            "book integer, chapter integer, verse integer, "
            "value text, days integer);");
   sql.execute ();
+}
+
+
+void Database_Cache::remove (string resource)
+{
+  string file = database_sqlite_file (database_resource (resource));
+  filter_url_unlink (file);
 }
 
 
@@ -122,43 +130,23 @@ string Database_Cache::retrieve (string resource, int book, int chapter, int ver
   sql.add (";");
   map <string, vector <string> > result = sql.query ();
   if (result.empty ()) return "";
-  
-  int days = convert_to_int (result ["days"] [0]);
-  if (days) {
-    int now = filter_date_seconds_since_epoch () / 86400;
-    if (days != now) {
-      sql.clear ();
-      sql.add ("UPDATE cache SET days =");
-      sql.add (now);
-      sql.add ("WHERE book =");
-      sql.add (book);
-      sql.add ("AND chapter = ");
-      sql.add (chapter);
-      sql.add ("AND verse = ");
-      sql.add (verse);
-      sql.add (";");
-      sql.execute ();
-    }
-  }
-  
   return result ["value"] [0];
 }
 
 
-// Gets the number of days for resource/passage since the Linux epoch.
-int Database_Cache::days (string resource, int book, int chapter, int verse)
+// Returns how many element are in cache $resource.
+int Database_Cache::count (string resource)
 {
-  SqliteDatabase sql = SqliteDatabase (database_resource (resource));
-  sql.add ("SELECT days FROM cache WHERE book =");
-  sql.add (book);
-  sql.add ("AND chapter =");
-  sql.add (chapter);
-  sql.add ("AND verse =");
-  sql.add (verse);
-  sql.add (";");
-  vector <string> result = sql.query () ["days"];
-  if (result.empty ()) return 0;
-  return convert_to_int (result [0]);
+  int count = 0;
+  if (exists (resource)) {
+    SqliteDatabase sql = SqliteDatabase (database_resource (resource));
+    sql.add ("SELECT count(*) FROM cache;");
+    vector <string> result = sql.query () ["count(*)"];
+    if (!result.empty ()) {
+      count = convert_to_int (result [0]);
+    }
+  }
+  return count;
 }
 
 
@@ -231,7 +219,6 @@ string database_cache_get (string schema)
 // On some clients, shell commands don't work.
 void database_cache_trim ()
 {
-  Database_Logs::log ("trim cache"); // Todo
   string path = database_cache_full_path ("");
   string output, error;
   filter_shell_run (path, "find", {path, "-atime", "+5", "-delete"}, &output, &error);

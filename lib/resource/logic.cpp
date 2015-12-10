@@ -215,6 +215,37 @@ string resource_logic_get_html (void * webserver_request,
 }
 
 
+// This runs on the server.
+// It gets the html code for a $resource for sending back to a client.
+string resource_logic_get_contents_server2client (string resource, int book, int chapter, int verse)
+{
+  string html;
+  
+  // Lists of the various types of resources.
+  vector <string> externals = resource_external_names ();
+  
+  // Possible SWORD details in case the client requests a SWORD resource.
+  string sword_module = sword_logic_get_remote_module (resource);
+  string sword_source = sword_logic_get_source (resource);
+  
+  // Determine the type of the current resource.
+  bool isExternal = in_array (resource, externals);
+  bool isSword = (!sword_source.empty () && !sword_module.empty ());
+  
+  if (isExternal) {
+    // The server fetches it from the web.
+    html = resource_external_get (resource, book, chapter, verse);
+  } else if (isSword) {
+    html = sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
+  } else {
+    // Nothing found.
+    html = "Bibledit Cloud could not localize this resource";
+  }
+
+  return html;
+}
+
+
 // Imports the file at $path into $resource.
 void resource_logic_import_images (string resource, string path)
 {

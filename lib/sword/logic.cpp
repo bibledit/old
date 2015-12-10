@@ -298,9 +298,6 @@ string sword_logic_get_text (string source, string module, int book, int chapter
       Database_Cache::cache (module, book, chapter, verse, html);
     }
     
-    // Client triggers a cache of the entire SWORD module.
-    sword_logic_trigger_cache (source, module);
-    
     return html;
     
   } else {
@@ -438,20 +435,6 @@ void sword_logic_trim_modules ()
 }
 
 
-// Trigger caching the $module from $source.
-void sword_logic_trigger_cache (string source, string module)
-{
-  // The resource consists of the $source and the $module.
-  string resource = "[" + source + "][" + module + "]";
-  // Add it to the general configuration to be cached, if it is not already there.
-  vector <string> resources = Database_Config_General::getResourcesToCache ();
-  if (!in_array (resource, resources)) {
-    resources.push_back (resource);
-    Database_Config_General::setResourcesToCache (resources);
-  }
-}
-
-
 // Text saying that the Cloud will install the requested SWORD module.
 string sword_logic_installing_module_text ()
 {
@@ -460,7 +443,7 @@ string sword_logic_installing_module_text ()
 
 
 // The virtual URL for caching purposes.
-string sword_logic_virtual_url (const string & module, int book, int chapter, int verse) // Todo
+string sword_logic_virtual_url (const string & module, int book, int chapter, int verse)
 {
   string url = "sword_" + module + "_" + convert_to_string (book) + "_chapter_" + convert_to_string (chapter) + "_verse_" + convert_to_string (verse);
   return url;
