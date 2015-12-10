@@ -2081,7 +2081,7 @@ void test_database_noteactions ()
 }
 
 
-void test_database_versifications ()
+void test_database_versifications () // Todo
 {
   // Basic operations, create, delete.
   {
@@ -2131,7 +2131,7 @@ void test_database_versifications ()
     for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, verses);
 
-    // Verses In Chapter Zero.
+    // Verses in chapter 0.
     verses = database_versifications.getVerses ("English", 1, 0);
     evaluate (__LINE__, __func__, {0}, verses);
 
@@ -2139,6 +2139,24 @@ void test_database_versifications ()
     vector <Passage> data = database_versifications.getBooksChaptersVerses ("English");
     evaluate (__LINE__, __func__, 1189, (int)data.size());
     evaluate (__LINE__, __func__, "31", data [0].verse);
+    
+    // Maximum number of books.
+    books = database_versifications.getMaximumBooks ();
+    standard.clear ();
+    for (unsigned int i = 1; i <= 66; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, books);
+    
+    // Maximum number of chapters.
+    chapters = database_versifications.getMaximumChapters (5);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 34; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, chapters);
+
+    // Maximum number of verses.
+    verses = database_versifications.getMaximumVerses (1, 2);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, verses);
   }
   // Import Export
   {

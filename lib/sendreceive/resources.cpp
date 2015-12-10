@@ -85,22 +85,19 @@ void sendreceive_resources ()
   
   Database_Versifications database_versifications;
   
-  // Resources are assumed to have the English versification for just now. Todo not all of them, e.g. Statenbijbel. We need a "general" versification, which takes the highest number of ch / vs of them all.
-  string versification = "English";
-  
-  vector <int> books = database_versifications.getBooks (versification);
+  vector <int> books = database_versifications.getMaximumBooks ();
   for (auto & book : books) {
     if (sendreceive_resources_interrupt) continue;
     
     string bookName = Database_Books::getEnglishFromId (book);
     
-    vector <int> chapters = database_versifications.getChapters (versification, book, true);
+    vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (auto & chapter : chapters) {
       if (sendreceive_resources_interrupt) continue;
       bool downloaded = false;
       string message1 = resource + ": " + bookName + " chapter " + convert_to_string (chapter);
       string message2;
-      vector <int> verses = database_versifications.getVerses (versification, book, chapter);
+      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
       for (auto & verse : verses) {
         if (sendreceive_resources_interrupt) continue;
         message2 += "; verse " + convert_to_string (verse) + ": ";
