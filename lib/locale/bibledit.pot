@@ -7278,6 +7278,9 @@ msgstr ""
 msgid "You can view the conversion process in the Journal."
 msgstr ""
 
+msgid "The following resources are being installed:"
+msgstr ""
+
 msgid "Click a resource for more information on its status."
 msgstr ""
 
