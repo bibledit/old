@@ -43,6 +43,47 @@
 #include <sword/logic.h>
 
 
+/*
+
+Stages to retrieve resource content and serve it.
+ 
+ * fetch http: Fetch raw page from the internet through http.
+ * fetch sword: Fetch a verse from a SWORD module.
+ * fetch cloud: Fetch content from the dedicated or demo Bibledit Cloud.
+ * check cache: Fetch http or sword content from the cache.
+ * store cache: Store http or sword content in the cache.
+ * extract: Extract the desired snipped from the larger page content.
+ * postprocess: Postprocessing of the content to fine-tune it.
+ * display: Display content to the user.
+ * serve: Serve content to the client.
+ 
+ A Bibledit client uses the following sequence to display a resource to the user:
+ * check cache or fetch cloud -> store cache -> postprocess -> display.
+ 
+ Bibledit Cloud uses the following sequence to display a resource to the user:
+ * fetch http or fetch sword or check cache -> store cache -> extract -> postprocess - display.
+
+ A Bibledit client uses the following sequence to install a resource:
+ * check cache -> fetch cloud -> store cache.
+ 
+ Bibledit Cloud uses the following sequence to serve a resource to a client:
+ * fetch http or fetch sword or check cache -> store cache -> extract -> serve.
+ 
+ In earlier versions of Bibledit,
+ the client would download external resources straight from the Internet.
+ To also be able to download content via https (secure http),
+ the client needs the cURL library.
+ And libcurl has not yet been compiled for all operating systems Bibledit runs on.
+ In the current version of Bibledit, it works differently.
+ It now requests all external content from Bibledit Cloud.
+ An important advantage of this method is that this minimizes data transfer on the Bibledit Client.
+ The client no longer fetches the full web page. Bibledit Cloud does that.
+ And the Cloud then extracts the small relevant snipped from the web page,
+ and serves that to the Client.
+ 
+*/
+
+
 vector <string> resource_logic_get_names (void * webserver_request)
 {
   vector <string> names;
@@ -177,7 +218,7 @@ string resource_logic_get_html (void * webserver_request,
       } else {
         // The server fetches it from the web.
         // A client does that too, or via Bibledit Cloud.
-        html.append (resource_external_get (resource, book, chapter, verse));
+        html.append (resource_external_fetch_cache_extract (resource, book, chapter, verse)); // Todo check flow.
       }
     } else if (isImage) {
       vector <string> images = database_imageresources.get (resource, book, chapter, verse);
@@ -216,11 +257,9 @@ string resource_logic_get_html (void * webserver_request,
 
 
 // This runs on the server.
-// It gets the html code for a $resource for sending back to a client.
-string resource_logic_get_contents_server2client (string resource, int book, int chapter, int verse)
+// It gets the html or text contents for a $resource for serving it to a client.
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
-  string html;
-  
   // Lists of the various types of resources.
   vector <string> externals = resource_external_names ();
   
@@ -234,15 +273,16 @@ string resource_logic_get_contents_server2client (string resource, int book, int
   
   if (isExternal) {
     // The server fetches it from the web.
-    html = resource_external_get (resource, book, chapter, verse);
-  } else if (isSword) {
-    html = sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
-  } else {
-    // Nothing found.
-    html = "Bibledit Cloud could not localize this resource";
+    return resource_external_fetch_cache_extract (resource, book, chapter, verse); // Todo check flow path.
+  }
+  
+  if (isSword) {
+    // Fetch it from a SWORD module.
+    return sword_logic_get_text (sword_source, sword_module, book, chapter, verse); // Todo chck flow.
   }
 
-  return html;
+  // Nothing found.
+  return "Bibledit Cloud could not localize this resource";
 }
 
 
@@ -359,7 +399,7 @@ string resource_logic_get_divider (string resource)
 
 // In Cloud mode, this function wraps around http GET.
 // It fetches existing content from the cache, and caches new content.
-string resource_logic_get_cache_url (string url, string & error)
+string resource_logic_web_cache_get (string url, string & error)
 {
   // On the Cloud, check if the URL is in the cache.
   if (!config_logic_client_prepared ()) {

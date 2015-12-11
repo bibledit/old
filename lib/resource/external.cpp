@@ -23,8 +23,6 @@
 #include <webserver/request.h>
 #include "json/json.h"
 #include "assets/view.h"
-#include "config/logic.h"
-#include "sendreceive/resources.h"
 #include "resource/logic.h"
 
 
@@ -165,7 +163,7 @@ resource_record resource_table [] =
   { "Statenbijbel Plus GBS", "Dutch Traditional", "Dutch Traditional", & resource_external_get_statenbijbel_plus_gbs },
   { "King James Version GBS", "English", "English", & resource_external_get_king_james_version_gbs },
   { "King James Version Plus GBS", "English", "English", & resource_external_get_king_james_version_plus_gbs },
-  { "Biblehub Interlinear", "English", "English", & resource_external_get_biblehub_interlinear },
+  { resource_external_biblehub_interlinear_name (), "English", "English", & resource_external_get_biblehub_interlinear },
   { "Scrivener Greek", "English", "English", & resource_external_get_biblehub_scrivener },
   { "Westminster Hebrew", "English", "English", & resource_external_get_biblehub_westminster },
   { resource_external_net_bible_name (), "English", "English", & resource_external_get_net_bible },
@@ -304,7 +302,7 @@ string gbs_digitaal_processor (string url, int verse)
 {
   string text;
 
-  string json = resource_logic_get_cache_url (url, text);
+  string json = resource_logic_web_cache_get (url, text);
 
   vector <string> history;
   
@@ -358,7 +356,7 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
 {
   string text;
   
-  string json = resource_logic_get_cache_url (url, text);
+  string json = resource_logic_web_cache_get (url, text);
 
   vector <string> history;
   
@@ -492,7 +490,7 @@ string resource_external_studylight_processor (string directory, int book, int c
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = resource_logic_get_cache_url (url, error);
+  string html = resource_logic_web_cache_get (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
  
@@ -525,7 +523,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
   string url = "http://www.bibleserver.com/text/" + directory + "/" + bookname + convert_to_string (chapter);
   
   string error;
-  string text = resource_logic_get_cache_url (url, error);
+  string text = resource_logic_web_cache_get (url, error);
   string tidy = html_tidy (text);
   vector <string> tidied = filter_string_explode (tidy, '\n');
 
@@ -650,7 +648,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = resource_logic_get_cache_url (url, error);
+  string html = resource_logic_web_cache_get (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
   
@@ -720,7 +718,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = resource_logic_get_cache_url (url, error);
+  string html = resource_logic_web_cache_get (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
 
@@ -771,7 +769,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   
   // Get the html from the server, and tidy it up.
   string error;
-  string html = resource_logic_get_cache_url (url, error);
+  string html = resource_logic_web_cache_get (url, error);
   string tidy = html_tidy (html);
   vector <string> tidied = filter_string_explode (tidy, '\n');
   
@@ -827,23 +825,6 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
 // This displays the text and the notes of the NET Bible.
 string resource_external_get_net_bible (int book, int chapter, int verse)
 {
-  if (config_logic_client_prepared ()) {
-    // It would be fine if the client could download the external resource.
-    // But to do that, in case of https, the client needs the cURL library.
-    // And that library has not yet been compiled for all OSes Bibledit runs on.
-    // One way to overcome this problem would be that a client requests a server
-    // to fetch an external resource on its behalf,
-    // and then returns the filtered result to the client.
-    // This is what it now does for the NET Bible, currrently the sole secure resource.
-    // Later on: It fetches any external content via Bibledit Cloud.
-    // An advantage of this is that this system minimizes network data transfer:
-    // The Cloud fetches the full html pages from the internet, then filters it,
-    // then passes a small fraction of it on to the client.
-    string html, error;
-    sendreceive_resources_get (filter_url_urlencode (resource_external_net_bible_name ()), book, chapter, verse, html, error);
-    return html;
-  }
-
   string bookname = resource_external_convert_book_netbible (book);
   
   string url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
@@ -851,7 +832,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   url.insert (0, "https://net.bible.org/resource/netTexts/");
   
   string error;
-  string text = resource_logic_get_cache_url (url, error);
+  string text = resource_logic_web_cache_get (url, error);
   
   string output = text;
   
@@ -859,7 +840,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   url = filter_url_urlencode (url);
   url.insert (0, "https://net.bible.org/resource/netNotes/");
   
-  string notes = resource_logic_get_cache_url (url, error);
+  string notes = resource_logic_web_cache_get (url, error);
   // If notes fail with an error, don't include the note text.
   if (!error.empty ()) notes.clear ();
   // It the verse contains no notes, the website returns an unusual message.
@@ -1609,7 +1590,11 @@ string resource_external_mapping (string name)
 
 
 // Fetches the html data for the resource / book / chapter / verse.
-string resource_external_get (string name, int book, int chapter, int verse)
+// This function runs on the Cloud.
+// It fetches data either from the cache or from the web via http(s),
+// while optionally updating the cache with the raw web page content.
+// It extracts the relevant snipped from the larger http(s) content.
+string resource_external_fetch_cache_extract (string name, int book, int chapter, int verse)
 {
   string (* func) (int, int, int) = NULL;
 
@@ -1934,7 +1919,7 @@ string resource_external_convert_book_bibleserver (int book)
 string resource_external_studylight_code ()
 {
   string error;
-  string html = resource_logic_get_cache_url ("http://www.studylight.org/commentaries", error);
+  string html = resource_logic_web_cache_get ("http://www.studylight.org/commentaries", error);
   if (!error.empty ()) return error;
   map <string, string> commentaries;
   vector <string> lines = filter_string_explode (html, '\n');
@@ -1996,4 +1981,10 @@ string resource_external_studylight_code ()
 const char * resource_external_net_bible_name ()
 {
   return "NET Bible";
+}
+
+
+const char * resource_external_biblehub_interlinear_name ()
+{
+  return "Biblehub Interlinear";
 }

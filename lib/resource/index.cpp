@@ -63,14 +63,7 @@ string resource_index (void * webserver_request)
   
   // If no resources are displayed, set a default selection of them.
   if (resources.empty ()) {
-    resources = {
-      demo_sample_bible_name (),
-      "Biblehub Interlinear",
-      resource_external_net_bible_name (),
-      "Yellow Divider",
-      "Hebrew (Open Scriptures)",
-      "Greek (SBL)"
-    };
+    resources = demo_logic_default_resources ();
     request->database_config_user()->setActiveResources (resources);
   }
 

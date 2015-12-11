@@ -66,6 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/external.h>
 #include <config.h>
 #include <changes/logic.h>
+#include <demo/logic.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -183,7 +184,7 @@ void test_database_config_user ()
     evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
     
     // Test getting a Bible that does not exist: It creates one.
-    evaluate (__LINE__, __func__, "Bibledit Sample Bible", request.database_config_user ()->getBible ());
+    evaluate (__LINE__, __func__, demo_sample_bible_name (), request.database_config_user ()->getBible ());
   }
 }
 

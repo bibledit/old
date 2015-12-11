@@ -38,8 +38,11 @@
 #include <edit/index.h>
 #include <editusfm/index.h>
 #include <resource/index.h>
+#include <resource/external.h>
+#include <resource/logic.h>
 #include <workbench/logic.h>
 #include <ipc/focus.h>
+#include <lexicon/logic.h>
 
 
 /*
@@ -212,13 +215,12 @@ void demo_clean_data ()
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources = false;
   if (resources.size () > 25) reset_resources = true;
-  if (!in_array ((string) "Bibledit Sample Bible", resources)) reset_resources = true;
-  if (!in_array ((string) "Violet Divider", resources)) reset_resources = true;
-  if (!in_array ((string) "Biblehub Interlinear", resources)) reset_resources = true;
-  if (!in_array ((string) "NET Bible", resources)) reset_resources = true;
-  if (!in_array ((string) "Greek (SBL)", resources)) reset_resources = true;
+  vector <string> defaults = demo_logic_default_resources ();
+  for (auto & name : defaults) {
+    if (!in_array (name, resources)) reset_resources = true;
+  }
   if (reset_resources) {
-    resources = { "Bibledit Sample Bible", "Violet Divider", "Biblehub Interlinear", "NET Bible", "Greek (SBL)" };
+    resources = demo_logic_default_resources ();
     request.database_config_user()->setActiveResources (resources);
   }
 }
@@ -316,4 +318,16 @@ void demo_create_sample_workbenches (void * webserver_request)
   workbench_set_urls (request, urls);
   workbench_set_widths (request, widths);
   workbench_set_heights (request, row_heights);
+}
+
+
+vector <string> demo_logic_default_resources ()
+{
+  return {
+    demo_sample_bible_name (),
+    resource_logic_violet_divider (),
+    resource_external_biblehub_interlinear_name (),
+    resource_external_net_bible_name (),
+    SBLGNT_NAME
+  };
 }
