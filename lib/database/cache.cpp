@@ -214,6 +214,15 @@ string database_cache_get (string schema)
 }
 
 
+void database_cache_remove (string schema)
+{
+  schema = database_cache_clean_name (schema);
+  schema = database_cache_split_file (schema);
+  schema = database_cache_full_path (schema);
+  filter_url_unlink (schema);
+}
+
+
 // Deletes items older than x days from the cache.
 // It uses a Linux shell command. This can be done because it runs on the server only.
 // On some clients, shell commands don't work.

@@ -30,6 +30,7 @@
 #include <database/books.h>
 #include <database/cache.h>
 #include <database/config/general.h>
+#include <database/versifications.h>
 #include <sync/resources.h>
 #include <tasks/logic.h>
 #include <demo/logic.h>
@@ -216,9 +217,24 @@ void sword_logic_install_module (string source, string module)
 }
 
 
-void sword_logic_update_module (string source, string module)
+void sword_logic_update_module (string source, string module) // Todo
 {
   sword_logic_uninstall_module (module);
+  
+  // Clear the cache.
+  Database_Versifications database_versifications;
+  vector <int> books = database_versifications.getMaximumBooks ();
+  for (auto & book : books) {
+    vector <int> chapters = database_versifications.getMaximumChapters (book);
+    for (auto & chapter : chapters) {
+      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+      for (auto & verse : verses) {
+        string schema = sword_logic_virtual_url (module, book, chapter, verse);
+        database_cache_remove (schema);
+      }
+    }
+  }
+  
   sword_logic_install_module (source, module);
 }
 
