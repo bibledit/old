@@ -24,20 +24,15 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <filter/usfm.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <database/books.h>
-#include <database/versifications.h>
 #include <database/offlineresources.h>
 #include <database/logs.h>
-#include <access/bible.h>
+#include <database/cache.h>
+#include <database/config/general.h>
 #include <tasks/logic.h>
 #include <journal/index.h>
-#include <dialog/list.h>
-#include <resource/external.h>
-#include <config/logic.h>
 #include <menu/logic.h>
 #include <resource/admin.h>
 
@@ -74,89 +69,31 @@ string resource_download (void * webserver_request)
                       
   if (request->query.count ("clear")) {
     database_offlineresources.erase (name);
+    Database_Cache::remove (name);
   }
   
   
   if (request->query.count ("download")) {
-    tasks_logic_queue (DOWNLOADRESOURCE, {name});
+    // Trigger caching the resource.
+    // Add the resource to the general configuration to be cached, if it is not already there.
+    vector <string> resources = Database_Config_General::getResourcesToCache ();
+    if (!in_array (name, resources)) {
+      resources.push_back (name);
+      Database_Config_General::setResourcesToCache (resources);
+    }
+    tasks_logic_queue (SYNCRESOURCES);
     redirect_browser (request, journal_index_url ());
     return "";
   }
   
   
-  int count = database_offlineresources.count (name);
+  int count = 0;
+  if (count == 0) count = database_offlineresources.count (name);
+  if (count == 0) count = Database_Cache::count (name);
   view.set_variable ("count", convert_to_string (count));
                       
                       
   page += view.render ("resource", "download");
   page += Assets_Page::footer ();
   return page;
-}
-
-
-void resource_download_job (string resource)
-{
-  Database_Logs::log (resource + ": Download has started", Filter_Roles::manager ());
-
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
-  
-  bool download = true;
-  
-  if (config_logic_external_resources_cache_configured ()) {
-    database_offlineresources.link_to_central_cache (resource);
-    if (database_offlineresources.exists (resource)) {
-      Database_Logs::log (resource + ": Linked to central cache", Filter_Roles::manager ());
-      download = false;
-    }
-  }
-
-  if (download) {
-
-    Database_Versifications database_versifications;
-    
-    string versification = resource_external_versification (resource);
-    
-    vector <int> books = database_versifications.getBooks (versification);
-    for (auto & book : books) {
-      
-      string bookName = Database_Books::getEnglishFromId (book);
-      
-      bool downloaded = false;
-      
-      vector <int> chapters = database_versifications.getChapters (versification, book, true);
-      for (auto & chapter : chapters) {
-        string message1 = resource + ": " + bookName + " chapter " + convert_to_string (chapter);
-        string message2;
-        vector <int> verses = database_versifications.getVerses (versification, book, chapter);
-        for (auto & verse : verses) {
-          message2 += "; verse " + convert_to_string (verse) + ": ";
-          bool download_verse = false;
-          if (database_offlineresources.exists (resource, book, chapter, verse)) {
-            message2 += "exists";
-          } else {
-            download_verse = true;
-          }
-          if (!download_verse) {
-            string contents = database_offlineresources.get (resource, book, chapter, verse);
-            if (contents.find ("http code") != string::npos) {
-              message2 += " repair ";
-              download_verse = true;
-            }
-          }
-          if (download_verse) {
-            string html = resource_external_get (resource, book, chapter, verse);
-            database_offlineresources.store (resource, book, chapter, verse, html);
-            message2 += "size " + convert_to_string (html.length ());
-            downloaded = true;
-          }
-        }
-        message2 += "; done";
-        if (!downloaded) message2 = ": already in cache";
-        Database_Logs::log (message1 + message2, Filter_Roles::manager ());
-      }
-    }
-
-  }
-  
-  Database_Logs::log (resource + ": Completed", Filter_Roles::manager ());
 }

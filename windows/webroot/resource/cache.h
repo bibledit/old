@@ -17,24 +17,16 @@
  */
 
 
-#ifndef INCLUDED_DEMO_LOGIC_H
-#define INCLUDED_DEMO_LOGIC_H
+#ifndef INCLUDED_RESOURCE_CACHE_H
+#define INCLUDED_RESOURCE_CACHE_H
 
 
 #include <config/libraries.h>
 
 
-bool demo_acl (string user, string pass);
-string demo_address ();
-int demo_port ();
-string demo_client_warning ();
-void demo_clean_data ();
-string demo_sample_bible_name ();
-void demo_create_sample_bible (void * webserver_request);
-void demo_create_sample_notes (void * webserver_request);
-string demo_workbench ();
-void demo_create_sample_workbenches (void * webserver_request);
-vector <string> demo_logic_default_resources ();
+string resource_cache_url ();
+bool resource_cache_acl (void * webserver_request);
+string resource_cache (void * webserver_request);
 
 
 #endif

@@ -183,6 +183,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/img.h>
 #include <resource/imagefetch.h>
 #include <resource/sword.h>
+#include <resource/cache.h>
 #include <lexicon/definition.h>
 #include <database/logs.h>
 #include <public/index.h>
@@ -288,6 +289,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == resource_images_url ()) && resource_images_acl (request)) request->reply = resource_images (request);
   else if ((url == resource_sword_url ()) && resource_sword_acl (request)) request->reply = resource_sword (request);
   else if ((url == resource_select_url ()) && resource_select_acl (request)) request->reply = resource_select (request);
+  else if ((url == resource_cache_url ()) && resource_cache_acl (request)) request->reply = resource_cache (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);

@@ -76,12 +76,19 @@ string resource_get (void * webserver_request)
       string versification = Database_Config_Bible::getVersificationSystem (bible);
       Database_Versifications database_versifications;
       vector <int> chapters = database_versifications.getChapters (versification, book);
-
+      
+      
+      // Whether to add extra verse numbers, for clarity in case of viewing more than one verse.
+      bool add_verse_numbers = false;
+      int context_before = request->database_config_user ()->getResourceVersesBefore ();
+      if (context_before) add_verse_numbers = true;
+      int context_after = request->database_config_user ()->getResourceVersesAfter ();
+      if (context_after) add_verse_numbers = true;
+      
       
       // Context before the focused verse.
       vector <int> chapters_before;
       vector <int> verses_before;
-      int context_before = request->database_config_user ()->getResourceVersesBefore ();
       if (context_before > 0) {
         for (int ch = chapter - 1; ch <= chapter; ch++) {
           if (in_array (ch, chapters)) {
@@ -103,18 +110,17 @@ string resource_get (void * webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_before.size (); i++) {
-        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_before[i], verses_before[i]));
+        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_before[i], verses_before[i], add_verse_numbers));
       }
       
 
       // Focused verse.
-      bits.push_back (resource_logic_get_html (request, s_resource, book, chapter, verse));
+      bits.push_back (resource_logic_get_html (request, s_resource, book, chapter, verse, add_verse_numbers));
 
     
       // Context after the focused verse.
       vector <int> chapters_after;
       vector <int> verses_after;
-      int context_after = request->database_config_user ()->getResourceVersesAfter ();
       if (context_after > 0) {
         for (int ch = chapter; ch <= chapter + 1; ch++) {
           if (in_array (ch, chapters)) {
@@ -136,7 +142,7 @@ string resource_get (void * webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_after.size (); i++) {
-        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_after[i], verses_after[i]));
+        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_after[i], verses_after[i], add_verse_numbers));
       }
     }
   }

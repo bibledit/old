@@ -66,6 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/external.h>
 #include <config.h>
 #include <changes/logic.h>
+#include <demo/logic.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -183,7 +184,7 @@ void test_database_config_user ()
     evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
     
     // Test getting a Bible that does not exist: It creates one.
-    evaluate (__LINE__, __func__, "Bibledit Sample Bible", request.database_config_user ()->getBible ());
+    evaluate (__LINE__, __func__, demo_sample_bible_name (), request.database_config_user ()->getBible ());
   }
 }
 
@@ -2086,7 +2087,7 @@ void test_database_versifications ()
   // Basic operations, create, delete.
   {
     refresh_sandbox (true);
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.optimize ();
     int id = database_versifications.createSystem ("phpunit");
@@ -2101,7 +2102,7 @@ void test_database_versifications ()
   }
   {
     refresh_sandbox (true);
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
 
@@ -2131,7 +2132,7 @@ void test_database_versifications ()
     for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, verses);
 
-    // Verses In Chapter Zero.
+    // Verses in chapter 0.
     verses = database_versifications.getVerses ("English", 1, 0);
     evaluate (__LINE__, __func__, {0}, verses);
 
@@ -2139,11 +2140,29 @@ void test_database_versifications ()
     vector <Passage> data = database_versifications.getBooksChaptersVerses ("English");
     evaluate (__LINE__, __func__, 1189, (int)data.size());
     evaluate (__LINE__, __func__, "31", data [0].verse);
+    
+    // Maximum number of books.
+    books = database_versifications.getMaximumBooks ();
+    standard.clear ();
+    for (unsigned int i = 1; i <= 66; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, books);
+    
+    // Maximum number of chapters.
+    chapters = database_versifications.getMaximumChapters (5);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 34; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, chapters);
+
+    // Maximum number of verses.
+    verses = database_versifications.getMaximumVerses (1, 2);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, verses);
   }
   // Import Export
   {
     refresh_sandbox (true);
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     database_versifications.create ();
     string input = 
       "Genesis 1:31\n"
@@ -4097,17 +4116,26 @@ void test_database_cache ()
   bool exists = Database_Cache::exists ("");
   evaluate (__LINE__, __func__, false, exists);
 
-  // Initially the database should not exist, but after creating, it should be there.
+  // Initially the database should not exist, and have 0 verses.
+  // After creating, it should be there, and still have 0 verses.
   exists = Database_Cache::exists ("unittests");
   evaluate (__LINE__, __func__, false, exists);
+  int count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 0, count);
   Database_Cache::create ("unittests");
   exists = Database_Cache::exists ("unittests");
   evaluate (__LINE__, __func__, true, exists);
+  count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 0, count);
   
   // Cache and retrieve value.
   Database_Cache::cache ("unittests", 1, 2, 3, "cached");
   string value = Database_Cache::retrieve ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, "cached", value);
+
+  // Verse count check.
+  count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 1, count);
 
   // Cache does not exist for one passage, but does exist for the other passage.
   exists = Database_Cache::exists ("unittests", 1, 2, 4);
@@ -4115,33 +4143,18 @@ void test_database_cache ()
   exists = Database_Cache::exists ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, true, exists);
 
-  // Number of days should exist for one passage, and be 0 for the other one.
-  int days = Database_Cache::days ("unittests", 1, 2, 4);
-  evaluate (__LINE__, __func__, 0, days);
-  int now = filter_date_seconds_since_epoch () / 86400;
-  days = Database_Cache::days ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, now, days);
   
-  // Damage the database.
-  filter_url_file_put_contents (filter_url_create_root_path ("databases", "cache_resource_unittests.sqlite"), "garbled data");
+  // Excercise the file-based cache.
+  string url = "https://netbible.org/bible/1/2/3";
+  string contents = "Bible contents";
+  evaluate (__LINE__, __func__, false, database_cache_exists (url));
+  evaluate (__LINE__, __func__, "", database_cache_get (url));
+  database_cache_put (url, contents);
+  evaluate (__LINE__, __func__, true, database_cache_exists (url));
+  evaluate (__LINE__, __func__, contents, database_cache_get (url));
+  database_cache_trim ();
 
-  // Cached values should not exist, not even after caching, because the database is damaged.
-  exists = Database_Cache::exists ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, false, exists);
-  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  exists = Database_Cache::exists ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, false, exists);
-
-  // Check: Repair damaged database.
-  Database_Cache::check ();
-
-  // Caching should work again because the database is now OK again.
-  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  exists = Database_Cache::exists ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, false, exists);
-
-  // Clear journal messages about damaged database.
-  refresh_sandbox (false);
+  refresh_sandbox (true);
 }
 
 

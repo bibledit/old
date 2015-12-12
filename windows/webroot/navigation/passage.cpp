@@ -161,7 +161,7 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> chapters;
   if (bible.empty ()) {
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     chapters = database_versifications.getChapters ("English", book, true);
   } else {
     chapters = request->database_bibles()->getChapters (bible, book);
@@ -188,7 +188,7 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <int> verses;
   if (bible == "") {
-    Database_Versifications database_versifications = Database_Versifications ();
+    Database_Versifications database_versifications;
     verses = database_versifications.getVerses ("English", book, chapter);
   } else {
     verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
