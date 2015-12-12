@@ -46,7 +46,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define CONVERTBIBLE2RESOURCE "convertbible2resource"
 #define CONVERTRESOURCE2BIBLE "convertresource2bible"
 #define PRINTRESOURCES "printresources"
-#define DOWNLOADRESOURCE "downloadresource"
 #define NOTESSTATISTICS "notesstatistics"
 #define GENERATECHANGES "generatechanges"
 #define SPRINTBURNDOWN "sprintburndown"

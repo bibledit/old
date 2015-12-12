@@ -267,6 +267,7 @@ libbibledit_a_SOURCES = \
 	resource/imagefetch.cpp \
 	resource/sword.cpp \
 	resource/select.cpp \
+	resource/cache.cpp \
 	json/json.c \
 	mapping/index.cpp \
 	mapping/map.cpp \

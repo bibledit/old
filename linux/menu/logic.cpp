@@ -60,6 +60,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/manage.h>
 #include <resource/print.h>
 #include <resource/sword.h>
+#include <resource/cache.h>
 #include <search/index.h>
 #include <search/replace.h>
 #include <search/search2.h>
@@ -551,6 +552,15 @@ string menu_logic_settings_category (void * webserver_request)
   if (!(client || demo)) {
     if (user_account_acl (webserver_request)) {
       html.push_back (menu_logic_create_item (user_account_url (), translate ("Account"), true));
+    }
+  }
+
+  if (config_logic_client_prepared ()) {
+    // Only client can cache resources.
+    // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
+    // Many Cloud instances run on one server, and if the Cloud were to cache resources, it was going to use a huge amount of disk space.
+    if (resource_cache_acl (webserver_request)) {
+      html.push_back (menu_logic_create_item (resource_cache_url (), translate ("Resources"), true));
     }
   }
 

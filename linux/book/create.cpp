@@ -35,7 +35,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
 
 {
   Database_Bibles database_bibles;
-  Database_Versifications database_versifications = Database_Versifications ();
+  Database_Versifications database_versifications;
   int bible_id = database_bibles.getID (bible);
   if (bible_id == 0) {
     feedback.push_back (translate("Bible bible does not exist: Cannot create book"));

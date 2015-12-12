@@ -109,6 +109,8 @@ void setup_conditionally (const char * package)
   // Once the tasks are really complete, they will clear the flag.
   tasks_logic_queue (REINDEXBIBLES);
   tasks_logic_queue (REINDEXNOTES);
+  // Same for the resource downloader, for the client.
+  if (config_logic_client_prepared ()) tasks_logic_queue (SYNCRESOURCES);
 }
 
 
@@ -199,7 +201,7 @@ void setup_initialize_data ()
   config_globals_setup_progress = 60;
   Database_NoteActions database = Database_NoteActions ();
   database.create ();
-  Database_Versifications database_versifications = Database_Versifications ();
+  Database_Versifications database_versifications;
   database_versifications.create ();
   database_versifications.defaults ();
   config_globals_setup_progress = 70;
