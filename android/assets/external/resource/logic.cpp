@@ -28,6 +28,7 @@
 #include <database/config/bible.h>
 #include <database/config/general.h>
 #include <database/logs.h>
+#include <database/cache.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/text.h>
@@ -40,6 +41,49 @@
 #include <client/logic.h>
 #include <lexicon/logic.h>
 #include <sword/logic.h>
+#include <demo/logic.h>
+#include <sync/resources.h>
+
+
+/*
+
+Stages to retrieve resource content and serve it.
+ 
+ * fetch http: Fetch raw page from the internet through http.
+ * fetch sword: Fetch a verse from a SWORD module.
+ * fetch cloud: Fetch content from the dedicated or demo Bibledit Cloud.
+ * check cache: Fetch http or sword content from the cache.
+ * store cache: Store http or sword content in the cache.
+ * extract: Extract the desired snipped from the larger page content.
+ * postprocess: Postprocessing of the content to fine-tune it.
+ * display: Display content to the user.
+ * serve: Serve content to the client.
+ 
+ A Bibledit client uses the following sequence to display a resource to the user:
+ * check cache or fetch cloud -> store cache -> postprocess -> display.
+ 
+ Bibledit Cloud uses the following sequence to display a resource to the user:
+ * fetch http or fetch sword or check cache -> store cache -> extract -> postprocess - display.
+
+ A Bibledit client uses the following sequence to install a resource:
+ * check cache -> fetch cloud -> store cache.
+ 
+ Bibledit Cloud uses the following sequence to serve a resource to a client:
+ * fetch http or fetch sword or check cache -> store cache -> extract -> serve.
+ 
+ In earlier versions of Bibledit,
+ the client would download external resources straight from the Internet.
+ To also be able to download content via https (secure http),
+ the client needs the cURL library.
+ And libcurl has not yet been compiled for all operating systems Bibledit runs on.
+ In the current version of Bibledit, it works differently.
+ It now requests all external content from Bibledit Cloud.
+ An important advantage of this method is that this minimizes data transfer on the Bibledit Client.
+ The client no longer fetches the full web page. Bibledit Cloud does that.
+ And the Cloud then extracts the small relevant snipped from the web page,
+ and serves that to the Client.
+ 
+*/
 
 
 vector <string> resource_logic_get_names (void * webserver_request)
@@ -78,14 +122,15 @@ vector <string> resource_logic_get_names (void * webserver_request)
 }
 
 
-string resource_logic_get_html (void * webserver_request, string resource, int book, int chapter, int verse)
+string resource_logic_get_html (void * webserver_request,
+                                string resource, int book, int chapter, int verse,
+                                bool add_verse_numbers)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   string html;
   
   Database_UsfmResources database_usfmresources;
-  Database_OfflineResources database_offlineresources;
   Database_ImageResources database_imageresources;
   Database_Mappings database_mappings;
   
@@ -137,12 +182,23 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
     passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
   }
 
+  // If there's been a mapping, the resource should include the verse number for clarity.
+  if (passages.size () != 1) add_verse_numbers = true;
+  for (auto passage : passages) {
+    if (verse != convert_to_int (passage.verse)) {
+      add_verse_numbers = true;
+    }
+  }
+  
   for (auto passage : passages) {
     
-    book = passage.book;
-    chapter = passage.chapter;
-    verse = convert_to_int (passage.verse);
-
+    int book = passage.book;
+    int chapter = passage.chapter;
+    int verse = convert_to_int (passage.verse);
+    
+    string possible_included_verse;
+    if (add_verse_numbers) possible_included_verse = convert_to_string (verse) + " ";
+    
     if (isBible || isUsfm) {
       string chapter_usfm;
       if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
@@ -153,29 +209,41 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
       filter_text.html_text_standard = new Html_Text (translate("Bible"));
       filter_text.addUsfmCode (verse_usfm);
       filter_text.run (stylesheet);
+      html.append (possible_included_verse);
       html.append (filter_text.html_text_standard->getInnerHtml ());
     } else if (isExternal) {
-      if (database_offlineresources.exists (resource, book, chapter, verse)) {
-        // Use offline cached copy.
-        html.append (database_offlineresources.get (resource, book, chapter, verse));
+      html.append (possible_included_verse);
+      if (config_logic_client_prepared ()) {
+        // A client fetches it from the cache or from the Cloud,
+        // or, for older versions, from the offline resources database.
+        // As of 12 December 2015, the offline resources database is not needed anymore.
+        // It can be removed after a year or so.
+        Database_OfflineResources database_offlineresources;
+        if (database_offlineresources.exists (resource, book, chapter, verse)) {
+          html.append (database_offlineresources.get (resource, book, chapter, verse));
+        } else {
+          html.append (resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse));
+        }
       } else {
-        // The server fetches it from the web.
-        // A client does that too, or via Bibledit Cloud.
-        html.append (resource_external_get (resource, book, chapter, verse));
+        // The server fetches it from the web, via the http cache.
+        html.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
       }
+      
     } else if (isImage) {
       vector <string> images = database_imageresources.get (resource, book, chapter, verse);
       for (auto & image : images) {
         html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
       }
     } else if (isLexicon) {
+      html.append (possible_included_verse);
       html.append (lexicon_logic_get_html (request, resource, book, chapter, verse));
     } else if (isSword) {
+      html.append (possible_included_verse);
       html.append (sword_logic_get_text (sword_source, sword_module, book, chapter, verse));
     } else {
       // Nothing found.
     }
-  
+    
   }
   
   // Any font size given in a paragraph style may interfere with the font size setting for the resources
@@ -190,10 +258,89 @@ string resource_logic_get_html (void * webserver_request, string resource, int b
       }
     }
   }
+
   // NET Bible updates.
   html = filter_string_str_replace ("<span class=\"s ", "<span class=\"", html);
   
   return html;
+}
+
+
+// This runs on the server.
+// It gets the html or text contents for a $resource for serving it to a client.
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
+{
+  // Lists of the various types of resources.
+  vector <string> externals = resource_external_names ();
+  
+  // Possible SWORD details in case the client requests a SWORD resource.
+  string sword_module = sword_logic_get_remote_module (resource);
+  string sword_source = sword_logic_get_source (resource);
+  
+  // Determine the type of the current resource.
+  bool isExternal = in_array (resource, externals);
+  bool isSword = (!sword_source.empty () && !sword_module.empty ());
+  
+  if (isExternal) {
+    // The server fetches it from the web.
+    return resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse);
+  }
+  
+  if (isSword) {
+    // Fetch it from a SWORD module.
+    return sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
+  }
+
+  // Nothing found.
+  return "Bibledit Cloud could not localize this resource";
+}
+
+
+// The client runs this function to fetch a general resource $name from the Cloud,
+// or from its local cache,
+// and to update the local cache with the fetched content, if needed,
+// and to return the requested content.
+string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
+{
+  // Ensure that the cache for this resource exists on the client.
+  if (!Database_Cache::exists (resource)) {
+    Database_Cache::create (resource);
+  }
+  
+  // If the content exists in the cache, return that content.
+  if (Database_Cache::exists (resource, book, chapter, verse)) {
+    return Database_Cache::retrieve (resource, book, chapter, verse);
+  }
+  
+  // Fetch this resource from Bibledit Cloud or from the cache.
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  if (!client_logic_client_enabled ()) {
+    // If the client has not been connected to a cloud instance,
+    // fetch the resource from the Bibledit Cloud demo.
+    address = demo_address ();
+    port = demo_port ();
+  }
+  
+  string url = client_logic_url (address, port, sync_resources_url ());
+  url = filter_url_build_http_query (url, "r", filter_url_urlencode (resource));
+  url = filter_url_build_http_query (url, "b", convert_to_string (book));
+  url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
+  url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+  string error;
+  string content = filter_url_http_get (url, error);
+  
+  if (error.empty ()) {
+    // No error: Cache content.
+    Database_Cache::cache (resource, book, chapter, verse, content);
+  } else {
+    // Error: Log it, and return it.
+    Database_Logs::log (resource + ": " + error);
+    content.append (error);
+  }
+
+  // Done.
+  return content;
 }
 
 
@@ -304,5 +451,31 @@ string resource_logic_get_divider (string resource)
   string colour = unicode_string_casefold (bits [0]);
   // The $ influences the resource's embedding through javascript.
   string html = "$<div class=\"fullwidth\" style=\"background-color: " + colour + ";\">&nbsp;</div>";
+  return html;
+}
+
+
+// In Cloud mode, this function wraps around http GET.
+// It fetches existing content from the cache, and caches new content.
+string resource_logic_web_cache_get (string url, string & error)
+{
+  // On the Cloud, check if the URL is in the cache.
+  if (!config_logic_client_prepared ()) {
+    if (database_cache_exists (url)) {
+      return database_cache_get (url);
+    }
+  }
+  // Fetch the URL from the network.
+  // Do not cache the response in an error situation.
+  error.clear ();
+  string html = filter_url_http_get (url, error);
+  if (!error.empty ()) {
+    return html;
+  }
+  // In the Cloud, cache the response.
+  if (!config_logic_client_prepared ()) {
+    database_cache_put (url, html);
+  }
+  // Done.
   return html;
 }

@@ -264,7 +264,9 @@ database/versifications.cpp
 database/versifications.h
 database/volatile.cpp
 database/volatile.h
+databases/cache/gitflag
 databases/client/gitflag
+databases/client/sword_modules.txt
 databases/config/bible/gitflag
 databases/config/general/gitflag
 databases/config/user/gitflag
@@ -963,6 +965,9 @@ resource/admin.html
 resource/bible2resource.cpp
 resource/bible2resource.h
 resource/bible2resource.html
+resource/cache.cpp
+resource/cache.h
+resource/cache.html
 resource/convert2bible.cpp
 resource/convert2bible.h
 resource/convert2resource.cpp

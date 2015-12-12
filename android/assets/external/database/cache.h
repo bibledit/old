@@ -29,16 +29,23 @@ class Database_Cache
 {
 public:
   static void create (string resource);
-  static void check ();
-  static void trim ();
+  static void remove (string resource);
   static bool exists (string resource);
   static bool exists (string resource, int book, int chapter, int verse);
   static void cache (string resource, int book, int chapter, int verse, string value);
   static string retrieve (string resource, int book, int chapter, int verse);
-  static int days (string resource, int book, int chapter, int verse);
+  static int count (string resource);
 private:
   static string database_resource (string resource);
 };
+
+
+string database_cache_clean_name (string name);
+bool database_cache_exists (string schema);
+void database_cache_put (string schema, string contents);
+string database_cache_get (string schema);
+void database_cache_remove (string schema);
+void database_cache_trim ();
 
 
 #endif

@@ -53,6 +53,9 @@ void sendreceive_resources_done ()
 }
 
 
+bool sendreceive_resources_interrupt = false;
+
+
 void sendreceive_resources ()
 {
   if (sendreceive_resources_watchdog) {
@@ -64,54 +67,85 @@ void sendreceive_resources ()
     sendreceive_resources_done ();
   }
 
+  sendreceive_resources_interrupt = false;
+
   // If there's nothing to cache, bail out.
   vector <string> resources = Database_Config_General::getResourcesToCache ();
   if (resources.empty ()) return;
   
   sendreceive_resources_kick_watchdog ();
 
+  // Error counter.
+  int error_count = 0;
+  
   // Resource to cache.
   string resource = resources [0];
-  Database_Logs::log ("Starting to cache resource:" " " + resource, Filter_Roles::consultant ());
-  string source = sword_logic_get_source (resource);
-  string module = sword_logic_get_remote_module (resource);
-  Database_Cache::create (module);
+  Database_Logs::log ("Starting to download resource:" " " + resource, Filter_Roles::consultant ());
+  Database_Cache::create (resource);
   
-  Database_Versifications database_versifications = Database_Versifications ();
+  Database_Versifications database_versifications;
   
-  // SWORD resources is assumed to have the English versification.
-  string versification = "English";
-  
-  vector <int> books = database_versifications.getBooks (versification);
+  vector <int> books = database_versifications.getMaximumBooks ();
   for (auto & book : books) {
+    if (sendreceive_resources_interrupt) continue;
     
     string bookName = Database_Books::getEnglishFromId (book);
     
-    vector <int> chapters = database_versifications.getChapters (versification, book, true);
+    vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (auto & chapter : chapters) {
+      if (sendreceive_resources_interrupt) continue;
       bool downloaded = false;
       string message1 = resource + ": " + bookName + " chapter " + convert_to_string (chapter);
       string message2;
-      vector <int> verses = database_versifications.getVerses (versification, book, chapter);
+      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
       for (auto & verse : verses) {
+        if (sendreceive_resources_interrupt) continue;
         message2 += "; verse " + convert_to_string (verse) + ": ";
         bool download_verse = false;
-        if (Database_Cache::exists (module, book, chapter, verse)) {
+        if (Database_Cache::exists (resource, book, chapter, verse)) {
           message2 += "exists";
         } else {
           download_verse = true;
         }
-        if (!download_verse) {
-          string contents = Database_Cache::retrieve (module, book, chapter, verse);
-          if (contents.find ("http code") != string::npos) {
-            message2 += " repair ";
-            download_verse = true;
-          }
-        }
         if (download_verse) {
-          // Fetch the text for the passage: That already caches it.
-          string html = sword_logic_get_text (source, module, book, chapter, verse);
-          message2 += "size " + convert_to_string (html.length ());
+          // Fetch the text for the passage.
+          bool server_is_installing_module = false;
+          int wait_iterations = 0;
+          string html, error;
+          do {
+            // Fetch this resource from the server.
+            string address = Database_Config_General::getServerAddress ();
+            int port = Database_Config_General::getServerPort ();
+            // If the client has not been connected to a cloud instance,
+            // fetch the resource from the Bibledit Cloud demo.
+            if (!client_logic_client_enabled ()) {
+              address = demo_address ();
+              port = demo_port ();
+            }
+            string url = client_logic_url (address, port, sync_resources_url ());
+            url = filter_url_build_http_query (url, "r", filter_url_urlencode (resource));
+            url = filter_url_build_http_query (url, "b", convert_to_string (book));
+            url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
+            url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+            error.clear ();
+            html = filter_url_http_get (url, error);
+            server_is_installing_module = (html == sword_logic_installing_module_text ());
+            if (server_is_installing_module) {
+              Database_Logs::log ("Waiting while Bibledit Cloud installs the requested SWORD module");
+              this_thread::sleep_for (chrono::seconds (60));
+              wait_iterations++;
+            }
+          } while (server_is_installing_module && (wait_iterations < 5));
+          // Cache it.
+          if (error.empty ()) {
+            if (!Database_Cache::exists (resource)) Database_Cache::create (resource);
+            Database_Cache::cache (resource, book, chapter, verse, html);
+            message2 += "size " + convert_to_string (html.length ());
+          } else {
+            message2.append ("error " + error);
+            error_count++;
+            this_thread::sleep_for (chrono::seconds (1));
+          }
           downloaded = true;
         }
         sendreceive_resources_kick_watchdog ();
@@ -123,37 +157,35 @@ void sendreceive_resources ()
   }
   
   // Done.
-  Database_Logs::log ("Completed caching resource:" " " + resource, Filter_Roles::consultant ());
+  if (error_count) {
+    string msg = "Error count while downloading resource: " + convert_to_string (error_count);
+    Database_Logs::log (msg, Filter_Roles::consultant ());
+  }
+  Database_Logs::log ("Completed downloading resource:" " " + resource, Filter_Roles::consultant ());
   resources = Database_Config_General::getResourcesToCache ();
   resources = filter_string_array_diff (resources, {resource});
+  // In case of too many errors, schedule the download again.
+  if (error_count > 10) {
+    if (!sendreceive_resources_interrupt) {
+      resources.push_back (resource);
+      Database_Logs::log ("Too many errors: Re-scheduling resource download", Filter_Roles::consultant ());
+    }
+  }
   Database_Config_General::setResourcesToCache (resources);
   sendreceive_resources_done ();
   
-  // If there's another resources waiting to be cached, schedule it for caching.
+  sendreceive_resources_interrupt = false;
+
+  // If there's another resource waiting to be cached, schedule it for caching.
   if (!resources.empty ()) tasks_logic_queue (SYNCRESOURCES);
 }
 
 
-// This function gets a passage from $resource from Bibledit Cloud.
-string sendreceive_resources_get (string resource, int book, int chapter, int verse)
+// This stops and clears all resources that are installing now are have been scheduled to install.
+void sendreceive_resources_clear_all ()
 {
-  // Fetch this SWORD resource from the server.
-  string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
-  // If the client has not been connected to a cloud instance,
-  // fetch the resource from the Bibledit Cloud demo.
-  if (!client_logic_client_enabled ()) {
-    address = demo_address ();
-    port = demo_port ();
-  }
-  
-  string url = client_logic_url (address, port, sync_resources_url ());
-  url = filter_url_build_http_query (url, "r", resource);
-  url = filter_url_build_http_query (url, "b", convert_to_string (book));
-  url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
-  url = filter_url_build_http_query (url, "v", convert_to_string (verse));
-  string error;
-  string html = filter_url_http_get (url, error);
-  if (!error.empty ()) return error;
-  return html;
+  sendreceive_resources_interrupt = true;
+  Database_Logs::log ("Interrupting resource installation", Filter_Roles::consultant ());
+  Database_Config_General::setResourcesToCache ({});
 }
+

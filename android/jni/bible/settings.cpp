@@ -83,7 +83,7 @@ string bible_settings (void * webserver_request)
     if (versification == "") {
       Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the versification system?"), translate ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
       dialog_list.add_query ("bible", bible);
-      Database_Versifications database_versifications = Database_Versifications ();
+      Database_Versifications database_versifications;
       vector <string> versification_names = database_versifications.getSystems ();
       for (auto & versification_name : versification_names) {
         dialog_list.add_row (versification_name, "versification", versification_name);

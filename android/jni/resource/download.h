@@ -29,7 +29,4 @@ bool resource_download_acl (void * webserver_request);
 string resource_download (void * webserver_request);
 
 
-void resource_download_job (string resource);
-
-
 #endif

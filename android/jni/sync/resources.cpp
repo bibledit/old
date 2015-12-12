@@ -36,6 +36,7 @@ bool sync_resources_acl (void * webserver_request)
 }
 
 
+// Serves general resource content to a client.
 string sync_resources (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -45,8 +46,15 @@ string sync_resources (void * webserver_request)
   int chapter = convert_to_int (request->query ["c"]);
   int verse = convert_to_int (request->query ["v"]);
   
-  if (book) {
-    return resource_logic_get_html (webserver_request, resource, book, chapter, verse);
+  bool request_ok = true;
+  if (book <= 0) request_ok = false;
+  if (chapter < 0) request_ok = false;
+  if (chapter > 151) request_ok = false;
+  if (verse < 0) request_ok = false;
+  if (verse > 200) request_ok = false;
+  
+  if (request_ok) {
+    return resource_logic_get_contents_for_client (resource, book, chapter, verse);
   }
   
   // Bad request. Delay flood of bad requests.

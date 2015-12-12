@@ -322,3 +322,62 @@ void Database_Versifications::defaults ()
   creating_defaults = false;
 }
 
+
+// This returns all possible books in any versification system.
+vector <int> Database_Versifications::getMaximumBooks ()
+{
+  vector <int> books;
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT DISTINCT book FROM data ORDER BY book ASC;");
+  sqlite3 * db = connect ();
+  vector <string> sbooks = database_sqlite_query (db, sql.sql) ["book"];
+  database_sqlite_disconnect (db);
+  for (auto & book : sbooks) {
+    books.push_back (convert_to_int (book));
+  }
+  return books;
+}
+
+
+// This returns all possible chapters in a book of any versification system.
+vector <int> Database_Versifications::getMaximumChapters (int book)
+{
+  vector <int> chapters;
+  chapters.push_back (0);
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT DISTINCT chapter FROM data WHERE book =");
+  sql.add (book);
+  sql.add ("ORDER BY chapter ASC;");
+  sqlite3 * db = connect ();
+  vector <string> schapters = database_sqlite_query (db, sql.sql) ["chapter"];
+  database_sqlite_disconnect (db);
+  for (auto & chapter : schapters) {
+    chapters.push_back (convert_to_int (chapter));
+  }
+  return chapters;
+}
+
+
+// This returns all possible verses in a book / chapter of any versification system.
+vector <int> Database_Versifications::getMaximumVerses (int book, int chapter)
+{
+  vector <int> verses;
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT DISTINCT verse FROM data WHERE book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("ORDER BY verse ASC;");
+  sqlite3 * db = connect ();
+  vector <string> sverses = database_sqlite_query (db, sql.sql) ["verse"];
+  database_sqlite_disconnect (db);
+  for (auto & verse : sverses) {
+    int maxverse = convert_to_int (verse);
+    for (int i = 0; i <= maxverse; i++) {
+      verses.push_back (i);
+    }
+  }
+  // Put verse 0 in chapter 0.
+  if (chapter == 0) verses.push_back (0);
+  return verses;
+}

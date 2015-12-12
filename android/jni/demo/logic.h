@@ -34,6 +34,7 @@ void demo_create_sample_bible (void * webserver_request);
 void demo_create_sample_notes (void * webserver_request);
 string demo_workbench ();
 void demo_create_sample_workbenches (void * webserver_request);
+vector <string> demo_logic_default_resources ();
 
 
 #endif

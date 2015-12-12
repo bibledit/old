@@ -42,6 +42,9 @@ public:
   vector <int> getBooks (const string& name);
   vector <int> getChapters (const string& name, int book, bool include0 = false);
   vector <int> getVerses (const string& name, int book, int chapter);
+  vector <int> getMaximumBooks ();
+  vector <int> getMaximumChapters (int book);
+  vector <int> getMaximumVerses (int book, int chapter);
 private:
   sqlite3 * connect ();
   bool creating_defaults = false;
