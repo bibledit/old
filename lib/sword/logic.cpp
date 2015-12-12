@@ -32,6 +32,7 @@
 #include <database/config/general.h>
 #include <sync/resources.h>
 #include <tasks/logic.h>
+#include <demo/logic.h>
 
 
 string sword_logic_get_path ()
@@ -280,6 +281,12 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     // Fetch this SWORD resource from the server.
     string address = Database_Config_General::getServerAddress ();
     int port = Database_Config_General::getServerPort ();
+    if (!client_logic_client_enabled ()) {
+      // If the client has not been connected to a cloud instance,
+      // fetch the SWORD content from the Bibledit Cloud demo.
+      address = demo_address ();
+      port = demo_port ();
+    }
     string url = client_logic_url (address, port, sync_resources_url ());
     string resource = "[" + source + "][" + module + "]";
     url = filter_url_build_http_query (url, "r", resource);

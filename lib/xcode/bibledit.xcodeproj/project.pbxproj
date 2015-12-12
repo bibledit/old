@@ -954,12 +954,12 @@
 		CADE4D7D1A9DEF2000F16E49 /* organize.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = organize.cpp; sourceTree = "<group>"; };
 		CADE4D7E1A9DEF2000F16E49 /* organize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = organize.h; sourceTree = "<group>"; };
 		CADE4D7F1A9DF02900F16E49 /* organize.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = organize.html; sourceTree = "<group>"; };
-		CADE4D801A9DF45800F16E49 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CADE4D801A9DF45800F16E49 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CADE4D811A9DF45800F16E49 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE4D821A9E1B0600F16E49 /* get.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = get.cpp; sourceTree = "<group>"; };
 		CADE4D831A9E1B0600F16E49 /* get.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = get.h; sourceTree = "<group>"; };
 		CADE4D841A9E248800F16E49 /* external.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = external.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CADE4D851A9E248800F16E49 /* external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = external.h; sourceTree = "<group>"; };
+		CADE4D851A9E248800F16E49 /* external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = external.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAEAA5211A49BA660055F6D5 /* view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = view.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAEAA5221A49BA660055F6D5 /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
 		CAEABB161A76A4F7008DBBA4 /* direction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = direction.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };

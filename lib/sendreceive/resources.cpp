@@ -113,7 +113,22 @@ void sendreceive_resources ()
           int wait_iterations = 0;
           string html, error;
           do {
-            sendreceive_resources_get (resource, book, chapter, verse, html, error);
+            // Fetch this resource from the server.
+            string address = Database_Config_General::getServerAddress ();
+            int port = Database_Config_General::getServerPort ();
+            // If the client has not been connected to a cloud instance,
+            // fetch the resource from the Bibledit Cloud demo.
+            if (!client_logic_client_enabled ()) {
+              address = demo_address ();
+              port = demo_port ();
+            }
+            string url = client_logic_url (address, port, sync_resources_url ());
+            url = filter_url_build_http_query (url, "r", filter_url_urlencode (resource));
+            url = filter_url_build_http_query (url, "b", convert_to_string (book));
+            url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
+            url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+            error.clear ();
+            html = filter_url_http_get (url, error);
             server_is_installing_module = (html == sword_logic_installing_module_text ());
             if (server_is_installing_module) {
               Database_Logs::log ("Waiting while Bibledit Cloud installs the requested SWORD module");
@@ -163,29 +178,6 @@ void sendreceive_resources ()
 
   // If there's another resource waiting to be cached, schedule it for caching.
   if (!resources.empty ()) tasks_logic_queue (SYNCRESOURCES);
-}
-
-
-// This function gets a passage from $resource from Bibledit Cloud.
-void sendreceive_resources_get (string resource, int book, int chapter, int verse, string & html, string & error)
-{
-  // Fetch this SWORD resource from the server.
-  string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
-  // If the client has not been connected to a cloud instance,
-  // fetch the resource from the Bibledit Cloud demo.
-  if (!client_logic_client_enabled ()) {
-    address = demo_address ();
-    port = demo_port ();
-  }
-  
-  string url = client_logic_url (address, port, sync_resources_url ());
-  url = filter_url_build_http_query (url, "r", filter_url_urlencode (resource));
-  url = filter_url_build_http_query (url, "b", convert_to_string (book));
-  url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
-  url = filter_url_build_http_query (url, "v", convert_to_string (verse));
-  error.clear ();
-  html = filter_url_http_get (url, error);
 }
 
 

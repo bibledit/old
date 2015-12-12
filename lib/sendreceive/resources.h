@@ -25,7 +25,6 @@
 
 
 void sendreceive_resources ();
-void sendreceive_resources_get (string resource, int book, int chapter, int verse, string & html, string & error);
 void sendreceive_resources_clear_all ();
 
 

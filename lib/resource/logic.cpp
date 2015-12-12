@@ -41,6 +41,8 @@
 #include <client/logic.h>
 #include <lexicon/logic.h>
 #include <sword/logic.h>
+#include <demo/logic.h>
+#include <sync/resources.h>
 
 
 /*
@@ -129,7 +131,6 @@ string resource_logic_get_html (void * webserver_request,
   string html;
   
   Database_UsfmResources database_usfmresources;
-  Database_OfflineResources database_offlineresources;
   Database_ImageResources database_imageresources;
   Database_Mappings database_mappings;
   
@@ -212,14 +213,22 @@ string resource_logic_get_html (void * webserver_request,
       html.append (filter_text.html_text_standard->getInnerHtml ());
     } else if (isExternal) {
       html.append (possible_included_verse);
-      if (database_offlineresources.exists (resource, book, chapter, verse)) {
-        // Use offline cached copy.
-        html.append (database_offlineresources.get (resource, book, chapter, verse));
+      if (config_logic_client_prepared ()) {
+        // A client fetches it from the cache or from the Cloud,
+        // or, for older versions, from the offline resources database.
+        // As of 12 December 2015, the offline resources database is not needed anymore.
+        // It can be removed after a year or so.
+        Database_OfflineResources database_offlineresources;
+        if (database_offlineresources.exists (resource, book, chapter, verse)) {
+          html.append (database_offlineresources.get (resource, book, chapter, verse));
+        } else {
+          html.append (resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse));
+        }
       } else {
-        // The server fetches it from the web.
-        // A client does that too, or via Bibledit Cloud.
-        html.append (resource_external_fetch_cache_extract (resource, book, chapter, verse)); // Todo check flow.
+        // The server fetches it from the web, via the http cache.
+        html.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
       }
+      
     } else if (isImage) {
       vector <string> images = database_imageresources.get (resource, book, chapter, verse);
       for (auto & image : images) {
@@ -249,6 +258,7 @@ string resource_logic_get_html (void * webserver_request,
       }
     }
   }
+
   // NET Bible updates.
   html = filter_string_str_replace ("<span class=\"s ", "<span class=\"", html);
   
@@ -273,16 +283,64 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   
   if (isExternal) {
     // The server fetches it from the web.
-    return resource_external_fetch_cache_extract (resource, book, chapter, verse); // Todo check flow path.
+    return resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse);
   }
   
   if (isSword) {
     // Fetch it from a SWORD module.
-    return sword_logic_get_text (sword_source, sword_module, book, chapter, verse); // Todo chck flow.
+    return sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   }
 
   // Nothing found.
   return "Bibledit Cloud could not localize this resource";
+}
+
+
+// The client runs this function to fetch a general resource $name from the Cloud,
+// or from its local cache,
+// and to update the local cache with the fetched content, if needed,
+// and to return the requested content.
+string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
+{
+  // Ensure that the cache for this resource exists on the client.
+  if (!Database_Cache::exists (resource)) {
+    Database_Cache::create (resource);
+  }
+  
+  // If the content exists in the cache, return that content.
+  if (Database_Cache::exists (resource, book, chapter, verse)) {
+    return Database_Cache::retrieve (resource, book, chapter, verse);
+  }
+  
+  // Fetch this resource from Bibledit Cloud or from the cache.
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  if (!client_logic_client_enabled ()) {
+    // If the client has not been connected to a cloud instance,
+    // fetch the resource from the Bibledit Cloud demo.
+    address = demo_address ();
+    port = demo_port ();
+  }
+  
+  string url = client_logic_url (address, port, sync_resources_url ());
+  url = filter_url_build_http_query (url, "r", filter_url_urlencode (resource));
+  url = filter_url_build_http_query (url, "b", convert_to_string (book));
+  url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
+  url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+  string error;
+  string content = filter_url_http_get (url, error);
+  
+  if (error.empty ()) {
+    // No error: Cache content.
+    Database_Cache::cache (resource, book, chapter, verse, content);
+  } else {
+    // Error: Log it, and return it.
+    Database_Logs::log (resource + ": " + error);
+    content.append (error);
+  }
+
+  // Done.
+  return content;
 }
 
 
