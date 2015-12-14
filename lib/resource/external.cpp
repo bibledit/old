@@ -1557,6 +1557,7 @@ vector <string> resource_external_names ()
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     names.push_back (resource_table [i].name);
   }
+  sort (names.begin (), names.end ());
   return names;
 }
 
