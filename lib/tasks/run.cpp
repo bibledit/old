@@ -197,11 +197,7 @@ void tasks_run_one (string filename)
     sword_logic_refresh_module_list ();
   } else if (command == INSTALLSWORDMODULE) {
     sword_logic_install_module (parameter1, parameter2);
-  } else if (command == UPDATESWORDMODULE) {
-    sword_logic_update_module (parameter1, parameter2);
-  } else if (command == UNINSTALLSWORDMODULE) {
-    sword_logic_uninstall_module (parameter1);
-  } else if (command == UPDATEALLSWORDMODULES) {
+  } else if (command == UPDATESWORDMODULES) {
     sword_logic_update_installed_modules ();
   } else {
     Database_Logs::log ("Unknown task: " + command);

@@ -67,9 +67,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define IMPORTIMAGES "importimages"
 #define REFRESHSWORDMODULES "refreshswordmodules"
 #define INSTALLSWORDMODULE "installswordmodule"
-#define UPDATESWORDMODULE "updateswordmodule"
-#define UNINSTALLSWORDMODULE "uninstallswordmodule"
-#define UPDATEALLSWORDMODULES "updateallswordmodules"
+#define UPDATESWORDMODULES "updateallswordmodules"
 
 
 string tasks_logic_folder ();
