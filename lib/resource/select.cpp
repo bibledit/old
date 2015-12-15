@@ -27,7 +27,6 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <resource/admin.h>
 #include <resource/external.h>
 #include <resource/sword.h>
 #include <sync/logic.h>

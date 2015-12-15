@@ -18,7 +18,6 @@
 
 
 #include <resource/logic.h>
-#include <resource/admin.h>
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <database/usfmresources.h>

@@ -59,7 +59,7 @@ string resource_cache (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Resources"), request);
+  Assets_Header header = Assets_Header (menu_logic_resource_cache_text (), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
@@ -82,7 +82,6 @@ string resource_cache (void * webserver_request)
     block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
     block.append ("</p>\n");
   }
-  view.set_variable ("block", block);
   resources = sword_logic_get_available ();
   for (auto & resource : resources) {
     string source = sword_logic_get_source (resource);
@@ -92,6 +91,7 @@ string resource_cache (void * webserver_request)
     block.append ("<a href=\"download?name=" + name + "\">" + resource + "</a>");
     block.append ("</p>\n");
   }
+  view.set_variable ("block", block);
 
   
   page += view.render ("resource", "cache");

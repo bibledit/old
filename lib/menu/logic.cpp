@@ -54,7 +54,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/select.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
-#include <resource/admin.h>
 #include <resource/images.h>
 #include <resource/index.h>
 #include <resource/manage.h>
@@ -438,12 +437,6 @@ string menu_logic_settings_category (void * webserver_request)
   }
 
   if (!config_logic_client_prepared ()) {
-    if (resource_admin_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_admin_url (), menu_logic_resource_admin_text (), true));
-    }
-  }
-  
-  if (!config_logic_client_prepared ()) {
     if (resource_images_acl (webserver_request)) {
       html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
     }
@@ -560,7 +553,7 @@ string menu_logic_settings_category (void * webserver_request)
     // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
     // Many Cloud instances run on one server, and if the Cloud were to cache resources, it was going to use a huge amount of disk space.
     if (resource_cache_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_cache_url (), translate ("Resources"), true));
+      html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resource_cache_text (), true));
     }
   }
 
@@ -708,9 +701,9 @@ string menu_logic_checks_settings_text ()
 }
 
 
-string menu_logic_resource_admin_text ()
+string menu_logic_resource_cache_text ()
 {
-  return translate ("External resources");
+  return translate ("Resources");
 }
 
 

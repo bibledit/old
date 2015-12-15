@@ -34,7 +34,7 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <menu/logic.h>
-#include <resource/admin.h>
+#include <resource/cache.h>
 
 
 string resource_download_url ()
@@ -58,7 +58,7 @@ string resource_download (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Download resource"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.addBreadCrumb (resource_admin_url (), menu_logic_resource_admin_text ());
+  header.addBreadCrumb (resource_cache_url (), menu_logic_resource_cache_text ());
   page = header.run ();
   Assets_View view;
 
