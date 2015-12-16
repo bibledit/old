@@ -6498,9 +6498,6 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-msgid "Resources"
-msgstr ""
-
 msgid "Help and About"
 msgstr ""
 
@@ -6525,7 +6522,7 @@ msgstr ""
 msgid "Desktops"
 msgstr ""
 
-msgid "External resources"
+msgid "Resources"
 msgstr ""
 
 msgid "Image resources"
@@ -7227,12 +7224,6 @@ msgstr ""
 msgid "Yes, this is the correct verse"
 msgstr ""
 
-msgid "Download resource"
-msgstr ""
-
-msgid "Cache a resource to make it available offline."
-msgstr ""
-
 msgid "Convert"
 msgstr ""
 
@@ -7294,6 +7285,9 @@ msgid "Converting Bible to USFM Resource"
 msgstr ""
 
 msgid "Completed"
+msgstr ""
+
+msgid "Download resource"
 msgstr ""
 
 msgid "Bibledit can display this resource."
@@ -7546,10 +7540,10 @@ msgstr ""
 msgid "Resource selector"
 msgstr ""
 
-msgid "install"
+msgid "installed"
 msgstr ""
 
-msgid "uninstall"
+msgid "to be updated"
 msgstr ""
 
 msgid "SWORD modules"
@@ -7561,19 +7555,21 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Update the installed SWORD modules if needed now and view the progress in "
-"the journal."
-msgstr ""
-
-msgid "Every week modules get updated automatically."
+"When a module is going to be displayed as a resource, it will be installed "
+"on the fly."
 msgstr ""
 
 msgid ""
-"An installed SWORD module that has not been used for 100 days in a row will "
-"be uninstalled."
+"Update SWORD modules that have a newer version and view the progress in the "
+"journal."
 msgstr ""
 
-msgid "When it starts to be used again, it will be installed on the fly."
+msgid "Every week modules update   automatically."
+msgstr ""
+
+msgid ""
+"Installed SWORD modules that have not been used for a week will be "
+"uninstalled."
 msgstr ""
 
 msgid "Search all Bibles and consultation notes:"
