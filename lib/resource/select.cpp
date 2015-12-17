@@ -94,10 +94,46 @@ string resource_select (void * webserver_request)
   }
   
 
-  if (request->query.count ("external")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an external resource"), "", "");
+  if (request->query.count ("web_orig")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), "", "");
     dialog_list.add_query ("page", request->query["page"]);
-    vector <string> resources = resource_external_names ();
+    vector <string> resources = resource_external_get_original_language_resources ();
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run();
+    return page;
+  }
+  
+  
+  if (request->query.count ("web_bibles")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), "", "");
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources = resource_external_get_bibles ();
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run();
+    return page;
+  }
+  
+  
+  if (request->query.count ("web_commentaries")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a commentary"), "", "");
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources = resource_external_get_commentaries ();
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run();
+    return page;
+  }
+  
+  
+  if (request->query.count ("web_other")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a general resource"), "", "");
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources = resource_external_get_general_resources ();
     for (auto resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }

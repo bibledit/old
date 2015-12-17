@@ -150,8 +150,15 @@ typedef struct
   const char *name;
   const char *versification;
   const char *mapping;
+  const char *type;
   string (* func) (int, int, int);
 } resource_record;
+
+
+#define ORIGINAL "o"
+#define BIBLE "b"
+#define COMMENTARY "c"
+#define GENERAL "g"
 
 
 // Implementation:
@@ -159,110 +166,110 @@ typedef struct
 
 resource_record resource_table [] =
 {
-  { "Statenbijbel GBS", "Dutch Traditional", "Dutch Traditional", & resource_external_get_statenbijbel_gbs },
-  { "Statenbijbel Plus GBS", "Dutch Traditional", "Dutch Traditional", & resource_external_get_statenbijbel_plus_gbs },
-  { "King James Version GBS", "English", "English", & resource_external_get_king_james_version_gbs },
-  { "King James Version Plus GBS", "English", "English", & resource_external_get_king_james_version_plus_gbs },
-  { resource_external_biblehub_interlinear_name (), "English", "English", & resource_external_get_biblehub_interlinear },
-  { "Scrivener Greek", "English", "English", & resource_external_get_biblehub_scrivener },
-  { "Westminster Hebrew", "English", "English", & resource_external_get_biblehub_westminster },
-  { resource_external_net_bible_name (), "English", "English", & resource_external_get_net_bible },
+  { "Statenbijbel GBS", "Dutch Traditional", "Dutch Traditional", BIBLE, & resource_external_get_statenbijbel_gbs },
+  { "Statenbijbel Plus GBS", "Dutch Traditional", "Dutch Traditional", BIBLE, & resource_external_get_statenbijbel_plus_gbs },
+  { "King James Version GBS", "English", "English", BIBLE, & resource_external_get_king_james_version_gbs },
+  { "King James Version Plus GBS", "English", "English", BIBLE, & resource_external_get_king_james_version_plus_gbs },
+  { resource_external_biblehub_interlinear_name (), "English", "English", ORIGINAL, & resource_external_get_biblehub_interlinear },
+  { "Scrivener Greek", "English", "English", ORIGINAL, & resource_external_get_biblehub_scrivener },
+  { "Westminster Hebrew", "English", "English", ORIGINAL, & resource_external_get_biblehub_westminster },
+  { resource_external_net_bible_name (), "English", "English", BIBLE, & resource_external_get_net_bible },
   // Start of Studylight commentaries resources table entries
-  { "Clarke's Commentary", "English", "English", & resource_external_studylight_commentary_get_acc },
-  { "Abbott's Illustrated New Testament", "English", "English", & resource_external_studylight_commentary_get_ain },
-  { "Bridgeway Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_bbc },
-  { "Coffman's Commentaries on the Bible", "English", "English", & resource_external_studylight_commentary_get_bcc },
-  { "Light & Truth: Bible Thoughts and Themes on Revelation", "English", "English", & resource_external_studylight_commentary_get_bch },
-  { "Barnes' Notes on the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_bnb },
-  { "Box's Commentary on Seleted Books of the Bible", "English", "English", & resource_external_studylight_commentary_get_box },
-  { "Bullinger's Companion Bible Notes", "English", "English", & resource_external_studylight_commentary_get_bul },
-  { "Calvin's Commentaries on the Bible", "English", "English", & resource_external_studylight_commentary_get_cal },
-  { "Cambridge Greek Testament for Schools and Colleges", "English", "English", & resource_external_studylight_commentary_get_cgt },
-  { "Cobb's Commentary on Philemon", "English", "English", & resource_external_studylight_commentary_get_cob },
-  { "Nisbet's Church Pulpit Commentary", "English", "English", & resource_external_studylight_commentary_get_cpc },
-  { "Smith's Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_csc },
-  { "Dummelow's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_dcb },
-  { "Expository Notes of Dr. Constable", "English", "English", & resource_external_studylight_commentary_get_dcc },
-  { "F. B. Meyer's - A Devotional Commentary on Philippians", "English", "English", & resource_external_studylight_commentary_get_dcp },
-  { "Barclay's Daily Study Bible", "English", "English", & resource_external_studylight_commentary_get_dsb },
-  { "Darby's Synopsis of the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_dsn },
-  { "Dunagan's Commentary on Selected Books", "English", "English", & resource_external_studylight_commentary_get_dun },
-  { "Ellicott's Commentary for English Readers", "English", "English", & resource_external_studylight_commentary_get_ebc },
-  { "The Expositor's Greek Testament", "English", "English", & resource_external_studylight_commentary_get_egt },
-  { "Edwards' Family Bible New Testament Notes", "English", "English", & resource_external_studylight_commentary_get_fam },
-  { "Hole's Old and New Testament Commentary", "English", "English", & resource_external_studylight_commentary_get_fbh },
-  { "Meyer's \"Through the Bible\" Commentary", "English", "English", & resource_external_studylight_commentary_get_fbm },
-  { "Gaebelein's \"The Annotated Bible\"", "English", "English", & resource_external_studylight_commentary_get_gab },
-  { "Golden Chain Commentary on the Gospels", "English", "English", & resource_external_studylight_commentary_get_gcc },
-  { "Morgan's Exposition on the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_gcm },
-  { "Gill's Exposition of the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_geb },
-  { "Godbey's Commentary on the New Testament", "English", "English", & resource_external_studylight_commentary_get_ges },
-  { "Hampton's Commentary on Selected Books", "English", "English", & resource_external_studylight_commentary_get_ghc },
-  { "George Milligan - Paul's Epistle to the Thessalonians", "English", "English", & resource_external_studylight_commentary_get_gmt },
-  { "Geneva Study Bible", "English", "English", & resource_external_studylight_commentary_get_gsb },
-  { "Guzik's Commentaries on the Bible", "English", "English", & resource_external_studylight_commentary_get_guz },
-  { "Greek Testament Critical Exegetical Commentary", "English", "English", & resource_external_studylight_commentary_get_hac },
-  { "Haldane's Commentary on Romans", "English", "English", & resource_external_studylight_commentary_get_hal },
-  { "Haydock's Catholic Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_hcc },
-  { "Hodge's Commentary on Romans, Ephesians and First Corintians", "English", "English", & resource_external_studylight_commentary_get_hdg },
-  { "Meyer's Critical and Exegetical Commentary on the New Testament", "English", "English", & resource_external_studylight_commentary_get_hmc },
-  { "Henry Mahan's Commentary on Selected Books of the New Testament", "English", "English", & resource_external_studylight_commentary_get_hms },
-  { "The Bible Study New Testament", "English", "English", & resource_external_studylight_commentary_get_ice },
-  { "Ironside's Notes on Selected Books", "English", "English", & resource_external_studylight_commentary_get_isn },
-  { "Bengel's Gnomon of the New Testament", "English", "English", & resource_external_studylight_commentary_get_jab },
-  { "Beet's Commentary on Selected Books of the New Testament", "English", "English", & resource_external_studylight_commentary_get_jbc },
-  { "Broadus' Commentary on Matthew", "English", "English", & resource_external_studylight_commentary_get_jbm },
-  { "Eadie's Commentary on Galatians, Ephesians, Philippians and Colossians", "English", "English", & resource_external_studylight_commentary_get_jec },
-  { "Commentary Critical and Explanatory on the Whole Bible", "English", "English", & resource_external_studylight_commentary_get_jfb },
-  { "Commentary Critical and Explanatory on the Whole Bible - Unabridged", "English", "English", & resource_external_studylight_commentary_get_jfu },
-  { "Gray's Concise Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_jgc },
-  { "Lightfoot's Commentary on the Gospels", "English", "English", & resource_external_studylight_commentary_get_jlc },
-  { "Owen's Exposition of Hebrews", "English", "English", & resource_external_studylight_commentary_get_joc },
-  { "Sutcliffe's Commentary on the Old and New Testaments", "English", "English", & resource_external_studylight_commentary_get_jsc },
-  { "Trapp's Complete Commentary", "English", "English", & resource_external_studylight_commentary_get_jtc },
-  { "Keil and Delitzsch Commentary on the Old Testament", "English", "English", & resource_external_studylight_commentary_get_kdo },
-  { "Kretzmann's Popular Commentary", "English", "English", & resource_external_studylight_commentary_get_kpc },
-  { "Grant's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_lmg },
-  { "Neighbour's Living Water Commentary", "English", "English", & resource_external_studylight_commentary_get_lwc },
-  { "MacLaren's Exposition of the Holy Scripture", "English", "English", & resource_external_studylight_commentary_get_mac },
-  { "Henry's Complete Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_mhm },
-  { "Henry's Concise Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_mhn },
-  { "Luther's Commentary on Galatians", "English", "English", & resource_external_studylight_commentary_get_mlg },
-  { "Poole's English Annotations on the Holy Bible", "English", "English", & resource_external_studylight_commentary_get_mpc },
-  { "Macintosh's Notes on the Pentateuch", "English", "English", & resource_external_studylight_commentary_get_nfp },
-  { "McGarvey's Original Commentary on Acts", "English", "English", & resource_external_studylight_commentary_get_oca },
-  { "Pett's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_pet },
-  { "Peake's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_pfc },
-  { "Preacher's Complete Homiletical Commentary", "English", "English", & resource_external_studylight_commentary_get_phc },
-  { "Hawker's Poor Man's Commentary", "English", "English", & resource_external_studylight_commentary_get_pmc },
-  { "People's New Testament ", "English", "English", & resource_external_studylight_commentary_get_pnt },
-  { "Benson's Commentary on the Old and New Testaments", "English", "English", & resource_external_studylight_commentary_get_rbc },
-  { "Stedman's Expository Studies", "English", "English", & resource_external_studylight_commentary_get_rsc },
-  { "Robertson's Word Pictures in the New Testament", "English", "English", & resource_external_studylight_commentary_get_rwp },
-  { "J. C. Ryle's Expository Thoughts on the Gospels", "English", "English", & resource_external_studylight_commentary_get_ryl },
-  { "Sermon Bible Commentary", "English", "English", & resource_external_studylight_commentary_get_sbc },
-  { "Schaff's Popular Commentary on the New Testament", "English", "English", & resource_external_studylight_commentary_get_scn },
-  { "Simeon's Horae Homileticae", "English", "English", & resource_external_studylight_commentary_get_shh },
-  { "Scott's Commentary on Revelation", "English", "English", & resource_external_studylight_commentary_get_sor },
-  { "Spurgeon's Verse Expositions of the Bible", "English", "English", & resource_external_studylight_commentary_get_spe },
-  { "Scofield's Reference Notes", "English", "English", & resource_external_studylight_commentary_get_srn },
-  { "The Biblical Illustrator", "English", "English", & resource_external_studylight_commentary_get_tbi },
-  { "Coke's Commentary on the Holy Bible", "English", "English", & resource_external_studylight_commentary_get_tcc },
-  { "The Expositor's Bible", "English", "English", & resource_external_studylight_commentary_get_teb },
-  { "The Fourfold Gospel", "English", "English", & resource_external_studylight_commentary_get_tfg },
-  { "The Gospels Compared", "English", "English", & resource_external_studylight_commentary_get_tgc },
-  { "Spurgeon's The Treasury of David", "English", "English", & resource_external_studylight_commentary_get_tod },
-  { "The Pulpit Commentary", "English", "English", & resource_external_studylight_commentary_get_tpc },
-  { "The Treasury of Scripture Knowlege", "English", "English", & resource_external_studylight_commentary_get_tsk },
-  { "McGee's \"Thru the Bible\"", "English", "English", & resource_external_studylight_commentary_get_ttb },
-  { "Vincent's Word Studies", "English", "English", & resource_external_studylight_commentary_get_vnt },
-  { "Burkitt's Commentary", "English", "English", & resource_external_studylight_commentary_get_wbc },
-  { "Wesley's Explanatory Notes", "English", "English", & resource_external_studylight_commentary_get_wen },
-  { "Whedon's Commentary on the Bible", "English", "English", & resource_external_studylight_commentary_get_whe },
-  { "Newell's Commentary on Romans and Revelation", "English", "English", & resource_external_studylight_commentary_get_wnc },
+  { "Clarke's Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_acc },
+  { "Abbott's Illustrated New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_ain },
+  { "Bridgeway Bible Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_bbc },
+  { "Coffman's Commentaries on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_bcc },
+  { "Light & Truth: Bible Thoughts and Themes on Revelation", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_bch },
+  { "Barnes' Notes on the Whole Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_bnb },
+  { "Box's Commentary on Seleted Books of the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_box },
+  { "Bullinger's Companion Bible Notes", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_bul },
+  { "Calvin's Commentaries on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_cal },
+  { "Cambridge Greek Testament for Schools and Colleges", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_cgt },
+  { "Cobb's Commentary on Philemon", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_cob },
+  { "Nisbet's Church Pulpit Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_cpc },
+  { "Smith's Bible Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_csc },
+  { "Dummelow's Commentary on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_dcb },
+  { "Expository Notes of Dr. Constable", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_dcc },
+  { "F. B. Meyer's - A Devotional Commentary on Philippians", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_dcp },
+  { "Barclay's Daily Study Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_dsb },
+  { "Darby's Synopsis of the Whole Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_dsn },
+  { "Dunagan's Commentary on Selected Books", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_dun },
+  { "Ellicott's Commentary for English Readers", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_ebc },
+  { "The Expositor's Greek Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_egt },
+  { "Edwards' Family Bible New Testament Notes", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_fam },
+  { "Hole's Old and New Testament Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_fbh },
+  { "Meyer's \"Through the Bible\" Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_fbm },
+  { "Gaebelein's \"The Annotated Bible\"", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_gab },
+  { "Golden Chain Commentary on the Gospels", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_gcc },
+  { "Morgan's Exposition on the Whole Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_gcm },
+  { "Gill's Exposition of the Whole Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_geb },
+  { "Godbey's Commentary on the New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_ges },
+  { "Hampton's Commentary on Selected Books", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_ghc },
+  { "George Milligan - Paul's Epistle to the Thessalonians", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_gmt },
+  { "Geneva Study Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_gsb },
+  { "Guzik's Commentaries on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_guz },
+  { "Greek Testament Critical Exegetical Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_hac },
+  { "Haldane's Commentary on Romans", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_hal },
+  { "Haydock's Catholic Bible Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_hcc },
+  { "Hodge's Commentary on Romans, Ephesians and First Corintians", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_hdg },
+  { "Meyer's Critical and Exegetical Commentary on the New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_hmc },
+  { "Henry Mahan's Commentary on Selected Books of the New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_hms },
+  { "The Bible Study New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_ice },
+  { "Ironside's Notes on Selected Books", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_isn },
+  { "Bengel's Gnomon of the New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jab },
+  { "Beet's Commentary on Selected Books of the New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jbc },
+  { "Broadus' Commentary on Matthew", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jbm },
+  { "Eadie's Commentary on Galatians, Ephesians, Philippians and Colossians", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jec },
+  { "Commentary Critical and Explanatory on the Whole Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jfb },
+  { "Commentary Critical and Explanatory on the Whole Bible - Unabridged", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jfu },
+  { "Gray's Concise Bible Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jgc },
+  { "Lightfoot's Commentary on the Gospels", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jlc },
+  { "Owen's Exposition of Hebrews", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_joc },
+  { "Sutcliffe's Commentary on the Old and New Testaments", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jsc },
+  { "Trapp's Complete Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_jtc },
+  { "Keil and Delitzsch Commentary on the Old Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_kdo },
+  { "Kretzmann's Popular Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_kpc },
+  { "Grant's Commentary on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_lmg },
+  { "Neighbour's Living Water Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_lwc },
+  { "MacLaren's Exposition of the Holy Scripture", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_mac },
+  { "Henry's Complete Commentary on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_mhm },
+  { "Henry's Concise Commentary on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_mhn },
+  { "Luther's Commentary on Galatians", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_mlg },
+  { "Poole's English Annotations on the Holy Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_mpc },
+  { "Macintosh's Notes on the Pentateuch", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_nfp },
+  { "McGarvey's Original Commentary on Acts", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_oca },
+  { "Pett's Commentary on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_pet },
+  { "Peake's Commentary on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_pfc },
+  { "Preacher's Complete Homiletical Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_phc },
+  { "Hawker's Poor Man's Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_pmc },
+  { "People's New Testament ", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_pnt },
+  { "Benson's Commentary on the Old and New Testaments", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_rbc },
+  { "Stedman's Expository Studies", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_rsc },
+  { "Robertson's Word Pictures in the New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_rwp },
+  { "J. C. Ryle's Expository Thoughts on the Gospels", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_ryl },
+  { "Sermon Bible Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_sbc },
+  { "Schaff's Popular Commentary on the New Testament", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_scn },
+  { "Simeon's Horae Homileticae", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_shh },
+  { "Scott's Commentary on Revelation", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_sor },
+  { "Spurgeon's Verse Expositions of the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_spe },
+  { "Scofield's Reference Notes", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_srn },
+  { "The Biblical Illustrator", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_tbi },
+  { "Coke's Commentary on the Holy Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_tcc },
+  { "The Expositor's Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_teb },
+  { "The Fourfold Gospel", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_tfg },
+  { "The Gospels Compared", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_tgc },
+  { "Spurgeon's The Treasury of David", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_tod },
+  { "The Pulpit Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_tpc },
+  { "The Treasury of Scripture Knowlege", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_tsk },
+  { "McGee's \"Thru the Bible\"", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_ttb },
+  { "Vincent's Word Studies", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_vnt },
+  { "Burkitt's Commentary", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_wbc },
+  { "Wesley's Explanatory Notes", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_wen },
+  { "Whedon's Commentary on the Bible", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_whe },
+  { "Newell's Commentary on Romans and Revelation", "English", "English", COMMENTARY, & resource_external_studylight_commentary_get_wnc },
   // End of Studylight commentaries resources table entries
-  { "Blue Letter Bible", "English", "English", & resource_external_get_blue_letter_bible },
-  { "Elberfelder Bibel", "English", "English", & resource_external_get_elberfelder_bibel },
+  { "Blue Letter Bible", "English", "English", ORIGINAL, & resource_external_get_blue_letter_bible },
+  { "Elberfelder Bibel", "English", "English", BIBLE, & resource_external_get_elberfelder_bibel },
 };
 
 
@@ -1550,12 +1557,68 @@ unsigned int resource_external_count ()
 }
 
 
-// Gets the names of the available external resources.
+// Gets the names of all the known Web resources.
 vector <string> resource_external_names ()
 {
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     names.push_back (resource_table [i].name);
+  }
+  sort (names.begin (), names.end ());
+  return names;
+}
+
+
+// Get the names of the Web resources which are original language resources.
+vector <string> resource_external_get_original_language_resources () // Todo
+{
+  vector <string> names;
+  for (unsigned int i = 0; i < resource_external_count (); i++) {
+    if (strcmp (resource_table [i].type, ORIGINAL) == 0) {
+      names.push_back (resource_table [i].name);
+    }
+  }
+  sort (names.begin (), names.end ());
+  return names;
+}
+
+
+// Get the names of the Web resources which are Bibles.
+vector <string> resource_external_get_bibles () // Todo
+{
+  vector <string> names;
+  for (unsigned int i = 0; i < resource_external_count (); i++) {
+    if (strcmp (resource_table [i].type, BIBLE) == 0) {
+      names.push_back (resource_table [i].name);
+    }
+  }
+  sort (names.begin (), names.end ());
+  return names;
+}
+
+
+// Get the names of the Web resources which are commentaries.
+vector <string> resource_external_get_commentaries () // Todo
+{
+  vector <string> names;
+  for (unsigned int i = 0; i < resource_external_count (); i++) {
+    if (strcmp (resource_table [i].type, COMMENTARY) == 0) {
+      names.push_back (resource_table [i].name);
+    }
+  }
+  sort (names.begin (), names.end ());
+  return names;
+}
+
+
+// Get the names of the Web resources which are other resources.
+vector <string> resource_external_get_general_resources () // Todo
+{
+  vector <string> names;
+  for (unsigned int i = 0; i < resource_external_count (); i++) {
+    if (strcmp (resource_table [i].type, GENERAL) == 0) {
+      names.push_back (resource_table [i].name);
+    }
   }
   sort (names.begin (), names.end ());
   return names;
@@ -1587,6 +1650,20 @@ string resource_external_mapping (string name)
     }
   }
   return versification;
+}
+
+
+// Returns what type the Web resource $name is.
+string resource_external_type (string name) // Todo
+{
+  string type = GENERAL;
+  for (unsigned int i = 0; i < resource_external_count (); i++) {
+    string resource = resource_table [i].name;
+    if (name == resource) {
+      type = resource_table [i].type;
+    }
+  }
+  return type;
 }
 
 

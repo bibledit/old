@@ -7537,16 +7537,28 @@ msgstr ""
 msgid "Select a divider"
 msgstr ""
 
-msgid "Resource selector"
+msgid "Resource categories"
+msgstr ""
+
+msgid "Bibles within Bibledit"
+msgstr ""
+
+msgid "Web resources"
+msgstr ""
+
+msgid "Lexicons"
+msgstr ""
+
+msgid "SWORD modules"
+msgstr ""
+
+msgid "Dividers"
 msgstr ""
 
 msgid "installed"
 msgstr ""
 
 msgid "to be updated"
-msgstr ""
-
-msgid "SWORD modules"
 msgstr ""
 
 msgid ""
