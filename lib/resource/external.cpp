@@ -1570,7 +1570,7 @@ vector <string> resource_external_names ()
 
 
 // Get the names of the Web resources which are original language resources.
-vector <string> resource_external_get_original_language_resources () // Todo
+vector <string> resource_external_get_original_language_resources ()
 {
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -1584,7 +1584,7 @@ vector <string> resource_external_get_original_language_resources () // Todo
 
 
 // Get the names of the Web resources which are Bibles.
-vector <string> resource_external_get_bibles () // Todo
+vector <string> resource_external_get_bibles ()
 {
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -1598,7 +1598,7 @@ vector <string> resource_external_get_bibles () // Todo
 
 
 // Get the names of the Web resources which are commentaries.
-vector <string> resource_external_get_commentaries () // Todo
+vector <string> resource_external_get_commentaries ()
 {
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -1612,7 +1612,7 @@ vector <string> resource_external_get_commentaries () // Todo
 
 
 // Get the names of the Web resources which are other resources.
-vector <string> resource_external_get_general_resources () // Todo
+vector <string> resource_external_get_general_resources ()
 {
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -1654,7 +1654,7 @@ string resource_external_mapping (string name)
 
 
 // Returns what type the Web resource $name is.
-string resource_external_type (string name) // Todo
+string resource_external_type (string name)
 {
   string type = GENERAL;
   for (unsigned int i = 0; i < resource_external_count (); i++) {

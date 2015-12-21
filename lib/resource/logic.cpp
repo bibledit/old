@@ -197,71 +197,104 @@ string resource_logic_get_html (void * webserver_request,
     
     string possible_included_verse;
     if (add_verse_numbers) possible_included_verse = convert_to_string (verse) + " ";
+    if (isImage) possible_included_verse.clear ();
     
-    if (isBible || isUsfm) {
-      string chapter_usfm;
-      if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
-      if (isUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
-      string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
-      string stylesheet = request->database_config_user()->getStylesheet ();
-      Filter_Text filter_text = Filter_Text (resource);
-      filter_text.html_text_standard = new Html_Text (translate("Bible"));
-      filter_text.addUsfmCode (verse_usfm);
-      filter_text.run (stylesheet);
-      html.append (possible_included_verse);
-      html.append (filter_text.html_text_standard->getInnerHtml ());
-    } else if (isExternal) {
-      html.append (possible_included_verse);
-      if (config_logic_client_prepared ()) {
-        // A client fetches it from the cache or from the Cloud,
-        // or, for older versions, from the offline resources database.
-        // As of 12 December 2015, the offline resources database is not needed anymore.
-        // It can be removed after a year or so.
-        Database_OfflineResources database_offlineresources;
-        if (database_offlineresources.exists (resource, book, chapter, verse)) {
-          html.append (database_offlineresources.get (resource, book, chapter, verse));
-        } else {
-          html.append (resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse));
-        }
+    html.append (resource_logic_get_verse (webserver_request, resource, book, chapter, verse));
+  }
+  
+  return html;
+}
+
+
+// This is the most basic version that fetches the text of a $resource.
+// It works on server and on client.
+// It uses the cache.
+string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  string data;
+
+  Database_UsfmResources database_usfmresources;
+  Database_ImageResources database_imageresources;
+  
+  // Lists of the various types of resources.
+  vector <string> bibles = request->database_bibles()->getBibles ();
+  vector <string> usfms = database_usfmresources.getResources ();
+  vector <string> externals = resource_external_names ();
+  vector <string> images = database_imageresources.names ();
+  vector <string> lexicons = lexicon_logic_resource_names ();
+  
+  // Possible SWORD details.
+  string sword_module = sword_logic_get_remote_module (resource);
+  string sword_source = sword_logic_get_source (resource);
+  
+  // Determine the type of the current resource.
+  bool isBible = in_array (resource, bibles);
+  bool isUsfm = in_array (resource, usfms);
+  bool isExternal = in_array (resource, externals);
+  bool isImage = in_array (resource, images);
+  bool isLexicon = in_array (resource, lexicons);
+  bool isSword = (!sword_source.empty () && !sword_module.empty ());
+  
+  if (isBible || isUsfm) {
+    string chapter_usfm;
+    if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
+    if (isUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
+    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+    string stylesheet = styles_logic_standard_sheet ();
+    Filter_Text filter_text = Filter_Text (resource);
+    filter_text.html_text_standard = new Html_Text ("");
+    filter_text.addUsfmCode (verse_usfm);
+    filter_text.run (stylesheet);
+    data = filter_text.html_text_standard->getInnerHtml ();
+  } else if (isExternal) {
+    if (config_logic_client_prepared ()) {
+      // A client fetches it from the cache or from the Cloud,
+      // or, for older versions, from the offline resources database.
+      // As of 12 December 2015, the offline resources database is not needed anymore.
+      // It can be removed after a year or so.
+      Database_OfflineResources database_offlineresources;
+      if (database_offlineresources.exists (resource, book, chapter, verse)) {
+        data = database_offlineresources.get (resource, book, chapter, verse);
       } else {
-        // The server fetches it from the web, via the http cache.
-        html.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
+        data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
       }
-      
-    } else if (isImage) {
-      vector <string> images = database_imageresources.get (resource, book, chapter, verse);
-      for (auto & image : images) {
-        html.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
-      }
-    } else if (isLexicon) {
-      html.append (possible_included_verse);
-      html.append (lexicon_logic_get_html (request, resource, book, chapter, verse));
-    } else if (isSword) {
-      html.append (possible_included_verse);
-      html.append (sword_logic_get_text (sword_source, sword_module, book, chapter, verse));
     } else {
-      // Nothing found.
+      // The server fetches it from the web, via the http cache.
+      data.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
     }
     
+  } else if (isImage) {
+    vector <string> images = database_imageresources.get (resource, book, chapter, verse);
+    for (auto & image : images) {
+      data.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
+    }
+  } else if (isLexicon) {
+    data = lexicon_logic_get_html (request, resource, book, chapter, verse);
+  } else if (isSword) {
+    data = sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
+  } else {
+    // Nothing found.
   }
   
   // Any font size given in a paragraph style may interfere with the font size setting for the resources
   // as given in Bibledit. For that reason remove the class name from a paragraph style.
   for (unsigned int i = 0; i < 5; i++) {
     string fragment = "p class=\"";
-    size_t pos = html.find (fragment);
+    size_t pos = data.find (fragment);
     if (pos != string::npos) {
-      size_t pos2 = html.find ("\"", pos + fragment.length () + 1);
+      size_t pos2 = data.find ("\"", pos + fragment.length () + 1);
       if (pos2 != string::npos) {
-        html.erase (pos + 1, pos2 - pos + 1);
+        data.erase (pos + 1, pos2 - pos + 1);
       }
     }
   }
-
-  // NET Bible updates.
-  html = filter_string_str_replace ("<span class=\"s ", "<span class=\"", html);
   
-  return html;
+  // NET Bible updates.
+  data = filter_string_str_replace ("<span class=\"s ", "<span class=\"", data);
+  
+  return data;
 }
 
 

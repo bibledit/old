@@ -398,6 +398,21 @@ msgstr ""
 msgid "Would you like to delete this book?"
 msgstr ""
 
+msgid "Select a resource to import into the Bible"
+msgstr ""
+
+msgid "The resource will be imported."
+msgstr ""
+
+msgid "It will overwrite the content of the Bible."
+msgstr ""
+
+msgid "The resource will be imported into the Bible."
+msgstr ""
+
+msgid "The journal shows the progress."
+msgstr ""
+
 msgid "More operations in the Cloud"
 msgstr ""
 
@@ -429,6 +444,9 @@ msgid "Viewable by all users"
 msgstr ""
 
 msgid "The public can give feedback"
+msgstr ""
+
+msgid "Import text from a resource"
 msgstr ""
 
 msgid "Front Matter"
@@ -916,8 +934,11 @@ msgstr ""
 msgid "paragraph starts with a capital and ends with a correct end marker"
 msgstr ""
 
+msgid "correct number of books according to the versification system"
+msgstr ""
+
 msgid ""
-"correct number of books, chapters, and verses, according to the "
+"correct number of chapters and verses in existing books, according to the "
 "versification system"
 msgstr ""
 
@@ -7522,7 +7543,16 @@ msgstr ""
 msgid "Select a USFM resource"
 msgstr ""
 
-msgid "Select an external resource"
+msgid "Select an original language text"
+msgstr ""
+
+msgid "Select a Bible translation"
+msgstr ""
+
+msgid "Select a commentary"
+msgstr ""
+
+msgid "Select a general resource"
 msgstr ""
 
 msgid "Select an image resource"
@@ -7544,6 +7574,18 @@ msgid "Bibles within Bibledit"
 msgstr ""
 
 msgid "Web resources"
+msgstr ""
+
+msgid "Original language texts"
+msgstr ""
+
+msgid "Bibles (translations)"
+msgstr ""
+
+msgid "Commentaries"
+msgstr ""
+
+msgid "Other"
 msgstr ""
 
 msgid "Lexicons"
