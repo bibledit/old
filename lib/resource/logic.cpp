@@ -293,7 +293,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   
   // NET Bible updates.
   data = filter_string_str_replace ("<span class=\"s ", "<span class=\"", data);
-  
+
   return data;
 }
 
@@ -510,4 +510,23 @@ string resource_logic_web_cache_get (string url, string & error)
   }
   // Done.
   return html;
+}
+
+
+// Returns the page type for the resource selector.
+string resource_logic_selector_page (void * webserver_request) // Todo
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string page = request->query["page"];
+  return page;
+}
+
+
+// Returns the page which called the resource selector.
+string resource_logic_selector_caller (void * webserver_request) // Todo
+{
+  string caller = resource_logic_selector_page (webserver_request);
+  if (caller == "view") caller = "organize";
+  if (caller == "consistency") caller = "../consistency/index";
+  return caller;
 }

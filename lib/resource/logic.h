@@ -46,5 +46,7 @@ string resource_logic_get_divider (string resource);
 
 string resource_logic_web_cache_get (string url, string & error);
 
+string resource_logic_selector_page (void * webserver_request);
+string resource_logic_selector_caller (void * webserver_request);
 
 #endif

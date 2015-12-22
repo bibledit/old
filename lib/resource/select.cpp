@@ -63,9 +63,8 @@ string resource_select (void * webserver_request)
   Assets_View view;
 
   
-  string caller = request->query["page"];
-  view.set_variable ("page", caller);
-  if (caller == "view") caller = "organize";
+  view.set_variable ("page", resource_logic_selector_page (webserver_request));
+  string caller = resource_logic_selector_caller (webserver_request);
   view.set_variable ("caller", caller);
   
   
