@@ -1762,9 +1762,6 @@ msgstr ""
 msgid "Consistency"
 msgstr ""
 
-msgid "Would you like to add a Resource?"
-msgstr ""
-
 msgid "remove"
 msgstr ""
 
@@ -1819,9 +1816,6 @@ msgid "Tips"
 msgstr ""
 
 msgid "Add Resources as extra aids for comparison"
-msgstr ""
-
-msgid "add resource"
 msgstr ""
 
 msgid ""

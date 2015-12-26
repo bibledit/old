@@ -528,5 +528,6 @@ string resource_logic_selector_caller (void * webserver_request) // Todo
   string caller = resource_logic_selector_page (webserver_request);
   if (caller == "view") caller = "organize";
   if (caller == "consistency") caller = "../consistency/index";
+  if (caller == "print") caller = "print";
   return caller;
 }
