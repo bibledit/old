@@ -514,7 +514,7 @@ string resource_logic_web_cache_get (string url, string & error)
 
 
 // Returns the page type for the resource selector.
-string resource_logic_selector_page (void * webserver_request) // Todo
+string resource_logic_selector_page (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string page = request->query["page"];
@@ -523,7 +523,7 @@ string resource_logic_selector_page (void * webserver_request) // Todo
 
 
 // Returns the page which called the resource selector.
-string resource_logic_selector_caller (void * webserver_request) // Todo
+string resource_logic_selector_caller (void * webserver_request)
 {
   string caller = resource_logic_selector_page (webserver_request);
   if (caller == "view") caller = "organize";
