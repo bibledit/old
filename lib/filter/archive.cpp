@@ -19,8 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/archive.h>
 #include <filter/url.h>
+#include <filter/shell.h>
 #include <database/logs.h>
 #include <config.h>
+
+
+// Whether the operating system can zip data.
+bool filter_archive_can_zip ()
+{
+  return filter_shell_is_present ("zip");
+}
 
 
 // Compresses a file identified by $filename into zip format.
@@ -61,6 +69,13 @@ string filter_archive_zip_folder (string folder)
     Database_Logs::log (errors);
   }
   return zippedfile;
+}
+
+
+// Whether the operating system can unzip data.
+bool filter_archive_can_unzip ()
+{
+  return filter_shell_is_present ("unzip");
 }
 
 

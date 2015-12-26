@@ -24,6 +24,7 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/archive.h>
 #include <dialog/list.h>
 #include <dialog/entry.h>
 #include <access/bible.h>
@@ -350,6 +351,16 @@ string manage_exports (void * webserver_request)
     view.enable_zone ("cloud");
   }
 
+  
+  bool zip = true;
+  if (!filter_archive_can_zip ()) zip = false;
+  if (!filter_archive_can_unzip ()) zip = false;
+  if (zip) {
+    view.enable_zone ("zip");
+  } else {
+    view.set_variable ("odtlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud for exports to OpenDocument.")));
+  }
+  
 
   page += view.render ("manage", "exports");
   page += Assets_Page::footer ();
