@@ -47,6 +47,7 @@ void workbench_reorder (void * webserver_request, const vector <string> & workbe
 void workbench_copy (void * webserver_request, string source, string destination);
 void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights);
 string workbench_get_default_name ();
+void workbench_send (void * webserver_request, string desktop, string user);
 
 
 #endif

@@ -69,23 +69,11 @@ string resource_print (void * webserver_request)
   string bible = request->database_config_user()->getBible ();
   
 
-  if (request->query.count ("add")) {
-    string add = request->query["add"];
-    if (add == "") {
-      Dialog_List dialog_list = Dialog_List ("print", translate("Select a resource to add"), "", "");
-      // The selectable resources are the available ones minus the already selected ones.
-      vector <string> resources = resource_logic_get_names (webserver_request);
-      resources = filter_string_array_diff (resources, request->database_config_user()->getPrintResources ());
-      for (auto & resource : resources) {
-        dialog_list.add_row (resource, "add", resource);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      vector <string> resources = request->database_config_user()->getPrintResources ();
-      resources.push_back (add);
-      request->database_config_user()->setPrintResources (resources);
-    }
+  string add = request->query["add"];
+  if (!add.empty ()) {
+    vector <string> resources = request->database_config_user()->getPrintResources ();
+    resources.push_back (add);
+    request->database_config_user()->setPrintResources (resources);
   }
   
   

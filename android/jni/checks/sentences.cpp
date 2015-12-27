@@ -253,22 +253,37 @@ vector <pair<int, string>> Checks_Sentences::getResults ()
 void Checks_Sentences::addResult (string text, int modifier)
 {
   // Get previous and next text fragment.
-  int start = currentPosition - 10;
+  int start = currentPosition - 25;
   if (start < 0) start = 0;
   string previousFragment = unicode_string_substr (fullText, start, currentPosition - start - 1);
-  string nextFragment = unicode_string_substr (fullText, currentPosition, 10);
+  int iterations = 5;
+  while (iterations) {
+    size_t pos = previousFragment.find (" ");
+    if (pos != string::npos) {
+      if ((previousFragment.length () - pos) > 10) {
+        previousFragment.erase (0, pos + 1);
+      }
+    }
+    iterations--;
+  }
+  string nextFragment = unicode_string_substr (fullText, currentPosition, 25);
+  while (nextFragment.length () > 10) {
+    size_t pos = nextFragment.rfind (" ");
+    if (pos == string::npos) nextFragment.erase (nextFragment.length () - 1, 1);
+    else nextFragment.erase (pos);
+  }
   // Check whether the result can be skipped due to a name being involved.
-  if (modifier == 3) {
+  if (modifier == skipNames) {
     string haystack = grapheme + nextFragment;
     for (auto name : names) {
       if (haystack.find (name) == 0) return;
     }
   }
   // Assemble text for checking result.
-  if (modifier == 1) {
+  if (modifier == displayGraphemeOnly) {
     text += ": " + grapheme;
   }
-  if ((modifier == 2) || (modifier == 3)) {
+  if ((modifier == displayContext) || (modifier == skipNames)) {
     text += ": " + previousFragment + grapheme + nextFragment;
   }
   // Store checking result.

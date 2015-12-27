@@ -27,7 +27,6 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <resource/admin.h>
 #include <resource/external.h>
 #include <resource/sword.h>
 #include <sync/logic.h>
@@ -64,9 +63,8 @@ string resource_select (void * webserver_request)
   Assets_View view;
 
   
-  string caller = request->query["page"];
-  view.set_variable ("page", caller);
-  if (caller == "view") caller = "organize";
+  view.set_variable ("page", resource_logic_selector_page (webserver_request));
+  string caller = resource_logic_selector_caller (webserver_request);
   view.set_variable ("caller", caller);
   
   
@@ -95,10 +93,46 @@ string resource_select (void * webserver_request)
   }
   
 
-  if (request->query.count ("external")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an external resource"), "", "");
+  if (request->query.count ("web_orig")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), "", "");
     dialog_list.add_query ("page", request->query["page"]);
-    vector <string> resources = resource_external_names ();
+    vector <string> resources = resource_external_get_original_language_resources ();
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run();
+    return page;
+  }
+  
+  
+  if (request->query.count ("web_bibles")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), "", "");
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources = resource_external_get_bibles ();
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run();
+    return page;
+  }
+  
+  
+  if (request->query.count ("web_commentaries")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a commentary"), "", "");
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources = resource_external_get_commentaries ();
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run();
+    return page;
+  }
+  
+  
+  if (request->query.count ("web_other")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a general resource"), "", "");
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources = resource_external_get_general_resources ();
     for (auto resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }

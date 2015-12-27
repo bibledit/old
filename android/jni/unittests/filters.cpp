@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/git.h>
 #include <filter/merge.h>
 #include <filter/date.h>
+#include <filter/shell.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -4334,6 +4335,16 @@ void test_filter_archive ()
   string compressed = filter_archive_compress (plain);
   string output = filter_archive_decompress (compressed);
   evaluate (__LINE__, __func__, plain, output);
+
+  evaluate (__LINE__, __func__, true, filter_archive_can_zip ());
+  evaluate (__LINE__, __func__, true, filter_archive_can_unzip ());
+}
+
+
+void test_filter_shell ()
+{
+  evaluate (__LINE__, __func__, true, filter_shell_is_present ("zip"));
+  evaluate (__LINE__, __func__, false, filter_shell_is_present ("xxxxx"));
 }
 
 

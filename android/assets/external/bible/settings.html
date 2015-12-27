@@ -1,4 +1,6 @@
 <h1>translate("Bible") ##bible##</h1>
+<p class="success">##success_message##</p>
+<p class="error">##error_message##</p>
 <p>translate("Available books") (##book_count##): ##bookblock##</p>
 <p>
   translate("Versification system"):
@@ -55,7 +57,10 @@ translate("Viewable by all users")
 <!-- #ENDZONE client -->
 <!-- #BEGINZONE write_access -->
 <!-- #BEGINZONE server -->
+<p>
 <a href="?bible=##bible##&public=">##public##</a>
 translate("The public can give feedback")
+</p>
+<p><a href="?bible=##bible##&resource=">translate("Import text from a resource")</a></p>
 <!-- #ENDZONE server -->
 <!-- #ENDZONE write_access -->

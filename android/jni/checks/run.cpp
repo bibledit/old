@@ -74,7 +74,8 @@ void checks_run (string bible)
   checks_sentences.enterCenterMarks (center_marks);
   checks_sentences.enterDisregards (Database_Config_Bible::getSentenceStructureDisregards (bible));
   checks_sentences.enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
-  bool check_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
+  bool check_books_versification = Database_Config_Bible::getCheckBooksVersification (bible);
+  bool check_chapters_verses_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
   bool check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm (bible);
   Checks_Usfm checks_usfm = Checks_Usfm (bible);
   bool check_missing_punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse (bible);
@@ -84,14 +85,14 @@ void checks_run (string bible)
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
-  if (check_versification) Checks_Versification::books (bible, books);
+  if (check_books_versification) Checks_Versification::books (bible, books);
   
   
   for (auto book : books) {
     
     
     vector <int> chapters = request.database_bibles()->getChapters (bible, book);
-    if (check_versification) Checks_Versification::chapters (bible, book, chapters);
+    if (check_chapters_verses_versification) Checks_Versification::chapters (bible, book, chapters);
     
     
     for (auto chapter : chapters) {
@@ -99,7 +100,7 @@ void checks_run (string bible)
       
       
       vector <int> verses = usfm_get_verse_numbers (chapterUsfm);
-      if (check_versification) Checks_Versification::verses (bible, book, chapter, verses);
+      if (check_chapters_verses_versification) Checks_Versification::verses (bible, book, chapter, verses);
       
       
       for (auto verse : verses) {

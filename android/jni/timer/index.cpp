@@ -213,7 +213,7 @@ void timer_index ()
         }
         // Update installed SWORD modules, shortly after the module list has been refreshed.
         if ((!client) && (hour == 3) && (minute == 15)) {
-          tasks_logic_queue (UPDATEALLSWORDMODULES);
+          tasks_logic_queue (UPDATESWORDMODULES);
         }
       }
 

@@ -62,6 +62,7 @@ void test_filter_url ();
 void test_filter_string ();
 void test_filter_string_text2html ();
 void test_filter_archive ();
+void test_filter_shell ();
 
 
 #endif

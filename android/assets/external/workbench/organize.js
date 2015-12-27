@@ -33,7 +33,7 @@ var sorted = function (event, ui) {
   var list = new Array ();
   $ ("#sortable").children ().each (function (i) {
     var nodes = $ (this);
-    list.push (nodes [0].children[3].textContent);
+    list.push (nodes [0].children[4].textContent);
   });
   $.ajax ({
     url: "organize",

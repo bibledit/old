@@ -151,3 +151,12 @@ vector <string> filter_shell_active_processes ()
 
   return processes;
 }
+
+
+// Returns true if $program is present on the system.
+bool filter_shell_is_present (string program)
+{
+  string command = "which " + program + " > /dev/null 2>&1";
+  int exitcode = system (command.c_str ());
+  return (exitcode == 0);
+}

@@ -116,6 +116,12 @@ string checks_settings (void * webserver_request)
   view.set_variable ("paragraph_structure", get_tick_box (Database_Config_Bible::getCheckParagraphStructure (bible)));
                       
                       
+  if (request->query.count ("booksversification")) {
+    Database_Config_Bible::setCheckBooksVersification (bible, !Database_Config_Bible::getCheckBooksVersification (bible));
+  }
+  view.set_variable ("books_versification", get_tick_box (Database_Config_Bible::getCheckBooksVersification (bible)));
+  
+  
   if (request->query.count ("chaptersversesversification")) {
     Database_Config_Bible::setCheckChaptesVersesVersification (bible, !Database_Config_Bible::getCheckChaptesVersesVersification (bible));
   }

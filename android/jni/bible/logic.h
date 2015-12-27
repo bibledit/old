@@ -34,4 +34,7 @@ public:
 };
 
 
+void bible_logic_import_resource (string bible, string resource);
+
+
 #endif

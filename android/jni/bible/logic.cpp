@@ -20,11 +20,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/roles.h>
 #include <database/bibles.h>
 #include <database/modifications.h>
 #include <database/bibleactions.h>
+#include <database/logs.h>
+#include <database/versifications.h>
+#include <database/books.h>
+#include <database/config/general.h>
+#include <database/cache.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <demo/logic.h>
+#include <sync/resources.h>
+#include <sword/logic.h>
+#include <resource/logic.h>
 
 
 void Bible_Logic::storeChapter (const string& bible, int book, int chapter, const string& usfm)
@@ -133,4 +143,66 @@ void Bible_Logic::deleteBible (const string& bible)
 
   // Delete the Bible from the database.
   database_bibles.deleteBible (bible);
+}
+
+
+void bible_logic_import_resource (string bible, string resource)
+{
+  Database_Logs::log ("Starting to import resource " + resource + " into Bible " + bible);
+  
+  Database_Versifications database_versifications;
+  Webserver_Request webserver_request;
+  
+  vector <int> books = database_versifications.getMaximumBooks ();
+  for (auto & book : books) {
+    
+    string bookName = Database_Books::getEnglishFromId (book);
+
+    vector <int> chapters = database_versifications.getMaximumChapters (book);
+    for (auto & chapter : chapters) {
+
+      string message = "Importing " + resource + " " + bookName + " chapter " + convert_to_string (chapter);
+      Database_Logs::log (message, Filter_Roles::translator ());
+      
+      vector <string> usfm;
+      
+      if (chapter == 0) usfm.push_back ("\\id " + Database_Books::getUsfmFromId (book));
+      
+      if (chapter) {
+        usfm.push_back ("\\c " + convert_to_string (chapter));
+        usfm.push_back ("\\p");
+      }
+
+      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+      for (auto & verse : verses) {
+        
+        if (verse == 0) continue;
+
+        // Fetch the text for the passage.
+        bool server_is_installing_module = false;
+        int wait_iterations = 0;
+        string html;
+        do {
+          // Fetch this resource from the server.
+          html = resource_logic_get_verse (&webserver_request, resource, book, chapter, verse);
+          server_is_installing_module = (html == sword_logic_installing_module_text ());
+          if (server_is_installing_module) {
+            Database_Logs::log ("Waiting while Bibledit Cloud installs the requested SWORD module");
+            this_thread::sleep_for (chrono::seconds (60));
+            wait_iterations++;
+          }
+        } while (server_is_installing_module && (wait_iterations < 5));
+        
+        // Remove all html markup.
+        html = filter_string_html2text (html);
+        html = filter_string_str_replace ("\n", " ", html);
+
+        // Add the verse to the USFM.
+        usfm.push_back ("\\v " + convert_to_string (verse) + " " + filter_string_trim (html));
+      }
+      Bible_Logic::storeChapter (bible, book, chapter, filter_string_implode (usfm, "\n"));
+    }
+  }
+  
+  Database_Logs::log ("Completed importing resource " + resource + " into Bible " + bible);
 }

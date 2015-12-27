@@ -64,6 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <paratext/logic.h>
 #include <resource/logic.h>
 #include <sword/logic.h>
+#include <bible/logic.h>
 
 
 mutex mutex_tasks; 
@@ -125,6 +126,8 @@ void tasks_run_one (string filename)
     styles_sheets_create_all_run ();
   } else if (command == IMPORTBIBLE) {
     bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
+  } else if (command == IMPORTRESOURCE) {
+    bible_logic_import_resource (parameter1, parameter2);
   } else if (command == COMPAREUSFM) {
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
   } else if (command == MAINTAINDATABASE) {
@@ -197,11 +200,7 @@ void tasks_run_one (string filename)
     sword_logic_refresh_module_list ();
   } else if (command == INSTALLSWORDMODULE) {
     sword_logic_install_module (parameter1, parameter2);
-  } else if (command == UPDATESWORDMODULE) {
-    sword_logic_update_module (parameter1, parameter2);
-  } else if (command == UNINSTALLSWORDMODULE) {
-    sword_logic_uninstall_module (parameter1);
-  } else if (command == UPDATEALLSWORDMODULES) {
+  } else if (command == UPDATESWORDMODULES) {
     sword_logic_update_installed_modules ();
   } else {
     Database_Logs::log ("Unknown task: " + command);

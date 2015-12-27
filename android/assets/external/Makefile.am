@@ -258,7 +258,6 @@ libbibledit_a_SOURCES = \
 	resource/convert2resource.cpp \
 	resource/convert2bible.cpp \
 	resource/manage.cpp \
-	resource/admin.cpp \
 	resource/print.cpp \
 	resource/download.cpp \
 	resource/images.cpp \

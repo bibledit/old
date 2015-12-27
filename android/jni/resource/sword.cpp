@@ -58,33 +58,21 @@ string resource_sword (void * webserver_request)
   }
 
   
-  string source = request->query ["source"];
-  string module = request->query ["module"];
-
-  
-  if (request->query.count ("install")) {
-    tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
-    redirect_browser (request, journal_index_url ());
-  }
-  
-  
   if (request->query.count ("update")) {
-    tasks_logic_queue (UPDATESWORDMODULE, {source, module});
+    tasks_logic_queue (UPDATESWORDMODULES, {});
     redirect_browser (request, journal_index_url ());
   }
   
   
-  if (request->query.count ("updateall")) {
-    tasks_logic_queue (UPDATEALLSWORDMODULES, {});
-    redirect_browser (request, journal_index_url ());
-  }
+  /*
+   It used to be possible to manually install or uninstall SWORD modules.
+   However it was observed that on the open Bibledit demo, 
+   there were bursts of installed SWORD modules.
+   That made Bibledit unresponsive or just get stuck.
+   Likely the web crawlers of the search engines click all links to install all modules.
+   The answer to this problem was to remove manual install or uninstall of SWORD modules.
+   */
   
-  
-  if (request->query.count ("uninstall")) {
-    tasks_logic_queue (UNINSTALLSWORDMODULE, {module});
-    redirect_browser (request, journal_index_url ());
-  }
-
   
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
@@ -109,20 +97,14 @@ string resource_sword (void * webserver_request)
     string source = sword_logic_get_source (available_module);
     string module = sword_logic_get_remote_module (available_module);
     moduleblock.append ("<p>");
-    string source_module = "&source=" + source + "&module=" + module;
-    if (installed_modules [module].empty ()) {
-      moduleblock.append ("<a href=\"?install=" + source_module + "\">" + translate ("install") + "</a>");
-      moduleblock.append (" | ");
-    } else {
+    moduleblock.append (available_module);
+    if (!installed_modules [module].empty ()) {
+      moduleblock.append (" (" + translate ("installed") + ") ");
       string version = sword_logic_get_version (available_module);
       if (version != installed_modules[module]) {
-        moduleblock.append ("<a href=\"?update=" + source_module + "\">" + translate ("update") + "</a>");
-        moduleblock.append (" | ");
+        moduleblock.append (" (" + translate ("to be updated") + ")");
       }
-      moduleblock.append ("<a href=\"?uninstall=" + source_module + "\">" + translate ("uninstall") + "</a>");
-      moduleblock.append (" | ");
     }
-    moduleblock.append (available_module);
     moduleblock.append ("</p>\n");
   }
   view.set_variable ("moduleblock", moduleblock);

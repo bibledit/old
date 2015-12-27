@@ -217,28 +217,6 @@ void sword_logic_install_module (string source, string module)
 }
 
 
-void sword_logic_update_module (string source, string module) // Todo
-{
-  sword_logic_uninstall_module (module);
-  
-  // Clear the cache.
-  Database_Versifications database_versifications;
-  vector <int> books = database_versifications.getMaximumBooks ();
-  for (auto & book : books) {
-    vector <int> chapters = database_versifications.getMaximumChapters (book);
-    for (auto & chapter : chapters) {
-      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
-      for (auto & verse : verses) {
-        string schema = sword_logic_virtual_url (module, book, chapter, verse);
-        database_cache_remove (schema);
-      }
-    }
-  }
-  
-  sword_logic_install_module (source, module);
-}
-
-
 void sword_logic_uninstall_module (string module)
 {
   Database_Logs::log ("Uninstall SWORD module " + module);
@@ -429,7 +407,24 @@ void sword_logic_update_installed_modules ()
       if (sword_logic_get_remote_module (available_module) == module) {
         if (sword_logic_get_version (available_module) != installed_version) {
           string source = sword_logic_get_source (available_module);
-          sword_logic_update_module (source, module);
+
+          sword_logic_uninstall_module (module);
+          
+          // Clear the cache.
+          Database_Versifications database_versifications;
+          vector <int> books = database_versifications.getMaximumBooks ();
+          for (auto & book : books) {
+            vector <int> chapters = database_versifications.getMaximumChapters (book);
+            for (auto & chapter : chapters) {
+              vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+              for (auto & verse : verses) {
+                string schema = sword_logic_virtual_url (module, book, chapter, verse);
+                database_cache_remove (schema);
+              }
+            }
+          }
+          
+          sword_logic_install_module (source, module);
         }
         continue;
       }
