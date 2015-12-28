@@ -6012,6 +6012,9 @@ msgstr ""
 msgid "Go to Bibledit Cloud to submit the Bible there"
 msgstr ""
 
+msgid "Go to Bibledit Cloud for exports to OpenDocument."
+msgstr ""
+
 msgid "Exports"
 msgstr ""
 
@@ -7504,9 +7507,6 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-msgid "Select a resource to add"
-msgstr ""
-
 msgid "Select a book"
 msgstr ""
 
@@ -8906,7 +8906,7 @@ msgstr ""
 msgid "Editor and Notes"
 msgstr ""
 
-msgid "Resources, Editor, Notes"
+msgid "Resources and Editor and Notes"
 msgstr ""
 
 msgid "Editor and Consistency tool"
@@ -8933,19 +8933,25 @@ msgstr ""
 msgid "Copy desktop"
 msgstr ""
 
+msgid "Send desktop to all users"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
 msgid "Drag the list of desktops into the desired order."
 msgstr ""
 
-msgid "Click ✗ to remove."
+msgid "Click ✗ to remove the desktop."
 msgstr ""
 
-msgid "Click ✎ to edit."
+msgid "Click ✎ to edit the desktop."
 msgstr ""
 
-msgid "Click ⎘ to copy."
+msgid "Click ⎘ to copy the desktop to a new one."
+msgstr ""
+
+msgid "Click ✉ to send the desktop to all users."
 msgstr ""
 
 msgid "Create a new desktop."
