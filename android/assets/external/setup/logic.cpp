@@ -61,12 +61,10 @@ void setup_conditionally (const char * package)
     vector <string> messages;
 
     // Copy the library into the destination place.
-    config_globals_setup_progress = 10;
     if (p != config_globals_document_root) {
       messages.push_back ("Copy data from " + p + " to " + config_globals_document_root);
       setup_copy_library (package);
     }
-    config_globals_setup_progress = 20;
     
     // Ensure write access to certain folders.
     setup_write_access ();
@@ -172,7 +170,6 @@ void setup_initialize_data ()
   request.database_styles ()->create ();
   request.database_bibleactions ()->create ();
   request.database_check ()->create ();
-  config_globals_setup_progress = 30;
   map <string, string> localizations = locale_logic_localizations ();
   for (auto & element : localizations) {
     string localization = element.first;
@@ -181,7 +178,6 @@ void setup_initialize_data ()
     string path = filter_url_create_root_path ("locale", localization + ".po");
     database_localization.create (path);
   }
-  config_globals_setup_progress = 40;
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
   Database_Jobs database_jobs = Database_Jobs ();
@@ -192,19 +188,16 @@ void setup_initialize_data ()
   database_mail.create ();
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
-  config_globals_setup_progress = 50;
   Database_Mappings database_mappings = Database_Mappings ();
   database_mappings.create1 ();
   database_mappings.defaults ();
   database_mappings.create2 ();
   database_mappings.optimize ();
-  config_globals_setup_progress = 60;
   Database_NoteActions database = Database_NoteActions ();
   database.create ();
   Database_Versifications database_versifications;
   database_versifications.create ();
   database_versifications.defaults ();
-  config_globals_setup_progress = 70;
   Database_Modifications database_modifications = Database_Modifications ();
   database_modifications.create ();
   Database_Notes database_notes (&request);
@@ -212,7 +205,6 @@ void setup_initialize_data ()
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();
   Database_State::create ();
-  config_globals_setup_progress = 80;
 
   // Create stylesheets.
   styles_sheets_create_all ();
@@ -220,7 +212,6 @@ void setup_initialize_data ()
   // Create sample Bible if there's no Bible yet.
   vector <string> bibles = request.database_bibles()->getBibles ();
   if (bibles.empty ()) demo_create_sample_bible (&request);
-  config_globals_setup_progress = 90;
   
   // Schedule reindexing Bible search data.
   Database_Config_General::setIndexBibles (true);

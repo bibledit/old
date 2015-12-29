@@ -34,5 +34,5 @@ bool config_globals_quit_at_midnight = false;
 int config_globals_touch_enabled = 0;
 int config_globals_timezone_offset_utc = 100;
 bool config_globals_change_notifications_available = true;
-int config_globals_setup_progress = 10;
+int config_globals_setup_progress = 5;
 int config_globals_simultaneous_connection_count = 0;
