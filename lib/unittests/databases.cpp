@@ -74,6 +74,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_database_config_general ()
 {
+  trace_unit_tests (__func__);
+
   // Tests for Database_Config_General.
   evaluate (__LINE__, __func__, "Bibledit Cloud", Database_Config_General::getSiteMailName ());
   
@@ -87,6 +89,8 @@ void test_database_config_general ()
 
 void test_database_config_bible ()
 {
+  trace_unit_tests (__func__);
+  
   // Random basic tests.
   {
     evaluate (__LINE__, __func__, false, Database_Config_Bible::getViewableByAllUsers ("testbible"));
@@ -117,6 +121,8 @@ void test_database_config_bible ()
 
 void test_database_config_user ()
 {
+  trace_unit_tests (__func__);
+  
   // Tests for Database_Config_User.
   {
     // Setup.
@@ -191,6 +197,8 @@ void test_database_config_user ()
 
 void test_database_logs ()
 {
+  trace_unit_tests (__func__);
+  
   // Tests for Database_Logs.
   {
     refresh_sandbox (true);
@@ -313,6 +321,8 @@ void test_database_logs ()
 
 void test_database_users ()
 {
+  trace_unit_tests (__func__);
+  
   // Tests for Database_Users.
   {
     refresh_sandbox (true);
@@ -540,6 +550,8 @@ void test_database_users ()
 
 void test_database_styles ()
 {
+  trace_unit_tests (__func__);
+  
   // Tests for Database_Styles.
   {
     refresh_sandbox (true);
@@ -670,6 +682,8 @@ void test_database_styles ()
 // Tests for the Database_Books object.
 void test_database_books ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   evaluate (__LINE__, __func__, 69, (int)Database_Books::getIDs ().size());
   evaluate (__LINE__, __func__, 2, Database_Books::getIdFromEnglish ("Exodus"));
@@ -694,6 +708,8 @@ void test_database_books ()
 
 void test_database_bibleactions ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   Database_BibleActions database_bibleactions = Database_BibleActions ();
   database_bibleactions.create ();
@@ -741,6 +757,8 @@ void test_database_bibleactions ()
 
 void test_database_check ()
 {
+  trace_unit_tests (__func__);
+  
   {
     // Test Optimize
     refresh_sandbox (true);
@@ -864,6 +882,8 @@ void test_database_check ()
 
 void test_database_localization ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   string file_po = filter_url_create_root_path ("unittests", "tests", "nl.po");
   Database_Localization database_localization = Database_Localization ("nl");
@@ -883,6 +903,8 @@ void test_database_localization ()
 
 void test_database_confirm ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
@@ -923,7 +945,9 @@ void test_database_confirm ()
 
 void test_database_ipc ()
 {
-   // Test Trim
+  trace_unit_tests (__func__);
+  
+  // Test Trim
   {
     refresh_sandbox (true);
     Database_Ipc database_ipc = Database_Ipc (NULL);
@@ -1057,6 +1081,8 @@ void test_database_ipc ()
 
 void test_database_jobs ()
 {
+  trace_unit_tests (__func__);
+  
   {
     refresh_sandbox (true);
     Database_Jobs database_jobs = Database_Jobs ();
@@ -1115,6 +1141,8 @@ void test_database_jobs ()
 
 void test_database_kjv ()
 {
+  trace_unit_tests (__func__);
+  
   Database_Kjv database_kjv = Database_Kjv ();
 
   vector <Database_Kjv_Item> data = database_kjv.getVerse (43, 11, 35);
@@ -1152,6 +1180,8 @@ void test_database_kjv ()
 
 void test_database_morphhb ()
 {
+  trace_unit_tests (__func__);
+  
   Database_MorphHb database_morphhb = Database_MorphHb ();
 
   vector <string> data = database_morphhb.getVerse (18, 3, 2);
@@ -1197,6 +1227,8 @@ void test_database_morphhb ()
 
 void test_database_sblgnt ()
 {
+  trace_unit_tests (__func__);
+  
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();
 
   vector <string> data = database_sblgnt.getVerse (43, 11, 35);
@@ -1212,6 +1244,8 @@ void test_database_sblgnt ()
 
 void test_database_offlineresourcese ()
 {
+  trace_unit_tests (__func__);
+  
   // Test Store / Exists / Get.
   {
     refresh_sandbox (true);
@@ -1336,6 +1370,8 @@ void test_database_offlineresourcese ()
 
 void test_database_sprint ()
 {
+  trace_unit_tests (__func__);
+  
   // Maintenance.
   {
     refresh_sandbox (true);
@@ -1427,6 +1463,8 @@ void test_database_sprint ()
 
 void test_database_mail ()
 {
+  trace_unit_tests (__func__);
+  
   // Optimize / Trim.
   {
     refresh_sandbox (true);
@@ -1508,6 +1546,8 @@ void test_database_mail ()
 
 void test_database_navigation ()
 {
+  trace_unit_tests (__func__);
+  
   {
     refresh_sandbox (true);
     Database_Navigation database = Database_Navigation ();
@@ -1711,6 +1751,8 @@ void test_database_navigation ()
 
 void test_database_resources ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   vector <string> names = resource_external_names ();
   bool hit = false;
@@ -1721,6 +1763,8 @@ void test_database_resources ()
 
 void test_database_usfmresources ()
 {
+  trace_unit_tests (__func__);
+  
   // Empty
   {
     refresh_sandbox (true);
@@ -1806,6 +1850,8 @@ void test_database_usfmresources ()
 
 void test_database_mappings ()
 {
+  trace_unit_tests (__func__);
+  
   // Setup
   {
     refresh_sandbox (true);
@@ -1995,6 +2041,8 @@ void test_database_mappings ()
 
 void test_database_noteactions ()
 {
+  trace_unit_tests (__func__);
+  
   // Basic tests: create / clear / optimize.
   {
     refresh_sandbox (true);
@@ -2084,6 +2132,8 @@ void test_database_noteactions ()
 
 void test_database_versifications ()
 {
+  trace_unit_tests (__func__);
+  
   // Basic operations, create, delete.
   {
     refresh_sandbox (true);
@@ -2181,6 +2231,8 @@ void test_database_versifications ()
 
 void test_database_modifications_user ()
 {
+  trace_unit_tests (__func__);
+  
   // Create, erase, clear.
   {
     refresh_sandbox (true);
@@ -2288,6 +2340,8 @@ void test_database_modifications_user ()
 
 void test_database_modifications_team ()
 {
+  trace_unit_tests (__func__);
+  
   // Basics.
   {
     refresh_sandbox (true);
@@ -2535,6 +2589,8 @@ void test_database_modifications_team ()
 
 void test_database_modifications_notifications ()
 {
+  trace_unit_tests (__func__);
+  
   // Basics.
   {
     refresh_sandbox (true);
@@ -2766,6 +2822,8 @@ void test_database_modifications_notifications ()
 
 void test_database_notes ()
 {
+  trace_unit_tests (__func__);
+  
   // DatabasePath
   {
     refresh_sandbox (true);
@@ -3616,6 +3674,8 @@ void test_database_notes ()
 
 void test_database_volatile ()
 {
+  trace_unit_tests (__func__);
+  
   // Keys.
   {
     Database_Volatile database_volatile = Database_Volatile ();
@@ -3659,6 +3719,8 @@ void test_database_volatile ()
 
 void test_database_state ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   Database_State::create ();
   // Test notes checksums.
@@ -3742,6 +3804,8 @@ void test_database_state ()
 
 void test_database_imageresources ()
 {
+  trace_unit_tests (__func__);
+  
   Database_ImageResources database_imageresources;
   string image = filter_url_create_root_path ("unittests", "tests", "Genesis-1-1-18.gif");
 
@@ -3847,6 +3911,8 @@ void test_database_imageresources ()
 
 void test_database_noteassignment ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   Database_NoteAssignment database;
 
@@ -3879,6 +3945,8 @@ void test_database_noteassignment ()
 
 void test_database_strong ()
 {
+  trace_unit_tests (__func__);
+  
   Database_Strong database;
 
   string result = database.definition ("G0");
@@ -3899,6 +3967,8 @@ void test_database_strong ()
 
 void test_database_morphgnt ()
 {
+  trace_unit_tests (__func__);
+  
   Database_MorphGnt database;
   
   vector <int> results;
@@ -3919,6 +3989,8 @@ void test_database_morphgnt ()
 
 void test_database_etcbc4 ()
 {
+  trace_unit_tests (__func__);
+  
   Database_Etcbc4 database;
   
   vector <int> rowids = database.rowids (1, 1, 1);
@@ -4070,6 +4142,8 @@ void test_database_etcbc4 ()
 
 void test_database_hebrewlexicon ()
 {
+  trace_unit_tests (__func__);
+  
   Database_HebrewLexicon database;
   string result;
 
@@ -4110,6 +4184,8 @@ void test_database_hebrewlexicon ()
 
 void test_database_cache ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
 
   // Initially database should not exist.
@@ -4161,6 +4237,8 @@ void test_database_cache ()
 // Tests for Database_Bibles.
 void test_database_bibles ()
 {
+  trace_unit_tests (__func__);
+  
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles;

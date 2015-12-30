@@ -56,6 +56,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_sqlite ()
 {
+  trace_unit_tests (__func__);
+  
   // Tests for SQLite.
   sqlite3 * db = database_sqlite_connect ("sqlite");
   if (!db) error_message (__LINE__, __func__, "pointer", "NULL");
@@ -78,6 +80,8 @@ void test_sqlite ()
 
 void test_session_logic ()
 {
+  trace_unit_tests (__func__);
+  
   // Test for class Session_Logic.
   {
     refresh_sandbox (true);
@@ -192,6 +196,8 @@ void test_session_logic ()
 
 void test_empty_folders ()
 {
+  trace_unit_tests (__func__);
+  
   // There should be no empty folders in the library, because git does not include them.
   int result = system ("find . -type d -empty > /tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, 0, result);
@@ -203,6 +209,8 @@ void test_empty_folders ()
 
 void test_flate ()
 {
+  trace_unit_tests (__func__);
+  
   // Test for the flate2 template engine.
   string tpl1 = filter_url_create_root_path ("unittests", "tests", "flate1.html");
   string tpl2 = filter_url_create_root_path ("unittests", "tests", "flate2.html");
@@ -281,6 +289,8 @@ void test_flate ()
 
 void test_checksum_logic ()
 {
+  trace_unit_tests (__func__);
+  
   // Get1
   {
     string data = "\\v Verse 1";
@@ -309,6 +319,7 @@ void test_checksum_logic ()
   }
   // Setup some data.
   refresh_sandbox (true);
+  Database_State::create ();
   Webserver_Request request;
   request.database_bibles()->storeChapter ("phpunit1", 1, 2, "data1");
   request.database_bibles()->storeChapter ("phpunit1", 1, 3, "data2");
@@ -360,6 +371,7 @@ void test_checksum_logic ()
 void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
 {
   refresh_sandbox (true);
+  Database_State::create ();
   request->database_bibles()->createBible ("phpunit");
   request->database_bibles()->storeChapter ("phpunit", 1, 1, usfm);
 }
@@ -367,6 +379,8 @@ void test_store_bible_data_safely_setup (Webserver_Request * request, string usf
 
 void test_store_bible_data ()
 {
+  trace_unit_tests (__func__);
+  
   Webserver_Request request;
   string usfm =
   "\\c 1\n"
@@ -577,7 +591,10 @@ void test_store_bible_data ()
 
 void test_editor_html2usfm ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
+  Database_State::create ();
   // Basic test.
   {
     string html = "<p class=\"p\"><span>The earth brought forth.</span></p>";
@@ -669,6 +686,9 @@ void test_editor_html2usfm ()
 
 void test_editor_usfm2html ()
 {
+  trace_unit_tests (__func__);
+  
+  Database_State::create ();
   // Text Length One
   {
     string usfm =
@@ -751,6 +771,8 @@ void test_editor_usfm2html ()
 
 void test_editor_roundtrip ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   // One Unknown Marker Opener
   {
@@ -1883,13 +1905,15 @@ void test_editor_roundtrip ()
 // Testing development of the editor logic.
 void test_editor_development ()
 {
+  trace_unit_tests (__func__);
   refresh_sandbox (true);
-  
 }
 
 
 void test_workbench_logic ()
 {
+  trace_unit_tests (__func__);
+  
   // Initial setup for the tests.
   refresh_sandbox (true);
   Webserver_Request request;
@@ -1959,6 +1983,8 @@ void test_workbench_logic ()
 
 void test_client_logic ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   // Test Client Enabled.
   {
@@ -2008,6 +2034,8 @@ void test_client_logic ()
 
 Checks_Sentences test_check_sentences_setup ()
 {
+  trace_unit_tests (__func__);
+  
   Checks_Sentences check;
   check.enterCapitals ("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
   check.enterSmallLetters ("a b c d e f g h i j k l m n o p q r s t u v w x y z");
@@ -2022,6 +2050,8 @@ Checks_Sentences test_check_sentences_setup ()
 
 void test_check_sentences ()
 {
+  trace_unit_tests (__func__);
+  
   // Test Unknown Character
   {
     Checks_Sentences check = test_check_sentences_setup ();
@@ -2091,8 +2121,8 @@ void test_check_sentences ()
     check.check ({ make_pair (2, "He did that.He went.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
-      make_pair (2, "A letter follows straight after an end-sentence punctuation mark: did that.He went."),
-      make_pair (2, "No capital after an end-sentence punctuation mark: id that.He went.")
+      make_pair (2, "A letter follows straight after an end-sentence punctuation mark: He did that.He went."),
+      make_pair (2, "No capital after an end-sentence punctuation mark: did that.He went.")
     };
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -2101,7 +2131,7 @@ void test_check_sentences ()
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did that. he went.")});
     vector <pair<int, string>> results = check.getResults ();
-    vector <pair<int, string>> standard = { make_pair (2, "No capital after an end-sentence punctuation mark: id that. he went.")};
+    vector <pair<int, string>> standard = { make_pair (2, "No capital after an end-sentence punctuation mark: did that. he went.")};
     evaluate (__LINE__, __func__, standard, results);
   }
   // Test Paragraph One
@@ -2139,7 +2169,7 @@ void test_check_sentences ()
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did that..")});
     vector <pair<int, string>> results = check.getResults ();
-    vector <pair<int, string>> standard = { make_pair (2, "Two punctuation marks in sequence: did that..")};
+    vector <pair<int, string>> standard = { make_pair (2, "Two punctuation marks in sequence: He did that..")};
     evaluate (__LINE__, __func__, standard, results);
   }
   // Test Two Punctuation Marks Two
@@ -2155,6 +2185,8 @@ void test_check_sentences ()
 
 void test_check_versification ()
 {
+  trace_unit_tests (__func__);
+  
   // Test Available Books
   {
     refresh_sandbox (true);
@@ -2317,6 +2349,8 @@ void test_check_versification ()
 
 void test_check_usfm ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   Database_Styles database_styles;
   database_styles.create ();
@@ -2652,6 +2686,8 @@ void test_check_usfm ()
 
 void test_check_verses ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   Database_Check database_check;
   database_check.create ();
@@ -2742,6 +2778,8 @@ void test_check_verses ()
 
 void test_hyphenate ()
 {
+  trace_unit_tests (__func__);
+  
   vector <string> firstset = {"a", "e", "i", "o", "u"};
   vector <string> secondset = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"};
   string input =
@@ -2794,6 +2832,8 @@ void test_search_logic_setup ()
 
 void test_search_logic ()
 {
+  trace_unit_tests (__func__);
+  
   // Test updating search fields.
   {
     refresh_sandbox (true);
@@ -2930,6 +2970,7 @@ void test_search_logic ()
 // Temporal testing of bits.
 void test_libraries_temporal ()
 {
+  trace_unit_tests (__func__);
 }
 
 

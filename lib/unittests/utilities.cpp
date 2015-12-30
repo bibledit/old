@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/shell.h>
 #include <config.h>
 
 
@@ -35,13 +36,16 @@ void refresh_sandbox (bool displayjournal)
 {
   // Display any old journal entries.
   if (displayjournal) {
+    bool output = false;
     string directory = filter_url_create_path (testing_directory, "logbook");
     vector <string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size (); i++) {
       if (files [i] == "gitflag") continue;
       string contents = filter_url_file_get_contents (filter_url_create_path (directory, files [i]));
       cout << contents << endl;
+      output = true;
     }
+    if (output) error_count++;
   }
   
   // Refresh.
@@ -54,12 +58,22 @@ void refresh_sandbox (bool displayjournal)
 }
 
 
-void error_message (int line, string func, string desired, string actual)
+void error_message (int line, string func, string desired, string actual) // Todo
 {
+  string difference;
+  if (desired.length () > 1000) {
+    filter_url_file_put_contents ("/tmp/desired.txt", desired);
+    filter_url_file_put_contents ("/tmp/actual.txt", actual);
+    filter_shell_run ("diff /tmp/desired.txt /tmp/actual.txt", difference);
+  }
   cout << "Line number:    " << line << endl;
   cout << "Function:       " << func << endl;
-  cout << "Desired result: " << desired << endl;
-  cout << "Actual result:  " << actual << endl;
+  if (!difference.empty ()) {
+    cout << "Difference:     " << difference << endl;
+  } else {
+    cout << "Desired result: " << desired << endl;
+    cout << "Actual result:  " << actual << endl;
+  }
   cout << endl;
   error_count++;
 }
@@ -194,6 +208,14 @@ void evaluate (int line, string func, vector <pair<int, string>> desired, vector
     evaluate (line, func, desirediterator->second, actualiterator->second);
     desirediterator++;
     actualiterator++;
+  }
+}
+
+
+void trace_unit_tests (string func)
+{
+  if (error_count) {
+    cout << func << endl;
   }
 }
 
