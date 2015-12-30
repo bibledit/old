@@ -35,8 +35,9 @@
 #include <styles/sheets.h>
 
 
-void export_usfm (string bible, bool force)
+void export_usfm (string bible, bool force) // Todo
 {
+  Database_Logs::log ("export to usfm: force: " + convert_to_string (force)); // Todo
   Database_Bibles database_bibles;
   
   
@@ -73,8 +74,14 @@ void export_usfm (string bible, bool force)
     
     // Check whether to export this book, triggered by certain conditions.
     bool export_book = force;
-    if (Database_State::getExport (bible, book, Export_Logic::export_full_usfm)) export_book = true;
-    if (!file_exists (path)) export_book = true;
+    if (Database_State::getExport (bible, book, Export_Logic::export_full_usfm)) {
+      Database_Logs::log ("export book triggered by database state"); // Todo
+      export_book = true;
+    }
+    if (!file_exists (path)) {
+      Database_Logs::log ("export book triggered by file does not exist"); // Todo
+      export_book = true;
+    }
     if (!export_book) continue;
     // If the USFM output is zipped, the zipping process removes the individual USFM files,
     // which means that they are no longer found, which triggers a new export.
