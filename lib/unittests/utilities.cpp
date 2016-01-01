@@ -58,7 +58,7 @@ void refresh_sandbox (bool displayjournal)
 }
 
 
-void error_message (int line, string func, string desired, string actual) // Todo
+void error_message (int line, string func, string desired, string actual)
 {
   string difference;
   if (desired.length () > 1000) {

@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_usfm (string bible, bool force) // Todo
+void export_usfm (string bible, bool force)
 {
   Database_Bibles database_bibles;
   

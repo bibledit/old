@@ -61,36 +61,36 @@ void export_index ()
       }
 
       if (Database_Config_Bible::getExportWebDuringNight (bible)) {
-        Export_Logic::scheduleWeb (bible, false); // Todo check this one.
-        Export_Logic::scheduleWebIndex (bible, false); // Todo check this one.
+        Export_Logic::scheduleWeb (bible, false);
+        Export_Logic::scheduleWebIndex (bible, false);
       }
 
       if (Database_Config_Bible::getExportHtmlDuringNight (bible)) {
-        Export_Logic::scheduleHtml (bible, false); // Todo check this one.
+        Export_Logic::scheduleHtml (bible, false);
       }
       
       if (Database_Config_Bible::getExportUsfmDuringNight (bible)) {
-        Export_Logic::scheduleUsfm (bible, false); // Todo check this one.
+        Export_Logic::scheduleUsfm (bible, false);
       }
       
       if (Database_Config_Bible::getExportTextDuringNight (bible)) {
-        Export_Logic::scheduleTextAndBasicUsfm (bible, false); // Todo check this one.
+        Export_Logic::scheduleTextAndBasicUsfm (bible, false);
       }
       
       if (Database_Config_Bible::getExportOdtDuringNight (bible)) {
-        Export_Logic::scheduleOpenDocument (bible, false); // Todo check this one.
+        Export_Logic::scheduleOpenDocument (bible, false);
       }
       
       if (Database_Config_Bible::getGenerateInfoDuringNight (bible)) {
-        Export_Logic::scheduleInfo (bible, false); // Todo check this one.
+        Export_Logic::scheduleInfo (bible, false);
       }
       
       if (Database_Config_Bible::getExportESwordDuringNight (bible)) {
-        Export_Logic::scheduleESword (bible, false); // Todo check this one.
+        Export_Logic::scheduleESword (bible, false);
       }
 
       if (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)) {
-        Export_Logic::scheduleOnlineBible (bible, false); // Todo check this one.
+        Export_Logic::scheduleOnlineBible (bible, false);
       }
       
     }
