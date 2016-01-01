@@ -45,6 +45,7 @@ public:
   static string baseBookFileName (int book);
   static string osisDirectory (string bible);
   static string osisSwordVariantDirectory (string interpreter, int complexity);
+  static const int export_needed = 0;
   static const int export_text_and_basic_usfm = 1;
   static const int export_full_usfm = 2;
   static const int export_opendocument = 3;

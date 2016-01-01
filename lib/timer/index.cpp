@@ -78,6 +78,7 @@ void timer_index ()
       int fraction = second / 5;
       if (fraction != previous_fraction) {
         previous_fraction = fraction;
+        Export_Logic::scheduleAll (); // Todo
       }
       
       // Run the part below once per minute.

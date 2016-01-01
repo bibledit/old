@@ -44,7 +44,6 @@ void export_esword (string bible, bool force)
   string filename = filter_url_create_path (directory, "bible.bblx");
 
   
-  if (!file_exists (filename)) force = true;
   if (Database_State::getExport (bible, 0, Export_Logic::export_esword)) force = true;
   if (!force) return;
 

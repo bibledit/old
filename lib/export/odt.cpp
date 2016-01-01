@@ -52,10 +52,6 @@ void export_odt_book (string bible, int book, bool force)
   
   // Certain factors determine whether to run this export.
   if (Database_State::getExport (bible, book, Export_Logic::export_opendocument)) force = true;
-  if (!file_exists (standardFilename)) force = true;
-  if (!file_exists (textOnlyFilename)) force = true;
-  if (!file_exists (textAndCitationsFilename)) force = true;
-  if (!file_exists (notesFilename)) force = true;
   if (!force) return;
 
   

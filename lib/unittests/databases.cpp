@@ -3774,31 +3774,6 @@ void test_database_state ()
     evaluate (__LINE__, __func__, true,  Database_State::getExport ("4", 5, 6));
     evaluate (__LINE__, __func__, false,  Database_State::getExport ("1", 2, 1));
   }
-  // Test states of being exported.
-  {
-    // Not yet exported by default.
-    evaluate (__LINE__, __func__, false,  Database_State::getExported ("bible", 1));
-
-    // Set and test some exports.
-    Database_State::setExported ("1", 1);
-    Database_State::setExported ("2", 2);
-    Database_State::setExported ("3", 3);
-    evaluate (__LINE__, __func__, true,  Database_State::getExported ("1", 1));
-    evaluate (__LINE__, __func__, true,  Database_State::getExported ("2", 2));
-    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
-    evaluate (__LINE__, __func__, false,  Database_State::getExported ("1", 2));
-
-    // Clear some.
-    Database_State::clearExported ("1", 1);
-    evaluate (__LINE__, __func__, false,  Database_State::getExported ("1", 1));
-    evaluate (__LINE__, __func__, true,  Database_State::getExported ("2", 2));
-    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
-
-    // Clear entire Bible.
-    Database_State::clearExported ("2", 0);
-    evaluate (__LINE__, __func__, false,  Database_State::getExported ("2", 2));
-    evaluate (__LINE__, __func__, true,  Database_State::getExported ("3", 3));
-  }
 }
 
 

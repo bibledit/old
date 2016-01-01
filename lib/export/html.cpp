@@ -51,7 +51,6 @@ void export_html_book (string bible, int book, bool force)
   
   
   // Some factors determine whether this book will be exported.
-  if (!file_exists (filename)) force = true;
   if (Database_State::getExport (bible, book, Export_Logic::export_html)) force = true;
   if (!force) return;
   

@@ -49,8 +49,6 @@ void export_info (string bible, bool force)
   
   // Whether to run this export.
   if (Database_State::getExport (bible, 0, Export_Logic::export_info)) force = true;
-  if (!file_exists (informationdFilename)) force = true;
-  if (!file_exists (falloutFilename)) force = true;
   if (!force) return;
 
   

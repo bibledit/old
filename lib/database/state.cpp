@@ -138,6 +138,7 @@ void Database_State::eraseNoteChecksum (int identifier)
 // Flag export of $bible $book to $format.
 void Database_State::setExport (const string & bible, int book, int format)
 {
+  if (getExport (bible, book, format)) return;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO export VALUES (");
   sql.add (bible);
@@ -184,62 +185,6 @@ void Database_State::clearExport (const string & bible, int book, int format)
   sql.add (book);
   sql.add ("AND format =");
   sql.add (format);
-  sql.add (";");
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Set the $bible $book as exported.
-void Database_State::setExported (const string & bible, int book)
-{
-  clearExported (bible, book);
-
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("INSERT INTO exported VALUES (");
-  sql.add (bible);
-  sql.add (",");
-  sql.add (book);
-  sql.add (",");
-  sql.add (true);
-  sql.add (");");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Get whether the $bible $book has been exported.
-bool Database_State::getExported (const string & bible, int book)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT state FROM exported WHERE bible =");
-  sql.add (bible);
-  sql.add ("AND book =");
-  sql.add (book);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> values = database_sqlite_query (db, sql.sql)["state"];
-  database_sqlite_disconnect (db);
-  for (auto value : values) {
-    return true;
-  }
-  return false;
-}
-
-
-// Clear the 'exported' state for the $bible $book.
-// book = 0: clear all books.
-void Database_State::clearExported (const string & bible, int book)
-{
-  sqlite3 * db = connect ();
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("DELETE FROM exported WHERE bible =");
-  sql.add (bible);
-  if (book) {
-    sql.add ("AND book =");
-    sql.add (book);
-  }
   sql.add (";");
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);

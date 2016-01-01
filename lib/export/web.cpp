@@ -144,7 +144,6 @@ void export_web_index (string bible, bool force)
   // - Scheduled for export.
   // - Export does not yet exist.
   // - Force export.
-  if (!file_exists (indexFile)) force = true;
   if (Database_State::getExport (bible, 0, Export_Logic::export_web_index)) force = true;
   if (!force) return;
   

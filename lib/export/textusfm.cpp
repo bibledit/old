@@ -50,8 +50,6 @@ void export_text_usfm_book (string bible, int book, bool force)
   
   
   // Certain conditions determine whether to run this export.
-  if (!file_exists (usfmFilename)) force = true;
-  if (!file_exists (textFilename)) force = true;
   if (Database_State::getExport (bible, book, Export_Logic::export_text_and_basic_usfm)) force = true;
   if (!force) return;
   
