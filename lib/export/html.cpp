@@ -37,7 +37,7 @@
 #include <styles/sheets.h>
 
 
-void export_html_book (string bible, int book, bool force)
+void export_html_book (string bible, int book)
 {
   // Create folders for the html export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "html");
@@ -48,11 +48,6 @@ void export_html_book (string bible, int book, bool force)
   string basename = Export_Logic::baseBookFileName (book);
   string filename = filter_url_create_path (directory, basename + ".html");
   string filecss = filter_url_create_path (directory, "stylesheet.css");
-  
-  
-  // Some factors determine whether this book will be exported.
-  if (Database_State::getExport (bible, book, Export_Logic::export_html)) force = true;
-  if (!force) return;
   
   
   Database_Bibles database_bibles;

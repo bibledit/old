@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_usfm (string bible, bool force)
+void export_usfm (string bible)
 {
   Database_Bibles database_bibles;
   
@@ -54,10 +54,6 @@ void export_usfm (string bible, bool force)
   if (!file_exists (usfmDirectoryFull)) filter_url_mkdir (usfmDirectoryFull);
   
   
-  // Whether to zip the whole Bible.
-  bool zip_bible = force;
-  
-  
   // Take the USFM from the Bible database.
   // Generate one USFM file per book.
   
@@ -71,18 +67,8 @@ void export_usfm (string bible, bool force)
     string path = filter_url_create_path (usfmDirectoryFull, filename + ".usfm");
     
     
-    // Check whether to export this book, triggered by certain conditions.
-    bool export_book = force;
-    if (Database_State::getExport (bible, book, Export_Logic::export_full_usfm)) {
-      export_book = true;
-    }
-    if (!export_book) continue;
     // If the USFM output is zipped, the zipping process removes the individual USFM files,
     // which means that they are no longer found, which triggers a new export.
-    
-    
-    // Since at least one book changed, export the whole Bible also.
-    zip_bible = true;
     
     
     // The USFM data of the current book.
@@ -116,12 +102,6 @@ void export_usfm (string bible, bool force)
   // Base name of the zip file.
   string zipfile = Export_Logic::baseBookFileName (0) + ".zip";
   string zippath = filter_url_create_path (usfmDirectoryFull, zipfile);
-  
-  
-  // Under certain conditions, recreate the zip file.
-  if (!file_exists (zippath)) zip_bible = true;
-  if (Database_State::getExport (bible, 0, Export_Logic::export_full_usfm)) zip_bible = true;
-  if (!zip_bible) return;
   
   
   // Compress USFM files into one zip file.

@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_info (string bible, bool force)
+void export_info (string bible)
 {
   // Create folders for the information.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "info");
@@ -46,11 +46,6 @@ void export_info (string bible, bool force)
   string informationdFilename = filter_url_create_path (directory, "information.html");
   string falloutFilename = filter_url_create_path (directory, "fallout.html");
   
-  
-  // Whether to run this export.
-  if (Database_State::getExport (bible, 0, Export_Logic::export_info)) force = true;
-  if (!force) return;
-
   
   Database_Bibles database_bibles;
   

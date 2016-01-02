@@ -35,17 +35,13 @@
 #include <styles/sheets.h>
 
 
-void export_esword (string bible, bool force)
+void export_esword (string bible)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "esword");
   if (!file_exists (directory)) filter_url_mkdir (directory);
   
   
   string filename = filter_url_create_path (directory, "bible.bblx");
-
-  
-  if (Database_State::getExport (bible, 0, Export_Logic::export_esword)) force = true;
-  if (!force) return;
 
   
   if (file_exists (filename)) filter_url_unlink (filename);

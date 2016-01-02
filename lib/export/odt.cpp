@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_odt_book (string bible, int book, bool force)
+void export_odt_book (string bible, int book)
 {
   // Create folders for the OpenDocument export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "opendocument");
@@ -48,11 +48,6 @@ void export_odt_book (string bible, int book, bool force)
   string textOnlyFilename = filter_url_create_path (directory, basename + "_text_only.odt");
   string textAndCitationsFilename = filter_url_create_path (directory, basename + "_text_and_note_citations.odt");
   string notesFilename = filter_url_create_path (directory, basename + "_notes.odt");
-
-  
-  // Certain factors determine whether to run this export.
-  if (Database_State::getExport (bible, book, Export_Logic::export_opendocument)) force = true;
-  if (!force) return;
 
   
   Database_Bibles database_bibles;
