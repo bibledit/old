@@ -55,6 +55,7 @@ void Database_Localization::create (string po)
   database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
   database_sqlite_exec (db, "PRAGMA journal_mode = OFF;");
   database_sqlite_exec (db, "DROP TABLE IF EXISTS localization;");
+  database_sqlite_exec (db, "VACUUM;");
   database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
   map <string, string> translations = locale_logic_read_po (po);
   for (auto & element : translations) {

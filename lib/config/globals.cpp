@@ -36,3 +36,4 @@ int config_globals_timezone_offset_utc = 100;
 bool config_globals_change_notifications_available = true;
 int config_globals_setup_progress = 5;
 int config_globals_simultaneous_connection_count = 0;
+bool config_globals_data_initialized = false;

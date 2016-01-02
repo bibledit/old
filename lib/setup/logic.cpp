@@ -99,6 +99,8 @@ void setup_conditionally (const char * package)
     
   }
 
+  config_globals_data_initialized = true;
+  
   // Run the indexers if a flag was set for it.
   // This mechanism is suitable for low power devices as Android and iOS.
   // If Bibles or Notes are scheduled to be indexed, since the tasks take a lot of time,

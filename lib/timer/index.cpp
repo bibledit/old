@@ -46,7 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This leads to an order as visible in the code below.
 
 
-void timer_index ()
+void timer_index () // Todo
 {
   bool client = client_logic_client_enabled ();
   int previous_second = -1;
@@ -58,6 +58,9 @@ void timer_index ()
 
       // Wait shortly.
       this_thread::sleep_for (chrono::milliseconds (100));
+      
+      // Wait tilll the data structures have been initialized.
+      if (!config_globals_data_initialized) continue;
       
       // The current time, localized.
       int seconds_since_epoch = filter_date_seconds_since_epoch ();
