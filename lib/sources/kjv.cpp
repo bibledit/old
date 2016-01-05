@@ -23,16 +23,26 @@
 #include <database/sqlite.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
 {
   Database_Kjv database_kjv;
   vector <string> lemmas = filter_string_explode (lemma, ' ');
-  for (auto strong : lemmas) {
+  bool output_done = false;
+  for (auto & strong : lemmas) {
     if (strong.find ("strong") == string::npos) continue;
+    if (output_done) {
+      // Two separate two identical words.
+      database_kjv.store (book, chapter, verse, "", " / ");
+    }
     strong = filter_string_str_replace ("strong:", "", strong);
     database_kjv.store (book, chapter, verse, strong, english);
+    output_done = true;
   }
   if (lemmas.empty ()) {
     database_kjv.store (book, chapter, verse, "", english);
@@ -41,15 +51,12 @@ void sources_kjv_store (int book, int chapter, int verse, string lemma, string e
 
 
 // Parses the XML data from kjv.xml.
-// The parser is supposed to be ran only by the developers.
-// No memory is freed: It leaks a lot of memory.
 void sources_kjv_parse ()
 {
   Database_Logs::log ("Parsing data from Crosswire's KJV XML file");
   Database_Kjv database_kjv;
   database_kjv.create ();
 
-  /* To redo this with pugixml
   int book = 0;
   int chapter = 0;
   int verse = 0;
@@ -57,70 +64,75 @@ void sources_kjv_parse ()
   string lemma;
   string english;
 
-  xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/kjv.xml");
-  while ((xmlTextReaderRead(reader) == 1)) {
-    switch (xmlTextReaderNodeType (reader)) {
-      case XML_READER_TYPE_ELEMENT:
-      {
-        string element = (char *) xmlTextReaderName (reader);
-        if (element == "div") {
-          string type = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "type");
-          if (type == "book") {
-            book++;
-            Database_Logs::log ("Book " + convert_to_string (book));
-            chapter = 0;
-            verse = 0;
-          }
-        }
-        if (element == "chapter") {
-          chapter++;
+  xml_document document;
+  document.load_file ("sources/kjv.xml", parse_ws_pcdata);
+  for (xml_node osis : document.children ()) {
+    for (xml_node osisText : osis.children ()) {
+      for (xml_node divbook : osisText.children ()) {
+        if (strcmp (divbook.name (), "div") == 0) {
+          book++;
+          Database_Logs::log ("Book " + convert_to_string (book));
+          chapter = 0;
           verse = 0;
-        }
-        if (element == "verse") {
-          char * sID = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "sID");
-          if (sID) {
-            verse++;
-            within_verse = true;
+          for (xml_node chapter_element : divbook.children ()) {
+            if (strcmp (chapter_element.name (), "chapter") == 0) {
+              chapter++;
+              verse = 0;
+              within_verse = false;
+              for (xml_node element : chapter_element.children ()) {
+                string element_name = element.name ();
+                if (element_name == "verse") {
+                  string sID = element.attribute ("sID").value ();
+                  if (!sID.empty ()) {
+                    verse++;
+                    within_verse = true;
+                  }
+                  string eID = element.attribute ("eID").value ();
+                  if (!eID.empty ()) {
+                    within_verse = false;
+                  }
+                } else if (element_name == "w") {
+                  string lemma = element.attribute ("lemma").value ();
+                  lemma = filter_string_trim (lemma);
+                  xml_node textnode = element.first_child ();
+                  string english = textnode.text ().get ();
+                  if (within_verse) {
+                    sources_kjv_store (book, chapter, verse, lemma, english);
+                  }
+                } else if (element_name.empty ()) {
+                  if (within_verse) {
+                    string english = element.value ();
+                    sources_kjv_store (book, chapter, verse, "", english);
+                  }
+                } else if (element_name == "note") {
+                  xml_node textnode = element.first_child ();
+                  string english = textnode.text ().get ();
+                  english.insert (0, " [");
+                  english.append ("]");
+                  sources_kjv_store (book, chapter, verse, "", english);
+                } else if (element_name == "milestone") {
+                } else if (element_name == "transChange") {
+                  xml_node textnode = element.first_child ();
+                  string english = textnode.text ().get ();
+                  english.insert (0, "<span style=\"font-style:italic;\">");
+                  english.append ("</span>");
+                  sources_kjv_store (book, chapter, verse, "", english);
+                } else {
+                  if (within_verse) {
+                    cout << "|" << element_name << "|"; // Todo
+                    xml_node textnode = element.first_child ();
+                    string english = textnode.text ().get ();
+                    cout << english; // Todo
+                  }
+                }
+              }
+            }
           }
-          char * eID = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "eID");
-          if (eID) {
-            within_verse = false;
-          }
         }
-        if (element == "w") {
-          char * attr = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "lemma");
-          if (attr) {
-            lemma = filter_string_trim (attr);
-          }
-        }
-        break;
-      }
-      case XML_READER_TYPE_TEXT:
-      {
-        string english = (char *) xmlTextReaderValue (reader);
-        if (within_verse) {
-          sources_kjv_store (book, chapter, verse, lemma, english);
-          lemma.clear ();
-        }
-        break;
-      }
-      case XML_READER_TYPE_WHITESPACE:
-      case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
-      {
-        if (within_verse) {
-          sources_kjv_store (book, chapter, verse, "", " ");
-        }
-      }
-      case XML_READER_TYPE_END_ELEMENT:
-      {
-        string element = (char *) xmlTextReaderName (reader);
-        if (element == "w") {
-        }
-        break;
       }
     }
   }
-   */
+
   database_kjv.optimize ();
   Database_Logs::log ("Finished parsing data from the KJV XML file");
 }

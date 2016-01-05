@@ -46,7 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This leads to an order as visible in the code below.
 
 
-void timer_index () // Todo
+void timer_index ()
 {
   bool client = client_logic_client_enabled ();
   int previous_second = -1;

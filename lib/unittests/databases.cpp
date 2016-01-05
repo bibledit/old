@@ -880,7 +880,7 @@ void test_database_check ()
 }
 
 
-void test_database_localization () // Todo
+void test_database_localization ()
 {
   trace_unit_tests (__func__);
   

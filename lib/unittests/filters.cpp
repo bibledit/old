@@ -365,9 +365,9 @@ void test_filters_usfm2 ()
     usfm =
     "\\p\n"
     "\\v 1 One";
-    evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1)); // Todo
-    evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0)); // Todo
-    evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2)); // Todo
+    evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
+    evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0));
+    evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2));
 
     usfm =
     "\\c 1\n"

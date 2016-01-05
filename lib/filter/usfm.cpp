@@ -383,48 +383,7 @@ string usfm_get_verse_text (string usfm, int verse_number) // Todo make new vers
 }
 
 
-// Returns the verse text given a $verse_number and $usfm code.
-// Handles combined verses.
-// Considers a heading to belong to the next verse.
-// This was not implemented because the logic is hard and tricky.
-string usfm_v2_get_verse_text (string usfm, int verse_number) // Todo write / test / use.
-{
-  vector <string> result;
-  bool is_within_verse = (verse_number == 0);
-  bool previous_line_examined = false;
-  
-  vector <string> lines = filter_string_explode (usfm, '\n');
-  for (string & line : lines) {
-    vector <int> verses = usfm_get_verse_numbers (line);
-    if (verse_number == 0) {
-      if (verses.size () != 1) is_within_verse = false;
-      if (is_within_verse) result.push_back (line);
-    } else {
-      if (in_array (verse_number, verses)) {
-        // Desired verse found.
-        is_within_verse = true;
-      } else if (verses.size () == 1) {
-        // No verse found: No change in situation.
-      } else {
-        // Outside desired verse.
-        is_within_verse = false;
-      }
-      if (is_within_verse) {
-        if (!previous_line_examined) {
-          previous_line_examined = true;
-        }
-        result.push_back (line);
-      }
-    }
-  }
-  
-  // Return the verse text.
-  string verseText = filter_string_implode (result, "\n");
-  return verseText;
-}
-
-
-// Returns true if the $code contains an USFM marker.
+// Returns true if the $code contains a USFM marker.
 bool usfm_is_usfm_marker (string code)
 {
   if (code.length () < 2) return false;

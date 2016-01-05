@@ -52,7 +52,6 @@ vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_numb
 vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset);
 int usfm_versenumber_to_offset (string usfm, int verse);
 string usfm_get_verse_text (string usfm, int verse_number);
-string usfm_v2_get_verse_text (string usfm, int verse_number);
 bool usfm_is_usfm_marker (string code);
 bool usfm_is_opening_marker (string usfm);
 bool usfm_is_embedded_marker (string usfm);
