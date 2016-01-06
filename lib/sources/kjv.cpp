@@ -50,6 +50,63 @@ void sources_kjv_store (int book, int chapter, int verse, string lemma, string e
 }
 
 
+
+void sources_kjv_parse_loop (xml_node element,
+                             int & book, int & chapter, int & verse,
+                             bool & within_verse) // Todo
+{
+  string element_name = element.name ();
+  if (element_name == "verse") {
+    string sID = element.attribute ("sID").value ();
+    if (!sID.empty ()) {
+      verse++;
+      within_verse = true;
+    }
+    string eID = element.attribute ("eID").value ();
+    if (!eID.empty ()) {
+      within_verse = false;
+    }
+  } else if (element_name == "w") {
+    string lemma = element.attribute ("lemma").value ();
+    lemma = filter_string_trim (lemma);
+    xml_node textnode = element.first_child ();
+    string english = textnode.text ().get ();
+    if (within_verse) {
+      sources_kjv_store (book, chapter, verse, lemma, english);
+    }
+  } else if (element_name.empty ()) {
+    if (within_verse) {
+      string english = element.value ();
+      sources_kjv_store (book, chapter, verse, "", english);
+    }
+  } else if (element_name == "note") {
+    xml_node textnode = element.first_child ();
+    string english = textnode.text ().get ();
+    english.insert (0, " [");
+    english.append ("]");
+    sources_kjv_store (book, chapter, verse, "", english);
+  } else if (element_name == "milestone") {
+  } else if (element_name == "transChange") {
+    xml_node textnode = element.first_child ();
+    string english = textnode.text ().get ();
+    english.insert (0, "<span style=\"font-style:italic;\">");
+    english.append ("</span>");
+    sources_kjv_store (book, chapter, verse, "", english);
+  } else if (element_name == "inscription") {
+    for (xml_node child : element.children ()) {
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse);
+    }
+  } else {
+    if (within_verse) {
+      xml_node textnode = element.first_child ();
+      string english = textnode.text ().get ();
+      Passage passage ("", book, chapter, convert_to_string (verse));
+      Database_Logs::log (passage.to_text () + ": Failed to parse element " + element_name + " with value " + english);
+    }
+  }
+}
+
+
 // Parses the XML data from kjv.xml.
 void sources_kjv_parse ()
 {
@@ -61,8 +118,6 @@ void sources_kjv_parse ()
   int chapter = 0;
   int verse = 0;
   bool within_verse = false;
-  string lemma;
-  string english;
 
   xml_document document;
   document.load_file ("sources/kjv.xml", parse_ws_pcdata);
@@ -80,51 +135,7 @@ void sources_kjv_parse ()
               verse = 0;
               within_verse = false;
               for (xml_node element : chapter_element.children ()) {
-                string element_name = element.name ();
-                if (element_name == "verse") {
-                  string sID = element.attribute ("sID").value ();
-                  if (!sID.empty ()) {
-                    verse++;
-                    within_verse = true;
-                  }
-                  string eID = element.attribute ("eID").value ();
-                  if (!eID.empty ()) {
-                    within_verse = false;
-                  }
-                } else if (element_name == "w") {
-                  string lemma = element.attribute ("lemma").value ();
-                  lemma = filter_string_trim (lemma);
-                  xml_node textnode = element.first_child ();
-                  string english = textnode.text ().get ();
-                  if (within_verse) {
-                    sources_kjv_store (book, chapter, verse, lemma, english);
-                  }
-                } else if (element_name.empty ()) {
-                  if (within_verse) {
-                    string english = element.value ();
-                    sources_kjv_store (book, chapter, verse, "", english);
-                  }
-                } else if (element_name == "note") {
-                  xml_node textnode = element.first_child ();
-                  string english = textnode.text ().get ();
-                  english.insert (0, " [");
-                  english.append ("]");
-                  sources_kjv_store (book, chapter, verse, "", english);
-                } else if (element_name == "milestone") {
-                } else if (element_name == "transChange") {
-                  xml_node textnode = element.first_child ();
-                  string english = textnode.text ().get ();
-                  english.insert (0, "<span style=\"font-style:italic;\">");
-                  english.append ("</span>");
-                  sources_kjv_store (book, chapter, verse, "", english);
-                } else {
-                  if (within_verse) {
-                    cout << "|" << element_name << "|"; // Todo
-                    xml_node textnode = element.first_child ();
-                    string english = textnode.text ().get ();
-                    cout << english; // Todo
-                  }
-                }
+                sources_kjv_parse_loop (element, book, chapter, verse, within_verse);
               }
             }
           }
