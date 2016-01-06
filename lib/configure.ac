@@ -66,6 +66,10 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
+PKG_CHECK_MODULES(SWORD, sword >= 1.6.0,AC_DEFINE([HAVE_SWORD],[1],[Define whether the SWORD library is present]),)
+AC_SUBST(SWORD_CFLAGS)
+AC_SUBST(SWORD_LIBS)
+
 
 # Tag1 (leave in place)
 # Tag2 (leave in place)
@@ -261,4 +265,5 @@ Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
+SWORD library                                     : ${SWORD_CFLAGS}
 "

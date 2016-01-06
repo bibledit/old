@@ -50,10 +50,9 @@ void sources_kjv_store (int book, int chapter, int verse, string lemma, string e
 }
 
 
-
 void sources_kjv_parse_loop (xml_node element,
                              int & book, int & chapter, int & verse,
-                             bool & within_verse) // Todo
+                             bool & within_verse, string & lemma)
 {
   string element_name = element.name ();
   if (element_name == "verse") {
@@ -67,17 +66,17 @@ void sources_kjv_parse_loop (xml_node element,
       within_verse = false;
     }
   } else if (element_name == "w") {
-    string lemma = element.attribute ("lemma").value ();
-    lemma = filter_string_trim (lemma);
-    xml_node textnode = element.first_child ();
-    string english = textnode.text ().get ();
     if (within_verse) {
-      sources_kjv_store (book, chapter, verse, lemma, english);
+      lemma = element.attribute ("lemma").value ();
+      lemma = filter_string_trim (lemma);
+      for (xml_node child : element.children ()) {
+        sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+      }
     }
   } else if (element_name.empty ()) {
     if (within_verse) {
       string english = element.value ();
-      sources_kjv_store (book, chapter, verse, "", english);
+      sources_kjv_store (book, chapter, verse, lemma, english);
     }
   } else if (element_name == "note") {
     xml_node textnode = element.first_child ();
@@ -94,7 +93,28 @@ void sources_kjv_parse_loop (xml_node element,
     sources_kjv_store (book, chapter, verse, "", english);
   } else if (element_name == "inscription") {
     for (xml_node child : element.children ()) {
-      sources_kjv_parse_loop (child, book, chapter, verse, within_verse);
+      string lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+    }
+  } else if (element_name == "q") {
+    for (xml_node child : element.children ()) {
+      string lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+    }
+  } else if (element_name == "divineName") {
+    for (xml_node child : element.children ()) {
+      string lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+    }
+  } else if (element_name == "title") {
+    for (xml_node child : element.children ()) {
+      string lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+    }
+  } else if (element_name == "foreign") {
+    for (xml_node child : element.children ()) {
+      string lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
     }
   } else {
     if (within_verse) {
@@ -135,7 +155,8 @@ void sources_kjv_parse ()
               verse = 0;
               within_verse = false;
               for (xml_node element : chapter_element.children ()) {
-                sources_kjv_parse_loop (element, book, chapter, verse, within_verse);
+                string lemma;
+                sources_kjv_parse_loop (element, book, chapter, verse, within_verse, lemma);
               }
             }
           }
