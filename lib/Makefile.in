@@ -280,13 +280,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
 	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
 	sources/hebrewlexicon.$(OBJEXT) sword/logic.$(OBJEXT) \
-	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
-	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
-	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
-	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
-	public/create.$(OBJEXT) public/note.$(OBJEXT) \
-	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
-	search/logic.$(OBJEXT)
+	sword/installmgr.$(OBJEXT) pugixml/pugixml.$(OBJEXT) \
+	pugixml/utils.$(OBJEXT) public/index.$(OBJEXT) \
+	public/logic.$(OBJEXT) public/login.$(OBJEXT) \
+	public/chapter.$(OBJEXT) public/notes.$(OBJEXT) \
+	public/new.$(OBJEXT) public/create.$(OBJEXT) \
+	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
+	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -436,7 +436,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. -g -rdynamic $(SQLITE_LIBS) $(CURL_LIBS) \
-	$(OPENSSL_LIBS)
+	$(OPENSSL_LIBS) $(SWORD_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -852,6 +852,7 @@ libbibledit_a_SOURCES = \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
 	sword/logic.cpp \
+	sword/installmgr.cpp \
 	pugixml/pugixml.cpp \
 	pugixml/utils.cpp \
 	public/index.cpp \
@@ -878,7 +879,8 @@ unittest_SOURCES = \
 unittest_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
-	-rdynamic $(SQLITE_CFLAGS) $(CURL_CFLAGS) $(OPENSSL_CFLAGS)
+	-rdynamic $(SQLITE_CFLAGS) $(CURL_CFLAGS) $(OPENSSL_CFLAGS) \
+	$(SWORD_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h
@@ -2031,6 +2033,8 @@ sword/$(DEPDIR)/$(am__dirstamp):
 	@: > sword/$(DEPDIR)/$(am__dirstamp)
 sword/logic.$(OBJEXT): sword/$(am__dirstamp) \
 	sword/$(DEPDIR)/$(am__dirstamp)
+sword/installmgr.$(OBJEXT): sword/$(am__dirstamp) \
+	sword/$(DEPDIR)/$(am__dirstamp)
 pugixml/$(am__dirstamp):
 	@$(MKDIR_P) pugixml
 	@: > pugixml/$(am__dirstamp)
@@ -2540,6 +2544,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheetm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sword/$(DEPDIR)/installmgr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sword/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/changes.Po@am__quote@

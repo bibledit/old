@@ -352,7 +352,7 @@ int usfm_versenumber_to_offset (string usfm, int verse)
 
 // Returns the verse text given a $verse_number and $usfm code.
 // Handles combined verses.
-string usfm_get_verse_text (string usfm, int verse_number) // Todo make new version, replace this one bit by bit.
+string usfm_get_verse_text (string usfm, int verse_number)
 {
   vector <string> result;
   bool hit = (verse_number == 0);

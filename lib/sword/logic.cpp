@@ -34,6 +34,7 @@
 #include <sync/resources.h>
 #include <tasks/logic.h>
 #include <demo/logic.h>
+#include <sword/installmgr.h>
 
 
 string sword_logic_get_path ()
@@ -42,7 +43,7 @@ string sword_logic_get_path ()
 }
 
 
-void sword_logic_refresh_module_list ()
+void sword_logic_refresh_module_list () // Todo more to the sword library and phase installmgr out, remove from configure.ac also, and remove from installation docs also.
 {
   Database_Logs::log ("Refreshing SWORD module list");
   
@@ -56,23 +57,30 @@ void sword_logic_refresh_module_list ()
   "DataPath=" + sword_path + "/\n";
   filter_url_file_put_contents (filter_url_create_path (sword_path, "sword.conf"), swordconf);
   
-  // Initialize basic user configuration
+  // Initialize basic user configuration.
+  /*
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -init", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     Database_Logs::log (line);
   }
+  */
+  sword_installmgr_initialize_configuration ();
   
   // Sync the configuration with the online known remote repository list.
+  /*
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     Database_Logs::log (line);
   }
+  */
+  sword_installmgr_synchronize_configuration_with_master ();
   
   // List the remote sources.
   vector <string> remote_sources;
+  /*
   filter_shell_run ("cd " + sword_path + "; installmgr -s", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
@@ -86,6 +94,8 @@ void sword_logic_refresh_module_list ()
       }
     }
   }
+  */
+  sword_installmgr_list_remote_sources (remote_sources);
   
   vector <string> sword_modules;
   
