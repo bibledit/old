@@ -106,7 +106,8 @@ class MyStatusReporter : public StatusReporter {
 		}
 		//cout.flush();
 	}
-        virtual void preStatus(long totalBytes, long completedBytes, const char *message) {
+  virtual void preStatus(long totalBytes, long completedBytes, const char *message) {
+    (void) message;
 		SWBuf output;
 		output.setFormatted("[ Total Bytes: %ld; Completed Bytes: %ld", totalBytes, completedBytes);
 		while (output.size() < 75) output += " ";
@@ -155,6 +156,8 @@ void finish(int status) {
 
 void createBasicConfig(bool enableRemote, bool addCrossWire) {
 
+  (void) addCrossWire;
+  
 	FileMgr::createParent(confPath.c_str());
 	remove(confPath.c_str());
 
@@ -462,6 +465,56 @@ void sword_installmgr_list_remote_sources (vector <string> & sources) // Todo
     description.append (", directory ");
     description.append (it->second->directory);
     Database_Logs::log (description);
+  }
+  finish(0);
+#endif
+}
+
+
+void sword_installmgr_refresh_remote_source (string name) // Todo
+{
+#ifdef HAVE_SWORD
+  init();
+  InstallSourceMap::iterator source = installMgr->sources.find(name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + name);
+  } else {
+    if (!installMgr->refreshRemoteSource(source->second)) {
+      Database_Logs::log ("Remote source refreshed: " + name);
+    } else {
+      Database_Logs::log ("Error refreshing remote source " + name);
+    }
+  }
+  finish(0);
+#endif
+}
+
+
+void sword_installmgr_list_remote_modules (string source_name, vector <string> & modules) // Todo
+{
+#ifdef HAVE_SWORD
+  init();
+  InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + source_name);
+  } else {
+    listModules(source->second->getMgr(), false);
+    
+    SWModule *module;
+    if (!otherMgr) otherMgr = mgr;
+    std::map<SWModule *, int> mods = InstallMgr::getModuleStatus(*mgr, *otherMgr);
+    for (std::map<SWModule *, int>::iterator it = mods.begin(); it != mods.end(); it++) {
+      module = it->first;
+      SWBuf version = module->getConfigEntry("Version");
+      SWBuf status = " ";
+      if (it->second & InstallMgr::MODSTAT_NEW) status = "*";
+      if (it->second & InstallMgr::MODSTAT_OLDER) status = "-";
+      if (it->second & InstallMgr::MODSTAT_UPDATED) status = "+";
+      
+      if (!onlyNewAndUpdates || status == "*" || status == "+") {
+        cout << status << "[" << module->getName() << "]  \t(" << version << ")  \t- " << module->getDescription() << "\n";
+      }
+    }
   }
   finish(0);
 #endif

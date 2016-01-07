@@ -27,6 +27,8 @@
 void sword_installmgr_initialize_configuration ();
 void sword_installmgr_synchronize_configuration_with_master ();
 void sword_installmgr_list_remote_sources (vector <string> & sources);
+void sword_installmgr_refresh_remote_source (string name);
+void sword_installmgr_list_remote_modules (string source_name, vector <string> & modules);
 
 
 #endif
