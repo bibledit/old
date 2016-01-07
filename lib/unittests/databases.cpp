@@ -1149,36 +1149,70 @@ void test_database_kjv ()
   
   Database_Kjv database_kjv = Database_Kjv ();
 
-  vector <Database_Kjv_Item> data = database_kjv.getVerse (43, 11, 35);
-  evaluate (__LINE__, __func__, 5, (int)data.size());
-
-  evaluate (__LINE__, __func__, "G3588", data[0].strong);
-  evaluate (__LINE__, __func__, "Jesus", data[0].english);
-
-  evaluate (__LINE__, __func__, "G2424", data[1].strong);
-  evaluate (__LINE__, __func__, "Jesus", data[1].english);
-
-  evaluate (__LINE__, __func__, "G1145", data[3].strong);
-  evaluate (__LINE__, __func__, "wept",  data[3].english);
-
-  vector <Passage> passages = database_kjv.searchStrong ("G909");
-  evaluate (__LINE__, __func__, 4, (int)passages.size());
+  {
+    vector <Database_Kjv_Item> data = database_kjv.getVerse (43, 11, 35);
+    evaluate (__LINE__, __func__, 6, (int)data.size());
+    
+    evaluate (__LINE__, __func__, "G3588", data[0].strong);
+    evaluate (__LINE__, __func__, "Jesus", data[0].english);
+    
+    // There's a slash (/) between "Jesus" and "Jesus", to separate the words, so they are not joined.
+    
+    evaluate (__LINE__, __func__, "G2424", data[2].strong);
+    evaluate (__LINE__, __func__, "Jesus", data[2].english);
+    
+    evaluate (__LINE__, __func__, "G1145", data[4].strong);
+    evaluate (__LINE__, __func__, "wept",  data[4].english);
+  }
   
-  evaluate (__LINE__, __func__, 41,   passages[0].book);
-  evaluate (__LINE__, __func__, 7,    passages[0].chapter);
-  evaluate (__LINE__, __func__, "4",  passages[0].verse);
+  {
+    // Testing space between the end of the canonical text and a note following it.
+    vector <Database_Kjv_Item> data = database_kjv.getVerse (1, 1, 5);
+    evaluate (__LINE__, __func__, 23, (int)data.size());
+    evaluate (__LINE__, __func__, " [And the evening…: Heb. And the evening was, and the morning was etc.]", data[22].english);
+  }
+  
+  {
+    // Testing proper parsing of the <q> element in Luke 13.2.
+    vector <Database_Kjv_Item> data = database_kjv.getVerse (42, 13, 2);
+    evaluate (__LINE__, __func__, 40, (int)data.size());
+    evaluate (__LINE__, __func__, "Suppose ye", data[12].english);
+  }
+  
+  {
+    // Check parsing of <inscription> in Exodus 28.36.
+    vector <Database_Kjv_Item> data = database_kjv.getVerse (2, 28, 36);
+    evaluate (__LINE__, __func__, 23, (int)data.size());
+    evaluate (__LINE__, __func__, "HOLINESS", data[18].english);
+  }
+  
+  {
+    // Check parsing of <divineName> in Genesis 2.4.
+    vector <Database_Kjv_Item> data = database_kjv.getVerse (1, 2, 4);
+    evaluate (__LINE__, __func__, 25, (int)data.size());
+    evaluate (__LINE__, __func__, "Lord", data[15].english);
+  }
 
-  evaluate (__LINE__, __func__, 41,   passages[1].book);
-  evaluate (__LINE__, __func__, 7,    passages[1].chapter);
-  evaluate (__LINE__, __func__, "8",  passages[1].verse);
-
-  evaluate (__LINE__, __func__, 58,   passages[2].book);
-  evaluate (__LINE__, __func__, 6,    passages[2].chapter);
-  evaluate (__LINE__, __func__, "2",  passages[2].verse);
-
-  evaluate (__LINE__, __func__, 58,   passages[3].book);
-  evaluate (__LINE__, __func__, 9,    passages[3].chapter);
-  evaluate (__LINE__, __func__, "10", passages[3].verse);
+  {
+    vector <Passage> passages = database_kjv.searchStrong ("G909");
+    evaluate (__LINE__, __func__, 4, (int)passages.size());
+    
+    evaluate (__LINE__, __func__, 41,   passages[0].book);
+    evaluate (__LINE__, __func__, 7,    passages[0].chapter);
+    evaluate (__LINE__, __func__, "4",  passages[0].verse);
+    
+    evaluate (__LINE__, __func__, 41,   passages[1].book);
+    evaluate (__LINE__, __func__, 7,    passages[1].chapter);
+    evaluate (__LINE__, __func__, "8",  passages[1].verse);
+    
+    evaluate (__LINE__, __func__, 58,   passages[2].book);
+    evaluate (__LINE__, __func__, 6,    passages[2].chapter);
+    evaluate (__LINE__, __func__, "2",  passages[2].verse);
+    
+    evaluate (__LINE__, __func__, 58,   passages[3].book);
+    evaluate (__LINE__, __func__, 9,    passages[3].chapter);
+    evaluate (__LINE__, __func__, "10", passages[3].verse);
+  }
 }
 
 
