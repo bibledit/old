@@ -43,7 +43,7 @@ string sword_logic_get_path ()
 }
 
 
-void sword_logic_refresh_module_list () // Todo more to the sword library and phase installmgr out, remove from configure.ac also, and remove from installation docs also.
+void sword_logic_refresh_module_list ()
 {
   Database_Logs::log ("Refreshing SWORD module list");
   
@@ -58,29 +58,28 @@ void sword_logic_refresh_module_list () // Todo more to the sword library and ph
   filter_url_file_put_contents (filter_url_create_path (sword_path, "sword.conf"), swordconf);
   
   // Initialize basic user configuration.
-  /*
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -init", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     Database_Logs::log (line);
   }
+  /*
+   sword_installmgr_initialize_configuration ();
   */
-  sword_installmgr_initialize_configuration ();
   
   // Sync the configuration with the online known remote repository list.
   /*
+   sword_installmgr_synchronize_configuration_with_master ();
+  */
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     Database_Logs::log (line);
   }
-  */
-  sword_installmgr_synchronize_configuration_with_master ();
   
   // List the remote sources.
   vector <string> remote_sources;
-  /*
   filter_shell_run ("cd " + sword_path + "; installmgr -s", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
@@ -94,35 +93,38 @@ void sword_logic_refresh_module_list () // Todo more to the sword library and ph
       }
     }
   }
-  */
+  /*
   sword_installmgr_list_remote_sources (remote_sources);
+  */
   
   vector <string> sword_modules;
   
   for (auto remote_source : remote_sources) {
     
-    /*
     filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
     Database_Logs::log (out_err);
-     */
-    sword_installmgr_refresh_remote_source (remote_source);
     /*
+     sword_installmgr_refresh_remote_source (remote_source);
+    */
+    vector <string> modules;
     filter_shell_run ("cd " + sword_path + "; installmgr -rl \"" + remote_source + "\"", out_err);
     lines = filter_string_explode (out_err, '\n');
     for (auto line : lines) {
       line = filter_string_trim (line);
       if (line.empty ()) continue;
-      Database_Logs::log (line);
       if (line.find ("[") == string::npos) continue;
       if (line.find ("]") == string::npos) continue;
-      sword_modules.push_back ("[" + remote_source + "]" + " " + line);
+      modules.push_back ("[" + remote_source + "]" + " " + line);
     }
+    /*
+     sword_installmgr_list_remote_modules (remote_source, modules);
+     for (auto & module : modules) {
+     sword_modules.push_back ("[" + remote_source + "]" + " " + module);
+     }
     */
-    vector <string> modules;
-    sword_installmgr_list_remote_modules (remote_source, modules);
-    for (auto & line : modules) {
-      sword_modules.push_back ("[" + remote_source + "]" + " " + line);
+    for (auto module : modules) {
+      sword_modules.push_back (module);
     }
     Database_Logs::log (remote_source + ": " + convert_to_string (modules.size ()) + " modules");
   }
@@ -219,10 +221,9 @@ string sword_logic_get_name (string line)
 }
 
 
-void sword_logic_install_module (string source, string module) // Todo move to libsword. It now fails to install.
+void sword_logic_install_module (string source, string module)
 {
   Database_Logs::log ("Install SWORD module " + module + " from source " + source);
-  /*
   string out_err;
   string sword_path = sword_logic_get_path ();
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source + "\" \"" + module + "\"", out_err);
@@ -232,13 +233,18 @@ void sword_logic_install_module (string source, string module) // Todo move to l
     if (line.empty ()) continue;
     Database_Logs::log (line);
   }
-  */
-  cout << "sword_path " << sword_logic_get_path () << endl; // Todo
+  /*
   sword_installmgr_install_from_remote (source, module);
+   Installing module works through the command line, e.g.:
+   cd /private/tmp/bibledit-dev/sword; echo yes | installmgr -ri CrossWire Dan1871
+   But fails through libsword.
+   Perhaps needs to set $HOME, shortly, to the proper one, then revert to the original one.
+   SWBuf homeDir = getenv("HOME");
+  */
 }
 
 
-void sword_logic_uninstall_module (string module) // Todo move to libsword.
+void sword_logic_uninstall_module (string module)
 {
   Database_Logs::log ("Uninstall SWORD module " + module);
   string out_err;
@@ -262,7 +268,7 @@ vector <string> sword_logic_get_available ()
 
 
 // Get installed SWORD modules.
-vector <string> sword_logic_get_installed () // Todo move to libsword
+vector <string> sword_logic_get_installed ()
 {
   vector <string> modules;
   string out_err;
