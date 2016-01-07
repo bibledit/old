@@ -134,6 +134,7 @@ void init() {
 		confPath = baseDir + "/InstallMgr.conf";
 		statusReporter = new MyStatusReporter();
 		installMgr = new MyInstallMgr(baseDir, statusReporter);
+    cout << baseDir << "|" << confPath << endl; // Todo
 	}
 }
 
@@ -422,7 +423,7 @@ int installmgr_main (int argc, char **argv) {
 #endif
 
 
-void sword_installmgr_initialize_configuration () // Todo
+void sword_installmgr_initialize_configuration ()
 {
 #ifdef HAVE_SWORD
   init();
@@ -433,7 +434,7 @@ void sword_installmgr_initialize_configuration () // Todo
 }
 
 
-void sword_installmgr_synchronize_configuration_with_master () // Todo
+void sword_installmgr_synchronize_configuration_with_master ()
 {
 #ifdef HAVE_SWORD
   init();
@@ -448,7 +449,7 @@ void sword_installmgr_synchronize_configuration_with_master () // Todo
 }
 
 
-void sword_installmgr_list_remote_sources (vector <string> & sources) // Todo
+void sword_installmgr_list_remote_sources (vector <string> & sources)
 {
 #ifdef HAVE_SWORD
   init();
@@ -471,10 +472,11 @@ void sword_installmgr_list_remote_sources (vector <string> & sources) // Todo
 }
 
 
-void sword_installmgr_refresh_remote_source (string name) // Todo
+void sword_installmgr_refresh_remote_source (string name)
 {
 #ifdef HAVE_SWORD
   init();
+  installMgr->setUserDisclaimerConfirmed (true);
   InstallSourceMap::iterator source = installMgr->sources.find(name.c_str ());
   if (source == installMgr->sources.end()) {
     Database_Logs::log ("Could not find remote source " + name);
@@ -490,10 +492,11 @@ void sword_installmgr_refresh_remote_source (string name) // Todo
 }
 
 
-void sword_installmgr_list_remote_modules (string source_name, vector <string> & modules) // Todo
+void sword_installmgr_list_remote_modules (string source_name, vector <string> & modules)
 {
 #ifdef HAVE_SWORD
   init();
+  installMgr->setUserDisclaimerConfirmed (true);
   InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
   if (source == installMgr->sources.end()) {
     Database_Logs::log ("Could not find remote source " + source_name);
@@ -517,6 +520,37 @@ void sword_installmgr_list_remote_modules (string source_name, vector <string> &
       module_name.append (")  \t- ");
       module_name.append (module->getDescription());
       modules.push_back (module_name);
+    }
+  }
+  finish(0);
+#endif
+}
+
+
+void sword_installmgr_install_from_remote (string source_name, string module_name) // Todo
+{
+#ifdef HAVE_SWORD
+  init();
+  cout << "baseDir " << baseDir << endl; // Todo
+  installMgr->setUserDisclaimerConfirmed (true);
+  InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + source_name);
+  } else {
+    InstallSource *is = source->second;
+    SWMgr *rmgr = is->getMgr();
+    SWModule *module;
+    ModMap::iterator it = rmgr->Modules.find(module_name.c_str());
+    if (it == rmgr->Modules.end()) {
+      Database_Logs::log ("Remote source " + source_name + " does not make available module " + module_name);
+    } else {
+      module = it->second;
+      int error = installMgr->installModule(mgr, 0, module->getName(), is);
+      if (error) {
+        Database_Logs::log ("Error installing module " + module_name);
+      } else {
+        Database_Logs::log ("Installed module [" + module_name);
+      }
     }
   }
   finish(0);

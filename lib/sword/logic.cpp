@@ -219,9 +219,10 @@ string sword_logic_get_name (string line)
 }
 
 
-void sword_logic_install_module (string source, string module)
+void sword_logic_install_module (string source, string module) // Todo move to libsword. It now fails to install.
 {
   Database_Logs::log ("Install SWORD module " + module + " from source " + source);
+  /*
   string out_err;
   string sword_path = sword_logic_get_path ();
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source + "\" \"" + module + "\"", out_err);
@@ -231,10 +232,13 @@ void sword_logic_install_module (string source, string module)
     if (line.empty ()) continue;
     Database_Logs::log (line);
   }
+  */
+  cout << "sword_path " << sword_logic_get_path () << endl; // Todo
+  sword_installmgr_install_from_remote (source, module);
 }
 
 
-void sword_logic_uninstall_module (string module)
+void sword_logic_uninstall_module (string module) // Todo move to libsword.
 {
   Database_Logs::log ("Uninstall SWORD module " + module);
   string out_err;
@@ -258,7 +262,7 @@ vector <string> sword_logic_get_available ()
 
 
 // Get installed SWORD modules.
-vector <string> sword_logic_get_installed ()
+vector <string> sword_logic_get_installed () // Todo move to libsword
 {
   vector <string> modules;
   string out_err;
