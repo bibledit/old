@@ -456,13 +456,13 @@ void sword_installmgr_list_remote_sources (vector <string> & sources) // Todo
   for (InstallSourceMap::iterator it = installMgr->sources.begin(); it != installMgr->sources.end(); it++) {
     string caption (it->second->caption);
     sources.push_back (caption);
-    string description = "Remote source name ";
+    string description;
     description.append (caption);
-    description.append (", type ");
+    description.append (" - ");
     description.append (it->second->type);
-    description.append (", source ");
+    description.append (" - ");
     description.append (it->second->source);
-    description.append (", directory ");
+    description.append (" - ");
     description.append (it->second->directory);
     Database_Logs::log (description);
   }
@@ -480,7 +480,7 @@ void sword_installmgr_refresh_remote_source (string name) // Todo
     Database_Logs::log ("Could not find remote source " + name);
   } else {
     if (!installMgr->refreshRemoteSource(source->second)) {
-      Database_Logs::log ("Remote source refreshed: " + name);
+      //Database_Logs::log ("Remote source refreshed: " + name);
     } else {
       Database_Logs::log ("Error refreshing remote source " + name);
     }
@@ -498,8 +498,7 @@ void sword_installmgr_list_remote_modules (string source_name, vector <string> &
   if (source == installMgr->sources.end()) {
     Database_Logs::log ("Could not find remote source " + source_name);
   } else {
-    listModules(source->second->getMgr(), false);
-    
+    SWMgr *otherMgr = source->second->getMgr();
     SWModule *module;
     if (!otherMgr) otherMgr = mgr;
     std::map<SWModule *, int> mods = InstallMgr::getModuleStatus(*mgr, *otherMgr);
@@ -510,10 +509,14 @@ void sword_installmgr_list_remote_modules (string source_name, vector <string> &
       if (it->second & InstallMgr::MODSTAT_NEW) status = "*";
       if (it->second & InstallMgr::MODSTAT_OLDER) status = "-";
       if (it->second & InstallMgr::MODSTAT_UPDATED) status = "+";
-      
-      if (!onlyNewAndUpdates || status == "*" || status == "+") {
-        cout << status << "[" << module->getName() << "]  \t(" << version << ")  \t- " << module->getDescription() << "\n";
-      }
+      string module_name (status);
+      module_name.append ("[");
+      module_name.append (module->getName());
+      module_name.append ("]  \t(");
+      module_name.append (version);
+      module_name.append (")  \t- ");
+      module_name.append (module->getDescription());
+      modules.push_back (module_name);
     }
   }
   finish(0);

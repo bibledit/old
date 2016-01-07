@@ -101,26 +101,30 @@ void sword_logic_refresh_module_list () // Todo more to the sword library and ph
   
   for (auto remote_source : remote_sources) {
     
-    Database_Logs::log ("Reading modules from remote resource: " + remote_source);
-    
     /*
     filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
     Database_Logs::log (out_err);
      */
     sword_installmgr_refresh_remote_source (remote_source);
-    
+    /*
     filter_shell_run ("cd " + sword_path + "; installmgr -rl \"" + remote_source + "\"", out_err);
     lines = filter_string_explode (out_err, '\n');
     for (auto line : lines) {
       line = filter_string_trim (line);
       if (line.empty ()) continue;
-      //Database_Logs::log (line);
+      Database_Logs::log (line);
       if (line.find ("[") == string::npos) continue;
       if (line.find ("]") == string::npos) continue;
       sword_modules.push_back ("[" + remote_source + "]" + " " + line);
     }
-    
+    */
+    vector <string> modules;
+    sword_installmgr_list_remote_modules (remote_source, modules);
+    for (auto & line : modules) {
+      sword_modules.push_back ("[" + remote_source + "]" + " " + line);
+    }
+    Database_Logs::log (remote_source + ": " + convert_to_string (modules.size ()) + " modules");
   }
   
   // Store the list of remote sources and their modules.
