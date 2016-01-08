@@ -47,7 +47,11 @@ bool sword_logic_installing_module = false;
 
 string sword_logic_get_path ()
 {
-  return filter_url_create_root_path ("sword");
+  string sword_path = ".";
+  char * home = getenv ("HOME");
+  if (home) sword_path = home;
+  sword_path.append ("/.sword/InstallMgr");
+  return sword_path;
 }
 
 
@@ -62,15 +66,20 @@ void sword_logic_refresh_module_list ()
   string sword_path = sword_logic_get_path ();
   filter_url_mkdir (sword_path);
   string swordconf = "[Install]\n"
-  "DataPath=" + sword_path + "/\n";
+                     "DataPath=" + sword_path + "/\n";
   filter_url_file_put_contents (filter_url_create_path (sword_path, "sword.conf"), swordconf);
+  string config_files_path = filter_url_create_root_path ("sword");
+  filter_shell_run ("cp -r " + config_files_path + "/locales.d " + sword_path, out_err);
+  lines = filter_string_explode (out_err, '\n');
+  for (auto line : lines) Database_Logs::log (line);
+  filter_shell_run ("cp -r " + config_files_path + "/mods.d " + sword_path, out_err);
+  lines = filter_string_explode (out_err, '\n');
+  for (auto line : lines) Database_Logs::log (line);
   
   // Initialize basic user configuration.
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -init", out_err);
+  filter_shell_run ("echo yes | installmgr -init", out_err);
   lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) {
-    Database_Logs::log (line);
-  }
+  for (auto line : lines) Database_Logs::log (line);
   /*
    sword_installmgr_initialize_configuration ();
   */
@@ -79,16 +88,14 @@ void sword_logic_refresh_module_list ()
   /*
    sword_installmgr_synchronize_configuration_with_master ();
   */
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -sc", out_err);
+  filter_shell_run ("echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
   lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) {
-    Database_Logs::log (line);
-  }
+  for (auto line : lines) Database_Logs::log (line);
   
   // List the remote sources.
   vector <string> remote_sources;
-  filter_shell_run ("cd " + sword_path + "; installmgr -s", out_err);
+  filter_shell_run ("installmgr -s", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     Database_Logs::log (line);
@@ -109,14 +116,14 @@ void sword_logic_refresh_module_list ()
   
   for (auto remote_source : remote_sources) {
     
-    filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -r \"" + remote_source + "\"", out_err);
+    filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
     Database_Logs::log (out_err);
     /*
      sword_installmgr_refresh_remote_source (remote_source);
     */
     vector <string> modules;
-    filter_shell_run ("cd " + sword_path + "; installmgr -rl \"" + remote_source + "\"", out_err);
+    filter_shell_run ("installmgr -rl \"" + remote_source + "\"", out_err);
     lines = filter_string_explode (out_err, '\n');
     for (auto line : lines) {
       line = filter_string_trim (line);
