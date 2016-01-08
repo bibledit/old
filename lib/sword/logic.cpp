@@ -37,7 +37,7 @@
 #include <sword/installmgr.h>
 #include <config.h>
 #ifdef HAVE_SWORD
-#elif
+#else
 #endif
 
 
