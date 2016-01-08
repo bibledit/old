@@ -199,7 +199,7 @@ void tasks_run_one (string filename)
   } else if (command == REFRESHSWORDMODULES) {
     sword_logic_refresh_module_list ();
   } else if (command == INSTALLSWORDMODULE) {
-    sword_logic_install_module (parameter1, parameter2); // Todo
+    sword_logic_run_scheduled_module_install (parameter1, parameter2);
   } else if (command == UPDATESWORDMODULES) {
     sword_logic_update_installed_modules ();
   } else {

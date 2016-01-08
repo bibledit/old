@@ -134,7 +134,6 @@ void init() {
 		confPath = baseDir + "/InstallMgr.conf";
 		statusReporter = new MyStatusReporter();
 		installMgr = new MyInstallMgr(baseDir, statusReporter);
-    cout << baseDir << "|" << confPath << endl; // Todo
 	}
 }
 
@@ -527,11 +526,10 @@ void sword_installmgr_list_remote_modules (string source_name, vector <string> &
 }
 
 
-void sword_installmgr_install_from_remote (string source_name, string module_name) // Todo
+void sword_installmgr_install_from_remote (string source_name, string module_name)
 {
 #ifdef HAVE_SWORD
   init();
-  cout << "baseDir " << baseDir << endl; // Todo
   installMgr->setUserDisclaimerConfirmed (true);
   InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
   if (source == installMgr->sources.end()) {

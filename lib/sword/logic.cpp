@@ -37,6 +37,10 @@
 #include <sword/installmgr.h>
 
 
+mutex sword_logic_installer_mutex;
+bool sword_logic_installing_module = false;
+
+
 string sword_logic_get_path ()
 {
   return filter_url_create_root_path ("sword");
@@ -434,9 +438,8 @@ void sword_logic_update_installed_modules ()
       if (sword_logic_get_remote_module (available_module) == module) {
         if (sword_logic_get_version (available_module) != installed_version) {
           string source = sword_logic_get_source (available_module);
-
+          // Uninstall module.
           sword_logic_uninstall_module (module);
-          
           // Clear the cache.
           Database_Versifications database_versifications;
           vector <int> books = database_versifications.getMaximumBooks ();
@@ -450,8 +453,8 @@ void sword_logic_update_installed_modules ()
               }
             }
           }
-          
-          sword_logic_install_module (source, module);
+          // Schedule module installation.
+          tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
         }
         continue;
       }
@@ -492,4 +495,36 @@ string sword_logic_virtual_url (const string & module, int book, int chapter, in
 {
   string url = "sword_" + module + "_" + convert_to_string (book) + "_chapter_" + convert_to_string (chapter) + "_verse_" + convert_to_string (verse);
   return url;
+}
+
+
+// The functions runs a scheduled module installation.
+// The purpose of this function is that only one module installation occurs at a time,
+// rather than simultaneously installing modules, which clogs the system.
+void sword_logic_run_scheduled_module_install (string source, string module)
+{
+  // If a module is being installed,
+  // and a call is made for another module installation,
+  // re-schedule this module installation to postpone it,
+  // till after this one is ready.
+  sword_logic_installer_mutex.lock ();
+  bool installing = sword_logic_installing_module;
+  sword_logic_installer_mutex.unlock ();
+  if (installing) {
+    tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+    return;
+  }
+
+  // Set flag for current module installation running.
+  sword_logic_installer_mutex.lock ();
+  sword_logic_installing_module = true;
+  sword_logic_installer_mutex.unlock ();
+
+  // Run the installer.
+  sword_logic_install_module (source, module);
+  
+  // Clear flag as current module installation is ready.
+  sword_logic_installer_mutex.lock ();
+  sword_logic_installing_module = false;
+  sword_logic_installer_mutex.unlock ();
 }
