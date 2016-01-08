@@ -66,7 +66,7 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
-PKG_CHECK_MODULES(SWORD, sword >= 1.7.0, [AC_DEFINE([HAVE_SWORD],[1],[Define whether the SWORD library is present])], [AC_MSG_RESULT([no])])
+PKG_CHECK_MODULES(SWORD, sword >= 1.6.0, [AC_DEFINE([HAVE_SWORD],[1],[Define whether the SWORD library is present])], [AC_MSG_RESULT([no])])
 AC_SUBST(SWORD_CFLAGS)
 AC_SUBST(SWORD_LIBS)
 

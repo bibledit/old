@@ -280,13 +280,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
 	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
 	sources/hebrewlexicon.$(OBJEXT) sword/logic.$(OBJEXT) \
-	sword/installmgr.$(OBJEXT) pugixml/pugixml.$(OBJEXT) \
-	pugixml/utils.$(OBJEXT) public/index.$(OBJEXT) \
-	public/logic.$(OBJEXT) public/login.$(OBJEXT) \
-	public/chapter.$(OBJEXT) public/notes.$(OBJEXT) \
-	public/new.$(OBJEXT) public/create.$(OBJEXT) \
-	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
-	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT)
+	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
+	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
+	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
+	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
+	public/create.$(OBJEXT) public/note.$(OBJEXT) \
+	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
+	search/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -852,7 +852,6 @@ libbibledit_a_SOURCES = \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
 	sword/logic.cpp \
-	sword/installmgr.cpp \
 	pugixml/pugixml.cpp \
 	pugixml/utils.cpp \
 	public/index.cpp \
@@ -2033,8 +2032,6 @@ sword/$(DEPDIR)/$(am__dirstamp):
 	@: > sword/$(DEPDIR)/$(am__dirstamp)
 sword/logic.$(OBJEXT): sword/$(am__dirstamp) \
 	sword/$(DEPDIR)/$(am__dirstamp)
-sword/installmgr.$(OBJEXT): sword/$(am__dirstamp) \
-	sword/$(DEPDIR)/$(am__dirstamp)
 pugixml/$(am__dirstamp):
 	@$(MKDIR_P) pugixml
 	@: > pugixml/$(am__dirstamp)
@@ -2544,7 +2541,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheetm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@sword/$(DEPDIR)/installmgr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sword/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/changes.Po@am__quote@

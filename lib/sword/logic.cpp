@@ -35,6 +35,10 @@
 #include <tasks/logic.h>
 #include <demo/logic.h>
 #include <sword/installmgr.h>
+#include <config.h>
+#ifdef HAVE_SWORD
+#elif
+#endif
 
 
 mutex sword_logic_installer_mutex;

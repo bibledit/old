@@ -1,34 +1,5 @@
-/******************************************************************************
- *
- *  installmgr.cpp -	commandline InstallMgr utility
- *
- * $Id: installmgr.cpp 2932 2013-07-31 14:07:01Z scribe $
- *
- * Copyright 2003-2013 CrossWire Bible Society (http://www.crosswire.org)
- *	CrossWire Bible Society
- *	P. O. Box 2528
- *	Tempe, AZ  85280-2528
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation version 2.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
- *
- */
-
-#ifdef _MSC_VER
-	#pragma warning( disable: 4251 )
-#endif
-
-
-#include <database/logs.h>
-#include <config.h>
 #ifdef HAVE_SWORD
-
+// Todo all of this can go out once it has served as an example.
 
 #include <swmgr.h>
 #include <installmgr.h>
