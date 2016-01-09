@@ -37,6 +37,11 @@
 #include <sword/installmgr.h>
 #include <config.h>
 #ifdef HAVE_SWORD
+#include <swmgr.h>
+#include <swlog.h>
+#include <installmgr.h>
+#include <filemgr.h>
+#include <swmodule.h>
 #else
 #endif
 
@@ -77,24 +82,29 @@ void sword_logic_refresh_module_list ()
   for (auto line : lines) Database_Logs::log (line);
   
   // Initialize basic user configuration.
+#ifdef HAVE_SWORD
+  sword_logic_installmgr_initialize ();
+#else
   filter_shell_run ("echo yes | installmgr -init", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) Database_Logs::log (line);
-  /*
-   sword_installmgr_initialize_configuration ();
-  */
+#endif
   
   // Sync the configuration with the online known remote repository list.
-  /*
-   sword_installmgr_synchronize_configuration_with_master ();
-  */
+#ifdef HAVE_SWORD
+  sword_logic_installmgr_synchronize_configuration_with_master ();
+#else
   filter_shell_run ("echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) Database_Logs::log (line);
+#endif
   
   // List the remote sources.
   vector <string> remote_sources;
+#ifdef HAVE_SWORD
+  sword_logic_installmgr_list_remote_sources (remote_sources);
+#else
   filter_shell_run ("installmgr -s", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
@@ -108,21 +118,27 @@ void sword_logic_refresh_module_list ()
       }
     }
   }
-  /*
-  sword_installmgr_list_remote_sources (remote_sources);
-  */
+#endif
   
   vector <string> sword_modules;
   
   for (auto remote_source : remote_sources) {
     
+#ifdef HAVE_SWORD
+    sword_logic_installmgr_refresh_remote_source (remote_source);
+#else
     filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
     Database_Logs::log (out_err);
-    /*
-     sword_installmgr_refresh_remote_source (remote_source);
-    */
+#endif
+
     vector <string> modules;
+#ifdef HAVE_SWORD
+    sword_logic_installmgr_list_remote_modules (remote_source, modules);
+    for (auto & module : modules) {
+      sword_modules.push_back ("[" + remote_source + "]" + " " + module);
+    }
+#else
     filter_shell_run ("installmgr -rl \"" + remote_source + "\"", out_err);
     lines = filter_string_explode (out_err, '\n');
     for (auto line : lines) {
@@ -132,12 +148,7 @@ void sword_logic_refresh_module_list ()
       if (line.find ("]") == string::npos) continue;
       modules.push_back ("[" + remote_source + "]" + " " + line);
     }
-    /*
-     sword_installmgr_list_remote_modules (remote_source, modules);
-     for (auto & module : modules) {
-     sword_modules.push_back ("[" + remote_source + "]" + " " + module);
-     }
-    */
+#endif
     for (auto module : modules) {
       sword_modules.push_back (module);
     }
@@ -538,4 +549,163 @@ void sword_logic_run_scheduled_module_install (string source, string module)
   sword_logic_installer_mutex.lock ();
   sword_logic_installing_module = false;
   sword_logic_installer_mutex.unlock ();
+}
+
+
+void sword_logic_installmgr_initialize ()
+{
+#ifdef HAVE_SWORD
+  sword::SWMgr *mgr = new sword::SWMgr();
+  if (!mgr->config) Database_Logs::log ("ERROR: Please configure SWORD first.");
+
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  sword::SWBuf confPath = baseDir + "/InstallMgr.conf";
+  sword::FileMgr::createParent (confPath.c_str());
+  remove(confPath.c_str());
+  
+  sword::InstallSource is("FTP");
+  is.caption = "CrossWire";
+  is.source = "ftp.crosswire.org";
+  is.directory = "/pub/sword/raw";
+  
+  sword::SWConfig config(confPath.c_str());
+  config["General"]["PassiveFTP"] = "true";
+  config["Sources"]["FTPSource"] = is.getConfEnt();
+  config.Save();
+
+  delete installMgr;
+  delete mgr;
+#endif
+}
+
+
+void sword_logic_installmgr_synchronize_configuration_with_master ()
+{
+#ifdef HAVE_SWORD
+  sword::SWMgr *mgr = new sword::SWMgr();
+  
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  if (!installMgr->refreshRemoteSourceConfiguration()) {
+    //Database_Logs::log ("Synchronized SWORD configuration with the master remote source list");
+  } else {
+    Database_Logs::log ("Failed to synchronize SWORD configuration with the master remote source list");
+  }
+  
+  delete installMgr;
+  delete mgr;
+#endif
+}
+
+
+void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
+{
+#ifdef HAVE_SWORD
+  sword::SWMgr *mgr = new sword::SWMgr();
+  
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  for (sword::InstallSourceMap::iterator it = installMgr->sources.begin(); it != installMgr->sources.end(); it++) {
+    string caption (it->second->caption);
+    sources.push_back (caption);
+    /*
+    string description;
+    description.append (caption);
+    description.append (" - ");
+    description.append (it->second->type);
+    description.append (" - ");
+    description.append (it->second->source);
+    description.append (" - ");
+    description.append (it->second->directory);
+    Database_Logs::log (description);
+    */
+  }
+  
+  delete installMgr;
+  delete mgr;
+#endif
+}
+
+
+void sword_logic_installmgr_refresh_remote_source (string name)
+{
+#ifdef HAVE_SWORD
+  sword::SWMgr *mgr = new sword::SWMgr();
+  
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+
+  sword::InstallSourceMap::iterator source = installMgr->sources.find(name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + name);
+  } else {
+    if (!installMgr->refreshRemoteSource(source->second)) {
+      //Database_Logs::log ("Remote source refreshed: " + name);
+    } else {
+      Database_Logs::log ("Error refreshing remote source " + name);
+    }
+  }
+  
+  delete installMgr;
+  delete mgr;
+#endif
+}
+
+
+void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules)
+{
+#ifdef HAVE_SWORD
+  sword::SWMgr *mgr = new sword::SWMgr();
+  
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  sword::InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + source_name);
+  } else {
+    sword::SWMgr *otherMgr = source->second->getMgr();
+    sword::SWModule *module;
+    if (!otherMgr) otherMgr = mgr;
+    std::map<sword::SWModule *, int> mods = sword::InstallMgr::getModuleStatus(*mgr, *otherMgr);
+    for (std::map<sword::SWModule *, int>::iterator it = mods.begin(); it != mods.end(); it++) {
+      module = it->first;
+      sword::SWBuf version = module->getConfigEntry("Version");
+      sword::SWBuf status = " ";
+      if (it->second & sword::InstallMgr::MODSTAT_NEW) status = "*";
+      if (it->second & sword::InstallMgr::MODSTAT_OLDER) status = "-";
+      if (it->second & sword::InstallMgr::MODSTAT_UPDATED) status = "+";
+      string module_name (status);
+      module_name.append ("[");
+      module_name.append (module->getName());
+      module_name.append ("]  \t(");
+      module_name.append (version);
+      module_name.append (")  \t- ");
+      module_name.append (module->getDescription());
+      // Check if the module is a verse-based Bible or commentary.
+      bool verse_based = false;
+      string module_type = module->getType ();
+      if (module_type == "Biblical Texts") verse_based = true;
+      if (module_type == "Commentaries") verse_based = true;
+      if (verse_based) modules.push_back (module_name);
+    }
+  }
+  
+  delete installMgr;
+  delete mgr;
+#endif
 }
