@@ -730,7 +730,12 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
       module_name.append (module->getDescription());
       // Check if the module is a verse-based Bible or commentary.
       bool verse_based = false;
-      string module_type = module->getType ();
+      string module_type;
+#ifdef HAVE_SWORD16
+      module_type = module->Type ();
+#else
+      module_type = module->getType ();
+#endif
       if (module_type == "Biblical Texts") verse_based = true;
       if (module_type == "Commentaries") verse_based = true;
       if (verse_based) modules.push_back (module_name);
