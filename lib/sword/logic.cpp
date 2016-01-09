@@ -42,7 +42,8 @@
 #include <installmgr.h>
 #include <filemgr.h>
 #include <swmodule.h>
-#else
+#include <defs.h>
+#include <versekey.h>
 #endif
 
 
@@ -247,7 +248,7 @@ string sword_logic_get_name (string line)
 }
 
 
-void sword_logic_install_module (string source_name, string module_name) // Todo
+void sword_logic_install_module (string source_name, string module_name)
 {
   Database_Logs::log ("Install SWORD module " + module_name + " from source " + source_name);
   string sword_path = sword_logic_get_path ();
@@ -402,13 +403,17 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     } else {
 
       // The server fetches the module text as follows:
-      // diatheke -b KJV -k Jn 3:16
+      // diatheke -b KJV -k Jn 3:16 Todo
       string sword_path = sword_logic_get_path ();
       string osis = Database_Books::getOsisFromId (book);
       string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
       filter_shell_run (command, output);
 
     }
+    
+    string osis = Database_Books::getOsisFromId (book);
+    sword_logic_diatheke (module, osis, chapter, verse); // Todo
+    
     
     // If the module has not been installed, the output of "diatheke" will be empty.
     // If the module was installed, but the requested passage is out of range,
@@ -618,8 +623,6 @@ void sword_logic_installmgr_initialize ()
 void sword_logic_installmgr_synchronize_configuration_with_master ()
 {
 #ifdef HAVE_SWORD
-  sword::SWMgr *mgr = new sword::SWMgr();
-  
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
@@ -632,7 +635,6 @@ void sword_logic_installmgr_synchronize_configuration_with_master ()
   }
   
   delete installMgr;
-  delete mgr;
 #endif
 }
 
@@ -640,8 +642,6 @@ void sword_logic_installmgr_synchronize_configuration_with_master ()
 void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
 {
 #ifdef HAVE_SWORD
-  sword::SWMgr *mgr = new sword::SWMgr();
-  
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
@@ -664,7 +664,6 @@ void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
   }
   
   delete installMgr;
-  delete mgr;
 #endif
 }
 
@@ -672,8 +671,6 @@ void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
 void sword_logic_installmgr_refresh_remote_source (string name)
 {
 #ifdef HAVE_SWORD
-  sword::SWMgr *mgr = new sword::SWMgr();
-  
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
@@ -691,7 +688,6 @@ void sword_logic_installmgr_refresh_remote_source (string name)
   }
   
   delete installMgr;
-  delete mgr;
 #endif
 }
 
@@ -753,3 +749,152 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
   delete mgr;
 #endif
 }
+
+
+string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse) // Todo
+{
+#ifdef HAVE_SWORD
+
+  
+  int maxverses = -1;
+  unsigned char outputformat = sword::FMT_PLAIN;
+  // unsigned char searchtype = ST_NONE;
+  unsigned char outputencoding = sword::ENC_UTF8;
+  //unsigned long optionfilters = OP_NONE;
+  char *ref = 0;
+  char *range = 0;
+  char script[] = "Latin"; // for the moment, only this target script is supported
+  signed short variants = 0;
+  
+  sword::SWBuf key = osis.c_str ();
+  key = key + " " + convert_to_string (chapter).c_str ();
+  key = key + " " + convert_to_string (verse).c_str ();
+  ref = new char[key.length() + 1];
+  strcpy (ref, key.c_str());
+  
+  char * locale = NULL;
+  if (!locale) locale = (char *) "en";
+  sword::SWBuf syslocale;
+  syslocale = sword::SWBuf (locale);
+  syslocale.append(".en");
+
+  sword::SWMgr manager;
+
+  sword::ModMap::iterator it;
+  it = manager.Modules.find (module_name.c_str ());
+  if (it == manager.Modules.end()) {
+    return "Unknown module";
+  }
+  sword::SWModule *target;
+  target = (*it).second;
+  sword::SWKey *p = target->createKey();
+  sword::VerseKey *parser = SWDYNAMIC_CAST (sword::VerseKey, p);
+  if (!parser) {
+    delete p;
+    parser = new sword::VerseKey();
+  }
+
+  sword::ListKey listkey;
+  sword::SectionMap::iterator sit;
+  sword::ConfigEntMap::iterator eit;
+
+  char inputformat = 0;
+  sword::SWBuf encoding;
+  if ((sit = manager.config->Sections.find((*it).second->getName())) != manager.config->Sections.end()) {
+    if ((eit = (*sit).second.find("SourceType")) != (*sit).second.end()) {
+      if (!sword::stricmp((char *)(*eit).second.c_str(), "GBF"))
+        inputformat = sword::FMT_GBF;
+      else if (!sword::stricmp((char *)(*eit).second.c_str(), "ThML"))
+        inputformat = sword::FMT_THML;
+      else if (!sword::stricmp((char *)(*eit).second.c_str(), "OSIS"))
+        inputformat = sword::FMT_OSIS;
+      else if (!sword::stricmp((char *)(*eit).second.c_str(), "TEI"))
+        inputformat = sword::FMT_TEI;
+    }
+    encoding = ((eit = (*sit).second.find("Encoding")) != (*sit).second.end()) ? (*eit).second : (sword::SWBuf)"";
+  }
+
+  manager.setGlobalOption("Footnotes", "Off");
+  manager.setGlobalOption("Headings", "Off");
+  manager.setGlobalOption("Strong's Numbers", "Off");
+  manager.setGlobalOption("Morphological Tags", "Off");
+  manager.setGlobalOption("Hebrew Cantillation", "On");
+  manager.setGlobalOption("Hebrew Vowel Points", "On");
+  manager.setGlobalOption("Greek Accents", "On");
+  manager.setGlobalOption("Lemmas", "Off");
+  manager.setGlobalOption("Cross-references", "Off");
+  manager.setGlobalOption("Words of Christ in Red", "Off");
+  manager.setGlobalOption("Arabic Vowel Points", "On");
+  manager.setGlobalOption("Glosses", "Off");
+  manager.setGlobalOption("Transliterated Forms", "Off");
+  manager.setGlobalOption("Enumerations", "Off");
+  manager.setGlobalOption("Transliteration", "Off");
+  //manager.setGlobalOption("Textual Variants", "All Readings");
+  //manager.setGlobalOption("Textual Variants", "Secondary Reading");
+  manager.setGlobalOption("Textual Variants", "Primary Reading");
+  
+  char *font = 0;
+  if ((sit = manager.config->Sections.find((*it).second->getName())) != manager.config->Sections.end()) {
+    if ((eit = (*sit).second.find("Font")) != (*sit).second.end()) {
+      font = (char *)(*eit).second.c_str();
+      if (strlen(font) == 0) font = 0;
+    }
+  }
+  
+  listkey = parser->parseVerseList(ref, "Gen1:1", true);
+  int i;
+  for (i = 0; i < listkey.getCount() && maxverses; i++) {
+    sword::VerseKey *element = SWDYNAMIC_CAST(sword::VerseKey, listkey.getElement(i));
+    if (element && element->isBoundSet()) {
+      target->setKey(element->getLowerBound());
+      *parser = element->getUpperBound();
+      while (maxverses && *target->getKey() <= *parser) {
+        cout << (char*)target->getKeyText() << endl; // Todo
+        cout << target->renderText() << endl; // Todo
+        if (*target->getKey() == *parser) break;
+        maxverses--;
+        (*target)++;
+      }
+    }
+    else {
+      target->setKey(*listkey.getElement(i));
+      cout << (char*)target->getKeyText() << endl; // Todo
+    }
+    
+    cout << target->renderText() << endl; // Todo
+    
+    maxverses--;
+  }
+
+  delete parser;
+#endif
+  return "In progress...";
+}
+
+/* Todo transfer into actual code as needed.
+void doquery(unsigned long maxverses = -1, unsigned char outputformat = FMT_PLAIN, unsigned char outputencoding = ENC_UTF8, unsigned long optionfilters = 0, unsigned char searchtype = ST_NONE, const char *range = 0, const char *text = 0, const char *locale = 0, const char *ref = 0, ostream* output = &cout, const char *script = 0, signed char variants = 0) {
+ 
+  SWBuf modlanguage;
+  SWBuf modlocale;
+  SWBuf syslanguage;
+  char querytype = 0;
+ 
+  LocaleMgr *lom = LocaleMgr::getSystemLocaleMgr();
+  lom->setDefaultLocaleName(syslocale);
+  syslanguage = lom->translate(syslocale, "locales");
+
+  if (target->getLanguage()) {
+    modlocale = target->getLanguage();
+    LocaleMgr *lm = LocaleMgr::getSystemLocaleMgr();
+    modlanguage = lm->translate(modlocale.append(".en"), "locales");
+    modlocale -= 3;
+		}
+  else {
+    modlocale = "en";
+    modlanguage = "English";
+  }
+ 
+ 
+ 
+ 
+*/
