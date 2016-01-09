@@ -393,31 +393,3 @@ int installmgr_main (int argc, char **argv) {
 #endif
 
 
-void sword_installmgr_install_from_remote (string source_name, string module_name)
-{
-#ifdef HAVE_SWORD
-  init();
-  installMgr->setUserDisclaimerConfirmed (true);
-  InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
-  if (source == installMgr->sources.end()) {
-    Database_Logs::log ("Could not find remote source " + source_name);
-  } else {
-    InstallSource *is = source->second;
-    SWMgr *rmgr = is->getMgr();
-    SWModule *module;
-    ModMap::iterator it = rmgr->Modules.find(module_name.c_str());
-    if (it == rmgr->Modules.end()) {
-      Database_Logs::log ("Remote source " + source_name + " does not make available module " + module_name);
-    } else {
-      module = it->second;
-      int error = installMgr->installModule(mgr, 0, module->getName(), is);
-      if (error) {
-        Database_Logs::log ("Error installing module " + module_name);
-      } else {
-        Database_Logs::log ("Installed module [" + module_name);
-      }
-    }
-  }
-  finish(0);
-#endif
-}

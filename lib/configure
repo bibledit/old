@@ -641,6 +641,8 @@ CLIENT
 DEMO
 SWORD_LIBS
 SWORD_CFLAGS
+SWORD16_LIBS
+SWORD16_CFLAGS
 OPENSSL_LIBS
 OPENSSL_CFLAGS
 CURL_LIBS
@@ -795,6 +797,8 @@ CURL_CFLAGS
 CURL_LIBS
 OPENSSL_CFLAGS
 OPENSSL_LIBS
+SWORD16_CFLAGS
+SWORD16_LIBS
 SWORD_CFLAGS
 SWORD_LIBS'
 
@@ -1464,6 +1468,10 @@ Some influential environment variables:
               C compiler flags for OPENSSL, overriding pkg-config
   OPENSSL_LIBS
               linker flags for OPENSSL, overriding pkg-config
+  SWORD16_CFLAGS
+              C compiler flags for SWORD16, overriding pkg-config
+  SWORD16_LIBS
+              linker flags for SWORD16, overriding pkg-config
   SWORD_CFLAGS
               C compiler flags for SWORD, overriding pkg-config
   SWORD_LIBS  linker flags for SWORD, overriding pkg-config
@@ -6137,6 +6145,82 @@ $as_echo "yes" >&6; }
 fi
 
 
+
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SWORD16" >&5
+$as_echo_n "checking for SWORD16... " >&6; }
+
+if test -n "$SWORD16_CFLAGS"; then
+    pkg_cv_SWORD16_CFLAGS="$SWORD16_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"sword < 1.7.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "sword < 1.7.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_SWORD16_CFLAGS=`$PKG_CONFIG --cflags "sword < 1.7.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$SWORD16_LIBS"; then
+    pkg_cv_SWORD16_LIBS="$SWORD16_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"sword < 1.7.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "sword < 1.7.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_SWORD16_LIBS=`$PKG_CONFIG --libs "sword < 1.7.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        SWORD16_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "sword < 1.7.0" 2>&1`
+        else
+	        SWORD16_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "sword < 1.7.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$SWORD16_PKG_ERRORS" >&5
+
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: " >&5
+$as_echo "" >&6; }
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: " >&5
+$as_echo "" >&6; }
+else
+	SWORD16_CFLAGS=$pkg_cv_SWORD16_CFLAGS
+	SWORD16_LIBS=$pkg_cv_SWORD16_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+$as_echo "#define HAVE_SWORD16 1" >>confdefs.h
+
+fi
 
 
 pkg_failed=no

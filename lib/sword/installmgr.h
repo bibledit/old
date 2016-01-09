@@ -24,7 +24,4 @@
 #include <config/libraries.h>
 
 
-void sword_installmgr_install_from_remote (string source_name, string module_name);
-
-
 #endif

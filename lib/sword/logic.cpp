@@ -247,26 +247,58 @@ string sword_logic_get_name (string line)
 }
 
 
-void sword_logic_install_module (string source, string module)
+void sword_logic_install_module (string source_name, string module_name) // Todo
 {
-  Database_Logs::log ("Install SWORD module " + module + " from source " + source);
-  string out_err;
+  Database_Logs::log ("Install SWORD module " + module_name + " from source " + source_name);
   string sword_path = sword_logic_get_path ();
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source + "\" \"" + module + "\"", out_err);
+
+  /* Installation through SWORD InstallMgr does not yet work.
+#ifdef HAVE_SWORD
+
+  sword::SWMgr *mgr = new sword::SWMgr();
+  
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  sword::InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + source_name);
+  } else {
+    sword::InstallSource *is = source->second;
+    sword::SWMgr *rmgr = is->getMgr();
+    sword::SWModule *module;
+    sword::ModMap::iterator it = rmgr->Modules.find(module_name.c_str());
+    if (it == rmgr->Modules.end()) {
+      Database_Logs::log ("Remote source " + source_name + " does not make available module " + module_name);
+    } else {
+      module = it->second;
+      int error = installMgr->installModule(mgr, 0, module->getName(), is);
+      if (error) {
+        Database_Logs::log ("Error installing module " + module_name);
+      } else {
+        Database_Logs::log ("Installed module [" + module_name);
+      }
+    }
+  }
+
+  delete installMgr;
+  delete mgr;
+  
+#else
+   */
+  
+  string out_err;
+  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
   vector <string> lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     line = filter_string_trim (line);
     if (line.empty ()) continue;
     Database_Logs::log (line);
   }
-  /*
-  sword_installmgr_install_from_remote (source, module);
-   Installing module works through the command line, e.g.:
-   cd /private/tmp/bibledit-dev/sword; echo yes | installmgr -ri CrossWire Dan1871
-   But fails through libsword.
-   Perhaps needs to set $HOME, shortly, to the proper one, then revert to the original one.
-   SWBuf homeDir = getenv("HOME");
-  */
+  
+//#endif
 }
 
 
