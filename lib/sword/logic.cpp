@@ -38,12 +38,9 @@
 #include <config.h>
 #ifdef HAVE_SWORD
 #include <swmgr.h>
-#include <swlog.h>
 #include <installmgr.h>
 #include <filemgr.h>
 #include <swmodule.h>
-#include <defs.h>
-#include <versekey.h>
 #endif
 
 
@@ -402,19 +399,18 @@ string sword_logic_get_text (string source, string module, int book, int chapter
       
     } else {
 
+      string osis = Database_Books::getOsisFromId (book);
+#ifdef HAVE_SWORD
+      output = sword_logic_diatheke (module, osis, chapter, verse); // Todo
+#else
       // The server fetches the module text as follows:
       // diatheke -b KJV -k Jn 3:16 Todo
       string sword_path = sword_logic_get_path ();
-      string osis = Database_Books::getOsisFromId (book);
       string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
       filter_shell_run (command, output);
-      cout << command << endl; // Todo
+#endif
 
     }
-    
-    string osis = Database_Books::getOsisFromId (book);
-    sword_logic_diatheke (module, osis, chapter, verse); // Todo
-    
     
     // If the module has not been installed, the output of "diatheke" will be empty.
     // If the module was installed, but the requested passage is out of range,
@@ -754,68 +750,9 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 
 string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse) // Todo
 {
+  string rendering;
 #ifdef HAVE_SWORD
-  
-  int maxverses = -1;
-  char *ref = 0;
-  
-  sword::SWBuf key = osis.c_str ();
-  key = key + " " + convert_to_string (chapter).c_str ();
-  key = key + " " + convert_to_string (verse).c_str ();
-  ref = new char[key.length() + 1];
-  strcpy (ref, key.c_str());
-  
-  char * locale = NULL;
-  if (!locale) locale = (char *) "en";
-  sword::SWBuf syslocale;
-  syslocale = sword::SWBuf (locale);
-  syslocale.append(".en");
-
   sword::SWMgr manager;
-
-  sword::ModMap::iterator it;
-  it = manager.Modules.find (module_name.c_str ());
-  if (it == manager.Modules.end()) {
-    cout << "Unknown module" << endl; // Todo
-    return "Unknown module";
-  }
-  sword::SWModule *target;
-  target = (*it).second;
-#ifdef HAVE_SWORD16
-  sword::SWKey *p = target->CreateKey();
-#else
-  sword::SWKey *p = target->createKey();
-#endif
-  sword::VerseKey *parser = SWDYNAMIC_CAST (sword::VerseKey, p);
-  if (!parser) {
-    delete p;
-    parser = new sword::VerseKey();
-  }
-
-  sword::ListKey listkey;
-  sword::SectionMap::iterator sit;
-  sword::ConfigEntMap::iterator eit;
-
-  char inputformat = 0;
-  sword::SWBuf encoding;
-#ifdef HAVE_SWORD16
-  if ((sit = manager.config->Sections.find((*it).second->Name())) != manager.config->Sections.end()) {
-#else
-  if ((sit = manager.config->Sections.find((*it).second->getName())) != manager.config->Sections.end()) {
-#endif
-    if ((eit = (*sit).second.find("SourceType")) != (*sit).second.end()) {
-      if (!sword::stricmp((char *)(*eit).second.c_str(), "GBF"))
-        inputformat = sword::FMT_GBF;
-      else if (!sword::stricmp((char *)(*eit).second.c_str(), "ThML"))
-        inputformat = sword::FMT_THML;
-      else if (!sword::stricmp((char *)(*eit).second.c_str(), "OSIS"))
-        inputformat = sword::FMT_OSIS;
-      else if (!sword::stricmp((char *)(*eit).second.c_str(), "TEI"))
-        inputformat = sword::FMT_TEI;
-    }
-    encoding = ((eit = (*sit).second.find("Encoding")) != (*sit).second.end()) ? (*eit).second : (sword::SWBuf)"";
-  }
-
   manager.setGlobalOption("Footnotes", "Off");
   manager.setGlobalOption("Headings", "Off");
   manager.setGlobalOption("Strong's Numbers", "Off");
@@ -831,72 +768,20 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   manager.setGlobalOption("Transliterated Forms", "Off");
   manager.setGlobalOption("Enumerations", "Off");
   manager.setGlobalOption("Transliteration", "Off");
-  //manager.setGlobalOption("Textual Variants", "All Readings");
+  manager.setGlobalOption("Textual Variants", "All Readings");
   //manager.setGlobalOption("Textual Variants", "Secondary Reading");
-  manager.setGlobalOption("Textual Variants", "Primary Reading");
-  
-  char *font = 0;
+  //manager.setGlobalOption("Textual Variants", "Primary Reading");
+  manager.augmentModules (sword_logic_get_path ().c_str ());
+  sword::SWModule *module = manager.getModule (module_name.c_str ());
+  if (module) {
+    string key = osis + " " + convert_to_string (chapter).c_str () + ":" + convert_to_string (verse).c_str ();
+    module->setKey (key.c_str ());
 #ifdef HAVE_SWORD16
-    if ((sit = manager.config->Sections.find((*it).second->Name())) != manager.config->Sections.end()) {
+    rendering = module->RenderText();
 #else
-    if ((sit = manager.config->Sections.find((*it).second->getName())) != manager.config->Sections.end()) {
+    rendering = module->renderText();
 #endif
-    if ((eit = (*sit).second.find("Font")) != (*sit).second.end()) {
-      font = (char *)(*eit).second.c_str();
-      if (strlen(font) == 0) font = 0;
-    }
   }
-  
-#ifdef HAVE_SWORD16
-  listkey = parser->ParseVerseList(ref, "Gen1:1", true);
-#else
-  listkey = parser->parseVerseList(ref, "Gen1:1", true);
 #endif
-  int i;
-#ifdef HAVE_SWORD16
-  for (i = 0; i < listkey.Count() && maxverses; i++) {
-#else
-  for (i = 0; i < listkey.getCount() && maxverses; i++) {
-#endif
-    sword::VerseKey *element = SWDYNAMIC_CAST(sword::VerseKey, listkey.getElement(i));
-    if (element && element->isBoundSet()) {
-#ifdef HAVE_SWORD16
-      target->setKey(element->LowerBound());
-#else
-      target->setKey(element->getLowerBound());
-#endif
-#ifdef HAVE_SWORD16
-      *parser = element->UpperBound();
-#else
-      *parser = element->getUpperBound();
-#endif
-      while (maxverses && *target->getKey() <= *parser) {
-        cout << (char*)target->getKeyText() << endl; // Todo
-#ifdef HAVE_SWORD16
-        cout << target->RenderText() << endl; // Todo
-#else
-        cout << target->renderText() << endl; // Todo
-#endif
-        if (*target->getKey() == *parser) break;
-        maxverses--;
-        (*target)++;
-      }
-    }
-    else {
-      target->setKey(*listkey.getElement(i));
-      cout << (char*)target->getKeyText() << endl; // Todo
-    }
-    
-#ifdef HAVE_SWORD16
-    cout << target->RenderText() << endl; // Todo
-#else
-    cout << target->renderText() << endl; // Todo
-#endif
-    
-    maxverses--;
-  }
-
-  delete parser;
-#endif
-  return "In progress...";
+  return rendering;
 }
