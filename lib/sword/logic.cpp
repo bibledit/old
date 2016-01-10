@@ -755,17 +755,9 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse) // Todo
 {
 #ifdef HAVE_SWORD
-
   
   int maxverses = -1;
-  unsigned char outputformat = sword::FMT_PLAIN;
-  // unsigned char searchtype = ST_NONE;
-  unsigned char outputencoding = sword::ENC_UTF8;
-  //unsigned long optionfilters = OP_NONE;
   char *ref = 0;
-  char *range = 0;
-  char script[] = "Latin"; // for the moment, only this target script is supported
-  signed short variants = 0;
   
   sword::SWBuf key = osis.c_str ();
   key = key + " " + convert_to_string (chapter).c_str ();
@@ -784,6 +776,7 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   sword::ModMap::iterator it;
   it = manager.Modules.find (module_name.c_str ());
   if (it == manager.Modules.end()) {
+    cout << "Unknown module" << endl; // Todo
     return "Unknown module";
   }
   sword::SWModule *target;
@@ -854,13 +847,29 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
     }
   }
   
+#ifdef HAVE_SWORD16
+  listkey = parser->ParseVerseList(ref, "Gen1:1", true);
+#else
   listkey = parser->parseVerseList(ref, "Gen1:1", true);
+#endif
   int i;
+#ifdef HAVE_SWORD16
+  for (i = 0; i < listkey.Count() && maxverses; i++) {
+#else
   for (i = 0; i < listkey.getCount() && maxverses; i++) {
+#endif
     sword::VerseKey *element = SWDYNAMIC_CAST(sword::VerseKey, listkey.getElement(i));
     if (element && element->isBoundSet()) {
+#ifdef HAVE_SWORD16
+      target->setKey(element->LowerBound());
+#else
       target->setKey(element->getLowerBound());
+#endif
+#ifdef HAVE_SWORD16
+      *parser = element->UpperBound();
+#else
       *parser = element->getUpperBound();
+#endif
       while (maxverses && *target->getKey() <= *parser) {
         cout << (char*)target->getKeyText() << endl; // Todo
         cout << target->renderText() << endl; // Todo
@@ -883,31 +892,3 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 #endif
   return "In progress...";
 }
-
-/* Todo transfer into actual code as needed.
-void doquery(unsigned long maxverses = -1, unsigned char outputformat = FMT_PLAIN, unsigned char outputencoding = ENC_UTF8, unsigned long optionfilters = 0, unsigned char searchtype = ST_NONE, const char *range = 0, const char *text = 0, const char *locale = 0, const char *ref = 0, ostream* output = &cout, const char *script = 0, signed char variants = 0) {
- 
-  SWBuf modlanguage;
-  SWBuf modlocale;
-  SWBuf syslanguage;
-  char querytype = 0;
- 
-  LocaleMgr *lom = LocaleMgr::getSystemLocaleMgr();
-  lom->setDefaultLocaleName(syslocale);
-  syslanguage = lom->translate(syslocale, "locales");
-
-  if (target->getLanguage()) {
-    modlocale = target->getLanguage();
-    LocaleMgr *lm = LocaleMgr::getSystemLocaleMgr();
-    modlanguage = lm->translate(modlocale.append(".en"), "locales");
-    modlocale -= 3;
-		}
-  else {
-    modlocale = "en";
-    modlanguage = "English";
-  }
- 
- 
- 
- 
-*/
