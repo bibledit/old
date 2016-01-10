@@ -872,7 +872,11 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 #endif
       while (maxverses && *target->getKey() <= *parser) {
         cout << (char*)target->getKeyText() << endl; // Todo
+#ifdef HAVE_SWORD16
+        cout << target->RenderText() << endl; // Todo
+#else
         cout << target->renderText() << endl; // Todo
+#endif
         if (*target->getKey() == *parser) break;
         maxverses--;
         (*target)++;
@@ -883,7 +887,11 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
       cout << (char*)target->getKeyText() << endl; // Todo
     }
     
+#ifdef HAVE_SWORD16
+    cout << target->RenderText() << endl; // Todo
+#else
     cout << target->renderText() << endl; // Todo
+#endif
     
     maxverses--;
   }
