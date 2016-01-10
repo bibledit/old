@@ -408,6 +408,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
       string osis = Database_Books::getOsisFromId (book);
       string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
       filter_shell_run (command, output);
+      cout << command << endl; // Todo
 
     }
     
@@ -787,7 +788,11 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   }
   sword::SWModule *target;
   target = (*it).second;
+#ifdef HAVE_SWORD16
+  sword::SWKey *p = target->CreateKey();
+#else
   sword::SWKey *p = target->createKey();
+#endif
   sword::VerseKey *parser = SWDYNAMIC_CAST (sword::VerseKey, p);
   if (!parser) {
     delete p;
@@ -800,7 +805,11 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 
   char inputformat = 0;
   sword::SWBuf encoding;
+#ifdef HAVE_SWORD16
+  if ((sit = manager.config->Sections.find((*it).second->Name())) != manager.config->Sections.end()) {
+#else
   if ((sit = manager.config->Sections.find((*it).second->getName())) != manager.config->Sections.end()) {
+#endif
     if ((eit = (*sit).second.find("SourceType")) != (*sit).second.end()) {
       if (!sword::stricmp((char *)(*eit).second.c_str(), "GBF"))
         inputformat = sword::FMT_GBF;
@@ -834,7 +843,11 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   manager.setGlobalOption("Textual Variants", "Primary Reading");
   
   char *font = 0;
-  if ((sit = manager.config->Sections.find((*it).second->getName())) != manager.config->Sections.end()) {
+#ifdef HAVE_SWORD16
+    if ((sit = manager.config->Sections.find((*it).second->Name())) != manager.config->Sections.end()) {
+#else
+    if ((sit = manager.config->Sections.find((*it).second->getName())) != manager.config->Sections.end()) {
+#endif
     if ((eit = (*sit).second.find("Font")) != (*sit).second.end()) {
       font = (char *)(*eit).second.c_str();
       if (strlen(font) == 0) font = 0;
