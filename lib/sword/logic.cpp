@@ -386,31 +386,19 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     
   } else {
 
-    // The virtual URL for caching purposes.
-    string url = sword_logic_virtual_url (module, book, chapter, verse);
-
     // The module text.
     string output;
 
-    if (database_cache_exists (url)) {
-
-      // Access cache for speed.
-      output = database_cache_get (url);
-      
-    } else {
-
-      string osis = Database_Books::getOsisFromId (book);
+    string osis = Database_Books::getOsisFromId (book);
 #ifdef HAVE_SWORD
-      output = sword_logic_diatheke (module, osis, chapter, verse); // Todo
+    output = sword_logic_diatheke (module, osis, chapter, verse); // Todo
 #else
-      // The server fetches the module text as follows:
-      // diatheke -b KJV -k Jn 3:16 Todo
-      string sword_path = sword_logic_get_path ();
-      string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-      filter_shell_run (command, output);
+    // The server fetches the module text as follows:
+    // diatheke -b KJV -k Jn 3:16 Todo
+    string sword_path = sword_logic_get_path ();
+    string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+    filter_shell_run (command, output);
 #endif
-
-    }
     
     // If the module has not been installed, the output of "diatheke" will be empty.
     // If the module was installed, but the requested passage is out of range,
@@ -435,36 +423,6 @@ string sword_logic_get_text (string source, string module, int book, int chapter
         return "Cannot find SWORD module " + module;
       }
     }
-    
-    // The server hits the cache for recording the last day the module was queried.
-    // It hits passage 0.0.0 because the installed SWORD module is one data unit.
-    string module_url = sword_logic_virtual_url (module, 0, 0, 0);
-    if (!database_cache_exists (module_url)) {
-      database_cache_put (module_url, "accessed");
-    }
-    database_cache_get (module_url);
-    
-    // If the module verse output was not cached yet, cache it here.
-    if (!database_cache_exists (url)) {
-      database_cache_put (url, output);
-    }
-    
-    // The standard output of a Bible verse starts with the passage, like so:
-    // Ruth 1:2:
-    // Remove that.
-    size_t pos = output.find (":");
-    if (pos != string::npos) {
-      output.erase (0, pos + 1);
-    }
-    pos = output.find (":");
-    if (pos != string::npos) {
-      output.erase (0, pos + 1);
-    }
-    
-    // The standard output ends with the module name, like so:
-    // (KJV)
-    // Remove that.
-    output = filter_string_str_replace ("(" + module + ")", "", output);
     
     // Remove any OSIS elements.
     filter_string_replace_between (output, "<", ">", "");
