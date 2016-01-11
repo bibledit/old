@@ -77,6 +77,9 @@ void setup_conditionally (const char * package)
       Database_Logs::log (message, Filter_Roles::admin());
     }
     
+    // Cloud updates the available SWORD modules.
+    if (!config_logic_client_prepared ()) tasks_logic_queue (REFRESHSWORDMODULES);
+    
     // Update installed version.
     Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
   };

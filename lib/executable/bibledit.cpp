@@ -56,11 +56,11 @@ void sigsegv_handler (int sig)
   // Information.
   cout << "Segmentation fault, writing backtrace to " << backtrace_path () << endl;
 
-  void *array[10];
+  void *array[20];
   size_t size;
   
   // Get void*'s for all entries on the stack
-  size = backtrace (array, 10);
+  size = backtrace (array, 20);
 
   // Write entries to file (to be logged next time bibledit starts).
   int fd = open (backtrace_path ().c_str (), O_WRONLY|O_CREAT, 0666);
