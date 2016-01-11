@@ -11,7 +11,7 @@
 #define ADMIN_USERNAME ""
 
 /* Define whether the expected browser is a bare browser without controls */
-#define BARE_BROWSER "no"
+#define BARE_BROWSER "yes"
 
 /* Define whether it is prepared as a client installation */
 #define CLIENT "yes"
