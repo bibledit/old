@@ -36,12 +36,10 @@
 #include <demo/logic.h>
 #include <config.h>
 #ifdef HAVE_SWORD
-#ifndef CLIENT_PREPARED
 #include <swmgr.h>
 #include <installmgr.h>
 #include <filemgr.h>
 #include <swmodule.h>
-#endif
 #endif
 
 
@@ -552,7 +550,6 @@ void sword_logic_run_scheduled_module_install (string source, string module)
 void sword_logic_installmgr_initialize ()
 {
 #ifdef HAVE_SWORD
-#ifndef CLIENT_PREPARED
   sword::SWMgr *mgr = new sword::SWMgr();
   if (!mgr->config) Database_Logs::log ("ERROR: Please configure SWORD first.");
 
@@ -578,14 +575,12 @@ void sword_logic_installmgr_initialize ()
   delete installMgr;
   delete mgr;
 #endif
-#endif
 }
 
 
 void sword_logic_installmgr_synchronize_configuration_with_master ()
 {
 #ifdef HAVE_SWORD
-#ifndef CLIENT_PREPARED
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
@@ -599,14 +594,12 @@ void sword_logic_installmgr_synchronize_configuration_with_master ()
   
   delete installMgr;
 #endif
-#endif
 }
 
 
 void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
 {
 #ifdef HAVE_SWORD
-#ifndef CLIENT_PREPARED
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
@@ -630,14 +623,12 @@ void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
   
   delete installMgr;
 #endif
-#endif
 }
 
 
 void sword_logic_installmgr_refresh_remote_source (string name)
 {
 #ifdef HAVE_SWORD
-#ifndef CLIENT_PREPARED
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
@@ -656,14 +647,12 @@ void sword_logic_installmgr_refresh_remote_source (string name)
   
   delete installMgr;
 #endif
-#endif
 }
 
 
 void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules)
 {
 #ifdef HAVE_SWORD
-#ifndef CLIENT_PREPARED
   sword::SWMgr *mgr = new sword::SWMgr();
   
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
@@ -717,7 +706,6 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
   delete installMgr;
   delete mgr;
 #endif
-#endif
 }
 
 
@@ -725,7 +713,6 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 {
   string rendering;
 #ifdef HAVE_SWORD
-#ifndef CLIENT_PREPARED
   // When accessing the SWORD library from multiple threads simultaneously, the library often crashes.
   // A mutex fixes this behaviour.
   sword_logic_library_access_mutex.lock ();
@@ -764,7 +751,6 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 #endif
   }
   sword_logic_library_access_mutex.unlock ();
-#endif
 #endif
   
   return rendering;
