@@ -35,10 +35,13 @@
 
 vector <string> workbench_get_default_names ()
 {
+  // Any of the names below should not contain commas,
+  // because the sorting mechanism takes the comma as a separator,
+  // so if commas are in a name, the sorting no longer works.
   return {
     translate ("Editor and Resources"),
     translate ("Editor and Notes"),
-    translate ("Resources, Editor, Notes"),
+    translate ("Resources and Editor and Notes"),
     translate ("Editor and Consistency tool"),
     translate ("Visual editor and USFM editor")
   };
@@ -521,4 +524,41 @@ void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths
 string workbench_get_default_name ()
 {
   return "Default";
+}
+
+
+// Send the named $desktop to a $user name.
+void workbench_send (void * webserver_request, string desktop, string user)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // Save current active desktop.
+  string active_desktop = request->database_config_user()->getActiveWorkbench ();
+  
+  // Retrieve settings for the $desktop of the current user.
+  request->database_config_user()->setActiveWorkbench (desktop);
+  map <int, string> urls = workbench_get_urls (webserver_request, false);
+  map <int, string> widths = workbench_get_widths (webserver_request);
+  map <int, string> heights = workbench_get_heights (webserver_request);
+  string entire_width = workbench_get_entire_width (webserver_request);
+  
+  // Restore current active desktop.
+  request->database_config_user()->setActiveWorkbench (active_desktop);
+
+  // New webserver request object for the destination user.
+  Webserver_Request destination_request;
+  destination_request.session_logic ()->setUsername (user);
+  
+  // Save desktop for destination user.
+  active_desktop = destination_request.database_config_user()->getActiveWorkbench ();
+  destination_request.database_config_user()->setActiveWorkbench (desktop);
+  
+  // Copy source desktop to destination.
+  workbench_set_urls (&destination_request, urls);
+  workbench_set_widths (&destination_request, widths);
+  workbench_set_heights (&destination_request, heights);
+  workbench_set_entire_width (&destination_request, entire_width);
+
+  // Restore desktop for the destination user.
+  request->database_config_user()->setActiveWorkbench (active_desktop);
 }

@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-void export_odt_book (string bible, int book, bool force);
+void export_odt_book (string bible, int book);
 
 
 #endif

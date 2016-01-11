@@ -34,11 +34,28 @@
 #include <sync/resources.h>
 #include <tasks/logic.h>
 #include <demo/logic.h>
+#include <sword/installmgr.h>
+#include <config.h>
+#ifdef HAVE_SWORD
+#include <swmgr.h>
+#include <installmgr.h>
+#include <filemgr.h>
+#include <swmodule.h>
+#endif
+
+
+mutex sword_logic_installer_mutex;
+bool sword_logic_installing_module = false;
+mutex sword_logic_library_access_mutex;
 
 
 string sword_logic_get_path ()
 {
-  return filter_url_create_root_path ("sword");
+  string sword_path = ".";
+  char * home = getenv ("HOME");
+  if (home) sword_path = home;
+  sword_path.append ("/.sword/InstallMgr");
+  return sword_path;
 }
 
 
@@ -53,27 +70,41 @@ void sword_logic_refresh_module_list ()
   string sword_path = sword_logic_get_path ();
   filter_url_mkdir (sword_path);
   string swordconf = "[Install]\n"
-  "DataPath=" + sword_path + "/\n";
+                     "DataPath=" + sword_path + "/\n";
   filter_url_file_put_contents (filter_url_create_path (sword_path, "sword.conf"), swordconf);
-  
-  // Initialize basic user configuration
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -init", out_err);
+  string config_files_path = filter_url_create_root_path ("sword");
+  filter_shell_run ("cp -r " + config_files_path + "/locales.d " + sword_path, out_err);
   lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) {
-    Database_Logs::log (line);
-  }
+  for (auto line : lines) Database_Logs::log (line);
+  filter_shell_run ("cp -r " + config_files_path + "/mods.d " + sword_path, out_err);
+  lines = filter_string_explode (out_err, '\n');
+  for (auto line : lines) Database_Logs::log (line);
+  
+  // Initialize basic user configuration.
+#ifdef HAVE_SWORD
+  sword_logic_installmgr_initialize ();
+#else
+  filter_shell_run ("echo yes | installmgr -init", out_err);
+  lines = filter_string_explode (out_err, '\n');
+  for (auto line : lines) Database_Logs::log (line);
+#endif
   
   // Sync the configuration with the online known remote repository list.
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -sc", out_err);
+#ifdef HAVE_SWORD
+  sword_logic_installmgr_synchronize_configuration_with_master ();
+#else
+  filter_shell_run ("echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
   lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) {
-    Database_Logs::log (line);
-  }
+  for (auto line : lines) Database_Logs::log (line);
+#endif
   
   // List the remote sources.
   vector <string> remote_sources;
-  filter_shell_run ("cd " + sword_path + "; installmgr -s", out_err);
+#ifdef HAVE_SWORD
+  sword_logic_installmgr_list_remote_sources (remote_sources);
+#else
+  filter_shell_run ("installmgr -s", out_err);
   lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     Database_Logs::log (line);
@@ -86,28 +117,41 @@ void sword_logic_refresh_module_list ()
       }
     }
   }
+#endif
   
   vector <string> sword_modules;
   
   for (auto remote_source : remote_sources) {
     
-    Database_Logs::log ("Reading modules from remote resource: " + remote_source);
-    
-    filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -r \"" + remote_source + "\"", out_err);
+#ifdef HAVE_SWORD
+    sword_logic_installmgr_refresh_remote_source (remote_source);
+#else
+    filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
     Database_Logs::log (out_err);
-    
-    filter_shell_run ("cd " + sword_path + "; installmgr -rl \"" + remote_source + "\"", out_err);
+#endif
+
+    vector <string> modules;
+#ifdef HAVE_SWORD
+    sword_logic_installmgr_list_remote_modules (remote_source, modules);
+    for (auto & module : modules) {
+      sword_modules.push_back ("[" + remote_source + "]" + " " + module);
+    }
+#else
+    filter_shell_run ("installmgr -rl \"" + remote_source + "\"", out_err);
     lines = filter_string_explode (out_err, '\n');
     for (auto line : lines) {
       line = filter_string_trim (line);
       if (line.empty ()) continue;
-      Database_Logs::log (line);
       if (line.find ("[") == string::npos) continue;
       if (line.find ("]") == string::npos) continue;
-      sword_modules.push_back ("[" + remote_source + "]" + " " + line);
+      modules.push_back ("[" + remote_source + "]" + " " + line);
     }
-    
+    for (auto module : modules) {
+      sword_modules.push_back (module);
+    }
+#endif
+    Database_Logs::log (remote_source + ": " + convert_to_string (modules.size ()) + " modules");
   }
   
   // Store the list of remote sources and their modules.
@@ -202,40 +246,59 @@ string sword_logic_get_name (string line)
 }
 
 
-void sword_logic_install_module (string source, string module)
+void sword_logic_install_module (string source_name, string module_name)
 {
-  Database_Logs::log ("Install SWORD module " + module + " from source " + source);
-  string out_err;
+  Database_Logs::log ("Install SWORD module " + module_name + " from source " + source_name);
   string sword_path = sword_logic_get_path ();
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source + "\" \"" + module + "\"", out_err);
+
+  /* Installation through SWORD InstallMgr does not yet work.
+  // When running it from the ~/.sword/InstallMgr directory, it works.
+#ifdef HAVE_SWORD
+  
+  sword::SWMgr *mgr = new sword::SWMgr();
+  
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  sword::InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + source_name);
+  } else {
+    sword::InstallSource *is = source->second;
+    sword::SWMgr *rmgr = is->getMgr();
+    sword::SWModule *module;
+    sword::ModMap::iterator it = rmgr->Modules.find(module_name.c_str());
+    if (it == rmgr->Modules.end()) {
+      Database_Logs::log ("Remote source " + source_name + " does not make available module " + module_name);
+    } else {
+      module = it->second;
+      int error = installMgr->installModule(mgr, 0, module->getName(), is);
+      if (error) {
+        Database_Logs::log ("Error installing module " + module_name);
+      } else {
+        Database_Logs::log ("Installed module " + module_name);
+      }
+    }
+  }
+
+  delete installMgr;
+  delete mgr;
+  
+#else
+   */
+  
+  string out_err;
+  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
   vector <string> lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
     line = filter_string_trim (line);
     if (line.empty ()) continue;
     Database_Logs::log (line);
   }
-}
-
-
-void sword_logic_update_module (string source, string module) // Todo
-{
-  sword_logic_uninstall_module (module);
   
-  // Clear the cache.
-  Database_Versifications database_versifications;
-  vector <int> books = database_versifications.getMaximumBooks ();
-  for (auto & book : books) {
-    vector <int> chapters = database_versifications.getMaximumChapters (book);
-    for (auto & chapter : chapters) {
-      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
-      for (auto & verse : verses) {
-        string schema = sword_logic_virtual_url (module, book, chapter, verse);
-        database_cache_remove (schema);
-      }
-    }
-  }
-  
-  sword_logic_install_module (source, module);
+//#endif
 }
 
 
@@ -325,32 +388,26 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     
   } else {
 
-    // The virtual URL for caching purposes.
-    string url = sword_logic_virtual_url (module, book, chapter, verse);
+    string module_text;
+    bool module_available = false;
 
-    // The module text.
-    string output;
+    string osis = Database_Books::getOsisFromId (book);
+#ifdef HAVE_SWORD
+    module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
+#else
+    // The server fetches the module text as follows:
+    // diatheke -b KJV -k Jn 3:16
+    string sword_path = sword_logic_get_path ();
+    string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+    filter_shell_run (command, module_text);
 
-    if (database_cache_exists (url)) {
-
-      // Access cache for speed.
-      output = database_cache_get (url);
-      
-    } else {
-
-      // The server fetches the module text as follows:
-      // diatheke -b KJV -k Jn 3:16
-      string sword_path = sword_logic_get_path ();
-      string osis = Database_Books::getOsisFromId (book);
-      string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-      filter_shell_run (command, output);
-
-    }
-    
     // If the module has not been installed, the output of "diatheke" will be empty.
     // If the module was installed, but the requested passage is out of range,
     // the output of "diatheke" contains the module name, so it won't be empty.
-    if (output.empty ()) {
+    module_available = !module_text.empty ();
+#endif
+    
+    if (!module_available) {
       
       // Check whether the SWORD module exists.
       vector <string> modules = sword_logic_get_available ();
@@ -371,43 +428,13 @@ string sword_logic_get_text (string source, string module, int book, int chapter
       }
     }
     
-    // The server hits the cache for recording the last day the module was queried.
-    // It hits passage 0.0.0 because the installed SWORD module is one data unit.
-    string module_url = sword_logic_virtual_url (module, 0, 0, 0);
-    if (!database_cache_exists (module_url)) {
-      database_cache_put (module_url, "accessed");
-    }
-    database_cache_get (module_url);
-    
-    // If the module verse output was not cached yet, cache it here.
-    if (!database_cache_exists (url)) {
-      database_cache_put (url, output);
-    }
-    
-    // The standard output of a Bible verse starts with the passage, like so:
-    // Ruth 1:2:
-    // Remove that.
-    size_t pos = output.find (":");
-    if (pos != string::npos) {
-      output.erase (0, pos + 1);
-    }
-    pos = output.find (":");
-    if (pos != string::npos) {
-      output.erase (0, pos + 1);
-    }
-    
-    // The standard output ends with the module name, like so:
-    // (KJV)
-    // Remove that.
-    output = filter_string_str_replace ("(" + module + ")", "", output);
-    
     // Remove any OSIS elements.
-    filter_string_replace_between (output, "<", ">", "");
+    filter_string_replace_between (module_text, "<", ">", "");
     
     // Clean whitespace away.
-    output = filter_string_trim (output);
+    module_text = filter_string_trim (module_text);
     
-    return output;
+    return module_text;
   }
 
   return "";
@@ -429,7 +456,23 @@ void sword_logic_update_installed_modules ()
       if (sword_logic_get_remote_module (available_module) == module) {
         if (sword_logic_get_version (available_module) != installed_version) {
           string source = sword_logic_get_source (available_module);
-          sword_logic_update_module (source, module);
+          // Uninstall module.
+          sword_logic_uninstall_module (module);
+          // Clear the cache.
+          Database_Versifications database_versifications;
+          vector <int> books = database_versifications.getMaximumBooks ();
+          for (auto & book : books) {
+            vector <int> chapters = database_versifications.getMaximumChapters (book);
+            for (auto & chapter : chapters) {
+              vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+              for (auto & verse : verses) {
+                string schema = sword_logic_virtual_url (module, book, chapter, verse);
+                database_cache_remove (schema);
+              }
+            }
+          }
+          // Schedule module installation.
+          tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
         }
         continue;
       }
@@ -470,4 +513,246 @@ string sword_logic_virtual_url (const string & module, int book, int chapter, in
 {
   string url = "sword_" + module + "_" + convert_to_string (book) + "_chapter_" + convert_to_string (chapter) + "_verse_" + convert_to_string (verse);
   return url;
+}
+
+
+// The functions runs a scheduled module installation.
+// The purpose of this function is that only one module installation occurs at a time,
+// rather than simultaneously installing modules, which clogs the system.
+void sword_logic_run_scheduled_module_install (string source, string module)
+{
+  // If a module is being installed,
+  // and a call is made for another module installation,
+  // re-schedule this module installation to postpone it,
+  // till after this one is ready.
+  sword_logic_installer_mutex.lock ();
+  bool installing = sword_logic_installing_module;
+  sword_logic_installer_mutex.unlock ();
+  if (installing) {
+    tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+    return;
+  }
+
+  // Set flag for current module installation running.
+  sword_logic_installer_mutex.lock ();
+  sword_logic_installing_module = true;
+  sword_logic_installer_mutex.unlock ();
+
+  // Run the installer.
+  sword_logic_install_module (source, module);
+  
+  // Clear flag as current module installation is ready.
+  sword_logic_installer_mutex.lock ();
+  sword_logic_installing_module = false;
+  sword_logic_installer_mutex.unlock ();
+}
+
+
+void sword_logic_installmgr_initialize ()
+{
+#ifdef HAVE_SWORD
+  sword::SWMgr *mgr = new sword::SWMgr();
+  if (!mgr->config) Database_Logs::log ("ERROR: Please configure SWORD first.");
+
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  sword::SWBuf confPath = baseDir + "/InstallMgr.conf";
+  sword::FileMgr::createParent (confPath.c_str());
+  remove(confPath.c_str());
+  
+  sword::InstallSource is("FTP");
+  is.caption = "CrossWire";
+  is.source = "ftp.crosswire.org";
+  is.directory = "/pub/sword/raw";
+  
+  sword::SWConfig config(confPath.c_str());
+  config["General"]["PassiveFTP"] = "true";
+  config["Sources"]["FTPSource"] = is.getConfEnt();
+  config.Save();
+
+  delete installMgr;
+  delete mgr;
+#endif
+}
+
+
+void sword_logic_installmgr_synchronize_configuration_with_master ()
+{
+#ifdef HAVE_SWORD
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  if (!installMgr->refreshRemoteSourceConfiguration()) {
+    //Database_Logs::log ("Synchronized SWORD configuration with the master remote source list");
+  } else {
+    Database_Logs::log ("Failed to synchronize SWORD configuration with the master remote source list");
+  }
+  
+  delete installMgr;
+#endif
+}
+
+
+void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
+{
+#ifdef HAVE_SWORD
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  for (sword::InstallSourceMap::iterator it = installMgr->sources.begin(); it != installMgr->sources.end(); it++) {
+    string caption (it->second->caption);
+    sources.push_back (caption);
+    /*
+    string description;
+    description.append (caption);
+    description.append (" - ");
+    description.append (it->second->type);
+    description.append (" - ");
+    description.append (it->second->source);
+    description.append (" - ");
+    description.append (it->second->directory);
+    Database_Logs::log (description);
+    */
+  }
+  
+  delete installMgr;
+#endif
+}
+
+
+void sword_logic_installmgr_refresh_remote_source (string name)
+{
+#ifdef HAVE_SWORD
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+
+  sword::InstallSourceMap::iterator source = installMgr->sources.find(name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + name);
+  } else {
+    if (!installMgr->refreshRemoteSource(source->second)) {
+      //Database_Logs::log ("Remote source refreshed: " + name);
+    } else {
+      Database_Logs::log ("Error refreshing remote source " + name);
+    }
+  }
+  
+  delete installMgr;
+#endif
+}
+
+
+void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules)
+{
+#ifdef HAVE_SWORD
+  sword::SWMgr *mgr = new sword::SWMgr();
+  
+  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  
+  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
+  installMgr->setUserDisclaimerConfirmed (true);
+  
+  sword::InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
+  if (source == installMgr->sources.end()) {
+    Database_Logs::log ("Could not find remote source " + source_name);
+  } else {
+    sword::SWMgr *otherMgr = source->second->getMgr();
+    sword::SWModule *module;
+    if (!otherMgr) otherMgr = mgr;
+    std::map<sword::SWModule *, int> mods = sword::InstallMgr::getModuleStatus(*mgr, *otherMgr);
+    for (std::map<sword::SWModule *, int>::iterator it = mods.begin(); it != mods.end(); it++) {
+      module = it->first;
+      sword::SWBuf version = module->getConfigEntry("Version");
+      sword::SWBuf status = " ";
+      if (it->second & sword::InstallMgr::MODSTAT_NEW) status = "*";
+      if (it->second & sword::InstallMgr::MODSTAT_OLDER) status = "-";
+      if (it->second & sword::InstallMgr::MODSTAT_UPDATED) status = "+";
+      string module_name (status);
+      module_name.append ("[");
+#ifdef HAVE_SWORD16
+      module_name.append (module->Name());
+#else
+      module_name.append (module->getName());
+#endif
+      module_name.append ("]  \t(");
+      module_name.append (version);
+      module_name.append (")  \t- ");
+#ifdef HAVE_SWORD16
+      module_name.append (module->Description());
+#else
+      module_name.append (module->getDescription());
+#endif
+      // Check if the module is a verse-based Bible or commentary.
+      bool verse_based = false;
+#ifdef HAVE_SWORD16
+      string module_type = module->Type ();
+#else
+      string module_type = module->getType ();
+#endif
+      if (module_type == "Biblical Texts") verse_based = true;
+      if (module_type == "Commentaries") verse_based = true;
+      if (verse_based) modules.push_back (module_name);
+    }
+  }
+  
+  delete installMgr;
+  delete mgr;
+#endif
+}
+
+
+string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available)
+{
+  string rendering;
+#ifdef HAVE_SWORD
+  // When accessing the SWORD library from multiple threads simultaneously, the library often crashes.
+  // A mutex fixes this behaviour.
+  sword_logic_library_access_mutex.lock ();
+  
+  // The SWORD manager should be pointed to the path of the library, in order to work.
+  sword::SWMgr manager (sword_logic_get_path ().c_str ());
+  
+  manager.setGlobalOption("Footnotes", "Off");
+  manager.setGlobalOption("Headings", "Off");
+  manager.setGlobalOption("Strong's Numbers", "Off");
+  manager.setGlobalOption("Morphological Tags", "Off");
+  manager.setGlobalOption("Hebrew Cantillation", "On");
+  manager.setGlobalOption("Hebrew Vowel Points", "On");
+  manager.setGlobalOption("Greek Accents", "On");
+  manager.setGlobalOption("Lemmas", "Off");
+  manager.setGlobalOption("Cross-references", "Off");
+  manager.setGlobalOption("Words of Christ in Red", "Off");
+  manager.setGlobalOption("Arabic Vowel Points", "On");
+  manager.setGlobalOption("Glosses", "Off");
+  manager.setGlobalOption("Transliterated Forms", "Off");
+  manager.setGlobalOption("Enumerations", "Off");
+  manager.setGlobalOption("Transliteration", "Off");
+  manager.setGlobalOption("Textual Variants", "All Readings");
+  //manager.setGlobalOption("Textual Variants", "Secondary Reading");
+  //manager.setGlobalOption("Textual Variants", "Primary Reading");
+  
+  sword::SWModule *module = manager.getModule (module_name.c_str ());
+  available = module;
+  if (module) {
+    string key = osis + " " + convert_to_string (chapter).c_str () + ":" + convert_to_string (verse).c_str ();
+    module->setKey (key.c_str ());
+#ifdef HAVE_SWORD16
+    rendering = module->RenderText();
+#else
+    rendering = module->renderText();
+#endif
+  }
+  sword_logic_library_access_mutex.unlock ();
+#endif
+  
+  return rendering;
 }

@@ -30,6 +30,7 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string workbench_organize_url ()
@@ -110,7 +111,20 @@ string workbench_organize (void * webserver_request)
     string destination = request->post ["entry"];
     workbench_copy (webserver_request, source, destination);
   }
+
   
+  // Send desktop to all users.
+  string send = request->query ["send"];
+  if (!send.empty ()) {
+    string me = request->session_logic ()->currentUser ();
+    vector <string> users = request->database_users ()->getUsers ();
+    for (auto user : users) {
+      if (user != me) {
+        workbench_send (webserver_request, send, user);
+      }
+    }
+  }
+
   
   Assets_View view;
   
@@ -125,12 +139,19 @@ string workbench_organize (void * webserver_request)
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<a href=\"?copy=" + workbench + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
     workbenchblock.push_back ("|");
+    workbenchblock.push_back ("<a href=\"?send=" + workbench + "\" title=\"" + translate("Send desktop to all users") + "\"> ✉ </a>");
+    workbenchblock.push_back ("|");
     workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
     workbenchblock.push_back ("</p>");
   }
   view.set_variable ("workbenchblock", filter_string_implode (workbenchblock, "\n"));
 
   
+  if (!config_logic_client_prepared ()) {
+    view.enable_zone ("cloud");
+  }
+  
+
   page += view.render ("workbench", "organize");
   
   

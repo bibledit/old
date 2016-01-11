@@ -64,6 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <paratext/logic.h>
 #include <resource/logic.h>
 #include <sword/logic.h>
+#include <bible/logic.h>
 
 
 mutex mutex_tasks; 
@@ -125,6 +126,8 @@ void tasks_run_one (string filename)
     styles_sheets_create_all_run ();
   } else if (command == IMPORTBIBLE) {
     bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
+  } else if (command == IMPORTRESOURCE) {
+    bible_logic_import_resource (parameter1, parameter2);
   } else if (command == COMPAREUSFM) {
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
   } else if (command == MAINTAINDATABASE) {
@@ -166,23 +169,23 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTALL) {
     export_index ();
   } else if (command == EXPORTWEBMAIN) {
-    export_web_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_web_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTWEBINDEX) {
-    export_web_index (parameter1, convert_to_bool (parameter2));
+    export_web_index (parameter1);
   } else if (command == EXPORTHTML) {
-    export_html_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_html_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTUSFM) {
-    export_usfm (parameter1, convert_to_bool (parameter2));
+    export_usfm (parameter1);
   } else if (command == EXPORTTEXTUSFM) {
-    export_text_usfm_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_text_usfm_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTODT) {
-    export_odt_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_odt_book (parameter1, convert_to_int (parameter2));
   } else if (command == EXPORTINFO) {
-    export_info (parameter1, convert_to_bool (parameter2));
+    export_info (parameter1);
   } else if (command == EXPORTESWORD) {
-    export_esword (parameter1, convert_to_bool (parameter2));
+    export_esword (parameter1);
   } else if (command == EXPORTONLINEBIBLE) {
-    export_onlinebible (parameter1, convert_to_bool (parameter2));
+    export_onlinebible (parameter1);
   } else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
   } else if (command == SETUPPARATEXT) {
@@ -196,12 +199,8 @@ void tasks_run_one (string filename)
   } else if (command == REFRESHSWORDMODULES) {
     sword_logic_refresh_module_list ();
   } else if (command == INSTALLSWORDMODULE) {
-    sword_logic_install_module (parameter1, parameter2);
-  } else if (command == UPDATESWORDMODULE) {
-    sword_logic_update_module (parameter1, parameter2);
-  } else if (command == UNINSTALLSWORDMODULE) {
-    sword_logic_uninstall_module (parameter1);
-  } else if (command == UPDATEALLSWORDMODULES) {
+    sword_logic_run_scheduled_module_install (parameter1, parameter2);
+  } else if (command == UPDATESWORDMODULES) {
     sword_logic_update_installed_modules ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
