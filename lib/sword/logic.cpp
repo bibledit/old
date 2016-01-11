@@ -146,10 +146,10 @@ void sword_logic_refresh_module_list ()
       if (line.find ("]") == string::npos) continue;
       modules.push_back ("[" + remote_source + "]" + " " + line);
     }
-#endif
     for (auto module : modules) {
       sword_modules.push_back (module);
     }
+#endif
     Database_Logs::log (remote_source + ": " + convert_to_string (modules.size ()) + " modules");
   }
   
@@ -251,8 +251,9 @@ void sword_logic_install_module (string source_name, string module_name)
   string sword_path = sword_logic_get_path ();
 
   /* Installation through SWORD InstallMgr does not yet work.
+  // When running it from the ~/.sword/InstallMgr directory, it works.
 #ifdef HAVE_SWORD
-
+  
   sword::SWMgr *mgr = new sword::SWMgr();
   
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
@@ -276,7 +277,7 @@ void sword_logic_install_module (string source_name, string module_name)
       if (error) {
         Database_Logs::log ("Error installing module " + module_name);
       } else {
-        Database_Logs::log ("Installed module [" + module_name);
+        Database_Logs::log ("Installed module " + module_name);
       }
     }
   }
