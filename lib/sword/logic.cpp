@@ -46,6 +46,7 @@
 
 mutex sword_logic_installer_mutex;
 bool sword_logic_installing_module = false;
+mutex sword_logic_library_access_mutex;
 
 
 string sword_logic_get_path ()
@@ -387,24 +388,26 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     
   } else {
 
-    // The module text.
-    string output;
+    string module_text;
+    bool module_available = false;
 
     string osis = Database_Books::getOsisFromId (book);
 #ifdef HAVE_SWORD
-    output = sword_logic_diatheke (module, osis, chapter, verse);
+    module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
 #else
     // The server fetches the module text as follows:
     // diatheke -b KJV -k Jn 3:16
     string sword_path = sword_logic_get_path ();
     string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-    filter_shell_run (command, output);
-#endif
-    
+    filter_shell_run (command, module_text);
+
     // If the module has not been installed, the output of "diatheke" will be empty.
     // If the module was installed, but the requested passage is out of range,
     // the output of "diatheke" contains the module name, so it won't be empty.
-    if (output.empty ()) {
+    module_available = !module_text.empty ();
+#endif
+    
+    if (!module_available) {
       
       // Check whether the SWORD module exists.
       vector <string> modules = sword_logic_get_available ();
@@ -426,12 +429,12 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     }
     
     // Remove any OSIS elements.
-    filter_string_replace_between (output, "<", ">", "");
+    filter_string_replace_between (module_text, "<", ">", "");
     
     // Clean whitespace away.
-    output = filter_string_trim (output);
+    module_text = filter_string_trim (module_text);
     
-    return output;
+    return module_text;
   }
 
   return "";
@@ -707,11 +710,17 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 }
 
 
-string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse)
+string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available)
 {
   string rendering;
 #ifdef HAVE_SWORD
+  // When accessing the SWORD library from multiple threads simultaneously, the library often crashes.
+  // A mutex fixes this behaviour.
+  sword_logic_library_access_mutex.lock ();
+  
+  // The SWORD manager should be pointed to the path of the library, in order to work.
   sword::SWMgr manager (sword_logic_get_path ().c_str ());
+  
   manager.setGlobalOption("Footnotes", "Off");
   manager.setGlobalOption("Headings", "Off");
   manager.setGlobalOption("Strong's Numbers", "Off");
@@ -730,7 +739,9 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   manager.setGlobalOption("Textual Variants", "All Readings");
   //manager.setGlobalOption("Textual Variants", "Secondary Reading");
   //manager.setGlobalOption("Textual Variants", "Primary Reading");
+  
   sword::SWModule *module = manager.getModule (module_name.c_str ());
+  available = module;
   if (module) {
     string key = osis + " " + convert_to_string (chapter).c_str () + ":" + convert_to_string (verse).c_str ();
     module->setKey (key.c_str ());
@@ -740,6 +751,8 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
     rendering = module->renderText();
 #endif
   }
+  sword_logic_library_access_mutex.unlock ();
 #endif
+  
   return rendering;
 }

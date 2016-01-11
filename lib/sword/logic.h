@@ -47,7 +47,7 @@ void sword_logic_installmgr_synchronize_configuration_with_master ();
 void sword_logic_installmgr_list_remote_sources (vector <string> & sources);
 void sword_logic_installmgr_refresh_remote_source (string name);
 void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules);
-string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse);
+string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available);
 
 
 #endif
