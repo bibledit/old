@@ -710,7 +710,7 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 {
   string rendering;
 #ifdef HAVE_SWORD
-  sword::SWMgr manager;
+  sword::SWMgr manager (sword_logic_get_path ().c_str ());
   manager.setGlobalOption("Footnotes", "Off");
   manager.setGlobalOption("Headings", "Off");
   manager.setGlobalOption("Strong's Numbers", "Off");
@@ -729,7 +729,6 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   manager.setGlobalOption("Textual Variants", "All Readings");
   //manager.setGlobalOption("Textual Variants", "Secondary Reading");
   //manager.setGlobalOption("Textual Variants", "Primary Reading");
-  manager.augmentModules (sword_logic_get_path ().c_str ());
   sword::SWModule *module = manager.getModule (module_name.c_str ());
   if (module) {
     string key = osis + " " + convert_to_string (chapter).c_str () + ":" + convert_to_string (verse).c_str ();
