@@ -34,10 +34,13 @@ sed -i.bak 's#/opt/local/include#. -I..#g' Makefile
 sed -i.bak 's#\`xml2-config --libs\`#-lxml2 -lz -lpthread -liconv -lm#g' Makefile
 sed -i.bak 's#/opt/local/lib#.#g' Makefile
 sed -i.bak 's#-L.#-L. -L../lib#g' Makefile
+sed -i.bak '/SWORD_CFLAGS =/d' Makefile
+sed -i.bak '/SWORD_LIBS =/d' Makefile
 
 
 # Update the configuration.
 sed -i.bak '/CONFIG_ENABLE_FILE_UPLOAD/d' config/config.h
+sed -i.bak '/HAVE_SWORD/d' config.h
 rm config/*.bak
 
 
