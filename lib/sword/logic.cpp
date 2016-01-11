@@ -391,10 +391,10 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 
     string osis = Database_Books::getOsisFromId (book);
 #ifdef HAVE_SWORD
-    output = sword_logic_diatheke (module, osis, chapter, verse); // Todo
+    output = sword_logic_diatheke (module, osis, chapter, verse);
 #else
     // The server fetches the module text as follows:
-    // diatheke -b KJV -k Jn 3:16 Todo
+    // diatheke -b KJV -k Jn 3:16
     string sword_path = sword_logic_get_path ();
     string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
     filter_shell_run (command, output);
@@ -706,7 +706,7 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 }
 
 
-string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse) // Todo
+string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse)
 {
   string rendering;
 #ifdef HAVE_SWORD
