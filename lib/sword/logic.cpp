@@ -34,7 +34,6 @@
 #include <sync/resources.h>
 #include <tasks/logic.h>
 #include <demo/logic.h>
-#include <sword/installmgr.h>
 #include <config.h>
 #ifdef HAVE_SWORD
 #include <swmgr.h>
