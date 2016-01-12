@@ -398,6 +398,21 @@ msgstr ""
 msgid "Would you like to delete this book?"
 msgstr ""
 
+msgid "Select a resource to import into the Bible"
+msgstr ""
+
+msgid "The resource will be imported."
+msgstr ""
+
+msgid "It will overwrite the content of the Bible."
+msgstr ""
+
+msgid "The resource will be imported into the Bible."
+msgstr ""
+
+msgid "The journal shows the progress."
+msgstr ""
+
 msgid "More operations in the Cloud"
 msgstr ""
 
@@ -429,6 +444,9 @@ msgid "Viewable by all users"
 msgstr ""
 
 msgid "The public can give feedback"
+msgstr ""
+
+msgid "Import text from a resource"
 msgstr ""
 
 msgid "Front Matter"
@@ -916,8 +934,11 @@ msgstr ""
 msgid "paragraph starts with a capital and ends with a correct end marker"
 msgstr ""
 
+msgid "correct number of books according to the versification system"
+msgstr ""
+
 msgid ""
-"correct number of books, chapters, and verses, according to the "
+"correct number of chapters and verses in existing books, according to the "
 "versification system"
 msgstr ""
 
@@ -1741,9 +1762,6 @@ msgstr ""
 msgid "Consistency"
 msgstr ""
 
-msgid "Would you like to add a Resource?"
-msgstr ""
-
 msgid "remove"
 msgstr ""
 
@@ -1800,18 +1818,12 @@ msgstr ""
 msgid "Add Resources as extra aids for comparison"
 msgstr ""
 
-msgid "add resource"
-msgstr ""
-
 msgid ""
 "Add the Consistency tool and the Bible editor in a Workbench for easier "
 "checking and editing."
 msgstr ""
 
 msgid "Unknown passage"
-msgstr ""
-
-msgid "Unknown"
 msgstr ""
 
 msgid "Pending"
@@ -5997,6 +6009,9 @@ msgstr ""
 msgid "Go to Bibledit Cloud to submit the Bible there"
 msgstr ""
 
+msgid "Go to Bibledit Cloud for exports to OpenDocument."
+msgstr ""
+
 msgid "Exports"
 msgstr ""
 
@@ -6522,7 +6537,7 @@ msgstr ""
 msgid "Desktops"
 msgstr ""
 
-msgid "External resources"
+msgid "Resources"
 msgstr ""
 
 msgid "Image resources"
@@ -7224,15 +7239,6 @@ msgstr ""
 msgid "Yes, this is the correct verse"
 msgstr ""
 
-msgid "Resources"
-msgstr ""
-
-msgid "Download resource"
-msgstr ""
-
-msgid "Cache a resource to make it available offline."
-msgstr ""
-
 msgid "Convert"
 msgstr ""
 
@@ -7278,6 +7284,12 @@ msgstr ""
 msgid "You can view the conversion process in the Journal."
 msgstr ""
 
+msgid "The following resources are being installed:"
+msgstr ""
+
+msgid "Click a resource for more information on its status."
+msgstr ""
+
 msgid "Converting USFM Resource to Bible"
 msgstr ""
 
@@ -7290,51 +7302,48 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-msgid "Cache resource"
+msgid "Download resource"
 msgstr ""
 
-msgid "Bibledit can display external resources to the user."
+msgid "Bibledit can display this resource."
 msgstr ""
 
-msgid "It fetches the resources from websites on the Internet."
+msgid "It fetches the resource from the Internet."
 msgstr ""
 
-msgid "Some of those websites may be slow to respond."
+msgid "Bibledit may not always be able to reach the Internet."
 msgstr ""
 
-msgid "Bibledit may not always be able to reach them."
+msgid "Or the connection is slow."
 msgstr ""
 
-msgid "To address these issues, you can cache external resources."
+msgid "You can install the resource."
 msgstr ""
 
 msgid ""
-"When a cached resource is needed, Bibledit can fetch the data from its cache "
-"rather than from the external website."
+"When the resource is displayed, the content is fetched from the installed "
+"copy, rather than from the Internet."
 msgstr ""
 
 msgid "This works faster."
 msgstr ""
 
-msgid "It takes the load off the website."
+msgid "And you can work offline."
 msgstr ""
 
-msgid "Clients display only cached resources."
+msgid "Number of installed verses for this resource:"
 msgstr ""
 
-msgid "Number of cached verses available for this resource:"
+msgid "Start installing the resource and view the progress in the Journal."
 msgstr ""
 
-msgid "Start caching this resource and view the progress in the Journal."
-msgstr ""
-
-msgid "It takes the existing cache in account."
+msgid "Installing the resource takes the existing installed verses in account."
 msgstr ""
 
 msgid "It only downloads the missing pieces."
 msgstr ""
 
-msgid "Clear the cache if a full download is needed."
+msgid "Clear the installed resource to do a clean installation."
 msgstr ""
 
 msgid "The file was uploaded and is being processed."
@@ -7495,9 +7504,6 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-msgid "Select a resource to add"
-msgstr ""
-
 msgid "Select a book"
 msgstr ""
 
@@ -7528,7 +7534,16 @@ msgstr ""
 msgid "Select a USFM resource"
 msgstr ""
 
-msgid "Select an external resource"
+msgid "Select an original language text"
+msgstr ""
+
+msgid "Select a Bible translation"
+msgstr ""
+
+msgid "Select a commentary"
+msgstr ""
+
+msgid "Select a general resource"
 msgstr ""
 
 msgid "Select an image resource"
@@ -7543,16 +7558,40 @@ msgstr ""
 msgid "Select a divider"
 msgstr ""
 
-msgid "Resource selector"
+msgid "Resource categories"
 msgstr ""
 
-msgid "install"
+msgid "Bibles within Bibledit"
 msgstr ""
 
-msgid "uninstall"
+msgid "Web resources"
+msgstr ""
+
+msgid "Original language texts"
+msgstr ""
+
+msgid "Bibles (translations)"
+msgstr ""
+
+msgid "Commentaries"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Lexicons"
 msgstr ""
 
 msgid "SWORD modules"
+msgstr ""
+
+msgid "Dividers"
+msgstr ""
+
+msgid "installed"
+msgstr ""
+
+msgid "to be updated"
 msgstr ""
 
 msgid ""
@@ -7561,19 +7600,21 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Update the installed SWORD modules if needed now and view the progress in "
-"the journal."
-msgstr ""
-
-msgid "Every week modules get updated automatically."
+"When a module is going to be displayed as a resource, it will be installed "
+"on the fly."
 msgstr ""
 
 msgid ""
-"An installed SWORD module that has not been used for 100 days in a row will "
-"be uninstalled."
+"Update SWORD modules that have a newer version and view the progress in the "
+"journal."
 msgstr ""
 
-msgid "When it starts to be used again, it will be installed on the fly."
+msgid "Every week modules update   automatically."
+msgstr ""
+
+msgid ""
+"Installed SWORD modules that have not been used for a week will be "
+"uninstalled."
 msgstr ""
 
 msgid "Search all Bibles and consultation notes:"
@@ -8862,7 +8903,7 @@ msgstr ""
 msgid "Editor and Notes"
 msgstr ""
 
-msgid "Resources, Editor, Notes"
+msgid "Resources and Editor and Notes"
 msgstr ""
 
 msgid "Editor and Consistency tool"
@@ -8889,19 +8930,25 @@ msgstr ""
 msgid "Copy desktop"
 msgstr ""
 
+msgid "Send desktop to all users"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
 msgid "Drag the list of desktops into the desired order."
 msgstr ""
 
-msgid "Click ✗ to remove."
+msgid "Click ✗ to remove the desktop."
 msgstr ""
 
-msgid "Click ✎ to edit."
+msgid "Click ✎ to edit the desktop."
 msgstr ""
 
-msgid "Click ⎘ to copy."
+msgid "Click ⎘ to copy the desktop to a new one."
+msgstr ""
+
+msgid "Click ✉ to send the desktop to all users."
 msgstr ""
 
 msgid "Create a new desktop."

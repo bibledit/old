@@ -251,7 +251,6 @@ sync/usfmresources.cpp
 sync/changes.cpp
 sync/files.cpp
 sync/resources.cpp
-resource/admin.cpp
 resource/bible2resource.cpp
 resource/download.cpp
 resource/logic.cpp
@@ -269,6 +268,7 @@ resource/image.cpp
 resource/img.cpp
 resource/sword.cpp
 resource/select.cpp
+resource/cache.cpp
 checks/headers.cpp
 checks/index.cpp
 checks/logic.cpp
@@ -455,11 +455,17 @@ rm -r xcode
 rm -r executable
 popd
 
+pushd webroot
 # Configure Bibledit in client mode,
 # Run only only one parallel task so the interface is more responsive.
 # Enable the single-tab browser.
-pushd webroot
 ./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --with-network-port=8765
+# Update the Makefile.
+sed -i.bak '/SWORD_CFLAGS =/d' Makefile
+sed -i.bak '/SWORD_LIBS =/d' Makefile
+# Update the configuration.
+sed -i.bak '/HAVE_SWORD/d' config.h
+# Done.
 popd
 
 clean

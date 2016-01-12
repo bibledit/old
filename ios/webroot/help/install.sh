@@ -85,8 +85,7 @@ if [ $EXIT_CODE != 0 ]; then
 
   echo No worry, the password may have been good. Trying another way...
   echo Please provide the password for the administrative user and press Enter:
-  read PASSWORD
-  echo $PASSWORD | sudo ./install2.sh
+  sudo ./install2.sh
   EXIT_CODE=$?
   if [ $EXIT_CODE != 0 ]; then
     exit
