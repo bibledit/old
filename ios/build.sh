@@ -463,8 +463,10 @@ pushd webroot
 # Update the Makefile.
 sed -i.bak '/SWORD_CFLAGS =/d' Makefile
 sed -i.bak '/SWORD_LIBS =/d' Makefile
-# Update the configuration.
+# Update the configuration: No SWORD library.
 sed -i.bak '/HAVE_SWORD/d' config.h
+# The embedded web view cannot upload files.
+sed -i.bak '/CONFIG_ENABLE_FILE_UPLOAD/d' config/config.h
 # Done.
 popd
 

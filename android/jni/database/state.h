@@ -35,9 +35,6 @@ public:
   static void setExport (const string & bible, int book, int format);
   static bool getExport (const string & bible, int book, int format);
   static void clearExport (const string & bible, int book, int format);
-  static void setExported (const string & bible, int book);
-  static bool getExported (const string & bible, int book);
-  static void clearExported (const string & bible, int book);
 private:
   static sqlite3 * connect ();
   static const char * name ();

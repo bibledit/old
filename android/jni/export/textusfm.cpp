@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_text_usfm_book (string bible, int book, bool force)
+void export_text_usfm_book (string bible, int book)
 {
   // Create folders for the clear text and the basic USFM exports.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 1);
@@ -47,13 +47,6 @@ void export_text_usfm_book (string bible, int book, bool force)
   // Filenames for text and usfm.
   string usfmFilename = filter_url_create_path (usfmDirectory, Export_Logic::baseBookFileName (book) + ".usfm");
   string textFilename = filter_url_create_path (textDirectory, Export_Logic::baseBookFileName (book) + ".txt");
-  
-  
-  // Certain conditions determine whether to run this export.
-  if (!file_exists (usfmFilename)) force = true;
-  if (!file_exists (textFilename)) force = true;
-  if (Database_State::getExport (bible, book, Export_Logic::export_text_and_basic_usfm)) force = true;
-  if (!force) return;
   
   
   Database_Bibles database_bibles;

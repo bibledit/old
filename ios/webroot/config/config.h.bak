@@ -17,14 +17,5 @@
  */
 
 
-#ifndef INCLUDED_EXPORT_TEXTUSFM_H
-#define INCLUDED_EXPORT_TEXTUSFM_H
+#define CONFIG_ENABLE_FILE_UPLOAD true
 
-
-#include <config/libraries.h>
-
-
-void export_text_usfm_book (string bible, int book);
-
-
-#endif

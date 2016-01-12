@@ -54,6 +54,8 @@ void Database_Localization::create (string po)
   database_sqlite_exec (db, "PRAGMA temp_store = MEMORY;");
   database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
   database_sqlite_exec (db, "PRAGMA journal_mode = OFF;");
+  database_sqlite_exec (db, "DROP TABLE IF EXISTS localization;");
+  database_sqlite_exec (db, "VACUUM;");
   database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
   map <string, string> translations = locale_logic_read_po (po);
   for (auto & element : translations) {
@@ -80,4 +82,18 @@ string Database_Localization::translate (const string& english)
   database_sqlite_disconnect (db);
   if (!msgstrs.empty ()) if (!msgstrs[0].empty ()) return msgstrs [0];
   return english;
+}
+
+
+string Database_Localization::backtranslate (const string& localization)
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT msgid FROM localization WHERE msgstr =");
+  sql.add (localization);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> msgids = database_sqlite_query (db, sql.sql) ["msgid"];
+  database_sqlite_disconnect (db);
+  if (!msgids.empty ()) if (!msgids[0].empty ()) return msgids [0];
+  return localization;
 }

@@ -60,7 +60,13 @@ popd
 
 # Android does not provide 'stoi' in C++.
 sed -i.bak '/HAVE_STOI/d' jni/config.h
+# No libsword.
+sed -i.bak '/HAVE_SWORD/d' jni/config.h
+# No file-upload possible from web view.
+sed -i.bak '/CONFIG_ENABLE_FILE_UPLOAD/d' jni/config/config.h
+# Cleanup
 rm jni/config.h.bak
+rm jni/config/config.h.bak
 
 
 # The following command saves all source files from Makefile.am to file.
@@ -74,7 +80,7 @@ rm jni/config.h.bak
 sed -n "/libbibledit_a_SOURCES/,/bin_PROGRAMS/p" jni/Makefile.am | tail -n +2 | sed '$d' | strings | tr -d '\n' | sed 's/\\//g' > jni/sources.txt
 
 
-# Create Android.mk Makefile from Android.mk.am.
+# Create Android.mk Makefile from Android.am.
 sed "s|SOURCEFILES|$(cat jni/sources.txt)|" jni/Android.am > jni/Android.mk
 rm jni/sources.txt
 
