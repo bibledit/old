@@ -682,6 +682,9 @@
                         <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO">
                             <nil key="identifier"/>
                         </webPreferences>
+                        <connections>
+                            <outlet property="UIDelegate" destination="Voe-Tx-rLC" id="kRG-L2-O5f"/>
+                        </connections>
                     </webView>
                 </subviews>
             </view>

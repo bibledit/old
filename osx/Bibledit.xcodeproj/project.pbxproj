@@ -10,6 +10,7 @@
 		CA1599F21B1759A600B26F9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F11B1759A600B26F9C /* AppDelegate.m */; };
 		CA1599F41B1759A600B26F9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1599F31B1759A600B26F9C /* main.m */; };
 		CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1599F51B1759A600B26F9C /* Images.xcassets */; };
+		CA3CC2701C45277E001CBA74 /* UIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3CC26F1C45277E001CBA74 /* UIDelegate.m */; };
 		CA43E08B1BB851BE00347EE1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */; };
 		CA43E08F1BB851F700347EE1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */; };
 		CA99CFA11B175B8B00696023 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA99CFA01B175B8B00696023 /* WebKit.framework */; };
@@ -35,6 +36,8 @@
 		CA1599F31B1759A600B26F9C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CA1599F51B1759A600B26F9C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CA1599F81B1759A600B26F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		CA3CC26E1C45277D001CBA74 /* UIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDelegate.h; sourceTree = "<group>"; };
+		CA3CC26F1C45277E001CBA74 /* UIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDelegate.m; sourceTree = "<group>"; };
 		CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CA99CFA01B175B8B00696023 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -105,6 +108,8 @@
 				CAFBC78D1B17624E0063BA33 /* osx.entitlements */,
 				CA1599F01B1759A600B26F9C /* AppDelegate.h */,
 				CA1599F11B1759A600B26F9C /* AppDelegate.m */,
+				CA3CC26E1C45277D001CBA74 /* UIDelegate.h */,
+				CA3CC26F1C45277E001CBA74 /* UIDelegate.m */,
 				CA0CCC251B17694900487D8E /* bibledit.h */,
 				CA1599F51B1759A600B26F9C /* Images.xcassets */,
 				CA1599F71B1759A600B26F9C /* MainMenu.xib */,
@@ -203,6 +208,7 @@
 			files = (
 				CA1599F41B1759A600B26F9C /* main.m in Sources */,
 				CA1599F21B1759A600B26F9C /* AppDelegate.m in Sources */,
+				CA3CC2701C45277E001CBA74 /* UIDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
