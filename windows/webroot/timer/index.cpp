@@ -59,6 +59,9 @@ void timer_index ()
       // Wait shortly.
       this_thread::sleep_for (chrono::milliseconds (100));
       
+      // Wait tilll the data structures have been initialized.
+      if (!config_globals_data_initialized) continue;
+      
       // The current time, localized.
       int seconds_since_epoch = filter_date_seconds_since_epoch ();
       int local_seconds = filter_date_local_seconds (seconds_since_epoch);
@@ -213,7 +216,7 @@ void timer_index ()
         }
         // Update installed SWORD modules, shortly after the module list has been refreshed.
         if ((!client) && (hour == 3) && (minute == 15)) {
-          tasks_logic_queue (UPDATEALLSWORDMODULES);
+          tasks_logic_queue (UPDATESWORDMODULES);
         }
       }
 

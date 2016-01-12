@@ -62,26 +62,16 @@ string consistency_index (void * webserver_request)
   Assets_View view;
 
   
-  if (request->query.count ("add")) {
-    string add = request->query ["add"];
-    if (add == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Would you like to add a Resource?"), "", "");
-      vector <string> resources = resource_logic_get_names (webserver_request);
-      for (auto resource : resources) {
-        dialog_list.add_row (resource, "add", resource);
-      }
-      page += dialog_list.run();
-      return page;
-    } else {
-      vector <string> resources = request->database_config_user()->getConsistencyResources ();
-      resources.push_back (add);
-      request->database_config_user()->setConsistencyResources (resources);
-    }
+  string add = request->query ["add"];
+  if (!add.empty ()) {
+    vector <string> resources = request->database_config_user()->getConsistencyResources ();
+    resources.push_back (add);
+    request->database_config_user()->setConsistencyResources (resources);
   }
   
   
-  if (request->query.count ("remove")) {
-    string remove = request->query ["remove"];
+  string remove = request->query ["remove"];
+  if (!remove.empty ()) {
     vector <string> resources = request->database_config_user()->getConsistencyResources ();
     resources = filter_string_array_diff (resources, {remove});
     request->database_config_user()->setConsistencyResources (resources);

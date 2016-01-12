@@ -84,6 +84,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   }
   
   string bookName = Database_Books::getEnglishFromId (book);
+  bookName = translate (bookName);
 
   fragment.append ("<span><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></span>");
   
@@ -144,6 +145,7 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   string html;
   for (auto book : books) {
     string bookName = Database_Books::getEnglishFromId (book);
+    bookName = translate (bookName);
     bool selected = (book == activeBook);
     addSelectorLink (html, convert_to_string (book), "applybook", bookName, selected);
   }

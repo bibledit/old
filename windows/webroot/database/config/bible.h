@@ -41,6 +41,8 @@ public:
   static void setCheckSentenceStructure (string bible, bool value);
   static bool getCheckParagraphStructure (string bible);
   static void setCheckParagraphStructure (string bible, bool value);
+  static bool getCheckBooksVersification (string bible);
+  static void setCheckBooksVersification (string bible, bool value);
   static bool getCheckChaptesVersesVersification (string bible);
   static void setCheckChaptesVersesVersification (string bible, bool value);
   static bool getCheckWellFormedUsfm (string bible);

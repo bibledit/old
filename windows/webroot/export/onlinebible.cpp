@@ -36,18 +36,13 @@
 #include <onlinebible/text.h>
 
 
-void export_onlinebible (string bible, bool force)
+void export_onlinebible (string bible)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "onlinebible");
   if (!file_exists (directory)) filter_url_mkdir (directory);
   
   
   string filename = filter_url_create_path (directory, "bible.exp");
-
-  
-  if (!file_exists (filename)) force = true;
-  if (Database_State::getExport (bible, 0, Export_Logic::export_online_bible)) force = true;
-  if (!force) return;
 
   
   Database_Bibles database_bibles;

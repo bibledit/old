@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.318],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.343],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -65,6 +65,12 @@ AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not fou
 PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development version >= 0.9.0 is needed.))
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
+
+PKG_CHECK_MODULES(SWORD16, sword < 1.7.0, [AC_DEFINE([HAVE_SWORD16],[1],[Define whether the SWORD library 1.6.x is present])], [AC_MSG_RESULT()])
+
+PKG_CHECK_MODULES(SWORD, sword >= 1.6.0, [AC_DEFINE([HAVE_SWORD],[1],[Define whether the SWORD library is present])], [AC_MSG_RESULT([no])])
+AC_SUBST(SWORD_CFLAGS)
+AC_SUBST(SWORD_LIBS)
 
 
 # Tag1 (leave in place)
@@ -261,4 +267,5 @@ Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
+SWORD library                                     : ${SWORD_CFLAGS}
 "

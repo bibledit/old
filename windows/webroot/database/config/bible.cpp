@@ -149,6 +149,16 @@ void Database_Config_Bible::setCheckParagraphStructure (string bible, bool value
 }
 
 
+bool Database_Config_Bible::getCheckBooksVersification (string bible)
+{
+  return getBValue (bible, "check-books-versification", false);
+}
+void Database_Config_Bible::setCheckBooksVersification (string bible, bool value)
+{
+  setBValue (bible, "check-books-versification", value);
+}
+
+
 bool Database_Config_Bible::getCheckChaptesVersesVersification (string bible)
 {
   return getBValue (bible, "check-chapters-verses-versification", false);

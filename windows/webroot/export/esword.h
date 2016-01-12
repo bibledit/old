@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-void export_esword (string bible, bool force);
+void export_esword (string bible);
 
 
 #endif

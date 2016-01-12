@@ -39,6 +39,9 @@
 #include <bible/manage.h>
 #include <assets/header.h>
 #include <menu/logic.h>
+#include <resource/external.h>
+#include <sword/logic.h>
+#include <tasks/logic.h>
 
 
 string bible_settings_url ()
@@ -58,24 +61,26 @@ string bible_settings (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
-  
   Assets_Header header = Assets_Header (translate("Bible"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
-  
   Assets_View view;
+
   
   string success_message;
   string error_message;
 
+  
   // The Bible.
   string bible = access_bible_clamp (request, request->query["bible"]);
   view.set_variable ("bible", filter_string_sanitize_html (bible));
 
+  
   // Whether the user has write access to this Bible.
   bool write_access = access_bible_write (request, bible);
   if (write_access) view.enable_zone ("write_access");
+  
   
   // Versification.
   if (request->query.count ("versification")) {
@@ -97,6 +102,7 @@ string bible_settings (void * webserver_request)
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   view.set_variable ("versification", versification);
 
+  
   // Verse mapping.
   if (request->query.count ("mapping")) {
     string mapping = request->query["mapping"];
@@ -117,6 +123,7 @@ string bible_settings (void * webserver_request)
   string mapping = Database_Config_Bible::getVerseMapping (bible);
   view.set_variable ("mapping", mapping);
 
+  
   // Book creation.
   if (request->query.count ("createbook")) {
     string createbook = request->query["createbook"];
@@ -133,11 +140,13 @@ string bible_settings (void * webserver_request)
     request->database_config_user()->setBible (bible);
   }
   
+  
   // Viewable by all users.
   if (request->query.count ("viewable")) {
     if (write_access) Database_Config_Bible::setViewableByAllUsers (bible, !Database_Config_Bible::getViewableByAllUsers (bible));
   }
   view.set_variable ("viewable", get_tick_box (Database_Config_Bible::getViewableByAllUsers (bible)));
+  
   
   // Book deletion.
   string deletebook = request->query["deletebook"];
@@ -154,6 +163,35 @@ string bible_settings (void * webserver_request)
       return page;
     }
   }
+  
+  
+  // Importing text from a resource.
+  if (request->query.count ("resource")) {
+    string resource = request->query["resource"];
+    if (resource.empty ()) {
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Select a resource to import into the Bible"), translate ("The resource will be imported.") + " " + translate ("It will overwrite the content of the Bible."), "");
+      dialog_list.add_query ("bible", bible);
+      vector <string> resources = resource_external_names ();
+      for (auto & resource : resources) {
+        dialog_list.add_row (resource, "resource", resource);
+      }
+      resources = sword_logic_get_available ();
+      for (auto & resource : resources) {
+        string source = sword_logic_get_source (resource);
+        string module = sword_logic_get_remote_module (resource);
+        string name = "[" + source + "][" + module + "]";
+        dialog_list.add_row (resource, "resource", name);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      if (write_access) {
+        tasks_logic_queue (IMPORTRESOURCE, { bible, resource });
+        success_message = translate ("The resource will be imported into the Bible.") + " " + translate ("The journal shows the progress.");
+      }
+    }
+  }
+
   
   // Available books.
   string bookblock;

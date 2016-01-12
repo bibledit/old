@@ -383,7 +383,7 @@ string usfm_get_verse_text (string usfm, int verse_number)
 }
 
 
-// Returns true if the $code contains an USFM marker.
+// Returns true if the $code contains a USFM marker.
 bool usfm_is_usfm_marker (string code)
 {
   if (code.length () < 2) return false;
