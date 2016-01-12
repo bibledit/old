@@ -634,6 +634,8 @@ jquery/jquery-ui-1.10.3.progressbar.min.js
 jquery/jquery-ui-1.10.3.sortable.min.js
 jquery/jquery-ui-1.11.4.min.css
 jquery/jquery-ui-1.11.4.min.js
+jquery/jquery.ui.touch-punch.min.js
+jquery/readme.txt
 jquery/smoothness/images/animated-overlay.gif
 jquery/smoothness/images/ui-bg_flat_0_aaaaaa_40x100.png
 jquery/smoothness/images/ui-bg_flat_75_ffffff_40x100.png

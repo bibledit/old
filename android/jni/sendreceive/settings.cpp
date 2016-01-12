@@ -129,7 +129,7 @@ void sendreceive_settings ()
       case Sync_Logic::settings_send_workbench_heights:
         value = request.database_config_user()->getWorkbenchHeights ();
         break;
-      case Sync_Logic::settings_send_resources_organization:
+      case Sync_Logic::settings_send_resources_organization: // Todo
         vector <string> resources = request.database_config_user()->getActiveResources ();
         value = filter_string_implode (resources, "\n");
         break;
