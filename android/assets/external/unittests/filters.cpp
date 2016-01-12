@@ -63,6 +63,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_filters_various1 ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   {
     // Filter_Roles.
@@ -217,6 +219,8 @@ void test_filters_various1 ()
 
 void test_filters_various2 ()
 {
+  trace_unit_tests (__func__);
+  
   {
     // Test string modifiers.
     evaluate (__LINE__, __func__, "", filter_string_trim ("  "));
@@ -270,6 +274,8 @@ void test_filters_various2 ()
 
 void test_filters_usfm2 ()
 {
+  trace_unit_tests (__func__);
+  
   {
     string usfm =
     "\\id MIC";
@@ -359,9 +365,9 @@ void test_filters_usfm2 ()
     usfm =
     "\\p\n"
     "\\v 1 One";
-    evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1)); // Todo
-    evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0)); // Todo
-    evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2)); // Todo
+    evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
+    evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0));
+    evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2));
 
     usfm =
     "\\c 1\n"
@@ -390,11 +396,11 @@ void test_filters_usfm2 ()
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
     string result = "\\c 1\n\\s Isibingelelo\n\\p";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0)); // Todo
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
     result = "\\v 1 Umdala\n\\p";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1)); // Todo
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
     result = "\\v 12 NgoDemetriyu\n\\s Isicino\n\\p";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12)); // Todo
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12));
     
     
     usfm =
@@ -402,11 +408,11 @@ void test_filters_usfm2 ()
     "\\v 2-4 Verse 2, 3, and 4.\n"
     "\\v 5 Verse 5.\n"
     "\\v 6 Verse 6.";
-    result = usfm_get_verse_text (usfm, 2); // Todo
+    result = usfm_get_verse_text (usfm, 2);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
-    result = usfm_get_verse_text (usfm, 3); // Todo
+    result = usfm_get_verse_text (usfm, 3);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
-    result = usfm_get_verse_text (usfm, 4); // Todo
+    result = usfm_get_verse_text (usfm, 4);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
   }
 }
@@ -414,6 +420,8 @@ void test_filters_usfm2 ()
 
 void test_filters_usfm3 ()
 {
+  trace_unit_tests (__func__);
+  
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\c "));
@@ -457,6 +465,8 @@ void test_filters_usfm3 ()
 
 void test_filters_usfm1 ()
 {
+  trace_unit_tests (__func__);
+  
   // Test the USFM filter functions.
   {
     evaluate (__LINE__, __func__, "", usfm_one_string (""));
@@ -515,6 +525,8 @@ void test_filters_usfm1 ()
 
 void test_filters_usfm4 ()
 {
+  trace_unit_tests (__func__);
+  
   {
     evaluate (__LINE__, __func__, "\\id ", usfm_get_opening_usfm ("id"));
     evaluate (__LINE__, __func__, "\\add ", usfm_get_opening_usfm ("add"));
@@ -635,6 +647,8 @@ void test_filters_usfm4 ()
 
 void test_filters_usfm5 ()
 {
+  trace_unit_tests (__func__);
+  
   {
     // Test inserting empty notes
     UsfmNote usfmnote (1, "");
@@ -764,6 +778,8 @@ void test_filters_usfm5 ()
 
 void test_filters_export1 ()
 {
+  trace_unit_tests (__func__);
+  
   // Test object Text_Text.
   {
     Text_Text text_text;
@@ -859,6 +875,8 @@ void test_filters_export1 ()
 
 void test_filters_export2 ()
 {
+  trace_unit_tests (__func__);
+  
   // Test e-Sword converter switch reference.
   {
     Esword_Text esword_text = Esword_Text ("");
@@ -929,6 +947,8 @@ void test_filters_export2 ()
 
 void test_html_text ()
 {
+  trace_unit_tests (__func__);
+  
   // Test Html_Text paragraphs.
   {
     Html_Text html_text ("TestOne");
@@ -1059,7 +1079,9 @@ void test_html_text ()
 
 void test_filters_archive ()
 {
-  // Prepare for testing the archive functions.  
+  trace_unit_tests (__func__);
+  
+  // Prepare for testing the archive functions.
   string file1 = "/tmp/testarchive1";
   string file2 = "/tmp/testarchive2";
   string data1;
@@ -1163,6 +1185,8 @@ void test_filters_archive ()
 
 void test_odf_text ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   string OdfTextTestDotOdt = "/tmp/OdfTextTest.odt";
   string Odt2TxtOutput = "/tmp/Odt2TxtOutput.txt";
@@ -1405,6 +1429,8 @@ void test_odf_text ()
 
 void test_filter_text1 ()
 {
+  trace_unit_tests (__func__);
+  
   string TextTestOdt  = "/tmp/TextTest.odt";
   string TextTestHtml = "/tmp/TextTest.html";
   string TextTestTxt  = "/tmp/TextTest.txt";
@@ -1693,6 +1719,8 @@ void test_filter_text1 ()
 
 void test_filter_text2 ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   Database_Styles database_styles;
   database_styles.create ();
@@ -2067,6 +2095,8 @@ void test_filter_text2 ()
 
 void test_filter_url1 ()
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   // Test unique filename.
   string filename = "/tmp/unique";
@@ -2086,6 +2116,8 @@ void test_filter_url1 ()
 
 void test_filter_string_rand ()
 {
+  trace_unit_tests (__func__);
+  
   int floor = 100000;
   int ceiling = 999999;
   int r1 = filter_string_rand (floor, ceiling);
@@ -2098,6 +2130,8 @@ void test_filter_string_rand ()
 
 void test_filter_passage1 ()
 {
+  trace_unit_tests (__func__);
+  
   Passage passage = Passage ();
   evaluate (__LINE__, __func__, "", passage.bible);
   evaluate (__LINE__, __func__, 0, passage.book);
@@ -2116,6 +2150,8 @@ void test_filter_passage1 ()
 
 void test_filter_passage2 ()
 {
+  trace_unit_tests (__func__);
+  
   // Convert Passage to/from text.
   {
     Passage input = Passage ("עברית", 1, 2, "3");
@@ -2250,6 +2286,8 @@ void test_filter_passage2 ()
 
 void test_filter_passage3 ()
 {
+  trace_unit_tests (__func__);
+  
   // InterpretBookOnlineBibleAbbreviations.
   {
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("Ge"));
@@ -2338,6 +2376,8 @@ void test_filter_passage3 ()
 
 void test_filter_passage4 ()
 {
+  trace_unit_tests (__func__);
+  
   // Sequence And Range None.
   {
     vector <string> standard = {"Exod. 30:4"};
@@ -2406,6 +2446,8 @@ void test_filter_passage4 ()
 
 void test_filter_string_text2html ()
 {
+  trace_unit_tests (__func__);
+  
   {
     string html = 
       "<p>author</p>\n"
@@ -2467,6 +2509,8 @@ void test_filter_string_text2html ()
 
 void test_email ()
 {
+  trace_unit_tests (__func__);
+  
   evaluate (__LINE__, __func__, true, filter_url_email_is_valid ("user@web.site"));
   evaluate (__LINE__, __func__, false, filter_url_email_is_valid ("user@website"));
   evaluate (__LINE__, __func__, false, filter_url_email_is_valid (" user@web.site"));
@@ -2499,6 +2543,8 @@ void test_email ()
 
 void test_stat ()
 {
+  trace_unit_tests (__func__);
+  
   // Testing is_dir.
   string path = filter_url_create_root_path ("git");
   evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
@@ -2536,6 +2582,8 @@ void test_stat ()
 
 void test_replace ()
 {
+  trace_unit_tests (__func__);
+  
   evaluate (__LINE__, __func__, "ABXEFG", substr_replace ("ABCDEFG", "X", 2, 2));
   evaluate (__LINE__, __func__, "ABX", substr_replace ("ABCDEFG", "X", 2, 5));
   evaluate (__LINE__, __func__, "ABXG", substr_replace ("ABCDEFG", "X", 2, 4));
@@ -2544,6 +2592,8 @@ void test_replace ()
 
 void test_styles_css ()
 {
+  trace_unit_tests (__func__);
+  
   Webserver_Request request;
   // Basic.
   {
@@ -2553,7 +2603,7 @@ void test_styles_css ()
     Styles_Css styles_css = Styles_Css (&request, "phpunit");
     styles_css.generate ();
     string css = styles_css.css ();
-    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "basic.css")));
+    string standard = filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "basic.css"));
     evaluate (__LINE__, __func__, standard, css);
   }
   // Export.
@@ -2585,6 +2635,8 @@ void test_styles_css ()
 
 void test_filter_custom_css ()
 {
+  trace_unit_tests (__func__);
+  
   // Direction
   {
     evaluate (__LINE__, __func__, "checked", Filter_Css::directionUnspecified (100));
@@ -2708,6 +2760,8 @@ void test_filter_custom_css ()
 
 void test_filter_diff ()
 {
+  trace_unit_tests (__func__);
+  
   // Diff 1
   {
     string output = filter_diff_diff ("Old text", "New text");
@@ -2928,6 +2982,8 @@ void test_filter_diff ()
 
 void test_filter_abbreviations ()
 {
+  trace_unit_tests (__func__);
+  
   // Read ()
   {
     string input =
@@ -3039,6 +3095,8 @@ void test_filter_abbreviations ()
 
 void test_filter_markup ()
 {
+  trace_unit_tests (__func__);
+  
   {
     string text =
     "Zvino uchagadzira makumbo uye Makumbo uye maKumbo uye MAKUMBO emuakasia*, ndokuaputira negoridhe.\n"
@@ -3070,6 +3128,8 @@ void test_filter_markup ()
 void test_filter_git_setup (Webserver_Request * request, string bible, string newbible,
                             string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
 {
+  trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
   
   string repository = filter_git_directory (bible);
@@ -3110,6 +3170,8 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
 
 void test_filter_git ()
 {
+  trace_unit_tests (__func__);
+  
   string bible = "localrepo";
   string newbible = "newlocalrepo";
   string repository = filter_git_directory (bible);
@@ -3782,6 +3844,8 @@ void test_filter_git ()
 
 void test_filter_merge ()
 {
+  trace_unit_tests (__func__);
+  
   // Test Line Merge Simple Modifications.
   {
     string mergeBaseData =
@@ -4008,6 +4072,8 @@ void test_filter_merge ()
 
 void test_filter_tidy ()
 {
+  trace_unit_tests (__func__);
+  
   string folder = filter_url_create_root_path ("unittests", "tests");
   string html = filter_url_file_get_contents (filter_url_create_path (folder, "/biblehub-john-1-1.html"));
   vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
@@ -4017,6 +4083,8 @@ void test_filter_tidy ()
 
 void test_ipc_notes ()
 {
+  trace_unit_tests (__func__);
+  
   // Initialize.
   refresh_sandbox (true);
   Webserver_Request request;
@@ -4057,6 +4125,8 @@ void test_ipc_notes ()
 
 void test_filter_date ()
 {
+  trace_unit_tests (__func__);
+  
   // First Business Day Of Month
   {
     // Sunday the 1st.
@@ -4153,6 +4223,8 @@ void test_filter_date ()
 
 void test_filter_url ()
 {
+  trace_unit_tests (__func__);
+  
   {
     // Html export filenames.
     evaluate (__LINE__, __func__, "index.html", filter_url_html_file_name_bible ());
@@ -4225,6 +4297,8 @@ void test_filter_url ()
 
 void test_filter_string ()
 {
+  trace_unit_tests (__func__);
+  
   {
     string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
     string output = convert_xml_character_entities_to_characters (input);
@@ -4332,6 +4406,8 @@ void test_filter_string ()
 
 void test_filter_archive ()
 {
+  trace_unit_tests (__func__);
+  
   string plain = "This is data that is data to be compressed.";
   string compressed = filter_archive_compress (plain);
   string output = filter_archive_decompress (compressed);
@@ -4344,6 +4420,8 @@ void test_filter_archive ()
 
 void test_filter_shell ()
 {
+  trace_unit_tests (__func__);
+  
   evaluate (__LINE__, __func__, true, filter_shell_is_present ("zip"));
   evaluate (__LINE__, __func__, false, filter_shell_is_present ("xxxxx"));
 }

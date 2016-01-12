@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-void export_onlinebible (string bible, bool force);
+void export_onlinebible (string bible);
 
 
 #endif

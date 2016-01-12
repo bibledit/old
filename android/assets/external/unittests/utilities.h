@@ -39,6 +39,7 @@ void evaluate (int line, string func, map <string, int> desired, map <string, in
 void evaluate (int line, string func, map <int, int> desired, map <int, int> actual);
 void evaluate (int line, string func, map <string, string> desired, map <string, string> actual);
 void evaluate (int line, string func, vector <pair<int, string>> desired, vector <pair<int, string>> actual);
+void trace_unit_tests (string func);
 
 
 #endif

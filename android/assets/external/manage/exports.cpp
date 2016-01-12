@@ -31,6 +31,7 @@
 #include <locale/translate.h>
 #include <export/logic.h>
 #include <database/config/bible.h>
+#include <database/state.h>
 #include <config/logic.h>
 #include <client/logic.h>
 #include <tasks/logic.h>
@@ -84,52 +85,57 @@ string manage_exports (void * webserver_request)
   if (request->query.count ("remove")) {
     string directory = Export_Logic::bibleDirectory (bible);
     filter_url_rmdir (directory);
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The export has been removed."));
   }
   
   
   if (request->query.count ("webtoggle")) {
     Database_Config_Bible::setExportWebDuringNight (bible, !Database_Config_Bible::getExportWebDuringNight (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to Web format was updated."));
   }
   view.set_variable ("web", get_tick_box (Database_Config_Bible::getExportWebDuringNight (bible)));
   
   
   if (request->query.count ("webnow")) {
-    Export_Logic::scheduleWeb (bible, true);
-    Export_Logic::scheduleWebIndex (bible, true);
+    Export_Logic::scheduleWeb (bible);
+    Export_Logic::scheduleWebIndex (bible);
     view.set_variable ("success", translate("The Bible is being exported to Web format."));
   }
   
   
   if (request->query.count ("htmltoggle")) {
     Database_Config_Bible::setExportHtmlDuringNight (bible, !Database_Config_Bible::getExportHtmlDuringNight (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to Html format was updated."));
   }
   view.set_variable ("html", get_tick_box (Database_Config_Bible::getExportHtmlDuringNight (bible)));
   
   
   if (request->query.count ("htmlnow")) {
-    Export_Logic::scheduleHtml (bible, true);
+    Export_Logic::scheduleHtml (bible);
     view.set_variable ("success", translate("The Bible is being exported to Html format."));
   }
   
   
   if (request->query.count ("usfmtoggle")) {
     Database_Config_Bible::setExportUsfmDuringNight (bible, !Database_Config_Bible::getExportUsfmDuringNight (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to USFM format was updated."));
   }
   view.set_variable ("usfm", get_tick_box (Database_Config_Bible::getExportUsfmDuringNight (bible)));
  
   
   if (request->query.count ("usfmnow")) {
-    Export_Logic::scheduleUsfm (bible, true);
+    Export_Logic::scheduleUsfm (bible);
     view.set_variable ("success", translate("The Bible is being exported to USFM format."));
   }
 
   
   if (request->query.count ("usfmsecuretoggle")) {
     Database_Config_Bible::setSecureUsfmExport (bible, !Database_Config_Bible::getSecureUsfmExport (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for securing the USFM export was updated."));
   }
   view.set_variable ("usfmsecure", get_tick_box (Database_Config_Bible::getSecureUsfmExport (bible)));
@@ -143,26 +149,28 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("textnow")) {
-    Export_Logic::scheduleTextAndBasicUsfm (bible, true);
+    Export_Logic::scheduleTextAndBasicUsfm (bible);
     view.set_variable ("success", translate("The Bible is being exported to basic USFM format and text."));
   }
                        
                      
   if (request->query.count ("odttoggle")) {
     Database_Config_Bible::setExportOdtDuringNight (bible, !Database_Config_Bible::getExportOdtDuringNight (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to OpenDocument was updated."));
   }
   view.set_variable ("odt", get_tick_box (Database_Config_Bible::getExportOdtDuringNight (bible)));
 
   
   if (request->query.count ("odtnow")) {
-    Export_Logic::scheduleOpenDocument (bible, true);
+    Export_Logic::scheduleOpenDocument (bible);
     view.set_variable ("success", translate("The Bible is being exported to OpenDocument format."));
   }
 
   
   if (request->query.count ("dropcapstoggle")) {
     Database_Config_Bible::setExportChapterDropCapsFrames (bible, !Database_Config_Bible::getExportChapterDropCapsFrames (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
   }
   view.set_variable ("dropcaps", get_tick_box (Database_Config_Bible::getExportChapterDropCapsFrames (bible)));
 
@@ -175,6 +183,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("pagewidth")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 30) && (value <= 500)) {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setPageWidth (bible, convert_to_string (value));
     }
   }
@@ -189,6 +198,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("pageheight")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 40) && (value <= 600)) {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setPageHeight (bible, convert_to_string (value));
     }
   }
@@ -203,6 +213,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("innermargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setInnerMargin (bible, convert_to_string (value));
     }
   }
@@ -217,6 +228,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("outermargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setOuterMargin (bible, convert_to_string (value));
     }
   }
@@ -231,6 +243,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("topmargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setTopMargin (bible, convert_to_string (value));
     }
   }
@@ -245,6 +258,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("bottommargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setBottomMargin (bible, convert_to_string (value));
     }
   }
@@ -259,6 +273,7 @@ string manage_exports (void * webserver_request)
   
   if (request->query.count ("odtsecuretoggle")) {
     Database_Config_Bible::setSecureOdtExport (bible, !Database_Config_Bible::getSecureOdtExport (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for securing the OpenDocument export was updated."));
   }
   view.set_variable ("odtsecure", get_tick_box (Database_Config_Bible::getSecureOdtExport (bible)));
@@ -266,39 +281,42 @@ string manage_exports (void * webserver_request)
                                           
   if (request->query.count ("infotoggle")) {
     Database_Config_Bible::setGenerateInfoDuringNight (bible, !Database_Config_Bible::getGenerateInfoDuringNight (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly generation of info was updated."));
   }
   view.set_variable ("info", get_tick_box (Database_Config_Bible::getGenerateInfoDuringNight (bible)));
                    
   
   if (request->query.count ("infonow")) {
-    Export_Logic::scheduleInfo (bible, true);
+    Export_Logic::scheduleInfo (bible);
     view.set_variable ("success", translate("The info documents are being generated."));
   }
   
                        
   if (request->query.count ("eswordtoggle")) {
     Database_Config_Bible::setExportESwordDuringNight (bible, !Database_Config_Bible::getExportESwordDuringNight (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to e-Sword format was updated."));
   }
   view.set_variable ("esword", get_tick_box (Database_Config_Bible::getExportESwordDuringNight (bible)));
                      
                                           
   if (request->query.count ("eswordnow")) {
-    Export_Logic::scheduleESword (bible, true);
+    Export_Logic::scheduleESword (bible);
     view.set_variable ("success", translate("The Bible is being exported to e-Sword format."));
   }
   
                        
   if (request->query.count ("onlinebibletoggle")) {
     Database_Config_Bible::setExportOnlineBibleDuringNight (bible, !Database_Config_Bible::getExportOnlineBibleDuringNight (bible));
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to Online Bible format was updated."));
   }
   view.set_variable ("onlinebible", get_tick_box (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)));
 
                      
   if (request->query.count ("onlinebiblenow")) {
-    Export_Logic::scheduleOnlineBible (bible, true);
+    Export_Logic::scheduleOnlineBible (bible);
     view.set_variable ("success", translate("The Bible is being exported to Online Bible format."));
   }
   
@@ -314,6 +332,7 @@ string manage_exports (void * webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setExportStylesheet (bible, sheet);
     }
   }
@@ -322,12 +341,14 @@ string manage_exports (void * webserver_request)
                      
   if (request->post.count ("passwordsubmit")) {
     string password = request->post["passwordentry"];
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
     Database_Config_Bible::setExportPassword (bible, password);
     view.set_variable ("success", translate("The password for securing exports was saved."));
   }
   // If the password is needed, but not set, set a default password.
   if (Database_Config_Bible::getSecureUsfmExport (bible) || Database_Config_Bible::getSecureOdtExport (bible)) {
     if (Database_Config_Bible::getExportPassword (bible).empty ()) {
+      Database_State::setExport (bible, 0, Export_Logic::export_needed);
       Database_Config_Bible::setExportPassword (bible, "password");
     }
   }

@@ -17,5 +17,4 @@
  */
 
 
-#define CONFIG_ENABLE_FILE_UPLOAD true
 

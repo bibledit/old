@@ -54,6 +54,10 @@ void Database_Kjv::create ()
   sql.clear ();
   sql.add ("CREATE TABLE IF NOT EXISTS english (english text);");
   sql.execute ();
+  
+  sql.clear ();
+  sql.add ("VACUUM;");
+  sql.execute ();
 }
 
 

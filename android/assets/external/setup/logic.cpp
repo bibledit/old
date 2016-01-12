@@ -77,6 +77,9 @@ void setup_conditionally (const char * package)
       Database_Logs::log (message, Filter_Roles::admin());
     }
     
+    // Cloud updates the available SWORD modules.
+    if (!config_logic_client_prepared ()) tasks_logic_queue (REFRESHSWORDMODULES);
+    
     // Update installed version.
     Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
   };
@@ -99,6 +102,8 @@ void setup_conditionally (const char * package)
     
   }
 
+  config_globals_data_initialized = true;
+  
   // Run the indexers if a flag was set for it.
   // This mechanism is suitable for low power devices as Android and iOS.
   // If Bibles or Notes are scheduled to be indexed, since the tasks take a lot of time,
