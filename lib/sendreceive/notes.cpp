@@ -75,7 +75,7 @@ void sendreceive_notes ()
   }
 
   sendreceive_notes_kick_watchdog ();
-  config_globals_syncing_notes = true; // Todo
+  config_globals_syncing_notes = true;
   
 
   bool success = sendreceive_notes_upload ();
@@ -90,7 +90,7 @@ void sendreceive_notes ()
   if (success) Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
 
   sendreceive_notes_watchdog = 0;
-  config_globals_syncing_notes = false; // Todo
+  config_globals_syncing_notes = false;
 }
 
 

@@ -75,7 +75,7 @@ void sendreceive_settings ()
     Database_Logs::log ("Settings: " + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_settings_kick_watchdog ();
-  config_globals_syncing_settings = true; // Todo
+  config_globals_syncing_settings = true;
   
   Database_Logs::log (sendreceive_settings_sendreceive_text (), Filter_Roles::translator ());
   
@@ -132,7 +132,7 @@ void sendreceive_settings ()
       case Sync_Logic::settings_send_workbench_heights:
         value = request.database_config_user()->getWorkbenchHeights ();
         break;
-      case Sync_Logic::settings_send_resources_organization: // Todo
+      case Sync_Logic::settings_send_resources_organization:
         vector <string> resources = request.database_config_user()->getActiveResources ();
         value = filter_string_implode (resources, "\n");
         break;

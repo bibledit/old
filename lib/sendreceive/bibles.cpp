@@ -79,7 +79,7 @@ void sendreceive_bibles ()
     Database_Logs::log (sendreceive_bibles_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_bibles_kick_watchdog ();
-  config_globals_syncing_bibles = true; // Todo
+  config_globals_syncing_bibles = true;
   
   
   Database_Logs::log (sendreceive_bibles_sendreceive_text (), Filter_Roles::translator ());
