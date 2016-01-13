@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/md5.h>
 #include <filter/roles.h>
+#include <filter/date.h>
 #include <database/notes.h>
 #include <database/noteactions.h>
 #include <database/mail.h>
@@ -32,17 +33,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/offlineresources.h>
 #include <database/modifications.h>
 #include <config/logic.h>
+#include <config/globals.h>
 #include <trash/handler.h>
+
+
+mutex sync_logic_mutex;
 
 
 Sync_Logic::Sync_Logic (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;
-}
-
-
-Sync_Logic::~Sync_Logic ()
-{
 }
 
 
@@ -354,6 +354,34 @@ int Sync_Logic::files_get_file_checksum (string directory, string file)
   string path = filter_url_create_root_path (directory, file);
   int checksum = filter_url_filesize (path);
   return checksum;
+}
+
+
+// Makes a global record of the IP address of a client that made a prioritized server call.
+void Sync_Logic::prioritized_ip_address_record ()
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  sync_logic_mutex.lock ();
+  config_globals_prioritized_ip_addresses [request->remote_address] = filter_date_seconds_since_epoch ();
+  sync_logic_mutex.unlock ();
+}
+
+
+// Checks whether the IP address of the current client has very recently made a prioritized server call.
+bool Sync_Logic::prioritized_ip_address_active ()
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string ip = request->remote_address;
+  int time = filter_date_seconds_since_epoch ();
+  bool active = false;
+  sync_logic_mutex.lock ();
+  bool record_present = config_globals_prioritized_ip_addresses.count (ip);
+  if (record_present) {
+    time -= config_globals_prioritized_ip_addresses [ip];
+    active = (time < 5);
+  }
+  sync_logic_mutex.unlock ();
+  return active;
 }
 
 
