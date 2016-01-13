@@ -45,23 +45,33 @@ bool workbench_index_acl (void * webserver_request)
 string workbench_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  vector <string> desktops = workbench_get_names (request);
 
   
+  // Set the requested desktop as the active one.
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
-    vector <string> workbenches = workbench_get_names (request);
-    if (bench < workbenches.size ()) {
-      string workbench = workbenches [bench];
+    if (bench < desktops.size ()) {
+      string workbench = desktops [bench];
       request->database_config_user()->setActiveWorkbench (workbench);
     }
   }
   
   
-  // Create default workbenches if there are none.
-  vector <string> names = workbench_get_names (webserver_request);
-  bool create = names.empty ();
+  // Check that the active desktop exists, else set the first available desktop as the active one.
+  {
+    string desktop = request->database_config_user ()->getActiveWorkbench ();
+    if (!in_array (desktop, desktops)) {
+      if (!desktops.empty ()) {
+        request->database_config_user ()->setActiveWorkbench (desktops [0]);
+      }
+    }
+  }
+  
+  // Create default set of desktops if there are none.
+  bool create = desktops.empty ();
   if (!create) {
-    create = (names [0] == workbench_get_default_name ());
+    create = (desktops [0] == workbench_get_default_name ());
   }
   if (create) {
     workbench_create_defaults (webserver_request);
