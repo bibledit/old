@@ -25,6 +25,7 @@
 #include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
+#include <config/globals.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/notes.h>
@@ -74,6 +75,8 @@ void sendreceive_notes ()
   }
 
   sendreceive_notes_kick_watchdog ();
+  config_globals_syncing_notes = true; // Todo
+  
 
   bool success = sendreceive_notes_upload ();
   
@@ -87,6 +90,7 @@ void sendreceive_notes ()
   if (success) Database_Logs::log (sendreceive_notes_up_to_date_text (), Filter_Roles::translator ());
 
   sendreceive_notes_watchdog = 0;
+  config_globals_syncing_notes = false; // Todo
 }
 
 

@@ -36,4 +36,8 @@ extern bool config_globals_change_notifications_available;
 extern int config_globals_setup_progress;
 extern int config_globals_simultaneous_connection_count;
 extern bool config_globals_data_initialized;
+extern bool config_globals_syncing_bibles;
+extern bool config_globals_syncing_notes;
+extern bool config_globals_syncing_settings;
+extern bool config_globals_syncing_changes;
 
