@@ -42,7 +42,7 @@ int sendreceive_changes_watchdog = 0;
 void send_receive_changes_done ()
 {
   sendreceive_changes_watchdog = 0;
-  config_globals_syncing_changes = false; // Todo
+  config_globals_syncing_changes = false;
 }
 
 
@@ -75,7 +75,7 @@ void sendreceive_changes ()
     Database_Logs::log (sendreceive_changes_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_changes_kick_watchdog ();
-  config_globals_syncing_changes = true; // Todo
+  config_globals_syncing_changes = true;
 
   
   Database_Logs::log (sendreceive_changes_sendreceive_text (), Filter_Roles::translator ());

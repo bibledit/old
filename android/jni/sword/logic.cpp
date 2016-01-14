@@ -742,7 +742,7 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   sword::SWModule *module = manager.getModule (module_name.c_str ());
   available = module;
   if (module) {
-    string key = osis + " " + convert_to_string (chapter).c_str () + ":" + convert_to_string (verse).c_str ();
+    string key = osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
     module->setKey (key.c_str ());
 #ifdef HAVE_SWORD16
     rendering = module->RenderText();

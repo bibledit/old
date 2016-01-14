@@ -70,6 +70,10 @@ string sync_notes (void * webserver_request)
     return "";
   }
 
+
+  // Client makes a prioritized server call: Record the client's IP address.
+  sync_logic.prioritized_ip_address_record ();
+
   
   // What action does the client request from us?
   int action = convert_to_int (request->post ["a"]);

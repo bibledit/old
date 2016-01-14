@@ -38,7 +38,6 @@ class Sync_Logic
 {
 public:
   Sync_Logic (void * webserver_request_in);
-  ~Sync_Logic ();
 
   static const int settings_get_total_checksum = 1;
   static const int settings_send_workbench_urls = 2;
@@ -142,6 +141,9 @@ public:
   static vector <string> files_get_files (string directory);
   static int files_get_file_checksum (string directory, string file);
 
+  void prioritized_ip_address_record ();
+  bool prioritized_ip_address_active ();
+  
 private:
   void * webserver_request;
 };
