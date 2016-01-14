@@ -73,7 +73,8 @@ string notes_notes (void * webserver_request)
   vector <string> bibles = access_bible_bibles (webserver_request, request->session_logic()->currentUser ());
   
   
-  // The admin disables notes selection on Bibles, so the admin sees all notes, including notes referring to non-existing Bibles.
+  // The admin disables notes selection on Bibles,
+  // so the admin sees all notes, including notes referring to non-existing Bibles.
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
   
   
