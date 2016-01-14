@@ -8915,7 +8915,7 @@ msgstr ""
 msgid "Workbenches"
 msgstr ""
 
-msgid "Would you like to delete this workbench configuration?"
+msgid "Would you like to delete this desktop configuration?"
 msgstr ""
 
 msgid "Please enter a name for the new desktop"

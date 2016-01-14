@@ -1078,3 +1078,13 @@ void Database_Config_User::setDisplayBreadcrumbs (bool value)
 {
   setBValue ("display-breadcrumbs", value);
 }
+
+
+int Database_Config_User::getDesktopMenuFadeoutDelay ()
+{
+  return getIValue ("desktop-menu-fadeout-delay", 4);
+}
+void Database_Config_User::setDesktopMenuFadeoutDelay (int value)
+{
+  setIValue ("desktop-menu-fadeout-delay", value);
+}
