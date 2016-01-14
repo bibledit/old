@@ -73,11 +73,32 @@ string notes_notes (void * webserver_request)
   vector <string> bibles = access_bible_bibles (webserver_request, request->session_logic()->currentUser ());
   
   
-  // The admin disables notes selection on Bibles, so the admin sees all notes, including notes referring to non-existing Bibles.
+  // The admin disables notes selection on Bibles,
+  // so the admin sees all notes, including notes referring to non-existing Bibles.
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
   
   
   vector <int> identifiers = database_notes.selectNotes (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selector, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, -1);
+  
+  
+  // In case there aren't too many notes, there's enough time to sort them in passage order.
+  if (identifiers.size () <= 200) {
+    vector <int> passage_sort_keys;
+    for (auto & identifier : identifiers) {
+      int passage_sort_key = 0;
+      vector <float> numeric_passages;
+      vector <Passage> passages = database_notes.getPassages (identifier);
+      for (auto & passage : passages) {
+        numeric_passages.push_back (filter_passage_to_integer (passage));
+      }
+      if (!numeric_passages.empty ()) {
+        float average = accumulate (numeric_passages.begin (), numeric_passages.end (), 0) / numeric_passages.size ();
+        passage_sort_key = round (average);
+      }
+      passage_sort_keys.push_back (passage_sort_key);
+    }
+    quick_sort (passage_sort_keys, identifiers, 0, identifiers.size ());
+  }
 
   
   string notesblock;

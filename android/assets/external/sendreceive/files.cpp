@@ -18,6 +18,7 @@
 
 
 #include <sendreceive/files.h>
+#include <sendreceive/logic.h>
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -64,6 +65,7 @@ string sendreceive_files_up_to_date_text ()
 
 void sendreceive_files ()
 {
+  // Watchdog handler.
   if (sendreceive_files_watchdog) {
     int time = filter_date_seconds_since_epoch ();
     if (time < (sendreceive_files_watchdog + 900)) {
@@ -73,6 +75,15 @@ void sendreceive_files ()
     Database_Logs::log (sendreceive_files_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_files_kick_watchdog ();
+  
+  
+  // If any of the prioritized synchronization tasks run, postpone the current task and do not start it.
+  if (sendreceive_logic_prioritized_task_is_active ()) {
+    sendreceive_files_done ();
+    this_thread::sleep_for (chrono::seconds (5));
+    tasks_logic_queue (SYNCFILES);
+    return;
+  }
   
   
   Webserver_Request request;

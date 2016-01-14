@@ -56,7 +56,6 @@ string sync_usfmresources (void * webserver_request)
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
   int action = convert_to_int (request->post ["a"]);
   string resource = request->post ["r"];

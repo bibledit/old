@@ -35,5 +35,7 @@ bool sendreceive_paratext_queued ();
 void sendreceive_queue_all (bool now);
 void sendreceive_queue_startup ();
 
+bool sendreceive_logic_prioritized_task_is_active ();
+
 
 #endif

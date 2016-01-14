@@ -18,6 +18,7 @@
 
 
 #include <sendreceive/resources.h>
+#include <sendreceive/logic.h>
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -67,7 +68,16 @@ void sendreceive_resources ()
     sendreceive_resources_done ();
   }
 
+  // If any of the prioritized synchronization tasks run, postpone the current task and do not start it.
+  if (sendreceive_logic_prioritized_task_is_active ()) {
+    sendreceive_resources_done ();
+    this_thread::sleep_for (chrono::seconds (5));
+    tasks_logic_queue (SYNCRESOURCES);
+    return;
+  }
+
   sendreceive_resources_interrupt = false;
+  bool send_receive_priority_tasks_running = false;
 
   // If there's nothing to cache, bail out.
   vector <string> resources = Database_Config_General::getResourcesToCache ();
@@ -87,18 +97,24 @@ void sendreceive_resources ()
   
   vector <int> books = database_versifications.getMaximumBooks ();
   for (auto & book : books) {
+    if (sendreceive_logic_prioritized_task_is_active ()) send_receive_priority_tasks_running = true;
+    if (send_receive_priority_tasks_running) continue;
     if (sendreceive_resources_interrupt) continue;
     
     string bookName = Database_Books::getEnglishFromId (book);
     
     vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (auto & chapter : chapters) {
+      if (sendreceive_logic_prioritized_task_is_active ()) send_receive_priority_tasks_running = true;
+      if (send_receive_priority_tasks_running) continue;
       if (sendreceive_resources_interrupt) continue;
       bool downloaded = false;
       string message1 = resource + ": " + bookName + " chapter " + convert_to_string (chapter);
       string message2;
       vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
       for (auto & verse : verses) {
+        if (sendreceive_logic_prioritized_task_is_active ()) send_receive_priority_tasks_running = true;
+        if (send_receive_priority_tasks_running) continue;
         if (sendreceive_resources_interrupt) continue;
         message2 += "; verse " + convert_to_string (verse) + ": ";
         bool download_verse = false;
@@ -162,16 +178,27 @@ void sendreceive_resources ()
     Database_Logs::log (msg, Filter_Roles::consultant ());
   }
   Database_Logs::log ("Completed downloading resource:" " " + resource, Filter_Roles::consultant ());
-  resources = Database_Config_General::getResourcesToCache ();
-  resources = filter_string_array_diff (resources, {resource});
-  // In case of too many errors, schedule the download again.
+  // In case of too many errors, schedule the resource download again.
+  bool re_schedule_download = false;
   if (error_count > 10) {
     if (!sendreceive_resources_interrupt) {
-      resources.push_back (resource);
+      re_schedule_download = true;
       Database_Logs::log ("Too many errors: Re-scheduling resource download", Filter_Roles::consultant ());
     }
   }
+  // In case the resource download was interrupted by higher priority tasks, schedule the download again.
+  if (send_receive_priority_tasks_running) {
+    re_schedule_download = true;
+    Database_Logs::log ("Priority tasks are running: Re-scheduling resource download: " + resource, Filter_Roles::consultant ());
+  }
+  // Store new download schedule.
+  resources = Database_Config_General::getResourcesToCache ();
+  resources = filter_string_array_diff (resources, {resource});
+  if (re_schedule_download) {
+    resources.push_back (resource);
+  }
   Database_Config_General::setResourcesToCache (resources);
+
   sendreceive_resources_done ();
   
   sendreceive_resources_interrupt = false;
@@ -181,7 +208,7 @@ void sendreceive_resources ()
 }
 
 
-// This stops and clears all resources that are installing now are have been scheduled to install.
+// This stops all resources that have been scheduled to install.
 void sendreceive_resources_clear_all ()
 {
   sendreceive_resources_interrupt = true;

@@ -47,6 +47,14 @@ string sync_files (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
+  // If the client's IP address very recently made a prioritized server call,
+  // then delay the current call.
+  // This is the way to give priority to the other call:
+  // Not clogging the client's internet connection.
+  if (sync_logic.prioritized_ip_address_active ()) {
+    this_thread::sleep_for (chrono::seconds (5));
+  }
+  
   if (request->post.empty ()) {
     request->post = request->query;
   }

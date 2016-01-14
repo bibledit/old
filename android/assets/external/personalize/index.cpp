@@ -172,7 +172,7 @@ string personalize_index (void * webserver_request)
   
   // Vertical caret position in chapter editors.
   if (request->query.count ("caretposition")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a caret position 20 and 80 percent"), convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()), "caretposition", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a caret position between 20 and 80 percent"), convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()), "caretposition", "");
     page += dialog_entry.run ();
     return page;
   }
@@ -194,7 +194,24 @@ string personalize_index (void * webserver_request)
   }
   string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDisplayBreadcrumbs ());
   view.set_variable ("breadcrumbs", on_off);
+
   
+  // Desktop menu fade out delay.
+  if (request->query.count ("desktopfadeoutdelay")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a fade out delay between 1 and 10 seconds"), convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("desktopfadeoutdelay")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 1) && (value <= 10)) {
+      request->database_config_user ()->setDesktopMenuFadeoutDelay (value);
+    } else {
+      error = translate ("Incorrect fade out delay in seconds");
+    }
+  }
+  view.set_variable ("desktopfadeoutdelay", convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()));
+
   
   view.set_variable ("success", success);
   view.set_variable ("error", error);

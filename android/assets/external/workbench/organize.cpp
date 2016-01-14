@@ -87,7 +87,7 @@ string workbench_organize (void * webserver_request)
     string remove = request->query["remove"];
     string confirm = request->query["confirm"];
     if (confirm.empty ()) {
-      Dialog_Yes dialog_yes = Dialog_Yes ("organize", translate("Would you like to delete this workbench configuration?"));
+      Dialog_Yes dialog_yes = Dialog_Yes ("organize", translate("Would you like to delete this desktop configuration?"));
       dialog_yes.add_query ("remove", remove);
       page += dialog_yes.run ();
       return page;

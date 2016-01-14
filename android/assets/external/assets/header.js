@@ -36,5 +36,7 @@ $ (document).ready (function () {
     // and is to be removed here within the iframe.
     $ ("#topcontainer").empty ();
   }
-  $ (".fadeout").delay (4000).hide (2000);
+  if (typeof (fadingMenuDelay) != 'undefined') {
+    $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);
+  }
 });

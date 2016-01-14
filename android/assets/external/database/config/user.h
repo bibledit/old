@@ -200,6 +200,8 @@ public:
   int getVerticalCaretPosition ();
   bool getDisplayBreadcrumbs ();
   void setDisplayBreadcrumbs (bool value);
+  void setDesktopMenuFadeoutDelay (int value);
+  int getDesktopMenuFadeoutDelay ();
 private:
   void * webserver_request;
   string file (string user, const char * key);

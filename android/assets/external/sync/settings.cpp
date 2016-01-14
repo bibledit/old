@@ -53,6 +53,9 @@ string sync_settings (void * webserver_request)
   // Check on the credentials.
   if (!sync_logic.credentials_okay ()) return "";
   
+  // Client makes a prioritized server call: Record the client's IP address.
+  sync_logic.prioritized_ip_address_record ();
+
   // Get the relevant parameters the client POSTed to us, the server.
   int action = convert_to_int (request->post ["a"]);
   string value = request->post ["v"];
@@ -94,7 +97,7 @@ string sync_settings (void * webserver_request)
     case Sync_Logic::settings_send_resources_organization:
     {
       vector <string> resources = filter_string_explode (value, '\n');
-      request->database_config_user()->setActiveResources (resources); // Todo
+      request->database_config_user()->setActiveResources (resources);
       return "";
     }
     case Sync_Logic::settings_get_resources_organization:
