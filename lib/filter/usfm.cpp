@@ -728,12 +728,14 @@ string usfm_save_is_safe (string bible, string oldtext, string newtext, bool cha
   // Allowed percentage difference.
   int allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceVerse (bible);
   if (chapter) allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceChapter (bible);
+  cout << "allowed percentage " << allowed_percentage << endl; // Todo
 
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();
   float newLength = newtext.length ();
   int percentage = 100 * (newLength - existingLength) / existingLength;
   percentage = abs (percentage);
+  if (percentage > 100) percentage = 100;
   if (percentage > allowed_percentage) {
     Database_Logs::log ("The text was not saved for safety reasons. The length differs " + convert_to_string (percentage) + "% from the existing text. Make smaller changes and save more often. Or relax the restriction in the Bible's editing settings.");
     Database_Logs::log (newtext);
