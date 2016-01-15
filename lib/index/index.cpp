@@ -66,7 +66,7 @@ string index_index (void * webserver_request)
     request->query ["item"] = "main";
   }
 
-  cout << request->session_logic ()->touchEnabled () << endl; // Todo
+  //cout << request->session_logic ()->touchEnabled () << endl; // Todo
   string page = header.run ();
   
   Assets_View view;
