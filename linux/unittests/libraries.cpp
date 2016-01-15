@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -165,7 +165,7 @@ void test_session_logic ()
     evaluate (__LINE__, __func__, "", request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, Filter_Roles::guest(), request.session_logic ()->currentLevel ());
     
-    // Login. then vary the browser's signature for subsequent sessions.
+    // Login. Then vary the browser's signature for subsequent sessions.
     request = Webserver_Request ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());

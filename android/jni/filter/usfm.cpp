@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -734,6 +734,7 @@ string usfm_save_is_safe (string bible, string oldtext, string newtext, bool cha
   float newLength = newtext.length ();
   int percentage = 100 * (newLength - existingLength) / existingLength;
   percentage = abs (percentage);
+  if (percentage > 100) percentage = 100;
   if (percentage > allowed_percentage) {
     Database_Logs::log ("The text was not saved for safety reasons. The length differs " + convert_to_string (percentage) + "% from the existing text. Make smaller changes and save more often. Or relax the restriction in the Bible's editing settings.");
     Database_Logs::log (newtext);

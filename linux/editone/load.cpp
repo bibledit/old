@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -58,10 +58,20 @@ string editone_load (void * webserver_request)
 
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
+  string focused_verse_usfm = usfm_get_verse_text (usfm, verse);
+
   if (part == "prefix") {
     vector <string> lines;
+    string previous_usfm;
     for (int vs = 0; vs < verse; vs++) {
-      lines.push_back (usfm_get_verse_text (usfm, vs));
+      string prefix_verse_usfm = usfm_get_verse_text (usfm, vs);
+      // No repeating USFM in case of combined verses.
+      if (prefix_verse_usfm == previous_usfm) continue;
+      previous_usfm = prefix_verse_usfm;
+      // In case of combined verses, ensure that no part of a focused combined verse gets into the prefix.
+      if (prefix_verse_usfm != focused_verse_usfm) {
+        lines.push_back (prefix_verse_usfm);
+      }
     }
     usfm = filter_string_implode (lines, "\n");
 
@@ -78,10 +88,9 @@ string editone_load (void * webserver_request)
   }
   
   if (part == "verse") {
-    usfm = usfm_get_verse_text (usfm, verse);
 
     Editor_Usfm2Html editor_usfm2html;
-    editor_usfm2html.load (usfm);
+    editor_usfm2html.load (focused_verse_usfm);
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
     
@@ -95,11 +104,18 @@ string editone_load (void * webserver_request)
   
   if (part == "suffix") {
     vector <int> verses = usfm_get_verse_numbers (usfm);
-    
     vector <string> lines;
+    string previous_usfm;
     for (auto vs : verses) {
       if (vs > verse) {
-        lines.push_back (usfm_get_verse_text (usfm, vs));
+        string suffix_verse_usfm = usfm_get_verse_text (usfm, vs);
+        // No repeating USFM in case of combined verses.
+        if (suffix_verse_usfm == previous_usfm) continue;
+        previous_usfm = suffix_verse_usfm;
+        // In case of combined verses, ensure that no part of a focused combined verse gets into the suffix.
+        if (suffix_verse_usfm != focused_verse_usfm) {
+          lines.push_back (suffix_verse_usfm);
+        }
       }
     }
 

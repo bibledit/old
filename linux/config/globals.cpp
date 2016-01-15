@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,6 +34,11 @@ bool config_globals_quit_at_midnight = false;
 int config_globals_touch_enabled = 0;
 int config_globals_timezone_offset_utc = 100;
 bool config_globals_change_notifications_available = true;
-int config_globals_setup_progress = 5;
+int config_globals_setup_progress = 10;
 int config_globals_simultaneous_connection_count = 0;
 bool config_globals_data_initialized = false;
+bool config_globals_syncing_bibles = false;
+bool config_globals_syncing_notes = false;
+bool config_globals_syncing_settings = false;
+bool config_globals_syncing_changes = false;
+map <string, int> config_globals_prioritized_ip_addresses;

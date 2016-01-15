@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -69,6 +69,10 @@ string sync_notes (void * webserver_request)
     request->response_code = 503;
     return "";
   }
+
+
+  // Client makes a prioritized server call: Record the client's IP address.
+  sync_logic.prioritized_ip_address_record ();
 
   
   // What action does the client request from us?

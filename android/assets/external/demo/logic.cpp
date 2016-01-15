@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@
  A demo installation is an open installation.
  A user is always considered to be logged in as admin.
  
- During the course of October 2015 the demo began to often refuse web connections.
+ In October 2015 the demo began to often refuse web connections.
  It appears that the server keeps running most of the times, but also crashed often during certain periods.
 
  The number of parallel connections was traced to see if that was the cause. 

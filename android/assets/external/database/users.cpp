@@ -1,5 +1,5 @@
 /*
-Copyright (ƒ) 2003-2015 Teus Benschop.
+Copyright (ƒ) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

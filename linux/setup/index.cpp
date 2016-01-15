@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -71,7 +71,11 @@ const char * setup_initialization_notice ()
   "<h1>Bibledit</h1>\n"
   "<h2>... initializing ...</h2>\n";
 
-  config_globals_setup_progress++;
+  // Visual progress indicator.
+  // The progress bar restarts when it is near the end and the device is not yet ready initializing.
+  // The user will understand that the device is still busy, and not think that it is not stuck.
+  config_globals_setup_progress += 5;
+  if (config_globals_setup_progress > 90) config_globals_setup_progress = 10;
   notice.append ("<p><progress value=\"" + convert_to_string (config_globals_setup_progress) + "\" max=\"100\"></progress></p>");
   
   notice.append (

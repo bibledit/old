@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -62,6 +62,9 @@ string sync_changes (void * webserver_request)
     return "";
   }
   
+  // Client makes a prioritized server call: Record the client's IP address.
+  sync_logic.prioritized_ip_address_record ();
+
   // Get the relevant parameters the client may have POSTed to us, the server.
   string user = hex2bin (request->post ["u"]);
   int action = convert_to_int (request->post ["a"]);

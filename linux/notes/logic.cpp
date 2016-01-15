@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -186,9 +186,9 @@ void Notes_Logic::unassignUser (int identifier, const string& user)
   database_notes.unassignUser (identifier, user);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+    string myuser = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    database_noteactions.record (user, identifier, Sync_Logic::notes_put_unassign, user);
+    database_noteactions.record (myuser, identifier, Sync_Logic::notes_put_unassign, user);
   } else {
     // Server: do nothing extra.
   }

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -175,6 +175,8 @@ string Assets_Header::run ()
     if (!fadingmenu.empty ()) {
       view->enable_zone ("fading_menu");
       view->set_variable ("fadingmenu", fadingmenu);
+      string delay = convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()) + "000";
+      view->set_variable ("fadingmenudelay", delay);
       fadingmenu.clear ();
     }
 
