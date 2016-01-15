@@ -66,6 +66,7 @@ Both are now acceptable for the time being.
 This requires two columns in the table, where the stuff is shifted from new to old, to swapped away.
 
 After the port to C++, the PHP session mechanism is no longer a good option.
+The database is now used for that.
 
 */
 
@@ -75,11 +76,6 @@ Session_Logic::Session_Logic (void * webserver_request_in)
   webserver_request = webserver_request_in;
   touch_enabled = false;
   Open ();
-}
-
-
-Session_Logic::~Session_Logic ()
-{
 }
 
 
@@ -206,11 +202,14 @@ string Session_Logic::currentUser ()
 }
 
 
-bool Session_Logic::touchEnabled ()
+bool Session_Logic::touchEnabled () // Todo
 {
   // Deal with the global variable for touch-enabled.
   // The variable, if zero, does nothing.
   // Else it either sets or clears the touch-enabled state.
+  // This 'doing nothing' is needed for a situation where a server has clients
+  // with and without a touch-screen, so one global variable does not affect a local state.
+  // The global variable is for a client application, where there's only one user per app.
   if (config_globals_touch_enabled > 0) touch_enabled = true;
   if (config_globals_touch_enabled < 0) touch_enabled = false;
   // Give the result, either set globally, or else through prior reading from the database.

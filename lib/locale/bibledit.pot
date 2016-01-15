@@ -7132,10 +7132,16 @@ msgstr ""
 msgid "Please enter a font size between 50 and 300 percent"
 msgstr ""
 
-msgid "Please enter a caret position 20 and 80 percent"
+msgid "Please enter a caret position between 20 and 80 percent"
 msgstr ""
 
 msgid "Incorrect caret position in percents"
+msgstr ""
+
+msgid "Please enter a fade out delay between 1 and 10 seconds"
+msgstr ""
+
+msgid "Incorrect fade out delay in seconds"
 msgstr ""
 
 msgid "General font size for the interface"
@@ -7184,6 +7190,12 @@ msgid "Vertical position of the caret in the Bible editors"
 msgstr ""
 
 msgid "Show breadcrumbs"
+msgstr ""
+
+msgid "Desktop menu fade out delay"
+msgstr ""
+
+msgid "How long it takes for the desktop menu to start fading out."
 msgstr ""
 
 msgid "Feedback"
