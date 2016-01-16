@@ -127,10 +127,6 @@ public:
   static void setTextFont (string bible, string value);
   static string getTextFontClient (string bible);
   static void setTextFontClient (string bible, string value);
-  static int getEditingAllowedDifferenceChapter (string bible);
-  static void setEditingAllowedDifferenceChapter (string bible, int value);
-  static int getEditingAllowedDifferenceVerse (string bible);
-  static void setEditingAllowedDifferenceVerse (string bible, int value);
   static string getParatextProject (string bible);
   static void setParatextProject (string bible, string value);
   static bool getParatextCollaborationEnabled (string bible);

@@ -579,26 +579,6 @@ void Database_Config_Bible::setTextFontClient (string bible, string value)
 }
 
 
-int Database_Config_Bible::getEditingAllowedDifferenceChapter (string bible)
-{
-  return getIValue (bible, "editing-allowed-difference-chapter", 20);
-}
-void Database_Config_Bible::setEditingAllowedDifferenceChapter (string bible, int value)
-{
-  setIValue (bible, "editing-allowed-difference-chapter", value);
-}
-
-
-int Database_Config_Bible::getEditingAllowedDifferenceVerse (string bible)
-{
-  return getIValue (bible, "editing-allowed-difference-verse", 75);
-}
-void Database_Config_Bible::setEditingAllowedDifferenceVerse (string bible, int value)
-{
-  setIValue (bible, "editing-allowed-difference-verse", value);
-}
-
-
 string Database_Config_Bible::getParatextProject (string bible)
 {
   return getValue (bible, "paratext-project", "");

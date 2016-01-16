@@ -50,6 +50,29 @@ string personalize_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+
+  // Accept values for allowed relative changes for the four Bible text editors.
+  if (request->post.count ("chapterpercentage")) {
+    int chapterpercentage = convert_to_int (request->post ["chapterpercentage"]);
+    chapterpercentage = clip (chapterpercentage, 10, 100);
+    request->database_config_user ()->setEditingAllowedDifferenceChapter (chapterpercentage);
+    return "";
+  }
+  if (request->post.count ("versepercentage")) {
+    int versepercentage = convert_to_int (request->post ["versepercentage"]);
+    versepercentage = clip (versepercentage, 10, 100);
+    request->database_config_user ()->setEditingAllowedDifferenceVerse (versepercentage);
+    return "";
+  }
+  
+
+  // Breadcrumbs: Before displaying page, so the page does the correct thing with the bread crumbs.
+  if (request->query.count ("breadcrumbs")) {
+    bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
+    request->database_config_user ()->setDisplayBreadcrumbs (!state);
+  }
+  
+  
   string page;
   string success;
   string error;
@@ -77,6 +100,8 @@ string personalize_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Personalize"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.jQueryUIOn ();
+  //header.jQueryMobileOn (); // Todo
   page = header.run ();
 
   
@@ -188,10 +213,6 @@ string personalize_index (void * webserver_request)
   
 
   // Whether to display bread crumbs.
-  if (request->query.count ("breadcrumbs")) {
-    bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
-    request->database_config_user ()->setDisplayBreadcrumbs (!state);
-  }
   string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDisplayBreadcrumbs ());
   view.set_variable ("breadcrumbs", on_off);
 
@@ -212,6 +233,11 @@ string personalize_index (void * webserver_request)
   }
   view.set_variable ("desktopfadeoutdelay", convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()));
 
+  
+  // Permissable relative changes in the four Bible editors.
+  view.set_variable ("chapterpercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceChapter ()));
+  view.set_variable ("versepercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceVerse ()));
+  
   
   view.set_variable ("success", success);
   view.set_variable ("error", error);

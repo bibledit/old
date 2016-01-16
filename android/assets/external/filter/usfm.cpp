@@ -720,14 +720,16 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 // This function compares the $newtext with the $oldtext.
 // It returns an empty string if the difference is below the limit set for the Bible.
 // It returns a message specifying the difference if it exceeds that limit.
-string usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter)
+string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter)
 {
   // Two texts are equal: safe.
   if (newtext == oldtext) return "";
-  
+
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   // Allowed percentage difference.
-  int allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceVerse (bible);
-  if (chapter) allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceChapter (bible);
+  int allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();
+  if (chapter) allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceChapter ();
 
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();
@@ -774,7 +776,7 @@ string usfm_safely_store_chapter (void * webserver_request, string bible, int bo
   if (usfm == existing) return "";
   
   // Safety check.
-  string message = usfm_save_is_safe (bible, existing, usfm, true);
+  string message = usfm_save_is_safe (webserver_request, existing, usfm, true);
   if (!message.empty ()) return message;
   
   // Safety checks have passed: Save chapter.
@@ -847,7 +849,7 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
   }
 
   // Check maximum difference between new and existing USFM.
-  string message = usfm_save_is_safe (bible, existing_verse_usfm, usfm, false);
+  string message = usfm_save_is_safe (webserver_request, existing_verse_usfm, usfm, false);
   if (!message.empty ()) return message;
   
   // Store the new verse USFM in the existing chapter USFM.

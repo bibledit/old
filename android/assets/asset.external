@@ -634,6 +634,14 @@ jquery/jquery-ui-1.10.3.progressbar.min.js
 jquery/jquery-ui-1.10.3.sortable.min.js
 jquery/jquery-ui-1.11.4.min.css
 jquery/jquery-ui-1.11.4.min.js
+jquery/jquery-ui-1.11.4/jquery-ui.css
+jquery/jquery-ui-1.11.4/jquery-ui.js
+jquery/jquery-ui-1.11.4/jquery-ui.min.css
+jquery/jquery-ui-1.11.4/jquery-ui.min.js
+jquery/jquery-ui-1.11.4/jquery-ui.structure.css
+jquery/jquery-ui-1.11.4/jquery-ui.structure.min.css
+jquery/jquery-ui-1.11.4/jquery-ui.theme.css
+jquery/jquery-ui-1.11.4/jquery-ui.theme.min.css
 jquery/jquery.ui.touch-punch.min.js
 jquery/readme.txt
 jquery/smoothness/images/animated-overlay.gif
@@ -901,6 +909,7 @@ parsewebdata/exampleProgram.cpp
 personalize/index.cpp
 personalize/index.h
 personalize/index.html
+personalize/index.js
 pix/check.png
 pix/favicon.ico
 pix/loading.gif

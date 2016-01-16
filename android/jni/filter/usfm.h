@@ -66,7 +66,7 @@ string usfm_remove_notes (string usfm, const vector <string> & markers);
 string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio);
 string usfm_move_note (string usfm, int direction, int number);
 size_t usfm_get_new_note_position (string usfm, size_t position, int direction);
-string usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter);
+string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter);
 string usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm);
 string usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm);
 

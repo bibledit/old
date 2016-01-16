@@ -1088,3 +1088,25 @@ void Database_Config_User::setDesktopMenuFadeoutDelay (int value)
 {
   setIValue ("desktop-menu-fadeout-delay", value);
 }
+
+
+int Database_Config_User::getEditingAllowedDifferenceChapter ()
+{
+  return getIValue ("editing-allowed-difference-chapter", 20);
+}
+void Database_Config_User::setEditingAllowedDifferenceChapter (int value)
+{
+  setIValue ("editing-allowed-difference-chapter", value);
+}
+
+
+int Database_Config_User::getEditingAllowedDifferenceVerse ()
+{
+  return getIValue ("editing-allowed-difference-verse", 75);
+}
+void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
+{
+  setIValue ("editing-allowed-difference-verse", value);
+}
+
+

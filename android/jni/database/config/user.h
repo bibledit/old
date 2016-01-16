@@ -202,6 +202,10 @@ public:
   void setDisplayBreadcrumbs (bool value);
   void setDesktopMenuFadeoutDelay (int value);
   int getDesktopMenuFadeoutDelay ();
+  int getEditingAllowedDifferenceChapter ();
+  void setEditingAllowedDifferenceChapter (int value);
+  int getEditingAllowedDifferenceVerse ();
+  void setEditingAllowedDifferenceVerse (int value);
 private:
   void * webserver_request;
   string file (string user, const char * key);
