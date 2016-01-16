@@ -7,7 +7,6 @@ body {
   height: 100%;
   margin: 2px;
   padding: 2px;
-  padding-top: 0;
 }
 
 h1 {
@@ -24,15 +23,7 @@ h3, h4, h5 {
 
 p {
   margin: 0;
-  padding: 0 0.2em;
-}
-
-div p, div ul, div ol {
-  margin-bottom: 0;
-}
-
-div {
-  margin: 0;
+  padding: 0;
 }
 
 strong {
@@ -56,52 +47,6 @@ a:hover {
 a:focus,
 a:active {
   color: red;
-}
-
-/* Form control defaults styles */
-select {
-  border: 1px solid #ddd;
-  padding: 0;
-}
-
-input,
-button {
-  border: 1px solid #ddd;
-  padding: 0.1em 0.3em;
-}
-
-select:hover,
-input:hover,
-button:hover {
-  border-color: #00f;
-}
-
-select:focus,
-input:focus,
-button:focus {
-  border-color: #00f;
-  box-shadow: 1px 1px .5em rgba(0, 0, 255, 0.3);
-}
-
-/* Layout */
-div.body {
-  clear: left;
-  margin-left: auto;
-}
-
-div.body p {
-  margin: 0;
-}
-
-dl {
-  margin: 0;
-}
-
-dt {
-  color: #488B9B;
-  clear: left;
-  margin-top: 20px;
-  text-align: left;
 }
 
 #toc ul li {
@@ -148,12 +93,12 @@ textarea {
   width: 100%;
 }
 
-.topalign {
-  vertical-align: top;
+.fullheight {
+  height: 100%;
 }
 
-#search {
-  display: inline;
+.topalign {
+  vertical-align: top;
 }
 
 .selected {
