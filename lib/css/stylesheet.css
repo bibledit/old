@@ -285,3 +285,6 @@ textarea {
   height: 100%;
 }
 
+.drag {
+  cursor:move;
+}

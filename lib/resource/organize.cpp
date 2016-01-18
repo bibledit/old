@@ -90,7 +90,7 @@ string resource_organize (void * webserver_request)
   vector <string> active_resources = request->database_config_user()->getActiveResources ();
   string activesblock;
   for (size_t i = 0; i < active_resources.size (); i++) {
-    activesblock.append ("<p><a href=\"?remove=" + convert_to_string (i) + "\"> ✗ </a>" + active_resources [i] + "</p>\n");
+    activesblock.append ("<p class=\"ui-state-default\"><a href=\"?remove=" + convert_to_string (i) + "\"> ✗ </a><span class=\"drag\">" + active_resources [i] + "</span></p>\n");
   }
   view.set_variable ("activesblock", activesblock);
   
