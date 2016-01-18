@@ -1,24 +1,26 @@
-<h3>translate ("Login")</h3>
-<form action="login?request=##forward##" name="form" method="post">
-  <table>
-    <p class="error">##error_message##</p>
-    <tr>
-      <td align="right">translate ("Username or email address")</td>
-      <td><input type="text" name="user" maxlength="30" /></td>
-      <td class="error">##username_email_invalid##</td>
-    </tr>
-    <tr>
-      <td align="right">translate ("Password")</td>
-      <td><input type="password" name="pass" maxlength="30" /></td>
-      <td class="error">##password_invalid##</td>
-    </tr>
-    <tr>
-      <td align="right"></td>
-      <td><input type="submit" id="test" name="submit" value="translate ("Login")" /></td>
-    </tr>
-  </table>
-  <td><input type="hidden" id="touch" name="touch" value="1" /></td>
-  <p><a href="password">translate ("Forgot password?")</a></p>
-  <p>translate ("Not registered?") <a href="signup">translate ("Sign up!")</a></p>
+<h3 class="center">Bibledit</h3>
+<p class="error">##error_message##</p>
+<form class="center" action="login?request=##forward##" name="form" method="post">
+
+<p><label for="user">translate ("Username or email address:")</label></p>
+<p><input type="text" name="user" maxlength="30" /></p>
+<p class="error">##username_email_invalid##</p>
+
+<br>
+
+<p><label for="pass">translate ("Password:")</label></p>
+<p><input type="password" name="pass" maxlength="30" /></p>
+<p class="error">##password_invalid##</p>
+
+<br>
+
+<p><input class="button" type="submit" id="test" name="submit" value="translate ("Login")" /></p>
+
+<p><input type="hidden" id="touch" name="touch" value="1" /></p>
+
+<br>
+
+<p><a href="password">translate ("Forgot password?")</a></p>
+<p>translate ("Not registered?") <a href="signup">translate ("Sign up!")</a></p>
 </form>
 <script type="text/javascript" src="login.js?##VERSION##"></script>
