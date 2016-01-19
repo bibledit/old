@@ -7228,15 +7228,19 @@ msgstr ""
 msgid "Please login the other way, through Menu / Login"
 msgstr ""
 
-msgid ""
-"Thank you for being interested in providing feedback on the Bible that is "
-"being translated."
+msgid "Thank you for being interested in providing feedback on the Bible."
 msgstr ""
 
 msgid "Please provide your name and email address."
 msgstr ""
 
 msgid "You will then receive email about any feedback you give."
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Email address:"
 msgstr ""
 
 msgid "New feedback"
@@ -7929,7 +7933,10 @@ msgstr ""
 msgid "Username or email address or password are not correct"
 msgstr ""
 
-msgid "Username or email address"
+msgid "Username or email address:"
+msgstr ""
+
+msgid "Password:"
 msgstr ""
 
 msgid "Forgot password?"
@@ -7966,15 +7973,9 @@ msgstr ""
 msgid "Username or email address cannot be found"
 msgstr ""
 
-msgid "Forgot password"
-msgstr ""
-
 msgid ""
-"If you forgot the password, submit your username or email address, and "
-"instructions will be emailed to you."
-msgstr ""
-
-msgid "Username or email address:"
+"Submit your username or email address, and instructions will be emailed to "
+"you."
 msgstr ""
 
 msgid "Signup"
