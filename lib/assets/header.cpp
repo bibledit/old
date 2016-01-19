@@ -138,9 +138,11 @@ string Assets_Header::run ()
   if (request->session_logic ()->touchEnabled ()) {
     touchCSSOn();
   }
+  if (!request->session_logic ()->loggedIn ()) {
+    touchCSSOn();
+  }
   if (includeTouchCSS) {
     view->enable_zone ("include_touch_css");
-    cout << "touch css included" << endl; // Todo
   } else {
     view->enable_zone ("include_mouse_css");
   }
