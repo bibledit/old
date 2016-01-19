@@ -89,12 +89,20 @@ textarea {
   height: 20em;
 }
 
-.fullwidth {
+.width100 {
   width: 100%;
 }
 
 .fullheight {
   height: 100%;
+}
+
+.width75 {
+  width: 75%;
+}
+
+.width50 {
+  width: 50%;
 }
 
 .topalign {

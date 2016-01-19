@@ -135,8 +135,12 @@ string Assets_Header::run ()
     view->enable_zone ("include_jquery_ui");
   }
   
+  if (request->session_logic ()->touchEnabled ()) {
+    touchCSSOn();
+  }
   if (includeTouchCSS) {
     view->enable_zone ("include_touch_css");
+    cout << "touch css included" << endl; // Todo
   } else {
     view->enable_zone ("include_mouse_css");
   }
