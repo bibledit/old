@@ -9,6 +9,48 @@ body {
   padding: 0.2em;
 }
 
+@media (min-width:320px) {
+/* smartphones, iPhone, portrait 480x320 phones */
+body {
+  font-size: 3.2vw;
+}
+}
+
+@media (min-width:481px) {
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+body {
+  font-size: 2.7vw;
+}
+}
+
+@media (min-width:641px) {
+/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+body {
+  font-size: 2.3vw;
+}
+}
+
+@media (min-width:961px) {
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+body {
+  font-size: 1.7vw;
+}
+}
+
+@media (min-width:1025px) {
+/* big landscape tablets, laptops, and desktops */
+body {
+  font-size: 1.3vw;
+}
+}
+
+@media (min-width:1281px) {
+/* hi-res laptops and desktops */
+body {
+  font-size: 1.0vw;
+}
+}
+
 label {
   font-size: 100%;
 }
