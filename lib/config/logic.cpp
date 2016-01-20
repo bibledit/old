@@ -20,10 +20,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/date.h>
 #include <database/books.h>
 #include <database/config/general.h>
+#include <database/config/user.h>
 #include <config.h>
 #include <cstdlib>
+#include <webserver/request.h>
 
 
 // Returns the Bibledit version number.
@@ -133,4 +136,27 @@ string config_logic_external_resources_cache_path ()
 bool config_logic_windows ()
 {
   return (strcmp (WINDOWS, "yes") == 0);
+}
+
+
+// Returns whether the interface is supposed to be in easy mode.
+bool config_logic_easy_mode (void * webserver_request) // Todo
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  bool easy_mode = false;
+  
+  // When this is a touch-enabled device, the easy mode will be on.
+  if (request->session_logic ()->touchEnabled ()) easy_mode = true;
+  
+  // If the time value to flip the mode is recent enough:
+  // Flip the mode, and update the time value.
+  int now = filter_date_seconds_since_epoch ();
+  int fliptime = request->database_config_user ()->getFlipInterfaceMode ();
+  if (abs (now - fliptime) < 7200) {
+    request->database_config_user ()->setFlipInterfaceMode (now);
+    easy_mode = !easy_mode;
+  }
+  
+  return easy_mode;
 }
