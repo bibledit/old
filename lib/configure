@@ -625,6 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+TOUCH
 WINDOWS
 RESOURCES_PATH
 PARATEXT
@@ -775,6 +776,7 @@ enable_tinyjournal
 enable_paratext
 with_resources_path
 enable_windows
+enable_touch
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1432,6 +1434,7 @@ Optional Features:
   --enable-tinyjournal Enable tiny journal
   --enable-paratext Enable Paratext synchronization
   --enable-windows Compile on Windows
+  --enable-touch Touch and easy mode
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6630,6 +6633,26 @@ _ACEOF
 
 
 
+# Touch mode.
+TOUCH=no
+# Check whether --enable-touch was given.
+if test "${enable_touch+set}" = set; then :
+  enableval=$enable_touch;
+$as_echo "#define TOUCHMODE 1" >>confdefs.h
+
+TOUCH=yes
+
+fi
+
+
+$as_echo "#define TOUCH /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define TOUCH "$TOUCH"
+_ACEOF
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -8127,4 +8150,5 @@ Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
 SWORD library                                     : ${SWORD_CFLAGS}
+Touch and easy mode (--enable-touch)              : ${WINDOWS}
 "

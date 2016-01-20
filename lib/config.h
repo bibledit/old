@@ -124,6 +124,12 @@
 /* Define whether the tiny journal is enabled */
 #define TINYJOURNAL "no"
 
+/* Define whether to enable touch mode */
+#define TOUCH "no"
+
+/* Define whether to enable touch mode */
+/* #undef TOUCHMODE */
+
 /* Define whether unit tests are enabled */
 #define UNITTESTS "no"
 

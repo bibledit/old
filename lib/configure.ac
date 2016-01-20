@@ -246,6 +246,17 @@ AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
 AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
 AC_SUBST(WINDOWS)
 
+# Touch mode.
+TOUCH=no
+AC_ARG_ENABLE(touch,
+[  --enable-touch Touch and easy mode],
+[AC_DEFINE([TOUCHMODE], [1], [Define whether to enable touch mode])]
+TOUCH=yes
+)
+AC_DEFINE([TOUCH], [], [Define whether to enable touch mode])
+AC_DEFINE_UNQUOTED(TOUCH, "$TOUCH")
+AC_SUBST(TOUCH)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -268,4 +279,5 @@ Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
 SWORD library                                     : ${SWORD_CFLAGS}
+Touch and easy mode (--enable-touch)              : ${WINDOWS}
 "
