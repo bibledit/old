@@ -166,6 +166,8 @@ string Assets_Header::run ()
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
     
+    //cout << config_logic_easy_mode (webserver_request) << endl; // Todo
+    
     // The start button to be displayed only when there's no menu.
     bool start_button = true;
     
