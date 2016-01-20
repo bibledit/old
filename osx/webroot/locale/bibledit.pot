@@ -202,33 +202,6 @@ msgstr ""
 msgid "Editing settings"
 msgstr ""
 
-msgid ""
-"While editing the Bible text and saving it, Bibledit looks at how much the "
-"text of the chapter or verse to be saved differs from the existing chapter "
-"or verse text."
-msgstr ""
-
-msgid ""
-"If the text to be saved differs more than a certain percentage from the "
-"existing text, Bibledit will not save it."
-msgstr ""
-
-msgid ""
-"This safety mechanisms prevents accidental loss of Bible data in many cases."
-msgstr ""
-
-msgid "The permitted difference can be set below as a percentage."
-msgstr ""
-
-msgid "Maximum difference for:"
-msgstr ""
-
-msgid "Chapter editors"
-msgstr ""
-
-msgid "Verse editors"
-msgstr ""
-
 msgid "Import"
 msgstr ""
 
@@ -7132,10 +7105,16 @@ msgstr ""
 msgid "Please enter a font size between 50 and 300 percent"
 msgstr ""
 
-msgid "Please enter a caret position 20 and 80 percent"
+msgid "Please enter a caret position between 20 and 80 percent"
 msgstr ""
 
 msgid "Incorrect caret position in percents"
+msgstr ""
+
+msgid "Please enter a fade out delay between 1 and 10 seconds"
+msgstr ""
+
+msgid "Incorrect fade out delay in seconds"
 msgstr ""
 
 msgid "General font size for the interface"
@@ -7186,6 +7165,39 @@ msgstr ""
 msgid "Show breadcrumbs"
 msgstr ""
 
+msgid "Desktop menu fade out delay"
+msgstr ""
+
+msgid "How long it takes for the desktop menu to start fading out."
+msgstr ""
+
+msgid ""
+"While editing the Bible text and saving it, Bibledit looks at how much the "
+"text of the chapter or verse to be saved differs from the existing chapter "
+"or verse text."
+msgstr ""
+
+msgid ""
+"If the text to be saved differs more than a certain percentage from the "
+"existing text, Bibledit will not save it."
+msgstr ""
+
+msgid ""
+"This safety mechanisms prevents accidental loss of Bible data in many cases."
+msgstr ""
+
+msgid "The permitted difference can be set below as a percentage."
+msgstr ""
+
+msgid "Maximum difference for:"
+msgstr ""
+
+msgid "Chapter editors:"
+msgstr ""
+
+msgid "Verse editors"
+msgstr ""
+
 msgid "Feedback"
 msgstr ""
 
@@ -7216,15 +7228,19 @@ msgstr ""
 msgid "Please login the other way, through Menu / Login"
 msgstr ""
 
-msgid ""
-"Thank you for being interested in providing feedback on the Bible that is "
-"being translated."
+msgid "Thank you for being interested in providing feedback on the Bible."
 msgstr ""
 
 msgid "Please provide your name and email address."
 msgstr ""
 
 msgid "You will then receive email about any feedback you give."
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Email address:"
 msgstr ""
 
 msgid "New feedback"
@@ -7917,7 +7933,10 @@ msgstr ""
 msgid "Username or email address or password are not correct"
 msgstr ""
 
-msgid "Username or email address"
+msgid "Username or email address:"
+msgstr ""
+
+msgid "Password:"
 msgstr ""
 
 msgid "Forgot password?"
@@ -7954,15 +7973,9 @@ msgstr ""
 msgid "Username or email address cannot be found"
 msgstr ""
 
-msgid "Forgot password"
-msgstr ""
-
 msgid ""
-"If you forgot the password, submit your username or email address, and "
-"instructions will be emailed to you."
-msgstr ""
-
-msgid "Username or email address:"
+"Submit your username or email address, and instructions will be emailed to "
+"you."
 msgstr ""
 
 msgid "Signup"
@@ -8915,7 +8928,7 @@ msgstr ""
 msgid "Workbenches"
 msgstr ""
 
-msgid "Would you like to delete this workbench configuration?"
+msgid "Would you like to delete this desktop configuration?"
 msgstr ""
 
 msgid "Please enter a name for the new desktop"

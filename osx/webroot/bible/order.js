@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,11 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 $(document).ready (function () {
   $( "#sortable" ).sortable({ update: sorted });
   $( "#sortable" ).disableSelection();
-  $ (".drag").hover (function () {
-    $(this).css('cursor','move');
-  }, function () {
-    $(this).css ('cursor','auto');
-  });
 });
 
 
