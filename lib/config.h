@@ -76,6 +76,9 @@
 /* Define whether to enable tiny journal */
 /* #undef HAVE_TINYJOURNAL */
 
+/* Define whether to enable touch mode */
+/* #undef HAVE_TOUCH */
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
@@ -98,7 +101,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.351"
+#define PACKAGE_STRING "bibledit 1.0.352"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -107,7 +110,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.351"
+#define PACKAGE_VERSION "1.0.352"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
@@ -127,9 +130,6 @@
 /* Define whether to enable touch mode */
 #define TOUCH "no"
 
-/* Define whether to enable touch mode */
-/* #undef TOUCHMODE */
-
 /* Define whether unit tests are enabled */
 #define UNITTESTS "no"
 
@@ -137,7 +137,7 @@
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.351"
+#define VERSION "1.0.352"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */

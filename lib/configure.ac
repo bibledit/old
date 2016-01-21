@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.351],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.352],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -250,7 +250,7 @@ AC_SUBST(WINDOWS)
 TOUCH=no
 AC_ARG_ENABLE(touch,
 [  --enable-touch Touch and easy mode],
-[AC_DEFINE([TOUCHMODE], [1], [Define whether to enable touch mode])]
+[AC_DEFINE([HAVE_TOUCH], [1], [Define whether to enable touch mode])]
 TOUCH=yes
 )
 AC_DEFINE([TOUCH], [], [Define whether to enable touch mode])
@@ -279,5 +279,5 @@ Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
 SWORD library                                     : ${SWORD_CFLAGS}
-Touch and easy mode (--enable-touch)              : ${WINDOWS}
+Touch mode (--enable-touch)                       : ${TOUCH}
 "
