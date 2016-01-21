@@ -55,8 +55,11 @@ string session_signup (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   string page;
-
-  page += Assets_Page::header (translate ("Signup"), webserver_request);
+  
+  Assets_Header header = Assets_Header (translate ("Signup"), webserver_request);
+  header.touchCSSOn ();
+  page += header.run ();
+  
   Assets_View view;
 
   // Some security questions.

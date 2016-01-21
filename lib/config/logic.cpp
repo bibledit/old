@@ -158,6 +158,6 @@ bool config_logic_basic_mode (void * webserver_request)
     basic_mode = !basic_mode;
   }
   
-  return true; // Todo
+  //return true; // Todo
   return basic_mode;
 }

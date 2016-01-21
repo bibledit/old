@@ -132,7 +132,7 @@ string workbench_organize (void * webserver_request)
   vector <string> workbenchblock;
   vector <string> workbenches = workbench_get_names (request);
   for (auto & workbench : workbenches) {
-    workbenchblock.push_back ("<p>");
+    workbenchblock.push_back ("<p class=\"ui-state-default\">");
     workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");

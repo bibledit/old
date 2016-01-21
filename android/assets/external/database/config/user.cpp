@@ -1110,3 +1110,11 @@ void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
 }
 
 
+int Database_Config_User::getFlipInterfaceMode ()
+{
+  return getIValue ("flip-interface-mode", 0);
+}
+void Database_Config_User::setFlipInterfaceMode (int value)
+{
+  setIValue ("flip-interface-mode", value);
+}

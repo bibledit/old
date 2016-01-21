@@ -28,7 +28,6 @@ class Assets_View
 {
 public:
   Assets_View ();
-  ~Assets_View ();
   void set_variable (string key, string value);
   void enable_zone (string zone);
   string render (string tpl1, string tpl2);

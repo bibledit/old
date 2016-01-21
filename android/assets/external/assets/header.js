@@ -34,7 +34,7 @@ $ (document).ready (function () {
     // The topbar is removed by the server via the Workbench,
     // but in other cases the topbar makes it to the browser,
     // and is to be removed here within the iframe.
-    $ ("#topcontainer").empty ();
+    $ ("#topbar").empty ();
   }
   if (typeof (fadingMenuDelay) != 'undefined') {
     $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);

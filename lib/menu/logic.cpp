@@ -587,7 +587,7 @@ string menu_logic_help_category (void * webserver_request)
 }
 
 
-string menu_logic_basic_category (void * webserver_request) // Todo
+string menu_logic_basic_category (void * webserver_request)
 {
   vector <string> html;
   

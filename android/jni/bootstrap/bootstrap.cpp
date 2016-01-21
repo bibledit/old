@@ -211,6 +211,7 @@ void bootstrap_index (Webserver_Request * request)
       || (extension == "js")
       || (Fonts_Logic::isFont (extension))
       || (extension == "sh")
+      || (extension == "svg")
       ) http_serve_cache_file (request);
   else if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) request->reply = resource_imagefetch (request);
 

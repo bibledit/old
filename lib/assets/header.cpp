@@ -198,7 +198,7 @@ string Assets_Header::run ()
     view->set_variable ("mainmenu", menublock);
 
     if (start_button) {
-      view->enable_zone ("start_button"); // Todo make it part of the main menu.
+      view->enable_zone ("start_button");
     }
     
     if (!fadingmenu.empty ()) {

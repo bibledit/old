@@ -275,10 +275,14 @@ string menu_logic_translate_category (void * webserver_request)
     html.push_back (menu_logic_create_item (changes_changes_url (), translate ("Change notifications"), true));
   }
 
-  if (index_listing_acl (webserver_request, "exports")) {
-    html.push_back (menu_logic_create_item (index_listing_url ("exports"), translate ("Exports"), true));
+  // The exports are available to anyone on the Internet,
+  // but the menu item is only displayed when someone is logged in.
+  if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
+    if (index_listing_acl (webserver_request, "exports")) {
+      html.push_back (menu_logic_create_item (index_listing_url ("exports"), translate ("Exports"), true));
+    }
   }
-  
+
   // When a user is logged in, but not a guest,
   // put the public feedback into this sub menu, rather than in the main menu.
   if (!config_logic_client_prepared ()) {
@@ -577,6 +581,26 @@ string menu_logic_help_category (void * webserver_request)
 
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_help_text () + ": ");
+  }
+  
+  return filter_string_implode (html, "\n");
+}
+
+
+string menu_logic_basic_category (void * webserver_request) // Todo
+{
+  vector <string> html;
+  
+  if (edit_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (edit_index_url (), translate ("Translation"), true));
+  }
+  
+  if (notes_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
+  }
+  
+  if (resource_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
   }
   
   return filter_string_implode (html, "\n");

@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
   includeJQueryUI = false;
-  includeJQueryMobile = false;
+  includeTouchCSS = false;
   displayNavigator = false;
   webserver_request = webserver_request_in;
   view = new Assets_View ();
@@ -52,9 +52,9 @@ void Assets_Header::jQueryUIOn ()
 }
 
 
-void Assets_Header::jQueryMobileOn ()
+void Assets_Header::touchCSSOn ()
 {
-  includeJQueryMobile = true;
+  includeTouchCSS = true;
 }
 
 
@@ -135,8 +135,16 @@ string Assets_Header::run ()
     view->enable_zone ("include_jquery_ui");
   }
   
-  if (includeJQueryMobile) {
-    view->enable_zone ("include_jquery_mobile");
+  if (request->session_logic ()->touchEnabled ()) {
+    touchCSSOn();
+  }
+  if (!request->session_logic ()->loggedIn ()) {
+    touchCSSOn();
+  }
+  if (includeTouchCSS) {
+    view->enable_zone ("include_touch_css");
+  } else {
+    view->enable_zone ("include_mouse_css");
   }
   
   string headlines;
@@ -154,7 +162,13 @@ string Assets_Header::run ()
     view->enable_zone ("include_editor_stylesheet");
     view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
   }
-  
+
+  bool basic_mode = config_logic_basic_mode (webserver_request);
+  string basicadvanced;
+  if (basic_mode) basicadvanced = "basic";
+  else basicadvanced = "advanced";
+  view->set_variable ("basicadvanced", basicadvanced);
+
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
     
@@ -164,7 +178,11 @@ string Assets_Header::run ()
     string menublock;
     string item = request->query ["item"];
     if (item == "main") {
-      menublock = menu_logic_main_categories (webserver_request);
+      if (basic_mode) {
+        menublock = menu_logic_basic_category (webserver_request);
+      } else {
+        menublock = menu_logic_main_categories (webserver_request);
+      }
       start_button = false;
     } else if (item == "translate") {
       menublock = menu_logic_translate_category (webserver_request);
@@ -178,9 +196,9 @@ string Assets_Header::run ()
       menublock = menu_logic_help_category (webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
-    
+
     if (start_button) {
-      view->enable_zone ("start_button");
+      view->enable_zone ("start_button"); // Todo make it part of the main menu.
     }
     
     if (!fadingmenu.empty ()) {

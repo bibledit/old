@@ -43,6 +43,8 @@ string menu_logic_tools_category (void * webserver_request);
 string menu_logic_settings_category (void * webserver_request);
 string menu_logic_help_category (void * webserver_request);
 
+string menu_logic_basic_category (void * webserver_request);
+
 bool menu_logic_public_or_guest (void * webserver_request);
 
 string menu_logic_menu_text (string menu_item);

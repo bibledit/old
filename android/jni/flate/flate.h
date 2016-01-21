@@ -27,8 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Flate
 {
 public:
-  Flate ();
-  ~Flate ();
   void set_variable (string key, string value);
   void enable_zone (string zone);
   string render (string html);
