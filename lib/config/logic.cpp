@@ -139,15 +139,15 @@ bool config_logic_windows ()
 }
 
 
-// Returns whether the interface is supposed to be in easy mode.
-bool config_logic_easy_mode (void * webserver_request) // Todo
+// Returns whether the interface is supposed to be in basic mode.
+bool config_logic_basic_mode (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  bool easy_mode = false;
+  bool basic_mode = false;
   
-  // When this is a touch-enabled device, the easy mode will be on.
-  if (request->session_logic ()->touchEnabled ()) easy_mode = true;
+  // When this is a touch-enabled device, the basic mode will be on.
+  if (request->session_logic ()->touchEnabled ()) basic_mode = true;
   
   // If the time value to flip the mode is recent enough:
   // Flip the mode, and update the time value.
@@ -155,8 +155,9 @@ bool config_logic_easy_mode (void * webserver_request) // Todo
   int fliptime = request->database_config_user ()->getFlipInterfaceMode ();
   if (abs (now - fliptime) < 7200) {
     request->database_config_user ()->setFlipInterfaceMode (now);
-    easy_mode = !easy_mode;
+    basic_mode = !basic_mode;
   }
   
-  return easy_mode;
+  return true; // Todo
+  return basic_mode;
 }

@@ -9,43 +9,43 @@ body {
   padding: 0.2em;
 }
 
-@media (min-width:320px) {
 /* smartphones, iPhone, portrait 480x320 phones */
+@media (min-width:320px) {
 body {
   font-size: 3.2vw;
 }
 }
 
-@media (min-width:481px) {
 /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+@media (min-width:481px) {
 body {
   font-size: 2.7vw;
 }
 }
 
-@media (min-width:641px) {
 /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+@media (min-width:641px) {
 body {
   font-size: 2.3vw;
 }
 }
 
-@media (min-width:961px) {
 /* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width:961px) {
 body {
   font-size: 1.7vw;
 }
 }
 
-@media (min-width:1025px) {
 /* big landscape tablets, laptops, and desktops */
+@media (min-width:1025px) {
 body {
   font-size: 1.3vw;
 }
 }
 
-@media (min-width:1281px) {
 /* hi-res laptops and desktops */
+@media (min-width:1281px) {
 body {
   font-size: 1.0vw;
 }
@@ -131,10 +131,6 @@ textarea {
   background: #FFFFCC;
 }
 
-.grayedout {
-  color: grey;
-}
-
 .small {
   font-size: small;
 }
@@ -174,7 +170,9 @@ textarea {
 }
 
 #topbar {
-  margin-top: -4px;
+  margin-top: -0.2em;
+  margin-left: -0.4em;
+  margin-right: -0.4em;
 }
 
 #topbar:hover {
@@ -185,12 +183,26 @@ textarea {
   color: #000000;
 }
 
-.menu {
+.menu-basic,
+.menu-advanced {
   margin: 0.2em;
   padding: 0.2em;
 }
 
-.menu span {
+.menu-basic a {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  appearance: button;
+  -moz-appearance: button;
+  -webkit-appearance: button;
+  font-size: 100%;
+  padding-top: 0.7em;
+  padding-right: 1em;
+  padding-bottom: 0.7em;
+  padding-left: 1em;
+}
+
+.menu-advanced span {
   padding-left: 0.3em;
   padding-right: 0.3em;
 }
@@ -199,19 +211,19 @@ textarea {
   white-space: nowrap;
 }
 
-#previousverse {
+.previousverse {
   margin-right: 0.1em;
   padding-right: 0.1em;
 }
 
-#selectverse {
+.selectverse {
   margin-left: 0.1em;
   margin-right: 0.1em;
   padding-left: 0.1em;
   padding-right: 0.1em;
 }
 
-#nextverse {
+.nextverse {
   margin-left: 0.1em;
   padding-left: 0.1em;
 }

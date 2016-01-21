@@ -162,11 +162,15 @@ string Assets_Header::run ()
     view->enable_zone ("include_editor_stylesheet");
     view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
   }
-  
+
+  bool basic_mode = config_logic_basic_mode (webserver_request);
+  string basicadvanced;
+  if (basic_mode) basicadvanced = "basic";
+  else basicadvanced = "advanced";
+  view->set_variable ("basicadvanced", basicadvanced);
+
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
-    
-    //cout << config_logic_easy_mode (webserver_request) << endl; // Todo
     
     // The start button to be displayed only when there's no menu.
     bool start_button = true;
@@ -174,7 +178,11 @@ string Assets_Header::run ()
     string menublock;
     string item = request->query ["item"];
     if (item == "main") {
-      menublock = menu_logic_main_categories (webserver_request);
+      if (basic_mode) {
+        menublock = menu_logic_basic_category (webserver_request);
+      } else {
+        menublock = menu_logic_main_categories (webserver_request);
+      }
       start_button = false;
     } else if (item == "translate") {
       menublock = menu_logic_translate_category (webserver_request);
@@ -188,9 +196,9 @@ string Assets_Header::run ()
       menublock = menu_logic_help_category (webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
-    
+
     if (start_button) {
-      view->enable_zone ("start_button");
+      view->enable_zone ("start_button"); // Todo make it part of the main menu.
     }
     
     if (!fadingmenu.empty ()) {

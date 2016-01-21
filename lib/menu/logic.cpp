@@ -587,6 +587,26 @@ string menu_logic_help_category (void * webserver_request)
 }
 
 
+string menu_logic_basic_category (void * webserver_request) // Todo
+{
+  vector <string> html;
+  
+  if (edit_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (edit_index_url (), translate ("Translation"), true));
+  }
+  
+  if (notes_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
+  }
+  
+  if (resource_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
+  }
+  
+  return filter_string_implode (html, "\n");
+}
+
+
 // Returns true in case the user is a public user, that is, not logged-in,
 // or when the user has the role of Guest.
 bool menu_logic_public_or_guest (void * webserver_request)
