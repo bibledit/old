@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/date.h>
 #include <locale/translate.h>
 #include <edit/index.h>
 #include <notes/index.h>
@@ -57,6 +58,23 @@ string index_index (void * webserver_request)
     if (request->query.empty ()) {
       header.refresh (5, "/" + workbench_index_url ());
     }
+  }
+  
+  // Mode toggle: basic <> advanced.
+  string mode = request->query ["mode"];
+  if (!mode.empty ()) {
+    int time = 0;
+    if (mode == "basic") {
+      if (!request->session_logic ()->touchEnabled ()) {
+        time = filter_date_seconds_since_epoch ();
+      }
+    }
+    if (mode == "advanced") {
+      if (request->session_logic ()->touchEnabled ()) {
+        time = filter_date_seconds_since_epoch ();
+      }
+    }
+    request->database_config_user ()->setFlipInterfaceMode (time);
   }
   
   // Normally a page does not show the expanded main menu.

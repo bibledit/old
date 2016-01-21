@@ -179,21 +179,23 @@ string Assets_Header::run ()
     string item = request->query ["item"];
     if (item == "main") {
       if (basic_mode) {
-        menublock = menu_logic_basic_category (webserver_request);
+        menublock = menu_logic_basic_categories (webserver_request);
       } else {
         menublock = menu_logic_main_categories (webserver_request);
       }
       start_button = false;
-    } else if (item == "translate") {
+    } else if (item == menu_logic_translate_menu ()) {
       menublock = menu_logic_translate_category (webserver_request);
-    } else if (item == "search") {
+    } else if (item == menu_logic_search_menu ()) {
       menublock = menu_logic_search_category (webserver_request);
-    } else if (item == "tools") {
+    } else if (item == menu_logic_tools_menu ()) {
       menublock = menu_logic_tools_category (webserver_request);
-    } else if (item == "settings") {
+    } else if (item == menu_logic_settings_menu ()) {
       menublock = menu_logic_settings_category (webserver_request);
     } else if (item == "help") {
       menublock = menu_logic_help_category (webserver_request);
+    } else if (item == menu_logic_more_menu ()) {
+      menublock = menu_logic_more_category (webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
 

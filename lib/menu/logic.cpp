@@ -150,6 +150,12 @@ string menu_logic_settings_menu ()
 }
 
 
+string menu_logic_more_menu ()
+{
+  return "more";
+}
+
+
 // Returns the html for the main menu categories.
 string menu_logic_main_categories (void * webserver_request)
 {
@@ -206,6 +212,28 @@ string menu_logic_main_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
   }
 
+  return filter_string_implode (html, "\n");
+}
+
+
+string menu_logic_basic_categories (void * webserver_request)
+{
+  vector <string> html;
+  
+  if (edit_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (edit_index_url (), translate ("Translation"), true));
+  }
+  
+  if (notes_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
+  }
+  
+  if (resource_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
+  }
+  
+  html.push_back (menu_logic_create_item (menu_logic_more_menu (), translate ("More"), false));
+  
   return filter_string_implode (html, "\n");
 }
 
@@ -561,6 +589,10 @@ string menu_logic_settings_category (void * webserver_request)
     }
   }
 
+  if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
+    html.push_back (menu_logic_create_item (index_index_url () + convert_to_string ("?mode=basic"), translate ("Basic mode"), true));
+  }
+  
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_settings_text () + ": ");
   }
@@ -587,22 +619,16 @@ string menu_logic_help_category (void * webserver_request)
 }
 
 
-string menu_logic_basic_category (void * webserver_request)
+string menu_logic_more_category (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   vector <string> html;
-  
-  if (edit_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (edit_index_url (), translate ("Translation"), true));
+
+  if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
+    html.push_back (menu_logic_create_item (index_index_url () + convert_to_string ("?mode=advanced"), translate ("Advanced mode"), true));
   }
-  
-  if (notes_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
-  }
-  
-  if (resource_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
-  }
-  
+
   return filter_string_implode (html, "\n");
 }
 
@@ -651,6 +677,8 @@ string menu_logic_menu_url (string menu_item)
       (menu_item == menu_logic_tools_menu ())
       ||
       (menu_item == menu_logic_settings_menu ())
+      ||
+      (menu_item == menu_logic_more_menu ())
     ) {
     return filter_url_build_http_query (index_index_url (), "item", menu_item);
   }
