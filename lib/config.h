@@ -76,9 +76,6 @@
 /* Define whether to enable tiny journal */
 /* #undef HAVE_TINYJOURNAL */
 
-/* Define whether to enable touch mode */
-/* #undef HAVE_TOUCH */
-
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
@@ -126,9 +123,6 @@
 
 /* Define whether the tiny journal is enabled */
 #define TINYJOURNAL "no"
-
-/* Define whether to enable touch mode */
-#define TOUCH "no"
 
 /* Define whether unit tests are enabled */
 #define UNITTESTS "no"

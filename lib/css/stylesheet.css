@@ -87,26 +87,6 @@ a:active {
   color: red;
 }
 
-#toc ul li {
-  list-style-type: none;
-}
-
-.level1 {
-  margin-left: 0em;
-}
-
-.level2 {
-  margin-left: 3em;
-}
-
-.level3 {
-  margin-left: 6em;
-}
-
-.level4 {
-  margin-left: 9em;
-}
-
 .error {
   color: red;
   font-weight: bold;
@@ -193,35 +173,17 @@ textarea {
   clear: both;
 }
 
-/* Top bar styles */
-
 #topbar {
-  background-color: #fff;
-  color: #ccc;
   margin-top: -4px;
-  background-color: #f9f9f9;
-  color: #000;
 }
 
 #topbar:hover {
   background-color: #f9f9f9;
-  color: #000;
 }
 
 #topbar a {
-  color: #ccc;
-  color: #000;
+  color: #000000;
 }
-
-#topbar:hover a {
-  color: #000;
-}
-
-.clearfix {
-  clear: both;
-}
-
-/* Menu styles */
 
 .menu {
   margin: 0.2em;
@@ -254,49 +216,6 @@ textarea {
   padding-left: 0.1em;
 }
 
-/* Verse picker */
-#backforward {
-  cursor: default;
-  float: left;
-  margin-right: 0.5em;
-}
-
-#backforward a,
-#backforward span {
-  font-size: 130%;
-  line-height: 1.5em;
-  padding: 0.4em;
-  padding-bottom: 0.2em;
-  text-decoration: none;
-}
-
-#backforward a:hover {
-  background: #f9f9f9;
-  border-radius: 0.5em;
-}
-
-#versepicker {
-  float: left;
-  padding: 0.5em;
-  margin: -0.5em;
-}
-
-#handpicker {
-  position: absolute;
-  display: none;
-  padding: 1.5em;
-  background: #f0f0f0;
-}
-
-#versepicker:hover #handpicker,
-#versepicker.hover #handpicker,
-#handpicker:hover,
-#handpicker.hover {
-  display: block;
-}
-
-/* Print */
-
 @media print {
   #topcontainer { display : none; }
 }
@@ -318,8 +237,6 @@ textarea {
   orphans:3; 
   widows:2;
 }
-
-/* Workbench */
 
 .iframewrapper {
   text-align: center;

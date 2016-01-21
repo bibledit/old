@@ -149,8 +149,6 @@ bool config_logic_easy_mode (void * webserver_request) // Todo
   // When this is a touch-enabled device, the easy mode will be on.
   if (request->session_logic ()->touchEnabled ()) easy_mode = true;
   
-  // When the library has been configured for touch mode, the easy mode will be on. // Todo
-  
   // If the time value to flip the mode is recent enough:
   // Flip the mode, and update the time value.
   int now = filter_date_seconds_since_epoch ();
@@ -162,15 +160,3 @@ bool config_logic_easy_mode (void * webserver_request) // Todo
   
   return easy_mode;
 }
-
-
-// Whether the library has been configured for touch-enabled devices.
-bool config_logic_touch_enabled () // Todo
-{
-#ifdef HAVE_TOUCH
-  return true;
-#endif
-  return false;
-}
-
-
