@@ -217,7 +217,7 @@ textarea {
 }
 
 @media print {
-  #topcontainer { display : none; }
+  #topbar { display : none; }
 }
 
 @page { margin: 2cm } 
