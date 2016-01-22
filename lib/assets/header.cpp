@@ -194,8 +194,6 @@ string Assets_Header::run ()
       menublock = menu_logic_settings_category (webserver_request);
     } else if (item == "help") {
       menublock = menu_logic_help_category (webserver_request);
-    } else if (item == menu_logic_more_menu ()) {
-      menublock = menu_logic_more_category (webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
 

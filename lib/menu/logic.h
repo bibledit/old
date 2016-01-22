@@ -33,7 +33,6 @@ string menu_logic_translate_menu ();
 string menu_logic_search_menu ();
 string menu_logic_tools_menu ();
 string menu_logic_settings_menu ();
-string menu_logic_more_menu ();
 
 string menu_logic_main_categories (void * webserver_request);
 string menu_logic_basic_categories (void * webserver_request);
@@ -44,7 +43,6 @@ string menu_logic_search_category (void * webserver_request);
 string menu_logic_tools_category (void * webserver_request);
 string menu_logic_settings_category (void * webserver_request);
 string menu_logic_help_category (void * webserver_request);
-string menu_logic_more_category (void * webserver_request);
 
 
 bool menu_logic_public_or_guest (void * webserver_request);

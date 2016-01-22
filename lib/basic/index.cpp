@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <index/index.h>
+#include <basic/index.h>
 #include <assets/view.h>
 #include <assets/header.h>
 #include <assets/page.h>
@@ -34,60 +34,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/login.h>
 
 
-const char * index_index_url ()
+const char * basic_index_url ()
 {
-  return "index/index";
+  return "basic/index";
 }
 
 
-bool index_index_acl (void * webserver_request)
+bool basic_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 
 
-string index_index (void * webserver_request)
+string basic_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  Assets_Header header = Assets_Header ("Bibledit", webserver_request);
-  
-  if (config_logic_demo_enabled ()) {
-    // The demo, when there's no active menu, forwards to a the active workbench.
-    if (request->query.empty ()) {
-      header.refresh (5, "/" + workbench_index_url ());
-    }
-  }
-  
-  // Mode toggle: basic <> advanced.
-  string mode = request->query ["mode"];
-  if (!mode.empty ()) {
-    int flip = false;
-    if (mode == "basic") {
-      if (!request->session_logic ()->touchEnabled ()) {
-        flip = true;
-      }
-    }
-    if (mode == "advanced") {
-      if (request->session_logic ()->touchEnabled ()) {
-        flip = true;
-      }
-    }
-    request->database_config_user ()->setFlipInterfaceMode (flip);
-  }
-  
-  // Normally a page does not show the expanded main menu.
-  // This is to save space on the screen.
-  // But the home page of Bibledit show the extended main menu.
-  if (request->query.count ("item") == 0) {
-    request->query ["item"] = "main";
-  }
-
+  Assets_Header header = Assets_Header ("Settings", webserver_request);
   string page = header.run ();
   
   Assets_View view;
 
-  page += view.render ("index", "index");
+  page += view.render ("basic", "index");
   page += Assets_Page::footer ();
   return page;
 }

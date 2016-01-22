@@ -88,6 +88,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/index.h>
 #include <public/logic.h>
 #include <filter/url.h>
+#include <basic/index.h>
 
 
 string menu_logic_href (string href)
@@ -147,12 +148,6 @@ string menu_logic_tools_menu ()
 string menu_logic_settings_menu ()
 {
   return "settings";
-}
-
-
-string menu_logic_more_menu ()
-{
-  return "more";
 }
 
 
@@ -231,9 +226,11 @@ string menu_logic_basic_categories (void * webserver_request)
   if (resource_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
   }
-  
-  html.push_back (menu_logic_create_item (menu_logic_more_menu (), translate ("More"), false));
-  
+
+  if (basic_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (basic_index_url (), translate ("More"), true));
+  }
+
   return filter_string_implode (html, "\n");
 }
 
@@ -619,20 +616,6 @@ string menu_logic_help_category (void * webserver_request)
 }
 
 
-string menu_logic_more_category (void * webserver_request)
-{
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-
-  vector <string> html;
-
-  if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
-    html.push_back (menu_logic_create_item (index_index_url () + convert_to_string ("?mode=advanced"), translate ("Advanced mode"), true));
-  }
-
-  return filter_string_implode (html, "\n");
-}
-
-
 // Returns true in case the user is a public user, that is, not logged-in,
 // or when the user has the role of Guest.
 bool menu_logic_public_or_guest (void * webserver_request)
@@ -677,8 +660,6 @@ string menu_logic_menu_url (string menu_item)
       (menu_item == menu_logic_tools_menu ())
       ||
       (menu_item == menu_logic_settings_menu ())
-      ||
-      (menu_item == menu_logic_more_menu ())
     ) {
     return filter_url_build_http_query (index_index_url (), "item", menu_item);
   }
