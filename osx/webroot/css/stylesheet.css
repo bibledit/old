@@ -9,43 +9,43 @@ body {
   padding: 0.2em;
 }
 
-@media (min-width:320px) {
 /* smartphones, iPhone, portrait 480x320 phones */
+@media (min-width:320px) {
 body {
   font-size: 3.2vw;
 }
 }
 
-@media (min-width:481px) {
 /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+@media (min-width:481px) {
 body {
   font-size: 2.7vw;
 }
 }
 
-@media (min-width:641px) {
 /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+@media (min-width:641px) {
 body {
   font-size: 2.3vw;
 }
 }
 
-@media (min-width:961px) {
 /* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width:961px) {
 body {
   font-size: 1.7vw;
 }
 }
 
-@media (min-width:1025px) {
 /* big landscape tablets, laptops, and desktops */
+@media (min-width:1025px) {
 body {
   font-size: 1.3vw;
 }
 }
 
-@media (min-width:1281px) {
 /* hi-res laptops and desktops */
+@media (min-width:1281px) {
 body {
   font-size: 1.0vw;
 }
@@ -85,26 +85,6 @@ a:hover {
 a:focus,
 a:active {
   color: red;
-}
-
-#toc ul li {
-  list-style-type: none;
-}
-
-.level1 {
-  margin-left: 0em;
-}
-
-.level2 {
-  margin-left: 3em;
-}
-
-.level3 {
-  margin-left: 6em;
-}
-
-.level4 {
-  margin-left: 9em;
 }
 
 .error {
@@ -151,10 +131,6 @@ textarea {
   background: #FFFFCC;
 }
 
-.grayedout {
-  color: grey;
-}
-
 .small {
   font-size: small;
 }
@@ -193,42 +169,40 @@ textarea {
   clear: both;
 }
 
-/* Top bar styles */
-
 #topbar {
-  background-color: #fff;
-  color: #ccc;
-  margin-top: -4px;
-  background-color: #f9f9f9;
-  color: #000;
+  margin-top: -0.2em;
+  margin-left: -0.4em;
+  margin-right: -0.4em;
 }
 
 #topbar:hover {
   background-color: #f9f9f9;
-  color: #000;
 }
 
 #topbar a {
-  color: #ccc;
-  color: #000;
+  color: #000000;
 }
 
-#topbar:hover a {
-  color: #000;
-}
-
-.clearfix {
-  clear: both;
-}
-
-/* Menu styles */
-
-.menu {
+.menu-basic,
+.menu-advanced {
   margin: 0.2em;
   padding: 0.2em;
 }
 
-.menu span {
+.menu-basic a {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  appearance: button;
+  -moz-appearance: button;
+  -webkit-appearance: button;
+  font-size: 100%;
+  padding-top: 0.7em;
+  padding-right: 1em;
+  padding-bottom: 0.7em;
+  padding-left: 1em;
+}
+
+.menu-advanced span {
   padding-left: 0.3em;
   padding-right: 0.3em;
 }
@@ -237,68 +211,25 @@ textarea {
   white-space: nowrap;
 }
 
-#previousverse {
+.previousverse {
   margin-right: 0.1em;
   padding-right: 0.1em;
 }
 
-#selectverse {
+.selectverse {
   margin-left: 0.1em;
   margin-right: 0.1em;
   padding-left: 0.1em;
   padding-right: 0.1em;
 }
 
-#nextverse {
+.nextverse {
   margin-left: 0.1em;
   padding-left: 0.1em;
 }
-
-/* Verse picker */
-#backforward {
-  cursor: default;
-  float: left;
-  margin-right: 0.5em;
-}
-
-#backforward a,
-#backforward span {
-  font-size: 130%;
-  line-height: 1.5em;
-  padding: 0.4em;
-  padding-bottom: 0.2em;
-  text-decoration: none;
-}
-
-#backforward a:hover {
-  background: #f9f9f9;
-  border-radius: 0.5em;
-}
-
-#versepicker {
-  float: left;
-  padding: 0.5em;
-  margin: -0.5em;
-}
-
-#handpicker {
-  position: absolute;
-  display: none;
-  padding: 1.5em;
-  background: #f0f0f0;
-}
-
-#versepicker:hover #handpicker,
-#versepicker.hover #handpicker,
-#handpicker:hover,
-#handpicker.hover {
-  display: block;
-}
-
-/* Print */
 
 @media print {
-  #topcontainer { display : none; }
+  #topbar { display : none; }
 }
 
 @page { margin: 2cm } 
@@ -318,8 +249,6 @@ textarea {
   orphans:3; 
   widows:2;
 }
-
-/* Workbench */
 
 .iframewrapper {
   text-align: center;
