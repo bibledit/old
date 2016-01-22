@@ -88,6 +88,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/index.h>
 #include <public/logic.h>
 #include <filter/url.h>
+#include <basic/index.h>
 
 
 string menu_logic_href (string href)
@@ -204,6 +205,31 @@ string menu_logic_main_categories (void * webserver_request)
   // When not logged in, display Login menu item.
   if (request->session_logic ()->currentUser ().empty ()) {
     html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
+  }
+
+  return filter_string_implode (html, "\n");
+}
+
+
+string menu_logic_basic_categories (void * webserver_request)
+{
+  vector <string> html;
+  
+  if (edit_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (edit_index_url (), translate ("Translation"), true));
+  }
+  
+  if (notes_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
+  }
+  
+  if (resource_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
+  }
+
+  if (basic_index_acl (webserver_request)) {
+    //html.push_back (menu_logic_create_item (basic_index_url (), translate ("More"), true));
+    html.push_back (menu_logic_create_item (basic_index_url (), "⋮", true));
   }
 
   return filter_string_implode (html, "\n");
@@ -561,6 +587,10 @@ string menu_logic_settings_category (void * webserver_request)
     }
   }
 
+  if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
+    html.push_back (menu_logic_create_item (index_index_url () + convert_to_string ("?mode=basic"), translate ("Basic mode"), true));
+  }
+  
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_settings_text () + ": ");
   }
@@ -581,26 +611,6 @@ string menu_logic_help_category (void * webserver_request)
 
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_help_text () + ": ");
-  }
-  
-  return filter_string_implode (html, "\n");
-}
-
-
-string menu_logic_basic_category (void * webserver_request) // Todo
-{
-  vector <string> html;
-  
-  if (edit_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (edit_index_url (), translate ("Translation"), true));
-  }
-  
-  if (notes_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
-  }
-  
-  if (resource_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
   }
   
   return filter_string_implode (html, "\n");

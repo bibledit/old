@@ -140,24 +140,21 @@ bool config_logic_windows ()
 
 
 // Returns whether the interface is supposed to be in basic mode.
+// When the mode was flipped, this used to expire after some hours.
+// But there may be people working on a tablet,
+// who would want to permanently switch to advanced mode, without this mode to expire.
+// Therefore the mode flip switch is now permanent, till flipped again.
 bool config_logic_basic_mode (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  bool basic_mode = false;
-  
   // When this is a touch-enabled device, the basic mode will be on.
-  if (request->session_logic ()->touchEnabled ()) basic_mode = true;
+  bool basic_mode = request->session_logic ()->touchEnabled ();
   
-  // If the time value to flip the mode is recent enough:
-  // Flip the mode, and update the time value.
-  int now = filter_date_seconds_since_epoch ();
-  int fliptime = request->database_config_user ()->getFlipInterfaceMode ();
-  if (abs (now - fliptime) < 7200) {
-    request->database_config_user ()->setFlipInterfaceMode (now);
+  // Check whether to flip basic <> advanced mode.
+  if (request->database_config_user ()->getFlipInterfaceMode ()) {
     basic_mode = !basic_mode;
   }
   
-  return true; // Todo
   return basic_mode;
 }

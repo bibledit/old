@@ -6390,6 +6390,18 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
+msgid "Translation"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "More"
+msgstr ""
+
 msgid "Visual chapter editor"
 msgstr ""
 
@@ -6486,7 +6498,13 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
+msgid "Basic mode"
+msgstr ""
+
 msgid "Help and About"
+msgstr ""
+
+msgid "Advanced mode"
 msgstr ""
 
 msgid "Translate"
@@ -6508,9 +6526,6 @@ msgid "Consultation notes"
 msgstr ""
 
 msgid "Desktops"
-msgstr ""
-
-msgid "Resources"
 msgstr ""
 
 msgid "Image resources"
@@ -6770,9 +6785,6 @@ msgid "Then save them."
 msgstr ""
 
 msgid "Consultation Notes"
-msgstr ""
-
-msgid "Notes"
 msgstr ""
 
 msgid "select"

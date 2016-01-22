@@ -206,8 +206,8 @@ public:
   void setEditingAllowedDifferenceChapter (int value);
   int getEditingAllowedDifferenceVerse ();
   void setEditingAllowedDifferenceVerse (int value);
-  int getFlipInterfaceMode ();
-  void setFlipInterfaceMode (int value);
+  bool getFlipInterfaceMode ();
+  void setFlipInterfaceMode (bool value);
 private:
   void * webserver_request;
   string file (string user, const char * key);

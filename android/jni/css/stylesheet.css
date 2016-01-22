@@ -200,6 +200,9 @@ textarea {
   padding-right: 1em;
   padding-bottom: 0.7em;
   padding-left: 1em;
+  text-align: center;
+  text-decoration: none!important;
+  border-style: solid;
 }
 
 .menu-advanced span {

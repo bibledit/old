@@ -343,7 +343,8 @@ libbibledit_a_SOURCES = \
 	public/note.cpp \
 	public/comment.cpp \
 	utf8proc/utf8proc.c \
-	search/logic.cpp
+	search/logic.cpp \
+	basic/index.cpp
 
 bin_PROGRAMS = server unittest
 
@@ -375,7 +376,7 @@ LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(SWORD_LIBS)
 
-EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
+EXTRA_DIST = a* basic bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x*
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`

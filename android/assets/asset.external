@@ -28,6 +28,9 @@ assets/view.cpp
 assets/view.h
 assets/xhtml_finish.html
 assets/xhtml_start.html
+basic/index.cpp
+basic/index.h
+basic/index.html
 bible/abbreviations.cpp
 bible/abbreviations.h
 bible/abbreviations.html

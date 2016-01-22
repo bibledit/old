@@ -74,6 +74,8 @@ string session_login (void * webserver_request)
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.
+    // There is also wurfl.io that detects a mobile device in javascript,
+    // but this library is of no immediate use at the server side.
     bool touch_enabled = convert_to_bool (request->post["touch"]);
     if (user.length () < 2) {
       form_is_valid = false;
