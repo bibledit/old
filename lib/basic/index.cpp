@@ -85,6 +85,11 @@ string basic_index (void * webserver_request)
   view.set_variable ("bible", bible);
   
   
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+  }
+  
+  
   page += view.render ("basic", "index");
   page += Assets_Page::footer ();
   return page;
