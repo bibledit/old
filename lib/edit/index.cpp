@@ -137,6 +137,7 @@ string edit_index (void * webserver_request)
   
  
   // In basic mode the editor has no controls and fewer indicators.
+  // In basic mode, the user can just edit text, and cannot style it.
   bool basic_mode = config_logic_basic_mode (webserver_request);
   if (!basic_mode) view.enable_zone ("advancedmode");
   
