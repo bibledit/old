@@ -228,7 +228,8 @@ string menu_logic_basic_categories (void * webserver_request)
   }
 
   if (basic_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (basic_index_url (), translate ("More"), true));
+    //html.push_back (menu_logic_create_item (basic_index_url (), translate ("More"), true));
+    html.push_back (menu_logic_create_item (basic_index_url (), "⋮", true));
   }
 
   return filter_string_implode (html, "\n");
