@@ -32,6 +32,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workbench/index.h>
 #include <config/logic.h>
 #include <session/login.h>
+#include <dialog/list.h>
+#include <access/bible.h>
+#include <ipc/focus.h>
 
 
 const char * basic_index_url ()
@@ -49,12 +52,39 @@ bool basic_index_acl (void * webserver_request)
 string basic_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   
   Assets_Header header = Assets_Header ("Settings", webserver_request);
   string page = header.run ();
-  
   Assets_View view;
 
+  
+  if (request->query.count ("changebible")) {
+    string changebible = request->query ["changebible"];
+    if (changebible == "") {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to make the active one for editing"), "", "");
+      vector <string> bibles = access_bible_bibles (request);
+      for (auto & bible : bibles) {
+        dialog_list.add_row (bible, "changebible", bible);
+      }
+      page += dialog_list.run();
+      return page;
+    } else {
+      request->database_config_user()->setBible (changebible);
+      // Going to another Bible, ensure that the focused book exists there.
+      int book = Ipc_Focus::getBook (request);
+      vector <int> books = request->database_bibles()->getBooks (changebible);
+      if (find (books.begin(), books.end(), book) == books.end()) {
+        if (!books.empty ()) book = books [0];
+        else book = 0;
+        Ipc_Focus::set (request, book, 1, 1);
+      }
+    }
+  }
+  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+  view.set_variable ("bible", bible);
+  
+  
   page += view.render ("basic", "index");
   page += Assets_Page::footer ();
   return page;
