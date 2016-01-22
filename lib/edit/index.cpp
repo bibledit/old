@@ -33,6 +33,7 @@
 #include <dialog/list.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string edit_index_url ()
@@ -133,6 +134,12 @@ string edit_index (void * webserver_request)
                                                        direction,
                                                        lineheight,
                                                        letterspacing));
+  
+ 
+  // In basic mode the editor has no controls and fewer indicators.
+  bool basic_mode = config_logic_basic_mode (webserver_request);
+  if (!basic_mode) view.enable_zone ("advancedmode");
+  
   
   page += view.render ("edit", "index");
   
