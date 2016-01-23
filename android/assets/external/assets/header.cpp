@@ -172,6 +172,11 @@ string Assets_Header::run ()
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
     
+    // In basic mode there's no back button in a bare browser.
+    if (basic_mode) {
+      view->disable_zone ("bare_browser");
+    }
+    
     // The start button to be displayed only when there's no menu.
     bool start_button = true;
     

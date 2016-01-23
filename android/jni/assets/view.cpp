@@ -51,6 +51,12 @@ void Assets_View::enable_zone (string zone)
 }
 
 
+void Assets_View::disable_zone (string zone)
+{
+  zones.erase (zone);
+}
+
+
 // Renders the "tpl" template through the flate template engine.
 // The "tpl" consists of two bits: 
 // 1: Relative folder

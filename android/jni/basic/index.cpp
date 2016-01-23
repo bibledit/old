@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/list.h>
 #include <access/bible.h>
 #include <ipc/focus.h>
+#include <client/logic.h>
 
 
 const char * basic_index_url ()
@@ -83,6 +84,14 @@ string basic_index (void * webserver_request)
   }
   string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
   view.set_variable ("bible", bible);
+  
+  
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+    if (client_logic_client_enabled ()) {
+      view.enable_zone ("connected");
+    }
+  }
   
   
   page += view.render ("basic", "index");
