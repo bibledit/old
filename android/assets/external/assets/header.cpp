@@ -252,25 +252,29 @@ string Assets_Header::run ()
   
   if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
     if (!breadcrumbs.empty ()) {
-      string track;
-      track.append ("<a href=\"/");
-      track.append (index_index_url ());
-      track.append ("\">");
-      track.append (menu_logic_menu_text (""));
-      track.append ("</a>");
-      for (auto & crumb : breadcrumbs) {
-        track.append (" » ");
-        if (!crumb.first.empty ()) {
-          track.append ("<a href=\"/");
-          track.append (menu_logic_menu_url (crumb.first));
-          track.append ("\">");
+      // No bread crumbs in basic mode.
+      // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
+      if (!config_logic_basic_mode (webserver_request)) {
+        string track;
+        track.append ("<a href=\"/");
+        track.append (index_index_url ());
+        track.append ("\">");
+        track.append (menu_logic_menu_text (""));
+        track.append ("</a>");
+        for (auto & crumb : breadcrumbs) {
+          track.append (" » ");
+          if (!crumb.first.empty ()) {
+            track.append ("<a href=\"/");
+            track.append (menu_logic_menu_url (crumb.first));
+            track.append ("\">");
+          }
+          track.append (crumb.second);
+          if (!crumb.first.empty ()) {
+            track.append ("</a>");
+          }
         }
-        track.append (crumb.second);
-        if (!crumb.first.empty ()) {
-          track.append ("</a>");
-        }
+        view->set_variable ("breadcrumbs", track);
       }
-      view->set_variable ("breadcrumbs", track);
     }
   }
   
