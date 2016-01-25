@@ -252,6 +252,8 @@ string Assets_Header::run ()
   
   if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
     if (!breadcrumbs.empty ()) {
+      // No bread crumbs in basic mode.
+      // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
       if (!config_logic_basic_mode (webserver_request)) {
         string track;
         track.append ("<a href=\"/");
