@@ -60,7 +60,7 @@ string editone_load (void * webserver_request)
 
   string focused_verse_usfm = usfm_get_verse_text (usfm, verse);
 
-  if (part == "prefix") {
+  if (part == "prefix") { // Todo move usfm selection to a filter. Test that filter well.
     vector <string> lines;
     string previous_usfm;
     for (int vs = 0; vs < verse; vs++) {
@@ -102,7 +102,7 @@ string editone_load (void * webserver_request)
     return Checksum_Logic::send (html, readwrite);
   }
   
-  if (part == "suffix") {
+  if (part == "suffix") { // Todo move the usfm selection to a filter, and test that filter well.
     vector <int> verses = usfm_get_verse_numbers (usfm);
     vector <string> lines;
     string previous_usfm;

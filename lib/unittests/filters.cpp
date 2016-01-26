@@ -272,12 +272,15 @@ void test_filters_various2 ()
 }
 
 
-void test_filters_usfm2 ()
+void test_filters_usfm2 () // Todo
 {
   trace_unit_tests (__func__);
   
   {
-    string usfm =
+    string usfm;
+    string result;
+
+    usfm =
     "\\id MIC";
     evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
 
@@ -395,13 +398,12 @@ void test_filters_usfm2 ()
     "\\v 13 Bengilezinto\n"
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
-    string result = "\\c 1\n\\s Isibingelelo\n\\p";
+    result = "\\c 1\n\\s Isibingelelo\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
     result = "\\v 1 Umdala\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
     result = "\\v 12 NgoDemetriyu\n\\s Isicino\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12));
-    
     
     usfm =
     "\\v 1 Verse 1.\n"
@@ -414,6 +416,20 @@ void test_filters_usfm2 ()
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
     result = usfm_get_verse_text (usfm, 4);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    
+    usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\v 2-3 Two three\n"
+    "\\v 4 Four\n"
+    "\\v 5 Five";
+    result = "\\v 1 One\n\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, ""));
+    result = "\\v 1 One\n\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, ""));
+    result = "\\v 4 Four";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three"));
   }
 }
 
