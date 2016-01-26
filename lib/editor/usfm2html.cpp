@@ -113,8 +113,8 @@ string Editor_Usfm2Html::get ()
 
 void Editor_Usfm2Html::preprocess ()
 {
-  currentParagraphStyle = "";
-  currentParagraphContent = "";
+  currentParagraphStyle.clear ();
+  currentParagraphContent.clear ();
   currentTextStyles.clear();
   noteCount = 0;
   currentNoteTextStyles.clear();
