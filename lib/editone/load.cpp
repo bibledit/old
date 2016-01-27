@@ -60,20 +60,9 @@ string editone_load (void * webserver_request)
 
   string focused_verse_usfm = usfm_get_verse_text (usfm, verse);
 
-  if (part == "prefix") { // Todo move usfm selection to a filter. Test that filter well.
-    vector <string> lines;
-    string previous_usfm;
-    for (int vs = 0; vs < verse; vs++) {
-      string prefix_verse_usfm = usfm_get_verse_text (usfm, vs);
-      // No repeating USFM in case of combined verses.
-      if (prefix_verse_usfm == previous_usfm) continue;
-      previous_usfm = prefix_verse_usfm;
-      // In case of combined verses, ensure that no part of a focused combined verse gets into the prefix.
-      if (prefix_verse_usfm != focused_verse_usfm) {
-        lines.push_back (prefix_verse_usfm);
-      }
-    }
-    usfm = filter_string_implode (lines, "\n");
+  if (part == "prefix") {
+    
+    usfm = usfm_get_verse_range_text (usfm, 0, verse - 1, focused_verse_usfm);
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
@@ -102,25 +91,13 @@ string editone_load (void * webserver_request)
     return Checksum_Logic::send (html, readwrite);
   }
   
-  if (part == "suffix") { // Todo move the usfm selection to a filter, and test that filter well.
-    vector <int> verses = usfm_get_verse_numbers (usfm);
-    vector <string> lines;
-    string previous_usfm;
-    for (auto vs : verses) {
-      if (vs > verse) {
-        string suffix_verse_usfm = usfm_get_verse_text (usfm, vs);
-        // No repeating USFM in case of combined verses.
-        if (suffix_verse_usfm == previous_usfm) continue;
-        previous_usfm = suffix_verse_usfm;
-        // In case of combined verses, ensure that no part of a focused combined verse gets into the suffix.
-        if (suffix_verse_usfm != focused_verse_usfm) {
-          lines.push_back (suffix_verse_usfm);
-        }
-      }
-    }
-
-    usfm = filter_string_implode (lines, "\n");
+  if (part == "suffix") {
     
+    vector <int> verses = usfm_get_verse_numbers (usfm);
+    int highest_verse = 0;
+    if (!verses.empty ()) highest_verse = verses.back ();
+    usfm = usfm_get_verse_range_text (usfm, verse + 1, highest_verse, focused_verse_usfm);
+
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (stylesheet);

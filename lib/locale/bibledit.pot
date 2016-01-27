@@ -76,6 +76,14 @@ msgstr ""
 msgid "Select the Bible for editing:"
 msgstr ""
 
+msgid "Send and receive."
+msgstr ""
+
+msgid ""
+"This is for sending your changes to Bibledit Cloud, and receiving changes "
+"made by others."
+msgstr ""
+
 msgid "Connection to Bibledit Cloud."
 msgstr ""
 
