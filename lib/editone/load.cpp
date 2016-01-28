@@ -24,6 +24,10 @@
 #include <webserver/request.h>
 #include <checksum/logic.h>
 #include <editor/usfm2html.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 string editone_load_url ()
@@ -56,59 +60,85 @@ string editone_load (void * webserver_request)
   
   string stylesheet = request->database_config_user()->getStylesheet ();
 
-  string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
-  string focused_verse_usfm = usfm_get_verse_text (usfm, verse);
+  string focused_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+  
+  vector <int> verses = usfm_get_verse_numbers (chapter_usfm);
+  int highest_verse = 0;
+  if (!verses.empty ()) highest_verse = verses.back ();
 
-  if (part == "prefix") {
-    
-    usfm = usfm_get_verse_range_text (usfm, 0, verse - 1, focused_verse_usfm);
+  string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, focused_verse_usfm);
 
+  string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, focused_verse_usfm);
+  
+  // Last paragraph style of the prefix: To be used for the starting visual style for the focused verse.
+  string prefix_paragraph_style;
+  
+  string prefix_html;
+  if (!prefix_usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
-    editor_usfm2html.load (usfm);
+    editor_usfm2html.load (prefix_usfm);
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
-    
-    string html = editor_usfm2html.get ();
-    
-    html = editone_load_remove_id_notes (html);
-    
-    return html;
+    prefix_html = editor_usfm2html.get ();
+    prefix_paragraph_style = editor_usfm2html.currentParagraphStyle;
   }
   
-  if (part == "verse") {
-
+  // Last paragraph style of the focused verse: For the starting visual style of the suffix.
+  string focused_verse_paragraph_style;
+  string focused_verse_html;
+  if (!focused_verse_usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (focused_verse_usfm);
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
-    
-    string html = editor_usfm2html.get ();
-
-    string user = request->session_logic ()->currentUser ();
-    bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
-
-    return Checksum_Logic::send (html, readwrite);
+    focused_verse_html = editor_usfm2html.get ();
+    focused_verse_html = editone_load_remove_id_notes (focused_verse_html);
+    focused_verse_paragraph_style = editor_usfm2html.currentParagraphStyle;
   }
   
-  if (part == "suffix") {
-    
-    vector <int> verses = usfm_get_verse_numbers (usfm);
-    int highest_verse = 0;
-    if (!verses.empty ()) highest_verse = verses.back ();
-    usfm = usfm_get_verse_range_text (usfm, verse + 1, highest_verse, focused_verse_usfm);
-
+  string suffix_html;
+  if (!suffix_usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
-    editor_usfm2html.load (usfm);
+    editor_usfm2html.load (suffix_usfm);
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
-    
-    string html = editor_usfm2html.get ();
-    
-    html = editone_load_remove_id_notes (html);
-
-    return html;
+    suffix_html = editor_usfm2html.get ();
+    suffix_html = editone_load_remove_id_notes (suffix_html);
   }
   
-  return "";
+  // If the first paragraph of the suffix does not have a paragraph style applied,
+  // apply the last paragraph style of the focused verse to the first paragraph of the suffix.
+  // For example, html like this:
+  // <p><span class="v">7</span><span> </span><span>For Yahweh knows the way of the righteous,</span></p><p class="q2"><span>but the way of the wicked shall perish.</span></p>
+  // ... becomes like this:
+  // <p class="q1"><span class="v">7</span><span /><span>For Yahweh knows the way of the righteous,</span></p><p class="q2"><span>but the way of the wicked shall perish.</span></p>
+  if (!suffix_html.empty ()) {
+    if (!focused_verse_paragraph_style.empty ()) {
+      xml_document document;
+      document.load_string (suffix_html.c_str());
+      xml_node p_node = document.first_child ();
+      string p_style = p_node.attribute ("class").value ();
+      if (p_style.empty ()) {
+        p_node.append_attribute ("class") = focused_verse_paragraph_style.c_str ();
+      }
+      stringstream output;
+      document.print (output, "", format_raw);
+      suffix_html = output.str ();
+    }
+  }
+
+  string data;
+  data.append (prefix_html);
+  data.append ("#_be_#");
+  data.append (focused_verse_html);
+  data.append ("#_be_#");
+  data.append (suffix_html);
+  
+  string user = request->session_logic ()->currentUser ();
+  bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
+  data = Checksum_Logic::send (data, readwrite);
+  
+  return data;
 }

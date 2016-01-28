@@ -75,7 +75,7 @@ string editone_save (void * webserver_request)
 
   
   // Decode html encoded in javascript.
-  html = filter_url_tag_to_plus (html);
+  html = filter_url_tag_to_plus (html); // Todo check load and save of + signs.
 
   
   // Check there's anything to save at all.

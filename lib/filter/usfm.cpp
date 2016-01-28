@@ -386,7 +386,7 @@ string usfm_get_verse_text (string usfm, int verse_number)
 // Returns the USFM text for a range of verses for the input $usfm code.
 // It handles combined verses.
 // It ensures that the $exclude_usfm does not make it to the output of the function.
-string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm) // Todo
+string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm)
 {
   vector <string> bits;
   string previous_usfm;

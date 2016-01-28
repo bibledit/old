@@ -686,7 +686,7 @@ void test_editor_html2usfm ()
 }
 
 
-void test_editor_usfm2html () // Todo
+void test_editor_usfm2html ()
 {
   trace_unit_tests (__func__);
   

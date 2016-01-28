@@ -272,7 +272,7 @@ void test_filters_various2 ()
 }
 
 
-void test_filters_usfm2 () // Todo
+void test_filters_usfm2 ()
 {
   trace_unit_tests (__func__);
   
