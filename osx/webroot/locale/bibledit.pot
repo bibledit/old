@@ -70,6 +70,36 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
+msgid "Select which Bible to make the active one for editing"
+msgstr ""
+
+msgid "Select the Bible for editing:"
+msgstr ""
+
+msgid "Send and receive."
+msgstr ""
+
+msgid ""
+"This is for sending your changes to Bibledit Cloud, and receiving changes "
+"made by others."
+msgstr ""
+
+msgid "Connection to Bibledit Cloud."
+msgstr ""
+
+msgid "This is for collaboration with fellow translators and for backup."
+msgstr ""
+
+msgid "Switch to advanced mode."
+msgstr ""
+
+msgid "Advanced mode offers more options than basic mode."
+msgstr ""
+
+msgid ""
+"Once in advanced mode, return to basic mode via menu Settings / Basic mode."
+msgstr ""
+
 msgid "Abbreviations"
 msgstr ""
 
@@ -6399,9 +6429,6 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-msgid "More"
-msgstr ""
-
 msgid "Visual chapter editor"
 msgstr ""
 
@@ -6502,9 +6529,6 @@ msgid "Basic mode"
 msgstr ""
 
 msgid "Help and About"
-msgstr ""
-
-msgid "Advanced mode"
 msgstr ""
 
 msgid "Translate"

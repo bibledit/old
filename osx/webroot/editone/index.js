@@ -58,6 +58,7 @@ var oneverseEditorTextChanged = false;
 var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
 var oneverseSaving = false;
+var oneverseAddedStyle = 0;
 
 
 /*
@@ -116,24 +117,48 @@ function oneverseEditorLoadVerse ()
         if (oneverseEditorWriteAccess != contenteditable) $ ("#oneeditor").attr('contenteditable', oneverseEditorWriteAccess);
         // Checksumming.
         response = checksum_receive (response);
+        // Splitting.
+        var bits;
+        if (response !== false) {
+          bits = response.split ("#_be_#");
+          if (bits.length != 4) response == false;
+        }
+        if (response !== false) {
+          oneverseAddedStyle = bits [0];
+        }
+        if (response !== false) {
+          $ ("#oneprefix").empty ();
+          $ ("#oneprefix").append (bits [1]);
+          $ ("#oneprefix").off ("click");
+          $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
+        }
         if (response !== false) {
           $ ("#oneeditor").empty ();
-          $ ("#oneeditor").append (response);
+          $ ("#oneeditor").append (bits [2]);
           oneverseVerseLoaded = oneverseVerseLoading;
           oneverseEditorStatus (oneverseEditorVerseLoaded);
-          oneverseLoadedText = response;
+          oneverseLoadedText = bits [2];
           oneverseReload = false;
           oneverseCaretMovedTimeoutStart ();
-        } else {
-          // Checksum error: Reload.
+        }
+        if (response !== false) {
+          $ ("#onesuffix").empty ();
+          $ ("#onesuffix").append (bits [3]);
+          $ ("#onesuffix").off ("click");
+          $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
+        }
+        if (response !== false) {
+          oneverseScrollVerseIntoView ();
+          oneversePositionCaret ();
+        }
+        if (response === false) {
+          // Checksum or other error: Reload.
           oneverseReload = true;
           oneverseEditorLoadVerse ();
         }
       },
     });
   }
-  oneverseEditorLoadPrefix ();
-  oneverseEditorLoadSuffix ();
 }
 
 
@@ -167,7 +192,7 @@ function oneverseEditorSaveVerse (sync)
     url: "save",
     type: "POST",
     async: oneverseSaveAsync,
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum },
+    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum, style: oneverseAddedStyle },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorStatus (oneverseEditorChapterRetrying);
       oneverseLoadedText = "";
@@ -296,75 +321,6 @@ function oneversePositionCaretTimeout ()
 {
   var selection = rangy.getSelection ();
   selection.move ("character", 4);
-}
-
-
-/*
- 
-Section for loading prefix and suffix.
-
-*/
-
-
-var oneverseEditorLoadPrefixRetry;
-var oneverseEditorLoadSuffixRetry;
-
-
-function oneverseEditorLoadPrefix ()
-{
-  $.ajax ({
-    url: "load",
-    type: "GET",
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerse, part: "prefix" },
-    success: function (response) {
-      $ ("#oneprefix").empty ();
-      $ ("#oneprefix").append (response);
-      oneverseScrollVerseIntoView ();
-      oneversePositionCaret ();
-      $ ("#oneprefix").off ("click");
-      $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      oneverseEditorLoadPrefixRetry ();
-    },
-  });
-}
-
-
-function oneverseEditorLoadSuffix ()
-{
-  $.ajax ({
-    url: "load",
-    type: "GET",
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerse, part: "suffix" },
-    success: function (response) {
-      $ ("#onesuffix").empty ();
-      $ ("#onesuffix").append (response);
-      $ ("#onesuffix").off ("click");
-      $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      oneverseEditorLoadSuffixRetry ();
-    },
-  });
-}
-
-
-function oneverseEditorLoadPrefixRetry ()
-{
-  if (oneverseEditorLoadPrefixRetry) {
-    clearTimeout (oneverseEditorLoadPrefixRetry);
-  }
-  oneverseEditorLoadPrefixRetry = setTimeout (oneverseEditorLoadPrefix, 500);
-}
-
-
-function oneverseEditorLoadSuffixRetry ()
-{
-  if (oneverseEditorLoadSuffixRetry) {
-    clearTimeout (oneverseEditorLoadSuffixRetry);
-  }
-  oneverseEditorLoadSuffixRetry = setTimeout (oneverseEditorLoadSuffix, 500);
 }
 
 
