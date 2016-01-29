@@ -31,6 +31,7 @@ public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
   void jQueryUIOn ();
+  void jQueryMobileTouchOn ();
   void touchCSSOn();
   void setNavigator ();
   void setStylesheet ();
@@ -43,6 +44,7 @@ public:
 private:
   Assets_View * view;
   bool includeJQueryUI;
+  bool includeJQueryMobileTouch;
   bool includeTouchCSS;
   vector <string> headLines;
   bool displayNavigator;
