@@ -716,11 +716,17 @@ msgstr ""
 msgid "Or click the ✗."
 msgstr ""
 
+msgid "Or swipe it away."
+msgstr ""
+
 msgid ""
 "Use the left and right arrow keys to expand or collapse the selected entry."
 msgstr ""
 
 msgid "Or click the ⊞."
+msgstr ""
+
+msgid "Or touch and hold it."
 msgstr ""
 
 msgid "The expanded entry provides more information and options."
