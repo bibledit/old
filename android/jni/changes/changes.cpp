@@ -57,11 +57,15 @@ string changes_changes (void * webserver_request)
   Database_Modifications database_modifications = Database_Modifications ();
   Database_Notes database_notes = Database_Notes (request);
   
+
+  bool touch = request->session_logic ()->touchEnabled ();
+
   
   string page;
   Assets_Header header = Assets_Header (translate("Changes"), request);
   header.setStylesheet ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  if (touch) header.jQueryMobileTouchOn ();
   page += header.run ();
   Assets_View view;
   
@@ -203,6 +207,12 @@ string changes_changes (void * webserver_request)
   }
   view.set_variable ("dismissblock", dismissblock);
   
+  
+  view.set_variable ("VERSION", config_logic_version ());
+
+  
+  if (touch) view.enable_zone ("touch");
+
   
   page += view.render ("changes", "changes");
   

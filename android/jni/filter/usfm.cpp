@@ -383,6 +383,28 @@ string usfm_get_verse_text (string usfm, int verse_number)
 }
 
 
+// Returns the USFM text for a range of verses for the input $usfm code.
+// It handles combined verses.
+// It ensures that the $exclude_usfm does not make it to the output of the function.
+string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm)
+{
+  vector <string> bits;
+  string previous_usfm;
+  for (int vs = verse_from; vs <= verse_to; vs++) {
+    string verse_usfm = usfm_get_verse_text (usfm, vs);
+    // Do not include repeating USFM in the case of combined verse numbers in the input USFM code.
+    if (verse_usfm == previous_usfm) continue;
+    previous_usfm = verse_usfm;
+    // In case of combined verses, the excluded USFM should not be included in the result.
+    if (verse_usfm != exclude_usfm) {
+      bits.push_back (verse_usfm);
+    }
+  }
+  usfm = filter_string_implode (bits, "\n");
+  return usfm;
+}
+
+
 // Returns true if the $code contains a USFM marker.
 bool usfm_is_usfm_marker (string code)
 {

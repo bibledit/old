@@ -32,6 +32,8 @@ $(document).ready (function () {
   $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
   $ ("#usfmeditor").focus ();
   $ (window).on ("focus", usfmWindowFocused);
+  $ ("body").on ("swipeleft", editusfmSwipeLeft);
+  $ ("body").on ("swiperight", editusfmSwipeRight);
 });
 
 
@@ -386,6 +388,33 @@ function clarifyCaret ()
     barTop = barOffset + $ ("#caretbar").height ();
   }
   $ ("#caretbar").prepend ("\n");
+}
+
+
+/*
+ 
+ Section for swipe navigation.
+
+ */
+
+
+function editusfmSwipeLeft (event)
+{
+  if (typeof navigateNextChapter != 'undefined') {
+    navigateNextChapter (event);
+  } else if (parent.window.navigateNextChapter != 'undefined') {
+    parent.window.navigateNextChapter (event);
+  }
+}
+
+
+function editusfmSwipeRight (event)
+{
+  if (typeof navigatePreviousChapter != 'undefined') {
+    navigatePreviousChapter (event);
+  } else if (parent.window.navigatePreviousChapter != 'undefined') {
+    parent.window.navigatePreviousChapter (event);
+  }
 }
 
 

@@ -52,6 +52,9 @@ string editusfm_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
+  bool touch = request->session_logic ()->touchEnabled ();
+
+  
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
     string switchbook = request->query ["switchbook"];
     string switchchapter = request->query ["switchchapter"];
@@ -67,6 +70,7 @@ string editusfm_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit USFM"), request);
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  if (touch) header.jQueryMobileTouchOn ();
   page = header.run ();
   
   if (request->query.count("changebible")) {

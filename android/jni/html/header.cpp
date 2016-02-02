@@ -39,11 +39,6 @@ Html_Header::Html_Header (void * html_text)
 }
 
 
-Html_Header::~Html_Header ()
-{
-}
-
-
 void Html_Header::searchBackLink (string url, string text)
 {
   searchBackLinkUrl = url;

@@ -27,6 +27,8 @@ $(document).ready (function () {
     document.execCommand ("insertHTML", false, data);
   });
   verseIdPoller ();
+  $ ("body").on ("swipeleft", editverseSwipeLeft);
+  $ ("body").on ("swiperight", editverseSwipeRight);
 });
 
 
@@ -225,4 +227,24 @@ function verseFocused ()
 function verseFocus ()
 {
   $ ("span[contenteditable]").focus ();
+}
+
+
+function editverseSwipeLeft (event)
+{
+  if (typeof navigateNextVerse != 'undefined') {
+    navigateNextVerse (event);
+  } else if (parent.window.navigateNextVerse != 'undefined') {
+    parent.window.navigateNextVerse (event);
+  }
+}
+
+
+function editverseSwipeRight (event)
+{
+  if (typeof navigatePreviousVerse != 'undefined') {
+    navigatePreviousVerse (event);
+  } else if (parent.window.navigatePreviousVerse != 'undefined') {
+    parent.window.navigatePreviousVerse (event);
+  }
 }

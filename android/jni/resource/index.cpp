@@ -49,10 +49,14 @@ string resource_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
+  bool touch = request->session_logic ()->touchEnabled ();
+
+  
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.setNavigator ();
   header.setStylesheet ();
+  if (touch) header.jQueryMobileTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view;

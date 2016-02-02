@@ -38,6 +38,7 @@ public:
   string get ();
   size_t textLength;
   map <int, int> verseStartOffsets;
+  string currentParagraphStyle;
 private:
   vector <string> markersAndText; // Strings alternating between USFM and text.
   unsigned int markersAndTextPointer = 0;
@@ -55,7 +56,6 @@ private:
   
   xml_node currentPnode; // The current p node.
   bool current_p_open = false;
-  string currentParagraphStyle;
   string currentParagraphContent;
   vector <string> currentTextStyles;
   
