@@ -46,6 +46,9 @@ $ (document).ready (function ()
   });
   
   positionCaretViaAjax ();
+  
+  $ ("body").on ("swipeleft", editorSwipeLeft);
+  $ ("body").on ("swiperight", editorSwipeRight);
 });
 
 
@@ -952,4 +955,31 @@ function editorLog (msg)
   var seconds = date.getSeconds();
   var milliseconds = date.getMilliseconds();
   console.log (seconds + " " + milliseconds + ": " + msg);
+}
+
+
+/*
+ 
+ Section for swipe navigation.
+ 
+ */
+
+
+function editorSwipeLeft (event)
+{
+  if (typeof navigateNextChapter != 'undefined') {
+    navigateNextChapter (event);
+  } else if (parent.window.navigateNextChapter != 'undefined') {
+    parent.window.navigateNextChapter (event);
+  }
+}
+
+
+function editorSwipeRight (event)
+{
+  if (typeof navigatePreviousChapter != 'undefined') {
+    navigatePreviousChapter (event);
+  } else if (parent.window.navigatePreviousChapter != 'undefined') {
+    parent.window.navigatePreviousChapter (event);
+  }
 }

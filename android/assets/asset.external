@@ -596,6 +596,7 @@ help/methodology.html
 help/navigation.html
 help/scrum.html
 help/shortcuts.html
+help/swiping.html
 help/teams.html
 help/tipstricks.html
 help/typesetting.html
@@ -647,6 +648,8 @@ jquery/jquery-ui-1.11.4/jquery-ui.structure.css
 jquery/jquery-ui-1.11.4/jquery-ui.structure.min.css
 jquery/jquery-ui-1.11.4/jquery-ui.theme.css
 jquery/jquery-ui-1.11.4/jquery-ui.theme.min.css
+jquery/jquery.mobile-1.4.5-touch/jquery.mobile.custom.js
+jquery/jquery.mobile-1.4.5-touch/jquery.mobile.custom.min.js
 jquery/jquery.mobile-1.4.5/images/ajax-loader.gif
 jquery/jquery.mobile-1.4.5/images/icons-png/action-black.png
 jquery/jquery.mobile-1.4.5/images/icons-png/action-white.png
@@ -865,6 +868,7 @@ jquery/jquery.mobile-1.4.5/jquery.mobile.structure-1.4.5.css
 jquery/jquery.mobile-1.4.5/jquery.mobile.structure-1.4.5.min.css
 jquery/jquery.mobile-1.4.5/jquery.mobile.theme-1.4.5.css
 jquery/jquery.mobile-1.4.5/jquery.mobile.theme-1.4.5.min.css
+jquery/jquery.ui.touch-punch.js
 jquery/jquery.ui.touch-punch.min.js
 jquery/readme.txt
 jquery/smoothness/images/animated-overlay.gif

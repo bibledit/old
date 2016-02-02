@@ -139,6 +139,18 @@ string navigation_update (void * webserver_request)
   }
   
 
+  // Go to the previous chapter.
+  else if (request->query.count ("previouschapter")) {
+    Navigation_Passage::gotoPreviousChapter (webserver_request, bible);
+  }
+  
+  
+  // Go to the next chapter.
+  else if (request->query.count ("nextchapter")) {
+    Navigation_Passage::gotoNextChapter (webserver_request, bible);
+  }
+  
+  
   // Build the navigation fragment.
   return Navigation_Passage::getNavigator (request, bible);
 }

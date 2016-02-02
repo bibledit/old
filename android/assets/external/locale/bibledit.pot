@@ -76,6 +76,14 @@ msgstr ""
 msgid "Select the Bible for editing:"
 msgstr ""
 
+msgid "Send and receive."
+msgstr ""
+
+msgid ""
+"This is for sending your changes to Bibledit Cloud, and receiving changes "
+"made by others."
+msgstr ""
+
 msgid "Connection to Bibledit Cloud."
 msgstr ""
 
@@ -708,11 +716,17 @@ msgstr ""
 msgid "Or click the ✗."
 msgstr ""
 
+msgid "Or swipe it away."
+msgstr ""
+
 msgid ""
 "Use the left and right arrow keys to expand or collapse the selected entry."
 msgstr ""
 
 msgid "Or click the ⊞."
+msgstr ""
+
+msgid "Or touch and hold it."
 msgstr ""
 
 msgid "The expanded entry provides more information and options."

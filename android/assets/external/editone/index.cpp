@@ -51,6 +51,8 @@ string editone_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
+  bool touch = request->session_logic ()->touchEnabled ();
+
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
     int switchbook = convert_to_int (request->query ["switchbook"]);
     int switchchapter = convert_to_int (request->query ["switchchapter"]);
@@ -63,6 +65,7 @@ string editone_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit verse"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  if (touch) header.jQueryMobileTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
@@ -127,3 +130,5 @@ string editone_index (void * webserver_request)
 // * Autosave on going to another passage.
 // * Autosave on document unload.
 // * Autosave shortly after any change.
+// * Save the + sign of a note.
+// * No loss of white space right after the verse number.
