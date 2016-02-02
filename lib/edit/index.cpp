@@ -72,7 +72,6 @@ string edit_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
-  touch = true; // Todo
   if (touch) header.jQueryMobileTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
