@@ -53,6 +53,9 @@ string edit_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
+  bool touch = request->session_logic ()->touchEnabled ();
+
+  
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
     int switchbook = convert_to_int (request->query ["switchbook"]);
     int switchchapter = convert_to_int (request->query ["switchchapter"]);
@@ -69,6 +72,8 @@ string edit_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  touch = true; // Todo
+  if (touch) header.jQueryMobileTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
