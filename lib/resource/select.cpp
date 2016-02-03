@@ -68,7 +68,7 @@ string resource_select (void * webserver_request)
   view.set_variable ("caller", caller);
   
   
-  if (request->query.count ("bible")) { // Todo
+  if (request->query.count ("bible")) {
     // Any resources added is POSTed because when it was still done through GET,
     // the crawlers of the search engines kept clicking links and so adding resources on the public demo.
     // The POST method is supposed to be immune to that.
