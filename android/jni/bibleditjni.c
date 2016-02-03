@@ -42,7 +42,7 @@ void Java_org_bibledit_android_MainActivity_InitializeLibrary (JNIEnv* env, jobj
 }
 
 
-void Java_org_bibledit_android_MainActivity_SetTouchEnabled (JNIEnv* env, jobject obj, bool enabled)
+void Java_org_bibledit_android_MainActivity_SetTouchEnabled (JNIEnv* env, jobject obj, jboolean enabled)
 {
     bibledit_set_touch_enabled (enabled);
 }
