@@ -44,7 +44,10 @@ void Java_org_bibledit_android_MainActivity_InitializeLibrary (JNIEnv* env, jobj
 
 void Java_org_bibledit_android_MainActivity_SetTouchEnabled (JNIEnv* env, jobject obj, jboolean enabled)
 {
+    // This fails to work on Android 6.
     bibledit_set_touch_enabled ((enabled == JNI_TRUE));
+    // Set it always to true.
+    bibledit_set_touch_enabled (true);
 }
 
 
