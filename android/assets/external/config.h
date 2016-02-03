@@ -95,7 +95,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.360"
+#define PACKAGE_STRING "bibledit 1.0.361"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -104,7 +104,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.360"
+#define PACKAGE_VERSION "1.0.361"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 3
@@ -128,7 +128,7 @@
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.360"
+#define VERSION "1.0.361"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */

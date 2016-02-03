@@ -295,6 +295,7 @@ databases/usfmresources/gitflag
 debug/index.cpp
 debug/index.h
 debug/index.html
+debug/index.js
 debug/logic.cpp
 debug/logic.h
 demo/00-FRTeng-web.usfm

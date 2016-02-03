@@ -312,6 +312,7 @@ var editorCaretInitialized = false;
 
 function editorCaretChangedByMouse (event)
 {
+  if (editorPositionCaretProgrammatically) return;
   editorCaretMovedTimeoutStart ();
 }
 
@@ -319,6 +320,7 @@ function editorCaretChangedByMouse (event)
 function editorCaretChangedByKeyboard (event)
 {
   if (editKeysIgnoreForCaretChange (event)) return;
+  if (editorPositionCaretProgrammatically) return;
   editorCaretMovedTimeoutStart ();
 }
 
@@ -496,6 +498,7 @@ function positionCaret (position)
 
 var editorPositionCaretCount = 0;
 var editorPositionCaretOffset = 0;
+var editorPositionCaretProgrammatically = false;
 
 function editorPositionCaretExecute ()
 {
@@ -503,12 +506,14 @@ function editorPositionCaretExecute ()
   if (editorPositionCaretCount > 0) {
     var currentPosition = getCaretPosition ();
     if (currentPosition == undefined) return;
+    editorPositionCaretProgrammatically = true;
     var selection = rangy.getSelection ();
     var desiredPosition = parseInt (editorPositionCaretOffset);
     // Fix bug that it jumps to the previous verse through positioning the cursor slightly off-location.
     if (editorPositionCaretCount == 3) desiredPosition += 5;
     selection.move ("character", desiredPosition - currentPosition);
     currentPosition = getCaretPosition ();
+    editorPositionCaretProgrammatically = false;
     if (editorPositionCaretOffset == currentPosition) return;
     editorPositionCaretCount--;
     setTimeout (editorPositionCaretExecute, 10);
