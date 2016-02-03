@@ -46,6 +46,9 @@ $ (document).ready (function ()
   });
   
   positionCaretViaAjax ();
+  
+  $ ("body").on ("swipeleft", editorSwipeLeft);
+  $ ("body").on ("swiperight", editorSwipeRight);
 });
 
 
@@ -309,6 +312,7 @@ var editorCaretInitialized = false;
 
 function editorCaretChangedByMouse (event)
 {
+  if (editorPositionCaretProgrammatically) return;
   editorCaretMovedTimeoutStart ();
 }
 
@@ -316,6 +320,7 @@ function editorCaretChangedByMouse (event)
 function editorCaretChangedByKeyboard (event)
 {
   if (editKeysIgnoreForCaretChange (event)) return;
+  if (editorPositionCaretProgrammatically) return;
   editorCaretMovedTimeoutStart ();
 }
 
@@ -493,6 +498,7 @@ function positionCaret (position)
 
 var editorPositionCaretCount = 0;
 var editorPositionCaretOffset = 0;
+var editorPositionCaretProgrammatically = false;
 
 function editorPositionCaretExecute ()
 {
@@ -500,12 +506,14 @@ function editorPositionCaretExecute ()
   if (editorPositionCaretCount > 0) {
     var currentPosition = getCaretPosition ();
     if (currentPosition == undefined) return;
+    editorPositionCaretProgrammatically = true;
     var selection = rangy.getSelection ();
     var desiredPosition = parseInt (editorPositionCaretOffset);
     // Fix bug that it jumps to the previous verse through positioning the cursor slightly off-location.
     if (editorPositionCaretCount == 3) desiredPosition += 5;
     selection.move ("character", desiredPosition - currentPosition);
     currentPosition = getCaretPosition ();
+    editorPositionCaretProgrammatically = false;
     if (editorPositionCaretOffset == currentPosition) return;
     editorPositionCaretCount--;
     setTimeout (editorPositionCaretExecute, 10);
@@ -952,4 +960,31 @@ function editorLog (msg)
   var seconds = date.getSeconds();
   var milliseconds = date.getMilliseconds();
   console.log (seconds + " " + milliseconds + ": " + msg);
+}
+
+
+/*
+ 
+ Section for swipe navigation.
+ 
+ */
+
+
+function editorSwipeLeft (event)
+{
+  if (typeof navigateNextChapter != 'undefined') {
+    navigateNextChapter (event);
+  } else if (parent.window.navigateNextChapter != 'undefined') {
+    parent.window.navigateNextChapter (event);
+  }
+}
+
+
+function editorSwipeRight (event)
+{
+  if (typeof navigatePreviousChapter != 'undefined') {
+    navigatePreviousChapter (event);
+  } else if (parent.window.navigatePreviousChapter != 'undefined') {
+    parent.window.navigatePreviousChapter (event);
+  }
 }

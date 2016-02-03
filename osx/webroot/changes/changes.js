@@ -20,9 +20,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 $(document).ready(function() {
   changesFocusTimerId = 0;
   updateIdCount ();
-  selectEntry ($ ("div[id^='entry']").first ());
+  var entries = $ ("div[id^='entry']");
+  selectEntry (entries.first ());
   $("body").on ("keydown", keyDown);
-  $("div[id^='entry']").on ("click", handleClick);
+  entries.on ("click", handleClick);
+  entries.on ("swipe", handleSwipe);
+  entries.on ("taphold", handleTapHold);
   navigationSetup ();
 });
 
@@ -223,4 +226,22 @@ function changesFocusTimeout ()
   // Navigate to the passage of the entry.
   var identifier = getSelectedIdentifier ();
   $.post ("changes", { navigate: identifier });
+}
+
+
+function handleSwipe (event)
+{
+  var entry = $(event.currentTarget);
+  selectEntry (entry);
+  var newEntry = getEntryAfterDelete ();
+  removeEntry ();
+  selectEntry (newEntry);
+}
+
+
+function handleTapHold (event)
+{
+  var entry = $(event.currentTarget);
+  selectEntry (entry);
+  toggleEntry ();
 }

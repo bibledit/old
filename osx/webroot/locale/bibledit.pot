@@ -716,11 +716,17 @@ msgstr ""
 msgid "Or click the ✗."
 msgstr ""
 
+msgid "Or swipe it away."
+msgstr ""
+
 msgid ""
 "Use the left and right arrow keys to expand or collapse the selected entry."
 msgstr ""
 
 msgid "Or click the ⊞."
+msgstr ""
+
+msgid "Or touch and hold it."
 msgstr ""
 
 msgid "The expanded entry provides more information and options."
@@ -3069,6 +3075,9 @@ msgstr ""
 msgid "Keyboard shortcuts"
 msgstr ""
 
+msgid "Screen swiping"
+msgstr ""
+
 msgid "Teams"
 msgstr ""
 
@@ -3763,35 +3772,7 @@ msgstr ""
 msgid "You can also use the keyboard to navigate."
 msgstr ""
 
-msgid ""
-"Press Ctrl-G, enter the new passage, for example Mat 2 3, and press Enter."
-msgstr ""
-
-msgid ""
-"You can also enter the name of the book without chapter and verse, for "
-"example, Genesis, and it will go to that book."
-msgstr ""
-
-msgid ""
-"Or enter chapter and verse, for example 10 2, and it goes to that passage in "
-"the current book."
-msgstr ""
-
-msgid ""
-"When entering just one number, for example 2, it will go to verse 2 in the "
-"current chapter."
-msgstr ""
-
-msgid "Or enter Luke 10, to go to Luke chapter 10."
-msgstr ""
-
-msgid "Enter nothing or + to go to the next verse."
-msgstr ""
-
-msgid "Enter - to go to the previous verse."
-msgstr ""
-
-msgid "Press Escape to cancel any navigation operation."
+msgid "On touch screens you can swipe to navigate."
 msgstr ""
 
 msgid "The Navigator shows two arrows:"
@@ -4371,6 +4352,19 @@ msgid "Navigate to the previous verse."
 msgstr ""
 
 msgid "Open the styles from the Bible editor."
+msgstr ""
+
+msgid ""
+"Swiping right or left while displaying resources navigates to the previous "
+"or next verse."
+msgstr ""
+
+msgid "The same applies to the two verse-based Bible text editors."
+msgstr ""
+
+msgid ""
+"Swiping right or left in the two chapter-based Bible text editors navigates "
+"to the previous of next chapter."
 msgstr ""
 
 msgid "Bibledit can host many Bibles."

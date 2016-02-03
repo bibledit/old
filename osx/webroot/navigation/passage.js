@@ -253,6 +253,40 @@ function navigateNextVerse (event) {
 }
 
 
+function navigatePreviousChapter (event) {
+  event.preventDefault ();
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, previouschapter: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
+}
+
+
+function navigateNextChapter (event) {
+  event.preventDefault ();
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, nextchapter: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
+}
+
+
 function navigationPollPassage ()
 {
   if (navigatorTimeout) {
