@@ -895,6 +895,7 @@
 		CAC0F0C81B81F1C000D3E989 /* morphgnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = morphgnt.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC0F0C91B81F1C000D3E989 /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = morphgnt.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAC1FC9A1C60C18100869A40 /* swiping.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = swiping.html; sourceTree = "<group>"; };
+		CAC1FC9B1C60EB0400869A40 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAC518A11B9EDFC5006F6D70 /* edit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = edit.js; sourceTree = "<group>"; };
 		CAC61E201B4C3C5400700C8D /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
 		CAC61E211B4C3C5400700C8D /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
@@ -2967,6 +2968,7 @@
 				CAB5DE0B1B04BCFC00245D9F /* index.cpp */,
 				CAB5DE0C1B04BCFC00245D9F /* index.h */,
 				CAB5DE0D1B04BCFC00245D9F /* index.html */,
+				CAC1FC9B1C60EB0400869A40 /* index.js */,
 			);
 			name = debug;
 			path = ../debug;

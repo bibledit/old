@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/morphgnt.h>
 #include <sources/hebrewlexicon.h>
 #include <resource/external.h>
+#include <database/logs.h>
 
 
 const char * debug_index_url ()
@@ -45,6 +46,13 @@ bool debug_index_acl (void * webserver_request)
 string debug_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  if (request->query.count ("log")) {
+    string message = request->query ["log"];
+    Database_Logs::log (message);
+    return "";
+  }
+  
   string page;
 
   page = Assets_Page::header ("Bibledit", webserver_request);
