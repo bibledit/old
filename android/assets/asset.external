@@ -393,6 +393,7 @@ dialog/entry.h
 dialog/entry.html
 dialog/list.cpp
 dialog/list.h
+dialog/list.html
 dialog/listhorizontal.html
 dialog/text.html
 dialog/upload.cpp

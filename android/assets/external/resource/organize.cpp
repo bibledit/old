@@ -50,8 +50,9 @@ string resource_organize (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  if (request->query.count ("add")) {
+  if (request->query.count ("add") || request->post.count ("add")) {
     string add = request->query["add"];
+    if (add.empty ()) add = request->post ["add"];
     vector <string> resources = request->database_config_user()->getActiveResources ();
     resources.push_back (add);
     request->database_config_user()->setActiveResources (resources);
