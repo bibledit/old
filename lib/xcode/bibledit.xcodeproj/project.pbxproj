@@ -781,7 +781,6 @@
 		CAA4D4771A45A649003ABA25 /* webserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = webserver.cpp; sourceTree = "<group>"; };
 		CAA4D4781A45A649003ABA25 /* webserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = webserver.h; sourceTree = "<group>"; };
 		CAA4D4841A45A649003ABA25 /* bibledit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = bibledit.xcodeproj; sourceTree = "<group>"; };
-		CAA4D49E1A45CB4E003ABA25 /* listhorizontal.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listhorizontal.html; sourceTree = "<group>"; };
 		CAA4D4A11A45FC70003ABA25 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = TODO; path = ../../../TODO; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D4A31A460861003ABA25 /* indexm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indexm.html; sourceTree = "<group>"; };
 		CAA4D4A41A460861003ABA25 /* indext.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indext.html; sourceTree = "<group>"; };
@@ -802,6 +801,7 @@
 		CAB5DE0C1B04BCFC00245D9F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAB5DE0D1B04BCFC00245D9F /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = index.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAB62DED1B4EE32D0083E474 /* passage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = passage.js; sourceTree = "<group>"; };
+		CAB8909C1C6224F900F0F7F2 /* list.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = list.html; sourceTree = "<group>"; };
 		CAB9C5191AD403FC006A2E43 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAB9C51A1AD403FC006A2E43 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAB9C51B1AD43A2C006A2E43 /* search.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = search.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1714,7 +1714,7 @@
 				CAA4D0751A45A647003ABA25 /* entry.html */,
 				CAA4D0761A45A647003ABA25 /* list.cpp */,
 				CAA4D0771A45A647003ABA25 /* list.h */,
-				CAA4D49E1A45CB4E003ABA25 /* listhorizontal.html */,
+				CAB8909C1C6224F900F0F7F2 /* list.html */,
 				CA3925571A534AD7009302B8 /* upload.cpp */,
 				CA3925581A534AD7009302B8 /* upload.h */,
 				CA3925591A534AD7009302B8 /* upload.html */,

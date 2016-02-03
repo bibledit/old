@@ -29,17 +29,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // $question: The question to be asked.
 // $info_top : Information.
 // $info_bottom: Information.
-Dialog_List::Dialog_List (string url, string question, string info_top, string info_bottom)
+// $post: causes the result to be sent via the POST method rather than the default GET method.
+Dialog_List::Dialog_List (string url, string question, string info_top, string info_bottom, bool post)
 {
   Assets_View * view = new Assets_View ();
   base_url = url;
   view->set_variable ("question", question);
-  if (info_top == "")
-    info_top = translate("Here are the various options:");
+  if (info_top == "") info_top = translate("Here are the various options:");
   view->set_variable ("info_top", info_top);
-  if (info_bottom == "")
-    info_bottom = translate("Please pick one.");
+  if (info_bottom == "") info_bottom = translate("Please pick one.");
   view->set_variable ("info_bottom", info_bottom);
+  post_result = post;
   assets_view = view;
 }
 
@@ -61,13 +61,21 @@ void Dialog_List::add_query (string parameter, string value)
 }
 
 
-void Dialog_List::add_row (string text, string parameter, string value)
+void Dialog_List::add_row (string text, string parameter, string value) // Todo
 {
   if (!list_block.empty ()) list_block.append ("\n");
-  if (!horizontal) list_block.append ("<li>");
-  string href = filter_url_build_http_query (base_url, parameter, value);
-  list_block.append ("<a href=\"" + href + "\">" + text + "</a>");
-  if (!horizontal) list_block.append ("</li>");
+  list_block.append ("<li>");
+  if (post_result) {
+    list_block.append ("\n");
+    list_block.append ("<form action=\"" + base_url + "\" method=\"post\">\n");
+    list_block.append ("<a href=\"javascript:;\" onclick=\"parentNode.submit();\">" + value + "</a>\n");
+    list_block.append ("<input type=\"hidden\" name=\"add\" value=\"" + value + "\" />\n");
+    list_block.append ("</form>\n");
+  } else {
+    string href = filter_url_build_http_query (base_url, parameter, value);
+    list_block.append ("<a href=\"" + href + "\">" + text + "</a>");
+  }
+  list_block.append ("</li>");
 }
 
 
@@ -76,7 +84,7 @@ string Dialog_List::run ()
   Assets_View * view = (Assets_View *) assets_view;
   view->set_variable ("base_url", base_url);
   view->set_variable ("list_block", list_block);
-  string page = view->render ("dialog", "listhorizontal");
+  string page = view->render ("dialog", "list");
   page += Assets_Page::footer ();
   return page;
 }

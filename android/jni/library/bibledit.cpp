@@ -90,7 +90,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
 
 
 // Sets whether the library considers any device that connects to be touch-enabled.
-// This is necessary for on devices as clients which are always logged-in.
+// This is necessary for client devices which are always logged-in.
 // The detection of touch-enabled devices happens during login,
 // so when the login is skipped, the device is not detected.
 // Therefore the calling program can preset touch-enabled here through this library call.
@@ -99,8 +99,14 @@ void bibledit_set_touch_enabled (bool enabled)
   // Set global variable for use elsewhere in the library.
   // A value of zero does nothing,
   // so set it greater than or smaller than zero to have effect.
-  if (enabled) config_globals_touch_enabled = 1;
-  else config_globals_touch_enabled = -1;
+  if (enabled) {
+    config_globals_touch_enabled = 1;
+    Database_Logs::log ("Enable touch"); // Todo
+  }
+  else {
+    config_globals_touch_enabled = -1;
+    Database_Logs::log ("Disable touch"); // Todo
+  }
 }
 
 
