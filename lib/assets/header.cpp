@@ -201,7 +201,8 @@ string Assets_Header::run ()
       if (basic_mode) {
         menublock = menu_logic_basic_categories (webserver_request);
       } else {
-        menublock = menu_logic_main_categories (webserver_request);
+        string devnull;
+        menublock = menu_logic_main_categories (webserver_request, devnull);
       }
       start_button = false;
     } else if (item == menu_logic_translate_menu ()) {
@@ -223,6 +224,9 @@ string Assets_Header::run ()
 
     if (start_button) {
       view->enable_zone ("start_button");
+      string tooltip;
+      menu_logic_main_categories (webserver_request, tooltip);
+      view->set_variable ("starttooltip", tooltip);
     }
     
     if (!fadingmenu.empty ()) {

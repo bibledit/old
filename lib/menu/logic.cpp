@@ -110,7 +110,7 @@ string menu_logic_click (string item)
 }
 
 
-string menu_logic_create_item (string href, string text, bool history)
+string menu_logic_create_item (string href, string text, bool history, string title)
 {
   string item;
   item.append ("<span class=\"nowrap\">");
@@ -121,7 +121,7 @@ string menu_logic_create_item (string href, string text, bool history)
     item.append (index_index_url ());
   }
   item.append ("?item=");
-  item.append (menu_logic_href (href) + "\">" + text + "</a>");
+  item.append (menu_logic_href (href) + "\" title=\"" + title + "\">" + text + "</a>");
   item.append ("</span>");
   return item;
 }
@@ -164,34 +164,46 @@ string menu_logic_settings_styles_menu ()
 
 
 // Returns the html for the main menu categories.
-string menu_logic_main_categories (void * webserver_request)
+string menu_logic_main_categories (void * webserver_request, string & tooltip)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   vector <string> html;
+  vector <string> tooltipbits;
 
   if (workbench_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (workbench_index_url (), translate ("Desktop"), true));
+    string label = translate ("Desktop");
+    string tooltip;
+    menu_logic_desktop_category (webserver_request, &tooltip);
+    html.push_back (menu_logic_create_item (workbench_index_url (), label, true, tooltip)); // Todo
+    tooltipbits.push_back (label);
   }
 
   if (!menu_logic_translate_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false));
+    string tooltip;
+    menu_logic_translate_category (webserver_request, &tooltip);
+    html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false, tooltip));
+    tooltipbits.push_back (menu_logic_translate_text ());
   }
   
   if (!menu_logic_search_category (webserver_request).empty ()) {
     html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false));
+    tooltipbits.push_back (menu_logic_search_text ());
   }
 
   if (!menu_logic_tools_category (webserver_request).empty ()) {
     html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false));
+    tooltipbits.push_back (menu_logic_tools_text ());
   }
 
   if (!menu_logic_settings_category (webserver_request).empty ()) {
     html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false));
+    tooltipbits.push_back (menu_logic_settings_text ());
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
     html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true));
+    tooltipbits.push_back (menu_logic_help_text ());
   }
 
   // When a user is not logged in, or a guest,
@@ -200,6 +212,7 @@ string menu_logic_main_categories (void * webserver_request)
     if (menu_logic_public_or_guest (webserver_request)) {
       if (!public_logic_bibles (webserver_request).empty ()) {
         html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+        tooltipbits.push_back (menu_logic_public_feedback_text ());
       }
     }
   }
@@ -209,6 +222,7 @@ string menu_logic_main_categories (void * webserver_request)
     if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
       if (session_logout_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true));
+        tooltipbits.push_back (menu_logic_logout_text ());
       }
     }
   }
@@ -216,9 +230,12 @@ string menu_logic_main_categories (void * webserver_request)
   
   // When not logged in, display Login menu item.
   if (request->session_logic ()->currentUser ().empty ()) {
-    html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
+    string label = translate ("Login");
+    html.push_back (menu_logic_create_item (session_login_url (), label, true));
+    tooltipbits.push_back (label);
   }
 
+  tooltip = filter_string_implode (tooltipbits, " | ");
   return filter_string_implode (html, "\n");
 }
 
@@ -260,9 +277,10 @@ string menu_logic_basic_categories (void * webserver_request)
 }
 
 
-string menu_logic_desktop_category (void * webserver_request)
+string menu_logic_desktop_category (void * webserver_request, string * tooltip)
 {
   vector <string> html;
+  vector <string> labels;
 
   // Add the available configured desktops to the menu.
   // The user's role should be sufficiently high.
@@ -271,52 +289,69 @@ string menu_logic_desktop_category (void * webserver_request)
     for (size_t i = 0; i < workbenches.size(); i++) {
       string item = menu_logic_create_item (workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i], true);
       html.push_back (item);
+      labels.push_back (workbenches [i]);
     }
   }
 
+  if (tooltip) tooltip->append (filter_string_implode (labels, " | "));
   return filter_string_implode (html, "\n");
 }
 
 
-string menu_logic_translate_category (void * webserver_request)
+string menu_logic_translate_category (void * webserver_request, string * tooltip) // Todo tooltips &
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   vector <string> html;
+  vector <string> labels;
   
   if (edit_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (edit_index_url (), translate ("Visual chapter editor"), true));
+    string label = translate ("Visual chapter editor");
+    html.push_back (menu_logic_create_item (edit_index_url (), label, true));
+    labels.push_back (label);
   }
   
   if (editone_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (editone_index_url (), translate ("Visual verse editor"), true));
+    string label = translate ("Visual verse editor");
+    html.push_back (menu_logic_create_item (editone_index_url (), label, true));
+    labels.push_back (label);
   }
 
   if (editusfm_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (editusfm_index_url (), translate ("USFM chapter editor"), true));
+    string label = translate ("USFM chapter editor");
+    html.push_back (menu_logic_create_item (editusfm_index_url (), label, true));
+    labels.push_back (label);
   }
     
   if (editverse_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (editverse_index_url (), translate ("USFM verse editor"), true));
+    string label = translate ("USFM verse editor");
+    html.push_back (menu_logic_create_item (editverse_index_url (), label, true));
+    labels.push_back (label);
   }
   
   if (notes_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true));
+    labels.push_back (menu_logic_consultation_notes_text ());
   }
 
   if (resource_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
+    string label = translate ("Resources");
+    html.push_back (menu_logic_create_item (resource_index_url (), label, true));
+    labels.push_back (label);
   }
 
   if (changes_changes_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true));
+    labels.push_back (menu_logic_changes_text ());
   }
 
   // The exports are available to anyone on the Internet,
   // but the menu item is only displayed when someone is logged in.
   if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
     if (index_listing_acl (webserver_request, "exports")) {
-      html.push_back (menu_logic_create_item (index_listing_url ("exports"), translate ("Exports"), true));
+      string label = translate ("Exports");
+      html.push_back (menu_logic_create_item (index_listing_url ("exports"), label, true));
+      labels.push_back (label);
     }
   }
 
@@ -327,6 +362,7 @@ string menu_logic_translate_category (void * webserver_request)
       if (!menu_logic_public_or_guest (webserver_request)) {
         if (!public_logic_bibles (webserver_request).empty ()) {
           html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+          labels.push_back (menu_logic_public_feedback_text ());
         }
       }
     }
@@ -336,11 +372,12 @@ string menu_logic_translate_category (void * webserver_request)
     html.insert (html.begin (), menu_logic_translate_text () + ": ");
   }
 
+  if (tooltip) tooltip->append (filter_string_implode (labels, " | "));
   return filter_string_implode (html, "\n");
 }
 
 
-string menu_logic_search_category (void * webserver_request)
+string menu_logic_search_category (void * webserver_request, string * tooltip) // Todo tooltips &
 {
   vector <string> html;
 
@@ -388,7 +425,7 @@ string menu_logic_search_category (void * webserver_request)
 }
 
 
-string menu_logic_tools_category (void * webserver_request)
+string menu_logic_tools_category (void * webserver_request, string * tooltip) // Todo tooltips &
 {
   // The labels that may end up in the menu.
   string checks = translate ("Checks");
@@ -507,7 +544,7 @@ string menu_logic_tools_category (void * webserver_request)
 }
 
 
-string menu_logic_settings_category (void * webserver_request)
+string menu_logic_settings_category (void * webserver_request, string * tooltip) // Todo tooltips &
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   bool client = client_logic_client_enabled ();
@@ -793,7 +830,7 @@ string menu_logic_settings_styles_category (void * webserver_request)
 }
 
 
-string menu_logic_help_category (void * webserver_request)
+string menu_logic_help_category (void * webserver_request, string * tooltip) // Todo tooltips & But is this used at all?
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
