@@ -63,7 +63,7 @@ string menu_logic_public_feedback_text ();
 string menu_logic_logout_text ();
 string menu_logic_consultation_notes_text ();
 string menu_logic_bible_manage_text ();
-string menu_logic_workbench_organize_text ();
+string menu_logic_desktop_organize_text ();
 string menu_logic_checks_settings_text ();
 string menu_logic_resources_text ();
 string menu_logic_resource_images_text ();

@@ -390,57 +390,113 @@ string menu_logic_search_category (void * webserver_request)
 
 string menu_logic_tools_category (void * webserver_request)
 {
+  // The labels that may end up in the menu.
+  string checks = translate ("Checks");
+  string consistency = translate ("Consistency");
+  string print = translate ("Print");
+  string changes = menu_logic_changes_text ();
+  string planning = translate ("Planning");
+  string send_receive = translate ("Send/receive");
+  string hyphenation = translate ("Hyphenation");
+  string cross_references = translate ("Cross-references");
+  string debug = translate ("Debug");
+  string exporting = translate ("Export");
+  string journal = translate ("Journal");
+  vector <string> labels = {
+    checks,
+    consistency,
+    print,
+    changes,
+    planning,
+    send_receive,
+    hyphenation,
+    cross_references,
+    debug,
+    exporting,
+    journal
+  };
+  
+  // Sort the labels in alphabetical order for the menu.
+  // Using the localized labels means that the sorted order of the menu depends on the localization.
+  sort (labels.begin (), labels.end ());
+  
   vector <string> html;
 
-  if (checks_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (checks_index_url (), translate ("Checks"), true));
-  }
+  for (auto & label : labels) {
 
-  if (consistency_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (consistency_index_url (), translate ("Consistency"), true));
-  }
-
-  if (!config_logic_client_prepared ()) {
-    if (resource_print_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_print_url (), translate ("Print"), true));
+    if (label == checks) {
+      if (checks_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (checks_index_url (), label, true));
+      }
     }
-  }
 
-  // Downloading revisions only on server, not on client.
-  if (!config_logic_client_prepared ()) {
-    if (index_listing_acl (webserver_request, "revisions")) {
-      html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true));
+    if (label == consistency) {
+      if (consistency_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (consistency_index_url (), label, true));
+      }
     }
-  }
 
-  if (!config_logic_client_prepared ()) {
-    if (sprint_index_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (sprint_index_url (), translate ("Planning"), true));
+    if (label == print) {
+      if (!config_logic_client_prepared ()) {
+        if (resource_print_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (resource_print_url (), label, true));
+        }
+      }
     }
-  }
-
-  if (sendreceive_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (sendreceive_index_url (), translate ("Send/receive"), true));
-  }
-
-  if (manage_hyphenation_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (manage_hyphenation_url (), translate ("Hyphenation"), true));
-  }
-
-  if (xrefs_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (xrefs_index_url (), translate ("Cross-references"), true));
-  }
-  
-  if (debug_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (debug_index_url (), translate ("Debug"), true));
-  }
-
-  if (manage_exports_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (manage_exports_url (), translate ("Export"), true));
-  }
-
-  if (journal_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (journal_index_url (), translate ("Journal"), true));
+    
+    if (label == changes) {
+      // Downloading revisions only on server, not on client.
+      if (!config_logic_client_prepared ()) {
+        if (index_listing_acl (webserver_request, "revisions")) {
+          html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true));
+        }
+      }
+    }
+    
+    if (label == planning) {
+      if (!config_logic_client_prepared ()) {
+        if (sprint_index_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (sprint_index_url (), label, true));
+        }
+      }
+    }
+    
+    if (label == send_receive) {
+      if (sendreceive_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (sendreceive_index_url (), label, true));
+      }
+    }
+    
+    if (label == hyphenation) {
+      if (manage_hyphenation_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (manage_hyphenation_url (), label, true));
+      }
+    }
+    
+    if (label == cross_references) {
+      if (xrefs_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (xrefs_index_url (), label, true));
+      }
+    }
+    
+    if (label == debug) {
+      if (debug_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (debug_index_url (), label, true));
+      }
+    }
+    
+    if (label == exporting) {
+      if (manage_exports_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (manage_exports_url (), label, true));
+      }
+    }
+    
+    if (label == journal) {
+      if (journal_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (journal_index_url (), label, true));
+      }
+    }
+    
   }
   
   if (!html.empty ()) {
@@ -457,131 +513,226 @@ string menu_logic_settings_category (void * webserver_request)
   bool client = client_logic_client_enabled ();
   bool demo = config_logic_demo_enabled ();
 
+  // The labels that may end up in the menu.
+  string bibles = menu_logic_bible_manage_text ();
+  string desktops = menu_logic_desktop_organize_text ();
+  string checks = menu_logic_checks_settings_text ();
+  string resources = menu_logic_resources_text ();
+  string changes = menu_logic_changes_text ();
+  string personalize = translate ("Personalize");
+  string users = menu_logic_manage_users_text ();
+  string indexes_fonts = translate ("Indexes and Fonts");
+  string language = translate ("Language");
+  string timezone = translate ("Timezone");
+  string mail = translate ("Mail");
+  string styles = translate ("Styles");
+  string versifications = menu_logic_versification_index_text ();
+  string mappings = menu_logic_mapping_index_text ();
+  string collaboration = translate ("Collaboration");
+  string cloud = translate ("Cloud");
+  string paratext = translate ("Paratext");
+  string logout = menu_logic_logout_text ();
+  string notifications = translate ("Notifications");
+  string account = translate ("Account");
+  string basic_mode = translate ("Basic mode");
+  vector <string> labels = {
+    bibles,
+    desktops,
+    checks,
+    resources,
+    changes,
+    personalize,
+    users,
+    indexes_fonts,
+    language,
+    timezone,
+    mail,
+    styles,
+    versifications,
+    mappings,
+    collaboration,
+    cloud,
+    paratext,
+    logout,
+    notifications,
+    account,
+    basic_mode
+  };
+  
+  // Sort the labels in alphabetical order for the menu.
+  // Using the localized labels means that the sorted order of the menu depends on the localization.
+  sort (labels.begin (), labels.end ());
+  
   vector <string> html;
-
-  if (bible_manage_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (bible_manage_url (), menu_logic_bible_manage_text (), true));
-  }
   
-  if (workbench_organize_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (workbench_organize_url (), menu_logic_workbench_organize_text (), true));
-  }
-
-  if (checks_settings_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (checks_settings_url (), menu_logic_checks_settings_text (), true));
-  }
-
-  if (!menu_logic_settings_resources_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_settings_resources_menu (), menu_logic_resources_text (), false));
-  }
-
-  // Managing change notifications only on server, not on client.
-  if (!config_logic_client_prepared ()) {
-    if (changes_manage_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true));
+  for (auto & label : labels) {
+  
+    if (label == bibles) {
+      if (bible_manage_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (bible_manage_url (), menu_logic_bible_manage_text (), true));
+      }
     }
-  }
-  
-  if (personalize_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (personalize_index_url (), translate ("Personalize"), true));
-  }
-
-  if (!config_logic_client_prepared ()) {
-    if (manage_users_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true));
+    
+    if (label == desktops) {
+      if (workbench_organize_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (workbench_organize_url (), menu_logic_desktop_organize_text (), true));
+      }
     }
-  }
-
-  if (manage_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (manage_index_url (), translate ("Indexes and Fonts"), true));
-  }
-
-  if (administration_language_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (administration_language_url (), translate ("Language"), true));
-  }
-
-  if (administration_timezone_acl (webserver_request)) {
-    // Display menu to set the site's timezone only in case the calling program has not yet set this zone in the library.
-    // So for example the app for iOS can set the timezone from the device, and in case this has been done,
-    // then the user no longer can set it through Bibledit.
-    if ((config_globals_timezone_offset_utc < MINIMUM_TIMEZONE)
-        || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
-      html.push_back (menu_logic_create_item (administration_timezone_url (), translate ("Timezone"), true));
+    
+    if (label == checks) {
+      if (checks_settings_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (checks_settings_url (), menu_logic_checks_settings_text (), true));
+      }
     }
-  }
-
-  if (!config_logic_client_prepared ()) {
-    if (email_index_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (email_index_url (), translate ("Mail"), true));
-    }
-  }
-  
-  if (!menu_logic_settings_styles_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_settings_styles_menu (), "Styles", false));
-  }
-  
-  if (versification_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (versification_index_url (), menu_logic_versification_index_text (), true));
-  }
-  
-  if (mapping_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (mapping_index_url (), menu_logic_mapping_index_text (), true));
-  }
-  
-  if (collaboration_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (collaboration_index_url (), translate ("Collaboration"), true));
-  }
-  
-  // If the installation is not prepared for Client mode, disable the client menu.
-  // But keep the menu item in an open installation.
-  bool client_menu = client_index_acl (webserver_request);
-  if (!config_logic_client_prepared ()) client_menu = false;
-  if (config_logic_demo_enabled ()) client_menu = true;
-  if (client_menu) {
-    if (client_index_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (client_index_url (), translate ("Cloud"), true));
-    }
-  }
-  
-  // Paratext can be enabled through ./configure --enable-paratext.
-  if (config_logic_paratext_enabled ()) {
-    if (paratext_index_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (paratext_index_url (), translate ("Paratext"), true));
-    }
-  }
-  
-  if (!(client || demo)) {
-    // If logged in, but not as guest, put the Logout menu here.
-    if (request->session_logic ()->loggedIn ()) {
-      if (request->session_logic ()->currentLevel () != Filter_Roles::guest ()) {
-        if (session_logout_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true));
+    
+    if (label == resources) {
+      if (!menu_logic_settings_resources_category (webserver_request).empty ()) {
+        html.push_back (menu_logic_create_item (menu_logic_settings_resources_menu (), menu_logic_resources_text (), false));
+      }
+      if (config_logic_client_prepared ()) {
+        // Only client can cache resources.
+        // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
+        // Many Cloud instances run on one server, and if the Cloud were to cache resources, it was going to use a huge amount of disk space.
+        if (resource_cache_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true));
         }
       }
     }
-  }
-
-  if (user_notifications_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (user_notifications_url (), translate ("Notifications"), true));
-  }
-
-  if (!(client || demo)) {
-    if (user_account_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (user_account_url (), translate ("Account"), true));
+    
+    if (label == changes) {
+      // Managing change notifications only on server, not on client.
+      if (!config_logic_client_prepared ()) {
+        if (changes_manage_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true));
+        }
+      }
     }
-  }
-
-  if (config_logic_client_prepared ()) {
-    // Only client can cache resources.
-    // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
-    // Many Cloud instances run on one server, and if the Cloud were to cache resources, it was going to use a huge amount of disk space.
-    if (resource_cache_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true));
+    
+    if (label == personalize) {
+      if (personalize_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (personalize_index_url (), label, true));
+      }
     }
-  }
-
-  if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
-    html.push_back (menu_logic_create_item (index_index_url () + convert_to_string ("?mode=basic"), translate ("Basic mode"), true));
+    
+    if (label == users) {
+      if (!config_logic_client_prepared ()) {
+        if (manage_users_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true));
+        }
+      }
+    }
+    
+    if (label == indexes_fonts) {
+      if (manage_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (manage_index_url (), label, true));
+      }
+    }
+    
+    if (label == language) {
+      if (administration_language_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (administration_language_url (), label, true));
+      }
+    }
+    
+    if (label == timezone) {
+      if (administration_timezone_acl (webserver_request)) {
+        // Display menu to set the site's timezone only in case the calling program has not yet set this zone in the library.
+        // So for example the app for iOS can set the timezone from the device, and in case this has been done,
+        // then the user no longer can set it through Bibledit.
+        if ((config_globals_timezone_offset_utc < MINIMUM_TIMEZONE)
+            || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
+          html.push_back (menu_logic_create_item (administration_timezone_url (), label, true));
+        }
+      }
+    }
+    
+    if (label == mail) {
+      if (!config_logic_client_prepared ()) {
+        if (email_index_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (email_index_url (), label, true));
+        }
+      }
+    }
+    
+    if (label == styles) {
+      if (!menu_logic_settings_styles_category (webserver_request).empty ()) {
+        html.push_back (menu_logic_create_item (menu_logic_settings_styles_menu (), label, false));
+      }
+    }
+    
+    if (label == versifications) {
+      if (versification_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (versification_index_url (), menu_logic_versification_index_text (), true));
+      }
+    }
+    
+    if (label == mappings) {
+      if (mapping_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (mapping_index_url (), menu_logic_mapping_index_text (), true));
+      }
+    }
+    
+    if (label == collaboration) {
+      if (collaboration_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
+      }
+    }
+    
+    if (label == cloud) {
+      // If the installation is not prepared for Client mode, disable the client menu.
+      // But keep the menu item in an open installation.
+      bool client_menu = client_index_acl (webserver_request);
+      if (!config_logic_client_prepared ()) client_menu = false;
+      if (config_logic_demo_enabled ()) client_menu = true;
+      if (client_menu) {
+        if (client_index_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (client_index_url (), label, true));
+        }
+      }
+    }
+    
+    if (label == paratext) {
+      // Paratext can be enabled through ./configure --enable-paratext.
+      if (config_logic_paratext_enabled ()) {
+        if (paratext_index_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (paratext_index_url (), label, true));
+        }
+      }
+    }
+    
+    if (label == logout) {
+      if (!(client || demo)) {
+        // If logged in, but not as guest, put the Logout menu here.
+        if (request->session_logic ()->loggedIn ()) {
+          if (request->session_logic ()->currentLevel () != Filter_Roles::guest ()) {
+            if (session_logout_acl (webserver_request)) {
+              html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true));
+            }
+          }
+        }
+      }
+    }
+    
+    if (label == notifications) {
+      if (user_notifications_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (user_notifications_url (), label, true));
+      }
+    }
+    
+    if (label == account) {
+      if (!(client || demo)) {
+        if (user_account_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (user_account_url (), label, true));
+        }
+      }
+    }
+    
+    if (label == basic_mode) {
+      if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
+        html.push_back (menu_logic_create_item (index_index_url () + convert_to_string ("?mode=basic"), label, true));
+      }
+    }
+    
   }
   
   if (!html.empty ()) {
@@ -766,7 +917,7 @@ string menu_logic_bible_manage_text ()
 }
 
 
-string menu_logic_workbench_organize_text ()
+string menu_logic_desktop_organize_text ()
 {
   return translate ("Desktops");
 }
