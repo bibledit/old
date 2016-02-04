@@ -193,7 +193,11 @@ string Assets_Header::run ()
     
     string menublock;
     string item = request->query ["item"];
-    if (item == "main") {
+    bool main_menu_always_on = false;
+    if (item.empty ())
+      if (request->database_config_user ()->getMainMenuAlwaysVisible ())
+        main_menu_always_on = true;
+    if ((item == "main") || main_menu_always_on) {
       if (basic_mode) {
         menublock = menu_logic_basic_categories (webserver_request);
       } else {

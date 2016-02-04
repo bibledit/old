@@ -208,6 +208,8 @@ public:
   void setEditingAllowedDifferenceVerse (int value);
   bool getFlipInterfaceMode ();
   void setFlipInterfaceMode (bool value);
+  bool getMainMenuAlwaysVisible ();
+  void setMainMenuAlwaysVisible (bool value);
 private:
   void * webserver_request;
   string file (string user, const char * key);
