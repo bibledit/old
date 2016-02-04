@@ -212,6 +212,10 @@ string Assets_Header::run ()
       menublock = menu_logic_tools_category (webserver_request);
     } else if (item == menu_logic_settings_menu ()) {
       menublock = menu_logic_settings_category (webserver_request);
+    } else if (item == menu_logic_settings_resources_menu ()) {
+      menublock = menu_logic_settings_resources_category (webserver_request);
+    } else if (item == menu_logic_settings_styles_menu ()) {
+      menublock = menu_logic_settings_styles_category (webserver_request);
     } else if (item == "help") {
       menublock = menu_logic_help_category (webserver_request);
     }

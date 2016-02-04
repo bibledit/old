@@ -151,6 +151,18 @@ string menu_logic_settings_menu ()
 }
 
 
+string menu_logic_settings_resources_menu ()
+{
+  return "settings-resources";
+}
+
+
+string menu_logic_settings_styles_menu ()
+{
+  return "settings-styles";
+}
+
+
 // Returns the html for the main menu categories.
 string menu_logic_main_categories (void * webserver_request)
 {
@@ -211,6 +223,19 @@ string menu_logic_main_categories (void * webserver_request)
 }
 
 
+/*
+ Some of the functions below generate a start menu.
+ 
+ It goes through all possible menu entries.
+ It reads the access levels of those entries.
+ It takes the menu entries the currently logged-in user has access to.
+ 
+ It originally self-organized the entries such that the ones used clicked often came earlier in the menu.
+ But menu entries moving around creates confusion.
+ Therefore it was removed again.
+ */
+
+
 string menu_logic_basic_categories (void * webserver_request)
 {
   vector <string> html;
@@ -228,25 +253,11 @@ string menu_logic_basic_categories (void * webserver_request)
   }
 
   if (basic_index_acl (webserver_request)) {
-    //html.push_back (menu_logic_create_item (basic_index_url (), translate ("More"), true));
     html.push_back (menu_logic_create_item (basic_index_url (), "⋮", true));
   }
 
   return filter_string_implode (html, "\n");
 }
-
-
-/*
- This generates a start menu.
- 
- It goes through all possible menu entries.
- It reads the access levels of those entries.
- It takes the menu entries the currently logged-in user has access to.
- 
- It originally self-organized the entries such that the ones used clicked often came earlier in the menu.
- But menu entries moving around creates confusion.
- Therefore it was removed again.
-*/
 
 
 string menu_logic_desktop_category (void * webserver_request)
@@ -294,11 +305,11 @@ string menu_logic_translate_category (void * webserver_request)
   }
 
   if (resource_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_index_url (), translate ("View resources"), true));
+    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
   }
 
   if (changes_changes_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (changes_changes_url (), translate ("Change notifications"), true));
+    html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true));
   }
 
   // The exports are available to anyone on the Internet,
@@ -382,7 +393,7 @@ string menu_logic_tools_category (void * webserver_request)
   vector <string> html;
 
   if (checks_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (checks_index_url (), translate ("Mechanical checks"), true));
+    html.push_back (menu_logic_create_item (checks_index_url (), translate ("Checks"), true));
   }
 
   if (consistency_index_acl (webserver_request)) {
@@ -391,14 +402,14 @@ string menu_logic_tools_category (void * webserver_request)
 
   if (!config_logic_client_prepared ()) {
     if (resource_print_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_print_url (), translate ("Print resources"), true));
+      html.push_back (menu_logic_create_item (resource_print_url (), translate ("Print"), true));
     }
   }
 
   // Downloading revisions only on server, not on client.
   if (!config_logic_client_prepared ()) {
     if (index_listing_acl (webserver_request, "revisions")) {
-      html.push_back (menu_logic_create_item (index_listing_url ("revisions"), translate ("Download changes"), true));
+      html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true));
     }
   }
 
@@ -409,7 +420,7 @@ string menu_logic_tools_category (void * webserver_request)
   }
 
   if (sendreceive_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (sendreceive_index_url (), translate ("Send / receive"), true));
+    html.push_back (menu_logic_create_item (sendreceive_index_url (), translate ("Send/receive"), true));
   }
 
   if (manage_hyphenation_acl (webserver_request)) {
@@ -417,7 +428,7 @@ string menu_logic_tools_category (void * webserver_request)
   }
 
   if (xrefs_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (xrefs_index_url (), translate ("Cross references"), true));
+    html.push_back (menu_logic_create_item (xrefs_index_url (), translate ("Cross-references"), true));
   }
   
   if (debug_index_acl (webserver_request)) {
@@ -425,7 +436,7 @@ string menu_logic_tools_category (void * webserver_request)
   }
 
   if (manage_exports_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (manage_exports_url (), translate ("Export Bibles"), true));
+    html.push_back (menu_logic_create_item (manage_exports_url (), translate ("Export"), true));
   }
 
   if (journal_index_acl (webserver_request)) {
@@ -460,28 +471,14 @@ string menu_logic_settings_category (void * webserver_request)
     html.push_back (menu_logic_create_item (checks_settings_url (), menu_logic_checks_settings_text (), true));
   }
 
-  if (!config_logic_client_prepared ()) {
-    if (resource_manage_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM resources"), true));
-    }
-  }
-
-  if (!config_logic_client_prepared ()) {
-    if (resource_images_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
-    }
-  }
-  
-  if (!config_logic_client_prepared ()) {
-    if (resource_sword_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD resources"), true));
-    }
+  if (!menu_logic_settings_resources_category (webserver_request).empty ()) {
+    html.push_back (menu_logic_create_item (menu_logic_settings_resources_menu (), menu_logic_resources_text (), false));
   }
 
   // Managing change notifications only on server, not on client.
   if (!config_logic_client_prepared ()) {
     if (changes_manage_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (changes_manage_url (), translate ("Change notifications"), true));
+      html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true));
     }
   }
   
@@ -519,8 +516,8 @@ string menu_logic_settings_category (void * webserver_request)
     }
   }
   
-  if (styles_indext_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (styles_indext_url (), translate ("Select stylesheet"), true));
+  if (!menu_logic_settings_styles_category (webserver_request).empty ()) {
+    html.push_back (menu_logic_create_item (menu_logic_settings_styles_menu (), "Styles", false));
   }
   
   if (versification_index_acl (webserver_request)) {
@@ -553,10 +550,6 @@ string menu_logic_settings_category (void * webserver_request)
     }
   }
   
-  if (styles_indexm_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (styles_indexm_url (), menu_logic_styles_indexm_text (), true));
-  }
-
   if (!(client || demo)) {
     // If logged in, but not as guest, put the Logout menu here.
     if (request->session_logic ()->loggedIn ()) {
@@ -583,7 +576,7 @@ string menu_logic_settings_category (void * webserver_request)
     // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
     // Many Cloud instances run on one server, and if the Cloud were to cache resources, it was going to use a huge amount of disk space.
     if (resource_cache_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resource_cache_text (), true));
+      html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true));
     }
   }
 
@@ -593,6 +586,56 @@ string menu_logic_settings_category (void * webserver_request)
   
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_settings_text () + ": ");
+  }
+  
+  return filter_string_implode (html, "\n");
+}
+
+
+string menu_logic_settings_resources_category (void * webserver_request)
+{
+  vector <string> html;
+  
+  if (!config_logic_client_prepared ()) {
+    if (resource_manage_acl (webserver_request)) {
+      html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM resources"), true));
+    }
+  }
+  
+  if (!config_logic_client_prepared ()) {
+    if (resource_images_acl (webserver_request)) {
+      html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
+    }
+  }
+  
+  if (!config_logic_client_prepared ()) {
+    if (resource_sword_acl (webserver_request)) {
+      html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD resources"), true));
+    }
+  }
+  
+  if (!html.empty ()) {
+    html.insert (html.begin (), menu_logic_resources_text () + ": ");
+  }
+  
+  return filter_string_implode (html, "\n");
+}
+
+
+string menu_logic_settings_styles_category (void * webserver_request)
+{
+  vector <string> html;
+  
+  if (styles_indext_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (styles_indext_url (), translate ("Select stylesheet"), true));
+  }
+  
+  if (styles_indexm_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (styles_indexm_url (), menu_logic_styles_indexm_text (), true));
+  }
+  
+  if (!html.empty ()) {
+    html.insert (html.begin (), menu_logic_resources_text () + ": ");
   }
   
   return filter_string_implode (html, "\n");
@@ -701,7 +744,7 @@ string menu_logic_help_text ()
 
 string menu_logic_public_feedback_text ()
 {
-  return translate ("Public feedback");
+  return translate ("Feedback");
 }
 
 
@@ -713,7 +756,7 @@ string menu_logic_logout_text ()
 
 string menu_logic_consultation_notes_text ()
 {
-  return translate ("Consultation notes");
+  return translate ("Notes");
 }
 
 
@@ -735,7 +778,7 @@ string menu_logic_checks_settings_text ()
 }
 
 
-string menu_logic_resource_cache_text ()
+string menu_logic_resources_text ()
 {
   return translate ("Resources");
 }
@@ -768,4 +811,10 @@ string menu_logic_mapping_index_text ()
 string menu_logic_styles_indexm_text ()
 {
   return translate ("Edit stylesheet");
+}
+
+
+string menu_logic_changes_text ()
+{
+  return translate ("Changes");
 }
