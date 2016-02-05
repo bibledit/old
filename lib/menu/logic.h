@@ -46,7 +46,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip = N
 string menu_logic_settings_category (void * webserver_request, string * tooltip = NULL);
 string menu_logic_settings_resources_category (void * webserver_request);
 string menu_logic_settings_styles_category (void * webserver_request);
-string menu_logic_help_category (void * webserver_request, string * tooltip = NULL);
+string menu_logic_help_category (void * webserver_request);
 
 
 bool menu_logic_public_or_guest (void * webserver_request);
