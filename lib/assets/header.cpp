@@ -34,6 +34,7 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
   includeJQueryUI = false;
   includeJQueryMobileTouch = false;
   includeTouchCSS = false;
+  includeNotifIt = false;
   displayNavigator = false;
   webserver_request = webserver_request_in;
   view = new Assets_View ();
@@ -62,6 +63,12 @@ void Assets_Header::jQueryMobileTouchOn ()
 void Assets_Header::touchCSSOn ()
 {
   includeTouchCSS = true;
+}
+
+
+void Assets_Header::notifItOn ()
+{
+  includeNotifIt = true;
 }
 
 
@@ -156,6 +163,10 @@ string Assets_Header::run ()
     view->enable_zone ("include_touch_css");
   } else {
     view->enable_zone ("include_mouse_css");
+  }
+  
+  if (includeNotifIt) {
+    view->enable_zone ("include_notif_it");
   }
   
   string headlines;

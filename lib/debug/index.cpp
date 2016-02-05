@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <debug/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <assets/header.h>
 #include <filter/roles.h>
 #include <tasks/logic.h>
 #include <sources/etcbc4.h>
@@ -55,7 +56,9 @@ string debug_index (void * webserver_request)
   
   string page;
 
-  page = Assets_Page::header ("Bibledit", webserver_request);
+  Assets_Header header = Assets_Header ("Bibledit", webserver_request);
+  header.notifItOn ();
+  page = header.run ();
 
   Assets_View view;
 
