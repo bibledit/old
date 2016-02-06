@@ -33,7 +33,6 @@ class Html_Text
 {
 public:
   Html_Text (string title);
-  ~Html_Text ();
   void newParagraph (string style = "");
   void addText (string text);
   string getHtml ();

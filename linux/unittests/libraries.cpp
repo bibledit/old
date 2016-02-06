@@ -382,6 +382,8 @@ void test_store_bible_data ()
   trace_unit_tests (__func__);
   
   Webserver_Request request;
+  request.database_users ()->create ();
+  request.session_logic ()->setUsername ("phpunit");
   string usfm =
   "\\c 1\n"
   "\\p\n"
@@ -519,7 +521,7 @@ void test_store_bible_data ()
   // Safely store a verse with too much of content difference: Fails.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
     string data = "\\v 2 vERSE 2.\n";
     string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
     evaluate (__LINE__, __func__, "Text content differs too much", stored);
@@ -530,7 +532,7 @@ void test_store_bible_data ()
   // Safely store USFM without any verse to verse 2: Fails.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
     string data = "\\p Verse 2.\n";
     string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
     evaluate (__LINE__, __func__, "Missing verse number", stored);
@@ -541,7 +543,7 @@ void test_store_bible_data ()
   // Safely store USFM with two verses: Fails.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    Database_Config_Bible::setEditingAllowedDifferenceVerse ("phpunit", 40);
+    request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
     string data = "\\v 2 Verse 2.\n\\v 3 3";
     string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data);
     evaluate (__LINE__, __func__, "Cannot overwrite another verse", stored);
@@ -765,6 +767,22 @@ void test_editor_usfm2html ()
     string standard =
     "<p class=\"c\"><span>1</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>";
     evaluate (__LINE__, __func__, standard, html);
+  }
+  // Most recent paragraph style.
+  {
+    string usfm =
+    "\\c 2\n"
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\q2\n"
+    "\\v 2 Two\n"
+    "\\v 3 Three\n";
+    Webserver_Request request;
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    evaluate (__LINE__, __func__, "q2", editor_usfm2html.currentParagraphStyle);
   }
 }
 

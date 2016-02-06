@@ -59,6 +59,23 @@ string index_index (void * webserver_request)
     }
   }
   
+  // Mode toggle: basic <> advanced.
+  string mode = request->query ["mode"];
+  if (!mode.empty ()) {
+    int flip = false;
+    if (mode == "basic") {
+      if (!request->session_logic ()->touchEnabled ()) {
+        flip = true;
+      }
+    }
+    if (mode == "advanced") {
+      if (request->session_logic ()->touchEnabled ()) {
+        flip = true;
+      }
+    }
+    request->database_config_user ()->setFlipInterfaceMode (flip);
+  }
+  
   // Normally a page does not show the expanded main menu.
   // This is to save space on the screen.
   // But the home page of Bibledit show the extended main menu.
@@ -66,7 +83,6 @@ string index_index (void * webserver_request)
     request->query ["item"] = "main";
   }
 
-  //cout << request->session_logic ()->touchEnabled () << endl; // Todo
   string page = header.run ();
   
   Assets_View view;

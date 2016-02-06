@@ -61,11 +61,6 @@ Html_Text::Html_Text (string title)
 }
 
 
-Html_Text::~Html_Text ()
-{
-}
-
-
 void Html_Text::newParagraph (string style)
 {
   currentPDomElement = bodyDomNode.append_child ("p");

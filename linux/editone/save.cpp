@@ -27,6 +27,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <editor/html2usfm.h>
 #include <access/bible.h>
 #include <config/logic.h>
@@ -65,6 +66,7 @@ string editone_save (void * webserver_request)
   int verse = convert_to_int (request->post["verse"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
+  string added_style = request->post["style"];
 
   
   // Checksum.
@@ -96,8 +98,23 @@ string editone_save (void * webserver_request)
   }
 
   
+  // If an initial style was added to the first paragraph, remove it again.
+  if (!added_style.empty ()) {
+    xml_document document;
+    document.load_string (html.c_str(), parse_ws_pcdata_single);
+    xml_node p_node = document.first_child ();
+    string p_style = p_node.attribute ("class").value ();
+    if (added_style == p_style) {
+      p_node.remove_attribute ("class");
+    }
+    stringstream output;
+    document.print (output, "", format_raw);
+    html = output.str ();
+  }
+  
+  
   string stylesheet = request->database_config_user()->getStylesheet();
-
+  
   
   // Convert the html back to USFM in the special way for editing one verse.
   string usfm = editor_export_verse (stylesheet, html);
@@ -118,7 +135,7 @@ string editone_save (void * webserver_request)
       string newText = request->database_bibles()->getChapter (bible, book, chapter);
       database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     }
-    return translate("Saved");
+    return locale_logic_text_saved ();
   }
 
   

@@ -37,11 +37,6 @@ Assets_View::Assets_View ()
 }
 
 
-Assets_View::~Assets_View ()
-{
-}
-
-
 // Sets a variable (key and value) for the html template.
 void Assets_View::set_variable (string key, string value)
 {
@@ -53,6 +48,12 @@ void Assets_View::set_variable (string key, string value)
 void Assets_View::enable_zone (string zone)
 {
   zones [zone] = true;
+}
+
+
+void Assets_View::disable_zone (string zone)
+{
+  zones.erase (zone);
 }
 
 
@@ -74,7 +75,7 @@ string Assets_View::render (string tpl1, string tpl2)
   }
 
   // Instantiate and fill the template engine. 
-  Flate flate = Flate ();
+  Flate flate;
 
   // Copy the variables and zones to the engine.
   map <string, string>::iterator iter1;

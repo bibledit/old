@@ -90,7 +90,7 @@ string workbench_settings (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Edit desktop"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.addBreadCrumb (workbench_organize_url (), menu_logic_workbench_organize_text ());
+  header.addBreadCrumb (workbench_organize_url (), menu_logic_desktop_organize_text ());
   page = header.run ();
   
   Assets_View view;

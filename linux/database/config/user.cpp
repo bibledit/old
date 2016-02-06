@@ -1110,3 +1110,21 @@ void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
 }
 
 
+bool Database_Config_User::getFlipInterfaceMode ()
+{
+  return getBValue ("flip-interface-mode", false);
+}
+void Database_Config_User::setFlipInterfaceMode (bool value)
+{
+  setBValue ("flip-interface-mode", value);
+}
+
+
+bool Database_Config_User::getMainMenuAlwaysVisible ()
+{
+  return getBValue ("main-menu-always-visible", false);
+}
+void Database_Config_User::setMainMenuAlwaysVisible (bool value)
+{
+  setBValue ("main-menu-always-visible", value);
+}

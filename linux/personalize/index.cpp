@@ -73,6 +73,13 @@ string personalize_index (void * webserver_request)
   }
   
   
+  // Main menu always visible: Before displaying page, so the page does the correct thing with the menu.
+  if (request->query.count ("menuvisible")) {
+    bool state = request->database_config_user ()->getMainMenuAlwaysVisible ();
+    request->database_config_user ()->setMainMenuAlwaysVisible (!state);
+  }
+  
+  
   string page;
   string success;
   string error;
@@ -101,7 +108,6 @@ string personalize_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Personalize"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.jQueryUIOn ();
-  //header.jQueryMobileOn (); // Todo
   page = header.run ();
 
   
@@ -238,7 +244,12 @@ string personalize_index (void * webserver_request)
   view.set_variable ("chapterpercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceChapter ()));
   view.set_variable ("versepercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceVerse ()));
   
+ 
+  // Whether to keep the main menu always visible.
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMainMenuAlwaysVisible ());
+  view.set_variable ("menuvisible", on_off);
   
+
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("personalize", "index");
