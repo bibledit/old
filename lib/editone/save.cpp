@@ -27,6 +27,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <editor/html2usfm.h>
 #include <access/bible.h>
 #include <config/logic.h>
@@ -134,7 +135,7 @@ string editone_save (void * webserver_request)
       string newText = request->database_bibles()->getChapter (bible, book, chapter);
       database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     }
-    return translate("Saved");
+    return locale_logic_text_saved ();
   }
 
   

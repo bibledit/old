@@ -698,7 +698,7 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
-msgid "(all of them)"
+msgid "all of them"
 msgstr ""
 
 msgid "Change Notifications"
@@ -802,6 +802,9 @@ msgid "and"
 msgstr ""
 
 msgid "(if their changes and verses match)"
+msgstr ""
+
+msgid "(all of them)"
 msgstr ""
 
 msgid "Will generate lists of changes"
@@ -1904,15 +1907,6 @@ msgstr ""
 msgid "Select which Bible to open in the editor"
 msgstr ""
 
-msgid "Loaded"
-msgstr ""
-
-msgid "Saving..."
-msgstr ""
-
-msgid "Retrying..."
-msgstr ""
-
 msgid "Insufficient information"
 msgstr ""
 
@@ -1941,9 +1935,6 @@ msgid "Incorrect chapter"
 msgstr ""
 
 msgid "Merging chapter."
-msgstr ""
-
-msgid "Saved"
 msgstr ""
 
 msgid "Edit verse"
@@ -5903,6 +5894,18 @@ msgstr ""
 msgid "Month"
 msgstr ""
 
+msgid "Saving..."
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Loaded"
+msgstr ""
+
+msgid "Retrying..."
+msgstr ""
+
 msgid "Export"
 msgstr ""
 
@@ -6630,7 +6633,7 @@ msgstr ""
 msgid "Delete the note now"
 msgstr ""
 
-msgid "This note is public"
+msgid "Public note:"
 msgstr ""
 
 msgid "Assign note"

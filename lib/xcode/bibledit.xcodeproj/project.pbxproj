@@ -286,7 +286,7 @@
 		CA4694551A588D1800635799 /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
 		CA4694571A588D1800635799 /* offset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = offset.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA4694581A588D1800635799 /* offset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = offset.h; sourceTree = "<group>"; };
-		CA46945A1A588D1800635799 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
+		CA46945A1A588D1800635799 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = save.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA46945B1A588D1800635799 /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
 		CA4E47F41AB875C30021C61E /* statistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = statistics.cpp; sourceTree = "<group>"; };
 		CA4E47F51AB875C30021C61E /* statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
@@ -793,7 +793,6 @@
 		CAA9121B1C526E1A00F74080 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA9C1C61C651A93006D8709 /* demo.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = demo.html; sourceTree = "<group>"; };
 		CAA9C1C71C651A93006D8709 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CAA9C1C81C651A93006D8709 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		CAA9C1C91C651A93006D8709 /* notifit.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = notifit.css; sourceTree = "<group>"; };
 		CAA9C1CA1C651A93006D8709 /* notifit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.js; sourceTree = "<group>"; };
 		CAA9C1CB1C651A93006D8709 /* notifit.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.min.js; sourceTree = "<group>"; };
@@ -2859,7 +2858,6 @@
 			children = (
 				CAA9C1C61C651A93006D8709 /* demo.html */,
 				CAA9C1C71C651A93006D8709 /* index.js */,
-				CAA9C1C81C651A93006D8709 /* LICENSE.md */,
 				CAA9C1C91C651A93006D8709 /* notifit.css */,
 				CAA9C1CA1C651A93006D8709 /* notifit.js */,
 				CAA9C1CB1C651A93006D8709 /* notifit.min.js */,

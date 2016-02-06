@@ -26,6 +26,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
@@ -71,6 +72,7 @@ string editusfm_index (void * webserver_request)
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   if (touch) header.jQueryMobileTouchOn ();
+  header.notifItOn ();
   page = header.run ();
   
   if (request->query.count("changebible")) {
@@ -103,13 +105,15 @@ string editusfm_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   
-  string chapterLoaded = translate("Loaded");
-  string chapterSaving = translate("Saving...");
-  string chapterRetrying = translate("Retrying...");
+  string chapterLoaded = locale_logic_text_loaded ();
+  string chapterSaving = locale_logic_text_saving ();
+  string chapterSaved = locale_logic_text_saved ();
+  string chapterRetrying = locale_logic_text_retrying ();
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var usfmEditorChapterLoaded = \"" + chapterLoaded + "\";\n"
   "var usfmEditorChapterSaving = \"" + chapterSaving + "\";\n"
+  "var usfmEditorChapterSaved = \"" + chapterSaved + "\";\n"
   "var usfmEditorChapterRetrying = \"" + chapterRetrying + "\";\n"
   "var usfmEditorWriteAccess = true;\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";

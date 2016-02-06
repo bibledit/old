@@ -26,6 +26,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
@@ -65,6 +66,7 @@ string editverse_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit USFM"), request);
   header.setNavigator ();
   if (touch) header.jQueryMobileTouchOn ();
+  header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
@@ -94,12 +96,14 @@ string editverse_index (void * webserver_request)
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
-  string chapterLoaded = translate("Loaded");
-  string chapterSaving = translate("Saving...");
-  string chapterRetrying = translate("Retrying...");
+  string chapterLoaded = locale_logic_text_loaded ();
+  string chapterSaving = locale_logic_text_saving ();
+  string chapterSaved = locale_logic_text_saved ();
+  string chapterRetrying = locale_logic_text_retrying ();
   string script =
   "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
+  "var verseEditorVerseSaved = '" + chapterSaved + "';\n"
   "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
   "var verseEditorWriteAccess = true;";
   view.set_variable ("script", script);

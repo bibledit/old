@@ -28,6 +28,7 @@
 #include <database/logs.h>
 #include <checksum/logic.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <edit/logic.h>
 #include <access/bible.h>
 #include <config/logic.h>
@@ -98,7 +99,7 @@ string editusfm_save (void * webserver_request)
                   }
                   // Store a copy of the USFM loaded in the editor for later reference.
                   storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
-                  return translate("Saved");
+                  return locale_logic_text_saved ();
                 }
                 return message;
               } else {
