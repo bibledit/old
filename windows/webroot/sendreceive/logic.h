@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@ bool sendreceive_paratext_queued ();
 
 void sendreceive_queue_all (bool now);
 void sendreceive_queue_startup ();
+
+bool sendreceive_logic_prioritized_task_is_active ();
 
 
 #endif

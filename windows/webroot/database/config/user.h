@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -200,6 +200,16 @@ public:
   int getVerticalCaretPosition ();
   bool getDisplayBreadcrumbs ();
   void setDisplayBreadcrumbs (bool value);
+  void setDesktopMenuFadeoutDelay (int value);
+  int getDesktopMenuFadeoutDelay ();
+  int getEditingAllowedDifferenceChapter ();
+  void setEditingAllowedDifferenceChapter (int value);
+  int getEditingAllowedDifferenceVerse ();
+  void setEditingAllowedDifferenceVerse (int value);
+  bool getFlipInterfaceMode ();
+  void setFlipInterfaceMode (bool value);
+  bool getMainMenuAlwaysVisible ();
+  void setMainMenuAlwaysVisible (bool value);
 private:
   void * webserver_request;
   string file (string user, const char * key);

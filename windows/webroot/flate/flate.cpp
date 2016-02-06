@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,16 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logs.h>
 #include <locale/translate.h>
-
-
-Flate::Flate ()
-{
-}
-
-
-Flate::~Flate ()
-{
-}
 
 
 // Sets a variable (key and value) for the html template.
@@ -62,6 +52,16 @@ string Flate::render (string html)
   } catch (...) {
     Database_Logs::log ("Failure to process template " + html);
   }
+  // Remove empty lines.
+  vector <string> lines = filter_string_explode (rendering, '\n');
+  rendering.clear ();
+  for (auto & line : lines) {
+    line = filter_string_trim (line);
+    if (line.empty ()) continue;
+    rendering.append (line);
+    rendering.append ("\n");
+  }
+  // Done.
   return rendering;
 }
 

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ $(document).ready (function () {
 var sorted = function (event, ui) {
   var list = new Array ();
   $ ("#sortable").children ().each (function (i) {
-    list.push (this.childNodes [1].data);
+    list.push (this.innerText.substring (2));
   });
   $.post ("organize", {'resources': list.toString()});
 }

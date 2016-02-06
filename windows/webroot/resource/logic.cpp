@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -482,7 +482,7 @@ string resource_logic_get_divider (string resource)
   vector <string> bits = filter_string_explode (resource, ' ');
   string colour = unicode_string_casefold (bits [0]);
   // The $ influences the resource's embedding through javascript.
-  string html = "$<div class=\"fullwidth\" style=\"background-color: " + colour + ";\">&nbsp;</div>";
+  string html = "$<div class=\"width100\" style=\"background-color: " + colour + ";\">&nbsp;</div>";
   return html;
 }
 

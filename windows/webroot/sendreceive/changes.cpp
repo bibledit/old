@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
+#include <config/globals.h>
 #include <database/config/general.h>
 #include <database/modifications.h>
 #include <database/logs.h>
@@ -41,6 +42,7 @@ int sendreceive_changes_watchdog = 0;
 void send_receive_changes_done ()
 {
   sendreceive_changes_watchdog = 0;
+  config_globals_syncing_changes = false;
 }
 
 
@@ -73,6 +75,7 @@ void sendreceive_changes ()
     Database_Logs::log (sendreceive_changes_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_changes_kick_watchdog ();
+  config_globals_syncing_changes = true;
 
   
   Database_Logs::log (sendreceive_changes_sendreceive_text (), Filter_Roles::translator ());

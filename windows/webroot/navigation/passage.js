@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -242,6 +242,40 @@ function navigateNextVerse (event) {
     url: "/navigation/update",
     type: "GET",
     data: { bible: navigationBible, nextverse: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
+}
+
+
+function navigatePreviousChapter (event) {
+  event.preventDefault ();
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, previouschapter: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
+}
+
+
+function navigateNextChapter (event) {
+  event.preventDefault ();
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, nextchapter: "" },
     cache: false,
     success: function (response) {
       navigatorContainer.empty ();

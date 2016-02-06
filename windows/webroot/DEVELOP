@@ -1,8 +1,8 @@
-This is going to be a version of Bibledit that runs on all relevant platforms.
+This is a version of Bibledit that runs on all relevant platforms.
 
-The developer transforms Bibledit-Web, written in PHP, with minimal effort, into C++.
+The developer has ported Bibledit-Web, written in PHP, with minimal effort, to C++.
 
-A main reason is that PHP is not well suited to the mobile platforms like Android and in particular iOS.
+A main reason was that PHP is not well suited to the mobile platforms like Android and in particular iOS.
 On iOS it was possible to compile stock PHP without errors, 
 but newer versions of PHP, like 5.6, crashed, 
 and older versions, like 5.4 left out symbols which crippled the library.
@@ -27,6 +27,7 @@ The Bibledit library runs a webserver.
 Since Bibledit is going to run as a server, it may run for years without interruption.
 Therefore it is imperative that it leaks no memory at all.
 Keep it valgrind clean.
+Later on, Bibledit was modified, so it runs for 24 hours as a server, then restarts itself.
 
 Porting to Windows was done in Visual Studio.
 The library compiles well through gcc.
@@ -49,6 +50,14 @@ It uses shell calls to git instead.
 
 Supported web browsers: Chrome, Firefox, Internet Explorer, Safari, Opera, Edge.
 
-There is Hebrew linguistic data available from https://easy.dans.knaw.nl/ui/datasets/id/easy-dataset:58245. The ETCBC4 database is in the public domain. It contaiins a lot of useful information, but it also lacks information useful to Bible translators, in particular it lacks information defining the meaning of a word. For that reason Bibledit does not yet include this database.
-
+Developer design guidelines for Bibledit on mobile devices.
+If the navigation buttons at the top are small, they are difficult to manage. Small buttons may take many tries before getting them to work. One could expand the display, but then, that puts a lot of the user interface outside the screen limits.
+Therefore the navigation buttons at the top should be large enough to be easily operated by touch.
+Bibledit on mobile devices should be very simple and intuitive to operate for beginners and in fact, for anyone.
+Non-sosphisticated computer users are best served by software that is built to conform to their minimalist needs. So it needs to do one or two or maybe three things the user values. Those things need to be interrelated in ways that make good sense to the users, and are necessary elements of processes that solve just one clear overall task.
+A developer should design an interface around that task, and makes the functionalities intuitive and easy to apply.
+Nothing goes into the software that is not an important aspect of solving that task. Then the nuts and bolts under the hood are put in place to make the gui effective for the user.
+Ideally Bibledit should have a dynamic adjustable GUI, large clear buttons, and adjunct functionality that could be brought into play on an as-needed basis (concordance, helps, interlinears, Bibles), and to cull those adjunct resources to the bare minimum. Too much overwhelms non-sophisticated users.
+A major part of the work of developers is about satisfying the needs of people, who need good software to get their work done.
+For people new to computers, good software is not complex software. It's not a lot of things. It's simple. The software should do what the users need with a minimum of fuss, and with an easy learning curve.
 

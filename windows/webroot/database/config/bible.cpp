@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -576,26 +576,6 @@ string Database_Config_Bible::getTextFontClient (string bible)
 void Database_Config_Bible::setTextFontClient (string bible, string value)
 {
   setValue (bible, "text-font-client", value);
-}
-
-
-int Database_Config_Bible::getEditingAllowedDifferenceChapter (string bible)
-{
-  return getIValue (bible, "editing-allowed-difference-chapter", 20);
-}
-void Database_Config_Bible::setEditingAllowedDifferenceChapter (string bible, int value)
-{
-  setIValue (bible, "editing-allowed-difference-chapter", value);
-}
-
-
-int Database_Config_Bible::getEditingAllowedDifferenceVerse (string bible)
-{
-  return getIValue (bible, "editing-allowed-difference-verse", 75);
-}
-void Database_Config_Bible::setEditingAllowedDifferenceVerse (string bible, int value)
-{
-  setIValue (bible, "editing-allowed-difference-verse", value);
 }
 
 

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1077,4 +1077,54 @@ bool Database_Config_User::getDisplayBreadcrumbs ()
 void Database_Config_User::setDisplayBreadcrumbs (bool value)
 {
   setBValue ("display-breadcrumbs", value);
+}
+
+
+int Database_Config_User::getDesktopMenuFadeoutDelay ()
+{
+  return getIValue ("desktop-menu-fadeout-delay", 4);
+}
+void Database_Config_User::setDesktopMenuFadeoutDelay (int value)
+{
+  setIValue ("desktop-menu-fadeout-delay", value);
+}
+
+
+int Database_Config_User::getEditingAllowedDifferenceChapter ()
+{
+  return getIValue ("editing-allowed-difference-chapter", 20);
+}
+void Database_Config_User::setEditingAllowedDifferenceChapter (int value)
+{
+  setIValue ("editing-allowed-difference-chapter", value);
+}
+
+
+int Database_Config_User::getEditingAllowedDifferenceVerse ()
+{
+  return getIValue ("editing-allowed-difference-verse", 75);
+}
+void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
+{
+  setIValue ("editing-allowed-difference-verse", value);
+}
+
+
+bool Database_Config_User::getFlipInterfaceMode ()
+{
+  return getBValue ("flip-interface-mode", false);
+}
+void Database_Config_User::setFlipInterfaceMode (bool value)
+{
+  setBValue ("flip-interface-mode", value);
+}
+
+
+bool Database_Config_User::getMainMenuAlwaysVisible ()
+{
+  return getBValue ("main-menu-always-visible", false);
+}
+void Database_Config_User::setMainMenuAlwaysVisible (bool value)
+{
+  setBValue ("main-menu-always-visible", value);
 }

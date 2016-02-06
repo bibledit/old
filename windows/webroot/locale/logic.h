@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,6 +28,11 @@ string locale_logic_filter_default_language (string localization);
 string locale_logic_month (int month);
 map <string, string> locale_logic_localizations ();
 map <string, string> locale_logic_read_po (string file);
+
+string locale_logic_text_saving ();
+string locale_logic_text_saved ();
+string locale_logic_text_loaded ();
+string locale_logic_text_retrying ();
 
 
 #endif

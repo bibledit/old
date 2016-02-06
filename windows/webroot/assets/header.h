@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,6 +31,9 @@ public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
   void jQueryUIOn ();
+  void jQueryMobileTouchOn ();
+  void touchCSSOn ();
+  void notifItOn ();
   void setNavigator ();
   void setStylesheet ();
   void setEditorStylesheet ();
@@ -42,6 +45,9 @@ public:
 private:
   Assets_View * view;
   bool includeJQueryUI;
+  bool includeJQueryMobileTouch;
+  bool includeTouchCSS;
+  bool includeNotifIt;
   vector <string> headLines;
   bool displayNavigator;
   string includedStylesheet;

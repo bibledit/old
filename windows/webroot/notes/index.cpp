@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <locale/translate.h>
 #include <database/notes.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string notes_index_url ()
@@ -89,7 +90,13 @@ string notes_index (void * webserver_request)
   }
 
   int level = request->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::manager ()) view.enable_zone ("update");
+  // Manager roles and higher can do mass updates on the notes.
+  if (level >= Filter_Roles::manager ()) {
+    // No mass updates in basic mode.
+    if (!config_logic_basic_mode (webserver_request)) {
+      view.enable_zone ("update");
+    }
+  }
   
   page += view.render ("notes", "index");
   

@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -113,8 +113,8 @@ string Editor_Usfm2Html::get ()
 
 void Editor_Usfm2Html::preprocess ()
 {
-  currentParagraphStyle = "";
-  currentParagraphContent = "";
+  currentParagraphStyle.clear ();
+  currentParagraphContent.clear ();
   currentTextStyles.clear();
   noteCount = 0;
   currentNoteTextStyles.clear();

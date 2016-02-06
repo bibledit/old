@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -134,6 +134,9 @@ string sync_bibles (void * webserver_request)
 
   // Check on the credentials.
   if (!sync_logic.credentials_okay ()) return "";
+  
+  // Client makes a prioritized server call: Record the client's IP address.
+  sync_logic.prioritized_ip_address_record ();
   
   // Get the relevant parameters the client may have POSTed to us, the server.
   int action = convert_to_int (request->post ["a"]);

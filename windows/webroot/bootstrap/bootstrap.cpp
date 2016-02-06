@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -193,6 +193,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/create.h>
 #include <public/note.h>
 #include <public/comment.h>
+#include <basic/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -211,6 +212,7 @@ void bootstrap_index (Webserver_Request * request)
       || (extension == "js")
       || (Fonts_Logic::isFont (extension))
       || (extension == "sh")
+      || (extension == "svg")
       ) http_serve_cache_file (request);
   else if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) request->reply = resource_imagefetch (request);
 
@@ -323,6 +325,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == mapping_index_url ()) && mapping_index_acl (request)) request->reply = mapping_index (request);
   else if ((url == mapping_map_url ()) && mapping_map_acl (request)) request->reply = mapping_map (request);
   else if ((url == paratext_index_url ()) && paratext_index_acl (request)) request->reply = paratext_index (request);
+  else if ((url == basic_index_url ()) && basic_index_acl (request)) request->reply = basic_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);

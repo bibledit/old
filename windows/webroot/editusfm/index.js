@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,6 +32,8 @@ $(document).ready (function () {
   $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
   $ ("#usfmeditor").focus ();
   $ (window).on ("focus", usfmWindowFocused);
+  $ ("body").on ("swipeleft", editusfmSwipeLeft);
+  $ ("body").on ("swiperight", editusfmSwipeRight);
 });
 
 
@@ -182,6 +184,16 @@ function usfmEditorStatus (text)
 {
   $ ("#usfmstatus").empty ();
   $ ("#usfmstatus").append (text);
+  usfmEditorSelectiveNotification (text);
+}
+
+
+function usfmEditorSelectiveNotification (message)
+{
+  if (message == usfmEditorChapterLoaded) return;
+  if (message == usfmEditorChapterSaving) return;
+  if (message == usfmEditorChapterSaved) return;
+  notifyItError (message);
 }
 
 
@@ -386,6 +398,33 @@ function clarifyCaret ()
     barTop = barOffset + $ ("#caretbar").height ();
   }
   $ ("#caretbar").prepend ("\n");
+}
+
+
+/*
+ 
+ Section for swipe navigation.
+
+ */
+
+
+function editusfmSwipeLeft (event)
+{
+  if (typeof navigateNextChapter != 'undefined') {
+    navigateNextChapter (event);
+  } else if (parent.window.navigateNextChapter != 'undefined') {
+    parent.window.navigateNextChapter (event);
+  }
+}
+
+
+function editusfmSwipeRight (event)
+{
+  if (typeof navigatePreviousChapter != 'undefined') {
+    navigatePreviousChapter (event);
+  } else if (parent.window.navigatePreviousChapter != 'undefined') {
+    parent.window.navigatePreviousChapter (event);
+  }
 }
 
 

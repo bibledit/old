@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,6 +32,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
   includeJQueryUI = false;
+  includeJQueryMobileTouch = false;
+  includeTouchCSS = false;
+  includeNotifIt = false;
   displayNavigator = false;
   webserver_request = webserver_request_in;
   view = new Assets_View ();
@@ -48,6 +51,24 @@ Assets_Header::~Assets_Header ()
 void Assets_Header::jQueryUIOn ()
 {
   includeJQueryUI = true;
+}
+
+
+void Assets_Header::jQueryMobileTouchOn ()
+{
+  includeJQueryMobileTouch = true;
+}
+
+
+void Assets_Header::touchCSSOn ()
+{
+  includeTouchCSS = true;
+}
+
+
+void Assets_Header::notifItOn ()
+{
+  includeNotifIt = true;
 }
 
 
@@ -128,6 +149,26 @@ string Assets_Header::run ()
     view->enable_zone ("include_jquery_ui");
   }
 
+  if (includeJQueryMobileTouch) {
+    view->enable_zone ("include_jquery_mobile_touch");
+  }
+
+  if (request->session_logic ()->touchEnabled ()) {
+    touchCSSOn();
+  }
+  if (!request->session_logic ()->loggedIn ()) {
+    touchCSSOn();
+  }
+  if (includeTouchCSS) {
+    view->enable_zone ("include_touch_css");
+  } else {
+    view->enable_zone ("include_mouse_css");
+  }
+  
+  if (includeNotifIt) {
+    view->enable_zone ("include_notif_it");
+  }
+  
   string headlines;
   for (auto & headline : headLines) {
     if (!headlines.empty ()) headlines.append ("\n");
@@ -143,38 +184,67 @@ string Assets_Header::run ()
     view->enable_zone ("include_editor_stylesheet");
     view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
   }
-  
+
+  bool basic_mode = config_logic_basic_mode (webserver_request);
+  string basicadvanced;
+  if (basic_mode) basicadvanced = "basic";
+  else basicadvanced = "advanced";
+  view->set_variable ("basicadvanced", basicadvanced);
+
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
+    
+    // In basic mode there's no back button in a bare browser.
+    if (basic_mode) {
+      view->disable_zone ("bare_browser");
+    }
     
     // The start button to be displayed only when there's no menu.
     bool start_button = true;
     
     string menublock;
     string item = request->query ["item"];
-    if (item == "main") {
-      menublock = menu_logic_main_categories (webserver_request);
+    bool main_menu_always_on = false;
+    if (item.empty ())
+      if (request->database_config_user ()->getMainMenuAlwaysVisible ())
+        main_menu_always_on = true;
+    if ((item == "main") || main_menu_always_on) {
+      if (basic_mode) {
+        menublock = menu_logic_basic_categories (webserver_request);
+      } else {
+        string devnull;
+        menublock = menu_logic_main_categories (webserver_request, devnull);
+      }
       start_button = false;
-    } else if (item == "translate") {
+    } else if (item == menu_logic_translate_menu ()) {
       menublock = menu_logic_translate_category (webserver_request);
-    } else if (item == "search") {
+    } else if (item == menu_logic_search_menu ()) {
       menublock = menu_logic_search_category (webserver_request);
-    } else if (item == "tools") {
+    } else if (item == menu_logic_tools_menu ()) {
       menublock = menu_logic_tools_category (webserver_request);
-    } else if (item == "settings") {
+    } else if (item == menu_logic_settings_menu ()) {
       menublock = menu_logic_settings_category (webserver_request);
+    } else if (item == menu_logic_settings_resources_menu ()) {
+      menublock = menu_logic_settings_resources_category (webserver_request);
+    } else if (item == menu_logic_settings_styles_menu ()) {
+      menublock = menu_logic_settings_styles_category (webserver_request);
     } else if (item == "help") {
       menublock = menu_logic_help_category (webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
-    
+
     if (start_button) {
       view->enable_zone ("start_button");
+      string tooltip;
+      menu_logic_main_categories (webserver_request, tooltip);
+      view->set_variable ("starttooltip", tooltip);
     }
     
     if (!fadingmenu.empty ()) {
       view->enable_zone ("fading_menu");
       view->set_variable ("fadingmenu", fadingmenu);
+      string delay = convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()) + "000";
+      view->set_variable ("fadingmenudelay", delay);
       fadingmenu.clear ();
     }
 
@@ -216,25 +286,29 @@ string Assets_Header::run ()
   
   if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
     if (!breadcrumbs.empty ()) {
-      string track;
-      track.append ("<a href=\"/");
-      track.append (index_index_url ());
-      track.append ("\">");
-      track.append (menu_logic_menu_text (""));
-      track.append ("</a>");
-      for (auto & crumb : breadcrumbs) {
-        track.append (" » ");
-        if (!crumb.first.empty ()) {
-          track.append ("<a href=\"/");
-          track.append (menu_logic_menu_url (crumb.first));
-          track.append ("\">");
+      // No bread crumbs in basic mode.
+      // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
+      if (!config_logic_basic_mode (webserver_request)) {
+        string track;
+        track.append ("<a href=\"/");
+        track.append (index_index_url ());
+        track.append ("\">");
+        track.append (menu_logic_menu_text (""));
+        track.append ("</a>");
+        for (auto & crumb : breadcrumbs) {
+          track.append (" » ");
+          if (!crumb.first.empty ()) {
+            track.append ("<a href=\"/");
+            track.append (menu_logic_menu_url (crumb.first));
+            track.append ("\">");
+          }
+          track.append (crumb.second);
+          if (!crumb.first.empty ()) {
+            track.append ("</a>");
+          }
         }
-        track.append (crumb.second);
-        if (!crumb.first.empty ()) {
-          track.append ("</a>");
-        }
+        view->set_variable ("breadcrumbs", track);
       }
-      view->set_variable ("breadcrumbs", track);
     }
   }
   

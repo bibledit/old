@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@
  A demo installation is an open installation.
  A user is always considered to be logged in as admin.
  
- During the course of October 2015 the demo began to often refuse web connections.
+ In October 2015 the demo began to often refuse web connections.
  It appears that the server keeps running most of the times, but also crashed often during certain periods.
 
  The number of parallel connections was traced to see if that was the cause. 
@@ -62,7 +62,7 @@
  After logging them, it appears that the crash often comes after /resource/get
 
  Next a crash handler was installed, which gives some sort of backtrace in the Journal.
- This showed one crash in the night. The crash was fixed.
+ This showed one crash during the nights. The crash was fixed.
  
 */
 
@@ -128,7 +128,7 @@ void demo_clean_data ()
   request.session_logic ()->setUsername (session_admin_credentials ());
   
   
-  // Delete empty sheet that may have been there.
+  // Delete empty stylesheet that may have been there.
   request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
   request.database_styles()->deleteSheet ("");
   styles_sheets_create_all ();
@@ -223,6 +223,10 @@ void demo_clean_data ()
     resources = demo_logic_default_resources ();
     request.database_config_user()->setActiveResources (resources);
   }
+  
+  
+  // No flipped basic <> advanded mode.
+  request.database_config_user ()->setFlipInterfaceMode (false);
 }
 
 

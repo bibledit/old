@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -69,7 +69,10 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("bible")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "");
+    // Any resources added is POSTed because when it was still done through GET,
+    // the crawlers of the search engines kept clicking links and so adding resources on the public demo.
+    // The POST method is supposed to be immune to that.
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> bibles = access_bible_bibles (webserver_request);
     for (auto bible : bibles) {
@@ -81,7 +84,7 @@ string resource_select (void * webserver_request)
   
 
   if (request->query.count ("usfm")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a USFM resource"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a USFM resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     Database_UsfmResources database_usfmresources;
     vector <string> resources = database_usfmresources.getResources ();
@@ -94,7 +97,7 @@ string resource_select (void * webserver_request)
   
 
   if (request->query.count ("web_orig")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_original_language_resources ();
     for (auto resource : resources) {
@@ -106,7 +109,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("web_bibles")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_bibles ();
     for (auto resource : resources) {
@@ -118,7 +121,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("web_commentaries")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a commentary"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a commentary"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_commentaries ();
     for (auto resource : resources) {
@@ -130,7 +133,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("web_other")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a general resource"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a general resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_general_resources ();
     for (auto resource : resources) {
@@ -142,7 +145,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("image")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an image resource"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select an image resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     Database_ImageResources database_imageresources;
     vector <string> resources = database_imageresources.names ();
@@ -155,7 +158,7 @@ string resource_select (void * webserver_request)
   
 
   if (request->query.count ("lexicon")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = lexicon_logic_resource_names ();
     for (auto resource : resources) {
@@ -167,7 +170,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("sword")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = sword_logic_get_available ();
     for (auto resource : resources) {
@@ -179,7 +182,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("divider")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a divider"), "", "");
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a divider"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = {
       resource_logic_yellow_divider (),

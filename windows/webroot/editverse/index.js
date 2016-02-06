@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@ $(document).ready (function () {
     document.execCommand ("insertHTML", false, data);
   });
   verseIdPoller ();
+  $ ("body").on ("swipeleft", editverseSwipeLeft);
+  $ ("body").on ("swiperight", editverseSwipeRight);
 });
 
 
@@ -176,6 +178,16 @@ function verseEditorStatus (text)
 {
   $ ("#usfmstatus").empty ();
   $ ("#usfmstatus").append (text);
+  verseEditorSelectiveNotification (text);
+}
+
+
+function verseEditorSelectiveNotification (message)
+{
+  if (message == verseEditorVerseLoaded) return;
+  if (message == verseEditorVerseSaving) return;
+  if (message == verseEditorVerseSaved) return;
+  notifyItError (message);
 }
 
 
@@ -225,4 +237,24 @@ function verseFocused ()
 function verseFocus ()
 {
   $ ("span[contenteditable]").focus ();
+}
+
+
+function editverseSwipeLeft (event)
+{
+  if (typeof navigateNextVerse != 'undefined') {
+    navigateNextVerse (event);
+  } else if (parent.window.navigateNextVerse != 'undefined') {
+    parent.window.navigateNextVerse (event);
+  }
+}
+
+
+function editverseSwipeRight (event)
+{
+  if (typeof navigatePreviousVerse != 'undefined') {
+    navigatePreviousVerse (event);
+  } else if (parent.window.navigatePreviousVerse != 'undefined') {
+    parent.window.navigatePreviousVerse (event);
+  }
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -383,6 +383,28 @@ string usfm_get_verse_text (string usfm, int verse_number)
 }
 
 
+// Returns the USFM text for a range of verses for the input $usfm code.
+// It handles combined verses.
+// It ensures that the $exclude_usfm does not make it to the output of the function.
+string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm)
+{
+  vector <string> bits;
+  string previous_usfm;
+  for (int vs = verse_from; vs <= verse_to; vs++) {
+    string verse_usfm = usfm_get_verse_text (usfm, vs);
+    // Do not include repeating USFM in the case of combined verse numbers in the input USFM code.
+    if (verse_usfm == previous_usfm) continue;
+    previous_usfm = verse_usfm;
+    // In case of combined verses, the excluded USFM should not be included in the result.
+    if (verse_usfm != exclude_usfm) {
+      bits.push_back (verse_usfm);
+    }
+  }
+  usfm = filter_string_implode (bits, "\n");
+  return usfm;
+}
+
+
 // Returns true if the $code contains a USFM marker.
 bool usfm_is_usfm_marker (string code)
 {
@@ -720,20 +742,23 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 // This function compares the $newtext with the $oldtext.
 // It returns an empty string if the difference is below the limit set for the Bible.
 // It returns a message specifying the difference if it exceeds that limit.
-string usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter)
+string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter)
 {
   // Two texts are equal: safe.
   if (newtext == oldtext) return "";
-  
+
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   // Allowed percentage difference.
-  int allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceVerse (bible);
-  if (chapter) allowed_percentage = Database_Config_Bible::getEditingAllowedDifferenceChapter (bible);
+  int allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();
+  if (chapter) allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceChapter ();
 
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();
   float newLength = newtext.length ();
   int percentage = 100 * (newLength - existingLength) / existingLength;
   percentage = abs (percentage);
+  if (percentage > 100) percentage = 100;
   if (percentage > allowed_percentage) {
     Database_Logs::log ("The text was not saved for safety reasons. The length differs " + convert_to_string (percentage) + "% from the existing text. Make smaller changes and save more often. Or relax the restriction in the Bible's editing settings.");
     Database_Logs::log (newtext);
@@ -773,7 +798,7 @@ string usfm_safely_store_chapter (void * webserver_request, string bible, int bo
   if (usfm == existing) return "";
   
   // Safety check.
-  string message = usfm_save_is_safe (bible, existing, usfm, true);
+  string message = usfm_save_is_safe (webserver_request, existing, usfm, true);
   if (!message.empty ()) return message;
   
   // Safety checks have passed: Save chapter.
@@ -846,7 +871,7 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
   }
 
   // Check maximum difference between new and existing USFM.
-  string message = usfm_save_is_safe (bible, existing_verse_usfm, usfm, false);
+  string message = usfm_save_is_safe (webserver_request, existing_verse_usfm, usfm, false);
   if (!message.empty ()) return message;
   
   // Store the new verse USFM in the existing chapter USFM.

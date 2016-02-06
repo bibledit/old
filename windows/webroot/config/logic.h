@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ bool config_logic_paratext_enabled ();
 bool config_logic_external_resources_cache_configured ();
 string config_logic_external_resources_cache_path ();
 bool config_logic_windows ();
+bool config_logic_basic_mode (void * webserver_request);
 
 
 #endif

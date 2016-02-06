@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@ class Html_Header
 {
 public:
   Html_Header (void * html_text);
-  ~Html_Header ();
   void searchBackLink (string url, string text);
   void create (const vector <pair <string, string> > & breadcrumbs);
 private:

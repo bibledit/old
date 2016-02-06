@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -55,8 +55,11 @@ string session_signup (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   string page;
-
-  page += Assets_Page::header (translate ("Signup"), webserver_request);
+  
+  Assets_Header header = Assets_Header (translate ("Signup"), webserver_request);
+  header.touchCSSOn ();
+  page += header.run ();
+  
   Assets_View view;
 
   // Some security questions.

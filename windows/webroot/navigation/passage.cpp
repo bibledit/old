@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <ipc/focus.h>
+#include <config/logic.h>
 
 
 /*
@@ -51,25 +52,26 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   bool passage_clipped = false;
   
+  bool basic_mode = config_logic_basic_mode (webserver_request);
+  
   string fragment;
   
-  // Links to go back and forward are grayed out or active depending on available passages to go to.
-  fragment.append ("<span>");
-  if (database_navigation.previousExists (user)) {
-    fragment.append ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
-  } else {
-    fragment.append ("<span class=\"grayedout\">↶</span>");
+  // Links to go back and forward are available only when there's available history to go to.
+  // In basic mode they are not there.
+  if (!basic_mode) {
+    fragment.append ("<span>");
+    if (database_navigation.previousExists (user)) {
+      fragment.append ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + translate("Back") + "\">↶</a>");
+    }
+    fragment.append ("</span>");
+    fragment.append ("<span>");
+    fragment.append (" ");
+    if (database_navigation.nextExists (user)) {
+      fragment.append ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
+    }
+    fragment.append ("</span>");
+    fragment.append ("\n");
   }
-  fragment.append ("</span>");
-  fragment.append ("<span>");
-  fragment.append (" ");
-  if (database_navigation.nextExists (user)) {
-    fragment.append ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + translate("Forward") + "\">↷</a>");
-  } else {
-    fragment.append ("<span class=\"grayedout\">↷</span>");
-  }
-  fragment.append ("</span>");
-  fragment.append ("\n");
   
   int book = Ipc_Focus::getBook (request);
   
@@ -115,11 +117,17 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
     }
   }
   
-  fragment.append ("<span><a id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></span>");
+  fragment.append ("<span><a");
+  if (!basic_mode) fragment.append (" class=\"previousverse\"");
+  fragment.append (" id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></span>");
   
-  fragment.append ("<span><a id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></span>");
+  fragment.append ("<span><a");
+  if (!basic_mode) fragment.append (" class=\"selectverse\"");
+  fragment.append (" id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></span>");
 
-  fragment.append ("<span><a id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></span>");
+  fragment.append ("<span><a");
+  if (!basic_mode) fragment.append (" class=\"nextverse\"");
+  fragment.append (" id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></span>");
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {

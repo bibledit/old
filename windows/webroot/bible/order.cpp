@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -86,7 +86,7 @@ string bible_order (void * webserver_request)
   vector <int> books = filter_passage_get_ordered_books (bible);
   for (auto book : books) {
     string name = Database_Books::getEnglishFromId (book);
-    namesblock.append ("<p> ⇕ <span class=\"drag\">" + name + "</span> ⇕ </p>\n");
+    namesblock.append ("<p class=\"ui-state-default\"> ⇕ <span class=\"drag\">" + name + "</span> ⇕ </p>\n");
   }
   view.set_variable ("namesblock", namesblock);
   

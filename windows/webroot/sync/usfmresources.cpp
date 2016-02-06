@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -56,7 +56,6 @@ string sync_usfmresources (void * webserver_request)
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
   int action = convert_to_int (request->post ["a"]);
   string resource = request->post ["r"];

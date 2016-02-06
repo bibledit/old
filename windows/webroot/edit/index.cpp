@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
@@ -33,6 +34,7 @@
 #include <dialog/list.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string edit_index_url ()
@@ -52,6 +54,9 @@ string edit_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
+  bool touch = request->session_logic ()->touchEnabled ();
+
+  
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
     int switchbook = convert_to_int (request->query ["switchbook"]);
     int switchchapter = convert_to_int (request->query ["switchchapter"]);
@@ -68,6 +73,8 @@ string edit_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  if (touch) header.jQueryMobileTouchOn ();
+  header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
@@ -109,13 +116,15 @@ string edit_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
 
-  string chapterLoaded = translate("Loaded");
-  string chapterSaving = translate("Saving...");
-  string chapterRetrying = translate("Retrying...");
+  string chapterLoaded = locale_logic_text_loaded ();
+  string chapterSaving = locale_logic_text_saving ();
+  string chapterSaved = locale_logic_text_saved ();
+  string chapterRetrying = locale_logic_text_retrying ();
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var editorChapterLoaded = '" + chapterLoaded + "';\n"
   "var editorChapterSaving = '" + chapterSaving + "';\n"
+  "var editorChapterSaved = '" + chapterSaved + "';\n"
   "var editorChapterRetrying = '" + chapterRetrying + "';\n"
   "var editorWriteAccess = true;\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
@@ -133,6 +142,13 @@ string edit_index (void * webserver_request)
                                                        direction,
                                                        lineheight,
                                                        letterspacing));
+  
+ 
+  // In basic mode the editor has no controls and fewer indicators.
+  // In basic mode, the user can just edit text, and cannot style it.
+  bool basic_mode = config_logic_basic_mode (webserver_request);
+  if (!basic_mode) view.enable_zone ("advancedmode");
+  
   
   page += view.render ("edit", "index");
   

@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
@@ -51,6 +52,8 @@ string editone_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
+  bool touch = request->session_logic ()->touchEnabled ();
+
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
     int switchbook = convert_to_int (request->query ["switchbook"]);
     int switchchapter = convert_to_int (request->query ["switchchapter"]);
@@ -63,6 +66,8 @@ string editone_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit verse"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
+  if (touch) header.jQueryMobileTouchOn ();
+  header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
@@ -92,14 +97,16 @@ string editone_index (void * webserver_request)
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
-  string chapterLoaded = translate("Loaded");
-  string chapterSaving = translate("Saving...");
-  string chapterRetrying = translate("Retrying...");
+  string chapterLoaded = locale_logic_text_loaded ();
+  string chapterSaving = locale_logic_text_saving ();
+  string chapterSaved = locale_logic_text_saved ();
+  string chapterRetrying = locale_logic_text_retrying ();
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var oneverseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var oneverseEditorVerseSaving = '" + chapterSaving + "';\n"
-  "var oneverseEditorChapterRetrying = '" + chapterRetrying + "';\n"
+  "var oneverseEditorVerseSaved = '" + chapterSaved + "';\n"
+  "var oneverseEditorVerseRetrying = '" + chapterRetrying + "';\n"
   "var oneverseEditorWriteAccess = true;"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   view.set_variable ("script", script);
@@ -127,3 +134,5 @@ string editone_index (void * webserver_request)
 // * Autosave on going to another passage.
 // * Autosave on document unload.
 // * Autosave shortly after any change.
+// * Save the + sign of a note.
+// * No loss of white space right after the verse number.

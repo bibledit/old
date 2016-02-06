@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@ vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_numb
 vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset);
 int usfm_versenumber_to_offset (string usfm, int verse);
 string usfm_get_verse_text (string usfm, int verse_number);
+string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm);
 bool usfm_is_usfm_marker (string code);
 bool usfm_is_opening_marker (string usfm);
 bool usfm_is_embedded_marker (string usfm);
@@ -66,7 +67,7 @@ string usfm_remove_notes (string usfm, const vector <string> & markers);
 string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio);
 string usfm_move_note (string usfm, int direction, int number);
 size_t usfm_get_new_note_position (string usfm, size_t position, int direction);
-string usfm_save_is_safe (string bible, string oldtext, string newtext, bool chapter);
+string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter);
 string usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm);
 string usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm);
 

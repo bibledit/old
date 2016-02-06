@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ string session_password (void * webserver_request)
   string page;
 
   Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
+  header.touchCSSOn ();
   page += header.run ();
 
   Assets_View view;

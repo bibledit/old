@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 
 
 #include <sync/resources.h>
+#include <sync/logic.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <webserver/request.h>
@@ -40,6 +41,15 @@ bool sync_resources_acl (void * webserver_request)
 string sync_resources (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+
+  // If the client's IP address very recently made a prioritized server call,
+  // then delay the current call.
+  // This is the way to give priority to the other call:
+  // Not clogging the client's internet connection.
+  if (sync_logic.prioritized_ip_address_active ()) {
+    this_thread::sleep_for (chrono::seconds (5));
+  }
 
   string resource = request->query ["r"];
   int book = convert_to_int (request->query ["b"]);

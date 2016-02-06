@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <database/logs.h>
 #include <database/bibles.h>
 #include <client/logic.h>
+#include <config/globals.h>
 
 
 void sendreceive_queue_bible (string bible)
@@ -61,15 +62,15 @@ void sendreceive_queue_sync (int minute)
     // Send / receive only works in Client mode.
     if (client_logic_client_enabled ()) {
       
-      if (tasks_logic_queued (SYNCNOTES)) {
-        Database_Logs::log ("Still synchronizing Notes");
-      } else {
-        tasks_logic_queue (SYNCNOTES);
-      }
       if (tasks_logic_queued (SYNCBIBLES)) {
         Database_Logs::log ("Still synchronizing Bibles");
       } else {
         tasks_logic_queue (SYNCBIBLES);
+      }
+      if (tasks_logic_queued (SYNCNOTES)) {
+        Database_Logs::log ("Still synchronizing Notes");
+      } else {
+        tasks_logic_queue (SYNCNOTES);
       }
       if (tasks_logic_queued (SYNCSETTINGS)) {
         Database_Logs::log ("Still synchronizing Settings");
@@ -169,4 +170,17 @@ void sendreceive_queue_startup ()
   if (filter_date_seconds_since_epoch () >= next_second) {
     sendreceive_queue_sync (-1);
   }
+}
+
+
+// Returns true if any prioritized task is now active.
+bool sendreceive_logic_prioritized_task_is_active ()
+{
+  if (   config_globals_syncing_bibles
+      || config_globals_syncing_notes
+      || config_globals_syncing_settings
+      || config_globals_syncing_changes) {
+    return true;
+  }
+  return false;
 }

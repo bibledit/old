@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ string workbench_settings (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Edit desktop"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.addBreadCrumb (workbench_organize_url (), menu_logic_workbench_organize_text ());
+  header.addBreadCrumb (workbench_organize_url (), menu_logic_desktop_organize_text ());
   page = header.run ();
   
   Assets_View view;

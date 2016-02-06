@@ -1,5 +1,5 @@
 /*
-Copyright (ƒ) 2003-2015 Teus Benschop.
+Copyright (ƒ) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -141,6 +141,7 @@ string Database_Users::timestampFile (string user)
 
 void Database_Users::trim ()
 {
+  bool vacuum = false;
   // Remove persistent logins after 365 days of inactivity.
   int yearAgo = filter_date_seconds_since_epoch () - (365 * 86400);
   vector <string> users = getUsers ();
@@ -150,9 +151,14 @@ void Database_Users::trim ()
     int timestamp = getTimestamp (username);
     if (timestamp < yearAgo) {
       username = database_sqlite_no_sql_injection (username);
-      string sql = "UPDATE logins SET fingerprint = '' WHERE username = '" + username + "';";
+      string sql = "DELETE FROM logins WHERE username = '" + username + "';";
       database_sqlite_exec (db, sql);
+      vacuum = true;
     }
+  }
+  if (vacuum) {
+    // Optimize in case logins were removed.
+    database_sqlite_exec (db, "VACUUM logins;");
   }
   database_sqlite_disconnect (db);
 }

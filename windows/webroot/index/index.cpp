@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,15 +52,33 @@ string index_index (void * webserver_request)
   
   Assets_Header header = Assets_Header ("Bibledit", webserver_request);
   
-  // After a delay, the demo forwards to a set active workbench, when there's no active menu.
   if (config_logic_demo_enabled ()) {
+    // The demo, when there's no active menu, forwards to a the active workbench.
     if (request->query.empty ()) {
       header.refresh (5, "/" + workbench_index_url ());
     }
   }
   
-  // Normally a page does not show the extended main menu.
-  // But the home page of Bibledit shows the main menu.
+  // Mode toggle: basic <> advanced.
+  string mode = request->query ["mode"];
+  if (!mode.empty ()) {
+    int flip = false;
+    if (mode == "basic") {
+      if (!request->session_logic ()->touchEnabled ()) {
+        flip = true;
+      }
+    }
+    if (mode == "advanced") {
+      if (request->session_logic ()->touchEnabled ()) {
+        flip = true;
+      }
+    }
+    request->database_config_user ()->setFlipInterfaceMode (flip);
+  }
+  
+  // Normally a page does not show the expanded main menu.
+  // This is to save space on the screen.
+  // But the home page of Bibledit show the extended main menu.
   if (request->query.count ("item") == 0) {
     request->query ["item"] = "main";
   }

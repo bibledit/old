@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -60,21 +60,6 @@ string bible_editing (void * webserver_request)
   string bible = access_bible_clamp (request, request->query ["bible"]);
   view.set_variable ("bible", filter_string_sanitize_html (bible));
   
-  // Data submission.
-  if (request->post.count ("submit")) {
-    int chapterpercentage = convert_to_int (request->post ["chapterpercentage"]);
-    chapterpercentage = clip (chapterpercentage, 10, 100);
-    Database_Config_Bible::setEditingAllowedDifferenceChapter (bible, chapterpercentage);
-    int versepercentage = convert_to_int (request->post ["versepercentage"]);
-    versepercentage = clip (versepercentage, 10, 100);
-    Database_Config_Bible::setEditingAllowedDifferenceVerse (bible, versepercentage);
-  }
-  
-  int chapterpercentage = Database_Config_Bible::getEditingAllowedDifferenceChapter (bible);
-  view.set_variable ("chapterpercentage", convert_to_string (chapterpercentage));
-  int versepercentage = Database_Config_Bible::getEditingAllowedDifferenceVerse (bible);
-  view.set_variable ("versepercentage", convert_to_string (versepercentage));
-
   page += view.render ("bible", "editing");
   
   page += Assets_Page::footer ();

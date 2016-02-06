@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -110,7 +110,7 @@ int main (int argc, char **argv)
 #endif
   }
   bibledit_initialize_library (webroot.c_str(), webroot.c_str());
-
+  
   // Start the Bibledit library.
   bibledit_start_library ();
   bibledit_log ("The server started");

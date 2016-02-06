@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ string resource_cache (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (menu_logic_resource_cache_text (), request);
+  Assets_Header header = Assets_Header (menu_logic_resources_text (), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;

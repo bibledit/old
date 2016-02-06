@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -127,4 +127,28 @@ map <string, string> locale_logic_read_po (string file)
     }
   }
   return translations;
+}
+
+
+string locale_logic_text_saving ()
+{
+  return translate ("Saving...");
+}
+
+
+string locale_logic_text_saved ()
+{
+  return translate ("Saved");
+}
+
+
+string locale_logic_text_loaded ()
+{
+  return translate ("Loaded");
+}
+
+
+string locale_logic_text_retrying ()
+{
+  return translate ("Retrying...");
 }

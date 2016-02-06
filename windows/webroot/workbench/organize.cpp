@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ string workbench_organize (void * webserver_request)
     string remove = request->query["remove"];
     string confirm = request->query["confirm"];
     if (confirm.empty ()) {
-      Dialog_Yes dialog_yes = Dialog_Yes ("organize", translate("Would you like to delete this workbench configuration?"));
+      Dialog_Yes dialog_yes = Dialog_Yes ("organize", translate("Would you like to delete this desktop configuration?"));
       dialog_yes.add_query ("remove", remove);
       page += dialog_yes.run ();
       return page;
@@ -132,7 +132,7 @@ string workbench_organize (void * webserver_request)
   vector <string> workbenchblock;
   vector <string> workbenches = workbench_get_names (request);
   for (auto & workbench : workbenches) {
-    workbenchblock.push_back ("<p>");
+    workbenchblock.push_back ("<p class=\"ui-state-default\">");
     workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");

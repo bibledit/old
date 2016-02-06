@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@ class Assets_View
 {
 public:
   Assets_View ();
-  ~Assets_View ();
   void set_variable (string key, string value);
   void enable_zone (string zone);
+  void disable_zone (string zone);
   string render (string tpl1, string tpl2);
 private:
   map <string, string> variables;

@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@
 #include <notes/index.h>
 #include <trash/handler.h>
 #include <database/logs.h>
+#include <config/logic.h>
+#include <styles/logic.h>
 
 
 string notes_actions_url ()
@@ -110,6 +112,12 @@ string notes_actions (void * webserver_request)
   }
   
   
+  if (request->query.count ("publicnote")) {
+    bool state = database_notes.getPublic (id);
+    database_notes.setPublic (id, !state);
+  }
+
+  
   view.set_variable ("id", convert_to_string (id));
   
                       
@@ -167,9 +175,13 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("mark");
   
   
-  if (database_notes.getPublic (id)) {
-    view.enable_zone ("public");
+  if (!config_logic_client_prepared ()) {
+    view.enable_zone ("cloud");
+    string on_off = styles_logic_off_on_inherit_toggle_text (database_notes.getPublic (id));
+    view.set_variable ("publicnote", on_off);
   }
+  // Roles of translator or higher can edit the public visibility of a note.
+  if (level >= Filter_Roles::translator ()) view.enable_zone ("translator");
 
   
   view.set_variable ("success", success);

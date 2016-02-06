@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -751,8 +751,8 @@ void quick_swap(bool & a, bool & b)
 }
 
 
-// This function is unusual in the sense that it does not sort one container, as
-// the big majority of sort functions do, but it accepts two containers.
+// This function is unusual in the sense that it does not sort one container,
+// as the majority of sort functions do, but it accepts two containers.
 // It sorts on the first, and reorders the second container at the same time,
 // following the reordering done in the first container.
 void quick_sort (vector <unsigned int>& one, vector <string> &two, unsigned int beg, unsigned int end)

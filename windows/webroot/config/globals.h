@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,4 +36,9 @@ extern bool config_globals_change_notifications_available;
 extern int config_globals_setup_progress;
 extern int config_globals_simultaneous_connection_count;
 extern bool config_globals_data_initialized;
+extern bool config_globals_syncing_bibles;
+extern bool config_globals_syncing_notes;
+extern bool config_globals_syncing_settings;
+extern bool config_globals_syncing_changes;
+extern map <string, int> config_globals_prioritized_ip_addresses;
 

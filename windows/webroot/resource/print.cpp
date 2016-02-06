@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2015 Teus Benschop.
+ Copyright (©) 2003-2016 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -290,7 +290,7 @@ string resource_print (void * webserver_request)
   vector <string> resources = request->database_config_user()->getPrintResources ();
   string resourceblock;
   for (auto & resource : resources) {
-    resourceblock.append ("<p><a href=\"?remove=" + resource + "\"> ✗ </a> ⇕ <span class=\"drag\">" + resource + "</span> ⇕ </p>\n");
+    resourceblock.append ("<p class=\"ui-state-default\"><a href=\"?remove=" + resource + "\"> ✗ </a> ⇕ <span class=\"drag\">" + resource + "</span> ⇕ </p>\n");
   }
   view.set_variable ("resourceblock", resourceblock);
 

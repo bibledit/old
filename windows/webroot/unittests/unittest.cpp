@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  //test_database_kjv (); refresh_sandbox (true); exit (0);
+  // test_filters_usfm2 (); test_store_bible_data (); test_editor_usfm2html (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();

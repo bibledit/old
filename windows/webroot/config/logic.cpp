@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,10 +20,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/date.h>
 #include <database/books.h>
 #include <database/config/general.h>
+#include <database/config/user.h>
 #include <config.h>
 #include <cstdlib>
+#include <webserver/request.h>
 
 
 // Returns the Bibledit version number.
@@ -133,4 +136,25 @@ string config_logic_external_resources_cache_path ()
 bool config_logic_windows ()
 {
   return (strcmp (WINDOWS, "yes") == 0);
+}
+
+
+// Returns whether the interface is supposed to be in basic mode.
+// When the mode was flipped, this used to expire after some hours.
+// But there may be people working on a tablet,
+// who would want to permanently switch to advanced mode, without this mode to expire.
+// Therefore the mode flip switch is now permanent, till flipped again.
+bool config_logic_basic_mode (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // When this is a touch-enabled device, the basic mode will be on.
+  bool basic_mode = request->session_logic ()->touchEnabled ();
+  
+  // Check whether to flip basic <> advanced mode.
+  if (request->database_config_user ()->getFlipInterfaceMode ()) {
+    basic_mode = !basic_mode;
+  }
+  
+  return basic_mode;
 }

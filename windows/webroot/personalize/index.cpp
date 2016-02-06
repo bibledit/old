@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2015 Teus Benschop.
+Copyright (©) 2003-2016 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,6 +50,36 @@ string personalize_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+
+  // Accept values for allowed relative changes for the four Bible text editors.
+  if (request->post.count ("chapterpercentage")) {
+    int chapterpercentage = convert_to_int (request->post ["chapterpercentage"]);
+    chapterpercentage = clip (chapterpercentage, 10, 100);
+    request->database_config_user ()->setEditingAllowedDifferenceChapter (chapterpercentage);
+    return "";
+  }
+  if (request->post.count ("versepercentage")) {
+    int versepercentage = convert_to_int (request->post ["versepercentage"]);
+    versepercentage = clip (versepercentage, 10, 100);
+    request->database_config_user ()->setEditingAllowedDifferenceVerse (versepercentage);
+    return "";
+  }
+  
+
+  // Breadcrumbs: Before displaying page, so the page does the correct thing with the bread crumbs.
+  if (request->query.count ("breadcrumbs")) {
+    bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
+    request->database_config_user ()->setDisplayBreadcrumbs (!state);
+  }
+  
+  
+  // Main menu always visible: Before displaying page, so the page does the correct thing with the menu.
+  if (request->query.count ("menuvisible")) {
+    bool state = request->database_config_user ()->getMainMenuAlwaysVisible ();
+    request->database_config_user ()->setMainMenuAlwaysVisible (!state);
+  }
+  
+  
   string page;
   string success;
   string error;
@@ -77,6 +107,7 @@ string personalize_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Personalize"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.jQueryUIOn ();
   page = header.run ();
 
   
@@ -172,7 +203,7 @@ string personalize_index (void * webserver_request)
   
   // Vertical caret position in chapter editors.
   if (request->query.count ("caretposition")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a caret position 20 and 80 percent"), convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()), "caretposition", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a caret position between 20 and 80 percent"), convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()), "caretposition", "");
     page += dialog_entry.run ();
     return page;
   }
@@ -188,14 +219,37 @@ string personalize_index (void * webserver_request)
   
 
   // Whether to display bread crumbs.
-  if (request->query.count ("breadcrumbs")) {
-    bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
-    request->database_config_user ()->setDisplayBreadcrumbs (!state);
-  }
   string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDisplayBreadcrumbs ());
   view.set_variable ("breadcrumbs", on_off);
+
   
+  // Desktop menu fade out delay.
+  if (request->query.count ("desktopfadeoutdelay")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a fade out delay between 1 and 10 seconds"), convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("desktopfadeoutdelay")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 1) && (value <= 10)) {
+      request->database_config_user ()->setDesktopMenuFadeoutDelay (value);
+    } else {
+      error = translate ("Incorrect fade out delay in seconds");
+    }
+  }
+  view.set_variable ("desktopfadeoutdelay", convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()));
+
   
+  // Permissable relative changes in the four Bible editors.
+  view.set_variable ("chapterpercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceChapter ()));
+  view.set_variable ("versepercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceVerse ()));
+  
+ 
+  // Whether to keep the main menu always visible.
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMainMenuAlwaysVisible ());
+  view.set_variable ("menuvisible", on_off);
+  
+
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("personalize", "index");
