@@ -27,6 +27,7 @@
 #include <database/modifications.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <access/bible.h>
 #include <config/logic.h>
 
@@ -116,7 +117,7 @@ string editverse_save (void * webserver_request)
       Database_Modifications database_modifications = Database_Modifications ();
       database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     }
-    return translate("Saved");
+    return locale_logic_text_saved ();
   }
 
   

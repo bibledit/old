@@ -26,6 +26,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
@@ -73,6 +74,7 @@ string edit_index (void * webserver_request)
   header.setNavigator ();
   header.setEditorStylesheet ();
   if (touch) header.jQueryMobileTouchOn ();
+  header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
@@ -114,13 +116,15 @@ string edit_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
 
-  string chapterLoaded = translate("Loaded");
-  string chapterSaving = translate("Saving...");
-  string chapterRetrying = translate("Retrying...");
+  string chapterLoaded = locale_logic_text_loaded ();
+  string chapterSaving = locale_logic_text_saving ();
+  string chapterSaved = locale_logic_text_saved ();
+  string chapterRetrying = locale_logic_text_retrying ();
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var editorChapterLoaded = '" + chapterLoaded + "';\n"
   "var editorChapterSaving = '" + chapterSaving + "';\n"
+  "var editorChapterSaved = '" + chapterSaved + "';\n"
   "var editorChapterRetrying = '" + chapterRetrying + "';\n"
   "var editorWriteAccess = true;\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";

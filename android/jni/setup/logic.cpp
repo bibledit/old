@@ -170,8 +170,6 @@ void setup_initialize_data ()
   Webserver_Request request;
   request.database_users ()->create ();
   request.database_users ()->upgrade ();
-  Database_Logs database_logs = Database_Logs ();
-  database_logs.create ();
   request.database_styles ()->create ();
   request.database_bibleactions ()->create ();
   request.database_check ()->create ();

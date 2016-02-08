@@ -128,3 +128,27 @@ map <string, string> locale_logic_read_po (string file)
   }
   return translations;
 }
+
+
+string locale_logic_text_saving ()
+{
+  return translate ("Saving...");
+}
+
+
+string locale_logic_text_saved ()
+{
+  return translate ("Saved");
+}
+
+
+string locale_logic_text_loaded ()
+{
+  return translate ("Loaded");
+}
+
+
+string locale_logic_text_retrying ()
+{
+  return translate ("Retrying...");
+}

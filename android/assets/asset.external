@@ -1115,6 +1115,13 @@ notes/unassign-n.html
 notes/verses.cpp
 notes/verses.h
 notes/verses.html
+notifit/LICENSE.md
+notifit/README.md
+notifit/demo.html
+notifit/index.js
+notifit/notifit.css
+notifit/notifit.js
+notifit/notifit.min.js
 odf/README
 odf/template.odt
 odf/text.cpp

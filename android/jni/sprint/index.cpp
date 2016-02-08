@@ -133,6 +133,8 @@ string sprint_index (void * webserver_request)
     filter_date_get_previous_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the previous sprint"));
+    request->database_config_user()->setSprintMonth (month);
+    request->database_config_user()->setSprintYear (year);
   }
                         
                         
@@ -140,6 +142,8 @@ string sprint_index (void * webserver_request)
     filter_date_get_next_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the next sprint"));
+    request->database_config_user()->setSprintMonth (month);
+    request->database_config_user()->setSprintYear (year);
   }
 
   

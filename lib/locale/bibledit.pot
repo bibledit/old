@@ -5849,9 +5849,6 @@ msgstr ""
 msgid "The job is scheduled to start shortly."
 msgstr ""
 
-msgid "recent"
-msgstr ""
-
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 

@@ -29,17 +29,12 @@ class Database_Logs
 {
 public:
   static void log (string description, int level = 5);
-  void create ();
-  void checkup ();
-  void rotate ();
-  vector <string> get (int day, string & lastfilename);
-  string getNext (string &filename);
-  void update (int oldseconds, int newseconds);
-  void clear ();
-  static void debug (string description);
+  static void rotate ();
+  static vector <string> get (string & lastfilename);
+  static string getNext (string &filename);
+  static void clear ();
 private:
   static string folder ();
-  sqlite3 * connect ();
 };
 
 

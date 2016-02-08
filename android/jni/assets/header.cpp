@@ -34,6 +34,7 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
   includeJQueryUI = false;
   includeJQueryMobileTouch = false;
   includeTouchCSS = false;
+  includeNotifIt = false;
   displayNavigator = false;
   webserver_request = webserver_request_in;
   view = new Assets_View ();
@@ -62,6 +63,12 @@ void Assets_Header::jQueryMobileTouchOn ()
 void Assets_Header::touchCSSOn ()
 {
   includeTouchCSS = true;
+}
+
+
+void Assets_Header::notifItOn ()
+{
+  includeNotifIt = true;
 }
 
 
@@ -158,6 +165,10 @@ string Assets_Header::run ()
     view->enable_zone ("include_mouse_css");
   }
   
+  if (includeNotifIt) {
+    view->enable_zone ("include_notif_it");
+  }
+  
   string headlines;
   for (auto & headline : headLines) {
     if (!headlines.empty ()) headlines.append ("\n");
@@ -193,11 +204,16 @@ string Assets_Header::run ()
     
     string menublock;
     string item = request->query ["item"];
-    if (item == "main") {
+    bool main_menu_always_on = false;
+    if (item.empty ())
+      if (request->database_config_user ()->getMainMenuAlwaysVisible ())
+        main_menu_always_on = true;
+    if ((item == "main") || main_menu_always_on) {
       if (basic_mode) {
         menublock = menu_logic_basic_categories (webserver_request);
       } else {
-        menublock = menu_logic_main_categories (webserver_request);
+        string devnull;
+        menublock = menu_logic_main_categories (webserver_request, devnull);
       }
       start_button = false;
     } else if (item == menu_logic_translate_menu ()) {
@@ -208,6 +224,10 @@ string Assets_Header::run ()
       menublock = menu_logic_tools_category (webserver_request);
     } else if (item == menu_logic_settings_menu ()) {
       menublock = menu_logic_settings_category (webserver_request);
+    } else if (item == menu_logic_settings_resources_menu ()) {
+      menublock = menu_logic_settings_resources_category (webserver_request);
+    } else if (item == menu_logic_settings_styles_menu ()) {
+      menublock = menu_logic_settings_styles_category (webserver_request);
     } else if (item == "help") {
       menublock = menu_logic_help_category (webserver_request);
     }
@@ -215,6 +235,9 @@ string Assets_Header::run ()
 
     if (start_button) {
       view->enable_zone ("start_button");
+      string tooltip;
+      menu_logic_main_categories (webserver_request, tooltip);
+      view->set_variable ("starttooltip", tooltip);
     }
     
     if (!fadingmenu.empty ()) {

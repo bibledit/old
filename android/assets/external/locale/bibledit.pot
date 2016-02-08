@@ -698,7 +698,7 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
-msgid "(all of them)"
+msgid "all of them"
 msgstr ""
 
 msgid "Change Notifications"
@@ -802,6 +802,9 @@ msgid "and"
 msgstr ""
 
 msgid "(if their changes and verses match)"
+msgstr ""
+
+msgid "(all of them)"
 msgstr ""
 
 msgid "Will generate lists of changes"
@@ -1904,15 +1907,6 @@ msgstr ""
 msgid "Select which Bible to open in the editor"
 msgstr ""
 
-msgid "Loaded"
-msgstr ""
-
-msgid "Saving..."
-msgstr ""
-
-msgid "Retrying..."
-msgstr ""
-
 msgid "Insufficient information"
 msgstr ""
 
@@ -1941,9 +1935,6 @@ msgid "Incorrect chapter"
 msgstr ""
 
 msgid "Merging chapter."
-msgstr ""
-
-msgid "Saved"
 msgstr ""
 
 msgid "Edit verse"
@@ -5858,9 +5849,6 @@ msgstr ""
 msgid "The job is scheduled to start shortly."
 msgstr ""
 
-msgid "recent"
-msgstr ""
-
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 
@@ -5901,6 +5889,18 @@ msgid "December"
 msgstr ""
 
 msgid "Month"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Loaded"
+msgstr ""
+
+msgid "Retrying..."
 msgstr ""
 
 msgid "Export"
@@ -6435,12 +6435,6 @@ msgstr ""
 msgid "USFM verse editor"
 msgstr ""
 
-msgid "View resources"
-msgstr ""
-
-msgid "Change notifications"
-msgstr ""
-
 msgid "Search"
 msgstr ""
 
@@ -6468,34 +6462,19 @@ msgstr ""
 msgid "Search Bible for similar Hebrew or Greek words"
 msgstr ""
 
-msgid "Mechanical checks"
-msgstr ""
-
-msgid "Print resources"
-msgstr ""
-
-msgid "Download changes"
+msgid "Print"
 msgstr ""
 
 msgid "Planning"
 msgstr ""
 
-msgid "Send / receive"
+msgid "Send/receive"
 msgstr ""
 
-msgid "Cross references"
+msgid "Cross-references"
 msgstr ""
 
 msgid "Debug"
-msgstr ""
-
-msgid "Export Bibles"
-msgstr ""
-
-msgid "USFM resources"
-msgstr ""
-
-msgid "SWORD resources"
 msgstr ""
 
 msgid "Personalize"
@@ -6504,7 +6483,7 @@ msgstr ""
 msgid "Indexes and Fonts"
 msgstr ""
 
-msgid "Select stylesheet"
+msgid "Styles"
 msgstr ""
 
 msgid "Cloud"
@@ -6522,6 +6501,15 @@ msgstr ""
 msgid "Basic mode"
 msgstr ""
 
+msgid "USFM resources"
+msgstr ""
+
+msgid "SWORD resources"
+msgstr ""
+
+msgid "Select stylesheet"
+msgstr ""
+
 msgid "Help and About"
 msgstr ""
 
@@ -6534,13 +6522,10 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "Public feedback"
+msgid "Feedback"
 msgstr ""
 
 msgid "Logout"
-msgstr ""
-
-msgid "Consultation notes"
 msgstr ""
 
 msgid "Desktops"
@@ -6645,7 +6630,7 @@ msgstr ""
 msgid "Delete the note now"
 msgstr ""
 
-msgid "This note is public"
+msgid "Public note:"
 msgstr ""
 
 msgid "Assign note"
@@ -7228,7 +7213,7 @@ msgstr ""
 msgid "Verse editors"
 msgstr ""
 
-msgid "Feedback"
+msgid "Keep main menu always visible"
 msgstr ""
 
 msgid "Back to chapter"
@@ -7241,6 +7226,9 @@ msgid "Summary (no more than 30 characters long)"
 msgstr ""
 
 msgid "Your feedback"
+msgstr ""
+
+msgid "Public feedback"
 msgstr ""
 
 msgid "Select which Bible to display"
@@ -7547,9 +7535,6 @@ msgstr ""
 msgid "Number of verses to display after the focused verse:"
 msgstr ""
 
-msgid "Print"
-msgstr ""
-
 msgid "Select a book"
 msgstr ""
 
@@ -7753,9 +7738,6 @@ msgstr ""
 
 msgid ""
 "Search for verses with most Strong's numbers similar to the focused verse in:"
-msgstr ""
-
-msgid "Send/receive"
 msgstr ""
 
 msgid "Up to date"
@@ -8178,9 +8160,6 @@ msgid "Inactive for a day"
 msgstr ""
 
 msgid "Inactive for a week"
-msgstr ""
-
-msgid "Styles"
 msgstr ""
 
 msgid "This stylesheet already exists"
@@ -9149,6 +9128,9 @@ msgid ""
 msgstr ""
 
 msgid "This may be useful on devices with smaller screens, such as phones."
+msgstr ""
+
+msgid "Cross references"
 msgstr ""
 
 msgid "This chapter of the target Bible contains cross references"

@@ -27,21 +27,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 string menu_logic_href (string href);
 string menu_logic_click (string item);
 
-string menu_logic_create_item (string href, string text, bool history);
+string menu_logic_create_item (string href, string text, bool history, string title = "");
 
 string menu_logic_translate_menu ();
 string menu_logic_search_menu ();
 string menu_logic_tools_menu ();
 string menu_logic_settings_menu ();
+string menu_logic_settings_resources_menu ();
+string menu_logic_settings_styles_menu ();
 
-string menu_logic_main_categories (void * webserver_request);
+string menu_logic_main_categories (void * webserver_request, string & tooltip);
 string menu_logic_basic_categories (void * webserver_request);
 
-string menu_logic_desktop_category (void * webserver_request);
-string menu_logic_translate_category (void * webserver_request);
-string menu_logic_search_category (void * webserver_request);
-string menu_logic_tools_category (void * webserver_request);
-string menu_logic_settings_category (void * webserver_request);
+string menu_logic_desktop_category (void * webserver_request, string * tooltip = NULL);
+string menu_logic_translate_category (void * webserver_request, string * tooltip = NULL);
+string menu_logic_search_category (void * webserver_request, string * tooltip = NULL);
+string menu_logic_tools_category (void * webserver_request, string * tooltip = NULL);
+string menu_logic_settings_category (void * webserver_request, string * tooltip = NULL);
+string menu_logic_settings_resources_category (void * webserver_request);
+string menu_logic_settings_styles_category (void * webserver_request);
 string menu_logic_help_category (void * webserver_request);
 
 
@@ -59,14 +63,15 @@ string menu_logic_public_feedback_text ();
 string menu_logic_logout_text ();
 string menu_logic_consultation_notes_text ();
 string menu_logic_bible_manage_text ();
-string menu_logic_workbench_organize_text ();
+string menu_logic_desktop_organize_text ();
 string menu_logic_checks_settings_text ();
-string menu_logic_resource_cache_text ();
+string menu_logic_resources_text ();
 string menu_logic_resource_images_text ();
 string menu_logic_manage_users_text ();
 string menu_logic_versification_index_text ();
 string menu_logic_mapping_index_text ();
 string menu_logic_styles_indexm_text ();
+string menu_logic_changes_text ();
 
 
 #endif

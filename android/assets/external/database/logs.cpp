@@ -66,163 +66,96 @@ void Database_Logs::log (string description, int level)
 }
 
 
-sqlite3 * Database_Logs::connect ()
-{
-  return database_sqlite_connect ("logs2");
-}
-
-
-void Database_Logs::create ()
-{
-  sqlite3 * db = connect ();
-  string sql = "CREATE TABLE IF NOT EXISTS logs ("
-               " timestamp integer,"
-               " entry text"
-               ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Does a checkup on the health of the main database.
-// Optionally recreates it.
-void Database_Logs::checkup ()
-{
-  string database = "logs2";
-  if (database_sqlite_healthy (database)) return;
-
-  // Recreate the database.
-  string file = database_sqlite_file (database);
-  filter_url_unlink (file);
-  create ();
-  Database_Logs::log ("The Journal database was damaged and has been recreated");
-}
-
-
 void Database_Logs::rotate ()
 {
-  sqlite3 * db = connect ();
-  
-  // Speed up adding and removing records.
-  database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
+  // Remove the database that was used in older versions of Bibledit.
+  // Since February 2016 Bibledit no longer uses a database for storing the journal.
+  // Reasons that a database is no longer used:
+  // 1. Simpler system.
+  // 2. Android has VACUUM errors due to a locked database.
+  string old_database_file = database_sqlite_file ("logs2");
+  if (file_exists (old_database_file)) {
+    filter_url_unlink (old_database_file);
+  }
 
-  // Transfer the journal entries from the filesystem into the database.
-  // This speeds up subsequent reading of the Journal by the users.
+  
   // Use a mechanism that handles huge amounts of entries.
   // The PHP function scandir choked on this or took a very long time.
   // The PHP functions opendir / readdir / closedir handled it better.
-  // C++ uses the better method of the two, just to be sure.
-
+  // But now, in C++, with the new journal mechanism, this is no longer relevant.
   string directory = folder ();
-  int counter = 0;
-  vector <string> files;
-  DIR * dir = opendir (directory.c_str());
-  if (dir) {
-    struct dirent * direntry;
-    while ((direntry = readdir (dir)) != NULL) {
-      string name = direntry->d_name;
-      if (name != "." && name != ".." && name != "gitflag" && name != ".DS_Store") {
-        files.push_back (name);
-      }
-      // Limit the number of entries to avoid getting stuck in them.
-      counter++;
-      if (counter > 10000) break;
-    }
-  }
-  closedir (dir);
+  vector <string> files = filter_url_scandir (directory);
 
-  sort (files.begin(), files.end());
+  
+  // Timestamp for removing older records, depending on whether it's a tiny journal.
+#ifdef HAVE_TINYJOURNAL
+  int oldtimestamp = filter_date_seconds_since_epoch () - (14400);
+#else
+  int oldtimestamp = filter_date_seconds_since_epoch () - (6 * 86400);
+#endif
+
+  
+  // Limit the available the journal entrie count in the filesystem.
+  // This speeds up subsequent reading of the Journal by the users.
+  // In previous versions of Bibledit, there were certain conditions
+  // that led to an infinite loop, as had been noticed at times,
+  // and this quickly exhausted the available inodes on the filesystem.
+#ifdef HAVE_TINYJOURNAL
+  int limitfilecount = files.size () - 200;
+#else
+  int limitfilecount = files.size () - 2000;
+#endif
+
   
   bool filtered_entries = false;
-  
   for (unsigned int i = 0; i < files.size(); i++) {
     string path = filter_url_create_path (directory, files [i]);
-    int timestamp = convert_to_int (files [i].substr (0, 10));
-    // Some of the code below had suppressed errors in PHP.
-    // This was to ensure that transferring the entries does not generate additional journal entries.
-    // This would lead to an infinite loop, as has been noticed on shared hosting.
-    // It has also been observed that huge journal entries keep generating other huge entries,
-    // which causes the disk to get full.
-    // Therefore huge journal entries will be truncated, and a short message written to the journal.
-    string entry = filter_url_file_get_contents (path);
-    int filesize = filter_url_filesize (path);
-    if (filesize > 10000) {
-      entry = entry.substr (0, 100);
-      entry += "... This entry was too large and has been truncated: " + convert_to_string (filesize) + " bytes";
+
+    // Limit the number of journal entries.
+    if ((int)i < limitfilecount) {
+      filter_url_unlink (path);
+      continue;
     }
-    filter_url_unlink (path);
+    
+    // Remove expired entries.
+    int timestamp = convert_to_int (files [i].substr (0, 10));
+    if (timestamp < oldtimestamp) {
+      filter_url_unlink (path);
+      continue;
+    }
+
     // Filtering of certain entries.
+    string entry = filter_url_file_get_contents (path);
     if (journal_logic_filter_entry (entry)) {
       filtered_entries = true;
-    } else {
-      entry = database_sqlite_no_sql_injection (entry);
-      string sql = "INSERT INTO logs VALUES (" + convert_to_string (timestamp) + ", '" + entry + "');";
-      database_sqlite_exec (db, sql);
+      filter_url_unlink (path);
+      continue;
     }
+
   }
 
-  // Remove records older than five days from the database, or younger in case of a tiny journal.
-#ifdef HAVE_TINYJOURNAL
-  string timestamp = convert_to_string (filter_date_seconds_since_epoch () - (14400));
-#else
-  string timestamp = convert_to_string (filter_date_seconds_since_epoch () - (6 * 86400));
-#endif
-  string sql = "DELETE FROM logs WHERE timestamp < " + timestamp + ";";
-  database_sqlite_exec (db, sql);
-
-  sql = "VACUUM logs;";
-  database_sqlite_exec (db, sql);
-
-  database_sqlite_disconnect (db);
-  
   if (filtered_entries) {
     log (journal_logic_filtered_message ());
-  }
-  
-  // If there are too many files still left in the logbook folder,
-  // that means that there's some problem that prevents the logbook entries from being recorded in the database.
-  // This may lead to an infinite loop as has been noticed at times,
-  // and this may quickly exhaust the available inodes on the filesystem.
-  // Therefore if there are too many files still left in the logbook folder, clear them out.
-  // This leads to loss of logbook information, but be it so.
-  // Loss of information is better in this case than a server that gets stuck.
-  // Also clear the logbook database out.
-  files = filter_url_scandir (directory);
-  if (files.size () > 100) {
-    clear ();
-    log ("Irrecoverable journal errors: Everything was cleared out");
   }
 }
 
 
-// Get the logbook entries for variable "day".
-// Day 0 is the last 24 hours, day 1 is 24 more hours back, and so on.
-vector <string> Database_Logs::get (int day, string & lastfilename)
+// Get the logbook entries.
+vector <string> Database_Logs::get (string & lastfilename)
 {
-  // A day is considered a period of 24 hours starting now.
-  int firstsecond = filter_date_seconds_since_epoch () - ((day + 1) * 86400);
-  int lastsecond = firstsecond + 86400;
-  lastfilename = convert_to_string (lastsecond) + "00000000";
+  lastfilename = "0";
 
-  // Read the entries from the database.
+  // Read entries from the filesystem.
   vector <string> entries;
-  sqlite3 * db = connect ();
-  string query = "SELECT entry FROM logs WHERE timestamp >= " + convert_to_string (firstsecond) + " AND timestamp <= " + convert_to_string (lastsecond) + " ORDER BY rowid ASC;";
-  entries = database_sqlite_query (db, query)["entry"];
-  database_sqlite_disconnect (db);
-
-  // Add entries from the filesystem in case of day 0.
-  if (day == 0) {
-    string directory = folder ();
-    vector <string> files = filter_url_scandir (directory);
-    for (unsigned int i = 0; i < files.size(); i++) {
-      string file = files [i];
-      string path = filter_url_create_path (directory, file);
-      string contents = filter_url_file_get_contents (path);
-      entries.push_back (contents);
-      // Last second gets updated based on the filename.
-      lastfilename = file;
-    }
+  string directory = folder ();
+  vector <string> files = filter_url_scandir (directory);
+  for (unsigned int i = 0; i < files.size(); i++) {
+    string file = files [i];
+    string path = filter_url_create_path (directory, file);
+    string contents = filter_url_file_get_contents (path);
+    entries.push_back (contents);
+    // Last second gets updated based on the filename.
+    lastfilename = file;
   }
 
   // Done.  
@@ -249,20 +182,6 @@ string Database_Logs::getNext (string &filename)
 }
 
 
-// Used for unit testing.
-// Updated entries in the database at a timestamp of "oldseconds"
-// to a timestamp of "newseconds".
-void Database_Logs::update (int oldseconds, int newseconds)
-{
-  sqlite3 * db = connect ();
-  for (int i = -1; i <= 1; i++) {
-    string sql = "UPDATE logs SET timestamp = " + convert_to_string (newseconds) + " WHERE timestamp = " + convert_to_string (oldseconds + i) + ";";
-    database_sqlite_exec (db, sql);
-  }
-  database_sqlite_disconnect (db);
-}
-
-
 // Clears all journal entries.
 void Database_Logs::clear ()
 {
@@ -271,37 +190,5 @@ void Database_Logs::clear ()
   for (auto file : files) {
     filter_url_unlink (filter_url_create_path (directory, file));
   }
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "DELETE FROM logs;");
-  database_sqlite_disconnect (db);
-  checkup ();
   log ("The journal was cleared");
 }
-
-
-void Database_Logs::debug (string description)
-{
-  int seconds = filter_date_seconds_since_epoch ();
-  seconds = filter_date_local_seconds (seconds);
-  
-  string timestamp;
-  timestamp.append (convert_to_string (filter_date_numerical_year (seconds)));
-  timestamp.append ("-");
-  timestamp.append (convert_to_string (filter_date_numerical_month (seconds)));
-  timestamp.append ("-");
-  timestamp.append (convert_to_string (filter_date_numerical_month_day (seconds)));
-  timestamp.append (" ");
-  timestamp.append (convert_to_string (filter_date_numerical_hour (seconds)));
-  timestamp.append (":");
-  timestamp.append (convert_to_string (filter_date_numerical_minute (seconds)));
-  timestamp.append (":");
-  timestamp.append (convert_to_string (filter_date_numerical_second (seconds)));
-  
-  description.insert (0, timestamp + " ");
-  description.append ("\n");
-  
-  string file = filter_url_create_root_path ("tmp", "debug.txt");
-  filter_url_file_put_contents_append (file, description);
-}
-
-

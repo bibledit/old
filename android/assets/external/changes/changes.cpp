@@ -202,7 +202,15 @@ string changes_changes (void * webserver_request)
   for (auto & user : users) {
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
     if (!ids.empty ()) {
-      dismissblock.append ("<p>* <a href=\"?dismiss=" + user + "\">" + user + " " + translate("(all of them)")+ "</a></p>\n");
+      dismissblock.append ("<p>* <a href=\"?dismiss=");
+      dismissblock.append (user);
+      dismissblock.append ("\">");
+      dismissblock.append (user);
+      dismissblock.append (": ");
+      dismissblock.append (translate("all of them"));
+      dismissblock.append (": ");
+      dismissblock.append (convert_to_string (ids.size ()));
+      dismissblock.append ("</a></p>\n");
     }
   }
   view.set_variable ("dismissblock", dismissblock);

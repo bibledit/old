@@ -111,9 +111,7 @@ void tasks_run_one (string filename)
   }
   
   if (command == ROTATEJOURNAL) {
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.checkup ();
-    database_logs.rotate ();
+    Database_Logs::rotate ();
   } else if (command == RECEIVEEMAIL) {
     email_receive ();
   } else if (command == SENDEMAIL) {

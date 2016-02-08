@@ -31,6 +31,7 @@
 #include <editor/html2usfm.h>
 #include <editor/usfm2html.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <edit/logic.h>
 #include <access/bible.h>
 #include <config/logic.h>
@@ -164,5 +165,5 @@ string edit_save (void * webserver_request)
   // to signal the browser to reload the reformatted chapter.
   if (html != converted_html) return "Reformat";
 
-  return translate("Saved");
+  return locale_logic_text_saved ();
 }

@@ -206,88 +206,22 @@ void test_database_logs ()
     Database_Logs::log ("description1", 2);
     Database_Logs::log ("description2", 3);
     Database_Logs::log ("description3", 4);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
-    database_logs.checkup ();
-    // Move the items from the filesystem into the SQLite database.
-    database_logs.rotate ();
+    // Rotate the items.
+    Database_Logs::rotate ();
     // Get the items from the SQLite database.
     string lastfilename;
-    vector <string> result = database_logs.get (0, lastfilename);
+    vector <string> result = Database_Logs::get (lastfilename);
     evaluate (__LINE__, __func__, 3, (int)result.size ());
-    refresh_sandbox (false);
-  }
-  {
-    // Check the database: It should recreate the database and then create one entry in the Journal.
-    // This entry is proof that it recreated the database.
-    refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.checkup ();
-    string lastfilename = "1111111111";
-    vector <string> result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    refresh_sandbox (false);
-  }
-  {
-    refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
-    int now = filter_date_seconds_since_epoch ();
-    int min1days = now - 86400 - 10;
-    int min2days = min1days - 86400;
-    int min3days = min2days - 86400;
-    int min4days = min3days - 86400;
-    int min5days = min4days - 86400;
-    int min6days = min5days - 86400;
-    string lastfilename;
-    vector <string> result;
-
-    // Log entry for 6 days ago.
-    Database_Logs::log ("Six days ago");
-    database_logs.rotate ();
-    database_logs.update (now, min6days);
-    lastfilename = "0";
-    result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    lastfilename = "0";
-    result = database_logs.get (5, lastfilename);
-    evaluate (__LINE__, __func__, 0, (int)result.size ());
-    // Rotate that entry away.
-    database_logs.rotate ();
-    lastfilename = "0";
-    result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 0, (int)result.size ());
-
-    // Log entry for 2 days, 1 day ago, and now.
-    Database_Logs::log ("Two days ago");
-    database_logs.rotate ();
-    database_logs.update (now, min2days);
-    Database_Logs::log ("One day ago");
-    database_logs.rotate ();
-    database_logs.update (now, min1days);
-    Database_Logs::log ("Now");
-    lastfilename = "0";
-    result = database_logs.get (2, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    // Gets it from the filesystem, not the database, because this last entry was not yet rotated.
-    lastfilename = "0";
-    result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    // The "lastsecond" variable, test it.
-    int lastsecond = convert_to_int (lastfilename.substr (0, 10));
-    if ((lastsecond < now ) || (lastsecond > now + 1)) evaluate (__LINE__, __func__, now, lastsecond);
     refresh_sandbox (false);
   }
   {
     // Test huge journal entry.
     refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
     string huge (10000, 'x');
     Database_Logs::log (huge);
-    database_logs.rotate ();
+    Database_Logs::rotate ();
     string s = "0";
-    vector <string> result = database_logs.get (0, s);
+    vector <string> result = Database_Logs::get (s);
     if (result.size () == 1) {
       string s = result[0];
       size_t pos = s.find ("This entry was too large and has been truncated: 10000 bytes");
