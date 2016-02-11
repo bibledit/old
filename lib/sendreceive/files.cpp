@@ -98,7 +98,7 @@ void sendreceive_files ()
   string url = client_logic_url (address, port, sync_files_url ());
   
   
-  int version = 3;
+  int version = 4; // Todo
   map <string, string> post;
   post ["v"] = convert_to_string (version);
   string error;
@@ -117,7 +117,7 @@ void sendreceive_files ()
     return;
   }
   iresponse = convert_to_int (response);
-  int checksum = Sync_Logic::files_get_total_checksum (version);
+  int checksum = Sync_Logic::files_get_total_checksum (version); // Todo
   if (iresponse == checksum) {
     Database_Logs::log (sendreceive_files_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_files_done ();
@@ -130,8 +130,8 @@ void sendreceive_files ()
   for (size_t d = 0; d < directories.size (); d++) {
     
 
-    // Not the directory name itself is posted to the server,
-    // but rather the offset of the directory in the entire list.
+    // The directory name itself is not posted to the server,
+    // but rather the index of the directory in the entire list.
     // This is for security reasons.
     post ["d"] = convert_to_string (d);
     string directory = directories [d];

@@ -74,6 +74,8 @@ string resource_manage (void * webserver_request)
     } if (confirm == "yes") {
       if (access_bible_write (request, remove)) {
         database_usfmresources.deleteResource (remove);
+        // The Cloud updates the list of available USFM resources for the clients.
+        tasks_logic_queue (LISTUSFMRESOURCES);
       } else {
         view.set_variable ("error", translate("You do not have write access to this resource"));
       }
