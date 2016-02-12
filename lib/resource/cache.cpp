@@ -36,6 +36,7 @@
 #include <menu/logic.h>
 #include <database/config/general.h>
 #include <sendreceive/resources.h>
+#include <client/logic.h>
 
 
 string resource_cache_url ()
@@ -76,12 +77,21 @@ string resource_cache (void * webserver_request)
   
   
   string block;
+  // Display the available USFM resources.
+  resources = client_logic_usfm_resources_get ();
+  for (auto & resource : resources) {
+    block.append ("<p>");
+    block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
+    block.append ("</p>\n");
+  }
+  // Display the available external resources.
   resources = resource_external_names ();
   for (auto & resource : resources) {
     block.append ("<p>");
     block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
     block.append ("</p>\n");
   }
+  // Display the available SWORD resources.
   resources = sword_logic_get_available ();
   for (auto & resource : resources) {
     string source = sword_logic_get_source (resource);
