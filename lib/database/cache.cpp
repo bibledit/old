@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 string Database_Cache::database_resource (string resource)
 {
   // Name of the database for this resource.
-  resource = database_cache_clean_name (resource);
+  resource = database_filebased_cache_clean_name (resource);
   return "cache_resource_" + resource;
 }
 
@@ -150,7 +150,7 @@ int Database_Cache::count (string resource)
 }
 
 
-string database_cache_clean_name (string name)
+string database_filebased_cache_clean_name (string name)
 {
   // Remove invalid characters in Windows filenames.
   name = filter_string_str_replace ("\\", "", name);
@@ -185,18 +185,18 @@ string database_cache_split_file (string file)
 }
 
 
-bool database_cache_exists (string schema)
+bool database_filebased_cache_exists (string schema)
 {
-  schema = database_cache_clean_name (schema);
+  schema = database_filebased_cache_clean_name (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   return file_exists (schema);
 }
 
 
-void database_cache_put (string schema, string contents)
+void database_filebased_cache_put (string schema, string contents)
 {
-  schema = database_cache_clean_name (schema);
+  schema = database_filebased_cache_clean_name (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   string path = filter_url_dirname (schema);
@@ -205,18 +205,18 @@ void database_cache_put (string schema, string contents)
 }
 
 
-string database_cache_get (string schema)
+string database_filebased_cache_get (string schema)
 {
-  schema = database_cache_clean_name (schema);
+  schema = database_filebased_cache_clean_name (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   return filter_url_file_get_contents (schema);
 }
 
 
-void database_cache_remove (string schema)
+void database_filebased_cache_remove (string schema)
 {
-  schema = database_cache_clean_name (schema);
+  schema = database_filebased_cache_clean_name (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   filter_url_unlink (schema);
@@ -226,7 +226,7 @@ void database_cache_remove (string schema)
 // Deletes items older than x days from the cache.
 // It uses a Linux shell command. This can be done because it runs on the server only.
 // On some clients, shell commands don't work.
-void database_cache_trim ()
+void database_filebased_cache_trim ()
 {
   string path = database_cache_full_path ("");
   string output, error;

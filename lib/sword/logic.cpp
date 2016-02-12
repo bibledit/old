@@ -466,7 +466,7 @@ void sword_logic_update_installed_modules ()
               vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
               for (auto & verse : verses) {
                 string schema = sword_logic_virtual_url (module, book, chapter, verse);
-                database_cache_remove (schema);
+                database_filebased_cache_remove (schema);
               }
             }
           }
@@ -491,7 +491,7 @@ void sword_logic_trim_modules ()
     for (auto module : modules) {
       module = sword_logic_get_installed_module (module);
       string url = sword_logic_virtual_url (module, 0, 0, 0);
-      if (!database_cache_exists (url)) {
+      if (!database_filebased_cache_exists (url)) {
         sword_logic_uninstall_module (module);
       }
     }

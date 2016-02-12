@@ -4129,7 +4129,7 @@ void test_database_hebrewlexicon ()
 }
 
 
-void test_database_cache ()
+void test_database_cache () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -4170,12 +4170,12 @@ void test_database_cache ()
   // Excercise the file-based cache.
   string url = "https://netbible.org/bible/1/2/3";
   string contents = "Bible contents";
-  evaluate (__LINE__, __func__, false, database_cache_exists (url));
-  evaluate (__LINE__, __func__, "", database_cache_get (url));
-  database_cache_put (url, contents);
-  evaluate (__LINE__, __func__, true, database_cache_exists (url));
-  evaluate (__LINE__, __func__, contents, database_cache_get (url));
-  database_cache_trim ();
+  evaluate (__LINE__, __func__, false, database_filebased_cache_exists (url));
+  evaluate (__LINE__, __func__, "", database_filebased_cache_get (url));
+  database_filebased_cache_put (url, contents);
+  evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
+  evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
+  database_filebased_cache_trim ();
 
   refresh_sandbox (true);
 }

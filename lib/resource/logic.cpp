@@ -526,8 +526,8 @@ string resource_logic_web_cache_get (string url, string & error)
 {
   // On the Cloud, check if the URL is in the cache.
   if (!config_logic_client_prepared ()) {
-    if (database_cache_exists (url)) {
-      return database_cache_get (url);
+    if (database_filebased_cache_exists (url)) {
+      return database_filebased_cache_get (url);
     }
   }
   // Fetch the URL from the network.
@@ -539,7 +539,7 @@ string resource_logic_web_cache_get (string url, string & error)
   }
   // In the Cloud, cache the response.
   if (!config_logic_client_prepared ()) {
-    database_cache_put (url, html);
+    database_filebased_cache_put (url, html);
   }
   // Done.
   return html;

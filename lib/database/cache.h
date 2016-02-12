@@ -40,12 +40,12 @@ private:
 };
 
 
-string database_cache_clean_name (string name);
-bool database_cache_exists (string schema);
-void database_cache_put (string schema, string contents);
-string database_cache_get (string schema);
-void database_cache_remove (string schema);
-void database_cache_trim ();
+string database_filebased_cache_clean_name (string name);
+bool database_filebased_cache_exists (string schema);
+void database_filebased_cache_put (string schema, string contents);
+string database_filebased_cache_get (string schema);
+void database_filebased_cache_remove (string schema);
+void database_filebased_cache_trim ();
 
 
 #endif
