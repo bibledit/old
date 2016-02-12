@@ -28,6 +28,8 @@
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <database/versifications.h>
+#include <database/offlineresources.h>
+#include <database/usfmresources.h>
 #include <database/books.h>
 #include <database/cache.h>
 #include <client/logic.h>
@@ -90,6 +92,15 @@ void sendreceive_resources ()
   
   // Resource to cache.
   string resource = resources [0];
+  
+  // Erase the two older storage locations that were used to cache resources in the earlier stages of Bibledit.
+  {
+    Database_OfflineResources database_offlineresources;
+    Database_UsfmResources database_usfmresources;
+    database_offlineresources.erase (resource);
+    database_usfmresources.deleteResource (resource);
+  }
+
   Database_Logs::log ("Starting to download resource:" " " + resource, Filter_Roles::consultant ());
   Database_Cache::create (resource);
   

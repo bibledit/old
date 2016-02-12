@@ -47,7 +47,7 @@ bool sync_externalresources_acl (void * webserver_request)
 
 string sync_externalresources (void * webserver_request)
 {
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   int action = convert_to_int (request->post ["a"]);

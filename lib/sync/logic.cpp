@@ -214,7 +214,7 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
 string Sync_Logic::offline_resources_checksum ()
 {
   string checksum;
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
   vector <string> names = database_offlineresources.names ();
   for (auto & name : names) {
     checksum += offline_resource_checksum (name);
@@ -228,7 +228,7 @@ string Sync_Logic::offline_resources_checksum ()
 string Sync_Logic::offline_resource_checksum (const string& name)
 {
   vector <string> checksum;
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
   vector <string> files = database_offlineresources.files (name);
   for (auto & file : files) {
     checksum.push_back (name);
@@ -243,7 +243,7 @@ string Sync_Logic::offline_resource_checksum (const string& name)
 // Calculates the checksum of offline resource name the file.
 string Sync_Logic::offline_resource_file_checksum (const string& name, const string& file)
 {
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
   return convert_to_string (database_offlineresources.size (name, file));
 }
 

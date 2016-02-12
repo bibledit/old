@@ -1221,7 +1221,7 @@ void test_database_offlineresourcese ()
   // Test Store / Exists / Get.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     bool exists = database_offlineresources.exists ("phpunit", 1, 2, 3);
     evaluate (__LINE__, __func__, true, exists);
@@ -1235,7 +1235,7 @@ void test_database_offlineresourcese ()
   // Test Count / Delete.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     int count = database_offlineresources.count ("phpunit");
     evaluate (__LINE__, __func__, 0, count);
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
@@ -1251,7 +1251,7 @@ void test_database_offlineresourcese ()
   // Test Names.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     vector <string> names = database_offlineresources.names ();
     evaluate (__LINE__, __func__, {}, names);
   
@@ -1266,7 +1266,7 @@ void test_database_offlineresourcese ()
   // Test Files.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
 
     vector <string> files = database_offlineresources.files ("phpunit");
     evaluate (__LINE__, __func__, {}, files);
@@ -1286,7 +1286,7 @@ void test_database_offlineresourcese ()
   // Test Size.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
   
     int size = database_offlineresources.size ("phpunit", "1.sqlite");
     evaluate (__LINE__, __func__, 0, size);
@@ -1302,7 +1302,7 @@ void test_database_offlineresourcese ()
   // Test Save / Load.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     
     int size = database_offlineresources.size ("phpunit", "1.sqlite");
     evaluate (__LINE__, __func__, 0, size);
@@ -1315,7 +1315,7 @@ void test_database_offlineresourcese ()
   // Test Unlink.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
   
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     vector <string> files = database_offlineresources.files ("phpunit");
@@ -1333,7 +1333,7 @@ void test_database_offlineresourcese ()
   }
   // Test http get
   {
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     string http = database_offlineresources.httpget ("ResourceName", "1.sqlite");
     evaluate (__LINE__, __func__, "/databases/offlineresources/ResourceName/1.sqlite", http);
   }
