@@ -180,13 +180,13 @@ string client_logic_link_to_cloud (string path, string linktext)
 
 
 // Path to the file in the client files area that contains a list of USFM resources on the server.
-string client_logic_usfm_resources_path () // Todo
+string client_logic_usfm_resources_path ()
 {
   return filter_url_create_root_path ("databases", "client", "usfm_resources.txt");
 }
 
 
-void client_logic_usfm_resources_update () // Todo
+void client_logic_usfm_resources_update ()
 {
   // The Cloud stores the list of USFM resources.
   // It is stored in the client files area.
@@ -198,7 +198,7 @@ void client_logic_usfm_resources_update () // Todo
 }
 
 
-vector <string> client_logic_usfm_resources_get () // Todo
+vector <string> client_logic_usfm_resources_get ()
 {
   string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
   return filter_string_explode (contents, '\n');

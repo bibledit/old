@@ -123,7 +123,7 @@ vector <string> resource_logic_get_names (void * webserver_request)
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers) // Todo fetch also USFM: Client
+                                bool add_verse_numbers)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -234,7 +234,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   vector <string> local_usfms = database_usfmresources.getResources ();
   vector <string> remote_usfms;
   if (config_logic_client_prepared ()) {
-    remote_usfms = client_logic_usfm_resources_get (); // Todo
+    remote_usfms = client_logic_usfm_resources_get ();
   }
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
@@ -265,7 +265,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     filter_text.run (stylesheet);
     data = filter_text.html_text_standard->getInnerHtml ();
   } else if (isRemoteUsfm) {
-    data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse); // Todo Cloud should supply this information.
+    data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
     if (config_logic_client_prepared ()) {
       // A client fetches it from the cache or from the Cloud,
@@ -318,7 +318,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse) // Todo
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
   // Lists of the various types of resources.
   Database_UsfmResources database_usfmresources;
@@ -340,7 +340,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   }
   
   if (isUsfm) {
-    // Fetch from database and convert to html. // Todo
+    // Fetch from database and convert to html.
     string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
     string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();

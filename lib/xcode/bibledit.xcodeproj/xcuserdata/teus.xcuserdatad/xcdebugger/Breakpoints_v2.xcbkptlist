@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "382"
             endingLineNumber = "382"
-            landmarkName = "resource_logic_import_images (string resource, string path)"
+            landmarkName = "resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
