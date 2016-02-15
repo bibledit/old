@@ -4130,7 +4130,7 @@ void test_database_hebrewlexicon ()
 }
 
 
-void test_database_cache () // Todo
+void test_database_cache ()
 {
   trace_unit_tests (__func__);
   
