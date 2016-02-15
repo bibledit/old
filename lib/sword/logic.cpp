@@ -347,8 +347,8 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   if (config_logic_client_prepared ()) {
 
     // Client checks for and optionally creates the cache for this SWORD module.
-    if (!Database_Cache::exists (module)) {
-      Database_Cache::create (module);
+    if (!Database_Cache::exists (module, book)) {
+      Database_Cache::create (module, book);
     }
 
     // If this module/passage exists in the cache, return it (it updates the access days in the cache).

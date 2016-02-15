@@ -368,8 +368,8 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
 {
   // Ensure that the cache for this resource exists on the client.
-  if (!Database_Cache::exists (resource)) {
-    Database_Cache::create (resource);
+  if (!Database_Cache::exists (resource, book)) {
+    Database_Cache::create (resource, book);
   }
   
   // If the content exists in the cache, return that content.

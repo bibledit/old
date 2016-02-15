@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Cache
 {
 public:
-  static void create (string resource, int book = 0);
+  static void create (string resource, int book);
   static void remove (string resource);
   static bool exists (string resource);
   static bool exists (string resource, int book);

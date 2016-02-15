@@ -45,7 +45,7 @@ string Database_Cache::database_resource (string resource, int book)
 }
 
 
-void Database_Cache::create (string resource, int book) // Todo remove default book from definition
+void Database_Cache::create (string resource, int book)
 {
   SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
   sql.add ("CREATE TABLE IF NOT EXISTS cache (chapter integer, verse integer, value text);");
@@ -201,7 +201,7 @@ int Database_Cache::count (string resource)
 }
 
 
-void Database_Cache::error (string resource, int book, int chapter, int verse, bool error) // Todo
+void Database_Cache::error (string resource, int book, int chapter, int verse, bool error)
 {
   SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
   if (error) {
@@ -222,7 +222,7 @@ void Database_Cache::error (string resource, int book, int chapter, int verse, b
 }
 
 
-vector <pair <int, int> > Database_Cache::errors (string resource, int book) // Todo
+vector <pair <int, int> > Database_Cache::errors (string resource, int book)
 {
   vector <pair <int, int> > errors;
   SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
@@ -239,7 +239,7 @@ vector <pair <int, int> > Database_Cache::errors (string resource, int book) // 
 }
 
 
-void Database_Cache::progress (string resource, int book, int chapter, int verse) // Todo
+void Database_Cache::progress (string resource, int book, int chapter, int verse)
 {
   SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
   sql.add ("DELETE FROM progress;");
@@ -254,7 +254,7 @@ void Database_Cache::progress (string resource, int book, int chapter, int verse
 }
 
 
-pair <int, int> Database_Cache::progress (string resource, int book) // Todo
+pair <int, int> Database_Cache::progress (string resource, int book)
 {
   pair <int, int> progress = make_pair (0, 0);
   SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
