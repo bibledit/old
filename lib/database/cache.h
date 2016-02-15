@@ -38,6 +38,8 @@ public:
   static int count (string resource);
   static void error (string resource, int book, int chapter, int verse, bool error);
   static vector <pair <int, int> > errors (string resource, int book);
+  static void progress (string resource, int book, int chapter, int verse);
+  static pair <int, int> progress (string resource, int book);
 private:
   static string database_resource (string resource, int book);
 };

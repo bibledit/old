@@ -4215,6 +4215,23 @@ void test_database_cache () // Todo
   errors = Database_Cache::errors ("unittests", 3);
   evaluate (__LINE__, __func__, 1, errors.size ());
   
+  // Excercise the progress tracker.
+  Database_Cache::create ("unittests", 10);
+  // Default: 0 / 0.
+  pair <int, int> progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 0, progress.first);
+  evaluate (__LINE__, __func__, 0, progress.second);
+  // Record and check.
+  Database_Cache::progress ("unittests", 10, 99, 999);
+  progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 99, progress.first);
+  evaluate (__LINE__, __func__, 999, progress.second);
+  // Record again and check.
+  Database_Cache::progress ("unittests", 10, 2, 9);
+  progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 2, progress.first);
+  evaluate (__LINE__, __func__, 9, progress.second);
+  
   // Excercise the file-based cache.
   string url = "https://netbible.org/bible/1/2/3";
   string contents = "Bible contents";

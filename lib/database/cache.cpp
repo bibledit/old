@@ -53,6 +53,9 @@ void Database_Cache::create (string resource, int book) // Todo remove default b
   sql.clear ();
   sql.add ("CREATE TABLE IF NOT EXISTS errors (chapter integer, verse integer);");
   sql.execute ();
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS progress (chapter integer, verse integer);");
+  sql.execute ();
 }
 
 
@@ -233,6 +236,36 @@ vector <pair <int, int> > Database_Cache::errors (string resource, int book) // 
     errors.push_back (make_pair (chapter, verse));
   }
   return errors;
+}
+
+
+void Database_Cache::progress (string resource, int book, int chapter, int verse) // Todo
+{
+  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
+  sql.add ("DELETE FROM progress;");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("INSERT INTO progress VALUES (");
+  sql.add (chapter);
+  sql.add (",");
+  sql.add (verse);
+  sql.add (");");
+  sql.execute ();
+}
+
+
+pair <int, int> Database_Cache::progress (string resource, int book) // Todo
+{
+  pair <int, int> progress = make_pair (0, 0);
+  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
+  sql.add ("SELECT chapter, verse FROM progress;");
+  map <string, vector <string> > result = sql.query ();
+  vector <string> chapters = result ["chapter"];
+  vector <string> verses = result ["verse"];
+  if (!chapters.empty ()) {
+    progress = make_pair (convert_to_int (chapters [0]), convert_to_int (verses [0]));
+  }
+  return progress;
 }
 
 
