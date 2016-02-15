@@ -178,6 +178,16 @@ function verseEditorStatus (text)
 {
   $ ("#usfmstatus").empty ();
   $ ("#usfmstatus").append (text);
+  verseEditorSelectiveNotification (text);
+}
+
+
+function verseEditorSelectiveNotification (message)
+{
+  if (message == verseEditorVerseLoaded) return;
+  if (message == verseEditorVerseSaving) return;
+  if (message == verseEditorVerseSaved) return;
+  notifyItError (message);
 }
 
 

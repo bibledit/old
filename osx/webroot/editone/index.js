@@ -243,6 +243,7 @@ function oneverseEditorStatus (text)
 {
   $ ("#onestatus").empty ();
   $ ("#onestatus").append (text);
+  oneverseEditorSelectiveNotification (text);
 }
 
 
@@ -261,6 +262,15 @@ function oneverseActiveStylesFeedback ()
     var element = $ ("#oneverseactivestyles");
     element.text (pname + " " + cname);
   }
+}
+
+
+function oneverseEditorSelectiveNotification (message)
+{
+  if (message == oneverseEditorVerseLoaded) return;
+  if (message == oneverseEditorVerseSaving) return;
+  if (message == oneverseEditorVerseSaved) return;
+  notifyItError (message);
 }
 
 
