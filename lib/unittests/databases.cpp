@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/md5.h>
 #include <filter/date.h>
+#include <filter/shell.h>
 #include <config/globals.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
@@ -4138,34 +4139,81 @@ void test_database_cache () // Todo
   // Initially database should not exist.
   bool exists = Database_Cache::exists ("");
   evaluate (__LINE__, __func__, false, exists);
-
-  // Initially the database should not exist, and have 0 verses.
-  // After creating, it should be there, and still have 0 verses.
   exists = Database_Cache::exists ("unittests");
   evaluate (__LINE__, __func__, false, exists);
-  int count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 0, count);
-  Database_Cache::create ("unittests");
-  exists = Database_Cache::exists ("unittests");
+
+  // Copy an old cache database in place.
+  // It contains cached data in the old layout.
+  // Test that it now exists and contains data.
+  string testdatapath = filter_url_create_root_path ("unittests", "tests", "cache_resource_test.sqlite");
+  string databasepath = filter_url_create_root_path ("databases",  "cache_resource_unittests.sqlite");
+  string out_err;
+  filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
+  size_t count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 38, count);
+  exists = Database_Cache::exists ("unittests", 8, 1, 16);
   evaluate (__LINE__, __func__, true, exists);
+  string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
+  evaluate (__LINE__, __func__, "And Ruth said, Entreat me not to leave you, or to return from following you; for wherever you go, I will go, and wherever you lodge, I will lodge; your people shall be my people, and your God my God.", value);
+
+  // Now remove the (old) cache and verify that it no longer exists or contains data.
+  Database_Cache::remove ("unittests");
+  exists = Database_Cache::exists ("unittests");
+  evaluate (__LINE__, __func__, false, exists);
+  count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 0, count);
+  
+  // Create a cache for one book.
+  Database_Cache::create ("unittests", 10);
+  // It should exists for the correct book, but not for another book.
+  exists = Database_Cache::exists ("unittests", 10);
+  evaluate (__LINE__, __func__, true, exists);
+  exists = Database_Cache::exists ("unittests", 11);
+  evaluate (__LINE__, __func__, false, exists);
+  // The cache should have 0 verses.
   count = Database_Cache::count ("unittests");
   evaluate (__LINE__, __func__, 0, count);
   
   // Cache and retrieve value.
+  Database_Cache::create ("unittests", 1);
   Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  string value = Database_Cache::retrieve ("unittests", 1, 2, 3);
+  value = Database_Cache::retrieve ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, "cached", value);
-
+  
   // Verse count check.
   count = Database_Cache::count ("unittests");
   evaluate (__LINE__, __func__, 1, count);
-
+  
   // Cache does not exist for one passage, but does exist for the other passage.
   exists = Database_Cache::exists ("unittests", 1, 2, 4);
   evaluate (__LINE__, __func__, false, exists);
   exists = Database_Cache::exists ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, true, exists);
-
+  
+  // Excercise book cache removal.
+  Database_Cache::remove ("unittests");
+  exists = Database_Cache::exists ("unittests", 1);
+  evaluate (__LINE__, __func__, false, exists);
+  
+  // Excercise the errors registry.
+  Database_Cache::create ("unittests", 3);
+  vector <pair <int, int> > errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 0, errors.size ());
+  Database_Cache::error ("unittests", 3, 5, 6, true);
+  Database_Cache::error ("unittests", 3, 7, 8, true);
+  errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 2, errors.size ());
+  if (errors.size () == 2) {
+    pair <int, int> error = errors [0];
+    evaluate (__LINE__, __func__, 5, error.first);
+    evaluate (__LINE__, __func__, 6, error.second);
+    error = errors [1];
+    evaluate (__LINE__, __func__, 7, error.first);
+    evaluate (__LINE__, __func__, 8, error.second);
+  }
+  Database_Cache::error ("unittests", 3, 5, 6, false);
+  errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 1, errors.size ());
   
   // Excercise the file-based cache.
   string url = "https://netbible.org/bible/1/2/3";
