@@ -116,6 +116,10 @@ string editone_save (void * webserver_request)
   string stylesheet = request->database_config_user()->getStylesheet();
   
   
+  // Convert xml entities to normal characters.
+  html = filter_string_desanitize_html (html);
+  
+  
   // Convert the html back to USFM in the special way for editing one verse.
   string usfm = editor_export_verse (stylesheet, html);
 
