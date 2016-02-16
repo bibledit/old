@@ -3,6 +3,9 @@
 echo Installing Bibledit on Linux.
 
 
+
+
+
 # Create a script with commands to run with root privileges.
 cat > install2.sh <<'scriptblock'
 
