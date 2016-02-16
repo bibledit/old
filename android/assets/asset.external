@@ -1556,6 +1556,7 @@ unittests/stress
 unittests/tests/Genesis-1-1-18.gif
 unittests/tests/basic.css
 unittests/tests/biblehub-john-1-1.html
+unittests/tests/cache_resource_test.sqlite
 unittests/tests/changed_verses.html
 unittests/tests/chapters_new.usfm
 unittests/tests/chapters_old.usfm
@@ -1583,6 +1584,7 @@ user/account.html
 user/notifications.cpp
 user/notifications.h
 user/notifications.html
+user/notifications.js
 utf8/CMakeLists.txt
 utf8/ChangeLog.txt
 utf8/Exception.cpp

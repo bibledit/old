@@ -35,7 +35,10 @@
 #include <config/logic.h>
 #include <menu/logic.h>
 #include <database/config/general.h>
+#include <database/usfmresources.h>
+#include <database/offlineresources.h>
 #include <sendreceive/resources.h>
+#include <client/logic.h>
 
 
 string resource_cache_url ()
@@ -75,13 +78,26 @@ string resource_cache (void * webserver_request)
   }
   
   
+  vector <string> listed_resources;
   string block;
+  
+  // Display the available USFM resources.
+  resources = client_logic_usfm_resources_get ();
+  for (auto & resource : resources) {
+    block.append ("<p>");
+    block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
+    block.append ("</p>\n");
+  }
+  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
+  // Display the available external resources.
   resources = resource_external_names ();
   for (auto & resource : resources) {
     block.append ("<p>");
     block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
     block.append ("</p>\n");
   }
+  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
+  // Display the available SWORD resources.
   resources = sword_logic_get_available ();
   for (auto & resource : resources) {
     string source = sword_logic_get_source (resource);
@@ -91,6 +107,26 @@ string resource_cache (void * webserver_request)
     block.append ("<a href=\"download?name=" + name + "\">" + resource + "</a>");
     block.append ("</p>\n");
   }
+  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
+  // Display any old USFM resources still available on the client.
+  Database_UsfmResources database_usfmresources;
+  resources = database_usfmresources.getResources ();
+  for (auto & resource : resources) {
+    if (in_array (resource, listed_resources)) continue;
+    block.append ("<p>");
+    block.append ("<a href=\"download?name=" + resource + "&old=yes\">" + resource + "</a>");
+    block.append ("</p>\n");
+  }
+  // Display any offline resources still available on the client.
+  Database_OfflineResources database_offlineresources;
+  resources = database_offlineresources.names ();
+  for (auto & resource : resources) {
+    if (in_array (resource, listed_resources)) continue;
+    block.append ("<p>");
+    block.append ("<a href=\"download?name=" + resource + "&old=yes\">" + resource + "</a>");
+    block.append ("</p>\n");
+  }
+  // Display the list.
   view.set_variable ("block", block);
 
   

@@ -26,6 +26,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <tasks/logic.h>
 
 
 void convert_bible_to_resource (string bible)
@@ -53,6 +54,10 @@ void convert_bible_to_resource (string bible)
   // because this information is useful when the USFM Resource is converted
   // back to a Bible.
   
+  
+  // The Cloud updates the list of available USFM resources for the clients.
+  tasks_logic_queue (LISTUSFMRESOURCES);
+
   
   Database_Logs::log (translate("Completed"), Filter_Roles::manager ());
 }
