@@ -8,6 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-16 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7319,6 +7320,15 @@ msgid "You can view the conversion process in the Journal."
 msgstr ""
 
 msgid "The following resources are being installed:"
+msgstr ""
+
+msgid ""
+"Cancelling a resource installation does not erase already installed content."
+msgstr ""
+
+msgid ""
+"When installing the resource again, it will continue from where it was "
+"cancelled."
 msgstr ""
 
 msgid "Click a resource for more information on its status."

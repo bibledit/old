@@ -24,6 +24,7 @@
 #include <filter/md5.h>
 #include <database/config/general.h>
 #include <database/users.h>
+#include <database/usfmresources.h>
 #include <database/logs.h>
 #include <sync/setup.h>
 #include <config/logic.h>
@@ -175,4 +176,30 @@ string client_logic_link_to_cloud (string path, string linktext)
   
   string link = "<a href=\"" + url + "\">" + linktext + "</a>";
   return link;
+}
+
+
+// Path to the file in the client files area that contains a list of USFM resources on the server.
+string client_logic_usfm_resources_path ()
+{
+  return filter_url_create_root_path ("databases", "client", "usfm_resources.txt");
+}
+
+
+void client_logic_usfm_resources_update ()
+{
+  // The Cloud stores the list of USFM resources.
+  // It is stored in the client files area.
+  // Clients can access it from there.
+  string path = client_logic_usfm_resources_path ();
+  Database_UsfmResources database_usfmresources;
+  vector <string> resources = database_usfmresources.getResources ();
+  filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
+}
+
+
+vector <string> client_logic_usfm_resources_get ()
+{
+  string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
+  return filter_string_explode (contents, '\n');
 }

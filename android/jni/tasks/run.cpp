@@ -65,6 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/logic.h>
 #include <sword/logic.h>
 #include <bible/logic.h>
+#include <client/logic.h>
 
 
 mutex mutex_tasks; 
@@ -200,6 +201,8 @@ void tasks_run_one (string filename)
     sword_logic_run_scheduled_module_install (parameter1, parameter2);
   } else if (command == UPDATESWORDMODULES) {
     sword_logic_update_installed_modules ();
+  } else if (command == LISTUSFMRESOURCES) {
+    client_logic_usfm_resources_update ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

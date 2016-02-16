@@ -28,24 +28,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Cache
 {
 public:
-  static void create (string resource);
+  static void create (string resource, int book);
   static void remove (string resource);
   static bool exists (string resource);
+  static bool exists (string resource, int book);
   static bool exists (string resource, int book, int chapter, int verse);
   static void cache (string resource, int book, int chapter, int verse, string value);
   static string retrieve (string resource, int book, int chapter, int verse);
   static int count (string resource);
+  static void error (string resource, int book, int chapter, int verse, bool error);
+  static vector <pair <int, int> > errors (string resource, int book);
+  static void progress (string resource, int book, int chapter, int verse);
+  static pair <int, int> progress (string resource, int book);
 private:
-  static string database_resource (string resource);
+  static string database_resource (string resource, int book);
 };
 
 
-string database_cache_clean_name (string name);
-bool database_cache_exists (string schema);
-void database_cache_put (string schema, string contents);
-string database_cache_get (string schema);
-void database_cache_remove (string schema);
-void database_cache_trim ();
+string database_filebased_cache_clean_name (string name);
+bool database_filebased_cache_exists (string schema);
+void database_filebased_cache_put (string schema, string contents);
+string database_filebased_cache_get (string schema);
+void database_filebased_cache_remove (string schema);
+void database_filebased_cache_trim ();
 
 
 #endif

@@ -28,6 +28,7 @@
 #include <locale/translate.h>
 #include <resource/logic.h>
 #include <database/offlineresources.h>
+#include <database/usfmresources.h>
 #include <database/logs.h>
 #include <database/cache.h>
 #include <database/config/general.h>
@@ -52,7 +53,8 @@ bool resource_download_acl (void * webserver_request)
 string resource_download (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
+  Database_UsfmResources database_usfmresources;
   
   
   string page;
@@ -65,11 +67,27 @@ string resource_download (void * webserver_request)
   
   string name = request->query["name"];
   view.set_variable ("name", name);
-                      
+  
+  
+  
+  bool old = request->query.count ("old");
+  if (old) view.enable_zone ("old");
+  else view.enable_zone ("current");
+                        
                       
   if (request->query.count ("clear")) {
+    // The client clears the two older storage locations just to be sure they are gone.
     database_offlineresources.erase (name);
+    database_usfmresources.deleteResource (name);
+    // The client clears the installed resource.
     Database_Cache::remove (name);
+  }
+  if (request->query.count ("clearold")) {
+    // The client clears the two older storage locations just to be sure they are gone.
+    database_offlineresources.erase (name);
+    database_usfmresources.deleteResource (name);
+    redirect_browser (request, resource_cache_url ());
+    return "";
   }
   
   
@@ -89,6 +107,14 @@ string resource_download (void * webserver_request)
   
   int count = 0;
   if (count == 0) count = database_offlineresources.count (name);
+  if (count == 0) {
+    vector <int> books = database_usfmresources.getBooks (name);
+    for (auto book : books) {
+      vector <int> chapters = database_usfmresources.getChapters (name, book);
+      // Rough average of 20 verses per chapter.
+      count += (20 * chapters.size());
+    }
+  }
   if (count == 0) count = Database_Cache::count (name);
   view.set_variable ("count", convert_to_string (count));
                       

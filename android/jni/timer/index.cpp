@@ -219,6 +219,14 @@ void timer_index ()
           tasks_logic_queue (UPDATESWORDMODULES);
         }
       }
+      
+      // The Cloud updates the list of USFM resources once a week.
+      if (weekday == 1) {
+        if ((!client) && (hour == 3) && (minute == 10)) {
+          tasks_logic_queue (LISTUSFMRESOURCES);
+        }
+      }
+      
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());
