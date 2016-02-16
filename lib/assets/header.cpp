@@ -141,8 +141,8 @@ string Assets_Header::run ()
 
   string page;
   
-  // Include the Bibledit version number in the stylesheet and javascript URL
-  // to refresh the browser's cache after a Bibledit upgrade.
+  // Include the software version number in the stylesheet and javascript URL
+  // to refresh the browser's cache after a software upgrade.
   view->set_variable("VERSION", config_logic_version ());
 
   if (includeJQueryUI) {
@@ -250,7 +250,9 @@ string Assets_Header::run ()
 
     if (displayNavigator) {
       view->enable_zone ("display_navigator");
-      string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+      // string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+      // The clamping above does not work for public feedback as it would reset the Bible always.
+      string bible = request->database_config_user()->getBible ();
       view->set_variable ("navigation_code", Navigation_Passage::code (bible, true));
     }
   }
