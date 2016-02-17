@@ -90,7 +90,13 @@ void sword_logic_refresh_module_list ()
   
   // Sync the configuration with the online known remote repository list.
 #ifdef HAVE_SWORD
-  sword_logic_installmgr_synchronize_configuration_with_master ();
+  if (!sword_logic_installmgr_synchronize_configuration_with_master ()) {
+    Database_Logs::log ("Failed to synchronize SWORD configuration with the master remote source list");
+    // Since this could be a network failure, exit from the entire update routine.
+    // The advantage of existing already at this stage is that the list of known SWORD resources
+    // will be left untouched in case of a network error.
+    return;
+  }
 #else
   filter_shell_run ("echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
@@ -123,7 +129,9 @@ void sword_logic_refresh_module_list ()
   for (auto remote_source : remote_sources) {
     
 #ifdef HAVE_SWORD
-    sword_logic_installmgr_refresh_remote_source (remote_source);
+    if (!sword_logic_installmgr_refresh_remote_source (remote_source)) {
+      Database_Logs::log ("Error refreshing remote source " + remote_source);
+    }
 #else
     filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
@@ -578,22 +586,22 @@ void sword_logic_installmgr_initialize ()
 }
 
 
-void sword_logic_installmgr_synchronize_configuration_with_master ()
+bool sword_logic_installmgr_synchronize_configuration_with_master ()
 {
+  bool success = true;
 #ifdef HAVE_SWORD
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
   
-  if (!installMgr->refreshRemoteSourceConfiguration()) {
-    //Database_Logs::log ("Synchronized SWORD configuration with the master remote source list");
-  } else {
-    Database_Logs::log ("Failed to synchronize SWORD configuration with the master remote source list");
+  if (installMgr->refreshRemoteSourceConfiguration()) {
+    success = false;
   }
   
   delete installMgr;
 #endif
+  return success;
 }
 
 
@@ -626,8 +634,9 @@ void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
 }
 
 
-void sword_logic_installmgr_refresh_remote_source (string name)
+bool sword_logic_installmgr_refresh_remote_source (string name)
 {
+  bool success = true;
 #ifdef HAVE_SWORD
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
@@ -638,15 +647,14 @@ void sword_logic_installmgr_refresh_remote_source (string name)
   if (source == installMgr->sources.end()) {
     Database_Logs::log ("Could not find remote source " + name);
   } else {
-    if (!installMgr->refreshRemoteSource(source->second)) {
-      //Database_Logs::log ("Remote source refreshed: " + name);
-    } else {
-      Database_Logs::log ("Error refreshing remote source " + name);
+    if (installMgr->refreshRemoteSource(source->second)) {
+      success = false;
     }
   }
   
   delete installMgr;
 #endif
+  return success;
 }
 
 
