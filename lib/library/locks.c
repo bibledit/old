@@ -55,10 +55,6 @@ static unsigned long id_function(void)
 #endif
 
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-
-
 void thread_setup ()
 {
 #ifndef CLIENT_PREPARED
@@ -86,6 +82,3 @@ void thread_cleanup ()
   mutex_buf = NULL;
 #endif
 }
-
-
-#pragma clang diagnostic pop

@@ -361,10 +361,10 @@ unittest_SOURCES = \
 
 unittest_LDADD = libbibledit.a
 
-AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic
+AM_CFLAGS = -Wall -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g -rdynamic
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
