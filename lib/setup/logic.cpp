@@ -237,6 +237,12 @@ void setup_initialize_data ()
   styles_sheets_create_all ();
   
   // Schedule creation of sample Bible if there's no Bible yet.
+  // In former versions of Bibledit, creation of the sample Bible was not scheduled,
+  // but executed right away.
+  // This led to very long app first-run times on low power devices.
+  // The installation times were so long that user were tempted to think
+  // that the install process was stuck.
+  // To make installation fast, the creation of the sample Bible is now done in the background.
   config_globals_setup_message = "samples";
   vector <string> bibles = request.database_bibles()->getBibles ();
   if (bibles.empty ()) {
