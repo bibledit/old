@@ -203,6 +203,8 @@ void tasks_run_one (string filename)
     sword_logic_update_installed_modules ();
   } else if (command == LISTUSFMRESOURCES) {
     client_logic_usfm_resources_update ();
+  } else if (command == CREATESAMPLEBIBLE) {
+    demo_create_sample_bible ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

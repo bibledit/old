@@ -164,7 +164,7 @@ void demo_clean_data ()
 
   
   // Create / update sample Bible.
-  demo_create_sample_bible (&request);
+  demo_create_sample_bible ();
 
 
   // Clean out nearly empty chapters from the Bibles.
@@ -238,18 +238,21 @@ string demo_sample_bible_name ()
 
 
 // Creates a sample Bible.
-void demo_create_sample_bible (void * webserver_request)
+void demo_create_sample_bible ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-
   // Ensure the sample Bible exists.
-  request->database_bibles()->createBible (demo_sample_bible_name ());
+  Database_Bibles database_bibles;
+  database_bibles.createBible (demo_sample_bible_name ());
   
+  // Set the sample Bible to viewable by all users.
+  Database_Config_Bible::setViewableByAllUsers (demo_sample_bible_name (), true);
+
   // Store some text into the sample Bible.
   string directory = filter_url_create_root_path ("demo");
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
     if (filter_url_get_extension (file) == "usfm") {
+      Database_Logs::log ("Create sample from " + file);
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_str_replace ("  ", " ", usfm);
@@ -260,8 +263,6 @@ void demo_create_sample_bible (void * webserver_request)
     }
   }
   
-  // Set the sample Bible to viewable by all users.
-  Database_Config_Bible::setViewableByAllUsers (demo_sample_bible_name (), true);
 }
 
 

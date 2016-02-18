@@ -225,7 +225,7 @@ string Database_Config_User::getBible ()
     // There may not even be a first Bible: Create sample Bible.
     if (bibles.empty ()) {
       bible = demo_sample_bible_name ();
-      demo_create_sample_bible (webserver_request);
+      demo_create_sample_bible ();
       database_bibles->createBible (bible);
     } else {
       bible = bibles [0];
