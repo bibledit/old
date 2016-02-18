@@ -183,7 +183,7 @@ void setup_initialize_data ()
   for (auto & element : localizations) {
     string localization = element.first;
     if (localization.empty ()) continue;
-    config_globals_setup_message = localization;
+    config_globals_setup_message = "locale " + localization;
     Database_Localization database_localization = Database_Localization (localization);
     string path = filter_url_create_root_path ("locale", localization + ".po");
     database_localization.create (path);
@@ -232,15 +232,22 @@ void setup_initialize_data ()
   config_globals_setup_message = "stylesheets";
   styles_sheets_create_all ();
   
-  // Create sample Bible if there's no Bible yet.
+  // Schedule creation of sample Bible if there's no Bible yet.
   config_globals_setup_message = "samples";
   vector <string> bibles = request.database_bibles()->getBibles ();
-  if (bibles.empty ()) demo_create_sample_bible (&request);
+  if (bibles.empty ()) {
+    tasks_logic_queue (CREATESAMPLEBIBLE);
+  }
   
   // Schedule reindexing Bible search data.
+  /*
+   Re-indexing Bible search data was disabled again in Februari 2016,
+   because it takes quite a while on low power devices,
+   and the reason for the re-indexing is not clear.
   config_globals_setup_message = "indexes";
   Database_Config_General::setIndexBibles (true);
   tasks_logic_queue (REINDEXBIBLES);
+  */
 }
 
 
