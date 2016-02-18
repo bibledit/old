@@ -170,6 +170,10 @@ void setup_initialize_data ()
 {
   // Do the database setup.
   Webserver_Request request;
+  // Display progress in text format.
+  // That provides feedback to the user during installation.
+  // This alerts the user that installation is in progress, and is not stuck,
+  // as the user might think when the install takes longer than expected.
   config_globals_setup_message = "users";
   request.database_users ()->create ();
   request.database_users ()->upgrade ();
