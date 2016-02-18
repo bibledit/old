@@ -252,7 +252,7 @@ void demo_create_sample_bible ()
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
     if (filter_url_get_extension (file) == "usfm") {
-      Database_Logs::log ("Create sample from " + file);
+      Database_Logs::log ("Creating sample Bible book: " + file);
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_str_replace ("  ", " ", usfm);
@@ -263,6 +263,7 @@ void demo_create_sample_bible ()
     }
   }
   
+  Database_Logs::log ("Ready creating sample Bible");
 }
 
 

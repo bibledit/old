@@ -91,7 +91,7 @@ const char * setup_initialization_notice ()
   notice.append ("<p><progress value=\"" + convert_to_string (config_globals_setup_progress) + "\" max=\"100\"></progress></p>");
   
   // Informative text for progress indication.
-  notice.append ("<p>" + config_globals_setup_message + "</p>");
+  notice.append ("<p>... " + config_globals_setup_message + " ...</p>");
   
   // Remainder of the setup page.
   notice.append (
