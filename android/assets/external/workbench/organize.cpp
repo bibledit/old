@@ -138,8 +138,16 @@ string workbench_organize (void * webserver_request)
     workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<a href=\"?copy=" + workbench + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
-    workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<a href=\"?send=" + workbench + "\" title=\"" + translate("Send desktop to all users") + "\"> ✉ </a>");
+    if (config_logic_client_prepared ()) {
+      // On a client, sending a desktop to other users does not work.
+      // Put a placeholder instead.
+      // The placeholder makes sure that the javascript keeps working by picking the correct child.
+      workbenchblock.push_back ("<span> </span>");
+    } else {
+      // In the Cloud, one can send the desktop configuration to other users.
+      workbenchblock.push_back ("|");
+      workbenchblock.push_back ("<a href=\"?send=" + workbench + "\" title=\"" + translate("Send desktop to all users") + "\"> ✉ </a>");
+    }
     workbenchblock.push_back ("|");
     workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
     workbenchblock.push_back ("</p>");

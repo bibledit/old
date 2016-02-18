@@ -3,6 +3,14 @@
 echo Installing Bibledit on Linux.
 
 
+# Some distro's cannot run $ su.
+UNAME=`uname -a`
+RUNSU=1;
+if [[ $UNAME == *Ubuntu* ]]; then
+  RUNSU=0;
+fi
+
+
 # Create a script with commands to run with root privileges.
 cat > install2.sh <<'scriptblock'
 
@@ -77,13 +85,20 @@ scriptblock
 # Run the script with root privileges.
 chmod +x install2.sh
 
-echo Please provide the password for the root user and press Enter
-su -c ./install2.sh
+# Conditionally run $ su.
+if [[ $RUNSU -ne 0 ]]; then
+  echo Please provide the password for the root user and press Enter
+  su -c ./install2.sh
+fi
 
 EXIT_CODE=$?
+# If $ su did not run, run $ sudo.
+if [[ $RUNSU -eq 0 ]]; then
+  EXIT_CODE=1
+fi
+# If $ su ran, but failed, run $ sudo.
 if [ $EXIT_CODE != 0 ]; then
 
-  echo No worry, the password may have been good. Trying another way...
   echo Please provide the password for the administrative user and press Enter:
   sudo ./install2.sh
   EXIT_CODE=$?

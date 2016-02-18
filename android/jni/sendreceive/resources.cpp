@@ -221,7 +221,9 @@ void sendreceive_resources ()
     string msg = "Error count while downloading resource: " + convert_to_string (error_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   }
-  Database_Logs::log ("Completed intalling resource:" " " + resource, Filter_Roles::consultant ());
+  if (!send_receive_priority_tasks_running) {
+    Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());
+  }
   // In case of too many errors, schedule the resource download again.
   bool re_schedule_download = false;
   if (error_count) {

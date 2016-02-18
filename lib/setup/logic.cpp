@@ -183,7 +183,7 @@ void setup_initialize_data ()
   for (auto & element : localizations) {
     string localization = element.first;
     if (localization.empty ()) continue;
-    config_globals_setup_message = localization;
+    config_globals_setup_message = "locale " + localization;
     Database_Localization database_localization = Database_Localization (localization);
     string path = filter_url_create_root_path ("locale", localization + ".po");
     database_localization.create (path);

@@ -34,9 +34,6 @@
 #define TRACING(fmt, ...)	((void) 0)
 #endif
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-compare"
-
 enum classes {
 	C_SPACE, /* space */
 	C_NL,    /* newline */
@@ -965,7 +962,7 @@ int json_print_args(json_printer *printer,
 		case JSON_STRING:
 			data = va_arg(ap, char *);
 			length = va_arg(ap, uint32_t);
-			if (length == -1)
+			if (length == UINT32_MAX)
 				length = strlen(data);
 			ret = (*f)(printer, type, data, length);
 			break;
@@ -1074,5 +1071,3 @@ int json_parser_dom_callback(void *userdata, int type, const char *data, uint32_
 	}
 	return 0;
 }
-
-#pragma clang diagnostic pop
