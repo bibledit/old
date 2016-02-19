@@ -11,6 +11,7 @@
 		CA679B181B1C78A2002E3407 /* bibledit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibledit.cpp; sourceTree = "<group>"; };
 		CA679B191B1C78A2002E3407 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
 		CA6EF6011B19CBB30016FF18 /* native */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = native; sourceTree = "<group>"; };
+		CA6FFB001C773BEA00239D5C /* copy */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copy; sourceTree = "<group>"; };
 		CA97BC101B0F7DF400877437 /* AndroidManifest.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AndroidManifest.xml; sourceTree = "<group>"; };
 		CA97BC111B0F7DFC00877437 /* ant.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = ant.properties; sourceTree = "<group>"; };
 		CA97BC121B0F7E0400877437 /* build.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = build.xml; sourceTree = "<group>"; };
@@ -63,6 +64,7 @@
 				CA97BC101B0F7DF400877437 /* AndroidManifest.xml */,
 				CA97BC111B0F7DFC00877437 /* ant.properties */,
 				CA97BC121B0F7E0400877437 /* build.xml */,
+				CA6FFB001C773BEA00239D5C /* copy */,
 				CA97BC131B0F7E0C00877437 /* debug */,
 				CAE0F22B1B1DDCBE00970969 /* gdb */,
 				CAE2DAFA1B10DE4A008EE025 /* jni */,
