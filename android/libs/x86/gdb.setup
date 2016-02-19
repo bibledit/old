@@ -1,3 +1,0 @@
-set solib-search-path ./obj/local/x86
-source /Users/teus/scr/android-ndk-r10e/prebuilt/common/gdb/common.setup
-directory /Users/teus/scr/android-ndk-r10e/platforms/android-9/arch-x86/usr/include jni/../sqlite/jni jni/../xml2/jni/include /Users/teus/scr/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include /Users/teus/scr/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/libs/x86/include /Users/teus/scr/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/backward
