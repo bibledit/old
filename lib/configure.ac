@@ -246,6 +246,17 @@ AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
 AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
 AC_SUBST(WINDOWS)
 
+# Android.
+ANDROID=no
+AC_ARG_ENABLE(android,
+[  --enable-android Compile on Android],
+[AC_DEFINE([HAVE_ANDROID], [1], [Define whether to compile on Android])]
+ANDROID=yes
+)
+AC_DEFINE([ANDROID], [], [Define whether to compile on Android])
+AC_DEFINE_UNQUOTED(ANDROID, "$ANDROID")
+AC_SUBST(ANDROID)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -267,5 +278,6 @@ Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
+Android (--enable-android)                        : ${ANDROID}
 SWORD library                                     : ${SWORD_CFLAGS}
 "
