@@ -64,9 +64,9 @@ string help_index (void * webserver_request, const string& url)
   view.set_variable ("version", config_logic_version ());
   
   string linux_version = "1.0.xxx";
-  string path = "/var/www/bibledit.org/linux";
-  if (file_exists (path)) {
-    vector <string> files = filter_url_scandir (path);
+  string linux_path = "/var/www/bibledit.org/linux";
+  if (file_exists (linux_path)) {
+    vector <string> files = filter_url_scandir (linux_path);
     if (!files.empty ()) {
       linux_version = files.back ();
       linux_version = filter_string_str_replace ("bibledit-", "", linux_version);
@@ -74,6 +74,18 @@ string help_index (void * webserver_request, const string& url)
     }
   }
   view.set_variable ("linuxversion", linux_version);
+
+  string cloud_version = "1.0.xxx";
+  string cloud_path = "/var/www/bibledit.org/cloud";
+  if (file_exists (cloud_path)) {
+    vector <string> files = filter_url_scandir (cloud_path);
+    if (!files.empty ()) {
+      cloud_version = files.back ();
+      cloud_version = filter_string_str_replace ("bibledit-", "", cloud_version);
+      cloud_version = filter_string_str_replace (".tar.gz", "", cloud_version);
+    }
+  }
+  view.set_variable ("cloudversion", cloud_version);
 
   page += view.render ("help", filter_url_basename (url));
 
