@@ -11,7 +11,18 @@ export ANDROID_HOME=~/scr/android-sdk-macosx
 export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools:~/scr/android-ndk-r10e
 
 
-# Refresh the bibledit-web source code in the assets.
+# Build the locale databases for inclusion with the Android package.
+# The reason for this is that building them on Android takes a lot of time during the setup phase.
+# So to include pre-built databases speeds up the setup phase of Bibledit on Android.
+# This gives a better user experience.
+pushd ../lib
+./configure
+make --jobs=4
+./generate . locale
+popd
+
+
+# Refresh the Bibledit source code in the jni folder.
 rsync -a --exclude '*.o' --delete ../lib/* jni
 pushd jni
 ./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --enable-android
@@ -22,6 +33,7 @@ rm -f *.a
 rm reconfigure
 rm -f server
 rm -f unittest
+rm -f generate
 rm valgrind
 rm -r xcode
 rm -r executable
