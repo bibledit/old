@@ -31,6 +31,7 @@ fi
 
 
 # Create assets index.
+mkdir -p assets/external
 rsync -a jni/* assets/external
 find assets -name ".deps" -exec rm -r "{}" \; > /dev/null 2>&1
 find assets -name ".dirstamp" -delete
