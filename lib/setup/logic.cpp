@@ -183,15 +183,7 @@ void setup_initialize_data ()
   request.database_bibleactions ()->create ();
   config_globals_setup_message = "checks";
   request.database_check ()->create ();
-  map <string, string> localizations = locale_logic_localizations ();
-  for (auto & element : localizations) {
-    string localization = element.first;
-    if (localization.empty ()) continue;
-    config_globals_setup_message = "locale " + localization;
-    Database_Localization database_localization = Database_Localization (localization);
-    string path = filter_url_create_root_path ("locale", localization + ".po");
-    database_localization.create (path);
-  }
+  setup_generate_locale_databases (false);
   config_globals_setup_message = "confirmations";
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
@@ -274,4 +266,20 @@ void setup_set_admin_details (string username, string password, string email)
 void setup_complete_gui ()
 {
   Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+}
+
+
+// Generate the locale databases.
+void setup_generate_locale_databases (bool progress) // Todo
+{
+  map <string, string> localizations = locale_logic_localizations ();
+  for (auto & element : localizations) {
+    string localization = element.first;
+    if (localization.empty ()) continue;
+    config_globals_setup_message = "locale " + localization;
+    if (progress) cout << config_globals_setup_message << endl;
+    Database_Localization database_localization = Database_Localization (localization);
+    string path = filter_url_create_root_path ("locale", localization + ".po");
+    database_localization.create (path);
+  }
 }

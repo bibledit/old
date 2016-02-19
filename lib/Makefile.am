@@ -346,7 +346,7 @@ libbibledit_a_SOURCES = \
 	search/logic.cpp \
 	basic/index.cpp
 
-bin_PROGRAMS = server unittest
+bin_PROGRAMS = server unittest generate
 
 server_SOURCES = executable/bibledit.cpp
 
@@ -360,6 +360,10 @@ unittest_SOURCES = \
 	unittests/databases.cpp
 
 unittest_LDADD = libbibledit.a
+
+generate_SOURCES = executable/generate.cpp
+
+generate_LDADD = libbibledit.a
 
 AM_CFLAGS = -Wall -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)

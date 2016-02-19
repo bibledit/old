@@ -88,7 +88,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
-bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT)
+bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT) generate$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -290,6 +290,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am_generate_OBJECTS = executable/generate.$(OBJEXT)
+generate_OBJECTS = $(am_generate_OBJECTS)
+generate_DEPENDENCIES = libbibledit.a
 am_server_OBJECTS = executable/bibledit.$(OBJEXT)
 server_OBJECTS = $(am_server_OBJECTS)
 server_DEPENDENCIES = libbibledit.a
@@ -339,10 +342,10 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libbibledit_a_SOURCES) $(server_SOURCES) \
-	$(unittest_SOURCES)
-DIST_SOURCES = $(libbibledit_a_SOURCES) $(server_SOURCES) \
-	$(unittest_SOURCES)
+SOURCES = $(libbibledit_a_SOURCES) $(generate_SOURCES) \
+	$(server_SOURCES) $(unittest_SOURCES)
+DIST_SOURCES = $(libbibledit_a_SOURCES) $(generate_SOURCES) \
+	$(server_SOURCES) $(unittest_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -879,6 +882,8 @@ unittest_SOURCES = \
 	unittests/databases.cpp
 
 unittest_LDADD = libbibledit.a
+generate_SOURCES = executable/generate.cpp
+generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
 	$(SQLITE_CFLAGS) $(CURL_CFLAGS) $(OPENSSL_CFLAGS) \
@@ -2140,6 +2145,12 @@ executable/$(am__dirstamp):
 executable/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) executable/$(DEPDIR)
 	@: > executable/$(DEPDIR)/$(am__dirstamp)
+executable/generate.$(OBJEXT): executable/$(am__dirstamp) \
+	executable/$(DEPDIR)/$(am__dirstamp)
+
+generate$(EXEEXT): $(generate_OBJECTS) $(generate_DEPENDENCIES) $(EXTRA_generate_DEPENDENCIES) 
+	@rm -f generate$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(generate_OBJECTS) $(generate_LDADD) $(LIBS)
 executable/bibledit.$(OBJEXT): executable/$(am__dirstamp) \
 	executable/$(DEPDIR)/$(am__dirstamp)
 
@@ -2386,6 +2397,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@esword/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/generate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/bibledropbox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/esword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/html.Po@am__quote@

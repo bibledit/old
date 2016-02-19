@@ -47,6 +47,7 @@ bibledit.vshost.exe.config
 server
 .libs
 gdbserver
+generate
 
 
 ## Ignore Visual Studio temporary files, build results, and
