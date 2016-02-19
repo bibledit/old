@@ -14,7 +14,7 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 # Refresh the bibledit-web source code in the assets.
 rsync -a --exclude '*.o' --delete ../lib/* jni
 pushd jni
-./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal
+./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --enable-android
 rm -f bibledit
 rm -r autom4te.cache
 rm dev
