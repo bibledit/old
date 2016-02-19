@@ -10,9 +10,6 @@
 /* Define the admin username */
 #define ADMIN_USERNAME ""
 
-/* Define whether to compile on Android */
-#define ANDROID "yes"
-
 /* Define whether the expected browser is a bare browser without controls */
 #define BARE_BROWSER "no"
 
@@ -28,7 +25,7 @@
 /* Define the directory separator as Windows differs from Linux */
 #define DIRECTORY_SEPARATOR "/"
 
-/* Define whether to compile on Android */
+/* Define whether to compile for Android */
 #define HAVE_ANDROID 1
 
 /* define if the compiler supports basic C++11 syntax */
