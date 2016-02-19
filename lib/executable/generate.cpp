@@ -48,8 +48,12 @@ int main (int argc, char **argv)
   string command = argv [2];
   
   if (command == "locale") {
+  
+    cout << "Generating locale databases from the *.po files in folder locale" << endl;
     setup_generate_locale_databases (true);
+    
   } else {
+    
     cerr << "This command is unknown" << endl;
     cerr << "The following commands are supported:" << endl;
     cerr << "locale: Generate locale databases from the *.po files in folder locale" << endl;
