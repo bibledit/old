@@ -1,12 +1,13 @@
 #!/bin/bash
 
 
-# Run this script from the directory where it is located within the repository
-# $ ./copy.
-# It synchronizes the relevant source code to a location in /tmp.
-# The purpose of this script is to provide a temporal location for building Bibledit for Android,
-# without cluttering the bibledit git repository with the built files.
+# It takes the relevant source code for building Bibledit for Android.
+# It synchronizes this code to a location in /tmp.
+# The purpose of this script is to provide a temporal location for building the port.
+# This does not clutter the bibledit git repository with the built files.
 
+ANDROIDSOURCE=`dirname $0`
+cd $ANDROIDSOURCE
 BIBLEDITANDROID=/tmp/bibledit-android
 echo Synchronizing relevant source code to $BIBLEDITANDROID
 mkdir -p $BIBLEDITANDROID
