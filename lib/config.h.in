@@ -36,6 +36,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define whether to compile for iOS */
+#undef HAVE_IOS
+
 /* Define whether libproc.h is present */
 #undef HAVE_LIBPROC
 

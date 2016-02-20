@@ -139,10 +139,20 @@ bool config_logic_windows ()
 }
 
 
-// Returns whether Windows has been enabled during configure.
+// Returns whether Android has been enabled during configure.
 bool config_logic_android ()
 {
 #ifdef HAVE_ANDROID
+  return true;
+#endif
+  return false;
+}
+
+
+// Returns whether iOS has been enabled during configure.
+bool config_logic_ios ()
+{
+#ifdef HAVE_IOS
   return true;
 #endif
   return false;

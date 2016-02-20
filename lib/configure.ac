@@ -254,6 +254,14 @@ AC_ARG_ENABLE(android,
 ENABLEANDROID=yes
 )
 
+# iOS.
+ENABLEIOS=no
+AC_ARG_ENABLE(ios,
+[  --enable-ios Compile for iOS],
+[AC_DEFINE([HAVE_IOS], [1], [Define whether to compile for iOS])]
+ENABLEOS=yes
+)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -276,5 +284,6 @@ Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
 Android (--enable-android)                        : ${ENABLEANDROID}
+iOS (--enable-ios)                                : ${ENABLEIOS}
 SWORD library                                     : ${SWORD_CFLAGS}
 "

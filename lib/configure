@@ -776,6 +776,7 @@ enable_paratext
 with_resources_path
 enable_windows
 enable_android
+enable_ios
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1434,6 +1435,7 @@ Optional Features:
   --enable-paratext Enable Paratext synchronization
   --enable-windows Compile on Windows
   --enable-android Compile for Android
+  --enable-ios Compile for iOS
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6644,6 +6646,18 @@ ENABLEANDROID=yes
 fi
 
 
+# iOS.
+ENABLEIOS=no
+# Check whether --enable-ios was given.
+if test "${enable_ios+set}" = set; then :
+  enableval=$enable_ios;
+$as_echo "#define HAVE_IOS 1" >>confdefs.h
+
+ENABLEOS=yes
+
+fi
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -8141,5 +8155,6 @@ Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
 Android (--enable-android)                        : ${ENABLEANDROID}
+iOS (--enable-ios)                                : ${ENABLEIOS}
 SWORD library                                     : ${SWORD_CFLAGS}
 "
