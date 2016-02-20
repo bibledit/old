@@ -272,6 +272,11 @@ void setup_complete_gui ()
 // Generate the locale databases.
 void setup_generate_locale_databases (bool progress) // Todo
 {
+  // On Android, do not generate the locale databases.
+  // On this low power device, generating them would take quite a while, as experience shows.
+  // Instead of generating them, the builder and installer put the pre-generated databases into place.
+  if (config_logic_android ()) return;
+  // Generate databases for all the localizations.
   map <string, string> localizations = locale_logic_localizations ();
   for (auto & element : localizations) {
     string localization = element.first;
