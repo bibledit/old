@@ -276,6 +276,8 @@ void setup_generate_locale_databases (bool progress) // Todo
   // On this low power device, generating them would take quite a while, as experience shows.
   // Instead of generating them, the builder and installer put the pre-generated databases into place.
   if (config_logic_android ()) return;
+  // Same story for iOS.
+  if (config_logic_ios ()) return;
   // Generate databases for all the localizations.
   map <string, string> localizations = locale_logic_localizations ();
   for (auto & element : localizations) {

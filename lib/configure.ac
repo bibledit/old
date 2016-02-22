@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.376],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.377],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -259,7 +259,7 @@ ENABLEIOS=no
 AC_ARG_ENABLE(ios,
 [  --enable-ios Compile for iOS],
 [AC_DEFINE([HAVE_IOS], [1], [Define whether to compile for iOS])]
-ENABLEOS=yes
+ENABLEIOS=yes
 )
 
 AC_OUTPUT(Makefile)
