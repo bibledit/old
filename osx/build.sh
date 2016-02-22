@@ -7,7 +7,7 @@
 # Take the relevant source code for building Bibledit for OSX.
 # Put it in a temporal location.
 # The purpose is to put the build files in a temporal location,
-# and to have no duplicated code for the bibledit library.
+# and to have no duplicated source code for the bibledit library.
 # This does not clutter the bibledit git repositoy with the built files.
 OSXSOURCE=`dirname $0`
 cd $OSXSOURCE
@@ -47,10 +47,11 @@ SDK=`xcrun --show-sdk-path`
 
 
 # Update the Makefile.
-sed -i.bak 's#\`xml2-config --cflags\`#-I/usr/include/libxml2#g' Makefile
-sed -i.bak 's#-pedantic#-isysroot\ '$SDK'#g' Makefile
+# The -mmmacosx-version-min is for fixing: ld: warning: object file (libbibledit.a(bibledit.o)) was built for newer OSX version (10.11) than being linked (10.10)
+# sed -i.bak 's#\`xml2-config --cflags\`#-I/usr/include/libxml2#g' Makefile
+sed -i.bak 's#-pedantic#-mmacosx-version-min=10.10\ -isysroot\ '$SDK'#g' Makefile
 sed -i.bak 's#/opt/local/include#. -I..#g' Makefile
-sed -i.bak 's#\`xml2-config --libs\`#-lxml2 -lz -lpthread -liconv -lm#g' Makefile
+# sed -i.bak 's#\`xml2-config --libs\`#-lxml2 -lz -lpthread -liconv -lm#g' Makefile
 sed -i.bak 's#/opt/local/lib#.#g' Makefile
 sed -i.bak 's#-L.#-L. -L../lib#g' Makefile
 sed -i.bak '/SWORD_CFLAGS =/d' Makefile
