@@ -1,8 +1,0 @@
-#!/bin/sh
-
-clear
-rm -rf repository
-rm -f test
-g++ -Wall -I/opt/local/include -L/opt/local/lib -lgit2 -o test git.cpp
-./test
-

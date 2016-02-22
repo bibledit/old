@@ -432,12 +432,43 @@ popd
 # Copy output to desktop
 
 pushd webroot
-cp libbibledit.a ~/Desktop/libbibledit-$ARCH.a
+cp libbibledit.a /tmp/libbibledit-$ARCH.a
 rm libbibledit.a
 popd
 
 }
 
+
+# Above this point are the functions.
+# Below this point starts the main script.
+
+
+# Take the relevant source code for building Bibledit for iOS.
+# Put it in a temporal location.
+# The purpose is to put the build files in a temporal location,
+# and to have no duplicated code for the bibledit library.
+# This does not clutter the bibledit git repositoy with the built files.
+IOSSOURCE=`dirname $0`
+cd $IOSSOURCE
+BIBLEDITIOS=/tmp/bibledit-ios
+echo Synchronizing relevant source code to $BIBLEDITIOS
+mkdir -p $BIBLEDITIOS
+rm $BIBLEDITIOS/* 2> /dev/null
+rsync --archive --delete ../lib $BIBLEDITIOS/
+rsync --archive --delete ../ios $BIBLEDITIOS/
+
+# From now on the working directory is the temporal location.
+cd $BIBLEDITIOS/ios
+
+# Build the locale databases for inclusion with the iOS package.
+# The reason for this is that building them on iOS takes a lot of time during the setup phase.
+# So to include pre-built databases speeds up the setup phase of Bibledit on iOS.
+# This gives a better user experience.
+pushd ../lib
+./configure
+make --jobs=4
+./generate . locale
+popd
 
 # Sychronizes the libbibledit data files in the source tree to iOS and cleans them up.
 rsync -av --delete ../lib/ webroot
@@ -459,7 +490,7 @@ pushd webroot
 # Configure Bibledit in client mode,
 # Run only only one parallel task so the interface is more responsive.
 # Enable the single-tab browser.
-./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --with-network-port=8765
+./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --with-network-port=8765 --enable-ios
 # Update the Makefile.
 sed -i.bak '/SWORD_CFLAGS =/d' Makefile
 sed -i.bak '/SWORD_LIBS =/d' Makefile
@@ -488,26 +519,26 @@ compile x86_64 iPhoneSimulator 64
 cp webroot/library/bibledit.h include
 
 echo Creating fat library file
-lipo -create -output ~/Desktop/libbibledit.a ~/Desktop/libbibledit-armv7.a ~/Desktop/libbibledit-armv7s.a ~/Desktop/libbibledit-arm64.a ~/Desktop/libbibledit-i386.a ~/Desktop/libbibledit-x86_64.a
+lipo -create -output /tmp/libbibledit.a /tmp/libbibledit-armv7.a /tmp/libbibledit-armv7s.a /tmp/libbibledit-arm64.a /tmp/libbibledit-i386.a /tmp/libbibledit-x86_64.a
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
   exit
 fi
-lipo -info ~/Desktop/libbibledit.a
+lipo -info /tmp/libbibledit.a
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
   exit
 fi
 
 echo Copying library into place
-mv ~/Desktop/libbibledit.a lib
+mv /tmp/libbibledit.a lib
 
 echo Clean libraries from desktop
-rm ~/Desktop/libbibledit-armv7.a
-rm ~/Desktop/libbibledit-armv7s.a
-rm ~/Desktop/libbibledit-arm64.a
-rm ~/Desktop/libbibledit-i386.a
-rm ~/Desktop/libbibledit-x86_64.a
+rm /tmp/libbibledit-armv7.a
+rm /tmp/libbibledit-armv7s.a
+rm /tmp/libbibledit-arm64.a
+rm /tmp/libbibledit-i386.a
+rm /tmp/libbibledit-x86_64.a
 
 echo Clean webroot
 pushd webroot
@@ -548,3 +579,7 @@ rm -rf sources
 popd
 
 say Compile for iOS is ready
+
+echo To build the app for iOS open the project in Xcode:
+echo open $BIBLEDITIOS/ios/Bibledit.xcodeproj
+echo Then build it from within Xcode

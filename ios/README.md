@@ -7,4 +7,4 @@ The "build.sh" builds a fat bibledit library for iOS.
 
 The "develop.txt" contains developer hints.
 
-The Objective-C source code that builds Bibledit for iOS.
+There is Objective-C source code for Bibledit for iOS.
