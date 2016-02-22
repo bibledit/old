@@ -366,6 +366,7 @@ public/notes.cpp
 public/logic.cpp
 pugixml/pugixml.cpp
 pugixml/utils.cpp
+basic/index.cpp
 
 )
 
