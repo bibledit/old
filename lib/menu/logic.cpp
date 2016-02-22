@@ -759,9 +759,11 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == collaboration) {
-      if (collaboration_index_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
-        tiplabels.push_back (label);
+      if (!config_logic_client_prepared ()) {
+        if (collaboration_index_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
+          tiplabels.push_back (label);
+        }
       }
     }
     

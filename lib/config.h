@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-/* #undef CLIENT_PREPARED */
+#define CLIENT_PREPARED 1
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -38,7 +38,7 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define whether to compile for iOS */
-#define HAVE_IOS 1
+/* #undef HAVE_IOS */
 
 /* Define whether libproc.h is present */
 #define HAVE_LIBPROC 1
