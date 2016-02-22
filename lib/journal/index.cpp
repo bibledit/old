@@ -106,6 +106,12 @@ string journal_index (void * webserver_request)
 
   if (request->query.count ("clear")) {
     database_logs.clear ();
+    // If the logbook has been cleared on a mobile device, and the screen shuts off,
+    // and then the user activates the screen on the mobile device,
+    // the logbook will then again be cleared, because that was the last opened URL.
+    // Redirecting the browser to a clean URL fixes this behaviour.
+    redirect_browser (request, journal_index_url ());
+    return "";
   }
 
   
