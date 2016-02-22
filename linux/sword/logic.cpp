@@ -90,7 +90,13 @@ void sword_logic_refresh_module_list ()
   
   // Sync the configuration with the online known remote repository list.
 #ifdef HAVE_SWORD
-  sword_logic_installmgr_synchronize_configuration_with_master ();
+  if (!sword_logic_installmgr_synchronize_configuration_with_master ()) {
+    Database_Logs::log ("Failed to synchronize SWORD configuration with the master remote source list");
+    // Since this could be a network failure, exit from the entire update routine.
+    // The advantage of existing already at this stage is that the list of known SWORD resources
+    // will be left untouched in case of a network error.
+    return;
+  }
 #else
   filter_shell_run ("echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
@@ -123,7 +129,9 @@ void sword_logic_refresh_module_list ()
   for (auto remote_source : remote_sources) {
     
 #ifdef HAVE_SWORD
-    sword_logic_installmgr_refresh_remote_source (remote_source);
+    if (!sword_logic_installmgr_refresh_remote_source (remote_source)) {
+      Database_Logs::log ("Error refreshing remote source " + remote_source);
+    }
 #else
     filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
@@ -347,8 +355,8 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   if (config_logic_client_prepared ()) {
 
     // Client checks for and optionally creates the cache for this SWORD module.
-    if (!Database_Cache::exists (module)) {
-      Database_Cache::create (module);
+    if (!Database_Cache::exists (module, book)) {
+      Database_Cache::create (module, book);
     }
 
     // If this module/passage exists in the cache, return it (it updates the access days in the cache).
@@ -466,7 +474,7 @@ void sword_logic_update_installed_modules ()
               vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
               for (auto & verse : verses) {
                 string schema = sword_logic_virtual_url (module, book, chapter, verse);
-                database_cache_remove (schema);
+                database_filebased_cache_remove (schema);
               }
             }
           }
@@ -491,7 +499,7 @@ void sword_logic_trim_modules ()
     for (auto module : modules) {
       module = sword_logic_get_installed_module (module);
       string url = sword_logic_virtual_url (module, 0, 0, 0);
-      if (!database_cache_exists (url)) {
+      if (!database_filebased_cache_exists (url)) {
         sword_logic_uninstall_module (module);
       }
     }
@@ -578,27 +586,28 @@ void sword_logic_installmgr_initialize ()
 }
 
 
-void sword_logic_installmgr_synchronize_configuration_with_master ()
+bool sword_logic_installmgr_synchronize_configuration_with_master ()
 {
+  bool success = true;
 #ifdef HAVE_SWORD
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
   
-  if (!installMgr->refreshRemoteSourceConfiguration()) {
-    //Database_Logs::log ("Synchronized SWORD configuration with the master remote source list");
-  } else {
-    Database_Logs::log ("Failed to synchronize SWORD configuration with the master remote source list");
+  if (installMgr->refreshRemoteSourceConfiguration()) {
+    success = false;
   }
   
   delete installMgr;
 #endif
+  return success;
 }
 
 
 void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
 {
+  (void) sources;
 #ifdef HAVE_SWORD
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
@@ -626,8 +635,10 @@ void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
 }
 
 
-void sword_logic_installmgr_refresh_remote_source (string name)
+bool sword_logic_installmgr_refresh_remote_source (string name)
 {
+  (void) name;
+  bool success = true;
 #ifdef HAVE_SWORD
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
@@ -638,20 +649,21 @@ void sword_logic_installmgr_refresh_remote_source (string name)
   if (source == installMgr->sources.end()) {
     Database_Logs::log ("Could not find remote source " + name);
   } else {
-    if (!installMgr->refreshRemoteSource(source->second)) {
-      //Database_Logs::log ("Remote source refreshed: " + name);
-    } else {
-      Database_Logs::log ("Error refreshing remote source " + name);
+    if (installMgr->refreshRemoteSource(source->second)) {
+      success = false;
     }
   }
   
   delete installMgr;
 #endif
+  return success;
 }
 
 
 void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules)
 {
+  (void) source_name;
+  (void) modules;
 #ifdef HAVE_SWORD
   sword::SWMgr *mgr = new sword::SWMgr();
   
@@ -711,6 +723,11 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 
 string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available)
 {
+  (void) module_name;
+  (void) osis;
+  (void) chapter;
+  (void) verse;
+  (void) available;
   string rendering;
 #ifdef HAVE_SWORD
   // When accessing the SWORD library from multiple threads simultaneously, the library often crashes.

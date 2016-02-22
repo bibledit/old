@@ -34,6 +34,9 @@ void client_logic_create_note_decode (string data,
                                       string& bible, int& book, int& chapter, int& verse,
                                       string& summary, string& contents, bool& raw);
 string client_logic_link_to_cloud (string path, string linktext);
+string client_logic_usfm_resources_path ();
+void client_logic_usfm_resources_update ();
+vector <string> client_logic_usfm_resources_get ();
 
 
 #endif

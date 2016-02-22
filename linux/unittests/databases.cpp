@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/md5.h>
 #include <filter/date.h>
+#include <filter/shell.h>
 #include <config/globals.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
@@ -206,88 +207,22 @@ void test_database_logs ()
     Database_Logs::log ("description1", 2);
     Database_Logs::log ("description2", 3);
     Database_Logs::log ("description3", 4);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
-    database_logs.checkup ();
-    // Move the items from the filesystem into the SQLite database.
-    database_logs.rotate ();
+    // Rotate the items.
+    Database_Logs::rotate ();
     // Get the items from the SQLite database.
     string lastfilename;
-    vector <string> result = database_logs.get (0, lastfilename);
+    vector <string> result = Database_Logs::get (lastfilename);
     evaluate (__LINE__, __func__, 3, (int)result.size ());
-    refresh_sandbox (false);
-  }
-  {
-    // Check the database: It should recreate the database and then create one entry in the Journal.
-    // This entry is proof that it recreated the database.
-    refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.checkup ();
-    string lastfilename = "1111111111";
-    vector <string> result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    refresh_sandbox (false);
-  }
-  {
-    refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
-    int now = filter_date_seconds_since_epoch ();
-    int min1days = now - 86400 - 10;
-    int min2days = min1days - 86400;
-    int min3days = min2days - 86400;
-    int min4days = min3days - 86400;
-    int min5days = min4days - 86400;
-    int min6days = min5days - 86400;
-    string lastfilename;
-    vector <string> result;
-
-    // Log entry for 6 days ago.
-    Database_Logs::log ("Six days ago");
-    database_logs.rotate ();
-    database_logs.update (now, min6days);
-    lastfilename = "0";
-    result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    lastfilename = "0";
-    result = database_logs.get (5, lastfilename);
-    evaluate (__LINE__, __func__, 0, (int)result.size ());
-    // Rotate that entry away.
-    database_logs.rotate ();
-    lastfilename = "0";
-    result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 0, (int)result.size ());
-
-    // Log entry for 2 days, 1 day ago, and now.
-    Database_Logs::log ("Two days ago");
-    database_logs.rotate ();
-    database_logs.update (now, min2days);
-    Database_Logs::log ("One day ago");
-    database_logs.rotate ();
-    database_logs.update (now, min1days);
-    Database_Logs::log ("Now");
-    lastfilename = "0";
-    result = database_logs.get (2, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    // Gets it from the filesystem, not the database, because this last entry was not yet rotated.
-    lastfilename = "0";
-    result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    // The "lastsecond" variable, test it.
-    int lastsecond = convert_to_int (lastfilename.substr (0, 10));
-    if ((lastsecond < now ) || (lastsecond > now + 1)) evaluate (__LINE__, __func__, now, lastsecond);
     refresh_sandbox (false);
   }
   {
     // Test huge journal entry.
     refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
     string huge (10000, 'x');
     Database_Logs::log (huge);
-    database_logs.rotate ();
+    Database_Logs::rotate ();
     string s = "0";
-    vector <string> result = database_logs.get (0, s);
+    vector <string> result = Database_Logs::get (s);
     if (result.size () == 1) {
       string s = result[0];
       size_t pos = s.find ("This entry was too large and has been truncated: 10000 bytes");
@@ -1287,7 +1222,7 @@ void test_database_offlineresourcese ()
   // Test Store / Exists / Get.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     bool exists = database_offlineresources.exists ("phpunit", 1, 2, 3);
     evaluate (__LINE__, __func__, true, exists);
@@ -1301,7 +1236,7 @@ void test_database_offlineresourcese ()
   // Test Count / Delete.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     int count = database_offlineresources.count ("phpunit");
     evaluate (__LINE__, __func__, 0, count);
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
@@ -1317,7 +1252,7 @@ void test_database_offlineresourcese ()
   // Test Names.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     vector <string> names = database_offlineresources.names ();
     evaluate (__LINE__, __func__, {}, names);
   
@@ -1332,7 +1267,7 @@ void test_database_offlineresourcese ()
   // Test Files.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
 
     vector <string> files = database_offlineresources.files ("phpunit");
     evaluate (__LINE__, __func__, {}, files);
@@ -1352,7 +1287,7 @@ void test_database_offlineresourcese ()
   // Test Size.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
   
     int size = database_offlineresources.size ("phpunit", "1.sqlite");
     evaluate (__LINE__, __func__, 0, size);
@@ -1368,7 +1303,7 @@ void test_database_offlineresourcese ()
   // Test Save / Load.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     
     int size = database_offlineresources.size ("phpunit", "1.sqlite");
     evaluate (__LINE__, __func__, 0, size);
@@ -1381,7 +1316,7 @@ void test_database_offlineresourcese ()
   // Test Unlink.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
   
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     vector <string> files = database_offlineresources.files ("phpunit");
@@ -1399,7 +1334,7 @@ void test_database_offlineresourcese ()
   }
   // Test http get
   {
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     string http = database_offlineresources.httpget ("ResourceName", "1.sqlite");
     evaluate (__LINE__, __func__, "/databases/offlineresources/ResourceName/1.sqlite", http);
   }
@@ -4204,44 +4139,108 @@ void test_database_cache ()
   // Initially database should not exist.
   bool exists = Database_Cache::exists ("");
   evaluate (__LINE__, __func__, false, exists);
-
-  // Initially the database should not exist, and have 0 verses.
-  // After creating, it should be there, and still have 0 verses.
   exists = Database_Cache::exists ("unittests");
   evaluate (__LINE__, __func__, false, exists);
-  int count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 0, count);
-  Database_Cache::create ("unittests");
-  exists = Database_Cache::exists ("unittests");
+
+  // Copy an old cache database in place.
+  // It contains cached data in the old layout.
+  // Test that it now exists and contains data.
+  string testdatapath = filter_url_create_root_path ("unittests", "tests", "cache_resource_test.sqlite");
+  string databasepath = filter_url_create_root_path ("databases",  "cache_resource_unittests.sqlite");
+  string out_err;
+  filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
+  size_t count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 38, count);
+  exists = Database_Cache::exists ("unittests", 8, 1, 16);
   evaluate (__LINE__, __func__, true, exists);
+  string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
+  evaluate (__LINE__, __func__, "And Ruth said, Entreat me not to leave you, or to return from following you; for wherever you go, I will go, and wherever you lodge, I will lodge; your people shall be my people, and your God my God.", value);
+
+  // Now remove the (old) cache and verify that it no longer exists or contains data.
+  Database_Cache::remove ("unittests");
+  exists = Database_Cache::exists ("unittests");
+  evaluate (__LINE__, __func__, false, exists);
+  count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 0, count);
+  
+  // Create a cache for one book.
+  Database_Cache::create ("unittests", 10);
+  // It should exists for the correct book, but not for another book.
+  exists = Database_Cache::exists ("unittests", 10);
+  evaluate (__LINE__, __func__, true, exists);
+  exists = Database_Cache::exists ("unittests", 11);
+  evaluate (__LINE__, __func__, false, exists);
+  // The cache should have 0 verses.
   count = Database_Cache::count ("unittests");
   evaluate (__LINE__, __func__, 0, count);
   
   // Cache and retrieve value.
+  Database_Cache::create ("unittests", 1);
   Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  string value = Database_Cache::retrieve ("unittests", 1, 2, 3);
+  value = Database_Cache::retrieve ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, "cached", value);
-
+  
   // Verse count check.
   count = Database_Cache::count ("unittests");
   evaluate (__LINE__, __func__, 1, count);
-
+  
   // Cache does not exist for one passage, but does exist for the other passage.
   exists = Database_Cache::exists ("unittests", 1, 2, 4);
   evaluate (__LINE__, __func__, false, exists);
   exists = Database_Cache::exists ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, true, exists);
-
+  
+  // Excercise book cache removal.
+  Database_Cache::remove ("unittests");
+  exists = Database_Cache::exists ("unittests", 1);
+  evaluate (__LINE__, __func__, false, exists);
+  
+  // Excercise the errors registry.
+  Database_Cache::create ("unittests", 3);
+  vector <pair <int, int> > errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 0, errors.size ());
+  Database_Cache::error ("unittests", 3, 5, 6, true);
+  Database_Cache::error ("unittests", 3, 7, 8, true);
+  errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 2, errors.size ());
+  if (errors.size () == 2) {
+    pair <int, int> error = errors [0];
+    evaluate (__LINE__, __func__, 5, error.first);
+    evaluate (__LINE__, __func__, 6, error.second);
+    error = errors [1];
+    evaluate (__LINE__, __func__, 7, error.first);
+    evaluate (__LINE__, __func__, 8, error.second);
+  }
+  Database_Cache::error ("unittests", 3, 5, 6, false);
+  errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 1, errors.size ());
+  
+  // Excercise the progress tracker.
+  Database_Cache::create ("unittests", 10);
+  // Default: 0 / 0.
+  pair <int, int> progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 0, progress.first);
+  evaluate (__LINE__, __func__, 0, progress.second);
+  // Record and check.
+  Database_Cache::progress ("unittests", 10, 99, 999);
+  progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 99, progress.first);
+  evaluate (__LINE__, __func__, 999, progress.second);
+  // Record again and check.
+  Database_Cache::progress ("unittests", 10, 2, 9);
+  progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 2, progress.first);
+  evaluate (__LINE__, __func__, 9, progress.second);
   
   // Excercise the file-based cache.
   string url = "https://netbible.org/bible/1/2/3";
   string contents = "Bible contents";
-  evaluate (__LINE__, __func__, false, database_cache_exists (url));
-  evaluate (__LINE__, __func__, "", database_cache_get (url));
-  database_cache_put (url, contents);
-  evaluate (__LINE__, __func__, true, database_cache_exists (url));
-  evaluate (__LINE__, __func__, contents, database_cache_get (url));
-  database_cache_trim ();
+  evaluate (__LINE__, __func__, false, database_filebased_cache_exists (url));
+  evaluate (__LINE__, __func__, "", database_filebased_cache_get (url));
+  database_filebased_cache_put (url, contents);
+  evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
+  evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
+  database_filebased_cache_trim ();
 
   refresh_sandbox (true);
 }

@@ -346,16 +346,20 @@ libbibledit_a_SOURCES = \
 	search/logic.cpp \
 	basic/index.cpp
 
-noinst_PROGRAMS = bibledit
+noinst_PROGRAMS = bibledit generate
 
 bibledit_SOURCES = executable/bibledit.cpp
 
 bibledit_LDADD = libbibledit.a
 
-AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic
+generate_SOURCES = executable/generate.cpp
+
+generate_LDADD = libbibledit.a
+
+AM_CFLAGS = -Wall -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g -rdynamic $(GTK_CFLAGS)
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g $(GTK_CFLAGS)
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)

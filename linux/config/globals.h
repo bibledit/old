@@ -34,6 +34,7 @@ extern int config_globals_touch_enabled;
 extern int config_globals_timezone_offset_utc;
 extern bool config_globals_change_notifications_available;
 extern int config_globals_setup_progress;
+extern string config_globals_setup_message;
 extern int config_globals_simultaneous_connection_count;
 extern bool config_globals_data_initialized;
 extern bool config_globals_syncing_bibles;

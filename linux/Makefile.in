@@ -90,7 +90,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
-noinst_PROGRAMS = bibledit$(EXEEXT)
+noinst_PROGRAMS = bibledit$(EXEEXT) generate$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -294,6 +294,9 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_bibledit_OBJECTS = executable/bibledit.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_DEPENDENCIES = libbibledit.a
+am_generate_OBJECTS = executable/generate.$(OBJEXT)
+generate_OBJECTS = $(am_generate_OBJECTS)
+generate_DEPENDENCIES = libbibledit.a
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -365,8 +368,10 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES)
-DIST_SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES)
+SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES) \
+	$(generate_SOURCES)
+DIST_SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES) \
+	$(generate_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -901,9 +906,11 @@ libbibledit_a_SOURCES = \
 
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
-AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic $(OPENSSL_CFLAGS)
+generate_SOURCES = executable/generate.cpp
+generate_LDADD = libbibledit.a
+AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
-	-rdynamic $(GTK_CFLAGS) $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
+	$(GTK_CFLAGS) $(SQLITE_CFLAGS) $(CURL_CFLAGS) \
 	$(OPENSSL_CFLAGS) $(SWORD_CFLAGS)
 EXTRA_DIST = a* basic bible bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* r* s* t* u* v* w* x* *.desktop *.xpm *.sh *.1
 CLEANFILES = bibledit*.gz *~
@@ -2135,6 +2142,12 @@ executable/bibledit.$(OBJEXT): executable/$(am__dirstamp) \
 bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) $(EXTRA_bibledit_DEPENDENCIES) 
 	@rm -f bibledit$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
+executable/generate.$(OBJEXT): executable/$(am__dirstamp) \
+	executable/$(DEPDIR)/$(am__dirstamp)
+
+generate$(EXEEXT): $(generate_OBJECTS) $(generate_DEPENDENCIES) $(EXTRA_generate_DEPENDENCIES) 
+	@rm -f generate$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(generate_OBJECTS) $(generate_LDADD) $(LIBS)
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
@@ -2389,6 +2402,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@esword/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/generate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/bibledropbox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/esword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/html.Po@am__quote@

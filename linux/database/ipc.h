@@ -50,7 +50,6 @@ class Database_Ipc
 {
 public:
   Database_Ipc (void * webserver_request_in);
-  ~Database_Ipc ();
   void trim ();
   void storeMessage (string user, string channel, string command, string message);
   Database_Ipc_Message retrieveMessage (int id, string user, string channel, string command);

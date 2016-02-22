@@ -8,6 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-22 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5849,9 +5850,6 @@ msgstr ""
 msgid "The job is scheduled to start shortly."
 msgstr ""
 
-msgid "recent"
-msgstr ""
-
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 
@@ -7231,10 +7229,10 @@ msgstr ""
 msgid "Your feedback"
 msgstr ""
 
-msgid "Public feedback"
+msgid "Select which Bible to display"
 msgstr ""
 
-msgid "Select which Bible to display"
+msgid "Public feedback"
 msgstr ""
 
 msgid "Create new"
@@ -7324,6 +7322,15 @@ msgstr ""
 msgid "The following resources are being installed:"
 msgstr ""
 
+msgid ""
+"Cancelling a resource installation does not erase already installed content."
+msgstr ""
+
+msgid ""
+"When installing the resource again, it will continue from where it was "
+"cancelled."
+msgstr ""
+
 msgid "Click a resource for more information on its status."
 msgstr ""
 
@@ -7366,6 +7373,14 @@ msgid "This works faster."
 msgstr ""
 
 msgid "And you can work offline."
+msgstr ""
+
+msgid "The resource is installed locally on Bibledit."
+msgstr ""
+
+msgid ""
+"It is an old resource that can no longer be updated because it is not "
+"available from the Cloud."
 msgstr ""
 
 msgid "Number of installed verses for this resource:"

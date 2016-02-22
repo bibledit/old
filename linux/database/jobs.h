@@ -28,8 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Jobs
 {
 public:
-  Database_Jobs ();
-  ~Database_Jobs ();
   void create ();
   void optimize ();
   void trim ();

@@ -43,9 +43,9 @@ string sword_logic_installing_module_text ();
 string sword_logic_virtual_url (const string & module, int book, int chapter, int verse);
 void sword_logic_run_scheduled_module_install (string source, string module);
 void sword_logic_installmgr_initialize ();
-void sword_logic_installmgr_synchronize_configuration_with_master ();
+bool sword_logic_installmgr_synchronize_configuration_with_master ();
 void sword_logic_installmgr_list_remote_sources (vector <string> & sources);
-void sword_logic_installmgr_refresh_remote_source (string name);
+bool sword_logic_installmgr_refresh_remote_source (string name);
 void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules);
 string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available);
 

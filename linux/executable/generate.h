@@ -17,25 +17,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_LOGS_H
-#define INCLUDED_DATABASE_LOGS_H
-
-
-#include <config/libraries.h>
-#include <sqlite3.h>
-
-
-class Database_Logs
-{
-public:
-  static void log (string description, int level = 5);
-  static void rotate ();
-  static vector <string> get (string & lastfilename);
-  static string getNext (string &filename);
-  static void clear ();
-private:
-  static string folder ();
-};
-
-
-#endif
+int main (int argc, char **argv);

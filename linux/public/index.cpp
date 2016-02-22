@@ -60,14 +60,6 @@ string public_index (void * webserver_request)
   }
 
   
-  string page;
-  Assets_Header header = Assets_Header (translate ("Public feedback"), request);
-  header.setNavigator ();
-  header.setStylesheet ();
-  page = header.run ();
-  Assets_View view;
-  
-
   // Take the Bible for this user, and ensure that it is one of the Bibles that have public feedback enabled.
   string bible = request->database_config_user()->getBible ();
   vector <string> public_bibles = public_logic_bibles (webserver_request);
@@ -80,9 +72,7 @@ string public_index (void * webserver_request)
   }
   
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
-
-  
+  // Switch Bible before displaying the passage navigator because the navigator contains the active Bible.
   if (request->query.count ("bible")) {
     bible = request->query ["bible"];
     if (bible == "") {
@@ -90,6 +80,8 @@ string public_index (void * webserver_request)
       for (auto & bible : public_bibles) {
         dialog_list.add_row (bible, "bible", bible);
       }
+      Assets_Header header = Assets_Header ("", request);
+      string page = header.run ();
       page += dialog_list.run();
       return page;
     } else {
@@ -97,6 +89,17 @@ string public_index (void * webserver_request)
     }
   }
   
+  
+  string page;
+  Assets_Header header = Assets_Header (translate ("Public feedback"), request);
+  header.setNavigator ();
+  header.setStylesheet ();
+  page = header.run ();
+  Assets_View view;
+  
+
+  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+
   
   bible = request->database_config_user()->getBible ();
   view.set_variable ("bible", bible);

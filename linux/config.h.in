@@ -24,6 +24,9 @@
 /* Define the directory separator as Windows differs from Linux */
 #undef DIRECTORY_SEPARATOR
 
+/* Define whether to compile for Android */
+#undef HAVE_ANDROID
+
 /* define if the compiler supports basic C++11 syntax */
 #undef HAVE_CXX11
 
@@ -32,6 +35,9 @@
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
+
+/* Define whether to compile for iOS */
+#undef HAVE_IOS
 
 /* Define whether libproc.h is present */
 #undef HAVE_LIBPROC

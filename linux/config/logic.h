@@ -38,6 +38,8 @@ bool config_logic_paratext_enabled ();
 bool config_logic_external_resources_cache_configured ();
 string config_logic_external_resources_cache_path ();
 bool config_logic_windows ();
+bool config_logic_android ();
+bool config_logic_ios ();
 bool config_logic_basic_mode (void * webserver_request);
 
 
