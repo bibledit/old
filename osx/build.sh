@@ -4,6 +4,25 @@
 # Synchronize and build libbibledit on OS X for OS X.
 
 
+# Take the relevant source code for building Bibledit for OSX.
+# Put it in a temporal location.
+# The purpose is to put the build files in a temporal location,
+# and to have no duplicated code for the bibledit library.
+# This does not clutter the bibledit git repositoy with the built files.
+OSXSOURCE=`dirname $0`
+cd $OSXSOURCE
+BIBLEDITOSX=/tmp/bibledit-osx
+echo Synchronizing relevant source code to $BIBLEDITOSX
+mkdir -p $BIBLEDITOSX
+rm $BIBLEDITOSX/* 2> /dev/null
+rsync --archive --delete ../lib $BIBLEDITOSX/
+rsync --archive --delete ../osx $BIBLEDITOSX/
+
+
+# From now on the working directory is the temporal location.
+cd $BIBLEDITOSX/osx
+
+
 pushd webroot
 
 
@@ -81,3 +100,8 @@ popd
 
 
 say Building for OS X is ready
+
+
+echo To build the app for OSX open the project in Xcode:
+echo open $BIBLEDITOSX/osx/Bibledit.xcodeproj
+echo Then build it from within Xcode

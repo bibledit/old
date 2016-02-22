@@ -430,7 +430,7 @@ fi
 popd
 
 
-# Copy output to desktop
+# Copy output to temporal location
 
 pushd webroot
 cp libbibledit.a /tmp/libbibledit-$ARCH.a
