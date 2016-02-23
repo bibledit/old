@@ -322,7 +322,13 @@ void Database_Config_User::setAssignedConsultationNoteNotification (bool value)
 // 0: current verse; 1: current chapter; 2: current book; 3: any passage.
 int Database_Config_User::getConsultationNotesPassageSelector ()
 {
-  return getIValue ("consultation-notes-passage-selector", 0);
+  // Default value is to select notes of the current chapter.
+  // It used to be the current verse.
+  // But that led to a situation where a user created a note,
+  // navigated to another verse within the same chapter,
+  // and then was confused because the user could not find the note just created.
+  // With the updated selection, current chapter, this confusing situation does not occur.
+  return getIValue ("consultation-notes-passage-selector", 1);
 }
 void Database_Config_User::setConsultationNotesPassageSelector (int value)
 {
