@@ -26,8 +26,11 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <database/notes.h>
 #include <workbench/logic.h>
 #include <menu/logic.h>
+#include <ipc/focus.h>
+#include <navigation/passage.h>
 
 
 string workbench_index_url ()
@@ -68,6 +71,7 @@ string workbench_index (void * webserver_request)
     }
   }
   
+  
   // Create default set of desktops if there are none.
   bool create = desktops.empty ();
   if (!create) {
@@ -77,6 +81,19 @@ string workbench_index (void * webserver_request)
     workbench_create_defaults (webserver_request);
   }
 
+  
+  // In case the desktop is opened from a consultation note email,
+  // read the note, and set the active passage to the passage the note refers to.
+  int noteid = convert_to_int (request->query ["note"]);
+  if (noteid) {
+    Database_Notes database_notes (webserver_request);
+    vector <Passage> passages = database_notes.getPassages (noteid);
+    if (!passages.empty ()) {
+      Ipc_Focus::set (webserver_request, passages[0].book, passages[0].chapter, convert_to_int (passages[0].verse));
+      Navigation_Passage::recordHistory (webserver_request, passages[0].book, passages[0].chapter, convert_to_int (passages[0].verse));
+    }
+  }
+  
   
   string page;
   Assets_Header header = Assets_Header (translate("Desktop"), request);

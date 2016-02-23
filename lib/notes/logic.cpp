@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <sync/logic.h>
 #include <notes/note.h>
+#include <workbench/index.h>
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)
@@ -473,12 +474,25 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   string passages = filter_passage_display_inline (database_notes.getPassages (identifier));
   string contents = database_notes.getContents (identifier);
 
-  // Include a link to the note on the site.
+  // Include links to the Cloud: One to the note, and one to the active desktop.
   contents.append ("<br>\n");
-  string link = Database_Config_General::getSiteURL () + notes_note_url () + "?id=" + convert_to_string (identifier);
-  contents.append ("<p><a href=\"");
-  contents.append (link);
-  contents.append ("\">View or respond online</a></p>\n");
+  contents.append ("<p>");
+  contents.append ("<a href=\"");
+  string notelink = Database_Config_General::getSiteURL () + notes_note_url () + "?id=" + convert_to_string (identifier);
+  contents.append (notelink);
+  contents.append ("\">");
+  contents.append (translate ("View or respond online"));
+  contents.append ("</a>");
+  contents.append (" " + translate ("or") + " ");
+
+  contents.append ("<a href=\"");
+  string desktoplink = Database_Config_General::getSiteURL () + workbench_index_url () + "?note=" + convert_to_string (identifier);
+  contents.append (desktoplink);
+  contents.append ("\">");
+  contents.append (translate ("open the desktop online"));
+  contents.append ("</a>");
+
+  contents.append ("</p>\n");
   string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + convert_to_string (identifier) + ")";
   contents.append ("<p><a href=\"");
   contents.append (mailto);
