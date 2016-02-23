@@ -213,7 +213,7 @@ void setup_initialize_data ()
   database_versifications.create ();
   database_versifications.defaults ();
   config_globals_setup_message = "modifications";
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
   database_modifications.create ();
   config_globals_setup_message = "notes";
   Database_Notes database_notes (&request);

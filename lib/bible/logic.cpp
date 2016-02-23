@@ -52,7 +52,7 @@ void Bible_Logic::storeChapter (const string& bible, int book, int chapter, cons
   } else {
 
     // Server stores diff data.
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.storeTeamDiff (bible, book, chapter);
 
   }
@@ -77,7 +77,7 @@ void Bible_Logic::deleteChapter (const string& bible, int book, int chapter)
   } else {
 
     // Server stores diff data.
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.storeTeamDiff (bible, book, chapter);
 
   }
@@ -105,7 +105,7 @@ void Bible_Logic::deleteBook (const string& bible, int book)
   } else {
 
     // Server stores diff data.
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.storeTeamDiffBook (bible, book);
 
   }
@@ -136,7 +136,7 @@ void Bible_Logic::deleteBible (const string& bible)
   } else {
 
     // Server stores diff data.
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.storeTeamDiffBible (bible);
 
   }

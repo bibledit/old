@@ -839,7 +839,7 @@
 		CABB91811AAB1CAA00D500FF /* clean.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = clean.html; sourceTree = "<group>"; };
 		CABB91831AAB1CAA00D500FF /* cleancli.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cleancli.cpp; sourceTree = "<group>"; };
 		CABB91841AAB1CAA00D500FF /* cleancli.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cleancli.h; sourceTree = "<group>"; };
-		CABB91861AAB1CAA00D500FF /* click.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = click.cpp; sourceTree = "<group>"; };
+		CABB91861AAB1CAA00D500FF /* click.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = click.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CABB91871AAB1CAA00D500FF /* click.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = click.h; sourceTree = "<group>"; };
 		CABB91881AAB1CAA00D500FF /* click.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = click.js; sourceTree = "<group>"; };
 		CABB918A1AAB1CAA00D500FF /* comment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = comment.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };

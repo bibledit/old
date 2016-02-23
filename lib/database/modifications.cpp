@@ -29,31 +29,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It is re-indexed every night.
 
 
-Database_Modifications::Database_Modifications ()
-{
-}
-
-
-Database_Modifications::~Database_Modifications ()
-{
-}
-
-
-sqlite3 * Database_Modifications::connect ()
+sqlite3 * Database_Modifications::connect () // Todo update.
 {
   return database_sqlite_connect ("modifications");
 }
 
 
 // Delete the entire database
-void Database_Modifications::erase ()
+void Database_Modifications::erase () // Todo remains to erase old db.
 {
-  string file = filter_url_create_root_path ("databases", "modifications.sqlite");
+  string file = database_sqlite_file ("modifications");
   filter_url_unlink (file);
 }
 
 
-void Database_Modifications::create ()
+void Database_Modifications::create () // Todo update to new layout.
 {
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "DROP TABLE IF EXISTS notifications");
@@ -75,13 +65,13 @@ void Database_Modifications::create ()
 }
 
 
-bool Database_Modifications::healthy ()
+bool Database_Modifications::healthy () // Todo may not be needed.
 {
   return database_sqlite_healthy ("modifications");
 }
 
 
-// Code dealing with the "teams" table.
+// Code dealing with the "teams" data.
 
 
 string Database_Modifications::teamFolder ()
@@ -265,7 +255,7 @@ void Database_Modifications::truncateTeams ()
 }
 
 
-// Code dealing with the "users" table.
+// Code dealing with the "users" data.
 
 
 string Database_Modifications::userMainFolder ()
@@ -453,55 +443,55 @@ string Database_Modifications::notificationsMainFolder ()
 }
 
 
-string Database_Modifications::notificationIdentifierFolder (int identifier)
+string Database_Modifications::notificationIdentifierFolder (int identifier) // Todo becomes database.
 {
   return filter_url_create_path (notificationsMainFolder (), convert_to_string (identifier));
 }
 
 
-string Database_Modifications::notificationTimeFile (int identifier)
+string Database_Modifications::notificationTimeFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "time");
 }
 
 
-string Database_Modifications::notificationUserFile (int identifier)
+string Database_Modifications::notificationUserFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "user");
 }
 
 
-string Database_Modifications::notificationCategoryFile (int identifier)
+string Database_Modifications::notificationCategoryFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "category");
 }
 
 
-string Database_Modifications::notificationBibleFile (int identifier)
+string Database_Modifications::notificationBibleFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "bible");
 }
 
 
-string Database_Modifications::notificationPassageFile (int identifier)
+string Database_Modifications::notificationPassageFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "passage");
 }
 
 
-string Database_Modifications::notificationOldtextFile (int identifier)
+string Database_Modifications::notificationOldtextFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "oldtext");
 }
 
 
-string Database_Modifications::notificationModificationFile (int identifier)
+string Database_Modifications::notificationModificationFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "modification");
 }
 
 
-string Database_Modifications::notificationNewtextFile (int identifier)
+string Database_Modifications::notificationNewtextFile (int identifier) // Todo database field.
 {
   return filter_url_create_path (notificationIdentifierFolder (identifier), "newtext");
 }
@@ -526,7 +516,7 @@ int Database_Modifications::getNextAvailableNotificationIdentifier ()
 }
 
 
-void Database_Modifications::recordNotification (const vector <string> & users, const string& category, const string& bible, int book, int chapter, int verse, const string& oldtext, const string& modification, const string& newtext)
+void Database_Modifications::recordNotification (const vector <string> & users, const string& category, const string& bible, int book, int chapter, int verse, const string& oldtext, const string& modification, const string& newtext) // Todo create and fill one database per notification.
 {
   // Normally this function is called just after midnight.
   // It would then put the current time on changes made the day before.
@@ -557,7 +547,7 @@ void Database_Modifications::recordNotification (const vector <string> & users, 
 }
 
 
-void Database_Modifications::indexTrimAllNotifications ()
+void Database_Modifications::indexTrimAllNotifications () // Todo probaly not needed: check its purpose.
 {
   // Delete the index database and create an empty one.
   erase ();
@@ -643,7 +633,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit)
+vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit) // Todo probably store per user in this case: In a user folder.
 {
   vector <int> ids;
 
@@ -672,8 +662,8 @@ vector <int> Database_Modifications::getNotificationIdentifiers (const string& u
 
 // This gets the identifiers of the personal change proposals.
 // For easier comparison, it also gets the identifiers of the changes
-// in the verses that have personal change proposals.
-vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit)
+// in the verses that have changes entered by a person.
+vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit) // Todo update to read from new databases.
 {
   sqlite3 * db = connect ();
 
@@ -736,7 +726,7 @@ vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const s
 
 
 // This gets the identifiers of the team's changes.
-vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category, bool limit)
+vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category, bool limit) // Todo update to read from 'team' folder probably.
 {
   vector <int> ids;
   SqliteSQL sql = SqliteSQL ();
@@ -757,7 +747,7 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const strin
 }
 
 
-void Database_Modifications::deleteNotification (int identifier, sqlite3 * db)
+void Database_Modifications::deleteNotification (int identifier, sqlite3 * db) // Todo update to delete db.
 {
   // Delete from the filesystem.
   string folder = notificationIdentifierFolder (identifier);
@@ -777,7 +767,7 @@ void Database_Modifications::deleteNotification (int identifier, sqlite3 * db)
 }
 
 
-int Database_Modifications::getNotificationTimeStamp (int id)
+int Database_Modifications::getNotificationTimeStamp (int id) // Todo read from new database.
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT timestamp FROM notifications WHERE identifier =");
@@ -794,7 +784,7 @@ int Database_Modifications::getNotificationTimeStamp (int id)
 }
 
 
-string Database_Modifications::getNotificationCategory (int id)
+string Database_Modifications::getNotificationCategory (int id) // Todo read from new database.
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT category FROM notifications WHERE identifier =");
@@ -811,7 +801,7 @@ string Database_Modifications::getNotificationCategory (int id)
 }
 
 
-string Database_Modifications::getNotificationBible (int id)
+string Database_Modifications::getNotificationBible (int id) // Todo read from new database.
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT bible FROM notifications WHERE identifier =");
@@ -828,7 +818,7 @@ string Database_Modifications::getNotificationBible (int id)
 }
 
 
-Passage Database_Modifications::getNotificationPassage (int id)
+Passage Database_Modifications::getNotificationPassage (int id) // Todo read from new database.
 {
   Passage passage;
   SqliteSQL sql = SqliteSQL ();
@@ -850,28 +840,28 @@ Passage Database_Modifications::getNotificationPassage (int id)
 }
 
 
-string Database_Modifications::getNotificationOldText (int id)
+string Database_Modifications::getNotificationOldText (int id) // Todo read from new database.
 {
   string file = notificationOldtextFile (id);
   return filter_url_file_get_contents (file);
 }
 
 
-string Database_Modifications::getNotificationModification (int id)
+string Database_Modifications::getNotificationModification (int id) // Todo read from new database.
 {
   string file = notificationModificationFile (id);
   return filter_url_file_get_contents (file);
 }
 
 
-string Database_Modifications::getNotificationNewText (int id)
+string Database_Modifications::getNotificationNewText (int id) // Todo read from new database.
 {
   string file = notificationNewtextFile (id);
   return filter_url_file_get_contents (file);
 }
 
 
-void Database_Modifications::clearNotificationsUser (const string& username)
+void Database_Modifications::clearNotificationsUser (const string& username) // Todo check its use and update.
 {
   vector <int> identifiers = getNotificationIdentifiers (username);
   sqlite3 * db = connect ();
@@ -886,8 +876,8 @@ void Database_Modifications::clearNotificationsUser (const string& username)
 
 
 // This function deletes personal change proposals and their matching change notifications.
-// It returns the delted identifiers.
-vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
+// It returns the deleted identifiers.
+vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team) // Todo check and update.
 {
   sqlite3 * db = connect ();
   
@@ -984,7 +974,7 @@ vector <int> Database_Modifications::clearNotificationMatches (const string& use
 
 
 // Store a change notification on the client, as received from the server.
-void Database_Modifications::storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext)
+void Database_Modifications::storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext) // Todo update.
 {
   filter_url_mkdir (notificationIdentifierFolder (id));
 

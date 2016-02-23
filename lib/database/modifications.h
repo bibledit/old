@@ -45,8 +45,6 @@ public:
 class Database_Modifications
 {
 public:
-  Database_Modifications ();
-  ~Database_Modifications ();
   void erase ();
   void create ();
   bool healthy ();

@@ -56,7 +56,7 @@ void changes_process_identifiers (Webserver_Request * request,
 {
   if (oldId != 0) {
     recipients = filter_string_array_diff (recipients, {user});
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
     Database_Modifications_Text old_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, oldId);
     string old_chapter_usfm = old_chapter_text.oldtext;
@@ -119,7 +119,7 @@ void changes_modifications ()
   
   // Data objects.
   Webserver_Request request;
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
   Database_Mail database_mail = Database_Mail (&request);
 
 

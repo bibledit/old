@@ -102,7 +102,7 @@ string notes_create (void * webserver_request)
   // It will then create a note based on that change notification.
   if (request->query.count ("fromchange")) {
     int fromchange = convert_to_int (request->query ["fromchange"]);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     string bible = database_modifications.getNotificationBible (fromchange);
     string summary = translate("Query about a change in the text");
     string contents = "<p>" + translate("Old text:") + "</p>";

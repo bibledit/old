@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void trash_change_notification (void * webserver_request, int id)
 {
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
   Passage passage = database_modifications.getNotificationPassage (id);
   string passageText = filter_passage_display_inline ({passage});
   string modification = database_modifications.getNotificationModification (id);

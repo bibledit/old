@@ -2202,14 +2202,14 @@ void test_database_versifications ()
 }
 
 
-void test_database_modifications_user ()
+void test_database_modifications_user () // Todo
 {
   trace_unit_tests (__func__);
   
   // Create, erase, clear.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.erase ();
     database_modifications.create ();
     database_modifications.clearUserUser ("phpunit");
@@ -2217,7 +2217,7 @@ void test_database_modifications_user ()
   // Usernames
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <string> users = database_modifications.getUserUsernames ();
     evaluate (__LINE__, __func__, {}, users);
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
@@ -2234,7 +2234,7 @@ void test_database_modifications_user ()
   // Bibles
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <string> bibles = database_modifications.getUserBibles ("phpunit1");
     evaluate (__LINE__, __func__, {}, bibles);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
@@ -2247,7 +2247,7 @@ void test_database_modifications_user ()
   // Books
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <int> books = database_modifications.getUserBooks ("phpunit1", "bible1");
     evaluate (__LINE__, __func__, {}, books);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
@@ -2260,7 +2260,7 @@ void test_database_modifications_user ()
   // Chapters
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <int> chapters = database_modifications.getUserChapters ("phpunit1", "bible1", 1);
     evaluate (__LINE__, __func__, {}, chapters);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
@@ -2272,7 +2272,7 @@ void test_database_modifications_user ()
   // Identifiers.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 4, "old", 5, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 5, "old", 6, "new");
@@ -2288,7 +2288,7 @@ void test_database_modifications_user ()
   // Chapter
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 4, "old2", 5, "new2");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 5, "old3", 6, "new3");
@@ -2302,7 +2302,7 @@ void test_database_modifications_user ()
   // Timestamp
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     int time = database_modifications.getUserTimestamp ("phpunit1", "bible", 1, 2, 4);
     int currenttime = filter_date_seconds_since_epoch ();
@@ -2311,14 +2311,14 @@ void test_database_modifications_user ()
 }
 
 
-void test_database_modifications_team ()
+void test_database_modifications_team () // Todo
 {
   trace_unit_tests (__func__);
   
   // Basics.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2328,7 +2328,7 @@ void test_database_modifications_team ()
   // Team Existence
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2356,7 +2356,7 @@ void test_database_modifications_team ()
   // Team Book
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2386,7 +2386,7 @@ void test_database_modifications_team ()
   // Team Bible
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2417,7 +2417,7 @@ void test_database_modifications_team ()
   // Team Get Diff
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2445,7 +2445,7 @@ void test_database_modifications_team ()
   // Team Get Diff Chapters
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2468,7 +2468,7 @@ void test_database_modifications_team ()
   // Team Diff Bible
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2517,7 +2517,7 @@ void test_database_modifications_team ()
   // Team Diff Book
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2537,7 +2537,7 @@ void test_database_modifications_team ()
   // Get Team Diff Count
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2560,14 +2560,14 @@ void test_database_modifications_team ()
 }
 
 
-void test_database_modifications_notifications ()
+void test_database_modifications_notifications () // Todo
 {
   trace_unit_tests (__func__);
   
   // Basics.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
     for (auto id : ids) {
@@ -2577,7 +2577,7 @@ void test_database_modifications_notifications ()
   // Trim.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
 
     // Record two entries.
@@ -2602,7 +2602,7 @@ void test_database_modifications_notifications ()
   // Next Identifier.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     int identifier = database_modifications.getNextAvailableNotificationIdentifier ();
     evaluate (__LINE__, __func__, 1, identifier);
@@ -2616,7 +2616,7 @@ void test_database_modifications_notifications ()
   // Record Details Retrieval.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
 
     // Start with no identifiers.
@@ -2642,7 +2642,7 @@ void test_database_modifications_notifications ()
   // Timestamps
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
 
     int timestamp = database_modifications.getNotificationTimeStamp (0);
@@ -2658,7 +2658,7 @@ void test_database_modifications_notifications ()
   // Category
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2670,7 +2670,7 @@ void test_database_modifications_notifications ()
   // Bible.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2682,7 +2682,7 @@ void test_database_modifications_notifications ()
   // Passage
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2698,7 +2698,7 @@ void test_database_modifications_notifications ()
   // OldText
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2710,7 +2710,7 @@ void test_database_modifications_notifications ()
   // Modification.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2722,7 +2722,7 @@ void test_database_modifications_notifications ()
   // New Text
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2734,7 +2734,7 @@ void test_database_modifications_notifications ()
   // Clear User
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2", "phpunit3"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2752,7 +2752,7 @@ void test_database_modifications_notifications ()
   // Clear Matches One
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
@@ -2767,7 +2767,7 @@ void test_database_modifications_notifications ()
   // Notification Personal Identifiers
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
@@ -2779,7 +2779,7 @@ void test_database_modifications_notifications ()
   // Notification Team Identifiers
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");

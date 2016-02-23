@@ -50,7 +50,7 @@ string editone_save (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
 
   
   // Check on information about where to save the verse.

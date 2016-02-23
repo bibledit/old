@@ -2940,7 +2940,7 @@ void test_filter_diff ()
   {
     refresh_sandbox (true);
     Webserver_Request request;
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     Database_State::create ();
 
     client_logic_enable_client (false);

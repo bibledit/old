@@ -117,7 +117,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   // If text was saved, record it as a change entered by the user.
   int new_id = request->database_bibles()->getChapterId (bible, book, chapter);
   if (new_id != old_id) {
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
   }
 
