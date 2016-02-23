@@ -8,7 +8,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5848,6 +5847,9 @@ msgid "This job is not available to you."
 msgstr ""
 
 msgid "The job is scheduled to start shortly."
+msgstr ""
+
+msgid "Clear the entire journal"
 msgstr ""
 
 msgid "Has been sending and receiving during the past hour"
