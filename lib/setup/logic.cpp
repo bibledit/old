@@ -270,7 +270,7 @@ void setup_complete_gui ()
 
 
 // Generate the locale databases.
-void setup_generate_locale_databases (bool progress) // Todo
+void setup_generate_locale_databases (bool progress)
 {
   // On Android, do not generate the locale databases.
   // On this low power device, generating them would take quite a while, as experience shows.

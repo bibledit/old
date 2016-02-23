@@ -116,16 +116,13 @@ string edit_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
 
-  string chapterLoaded = locale_logic_text_loaded ();
-  string chapterSaving = locale_logic_text_saving ();
-  string chapterSaved = locale_logic_text_saved ();
-  string chapterRetrying = locale_logic_text_retrying ();
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
-  "var editorChapterLoaded = '" + chapterLoaded + "';\n"
-  "var editorChapterSaving = '" + chapterSaving + "';\n"
-  "var editorChapterSaved = '" + chapterSaved + "';\n"
-  "var editorChapterRetrying = '" + chapterRetrying + "';\n"
+  "var editorChapterLoaded = '" + locale_logic_text_loaded () + "';\n"
+  "var editorChapterSaving = '" + locale_logic_text_saving () + "';\n"
+  "var editorChapterSaved = '" + locale_logic_text_saved () + "';\n"
+  "var editorChapterRetrying = '" + locale_logic_text_retrying () + "';\n"
+  "var editorChapterReformat = '" + locale_logic_text_reformat () + "';\n"
   "var editorWriteAccess = true;\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   view.set_variable ("script", script);

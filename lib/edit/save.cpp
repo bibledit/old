@@ -163,7 +163,7 @@ string edit_save (void * webserver_request)
   filter_string_replace_between (converted_html, "<", ">", "");
   // If round trip conversion differs, send a known string to the browser,
   // to signal the browser to reload the reformatted chapter.
-  if (html != converted_html) return "Reformat";
+  if (html != converted_html) return locale_logic_text_reformat ();
 
   return locale_logic_text_saved ();
 }

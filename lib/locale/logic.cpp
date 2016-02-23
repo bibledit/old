@@ -152,3 +152,9 @@ string locale_logic_text_retrying ()
 {
   return translate ("Retrying...");
 }
+
+
+string locale_logic_text_reformat ()
+{
+  return translate ("Reformat");
+}
