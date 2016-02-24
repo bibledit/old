@@ -5906,6 +5906,9 @@ msgstr ""
 msgid "Retrying..."
 msgstr ""
 
+msgid "Reformat"
+msgstr ""
+
 msgid "Export"
 msgstr ""
 
@@ -6809,6 +6812,15 @@ msgid "Deleted"
 msgstr ""
 
 msgid "Marked for deletion"
+msgstr ""
+
+msgid "View or respond online"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "open the desktop online"
 msgstr ""
 
 msgid "Your comment was posted"

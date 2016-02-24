@@ -86,6 +86,7 @@ public:
   void clearNotificationsUser (const string& username);
   vector <int> clearNotificationMatches (const string& username, const string& personal, const string& team);
   void storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext);
+  void notificationUpdateTime (int identifier, int timestamp);
 private:
   sqlite3 * connect ();
   string teamFolder ();
@@ -101,17 +102,9 @@ private:
   string userOldTextFile (const string& username, const string& bible, int book, int chapter, int newID);
   string userNewTextFile (const string& username, const string& bible, int book, int chapter, int newID);
   string notificationsMainFolder ();
-  string notificationIdentifierFolder (int identifier);
-public:
-  string notificationTimeFile (int identifier);
-private:
-  string notificationUserFile (int identifier);
-  string notificationCategoryFile (int identifier);
-  string notificationBibleFile (int identifier);
-  string notificationPassageFile (int identifier);
-  string notificationOldtextFile (int identifier);
-  string notificationModificationFile (int identifier);
-  string notificationNewtextFile (int identifier);
+  string notificationIdentifierDatabase (int identifier);
+  const char * createNotificationsDbSql ();
+  void deleteNotificationFile (int identifier);
 };
 
 

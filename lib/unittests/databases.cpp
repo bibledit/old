@@ -2585,16 +2585,15 @@ void test_database_modifications_notifications () // Todo
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {1, 2}, ids);
-
-    // After filter_string_trimming the two entries should still be there.
+    
+    // After trimming the two entries should still be there.
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {1, 2}, ids);
 
     // Set the time back, re-index, filter_string_trim, and check one entry's gone.
-    string file = database_modifications.notificationTimeFile (1);
     database_modifications.indexTrimAllNotifications ();
-    filter_url_file_put_contents (file, convert_to_string (filter_date_seconds_since_epoch () - 7776001));
+    database_modifications.notificationUpdateTime (1, filter_date_seconds_since_epoch () - 7776001);
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {2}, ids);
@@ -2789,6 +2788,16 @@ void test_database_modifications_notifications () // Todo
     evaluate (__LINE__, __func__, {1}, ids);
     ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category ());
     evaluate (__LINE__, __func__, {4}, ids);
+  }
+  // Record on client.
+  {
+    refresh_sandbox (true);
+    Database_Modifications database_modifications;
+    database_modifications.create ();
+    database_modifications.storeClientNotification (3, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
+    database_modifications.storeClientNotification (5, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
+    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    evaluate (__LINE__, __func__, {3, 5}, ids);
   }
 }
 

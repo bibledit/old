@@ -24,31 +24,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 
 
-// Database resilience: All information is stored on the filesystem.
-// The database is only used as an index.
+// Database resilience:
+// All information is stored in the filesystem as files or as very small databases.
+// The large database is only used as an index.
 // It is re-indexed every night.
 
 
-sqlite3 * Database_Modifications::connect () // Todo update.
+sqlite3 * Database_Modifications::connect ()
 {
   return database_sqlite_connect ("modifications");
 }
 
 
 // Delete the entire database
-void Database_Modifications::erase () // Todo remains to erase old db.
+void Database_Modifications::erase ()
 {
   string file = database_sqlite_file ("modifications");
   filter_url_unlink (file);
 }
 
 
-void Database_Modifications::create () // Todo update to new layout.
+void Database_Modifications::create ()
 {
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "DROP TABLE IF EXISTS notifications");
-  string sql;
-  sql = 
+  string sql =
     "CREATE TABLE IF NOT EXISTS notifications ("
     " identifier integer,"
     " timestamp integer,"
@@ -65,7 +65,7 @@ void Database_Modifications::create () // Todo update to new layout.
 }
 
 
-bool Database_Modifications::healthy () // Todo may not be needed.
+bool Database_Modifications::healthy ()
 {
   return database_sqlite_healthy ("modifications");
 }
@@ -443,57 +443,20 @@ string Database_Modifications::notificationsMainFolder ()
 }
 
 
-string Database_Modifications::notificationIdentifierFolder (int identifier) // Todo becomes database.
+string Database_Modifications::notificationIdentifierDatabase (int identifier)
 {
   return filter_url_create_path (notificationsMainFolder (), convert_to_string (identifier));
 }
 
 
-string Database_Modifications::notificationTimeFile (int identifier) // Todo database field.
+// This function is for the unit tests.
+void Database_Modifications::notificationUpdateTime (int identifier, int timestamp)
 {
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "time");
-}
-
-
-string Database_Modifications::notificationUserFile (int identifier) // Todo database field.
-{
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "user");
-}
-
-
-string Database_Modifications::notificationCategoryFile (int identifier) // Todo database field.
-{
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "category");
-}
-
-
-string Database_Modifications::notificationBibleFile (int identifier) // Todo database field.
-{
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "bible");
-}
-
-
-string Database_Modifications::notificationPassageFile (int identifier) // Todo database field.
-{
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "passage");
-}
-
-
-string Database_Modifications::notificationOldtextFile (int identifier) // Todo database field.
-{
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "oldtext");
-}
-
-
-string Database_Modifications::notificationModificationFile (int identifier) // Todo database field.
-{
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "modification");
-}
-
-
-string Database_Modifications::notificationNewtextFile (int identifier) // Todo database field.
-{
-  return filter_url_create_path (notificationIdentifierFolder (identifier), "newtext");
+  SqliteDatabase sql (notificationIdentifierDatabase (identifier));
+  sql.add ("UPDATE notification SET timestamp =");
+  sql.add (timestamp);
+  sql.add (";");
+  sql.execute ();
 }
 
 
@@ -503,7 +466,9 @@ int Database_Modifications::getNextAvailableNotificationIdentifier ()
   vector <string> files = filter_url_scandir (notificationsMainFolder ());
   // Sort from low to high.
   vector <int> identifiers;
-  for (auto & file : files) identifiers.push_back (convert_to_int (file));
+  for (auto file : files) {
+    identifiers.push_back (convert_to_int (file));
+  }
   sort (identifiers.begin(), identifiers.end());
   // Fetch the last and highest identifier.
   int identifier = 0;
@@ -516,7 +481,7 @@ int Database_Modifications::getNextAvailableNotificationIdentifier ()
 }
 
 
-void Database_Modifications::recordNotification (const vector <string> & users, const string& category, const string& bible, int book, int chapter, int verse, const string& oldtext, const string& modification, const string& newtext) // Todo create and fill one database per notification.
+void Database_Modifications::recordNotification (const vector <string> & users, const string& category, const string& bible, int book, int chapter, int verse, const string& oldtext, const string& modification, const string& newtext)
 {
   // Normally this function is called just after midnight.
   // It would then put the current time on changes made the day before.
@@ -524,30 +489,37 @@ void Database_Modifications::recordNotification (const vector <string> & users, 
   int timestamp = filter_date_seconds_since_epoch () - 21600;
   for (auto & user : users) {
     int identifier = getNextAvailableNotificationIdentifier ();
-    filter_url_mkdir (notificationIdentifierFolder (identifier));
-    string file;
-    file = notificationTimeFile (identifier);
-    filter_url_file_put_contents (file, convert_to_string (timestamp));
-    file = notificationUserFile (identifier);
-    filter_url_file_put_contents (file, user);
-    file = notificationCategoryFile (identifier);
-    filter_url_file_put_contents (file, category);
-    file = notificationBibleFile (identifier);
-    filter_url_file_put_contents (file, bible);
-    string passage = convert_to_string (book) + "." + convert_to_string (chapter) + "." + convert_to_string (verse);
-    file = notificationPassageFile (identifier);
-    filter_url_file_put_contents (file, passage);
-    file = notificationOldtextFile (identifier);
-    filter_url_file_put_contents (file, oldtext);
-    file = notificationModificationFile (identifier);
-    filter_url_file_put_contents (file, modification);
-    file = notificationNewtextFile (identifier);
-    filter_url_file_put_contents (file, newtext);
+    SqliteDatabase sql (notificationIdentifierDatabase (identifier));
+    sql.add (createNotificationsDbSql ());
+    sql.execute ();
+    sql.clear ();
+    sql.add ("INSERT INTO notification VALUES (");
+    sql.add (timestamp);
+    sql.add (",");
+    sql.add (user);
+    sql.add (",");
+    sql.add (category);
+    sql.add (",");
+    sql.add (bible);
+    sql.add (",");
+    sql.add (book);
+    sql.add (",");
+    sql.add (chapter);
+    sql.add (",");
+    sql.add (verse);
+    sql.add (",");
+    sql.add (oldtext);
+    sql.add (",");
+    sql.add (modification);
+    sql.add (",");
+    sql.add (newtext);
+    sql.add (");");
+    sql.execute ();
   }
 }
 
 
-void Database_Modifications::indexTrimAllNotifications () // Todo probaly not needed: check its purpose.
+void Database_Modifications::indexTrimAllNotifications ()
 {
   // Delete the index database and create an empty one.
   erase ();
@@ -563,41 +535,86 @@ void Database_Modifications::indexTrimAllNotifications () // Todo probaly not ne
   // Go through the notifications on disk.
   vector <string> sidentifiers = filter_url_scandir (notificationsMainFolder ());
   vector <int> identifiers;
-  for (auto & s : sidentifiers) identifiers.push_back (convert_to_int (s));
+  for (auto s : sidentifiers) {
+    identifiers.push_back (convert_to_int (s));
+  }
   sort (identifiers.begin(), identifiers.end());
   for (auto & identifier : identifiers) {
 
-    // Fetch the data from the filesystem and validate it.
-    bool valid = true;
+    // Fetch the data from the database and validate it.
 
-    int timestamp = convert_to_int (filter_url_file_get_contents (notificationTimeFile (identifier)));
+    string path = notificationIdentifierDatabase (identifier);
+    bool valid = !filter_url_is_dir (path);
+
+    map <string, vector <string> > result;
+    if (valid) {
+      SqliteDatabase sql (path);
+      sql.add ("SELECT * FROM notification;");
+      result = sql.query ();
+    }
+    if (result.empty ()) valid = false;
+
+    int timestamp = 0;
+    if (valid) {
+      vector <string> timestamps = result ["timestamp"];
+      if (timestamps.empty ()) valid = false;
+      else timestamp = convert_to_int (timestamps [0]);
+    }
     if (timestamp < expiry_time) valid = false;
 
-    string user = filter_url_file_get_contents (notificationUserFile (identifier));
-    if (user == "") valid = false;
+    string user;
+    if (valid) {
+      vector <string> usernames = result ["username"];
+      if (usernames.empty ()) valid = false;
+      else user = usernames [0];
+    }
+    if (user.empty ()) valid = false;
 
-    string category = filter_url_file_get_contents (notificationCategoryFile (identifier));
+    string category;
+    if (valid) {
+      vector <string> categories = result ["category"];
+      if (categories.empty ()) valid = false;
+      else category = categories [0];
+    }
 
-    string bible = filter_url_file_get_contents (notificationBibleFile (identifier));
-    if (bible == "") valid = false;
+    string bible;
+    if (valid) {
+      vector <string> bibles = result ["bible"];
+      if (bibles.empty ()) valid = false;
+      else bible = bibles [0];
+    }
+    if (bible.empty ()) valid = false;
 
-    string spassage = filter_url_file_get_contents (notificationPassageFile (identifier));
-    vector <string> vpassage = filter_string_explode (spassage, '.');
-    if (vpassage.size () != 3) valid = false;
-    
     int book = 0;
-    if (valid) book = convert_to_int (vpassage [0]);
+    if (valid) {
+      vector <string> books = result ["book"];
+      if (books.empty ()) valid = false;
+      else book = convert_to_int (books [0]);
+    }
     if (book == 0) valid = false;
 
     int chapter = 0;
-    if (valid) chapter = convert_to_int (vpassage [1]);
-    if (vpassage [1].empty()) valid = false;
+    if (valid) {
+      vector <string> chapters = result ["chapter"];
+      if (chapters.empty ()) valid = false;
+      else chapter = convert_to_int (chapters [0]);
+      if (chapters [0].empty ()) valid = false;
+    }
     
     int verse = 0;
-    if (valid) verse = convert_to_int (vpassage [2]);
-    if (vpassage [2].empty()) valid = false;
+    if (valid) {
+      vector <string> verses = result ["verse"];
+      if (verses.empty ()) valid = false;
+      else verse = convert_to_int (verses [0]);
+      if (verses [0].empty ()) valid = false;
+    }
 
-    string modification = getNotificationModification (identifier);
+    string modification;
+    if (valid) {
+      vector <string> modifications = result ["modification"];
+      if (modifications.empty ()) valid = false;
+      else modification = modifications [0];
+    }
     if (modification.empty()) valid = false;
    
     if (valid) {
@@ -633,7 +650,7 @@ void Database_Modifications::indexTrimAllNotifications () // Todo probaly not ne
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit) // Todo probably store per user in this case: In a user folder.
+vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit)
 {
   vector <int> ids;
 
@@ -663,7 +680,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (const string& u
 // This gets the identifiers of the personal change proposals.
 // For easier comparison, it also gets the identifiers of the changes
 // in the verses that have changes entered by a person.
-vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit) // Todo update to read from new databases.
+vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit)
 {
   sqlite3 * db = connect ();
 
@@ -726,7 +743,7 @@ vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const s
 
 
 // This gets the identifiers of the team's changes.
-vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category, bool limit) // Todo update to read from 'team' folder probably.
+vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category, bool limit)
 {
   vector <int> ids;
   SqliteSQL sql = SqliteSQL ();
@@ -747,11 +764,10 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const strin
 }
 
 
-void Database_Modifications::deleteNotification (int identifier, sqlite3 * db) // Todo update to delete db.
+void Database_Modifications::deleteNotification (int identifier, sqlite3 * db)
 {
-  // Delete from the filesystem.
-  string folder = notificationIdentifierFolder (identifier);
-  filter_url_rmdir (folder);
+  // Delete from file.
+  deleteNotificationFile (identifier);
   // Delete from the database.
   SqliteSQL sql = SqliteSQL ();
   sql.add ("DELETE FROM notifications WHERE identifier =");
@@ -767,7 +783,7 @@ void Database_Modifications::deleteNotification (int identifier, sqlite3 * db) /
 }
 
 
-int Database_Modifications::getNotificationTimeStamp (int id) // Todo read from new database.
+int Database_Modifications::getNotificationTimeStamp (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT timestamp FROM notifications WHERE identifier =");
@@ -784,7 +800,7 @@ int Database_Modifications::getNotificationTimeStamp (int id) // Todo read from 
 }
 
 
-string Database_Modifications::getNotificationCategory (int id) // Todo read from new database.
+string Database_Modifications::getNotificationCategory (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT category FROM notifications WHERE identifier =");
@@ -801,7 +817,7 @@ string Database_Modifications::getNotificationCategory (int id) // Todo read fro
 }
 
 
-string Database_Modifications::getNotificationBible (int id) // Todo read from new database.
+string Database_Modifications::getNotificationBible (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT bible FROM notifications WHERE identifier =");
@@ -818,7 +834,7 @@ string Database_Modifications::getNotificationBible (int id) // Todo read from n
 }
 
 
-Passage Database_Modifications::getNotificationPassage (int id) // Todo read from new database.
+Passage Database_Modifications::getNotificationPassage (int id)
 {
   Passage passage;
   SqliteSQL sql = SqliteSQL ();
@@ -840,28 +856,43 @@ Passage Database_Modifications::getNotificationPassage (int id) // Todo read fro
 }
 
 
-string Database_Modifications::getNotificationOldText (int id) // Todo read from new database.
+string Database_Modifications::getNotificationOldText (int id)
 {
-  string file = notificationOldtextFile (id);
-  return filter_url_file_get_contents (file);
+  string path = notificationIdentifierDatabase (id);
+  if (!file_exists (path)) return "";
+  SqliteDatabase sql (path);
+  sql.add ("SELECT oldtext FROM notification;");
+  vector <string> result = sql.query () ["oldtext"];
+  if (result.empty ()) return "";
+  return result [0];
 }
 
 
-string Database_Modifications::getNotificationModification (int id) // Todo read from new database.
+string Database_Modifications::getNotificationModification (int id)
 {
-  string file = notificationModificationFile (id);
-  return filter_url_file_get_contents (file);
+  string path = notificationIdentifierDatabase (id);
+  if (!file_exists (path)) return "";
+  SqliteDatabase sql (path);
+  sql.add ("SELECT modification FROM notification;");
+  vector <string> result = sql.query () ["modification"];
+  if (result.empty ()) return "";
+  return result [0];
 }
 
 
-string Database_Modifications::getNotificationNewText (int id) // Todo read from new database.
+string Database_Modifications::getNotificationNewText (int id)
 {
-  string file = notificationNewtextFile (id);
-  return filter_url_file_get_contents (file);
+  string path = notificationIdentifierDatabase (id);
+  if (!file_exists (path)) return "";
+  SqliteDatabase sql (path);
+  sql.add ("SELECT newtext FROM notification;");
+  vector <string> result = sql.query () ["newtext"];
+  if (result.empty ()) return "";
+  return result [0];
 }
 
 
-void Database_Modifications::clearNotificationsUser (const string& username) // Todo check its use and update.
+void Database_Modifications::clearNotificationsUser (const string& username)
 {
   vector <int> identifiers = getNotificationIdentifiers (username);
   sqlite3 * db = connect ();
@@ -877,7 +908,7 @@ void Database_Modifications::clearNotificationsUser (const string& username) // 
 
 // This function deletes personal change proposals and their matching change notifications.
 // It returns the deleted identifiers.
-vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team) // Todo check and update.
+vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
 {
   sqlite3 * db = connect ();
   
@@ -974,60 +1005,91 @@ vector <int> Database_Modifications::clearNotificationMatches (const string& use
 
 
 // Store a change notification on the client, as received from the server.
-void Database_Modifications::storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext) // Todo update.
+void Database_Modifications::storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext)
 {
-  filter_url_mkdir (notificationIdentifierFolder (id));
-
-  string file;
-
+  // Erase any existing database.
+  deleteNotificationFile (id);
   // Timestamp is not used: Just put the current time.
   int timestamp = filter_date_seconds_since_epoch ();
-  file = notificationTimeFile (id);
-  filter_url_file_put_contents (file, convert_to_string (timestamp));
-  
-  file = notificationUserFile (id);
-  filter_url_file_put_contents (file, username);
-  
-  file = notificationCategoryFile (id);
-  filter_url_file_put_contents (file, category);
+  {
+    SqliteDatabase sql (notificationIdentifierDatabase (id));
+    sql.add (createNotificationsDbSql ());
+    sql.execute ();
+    sql.clear ();
+    sql.add ("INSERT INTO notification VALUES (");
+    sql.add (timestamp);
+    sql.add (",");
+    sql.add (username);
+    sql.add (",");
+    sql.add (category);
+    sql.add (",");
+    sql.add (bible);
+    sql.add (",");
+    sql.add (book);
+    sql.add (",");
+    sql.add (chapter);
+    sql.add (",");
+    sql.add (verse);
+    sql.add (",");
+    sql.add (oldtext);
+    sql.add (",");
+    sql.add (modification);
+    sql.add (",");
+    sql.add (newtext);
+    sql.add (");");
+    sql.execute ();
+  }
+  {
+    sqlite3 * db = connect ();
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("INSERT INTO notifications VALUES (");
+    sql.add (id);
+    sql.add (",");
+    sql.add (timestamp);
+    sql.add (",");
+    sql.add (username);
+    sql.add (",");
+    sql.add (category);
+    sql.add (",");
+    sql.add (bible);
+    sql.add (",");
+    sql.add (book);
+    sql.add (",");
+    sql.add (chapter);
+    sql.add (",");
+    sql.add (verse);
+    sql.add (",");
+    sql.add (modification);
+    sql.add (");");
+    database_sqlite_exec (db, sql.sql);
+    database_sqlite_disconnect (db);
+  }
+}
 
-  file = notificationBibleFile (id);
-  filter_url_file_put_contents (file, bible);
 
-  string passage = convert_to_string (book) + "." + convert_to_string (chapter) + "." + convert_to_string (verse);
-  file = notificationPassageFile (id);
-  filter_url_file_put_contents (file, passage);
-  
-  file = notificationOldtextFile (id);
-  filter_url_file_put_contents (file, oldtext);
+const char * Database_Modifications::createNotificationsDbSql ()
+{
+  return
+  "CREATE TABLE notification ("
+  " timestamp integer,"
+  " username text,"
+  " category text,"
+  " bible text,"
+  " book integer,"
+  " chapter integer,"
+  " verse integer,"
+  " oldtext text,"
+  " modification text,"
+  " newtext text"
+  ");";
+}
 
-  file = notificationModificationFile (id);
-  filter_url_file_put_contents (file, modification);
- 
-  file = notificationNewtextFile (id);
-  filter_url_file_put_contents (file, newtext);
 
-  sqlite3 * db = connect ();
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("INSERT INTO notifications VALUES (");
-  sql.add (id);
-  sql.add (",");
-  sql.add (timestamp);
-  sql.add (",");
-  sql.add (username);
-  sql.add (",");
-  sql.add (category);
-  sql.add (",");
-  sql.add (bible);
-  sql.add (",");
-  sql.add (book);
-  sql.add (",");
-  sql.add (chapter);
-  sql.add (",");
-  sql.add (verse);
-  sql.add (",");
-  sql.add (modification);
-  sql.add (");");
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+void Database_Modifications::deleteNotificationFile (int identifier)
+{
+  string path = notificationIdentifierDatabase (identifier);
+  // Delete the old folder from the file system (used till Februari 2016).
+  if (filter_url_is_dir (path)) filter_url_rmdir (path);
+  // Delete the new database file from the file system.
+  if (file_exists (path)) filter_url_unlink (path);
 }
