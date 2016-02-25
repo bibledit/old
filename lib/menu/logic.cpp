@@ -454,8 +454,8 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
   string changes = menu_logic_changes_text ();
   string planning = translate ("Planning");
   string send_receive = translate ("Send/receive");
-  string hyphenation = translate ("Hyphenation");
-  string cross_references = translate ("Cross-references");
+  string hyphenation = translate ("Hyphenate");
+  string cross_references = translate ("Transfer cross-references");
   string debug = translate ("Debug");
   string exporting = translate ("Export");
   string journal = translate ("Journal");
