@@ -48,6 +48,7 @@ public:
   void erase ();
   void create ();
   bool healthy ();
+  void vacuum ();
   bool teamDiffExists (const string& bible, int book, int chapter);
   void storeTeamDiff (const string& bible, int book, int chapter);
   string getTeamDiff (const string& bible, int book, int chapter);

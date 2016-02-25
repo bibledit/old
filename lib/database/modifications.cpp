@@ -47,7 +47,6 @@ void Database_Modifications::erase ()
 void Database_Modifications::create ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "DROP TABLE IF EXISTS notifications");
   string sql =
     "CREATE TABLE IF NOT EXISTS notifications ("
     " identifier integer,"
@@ -68,6 +67,14 @@ void Database_Modifications::create ()
 bool Database_Modifications::healthy ()
 {
   return database_sqlite_healthy ("modifications");
+}
+
+
+void Database_Modifications::vacuum ()
+{
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, "VACUUM;");
+  database_sqlite_disconnect (db);
 }
 
 
@@ -521,8 +528,9 @@ void Database_Modifications::recordNotification (const vector <string> & users, 
 
 void Database_Modifications::indexTrimAllNotifications ()
 {
-  // Delete the index database and create an empty one.
-  erase ();
+  // When the index is not healthy, delete it.
+  if (!healthy ()) erase ();
+  // Create a new index if it does not exist.
   create ();
 
   // Change notifications expire after 30 days.
@@ -562,39 +570,52 @@ void Database_Modifications::indexTrimAllNotifications ()
     }
     if (timestamp < expiry_time) valid = false;
 
-    string user;
+    bool exists = false;
     if (valid) {
+      SqliteSQL sql = SqliteSQL ();
+      sql.add ("SELECT count(*) FROM notifications WHERE identifier = ");
+      sql.add (identifier);
+      sql.add (";");
+      vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
+      if (!result.empty ()) {
+        int count = convert_to_int (result [0]);
+        exists = (count > 0);
+      }
+    }
+    
+    string user;
+    if (!exists && valid) {
       vector <string> usernames = result ["username"];
       if (usernames.empty ()) valid = false;
       else user = usernames [0];
+      if (user.empty ()) valid = false;
     }
-    if (user.empty ()) valid = false;
 
     string category;
-    if (valid) {
+    if (!exists && valid) {
       vector <string> categories = result ["category"];
       if (categories.empty ()) valid = false;
       else category = categories [0];
     }
 
     string bible;
-    if (valid) {
+    if (!exists && valid) {
       vector <string> bibles = result ["bible"];
       if (bibles.empty ()) valid = false;
       else bible = bibles [0];
+      if (bible.empty ()) valid = false;
     }
-    if (bible.empty ()) valid = false;
 
     int book = 0;
-    if (valid) {
+    if (!exists && valid) {
       vector <string> books = result ["book"];
       if (books.empty ()) valid = false;
       else book = convert_to_int (books [0]);
+      if (book == 0) valid = false;
     }
-    if (book == 0) valid = false;
 
     int chapter = 0;
-    if (valid) {
+    if (!exists && valid) {
       vector <string> chapters = result ["chapter"];
       if (chapters.empty ()) valid = false;
       else chapter = convert_to_int (chapters [0]);
@@ -602,7 +623,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     }
     
     int verse = 0;
-    if (valid) {
+    if (!exists && valid) {
       vector <string> verses = result ["verse"];
       if (verses.empty ()) valid = false;
       else verse = convert_to_int (verses [0]);
@@ -610,38 +631,40 @@ void Database_Modifications::indexTrimAllNotifications ()
     }
 
     string modification;
-    if (valid) {
+    if (!exists && valid) {
       vector <string> modifications = result ["modification"];
       if (modifications.empty ()) valid = false;
       else modification = modifications [0];
+      if (modification.empty()) valid = false;
     }
-    if (modification.empty()) valid = false;
    
     if (valid) {
-      // Store valid data in the database.
-      SqliteSQL sql = SqliteSQL ();
-      sql.add ("INSERT INTO notifications VALUES (");
-      sql.add (identifier);
-      sql.add (",");
-      sql.add (timestamp);
-      sql.add (",");
-      sql.add (user);
-      sql.add (",");
-      sql.add (category);
-      sql.add (",");
-      sql.add (bible);
-      sql.add (",");
-      sql.add (book);
-      sql.add (",");
-      sql.add (chapter);
-      sql.add (",");
-      sql.add (verse);
-      sql.add (",");
-      sql.add (modification);
-      sql.add (");");
-      database_sqlite_exec (db, sql.sql);
+      // Store valid data in the database if it does not yet exist.
+      if (!exists) {
+        SqliteSQL sql = SqliteSQL ();
+        sql.add ("INSERT INTO notifications VALUES (");
+        sql.add (identifier);
+        sql.add (",");
+        sql.add (timestamp);
+        sql.add (",");
+        sql.add (user);
+        sql.add (",");
+        sql.add (category);
+        sql.add (",");
+        sql.add (bible);
+        sql.add (",");
+        sql.add (book);
+        sql.add (",");
+        sql.add (chapter);
+        sql.add (",");
+        sql.add (verse);
+        sql.add (",");
+        sql.add (modification);
+        sql.add (");");
+        database_sqlite_exec (db, sql.sql);
+      }
     } else {
-      // Delete invalid / expired data.
+      // Delete invalid or expired data.
       deleteNotification (identifier, db);
     }
   }

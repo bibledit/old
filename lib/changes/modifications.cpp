@@ -123,8 +123,8 @@ void changes_modifications ()
   Database_Mail database_mail = Database_Mail (&request);
 
 
-  // Recreate modifications database.
-  database_modifications.erase ();
+  // Check on the health of the modifications database and (re)create it if needed.
+  if (!database_modifications.healthy ()) database_modifications.erase ();
   database_modifications.create ();
   
   
@@ -395,6 +395,10 @@ void changes_modifications ()
   for (auto user : users) {
     request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
+  
+  
+  // Vacuum the modifications index, as it might have been updated.
+  database_modifications.vacuum ();
   
   
   // Clear flag so the notifications are again available to clients.
