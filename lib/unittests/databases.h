@@ -64,6 +64,7 @@ void test_database_hebrewlexicon ();
 void test_database_cache ();
 void test_database_bibles ();
 void test_database_login ();
+void test_database_privileges ();
 
 
 #endif

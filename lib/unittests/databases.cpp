@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/hebrewlexicon.h>
 #include <database/cache.h>
 #include <database/login.h>
+#include <database/privileges.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -4463,6 +4464,65 @@ void test_database_login ()
   evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint));
   Database_Login::setTokens (username, address, agent, fingerprint, true);
   evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint + "x"));
+}
+
+
+void test_database_privileges () // Todo
+{
+  trace_unit_tests (__func__);
+
+  // Test creation, automatic repair of damages.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  string path = database_sqlite_file (Database_Privileges::database ());
+  filter_url_file_put_contents (path, "damaged database");
+  evaluate (__LINE__, __func__, false, Database_Privileges::healthy ());
+  Database_Privileges::optimize ();
+  evaluate (__LINE__, __func__, true, Database_Privileges::healthy ());
+  refresh_sandbox (false);
+  
+  Database_Privileges::create ();
+  
+  // Upgrade routine should not give errors.
+  Database_Privileges::upgrade ();
+  
+  string username = "phpunit";
+  string bible = "bible";
+  
+  // Initially there's no privileges for a Bible book.
+  bool read;
+  bool write;
+  Database_Privileges::getBibleBook (username, bible, 2, read, write);
+  evaluate (__LINE__, __func__, false, read);
+  evaluate (__LINE__, __func__, false, write);
+
+  // Set privileges and read them.
+  Database_Privileges::setBibleBook (username, bible, 3, false);
+  Database_Privileges::getBibleBook (username, bible, 3, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+  
+  Database_Privileges::setBibleBook (username, bible, 4, true);
+  Database_Privileges::getBibleBook (username, bible, 4, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  
+  Database_Privileges::removeBibleBook (username, bible, 4);
+  Database_Privileges::getBibleBook (username, bible, 4, read, write);
+  evaluate (__LINE__, __func__, false, read);
+  evaluate (__LINE__, __func__, false, write);
+  
+  // A feature is off by default.
+  bool enabled = Database_Privileges::getFeature (username, 123);
+  evaluate (__LINE__, __func__, false, enabled);
+
+  // Set it on, then off.
+  Database_Privileges::setFeature (username, 1234, true);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, true, enabled);
+  Database_Privileges::setFeature (username, 1234, false);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, false, enabled);
 }
 
 
