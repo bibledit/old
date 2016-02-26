@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/jobs.h>
 #include <database/config/user.h>
 #include <database/cache.h>
+#include <database/login.h>
 #include <client/logic.h>
 #include <notes/logic.h>
 #include <sword/logic.h>
@@ -127,6 +128,10 @@ void database_maintenance ()
   
   Database_Config_User database_config_user = Database_Config_User (&webserver_request);
   database_config_user.trim ();
+  
+  
+  Database_Login::trim ();
+  Database_Login::optimize ();
   
 
   // Only maintain it when it does not yet exist, to avoid unnecessary downloads by the clients.

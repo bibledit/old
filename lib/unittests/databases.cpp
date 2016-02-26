@@ -4419,7 +4419,7 @@ void test_database_bibles ()
 }
 
 
-void test_database_login () // Todo
+void test_database_login ()
 {
   trace_unit_tests (__func__);
 

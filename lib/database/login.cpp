@@ -55,7 +55,7 @@ void Database_Login::create ()
 }
 
 
-void Database_Login::trim () // Todo test.
+void Database_Login::trim ()
 {
   // Remove persistent logins after 365 days of inactivity.
   SqliteDatabase sql (database ());
@@ -63,15 +63,12 @@ void Database_Login::trim () // Todo test.
   sql.add (timestamp () - 365);
   sql.add (";");
   sql.execute ();
-  
-  optimize (); // Todo call it separately, not here, but in caller.
-  
 }
 
 
-void Database_Login::optimize () // Todo test.
+void Database_Login::optimize ()
 {
-  // Recreate damaged database. Todo test it.
+  // Recreate damaged database.
   if (!healthy ()) {
     filter_url_unlink (database_sqlite_file (database ()));
     create ();
@@ -83,7 +80,7 @@ void Database_Login::optimize () // Todo test.
 }
 
 
-bool Database_Login::healthy () // Todo test
+bool Database_Login::healthy ()
 {
   return database_sqlite_healthy (database ());
 }
@@ -92,7 +89,7 @@ bool Database_Login::healthy () // Todo test
 // Sets the login security tokens for a user.
 // Also store whether the device is touch-enabled.
 // It only writes to the table if the combination of username and tokens differs from what the table already contains.
-void Database_Login::setTokens (string username, string address, string agent, string fingerprint, bool touch) // Todo test.
+void Database_Login::setTokens (string username, string address, string agent, string fingerprint, bool touch)
 {
   if (username == getUsername (address, agent, fingerprint)) return;
   address = md5 (address);
@@ -116,8 +113,8 @@ void Database_Login::setTokens (string username, string address, string agent, s
 }
 
 
-// Remove the login securityh tokens for a user.
-void Database_Login::removeTokens (string username) // Todo test.
+// Remove the login security tokens for a user.
+void Database_Login::removeTokens (string username)
 {
   SqliteDatabase sql (database ());
   username = database_sqlite_no_sql_injection (username);
@@ -130,7 +127,7 @@ void Database_Login::removeTokens (string username) // Todo test.
 
 // Returns the username that matches the remote IP $address and the browser's user $agent,
 // and the other fingerprints from the user.
-string Database_Login::getUsername (string address, string agent, string fingerprint) // Todo test touch timestamp.
+string Database_Login::getUsername (string address, string agent, string fingerprint)
 {
   address = md5 (address);
   agent = md5 (agent);
@@ -163,7 +160,7 @@ string Database_Login::getUsername (string address, string agent, string fingerp
 
 // Returns whether the device that matches the remote IP $address and the browser's user $agent,
 // and the other fingerprint, is touch-enabled.
-bool Database_Login::getTouchEnabled (string address, string agent, string fingerprint) // Todo test.
+bool Database_Login::getTouchEnabled (string address, string agent, string fingerprint)
 {
   address = md5 (address);
   agent = md5 (agent);
@@ -182,7 +179,7 @@ bool Database_Login::getTouchEnabled (string address, string agent, string finge
 }
 
 
-void Database_Login::testTimestamp () // Todo
+void Database_Login::testTimestamp ()
 {
   SqliteDatabase sql (database ());
   sql.add ("UPDATE logins SET timestamp = timestamp - 370;");

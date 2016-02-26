@@ -48,12 +48,6 @@ public:
   void updateUserEmail (string user, string email);
   vector <string> getUsers ();
   string getmd5 (string user);
-  void setTokens (string username, string address, string agent, string fingerprint, bool touch);
-  void removeTokens (string username);
-  string getUsername (string address, string agent, string fingerprint);
-  bool getTouchEnabled (string address, string agent, string fingerprint);
-  void pingTimestamp (string username);
-  int getTimestamp (string username);
   vector <string> getTeams ();
   void grantAccess2Bible (string user, string bible);
   void revokeAccess2Bible (string user, string bible);
@@ -66,8 +60,6 @@ public:
   void execute (const string& sql);
 private:
   sqlite3 * connect ();
-  string mainFolder ();
-  string timestampFile (string user);
 };
 
 

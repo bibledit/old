@@ -35,6 +35,7 @@
 #include <database/notes.h>
 #include <database/volatile.h>
 #include <database/state.h>
+#include <database/login.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -223,6 +224,9 @@ void setup_initialize_data ()
   database_volatile.create ();
   config_globals_setup_message = "state";
   Database_State::create ();
+  config_globals_setup_message = "login";
+  Database_Login::create ();
+  Database_Login::optimize ();
 
   // Create stylesheets.
   config_globals_setup_message = "stylesheets";
