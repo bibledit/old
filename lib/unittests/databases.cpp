@@ -60,6 +60,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/etcbc4.h>
 #include <database/hebrewlexicon.h>
 #include <database/cache.h>
+#include <database/login.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -337,50 +338,6 @@ void test_database_users ()
     evaluate (__LINE__, __func__, 2, (int)users.size());
     
     evaluate (__LINE__, __func__, md5 (password), database_users.getmd5 (username1));
-  }
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username = "unit test";
-    string password = "pazz";
-    string email = "email@site";
-    string address = "192.168.1.0";
-    string agent = "Browser's user agent";
-    string fingerprint = "ԴԵԶԸ";
-    database_users.setTokens (username, address, agent, fingerprint, true);
-    evaluate (__LINE__, __func__, username, database_users.getUsername (address, agent, fingerprint));
-    database_users.removeTokens (username);
-    evaluate (__LINE__, __func__, "", database_users.getUsername (address, agent, fingerprint));
-
-    evaluate (__LINE__, __func__, 0, database_users.getTimestamp (username));
-    database_users.pingTimestamp (username);
-    int timestamp = database_users.getTimestamp (username);
-    int second = filter_date_seconds_since_epoch ();
-    if ((timestamp != second) && (timestamp != second + 1)) evaluate (__LINE__, __func__, second, timestamp);
-  }
-  // Test touch-enabled settings.
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username = "unittest";
-    string password = "pass";
-    string email = "mail@site.nl";
-    string address = "192.168.1.2";
-    string agent = "Browser's user agent";
-    string fingerprint = "abcdef";
-    bool touch = true;
-    database_users.setTokens (username, address, agent, fingerprint, touch);
-    evaluate (__LINE__, __func__, true, database_users.getTouchEnabled (address, agent, fingerprint));
-    
-    database_users.removeTokens (username);
-    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint));
-    
-    database_users.setTokens (username, address, agent, fingerprint, touch);
-    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint + "x"));
   }
   {
     refresh_sandbox (true);
@@ -2202,7 +2159,7 @@ void test_database_versifications ()
 }
 
 
-void test_database_modifications_user () // Todo
+void test_database_modifications_user ()
 {
   trace_unit_tests (__func__);
   
@@ -2311,7 +2268,7 @@ void test_database_modifications_user () // Todo
 }
 
 
-void test_database_modifications_team () // Todo
+void test_database_modifications_team ()
 {
   trace_unit_tests (__func__);
   
@@ -2560,7 +2517,7 @@ void test_database_modifications_team () // Todo
 }
 
 
-void test_database_modifications_notifications () // Todo
+void test_database_modifications_notifications ()
 {
   trace_unit_tests (__func__);
   
@@ -4459,6 +4416,53 @@ void test_database_bibles ()
     id = database_bibles.getChapterId ("phpunit", 1, 2);
     evaluate (__LINE__, __func__, 100000004, id);
   }
+}
+
+
+void test_database_login () // Todo
+{
+  trace_unit_tests (__func__);
+
+  {
+    refresh_sandbox (true);
+    Database_Login::create ();
+    string path = database_sqlite_file (Database_Login::database ());
+    filter_url_file_put_contents (path, "damaged database");
+    evaluate (__LINE__, __func__, false, Database_Login::healthy ());
+    Database_Login::optimize ();
+    evaluate (__LINE__, __func__, true, Database_Login::healthy ());
+    refresh_sandbox (false);
+  }
+  
+  refresh_sandbox (true);
+  Database_Login::create ();
+  Database_Login::optimize ();
+  
+  string username = "unittest";
+  string address = "192.168.1.0";
+  string agent = "Browser's user agent";
+  string fingerprint = "ԴԵԶԸ";
+
+  // Testing whether setting tokens and reading the username, and removing the tokens works.
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::removeTokens (username);
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address, agent, fingerprint));
+
+  // Testing whether a persistent login gets removed after about a year.
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::testTimestamp ();
+  Database_Login::trim ();
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address, agent, fingerprint));
+
+  // Testing whether storing touch enabled
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, true, Database_Login::getTouchEnabled (address, agent, fingerprint));
+  Database_Login::removeTokens (username);
+  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint));
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint + "x"));
 }
 
 

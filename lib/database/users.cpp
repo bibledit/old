@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/roles.h>
-#include <filter/url.h>
 #include <filter/date.h>
 
 
@@ -53,13 +52,13 @@ void Database_Users::create ()
         " email text"
         ");";
   database_sqlite_exec (db, sql);
-  sql = "CREATE TABLE IF NOT EXISTS teams ("
+  sql = "CREATE TABLE IF NOT EXISTS teams (" // Todo separate or remove.
         " username text,"
         " bible text,"
         " readonly boolean"
         ");";
   database_sqlite_exec (db, sql);
-  sql = "CREATE TABLE IF NOT EXISTS logins ("
+  sql = "CREATE TABLE IF NOT EXISTS logins (" // Todo separate.
         " username text,"
         " address text,"
         " agent text,"
@@ -68,7 +67,7 @@ void Database_Users::create ()
         " touch boolean"
         ");";
   database_sqlite_exec (db, sql);
-  sql = "CREATE TABLE IF NOT EXISTS readonly ("
+  sql = "CREATE TABLE IF NOT EXISTS readonly (" // Todo separate.
         " username text,"
         " bible text,"
         " book integer"
