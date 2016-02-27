@@ -20,71 +20,114 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/bible.h>
 #include <webserver/request.h>
 #include <database/config/bible.h>
+#include <database/privileges.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <filter/roles.h>
 
 
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool access_bible_read (void * webserver_request, string & bible, string user)
+bool access_bible_read (void * webserver_request, const string & bible, string user)
 {
+  // Client: User has access to all Bibles.
   if (client_logic_client_enabled ()) {
-    // Client: User has access to all Bibles.
     return true;
   }
+
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  if (user == "") {
+  int level = 0;
+  if (user.empty ()) {
+    // Current user.
     user = request->session_logic ()->currentUser ();
+    level = request->session_logic ()->currentLevel ();
   }
-  if (request->database_users ()->hasAccess2Bible (user, bible)) {
+  if (level == 0) {
+    // Take level belonging to user.
+    level = request->database_users ()->getUserLevel (user);
+  }
+
+  // Managers and higher have read access.
+  if (level >= Filter_Roles::translator ()) {
     return true;
   }
+
+  // Read privileges for the user.
+  bool read, write;
+  Database_Privileges::getBibleBook (user, bible, 0, read, write);
+  if (read) {
+    return true;
+  }
+
+  // Whether the Bible can be viewed, that is, read, by all users.
   if (Database_Config_Bible::getViewableByAllUsers (bible)) {
     return true;
   }
+
+  // No Bibles assigned: Consultant can view any Bible.
+  if (level >= Filter_Roles::consultant ()) {
+    int privileges_count = Database_Privileges::getBibleBookCount ();
+    if (privileges_count == 0) {
+      return true;
+    }
+  }
+
+  // Default.
   return false;
 }
 
 
-// Returns true if the user has write access to the entire $bible.
-// If no user is given, it takes the currently logged-in user.
-// If the user has read-only access to even one book of the $bible,
-// then the user is considered not to have write access to the entire $bible.
-bool access_bible_write (void * webserver_request, string & bible, string user)
+// Returns true if the user has write access to the $bible.
+bool access_bible_write (void * webserver_request, const string & bible, string user)
 {
-  if (client_logic_client_enabled ()) {
-    // Client: User has access to all Bibles.
-    return true;
-  }
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  if (user == "") {
-    user = request->session_logic ()->currentUser ();
-  }
-  if (!request->database_users ()->hasAccess2Bible (user, bible)) {
-    return false;
-  }
-  bool readonly = request->database_users ()->hasReadOnlyAccess2Bible (user, bible);
-  return !readonly;
+  return access_bible_book_write (webserver_request, user, bible, 0);
 }
 
 
 // Returns true if the $user has write access to the $bible and the $book.
-// If no $user is given, it takes the currently logged-in user.
+// If no user is given, it takes the currently logged-in user.
+// If the user has read-only access to even one book of the $bible,
+// then the user is considered not to have write access to the entire $bible.
 bool access_bible_book_write (void * webserver_request, string user, const string & bible, int book)
 {
+  // Client: User has access to all Bibles.
   if (client_logic_client_enabled ()) {
-    // Client: User has access to all Bibles.
     return true;
   }
+
+  int level = 0;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  if (user == "") {
+  if (user.empty ()) {
     user = request->session_logic ()->currentUser ();
+    level = request->session_logic ()->currentLevel ();
   }
-  if (!request->database_users ()->hasAccess2Bible (user, bible)) {
-    return false;
+  if (level == 0) {
+    // Take level belonging to user.
+    level = request->database_users ()->getUserLevel (user);
   }
-  bool readonly = request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
-  return !readonly;
+
+  // Managers and higher always have write access.
+  if (level >= Filter_Roles::manager ()) {
+    return true;
+  }
+
+  // Read the privileges for the user.
+  bool read, write;
+  Database_Privileges::getBibleBook (user, bible, book, read, write);
+  if (write) {
+    return true;
+  }
+
+  // No Bibles assigned: Translator can write to any bible.
+  if (level >= Filter_Roles::translator ()) {
+    int privileges_count = Database_Privileges::getBibleBookCount ();
+    if (privileges_count == 0) {
+      return true;
+    }
+  }
+  
+  // Default.
+  return false;
 }
 
 
@@ -105,8 +148,8 @@ vector <string> access_bible_bibles (void * webserver_request, string user)
 
 
 // This function clamps bible.
-// It returns bible if the currently logged-in user has access to it.
-// Else it returns another accessible bible or "".
+// It returns the $bible if the currently logged-in user has access to it.
+// Else it returns another accessible bible or nothing.
 string access_bible_clamp (void * webserver_request, string bible)
 {
   if (!access_bible_read (webserver_request, bible)) {
@@ -118,4 +161,3 @@ string access_bible_clamp (void * webserver_request, string bible)
   }
   return bible;
 }
-

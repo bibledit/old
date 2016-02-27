@@ -340,104 +340,6 @@ void test_database_users ()
     
     evaluate (__LINE__, __func__, md5 (password), database_users.getmd5 (username1));
   }
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username1 = "unit test 1";
-    string username2 = "unit test 2";
-    string bible1 = "bible one";
-    string bible2 = "bible two";
-    
-    vector <string> teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 0, (int)teams.size());
-    
-    database_users.grantAccess2Bible (username1, bible1);
-    teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 1, (int)teams.size());
-
-    database_users.grantAccess2Bible (username1, bible1);
-    teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 1, (int)teams.size());
-    if (!teams.empty ()) evaluate (__LINE__, __func__, bible1, teams [0]);
-    
-    database_users.grantAccess2Bible (username1, bible2);
-    teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 2, (int)teams.size());
-    
-    vector <string> bibles = database_users.getBibles4User (username1);
-    evaluate (__LINE__, __func__, 2, (int)bibles.size());
-    if (!bibles.empty ()) evaluate (__LINE__, __func__, bible1, bibles [0]);
-    
-    database_users.revokeAccess2Bible (username1, bible1);
-    bibles = database_users.getBibles4User (username1);
-    evaluate (__LINE__, __func__, 1, (int)bibles.size());
-
-    database_users.grantAccess2Bible (username2, bible2);
-    vector <string> users = database_users.getUsers4Bible (bible2);
-    evaluate (__LINE__, __func__, 2, (int)users.size());
-  }
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username1 = "unit test 1";
-    string username2 = "unit test 2";
-    string bible1 = "bible one";
-    string bible2 = "bible two";
-    
-    // No teams: Any user has access to any Bible.
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible1));
-    
-    // One team: Any user has access to any Bible.
-    database_users.grantAccess2Bible (username1, bible1);
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible1));
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible2));
-
-    // Two teams: User access control applies.
-    database_users.grantAccess2Bible (username1, bible1);
-    database_users.grantAccess2Bible (username1, bible2);
-    database_users.grantAccess2Bible (username2, bible1);
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible1));
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible2));
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible1));
-    evaluate (__LINE__, __func__, false, database_users.hasAccess2Bible (username2, bible2));
-    
-    // Admin has access to any Bible.
-    database_users.addNewUser (username2, "", Filter_Roles::admin (), "");
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible2));
-    
-    // Read only access for known user.
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible (username1, bible1));
-    database_users.setReadOnlyAccess2Book (username1, bible1, 2, true);
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book (username1, bible1, 2));
-    
-    // No read-only access for unknown user.
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("unknown", bible1, 2));
-  }
-  // Test upgrading read-only settings.
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-    database_users.upgrade ();
-
-    database_users.grantAccess2Bible ("user1", "bible1");
-    database_users.upgrade ();
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
-
-    string sql = "UPDATE teams SET readonly = 1 WHERE username = 'user1' AND bible = 'bible1';";
-    database_users.execute (sql);
-    database_users.upgrade ();
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
-
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
-    database_users.setReadOnlyAccess2Book ("user1", "bible1", 67, true);
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
-  }
 }
 
 
@@ -4467,7 +4369,7 @@ void test_database_login ()
 }
 
 
-void test_database_privileges () // Todo
+void test_database_privileges ()
 {
   trace_unit_tests (__func__);
 
@@ -4511,12 +4413,52 @@ void test_database_privileges () // Todo
   Database_Privileges::getBibleBook (username, bible, 4, read, write);
   evaluate (__LINE__, __func__, false, read);
   evaluate (__LINE__, __func__, false, write);
+
+  // Test Bible book entry count.
+  Database_Privileges::setBibleBook (username, bible, 6, true);
+  int count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 2, count);
   
+  // Test removing book zero, that it removes entries for all books.
+  Database_Privileges::removeBibleBook (username, bible, 0);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 0, count);
+  
+  // Enter a privilege for book = 1, and a different privilege for book 0,
+  // and then test that the privilege for book 1 has preference.
+  Database_Privileges::setBibleBook (username, bible, 1, false);
+  Database_Privileges::getBibleBook (username, bible, 1, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+  Database_Privileges::setBibleBook (username, bible, 0, true);
+  Database_Privileges::setBibleBook (username, bible, 1, false);
+  Database_Privileges::getBibleBook (username, bible, 1, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+
+  // Start afresh to not depend too much on previous tests.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  
+  // Test whether an entry for a book exists.
+  bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
+  evaluate (__LINE__, __func__, false, exists);
+  Database_Privileges::setBibleBook (username, bible, 1, false);
+  // Test the record for the correct book.
+  exists = Database_Privileges::getBibleBookExists (username, bible, 1);
+  evaluate (__LINE__, __func__, true, exists);
+  // The record should also exist for book 0.
+  exists = Database_Privileges::getBibleBookExists (username, bible, 0);
+  evaluate (__LINE__, __func__, true, exists);
+  // The record should not exist for another book.
+  exists = Database_Privileges::getBibleBookExists (username, bible, 2);
+  evaluate (__LINE__, __func__, false, exists);
+
   // A feature is off by default.
   bool enabled = Database_Privileges::getFeature (username, 123);
   evaluate (__LINE__, __func__, false, enabled);
 
-  // Set it on, then off.
+  // Test setting a feature on and off.
   Database_Privileges::setFeature (username, 1234, true);
   enabled = Database_Privileges::getFeature (username, 1234);
   evaluate (__LINE__, __func__, true, enabled);

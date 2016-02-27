@@ -26,6 +26,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <database/versifications.h>
+#include <database/privileges.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
@@ -77,7 +78,8 @@ string bible_manage (void * webserver_request)
       request->database_bibles ()->createBible (bible);
       // Check / grant access.
       if (!access_bible_write (request, bible)) {
-        request->database_users ()->grantAccess2Bible (request->session_logic ()->currentUser (), bible);
+        string me = request->session_logic ()->currentUser ();
+        Database_Privileges::setBibleBook (me, bible, 0, true);
       }
       success_message = translate("The Bible was created");
     }
@@ -113,7 +115,8 @@ string bible_manage (void * webserver_request)
           success_message = translate("The Bible was copied.");
           // Check / grant access to destination Bible.
           if (!access_bible_write (request, destination)) {
-            request->database_users ()->grantAccess2Bible (request->session_logic ()->currentUser (), destination);
+            string me = request->session_logic ()->currentUser ();
+            Database_Privileges::setBibleBook (me , destination, 0, true);
           }
         }
       }

@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/logic.h>
 #include <notes/note.h>
 #include <workbench/index.h>
+#include <access/bible.h>
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)
@@ -382,7 +383,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     // Users to get subscribed to the note, or to whom the note is to be assigned.
     vector <string> users = request->database_users ()->getUsers ();
     for (const string & user : users) {
-      if (request->database_users ()->hasAccess2Bible (user, bible)) {
+      if (access_bible_read (webserver_request, bible, user)) {
         if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
           database_notes.subscribeUser (identifier, user);
         }
@@ -419,7 +420,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     vector <string> users = request->database_users ()->getUsers ();
     for (const auto & user : users) {
       if (request->database_config_user ()->getUserDeletedConsultationNoteNotification (user)) {
-        if (request->database_users ()->hasAccess2Bible (user, bible)) {
+        if (access_bible_read (webserver_request, bible, user)) {
           recipients.push_back (user);
         }
       }
@@ -684,6 +685,7 @@ string Notes_Logic::generalBibleName ()
 void notes_logic_maintain_note_assignees (bool force)
 {
   Database_NoteAssignment database_noteassignment;
+  Webserver_Request webserver_request;
   
   Database_Users database_users;
   vector <string> users = database_users.getUsers ();
@@ -706,10 +708,10 @@ void notes_logic_maintain_note_assignees (bool force)
     for (auto & bible : bibles) {
       
       // Continue with this Bible if the user has access to it.
-      if (database_users.hasAccess2Bible (user, bible)) {
+      if (access_bible_read (&webserver_request, bible, user)) {
 
         for (auto & assignee : users) {
-          if (database_users.hasAccess2Bible (assignee, bible)) {
+          if (access_bible_read (&webserver_request, bible, assignee)) {
             assignees.push_back (assignee);
           }
         }

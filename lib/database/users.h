@@ -48,15 +48,6 @@ public:
   void updateUserEmail (string user, string email);
   vector <string> getUsers ();
   string getmd5 (string user);
-  vector <string> getTeams ();
-  void grantAccess2Bible (string user, string bible);
-  void revokeAccess2Bible (string user, string bible);
-  vector <string> getBibles4User (string user);
-  vector <string> getUsers4Bible (string bible);
-  bool hasAccess2Bible (string user, string bible);
-  bool hasReadOnlyAccess2Bible (string user, string bible);
-  void setReadOnlyAccess2Book (string user, string bible, int book, bool readonly);
-  bool hasReadOnlyAccess2Book (string user, string bible, int book);
   void execute (const string& sql);
 private:
   sqlite3 * connect ();

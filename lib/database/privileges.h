@@ -34,6 +34,8 @@ public:
   static bool healthy ();
   static void setBibleBook (string username, string bible, int book, bool write);
   static void getBibleBook (string username, string bible, int book, bool & read, bool & write);
+  static int getBibleBookCount ();
+  static bool getBibleBookExists (string username, string bible, int book);
   static void removeBibleBook (string username, string bible, int book);
   static void setFeature (string username, int feature, bool enabled);
   static bool getFeature (string username, int feature);

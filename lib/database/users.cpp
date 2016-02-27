@@ -51,22 +51,12 @@ void Database_Users::create ()
         ");";
   database_sqlite_exec (db, sql);
   
-  sql = "CREATE TABLE IF NOT EXISTS teams (" // Todo separate and remove.
-        " username text,"
-        " bible text,"
-        " readonly boolean"
-        ");";
+  // Drop tables that formerly were included in this database, but are now separate.
+  sql = "DROP TABLE IF EXISTS teams;";
   database_sqlite_exec (db, sql);
-  
-  // Drop a table that formerly was included in this database, but is now separate.
   sql = "DROP TABLE IF EXISTS logins;";
   database_sqlite_exec (db, sql);
-  
-  sql = "CREATE TABLE IF NOT EXISTS readonly (" // Todo separate.
-        " username text,"
-        " bible text,"
-        " book integer"
-        ");";
+  sql = "DROP TABLE IF EXISTS readonly;";
   database_sqlite_exec (db, sql);
   
   database_sqlite_disconnect (db);
@@ -75,41 +65,10 @@ void Database_Users::create ()
 
 void Database_Users::upgrade ()
 {
-  sqlite3 * db = connect ();
-  string sql;
-
-  // Upgrade table "users".
-  // Column 'timestamp' is available in older databases. It is not in use.
-  // It cannot be dropped easily in SQLite. Leave it for just now.
-
-  // Copy read-only settings from the teams table to the readonly table,
-  // because Bibledit now sets read-only access per book, rather than per Bible.
-  sql = "SELECT username, bible FROM teams WHERE readonly;";
-  map <string, vector <string> > result = database_sqlite_query (db, sql);
-  vector <string> username = result ["username"];
-  vector <string> bible = result ["bible"];
-  if (username.size () == bible.size ()) {
-    for (size_t i = 0; i < username.size (); i++) {
-      for (int b = 1; b <= 66; b++) {
-        SqliteSQL sql = SqliteSQL ();
-        sql.add ("INSERT INTO readonly VALUES (");
-        sql.add (username[i]);
-        sql.add (",");
-        sql.add (bible[i]);
-        sql.add (",");
-        sql.add (b);
-        sql.add (");");
-        database_sqlite_exec (db, sql.sql);
-      }
-    }
-  }
-  
-  // Clear any read-only settings in the teams table,
-  // because that information is no longer taken from that table.
-  sql = "UPDATE teams SET readonly = 0;";
-  database_sqlite_exec (db, sql);
-  
-  database_sqlite_disconnect (db);
+  // Column 'timestamp' is available in older databases.
+  // It is not in use.
+  // It cannot be dropped easily in SQLite.
+  // Leave it for just now.
 }
 
 
@@ -327,147 +286,6 @@ string Database_Users::getmd5 (string user)
   database_sqlite_disconnect (db);
   if (!result.empty()) return result [0];
   return "";
-}
-
-
-// Get array with the teams.
-vector <string> Database_Users::getTeams ()
-{
-  string sql = "SELECT DISTINCT bible FROM teams;";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["bible"];
-  database_sqlite_disconnect (db);
-  return result;
-}
-
-
-// Give a $user access to a $bible.
-void Database_Users::grantAccess2Bible (string user, string bible)
-{
-  revokeAccess2Bible (user, bible);
-  user = database_sqlite_no_sql_injection (user);
-  bible = database_sqlite_no_sql_injection (bible);
-  string sql = "INSERT INTO teams (username, bible) VALUES ('" + user + "', '" + bible + "');";
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
- 
-// Revoke a $user's access to a $bible.
-void Database_Users::revokeAccess2Bible (string user, string bible)
-{
-  user = database_sqlite_no_sql_injection (user);
-  bible = database_sqlite_no_sql_injection (bible);
-  string sql = "DELETE FROM teams WHERE username = '" + user + "' AND bible = '" + bible + "';";
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Get the Bibles the $user has access to.
-vector <string> Database_Users::getBibles4User (string user)
-{
-  user = database_sqlite_no_sql_injection (user);
-  string sql = "SELECT DISTINCT bible FROM teams WHERE username = '" + user + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["bible"];
-  database_sqlite_disconnect (db);
-  return result;
-}
-
-
-// Get the users who have access to a $bible.
-vector <string> Database_Users::getUsers4Bible (string bible)
-{
-  bible = database_sqlite_no_sql_injection (bible);
-  string sql = "SELECT DISTINCT username FROM teams WHERE bible = '" + bible + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
-  return result;
-}
-
-
-// Returns whether a $user has access to a $bible: true or false.
-// If no more than one team has been formed, all users have write access to all Bibles.
-// Administrators and Managers have access to any Bible.
-bool Database_Users::hasAccess2Bible (string user, string bible)
-{
-  vector <string> teams = getTeams ();
-  if (teams.size () <= 1) return true;
-  int level = getUserLevel (user);
-  if (level >= Filter_Roles::manager ()) return true;
-  vector <string> bibles = getBibles4User (user);
-  return in_array (bible, bibles);
-}
-
-
-// Returns true or false depending on whether $user has read-only access to $bible.
-bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT count(*) FROM readonly WHERE username =");
-  sql.add (user);
-  sql.add ("AND bible =");
-  sql.add (bible);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-  database_sqlite_disconnect (db);
-  if (!result.empty ()) return convert_to_bool (result[0]);
-  // Entry not found for user/bible: Default is not read-only.
-  return false;
-}
-
-
-// Set $readonly access for $user to $bible $book to true or false.
-void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book, bool readonly)
-{
-  sqlite3 * db = connect ();
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM readonly WHERE username =");
-    sql.add (user);
-    sql.add ("AND bible =");
-    sql.add (bible);
-    sql.add ("AND book =");
-    sql.add (book);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  if (readonly) {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO readonly VALUES (");
-    sql.add (user);
-    sql.add (",");
-    sql.add (bible);
-    sql.add (",");
-    sql.add (book);
-    sql.add (");");
-    database_sqlite_exec (db, sql.sql);
-  }
-  database_sqlite_disconnect (db);
-}
-
-
-// Returns true or false depending on whether $user has read-only access to $bible $book.
-bool Database_Users::hasReadOnlyAccess2Book (string user, string bible, int book)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT count(*) FROM readonly WHERE username =");
-  sql.add (user);
-  sql.add ("AND bible =");
-  sql.add (bible);
-  sql.add ("AND book =");
-  sql.add (book);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-  database_sqlite_disconnect (db);
-  if (!result.empty ()) return convert_to_bool (result[0]);
-  return false;
 }
 
 

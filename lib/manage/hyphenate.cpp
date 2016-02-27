@@ -25,14 +25,14 @@
 #include <database/bibles.h>
 #include <database/users.h>
 #include <database/books.h>
+#include <database/privileges.h>
 #include <database/config/bible.h>
+#include <webserver/request.h>
 
 
 void manage_hyphenate (string bible, string user)
 {
-  // The databases.
   Database_Bibles database_bibles;
-  Database_Users database_users;
 
 
   string inputBible (bible);
@@ -65,7 +65,13 @@ void manage_hyphenate (string bible, string user)
   // Delete and (re)create the hyphenated Bible, and grant privileges.
   database_bibles.deleteBible (outputBible);
   database_bibles.createBible (outputBible);
-  database_users.grantAccess2Bible (user, outputBible);
+  Webserver_Request webserver_request;
+  if (!access_bible_write (&webserver_request, outputBible, user)) {
+    // Only grant access if the user does not yet have it.
+    // This avoid assigning the Bible to the user in case no Bible was assigned to anyone,
+    // in which case assigning this Bible to the user would possible withdraw privileges from other users.
+    Database_Privileges::setBibleBook (user, outputBible, 0, true);
+  }
   
   
   // Go through the input Bible's books and chapters.

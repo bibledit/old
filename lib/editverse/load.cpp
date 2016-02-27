@@ -24,6 +24,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
+#include <access/bible.h>
 
 
 string editverse_load_url ()
@@ -73,7 +74,7 @@ string editverse_load (void * webserver_request)
   }
   
   string user = request->session_logic ()->currentUser ();
-  bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
+  bool write = access_bible_book_write (webserver_request, user, bible, book);
   
-  return Checksum_Logic::send (usfm, readwrite);
+  return Checksum_Logic::send (usfm, write);
 }

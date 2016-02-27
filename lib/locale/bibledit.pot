@@ -6273,13 +6273,10 @@ msgstr ""
 msgid "Would you like to grant the user access to a Bible?"
 msgstr ""
 
-msgid ""
-"The user has become a member of the translation team that works on this Bible"
+msgid "The user has been granted access to this Bible"
 msgstr ""
 
-msgid ""
-"The user is no longer a member of the translation team that works on this "
-"Bible"
+msgid "The user no longer has access to this Bible"
 msgstr ""
 
 msgid "Role"

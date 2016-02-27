@@ -56,7 +56,7 @@ void Database_Privileges::create ()
 }
 
 
-void Database_Privileges::upgrade () // Todo import from users.sqlite.
+void Database_Privileges::upgrade ()
 {
 }
 
@@ -81,9 +81,13 @@ bool Database_Privileges::healthy ()
 }
 
 
-void Database_Privileges::setBibleBook (string username, string bible, int book, bool write) // Todo
+// Give a privilege to a $username to access $bible $book to read it, or also to $write it.
+// When the $book = 0, then the privilege is taken to apply to all possible books in the $bible.
+void Database_Privileges::setBibleBook (string username, string bible, int book, bool write)
 {
+  // First remove any entry.
   removeBibleBook (username, bible, book);
+  // Store the new entry.
   SqliteDatabase sql (database ());
   sql.add ("INSERT INTO bibles VALUES (");
   sql.add (username);
@@ -98,16 +102,25 @@ void Database_Privileges::setBibleBook (string username, string bible, int book,
 }
 
 
-void Database_Privileges::getBibleBook (string username, string bible, int book, bool & read, bool & write) // Todo
+// Read the privilege from the database whether $username has access to $bible $book.
+// The privileges are stored in $read for read-only access,
+// and in $write for write access.
+// When the $book = 0, then it applies to the entire Bible.
+void Database_Privileges::getBibleBook (string username, string bible, int book, bool & read, bool & write)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");
   sql.add (username);
   sql.add ("AND bible =");
   sql.add (bible);
-  sql.add ("AND book =");
+  sql.add ("AND (book =");
   sql.add (book);
-  sql.add (";");
+  sql.add ("OR book = 0)");
+  // The reason for ordering the output is that, when there's more than one entry,
+  // when the database contains book 0 and book n, that the setting for book n has preference.
+  // Because book 0 is the general setting for all the books in the entire Bible,
+  /// and book n is the more specific setting for one book.
+  sql.add ("ORDER BY book DESC;");
   vector <string> result = sql.query () ["write"];
   if (result.empty()) {
     // Not in database: No access.
@@ -122,7 +135,38 @@ void Database_Privileges::getBibleBook (string username, string bible, int book,
 }
 
 
-void Database_Privileges::removeBibleBook (string username, string bible, int book) // Todo
+int Database_Privileges::getBibleBookCount ()
+{
+  SqliteDatabase sql (database ());
+  sql.add ("SELECT count(*) FROM bibles;");
+  vector <string> result = sql.query () ["count(*)"];
+  if (result.empty ()) return 0;
+  return convert_to_int (result [0]);
+}
+
+
+// Returns true if a record for $username / $bible / $book exists in the database.
+// When the $book = 0, it takes any book.
+bool Database_Privileges::getBibleBookExists (string username, string bible, int book)
+{
+  SqliteDatabase sql (database ());
+  sql.add ("SELECT rowid FROM bibles WHERE username =");
+  sql.add (username);
+  sql.add ("AND bible =");
+  sql.add (bible);
+  if (book) {
+    sql.add ("AND book =");
+    sql.add (book);
+  }
+  sql.add (";");
+  vector <string> result = sql.query () ["rowid"];
+  return !result.empty();
+}
+
+
+// Remove the privilege of a $username to have access to $bible $book.
+// Removing the privilege for $book 0 removes them for all possible books.
+void Database_Privileges::removeBibleBook (string username, string bible, int book)
 {
   SqliteDatabase sql (database ());
   username = database_sqlite_no_sql_injection (username);
@@ -130,14 +174,16 @@ void Database_Privileges::removeBibleBook (string username, string bible, int bo
   sql.add (username);
   sql.add ("AND bible =");
   sql.add (bible);
-  sql.add ("AND book =");
-  sql.add (book);
+  if (book) {
+    sql.add ("AND book =");
+    sql.add (book);
+  }
   sql.add (";");
   sql.execute ();
 }
 
 
-void Database_Privileges::setFeature (string username, int feature, bool enabled) // Todo
+void Database_Privileges::setFeature (string username, int feature, bool enabled)
 {
   SqliteDatabase sql (database ());
   username = database_sqlite_no_sql_injection (username);
@@ -159,7 +205,7 @@ void Database_Privileges::setFeature (string username, int feature, bool enabled
 }
 
 
-bool Database_Privileges::getFeature (string username, int feature) // Todo
+bool Database_Privileges::getFeature (string username, int feature)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid FROM features WHERE username =");

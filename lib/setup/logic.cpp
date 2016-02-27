@@ -36,6 +36,7 @@
 #include <database/volatile.h>
 #include <database/state.h>
 #include <database/login.h>
+#include <database/privileges.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -227,6 +228,10 @@ void setup_initialize_data ()
   config_globals_setup_message = "login";
   Database_Login::create ();
   Database_Login::optimize ();
+  config_globals_setup_message = "privileges";
+  Database_Privileges::create ();
+  Database_Privileges::upgrade ();
+  Database_Privileges::optimize ();
 
   // Create stylesheets.
   config_globals_setup_message = "stylesheets";
