@@ -41,8 +41,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
     // Current user.
     user = request->session_logic ()->currentUser ();
     level = request->session_logic ()->currentLevel ();
-  }
-  if (level == 0) {
+  } else {
     // Take level belonging to user.
     level = request->database_users ()->getUserLevel (user);
   }
@@ -160,4 +159,19 @@ string access_bible_clamp (void * webserver_request, string bible)
     request->database_config_user ()->setBible (bible);
   }
   return bible;
+}
+
+
+// This function checks whether the user in the $webserver_request
+// has $read or $write access to one or more Bibles.
+void access_a_bible (void * webserver_request, bool & read, bool & write)
+{
+  read = false;
+  write = false;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  vector <string> bibles = request->database_bibles ()->getBibles ();
+  for (auto & bible : bibles) {
+    if (access_bible_read (webserver_request, bible)) read = true;
+    if (access_bible_write (webserver_request, bible)) write = true;
+  }
 }
