@@ -6330,10 +6330,10 @@ msgstr ""
 msgid "Read/write"
 msgstr ""
 
-msgid "no"
+msgid "yes"
 msgstr ""
 
-msgid "yes"
+msgid "no"
 msgstr ""
 
 msgid "No books"
