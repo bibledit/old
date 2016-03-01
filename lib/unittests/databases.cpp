@@ -4454,6 +4454,31 @@ void test_database_privileges ()
   exists = Database_Privileges::getBibleBookExists (username, bible, 2);
   evaluate (__LINE__, __func__, false, exists);
 
+  // Start afresh to not depend on the outcome of previous tests.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+
+  // Test no read access to entire Bible.
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, false, read);
+  evaluate (__LINE__, __func__, false, write);
+  // Set Bible read-only and test it.
+  Database_Privileges::setBible (username, bible, false);
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+  // Set Bible read-write, and test it.
+  Database_Privileges::setBible (username, bible, true);
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  // Set one book read-write and test that this applies to entire Bible.
+  Database_Privileges::setBible (username, bible, false);
+  Database_Privileges::setBibleBook (username, bible, 1, true);
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  
   // A feature is off by default.
   bool enabled = Database_Privileges::getFeature (username, 123);
   evaluate (__LINE__, __func__, false, enabled);

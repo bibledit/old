@@ -66,7 +66,7 @@ string manage_write (void * webserver_request)
   int book = convert_to_int (request->query["book"]);
 
   bool bible_read_access, bible_write_access;
-  Database_Privileges::getBibleBook (user, bible, 0, bible_read_access, bible_write_access);
+  Database_Privileges::getBible (user, bible, bible_read_access, bible_write_access);
 
   // Toggle write access to Bible.
   if (request->query.count ("toggle")) {

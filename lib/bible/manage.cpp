@@ -79,7 +79,7 @@ string bible_manage (void * webserver_request)
       // Check / grant access.
       if (!access_bible_write (request, bible)) {
         string me = request->session_logic ()->currentUser ();
-        Database_Privileges::setBibleBook (me, bible, 0, true);
+        Database_Privileges::setBible (me, bible, true);
       }
       success_message = translate("The Bible was created");
     }
@@ -116,7 +116,7 @@ string bible_manage (void * webserver_request)
           // Check / grant access to destination Bible.
           if (!access_bible_write (request, destination)) {
             string me = request->session_logic ()->currentUser ();
-            Database_Privileges::setBibleBook (me , destination, 0, true);
+            Database_Privileges::setBible (me, destination, true);
           }
         }
       }

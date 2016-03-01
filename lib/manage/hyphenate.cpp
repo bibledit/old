@@ -70,7 +70,7 @@ void manage_hyphenate (string bible, string user)
     // Only grant access if the user does not yet have it.
     // This avoid assigning the Bible to the user in case no Bible was assigned to anyone,
     // in which case assigning this Bible to the user would possible withdraw privileges from other users.
-    Database_Privileges::setBibleBook (user, outputBible, 0, true);
+    Database_Privileges::setBible (user, outputBible, true);
   }
   
   

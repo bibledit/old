@@ -53,7 +53,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 
   // Read privileges for the user.
   bool read, write;
-  Database_Privileges::getBibleBook (user, bible, 0, read, write);
+  Database_Privileges::getBible (user, bible, read, write);
   if (read) {
     return true;
   }
@@ -79,7 +79,44 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 // Returns true if the user has write access to the $bible.
 bool access_bible_write (void * webserver_request, const string & bible, string user)
 {
-  return access_bible_book_write (webserver_request, user, bible, 0);
+  // Client: User has access to all Bibles.
+  if (client_logic_client_enabled ()) {
+    return true;
+  }
+  
+  int level = 0;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  if (user.empty ()) {
+    user = request->session_logic ()->currentUser ();
+    level = request->session_logic ()->currentLevel ();
+  }
+  if (level == 0) {
+    // Take level belonging to user.
+    level = request->database_users ()->getUserLevel (user);
+  }
+  
+  // Managers and higher always have write access.
+  if (level >= Filter_Roles::manager ()) {
+    return true;
+  }
+  
+  // Read the privileges for the user.
+  bool read, write;
+  Database_Privileges::getBible (user, bible, read, write);
+  if (write) {
+    return true;
+  }
+  
+  // No Bibles assigned: Translator can write to any bible.
+  if (level >= Filter_Roles::translator ()) {
+    int privileges_count = Database_Privileges::getBibleBookCount ();
+    if (privileges_count == 0) {
+      return true;
+    }
+  }
+  
+  // Default.
+  return false;
 }
 
 

@@ -82,7 +82,6 @@ bool Database_Privileges::healthy ()
 
 
 // Give a privilege to a $username to access $bible $book to read it, or also to $write it.
-// When the $book = 0, then the privilege is taken to apply to all possible books in the $bible.
 void Database_Privileges::setBibleBook (string username, string bible, int book, bool write)
 {
   // First remove any entry.
@@ -102,10 +101,29 @@ void Database_Privileges::setBibleBook (string username, string bible, int book,
 }
 
 
+// Give a privilege to a $username to access $bible to read it, or also to $write it.
+void Database_Privileges::setBible (string username, string bible, bool write)
+{
+  // First remove any entry.
+  removeBibleBook (username, bible, 0);
+  // Store the new entry.
+  SqliteDatabase sql (database ());
+  sql.add ("INSERT INTO bibles VALUES (");
+  sql.add (username);
+  sql.add (",");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (0);
+  sql.add (",");
+  sql.add (write);
+  sql.add (");");
+  sql.execute ();
+}
+
+
 // Read the privilege from the database whether $username has access to $bible $book.
 // The privileges are stored in $read for read-only access,
 // and in $write for write access.
-// When the $book = 0, then it applies to the entire Bible.
 void Database_Privileges::getBibleBook (string username, string bible, int book, bool & read, bool & write)
 {
   SqliteDatabase sql (database ());
@@ -113,14 +131,9 @@ void Database_Privileges::getBibleBook (string username, string bible, int book,
   sql.add (username);
   sql.add ("AND bible =");
   sql.add (bible);
-  sql.add ("AND (book =");
+  sql.add ("AND book =");
   sql.add (book);
-  sql.add ("OR book = 0)");
-  // The reason for ordering the output is that, when there's more than one entry,
-  // when the database contains book 0 and book n, that the setting for book n has preference.
-  // Because book 0 is the general setting for all the books in the entire Bible,
-  /// and book n is the more specific setting for one book.
-  sql.add ("ORDER BY book DESC;");
+  sql.add (";");
   vector <string> result = sql.query () ["write"];
   if (result.empty()) {
     // Not in database: No access.
@@ -132,6 +145,27 @@ void Database_Privileges::getBibleBook (string username, string bible, int book,
     // Take write access from the database field.
     write = convert_to_bool (result [0]);
   }
+}
+
+
+void Database_Privileges::getBible (string username, string bible, bool & read, bool & write)
+{
+  SqliteDatabase sql (database ());
+  sql.add ("SELECT write FROM bibles WHERE username =");
+  sql.add (username);
+  sql.add ("AND bible =");
+  sql.add (bible);
+  sql.add (";");
+  vector <string> result = sql.query () ["write"];
+  read = (!result.empty());
+  sql.clear ();
+  sql.add ("SELECT write FROM bibles WHERE username =");
+  sql.add (username);
+  sql.add ("AND bible =");
+  sql.add (bible);
+  sql.add ("AND write;");
+  result = sql.query () ["write"];
+  write = (!result.empty());
 }
 
 

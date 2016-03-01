@@ -166,7 +166,7 @@ string manage_users (void * webserver_request)
       Assets_Page::success (translate("The user has been granted access to this Bible"));
       // Write access depends on whether it's a translator role or higher.
       bool write = (objectUserLevel >= Filter_Roles::translator ());
-      Database_Privileges::setBibleBook (objectUsername, addbible, 0, write);
+      Database_Privileges::setBible (objectUsername, addbible, write);
       user_updated = true;
     }
   }
@@ -205,7 +205,7 @@ string manage_users (void * webserver_request)
         bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
         if (exists) {
           bool read, write;
-          Database_Privileges::getBibleBook (username, bible, 0, read, write);
+          Database_Privileges::getBible (username, bible, read, write);
           if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
           tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
           tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
