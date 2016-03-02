@@ -38,7 +38,7 @@ bool edit_focus_acl (void * webserver_request)
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
-  return read;
+  return write;
 }
 
 
