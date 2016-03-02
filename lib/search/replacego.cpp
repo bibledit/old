@@ -38,7 +38,7 @@ string search_replacego_url ()
 }
 
 
-bool search_replacego_acl (void * webserver_request)
+bool search_replacego_acl (void * webserver_request) // Todo write.
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }

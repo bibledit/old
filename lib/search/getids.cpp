@@ -33,7 +33,7 @@ string search_getids_url ()
 }
 
 
-bool search_getids_acl (void * webserver_request)
+bool search_getids_acl (void * webserver_request) // Todo write.
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
