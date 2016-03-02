@@ -40,7 +40,7 @@ string search_similar_url ()
 }
 
 
-bool search_similar_acl (void * webserver_request) // Todo read.
+bool search_similar_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
   bool read, write;

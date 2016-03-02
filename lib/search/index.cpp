@@ -37,7 +37,7 @@ string search_index_url ()
 }
 
 
-bool search_index_acl (void * webserver_request) // Todo read
+bool search_index_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
   bool read, write;
