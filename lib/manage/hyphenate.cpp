@@ -62,8 +62,10 @@ void manage_hyphenate (string bible, string user)
   }
  
   
-  // Delete and (re)create the hyphenated Bible, and grant privileges.
+  // Delete and (re)create the hyphenated Bible.
   database_bibles.deleteBible (outputBible);
+  Database_Privileges::removeBible (outputBible);
+  Database_Config_Bible::remove (outputBible);
   database_bibles.createBible (outputBible);
   Webserver_Request webserver_request;
   if (!access_bible_write (&webserver_request, outputBible, user)) {

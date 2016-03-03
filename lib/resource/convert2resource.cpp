@@ -25,6 +25,8 @@
 #include <database/usfmresources.h>
 #include <database/books.h>
 #include <database/logs.h>
+#include <database/privileges.h>
+#include <database/config/bible.h>
 #include <locale/translate.h>
 #include <tasks/logic.h>
 
@@ -50,9 +52,8 @@ void convert_bible_to_resource (string bible)
     }
   }
   database_bibles.deleteBible (bible);
-  // Any information about user access to this Bible is left untouched,
-  // because this information is useful when the USFM Resource is converted
-  // back to a Bible.
+  Database_Privileges::removeBible (bible);
+  Database_Config_Bible::remove (bible);
   
   
   // The Cloud updates the list of available USFM resources for the clients.

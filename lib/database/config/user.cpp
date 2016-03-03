@@ -200,7 +200,7 @@ void Database_Config_User::trim ()
 
 
 // Remove any configuration setting of $username.
-void Database_Config_User::remove (string username) // Todo
+void Database_Config_User::remove (string username)
 {
   string folder = file (username);
   filter_url_rmdir (folder);

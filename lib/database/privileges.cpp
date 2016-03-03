@@ -217,7 +217,7 @@ void Database_Privileges::removeBibleBook (string username, string bible, int bo
 
 
 // Remove data for $bible from the database.
-void Database_Privileges::removeBible (string bible) // Todo
+void Database_Privileges::removeBible (string bible)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE bible =");
@@ -263,7 +263,7 @@ bool Database_Privileges::getFeature (string username, int feature)
 
 
 // Remove privileges for $username from the entire database.
-void Database_Privileges::removeUser (string username) // Todo
+void Database_Privileges::removeUser (string username)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE username =");

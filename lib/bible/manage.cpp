@@ -27,6 +27,7 @@
 #include <webserver/request.h>
 #include <database/versifications.h>
 #include <database/privileges.h>
+#include <database/config/bible.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
@@ -135,6 +136,9 @@ string bible_manage (void * webserver_request)
         if (file_exists (gitdirectory)) {
           filter_url_rmdir (gitdirectory);
         }
+        // Remove associated settings and privileges.
+        Database_Privileges::removeBible (bible);
+        Database_Config_Bible::remove (bible);
       } else {
         page += Assets_Page::error ("Insufficient privileges to complete action");
       }

@@ -26,9 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Functions for getting and setting values or lists of values.
 
 
+string Database_Config_Bible::file (string bible)
+{
+  return filter_url_create_root_path ("databases", "config", "bible", bible);
+}
+
+
 string Database_Config_Bible::file (string bible, const char * key)
 {
-  return filter_url_create_root_path ("databases", "config", "bible", bible, key);
+  return filter_url_create_path (file (bible), key);
 }
 
 
@@ -73,6 +79,13 @@ int Database_Config_Bible::getIValue (string bible, const char * key, int defaul
 void Database_Config_Bible::setIValue (string bible, const char * key, int value)
 {
   setValue (bible, key, convert_to_string (value));
+}
+
+
+void Database_Config_Bible::remove (string bible)
+{
+  string folder = file (bible);
+  filter_url_rmdir (folder);
 }
 
 

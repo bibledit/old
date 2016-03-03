@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/config/general.h>
 #include <database/cache.h>
+#include <database/privileges.h>
+#include <database/config/bible.h>
 #include <config/logic.h>
 #include <client/logic.h>
 #include <demo/logic.h>
@@ -143,6 +145,10 @@ void Bible_Logic::deleteBible (const string& bible)
 
   // Delete the Bible from the database.
   database_bibles.deleteBible (bible);
+  
+  // Delete associated settings and privileges.
+  Database_Privileges::removeBible (bible);
+  Database_Config_Bible::remove (bible);
 }
 
 
