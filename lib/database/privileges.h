@@ -39,8 +39,10 @@ public:
   static int getBibleBookCount ();
   static bool getBibleBookExists (string username, string bible, int book);
   static void removeBibleBook (string username, string bible, int book);
+  static void removeBible (string bible);
   static void setFeature (string username, int feature, bool enabled);
   static bool getFeature (string username, int feature);
+  static void removeUser (string username);
 private:
 };
 

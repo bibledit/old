@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <database/privileges.h>
+#include <database/login.h>
 #include <access/user.h>
 #include <locale/translate.h>
 #include <notes/logic.h>
@@ -100,6 +101,19 @@ string manage_users (void * webserver_request)
     request->database_users ()->removeUser (objectUsername);
     user_updated = true;
     page += Assets_Page::success (message);
+    // Also remove any privileges for this user.
+    // In particular for the Bible privileges this is necessary,
+    // beause if old users remain in the privileges storage,
+    // then a situation where no user has any privileges to any Bible,
+    // and thus all relevant users have all privileges,
+    // can never be achieved again.
+    Database_Privileges::removeUser (objectUsername);
+    // Remove any login tokens the user might have had: Just to clean things up.
+    Database_Login::removeTokens (objectUsername);
+    // Remove any settings for the user.
+    // The advantage of this is that when a user is removed, all settings are gone,
+    // so when the same user would be created again, all settings will go back to their defaults.
+    request->database_config_user ()->remove (objectUsername);
   }
   
   

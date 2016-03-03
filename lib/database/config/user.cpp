@@ -43,9 +43,15 @@ Database_Config_User::~Database_Config_User ()
 // Functions for getting and setting values or lists of values.
 
 
+string Database_Config_User::file (string user)
+{
+  return filter_url_create_root_path ("databases", "config", "user", user);
+}
+
+
 string Database_Config_User::file (string user, const char * key)
 {
-  return filter_url_create_root_path ("databases", "config", "user", user, key);
+  return filter_url_create_path (file (user), key);
 }
 
 
@@ -190,6 +196,14 @@ void Database_Config_User::trim ()
       }
     }
   }
+}
+
+
+// Remove any configuration setting of $username.
+void Database_Config_User::remove (string username) // Todo
+{
+  string folder = file (username);
+  filter_url_rmdir (folder);
 }
 
 

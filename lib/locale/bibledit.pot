@@ -5909,6 +5909,9 @@ msgstr ""
 msgid "Reformat"
 msgstr ""
 
+msgid "You do not have enough privileges to modify this book."
+msgstr ""
+
 msgid "Export"
 msgstr ""
 

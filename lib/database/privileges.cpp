@@ -203,7 +203,6 @@ bool Database_Privileges::getBibleBookExists (string username, string bible, int
 void Database_Privileges::removeBibleBook (string username, string bible, int book)
 {
   SqliteDatabase sql (database ());
-  username = database_sqlite_no_sql_injection (username);
   sql.add ("DELETE FROM bibles WHERE username =");
   sql.add (username);
   sql.add ("AND bible =");
@@ -217,10 +216,20 @@ void Database_Privileges::removeBibleBook (string username, string bible, int bo
 }
 
 
+// Remove data for $bible from the database.
+void Database_Privileges::removeBible (string bible) // Todo
+{
+  SqliteDatabase sql (database ());
+  sql.add ("DELETE FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add (";");
+  sql.execute ();
+}
+
+
 void Database_Privileges::setFeature (string username, int feature, bool enabled)
 {
   SqliteDatabase sql (database ());
-  username = database_sqlite_no_sql_injection (username);
   sql.add ("DELETE FROM features WHERE username =");
   sql.add (username);
   sql.add ("AND feature =");
@@ -250,4 +259,20 @@ bool Database_Privileges::getFeature (string username, int feature)
   vector <string> result = sql.query () ["rowid"];
   if (result.empty()) return false;
   return true;
+}
+
+
+// Remove privileges for $username from the entire database.
+void Database_Privileges::removeUser (string username) // Todo
+{
+  SqliteDatabase sql (database ());
+  sql.add ("DELETE FROM bibles WHERE username =");
+  sql.add (username);
+  sql.add (";");
+  sql.execute ();
+  sql.clear ();
+  sql.add ("DELETE FROM features WHERE username =");
+  sql.add (username);
+  sql.add (";");
+  sql.execute ();
 }

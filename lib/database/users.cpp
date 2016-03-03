@@ -229,8 +229,6 @@ void Database_Users::removeUser (string user)
   sqlite3 * db = connect ();
   string sql = "DELETE FROM users WHERE username = '" + user + "'";
   database_sqlite_exec (db, sql);
-  sql = "DELETE FROM teams WHERE username = '" + user + "'";
-  database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }
 

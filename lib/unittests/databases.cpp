@@ -181,7 +181,7 @@ void test_database_config_user ()
     evaluate (__LINE__, __func__, true, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
     
     // Test integer setting.
-    evaluate (__LINE__, __func__, 0, request.database_config_user ()->getConsultationNotesPassageSelector ());
+    evaluate (__LINE__, __func__, 1, request.database_config_user ()->getConsultationNotesPassageSelector ());
     request.database_config_user ()->setConsultationNotesPassageSelector (11);
     evaluate (__LINE__, __func__, 11, request.database_config_user ()->getConsultationNotesPassageSelector ());
     
@@ -4488,6 +4488,34 @@ void test_database_privileges ()
   enabled = Database_Privileges::getFeature (username, 1234);
   evaluate (__LINE__, __func__, true, enabled);
   Database_Privileges::setFeature (username, 1234, false);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, false, enabled);
+  
+  // Test bulk privileges removal.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  // Set privileges for user for Bible.
+  Database_Privileges::setBible (username, bible, false);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 1, count);
+  // Remove privileges for a Bible and check on them.
+  Database_Privileges::removeBible (bible);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 0, count);
+  // Again, set privileges, and remove them by username.
+  Database_Privileges::setBible (username, bible, false);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 1, count);
+  Database_Privileges::removeUser (username);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 0, count);
+  
+  // Set features for user.
+  Database_Privileges::setFeature (username, 1234, true);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, true, enabled);
+  // Remove features by username.
+  Database_Privileges::removeUser (username);
   enabled = Database_Privileges::getFeature (username, 1234);
   evaluate (__LINE__, __func__, false, enabled);
 }
