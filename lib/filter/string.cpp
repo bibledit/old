@@ -1214,7 +1214,7 @@ string get_new_key ()
 }
 
 
-string non_breaking_space_entity () // Todo
+string non_breaking_space_entity ()
 {
   return "&nbsp;";
 }
