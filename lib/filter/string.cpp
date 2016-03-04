@@ -311,13 +311,14 @@ string filter_string_desanitize_html (string html)
   html = filter_string_str_replace ("&apos;", "'", html);
   html = filter_string_str_replace ("&lt;", "<", html);
   html = filter_string_str_replace ("&gt;", ">", html);
-  html = filter_string_str_replace (non_breaking_space (), " ", html);
+  html = filter_string_str_replace (non_breaking_space_entity (), " ", html);
+  html = filter_string_str_replace (non_breaking_space_utf8 (), " ", html);
   return html;
 }
 
 
 // Returns a soft hyphen.
-string get_soft_hyphen ()
+string soft_hyphen ()
 {
   // The "­" below is not an empty string, but the soft hyphen U+00AD.
   return "­";
@@ -325,7 +326,7 @@ string get_soft_hyphen ()
 
 
 // Returns a no-break space (NBSP).
-string get_no_break_space ()
+string non_breaking_space_utf8 ()
 {
   // The space below is a no-break space.
   return " ";
@@ -333,7 +334,7 @@ string get_no_break_space ()
 
 
 // Returns an "en space", this is a nut, half an em space.
-string get_en_space ()
+string en_space ()
 {
   // The space below is U+2002.
   return " ";
@@ -1213,7 +1214,7 @@ string get_new_key ()
 }
 
 
-string non_breaking_space ()
+string non_breaking_space_entity () // Todo
 {
   return "&nbsp;";
 }

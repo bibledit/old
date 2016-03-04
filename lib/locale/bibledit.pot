@@ -6249,6 +6249,30 @@ msgstr ""
 msgid "You can upload a new font."
 msgstr ""
 
+msgid "Read/write"
+msgstr ""
+
+msgid "yes"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "No books"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
+msgid "On this page you can set the privileges for a user."
+msgstr ""
+
+msgid "User:"
+msgstr ""
+
+msgid "Go back."
+msgstr ""
+
 msgid "Users"
 msgstr ""
 
@@ -6282,6 +6306,9 @@ msgstr ""
 msgid "The user no longer has access to this Bible"
 msgstr ""
 
+msgid "edit"
+msgstr ""
+
 msgid "Role"
 msgstr ""
 
@@ -6313,9 +6340,6 @@ msgstr ""
 msgid "Click ✗ before a Bible to remove the access of a user to that Bible."
 msgstr ""
 
-msgid "Some roles can modify the text of Bible books."
-msgstr ""
-
 msgid "Two numbers appear after the Bible."
 msgstr ""
 
@@ -6330,23 +6354,8 @@ msgid ""
 "access to all Bibles."
 msgstr ""
 
-msgid "Read/write"
-msgstr ""
-
-msgid "yes"
-msgstr ""
-
-msgid "no"
-msgstr ""
-
-msgid "No books"
-msgstr ""
-
 msgid ""
 "On this page you can set whether a user can modify the text of Bible books."
-msgstr ""
-
-msgid "User:"
 msgstr ""
 
 msgid "Bible:"
@@ -6616,9 +6625,6 @@ msgid "Status"
 msgstr ""
 
 msgid "Verses"
-msgstr ""
-
-msgid "edit"
 msgstr ""
 
 msgid "Severity"

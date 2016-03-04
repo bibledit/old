@@ -243,6 +243,18 @@ string manage_users (void * webserver_request)
       tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">➕</a>");
     }
     tbody.push_back ("</td>");
+
+    tbody.push_back ("<td>│</td>");
+
+    tbody.push_back ("<td>");
+    if (objectUserLevel >= Filter_Roles::manager ()) {
+      // Managers and higher roles have all privileges.
+      tbody.push_back ("(" + translate ("all") + ")");
+    } else {
+      tbody.push_back ("<a href=\"privileges?user=" + username + "\">" + translate ("edit") + "</a>");
+    }
+    tbody.push_back ("</td>");
+    
     tbody.push_back ("</tr>");
   }
 
