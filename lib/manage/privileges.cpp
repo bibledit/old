@@ -24,12 +24,13 @@
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/css.h>
 #include <webserver/request.h>
-#include <database/books.h>
 #include <locale/translate.h>
+#include <database/privileges.h>
+#include <access/logic.h>
 #include <menu/logic.h>
 #include <manage/users.h>
-#include <database/privileges.h>
 
 
 string manage_privileges_url ()
@@ -47,70 +48,42 @@ bool manage_privileges_acl (void * webserver_request)
 string manage_privileges (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   
   string page;
-  
   Assets_Header header = Assets_Header (translate("Read/write"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (manage_users_url (), menu_logic_manage_users_text ());
   page = header.run ();
-  
   Assets_View view;
+
   
+  // Get the user and his/her level.
   string user = request->query["user"];
   view.set_variable ("user", user);
+  int level;
+  access_logic_user_level (webserver_request, user, level);
+
   
-  string bible = request->query["bible"];
-  view.set_variable ("bible", bible);
+  bool state;
+
   
-  int book = convert_to_int (request->query["book"]);
-  
-  bool bible_read_access, bible_write_access;
-  Database_Privileges::getBible (user, bible, bible_read_access, bible_write_access);
-  
-  // Toggle write access to Bible.
-  if (request->query.count ("toggle")) {
-    if (bible_read_access) {
-      bool read, write;
-      Database_Privileges::getBibleBook (user, bible, book, read, write);
-      Database_Privileges::setBibleBook (user, bible, book, !write);
+  // The privilege to view Resources.
+  if (level < access_logic_view_resources_role ()) {
+    view.enable_zone ("viewresourcesoff");
+    if (request->query.count ("viewresources")) {
+      state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
+      Database_Privileges::setFeature (user, PRIVILEGE_VIEW_RESOURCES, !state);
     }
+    state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
+  } else {
+    view.enable_zone ("viewresourceson");
+    state = true;
   }
+  view.set_variable ("viewresources", get_tick_box (state));
+
   
-  // Read or write access to display.
-  vector <string> tbody;
-  vector <int> books = request->database_bibles ()->getBooks (bible);
-  
-  for (size_t i = 0; i < books.size (); i++) {
-    int book = books[i];
-    int row = (i % 4);
-    if (row == 0) tbody.push_back ("<tr>");
-    if (row > 0) tbody.push_back ("<td> | </td>");
-    tbody.push_back ("<td>");
-    tbody.push_back (Database_Books::getEnglishFromId (book));
-    tbody.push_back ("</td>");
-    tbody.push_back ("<td class=\"center\">");
-    tbody.push_back ("<a href=\"?user=" + user + "&bible=" + bible + "&book=" + convert_to_string (book) + "&toggle=\">");
-    bool read, write;
-    Database_Privileges::getBibleBook (user, bible, book, read, write);
-    if (write) {
-      tbody.push_back (translate ("yes"));
-    } else {
-      tbody.push_back (translate ("no"));
-    }
-    tbody.push_back ("</a>");
-    tbody.push_back ("</td>");
-    if (row == 3) tbody.push_back ("</tr>");
-  }
-  if (books.empty ()) {
-    tbody.push_back ("<tr>");
-    tbody.push_back ("<td>");
-    tbody.push_back (translate ("No books"));
-    tbody.push_back ("</td>");
-    tbody.push_back ("<td>");
-  }
-  
-  view.set_variable ("tbody", filter_string_implode (tbody, "\n"));
+  view.set_variable ("grey", filter_css_grey_background ());
   
   page += view.render ("manage", "privileges");
   

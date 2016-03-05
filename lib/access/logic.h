@@ -17,29 +17,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_FILTER_ROLES_H
-#define INCLUDED_FILTER_ROLES_H
+#ifndef INCLUDED_ACCESS_LOGIC_H
+#define INCLUDED_ACCESS_LOGIC_H
 
 
 #include <config/libraries.h>
-#include <webserver/request.h>
 
 
-class Filter_Roles
-{
-public:
-  static int guest ();
-  static int member ();
-  static int consultant ();
-  static int translator ();
-  static int manager ();
-  static int admin ();
-  static int lowest ();
-  static int highest ();
-  static string text (int role);
-  static bool access_control (void * webserver_request, int role);
-private:
-};
+#define PRIVILEGE_VIEW_RESOURCES 1
+int access_logic_view_resources_role ();
+bool access_logic_privilege_view_resources (void * webserver_request, string user = "");
+
+
+void access_logic_user_level (void * webserver_request, string & user, int & level);
 
 
 #endif

@@ -197,27 +197,28 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	collaboration/secure.$(OBJEXT) collaboration/link.$(OBJEXT) \
 	collaboration/direction.$(OBJEXT) search/rebibles.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
-	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
-	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
-	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
-	editone/index.$(OBJEXT) editone/load.$(OBJEXT) \
-	editone/save.$(OBJEXT) editone/verse.$(OBJEXT) \
-	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
-	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
+	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
+	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
+	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
+	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
+	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editverse/load.$(OBJEXT) \
+	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
+	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
+	editone/verse.$(OBJEXT) navigation/passage.$(OBJEXT) \
+	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
+	editor/usfm2html.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
 	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
 	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
@@ -694,6 +695,7 @@ libbibledit_a_SOURCES = \
 	search/renotes.cpp \
 	access/user.cpp \
 	access/bible.cpp \
+	access/logic.cpp \
 	dialog/entry.cpp \
 	dialog/list.cpp \
 	dialog/yes.cpp \
@@ -1497,6 +1499,8 @@ access/user.$(OBJEXT): access/$(am__dirstamp) \
 	access/$(DEPDIR)/$(am__dirstamp)
 access/bible.$(OBJEXT): access/$(am__dirstamp) \
 	access/$(DEPDIR)/$(am__dirstamp)
+access/logic.$(OBJEXT): access/$(am__dirstamp) \
+	access/$(DEPDIR)/$(am__dirstamp)
 dialog/$(am__dirstamp):
 	@$(MKDIR_P) dialog
 	@: > dialog/$(am__dirstamp)
@@ -2275,6 +2279,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/bible.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/language.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/timezone.Po@am__quote@

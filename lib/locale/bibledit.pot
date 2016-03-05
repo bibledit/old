@@ -6252,25 +6252,19 @@ msgstr ""
 msgid "Read/write"
 msgstr ""
 
-msgid "yes"
-msgstr ""
-
-msgid "no"
-msgstr ""
-
-msgid "No books"
-msgstr ""
-
 msgid "Privileges"
 msgstr ""
 
-msgid "On this page you can set the privileges for a user."
+msgid "You can set the privileges for the user."
 msgstr ""
 
 msgid "User:"
 msgstr ""
 
 msgid "Go back."
+msgstr ""
+
+msgid "Can view all the resources."
 msgstr ""
 
 msgid "Users"
@@ -6352,6 +6346,15 @@ msgstr ""
 msgid ""
 "If no user has been granted access to any Bible, then all users have write "
 "access to all Bibles."
+msgstr ""
+
+msgid "yes"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "No books"
 msgstr ""
 
 msgid ""

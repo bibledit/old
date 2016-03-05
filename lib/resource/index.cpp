@@ -30,6 +30,7 @@
 #include <demo/logic.h>
 #include <resource/external.h>
 #include <menu/logic.h>
+#include <access/logic.h>
 
 
 string resource_index_url ()
@@ -40,7 +41,7 @@ string resource_index_url ()
 
 bool resource_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_resources (webserver_request);
 }
 
 
