@@ -94,14 +94,6 @@ void test_database_config_bible ()
 {
   trace_unit_tests (__func__);
   
-  // Random basic tests.
-  {
-    evaluate (__LINE__, __func__, false, Database_Config_Bible::getViewableByAllUsers ("testbible"));
-    
-    bool ref = true;
-    Database_Config_Bible::setViewableByAllUsers ("testbible", ref);
-    evaluate (__LINE__, __func__, ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
-  }
   // Versification / Mapping
   {
     string versification = Database_Config_Bible::getVersificationSystem ("phpunit");

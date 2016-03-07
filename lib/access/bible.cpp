@@ -58,11 +58,6 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
     return true;
   }
 
-  // Whether the Bible can be viewed, that is, read, by all users.
-  if (Database_Config_Bible::getViewableByAllUsers (bible)) {
-    return true;
-  }
-
   // No Bibles assigned: Consultant can view any Bible.
   if (level >= Filter_Roles::consultant ()) {
     int privileges_count = Database_Privileges::getBibleBookCount ();

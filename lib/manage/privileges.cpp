@@ -66,9 +66,9 @@ string manage_privileges (void * webserver_request)
 
   
   bool state;
-
   
-  // The privilege to view Resources.
+  
+  // The privilege to view the Resources.
   if (level < access_logic_view_resources_role ()) {
     view.enable_zone ("viewresourcesoff");
     if (request->query.count ("viewresources")) {
@@ -81,6 +81,51 @@ string manage_privileges (void * webserver_request)
     state = true;
   }
   view.set_variable ("viewresources", get_tick_box (state));
+
+  
+  // Privilege to view the Consultation Notes.
+  if (request->query.count ("viewnotes")) {
+    state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_NOTES);
+    Database_Privileges::setFeature (user, PRIVILEGE_VIEW_NOTES, !state);
+    // Reconcile the other notes privileges.
+    if (!access_logic_privilege_view_notes (webserver_request, user)) {
+      if (access_logic_privilege_create_comment_notes (webserver_request, user)) {
+        Database_Privileges::setFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES, false);
+      }
+    }
+  }
+  if (level >= access_logic_view_notes_role ()) {
+    view.enable_zone ("viewnoteson");
+  } else {
+    view.enable_zone ("viewnotesoff");
+  }
+
+  
+  // Privilege to create and comment on Consultation Notes.
+  if (request->query.count ("createcommentnotes")) {
+    state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
+    Database_Privileges::setFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES, !state);
+    // Reconcile the other notes privileges.
+    if (access_logic_privilege_create_comment_notes (webserver_request, user)) {
+      if (!access_logic_privilege_view_notes (webserver_request, user)) {
+        Database_Privileges::setFeature (user, PRIVILEGE_VIEW_NOTES, true);
+      }
+    }
+  }
+  if (level >= access_logic_create_comment_notes_role ()) {
+    view.enable_zone ("createcommentnoteson");
+  } else {
+    view.enable_zone ("createcommentnotesoff");
+  }
+  
+  
+
+
+  // Notes privileges interface.
+  state = access_logic_privilege_view_notes (webserver_request, user);
+  view.set_variable ("viewnotes", get_tick_box (state));
+  state = access_logic_privilege_create_comment_notes (webserver_request, user);
+  view.set_variable ("createcommentnotes", get_tick_box (state));
 
   
   view.set_variable ("grey", filter_css_grey_background ());

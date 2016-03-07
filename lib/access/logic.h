@@ -28,6 +28,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 int access_logic_view_resources_role ();
 bool access_logic_privilege_view_resources (void * webserver_request, string user = "");
 
+#define PRIVILEGE_VIEW_NOTES 2
+int access_logic_view_notes_role ();
+bool access_logic_privilege_view_notes (void * webserver_request, string user = "");
+
+#define PRIVILEGE_CREATE_COMMENT_NOTES 3
+int access_logic_create_comment_notes_role ();
+bool access_logic_privilege_create_comment_notes (void * webserver_request, string user = "");
 
 void access_logic_user_level (void * webserver_request, string & user, int & level);
 

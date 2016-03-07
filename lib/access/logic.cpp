@@ -40,6 +40,36 @@ bool access_logic_privilege_view_resources (void * webserver_request, string use
 }
 
 
+int access_logic_view_notes_role ()
+{
+  return Filter_Roles::consultant ();
+}
+
+
+bool access_logic_privilege_view_notes (void * webserver_request, string user)
+{
+  int level = 0;
+  access_logic_user_level (webserver_request, user, level);
+  if (level >= access_logic_view_notes_role ()) return true;
+  return Database_Privileges::getFeature (user, PRIVILEGE_VIEW_NOTES);
+}
+
+
+int access_logic_create_comment_notes_role ()
+{
+  return Filter_Roles::consultant ();
+}
+
+
+bool access_logic_privilege_create_comment_notes (void * webserver_request, string user)
+{
+  int level = 0;
+  access_logic_user_level (webserver_request, user, level);
+  if (level >= access_logic_create_comment_notes_role ()) return true;
+  return Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
+}
+
+
 void access_logic_user_level (void * webserver_request, string & user, int & level)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -52,3 +82,5 @@ void access_logic_user_level (void * webserver_request, string & user, int & lev
     level = request->database_users ()->getUserLevel (user);
   }
 }
+
+

@@ -102,16 +102,6 @@ void Database_Config_Bible::setRemoteRepositoryUrl (string bible, string url)
 }
 
 
-bool Database_Config_Bible::getViewableByAllUsers (string bible)
-{
-  return getBValue (bible, "viewable-by-all-users", false);
-}
-void Database_Config_Bible::setViewableByAllUsers (string bible, bool value)
-{
-  setBValue (bible, "viewable-by-all-users", value);
-}
-
-
 bool Database_Config_Bible::getCheckDoubleSpacesUsfm (string bible)
 {
   return getBValue (bible, "double-spaces-usfm", false);

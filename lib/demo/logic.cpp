@@ -244,9 +244,6 @@ void demo_create_sample_bible ()
   Database_Bibles database_bibles;
   database_bibles.createBible (demo_sample_bible_name ());
   
-  // Set the sample Bible to viewable by all users.
-  Database_Config_Bible::setViewableByAllUsers (demo_sample_bible_name (), true);
-
   // Store some text into the sample Bible.
   string directory = filter_url_create_root_path ("demo");
   vector <string> files = filter_url_scandir (directory);

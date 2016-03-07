@@ -30,8 +30,6 @@ public:
   static void remove (string bible);
   static string getRemoteRepositoryUrl (string bible);
   static void setRemoteRepositoryUrl (string bible, string url);
-  static bool getViewableByAllUsers (string bible);
-  static void setViewableByAllUsers (string bible, bool value);
   static bool getCheckDoubleSpacesUsfm (string bible);
   static void setCheckDoubleSpacesUsfm (string bible, bool value);
   static bool getCheckFullStopInHeadings (string bible);

@@ -6264,7 +6264,10 @@ msgstr ""
 msgid "Go back."
 msgstr ""
 
-msgid "Can view all the resources."
+msgid "Can view the resources."
+msgstr ""
+
+msgid "Can view the consultation notes."
 msgstr ""
 
 msgid "Users"

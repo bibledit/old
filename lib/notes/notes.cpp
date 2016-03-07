@@ -29,6 +29,7 @@
 #include <database/notes.h>
 #include <access/bible.h>
 #include <ipc/focus.h>
+#include <access/logic.h>
 
 
 string notes_notes_url ()
@@ -39,7 +40,7 @@ string notes_notes_url ()
 
 bool notes_notes_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_notes (webserver_request);
 }
 
 

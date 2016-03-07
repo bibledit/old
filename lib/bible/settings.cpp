@@ -141,13 +141,6 @@ string bible_settings (void * webserver_request)
   }
   
   
-  // Viewable by all users.
-  if (request->query.count ("viewable")) {
-    if (write_access) Database_Config_Bible::setViewableByAllUsers (bible, !Database_Config_Bible::getViewableByAllUsers (bible));
-  }
-  view.set_variable ("viewable", get_tick_box (Database_Config_Bible::getViewableByAllUsers (bible)));
-  
-  
   // Book deletion.
   string deletebook = request->query["deletebook"];
   if (deletebook != "") {

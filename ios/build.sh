@@ -101,6 +101,8 @@ database/hebrewlexicon.cpp
 database/morphgnt.cpp
 database/strong.cpp
 database/cache.cpp
+database/login.cpp
+database/privileges.cpp
 session/logic.cpp
 session/login.cpp
 session/logout.cpp
@@ -154,6 +156,7 @@ manage/hyphenate.cpp
 manage/hyphenation.cpp
 manage/write.cpp
 manage/index.cpp
+manage/privileges.cpp
 administration/language.cpp
 administration/timezone.cpp
 collaboration/index.cpp
@@ -168,6 +171,7 @@ search/renotes.cpp
 search/logic.cpp
 access/user.cpp
 access/bible.cpp
+access/logic.cpp
 dialog/entry.cpp
 dialog/list.cpp
 dialog/yes.cpp

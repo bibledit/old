@@ -27,6 +27,7 @@
 #include <database/notes.h>
 #include <menu/logic.h>
 #include <config/logic.h>
+#include <access/logic.h>
 
 
 string notes_index_url ()
@@ -37,7 +38,7 @@ string notes_index_url ()
 
 bool notes_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_notes (webserver_request);
 }
 
 
@@ -96,6 +97,11 @@ string notes_index (void * webserver_request)
     if (!config_logic_basic_mode (webserver_request)) {
       view.enable_zone ("update");
     }
+  }
+  
+  // Whether the user can create a new note.
+  if (access_logic_privilege_create_comment_notes (webserver_request)) {
+    view.enable_zone ("create");
   }
   
   page += view.render ("notes", "index");

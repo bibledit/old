@@ -33,6 +33,7 @@
 #include <notes/index.h>
 #include <database/modifications.h>
 #include <menu/logic.h>
+#include <access/logic.h>
 
 
 string notes_create_url ()
@@ -43,7 +44,7 @@ string notes_create_url ()
 
 bool notes_create_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_create_comment_notes (webserver_request);
 }
 
 
