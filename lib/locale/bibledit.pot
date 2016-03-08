@@ -443,9 +443,6 @@ msgstr ""
 msgid "Compare with ..."
 msgstr ""
 
-msgid "Viewable by all users"
-msgstr ""
-
 msgid "The public can give feedback"
 msgstr ""
 
@@ -6268,6 +6265,9 @@ msgid "Can view the resources."
 msgstr ""
 
 msgid "Can view the consultation notes."
+msgstr ""
+
+msgid "Can create and comment on consultation notes."
 msgstr ""
 
 msgid "Users"
