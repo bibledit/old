@@ -276,3 +276,15 @@ void Database_Privileges::removeUser (string username)
   sql.add (";");
   sql.execute ();
 }
+
+
+string database_privileges_client_path (const string & user) // Todo
+{
+  return filter_url_create_root_path ("databases", "client", "privileges_" + user + ".txt");
+}
+
+
+void database_privileges_client_create (const string & user) // Todo
+{
+  
+}

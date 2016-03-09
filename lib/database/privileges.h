@@ -47,4 +47,8 @@ private:
 };
 
 
+string database_privileges_client_path (const string & user);
+void database_privileges_client_create (const string & user);
+
+
 #endif
