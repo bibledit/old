@@ -1035,7 +1035,7 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space after it.
-                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_utf8());
+                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_utf8_a0());
                   // Open note in the web pages.
                   if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerFootEndNote);
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote);
@@ -1140,7 +1140,7 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space (NBSP) after it.
-                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_utf8());
+                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_utf8_a0());
                   // Open note in the web page.
                   ensureNoteParagraphStyle (standardContentMarkerCrossReference, styles[standardContentMarkerCrossReference]);
                   if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerCrossReference);

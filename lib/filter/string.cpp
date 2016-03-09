@@ -311,8 +311,9 @@ string filter_string_desanitize_html (string html)
   html = filter_string_str_replace ("&apos;", "'", html);
   html = filter_string_str_replace ("&lt;", "<", html);
   html = filter_string_str_replace ("&gt;", ">", html);
-  html = filter_string_str_replace (non_breaking_space_entity (), " ", html);
-  html = filter_string_str_replace (non_breaking_space_utf8 (), " ", html);
+  html = filter_string_str_replace (non_breaking_space_entity (), " ", html);
+  html = filter_string_str_replace (non_breaking_space_utf8_c2a0 (), " ", html);
+  html = filter_string_str_replace (non_breaking_space_utf8_a0 (), " ", html);
   return html;
 }
 
@@ -325,11 +326,19 @@ string soft_hyphen ()
 }
 
 
-// Returns a no-break space (NBSP).
-string non_breaking_space_utf8 ()
+// Returns a no-break space (NBSP) (xA0).
+string non_breaking_space_utf8_a0 ()
 {
-  // The space below is a no-break space.
-  return " ";
+  unsigned char c[1] = { 0xa0 };
+  return string (c, c + sizeof c / sizeof c[0]);
+}
+
+
+// Returns a no-break space (NBSP) (xC2A0).
+string non_breaking_space_utf8_c2a0 ()
+{
+  unsigned char c[2] = { 0xc2, 0xa0 };
+  return string (c, c + sizeof c / sizeof c[0]);
 }
 
 
