@@ -66,6 +66,7 @@ string manage_privileges (void * webserver_request)
 
   
   bool state;
+  bool privileges_updated = false;
   
   
   // The privilege to view the Resources.
@@ -74,6 +75,7 @@ string manage_privileges (void * webserver_request)
     if (request->query.count ("viewresources")) {
       state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
       Database_Privileges::setFeature (user, PRIVILEGE_VIEW_RESOURCES, !state);
+      privileges_updated = true;
     }
     state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
   } else {
@@ -93,6 +95,7 @@ string manage_privileges (void * webserver_request)
         Database_Privileges::setFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES, false);
       }
     }
+    privileges_updated = true;
   }
   if (level >= access_logic_view_notes_role ()) {
     view.enable_zone ("viewnoteson");
@@ -111,6 +114,7 @@ string manage_privileges (void * webserver_request)
         Database_Privileges::setFeature (user, PRIVILEGE_VIEW_NOTES, true);
       }
     }
+    privileges_updated = true;
   }
   if (level >= access_logic_create_comment_notes_role ()) {
     view.enable_zone ("createcommentnoteson");
@@ -119,7 +123,8 @@ string manage_privileges (void * webserver_request)
   }
   
   
-
+  if (privileges_updated) database_privileges_client_create (user, true);
+  
 
   // Notes privileges interface.
   state = access_logic_privilege_view_notes (webserver_request, user);

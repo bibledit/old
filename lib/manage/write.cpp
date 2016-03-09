@@ -74,6 +74,7 @@ string manage_write (void * webserver_request)
       bool read, write;
       Database_Privileges::getBibleBook (user, bible, book, read, write);
       Database_Privileges::setBibleBook (user, bible, book, !write);
+      database_privileges_client_create (user, true);
     }
   }
 

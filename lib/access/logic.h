@@ -37,6 +37,6 @@ int access_logic_create_comment_notes_role ();
 bool access_logic_privilege_create_comment_notes (void * webserver_request, string user = "");
 
 void access_logic_user_level (void * webserver_request, string & user, int & level);
-
+void access_logic_create_client_files ();
 
 #endif

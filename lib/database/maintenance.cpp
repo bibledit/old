@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <notes/logic.h>
 #include <sword/logic.h>
+#include <access/logic.h>
 
 
 void database_maintenance ()
@@ -140,6 +141,9 @@ void database_maintenance ()
   
   // Only maintain it when it does not yet exist, to avoid unnecessary downloads by the clients.
   notes_logic_maintain_note_assignees (false);
+  
+  
+  access_logic_create_client_files ();
   
   
   database_filebased_cache_trim ();

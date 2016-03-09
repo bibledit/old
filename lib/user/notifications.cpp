@@ -41,7 +41,7 @@ string user_notifications_url ()
 }
 
 
-bool user_notifications_acl (void * webserver_request) // Todo
+bool user_notifications_acl (void * webserver_request)
 {
   // Consultant has access.
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;

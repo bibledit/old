@@ -56,6 +56,7 @@ string manage_users (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   bool user_updated = false;
+  bool privileges_updated = false;
   
   string page;
   Assets_Header header = Assets_Header (translate("Users"), webserver_request);
@@ -100,6 +101,7 @@ string manage_users (void * webserver_request)
     Database_Logs::log (message, Filter_Roles::admin ());
     request->database_users ()->removeUser (objectUsername);
     user_updated = true;
+    database_privileges_client_remove (objectUsername);
     page += Assets_Page::success (message);
     // Also remove any privileges for this user.
     // In particular for the Bible privileges this is necessary,
@@ -182,6 +184,7 @@ string manage_users (void * webserver_request)
       bool write = (objectUserLevel >= Filter_Roles::translator ());
       Database_Privileges::setBible (objectUsername, addbible, write);
       user_updated = true;
+      privileges_updated = true;
     }
   }
   
@@ -191,6 +194,7 @@ string manage_users (void * webserver_request)
     string removebible = request->query ["removebible"];
     Database_Privileges::removeBibleBook (objectUsername, removebible, 0);
     user_updated = true;
+    privileges_updated = true;
     Assets_Page::success (translate("The user no longer has access to this Bible"));
   }
   
@@ -265,6 +269,7 @@ string manage_users (void * webserver_request)
   page += Assets_Page::footer ();
   
   if (user_updated) notes_logic_maintain_note_assignees (true);
+  if (privileges_updated) database_privileges_client_create (objectUsername, true);
 
   return page;
 }

@@ -278,13 +278,22 @@ void Database_Privileges::removeUser (string username)
 }
 
 
-string database_privileges_client_path (const string & user) // Todo
+string database_privileges_client_path (const string & user)
 {
   return filter_url_create_root_path ("databases", "client", "privileges_" + user + ".txt");
 }
 
 
-void database_privileges_client_create (const string & user) // Todo
+void database_privileges_client_create (const string & user, bool force)
 {
-  
+  // Not yet implemented.
+  (void) user;
+  (void) force;
+}
+
+
+void database_privileges_client_remove (const string & user)
+{
+  // Not yet implemented.
+  (void) user;
 }
