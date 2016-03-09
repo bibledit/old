@@ -268,14 +268,14 @@ navigation(0), httpd(0)
   gtk_widget_show(menubar1);
   gtk_box_pack_start(GTK_BOX(vbox_main), menubar1, FALSE, FALSE, 0);
 
-  menuitem_file = gtk_menu_item_new_with_mnemonic("_File");
+  menuitem_file = gtk_menu_item_new_with_mnemonic(_("_File"));
   gtk_widget_show(menuitem_file);
   gtk_container_add(GTK_CONTAINER(menubar1), menuitem_file);
 
   menuitem_file_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem_file), menuitem_file_menu);
 
-  file_project = gtk_image_menu_item_new_with_mnemonic("Pr_oject");
+  file_project = gtk_image_menu_item_new_with_mnemonic(_("Pr_oject"));
   gtk_widget_show(file_project);
   gtk_container_add(GTK_CONTAINER(menuitem_file_menu), file_project);
 
@@ -291,7 +291,7 @@ navigation(0), httpd(0)
   delete1 = NULL;
   if (guifeatures.project_management()) {
 
-    new1 = gtk_image_menu_item_new_with_mnemonic("_New");
+    new1 = gtk_image_menu_item_new_with_mnemonic(_("_New"));
     gtk_widget_show(new1);
     gtk_container_add(GTK_CONTAINER(file_project_menu), new1);
 
@@ -314,7 +314,7 @@ navigation(0), httpd(0)
   compare_with1 = NULL;
   if (guifeatures.project_management()) {
 
-    properties1 = gtk_image_menu_item_new_with_mnemonic("P_roperties");
+    properties1 = gtk_image_menu_item_new_with_mnemonic(_("P_roperties"));
     gtk_widget_show(properties1);
     gtk_container_add(GTK_CONTAINER(file_project_menu), properties1);
 
@@ -322,7 +322,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image4995);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(properties1), image4995);
 
-    copy_project_to = gtk_image_menu_item_new_with_mnemonic("Cop_y to");
+    copy_project_to = gtk_image_menu_item_new_with_mnemonic(_("Cop_y to"));
     gtk_widget_show(copy_project_to);
     gtk_container_add(GTK_CONTAINER(file_project_menu), copy_project_to);
 
@@ -330,7 +330,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image2688);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(copy_project_to), image2688);
 
-    compare_with1 = gtk_image_menu_item_new_with_mnemonic("Co_mpare with");
+    compare_with1 = gtk_image_menu_item_new_with_mnemonic(_("Co_mpare with"));
     gtk_widget_show(compare_with1);
     gtk_container_add(GTK_CONTAINER(file_project_menu), compare_with1);
 
@@ -343,7 +343,7 @@ navigation(0), httpd(0)
   project_changes = NULL;
   if (guifeatures.project_management()) {
 
-    project_changes = gtk_image_menu_item_new_with_mnemonic("C_hanges");
+    project_changes = gtk_image_menu_item_new_with_mnemonic(_("C_hanges"));
     gtk_widget_show(project_changes);
     gtk_container_add(GTK_CONTAINER(file_project_menu), project_changes);
 
@@ -353,11 +353,11 @@ navigation(0), httpd(0)
 
   }
 
-  file_projects_merge = gtk_check_menu_item_new_with_mnemonic("Mer_ge");
+  file_projects_merge = gtk_check_menu_item_new_with_mnemonic(_("Mer_ge"));
   gtk_widget_show(file_projects_merge);
   gtk_container_add(GTK_CONTAINER(file_project_menu), file_projects_merge);
 
-  projects_send_receive1 = gtk_image_menu_item_new_with_mnemonic ("_Send / receive");
+  projects_send_receive1 = gtk_image_menu_item_new_with_mnemonic (_("_Send / receive"));
   gtk_widget_show (projects_send_receive1);
   gtk_container_add (GTK_CONTAINER (file_project_menu), projects_send_receive1);
 
@@ -368,7 +368,7 @@ navigation(0), httpd(0)
   style = NULL;
   if (guifeatures.styles()) {
 
-    style = gtk_image_menu_item_new_with_mnemonic("_Styles");
+    style = gtk_image_menu_item_new_with_mnemonic(_("_Styles"));
     gtk_widget_show(style);
     gtk_container_add(GTK_CONTAINER(menuitem_file_menu), style);
 
@@ -389,7 +389,7 @@ navigation(0), httpd(0)
   stylesheet_open = NULL;
   if (guifeatures.styles()) {
 
-    stylesheet_open = gtk_image_menu_item_new_with_mnemonic("_Open");
+    stylesheet_open = gtk_image_menu_item_new_with_mnemonic(_("_Open"));
     gtk_widget_show(stylesheet_open);
     gtk_container_add(GTK_CONTAINER(style_menu), stylesheet_open);
 
@@ -402,7 +402,7 @@ navigation(0), httpd(0)
   stylesheets_expand_all = NULL;
   if (guifeatures.styles()) {
 
-    stylesheets_expand_all = gtk_image_menu_item_new_with_mnemonic("_Expand all");
+    stylesheets_expand_all = gtk_image_menu_item_new_with_mnemonic(_("_Expand all"));
     //gtk_widget_show(stylesheets_expand_all);
     gtk_container_add(GTK_CONTAINER(style_menu), stylesheets_expand_all);
 
@@ -416,7 +416,7 @@ navigation(0), httpd(0)
   stylesheets_collapse_all = NULL;
   if (guifeatures.styles()) {
 
-    stylesheets_collapse_all = gtk_image_menu_item_new_with_mnemonic("_Collapse all");
+    stylesheets_collapse_all = gtk_image_menu_item_new_with_mnemonic(_("_Collapse all"));
     //gtk_widget_show(stylesheets_collapse_all);
     gtk_container_add(GTK_CONTAINER(style_menu), stylesheets_collapse_all);
 
@@ -444,7 +444,7 @@ navigation(0), httpd(0)
   stylesheet_edit_mode = NULL;
   if (guifeatures.styles_management()) {
 
-    stylesheet_edit_mode = gtk_check_menu_item_new_with_mnemonic("Edit _mode");
+    stylesheet_edit_mode = gtk_check_menu_item_new_with_mnemonic(_("Edit _mode"));
     //gtk_widget_show(stylesheet_edit_mode);
     gtk_container_add(GTK_CONTAINER(style_menu), stylesheet_edit_mode);
 
@@ -485,7 +485,7 @@ navigation(0), httpd(0)
   menu_stylesheet = NULL;
   if (guifeatures.styles_management()) {
 
-    menu_stylesheet = gtk_image_menu_item_new_with_mnemonic("_Stylesheet");
+    menu_stylesheet = gtk_image_menu_item_new_with_mnemonic(_("_Stylesheet"));
     //gtk_widget_show(menu_stylesheet);
     gtk_container_add(GTK_CONTAINER(style_menu), menu_stylesheet);
 
@@ -507,7 +507,7 @@ navigation(0), httpd(0)
   stylesheet_switch = NULL;
   if (guifeatures.styles_management()) {
 
-    stylesheet_switch = gtk_image_menu_item_new_with_mnemonic("_Switch");
+    stylesheet_switch = gtk_image_menu_item_new_with_mnemonic(_("_Switch"));
     gtk_widget_show(stylesheet_switch);
     gtk_container_add(GTK_CONTAINER(menu_stylesheet_menu), stylesheet_switch);
 
@@ -521,7 +521,7 @@ navigation(0), httpd(0)
   stylesheets_new = NULL;
   if (guifeatures.styles_management()) {
 
-    stylesheets_new = gtk_image_menu_item_new_with_mnemonic("_New");
+    stylesheets_new = gtk_image_menu_item_new_with_mnemonic(_("_New"));
     gtk_widget_show(stylesheets_new);
     gtk_container_add(GTK_CONTAINER(menu_stylesheet_menu), stylesheets_new);
 
@@ -535,7 +535,7 @@ navigation(0), httpd(0)
   stylesheets_delete = NULL;
   if (guifeatures.styles_management()) {
 
-    stylesheets_delete = gtk_image_menu_item_new_with_mnemonic("_Delete");
+    stylesheets_delete = gtk_image_menu_item_new_with_mnemonic(_("_Delete"));
     gtk_widget_show(stylesheets_delete);
     gtk_container_add(GTK_CONTAINER(menu_stylesheet_menu), stylesheets_delete);
 
@@ -549,7 +549,7 @@ navigation(0), httpd(0)
   stylesheets_rename = NULL;
   if (guifeatures.styles_management()) {
 
-    stylesheets_rename = gtk_image_menu_item_new_with_mnemonic("_Rename");
+    stylesheets_rename = gtk_image_menu_item_new_with_mnemonic(_("_Rename"));
     gtk_widget_show(stylesheets_rename);
     gtk_container_add(GTK_CONTAINER(menu_stylesheet_menu), stylesheets_rename);
 
@@ -569,7 +569,7 @@ navigation(0), httpd(0)
   consultation_notes_send_receive = NULL;
   if (guifeatures.project_notes_management()) {
 
-    notes2 = gtk_image_menu_item_new_with_mnemonic("Project _notes");
+    notes2 = gtk_image_menu_item_new_with_mnemonic(_("Project _notes"));
     gtk_widget_show(notes2);
     gtk_container_add(GTK_CONTAINER(menuitem_file_menu), notes2);
 
@@ -584,7 +584,7 @@ navigation(0), httpd(0)
     gtk_widget_show(new_note);
     gtk_container_add(GTK_CONTAINER(notes2_menu), new_note);
 
-    delete_note = gtk_image_menu_item_new_with_mnemonic("_Delete");
+    delete_note = gtk_image_menu_item_new_with_mnemonic(_("_Delete"));
     gtk_widget_show(delete_note);
     gtk_container_add(GTK_CONTAINER(notes2_menu), delete_note);
 
@@ -592,12 +592,12 @@ navigation(0), httpd(0)
     gtk_widget_show(image963);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(delete_note), image963);
 
-    consultation_notes_send_receive = gtk_image_menu_item_new_with_mnemonic("_Send / Receive");
+    consultation_notes_send_receive = gtk_image_menu_item_new_with_mnemonic(_("_Send / Receive"));
     gtk_widget_show(consultation_notes_send_receive);
     gtk_container_add(GTK_CONTAINER(notes2_menu), consultation_notes_send_receive);
   }
 
-  file_resources = gtk_image_menu_item_new_with_mnemonic("R_esources");
+  file_resources = gtk_image_menu_item_new_with_mnemonic(_("R_esources"));
   //gtk_widget_show(file_resources);
   gtk_container_add(GTK_CONTAINER(menuitem_file_menu), file_resources);
 
@@ -608,7 +608,7 @@ navigation(0), httpd(0)
   file_resources_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(file_resources), file_resources_menu);
 
-  file_resources_open = gtk_image_menu_item_new_with_mnemonic("_Open");
+  file_resources_open = gtk_image_menu_item_new_with_mnemonic(_("_Open"));
   //gtk_widget_show(file_resources_open);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_open);
 
@@ -616,7 +616,7 @@ navigation(0), httpd(0)
   //gtk_widget_show(image27366);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_open), image27366);
 
-  file_resources_close = gtk_image_menu_item_new_with_mnemonic("_Close");
+  file_resources_close = gtk_image_menu_item_new_with_mnemonic(_("_Close"));
   //gtk_widget_show(file_resources_close);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_close);
 
@@ -624,7 +624,7 @@ navigation(0), httpd(0)
   //gtk_widget_show(image27367);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_close), image27367);
 
-  file_resources_new = gtk_image_menu_item_new_with_mnemonic("_New");
+  file_resources_new = gtk_image_menu_item_new_with_mnemonic(_("_New"));
   //gtk_widget_show(file_resources_new);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_new);
 
@@ -632,7 +632,7 @@ navigation(0), httpd(0)
   //gtk_widget_show(image27514);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_new), image27514);
 
-  file_resources_edit = gtk_image_menu_item_new_with_mnemonic("_Edit");
+  file_resources_edit = gtk_image_menu_item_new_with_mnemonic(_("_Edit"));
   //gtk_widget_show(file_resources_edit);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_edit);
 
@@ -640,7 +640,7 @@ navigation(0), httpd(0)
   //gtk_widget_show(image27515);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_edit), image27515);
 
-  file_resources_delete = gtk_image_menu_item_new_with_mnemonic("_Delete");
+  file_resources_delete = gtk_image_menu_item_new_with_mnemonic(_("_Delete"));
   //gtk_widget_show(file_resources_delete);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_delete);
 
@@ -648,7 +648,7 @@ navigation(0), httpd(0)
   //gtk_widget_show(image27664);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_delete), image27664);
 
-  file_keyterms = gtk_image_menu_item_new_with_mnemonic ("_Keyterms");
+  file_keyterms = gtk_image_menu_item_new_with_mnemonic (_("_Keyterms"));
   gtk_widget_show (file_keyterms);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_keyterms);
 
@@ -673,7 +673,7 @@ navigation(0), httpd(0)
 
   }
 
-  file_import = gtk_image_menu_item_new_with_mnemonic ("_Import");
+  file_import = gtk_image_menu_item_new_with_mnemonic (_("_Import"));
   gtk_widget_show (file_import);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_import);
 
@@ -681,7 +681,7 @@ navigation(0), httpd(0)
   gtk_widget_show (image36797);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_import), image36797);
 
-  file_export = gtk_image_menu_item_new_with_mnemonic ("E_xport");
+  file_export = gtk_image_menu_item_new_with_mnemonic (_("E_xport"));
   gtk_widget_show (file_export);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_export);
 
@@ -689,7 +689,7 @@ navigation(0), httpd(0)
   gtk_widget_show (image35236);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_export), image35236);
 
-  file_backup = gtk_image_menu_item_new_with_mnemonic ("_Backup");
+  file_backup = gtk_image_menu_item_new_with_mnemonic (_("_Backup"));
   gtk_widget_show (file_backup);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_backup);
 
@@ -697,7 +697,7 @@ navigation(0), httpd(0)
   gtk_widget_show (image34724);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_backup), image34724);
 
-  file_restore = gtk_image_menu_item_new_with_mnemonic ("Res_tore");
+  file_restore = gtk_image_menu_item_new_with_mnemonic (_("Res_tore"));
   gtk_widget_show (file_restore);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_restore);
 
@@ -713,7 +713,7 @@ navigation(0), httpd(0)
   gtk_widget_show(quit1);
   gtk_container_add(GTK_CONTAINER(menuitem_file_menu), quit1);
 
-  menuitem_edit = gtk_menu_item_new_with_mnemonic("_Edit");
+  menuitem_edit = gtk_menu_item_new_with_mnemonic(_("_Edit"));
   gtk_widget_show(menuitem_edit);
   gtk_container_add(GTK_CONTAINER(menubar1), menuitem_edit);
 
@@ -728,7 +728,7 @@ navigation(0), httpd(0)
   gtk_widget_show(copy1);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), copy1);
 
-  copy_with_formatting = gtk_image_menu_item_new_with_mnemonic("Copy _with formatting");
+  copy_with_formatting = gtk_image_menu_item_new_with_mnemonic(_("Copy _with formatting"));
   gtk_widget_show(copy_with_formatting);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), copy_with_formatting);
 
@@ -745,7 +745,7 @@ navigation(0), httpd(0)
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), separator2);
   gtk_widget_set_sensitive(separator2, FALSE);
 
-  undo1 = gtk_image_menu_item_new_with_mnemonic("_Undo");
+  undo1 = gtk_image_menu_item_new_with_mnemonic(_("_Undo"));
   gtk_widget_show(undo1);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), undo1);
 
@@ -753,7 +753,7 @@ navigation(0), httpd(0)
   gtk_widget_show(image295);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(undo1), image295);
 
-  redo1 = gtk_image_menu_item_new_with_mnemonic("_Redo");
+  redo1 = gtk_image_menu_item_new_with_mnemonic(_("_Redo"));
   gtk_widget_show(redo1);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), redo1);
 
@@ -787,7 +787,7 @@ navigation(0), httpd(0)
   find_in_notes1 = NULL;
   if (guifeatures.project_notes()) {
 
-    find_in_notes1 = gtk_image_menu_item_new_with_mnemonic("Find in Project _notes");
+    find_in_notes1 = gtk_image_menu_item_new_with_mnemonic(_("Find in Project _notes"));
     gtk_widget_show(find_in_notes1);
     gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), find_in_notes1);
 
@@ -804,7 +804,7 @@ navigation(0), httpd(0)
   get_references_from_note = NULL;
   if (guifeatures.project_notes()) {
 
-    get_references_from_note = gtk_image_menu_item_new_with_mnemonic("_Get references from project note");
+    get_references_from_note = gtk_image_menu_item_new_with_mnemonic(_("_Get references from project note"));
     gtk_widget_show(get_references_from_note);
     gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), get_references_from_note);
 
@@ -819,7 +819,7 @@ navigation(0), httpd(0)
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), separator15);
   gtk_widget_set_sensitive(separator15, FALSE);
 
-  edit_revert = gtk_image_menu_item_new_with_mnemonic("Re_vert");
+  edit_revert = gtk_image_menu_item_new_with_mnemonic(_("Re_vert"));
   gtk_widget_show(edit_revert);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), edit_revert);
 
@@ -832,7 +832,7 @@ navigation(0), httpd(0)
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), separator17);
   gtk_widget_set_sensitive(separator17, FALSE);
 
-  edit_bible_note = gtk_image_menu_item_new_with_mnemonic("_Bible note");
+  edit_bible_note = gtk_image_menu_item_new_with_mnemonic(_("_Bible note"));
   gtk_widget_show(edit_bible_note);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), edit_bible_note);
 
@@ -845,7 +845,7 @@ navigation(0), httpd(0)
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), separator21);
   gtk_widget_set_sensitive(separator21, FALSE);
 
-  edit_planning = gtk_image_menu_item_new_with_mnemonic("P_lanning");
+  edit_planning = gtk_image_menu_item_new_with_mnemonic(_("P_lanning"));
   gtk_widget_show(edit_planning);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), edit_planning);
 
@@ -853,14 +853,14 @@ navigation(0), httpd(0)
   gtk_widget_show(image26801);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(edit_planning), image26801);
 
-  menuitem_view = gtk_menu_item_new_with_mnemonic("_View");
+  menuitem_view = gtk_menu_item_new_with_mnemonic(_("_View"));
   gtk_widget_show(menuitem_view);
   gtk_container_add(GTK_CONTAINER(menubar1), menuitem_view);
 
   menuitem_view_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem_view), menuitem_view_menu);
 
-  view_font = gtk_image_menu_item_new_with_mnemonic("_Font & Color");
+  view_font = gtk_image_menu_item_new_with_mnemonic(_("_Font & Color"));
   gtk_widget_show(view_font);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_font);
 
@@ -871,7 +871,7 @@ navigation(0), httpd(0)
   view_font_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(view_font), view_font_menu);
 
-  view_text_font = gtk_image_menu_item_new_with_mnemonic("_Text");
+  view_text_font = gtk_image_menu_item_new_with_mnemonic(_("_Text"));
   gtk_widget_show(view_text_font);
   gtk_container_add(GTK_CONTAINER(view_font_menu), view_text_font);
 
@@ -882,7 +882,7 @@ navigation(0), httpd(0)
   viewnotes = NULL;
   if (guifeatures.project_notes()) {
 
-    viewnotes = gtk_image_menu_item_new_with_mnemonic("Project _notes");
+    viewnotes = gtk_image_menu_item_new_with_mnemonic(_("Project _notes"));
     gtk_widget_show(viewnotes);
     gtk_container_add(GTK_CONTAINER(menuitem_view_menu), viewnotes);
 
@@ -892,11 +892,11 @@ navigation(0), httpd(0)
 
   }
 
-  view_usfm_code = gtk_check_menu_item_new_with_mnemonic ("_USFM code");
+  view_usfm_code = gtk_check_menu_item_new_with_mnemonic (_("_USFM code"));
   gtk_widget_show(view_usfm_code);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_usfm_code);
 
-  view_planning = gtk_image_menu_item_new_with_mnemonic("Pl_anning");
+  view_planning = gtk_image_menu_item_new_with_mnemonic(_("Pl_anning"));
   gtk_widget_show(view_planning);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_planning);
 
@@ -904,26 +904,26 @@ navigation(0), httpd(0)
   gtk_widget_show(image26812);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(view_planning), image26812);
 
-  view_references = gtk_check_menu_item_new_with_mnemonic ("R_eferences");
+  view_references = gtk_check_menu_item_new_with_mnemonic (_("R_eferences"));
   gtk_widget_show (view_references);
   gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_references);
 
-  view_related_verses = gtk_check_menu_item_new_with_mnemonic("_Related verses");
+  view_related_verses = gtk_check_menu_item_new_with_mnemonic(_("_Related verses"));
   gtk_widget_show(view_related_verses);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_related_verses);
 
-  view_outline = gtk_check_menu_item_new_with_mnemonic("_Outline");
+  view_outline = gtk_check_menu_item_new_with_mnemonic(_("_Outline"));
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
 
-  insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
+  insert1 = gtk_menu_item_new_with_mnemonic(_("_Insert"));
   gtk_widget_show(insert1);
   gtk_container_add(GTK_CONTAINER(menubar1), insert1);
 
   insert1_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(insert1), insert1_menu);
 
-  insert_special_character = gtk_image_menu_item_new_with_mnemonic("_Special character");
+  insert_special_character = gtk_image_menu_item_new_with_mnemonic(_("_Special character"));
   gtk_widget_show(insert_special_character);
   gtk_container_add(GTK_CONTAINER(insert1_menu), insert_special_character);
 
@@ -932,7 +932,7 @@ navigation(0), httpd(0)
   gtk_widget_show(image25281);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(insert_special_character), image25281);
 
-  insert_footnote = gtk_image_menu_item_new_with_mnemonic("_Footnote");
+  insert_footnote = gtk_image_menu_item_new_with_mnemonic(_("_Footnote"));
   gtk_widget_show(insert_footnote);
   gtk_container_add(GTK_CONTAINER(insert1_menu), insert_footnote);
 
@@ -940,7 +940,7 @@ navigation(0), httpd(0)
   gtk_widget_show(imagefn);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(insert_footnote), imagefn);
 
-  insert_xref = gtk_image_menu_item_new_with_mnemonic("_Crossreference");
+  insert_xref = gtk_image_menu_item_new_with_mnemonic(_("_Crossreference"));
   gtk_widget_show(insert_xref);
   gtk_container_add(GTK_CONTAINER(insert1_menu), insert_xref);
 
@@ -986,14 +986,14 @@ navigation(0), httpd(0)
   check_spelling_bulk = NULL;
   if (guifeatures.checks()) {
 
-    check1 = gtk_menu_item_new_with_mnemonic("Chec_k");
+    check1 = gtk_menu_item_new_with_mnemonic(_("Chec_k"));
     gtk_widget_show(check1);
     gtk_container_add(GTK_CONTAINER(menubar1), check1);
 
     check1_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(check1), check1_menu);
 
-    chapters_and_verses1 = gtk_image_menu_item_new_with_mnemonic("_Chapters and verses");
+    chapters_and_verses1 = gtk_image_menu_item_new_with_mnemonic(_("_Chapters and verses"));
     gtk_widget_show(chapters_and_verses1);
     gtk_container_add(GTK_CONTAINER(check1_menu), chapters_and_verses1);
 
@@ -1001,7 +1001,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image5580);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(chapters_and_verses1), image5580);
 
-    markers1 = gtk_image_menu_item_new_with_mnemonic("_Markers");
+    markers1 = gtk_image_menu_item_new_with_mnemonic(_("_Markers"));
     gtk_widget_show(markers1);
     gtk_container_add(GTK_CONTAINER(check1_menu), markers1);
 
@@ -1012,7 +1012,7 @@ navigation(0), httpd(0)
     markers1_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(markers1), markers1_menu);
 
-    validate_usfms1 = gtk_image_menu_item_new_with_mnemonic("_Validate");
+    validate_usfms1 = gtk_image_menu_item_new_with_mnemonic(_("_Validate"));
     gtk_widget_show(validate_usfms1);
     gtk_container_add(GTK_CONTAINER(markers1_menu), validate_usfms1);
 
@@ -1020,7 +1020,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image5579);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(validate_usfms1), image5579);
 
-    count_usfms1 = gtk_image_menu_item_new_with_mnemonic("_Count");
+    count_usfms1 = gtk_image_menu_item_new_with_mnemonic(_("_Count"));
     gtk_widget_show(count_usfms1);
     gtk_container_add(GTK_CONTAINER(markers1_menu), count_usfms1);
 
@@ -1028,7 +1028,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image6239);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(count_usfms1), image6239);
 
-    compare_usfm1 = gtk_image_menu_item_new_with_mnemonic("C_ompare");
+    compare_usfm1 = gtk_image_menu_item_new_with_mnemonic(_("C_ompare"));
     gtk_widget_show(compare_usfm1);
     gtk_container_add(GTK_CONTAINER(markers1_menu), compare_usfm1);
 
@@ -1036,7 +1036,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image6748);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(compare_usfm1), image6748);
 
-    check_markers_spacing = gtk_image_menu_item_new_with_mnemonic("_Spacing");
+    check_markers_spacing = gtk_image_menu_item_new_with_mnemonic(_("_Spacing"));
     gtk_widget_show(check_markers_spacing);
     gtk_container_add(GTK_CONTAINER(markers1_menu), check_markers_spacing);
 
@@ -1044,7 +1044,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image17930);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_markers_spacing), image17930);
 
-    characters1 = gtk_image_menu_item_new_with_mnemonic("C_haracters");
+    characters1 = gtk_image_menu_item_new_with_mnemonic(_("C_haracters"));
     gtk_widget_show(characters1);
     gtk_container_add(GTK_CONTAINER(check1_menu), characters1);
 
@@ -1055,7 +1055,7 @@ navigation(0), httpd(0)
     characters1_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(characters1), characters1_menu);
 
-    count_characters = gtk_image_menu_item_new_with_mnemonic("_Inventory");
+    count_characters = gtk_image_menu_item_new_with_mnemonic(_("_Inventory"));
     gtk_widget_show(count_characters);
     gtk_container_add(GTK_CONTAINER(characters1_menu), count_characters);
 
@@ -1063,7 +1063,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image6868);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(count_characters), image6868);
 
-    unwanted_patterns = gtk_image_menu_item_new_with_mnemonic("_Unwanted patterns");
+    unwanted_patterns = gtk_image_menu_item_new_with_mnemonic(_("_Unwanted patterns"));
     gtk_widget_show(unwanted_patterns);
     gtk_container_add(GTK_CONTAINER(characters1_menu), unwanted_patterns);
 
@@ -1071,7 +1071,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image7494);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(unwanted_patterns), image7494);
 
-    check_words = gtk_image_menu_item_new_with_mnemonic("_Words");
+    check_words = gtk_image_menu_item_new_with_mnemonic(_("_Words"));
     gtk_widget_show(check_words);
     gtk_container_add(GTK_CONTAINER(check1_menu), check_words);
 
@@ -1082,7 +1082,7 @@ navigation(0), httpd(0)
     check_words_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(check_words), check_words_menu);
 
-    check_capitalization = gtk_image_menu_item_new_with_mnemonic("_Capitalization");
+    check_capitalization = gtk_image_menu_item_new_with_mnemonic(_("_Capitalization"));
     gtk_widget_show(check_capitalization);
     gtk_container_add(GTK_CONTAINER(check_words_menu), check_capitalization);
 
@@ -1090,7 +1090,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image7112);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_capitalization), image7112);
 
-    check_repetition = gtk_image_menu_item_new_with_mnemonic("_Repetition");
+    check_repetition = gtk_image_menu_item_new_with_mnemonic(_("_Repetition"));
     gtk_widget_show(check_repetition);
     gtk_container_add(GTK_CONTAINER(check_words_menu), check_repetition);
 
@@ -1098,7 +1098,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image7238);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_repetition), image7238);
 
-    unwanted_words = gtk_image_menu_item_new_with_mnemonic("_Unwanted");
+    unwanted_words = gtk_image_menu_item_new_with_mnemonic(_("_Unwanted"));
     gtk_widget_show(unwanted_words);
     gtk_container_add(GTK_CONTAINER(check_words_menu), unwanted_words);
 
@@ -1106,7 +1106,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image7631);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(unwanted_words), image7631);
 
-    word_count_inventory = gtk_image_menu_item_new_with_mnemonic("_Inventory");
+    word_count_inventory = gtk_image_menu_item_new_with_mnemonic(_("_Inventory"));
     gtk_widget_show(word_count_inventory);
     gtk_container_add(GTK_CONTAINER(check_words_menu), word_count_inventory);
 
@@ -1114,7 +1114,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image13715);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(word_count_inventory), image13715);
 
-    check_punctuation = gtk_image_menu_item_new_with_mnemonic("_Punctuation");
+    check_punctuation = gtk_image_menu_item_new_with_mnemonic(_("_Punctuation"));
     gtk_widget_show(check_punctuation);
     gtk_container_add(GTK_CONTAINER(check1_menu), check_punctuation);
 
@@ -1125,7 +1125,7 @@ navigation(0), httpd(0)
     check_punctuation_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(check_punctuation), check_punctuation_menu);
 
-    check_matching_pairs = gtk_image_menu_item_new_with_mnemonic("_Matching pairs");
+    check_matching_pairs = gtk_image_menu_item_new_with_mnemonic(_("_Matching pairs"));
     gtk_widget_show(check_matching_pairs);
     gtk_container_add(GTK_CONTAINER(check_punctuation_menu), check_matching_pairs);
 
@@ -1133,7 +1133,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image7367);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_matching_pairs), image7367);
 
-    check_references = gtk_image_menu_item_new_with_mnemonic("_References");
+    check_references = gtk_image_menu_item_new_with_mnemonic(_("_References"));
     gtk_widget_show(check_references);
     gtk_container_add(GTK_CONTAINER(check1_menu), check_references);
 
@@ -1144,7 +1144,7 @@ navigation(0), httpd(0)
     check_references_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(check_references), check_references_menu);
 
-    check_references_inventory = gtk_image_menu_item_new_with_mnemonic("_Inventory");
+    check_references_inventory = gtk_image_menu_item_new_with_mnemonic(_("_Inventory"));
     gtk_widget_show(check_references_inventory);
     gtk_container_add(GTK_CONTAINER(check_references_menu), check_references_inventory);
 
@@ -1152,7 +1152,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image21827);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_references_inventory), image21827);
 
-    check_references_validate = gtk_image_menu_item_new_with_mnemonic("_Validate");
+    check_references_validate = gtk_image_menu_item_new_with_mnemonic(_("_Validate"));
     gtk_widget_show(check_references_validate);
     gtk_container_add(GTK_CONTAINER(check_references_menu), check_references_validate);
 
@@ -1160,7 +1160,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image21828);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_references_validate), image21828);
 
-    checks_passages = gtk_image_menu_item_new_with_mnemonic("P_assages");
+    checks_passages = gtk_image_menu_item_new_with_mnemonic(_("P_assages"));
     gtk_widget_show(checks_passages);
     gtk_container_add(GTK_CONTAINER(check1_menu), checks_passages);
 
@@ -1171,7 +1171,7 @@ navigation(0), httpd(0)
     checks_passages_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(checks_passages), checks_passages_menu);
 
-    check_nt_quotations_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_OT quotations in the NT");
+    check_nt_quotations_from_the_ot = gtk_image_menu_item_new_with_mnemonic(_("_OT quotations in the NT"));
     gtk_widget_show(check_nt_quotations_from_the_ot);
     gtk_container_add(GTK_CONTAINER(checks_passages_menu), check_nt_quotations_from_the_ot);
 
@@ -1179,7 +1179,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image24104);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_nt_quotations_from_the_ot), image24104);
 
-    synoptic_parallel_passages_from_the_nt = gtk_image_menu_item_new_with_mnemonic("_Synoptic parallels in the NT");
+    synoptic_parallel_passages_from_the_nt = gtk_image_menu_item_new_with_mnemonic(_("_Synoptic parallels in the NT"));
     gtk_widget_show(synoptic_parallel_passages_from_the_nt);
     gtk_container_add(GTK_CONTAINER(checks_passages_menu), synoptic_parallel_passages_from_the_nt);
 
@@ -1187,7 +1187,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image24105);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(synoptic_parallel_passages_from_the_nt), image24105);
 
-    parallels_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_Parallels in the OT");
+    parallels_from_the_ot = gtk_image_menu_item_new_with_mnemonic(_("_Parallels in the OT"));
     gtk_widget_show(parallels_from_the_ot);
     gtk_container_add(GTK_CONTAINER(checks_passages_menu), parallels_from_the_ot);
 
@@ -1195,11 +1195,11 @@ navigation(0), httpd(0)
     gtk_widget_show(image24106);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(parallels_from_the_ot), image24106);
 
-    check_key_terms = gtk_check_menu_item_new_with_mnemonic("_Key terms");
+    check_key_terms = gtk_check_menu_item_new_with_mnemonic(_("_Key terms"));
     gtk_widget_show(check_key_terms);
     gtk_container_add(GTK_CONTAINER(check1_menu), check_key_terms);
 
-    my_checks = gtk_image_menu_item_new_with_mnemonic("M_y checks");
+    my_checks = gtk_image_menu_item_new_with_mnemonic(_("M_y checks"));
     gtk_widget_show(my_checks);
     gtk_container_add(GTK_CONTAINER(check1_menu), my_checks);
 
@@ -1207,11 +1207,11 @@ navigation(0), httpd(0)
     gtk_widget_show(image15438);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(my_checks), image15438);
 
-    check_usfm = gtk_check_menu_item_new_with_mnemonic ("_USFM");
+    check_usfm = gtk_check_menu_item_new_with_mnemonic (_("_USFM"));
     gtk_widget_show (check_usfm);
     gtk_container_add (GTK_CONTAINER (check1_menu), check_usfm);
 
-    check_spelling_error = gtk_image_menu_item_new_with_mnemonic ("_Spelling error");
+    check_spelling_error = gtk_image_menu_item_new_with_mnemonic (_("_Spelling error"));
     gtk_widget_show (check_spelling_error);
     gtk_container_add (GTK_CONTAINER (check1_menu), check_spelling_error);
 
@@ -1222,7 +1222,7 @@ navigation(0), httpd(0)
     check_spelling_error_menu = gtk_menu_new ();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (check_spelling_error), check_spelling_error_menu);
 
-    check_spelling_error_next = gtk_image_menu_item_new_with_mnemonic ("_Next");
+    check_spelling_error_next = gtk_image_menu_item_new_with_mnemonic (_("_Next"));
     gtk_widget_show (check_spelling_error_next);
     gtk_container_add (GTK_CONTAINER (check_spelling_error_menu), check_spelling_error_next);
 
@@ -1230,7 +1230,7 @@ navigation(0), httpd(0)
     gtk_widget_show (image34139);
     gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_spelling_error_next), image34139);
 
-    check_spelling_error_previous = gtk_image_menu_item_new_with_mnemonic ("_Previous");
+    check_spelling_error_previous = gtk_image_menu_item_new_with_mnemonic (_("_Previous"));
     gtk_widget_show (check_spelling_error_previous);
     gtk_container_add (GTK_CONTAINER (check_spelling_error_menu), check_spelling_error_previous);
 
@@ -1238,7 +1238,7 @@ navigation(0), httpd(0)
     gtk_widget_show (image34140);
     gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_spelling_error_previous), image34140);
 
-    check_spelling_bulk = gtk_image_menu_item_new_with_mnemonic ("_Bulk");
+    check_spelling_bulk = gtk_image_menu_item_new_with_mnemonic (_("_Bulk"));
     gtk_widget_show (check_spelling_bulk);
     gtk_container_add (GTK_CONTAINER (check_spelling_error_menu), check_spelling_bulk);
 
@@ -1248,7 +1248,7 @@ navigation(0), httpd(0)
 
   }
 
-  menutools = gtk_menu_item_new_with_mnemonic("_Tools");
+  menutools = gtk_menu_item_new_with_mnemonic(_("_Tools"));
   gtk_widget_show(menutools);
   gtk_container_add(GTK_CONTAINER(menubar1), menutools);
 
@@ -1263,7 +1263,7 @@ navigation(0), httpd(0)
   tool_transfer_project_notes_to_text = NULL;
   if (guifeatures.tools()) {
 
-    notes_transfer = gtk_image_menu_item_new_with_mnemonic("_Transfer text to project notes");
+    notes_transfer = gtk_image_menu_item_new_with_mnemonic(_("_Transfer text to project notes"));
     gtk_widget_show(notes_transfer);
     gtk_container_add(GTK_CONTAINER(menutools_menu), notes_transfer);
 
@@ -1271,7 +1271,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image14659);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(notes_transfer), image14659);
 
-    tool_origin_references_in_bible_notes = gtk_image_menu_item_new_with_mnemonic("_Bible notes mass update");
+    tool_origin_references_in_bible_notes = gtk_image_menu_item_new_with_mnemonic(_("_Bible notes mass update"));
     gtk_widget_show(tool_origin_references_in_bible_notes);
     gtk_container_add(GTK_CONTAINER(menutools_menu), tool_origin_references_in_bible_notes);
 
@@ -1279,7 +1279,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image16248);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(tool_origin_references_in_bible_notes), image16248);
 
-    tool_project_notes_mass_update1 = gtk_image_menu_item_new_with_mnemonic("_Project notes mass update");
+    tool_project_notes_mass_update1 = gtk_image_menu_item_new_with_mnemonic(_("_Project notes mass update"));
     gtk_widget_show(tool_project_notes_mass_update1);
     gtk_container_add(GTK_CONTAINER(menutools_menu), tool_project_notes_mass_update1);
 
@@ -1287,7 +1287,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image17187);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(tool_project_notes_mass_update1), image17187);
 
-    tool_generate_word_lists = gtk_image_menu_item_new_with_mnemonic("_Generate word lists");
+    tool_generate_word_lists = gtk_image_menu_item_new_with_mnemonic(_("_Generate word lists"));
     gtk_widget_show(tool_generate_word_lists);
     gtk_container_add(GTK_CONTAINER(menutools_menu), tool_generate_word_lists);
 
@@ -1295,7 +1295,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image20671);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(tool_generate_word_lists), image20671);
 
-    tool_simple_text_corrections = gtk_image_menu_item_new_with_mnemonic("_Simple text corrections");
+    tool_simple_text_corrections = gtk_image_menu_item_new_with_mnemonic(_("_Simple text corrections"));
     gtk_widget_show(tool_simple_text_corrections);
     gtk_container_add(GTK_CONTAINER(menutools_menu), tool_simple_text_corrections);
 
@@ -1303,7 +1303,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image21054);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(tool_simple_text_corrections), image21054);
 
-    tool_transfer_project_notes_to_text = gtk_image_menu_item_new_with_mnemonic("Tr_ansfer project notes to text");
+    tool_transfer_project_notes_to_text = gtk_image_menu_item_new_with_mnemonic(_("Tr_ansfer project notes to text"));
     gtk_widget_show(tool_transfer_project_notes_to_text);
     gtk_container_add(GTK_CONTAINER(menutools_menu), tool_transfer_project_notes_to_text);
 
@@ -1313,7 +1313,7 @@ navigation(0), httpd(0)
 
   }
 
-  tool_go_to_reference = gtk_image_menu_item_new_with_mnemonic ("G_o to reference (Ctrl-G)");
+  tool_go_to_reference = gtk_image_menu_item_new_with_mnemonic (_("G_o to reference (Ctrl-G)"));
   gtk_widget_show (tool_go_to_reference);
   gtk_container_add (GTK_CONTAINER (menutools_menu), tool_go_to_reference);
 
@@ -1321,7 +1321,7 @@ navigation(0), httpd(0)
   gtk_widget_show (image36137);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_go_to_reference), image36137);
 
-  tools_maintenance = gtk_image_menu_item_new_with_mnemonic ("_Maintenance");
+  tools_maintenance = gtk_image_menu_item_new_with_mnemonic (_("_Maintenance"));
   gtk_widget_show (tools_maintenance);
   gtk_container_add (GTK_CONTAINER (menutools_menu), tools_maintenance);
 
@@ -1329,7 +1329,7 @@ navigation(0), httpd(0)
   gtk_widget_show (image36259);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tools_maintenance), image36259);
 
-  menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
+  menuitem_preferences = gtk_menu_item_new_with_mnemonic(_("P_references"));
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
   // in use already: 
   // Alt-N goes to the Next Activity and
@@ -1350,7 +1350,7 @@ navigation(0), httpd(0)
   preferences_remote_repository = NULL;
   if (guifeatures.preferences()) {
 
-    notes_preferences = gtk_image_menu_item_new_with_mnemonic("Project _notes");
+    notes_preferences = gtk_image_menu_item_new_with_mnemonic(_("Project _notes"));
     gtk_widget_show(notes_preferences);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), notes_preferences);
 
@@ -1358,7 +1358,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image2116);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(notes_preferences), image2116);
 
-    printingprefs = gtk_image_menu_item_new_with_mnemonic("_Printing");
+    printingprefs = gtk_image_menu_item_new_with_mnemonic(_("_Printing"));
     gtk_widget_show(printingprefs);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), printingprefs);
 
@@ -1366,7 +1366,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image3493);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(printingprefs), image3493);
 
-    reference_exchange1 = gtk_image_menu_item_new_with_mnemonic("_Reference exchange");
+    reference_exchange1 = gtk_image_menu_item_new_with_mnemonic(_("_Reference exchange"));
     gtk_widget_show(reference_exchange1);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), reference_exchange1);
 
@@ -1374,7 +1374,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image5972);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(reference_exchange1), image5972);
 
-    prefs_books = gtk_image_menu_item_new_with_mnemonic("_Books");
+    prefs_books = gtk_image_menu_item_new_with_mnemonic(_("_Books"));
     gtk_widget_show(prefs_books);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), prefs_books);
 
@@ -1382,7 +1382,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image12167);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(prefs_books), image12167);
 
-    preferences_windows_outpost = gtk_image_menu_item_new_with_mnemonic("_Windows Outpost");
+    preferences_windows_outpost = gtk_image_menu_item_new_with_mnemonic(_("_Windows Outpost"));
     gtk_widget_show(preferences_windows_outpost);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_windows_outpost);
 
@@ -1390,7 +1390,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image14287);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_windows_outpost), image14287);
 
-    preferences_tidy_text = gtk_image_menu_item_new_with_mnemonic("_Tidy text");
+    preferences_tidy_text = gtk_image_menu_item_new_with_mnemonic(_("_Tidy text"));
     gtk_widget_show(preferences_tidy_text);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_tidy_text);
 
@@ -1398,7 +1398,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image16359);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_tidy_text), image16359);
 
-    preferences_remote_repository = gtk_image_menu_item_new_with_mnemonic ("R_emote repository");
+    preferences_remote_repository = gtk_image_menu_item_new_with_mnemonic (_("R_emote repository"));
     gtk_widget_show (preferences_remote_repository);
     gtk_container_add (GTK_CONTAINER (menuitem_preferences_menu), preferences_remote_repository);
 
@@ -1408,7 +1408,7 @@ navigation(0), httpd(0)
 
   }
 
-  preferences_gui = gtk_image_menu_item_new_with_mnemonic("_User interface");
+  preferences_gui = gtk_image_menu_item_new_with_mnemonic(_("_User interface"));
   gtk_widget_show(preferences_gui);
   gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_gui);
 
@@ -1425,7 +1425,7 @@ navigation(0), httpd(0)
   preferences_compare = NULL;
   if (guifeatures.preferences()) {
 
-    preferences_password = gtk_image_menu_item_new_with_mnemonic("P_assword");
+    preferences_password = gtk_image_menu_item_new_with_mnemonic(_("P_assword"));
     gtk_widget_show(preferences_password);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_password);
 
@@ -1433,7 +1433,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image20937);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_password), image20937);
 
-    preferences_text_replacement = gtk_image_menu_item_new_with_mnemonic("Te_xt replacement");
+    preferences_text_replacement = gtk_image_menu_item_new_with_mnemonic(_("Te_xt replacement"));
     gtk_widget_show(preferences_text_replacement);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_text_replacement);
 
@@ -1441,7 +1441,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image23181);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_text_replacement), image23181);
 
-    pdf_viewer1 = gtk_image_menu_item_new_with_mnemonic("P_DF Viewer");
+    pdf_viewer1 = gtk_image_menu_item_new_with_mnemonic(_("P_DF Viewer"));
     gtk_widget_show(pdf_viewer1);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), pdf_viewer1);
 
@@ -1449,7 +1449,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image24540);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(pdf_viewer1), image24540);
 
-    preferences_planning = gtk_image_menu_item_new_with_mnemonic("P_lanning");
+    preferences_planning = gtk_image_menu_item_new_with_mnemonic(_("P_lanning"));
     gtk_widget_show(preferences_planning);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_planning);
 
@@ -1457,7 +1457,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image26888);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_planning), image26888);
 
-    preferences_filters = gtk_image_menu_item_new_with_mnemonic("Filter_s");
+    preferences_filters = gtk_image_menu_item_new_with_mnemonic(_("Filter_s"));
     gtk_widget_show(preferences_filters);
     gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_filters);
 
@@ -1465,7 +1465,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image28360);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_filters), image28360);
 
-    preferences_compare = gtk_image_menu_item_new_with_mnemonic ("_Compare");
+    preferences_compare = gtk_image_menu_item_new_with_mnemonic (_("_Compare"));
     gtk_widget_show (preferences_compare);
     gtk_container_add (GTK_CONTAINER (menuitem_preferences_menu), preferences_compare);
 
@@ -1475,14 +1475,14 @@ navigation(0), httpd(0)
 
   }
 
-  menuitem_help = gtk_menu_item_new_with_mnemonic("_Help");
+  menuitem_help = gtk_menu_item_new_with_mnemonic(_("_Help"));
   gtk_widget_show(menuitem_help);
   gtk_container_add(GTK_CONTAINER(menubar1), menuitem_help);
 
   menuitem_help_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem_help), menuitem_help_menu);
 
-  help_main = gtk_image_menu_item_new_with_mnemonic("_Contents");
+  help_main = gtk_image_menu_item_new_with_mnemonic(_("_Contents"));
   gtk_widget_show(help_main);
   gtk_container_add(GTK_CONTAINER(menuitem_help_menu), help_main);
 
@@ -1490,7 +1490,7 @@ navigation(0), httpd(0)
   gtk_widget_show(image17520);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(help_main), image17520);
 
-  system_log1 = gtk_image_menu_item_new_with_mnemonic("_System log");
+  system_log1 = gtk_image_menu_item_new_with_mnemonic(_("_System log"));
   gtk_widget_show(system_log1);
   gtk_container_add(GTK_CONTAINER(menuitem_help_menu), system_log1);
 
@@ -1932,12 +1932,12 @@ void MainWindow::deleteproject ()
       projects.push_back(all_projects[i]);
   }
   // User interface.
-  ListviewDialog dialog("Delete project", projects, "", true, NULL);
+  ListviewDialog dialog(_("Delete project"), projects, "", true, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     int result;
-    result = gtkw_dialog_question(window_main, "Are you sure you want to delete project " + dialog.focus + "?");
+    result = gtkw_dialog_question(window_main, _("Are you sure you want to delete project ") + dialog.focus + "?");
     if (result == GTK_RESPONSE_YES) {
-      result = gtkw_dialog_question(window_main, "Are you really sure to delete project " + dialog.focus + ", something worth perhaps years of work?");
+      result = gtkw_dialog_question(window_main, _("Are you really sure to delete project ") + dialog.focus + _(", something worth perhaps years of work?"));
     }
     if (result == GTK_RESPONSE_YES) {
       project_delete(dialog.focus);
@@ -2113,7 +2113,7 @@ void MainWindow::menu_replace()
     replacedialog.run();
     reload_all_editors(false);
   } else {
-    gtkw_dialog_info(window_main, "There was nothing to replace");
+    gtkw_dialog_info(window_main, _("There was nothing to replace"));
   }
 }
 
@@ -2188,26 +2188,21 @@ void MainWindow::on_copy_project_to()
 // Copy project to another one.
 {
   save_editors();
-  EntryDialog dialog("New project name", "Enter a name of a non-existent project\nwhere this project will be copied to.", settings->genconfig.project_get());
+  EntryDialog dialog(_("New project name"), _("Enter a name of a non-existent project\nwhere this project will be copied to."), settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
     // Does the project exist?
     if ((project_exists(dialog.entered_value)) || (dialog.entered_value == "data")) {
       // Yes, give message that project exists.
-      ustring error = "Project ";
+      ustring error;
       error.append(dialog.entered_value);
-      error.append(" already exists.");
-      error.append("\nIf you still intend to copy the project,");
-      error.append("\ndelete project ");
-      error.append(dialog.entered_value);
-      error.append(" first.");
+      error.append(_(": This project already exists.\nIf you still intend to copy the project,\ndelete it first."));
       gtkw_dialog_error(window_main, error);
     } else {
       // Ok, go ahead with the copy.
       project_copy(settings->genconfig.project_get(), dialog.entered_value);
       // Give message when through.
       ustring message;
-      message.append("The project has been copied to a new project\n");
-      message.append("named ");
+      message.append(_("The project has been copied to a new project named\n"));
       message.append(dialog.entered_value);
       message.append(".");
       gtkw_dialog_info(window_main, message);
@@ -2720,7 +2715,7 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton * button)
   if (!editor_window)
     return;
   // Ask whether the references should be made available.
-  if (yes_no_always_dialog ("This note has references.\nWould you like to load these in the references list?", ynadtLoadReferences, false, true)) {
+  if (yes_no_always_dialog (_("This note has references.\nWould you like to load these in the references list?"), ynadtLoadReferences, false, true)) {
     vector <Reference> references = editor_window->quick_references();
     window_references->set(references, editor_window->project(), NULL);
   }
@@ -2770,7 +2765,7 @@ void MainWindow::send_word_to_toolbox()
   ustring word = editor_window->word_double_clicked_text();
   if (word.empty())
     return;
-  gw_message("Sending to Toolbox: " + word);
+  gw_message(_("Sending to Toolbox: ") + word);
   windowsoutpost->SantaFeFocusWordSet(word);
 }
 
@@ -2882,7 +2877,7 @@ void MainWindow::on_new_note()
 
 void MainWindow::on_delete_note_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  gtkw_dialog_info(((MainWindow *) user_data)->window_main, "A note can be deleted by clicking on the [delete] link in the notes view");
+  gtkw_dialog_info(((MainWindow *) user_data)->window_main, _("A note can be deleted by clicking on the [delete] link in the notes view"));
 }
 
 
@@ -3339,7 +3334,7 @@ void MainWindow::on_check_spelling_error(bool next, bool extremity)
   ustring project = editor_window->project();
   ProjectConfiguration * projectconfig = settings->projectconfig (project);
   if (!projectconfig->spelling_check_get()) {
-    gtkw_dialog_info (window_main, "To make this work, enable spelling checking in the project");
+    gtkw_dialog_info (window_main, _("To make this work, enable spelling checking in the project"));
     return;
   }
     
@@ -3348,13 +3343,12 @@ void MainWindow::on_check_spelling_error(bool next, bool extremity)
     return;
     
   // No next (or previous) error in the current chapter. Ask whether the user wishes to go to other chapter.
-  ustring msg = "There are no more spelling errors in this chapter"
-                "\nWould you like to go to the ";
+  ustring msg = _("There are no more spelling errors in this chapter\nWould you like to go to the");
   if (next)
-    msg.append ("next");
+    msg.append (_("next"));
   else
-    msg.append ("previous");
-  msg.append (" chapter or chapters?");
+    msg.append (_("previous"));
+  msg.append (_(" chapter or chapters?"));
   if (gtkw_dialog_question (NULL, msg) != GTK_RESPONSE_YES)
     return;
   if (next) {
@@ -3398,7 +3392,7 @@ void MainWindow::on_check_spelling_bulk()
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window) {
-    gtkw_dialog_info (NULL, "There is nothing to be checked");
+    gtkw_dialog_info (NULL, _("There is nothing to be checked"));
     return;
   }
   BulkSpellingDialog dialog (editor_window->spelling_get_misspelled());
@@ -3559,7 +3553,7 @@ void MainWindow::on_style_apply (ustring marker)
   // Special treatment for the chapter style.
   if (style.type == stChapterNumber) {
     // Ask whether the user wishes to insert a new chapter.
-    if (gtkw_dialog_question(window_main, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
+    if (gtkw_dialog_question(window_main, _("Would you like to insert a new chapter?"), GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
       // Insert a new chapter.
       save_editors();
       ChapterNumberDialog dialog(true);
@@ -3900,22 +3894,22 @@ void MainWindow::on_insert_special_character()
   vector < ustring > characters;
   vector < ustring > descriptions;
   characters.push_back("­");
-  descriptions.push_back("Soft hyphen");
+  descriptions.push_back(_("Soft hyphen"));
   characters.push_back(" ");
-  descriptions.push_back("No-break space");
+  descriptions.push_back(_("No-break space"));
   characters.push_back("“");
-  descriptions.push_back("Left double quotation mark");
+  descriptions.push_back(_("Left double quotation mark"));
   characters.push_back("”");
-  descriptions.push_back("Right double quotation mark");
+  descriptions.push_back(_("Right double quotation mark"));
   characters.push_back("‘");
-  descriptions.push_back("Left single quotation mark");
+  descriptions.push_back(_("Left single quotation mark"));
   characters.push_back("’");
-  descriptions.push_back("Right single quotation mark");
+  descriptions.push_back(_("Right single quotation mark"));
   characters.push_back("«");
-  descriptions.push_back("Left-pointing double angle quotation mark");
+  descriptions.push_back(_("Left-pointing double angle quotation mark"));
   characters.push_back("»");
-  descriptions.push_back("Right-pointing double angle quotation mark");
-  RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection, false);
+  descriptions.push_back(_("Right-pointing double angle quotation mark"));
+  RadiobuttonDialog dialog(_("Insert character"), _("Insert special character"), descriptions, settings->session.special_character_selection, false);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   settings->session.special_character_selection = dialog.selection;
@@ -4612,9 +4606,9 @@ void MainWindow::on_file_resources_delete()
 {
   vector < ustring > filenames;
   vector < ustring > resources = resource_get_resources(filenames, false);
-  ListviewDialog dialog("Delete resource", resources, "", false, NULL);
+  ListviewDialog dialog(_("Delete resource"), resources, "", false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
-    int result = gtkw_dialog_question(NULL, "Are you sure you want to delete resource " + dialog.focus + "?");
+    int result = gtkw_dialog_question(NULL, _("Are you sure you want to delete resource ") + dialog.focus + "?");
     if (result == GTK_RESPONSE_YES) {
       ustring filename;
       for (unsigned int i = 0; i < resources.size(); i++) {
@@ -5070,12 +5064,12 @@ void MainWindow::on_print()
   unsigned int selection;
   {
     vector <ustring> labels;
-    labels.push_back("Project (through internal typesetter)");
-    labels.push_back("Project (through ptx2pdf typesetter)");
-    labels.push_back("Parallel Bible");
-    labels.push_back("References");
+    labels.push_back(_("Project (through internal typesetter)"));
+    labels.push_back(_("Project (through ptx2pdf typesetter)"));
+    labels.push_back(_("Parallel Bible"));
+    labels.push_back(_("References"));
     //labels.push_back("Test usfm2pdf");
-    RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get(), false);
+    RadiobuttonDialog dialog(_("Print"), _("Select what to print"), labels, settings->genconfig.print_job_get(), false);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
     selection = dialog.selection;
@@ -5134,7 +5128,7 @@ void MainWindow::on_print()
       show_references_window();
       vector <Reference> refs = window_references->get();
       if (refs.empty()) {
-        gtkw_dialog_info(window_main, "There are no references to print");
+        gtkw_dialog_info(window_main, _("There are no references to print"));
       } else {
         // Run the function for printing the references.
         vector < ustring > extra_projects = settings->genconfig.print_references_projects_get();
