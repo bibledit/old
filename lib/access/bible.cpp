@@ -47,7 +47,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
   }
 
   // Managers and higher have read access.
-  if (level >= Filter_Roles::translator ()) {
+  if (level >= Filter_Roles::manager ()) {
     return true;
   }
 

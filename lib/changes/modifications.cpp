@@ -350,7 +350,9 @@ void changes_modifications ()
       for (auto & user : users) {
         if (request.database_config_user()->getUserBibleChangesNotification (user)) {
           if (access_bible_read (&request, bible, user)) {
-            if (!client_logic_client_enabled ()) database_mail.send (user, subject, body);
+            if (!client_logic_client_enabled ()) {
+              database_mail.send (user, subject, body);
+            }
           }
         }
       }
