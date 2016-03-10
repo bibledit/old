@@ -286,14 +286,24 @@ string database_privileges_client_path (const string & user)
 
 void database_privileges_client_create (const string & user, bool force)
 {
-  // Not yet implemented.
-  (void) user;
-  (void) force;
+  // The path to the file with privileges for the $user.
+  string path = database_privileges_client_path (user);
+  
+  // Without $force, if the file exists, we're done.
+  if (!force) {
+    if (file_exists (path)) return;
+  }
+  
+  // The container to store the bits of privileges in human-readable form.
+  vector <string> lines;
+  
+  // Write the privileges to disk.
+  filter_url_file_put_contents (path, filter_string_implode (lines, "\n"));
 }
 
 
-void database_privileges_client_remove (const string & user)
+void database_privileges_client_remove (const string & user) // Todo teest it.
 {
-  // Not yet implemented.
-  (void) user;
+  string path = database_privileges_client_path (user);
+  filter_url_unlink (path);
 }
