@@ -6258,9 +6258,6 @@ msgstr ""
 msgid "User:"
 msgstr ""
 
-msgid "Go back."
-msgstr ""
-
 msgid "Can view the resources."
 msgstr ""
 
@@ -6268,6 +6265,9 @@ msgid "Can view the consultation notes."
 msgstr ""
 
 msgid "Can create and comment on consultation notes."
+msgstr ""
+
+msgid "Go back."
 msgstr ""
 
 msgid "Users"
