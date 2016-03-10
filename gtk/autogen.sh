@@ -15,7 +15,7 @@ echo "Running intltoolize..."
 intltoolize --force --copy --automake || return 1
 
 echo "Running aclocal..."
-aclocal || return 1
+aclocal -I m4 -I /mingw/msys/1.0/share/aclocal --install || return 1
 
 echo "Running libtoolize..."
 libtoolize || return 1

@@ -3,14 +3,15 @@
 
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit-gtk],[4.9],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-gtk],[4.9.3],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.h])
-
+AC_CONFIG_MACRO_DIR([m4])
+LT_INIT
 
 CXXFLAGS="-g -O2 ${CXXFLAGS}"
 AC_PROG_CC
@@ -228,6 +229,16 @@ AM_GLIB_GNU_GETTEXT
 
 BIBLEDIT_LOCALEDIR=[${datadir}/locale]
 AC_SUBST(BIBLEDIT_LOCALEDIR)
+
+if test "x${datarootdir}" = 'x${prefix}/share'; then
+  if test "x${prefix}" = "xNONE"; then
+    AC_DEFINE_UNQUOTED(BIBLEDIT_LOCALEDIR, "${ac_default_prefix}/share/locale",[BIBLEDIT_LOCALEDIR])
+  else
+    AC_DEFINE_UNQUOTED(BIBLEDIT_LOCALEDIR, "${prefix}/share/locale",[BIBLEDIT_LOCALEDIR])
+  fi
+else
+  AC_DEFINE_UNQUOTED(BIBLEDIT_LOCALEDIR, "${datarootdir}/locale",[BIBLEDIT_LOCALEDIR])
+fi
 
 # This code is kept to learn from.
 # AC_CHECK_HEADER(aspell.h, [AC_DEFINE(HAVE_ASPELL_H,1, 
