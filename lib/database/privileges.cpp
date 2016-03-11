@@ -81,7 +81,7 @@ bool Database_Privileges::healthy ()
 }
 
 
-string Database_Privileges::save (string username) // Todo write unit tests.
+string Database_Privileges::save (string username)
 {
   SqliteDatabase sql (database ());
   
@@ -98,7 +98,14 @@ string Database_Privileges::save (string username) // Todo write unit tests.
   for (size_t i = 0; i < bible.size (); i++) {
     lines.push_back (bible [i]);
     lines.push_back (book [i]);
-    lines.push_back (write [i]);
+    // It could have just stored 0 or 1 for the boolean values.
+    // But if that were done, then there would be no change in the length of the file
+    // when changing only boolean values.
+    // And then the client would not re-download that file.
+    // To use "on" and "off", that solves the issue.
+    bool b = convert_to_bool (write[i]);
+    if (b) lines.push_back (on ());
+    else lines.push_back (off ());
   }
   lines.push_back (bibles_end ());
   
@@ -118,9 +125,65 @@ string Database_Privileges::save (string username) // Todo write unit tests.
 }
 
 
-void Database_Privileges::load (string username, const string & data) // Todo implement and write tests.
+void Database_Privileges::load (string username, const string & data)
 {
+  // Clear all data for the user.
+  {
+    SqliteDatabase sql (database ());
+    sql.add ("DELETE FROM bibles WHERE username =");
+    sql.add (username);
+    sql.add (";");
+    sql.execute ();
+    sql.clear ();
+    sql.add ("DELETE FROM features WHERE username =");
+    sql.add (username);
+    sql.add (";");
+    sql.execute ();
+  }
+
+  vector <string> lines = filter_string_explode (data, '\n');
+  bool loading_bibles = false;
+  string bible_value;
+  int book_value = 0;
+  bool write_value = false;
+  bool loading_features = false;
+  int counter = 0;
+
+  for (auto & line : lines) {
+
+    if (line == bibles_end ()) {
+      loading_bibles = false;
+    }
+    if (line == features_end ()) {
+      loading_features = false;
+    }
   
+    counter++;
+    
+    if (loading_bibles) {
+      if (counter == 1) bible_value = line;
+      if (counter == 2) book_value = convert_to_int (line);
+      if (counter == 3) {
+        write_value = (line == on ());
+        setBibleBook (username, bible_value, book_value, write_value);
+        counter = 0;
+      }
+    }
+    
+    if (loading_features) {
+      setFeature (username, convert_to_int (line), true);
+    }
+    
+    if (line == bibles_start ()) {
+      loading_bibles = true;
+      counter = 0;
+    }
+    if (line == features_start ()) {
+      loading_features = true;
+      counter = 0;
+    }
+    
+  }
 }
 
 
@@ -345,9 +408,33 @@ const char * Database_Privileges::features_end ()
 }
 
 
+const char * Database_Privileges::on ()
+{
+  return "on";
+}
+
+
+const char * Database_Privileges::off ()
+{
+  return "off";
+}
+
+
+string database_privileges_directory (const string & user)
+{
+  return filter_url_create_path ("databases", "clients", user);
+}
+
+
+string database_privileges_file ()
+{
+  return "privileges.txt";
+}
+
+
 string database_privileges_client_path (const string & user)
 {
-  return filter_url_create_root_path ("databases", "clients", user, "privileges.txt");
+  return filter_url_create_root_path (database_privileges_directory (user), database_privileges_file ());
 }
 
 

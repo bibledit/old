@@ -50,9 +50,13 @@ private:
   static const char * bibles_end ();
   static const char * features_start ();
   static const char * features_end ();
+  static const char * on ();
+  static const char * off ();
 };
 
 
+string database_privileges_directory (const string & user);
+string database_privileges_file ();
 string database_privileges_client_path (const string & user);
 void database_privileges_client_create (const string & user, bool force);
 void database_privileges_client_remove (const string & user);

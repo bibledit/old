@@ -4510,6 +4510,33 @@ void test_database_privileges ()
   Database_Privileges::removeUser (username);
   enabled = Database_Privileges::getFeature (username, 1234);
   evaluate (__LINE__, __func__, false, enabled);
+  
+  // Test privileges transfer through a text file.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  // Set privileges.
+  Database_Privileges::setBibleBook (username, bible, 1, true);
+  Database_Privileges::setFeature (username, 1234, true);
+  // Check the transfer text file.
+  string privileges =
+    "bibles_start\n"
+    "bible\n"
+    "1\n"
+    "on\n"
+    "bibles_end\n"
+    "features_start\n"
+    "1234\n"
+    "features_start";
+  evaluate (__LINE__, __func__, privileges, Database_Privileges::save (username));
+  // Transfer the privileges to another user.
+  string clientuser = username + "client";
+  Database_Privileges::load (clientuser, privileges);
+  // Check the privileges for that other user.
+  Database_Privileges::getBible (clientuser, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, true, enabled);
 }
 
 

@@ -34,6 +34,7 @@
 #include <checksum/logic.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/privileges.h>
 
 
 int sendreceive_files_watchdog = 0;
@@ -239,6 +240,12 @@ void sendreceive_files ()
         Database_Logs::log (sendreceive_files_text () + "Failure downloading file: " + error, Filter_Roles::translator ());
         sendreceive_files_done ();
         return;
+      }
+      // When downloading privileges, load them in the database on the client.
+      if (directory == database_privileges_directory (user)) {
+        if (file == database_privileges_file ()) {
+          Database_Privileges::load (user, filter_url_file_get_contents (fullpath));
+        }
       }
     }
   }
