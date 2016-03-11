@@ -32,6 +32,8 @@ public:
   static void upgrade ();
   static void optimize ();
   static bool healthy ();
+  static string save (string username);
+  static void load (string username, const string & data);
   static void setBibleBook (string username, string bible, int book, bool write);
   static void setBible (string username, string bible, bool write);
   static void getBibleBook (string username, string bible, int book, bool & read, bool & write);
@@ -44,6 +46,10 @@ public:
   static bool getFeature (string username, int feature);
   static void removeUser (string username);
 private:
+  static const char * bibles_start ();
+  static const char * bibles_end ();
+  static const char * features_start ();
+  static const char * features_end ();
 };
 
 

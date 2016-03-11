@@ -81,6 +81,49 @@ bool Database_Privileges::healthy ()
 }
 
 
+string Database_Privileges::save (string username) // Todo write unit tests.
+{
+  SqliteDatabase sql (database ());
+  
+  vector <string> lines;
+
+  lines.push_back (bibles_start ());
+  sql.add ("SELECT bible, book, write FROM bibles WHERE username =");
+  sql.add (username);
+  sql.add (";");
+  map <string, vector <string> > result = sql.query ();
+  vector <string> bible = result ["bible"];
+  vector <string> book =  result ["book"];
+  vector <string> write = result ["write"];
+  for (size_t i = 0; i < bible.size (); i++) {
+    lines.push_back (bible [i]);
+    lines.push_back (book [i]);
+    lines.push_back (write [i]);
+  }
+  lines.push_back (bibles_end ());
+  
+  lines.push_back (features_start ());
+  sql.clear ();
+  sql.add ("SELECT feature FROM features WHERE username =");
+  sql.add (username);
+  sql.add (";");
+  result = sql.query ();
+  vector <string> feature = result ["feature"];
+  for (size_t i = 0; i < feature.size (); i++) {
+    lines.push_back (feature [i]);
+  }
+  lines.push_back (features_end ());
+  
+  return filter_string_implode (lines, "\n");
+}
+
+
+void Database_Privileges::load (string username, const string & data) // Todo implement and write tests.
+{
+  
+}
+
+
 // Give a privilege to a $username to access $bible $book to read it, or also to $write it.
 void Database_Privileges::setBibleBook (string username, string bible, int book, bool write)
 {
@@ -278,9 +321,33 @@ void Database_Privileges::removeUser (string username)
 }
 
 
+const char * Database_Privileges::bibles_start ()
+{
+  return "bibles_start";
+}
+
+
+const char * Database_Privileges::bibles_end ()
+{
+  return "bibles_end";
+}
+
+
+const char * Database_Privileges::features_start ()
+{
+  return "features_start";
+}
+
+
+const char * Database_Privileges::features_end ()
+{
+  return "features_start";
+}
+
+
 string database_privileges_client_path (const string & user)
 {
-  return filter_url_create_root_path ("databases", "client", "privileges_" + user + ".txt");
+  return filter_url_create_root_path ("databases", "clients", user, "privileges.txt");
 }
 
 
@@ -294,16 +361,21 @@ void database_privileges_client_create (const string & user, bool force)
     if (file_exists (path)) return;
   }
   
-  // The container to store the bits of privileges in human-readable form.
-  vector <string> lines;
+  // If needed, create the folder.
+  string folder = filter_url_dirname (path);
+  if (!file_exists (folder)) filter_url_mkdir (folder);
+  
+  // The bits of privileges in human-readable form.
+  string privileges = Database_Privileges::save (user);
   
   // Write the privileges to disk.
-  filter_url_file_put_contents (path, filter_string_implode (lines, "\n"));
+  filter_url_file_put_contents (path, privileges);
 }
 
 
-void database_privileges_client_remove (const string & user) // Todo teest it.
+void database_privileges_client_remove (const string & user)
 {
   string path = database_privileges_client_path (user);
-  filter_url_unlink (path);
+  path = filter_url_dirname (path);
+  filter_url_rmdir (path);
 }
