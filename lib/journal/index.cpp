@@ -137,7 +137,11 @@ string journal_index (void * webserver_request)
   string lines;
   for (auto entry : entries) {
     int entryLevel = convert_to_int (entry);
-    if (entryLevel > userLevel) continue;
+    // Cloud: Pay attention to only rendering journal entries of sufficient user level.
+    // Client: Render any journal entry.
+    if (!client_logic_client_enabled ()) {
+      if (entryLevel > userLevel) continue;
+    }
     entry = render_journal_entry (entry);
     lines.append ("<p>");
     lines.append (entry);
