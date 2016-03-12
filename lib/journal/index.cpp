@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <locale/translate.h>
 #include <menu/logic.h>
+#include <client/logic.h>
 
 
 const char * journal_index_url ()
@@ -39,7 +40,16 @@ const char * journal_index_url ()
 
 bool journal_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  // In Client mode, anyone can view the journal.
+  if (client_logic_client_enabled ()) {
+    return true;
+  }
+  // The role of Consultant or higher can view the journal.
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
+    return true;
+  }
+  // No access.
+  return false;
 }
 
 
@@ -77,8 +87,13 @@ string journal_index_ajax (Webserver_Request * request, string filename)
   string result = database_logs.getNext (filename);
   if (!result.empty()) {
     int entryLevel = convert_to_int (result);
-    if (entryLevel <= userLevel) result = render_journal_entry (result);
-    else result.clear ();
+    // Cloud: Pay attention to only rendering journal entries of sufficient user level.
+    // Client: Render any journal entry.
+    if ((entryLevel <= userLevel) || client_logic_client_enabled ()) {
+      result = render_journal_entry (result);
+    } else {
+      result.clear ();
+    }
     result.insert (0, filename + "\n");
   }
   return result;

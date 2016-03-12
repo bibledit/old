@@ -48,15 +48,16 @@ string sendreceive_index_url ()
 
 bool sendreceive_index_acl (void * webserver_request)
 {
-  // The role of Translator or higher enables send/receive.
-  bool enable = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
-  if (!enable) {
-    // In Client mode, also a Consultant can send/receive.
-    if (client_logic_client_enabled ()) {
-      enable = Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
-    }
+  // In Client mode, also a Consultant can send/receive.
+  if (client_logic_client_enabled ()) {
+    return true;
   }
-  return enable;
+  // The role of Translator or higher enables send/receive.
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) {
+    return true;
+  }
+  // No access.
+  return false;
 }
 
 
