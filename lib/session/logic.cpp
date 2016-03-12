@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // The username and password for a demo installation, and for a disconnected client installation
-string session_admin_credentials () // Tod
+string session_admin_credentials ()
 {
   return "admin";
 }
@@ -235,7 +235,10 @@ int Session_Logic::currentLevel (bool force)
 void Session_Logic::logout ()
 {
   string username = currentUser ();
-  Database_Login::removeTokens (username);
+  string security1 = remoteAddress ();
+  string security2 = ((Webserver_Request *) webserver_request)->user_agent;
+  string security3 = fingerprint ();
+  Database_Login::removeTokens (username, security1, security2, security3);
   setUsername ("");
   level = Filter_Roles::guest();
 }

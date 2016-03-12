@@ -4334,7 +4334,9 @@ void test_database_login ()
   Database_Login::optimize ();
   
   string username = "unittest";
+  string username2 = "unittest2";
   string address = "192.168.1.0";
+  string address2 = "192.168.1.1";
   string agent = "Browser's user agent";
   string fingerprint = "ԴԵԶԸ";
 
@@ -4358,6 +4360,22 @@ void test_database_login ()
   evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint));
   Database_Login::setTokens (username, address, agent, fingerprint, true);
   evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint + "x"));
+
+  // Testing that removing tokens for one set does not remove all tokens for a user.
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::setTokens (username, address2, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address2, agent, fingerprint));
+  Database_Login::removeTokens (username, address2, agent, fingerprint);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address2, agent, fingerprint));
+  
+  // Test moving tokens to a new username.
+  Database_Login::removeTokens (username);
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::renameTokens (username, username2, address, agent, fingerprint);
+  evaluate (__LINE__, __func__, username2, Database_Login::getUsername (address, agent, fingerprint));
 }
 
 

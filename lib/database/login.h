@@ -34,6 +34,9 @@ public:
   static bool healthy ();
   static void setTokens (string username, string address, string agent, string fingerprint, bool touch);
   static void removeTokens (string username);
+  static void removeTokens (string username, string address, string agent, string fingerprint);
+  static void renameTokens (string username_existing, string username_new,
+                            string address, string agent, string fingerprint);
   static string getUsername (string address, string agent, string fingerprint);
   static bool getTouchEnabled (string address, string agent, string fingerprint);
   static void testTimestamp ();

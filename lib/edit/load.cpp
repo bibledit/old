@@ -67,7 +67,6 @@ string edit_load (void * webserver_request)
   
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible_book_write (webserver_request, user, bible, book);
-  cout << write << endl; // Todo
   
   return Checksum_Logic::send (html, write);
 }
