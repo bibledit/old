@@ -4334,7 +4334,9 @@ void test_database_login ()
   Database_Login::optimize ();
   
   string username = "unittest";
+  string username2 = "unittest2";
   string address = "192.168.1.0";
+  string address2 = "192.168.1.1";
   string agent = "Browser's user agent";
   string fingerprint = "ԴԵԶԸ";
 
@@ -4358,6 +4360,22 @@ void test_database_login ()
   evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint));
   Database_Login::setTokens (username, address, agent, fingerprint, true);
   evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint + "x"));
+
+  // Testing that removing tokens for one set does not remove all tokens for a user.
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::setTokens (username, address2, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address2, agent, fingerprint));
+  Database_Login::removeTokens (username, address2, agent, fingerprint);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address2, agent, fingerprint));
+  
+  // Test moving tokens to a new username.
+  Database_Login::removeTokens (username);
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::renameTokens (username, username2, address, agent, fingerprint);
+  evaluate (__LINE__, __func__, username2, Database_Login::getUsername (address, agent, fingerprint));
 }
 
 
@@ -4510,6 +4528,33 @@ void test_database_privileges ()
   Database_Privileges::removeUser (username);
   enabled = Database_Privileges::getFeature (username, 1234);
   evaluate (__LINE__, __func__, false, enabled);
+  
+  // Test privileges transfer through a text file.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  // Set privileges.
+  Database_Privileges::setBibleBook (username, bible, 1, true);
+  Database_Privileges::setFeature (username, 1234, true);
+  // Check the transfer text file.
+  string privileges =
+    "bibles_start\n"
+    "bible\n"
+    "1\n"
+    "on\n"
+    "bibles_end\n"
+    "features_start\n"
+    "1234\n"
+    "features_start";
+  evaluate (__LINE__, __func__, privileges, Database_Privileges::save (username));
+  // Transfer the privileges to another user.
+  string clientuser = username + "client";
+  Database_Privileges::load (clientuser, privileges);
+  // Check the privileges for that other user.
+  Database_Privileges::getBible (clientuser, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, true, enabled);
 }
 
 

@@ -81,6 +81,112 @@ bool Database_Privileges::healthy ()
 }
 
 
+string Database_Privileges::save (string username)
+{
+  SqliteDatabase sql (database ());
+  
+  vector <string> lines;
+
+  lines.push_back (bibles_start ());
+  sql.add ("SELECT bible, book, write FROM bibles WHERE username =");
+  sql.add (username);
+  sql.add (";");
+  map <string, vector <string> > result = sql.query ();
+  vector <string> bible = result ["bible"];
+  vector <string> book =  result ["book"];
+  vector <string> write = result ["write"];
+  for (size_t i = 0; i < bible.size (); i++) {
+    lines.push_back (bible [i]);
+    lines.push_back (book [i]);
+    // It could have just stored 0 or 1 for the boolean values.
+    // But if that were done, then there would be no change in the length of the file
+    // when changing only boolean values.
+    // And then the client would not re-download that file.
+    // To use "on" and "off", that solves the issue.
+    bool b = convert_to_bool (write[i]);
+    if (b) lines.push_back (on ());
+    else lines.push_back (off ());
+  }
+  lines.push_back (bibles_end ());
+  
+  lines.push_back (features_start ());
+  sql.clear ();
+  sql.add ("SELECT feature FROM features WHERE username =");
+  sql.add (username);
+  sql.add (";");
+  result = sql.query ();
+  vector <string> feature = result ["feature"];
+  for (size_t i = 0; i < feature.size (); i++) {
+    lines.push_back (feature [i]);
+  }
+  lines.push_back (features_end ());
+  
+  return filter_string_implode (lines, "\n");
+}
+
+
+void Database_Privileges::load (string username, const string & data)
+{
+  // Clear all data for the user.
+  {
+    SqliteDatabase sql (database ());
+    sql.add ("DELETE FROM bibles WHERE username =");
+    sql.add (username);
+    sql.add (";");
+    sql.execute ();
+    sql.clear ();
+    sql.add ("DELETE FROM features WHERE username =");
+    sql.add (username);
+    sql.add (";");
+    sql.execute ();
+  }
+
+  vector <string> lines = filter_string_explode (data, '\n');
+  bool loading_bibles = false;
+  string bible_value;
+  int book_value = 0;
+  bool write_value = false;
+  bool loading_features = false;
+  int counter = 0;
+
+  for (auto & line : lines) {
+
+    if (line == bibles_end ()) {
+      loading_bibles = false;
+    }
+    if (line == features_end ()) {
+      loading_features = false;
+    }
+  
+    counter++;
+    
+    if (loading_bibles) {
+      if (counter == 1) bible_value = line;
+      if (counter == 2) book_value = convert_to_int (line);
+      if (counter == 3) {
+        write_value = (line == on ());
+        setBibleBook (username, bible_value, book_value, write_value);
+        counter = 0;
+      }
+    }
+    
+    if (loading_features) {
+      setFeature (username, convert_to_int (line), true);
+    }
+    
+    if (line == bibles_start ()) {
+      loading_bibles = true;
+      counter = 0;
+    }
+    if (line == features_start ()) {
+      loading_features = true;
+      counter = 0;
+    }
+    
+  }
+}
+
+
 // Give a privilege to a $username to access $bible $book to read it, or also to $write it.
 void Database_Privileges::setBibleBook (string username, string bible, int book, bool write)
 {
@@ -278,9 +384,57 @@ void Database_Privileges::removeUser (string username)
 }
 
 
+const char * Database_Privileges::bibles_start ()
+{
+  return "bibles_start";
+}
+
+
+const char * Database_Privileges::bibles_end ()
+{
+  return "bibles_end";
+}
+
+
+const char * Database_Privileges::features_start ()
+{
+  return "features_start";
+}
+
+
+const char * Database_Privileges::features_end ()
+{
+  return "features_start";
+}
+
+
+const char * Database_Privileges::on ()
+{
+  return "on";
+}
+
+
+const char * Database_Privileges::off ()
+{
+  return "off";
+}
+
+
+string database_privileges_directory (const string & user)
+{
+  return filter_url_create_path ("databases", "clients", user);
+}
+
+
+string database_privileges_file ()
+{
+  return "privileges.txt";
+}
+
+
 string database_privileges_client_path (const string & user)
 {
-  return filter_url_create_root_path ("databases", "client", "privileges_" + user + ".txt");
+  return filter_url_create_root_path (database_privileges_directory (user), database_privileges_file ());
 }
 
 
@@ -294,16 +448,21 @@ void database_privileges_client_create (const string & user, bool force)
     if (file_exists (path)) return;
   }
   
-  // The container to store the bits of privileges in human-readable form.
-  vector <string> lines;
+  // If needed, create the folder.
+  string folder = filter_url_dirname (path);
+  if (!file_exists (folder)) filter_url_mkdir (folder);
+  
+  // The bits of privileges in human-readable form.
+  string privileges = Database_Privileges::save (user);
   
   // Write the privileges to disk.
-  filter_url_file_put_contents (path, filter_string_implode (lines, "\n"));
+  filter_url_file_put_contents (path, privileges);
 }
 
 
-void database_privileges_client_remove (const string & user) // Todo teest it.
+void database_privileges_client_remove (const string & user)
 {
   string path = database_privileges_client_path (user);
-  filter_url_unlink (path);
+  path = filter_url_dirname (path);
+  filter_url_rmdir (path);
 }

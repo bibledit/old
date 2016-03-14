@@ -75,9 +75,8 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 bool access_bible_write (void * webserver_request, const string & bible, string user)
 {
   // Client: User has access to all Bibles.
-  if (client_logic_client_enabled ()) {
-    return true;
-  }
+  // if (client_logic_client_enabled ()) return true;
+  // This no longer applies since the client now receives the privileges from the Cloud.
   
   int level = 0;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -122,9 +121,8 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
 bool access_bible_book_write (void * webserver_request, string user, const string & bible, int book)
 {
   // Client: User has access to all Bibles.
-  if (client_logic_client_enabled ()) {
-    return true;
-  }
+  // if (client_logic_client_enabled ()) return true;
+  // This no longer applies since the client now receives the privileges from the Cloud.
 
   int level = 0;
   Webserver_Request * request = (Webserver_Request *) webserver_request;

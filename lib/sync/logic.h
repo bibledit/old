@@ -135,8 +135,8 @@ public:
   static const int files_directory_files = 3;
   static const int files_file_checksum = 4;
   static const int files_file_download = 5;
-  static vector <string> files_get_directories (int version);
-  static int files_get_total_checksum (int version);
+  static vector <string> files_get_directories (int version, const string & user);
+  static int files_get_total_checksum (int version, const string & user);
   static int files_get_directory_checksum (string directory);
   static vector <string> files_get_files (string directory);
   static int files_get_file_checksum (string directory, string file);

@@ -266,7 +266,7 @@ string Sync_Logic::changes_checksum (const string & username)
 // The $version influences which root directories to include.
 // The $version is passed by the client to the server,
 // so the server can adapt to the client's capabilities.
-vector <string> Sync_Logic::files_get_directories (int version)
+vector <string> Sync_Logic::files_get_directories (int version, const string & user)
 {
   vector <string> directories;
   switch (version) {
@@ -301,6 +301,14 @@ vector <string> Sync_Logic::files_get_directories (int version)
         "databases/client"
       };
       break;
+    case 5:
+      directories = {
+        "fonts",
+        "databases/imageresources",
+        "databases/client",
+        "databases/clients/" + user
+      };
+      break;
     default:
       break;
   }
@@ -308,11 +316,11 @@ vector <string> Sync_Logic::files_get_directories (int version)
 }
 
 
-// This returns the total checksum for all directories and files relevant to $version.
-int Sync_Logic::files_get_total_checksum (int version)
+// This returns the total checksum for all directories and files relevant to $version and $user.
+int Sync_Logic::files_get_total_checksum (int version, const string & user)
 {
   int checksum = 0;
-  vector <string> directories = files_get_directories (version);
+  vector <string> directories = files_get_directories (version, user);
   for (auto directory : directories) {
     checksum += files_get_directory_checksum (directory);
   }

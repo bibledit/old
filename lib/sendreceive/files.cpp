@@ -34,6 +34,7 @@
 #include <checksum/logic.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/privileges.h>
 
 
 int sendreceive_files_watchdog = 0;
@@ -98,8 +99,24 @@ void sendreceive_files ()
   string url = client_logic_url (address, port, sync_files_url ());
   
   
-  int version = 4;
+  // The verion number of the set of directories this client uses.
+  int version = 5;
+  
+  
   map <string, string> post;
+
+  
+  // The client user is the sole user registered on the system.
+  vector <string> users = request.database_users ()->getUsers ();
+  if (users.empty ()) {
+    Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
+    sendreceive_files_done ();
+    return;
+  }
+  string user = users [0];
+  post ["u"] = bin2hex (user);
+
+  
   post ["v"] = convert_to_string (version);
   string error;
   string response;
@@ -117,7 +134,7 @@ void sendreceive_files ()
     return;
   }
   iresponse = convert_to_int (response);
-  int checksum = Sync_Logic::files_get_total_checksum (version);
+  int checksum = Sync_Logic::files_get_total_checksum (version, user);
   if (iresponse == checksum) {
     Database_Logs::log (sendreceive_files_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_files_done ();
@@ -126,7 +143,7 @@ void sendreceive_files ()
 
   
   // Go through the directories relevant to the version.
-  vector <string> directories = Sync_Logic::files_get_directories (version);
+  vector <string> directories = Sync_Logic::files_get_directories (version, user);
   for (size_t d = 0; d < directories.size (); d++) {
     
 
@@ -209,10 +226,13 @@ void sendreceive_files ()
       string fullpath = filter_url_create_root_path (directory, file);
       // Create directory if it does not yet exist.
       string dirpath = filter_url_dirname (fullpath);
-      if (!file_exists (dirpath)) filter_url_mkdir (dirpath);
+      if (!file_exists (dirpath)) {
+        filter_url_mkdir (dirpath);
+      }
       string download_url = filter_url_build_http_query (url, "a", convert_to_string (Sync_Logic::files_file_download));
       download_url = filter_url_build_http_query (download_url, "v", convert_to_string (version));
       download_url = filter_url_build_http_query (download_url, "d", convert_to_string (d));
+      download_url = filter_url_build_http_query (download_url, "u", bin2hex (user));
       download_url = filter_url_build_http_query (download_url, "f", filter_url_urlencode (file));
       // Download and save file locally.
       filter_url_download_file (download_url, fullpath, error);
@@ -220,6 +240,12 @@ void sendreceive_files ()
         Database_Logs::log (sendreceive_files_text () + "Failure downloading file: " + error, Filter_Roles::translator ());
         sendreceive_files_done ();
         return;
+      }
+      // When downloading privileges, load them in the database on the client.
+      if (directory == database_privileges_directory (user)) {
+        if (file == database_privileges_file ()) {
+          Database_Privileges::load (user, filter_url_file_get_contents (fullpath));
+        }
       }
     }
   }

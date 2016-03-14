@@ -117,9 +117,50 @@ void Database_Login::setTokens (string username, string address, string agent, s
 void Database_Login::removeTokens (string username)
 {
   SqliteDatabase sql (database ());
-  username = database_sqlite_no_sql_injection (username);
   sql.add ("DELETE FROM logins WHERE username =");
   sql.add (username);
+  sql.add (";");
+  sql.execute ();
+}
+
+
+// Remove the login security tokens for a user based on the tokens themselves.
+void Database_Login::removeTokens (string username, string address, string agent, string fingerprint)
+{
+  address = md5 (address);
+  agent = md5 (agent);
+  fingerprint = md5 (fingerprint);
+  SqliteDatabase sql (database ());
+  sql.add ("DELETE FROM logins WHERE username =");
+  sql.add (username);
+  sql.add ("AND address =");
+  sql.add (address);
+  sql.add ("AND agent =");
+  sql.add (agent);
+  sql.add ("AND fingerprint =");
+  sql.add (fingerprint);
+  sql.add (";");
+  sql.execute ();
+}
+
+
+void Database_Login::renameTokens (string username_existing, string username_new,
+                                   string address, string agent, string fingerprint)
+{
+  address = md5 (address);
+  agent = md5 (agent);
+  fingerprint = md5 (fingerprint);
+  SqliteDatabase sql (database ());
+  sql.add ("UPDATE logins SET username =");
+  sql.add (username_new);
+  sql.add ("WHERE username =");
+  sql.add (username_existing);
+  sql.add ("AND address =");
+  sql.add (address);
+  sql.add ("AND agent =");
+  sql.add (agent);
+  sql.add ("AND fingerprint =");
+  sql.add (fingerprint);
   sql.add (";");
   sql.execute ();
 }

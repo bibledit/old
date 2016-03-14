@@ -58,6 +58,7 @@ string sync_files (void * webserver_request)
   if (request->post.empty ()) {
     request->post = request->query;
   }
+  string user = hex2bin (request->post ["u"]);
   int action = convert_to_int (request->post ["a"]);
   int version = convert_to_int (request->post ["v"]);
   size_t d = convert_to_int (request->post ["d"]);
@@ -65,7 +66,7 @@ string sync_files (void * webserver_request)
 
   // For security reasons a client does not specify the directory of the file to be downloaded.
   // Rather it specifies the offset within the list of allowed directories for the version.
-  vector <string> directories = Sync_Logic::files_get_directories (version);
+  vector <string> directories = Sync_Logic::files_get_directories (version, user);
   if (d >= directories.size ()) {
     request->response_code = 400;
     return "";
@@ -73,7 +74,7 @@ string sync_files (void * webserver_request)
   string directory = directories [d];
   
   if (action == Sync_Logic::files_total_checksum) {
-    return convert_to_string (Sync_Logic::files_get_total_checksum (version));
+    return convert_to_string (Sync_Logic::files_get_total_checksum (version, user));
   }
   
   else if (action == Sync_Logic::files_directory_checksum) {
