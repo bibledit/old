@@ -210,7 +210,23 @@ bool replace_text_between(ustring & line, const ustring & start, const ustring &
   return replacements_done;
 }
 
+// looks like a template macro
+//#define quick_swap(t, a, b) { t temp = a; a = b; b = temp; }
 
+// Function template for swapping elements in the container
+template<typename T> void quick_swap(T &a, T &b)
+{
+  T temp = a; a = b; b = temp;
+}
+
+// Instantiations of several quick_swap variants...cannot inline these
+template void quick_swap<ustring>(ustring &a, ustring &b);
+template void quick_swap<size_t> (size_t  &a, size_t  &b);
+template void quick_swap<int>    (int     &a, int     &b);
+template void quick_swap<bool>   (bool    &a, bool    &b);
+template void quick_swap<long unsigned int>(long unsigned int &a, long unsigned int &b);
+
+/*
 void quick_swap(ustring & a, ustring & b)
 {
   ustring t = a;
@@ -256,7 +272,7 @@ void quick_swap(bool & a, bool & b)
   a = b;
   b = t;
 }
-
+*/
 
 void quick_sort(vector < unsigned int >&one, vector < ustring > &two, unsigned int beg, unsigned int end)
 /*
@@ -311,7 +327,7 @@ void quick_sort(vector < ustring > &one, vector < unsigned int >&two, unsigned i
   }
 }
 
-
+/* Duplicate of size_t version below...
 void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
@@ -334,7 +350,7 @@ void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsign
     quick_sort(one, two, r, end);
   }
 }
-
+*/
 void quick_sort (vector<size_t>& one,       vector<size_t>& two,       unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
