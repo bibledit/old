@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logout.h>
 #include <session/password.h>
 #include <session/signup.h>
+#include <session/switch.h>
 #include <database/config/general.h>
 #include <database/offlineresources.h>
 #include <setup/index.h>
@@ -236,6 +237,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == session_logout_url ()) && session_logout_acl (request)) request->reply = session_logout (request);
   else if ((url == session_password_url ()) && session_password_acl (request)) request->reply = session_password (request);
   else if ((url == session_signup_url ()) && session_signup_acl (request)) request->reply = session_signup (request);
+  else if ((url == session_switch_url ()) && session_switch_acl (request)) request->reply = session_switch (request);
   
   // Bible menu.
   else if ((url == bible_manage_url ()) && bible_manage_acl (request)) request->reply = bible_manage (request);

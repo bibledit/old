@@ -6306,6 +6306,9 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
+msgid "Login"
+msgstr ""
+
 msgid "Role"
 msgstr ""
 
@@ -6430,9 +6433,6 @@ msgid "Delete this mapping"
 msgstr ""
 
 msgid "Desktop"
-msgstr ""
-
-msgid "Login"
 msgstr ""
 
 msgid "Translation"
