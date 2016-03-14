@@ -27,6 +27,7 @@
 #include "progresswindow.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
+#include <config.h>
 
 
 bool program_is_running(const ustring & commandline)

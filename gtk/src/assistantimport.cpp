@@ -372,7 +372,7 @@ void ImportAssistant::on_assistant_prepare (GtkWidget *page)
     }
     ustring label;
     label.append (_("Files count: "));
-    label.append (convert_to_string (files_names.size()));
+    label.append (convert_to_string ((unsigned int)files_names.size()));
     label.append ("\n");
     for (unsigned int i = 0; i < files_messages.size(); i++) {
       label.append ("\n");

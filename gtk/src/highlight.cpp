@@ -381,8 +381,11 @@ void Highlight::highlight()
 
 
 bool searchwords_find_fast (const ustring& text, 
-                            const vector <ustring>& searchwords, const vector <bool>& wholewords, const vector <bool>& casesensitives, 
-                            vector <size_t>& startpositions, vector <size_t>& lengths)
+                            const vector <ustring>& searchwords,
+							const vector <bool>& wholewords,
+							const vector <bool>& casesensitives, 
+                            vector <size_t>& startpositions,
+							vector <size_t>& lengths)
 // Finds occurrences of searchwords in the text.
 // text: Text to be looked through.
 // searchwords: Search words to look for.
@@ -450,7 +453,7 @@ bool searchwords_find_fast (const ustring& text,
 
   if (found) {
     // Sort the output.
-    quick_sort (startpositions, lengths, 0, startpositions.size());
+    quick_sort (startpositions, lengths, 0, (unsigned int)startpositions.size());
     // Overlapping items need to be combined to avoid crashes.
     xml_combine_overlaps (startpositions, lengths);
   }

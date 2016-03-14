@@ -578,7 +578,7 @@ bool ResourceConverterDialog::open_file_gui()
   ustring s(filename);
   if (ok) {
     s.append(": ");
-    s.append(convert_to_string(lines.size()));
+    s.append(convert_to_string((unsigned int)lines.size()));
     s.append(_(" lines"));
   }
   gtk_label_set_text(GTK_LABEL(label_open_file_short), _("Open a file for conversion"));

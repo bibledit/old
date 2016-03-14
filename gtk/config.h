@@ -1,6 +1,9 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* BIBLEDIT_LOCALEDIR */
+#define BIBLEDIT_LOCALEDIR "/usr/share/locale"
+
 /* DARWIN */
 /* #undef DARWIN */
 
@@ -17,10 +20,13 @@
 #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 
 /* define if the compiler supports basic C++11 syntax */
-#define HAVE_CXX11 1
+/* #undef HAVE_CXX11 */
 
 /* Define to 1 if you have the `dcgettext' function. */
 #define HAVE_DCGETTEXT 1
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+/* #undef HAVE_DLFCN_H */
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #define HAVE_GETTEXT 1
@@ -29,7 +35,7 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define if your <locale.h> file defines LC_MESSAGES. */
-#define HAVE_LC_MESSAGES 1
+/* #undef HAVE_LC_MESSAGES */
 
 /* Define to 1 if you have the <locale.h> header file. */
 #define HAVE_LOCALE_H 1
@@ -62,7 +68,10 @@
 #define HAVE_UNISTD_H 1
 
 /* LINUX */
-#define LINUX "1"
+/* #undef LINUX */
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#define LT_OBJDIR ".libs/"
 
 /* Name of package */
 #define PACKAGE "bibledit-gtk"
@@ -77,7 +86,7 @@
 #define PACKAGE_NAME "bibledit-gtk"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit-gtk 4.9.2"
+#define PACKAGE_STRING "bibledit-gtk 4.9.3"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit-gtk"
@@ -86,13 +95,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.9.2"
+#define PACKAGE_VERSION "4.9.3"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "4.9.2"
+#define VERSION "4.9.3"
 
 /* WIN32 */
-/* #undef WIN32 */
+#define WIN32 "1"

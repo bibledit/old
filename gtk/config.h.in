@@ -9,6 +9,9 @@
 /* always defined to indicate that i18n is enabled */
 #undef ENABLE_NLS
 
+/* Define to 1 if pango >= 1.8.0. */
+#undef FIXED_PANGO
+
 /* The domain to use with gettext */
 #undef GETTEXT_PACKAGE
 
@@ -39,6 +42,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define to 1 if PANGO_UNDERLINE_ERROR is available. */
+#undef HAVE_PANGO_UNDERLINE_ERROR
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
@@ -63,8 +69,7 @@
 /* LINUX */
 #undef LINUX
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* Name of package */

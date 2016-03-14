@@ -226,6 +226,13 @@ void quick_swap(unsigned int &a, unsigned int &b)
   b = t;
 }
 
+void quick_swap(size_t &a, size_t &b)
+{
+  size_t t = a;
+  a = b;
+  b = t;
+}
+
 
 void quick_swap(long unsigned int &a, long unsigned int &b)
 {
@@ -306,6 +313,29 @@ void quick_sort(vector < ustring > &one, vector < unsigned int >&two, unsigned i
 
 
 void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    unsigned int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+void quick_sort (vector<size_t>& one,       vector<size_t>& two,       unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     unsigned int piv = one[beg];

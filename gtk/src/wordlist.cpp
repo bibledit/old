@@ -139,7 +139,7 @@ void Wordlist::run(vector < ustring > &allmessages)
   }
   // Informative messages.
   message(_("Total entries: ") + convert_to_string(wordcount));
-  message(_("Unique entries: ") + convert_to_string(words.size()));
+  message(_("Unique entries: ") + convert_to_string((unsigned int)words.size()));
 
   // Pass 2: Insert word lists.
 

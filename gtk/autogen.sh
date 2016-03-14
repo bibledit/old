@@ -1,6 +1,15 @@
 #!/bin/sh
 
+function error_exit
+{
+    echo "Something went wrong with $1" 1>&2
+    exit 1
+}
+
 mkdir -p m4
+
+echo "Running autoreconf..."
+autoreconf --force --install 
 
 echo "Creating m4/aclocal.m4 ..."
 test -r m4/aclocal.m4 || touch m4/aclocal.m4
@@ -12,21 +21,22 @@ echo "Making m4/aclocal.m4 writable ..."
 test -r m4/aclocal.m4 && chmod u+w m4/aclocal.m4
 
 echo "Running intltoolize..."
-intltoolize --force --copy --automake || return 1
+intltoolize --force --copy --automake || error_exit "intltoolize"
 
 echo "Running aclocal..."
-aclocal -I m4 -I /mingw/msys/1.0/share/aclocal --install || return 1
+#-I /mingw/msys/1.0/share/aclocal
+aclocal -I m4 --install || error_exit "aclocal"
 
 echo "Running libtoolize..."
-libtoolize || return 1
+libtoolize || error_exit "libtoolize"
 
 echo "Running autoheader..."
-autoheader || return 1
+autoheader || error_exit "autoheader"
 
 echo "Running autoconf..."
-autoconf || return 1
+autoconf || error_exit "autoconf"
 
 echo "Running automake..."
-automake --add-missing || return 1
+automake --add-missing || error_exit "automake"
 
-echo "You should now run ./configure..."
+echo "You should now run ./configure, then make, then make install..."

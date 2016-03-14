@@ -77,14 +77,15 @@ int main(int argc, char *argv[])
   // Initialize GTK
   gtk_init(&argc, &argv);
 
+  // Create a new directories 'factory' and initialize it with argv[0]
+  Directories = new directories(argv[0]);
+
   // Check whether it is fine to start the program.
   // If not, quit the program normally.
   if (!check_bibledit_startup_okay(argc, argv)) {
     return 0;
   }
 
-  // Create a new directories 'factory' and initialize it with argv[0]
-  Directories = new directories(argv[0]);
   books_init(); // TEMP - MAP
 
   // Check on required directory structure.

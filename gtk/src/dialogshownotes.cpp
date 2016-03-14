@@ -470,7 +470,7 @@ void ShowNotesDialog::timeout()
   notes_select (ids, id_cursor, currentreference, category, refselection, editedselection, currentprojectselection, from_day, to_day);
   
   // Update GUI.
-  ustring message = _("This selection would display ") + convert_to_string (ids.size()) + " ";
+  ustring message = _("This selection would display ") + convert_to_string ((unsigned int)ids.size()) + " ";
   if (ids.size() == 1)
     message.append (_("note"));
   else
