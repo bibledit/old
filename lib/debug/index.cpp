@@ -66,36 +66,43 @@ string debug_index (void * webserver_request)
   
   string debug = request->query ["debug"];
   
+  // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "etcbc4download") {
     // sources_etcbc4_download ();
     view.set_variable ("success", "Task disabled");
   }
   
+  // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "etcbc4parse") {
     //sources_etcbc4_parse ();
     view.set_variable ("success", "Task disabled");
   }
   
+  // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "parsekjv") {
     //sources_kjv_parse ();
     view.set_variable ("success", "Task disabled");
   }
   
+  // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "parsemorphhb") {
     // sources_morphhb_parse ();
     view.set_variable ("success", "Task disabled");
   }
 
+  // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "parsemorphgnt") {
     // sources_morphgnt_parse ();
     view.set_variable ("success", "Task disabled");
   }
 
+  // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "parsehebrewlexicon") {
     // sources_hebrewlexicon_parse ();
     view.set_variable ("success", "Task disabled");
   }
 
+  // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "studylightcommentaries") {
     // code = resource_external_studylight_code ();
     view.set_variable ("success", "Task disabled");
