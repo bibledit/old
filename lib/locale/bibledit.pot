@@ -6507,9 +6507,6 @@ msgstr ""
 msgid "Indexes and Fonts"
 msgstr ""
 
-msgid "Styles"
-msgstr ""
-
 msgid "Cloud"
 msgstr ""
 
@@ -6562,6 +6559,9 @@ msgid "Versifications"
 msgstr ""
 
 msgid "Edit stylesheet"
+msgstr ""
+
+msgid "Styles"
 msgstr ""
 
 msgid "Back"
@@ -8144,6 +8144,20 @@ msgid "Security question:"
 msgstr ""
 
 msgid "Hint for answering the security question:"
+msgstr ""
+
+msgid "Switch user"
+msgstr ""
+
+msgid "Switched user"
+msgstr ""
+
+msgid "You have now logged in on behalf of another user:"
+msgstr ""
+
+msgid ""
+"To go back to your own username, log this user out, and then login with your "
+"own credentials."
 msgstr ""
 
 msgid "Team's progress in Sprint"

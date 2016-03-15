@@ -204,9 +204,9 @@ string sprint_index (void * webserver_request)
       }
       tasks.append ("<td class=\"center\">\n");
       if (percentage >= high) {
-        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (low) + anchor + "\"> ☑ </a>\n");
+        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (low) + anchor + "\">" + get_tick_box (true) + "</a>\n");
       } else {
-        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (high) + anchor + "\"> ☐ </a>\n");
+        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (high) + anchor + "\">" + get_tick_box (false) + "</a>\n");
       }
       tasks.append ("</td>\n");
     }

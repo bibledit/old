@@ -716,7 +716,7 @@ string filter_string_extract_body (string input, string year, string sender)
 // Returns an appropriate tick box for "enabled".
 string get_tick_box (bool enabled)
 {
-  if (enabled) return "☑";
+  if (enabled) return "✅";
   return "☐";
 }
 
