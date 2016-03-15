@@ -210,9 +210,6 @@ bool replace_text_between(ustring & line, const ustring & start, const ustring &
   return replacements_done;
 }
 
-// looks like a template macro
-//#define quick_swap(t, a, b) { t temp = a; a = b; b = temp; }
-
 // Function template for swapping elements in the container
 template<typename T> void quick_swap(T &a, T &b)
 {
@@ -221,10 +218,12 @@ template<typename T> void quick_swap(T &a, T &b)
 
 // Instantiations of several quick_swap variants...cannot inline these
 template void quick_swap<ustring>(ustring &a, ustring &b);
-template void quick_swap<size_t> (size_t  &a, size_t  &b);
-template void quick_swap<int>    (int     &a, int     &b);
-template void quick_swap<bool>   (bool    &a, bool    &b);
+template void quick_swap<long long unsigned> (long long unsigned  &a, long long unsigned &b);
+template void quick_swap<int> (int     &a, int     &b);
+template void quick_swap<bool>(bool    &a, bool    &b);
 template void quick_swap<long unsigned int>(long unsigned int &a, long unsigned int &b);
+
+// Watch for inefficiencies in above, and turn into a macro if so
 
 /*
 void quick_swap(ustring & a, ustring & b)
@@ -274,13 +273,81 @@ void quick_swap(bool & a, bool & b)
 }
 */
 
-void quick_sort(vector < unsigned int >&one, vector < ustring > &two, unsigned int beg, unsigned int end)
 /*
 This function is unusual in the sense that it does not sort one container, as
 the big majority of sort functions do, but it accepts two containers.
 It sorts on the first, and reorders the second container at the same time, 
 following the reordering done in the first container.
 */
+// Function template for sorting the containers
+template<typename T1, typename T2> void quick_sort(vector<T1> &one, vector <T2> &two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    T1 piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        quick_swap(two[l], two[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_swap(two[l], two[beg]);
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+// Instantiations of several of these special quick_sort variants...cannot inline these
+template void quick_sort<unsigned int, ustring>     (vector <unsigned int> &one, vector <ustring>      &two, unsigned int beg, unsigned int end);
+template void quick_sort<ustring, unsigned int>     (vector <ustring>      &one, vector <unsigned int> &two, unsigned int beg, unsigned int end);
+template void quick_sort<unsigned int, unsigned int>(vector <unsigned int> &one, vector <unsigned int> &two, unsigned int beg, unsigned int end);
+template void quick_sort<long long unsigned int, long long unsigned int>(vector<long long unsigned int>&one, vector<long long unsigned int>& two, unsigned int beg, unsigned int end);
+template void quick_sort<int, unsigned int>         (vector <int>          &one, vector<unsigned int>  &two, unsigned int beg, unsigned int end);
+template void quick_sort<ustring, ustring>          (vector <ustring>      &one, vector <ustring>      &two, unsigned int beg, unsigned int end);
+template void quick_sort<long unsigned int, long unsigned int>(vector <long unsigned int> &one, vector <long unsigned int> &two, unsigned int beg, unsigned int end);
+
+// Similar to above, but "bool" type needs special handling
+template<typename T1> void quick_sort(vector<T1> &one, vector <bool> &two, unsigned int beg, unsigned int end)
+ {
+  if (end > beg + 1) {
+    T1 piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        bool two_l = two[l];
+        bool two_r = two[r];
+        quick_swap(two_l, two_r);
+        two[l] = two_l;
+        two[r] = two_r;
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    bool two_l = two[l];
+    bool two_beg = two[beg];
+    quick_swap(two_l, two_beg);
+    two[l] = two_l;
+    two[beg] = two_beg;
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+template void quick_sort<unsigned int> (vector <unsigned int> &one, vector<bool> &two, unsigned int beg, unsigned int end);
+template void quick_sort<ustring>      (vector <ustring>      &one, vector<bool> &two, unsigned int beg, unsigned int end);
+
+
+/*
+void quick_sort(vector < unsigned int >&one, vector < ustring > &two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     unsigned int piv = one[beg];
@@ -302,7 +369,6 @@ following the reordering done in the first container.
     quick_sort(one, two, r, end);
   }
 }
-
 
 void quick_sort(vector < ustring > &one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
@@ -327,7 +393,6 @@ void quick_sort(vector < ustring > &one, vector < unsigned int >&two, unsigned i
   }
 }
 
-/* Duplicate of size_t version below...
 void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
@@ -350,8 +415,8 @@ void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsign
     quick_sort(one, two, r, end);
   }
 }
-*/
-void quick_sort (vector<size_t>& one,       vector<size_t>& two,       unsigned int beg, unsigned int end)
+
+void quick_sort (vector<long long unsigned int>& one,       vector<long long unsigned int>& two,       unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     unsigned int piv = one[beg];
@@ -484,8 +549,9 @@ void quick_sort(vector < ustring > &one, vector < bool > &two, unsigned int beg,
     quick_sort(one, two, r, end);
   }
 }
+*/
 
-
+/* A regular single vector sorting routine */
 void quick_sort(vector < ustring > &one, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
@@ -507,7 +573,7 @@ void quick_sort(vector < ustring > &one, unsigned int beg, unsigned int end)
   }
 }
 
-
+/*
 void quick_sort(vector <long unsigned int>& one, vector <long unsigned int>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
@@ -530,7 +596,7 @@ void quick_sort(vector <long unsigned int>& one, vector <long unsigned int>& two
     quick_sort(one, two, r, end);
   }
 }
-
+*/
 
 gchar *de_windows_notepad(gchar * contents)
 // Some Windows textfiles, probably the ones created with Notepad, have 
@@ -825,5 +891,3 @@ ParseWords::ParseWords(const ustring & text)
   // Free memory
   g_object_unref(textbuffer);
 }
-
-
