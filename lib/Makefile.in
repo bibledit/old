@@ -152,7 +152,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/login.$(OBJEXT) database/privileges.$(OBJEXT) \
 	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
 	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
-	session/signup.$(OBJEXT) \
+	session/signup.$(OBJEXT) session/switch.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -608,6 +608,7 @@ libbibledit_a_SOURCES = \
 	session/logout.cpp \
 	session/password.cpp \
 	session/signup.cpp \
+	session/switch.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
@@ -1186,6 +1187,8 @@ session/logout.$(OBJEXT): session/$(am__dirstamp) \
 session/password.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 session/signup.$(OBJEXT): session/$(am__dirstamp) \
+	session/$(DEPDIR)/$(am__dirstamp)
+session/switch.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 parsewebdata/$(am__dirstamp):
 	@$(MKDIR_P) parsewebdata
@@ -2568,6 +2571,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/signup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/switch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/etcbc4.Po@am__quote@

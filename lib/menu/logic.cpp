@@ -595,7 +595,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string language = translate ("Language");
   string timezone = translate ("Timezone");
   string mail = translate ("Mail");
-  string styles = translate ("Styles");
+  string styles = menu_logic_styles_text ();
   string versifications = menu_logic_versification_index_text ();
   string mappings = menu_logic_mapping_index_text ();
   string collaboration = translate ("Collaboration");
@@ -883,7 +883,7 @@ string menu_logic_settings_styles_category (void * webserver_request)
   }
   
   if (!html.empty ()) {
-    html.insert (html.begin (), menu_logic_resources_text () + ": ");
+    html.insert (html.begin (), menu_logic_styles_text () + ": ");
   }
   
   return filter_string_implode (html, "\n");
@@ -952,6 +952,8 @@ string menu_logic_menu_url (string menu_item)
       (menu_item == menu_logic_tools_menu ())
       ||
       (menu_item == menu_logic_settings_menu ())
+      ||
+      (menu_item == menu_logic_settings_styles_menu ())
     ) {
     return filter_url_build_http_query (index_index_url (), "item", menu_item);
   }
@@ -1056,6 +1058,12 @@ string menu_logic_mapping_index_text ()
 }
 
 
+string menu_logic_styles_indext_text ()
+{
+  return translate ("Select stylesheet");
+}
+
+
 string menu_logic_styles_indexm_text ()
 {
   return translate ("Edit stylesheet");
@@ -1065,4 +1073,10 @@ string menu_logic_styles_indexm_text ()
 string menu_logic_changes_text ()
 {
   return translate ("Changes");
+}
+
+
+string menu_logic_styles_text ()
+{
+  return translate ("Styles");
 }

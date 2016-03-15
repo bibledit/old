@@ -266,3 +266,13 @@ bool Session_Logic::clientAccess ()
   }
   return false;
 }
+
+
+void Session_Logic::switchUser (string username)
+{
+  string security1 = remoteAddress ();
+  string security2 = ((Webserver_Request *) webserver_request)->user_agent;
+  string security3 = fingerprint ();
+  Database_Login::removeTokens (username, security1, security2, security3);
+  Database_Login::renameTokens (currentUser (), username, security1, security2, security3);
+}

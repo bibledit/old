@@ -70,8 +70,10 @@ string menu_logic_resource_images_text ();
 string menu_logic_manage_users_text ();
 string menu_logic_versification_index_text ();
 string menu_logic_mapping_index_text ();
+string menu_logic_styles_indext_text ();
 string menu_logic_styles_indexm_text ();
 string menu_logic_changes_text ();
+string menu_logic_styles_text ();
 
 
 #endif

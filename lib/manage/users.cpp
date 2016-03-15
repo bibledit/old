@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <notes/logic.h>
 #include <menu/logic.h>
+#include <session/switch.h>
 
 
 string manage_users_url ()
@@ -55,8 +56,10 @@ string manage_users (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  
   bool user_updated = false;
   bool privileges_updated = false;
+  
   
   string page;
   Assets_Header header = Assets_Header (translate("Users"), webserver_request);
@@ -199,6 +202,14 @@ string manage_users (void * webserver_request)
   }
   
   
+  // Login on behalf of another user.
+  if (request->query.count ("login")) {
+    request->session_logic ()->switchUser (objectUsername);
+    redirect_browser (request, session_switch_url ());
+    return "";
+  }
+  
+  
   // User accounts to display.
   vector <string> tbody;
   // Retrieve assigned users.
@@ -258,6 +269,14 @@ string manage_users (void * webserver_request)
       tbody.push_back ("<a href=\"privileges?user=" + username + "\">" + translate ("edit") + "</a>");
     }
     tbody.push_back ("</td>");
+    
+    // Logging for another user.
+    if (myLevel > objectUserLevel) {
+      tbody.push_back ("<td>│</td>");
+      tbody.push_back ("<td>");
+      tbody.push_back ("<a href=\"?user=" + username + "&login\">" + translate ("Login") + "</a>");
+      tbody.push_back ("</td>");
+    }
     
     tbody.push_back ("</tr>");
   }

@@ -106,7 +106,9 @@ string journal_index (void * webserver_request)
   int userLevel = request->session_logic()->currentLevel ();
 
   string filename = request->query ["filename"];
-  if (!filename.empty ()) return journal_index_ajax (request, filename);
+  if (!filename.empty ()) {
+    return journal_index_ajax (request, filename);
+  }
 
   Database_Logs database_logs = Database_Logs ();
 
@@ -152,7 +154,10 @@ string journal_index (void * webserver_request)
   
   // Pass the filename of the most recent entry to javascript
   // for use by the AJAX calls for getting subsequent journal entries.
-  string script = "var filename = " + lastfilename + ";";
+  // It should be passed as a String object in JavaScript.
+  // Because when it were passed as an Int, JavaScript would round the value off.
+  // And rounding it off often led to double journal entries.
+  string script = "var filename = \"" + lastfilename + "\";";
   view.set_variable ("script", script);
 
 
