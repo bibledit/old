@@ -266,7 +266,9 @@ void demo_create_sample_bible () // Todo this is going to copy the bible rather 
 
 
 // Prepares a sample Bible.
-void demo_prepare_sample_bible () // Todo
+// The output of this is supposed to be manually put into the source tree, folder "samples".
+// This will be used to quickly create a sample Bible, that is fast, even on mobile devices.
+void demo_prepare_sample_bible ()
 {
   Database_Bibles database_bibles;
   // Remove the Bible to remove all stuff that might have been in it.
