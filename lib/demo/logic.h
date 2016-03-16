@@ -30,7 +30,7 @@ int demo_port ();
 string demo_client_warning ();
 void demo_clean_data ();
 string demo_sample_bible_name ();
-void demo_create_sample_bible ();
+void demo_create_sample_bible (bool progress);
 void demo_create_sample_notes (void * webserver_request);
 string demo_workbench ();
 void demo_create_sample_workbenches (void * webserver_request);

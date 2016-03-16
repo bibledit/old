@@ -164,7 +164,7 @@ void demo_clean_data ()
 
   
   // Create / update sample Bible.
-  demo_create_sample_bible ();
+  demo_create_sample_bible (false);
 
 
   // Clean out nearly empty chapters from the Bibles.
@@ -238,7 +238,7 @@ string demo_sample_bible_name ()
 
 
 // Creates a sample Bible.
-void demo_create_sample_bible ()
+void demo_create_sample_bible (bool progress) // Todo
 {
   // Ensure the sample Bible exists.
   Database_Bibles database_bibles;
@@ -250,6 +250,7 @@ void demo_create_sample_bible ()
   for (auto file : files) {
     if (filter_url_get_extension (file) == "usfm") {
       Database_Logs::log ("Creating sample Bible book: " + file);
+      if (progress) cout << file << endl;
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_str_replace ("  ", " ", usfm);

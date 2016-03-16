@@ -4308,6 +4308,12 @@ void test_filter_url ()
     url = filter_url_remove_username_password (url);
     evaluate (__LINE__, __func__, "https://github.com/username/repository.git", url);
   }
+  {
+    // Test copying a directory. Todo
+    string input = filter_url_create_root_path ("unittests");
+    string output = "/tmp/test_copy_directory";
+    filter_url_dir_cp (input, output);
+  }
 }
 
 
