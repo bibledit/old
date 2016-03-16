@@ -239,29 +239,31 @@ string demo_sample_bible_name ()
 
 
 // Creates a sample Bible.
-void demo_create_sample_bible () // Todo this is going to copy the bible rather than creating it.
+// Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
+// The new and current method does a simple copy operation and that is fast.
+void demo_create_sample_bible ()
 {
-  // Ensure the sample Bible exists.
+  Database_Logs::log ("Creating sample Bible");
+  
+  // Remove and create the sample Bible.
   Database_Bibles database_bibles;
+  database_bibles.deleteBible (demo_sample_bible_name ());
   database_bibles.createBible (demo_sample_bible_name ());
   
-  // Store some text into the sample Bible.
-  string directory = filter_url_create_root_path ("demo");
-  vector <string> files = filter_url_scandir (directory);
-  for (auto file : files) {
-    if (filter_url_get_extension (file) == "usfm") {
-      Database_Logs::log ("Creating sample Bible book: " + file);
-      file = filter_url_create_path (directory, file);
-      string usfm = filter_url_file_get_contents (file);
-      usfm = filter_string_str_replace ("  ", " ", usfm);
-      vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
-      for (auto data : book_chapter_data) {
-        Bible_Logic::storeChapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
-      }
-    }
-  }
+  // Remove index for the sample Bible.
+  search_logic_delete_bible (demo_sample_bible_name ());
   
-  Database_Logs::log ("Ready creating sample Bible");
+  // Copy the Bible data.
+  string source = sample_bible_bible_path ();
+  string destination = database_bibles.bibleFolder (demo_sample_bible_name ());
+  filter_url_dir_cp (source, destination);
+
+  // Copy the Bible search index.
+  source = sample_bible_index_path ();
+  destination = search_logic_index_folder ();
+  filter_url_dir_cp (source, destination);
+  
+  Database_Logs::log ("Sample Bible was created");
 }
 
 
