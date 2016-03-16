@@ -43,6 +43,7 @@
 #include <workbench/logic.h>
 #include <ipc/focus.h>
 #include <lexicon/logic.h>
+#include <search/logic.h>
 
 
 /*
@@ -164,7 +165,7 @@ void demo_clean_data ()
 
   
   // Create / update sample Bible.
-  demo_create_sample_bible (false);
+  demo_create_sample_bible ();
 
 
   // Clean out nearly empty chapters from the Bibles.
@@ -238,7 +239,7 @@ string demo_sample_bible_name ()
 
 
 // Creates a sample Bible.
-void demo_create_sample_bible (bool progress) // Todo
+void demo_create_sample_bible () // Todo this is going to copy the bible rather than creating it.
 {
   // Ensure the sample Bible exists.
   Database_Bibles database_bibles;
@@ -250,7 +251,6 @@ void demo_create_sample_bible (bool progress) // Todo
   for (auto file : files) {
     if (filter_url_get_extension (file) == "usfm") {
       Database_Logs::log ("Creating sample Bible book: " + file);
-      if (progress) cout << file << endl;
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_str_replace ("  ", " ", usfm);
@@ -262,6 +262,57 @@ void demo_create_sample_bible (bool progress) // Todo
   }
   
   Database_Logs::log ("Ready creating sample Bible");
+}
+
+
+// Prepares a sample Bible.
+void demo_prepare_sample_bible () // Todo
+{
+  Database_Bibles database_bibles;
+  // Remove the Bible to remove all stuff that might have been in it.
+  database_bibles.deleteBible (demo_sample_bible_name ());
+  search_logic_delete_bible (demo_sample_bible_name ());
+  // Create a new one.
+  database_bibles.createBible (demo_sample_bible_name ());
+  // Location of the USFM files for the sample Bible.
+  string directory = filter_url_create_root_path ("demo");
+  vector <string> files = filter_url_scandir (directory);
+  for (auto file : files) {
+    // Only process the USFM files.
+    if (filter_url_get_extension (file) == "usfm") {
+      cout << file << endl;
+      // Read the USFM.
+      file = filter_url_create_path (directory, file);
+      string usfm = filter_url_file_get_contents (file);
+      usfm = filter_string_str_replace ("  ", " ", usfm);
+      // Import the USFM into the Bible.
+      vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
+      for (auto data : book_chapter_data) {
+        Bible_Logic::storeChapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
+      }
+    }
+  }
+  // Clean the destination location for the Bible.
+  string destination = sample_bible_bible_path ();
+  filter_url_rmdir (destination);
+  // Copy the Bible data to the destination.
+  string source = database_bibles.bibleFolder (demo_sample_bible_name ());
+  filter_url_dir_cp (source, destination);
+  // Clean the destination location for the Bible search index.
+  destination = sample_bible_index_path ();
+  filter_url_rmdir (destination);
+  // Create destination location.
+  filter_url_mkdir (destination);
+  // Copy the index files over to the destination.
+  source = search_logic_index_folder ();
+  files = filter_url_scandir (source);
+  for (auto file : files) {
+    if (file.find (demo_sample_bible_name ()) != string::npos) {
+      string source_file = filter_url_create_path (source, file);
+      string destination_file = filter_url_create_path (destination, file);
+      filter_url_file_cp (source_file, destination_file);
+    }
+  }
 }
 
 
@@ -334,4 +385,16 @@ vector <string> demo_logic_default_resources ()
     resource_external_net_bible_name (),
     SBLGNT_NAME
   };
+}
+
+
+string sample_bible_bible_path ()
+{
+  return filter_url_create_root_path ("samples", "bible");
+}
+
+
+string sample_bible_index_path ()
+{
+  return filter_url_create_root_path ("samples", "index");
 }

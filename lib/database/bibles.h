@@ -44,7 +44,9 @@ public:
   void optimize ();
 private:
   string mainFolder ();
+public:
   string bibleFolder (string bible);
+private:
   string bookFolder (string bible, int book);
   string chapterFolder (string bible, int book, int chapter);
 };

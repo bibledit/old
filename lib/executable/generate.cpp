@@ -56,9 +56,7 @@ int main (int argc, char **argv)
   } else if (command == "samplebible") {
 
     cout << "Generating the sample Bible" << endl;
-    Database_Bibles database_bibles;
-    database_bibles.deleteBible (demo_sample_bible_name ());
-    demo_create_sample_bible (true);
+    demo_prepare_sample_bible ();
 
   } else {
     
