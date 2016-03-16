@@ -67,6 +67,7 @@
  
 */
 
+
 // Returns true for correct credentials for a demo installation.
 // Else returns false.
 bool demo_acl (string user, string pass)
