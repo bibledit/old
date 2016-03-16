@@ -169,37 +169,6 @@ void demo_clean_data ()
   demo_create_sample_bible ();
 
 
-  // Clean out nearly empty chapters from the Bibles.
-  bibles = request.database_bibles()->getBibles ();
-  for (auto bible : bibles) {
-    vector <int> books = request.database_bibles()->getBooks (bible);
-    for (auto book : books) {
-      vector <int> chapters = request.database_bibles()->getChapters (bible, book);
-      for (auto chapter : chapters) {
-        // Remove chapters, other than 0, that are rather short, as these chapters likely contain no text, but USFM markers only.
-        if (chapter == 0) continue;
-        string usfm = request.database_bibles()->getChapter (bible, book, chapter);
-        if (usfm.length () < 200) {
-          Database_Logs::log ("Deleting a demo chapter because it does not contain enough text: " + convert_to_string (book) + ":" + convert_to_string (chapter));
-          Bible_Logic::deleteChapter (bible, book, chapter);
-        }
-      }
-      // If a book contains chapter 0 only, remove that entire book.
-      chapters = request.database_bibles()->getChapters (bible, book);
-      if ((chapters.size () == 1) && (chapters [0] == 0)) {
-        Database_Logs::log ("Deleting a demo book because it is empty");
-        Bible_Logic::deleteBook (bible, book);
-      }
-    }
-    // If a Bible contains no books, remove that Bible.
-    books = request.database_bibles()->getBooks (bible);
-    if (books.empty ()) {
-      Database_Logs::log ("Deleting a demo Bible because it is empty");
-      Bible_Logic::deleteBible (bible);
-    }
-  }
-  
-  
   // Create sample notes.
   demo_create_sample_notes (&request);
   
@@ -213,7 +182,7 @@ void demo_clean_data ()
   
   
   // Set and/or trim resources to display.
-  // Too many resources crash the demo, so limit the amount.
+  // Too many resources crash the demo: Limit the amount.
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources = false;
   if (resources.size () > 25) reset_resources = true;
