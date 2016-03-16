@@ -4309,10 +4309,13 @@ void test_filter_url ()
     evaluate (__LINE__, __func__, "https://github.com/username/repository.git", url);
   }
   {
-    // Test copying a directory. Todo
+    // Test recursively copying a directory.
     string input = filter_url_create_root_path ("unittests");
     string output = "/tmp/test_copy_directory";
+    filter_url_rmdir (output);
     filter_url_dir_cp (input, output);
+    string path = filter_url_create_path (output, "tests", "basic.css");
+    evaluate (__LINE__, __func__, true, file_exists (path));
   }
 }
 
