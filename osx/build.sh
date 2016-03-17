@@ -6,9 +6,8 @@
 
 # Take the relevant source code for building Bibledit for OSX.
 # Put it in a temporal location.
-# The purpose is to put the build files in a temporal location,
-# and to have no duplicated source code for the bibledit library.
-# This does not clutter the bibledit git repositoy with the built files.
+# The purpose by doing so is not to have duplicated source code for the bibledit library.
+# This approach does not clutter the bibledit git repositoy with the built files.
 OSXSOURCE=`dirname $0`
 cd $OSXSOURCE
 BIBLEDITOSX=/tmp/bibledit-osx
@@ -95,6 +94,7 @@ rm Makefile*
 rm server
 rm -f unittest
 rm stamp-h1
+rm generate
 
 
 popd
