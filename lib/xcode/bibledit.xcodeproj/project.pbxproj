@@ -82,7 +82,7 @@
 		CA06BDF01A572DE400A051FF /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA06BDF11A572DE400A051FF /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
 		CA0922701BAC69E3004654D7 /* stylesheet.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = stylesheet.css; sourceTree = "<group>"; };
-		CA0D29551AAA4E6E009B9D40 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CA0D29551AAA4E6E009B9D40 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA0D29561AAA4E6E009B9D40 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA0D29571AAA4E6E009B9D40 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA0D29581AAA4E7A009B9D40 /* map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = map.cpp; sourceTree = "<group>"; };

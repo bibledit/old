@@ -1680,7 +1680,7 @@ void test_database_mappings ()
   // Setup
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.defaults ();
     database_mappings.create2 ();
@@ -1691,7 +1691,7 @@ void test_database_mappings ()
   // Import Export
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = 
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1706,7 +1706,7 @@ void test_database_mappings ()
   // Create
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.create ("phpunit");
     vector <string> names = database_mappings.names ();
@@ -1715,7 +1715,7 @@ void test_database_mappings ()
   // Translate Same
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
     evaluate (__LINE__, __func__, 1, (int)passages.size ());
@@ -1729,7 +1729,7 @@ void test_database_mappings ()
   // Translate
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = 
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1750,7 +1750,7 @@ void test_database_mappings ()
   // Translate
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1771,7 +1771,7 @@ void test_database_mappings ()
   // Translate Double Result.
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1795,7 +1795,7 @@ void test_database_mappings ()
   // Translate From Original
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
@@ -1807,7 +1807,7 @@ void test_database_mappings ()
   // Translate From Original Double
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
@@ -1823,7 +1823,7 @@ void test_database_mappings ()
   // Translate From Original No Mapping
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
@@ -1835,7 +1835,7 @@ void test_database_mappings ()
   // Translate To Original
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("ABA", import);
@@ -1847,7 +1847,7 @@ void test_database_mappings ()
   // Translate To Original Double
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:12 = 2 Chronicles 14:13\n"

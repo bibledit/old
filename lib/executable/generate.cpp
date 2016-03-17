@@ -48,22 +48,39 @@ int main (int argc, char **argv)
   }
   string command = argv [2];
   
-  if (command == "locale") {
+  string locale_command = "locale";
+  string sample_bible_command = "samplebible";
+  string mappings_command = "mappings";
+  string versifications_command = "versifications";
+  
+  if (command == locale_command) {
   
     cout << "Generating locale databases from the *.po files in folder locale" << endl;
     setup_generate_locale_databases (true);
     
-  } else if (command == "samplebible") {
+  } else if (command == sample_bible_command) {
 
     cout << "Generating the sample Bible" << endl;
     demo_prepare_sample_bible ();
 
+  } else if (command == mappings_command) {
+
+    cout << "Generating the verse mappings database" << endl; // Todo
+    setup_generate_verse_mapping_databases ();
+
+  } else if (command == versifications_command) {
+    
+    cout << "Generating the versifications database" << endl; // Todo
+    setup_generate_versification_databases ();
+    
   } else {
     
     cerr << "This command is unknown" << endl;
     cerr << "The following commands are supported:" << endl;
-    cerr << "locale: Generate locale databases from the *.po files in folder locale" << endl;
-    cerr << "samplebible: Generate the sample Bible" << endl;
+    cerr << locale_command << ": Generate locale databases from the *.po files in folder locale" << endl;
+    cerr << sample_bible_command << ": Generate the sample Bible" << endl;
+    cerr << mappings_command << ": Generate the default verse mappings database" << endl;
+    cerr << versifications_command << ": Generate the default versifications database" << endl;
     return EXIT_FAILURE;
     
   }

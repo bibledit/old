@@ -109,7 +109,7 @@ string bible_settings (void * webserver_request)
     if (mapping == "") {
       Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the verse mapping?"), translate ("A verse mapping can be used to match verses for parallel Bible display. Please make your choice below."), "");
       dialog_list.add_query ("bible", bible);
-      Database_Mappings database_mappings = Database_Mappings ();
+      Database_Mappings database_mappings;
       vector <string> mapping_names = database_mappings.names ();
       for (auto & mapping_name : mapping_names) {
         dialog_list.add_row (mapping_name, "mapping", mapping_name);

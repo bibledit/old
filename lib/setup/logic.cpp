@@ -202,18 +202,12 @@ void setup_initialize_data ()
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
   config_globals_setup_message = "mappings";
-  Database_Mappings database_mappings = Database_Mappings ();
-  database_mappings.create1 ();
-  database_mappings.defaults ();
-  database_mappings.create2 ();
-  database_mappings.optimize ();
+  setup_generate_verse_mapping_databases ();
   config_globals_setup_message = "note actions";
   Database_NoteActions database = Database_NoteActions ();
   database.create ();
   config_globals_setup_message = "versifications";
-  Database_Versifications database_versifications;
-  database_versifications.create ();
-  database_versifications.defaults ();
+  setup_generate_versification_databases ();
   config_globals_setup_message = "modifications";
   Database_Modifications database_modifications;
   database_modifications.create ();
@@ -298,4 +292,38 @@ void setup_generate_locale_databases (bool progress)
     string path = filter_url_create_root_path ("locale", localization + ".po");
     database_localization.create (path);
   }
+}
+
+
+// Generate the verse mapping databases.
+void setup_generate_verse_mapping_databases () // Todo
+{
+  // On Android, do not generate the verse mapping databases.
+  // On this low power device, generating them would take quite a while, as experience shows.
+  // Instead of generating them, the builder and installer put the pre-generated databases into place.
+  if (config_logic_android ()) return;
+  // Same story for iOS.
+  if (config_logic_ios ()) return;
+  // Generate the verse mappings.
+  Database_Mappings database_mappings;
+  database_mappings.create1 ();
+  database_mappings.defaults ();
+  database_mappings.create2 ();
+  database_mappings.optimize ();
+}
+
+
+// Generate the versification databases.
+void setup_generate_versification_databases () // Todo
+{
+  // On Android, do not generate the verse mapping databases.
+  // On this low power device, generating them would take quite a while, as experience shows.
+  // Instead of generating them, the builder and installer put the pre-generated databases into place.
+  if (config_logic_android ()) return;
+  // Same story for iOS.
+  if (config_logic_ios ()) return;
+  // Generate the versifications.
+  Database_Versifications database_versifications;
+  database_versifications.create ();
+  database_versifications.defaults ();
 }
