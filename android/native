@@ -19,6 +19,8 @@ pushd ../lib
 ./configure
 make --jobs=4
 ./generate . locale
+./generate . mappings
+./generate . versifications
 popd
 
 

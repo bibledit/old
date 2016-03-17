@@ -473,6 +473,8 @@ pushd ../lib
 ./configure
 make --jobs=4
 ./generate . locale
+./generate . mappings
+./generate . versifications
 popd
 
 # Sychronizes the libbibledit data files in the source tree to iOS and cleans them up.
