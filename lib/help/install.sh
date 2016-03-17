@@ -5,8 +5,9 @@ echo Installing Bibledit on Linux.
 
 # Some distro's cannot run $ su.
 UNAME=`uname -a`
+echo $UNAME
 RUNSU=1;
-if [[ $UNAME == *Ubuntu* ]]; then
+if [ "$UNAME"="*Ubuntu*" ]; then
   RUNSU=0;
 fi
 
@@ -23,49 +24,59 @@ apt-get update
 clear
 echo Installing the software Bibledit relies on...
 
+which apt-get
+if [ $? -eq 0 ]
+then
 apt-get --yes --force-yes install build-essential
-dnf --assumeyes install gcc-c++
-yum --assumeyes install gcc-c++
-zypper --non-interactive install gcc-c++
-
 apt-get --yes --force-yes install git
-dnf --assumeyes install git
-yum --assumeyes install git
-zypper --non-interactive install git
-
 apt-get --yes --force-yes install zip
-dnf --assumeyes install zip
-yum --assumeyes install zip
-zypper --non-interactive install zip
-
 apt-get --yes --force-yes install pkgconf
-dnf --assumeyes install pkgconfig
-yum --assumeyes install pkgconfig
-zypper --non-interactive install pkg-config
-
 apt-get --yes --force-yes install libsqlite3-dev
-dnf --assumeyes install sqlite-devel
-yum --assumeyes install sqlite-devel
-zypper --non-interactive install sqlite3-devel
-
 apt-get --yes --force-yes install libcurl4-openssl-dev
-dnf --assumeyes install libcurl-devel
-yum --assumeyes install libcurl-devel
-zypper --non-interactive install libcurl-devel
-
 apt-get --yes --force-yes install libssl-dev
-dnf --assumeyes install openssl-devel
-yum --assumeyes install openssl-devel
-zypper --non-interactive install libopenssl-devel
-
 apt-get --yes --force-yes install libatspi2.0-dev
-
-zypper --non-interactive install cairo-devel
-
 apt-get --yes --force-yes install libgtk-3-dev
+fi
+
+which dnf
+if [ $? -eq 0 ]
+then
+dnf --assumeyes install gcc-c++
+dnf --assumeyes install git
+dnf --assumeyes install zip
+dnf --assumeyes install pkgconfig
+dnf --assumeyes install sqlite-devel
+dnf --assumeyes install libcurl-devel
+dnf --assumeyes install openssl-devel
 dnf --assumeyes install gtk3-devel
+fi
+
+which yum
+if [ $? -eq 0 ]
+then
+yum --assumeyes install gcc-c++
+yum --assumeyes install git
+yum --assumeyes install zip
+yum --assumeyes install pkgconfig
+yum --assumeyes install sqlite-devel
+yum --assumeyes install libcurl-devel
+yum --assumeyes install openssl-devel
 yum --assumeyes install gtk3-devel
+fi
+
+which zypper
+if [ $? -eq 0 ]
+then
+zypper --non-interactive install gcc-c++
+zypper --non-interactive install git
+zypper --non-interactive install zip
+zypper --non-interactive install pkg-config
+zypper --non-interactive install sqlite3-devel
+zypper --non-interactive install libcurl-devel
+zypper --non-interactive install libopenssl-devel
+zypper --non-interactive install cairo-devel
 zypper --non-interactive install gtk3-devel
+fi
 
 # Create the script to start bibledit.
 rm -f /usr/bin/bibledit
@@ -86,14 +97,14 @@ scriptblock
 chmod +x install2.sh
 
 # Conditionally run $ su.
-if [[ $RUNSU -ne 0 ]]; then
+if [ $RUNSU -ne 0 ]; then
   echo Please provide the password for the root user and press Enter
   su -c ./install2.sh
 fi
 
 EXIT_CODE=$?
 # If $ su did not run, run $ sudo.
-if [[ $RUNSU -eq 0 ]]; then
+if [ $RUNSU -eq 0 ]; then
   EXIT_CODE=1
 fi
 # If $ su ran, but failed, run $ sudo.
