@@ -44,7 +44,10 @@ string editone_index_url ()
 
 bool editone_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 

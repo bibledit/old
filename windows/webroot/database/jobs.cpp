@@ -30,16 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Re-create it on corruption.
 
 
-Database_Jobs::Database_Jobs ()
-{
-}
-
-
-Database_Jobs::~Database_Jobs ()
-{
-}
-
-
 sqlite3 * Database_Jobs::connect ()
 {
   return database_sqlite_connect ("jobs");

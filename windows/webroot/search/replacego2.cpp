@@ -26,10 +26,12 @@
 #include <text/text.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <bible/logic.h>
 #include <search/logic.h>
+#include <access/bible.h>
 
 
 string search_replacego2_url ()
@@ -40,7 +42,10 @@ string search_replacego2_url ()
 
 bool search_replacego2_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return write;
 }
 
 
@@ -72,6 +77,11 @@ string search_replacego2 (void * webserver_request)
   int verse = -1;
   if (details.size () > 3) verse = convert_to_int (details [3]);
   
+  
+  // Check whether the user has write access to the book.
+  string user = request->session_logic ()->currentUser ();
+  bool write = access_bible_book_write (webserver_request, user, bible, book);
+
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
@@ -158,7 +168,7 @@ string search_replacego2 (void * webserver_request)
   
   // Generate success or failure icon.
   string icon;
-  if (replacementOkay) {
+  if (replacementOkay && write) {
     icon = "<span class=\"success\">✔</span>";
   } else {
     icon = "<span class=\"error\">✗</span>";
@@ -166,7 +176,7 @@ string search_replacego2 (void * webserver_request)
   
   
   // Store the new chapter in the database on success.
-  if (replacementOkay) {
+  if (replacementOkay && write) {
     Bible_Logic::storeChapter (bible, book, chapter, new_chapter_usfm);
   }
   
@@ -185,7 +195,9 @@ string search_replacego2 (void * webserver_request)
   
   // Success or failure message.
   string msg;
-  if (replacementOkay) {
+  if (!write) {
+    msg = locale_logic_text_no_privileges_modify_book ();
+  } else if (replacementOkay) {
     msg = updatedPlainText;
   } else {
     msg = "<span class=\"error\">" + translate("This text could not be automatically replaced. Click the passage to do it manually.") + "</span>";

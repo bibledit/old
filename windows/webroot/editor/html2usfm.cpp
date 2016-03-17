@@ -30,7 +30,7 @@
 void Editor_Html2Usfm::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal ones.
-  html = filter_string_str_replace (non_breaking_space (), " ", html);
+  html = filter_string_str_replace (non_breaking_space_entity (), " ", html);
   
   // The web editor produces <hr> and other elements following the HTML specs,
   // but Bibledit's XML parser needs <hr/> and similar elements.

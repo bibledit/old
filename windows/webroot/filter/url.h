@@ -45,6 +45,7 @@ string filter_url_file_get_contents (string filename);
 void filter_url_file_put_contents (string filename, string contents);
 void filter_url_file_put_contents_append (string filename, string contents);
 bool filter_url_file_cp (string input, string output);
+void filter_url_dir_cp (const string & input, const string & output);
 int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
 void filter_url_recursive_scandir (string folder, vector <string> & paths);

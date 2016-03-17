@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/note.h>
+#include <access/logic.h>
 
 
 string notes_comment_url ()
@@ -42,7 +43,7 @@ string notes_comment_url ()
 
 bool notes_comment_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_create_comment_notes (webserver_request);
 }
 
 

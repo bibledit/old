@@ -75,7 +75,7 @@ function navigationNewPassage ()
   usfmEditorSaveChapter ();
   usfmReload = false;
   usfmEditorLoadChapter ();
-  usfmPositionCaretViaAjax ();
+  // usfmPositionCaretViaAjax ();
 }
 
 
@@ -274,6 +274,9 @@ function usfmHandleCaret ()
 
 function usfmPositionCaretViaAjax ()
 {
+  // Due to something, perhaps network latency,
+  // setting the caret causes the caret to jump to undesired places at times.
+  // So, the caret is to be set only on chapter load.
   $ ("#usfmeditor").focus ();
   $.ajax ({
     url: "focus",
@@ -338,7 +341,7 @@ function usfmPositionCaret (position)
 
 function usfmWindowFocused ()
 {
-  usfmPositionCaretViaAjax ();
+  // usfmPositionCaretViaAjax ();
 }
 
 

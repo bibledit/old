@@ -1,5 +1,6 @@
 html {
-  height: 100%;
+  /* A height of 100% causes undesired scrolling in e.g. the Journal */
+  height: 99.5%;
 }
 
 body {

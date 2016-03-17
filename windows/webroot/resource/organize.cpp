@@ -31,6 +31,7 @@
 #include <dialog/entry.h>
 #include <config/logic.h>
 #include <client/logic.h>
+#include <access/logic.h>
 
 
 string resource_organize_url ()
@@ -41,7 +42,7 @@ string resource_organize_url ()
 
 bool resource_organize_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_resources (webserver_request);
 }
 
 

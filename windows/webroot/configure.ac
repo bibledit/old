@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.364],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.397],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -246,6 +246,22 @@ AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
 AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
 AC_SUBST(WINDOWS)
 
+# Android.
+ENABLEANDROID=no
+AC_ARG_ENABLE(android,
+[  --enable-android Compile for Android],
+[AC_DEFINE([HAVE_ANDROID], [1], [Define whether to compile for Android])]
+ENABLEANDROID=yes
+)
+
+# iOS.
+ENABLEIOS=no
+AC_ARG_ENABLE(ios,
+[  --enable-ios Compile for iOS],
+[AC_DEFINE([HAVE_IOS], [1], [Define whether to compile for iOS])]
+ENABLEIOS=yes
+)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -267,5 +283,7 @@ Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
+Android (--enable-android)                        : ${ENABLEANDROID}
+iOS (--enable-ios)                                : ${ENABLEIOS}
 SWORD library                                     : ${SWORD_CFLAGS}
 "

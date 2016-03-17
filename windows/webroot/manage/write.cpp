@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <menu/logic.h>
 #include <manage/users.h>
+#include <database/privileges.h>
 
 
 string manage_write_url ()
@@ -64,13 +65,16 @@ string manage_write (void * webserver_request)
 
   int book = convert_to_int (request->query["book"]);
 
-  bool access = request->database_users ()->hasAccess2Bible (user, bible);
+  bool bible_read_access, bible_write_access;
+  Database_Privileges::getBible (user, bible, bible_read_access, bible_write_access);
 
   // Toggle write access to Bible.
   if (request->query.count ("toggle")) {
-    if (access) {
-      bool readonly = request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
-      request->database_users ()->setReadOnlyAccess2Book (user, bible, book, !readonly);
+    if (bible_read_access) {
+      bool read, write;
+      Database_Privileges::getBibleBook (user, bible, book, read, write);
+      Database_Privileges::setBibleBook (user, bible, book, !write);
+      database_privileges_client_create (user, true);
     }
   }
 
@@ -86,12 +90,14 @@ string manage_write (void * webserver_request)
     tbody.push_back ("<td>");
     tbody.push_back (Database_Books::getEnglishFromId (book));
     tbody.push_back ("</td>");
-    tbody.push_back ("<td>");
+    tbody.push_back ("<td class=\"center\">");
     tbody.push_back ("<a href=\"?user=" + user + "&bible=" + bible + "&book=" + convert_to_string (book) + "&toggle=\">");
-    if (request->database_users ()->hasReadOnlyAccess2Book (user, bible, book)) {
-      tbody.push_back (translate ("no"));
-    } else {
+    bool read, write;
+    Database_Privileges::getBibleBook (user, bible, book, read, write);
+    if (write) {
       tbody.push_back (translate ("yes"));
+    } else {
+      tbody.push_back (translate ("no"));
     }
     tbody.push_back ("</a>");
     tbody.push_back ("</td>");

@@ -72,11 +72,14 @@ libbibledit_a_SOURCES = \
 	database/etcbc4.cpp \
 	database/hebrewlexicon.cpp \
 	database/cache.cpp \
+	database/login.cpp \
+	database/privileges.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
 	session/password.cpp \
 	session/signup.cpp \
+	session/switch.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
@@ -150,6 +153,7 @@ libbibledit_a_SOURCES = \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
 	manage/write.cpp \
+	manage/privileges.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -163,6 +167,7 @@ libbibledit_a_SOURCES = \
 	search/renotes.cpp \
 	access/user.cpp \
 	access/bible.cpp \
+	access/logic.cpp \
 	dialog/entry.cpp \
 	dialog/list.cpp \
 	dialog/yes.cpp \
@@ -346,7 +351,7 @@ libbibledit_a_SOURCES = \
 	search/logic.cpp \
 	basic/index.cpp
 
-bin_PROGRAMS = server unittest
+bin_PROGRAMS = server unittest generate
 
 server_SOURCES = executable/bibledit.cpp
 
@@ -361,10 +366,14 @@ unittest_SOURCES = \
 
 unittest_LDADD = libbibledit.a
 
-AM_CFLAGS = -Wall -Wextra -pedantic -g -rdynamic
+generate_SOURCES = executable/generate.cpp
+
+generate_LDADD = libbibledit.a
+
+AM_CFLAGS = -Wall -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g -rdynamic
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)

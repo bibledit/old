@@ -454,8 +454,8 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
   string changes = menu_logic_changes_text ();
   string planning = translate ("Planning");
   string send_receive = translate ("Send/receive");
-  string hyphenation = translate ("Hyphenation");
-  string cross_references = translate ("Cross-references");
+  string hyphenation = translate ("Hyphenate");
+  string cross_references = translate ("Transfer cross-references");
   string debug = translate ("Debug");
   string exporting = translate ("Export");
   string journal = translate ("Journal");
@@ -595,7 +595,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string language = translate ("Language");
   string timezone = translate ("Timezone");
   string mail = translate ("Mail");
-  string styles = translate ("Styles");
+  string styles = menu_logic_styles_text ();
   string versifications = menu_logic_versification_index_text ();
   string mappings = menu_logic_mapping_index_text ();
   string collaboration = translate ("Collaboration");
@@ -759,9 +759,11 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == collaboration) {
-      if (collaboration_index_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
-        tiplabels.push_back (label);
+      if (!config_logic_client_prepared ()) {
+        if (collaboration_index_acl (webserver_request)) {
+          html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
+          tiplabels.push_back (label);
+        }
       }
     }
     
@@ -829,7 +831,8 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   }
   
   if (!html.empty ()) {
-    html.insert (html.begin (), menu_logic_settings_text () + ": ");
+    string user = request->session_logic ()->currentUser ();
+    html.insert (html.begin (), menu_logic_settings_text () + " (" + user + "): ");
   }
   
   if (tooltip) tooltip->assign (filter_string_implode (tiplabels, " | "));
@@ -880,7 +883,7 @@ string menu_logic_settings_styles_category (void * webserver_request)
   }
   
   if (!html.empty ()) {
-    html.insert (html.begin (), menu_logic_resources_text () + ": ");
+    html.insert (html.begin (), menu_logic_styles_text () + ": ");
   }
   
   return filter_string_implode (html, "\n");
@@ -949,6 +952,8 @@ string menu_logic_menu_url (string menu_item)
       (menu_item == menu_logic_tools_menu ())
       ||
       (menu_item == menu_logic_settings_menu ())
+      ||
+      (menu_item == menu_logic_settings_styles_menu ())
     ) {
     return filter_url_build_http_query (index_index_url (), "item", menu_item);
   }
@@ -1053,6 +1058,12 @@ string menu_logic_mapping_index_text ()
 }
 
 
+string menu_logic_styles_indext_text ()
+{
+  return translate ("Select stylesheet");
+}
+
+
 string menu_logic_styles_indexm_text ()
 {
   return translate ("Edit stylesheet");
@@ -1062,4 +1073,10 @@ string menu_logic_styles_indexm_text ()
 string menu_logic_changes_text ()
 {
   return translate ("Changes");
+}
+
+
+string menu_logic_styles_text ()
+{
+  return translate ("Styles");
 }

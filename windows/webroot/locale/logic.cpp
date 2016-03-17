@@ -152,3 +152,15 @@ string locale_logic_text_retrying ()
 {
   return translate ("Retrying...");
 }
+
+
+string locale_logic_text_reformat ()
+{
+  return translate ("Reformat");
+}
+
+
+string locale_logic_text_no_privileges_modify_book ()
+{
+  return translate ("You do not have enough privileges to modify this book.");
+}

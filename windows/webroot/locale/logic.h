@@ -33,6 +33,8 @@ string locale_logic_text_saving ();
 string locale_logic_text_saved ();
 string locale_logic_text_loaded ();
 string locale_logic_text_retrying ();
+string locale_logic_text_reformat ();
+string locale_logic_text_no_privileges_modify_book ();
 
 
 #endif

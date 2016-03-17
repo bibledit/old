@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logout.h>
 #include <session/password.h>
 #include <session/signup.h>
+#include <session/switch.h>
 #include <database/config/general.h>
 #include <database/offlineresources.h>
 #include <setup/index.h>
@@ -36,6 +37,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/account.h>
 #include <manage/index.h>
 #include <manage/users.h>
+#include <manage/exports.h>
+#include <manage/hyphenation.h>
+#include <manage/write.h>
+#include <manage/privileges.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
 #include <collaboration/index.h>
@@ -153,8 +158,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/suppress.h>
 #include <consistency/poll.h>
 #include <consistency/input.h>
-#include <manage/exports.h>
-#include <manage/hyphenation.h>
 #include <xrefs/index.h>
 #include <xrefs/source.h>
 #include <xrefs/target.h>
@@ -173,7 +176,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/verse.h>
 #include <debug/index.h>
 #include <paratext/index.h>
-#include <manage/write.h>
 #include <personalize/index.h>
 #include <menu/index.h>
 #include <fonts/logic.h>
@@ -235,6 +237,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == session_logout_url ()) && session_logout_acl (request)) request->reply = session_logout (request);
   else if ((url == session_password_url ()) && session_password_acl (request)) request->reply = session_password (request);
   else if ((url == session_signup_url ()) && session_signup_acl (request)) request->reply = session_signup (request);
+  else if ((url == session_switch_url ()) && session_switch_acl (request)) request->reply = session_switch (request);
   
   // Bible menu.
   else if ((url == bible_manage_url ()) && bible_manage_acl (request)) request->reply = bible_manage (request);
@@ -371,6 +374,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == xrefs_insert_url ()) && xrefs_insert_acl (request)) request->reply = xrefs_insert (request);
   else if ((url == webbible_search_url ()) && webbible_search_acl (request)) request->reply = webbible_search (request);
   else if ((url == manage_write_url ()) && manage_write_acl (request)) request->reply = manage_write (request);
+  else if ((url == manage_privileges_url ()) && manage_privileges_acl (request)) request->reply = manage_privileges (request);
   else if ((url == resource_image_url ()) && resource_image_acl (request)) request->reply = resource_image (request);
   else if ((url == resource_img_url ()) && resource_img_acl (request)) request->reply = resource_img (request);
 

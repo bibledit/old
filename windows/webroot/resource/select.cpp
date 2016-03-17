@@ -38,6 +38,7 @@
 #include <database/imageresources.h>
 #include <lexicon/logic.h>
 #include <sword/logic.h>
+#include <access/logic.h>
 
 
 string resource_select_url ()
@@ -48,7 +49,7 @@ string resource_select_url ()
 
 bool resource_select_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_resources (webserver_request);
 }
 
 
@@ -86,8 +87,15 @@ string resource_select (void * webserver_request)
   if (request->query.count ("usfm")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a USFM resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
-    Database_UsfmResources database_usfmresources;
-    vector <string> resources = database_usfmresources.getResources ();
+    vector <string> resources;
+    if (config_logic_client_prepared ()) {
+      // Client takes resources available from the Cloud.
+      resources = client_logic_usfm_resources_get ();
+    } else {
+      // Cloud takes its locally available USFM resources.
+      Database_UsfmResources database_usfmresources;
+      resources = database_usfmresources.getResources ();
+    }
     for (auto resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }

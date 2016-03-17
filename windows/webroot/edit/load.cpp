@@ -25,6 +25,7 @@
 #include <checksum/logic.h>
 #include <editor/usfm2html.h>
 #include <edit/logic.h>
+#include <access/bible.h>
 
 
 string edit_load_url ()
@@ -35,7 +36,10 @@ string edit_load_url ()
 
 bool edit_load_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return write;
 }
 
 
@@ -62,8 +66,8 @@ string edit_load (void * webserver_request)
   string html = editor_usfm2html.get ();
   
   string user = request->session_logic ()->currentUser ();
-  bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
+  bool write = access_bible_book_write (webserver_request, user, bible, book);
   
-  return Checksum_Logic::send (html, readwrite);
+  return Checksum_Logic::send (html, write);
 }
 

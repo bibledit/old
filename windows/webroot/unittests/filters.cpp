@@ -1679,11 +1679,11 @@ void test_filter_text1 ()
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "\n"
-      "1" + get_en_space () + "Verse One.\n"
+      "1" + en_space () + "Verse One.\n"
       "\n"
-      "Paragraph One. 2" + get_en_space () + "Verse Two.\n"
+      "Paragraph One. 2" + en_space () + "Verse Two.\n"
       "\n"
-      "3" + get_en_space () + "Verse Three. 4" + get_en_space () + "Verse Four. 5" + get_en_space () + "Verse Five.\n";
+      "3" + en_space () + "Verse Three. 4" + en_space () + "Verse Four. 5" + en_space () + "Verse Five.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   // Test footnotes and cross references.
@@ -1703,7 +1703,7 @@ void test_filter_text1 ()
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
       "\n"
-      "1" + get_en_space () + "Text 1a\n"
+      "1" + en_space () + "Text 1a\n"
       "\n"
       "Isa. 1.1.\n"
       "\n"
@@ -2940,7 +2940,7 @@ void test_filter_diff ()
   {
     refresh_sandbox (true);
     Webserver_Request request;
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     Database_State::create ();
 
     client_logic_enable_client (false);
@@ -4307,6 +4307,15 @@ void test_filter_url ()
     string url = "https://username:password@github.com/username/repository.git";
     url = filter_url_remove_username_password (url);
     evaluate (__LINE__, __func__, "https://github.com/username/repository.git", url);
+  }
+  {
+    // Test recursively copying a directory.
+    string input = filter_url_create_root_path ("unittests");
+    string output = "/tmp/test_copy_directory";
+    filter_url_rmdir (output);
+    filter_url_dir_cp (input, output);
+    string path = filter_url_create_path (output, "tests", "basic.css");
+    evaluate (__LINE__, __func__, true, file_exists (path));
   }
 }
 

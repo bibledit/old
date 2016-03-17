@@ -46,7 +46,14 @@ Html_Text::Html_Text (string title)
   xml_node meta_node = headDomNode.append_child ("meta");
   meta_node.append_attribute ("http-equiv") = "content-type";
   meta_node.append_attribute ("content") = "text/html; charset=UTF-8";
-  
+
+  // <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  // This tag helps to make the page mobile-friendly.
+  // See https://www.google.com/webmasters/tools/mobile-friendly/
+  meta_node = headDomNode.append_child ("meta");
+  meta_node.append_attribute ("name") = "viewport";
+  meta_node.append_attribute ("content") = "width=device-width, initial-scale=1.0";
+
   // <link rel="stylesheet" type="text/css" href="stylesheet.css">
   xml_node link_node = headDomNode.append_child ("link");
   link_node.append_attribute ("rel") = "stylesheet";

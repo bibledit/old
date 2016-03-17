@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <config/logic.h>
 #include <locale/translate.h>
 #include <assets/header.h>
@@ -61,6 +62,30 @@ string help_index (void * webserver_request, const string& url)
   Assets_View view;
 
   view.set_variable ("version", config_logic_version ());
+  
+  string linux_version = "1.0.xxx";
+  string linux_path = "/var/www/bibledit.org/linux";
+  if (file_exists (linux_path)) {
+    vector <string> files = filter_url_scandir (linux_path);
+    if (!files.empty ()) {
+      linux_version = files.back ();
+      linux_version = filter_string_str_replace ("bibledit-", "", linux_version);
+      linux_version = filter_string_str_replace (".tar.gz", "", linux_version);
+    }
+  }
+  view.set_variable ("linuxversion", linux_version);
+
+  string cloud_version = "1.0.xxx";
+  string cloud_path = "/var/www/bibledit.org/cloud";
+  if (file_exists (cloud_path)) {
+    vector <string> files = filter_url_scandir (cloud_path);
+    if (!files.empty ()) {
+      cloud_version = files.back ();
+      cloud_version = filter_string_str_replace ("bibledit-", "", cloud_version);
+      cloud_version = filter_string_str_replace (".tar.gz", "", cloud_version);
+    }
+  }
+  view.set_variable ("cloudversion", cloud_version);
 
   page += view.render ("help", filter_url_basename (url));
 

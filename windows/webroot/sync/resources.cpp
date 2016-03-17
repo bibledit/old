@@ -45,8 +45,8 @@ string sync_resources (void * webserver_request)
 
   // If the client's IP address very recently made a prioritized server call,
   // then delay the current call.
-  // This is the way to give priority to the other call:
-  // Not clogging the client's internet connection.
+  // This is to give priority to the other calls from the same client:
+  // Not clogging that client's internet connection.
   if (sync_logic.prioritized_ip_address_active ()) {
     this_thread::sleep_for (chrono::seconds (5));
   }

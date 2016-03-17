@@ -39,11 +39,6 @@ Database_Ipc::Database_Ipc (void * webserver_request_in)
 }
 
 
-Database_Ipc::~Database_Ipc ()
-{
-}
-
-
 void Database_Ipc::trim ()
 {
   vector <Database_Ipc_Item> data = readData ();

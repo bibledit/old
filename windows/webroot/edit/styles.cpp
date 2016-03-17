@@ -23,6 +23,7 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 #include <editor/styles.h>
+#include <access/bible.h>
 
 
 string edit_styles_url ()
@@ -33,7 +34,10 @@ string edit_styles_url ()
 
 bool edit_styles_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 

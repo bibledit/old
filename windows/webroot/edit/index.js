@@ -182,7 +182,7 @@ function editorSaveChapter (sync)
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, html: encodedHtml, checksum: checksum },
     success: function (response) {
       editorStatus (response);
-      if (response == "Reformat") {
+      if (response == editorChapterReformat) {
         editorLoadChapter (true);
       }
     },
@@ -366,7 +366,7 @@ function editorHandleCaretMoved ()
           var offset = getCaretPosition ();
           // Take action only when the caret is still at the same position as it was when this ajax request was initiated.
           if (offset == editorCaretMovedAjaxOffset) {
-            // Set the verse correct immediately, rather than waiting on the Navigator signal that likely is later.
+            // Set the verse correct immediately, rather than waiting on the Navigator signal that likely will come later.
             // This fixes a clicking / scrolling problem.
             editorNavigationVerse = response;
             editorScheduleWindowScrolling ();
@@ -455,6 +455,7 @@ function editorSelectiveNotification (message)
   if (message == editorChapterLoaded) return;
   if (message == editorChapterSaving) return;
   if (message == editorChapterSaved) return;
+  if (message == editorChapterReformat) return;
   notifyItError (message);
 }
 
@@ -557,8 +558,8 @@ function positionCaretViaAjaxExecute ()
         var offset = getCaretPosition ();
         if ((offset < start) || (offset > end)) {
           positionCaret (start);
-          editorCaretInitialized = true;
         }
+        editorCaretInitialized = true;
       }
       editorScheduleWindowScrolling ();
     },
@@ -951,8 +952,7 @@ function editorToolbarScrollingTimerStart ()
 }
 
 
-// The reason for scrolling the editor toolbar via a timer is
-// so it does not interfere with scrolling the window to bring the focused verse into view.
+// The reason for scrolling the editor toolbar via a timer is to reduce the number of calls.
 function editorToolbarScrollingRun ()
 {
   $ ('#editorinnerheader').toggleClass('editorheaderscroll', $ (window).scrollTop () > $ ('#editorheader').offset ().top);

@@ -28,8 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Filter_Roles
 {
 public:
-  Filter_Roles ();
-  ~Filter_Roles ();
   static int guest ();
   static int member ();
   static int consultant ();

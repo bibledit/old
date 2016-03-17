@@ -42,7 +42,10 @@ string search_search2_url ()
 
 bool search_search2_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 

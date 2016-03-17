@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/md5.h>
 #include <filter/date.h>
+#include <filter/shell.h>
 #include <config/globals.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
@@ -59,6 +60,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/etcbc4.h>
 #include <database/hebrewlexicon.h>
 #include <database/cache.h>
+#include <database/login.h>
+#include <database/privileges.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -91,14 +94,6 @@ void test_database_config_bible ()
 {
   trace_unit_tests (__func__);
   
-  // Random basic tests.
-  {
-    evaluate (__LINE__, __func__, false, Database_Config_Bible::getViewableByAllUsers ("testbible"));
-    
-    bool ref = true;
-    Database_Config_Bible::setViewableByAllUsers ("testbible", ref);
-    evaluate (__LINE__, __func__, ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
-  }
   // Versification / Mapping
   {
     string versification = Database_Config_Bible::getVersificationSystem ("phpunit");
@@ -178,7 +173,7 @@ void test_database_config_user ()
     evaluate (__LINE__, __func__, true, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
     
     // Test integer setting.
-    evaluate (__LINE__, __func__, 0, request.database_config_user ()->getConsultationNotesPassageSelector ());
+    evaluate (__LINE__, __func__, 1, request.database_config_user ()->getConsultationNotesPassageSelector ());
     request.database_config_user ()->setConsultationNotesPassageSelector (11);
     evaluate (__LINE__, __func__, 11, request.database_config_user ()->getConsultationNotesPassageSelector ());
     
@@ -206,88 +201,22 @@ void test_database_logs ()
     Database_Logs::log ("description1", 2);
     Database_Logs::log ("description2", 3);
     Database_Logs::log ("description3", 4);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
-    database_logs.checkup ();
-    // Move the items from the filesystem into the SQLite database.
-    database_logs.rotate ();
+    // Rotate the items.
+    Database_Logs::rotate ();
     // Get the items from the SQLite database.
     string lastfilename;
-    vector <string> result = database_logs.get (0, lastfilename);
+    vector <string> result = Database_Logs::get (lastfilename);
     evaluate (__LINE__, __func__, 3, (int)result.size ());
-    refresh_sandbox (false);
-  }
-  {
-    // Check the database: It should recreate the database and then create one entry in the Journal.
-    // This entry is proof that it recreated the database.
-    refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.checkup ();
-    string lastfilename = "1111111111";
-    vector <string> result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    refresh_sandbox (false);
-  }
-  {
-    refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
-    int now = filter_date_seconds_since_epoch ();
-    int min1days = now - 86400 - 10;
-    int min2days = min1days - 86400;
-    int min3days = min2days - 86400;
-    int min4days = min3days - 86400;
-    int min5days = min4days - 86400;
-    int min6days = min5days - 86400;
-    string lastfilename;
-    vector <string> result;
-
-    // Log entry for 6 days ago.
-    Database_Logs::log ("Six days ago");
-    database_logs.rotate ();
-    database_logs.update (now, min6days);
-    lastfilename = "0";
-    result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    lastfilename = "0";
-    result = database_logs.get (5, lastfilename);
-    evaluate (__LINE__, __func__, 0, (int)result.size ());
-    // Rotate that entry away.
-    database_logs.rotate ();
-    lastfilename = "0";
-    result = database_logs.get (6, lastfilename);
-    evaluate (__LINE__, __func__, 0, (int)result.size ());
-
-    // Log entry for 2 days, 1 day ago, and now.
-    Database_Logs::log ("Two days ago");
-    database_logs.rotate ();
-    database_logs.update (now, min2days);
-    Database_Logs::log ("One day ago");
-    database_logs.rotate ();
-    database_logs.update (now, min1days);
-    Database_Logs::log ("Now");
-    lastfilename = "0";
-    result = database_logs.get (2, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    // Gets it from the filesystem, not the database, because this last entry was not yet rotated.
-    lastfilename = "0";
-    result = database_logs.get (0, lastfilename);
-    evaluate (__LINE__, __func__, 1, (int)result.size ());
-    // The "lastsecond" variable, test it.
-    int lastsecond = convert_to_int (lastfilename.substr (0, 10));
-    if ((lastsecond < now ) || (lastsecond > now + 1)) evaluate (__LINE__, __func__, now, lastsecond);
     refresh_sandbox (false);
   }
   {
     // Test huge journal entry.
     refresh_sandbox (true);
-    Database_Logs database_logs = Database_Logs ();
-    database_logs.create ();
     string huge (10000, 'x');
     Database_Logs::log (huge);
-    database_logs.rotate ();
+    Database_Logs::rotate ();
     string s = "0";
-    vector <string> result = database_logs.get (0, s);
+    vector <string> result = Database_Logs::get (s);
     if (result.size () == 1) {
       string s = result[0];
       size_t pos = s.find ("This entry was too large and has been truncated: 10000 bytes");
@@ -402,148 +331,6 @@ void test_database_users ()
     evaluate (__LINE__, __func__, 2, (int)users.size());
     
     evaluate (__LINE__, __func__, md5 (password), database_users.getmd5 (username1));
-  }
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username = "unit test";
-    string password = "pazz";
-    string email = "email@site";
-    string address = "192.168.1.0";
-    string agent = "Browser's user agent";
-    string fingerprint = "ԴԵԶԸ";
-    database_users.setTokens (username, address, agent, fingerprint, true);
-    evaluate (__LINE__, __func__, username, database_users.getUsername (address, agent, fingerprint));
-    database_users.removeTokens (username);
-    evaluate (__LINE__, __func__, "", database_users.getUsername (address, agent, fingerprint));
-
-    evaluate (__LINE__, __func__, 0, database_users.getTimestamp (username));
-    database_users.pingTimestamp (username);
-    int timestamp = database_users.getTimestamp (username);
-    int second = filter_date_seconds_since_epoch ();
-    if ((timestamp != second) && (timestamp != second + 1)) evaluate (__LINE__, __func__, second, timestamp);
-  }
-  // Test touch-enabled settings.
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username = "unittest";
-    string password = "pass";
-    string email = "mail@site.nl";
-    string address = "192.168.1.2";
-    string agent = "Browser's user agent";
-    string fingerprint = "abcdef";
-    bool touch = true;
-    database_users.setTokens (username, address, agent, fingerprint, touch);
-    evaluate (__LINE__, __func__, true, database_users.getTouchEnabled (address, agent, fingerprint));
-    
-    database_users.removeTokens (username);
-    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint));
-    
-    database_users.setTokens (username, address, agent, fingerprint, touch);
-    evaluate (__LINE__, __func__, false, database_users.getTouchEnabled (address, agent, fingerprint + "x"));
-  }
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username1 = "unit test 1";
-    string username2 = "unit test 2";
-    string bible1 = "bible one";
-    string bible2 = "bible two";
-    
-    vector <string> teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 0, (int)teams.size());
-    
-    database_users.grantAccess2Bible (username1, bible1);
-    teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 1, (int)teams.size());
-
-    database_users.grantAccess2Bible (username1, bible1);
-    teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 1, (int)teams.size());
-    if (!teams.empty ()) evaluate (__LINE__, __func__, bible1, teams [0]);
-    
-    database_users.grantAccess2Bible (username1, bible2);
-    teams = database_users.getTeams ();
-    evaluate (__LINE__, __func__, 2, (int)teams.size());
-    
-    vector <string> bibles = database_users.getBibles4User (username1);
-    evaluate (__LINE__, __func__, 2, (int)bibles.size());
-    if (!bibles.empty ()) evaluate (__LINE__, __func__, bible1, bibles [0]);
-    
-    database_users.revokeAccess2Bible (username1, bible1);
-    bibles = database_users.getBibles4User (username1);
-    evaluate (__LINE__, __func__, 1, (int)bibles.size());
-
-    database_users.grantAccess2Bible (username2, bible2);
-    vector <string> users = database_users.getUsers4Bible (bible2);
-    evaluate (__LINE__, __func__, 2, (int)users.size());
-  }
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-
-    string username1 = "unit test 1";
-    string username2 = "unit test 2";
-    string bible1 = "bible one";
-    string bible2 = "bible two";
-    
-    // No teams: Any user has access to any Bible.
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible1));
-    
-    // One team: Any user has access to any Bible.
-    database_users.grantAccess2Bible (username1, bible1);
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible1));
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible2));
-
-    // Two teams: User access control applies.
-    database_users.grantAccess2Bible (username1, bible1);
-    database_users.grantAccess2Bible (username1, bible2);
-    database_users.grantAccess2Bible (username2, bible1);
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible1));
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username1, bible2));
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible1));
-    evaluate (__LINE__, __func__, false, database_users.hasAccess2Bible (username2, bible2));
-    
-    // Admin has access to any Bible.
-    database_users.addNewUser (username2, "", Filter_Roles::admin (), "");
-    evaluate (__LINE__, __func__, true, database_users.hasAccess2Bible (username2, bible2));
-    
-    // Read only access for known user.
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Bible (username1, bible1));
-    database_users.setReadOnlyAccess2Book (username1, bible1, 2, true);
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book (username1, bible1, 2));
-    
-    // No read-only access for unknown user.
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("unknown", bible1, 2));
-  }
-  // Test upgrading read-only settings.
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-    database_users.upgrade ();
-
-    database_users.grantAccess2Bible ("user1", "bible1");
-    database_users.upgrade ();
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
-
-    string sql = "UPDATE teams SET readonly = 1 WHERE username = 'user1' AND bible = 'bible1';";
-    database_users.execute (sql);
-    database_users.upgrade ();
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 1));
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
-
-    evaluate (__LINE__, __func__, false, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
-    database_users.setReadOnlyAccess2Book ("user1", "bible1", 67, true);
-    evaluate (__LINE__, __func__, true, database_users.hasReadOnlyAccess2Book ("user1", "bible1", 67));
   }
 }
 
@@ -1287,7 +1074,7 @@ void test_database_offlineresourcese ()
   // Test Store / Exists / Get.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     bool exists = database_offlineresources.exists ("phpunit", 1, 2, 3);
     evaluate (__LINE__, __func__, true, exists);
@@ -1301,7 +1088,7 @@ void test_database_offlineresourcese ()
   // Test Count / Delete.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     int count = database_offlineresources.count ("phpunit");
     evaluate (__LINE__, __func__, 0, count);
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
@@ -1317,7 +1104,7 @@ void test_database_offlineresourcese ()
   // Test Names.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     vector <string> names = database_offlineresources.names ();
     evaluate (__LINE__, __func__, {}, names);
   
@@ -1332,7 +1119,7 @@ void test_database_offlineresourcese ()
   // Test Files.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
 
     vector <string> files = database_offlineresources.files ("phpunit");
     evaluate (__LINE__, __func__, {}, files);
@@ -1352,7 +1139,7 @@ void test_database_offlineresourcese ()
   // Test Size.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
   
     int size = database_offlineresources.size ("phpunit", "1.sqlite");
     evaluate (__LINE__, __func__, 0, size);
@@ -1368,7 +1155,7 @@ void test_database_offlineresourcese ()
   // Test Save / Load.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     
     int size = database_offlineresources.size ("phpunit", "1.sqlite");
     evaluate (__LINE__, __func__, 0, size);
@@ -1381,7 +1168,7 @@ void test_database_offlineresourcese ()
   // Test Unlink.
   {
     refresh_sandbox (true);
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
   
     database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
     vector <string> files = database_offlineresources.files ("phpunit");
@@ -1399,7 +1186,7 @@ void test_database_offlineresourcese ()
   }
   // Test http get
   {
-    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    Database_OfflineResources database_offlineresources;
     string http = database_offlineresources.httpget ("ResourceName", "1.sqlite");
     evaluate (__LINE__, __func__, "/databases/offlineresources/ResourceName/1.sqlite", http);
   }
@@ -2274,7 +2061,7 @@ void test_database_modifications_user ()
   // Create, erase, clear.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.erase ();
     database_modifications.create ();
     database_modifications.clearUserUser ("phpunit");
@@ -2282,7 +2069,7 @@ void test_database_modifications_user ()
   // Usernames
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <string> users = database_modifications.getUserUsernames ();
     evaluate (__LINE__, __func__, {}, users);
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
@@ -2299,7 +2086,7 @@ void test_database_modifications_user ()
   // Bibles
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <string> bibles = database_modifications.getUserBibles ("phpunit1");
     evaluate (__LINE__, __func__, {}, bibles);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
@@ -2312,7 +2099,7 @@ void test_database_modifications_user ()
   // Books
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <int> books = database_modifications.getUserBooks ("phpunit1", "bible1");
     evaluate (__LINE__, __func__, {}, books);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
@@ -2325,7 +2112,7 @@ void test_database_modifications_user ()
   // Chapters
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     vector <int> chapters = database_modifications.getUserChapters ("phpunit1", "bible1", 1);
     evaluate (__LINE__, __func__, {}, chapters);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
@@ -2337,7 +2124,7 @@ void test_database_modifications_user ()
   // Identifiers.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 4, "old", 5, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 5, "old", 6, "new");
@@ -2353,7 +2140,7 @@ void test_database_modifications_user ()
   // Chapter
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 4, "old2", 5, "new2");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 5, "old3", 6, "new3");
@@ -2367,7 +2154,7 @@ void test_database_modifications_user ()
   // Timestamp
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     int time = database_modifications.getUserTimestamp ("phpunit1", "bible", 1, 2, 4);
     int currenttime = filter_date_seconds_since_epoch ();
@@ -2383,7 +2170,7 @@ void test_database_modifications_team ()
   // Basics.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2393,7 +2180,7 @@ void test_database_modifications_team ()
   // Team Existence
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2421,7 +2208,7 @@ void test_database_modifications_team ()
   // Team Book
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2451,7 +2238,7 @@ void test_database_modifications_team ()
   // Team Bible
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2482,7 +2269,7 @@ void test_database_modifications_team ()
   // Team Get Diff
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2510,7 +2297,7 @@ void test_database_modifications_team ()
   // Team Get Diff Chapters
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2533,7 +2320,7 @@ void test_database_modifications_team ()
   // Team Diff Bible
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2582,7 +2369,7 @@ void test_database_modifications_team ()
   // Team Diff Book
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2602,7 +2389,7 @@ void test_database_modifications_team ()
   // Get Team Diff Count
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -2632,7 +2419,7 @@ void test_database_modifications_notifications ()
   // Basics.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
     for (auto id : ids) {
@@ -2642,7 +2429,7 @@ void test_database_modifications_notifications ()
   // Trim.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
 
     // Record two entries.
@@ -2650,16 +2437,15 @@ void test_database_modifications_notifications ()
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {1, 2}, ids);
-
-    // After filter_string_trimming the two entries should still be there.
+    
+    // After trimming the two entries should still be there.
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {1, 2}, ids);
 
     // Set the time back, re-index, filter_string_trim, and check one entry's gone.
-    string file = database_modifications.notificationTimeFile (1);
     database_modifications.indexTrimAllNotifications ();
-    filter_url_file_put_contents (file, convert_to_string (filter_date_seconds_since_epoch () - 7776001));
+    database_modifications.notificationUpdateTime (1, filter_date_seconds_since_epoch () - 7776001);
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {2}, ids);
@@ -2667,7 +2453,7 @@ void test_database_modifications_notifications ()
   // Next Identifier.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     int identifier = database_modifications.getNextAvailableNotificationIdentifier ();
     evaluate (__LINE__, __func__, 1, identifier);
@@ -2681,7 +2467,7 @@ void test_database_modifications_notifications ()
   // Record Details Retrieval.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
 
     // Start with no identifiers.
@@ -2707,7 +2493,7 @@ void test_database_modifications_notifications ()
   // Timestamps
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
 
     int timestamp = database_modifications.getNotificationTimeStamp (0);
@@ -2723,7 +2509,7 @@ void test_database_modifications_notifications ()
   // Category
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2735,7 +2521,7 @@ void test_database_modifications_notifications ()
   // Bible.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2747,7 +2533,7 @@ void test_database_modifications_notifications ()
   // Passage
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2763,7 +2549,7 @@ void test_database_modifications_notifications ()
   // OldText
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2775,7 +2561,7 @@ void test_database_modifications_notifications ()
   // Modification.
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2787,7 +2573,7 @@ void test_database_modifications_notifications ()
   // New Text
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2799,7 +2585,7 @@ void test_database_modifications_notifications ()
   // Clear User
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2", "phpunit3"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
@@ -2817,7 +2603,7 @@ void test_database_modifications_notifications ()
   // Clear Matches One
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
@@ -2832,7 +2618,7 @@ void test_database_modifications_notifications ()
   // Notification Personal Identifiers
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
@@ -2844,7 +2630,7 @@ void test_database_modifications_notifications ()
   // Notification Team Identifiers
   {
     refresh_sandbox (true);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
@@ -2854,6 +2640,16 @@ void test_database_modifications_notifications ()
     evaluate (__LINE__, __func__, {1}, ids);
     ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category ());
     evaluate (__LINE__, __func__, {4}, ids);
+  }
+  // Record on client.
+  {
+    refresh_sandbox (true);
+    Database_Modifications database_modifications;
+    database_modifications.create ();
+    database_modifications.storeClientNotification (3, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
+    database_modifications.storeClientNotification (5, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
+    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    evaluate (__LINE__, __func__, {3, 5}, ids);
   }
 }
 
@@ -4204,44 +4000,108 @@ void test_database_cache ()
   // Initially database should not exist.
   bool exists = Database_Cache::exists ("");
   evaluate (__LINE__, __func__, false, exists);
-
-  // Initially the database should not exist, and have 0 verses.
-  // After creating, it should be there, and still have 0 verses.
   exists = Database_Cache::exists ("unittests");
   evaluate (__LINE__, __func__, false, exists);
-  int count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 0, count);
-  Database_Cache::create ("unittests");
-  exists = Database_Cache::exists ("unittests");
+
+  // Copy an old cache database in place.
+  // It contains cached data in the old layout.
+  // Test that it now exists and contains data.
+  string testdatapath = filter_url_create_root_path ("unittests", "tests", "cache_resource_test.sqlite");
+  string databasepath = filter_url_create_root_path ("databases",  "cache_resource_unittests.sqlite");
+  string out_err;
+  filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
+  size_t count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 38, count);
+  exists = Database_Cache::exists ("unittests", 8, 1, 16);
   evaluate (__LINE__, __func__, true, exists);
+  string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
+  evaluate (__LINE__, __func__, "And Ruth said, Entreat me not to leave you, or to return from following you; for wherever you go, I will go, and wherever you lodge, I will lodge; your people shall be my people, and your God my God.", value);
+
+  // Now remove the (old) cache and verify that it no longer exists or contains data.
+  Database_Cache::remove ("unittests");
+  exists = Database_Cache::exists ("unittests");
+  evaluate (__LINE__, __func__, false, exists);
+  count = Database_Cache::count ("unittests");
+  evaluate (__LINE__, __func__, 0, count);
+  
+  // Create a cache for one book.
+  Database_Cache::create ("unittests", 10);
+  // It should exists for the correct book, but not for another book.
+  exists = Database_Cache::exists ("unittests", 10);
+  evaluate (__LINE__, __func__, true, exists);
+  exists = Database_Cache::exists ("unittests", 11);
+  evaluate (__LINE__, __func__, false, exists);
+  // The cache should have 0 verses.
   count = Database_Cache::count ("unittests");
   evaluate (__LINE__, __func__, 0, count);
   
   // Cache and retrieve value.
+  Database_Cache::create ("unittests", 1);
   Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  string value = Database_Cache::retrieve ("unittests", 1, 2, 3);
+  value = Database_Cache::retrieve ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, "cached", value);
-
+  
   // Verse count check.
   count = Database_Cache::count ("unittests");
   evaluate (__LINE__, __func__, 1, count);
-
+  
   // Cache does not exist for one passage, but does exist for the other passage.
   exists = Database_Cache::exists ("unittests", 1, 2, 4);
   evaluate (__LINE__, __func__, false, exists);
   exists = Database_Cache::exists ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, true, exists);
-
+  
+  // Excercise book cache removal.
+  Database_Cache::remove ("unittests");
+  exists = Database_Cache::exists ("unittests", 1);
+  evaluate (__LINE__, __func__, false, exists);
+  
+  // Excercise the errors registry.
+  Database_Cache::create ("unittests", 3);
+  vector <pair <int, int> > errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 0, errors.size ());
+  Database_Cache::error ("unittests", 3, 5, 6, true);
+  Database_Cache::error ("unittests", 3, 7, 8, true);
+  errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 2, errors.size ());
+  if (errors.size () == 2) {
+    pair <int, int> error = errors [0];
+    evaluate (__LINE__, __func__, 5, error.first);
+    evaluate (__LINE__, __func__, 6, error.second);
+    error = errors [1];
+    evaluate (__LINE__, __func__, 7, error.first);
+    evaluate (__LINE__, __func__, 8, error.second);
+  }
+  Database_Cache::error ("unittests", 3, 5, 6, false);
+  errors = Database_Cache::errors ("unittests", 3);
+  evaluate (__LINE__, __func__, 1, errors.size ());
+  
+  // Excercise the progress tracker.
+  Database_Cache::create ("unittests", 10);
+  // Default: 0 / 0.
+  pair <int, int> progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 0, progress.first);
+  evaluate (__LINE__, __func__, 0, progress.second);
+  // Record and check.
+  Database_Cache::progress ("unittests", 10, 99, 999);
+  progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 99, progress.first);
+  evaluate (__LINE__, __func__, 999, progress.second);
+  // Record again and check.
+  Database_Cache::progress ("unittests", 10, 2, 9);
+  progress = Database_Cache::progress ("unittests", 10);
+  evaluate (__LINE__, __func__, 2, progress.first);
+  evaluate (__LINE__, __func__, 9, progress.second);
   
   // Excercise the file-based cache.
   string url = "https://netbible.org/bible/1/2/3";
   string contents = "Bible contents";
-  evaluate (__LINE__, __func__, false, database_cache_exists (url));
-  evaluate (__LINE__, __func__, "", database_cache_get (url));
-  database_cache_put (url, contents);
-  evaluate (__LINE__, __func__, true, database_cache_exists (url));
-  evaluate (__LINE__, __func__, contents, database_cache_get (url));
-  database_cache_trim ();
+  evaluate (__LINE__, __func__, false, database_filebased_cache_exists (url));
+  evaluate (__LINE__, __func__, "", database_filebased_cache_get (url));
+  database_filebased_cache_put (url, contents);
+  evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
+  evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
+  database_filebased_cache_trim ();
 
   refresh_sandbox (true);
 }
@@ -4451,6 +4311,250 @@ void test_database_bibles ()
     id = database_bibles.getChapterId ("phpunit", 1, 2);
     evaluate (__LINE__, __func__, 100000004, id);
   }
+}
+
+
+void test_database_login ()
+{
+  trace_unit_tests (__func__);
+
+  {
+    refresh_sandbox (true);
+    Database_Login::create ();
+    string path = database_sqlite_file (Database_Login::database ());
+    filter_url_file_put_contents (path, "damaged database");
+    evaluate (__LINE__, __func__, false, Database_Login::healthy ());
+    Database_Login::optimize ();
+    evaluate (__LINE__, __func__, true, Database_Login::healthy ());
+    refresh_sandbox (false);
+  }
+  
+  refresh_sandbox (true);
+  Database_Login::create ();
+  Database_Login::optimize ();
+  
+  string username = "unittest";
+  string username2 = "unittest2";
+  string address = "192.168.1.0";
+  string address2 = "192.168.1.1";
+  string agent = "Browser's user agent";
+  string fingerprint = "ԴԵԶԸ";
+
+  // Testing whether setting tokens and reading the username, and removing the tokens works.
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::removeTokens (username);
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address, agent, fingerprint));
+
+  // Testing whether a persistent login gets removed after about a year.
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::testTimestamp ();
+  Database_Login::trim ();
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address, agent, fingerprint));
+
+  // Testing whether storing touch enabled
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, true, Database_Login::getTouchEnabled (address, agent, fingerprint));
+  Database_Login::removeTokens (username);
+  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint));
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint + "x"));
+
+  // Testing that removing tokens for one set does not remove all tokens for a user.
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::setTokens (username, address2, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address2, agent, fingerprint));
+  Database_Login::removeTokens (username, address2, agent, fingerprint);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address2, agent, fingerprint));
+  
+  // Test moving tokens to a new username.
+  Database_Login::removeTokens (username);
+  Database_Login::setTokens (username, address, agent, fingerprint, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::renameTokens (username, username2, address, agent, fingerprint);
+  evaluate (__LINE__, __func__, username2, Database_Login::getUsername (address, agent, fingerprint));
+}
+
+
+void test_database_privileges ()
+{
+  trace_unit_tests (__func__);
+
+  // Test creation, automatic repair of damages.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  string path = database_sqlite_file (Database_Privileges::database ());
+  filter_url_file_put_contents (path, "damaged database");
+  evaluate (__LINE__, __func__, false, Database_Privileges::healthy ());
+  Database_Privileges::optimize ();
+  evaluate (__LINE__, __func__, true, Database_Privileges::healthy ());
+  refresh_sandbox (false);
+  
+  Database_Privileges::create ();
+  
+  // Upgrade routine should not give errors.
+  Database_Privileges::upgrade ();
+  
+  string username = "phpunit";
+  string bible = "bible";
+  
+  // Initially there's no privileges for a Bible book.
+  bool read;
+  bool write;
+  Database_Privileges::getBibleBook (username, bible, 2, read, write);
+  evaluate (__LINE__, __func__, false, read);
+  evaluate (__LINE__, __func__, false, write);
+
+  // Set privileges and read them.
+  Database_Privileges::setBibleBook (username, bible, 3, false);
+  Database_Privileges::getBibleBook (username, bible, 3, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+  
+  Database_Privileges::setBibleBook (username, bible, 4, true);
+  Database_Privileges::getBibleBook (username, bible, 4, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  
+  Database_Privileges::removeBibleBook (username, bible, 4);
+  Database_Privileges::getBibleBook (username, bible, 4, read, write);
+  evaluate (__LINE__, __func__, false, read);
+  evaluate (__LINE__, __func__, false, write);
+
+  // Test Bible book entry count.
+  Database_Privileges::setBibleBook (username, bible, 6, true);
+  int count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 2, count);
+  
+  // Test removing book zero, that it removes entries for all books.
+  Database_Privileges::removeBibleBook (username, bible, 0);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 0, count);
+  
+  // Enter a privilege for book = 1, and a different privilege for book 0,
+  // and then test that the privilege for book 1 has preference.
+  Database_Privileges::setBibleBook (username, bible, 1, false);
+  Database_Privileges::getBibleBook (username, bible, 1, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+  Database_Privileges::setBibleBook (username, bible, 0, true);
+  Database_Privileges::setBibleBook (username, bible, 1, false);
+  Database_Privileges::getBibleBook (username, bible, 1, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+
+  // Start afresh to not depend too much on previous tests.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  
+  // Test whether an entry for a book exists.
+  bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
+  evaluate (__LINE__, __func__, false, exists);
+  Database_Privileges::setBibleBook (username, bible, 1, false);
+  // Test the record for the correct book.
+  exists = Database_Privileges::getBibleBookExists (username, bible, 1);
+  evaluate (__LINE__, __func__, true, exists);
+  // The record should also exist for book 0.
+  exists = Database_Privileges::getBibleBookExists (username, bible, 0);
+  evaluate (__LINE__, __func__, true, exists);
+  // The record should not exist for another book.
+  exists = Database_Privileges::getBibleBookExists (username, bible, 2);
+  evaluate (__LINE__, __func__, false, exists);
+
+  // Start afresh to not depend on the outcome of previous tests.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+
+  // Test no read access to entire Bible.
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, false, read);
+  evaluate (__LINE__, __func__, false, write);
+  // Set Bible read-only and test it.
+  Database_Privileges::setBible (username, bible, false);
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, false, write);
+  // Set Bible read-write, and test it.
+  Database_Privileges::setBible (username, bible, true);
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  // Set one book read-write and test that this applies to entire Bible.
+  Database_Privileges::setBible (username, bible, false);
+  Database_Privileges::setBibleBook (username, bible, 1, true);
+  Database_Privileges::getBible (username, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  
+  // A feature is off by default.
+  bool enabled = Database_Privileges::getFeature (username, 123);
+  evaluate (__LINE__, __func__, false, enabled);
+
+  // Test setting a feature on and off.
+  Database_Privileges::setFeature (username, 1234, true);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, true, enabled);
+  Database_Privileges::setFeature (username, 1234, false);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, false, enabled);
+  
+  // Test bulk privileges removal.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  // Set privileges for user for Bible.
+  Database_Privileges::setBible (username, bible, false);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 1, count);
+  // Remove privileges for a Bible and check on them.
+  Database_Privileges::removeBible (bible);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 0, count);
+  // Again, set privileges, and remove them by username.
+  Database_Privileges::setBible (username, bible, false);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 1, count);
+  Database_Privileges::removeUser (username);
+  count = Database_Privileges::getBibleBookCount ();
+  evaluate (__LINE__, __func__, 0, count);
+  
+  // Set features for user.
+  Database_Privileges::setFeature (username, 1234, true);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, true, enabled);
+  // Remove features by username.
+  Database_Privileges::removeUser (username);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, false, enabled);
+  
+  // Test privileges transfer through a text file.
+  refresh_sandbox (true);
+  Database_Privileges::create ();
+  // Set privileges.
+  Database_Privileges::setBibleBook (username, bible, 1, true);
+  Database_Privileges::setFeature (username, 1234, true);
+  // Check the transfer text file.
+  string privileges =
+    "bibles_start\n"
+    "bible\n"
+    "1\n"
+    "on\n"
+    "bibles_end\n"
+    "features_start\n"
+    "1234\n"
+    "features_start";
+  evaluate (__LINE__, __func__, privileges, Database_Privileges::save (username));
+  // Transfer the privileges to another user.
+  string clientuser = username + "client";
+  Database_Privileges::load (clientuser, privileges);
+  // Check the privileges for that other user.
+  Database_Privileges::getBible (clientuser, bible, read, write);
+  evaluate (__LINE__, __func__, true, read);
+  evaluate (__LINE__, __func__, true, write);
+  enabled = Database_Privileges::getFeature (username, 1234);
+  evaluate (__LINE__, __func__, true, enabled);
 }
 
 

@@ -241,7 +241,7 @@ void Filter_Text::preprocessingStage ()
                   {
                     // Get book number.
                     string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
-                    s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
+                    s = filter_string_str_replace (soft_hyphen (), "", s); // Remove possible soft hyphen.
                     currentBookIdentifier = Database_Books::getIdFromUsfm (s);
                     // Reset chapter and verse numbers.
                     currentChapterNumber = 0;
@@ -390,7 +390,7 @@ void Filter_Text::processUsfm ()
                 {
                   // Get book number.
                   string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
-                  s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
+                  s = filter_string_str_replace (soft_hyphen (), "", s); // Remove possible soft hyphen.
                   currentBookIdentifier = Database_Books::getIdFromUsfm (s);
                   // Reset chapter and verse numbers.
                   currentChapterNumber = 0;
@@ -792,7 +792,7 @@ void Filter_Text::processUsfm ()
                 // But if a chapter number was put, than do not put any space at the start of the following verse.
                 textFollowingMarker = filter_string_ltrim (textFollowingMarker);
                 if (outputChapterTextAtFirstVerse.empty()) {
-                  textFollowingMarker = get_en_space () + textFollowingMarker;
+                  textFollowingMarker = en_space () + textFollowingMarker;
                 }
                 chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer] = textFollowingMarker;
                 chapterUsfmMarkersAndTextPointer--;
@@ -973,7 +973,7 @@ void Filter_Text::processUsfm ()
             verses_text [iverse].append (currentItem);
           } else {
             // The verse text straight after the \v starts with an enSpace. Remove it.
-            string item = filter_string_str_replace (get_en_space (), " ", currentItem);
+            string item = filter_string_str_replace (en_space (), " ", currentItem);
             verses_text [iverse] = filter_string_ltrim (item);
           }
         }
@@ -1035,7 +1035,7 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space after it.
-                  if (odf_text_notes) odf_text_notes->addText (citation + get_no_break_space());
+                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_utf8_a0());
                   // Open note in the web pages.
                   if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerFootEndNote);
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote);
@@ -1140,7 +1140,7 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space (NBSP) after it.
-                  if (odf_text_notes) odf_text_notes->addText (citation + get_no_break_space());
+                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_utf8_a0());
                   // Open note in the web page.
                   ensureNoteParagraphStyle (standardContentMarkerCrossReference, styles[standardContentMarkerCrossReference]);
                   if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerCrossReference);

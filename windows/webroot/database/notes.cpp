@@ -42,6 +42,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // * Connections to the database are alive as short as possible.
 
 
+/*
+
+ Storing notes, now being done as separate files, each file taking up a default space, 
+ will become more efficien, that is, take up less space,
+ when each note is stored as a separate SQLite database.
+ On a Linux server, one notes takes up 32kbytes, and a lot of that space is wasted.
+ If one notes was stored in one file, it would take up 4kbytes.
+ That is a difference of 8 times.
+ This would be a possible improvement.
+
+*/
+
 Database_Notes::Database_Notes (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;

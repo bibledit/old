@@ -214,7 +214,7 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
 string Sync_Logic::offline_resources_checksum ()
 {
   string checksum;
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
   vector <string> names = database_offlineresources.names ();
   for (auto & name : names) {
     checksum += offline_resource_checksum (name);
@@ -228,7 +228,7 @@ string Sync_Logic::offline_resources_checksum ()
 string Sync_Logic::offline_resource_checksum (const string& name)
 {
   vector <string> checksum;
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
   vector <string> files = database_offlineresources.files (name);
   for (auto & file : files) {
     checksum.push_back (name);
@@ -243,7 +243,7 @@ string Sync_Logic::offline_resource_checksum (const string& name)
 // Calculates the checksum of offline resource name the file.
 string Sync_Logic::offline_resource_file_checksum (const string& name, const string& file)
 {
-  Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  Database_OfflineResources database_offlineresources;
   return convert_to_string (database_offlineresources.size (name, file));
 }
 
@@ -266,7 +266,7 @@ string Sync_Logic::changes_checksum (const string & username)
 // The $version influences which root directories to include.
 // The $version is passed by the client to the server,
 // so the server can adapt to the client's capabilities.
-vector <string> Sync_Logic::files_get_directories (int version)
+vector <string> Sync_Logic::files_get_directories (int version, const string & user)
 {
   vector <string> directories;
   switch (version) {
@@ -294,6 +294,21 @@ vector <string> Sync_Logic::files_get_directories (int version)
         "databases/client"
       };
       break;
+    case 4:
+      directories = {
+        "fonts",
+        "databases/imageresources",
+        "databases/client"
+      };
+      break;
+    case 5:
+      directories = {
+        "fonts",
+        "databases/imageresources",
+        "databases/client",
+        "databases/clients/" + user
+      };
+      break;
     default:
       break;
   }
@@ -301,11 +316,11 @@ vector <string> Sync_Logic::files_get_directories (int version)
 }
 
 
-// This returns the total checksum for all directories and files relevant to $version.
-int Sync_Logic::files_get_total_checksum (int version)
+// This returns the total checksum for all directories and files relevant to $version and $user.
+int Sync_Logic::files_get_total_checksum (int version, const string & user)
 {
   int checksum = 0;
-  vector <string> directories = files_get_directories (version);
+  vector <string> directories = files_get_directories (version, user);
   for (auto directory : directories) {
     checksum += files_get_directory_checksum (directory);
   }

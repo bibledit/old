@@ -135,7 +135,16 @@ string resource_logic_get_html (void * webserver_request,
   
   // Lists of the various types of resources.
   vector <string> bibles = request->database_bibles()->getBibles ();
-  vector <string> usfms = database_usfmresources.getResources ();
+  vector <string> usfms;
+  if (config_logic_client_prepared ()) {
+    usfms = client_logic_usfm_resources_get ();
+    // As from February 2016 a client no longer automatically downloads USFM resources off the server.
+    // But a client takes in account existing USFM resources it has downloaded before.
+    vector <string> old_usfms = database_usfmresources.getResources ();
+    usfms.insert (usfms.end (), old_usfms.begin (), old_usfms.end ());
+  } else {
+    usfms = database_usfmresources.getResources ();
+  }
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
@@ -219,8 +228,14 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   Database_ImageResources database_imageresources;
   
   // Lists of the various types of resources.
+  // As from February 2016 a client no longer automatically downloads USFM resources from the Cloud.
+  // But a client takes in account existing USFM resources it has downloaded before.
   vector <string> bibles = request->database_bibles()->getBibles ();
-  vector <string> usfms = database_usfmresources.getResources ();
+  vector <string> local_usfms = database_usfmresources.getResources ();
+  vector <string> remote_usfms;
+  if (config_logic_client_prepared ()) {
+    remote_usfms = client_logic_usfm_resources_get ();
+  }
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
@@ -231,16 +246,17 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   
   // Determine the type of the current resource.
   bool isBible = in_array (resource, bibles);
-  bool isUsfm = in_array (resource, usfms);
+  bool isLocalUsfm = in_array (resource, local_usfms);
+  bool isRemoteUsfm = in_array (resource, remote_usfms);
   bool isExternal = in_array (resource, externals);
   bool isImage = in_array (resource, images);
   bool isLexicon = in_array (resource, lexicons);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
   
-  if (isBible || isUsfm) {
+  if (isBible || isLocalUsfm) {
     string chapter_usfm;
     if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
-    if (isUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
+    if (isLocalUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
     string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
@@ -248,6 +264,8 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     filter_text.addUsfmCode (verse_usfm);
     filter_text.run (stylesheet);
     data = filter_text.html_text_standard->getInnerHtml ();
+  } else if (isRemoteUsfm) {
+    data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
     if (config_logic_client_prepared ()) {
       // A client fetches it from the cache or from the Cloud,
@@ -303,7 +321,9 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
   // Lists of the various types of resources.
+  Database_UsfmResources database_usfmresources;
   vector <string> externals = resource_external_names ();
+  vector <string> usfms = database_usfmresources.getResources ();
   
   // Possible SWORD details in case the client requests a SWORD resource.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -311,11 +331,24 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   
   // Determine the type of the current resource.
   bool isExternal = in_array (resource, externals);
+  bool isUsfm = in_array (resource, usfms);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
   
   if (isExternal) {
     // The server fetches it from the web.
     return resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse);
+  }
+  
+  if (isUsfm) {
+    // Fetch from database and convert to html.
+    string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
+    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+    string stylesheet = styles_logic_standard_sheet ();
+    Filter_Text filter_text = Filter_Text (resource);
+    filter_text.html_text_standard = new Html_Text ("");
+    filter_text.addUsfmCode (verse_usfm);
+    filter_text.run (stylesheet);
+    return filter_text.html_text_standard->getInnerHtml ();
   }
   
   if (isSword) {
@@ -335,8 +368,8 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
 {
   // Ensure that the cache for this resource exists on the client.
-  if (!Database_Cache::exists (resource)) {
-    Database_Cache::create (resource);
+  if (!Database_Cache::exists (resource, book)) {
+    Database_Cache::create (resource, book);
   }
   
   // If the content exists in the cache, return that content.
@@ -493,8 +526,8 @@ string resource_logic_web_cache_get (string url, string & error)
 {
   // On the Cloud, check if the URL is in the cache.
   if (!config_logic_client_prepared ()) {
-    if (database_cache_exists (url)) {
-      return database_cache_get (url);
+    if (database_filebased_cache_exists (url)) {
+      return database_filebased_cache_get (url);
     }
   }
   // Fetch the URL from the network.
@@ -506,7 +539,7 @@ string resource_logic_web_cache_get (string url, string & error)
   }
   // In the Cloud, cache the response.
   if (!config_logic_client_prepared ()) {
-    database_cache_put (url, html);
+    database_filebased_cache_put (url, html);
   }
   // Done.
   return html;

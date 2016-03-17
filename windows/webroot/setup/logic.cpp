@@ -35,6 +35,8 @@
 #include <database/notes.h>
 #include <database/volatile.h>
 #include <database/state.h>
+#include <database/login.h>
+#include <database/privileges.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -122,9 +124,11 @@ void setup_copy_library (const char * package)
   size_t package_length = strlen (package);
   filter_url_mkdir (config_globals_document_root);
   vector <string> package_paths;
+  config_globals_setup_message = "scanning";
   filter_url_recursive_scandir (package, package_paths);
   for (auto package_path : package_paths) {
     string dest_path = config_globals_document_root + package_path.substr (package_length);
+    config_globals_setup_message = dest_path;
     if (filter_url_is_dir (package_path)) {
       filter_url_mkdir (dest_path);
     } else {
@@ -168,59 +172,93 @@ void setup_initialize_data ()
 {
   // Do the database setup.
   Webserver_Request request;
+  // Display progress in text format.
+  // That provides feedback to the user during installation.
+  // This alerts the user that installation is in progress, and is not stuck,
+  // as the user might think when the install takes longer than expected.
+  config_globals_setup_message = "users";
   request.database_users ()->create ();
   request.database_users ()->upgrade ();
-  Database_Logs database_logs = Database_Logs ();
-  database_logs.create ();
+  config_globals_setup_message = "styles";
   request.database_styles ()->create ();
+  config_globals_setup_message = "bible actions";
   request.database_bibleactions ()->create ();
+  config_globals_setup_message = "checks";
   request.database_check ()->create ();
-  map <string, string> localizations = locale_logic_localizations ();
-  for (auto & element : localizations) {
-    string localization = element.first;
-    if (localization.empty ()) continue;
-    Database_Localization database_localization = Database_Localization (localization);
-    string path = filter_url_create_root_path ("locale", localization + ".po");
-    database_localization.create (path);
-  }
+  setup_generate_locale_databases (false);
+  config_globals_setup_message = "confirmations";
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
+  config_globals_setup_message = "jobs";
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.create ();
+  config_globals_setup_message = "sprint";
   Database_Sprint database_sprint = Database_Sprint ();
   database_sprint.create ();
+  config_globals_setup_message = "mail";
   Database_Mail database_mail = Database_Mail (&request);
   database_mail.create ();
+  config_globals_setup_message = "navigation";
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
+  config_globals_setup_message = "mappings";
   Database_Mappings database_mappings = Database_Mappings ();
   database_mappings.create1 ();
   database_mappings.defaults ();
   database_mappings.create2 ();
   database_mappings.optimize ();
+  config_globals_setup_message = "note actions";
   Database_NoteActions database = Database_NoteActions ();
   database.create ();
+  config_globals_setup_message = "versifications";
   Database_Versifications database_versifications;
   database_versifications.create ();
   database_versifications.defaults ();
-  Database_Modifications database_modifications = Database_Modifications ();
+  config_globals_setup_message = "modifications";
+  Database_Modifications database_modifications;
   database_modifications.create ();
+  config_globals_setup_message = "notes";
   Database_Notes database_notes (&request);
   database_notes.create ();
+  config_globals_setup_message = "volatile";
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();
+  config_globals_setup_message = "state";
   Database_State::create ();
+  config_globals_setup_message = "login";
+  Database_Login::create ();
+  Database_Login::optimize ();
+  config_globals_setup_message = "privileges";
+  Database_Privileges::create ();
+  Database_Privileges::upgrade ();
+  Database_Privileges::optimize ();
 
   // Create stylesheets.
+  config_globals_setup_message = "stylesheets";
   styles_sheets_create_all ();
   
-  // Create sample Bible if there's no Bible yet.
+  // Schedule creation of sample Bible if there's no Bible yet.
+  // In former versions of Bibledit, creation of the sample Bible was not scheduled,
+  // but executed right away.
+  // This led to very long app first-run times on low power devices.
+  // The installation times were so long that user were tempted to think
+  // that the install process was stuck.
+  // To make installation fast, the creation of the sample Bible is now done in the background.
+  config_globals_setup_message = "samples";
   vector <string> bibles = request.database_bibles()->getBibles ();
-  if (bibles.empty ()) demo_create_sample_bible (&request);
+  if (bibles.empty ()) {
+    tasks_logic_queue (CREATESAMPLEBIBLE);
+  }
   
   // Schedule reindexing Bible search data.
+  /*
+   Re-indexing Bible search data was disabled again in Februari 2016,
+   because it takes quite a while on low power devices,
+   and the reason for the re-indexing is not clear.
+  config_globals_setup_message = "indexes";
   Database_Config_General::setIndexBibles (true);
   tasks_logic_queue (REINDEXBIBLES);
+  */
 }
 
 
@@ -237,4 +275,27 @@ void setup_set_admin_details (string username, string password, string email)
 void setup_complete_gui ()
 {
   Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+}
+
+
+// Generate the locale databases.
+void setup_generate_locale_databases (bool progress)
+{
+  // On Android, do not generate the locale databases.
+  // On this low power device, generating them would take quite a while, as experience shows.
+  // Instead of generating them, the builder and installer put the pre-generated databases into place.
+  if (config_logic_android ()) return;
+  // Same story for iOS.
+  if (config_logic_ios ()) return;
+  // Generate databases for all the localizations.
+  map <string, string> localizations = locale_logic_localizations ();
+  for (auto & element : localizations) {
+    string localization = element.first;
+    if (localization.empty ()) continue;
+    config_globals_setup_message = "locale " + localization;
+    if (progress) cout << config_globals_setup_message << endl;
+    Database_Localization database_localization = Database_Localization (localization);
+    string path = filter_url_create_root_path ("locale", localization + ".po");
+    database_localization.create (path);
+  }
 }

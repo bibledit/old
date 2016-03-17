@@ -31,6 +31,7 @@ public:
   Database_Config_User (void * webserver_request_in);
   ~Database_Config_User ();
   void trim ();
+  void remove (string username);
   string getStylesheet ();
   void setStylesheet (string sheet);
   string getBible ();
@@ -212,6 +213,7 @@ public:
   void setMainMenuAlwaysVisible (bool value);
 private:
   void * webserver_request;
+  string file (string user);
   string file (string user, const char * key);
   string getValue (const char * key, const char * default_value);
   bool getBValue (const char * key, bool default_value);

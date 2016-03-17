@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <locale/translate.h>
 #include <menu/logic.h>
+#include <client/logic.h>
 
 
 const char * journal_index_url ()
@@ -39,7 +40,16 @@ const char * journal_index_url ()
 
 bool journal_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  // In Client mode, anyone can view the journal.
+  if (client_logic_client_enabled ()) {
+    return true;
+  }
+  // The role of Consultant or higher can view the journal.
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
+    return true;
+  }
+  // No access.
+  return false;
 }
 
 
@@ -77,8 +87,13 @@ string journal_index_ajax (Webserver_Request * request, string filename)
   string result = database_logs.getNext (filename);
   if (!result.empty()) {
     int entryLevel = convert_to_int (result);
-    if (entryLevel <= userLevel) result = render_journal_entry (result);
-    else result.clear ();
+    // Cloud: Pay attention to only rendering journal entries of sufficient user level.
+    // Client: Render any journal entry.
+    if ((entryLevel <= userLevel) || client_logic_client_enabled ()) {
+      result = render_journal_entry (result);
+    } else {
+      result.clear ();
+    }
     result.insert (0, filename + "\n");
   }
   return result;
@@ -91,7 +106,9 @@ string journal_index (void * webserver_request)
   int userLevel = request->session_logic()->currentLevel ();
 
   string filename = request->query ["filename"];
-  if (!filename.empty ()) return journal_index_ajax (request, filename);
+  if (!filename.empty ()) {
+    return journal_index_ajax (request, filename);
+  }
 
   Database_Logs database_logs = Database_Logs ();
 
@@ -106,30 +123,27 @@ string journal_index (void * webserver_request)
 
   if (request->query.count ("clear")) {
     database_logs.clear ();
+    // If the logbook has been cleared on a mobile device, and the screen shuts off,
+    // and then the user activates the screen on the mobile device,
+    // the logbook will then again be cleared, because that was the last opened URL.
+    // Redirecting the browser to a clean URL fixes this behaviour.
+    redirect_browser (request, journal_index_url ());
+    return "";
   }
 
   
   string lastfilename;
-  vector <string> entries = database_logs.get (0, lastfilename);
-
-
-  // By default it shows no more than so many entries to avoid clogging the browser.
-  // The user can elect to view all entries.
-  if (request->query.count ("all") == 0) {
-    size_t limit = 1000;
-    if (entries.size () > limit) {
-      limit = entries.size () - limit;
-      for (unsigned int i = 0; i < limit; i++) {
-        entries.erase (entries.begin());
-      }
-    }
-  }
+  vector <string> entries = database_logs.get (lastfilename);
 
 
   string lines;
   for (auto entry : entries) {
     int entryLevel = convert_to_int (entry);
-    if (entryLevel > userLevel) continue;
+    // Cloud: Pay attention to only rendering journal entries of sufficient user level.
+    // Client: Render any journal entry.
+    if (!client_logic_client_enabled ()) {
+      if (entryLevel > userLevel) continue;
+    }
     entry = render_journal_entry (entry);
     lines.append ("<p>");
     lines.append (entry);
@@ -140,7 +154,10 @@ string journal_index (void * webserver_request)
   
   // Pass the filename of the most recent entry to javascript
   // for use by the AJAX calls for getting subsequent journal entries.
-  string script = "var filename = " + lastfilename + ";";
+  // It should be passed as a String object in JavaScript.
+  // Because when it were passed as an Int, JavaScript would round the value off.
+  // And rounding it off often led to double journal entries.
+  string script = "var filename = \"" + lastfilename + "\";";
   view.set_variable ("script", script);
 
 

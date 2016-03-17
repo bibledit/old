@@ -27,10 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Config_Bible
 {
 public:
+  static void remove (string bible);
   static string getRemoteRepositoryUrl (string bible);
   static void setRemoteRepositoryUrl (string bible, string url);
-  static bool getViewableByAllUsers (string bible);
-  static void setViewableByAllUsers (string bible, bool value);
   static bool getCheckDoubleSpacesUsfm (string bible);
   static void setCheckDoubleSpacesUsfm (string bible, bool value);
   static bool getCheckFullStopInHeadings (string bible);
@@ -138,6 +137,7 @@ public:
   static bool getPublicFeedbackEnabled (string bible);
   static void setPublicFeedbackEnabled (string bible, bool value);
 private:
+  static string file (string bible);
   static string file (string bible, const char * key);
   static string getValue (string bible, const char * key, const char * default_value);
   static void setValue (string bible, const char * key, string value);
