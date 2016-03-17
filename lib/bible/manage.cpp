@@ -35,6 +35,8 @@
 #include <bible/logic.h>
 #include <client/logic.h>
 #include <menu/logic.h>
+#include <demo/logic.h>
+#include <search/logic.h>
 
 
 string bible_manage_url ()
@@ -83,6 +85,9 @@ string bible_manage (void * webserver_request)
         Database_Privileges::setBible (me, bible, true);
       }
       success_message = translate("The Bible was created");
+      // Creating a Bible removes any Sample Bible that might have been there.
+      request->database_bibles ()->deleteBible (demo_sample_bible_name ());
+      search_logic_delete_bible (demo_sample_bible_name ());
     }
   }
   
@@ -119,6 +124,9 @@ string bible_manage (void * webserver_request)
             string me = request->session_logic ()->currentUser ();
             Database_Privileges::setBible (me, destination, true);
           }
+          // Creating a Bible removes any Sample Bible that might have been there.
+          request->database_bibles ()->deleteBible (demo_sample_bible_name ());
+          search_logic_delete_bible (demo_sample_bible_name ());
         }
       }
     }
