@@ -8,7 +8,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -442,9 +441,6 @@ msgid "Convert to USFM resource"
 msgstr ""
 
 msgid "Compare with ..."
-msgstr ""
-
-msgid "Viewable by all users"
 msgstr ""
 
 msgid "The public can give feedback"
@@ -5850,6 +5846,9 @@ msgstr ""
 msgid "The job is scheduled to start shortly."
 msgstr ""
 
+msgid "Clear the entire journal"
+msgstr ""
+
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 
@@ -5902,6 +5901,12 @@ msgid "Loaded"
 msgstr ""
 
 msgid "Retrying..."
+msgstr ""
+
+msgid "Reformat"
+msgstr ""
+
+msgid "You do not have enough privileges to modify this book."
 msgstr ""
 
 msgid "Export"
@@ -6241,6 +6246,30 @@ msgstr ""
 msgid "You can upload a new font."
 msgstr ""
 
+msgid "Read/write"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
+msgid "You can set the privileges for the user."
+msgstr ""
+
+msgid "User:"
+msgstr ""
+
+msgid "Can view the resources."
+msgstr ""
+
+msgid "Can view the consultation notes."
+msgstr ""
+
+msgid "Can create and comment on consultation notes."
+msgstr ""
+
+msgid "Go back."
+msgstr ""
+
 msgid "Users"
 msgstr ""
 
@@ -6268,13 +6297,16 @@ msgstr ""
 msgid "Would you like to grant the user access to a Bible?"
 msgstr ""
 
-msgid ""
-"The user has become a member of the translation team that works on this Bible"
+msgid "The user has been granted access to this Bible"
 msgstr ""
 
-msgid ""
-"The user is no longer a member of the translation team that works on this "
-"Bible"
+msgid "The user no longer has access to this Bible"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "Login"
 msgstr ""
 
 msgid "Role"
@@ -6308,9 +6340,6 @@ msgstr ""
 msgid "Click ✗ before a Bible to remove the access of a user to that Bible."
 msgstr ""
 
-msgid "Some roles can modify the text of Bible books."
-msgstr ""
-
 msgid "Two numbers appear after the Bible."
 msgstr ""
 
@@ -6325,13 +6354,10 @@ msgid ""
 "access to all Bibles."
 msgstr ""
 
-msgid "Read/write"
+msgid "yes"
 msgstr ""
 
 msgid "no"
-msgstr ""
-
-msgid "yes"
 msgstr ""
 
 msgid "No books"
@@ -6339,9 +6365,6 @@ msgstr ""
 
 msgid ""
 "On this page you can set whether a user can modify the text of Bible books."
-msgstr ""
-
-msgid "User:"
 msgstr ""
 
 msgid "Bible:"
@@ -6412,9 +6435,6 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-msgid "Login"
-msgstr ""
-
 msgid "Translation"
 msgstr ""
 
@@ -6472,7 +6492,10 @@ msgstr ""
 msgid "Send/receive"
 msgstr ""
 
-msgid "Cross-references"
+msgid "Hyphenate"
+msgstr ""
+
+msgid "Transfer cross-references"
 msgstr ""
 
 msgid "Debug"
@@ -6482,9 +6505,6 @@ msgid "Personalize"
 msgstr ""
 
 msgid "Indexes and Fonts"
-msgstr ""
-
-msgid "Styles"
 msgstr ""
 
 msgid "Cloud"
@@ -6539,6 +6559,9 @@ msgid "Versifications"
 msgstr ""
 
 msgid "Edit stylesheet"
+msgstr ""
+
+msgid "Styles"
 msgstr ""
 
 msgid "Back"
@@ -6608,9 +6631,6 @@ msgid "Status"
 msgstr ""
 
 msgid "Verses"
-msgstr ""
-
-msgid "edit"
 msgstr ""
 
 msgid "Severity"
@@ -6807,6 +6827,15 @@ msgid "Deleted"
 msgstr ""
 
 msgid "Marked for deletion"
+msgstr ""
+
+msgid "View or respond online"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "open the desktop online"
 msgstr ""
 
 msgid "Your comment was posted"
@@ -7244,7 +7273,10 @@ msgstr ""
 msgid "The name should be at least two characters long"
 msgstr ""
 
-msgid "Please login the other way, through Menu / Login"
+msgid "This account needs a password."
+msgstr ""
+
+msgid "Please login the other way, through Menu / Login."
 msgstr ""
 
 msgid "Thank you for being interested in providing feedback on the Bible."
@@ -8112,6 +8144,20 @@ msgid "Security question:"
 msgstr ""
 
 msgid "Hint for answering the security question:"
+msgstr ""
+
+msgid "Switch user"
+msgstr ""
+
+msgid "Switched user"
+msgstr ""
+
+msgid "You have now logged in on behalf of another user:"
+msgstr ""
+
+msgid ""
+"To go back to your own username, log this user out, and then login with your "
+"own credentials."
 msgstr ""
 
 msgid "Team's progress in Sprint"
@@ -9174,19 +9220,19 @@ msgstr ""
 msgid "okay"
 msgstr ""
 
-msgid "Place cross references"
+msgid "Transfer cross references"
 msgstr ""
 
 msgid ""
-"The tool to place cross references enables you to easily and quickly place "
-"cross references in a Bible."
+"The tool to transfer cross references enables you to easily and quickly "
+"enter cross references in a Bible."
 msgstr ""
 
 msgid "The tool has two main functions:"
 msgstr ""
 
 msgid ""
-"Read the cross references from a source Bible, and place them in a target "
+"Read the cross references from a source Bible, and transfer them to a target "
 "Bible."
 msgstr ""
 
@@ -9195,10 +9241,10 @@ msgid ""
 "verse."
 msgstr ""
 
-msgid "Placing cross references"
+msgid "Transferring cross references"
 msgstr ""
 
-msgid "Click the link to copy the cross references."
+msgid "Click the link to transfer the cross references."
 msgstr ""
 
 msgid ""
@@ -9215,7 +9261,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"It then places the cross references in the entire focused chapter of the "
+"It then enters the cross references in the entire focused chapter of the "
 "target Bible."
 msgstr ""
 
@@ -9260,7 +9306,7 @@ msgstr ""
 msgid "source Bible:"
 msgstr ""
 
-msgid "copy cross references entire chapter"
+msgid "transfer cross references entire chapter"
 msgstr ""
 
 msgid "target Bible:"

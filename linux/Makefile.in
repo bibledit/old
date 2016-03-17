@@ -151,9 +151,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/noteassignment.$(OBJEXT) database/strong.$(OBJEXT) \
 	database/morphgnt.$(OBJEXT) database/etcbc4.$(OBJEXT) \
 	database/hebrewlexicon.$(OBJEXT) database/cache.$(OBJEXT) \
+	database/login.$(OBJEXT) database/privileges.$(OBJEXT) \
 	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
 	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
-	session/signup.$(OBJEXT) \
+	session/signup.$(OBJEXT) session/switch.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -190,34 +191,36 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	user/account.$(OBJEXT) manage/index.$(OBJEXT) \
 	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
 	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
-	manage/write.$(OBJEXT) administration/language.$(OBJEXT) \
+	manage/write.$(OBJEXT) manage/privileges.$(OBJEXT) \
+	administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
 	collaboration/secure.$(OBJEXT) collaboration/link.$(OBJEXT) \
 	collaboration/direction.$(OBJEXT) search/rebibles.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
-	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
-	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
-	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
-	editone/index.$(OBJEXT) editone/load.$(OBJEXT) \
-	editone/save.$(OBJEXT) editone/verse.$(OBJEXT) \
-	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
-	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
+	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
+	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
+	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
+	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
+	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editverse/load.$(OBJEXT) \
+	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
+	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
+	editone/verse.$(OBJEXT) navigation/passage.$(OBJEXT) \
+	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
+	editor/usfm2html.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
 	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
 	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
@@ -630,11 +633,14 @@ libbibledit_a_SOURCES = \
 	database/etcbc4.cpp \
 	database/hebrewlexicon.cpp \
 	database/cache.cpp \
+	database/login.cpp \
+	database/privileges.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
 	session/password.cpp \
 	session/signup.cpp \
+	session/switch.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
@@ -708,6 +714,7 @@ libbibledit_a_SOURCES = \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
 	manage/write.cpp \
+	manage/privileges.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -721,6 +728,7 @@ libbibledit_a_SOURCES = \
 	search/renotes.cpp \
 	access/user.cpp \
 	access/bible.cpp \
+	access/logic.cpp \
 	dialog/entry.cpp \
 	dialog/list.cpp \
 	dialog/yes.cpp \
@@ -1190,6 +1198,10 @@ database/hebrewlexicon.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/cache.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
+database/login.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/privileges.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
 	@: > session/$(am__dirstamp)
@@ -1205,6 +1217,8 @@ session/logout.$(OBJEXT): session/$(am__dirstamp) \
 session/password.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 session/signup.$(OBJEXT): session/$(am__dirstamp) \
+	session/$(DEPDIR)/$(am__dirstamp)
+session/switch.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 parsewebdata/$(am__dirstamp):
 	@$(MKDIR_P) parsewebdata
@@ -1466,6 +1480,8 @@ manage/hyphenate.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/write.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
+manage/privileges.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
 administration/$(am__dirstamp):
 	@$(MKDIR_P) administration
 	@: > administration/$(am__dirstamp)
@@ -1515,6 +1531,8 @@ access/$(DEPDIR)/$(am__dirstamp):
 access/user.$(OBJEXT): access/$(am__dirstamp) \
 	access/$(DEPDIR)/$(am__dirstamp)
 access/bible.$(OBJEXT): access/$(am__dirstamp) \
+	access/$(DEPDIR)/$(am__dirstamp)
+access/logic.$(OBJEXT): access/$(am__dirstamp) \
 	access/$(DEPDIR)/$(am__dirstamp)
 dialog/$(am__dirstamp):
 	@$(MKDIR_P) dialog
@@ -2269,6 +2287,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/bible.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/language.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/timezone.Po@am__quote@
@@ -2339,6 +2358,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/localization.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/maintenance.Po@am__quote@
@@ -2351,6 +2371,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteassignment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/offlineresources.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/privileges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
@@ -2452,6 +2473,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/privileges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/users.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/write.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@
@@ -2554,6 +2576,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/signup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/switch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/etcbc4.Po@am__quote@

@@ -54,7 +54,7 @@ bool changes_changes_acl (void * webserver_request)
 string changes_changes (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
   Database_Notes database_notes = Database_Notes (request);
   
 

@@ -56,7 +56,7 @@ void changes_process_identifiers (Webserver_Request * request,
 {
   if (oldId != 0) {
     recipients = filter_string_array_diff (recipients, {user});
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
     Database_Modifications_Text old_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, oldId);
     string old_chapter_usfm = old_chapter_text.oldtext;
@@ -119,12 +119,12 @@ void changes_modifications ()
   
   // Data objects.
   Webserver_Request request;
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
   Database_Mail database_mail = Database_Mail (&request);
 
 
-  // Recreate modifications database.
-  database_modifications.erase ();
+  // Check on the health of the modifications database and (re)create it if needed.
+  if (!database_modifications.healthy ()) database_modifications.erase ();
   database_modifications.create ();
   
   
@@ -350,7 +350,9 @@ void changes_modifications ()
       for (auto & user : users) {
         if (request.database_config_user()->getUserBibleChangesNotification (user)) {
           if (access_bible_read (&request, bible, user)) {
-            if (!client_logic_client_enabled ()) database_mail.send (user, subject, body);
+            if (!client_logic_client_enabled ()) {
+              database_mail.send (user, subject, body);
+            }
           }
         }
       }
@@ -395,6 +397,10 @@ void changes_modifications ()
   for (auto user : users) {
     request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
+  
+  
+  // Vacuum the modifications index, as it might have been updated.
+  database_modifications.vacuum ();
   
   
   // Clear flag so the notifications are again available to clients.

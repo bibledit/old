@@ -79,12 +79,14 @@ string public_login (void * webserver_request)
       view.set_variable ("email_invalid", translate("The email address is not valid"));
     }
     
+    string other_login = translate ("This account needs a password.") + " " + translate("Please login the other way, through Menu / Login.");
+    
     // If the username exists with a level higher than guest, that would not be right.
     if (form_is_valid) {
       int level = request->database_users ()->getUserLevel (name);
       if (level > Filter_Roles::guest ()) {
         form_is_valid = false;
-        view.set_variable ("error", translate("Please login the other way, through Menu / Login"));
+        view.set_variable ("error", other_login);
       }
     }
     
@@ -95,7 +97,7 @@ string public_login (void * webserver_request)
         int level = request->database_users ()->getUserLevel (username);
         if (level > Filter_Roles::guest ()) {
           form_is_valid = false;
-          view.set_variable ("error", translate("Please login the other way, through Menu / Login"));
+          view.set_variable ("error", other_login);
         }
       }
     }

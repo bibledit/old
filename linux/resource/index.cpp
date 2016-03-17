@@ -30,6 +30,7 @@
 #include <demo/logic.h>
 #include <resource/external.h>
 #include <menu/logic.h>
+#include <access/logic.h>
 
 
 string resource_index_url ()
@@ -40,7 +41,7 @@ string resource_index_url ()
 
 bool resource_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_resources (webserver_request);
 }
 
 
@@ -99,3 +100,27 @@ string resource_index (void * webserver_request)
   page += Assets_Page::footer ();
   return page;
 }
+
+
+/*
+
+ The Digital Bible Library
+ https://thedigitalbiblelibrary.org/
+ DBL@BibleSocieties.org
+ 
+ Question:
+ The Digital Bible Library (https://thedigitalbiblelibrary.org/) has quite an amount of Bibles. 
+ Would it be any use for translators using Bibledit to be able to access that data? 
+ And would there be any way, legally, to do so?
+ Answer:
+ Getting direct access to the Digital Bible Library is hard, 
+ and only open to organizations, not individuals.
+ However, I got access as eBible.org. 
+ Whatever is there that I can legally get and post for you to use 
+ can be found at http://eBible.org/Scriptures/.
+ Conslusion:
+ It is useful what eBible.org already can get and have posted on eBible.org. 
+ Isn't these the Bibles that also have SWORD modules made from them on the same website? 
+ If that's the case, then Bibledit is already providing access to them via those modules.
+
+*/

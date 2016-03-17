@@ -43,9 +43,15 @@ Database_Config_User::~Database_Config_User ()
 // Functions for getting and setting values or lists of values.
 
 
+string Database_Config_User::file (string user)
+{
+  return filter_url_create_root_path ("databases", "config", "user", user);
+}
+
+
 string Database_Config_User::file (string user, const char * key)
 {
-  return filter_url_create_root_path ("databases", "config", "user", user, key);
+  return filter_url_create_path (file (user), key);
 }
 
 
@@ -193,6 +199,14 @@ void Database_Config_User::trim ()
 }
 
 
+// Remove any configuration setting of $username.
+void Database_Config_User::remove (string username)
+{
+  string folder = file (username);
+  filter_url_rmdir (folder);
+}
+
+
 // Named configuration functions.
 
 
@@ -322,7 +336,13 @@ void Database_Config_User::setAssignedConsultationNoteNotification (bool value)
 // 0: current verse; 1: current chapter; 2: current book; 3: any passage.
 int Database_Config_User::getConsultationNotesPassageSelector ()
 {
-  return getIValue ("consultation-notes-passage-selector", 0);
+  // Default value is to select notes of the current chapter.
+  // It used to be the current verse.
+  // But that led to a situation where a user created a note,
+  // navigated to another verse within the same chapter,
+  // and then was confused because the user could not find the note just created.
+  // With the updated selection, current chapter, this confusing situation does not occur.
+  return getIValue ("consultation-notes-passage-selector", 1);
 }
 void Database_Config_User::setConsultationNotesPassageSelector (int value)
 {

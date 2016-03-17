@@ -51,9 +51,10 @@ string filter_string_fill (string s, int width, char fill);
 bool filter_string_is_numeric (string s);
 string filter_string_sanitize_html (string html);
 string filter_string_desanitize_html (string html);
-string get_soft_hyphen ();
-string get_no_break_space ();
-string get_en_space ();
+string soft_hyphen ();
+string non_breaking_space_utf8_a0 ();
+string non_breaking_space_utf8_c2a0 ();
+string en_space ();
 size_t unicode_string_length (string s);
 string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 size_t unicode_string_strpos (string haystack, string needle, size_t offset = 0);
@@ -90,7 +91,7 @@ string html2xml (string html);
 string convert_xml_character_entities_to_characters (string data);
 string encrypt_decrypt (string key, string data);
 string get_new_key ();
-string non_breaking_space ();
+string non_breaking_space_entity ();
 
 
 #endif

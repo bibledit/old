@@ -23,8 +23,10 @@
 #include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <locale/logic.h>
 #include <database/config/general.h>
 #include <search/logic.h>
+#include <access/bible.h>
 
 
 string search_replacepre2_url ()
@@ -35,7 +37,10 @@ string search_replacepre2_url ()
 
 bool search_replacepre2_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return write;
 }
 
 
@@ -96,13 +101,24 @@ string search_replacepre2 (void * webserver_request)
   string s_id = filter_string_implode (bits, "_");
   
   
+  // Check whether the user has write access to the book.
+  string user = request->session_logic ()->currentUser ();
+  bool write = access_bible_book_write (webserver_request, user, bible, book);
+
+  
   // Create output.
-  string output =
-  "<div id=\"" + s_id + "\">\n"
-  "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\"> ✗ </a> " + link + "</p>\n"
-  "<p>" + oldtext + "</p>\n"
-  "<p>" + newtext + "</p>\n"
-  "</div>\n";
+  string output;
+  output.append ("<div id=\"" + s_id + "\">\n");
+  output.append ("<p>");
+  if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\"> ✗ </a> ");
+  output.append (link);
+  output.append ("</p>\n");
+  output.append ("<p>" + oldtext + "</p>\n");
+  output.append ("<p>");
+  if (write) output.append (newtext);
+  else output.append (locale_logic_text_no_privileges_modify_book ());
+  output.append ("</p>\n");
+  output.append ("</div>\n");
   
   
   // Output to browser.

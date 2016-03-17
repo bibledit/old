@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/logic.h>
 #include <setup/logic.h>
+#include <demo/logic.h>
 
 
 int main (int argc, char **argv)
@@ -52,11 +53,17 @@ int main (int argc, char **argv)
     cout << "Generating locale databases from the *.po files in folder locale" << endl;
     setup_generate_locale_databases (true);
     
+  } else if (command == "samplebible") {
+
+    cout << "Generating the sample Bible" << endl;
+    demo_prepare_sample_bible ();
+
   } else {
     
     cerr << "This command is unknown" << endl;
     cerr << "The following commands are supported:" << endl;
     cerr << "locale: Generate locale databases from the *.po files in folder locale" << endl;
+    cerr << "samplebible: Generate the sample Bible" << endl;
     return EXIT_FAILURE;
     
   }

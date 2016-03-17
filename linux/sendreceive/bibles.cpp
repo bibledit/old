@@ -31,6 +31,7 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/bibles.h>
+#include <database/privileges.h>
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
@@ -276,6 +277,8 @@ void sendreceive_bibles ()
   bibles = filter_string_array_diff (bibles, v_server_bibles);
   for (string bible : bibles) {
     request.database_bibles()->deleteBible (bible);
+    Database_Privileges::removeBible (bible);
+    Database_Config_Bible::remove (bible);
     Database_Logs::log (sendreceive_bibles_text () + translate("Deleting Bible because the server did not grant access to it") + ": " + bible, Filter_Roles::translator ());
   }
   

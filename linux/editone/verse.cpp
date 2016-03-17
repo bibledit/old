@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
+#include <access/bible.h>
 
 
 string editone_verse_url ()
@@ -32,7 +33,10 @@ string editone_verse_url ()
 
 bool editone_verse_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 

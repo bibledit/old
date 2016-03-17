@@ -31,6 +31,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>
+#include <access/logic.h>
+#include <access/bible.h>
 
 
 string user_notifications_url ()
@@ -41,7 +43,16 @@ string user_notifications_url ()
 
 bool user_notifications_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  // Consultant has access.
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
+  // Whoever can view notes has access.
+  if (access_logic_privilege_view_notes (webserver_request)) return true;
+  // Whoever has access to a Bible has access to this page.
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  if (read) return true;
+  // No access.
+  return false;
 }
 
 
@@ -212,11 +223,23 @@ string user_notifications (void * webserver_request)
   
   view.set_variable ("sprint_progress_notification", get_tick_box (database_config_user.getSprintProgressNotification ()));
   
-  if (config_logic_client_prepared ()) view.enable_zone ("client");
-  else view.enable_zone ("server");
-  view.set_variable ("url", client_logic_link_to_cloud (user_notifications_url (), translate("You can set the notifications in Bibledit Cloud.")));
-  view.set_variable ("port", convert_to_string (Database_Config_General::getServerPort ()));
+  if (config_logic_client_prepared ()) {
+    view.enable_zone ("client");
+  } else {
+    view.enable_zone ("server");
+  }
 
+  view.set_variable ("url", client_logic_link_to_cloud (user_notifications_url (), translate("You can set the notifications in Bibledit Cloud.")));
+
+  // The bits accessible to the user depends on the user's privileges.
+  bool read_bible, write_bible;
+  access_a_bible (webserver_request, read_bible, write_bible);
+  if (read_bible) view.enable_zone ("readbible");
+  if (write_bible) view.enable_zone ("writebible");
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))
+    view.enable_zone ("consultant");
+
+  
   page += view.render ("user", "notifications");
 
   page += Assets_Page::footer ();

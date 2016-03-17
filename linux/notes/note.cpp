@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/index.h>
+#include <access/logic.h>
 
 
 string notes_note_url ()
@@ -42,7 +43,7 @@ string notes_note_url ()
 
 bool notes_note_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_notes (webserver_request);
 }
 
 
@@ -55,6 +56,7 @@ string notes_note (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Note"), request);
+  header.setNavigator ();
 
   
   // After adding a comment to a note, when doing nothing for several seconds,
@@ -95,6 +97,13 @@ string notes_note (void * webserver_request)
   string content = database_notes.getContents (id);
   view.set_variable ("content", content);
 
+  
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
+    view.enable_zone ("consultant");
+  }
+  if (access_logic_privilege_create_comment_notes (webserver_request)) {
+    view.enable_zone ("comment");
+  }
   
   view.set_variable ("success", success);
   page += view.render ("notes", "note");

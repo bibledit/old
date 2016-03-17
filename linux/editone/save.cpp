@@ -41,7 +41,10 @@ string editone_save_url ()
 
 bool editone_save_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 
@@ -50,7 +53,7 @@ string editone_save (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
 
   
   // Check on information about where to save the verse.
@@ -82,19 +85,19 @@ string editone_save (void * webserver_request)
   
   // Check there's anything to save at all.
   html = filter_string_trim (html);
-  if (html == "") {
-    return translate("Nothing to save");
+  if (html.empty ()) {
+    return translate ("Nothing to save");
   }
   
   
   // Check on valid UTF-8.
   if (!unicode_string_is_valid (html)) {
-    return translate("Cannot save: Needs Unicode");
+    return translate ("Cannot save: Needs Unicode");
   }
   
   
   if (!access_bible_book_write (request, "", bible, book)) {
-    return translate("No write access");
+    return translate ("No write access");
   }
 
   

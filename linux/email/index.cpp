@@ -149,3 +149,14 @@ string email_index (void * webserver_request)
 
   return page;
 }
+
+
+/*
+
+The more recent versions of the VMime library can access Gmail in a more secure manner than libcurl can.
+The VMime library also can extract the plain text message easily, 
+in case the message consists of various parts.
+If necessary, the Cloud version of Bibledit can use this VMime library 
+for sending, receiving and processing email.
+
+*/

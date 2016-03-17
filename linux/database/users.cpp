@@ -23,17 +23,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/roles.h>
-#include <filter/url.h>
 #include <filter/date.h>
 
 
 // This database is resilient.
-// Part of the data is stored in a SQLite database.
+// The data is stored in a SQLite database.
 // This part is read often, and infrequently written to.
 // Due to the infrequent write operations, there is a low and acceptable change of corruption.
-// Another part of the data is stored in the bare filesystem.
-// This part is written to often. It contains non-important information.
-// In the unlikely case of corruption, it will get fixed next time it is written to.
 
 
 sqlite3 * Database_Users::connect ()
@@ -46,6 +42,7 @@ void Database_Users::create ()
 {
   sqlite3 * db = connect ();
   string sql;
+  
   sql = "CREATE TABLE IF NOT EXISTS users ("
         " username text,"
         " password text,"
@@ -53,121 +50,37 @@ void Database_Users::create ()
         " email text"
         ");";
   database_sqlite_exec (db, sql);
-  sql = "CREATE TABLE IF NOT EXISTS teams ("
-        " username text,"
-        " bible text,"
-        " readonly boolean"
-        ");";
+  
+  // Drop tables that formerly were included in this database, but are now separate.
+  sql = "DROP TABLE IF EXISTS teams;";
   database_sqlite_exec (db, sql);
-  sql = "CREATE TABLE IF NOT EXISTS logins ("
-        " username text,"
-        " address text,"
-        " agent text,"
-        " fingerprint text,"
-        " cookie text,"
-        " touch boolean"
-        ");";
+  sql = "DROP TABLE IF EXISTS logins;";
   database_sqlite_exec (db, sql);
-  sql = "CREATE TABLE IF NOT EXISTS readonly ("
-        " username text,"
-        " bible text,"
-        " book integer"
-        ");";
+  sql = "DROP TABLE IF EXISTS readonly;";
   database_sqlite_exec (db, sql);
+  
   database_sqlite_disconnect (db);
 }
 
 
 void Database_Users::upgrade ()
 {
-  sqlite3 * db = connect ();
-  string sql;
-
-  // Upgrade table "users".
-  // Column 'timestamp' is available in older databases. It is not in use.
-  // It cannot be dropped easily in SQLite. Leave it for just now.
-
-  // Upgrade table "logins" and add a boolean column for "touch",
-  // indicating whether the device the user works on is touch-enabled.
-  sql = "PRAGMA table_info (logins);";
-  vector <string> columns = database_sqlite_query (db, sql) ["name"];
-  if (find (columns.begin(), columns.end(), "touch") == columns.end()) {
-    sql = "ALTER TABLE logins ADD COLUMN touch boolean;";
-    database_sqlite_exec (db, sql);
-  }
-
-  // Copy read-only settings from the teams table to the readonly table,
-  // because Bibledit now sets read-only access per book, rather than per Bible.
-  sql = "SELECT username, bible FROM teams WHERE readonly;";
-  map <string, vector <string> > result = database_sqlite_query (db, sql);
-  vector <string> username = result ["username"];
-  vector <string> bible = result ["bible"];
-  if (username.size () == bible.size ()) {
-    for (size_t i = 0; i < username.size (); i++) {
-      for (int b = 1; b <= 66; b++) {
-        SqliteSQL sql = SqliteSQL ();
-        sql.add ("INSERT INTO readonly VALUES (");
-        sql.add (username[i]);
-        sql.add (",");
-        sql.add (bible[i]);
-        sql.add (",");
-        sql.add (b);
-        sql.add (");");
-        database_sqlite_exec (db, sql.sql);
-      }
-    }
-  }
-  
-  // Clear any read-only settings in the teams table,
-  // because that information is no longer taken from that table.
-  sql = "UPDATE teams SET readonly = 0;";
-  database_sqlite_exec (db, sql);
-  
-  database_sqlite_disconnect (db);
-}
-
-
-string Database_Users::mainFolder ()
-{
-  return filter_url_create_root_path ("databases", "users");
-}
-
-
-string Database_Users::timestampFile (string user)
-{
-  return filter_url_create_path (mainFolder (), "timestamp" + user);
+  // Column 'timestamp' is available in older databases.
+  // It is not in use.
+  // It cannot be dropped easily in SQLite.
+  // Leave it for just now.
 }
 
 
 void Database_Users::trim ()
 {
-  bool vacuum = false;
-  // Remove persistent logins after 365 days of inactivity.
-  int yearAgo = filter_date_seconds_since_epoch () - (365 * 86400);
-  vector <string> users = getUsers ();
-  sqlite3 * db = connect ();
-  for (unsigned int i = 0; i < users.size(); i++) {
-    string username = users [i];
-    int timestamp = getTimestamp (username);
-    if (timestamp < yearAgo) {
-      username = database_sqlite_no_sql_injection (username);
-      string sql = "DELETE FROM logins WHERE username = '" + username + "';";
-      database_sqlite_exec (db, sql);
-      vacuum = true;
-    }
-  }
-  if (vacuum) {
-    // Optimize in case logins were removed.
-    database_sqlite_exec (db, "VACUUM logins;");
-  }
-  database_sqlite_disconnect (db);
 }
 
 
 void Database_Users::optimize ()
 {
   sqlite3 * db = connect ();
-  string sql = "VACUUM users;";
+  string sql = "VACUUM;";
   database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }
@@ -316,8 +229,6 @@ void Database_Users::removeUser (string user)
   sqlite3 * db = connect ();
   string sql = "DELETE FROM users WHERE username = '" + user + "'";
   database_sqlite_exec (db, sql);
-  sql = "DELETE FROM teams WHERE username = '" + user + "'";
-  database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
 }
 
@@ -373,252 +284,6 @@ string Database_Users::getmd5 (string user)
   database_sqlite_disconnect (db);
   if (!result.empty()) return result [0];
   return "";
-}
-
-
-// Sets the login security tokens for a user.
-// Also store whether the device is touch-enabled.
-// It only writes to the table if the combination of username and tokens differs from what the table already contains.
-void Database_Users::setTokens (string username, string address, string agent, string fingerprint, bool touch)
-{
-  if (username == getUsername (address, agent, fingerprint)) return;
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
-  SqliteSQL sql;
-  sql.add ("INSERT INTO logins (username, address, agent, fingerprint, touch) VALUES (");
-  sql.add (username);
-  sql.add (",");
-  sql.add (address);
-  sql.add (",");
-  sql.add (agent);
-  sql.add (",");
-  sql.add (fingerprint);
-  sql.add (",");
-  sql.add (touch);
-  sql.add (");");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Remove the login securityh tokens for a user.
-void Database_Users::removeTokens (string username)
-{
-  username = database_sqlite_no_sql_injection (username);
-  string sql = "DELETE FROM logins WHERE username = '" + username + "';";
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Returns the username that matches the remote IP $address and the browser's user $agent,
-// and the other fingerprints from the user.
-string Database_Users::getUsername (string address, string agent, string fingerprint)
-{
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
-  SqliteSQL sql;
-  sql.add ("SELECT username FROM logins WHERE address =");
-  sql.add (address);
-  sql.add ("AND agent =");
-  sql.add (agent);
-  sql.add ("AND fingerprint =");
-  sql.add (fingerprint);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["username"];
-  database_sqlite_disconnect (db);
-  if (!result.empty()) return result [0];
-  return "";
-}
-
-
-// Returns whether the device that matches the remote IP $address and the browser's user $agent,
-// and the other fingerprints is touch-enabled.
-bool Database_Users::getTouchEnabled (string address, string agent, string fingerprint)
-{
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
-  SqliteSQL sql;
-  sql.add ("SELECT touch FROM logins WHERE address =");
-  sql.add (address);
-  sql.add ("AND agent =");
-  sql.add (agent);
-  sql.add ("AND fingerprint =");
-  sql.add (fingerprint);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["touch"];
-  database_sqlite_disconnect (db);
-  if (!result.empty()) return convert_to_bool (result [0]);
-  return false;
-}
-
-
-// Ping the access timestamp for $username.
-void Database_Users::pingTimestamp (string username)
-{
-  int existingTimestamp = getTimestamp (username);
-  int timestamp = filter_date_seconds_since_epoch ();
-  if (timestamp != existingTimestamp) {
-    string file = timestampFile (username);
-    filter_url_file_put_contents (file, convert_to_string (timestamp));
-  }
-}
-
-
-// Gets the access timestamp for $username.
-int Database_Users::getTimestamp (string username)
-{
-  string file = timestampFile (username);
-  string timestamp = filter_url_file_get_contents (file);
-  return convert_to_int (timestamp);
-}
-
-
-// Get array with the teams.
-vector <string> Database_Users::getTeams ()
-{
-  string sql = "SELECT DISTINCT bible FROM teams;";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["bible"];
-  database_sqlite_disconnect (db);
-  return result;
-}
-
-
-// Give a $user access to a $bible.
-void Database_Users::grantAccess2Bible (string user, string bible)
-{
-  revokeAccess2Bible (user, bible);
-  user = database_sqlite_no_sql_injection (user);
-  bible = database_sqlite_no_sql_injection (bible);
-  string sql = "INSERT INTO teams (username, bible) VALUES ('" + user + "', '" + bible + "');";
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
- 
-// Revoke a $user's access to a $bible.
-void Database_Users::revokeAccess2Bible (string user, string bible)
-{
-  user = database_sqlite_no_sql_injection (user);
-  bible = database_sqlite_no_sql_injection (bible);
-  string sql = "DELETE FROM teams WHERE username = '" + user + "' AND bible = '" + bible + "';";
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Get the Bibles the $user has access to.
-vector <string> Database_Users::getBibles4User (string user)
-{
-  user = database_sqlite_no_sql_injection (user);
-  string sql = "SELECT DISTINCT bible FROM teams WHERE username = '" + user + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["bible"];
-  database_sqlite_disconnect (db);
-  return result;
-}
-
-
-// Get the users who have access to a $bible.
-vector <string> Database_Users::getUsers4Bible (string bible)
-{
-  bible = database_sqlite_no_sql_injection (bible);
-  string sql = "SELECT DISTINCT username FROM teams WHERE bible = '" + bible + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
-  return result;
-}
-
-
-// Returns whether a $user has access to a $bible: true or false.
-// If no more than one team has been formed, all users have write access to all Bibles.
-// Administrators and Managers have access to any Bible.
-bool Database_Users::hasAccess2Bible (string user, string bible)
-{
-  vector <string> teams = getTeams ();
-  if (teams.size () <= 1) return true;
-  int level = getUserLevel (user);
-  if (level >= Filter_Roles::manager ()) return true;
-  vector <string> bibles = getBibles4User (user);
-  return in_array (bible, bibles);
-}
-
-
-// Returns true or false depending on whether $user has read-only access to $bible.
-bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT count(*) FROM readonly WHERE username =");
-  sql.add (user);
-  sql.add ("AND bible =");
-  sql.add (bible);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-  database_sqlite_disconnect (db);
-  if (!result.empty ()) return convert_to_bool (result[0]);
-  // Entry not found for user/bible: Default is not read-only.
-  return false;
-}
-
-
-// Set $readonly access for $user to $bible $book to true or false.
-void Database_Users::setReadOnlyAccess2Book (string user, string bible, int book, bool readonly)
-{
-  sqlite3 * db = connect ();
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM readonly WHERE username =");
-    sql.add (user);
-    sql.add ("AND bible =");
-    sql.add (bible);
-    sql.add ("AND book =");
-    sql.add (book);
-    sql.add (";");
-    database_sqlite_exec (db, sql.sql);
-  }
-  if (readonly) {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO readonly VALUES (");
-    sql.add (user);
-    sql.add (",");
-    sql.add (bible);
-    sql.add (",");
-    sql.add (book);
-    sql.add (");");
-    database_sqlite_exec (db, sql.sql);
-  }
-  database_sqlite_disconnect (db);
-}
-
-
-// Returns true or false depending on whether $user has read-only access to $bible $book.
-bool Database_Users::hasReadOnlyAccess2Book (string user, string bible, int book)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT count(*) FROM readonly WHERE username =");
-  sql.add (user);
-  sql.add ("AND bible =");
-  sql.add (bible);
-  sql.add ("AND book =");
-  sql.add (book);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-  database_sqlite_disconnect (db);
-  if (!result.empty ()) return convert_to_bool (result[0]);
-  return false;
 }
 
 

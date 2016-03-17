@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <database/sqlite.h>
 #include <database/users.h>
+#include <database/login.h>
 #include <webserver/request.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -29,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // The username and password for a demo installation, and for a disconnected client installation
-string session_admin_credentials () // Tod
+string session_admin_credentials ()
 {
   return "admin";
 }
@@ -91,13 +92,11 @@ void Session_Logic::Open ()
   if (request->user_agent.size () > 10000) return;
   string agent = request->user_agent;
   string finger_print = fingerprint ();
-  Database_Users database_users;
-  string username = database_users.getUsername (address, agent, finger_print);
+  string username = Database_Login::getUsername (address, agent, finger_print);
   if (username != "") {
     setUsername (username);
     logged_in = true;
-    touch_enabled = database_users.getTouchEnabled (address, agent, finger_print);
-    database_users.pingTimestamp (username);
+    touch_enabled = Database_Login::getTouchEnabled (address, agent, finger_print);
   } else {
     setUsername ("");
     logged_in = false;
@@ -174,7 +173,7 @@ bool Session_Logic::attemptLogin (string user_or_email, string password, bool to
     string security1 = remoteAddress ();
     string security2 = ((Webserver_Request *) webserver_request)->user_agent;
     string security3 = fingerprint ();
-    database.setTokens (user_or_email, security1, security2, security3, touch_enabled);
+    Database_Login::setTokens (user_or_email, security1, security2, security3, touch_enabled);
     currentLevel (true);
     return true;
   }
@@ -236,8 +235,10 @@ int Session_Logic::currentLevel (bool force)
 void Session_Logic::logout ()
 {
   string username = currentUser ();
-  Database_Users database_users;
-  database_users.removeTokens (username);
+  string security1 = remoteAddress ();
+  string security2 = ((Webserver_Request *) webserver_request)->user_agent;
+  string security3 = fingerprint ();
+  Database_Login::removeTokens (username, security1, security2, security3);
   setUsername ("");
   level = Filter_Roles::guest();
 }
@@ -264,4 +265,14 @@ bool Session_Logic::clientAccess ()
     return true;
   }
   return false;
+}
+
+
+void Session_Logic::switchUser (string username)
+{
+  string security1 = remoteAddress ();
+  string security2 = ((Webserver_Request *) webserver_request)->user_agent;
+  string security3 = fingerprint ();
+  Database_Login::removeTokens (username, security1, security2, security3);
+  Database_Login::renameTokens (currentUser (), username, security1, security2, security3);
 }

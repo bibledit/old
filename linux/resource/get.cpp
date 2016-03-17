@@ -24,6 +24,7 @@
 #include <resource/logic.h>
 #include <database/config/bible.h>
 #include <database/versifications.h>
+#include <access/logic.h>
 
 
 string resource_get_url ()
@@ -34,7 +35,7 @@ string resource_get_url ()
 
 bool resource_get_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_resources (webserver_request);
 }
 
 

@@ -23,6 +23,7 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
+#include <access/bible.h>
 
 
 string editusfm_focus_url ()
@@ -33,7 +34,10 @@ string editusfm_focus_url ()
 
 bool editusfm_focus_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 

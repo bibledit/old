@@ -26,9 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Functions for getting and setting values or lists of values.
 
 
+string Database_Config_Bible::file (string bible)
+{
+  return filter_url_create_root_path ("databases", "config", "bible", bible);
+}
+
+
 string Database_Config_Bible::file (string bible, const char * key)
 {
-  return filter_url_create_root_path ("databases", "config", "bible", bible, key);
+  return filter_url_create_path (file (bible), key);
 }
 
 
@@ -76,6 +82,13 @@ void Database_Config_Bible::setIValue (string bible, const char * key, int value
 }
 
 
+void Database_Config_Bible::remove (string bible)
+{
+  string folder = file (bible);
+  filter_url_rmdir (folder);
+}
+
+
 // Named configuration functions.
 
 
@@ -86,16 +99,6 @@ string Database_Config_Bible::getRemoteRepositoryUrl (string bible)
 void Database_Config_Bible::setRemoteRepositoryUrl (string bible, string url)
 {
   setValue (bible, "remote-repo-url", url);
-}
-
-
-bool Database_Config_Bible::getViewableByAllUsers (string bible)
-{
-  return getBValue (bible, "viewable-by-all-users", false);
-}
-void Database_Config_Bible::setViewableByAllUsers (string bible, bool value)
-{
-  setBValue (bible, "viewable-by-all-users", value);
 }
 
 

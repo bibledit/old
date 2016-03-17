@@ -31,10 +31,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <journal/index.h>
 #include <database/config/general.h>
 #include <database/logs.h>
+#include <database/privileges.h>
+#include <database/login.h>
 #include <access/user.h>
 #include <locale/translate.h>
 #include <notes/logic.h>
 #include <menu/logic.h>
+#include <session/switch.h>
 
 
 string manage_users_url ()
@@ -53,7 +56,10 @@ string manage_users (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  
   bool user_updated = false;
+  bool privileges_updated = false;
+  
   
   string page;
   Assets_Header header = Assets_Header (translate("Users"), webserver_request);
@@ -64,8 +70,7 @@ string manage_users (void * webserver_request)
   Assets_View view;
 
 
-  string currentUser = request->session_logic ()->currentUser ();
-  int currentLevel = request->session_logic ()->currentLevel ();
+  int myLevel = request->session_logic ()->currentLevel ();
   
   
   // New user creation.
@@ -86,20 +91,34 @@ string manage_users (void * webserver_request)
   }
   
   
-  // The username to act on.
-  string user = request->query["user"];
+  // The user to act on.
+  string objectUsername = request->query["user"];
+  int objectUserLevel = request->database_users ()->getUserLevel (objectUsername);
   
   
   // Delete a user.
   if (request->query.count ("delete")) {
-    int level = request->database_users ()->getUserLevel (user);
-    string role = Filter_Roles::text (level);
-    string email = request->database_users ()->getUserToEmail (user);
-    string message = "Deleted user " + user + " with role " + role + " and email " + email;
+    string role = Filter_Roles::text (objectUserLevel);
+    string email = request->database_users ()->getUserToEmail (objectUsername);
+    string message = "Deleted user " + objectUsername + " with role " + role + " and email " + email;
     Database_Logs::log (message, Filter_Roles::admin ());
-    request->database_users ()->removeUser (user);
+    request->database_users ()->removeUser (objectUsername);
     user_updated = true;
+    database_privileges_client_remove (objectUsername);
     page += Assets_Page::success (message);
+    // Also remove any privileges for this user.
+    // In particular for the Bible privileges this is necessary,
+    // beause if old users remain in the privileges storage,
+    // then a situation where no user has any privileges to any Bible,
+    // and thus all relevant users have all privileges,
+    // can never be achieved again.
+    Database_Privileges::removeUser (objectUsername);
+    // Remove any login tokens the user might have had: Just to clean things up.
+    Database_Login::removeTokens (objectUsername);
+    // Remove any settings for the user.
+    // The advantage of this is that when a user is removed, all settings are gone,
+    // so when the same user would be created again, all settings will go back to their defaults.
+    request->database_config_user ()->remove (objectUsername);
   }
   
   
@@ -107,17 +126,17 @@ string manage_users (void * webserver_request)
   if (request->query.count ("level")) {
     string level = request->query ["level"];
     if (level == "") {
-      Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + user, "", "");
-      dialog_list.add_query ("user", user);
+      Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + objectUsername, "", "");
+      dialog_list.add_query ("user", objectUsername);
       for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
-        if (i <= currentLevel) {
+        if (i <= myLevel) {
           dialog_list.add_row (Filter_Roles::text (i), "level", convert_to_string (i));
         }
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_users ()->updateUserLevel (user, convert_to_int (level));
+      request->database_users ()->updateUserLevel (objectUsername, convert_to_int (level));
       user_updated = true;
     }
   }
@@ -127,10 +146,10 @@ string manage_users (void * webserver_request)
   if (request->query.count ("email")) {
     string email = request->query ["email"];
     if (email == "") {
-      string question = translate("Please enter an email address for") + " " + user;
-      string value = request->database_users ()->getUserToEmail (user);
+      string question = translate("Please enter an email address for") + " " + objectUsername;
+      string value = request->database_users ()->getUserToEmail (objectUsername);
       Dialog_Entry dialog_entry = Dialog_Entry ("users", question, value, "email", "");
-      dialog_entry.add_query ("user", user);
+      dialog_entry.add_query ("user", objectUsername);
       page += dialog_entry.run ();
       return page;
     }
@@ -139,7 +158,7 @@ string manage_users (void * webserver_request)
     string email = request->post["entry"];
     if (filter_url_email_is_valid (email)) {
       page += Assets_Page::success (translate("Email address was updated"));
-      request->database_users ()->updateUserEmail (user, email);
+      request->database_users ()->updateUserEmail (objectUsername, email);
       user_updated = true;
     } else {
       page += Assets_Page::error (translate("The email address is not valid"));
@@ -156,16 +175,19 @@ string manage_users (void * webserver_request)
     string addbible = request->query["addbible"];
     if (addbible == "") {
       Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), "", "");
-      dialog_list.add_query ("user", user);
+      dialog_list.add_query ("user", objectUsername);
       for (auto bible : allbibles) {
         dialog_list.add_row (bible, "addbible", bible);
       }
       page += dialog_list.run ();
       return page;
     } else {
-      Assets_Page::success (translate("The user has become a member of the translation team that works on this Bible"));
-      request->database_users ()->grantAccess2Bible (user, addbible);
+      Assets_Page::success (translate("The user has been granted access to this Bible"));
+      // Write access depends on whether it's a translator role or higher.
+      bool write = (objectUserLevel >= Filter_Roles::translator ());
+      Database_Privileges::setBible (objectUsername, addbible, write);
       user_updated = true;
+      privileges_updated = true;
     }
   }
   
@@ -173,9 +195,18 @@ string manage_users (void * webserver_request)
   // Remove Bible from user.
   if (request->query.count ("removebible")) {
     string removebible = request->query ["removebible"];
-    request->database_users ()->revokeAccess2Bible (user, removebible);
+    Database_Privileges::removeBibleBook (objectUsername, removebible, 0);
     user_updated = true;
-    Assets_Page::success (translate("The user is no longer a member of the translation team that works on this Bible"));
+    privileges_updated = true;
+    Assets_Page::success (translate("The user no longer has access to this Bible"));
+  }
+  
+  
+  // Login on behalf of another user.
+  if (request->query.count ("login")) {
+    request->session_logic ()->switchUser (objectUsername);
+    redirect_browser (request, session_switch_url ());
+    return "";
   }
   
   
@@ -184,10 +215,9 @@ string manage_users (void * webserver_request)
   // Retrieve assigned users.
   vector <string> users = access_user_assignees (webserver_request);
   for (auto & username : users) {
-    int level = request->database_users ()->getUserLevel (username);
-    vector <string> userBibles = request->database_users ()->getBibles4User (username);
     // Gather details for this user account.
-    string namedrole = Filter_Roles::text (level);
+    objectUserLevel = request->database_users ()->getUserLevel (username);
+    string namedrole = Filter_Roles::text (objectUserLevel);
     string email = request->database_users ()->getUserToEmail (username);
     if (email == "") email = "--";
     tbody.push_back ("<tr>");
@@ -199,25 +229,55 @@ string manage_users (void * webserver_request)
     tbody.push_back ("<td>│</td>");
     tbody.push_back ("<td>");
 
-    sort (userBibles.begin(), userBibles.end());
-    for (auto & bible : userBibles) {
-      bool writer = (level >= Filter_Roles::translator ());
-      tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
-      tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
-      if (writer) {
-        tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
-        int readwritebooks = 0;
-        vector <int> books = request->database_bibles ()->getBooks (bible);
-        for (auto book : books) {
-          if (!request->database_users ()->hasReadOnlyAccess2Book (username, bible, book)) readwritebooks++;
+    if (objectUserLevel < Filter_Roles::manager ()) {
+      for (auto & bible : allbibles) {
+        bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
+        if (exists) {
+          bool read, write;
+          Database_Privileges::getBible (username, bible, read, write);
+          if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
+          tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
+          tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
+          tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
+          int readwritebooks = 0;
+          vector <int> books = request->database_bibles ()->getBooks (bible);
+          for (auto book : books) {
+            Database_Privileges::getBibleBook (username, bible, book, read, write);
+            if (write) readwritebooks++;
+          }
+          tbody.push_back ("(" + convert_to_string (readwritebooks) + "/" + convert_to_string (books.size ()) + ")");
+          tbody.push_back ("</a>");
+          tbody.push_back ("|");
         }
-        tbody.push_back ("(" + convert_to_string (readwritebooks) + "/" + convert_to_string (books.size ()) + ")");
-        tbody.push_back ("</a>");
       }
-      tbody.push_back ("|");
     }
-    tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">➕</a>");
+    if (objectUserLevel >= Filter_Roles::manager ()) {
+      // Managers and higher roles have access to all Bibles.
+      tbody.push_back ("(" + translate ("all") + ")");
+    } else {
+      tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">➕</a>");
+    }
     tbody.push_back ("</td>");
+
+    tbody.push_back ("<td>│</td>");
+
+    tbody.push_back ("<td>");
+    if (objectUserLevel >= Filter_Roles::manager ()) {
+      // Managers and higher roles have all privileges.
+      tbody.push_back ("(" + translate ("all") + ")");
+    } else {
+      tbody.push_back ("<a href=\"privileges?user=" + username + "\">" + translate ("edit") + "</a>");
+    }
+    tbody.push_back ("</td>");
+    
+    // Logging for another user.
+    if (myLevel > objectUserLevel) {
+      tbody.push_back ("<td>│</td>");
+      tbody.push_back ("<td>");
+      tbody.push_back ("<a href=\"?user=" + username + "&login\">" + translate ("Login") + "</a>");
+      tbody.push_back ("</td>");
+    }
+    
     tbody.push_back ("</tr>");
   }
 
@@ -228,6 +288,7 @@ string manage_users (void * webserver_request)
   page += Assets_Page::footer ();
   
   if (user_updated) notes_logic_maintain_note_assignees (true);
+  if (privileges_updated) database_privileges_client_create (objectUsername, true);
 
   return page;
 }

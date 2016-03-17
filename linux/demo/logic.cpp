@@ -43,6 +43,7 @@
 #include <workbench/logic.h>
 #include <ipc/focus.h>
 #include <lexicon/logic.h>
+#include <search/logic.h>
 
 
 /*
@@ -65,6 +66,7 @@
  This showed one crash during the nights. The crash was fixed.
  
 */
+
 
 // Returns true for correct credentials for a demo installation.
 // Else returns false.
@@ -167,37 +169,6 @@ void demo_clean_data ()
   demo_create_sample_bible ();
 
 
-  // Clean out nearly empty chapters from the Bibles.
-  bibles = request.database_bibles()->getBibles ();
-  for (auto bible : bibles) {
-    vector <int> books = request.database_bibles()->getBooks (bible);
-    for (auto book : books) {
-      vector <int> chapters = request.database_bibles()->getChapters (bible, book);
-      for (auto chapter : chapters) {
-        // Remove chapters, other than 0, that are rather short, as these chapters likely contain no text, but USFM markers only.
-        if (chapter == 0) continue;
-        string usfm = request.database_bibles()->getChapter (bible, book, chapter);
-        if (usfm.length () < 200) {
-          Database_Logs::log ("Deleting a demo chapter because it does not contain enough text: " + convert_to_string (book) + ":" + convert_to_string (chapter));
-          Bible_Logic::deleteChapter (bible, book, chapter);
-        }
-      }
-      // If a book contains chapter 0 only, remove that entire book.
-      chapters = request.database_bibles()->getChapters (bible, book);
-      if ((chapters.size () == 1) && (chapters [0] == 0)) {
-        Database_Logs::log ("Deleting a demo book because it is empty");
-        Bible_Logic::deleteBook (bible, book);
-      }
-    }
-    // If a Bible contains no books, remove that Bible.
-    books = request.database_bibles()->getBooks (bible);
-    if (books.empty ()) {
-      Database_Logs::log ("Deleting a demo Bible because it is empty");
-      Bible_Logic::deleteBible (bible);
-    }
-  }
-  
-  
   // Create sample notes.
   demo_create_sample_notes (&request);
   
@@ -211,7 +182,7 @@ void demo_clean_data ()
   
   
   // Set and/or trim resources to display.
-  // Too many resources crash the demo, so limit the amount.
+  // Too many resources crash the demo: Limit the amount.
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources = false;
   if (resources.size () > 25) reset_resources = true;
@@ -238,32 +209,84 @@ string demo_sample_bible_name ()
 
 
 // Creates a sample Bible.
+// Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
+// The new and current method does a simple copy operation and that is fast.
 void demo_create_sample_bible ()
 {
-  // Ensure the sample Bible exists.
+  Database_Logs::log ("Creating sample Bible");
+  
+  // Remove and create the sample Bible.
   Database_Bibles database_bibles;
+  database_bibles.deleteBible (demo_sample_bible_name ());
   database_bibles.createBible (demo_sample_bible_name ());
   
-  // Set the sample Bible to viewable by all users.
-  Database_Config_Bible::setViewableByAllUsers (demo_sample_bible_name (), true);
+  // Remove index for the sample Bible.
+  search_logic_delete_bible (demo_sample_bible_name ());
+  
+  // Copy the Bible data.
+  string source = sample_bible_bible_path ();
+  string destination = database_bibles.bibleFolder (demo_sample_bible_name ());
+  filter_url_dir_cp (source, destination);
 
-  // Store some text into the sample Bible.
+  // Copy the Bible search index.
+  source = sample_bible_index_path ();
+  destination = search_logic_index_folder ();
+  filter_url_dir_cp (source, destination);
+  
+  Database_Logs::log ("Sample Bible was created");
+}
+
+
+// Prepares a sample Bible.
+// The output of this is supposed to be manually put into the source tree, folder "samples".
+// This will be used to quickly create a sample Bible, that is fast, even on mobile devices.
+void demo_prepare_sample_bible ()
+{
+  Database_Bibles database_bibles;
+  // Remove the Bible to remove all stuff that might have been in it.
+  database_bibles.deleteBible (demo_sample_bible_name ());
+  search_logic_delete_bible (demo_sample_bible_name ());
+  // Create a new one.
+  database_bibles.createBible (demo_sample_bible_name ());
+  // Location of the USFM files for the sample Bible.
   string directory = filter_url_create_root_path ("demo");
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
+    // Only process the USFM files.
     if (filter_url_get_extension (file) == "usfm") {
-      Database_Logs::log ("Creating sample Bible book: " + file);
+      cout << file << endl;
+      // Read the USFM.
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_str_replace ("  ", " ", usfm);
+      // Import the USFM into the Bible.
       vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
       for (auto data : book_chapter_data) {
         Bible_Logic::storeChapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
       }
     }
   }
-  
-  Database_Logs::log ("Ready creating sample Bible");
+  // Clean the destination location for the Bible.
+  string destination = sample_bible_bible_path ();
+  filter_url_rmdir (destination);
+  // Copy the Bible data to the destination.
+  string source = database_bibles.bibleFolder (demo_sample_bible_name ());
+  filter_url_dir_cp (source, destination);
+  // Clean the destination location for the Bible search index.
+  destination = sample_bible_index_path ();
+  filter_url_rmdir (destination);
+  // Create destination location.
+  filter_url_mkdir (destination);
+  // Copy the index files over to the destination.
+  source = search_logic_index_folder ();
+  files = filter_url_scandir (source);
+  for (auto file : files) {
+    if (file.find (demo_sample_bible_name ()) != string::npos) {
+      string source_file = filter_url_create_path (source, file);
+      string destination_file = filter_url_create_path (destination, file);
+      filter_url_file_cp (source_file, destination_file);
+    }
+  }
 }
 
 
@@ -336,4 +359,16 @@ vector <string> demo_logic_default_resources ()
     resource_external_net_bible_name (),
     SBLGNT_NAME
   };
+}
+
+
+string sample_bible_bible_path ()
+{
+  return filter_url_create_root_path ("samples", "bible");
+}
+
+
+string sample_bible_index_path ()
+{
+  return filter_url_create_root_path ("samples", "index");
 }

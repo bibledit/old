@@ -275,7 +275,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
 
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
-bool filter_url_file_cp (string input, string output)
+bool filter_url_file_cp (string input, string output) // Todo
 {
   try {
     ifstream source (input, ios::binary);
@@ -287,6 +287,29 @@ bool filter_url_file_cp (string input, string output)
     return false;
   }
   return true;
+}
+
+
+// Copies the entire directory $input to a directory named $output.
+void filter_url_dir_cp (const string & input, const string & output) // Todo
+{
+  // Create the output directory.
+  filter_url_mkdir (output);
+  // Check on all files in the input directory.
+  vector <string> files = filter_url_scandir (input);
+  for (auto & file : files) {
+    string input_path = filter_url_create_path (input, file);
+    string output_path = filter_url_create_path (output, file);
+    if (filter_url_is_dir (input_path)) {
+      // Create output directory.
+      filter_url_mkdir (output_path);
+      // Handle the new input directory.
+      filter_url_dir_cp (input_path, output_path);
+    } else {
+      // Copy input file to output.
+      filter_url_file_cp (input_path, output_path);
+    }
+  }
 }
 
 

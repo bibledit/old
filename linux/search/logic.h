@@ -25,6 +25,9 @@
 #include <filter/passage.h>
 
 
+string search_logic_index_folder ();
+string search_logic_bible_fragment (string bible);
+string search_logic_book_fragment (string bible, int book);
 string search_logic_chapter_file (string bible, int book, int chapter);
 void search_logic_index_chapter (string bible, int book, int chapter);
 vector <Passage> search_logic_search_text (string search, vector <string> bibles);

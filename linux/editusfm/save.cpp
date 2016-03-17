@@ -42,7 +42,10 @@ string editusfm_save_url ()
 
 bool editusfm_save_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 
@@ -94,7 +97,7 @@ string editusfm_save (void * webserver_request)
                   // Server configuration: Store details for the user's changes.
                   if (!config_logic_client_prepared ()) {
                     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-                    Database_Modifications database_modifications = Database_Modifications ();
+                    Database_Modifications database_modifications;
                     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
                   }
                   // Store a copy of the USFM loaded in the editor for later reference.

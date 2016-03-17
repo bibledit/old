@@ -59,6 +59,20 @@ void sendreceive_resources_done ()
 bool sendreceive_resources_interrupt = false;
 
 
+void sendreceive_resources_delay_during_prioritized_tasks ()
+{
+  if (sendreceive_logic_prioritized_task_is_active ()) {
+    // When prioritized sync actions ran,
+    // it used to interrupt and reschedule a resource installation.
+    // This gives a lot of clutter in the journal,
+    // and it takes some time to restart the resource installation.
+    // Rather it now delays the installatiion a bit while the priority tasks flag is on.
+    // That delay is not visible in the Journal, it just happens silently.
+    this_thread::sleep_for (chrono::seconds (10));
+  }
+}
+
+
 void sendreceive_resources ()
 {
   if (sendreceive_resources_watchdog) {
@@ -79,7 +93,6 @@ void sendreceive_resources ()
   }
 
   sendreceive_resources_interrupt = false;
-  bool send_receive_priority_tasks_running = false;
 
   // If there's nothing to cache, bail out.
   vector <string> resources = Database_Config_General::getResourcesToCache ();
@@ -107,8 +120,7 @@ void sendreceive_resources ()
   
   vector <int> books = database_versifications.getMaximumBooks ();
   for (auto & book : books) {
-    if (sendreceive_logic_prioritized_task_is_active ()) send_receive_priority_tasks_running = true;
-    if (send_receive_priority_tasks_running) continue;
+    sendreceive_resources_delay_during_prioritized_tasks ();
     if (sendreceive_resources_interrupt) continue;
     
     // Database layout is per book: Create a database for this book.
@@ -141,15 +153,13 @@ void sendreceive_resources ()
     
     vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (auto & chapter : chapters) {
-      if (sendreceive_logic_prioritized_task_is_active ()) send_receive_priority_tasks_running = true;
-      if (send_receive_priority_tasks_running) continue;
+      sendreceive_resources_delay_during_prioritized_tasks ();
       if (sendreceive_resources_interrupt) continue;
       bool downloaded = false;
       string message = resource + ": " + bookName + " chapter " + convert_to_string (chapter);
       vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
       for (auto & verse : verses) {
-        if (sendreceive_logic_prioritized_task_is_active ()) send_receive_priority_tasks_running = true;
-        if (send_receive_priority_tasks_running) continue;
+        sendreceive_resources_delay_during_prioritized_tasks ();
         if (sendreceive_resources_interrupt) continue;
         // Numeric representation of passage to deal with.
         Passage passage ("", book, chapter, convert_to_string (verse));
@@ -221,9 +231,7 @@ void sendreceive_resources ()
     string msg = "Error count while downloading resource: " + convert_to_string (error_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   }
-  if (!send_receive_priority_tasks_running) {
-    Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());
-  }
+  Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());
   // In case of too many errors, schedule the resource download again.
   bool re_schedule_download = false;
   if (error_count) {
@@ -231,11 +239,6 @@ void sendreceive_resources ()
       re_schedule_download = true;
       Database_Logs::log ("Errors: Re-scheduling resource installation", Filter_Roles::consultant ());
     }
-  }
-  // In case the resource download was interrupted by higher priority tasks, schedule the download again.
-  if (send_receive_priority_tasks_running) {
-    re_schedule_download = true;
-    Database_Logs::log ("Priority tasks are running: Re-scheduling resource download: " + resource, Filter_Roles::consultant ());
   }
   // Store new download schedule.
   resources = Database_Config_General::getResourcesToCache ();

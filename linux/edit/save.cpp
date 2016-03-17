@@ -45,7 +45,10 @@ string edit_save_url ()
 
 bool edit_save_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 
@@ -135,7 +138,7 @@ string edit_save (void * webserver_request)
   // In server configuration, store details for the user's changes.
   if (!config_logic_client_prepared ()) {
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
   }
   
@@ -155,15 +158,15 @@ string edit_save (void * webserver_request)
   // Remove spaces before comparing, so that entering a space in the editor does not cause a reload.
   html = html2xml (html);
   html = filter_string_str_replace (" ", "", html);
-  html = filter_string_str_replace (non_breaking_space (), "", html);
+  html = filter_string_str_replace (non_breaking_space_entity (), "", html);
   filter_string_replace_between (html, "<", ">", "");
   converted_html = html2xml (converted_html);
   converted_html = filter_string_str_replace (" ", "", converted_html);
-  converted_html = filter_string_str_replace (non_breaking_space (), "", converted_html);
+  converted_html = filter_string_str_replace (non_breaking_space_entity (), "", converted_html);
   filter_string_replace_between (converted_html, "<", ">", "");
   // If round trip conversion differs, send a known string to the browser,
   // to signal the browser to reload the reformatted chapter.
-  if (html != converted_html) return "Reformat";
+  if (html != converted_html) return locale_logic_text_reformat ();
 
   return locale_logic_text_saved ();
 }

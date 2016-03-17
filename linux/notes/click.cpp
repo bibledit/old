@@ -70,7 +70,7 @@ string notes_click (void * webserver_request)
     string snew = request->query ["new"];
     snew = filter_url_basename (snew);
     int inew = convert_to_int (snew);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     string bible = database_modifications.getNotificationBible (inew);
     string summary = translate("Query about a change in the text");
     string contents = "<p>" + translate("Old text:") + "</p>";

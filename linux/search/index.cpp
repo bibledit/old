@@ -28,6 +28,7 @@
 #include <locale/translate.h>
 #include <search/logic.h>
 #include <menu/logic.h>
+#include <access/bible.h>
 
 
 string search_index_url ()
@@ -38,7 +39,10 @@ string search_index_url ()
 
 bool search_index_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 

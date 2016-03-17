@@ -26,6 +26,7 @@
 #include <editor/usfm2html.h>
 #include <pugixml/pugixml.hpp>
 #include <config/globals.h>
+#include <access/bible.h>
 
 
 using namespace pugi;
@@ -39,7 +40,10 @@ string editone_load_url ()
 
 bool editone_load_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 
@@ -169,8 +173,8 @@ string editone_load (void * webserver_request)
   data.append (suffix_html);
   
   string user = request->session_logic ()->currentUser ();
-  bool readwrite = !request->database_users ()->hasReadOnlyAccess2Book (user, bible, book);
-  data = Checksum_Logic::send (data, readwrite);
+  bool write = access_bible_book_write (webserver_request, user, bible, book);
+  data = Checksum_Logic::send (data, write);
   
   return data;
 }

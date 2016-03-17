@@ -147,7 +147,7 @@ int filter_diff_similarity (string oldstring, string newstring)
 void filter_diff_produce_verse_level (string bible, string directory)
 {
   Webserver_Request request;
-  Database_Modifications database_modifications = Database_Modifications ();
+  Database_Modifications database_modifications;
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
   vector <string> old_vs_usfm;

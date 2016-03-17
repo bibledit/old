@@ -40,7 +40,10 @@ string editverse_save_url ()
 
 bool editverse_save_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  return read;
 }
 
 
@@ -114,7 +117,7 @@ string editverse_save (void * webserver_request)
     if (!config_logic_client_prepared ()) {
       int newID = request->database_bibles()->getChapterId (bible, book, chapter);
       string newText = request->database_bibles()->getChapter (bible, book, chapter);
-      Database_Modifications database_modifications = Database_Modifications ();
+      Database_Modifications database_modifications;
       database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     }
     return locale_logic_text_saved ();

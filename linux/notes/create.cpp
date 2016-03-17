@@ -33,6 +33,7 @@
 #include <notes/index.h>
 #include <database/modifications.h>
 #include <menu/logic.h>
+#include <access/logic.h>
 
 
 string notes_create_url ()
@@ -43,7 +44,7 @@ string notes_create_url ()
 
 bool notes_create_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_create_comment_notes (webserver_request);
 }
 
 
@@ -102,7 +103,7 @@ string notes_create (void * webserver_request)
   // It will then create a note based on that change notification.
   if (request->query.count ("fromchange")) {
     int fromchange = convert_to_int (request->query ["fromchange"]);
-    Database_Modifications database_modifications = Database_Modifications ();
+    Database_Modifications database_modifications;
     string bible = database_modifications.getNotificationBible (fromchange);
     string summary = translate("Query about a change in the text");
     string contents = "<p>" + translate("Old text:") + "</p>";

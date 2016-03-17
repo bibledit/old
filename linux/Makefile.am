@@ -72,11 +72,14 @@ libbibledit_a_SOURCES = \
 	database/etcbc4.cpp \
 	database/hebrewlexicon.cpp \
 	database/cache.cpp \
+	database/login.cpp \
+	database/privileges.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
 	session/password.cpp \
 	session/signup.cpp \
+	session/switch.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
@@ -150,6 +153,7 @@ libbibledit_a_SOURCES = \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
 	manage/write.cpp \
+	manage/privileges.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
@@ -163,6 +167,7 @@ libbibledit_a_SOURCES = \
 	search/renotes.cpp \
 	access/user.cpp \
 	access/bible.cpp \
+	access/logic.cpp \
 	dialog/entry.cpp \
 	dialog/list.cpp \
 	dialog/yes.cpp \

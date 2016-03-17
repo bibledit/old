@@ -21,16 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 
 
-Filter_Roles::Filter_Roles ()
-{
-}
-
-
-Filter_Roles::~Filter_Roles ()
-{
-}
-
-
 int Filter_Roles::guest ()
 {
   return 1;

@@ -29,6 +29,7 @@
 #include <database/notes.h>
 #include <access/bible.h>
 #include <ipc/focus.h>
+#include <access/logic.h>
 
 
 string notes_notes_url ()
@@ -39,7 +40,7 @@ string notes_notes_url ()
 
 bool notes_notes_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return access_logic_privilege_view_notes (webserver_request);
 }
 
 
@@ -107,7 +108,9 @@ string notes_notes (void * webserver_request)
     string summary = database_notes.getSummary (identifier);
     vector <Passage> passages = database_notes.getPassages (identifier);
     string verses = filter_passage_display_inline (passages);
-    summary += " | " + verses;
+    // A simple way to make it easier to see the individual notes in the list,
+    // when the summaries of some notes are long, is to display the passage first.
+    summary.insert (0, verses + " | ");
 
     string verse_text;
     if (passage_inclusion_selector) {

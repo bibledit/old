@@ -141,13 +141,6 @@ string bible_settings (void * webserver_request)
   }
   
   
-  // Viewable by all users.
-  if (request->query.count ("viewable")) {
-    if (write_access) Database_Config_Bible::setViewableByAllUsers (bible, !Database_Config_Bible::getViewableByAllUsers (bible));
-  }
-  view.set_variable ("viewable", get_tick_box (Database_Config_Bible::getViewableByAllUsers (bible)));
-  
-  
   // Book deletion.
   string deletebook = request->query["deletebook"];
   if (deletebook != "") {
@@ -167,28 +160,29 @@ string bible_settings (void * webserver_request)
   
   // Importing text from a resource.
   if (request->query.count ("resource")) {
-    string resource = request->query["resource"];
-    if (resource.empty ()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Select a resource to import into the Bible"), translate ("The resource will be imported.") + " " + translate ("It will overwrite the content of the Bible."), "");
-      dialog_list.add_query ("bible", bible);
-      vector <string> resources = resource_external_names ();
-      for (auto & resource : resources) {
-        dialog_list.add_row (resource, "resource", resource);
-      }
-      resources = sword_logic_get_available ();
-      for (auto & resource : resources) {
-        string source = sword_logic_get_source (resource);
-        string module = sword_logic_get_remote_module (resource);
-        string name = "[" + source + "][" + module + "]";
-        dialog_list.add_row (resource, "resource", name);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      if (write_access) {
-        tasks_logic_queue (IMPORTRESOURCE, { bible, resource });
-        success_message = translate ("The resource will be imported into the Bible.") + " " + translate ("The journal shows the progress.");
-      }
+    Dialog_List dialog_list = Dialog_List ("settings", translate("Select a resource to import into the Bible"), translate ("The resource will be imported.") + " " + translate ("It will overwrite the content of the Bible."), "", true);
+    dialog_list.add_query ("bible", bible);
+    vector <string> resources = resource_external_names ();
+    for (auto & resource : resources) {
+      dialog_list.add_row (resource, "resource", resource);
+    }
+    resources = sword_logic_get_available ();
+    for (auto & resource : resources) {
+      string source = sword_logic_get_source (resource);
+      string module = sword_logic_get_remote_module (resource);
+      string name = "[" + source + "][" + module + "]";
+      dialog_list.add_row (resource, "resource", name);
+    }
+    page += dialog_list.run ();
+    return page;
+  }
+  // The resource should be POSTed.
+  // This is for the demo, where a GET request would allow search crawlers to regularly import resources.
+  string resource = request->post["add"];
+  if (!resource.empty ()) {
+    if (write_access) {
+      tasks_logic_queue (IMPORTRESOURCE, { bible, resource });
+      success_message = translate ("The resource will be imported into the Bible.") + " " + translate ("The journal shows the progress.");
     }
   }
 
