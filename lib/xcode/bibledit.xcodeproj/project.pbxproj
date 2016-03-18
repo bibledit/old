@@ -1032,6 +1032,9 @@
 		CAF6DC0F1A72B4E000E5389F /* link.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = link.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DC101A72B4E000E5389F /* link.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = link.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAF6DC111A72B4E000E5389F /* link.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = link.html; sourceTree = "<group>"; };
+		CAF8E68E1C9C326400A2373A /* jsonxx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jsonxx.h; sourceTree = "<group>"; };
+		CAF8E68F1C9C326400A2373A /* jsonxx_test.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsonxx_test.cc; sourceTree = "<group>"; };
+		CAF8E6921C9C335D00A2373A /* jsonxx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsonxx.cpp; sourceTree = "<group>"; };
 		CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = sheetm.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAFE132D1A48ABEA00F0DB35 /* sheetm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheetm.h; sourceTree = "<group>"; };
 		CAFE132E1A497AB200F0DB35 /* yes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = yes.cpp; sourceTree = "<group>"; };
@@ -2956,6 +2959,7 @@
 				CAA4D1791A45A647003ABA25 /* jobs */,
 				CAA4D17D1A45A647003ABA25 /* journal */,
 				CA80A7091AA0A9A800C7208F /* json */,
+				CAF8E68A1C9C326400A2373A /* jsonxx */,
 				CA8CF04D1B7CDC1700D07FCE /* lexicon */,
 				CAA4D1A31A45A648003ABA25 /* library */,
 				CA97857A1BD24A0600E13388 /* livetest */,
@@ -3140,6 +3144,17 @@
 			);
 			name = collaboration;
 			path = ../collaboration;
+			sourceTree = "<group>";
+		};
+		CAF8E68A1C9C326400A2373A /* jsonxx */ = {
+			isa = PBXGroup;
+			children = (
+				CAF8E6921C9C335D00A2373A /* jsonxx.cpp */,
+				CAF8E68E1C9C326400A2373A /* jsonxx.h */,
+				CAF8E68F1C9C326400A2373A /* jsonxx_test.cc */,
+			);
+			name = jsonxx;
+			path = ../jsonxx;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
