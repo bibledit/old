@@ -359,7 +359,7 @@ string gbs_digitaal_processor (string url, int verse)
 // This funcion processes and displays Bible data from gbsdigitaal.nl
 // plus extra content like headers, introductions, cross references, and notes.
 // It is supposed to be called by a more specific script.
-string gbs_digitaal_plus_processor (string url, int chapter, int verse)
+string gbs_digitaal_plus_processor (string url, int chapter, int verse) // Todo
 {
   string text;
   
