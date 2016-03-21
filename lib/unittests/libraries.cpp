@@ -49,6 +49,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenate.h>
 #include <config.h>
 #include <search/logic.h>
+#include <jsonxx/jsonxx.h>
+
+
+using namespace jsonxx;
 
 
 #ifdef HAVE_UNITTESTS
@@ -2989,6 +2993,23 @@ void test_search_logic ()
 void test_libraries_temporal ()
 {
   trace_unit_tests (__func__);
+}
+
+
+// Test included JSON libraries.
+void test_json ()
+{
+  string json ("{"
+               "  \"foo\" : 1,"
+               "  \"bar\" : false,"
+               "  \"person\" : {\"name\" : \"GWB\", \"age\" : 60,},"
+               "  \"data\": [\"abcd\", 42],"
+               "}");
+  Object object;
+  object.parse (json);
+  string path = filter_url_create_root_path ("unittests", "tests", "jsonxx.txt");
+  string xml = filter_url_file_get_contents (path);
+  evaluate (__LINE__, __func__, xml, object.xml (JSONx));
 }
 
 
