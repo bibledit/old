@@ -1033,7 +1033,6 @@
 		CAF6DC101A72B4E000E5389F /* link.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = link.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAF6DC111A72B4E000E5389F /* link.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = link.html; sourceTree = "<group>"; };
 		CAF8E68E1C9C326400A2373A /* jsonxx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jsonxx.h; sourceTree = "<group>"; };
-		CAF8E68F1C9C326400A2373A /* jsonxx_test.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsonxx_test.cc; sourceTree = "<group>"; };
 		CAF8E6921C9C335D00A2373A /* jsonxx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsonxx.cpp; sourceTree = "<group>"; };
 		CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = sheetm.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAFE132D1A48ABEA00F0DB35 /* sheetm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheetm.h; sourceTree = "<group>"; };
@@ -3151,7 +3150,6 @@
 			children = (
 				CAF8E6921C9C335D00A2373A /* jsonxx.cpp */,
 				CAF8E68E1C9C326400A2373A /* jsonxx.h */,
-				CAF8E68F1C9C326400A2373A /* jsonxx_test.cc */,
 			);
 			name = jsonxx;
 			path = ../jsonxx;
