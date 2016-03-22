@@ -106,6 +106,8 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   int verse = Ipc_Focus::getVerse (request);
   
+  bool next_verse_is_available = true;
+  
   // The verse should exist in the chapter.
   if (bible != "") {
     string usfm = request->database_bibles()->getChapter (bible, book, chapter);
@@ -115,11 +117,22 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
       else verse = 1;
       passage_clipped = true;
     }
+    if (!verses.empty ()) {
+      if (verse >= verses.back ()) {
+        next_verse_is_available = false;
+      }
+    }
   }
   
   fragment.append ("<span><a");
-  if (!basic_mode) fragment.append (" class=\"previousverse\"");
-  fragment.append (" id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></span>");
+  if (!basic_mode) {
+    fragment.append (" class=\"previousverse\"");
+  }
+  if (verse) {
+    // A previous verse (0) is assumed to be available.
+    fragment.append (" id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"");
+  }
+  fragment.append ("> « </a></span>");
   
   fragment.append ("<span><a");
   if (!basic_mode) fragment.append (" class=\"selectverse\"");
@@ -127,7 +140,10 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 
   fragment.append ("<span><a");
   if (!basic_mode) fragment.append (" class=\"nextverse\"");
-  fragment.append (" id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></span>");
+  if (next_verse_is_available) {
+    fragment.append (" id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"");
+  }
+  fragment.append ("> » </a></span>");
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
