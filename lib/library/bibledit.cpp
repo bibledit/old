@@ -166,7 +166,7 @@ bool bibledit_is_synchronizing ()
 {
   // If any of the sync tasks is running, the function considers bibledit to be synchronizing.
   // On a bad network, it may happen that a task gets stuck.
-  // All of the time till the watchdog kicks in,
+  // During the time that the task is stuck, till the watchdog kicks in,
   // the sync is considered to be running.
   // When mobile devices use this API call,
   // the devices will remain awake during the time the task is stuck.
