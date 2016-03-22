@@ -1,0 +1,28 @@
+This is a description of how to install bibledit-gtk on Windows.
+It assumes you have already gone through the BUILDING process.
+Written by Matt Postiff, postiffm@umich.edu, 3/21/2016
+
+As Administrator, run the MINGW Shell of your choice (32 or 64)
+
+cd 32-bit/bibledit/gtk
+  or
+cd 64-bit/bibledit/gtk
+
+./windows/installWin.sh
+
+This will copy all necessary files from the bibledit repository,
+the msys2 development environment, and it will fetch bwoutpost.exe
+from the web for installation. It will install in either
+
+32-bit:		C:\Program Files (x86)\Bibledit-x.y.z\
+64-bit:		C:\Program Files\Bibledit-x.y.z\
+
+Inside of that directory, you will see
+	editor\bin
+	editor\lib
+	editor\share
+	
+You can execute bibledit-gtk from editor\bin\bibledit-gtk.exe
+
+Create an icon on your desktop or in your Start Menu and you are good
+to go!
