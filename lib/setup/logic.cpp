@@ -296,7 +296,7 @@ void setup_generate_locale_databases (bool progress)
 
 
 // Generate the verse mapping databases.
-void setup_generate_verse_mapping_databases () // Todo
+void setup_generate_verse_mapping_databases ()
 {
   // On Android, do not generate the verse mapping databases.
   // On this low power device, generating them would take quite a while, as experience shows.
@@ -314,7 +314,7 @@ void setup_generate_verse_mapping_databases () // Todo
 
 
 // Generate the versification databases.
-void setup_generate_versification_databases () // Todo
+void setup_generate_versification_databases ()
 {
   // On Android, do not generate the verse mapping databases.
   // On this low power device, generating them would take quite a while, as experience shows.

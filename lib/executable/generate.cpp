@@ -65,12 +65,12 @@ int main (int argc, char **argv)
 
   } else if (command == mappings_command) {
 
-    cout << "Generating the verse mappings database" << endl; // Todo
+    cout << "Generating the verse mappings database" << endl;
     setup_generate_verse_mapping_databases ();
 
   } else if (command == versifications_command) {
     
-    cout << "Generating the versifications database" << endl; // Todo
+    cout << "Generating the versifications database" << endl;
     setup_generate_versification_databases ();
     
   } else {

@@ -43,6 +43,7 @@ void test_check_verses ();
 void test_hyphenate ();
 void test_search_logic ();
 void test_libraries_temporal ();
+void test_json ();
 
 
 #endif

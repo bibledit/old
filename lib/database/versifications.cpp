@@ -41,7 +41,7 @@ sqlite3 * Database_Versifications::connect ()
 }
 
 
-void Database_Versifications::create () // Todo
+void Database_Versifications::create ()
 {
   sqlite3 * db = connect ();
   string sql;
