@@ -101,6 +101,9 @@ public class MainActivity extends Activity
         
         // Log information about where to find Bibledit's data.
         Log ("Bibledit data location: " + webroot);
+        
+        // Keep-awake timer.
+        startTimer ();
     }
     
     
