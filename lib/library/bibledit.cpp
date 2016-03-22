@@ -161,6 +161,19 @@ bool bibledit_is_running ()
 }
 
 
+// Returns true if the client is synchronizing with or downloading from Bibledit Cloud.
+bool bibledit_is_synchronizing ()
+{
+  if (config_globals_syncing_bibles) return true;
+  if (config_globals_syncing_changes) return true;
+  if (config_globals_syncing_notes) return true;
+  if (config_globals_syncing_settings) return true;
+  if (config_globals_syncing_files) return true;
+  if (config_globals_syncing_resources) return true;
+  return false;
+}
+
+
 // Stop the library.
 // Can be called multiple times during the lifetime of the app
 void bibledit_stop_library ()

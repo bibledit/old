@@ -41,5 +41,7 @@ extern bool config_globals_syncing_bibles;
 extern bool config_globals_syncing_notes;
 extern bool config_globals_syncing_settings;
 extern bool config_globals_syncing_changes;
+extern bool config_globals_syncing_files;
+extern bool config_globals_syncing_resources;
 extern map <string, int> config_globals_prioritized_ip_addresses;
 

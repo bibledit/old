@@ -42,4 +42,6 @@ bool config_globals_syncing_bibles = false;
 bool config_globals_syncing_notes = false;
 bool config_globals_syncing_settings = false;
 bool config_globals_syncing_changes = false;
+bool config_globals_syncing_files = false;
+bool config_globals_syncing_resources = false;
 map <string, int> config_globals_prioritized_ip_addresses;

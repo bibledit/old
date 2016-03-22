@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-/* #undef CLIENT_PREPARED */
+#define CLIENT_PREPARED 1
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -86,7 +86,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-#define HAVE_UNITTESTS 1
+/* #undef HAVE_UNITTESTS */
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -104,7 +104,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.400"
+#define PACKAGE_STRING "bibledit 1.0.401"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -113,7 +113,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.400"
+#define PACKAGE_VERSION "1.0.401"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
@@ -131,13 +131,13 @@
 #define TINYJOURNAL "no"
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "yes"
+#define UNITTESTS "no"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.400"
+#define VERSION "1.0.401"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */

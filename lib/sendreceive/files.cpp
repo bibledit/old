@@ -26,6 +26,7 @@
 #include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
+#include <config/globals.h>
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
@@ -43,6 +44,7 @@ int sendreceive_files_watchdog = 0;
 void sendreceive_files_done ()
 {
   sendreceive_files_watchdog = 0;
+  config_globals_syncing_files = false;
 }
 
 
@@ -76,6 +78,7 @@ void sendreceive_files ()
     Database_Logs::log (sendreceive_files_text () + translate("Watchdog timeout"), Filter_Roles::translator ());
   }
   sendreceive_files_kick_watchdog ();
+  config_globals_syncing_files = true;
   
   
   // If any of the prioritized synchronization tasks run, postpone the current task and do not start it.

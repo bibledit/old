@@ -135,7 +135,9 @@ int main (int argc, char **argv)
   bibledit_set_quit_at_midnight ();
   
   // Keep running till Bibledit stops or gets interrupted.
-  while (bibledit_is_running ()) { };
+  while (bibledit_is_running ())
+  {
+  };
 
   bibledit_shutdown_library ();
 
