@@ -116,7 +116,7 @@ public class MainActivity extends Activity
     public native void InitializeLibrary (String resources, String webroot);
     public native void StartLibrary ();
     public native Boolean IsRunning ();
-    public native Boolean IsSynchronizing ();
+    public native String IsSynchronizing ();
     public native void StopLibrary ();
     public native void ShutdownLibrary ();
     public native void Log (String message);
@@ -368,7 +368,7 @@ public class MainActivity extends Activity
     private void initializeTimerTask() {
         timerTask = new TimerTask() {
             public void run() {
-                // Log.d ("Bibledit syncing", Boolean.toString (IsSynchronizing ()));
+                Log.d ("Bibledit syncing", IsSynchronizing ());
                 Log.d ("Bibledit version", GetVersionNumber ());
                 startTimer ();
             }
