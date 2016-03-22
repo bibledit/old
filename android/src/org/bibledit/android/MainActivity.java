@@ -113,6 +113,7 @@ public class MainActivity extends Activity
     public native void InitializeLibrary (String resources, String webroot);
     public native void StartLibrary ();
     public native Boolean IsRunning ();
+    public native Boolean IsSynchronizing ();
     public native void StopLibrary ();
     public native void ShutdownLibrary ();
     public native void Log (String message);
@@ -330,18 +331,26 @@ public class MainActivity extends Activity
     
     /*
      
-     The idea was that the app would shut down itself after it would be in the background for a while.
+     There was an idea that the app would shut down itself after it would be in the background for a while.
      This works well when another app is started and thus Bibledit goes to the background.
      But when the screen is powered off, then when Bibledit quits itself, Android keeps restarting it.
      And when the screen is powered on again, then Bibledit cannot find the page.
      Thus since this does not work well, it was not implemented.
      
+     System.runFinalizersOnExit (true);
+     this.finish ();
+     Process.killProcess (Process.myPid());
+     System.exit (0);
+     
+    */
+    
+
     private void startTimer ()
     {
         stopTimer ();
         timer = new Timer();
         initializeTimerTask();
-        timer.schedule (timerTask, 5000);
+        timer.schedule (timerTask, 1000);
     }
     
     
@@ -356,16 +365,13 @@ public class MainActivity extends Activity
     private void initializeTimerTask() {
         timerTask = new TimerTask() {
             public void run() {
-                Log.d ("Bibledit", "Run task");
-                System.runFinalizersOnExit (true);
-                //this.finish ();
-                Process.killProcess (Process.myPid());
-                System.exit(0);
+                Log.d ("Bibledit syncing", Boolean.toString (IsSynchronizing ()));
+                // startTimer ();
             }
         };
     }
-     */
 
+    
     @Override
     public void onBackPressed() {
         // The Android back button navigates back in the web view.

@@ -75,6 +75,12 @@ bool Java_org_bibledit_android_MainActivity_IsRunning (JNIEnv* env, jobject obj)
 }
 
 
+bool Java_org_bibledit_android_MainActivity_IsSynchronizing (JNIEnv* env, jobject obj)
+{
+    return bibledit_is_synchronizing ();
+}
+
+
 void Java_org_bibledit_android_MainActivity_StopLibrary (JNIEnv* env, jobject obj)
 {
     bibledit_stop_library ();
