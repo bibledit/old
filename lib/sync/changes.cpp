@@ -115,12 +115,18 @@ string sync_changes (void * webserver_request)
       lines.push_back (convert_to_string (passage.book));
       lines.push_back (convert_to_string (passage.chapter));
       lines.push_back (passage.verse);
-      // oldtext
-      lines.push_back (database_modifications.getNotificationOldText (id));
-      // modification
-      lines.push_back (database_modifications.getNotificationModification (id));
-      // newtext
-      lines.push_back (database_modifications.getNotificationNewText (id));
+      // oldtext (ensure it's one line for correct transfer to client)
+      string oldtext = database_modifications.getNotificationOldText (id);
+      oldtext = filter_string_str_replace ("\n", " ", oldtext);
+      lines.push_back (oldtext);
+      // modification (ensure it's one line for correct transfer to client)
+      string modification = database_modifications.getNotificationModification (id);
+      modification = filter_string_str_replace ("\n", " ", modification);
+      lines.push_back (modification);
+      // newtext (ensure it's one line for correct transfer to client)
+      string newtext = database_modifications.getNotificationNewText (id);
+      newtext = filter_string_str_replace ("\n", " ", newtext);
+      lines.push_back (newtext);
       // Result.
       return filter_string_implode (lines, "\n");
     }
