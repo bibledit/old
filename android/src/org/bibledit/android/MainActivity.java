@@ -368,8 +368,9 @@ public class MainActivity extends Activity
     private void initializeTimerTask() {
         timerTask = new TimerTask() {
             public void run() {
-                Log.d ("Bibledit syncing", Boolean.toString (IsSynchronizing ()));
-                // startTimer ();
+                // Log.d ("Bibledit syncing", Boolean.toString (IsSynchronizing ()));
+                Log.d ("Bibledit version", GetVersionNumber ());
+                startTimer ();
             }
         };
     }

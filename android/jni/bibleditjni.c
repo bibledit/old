@@ -75,9 +75,10 @@ bool Java_org_bibledit_android_MainActivity_IsRunning (JNIEnv* env, jobject obj)
 }
 
 
-bool Java_org_bibledit_android_MainActivity_IsSynchronizing (JNIEnv* env, jobject obj)
+jboolean Java_org_bibledit_android_MainActivity_IsSynchronizing (JNIEnv* env, jobject obj)
 {
-    return bibledit_is_synchronizing ();
+    jboolean value = bibledit_is_synchronizing ();
+    return value;
 }
 
 
