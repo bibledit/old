@@ -161,8 +161,8 @@ bool bibledit_is_running ()
 }
 
 
-// Returns true if the client is synchronizing with or downloading from Bibledit Cloud.
-bool bibledit_is_synchronizing ()
+// Returns a non-empty string if the client is synchronizing with or downloading from Bibledit Cloud.
+const char * bibledit_is_synchronizing ()
 {
   // If any of the sync tasks is running, the function considers bibledit to be synchronizing.
   // On a bad network, it may happen that a task gets stuck.
@@ -171,13 +171,15 @@ bool bibledit_is_synchronizing ()
   // When mobile devices use this API call,
   // the devices will remain awake during the time the task is stuck.
   // The user may then have to manually put the device on standby.
-  if (config_globals_syncing_bibles) return true;
-  if (config_globals_syncing_changes) return true;
-  if (config_globals_syncing_notes) return true;
-  if (config_globals_syncing_settings) return true;
-  if (config_globals_syncing_files) return true;
-  if (config_globals_syncing_resources) return true;
-  return false;
+  bool syncing = false;
+  if (config_globals_syncing_bibles) syncing = true;
+  if (config_globals_syncing_changes) syncing = true;
+  if (config_globals_syncing_notes) syncing = true;
+  if (config_globals_syncing_settings) syncing = true;
+  if (config_globals_syncing_files) syncing = true;
+  if (config_globals_syncing_resources) syncing = true;
+  if (syncing) return "sync";
+  return "";
 }
 
 
