@@ -304,7 +304,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     if (pos != string::npos) {
       size_t pos2 = data.find ("\"", pos + fragment.length () + 1);
       if (pos2 != string::npos) {
-        data.erase (pos + 1, pos2 - pos + 1);
+        data.erase (pos + 1, pos2 - pos);
       }
     }
   }
