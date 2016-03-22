@@ -47,8 +47,8 @@ public class MainActivity extends Activity
     WebView webview;
     int resumecounter = 0;
     String webAppUrl = "http://localhost:8080";
-    //Timer timer;
-    //TimerTask timerTask;
+    Timer timer;
+    TimerTask timerTask;
 
 
     // Function is called when the app gets launched.
