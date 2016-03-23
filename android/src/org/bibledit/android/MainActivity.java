@@ -35,6 +35,7 @@ import android.net.Uri;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.os.Process;
+import android.view.WindowManager;
 
 
 // The activity's data is at /data/data/org.bibledit.android.
@@ -49,15 +50,16 @@ public class MainActivity extends Activity
     String webAppUrl = "http://localhost:8080";
     Timer timer;
     TimerTask timerTask;
-
-
+    String previousSyncState;
+    
+    
     // Function is called when the app gets launched.
     @Override
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
         // Log.d ("Bibledit", "onCreate");
-
+        
         
         // The directory of the external files.
         // On a Nexus 10 this is /storage/emulated/0/Android/data/org.bibledit.android/files
@@ -228,7 +230,7 @@ public class MainActivity extends Activity
     
     private void installAssets (final String webroot)
     {
-
+        
         Thread thread = new Thread ()
         {
             @Override
@@ -238,13 +240,13 @@ public class MainActivity extends Activity
                 String installedVersion = preferences.getString ("version", "");
                 String libraryVersion = GetVersionNumber ();
                 if (installedVersion.equals (libraryVersion)) return;
-
+                
                 try {
-
+                    
                     // The assets are not visible in the standard filesystem, but remain inside the .apk file.
                     // The manager accesses them.
                     AssetManager assetManager = getAssets();
-
+                    
                     // Read the asset index created by ant.
                     String [] files = null;
                     try {
@@ -289,9 +291,9 @@ public class MainActivity extends Activity
                             //Log.i (filename, webroot);
                         } catch(IOException e) {
                             e.printStackTrace ();
-                        }       
+                        }
                     }
-
+                    
                 }
                 catch (Exception e) {
                     e.printStackTrace ();
@@ -330,7 +332,7 @@ public class MainActivity extends Activity
             webview.loadUrl (url);
         }
     }
-
+    
     
     /*
      
@@ -345,9 +347,9 @@ public class MainActivity extends Activity
      Process.killProcess (Process.myPid());
      System.exit (0);
      
-    */
+     */
     
-
+    
     private void startTimer ()
     {
         stopTimer ();
@@ -368,13 +370,24 @@ public class MainActivity extends Activity
     private void initializeTimerTask() {
         timerTask = new TimerTask() {
             public void run() {
-                Log.d ("Bibledit syncing", IsSynchronizing ());
-                Log.d ("Bibledit version", GetVersionNumber ());
+                String syncState = IsSynchronizing ();
+                Log.d ("Bibledit syncing", syncState);
+                if (syncState == "true") {
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    Log.d ("Bibledit", "keep screen on");
+                }
+                if (syncState == "false") {
+                    if (syncState == previousSyncState) {
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        Log.d ("Bibledit", "do not keep screen on");
+                    }
+                }
+                previousSyncState = syncState;
                 startTimer ();
             }
         };
     }
-
+    
     
     @Override
     public void onBackPressed() {
@@ -388,5 +401,5 @@ public class MainActivity extends Activity
         // Otherwise defer to system default behavior.
         super.onBackPressed();
     }
-
+    
 }
