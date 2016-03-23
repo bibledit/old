@@ -139,6 +139,7 @@ public class MainActivity extends Activity
         // Log.d ("Bibledit", "onStart");
         super.onStart();
         StartLibrary ();
+        startTimer ();
     }
     
     
@@ -149,7 +150,7 @@ public class MainActivity extends Activity
         // Log.d ("Bibledit", "onRestart");
         super.onRestart();
         StartLibrary ();
-        //stopTimer ();
+        startTimer ();
     }
     
     
@@ -161,7 +162,7 @@ public class MainActivity extends Activity
         super.onResume();
         StartLibrary ();
         checkUrl ();
-        //stopTimer ();
+        startTimer ();
     }
     
     
@@ -172,7 +173,7 @@ public class MainActivity extends Activity
         // Log.d ("Bibledit", "onPause");
         super.onPause ();
         StopLibrary ();
-        //startTimer ();
+        stopTimer ();
     }
     
     
@@ -183,7 +184,7 @@ public class MainActivity extends Activity
         // Log.d ("Bibledit", "onStop");
         super.onStop();
         StopLibrary ();
-        //startTimer ();
+        stopTimer ();
     }
     
     
@@ -194,6 +195,7 @@ public class MainActivity extends Activity
         // Log.d ("Bibledit", "onDestroy");
         super.onDestroy ();
         StopLibrary ();
+        stopTimer ();
         // Crashes: while (IsRunning ()) {};
         ShutdownLibrary ();
     }
@@ -371,15 +373,25 @@ public class MainActivity extends Activity
         timerTask = new TimerTask() {
             public void run() {
                 String syncState = IsSynchronizing ();
-                Log.d ("Bibledit syncing", syncState);
-                if (syncState == "true") {
-                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    Log.d ("Bibledit", "keep screen on");
+                // Log.d ("Bibledit syncing", syncState);
+                if (syncState.equals ("true")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        }
+                    });
+                    // Log.d ("Bibledit", "keep screen on");
                 }
-                if (syncState == "false") {
-                    if (syncState == previousSyncState) {
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                        Log.d ("Bibledit", "do not keep screen on");
+                if (syncState.equals ("false")) {
+                    if (syncState.equals (previousSyncState)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                            }
+                        });
+                        // Log.d ("Bibledit", "do not keep screen on");
                     }
                 }
                 previousSyncState = syncState;
