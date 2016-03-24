@@ -18,7 +18,7 @@
 + (void) bibleditReceivedMemoryWarning;
 + (void) bibleditWillEnterBackground;
 + (void) bibleditWillTerminate;
-- (void) bibleditRunTimer:(NSTimer *)timer;
++ (void) bibleditRunTimer:(NSTimer *)timer;
 
 
 @end
