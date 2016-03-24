@@ -372,6 +372,7 @@ public/logic.cpp
 pugixml/pugixml.cpp
 pugixml/utils.cpp
 basic/index.cpp
+jsonxx/jsonxx.cpp
 
 )
 

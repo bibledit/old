@@ -43,6 +43,9 @@ NSString * homeUrl = @"http://localhost:8765";
     bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
     
     bibledit_start_library ();
+    
+    [NSTimer scheduledTimerWithTimeInterval:5.0f
+                                     target:self selector:@selector(bibleditRunTimer) userInfo:nil repeats:YES];
 }
 
 
@@ -123,6 +126,12 @@ NSString * homeUrl = @"http://localhost:8765";
 + (void) bibleditWillTerminate
 {
     bibledit_shutdown_library ();
+}
+
+
+- (void) bibleditRunTimer:(NSTimer *)timer
+{
+    NSLog(@"To URL %s@", "runTimer");
 }
 
 
