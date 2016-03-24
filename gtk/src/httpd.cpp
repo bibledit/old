@@ -149,10 +149,10 @@ void Httpd::thread_main()
     conn = accept(sock, (struct sockaddr *)&address, &addr_length);
 #ifdef WIN32
     if (conn == INVALID_SOCKET) {
-      closesocket(conn);
+      // closesocket(conn); - closesocket on an invalid_socket is invalid
 #else
     if (conn < 0) {
-      close(conn);
+      // close(conn); - close(-1) is an invalid thing to do
 #endif
       g_usleep(50000);
     } else { // accept() worked

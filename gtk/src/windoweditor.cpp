@@ -64,10 +64,8 @@ WindowEditor::~WindowEditor()
   gtk_widget_destroy (reload_signal);
   gtk_widget_destroy (changed_signal);
   gtk_widget_destroy (spelling_checked_signal);
-  if (editor2)
-    delete editor2;
-  if (usfmview)
-    delete usfmview;
+  if (editor2)  { delete editor2;  }
+  if (usfmview) { delete usfmview; }
 }
 
 
@@ -127,7 +125,7 @@ void WindowEditor::go_to(const Reference & reference)
 
     // Highlighting of searchwords.
     if (editor2) {
-      if (editor2->go_to_new_reference_highlight) {
+      if (editor2->go_to_new_reference_highlight) { // uninitialized use?
         editor2->highlight_searchwords();
         editor2->go_to_new_reference_highlight = false;
       }
@@ -443,10 +441,7 @@ Editor2 * WindowEditor::editor_get()
   if (usfmview) {
     return NULL;
   }
-  if (editor2) {
-    return editor2;
-  }
-  return NULL;
+  return editor2; // if editor2 is NULL, we want to return NULL anyway
 }
 
 
