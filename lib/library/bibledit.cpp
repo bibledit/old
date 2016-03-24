@@ -178,8 +178,8 @@ const char * bibledit_is_synchronizing ()
   if (config_globals_syncing_settings) syncing = true;
   if (config_globals_syncing_files) syncing = true;
   if (config_globals_syncing_resources) syncing = true;
-  if (syncing) return "sync";
-  return "";
+  if (syncing) return "true";
+  return "false";
 }
 
 
