@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 #include <sources/etcbc4.h>
 #include <sources/kjv.h>
-#include <sources/morphhb.h>
 #include <sources/morphgnt.h>
 #include <sources/hebrewlexicon.h>
 #include <resource/external.h>
@@ -84,12 +83,6 @@ string debug_index (void * webserver_request)
     view.set_variable ("success", "Task disabled");
   }
   
-  // It is cleaner and easier to move the following task to the binary ./generate.
-  if (debug == "parsemorphhb") {
-    // sources_morphhb_parse ();
-    view.set_variable ("success", "Task disabled");
-  }
-
   // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "parsemorphgnt") {
     // sources_morphgnt_parse ();
