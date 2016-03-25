@@ -12,14 +12,14 @@ then
     MINGW32)
       # Program Files (x86) for 32-bit programs
 	  PLATFORM="i686"
-	  BUILD_DIR="32-bit"
+	  BUILD_DIR="32bit"
 	  # Source directory for binaries and such
 	  MINGWDIR="mingw32"
     ;;
     MINGW64)
 	  # Program Files for 64-bit programs
       PLATFORM="x86_64"
-	  BUILD_DIR="64-bit"
+	  BUILD_DIR="64bit"
 	  # Source directory for binaries and such
 	  MINGWDIR="mingw64"
     ;;

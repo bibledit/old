@@ -335,7 +335,7 @@ void Editor2::text_load (ustring text, ustring character_style, bool note_mode)
   ustring marker_text;
   size_t marker_pos;
   size_t marker_length;
-  bool is_opener;
+  bool is_opener = false;
   bool marker_found;
   while (!text.empty()) {
     marker_found = usfm_search_marker(text, marker_text, marker_pos, marker_length, is_opener);

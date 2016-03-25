@@ -4,9 +4,9 @@ Written by Matt Postiff, postiffm@umich.edu, 3/21/2016
 
 As Administrator, run the MINGW Shell of your choice (32 or 64)
 
-cd 32-bit/bibledit/gtk
+cd 32bit/bibledit/gtk
   or
-cd 64-bit/bibledit/gtk
+cd 64bit/bibledit/gtk
 
 ./windows/installWin.sh
 

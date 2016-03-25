@@ -2,9 +2,9 @@ This is a description of how to build bibledit-gtk on Windows.
 It assumes you are starting from scratch.
 Written by Matt Postiff, postiffm@umich.edu, 3/21/2016
 
-Convention of 32-bit, 64-bit...
+Revised: 3/24/2016
 
-Bibledit Build Environment Instructions Revised: 3/15/2016
+Bibledit Build Environment Instructions
 	1. Go to http://msys2.github.io/  and follow the simple instructions there.  Make sure that you use the default directory suggested, msys64 or msys32, depending on which platform you are on.
 	2. When the shell window pops up, run update-core as instructed in the website above. Be sure to follow the instructions about closing the window with the Red X and permit Windows to kill the process(es) that are associated with it.
 	3. Restart the MSys2 Shell from Start | All Programs | MSYS2 64bit | MSYS2 Shell
@@ -26,8 +26,8 @@ Bibledit Build Environment Instructions Revised: 3/15/2016
 		c. Modify your /home/username/.bash_profile so that the path doesn't have a bunch of Windows cruft in it. This will avoid a multitude of problems. For instance, if gcc points to some other gcc on your system (on mine, strawberry/gcc), then you will have problems. You can use the sample in bibledit/gtk/windows/bash_profile. It has a section where it looks at $MSYSTEM to determine what path to set, and it does NOT add the old ${PATH} back to the end of the new PATH.
 		d. Verify that "gcc --version" says 5.3.0 or newer. If not, exit the Mingw 64 shell and restart it. Check again. If you have no gcc in the path, then you forgot to install the toolchain. Do step 7 again. I have done this several times when I install the x86_64 (64-bit) tools and then later add on the i686 (32-bit) tools using buildenvWin.sh. I forget that I need to install the 32-bit toolchain.
 		e. Don't go to the next step until gcc --version reports the right thing.
-	10. cd 32-bit/bibledit/gtk   --or--   cd 64-bit/bibledit/gtk
-		a. Note that the buildenvWin64 script automatically does a git clone of the bibledit sources from github, and places it into either 32-bit/bibledit or 64-bit/bibledit, depending on the environment that it sees when you run it.
+	10. cd 32bit/bibledit/gtk   --or--   cd 64bit/bibledit/gtk
+		a. Note that the buildenvWin64 script automatically does a git clone of the bibledit sources from github, and places it into either 32bit/bibledit or 64bit/bibledit, depending on the environment that it sees when you run it.
 	11. ./autogen.sh
 		a. The output should look like this, with no fatal errors popping up:
 		Running autoreconf...
@@ -64,5 +64,7 @@ Bibledit Build Environment Instructions Revised: 3/15/2016
 		system where I will also remove duplication of -I directives in the 
 		compiler command line.
 		b. Wait a while for the build to complete. No more coffee. Do something else!
-	14. Run src/bibledit-gtk.exe and see if it works
+	14. If you run src/bibledit-gtk.exe, it will start up, but most likely will
+		not run correctly because it is not installed in an environment where all its
+		libraries and tools reside. See the next step.
 	15. Read bibledit-gtk/windows/INSTALLING.txt.
