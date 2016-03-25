@@ -88,39 +88,49 @@ void sources_morphhb_parse ()
     xml_node osis_node = document.first_child ();
     xml_node osisText_node = osis_node.child ("osisText");
     xml_node div_book_node = osisText_node.child ("div");
-    int chapter = 0;
     for (xml_node chapter_node : div_book_node.children()) {
+      for (xml_node verse_node : chapter_node.children ()) {
+        string node_name = verse_node.name ();
+        if (node_name != "verse") continue;
 
-      chapter++;
+        // Get the passage.
+        string osisID = verse_node.attribute ("osisID").value ();
+        vector <string> bits = filter_string_explode (osisID, '.');
+        int chapter = convert_to_int (bits[1]);
+        int verse = convert_to_int (bits[2]);
+
+        // Most of the nodes will be "w" but there's more nodes as well, see the source XML file.
+        for (xml_node node : verse_node.children ()) {
+
+          string node_name = node.name ();
+
+          if (node_name == "w") {
+            string lemma = node.attribute ("lemma").value ();
+            cout << lemma << endl; // Todo
+          }
+
+          
+        }
+        
+      }
       
+      bool in_note = false;
+      bool in_rdg = false;
+      
+
       
     }
 
   /* To redo this with pugixml
 
    string title = root_node.child_value ("title");
-  
-    xmlTextReaderPtr reader = xmlNewTextReaderFilename (file.c_str());
-    
-    int verse;
-    string lemma;
-    bool in_note = false;
-    bool in_rdg = false;
-    
+
+   
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType (reader)) {
         case XML_READER_TYPE_ELEMENT:
         {
           string element = (char *) xmlTextReaderName (reader);
-          if (element == "verse") {
-            string osisID = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "osisID");
-            vector <string> bits = filter_string_explode (osisID, '.');
-            chapter = convert_to_int (bits[1]);
-            verse = convert_to_int (bits[2]);
-          }
-          if (element == "w") {
-            lemma = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "lemma");
-          }
           if (element == "note") {
             in_note = true;
           }
