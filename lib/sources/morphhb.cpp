@@ -19,17 +19,19 @@
 
 #include <sources/morphhb.h>
 #include <database/morphhb.h>
-#include <database/logs.h>
 #include <filter/string.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 void sources_morphhb_parse ()
 {
-  Database_Logs::log ("Start parsing Open Scriptures's Hebrew");
+  cout << "Starting" << endl;
   Database_MorphHb database_morphhb;
   database_morphhb.create ();
 
-  /* To redo this with pugixml
   vector <string> books = {
     "Gen",
     "Exod",
@@ -71,16 +73,35 @@ void sources_morphhb_parse ()
     "Zech",
     "Mal"
   };
-  
+
   for (size_t bk = 0; bk < books.size (); bk++) {
     
-    string file = "sources/morphhb/" + books[bk] + ".xml";
-    Database_Logs::log (file);
+    if (books[bk] != "Ruth") continue; // Todo
     
+    string file = "sources/morphhb/" + books[bk] + ".xml";
+    cout << file << endl;
+
+    int book = bk + 1;
+
+    xml_document document;
+    document.load_file (file.c_str());
+    xml_node osis_node = document.first_child ();
+    xml_node osisText_node = osis_node.child ("osisText");
+    xml_node div_book_node = osisText_node.child ("div");
+    int chapter = 0;
+    for (xml_node chapter_node : div_book_node.children()) {
+
+      chapter++;
+      
+      
+    }
+
+  /* To redo this with pugixml
+
+   string title = root_node.child_value ("title");
+  
     xmlTextReaderPtr reader = xmlNewTextReaderFilename (file.c_str());
     
-    int book = bk + 1;
-    int chapter;
     int verse;
     string lemma;
     bool in_note = false;
@@ -141,9 +162,10 @@ void sources_morphhb_parse ()
         }
       }
     }
-  }
    */
+    
+  }
 
   database_morphhb.optimize ();
-  Database_Logs::log ("Finished parsing Open Scriptures's Hebrew");
+  cout << "Completed" << endl;
 }

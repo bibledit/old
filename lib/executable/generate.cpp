@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <setup/logic.h>
 #include <demo/logic.h>
+#include <sources/morphhb.h>
 
 
 int main (int argc, char **argv)
@@ -52,6 +53,7 @@ int main (int argc, char **argv)
   string sample_bible_command = "samplebible";
   string mappings_command = "mappings";
   string versifications_command = "versifications";
+  string morphhb_command = "morphhb";
   
   if (command == locale_command) {
   
@@ -73,6 +75,11 @@ int main (int argc, char **argv)
     cout << "Generating the versifications database" << endl;
     setup_generate_versification_databases ();
     
+  } else if (command == morphhb_command) {
+
+    cout << "Parsing Open Scriptures Hebrew with morphology into the morphhb database" << endl;
+    sources_morphhb_parse ();
+
   } else {
     
     cerr << "This command is unknown" << endl;
@@ -81,6 +88,8 @@ int main (int argc, char **argv)
     cerr << sample_bible_command << ": Generate the sample Bible" << endl;
     cerr << mappings_command << ": Generate the default verse mappings database" << endl;
     cerr << versifications_command << ": Generate the default versifications database" << endl;
+    cerr << morphhb_command << ": Parse Open Scriptures Hebrew with morphology into the morphhb database" << endl;
+    
     return EXIT_FAILURE;
     
   }
