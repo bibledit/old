@@ -160,6 +160,15 @@ cp $DLLS/libtiffxx-5.dll "$BIN"
 cp $DLLS/libp11-kit-0.dll "$BIN"
 cp $DLLS/libtasn1-6.dll "$BIN"
 # Above added 3/24/2016.
+# Below added 3/25/2016
+cp $DLLS/libhogweed-4-1.dll "$BIN"
+cp $DLLS/libjasper-1.dll "$BIN"
+cp $DLLS/libgthread-2.0-0.dll "$BIN"
+cp $DLLS/libhunspell-1.3-0.dll "$BIN"
+cp $DLLS/libpng-config "$BIN"
+cp $DLLS/libpng16-16.dll "$BIN"
+cp $DLLS/libpng16-config "$BIN"
+# Above added 3/25/2016
 
 echo "Copying various executables to $BIN"
 cp $USRBIN/bison.exe "$BIN"
