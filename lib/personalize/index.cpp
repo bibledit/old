@@ -225,13 +225,13 @@ string personalize_index (void * webserver_request)
   
   // Desktop menu fade out delay.
   if (request->query.count ("desktopfadeoutdelay")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a fade out delay between 1 and 10 seconds"), convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a fade out delay between 1 and 10 seconds or 0 to disable"), convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("desktopfadeoutdelay")) {
     int value = convert_to_int (request->post["entry"]);
-    if ((value >= 1) && (value <= 10)) {
+    if ((value >= 0) && (value <= 10)) {
       request->database_config_user ()->setDesktopMenuFadeoutDelay (value);
     } else {
       error = translate ("Incorrect fade out delay in seconds");
