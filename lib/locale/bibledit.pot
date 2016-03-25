@@ -6373,6 +6373,15 @@ msgstr ""
 msgid "Can modify"
 msgstr ""
 
+msgid "Toggle the modification privileges for entire Testaments"
+msgstr ""
+
+msgid "Old Testament"
+msgstr ""
+
+msgid "New Testament"
+msgstr ""
+
 msgid "Verse Mappings"
 msgstr ""
 

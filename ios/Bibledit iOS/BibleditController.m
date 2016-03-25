@@ -133,7 +133,17 @@ NSMutableString * previousSyncState;
 + (void) bibleditRunTimer:(NSTimer *)timer
 {
     NSString * syncState = [NSString stringWithUTF8String:bibledit_is_synchronizing ()];
-    NSLog(@"syncState = %@", syncState);
+    if ([syncState isEqualToString:@"true"]) {
+        // NSLog(@"keep screen on");
+        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    }
+    if ([syncState isEqualToString:@"false"]) {
+        if ([syncState isEqualToString:previousSyncState]) {
+            // NSLog(@"do not keep screen on");
+            [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+        }
+    }
+    previousSyncState = [[NSMutableString alloc] initWithString:syncState];
 }
 
 
