@@ -1,13 +1,19 @@
 html {
-  width: 100%;
   height: 100%;
-  overflow: hidden;
   margin: 0;
   padding: 0;
 }
 
 *, *:before, *:after {
   box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
 /* smartphones, iPhone, portrait 480x320 phones */
@@ -171,13 +177,7 @@ textarea {
 }
 
 #topbar {
-  top: 0;
-  left: 0;
-  right: 0;
   margin: 0;
-  position: fixed;
-  max-height: 4em;
-  overflow-y: auto;
 }
 
 #topbar:hover {
@@ -186,12 +186,6 @@ textarea {
 
 #topbar a {
   color: #000000;
-}
-
-#breadcrumbs {
-  margin: 0.2em 0;
-  padding: 0.2em 0;
-  border-top: 1px dotted #CCC;
 }
 
 .menu-basic,
@@ -207,9 +201,6 @@ textarea {
   -webkit-appearance: button;
   font-size: 100%;
   padding-top: 0.7em;
-  padding-right: 1em;
-  padding-bottom: 0.7em;
-  padding-left: 1em;
   text-align: center;
   text-decoration: none!important;
   border-style: solid;
@@ -269,55 +260,32 @@ textarea {
 }
 
 #workspacewrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: auto;
-  padding: 1em;
+  padding: 0.5em;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 #workbenches {
-  width: calc(100% + 2em);
-  height: calc(100% + 2em);
-  margin: -1em;
-  overflow-y: auto;
-}
-
-#topbar + #workspacewrapper {
-  top: 4em;
-  border-top: 2px inset;
-}
-
-#workspacewrapper h2:first-child {
-  margin-top: 0;
+  width: calc(100% + 1em);
+  margin: -0.5em;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
 }
 
 .iframewrapper {
-  width: 100%;
-  border-bottom: 2px inset;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
   border-top: 2px inset;
-}
-
-.iframewrapper:first-child {
-  border-top: none;
-}
-
-.iframewrapper:last-child {
-  border: none;
+  border-bottom: 2px inset;
 }
 
 .iframewrapper iframe {
-  display: block;
-  float: left;
-  height: 100%;
+  flex: 1;
   border: none;
-  border-right: 2px inset;
-}
-
-.iframewrapper iframe:last-child {
-  border-right: none;
 }
 
 .iframewrapper iframe + iframe {
