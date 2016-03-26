@@ -68,7 +68,7 @@
 #define HAVE_STRING_H 1
 
 /* Define whether the SWORD library is present */
-#define HAVE_SWORD 1
+/* #undef HAVE_SWORD */
 
 /* Define whether the SWORD library 1.6.x is present */
 /* #undef HAVE_SWORD16 */

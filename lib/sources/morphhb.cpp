@@ -99,17 +99,28 @@ void sources_morphhb_parse ()
         int chapter = convert_to_int (bits[1]);
         int verse = convert_to_int (bits[2]);
 
+        bool word_stored = false;
+        
         // Most of the nodes will be "w" but there's more nodes as well, see the source XML file.
         for (xml_node node : verse_node.children ()) {
+
+          if (word_stored) database_morphhb.store (book, chapter, verse, "", " ");
 
           string node_name = node.name ();
 
           if (node_name == "w") {
             string lemma = node.attribute ("lemma").value ();
-            cout << lemma << endl; // Todo
+            string word = node.child_value ();
+            word = filter_string_str_replace ("/", "", word);
+            database_morphhb.store (book, chapter, verse, lemma, word);
           }
-
           
+          if (node_name == "seg") {
+            string word = node.child_value ();
+            database_morphhb.store (book, chapter, verse, "", word);            
+          }
+          
+          word_stored = true;
         }
         
       }
@@ -123,7 +134,6 @@ void sources_morphhb_parse ()
 
   /* To redo this with pugixml
 
-   string title = root_node.child_value ("title");
 
    
     while ((xmlTextReaderRead(reader) == 1)) {
@@ -140,24 +150,7 @@ void sources_morphhb_parse ()
           }
           break;
         }
-        case XML_READER_TYPE_TEXT:
-        {
-          if (chapter == 0) continue;
-          if (verse == 0) continue;
-          if (!in_rdg) if (in_note) continue;
-          string word = (char *) xmlTextReaderValue (reader);
-          word = filter_string_str_replace ("/", "", word);
-          database_morphhb.store (book, chapter, verse, lemma, word);
-          lemma.clear ();
-          word.clear ();
-          break;
         }
-        case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
-        {
-          if (chapter == 0) continue;
-          if (verse == 0) continue;
-          if (!in_rdg) if (in_note) continue;
-          database_morphhb.store (book, chapter, verse, "", " ");
         }
         case XML_READER_TYPE_END_ELEMENT:
         {
