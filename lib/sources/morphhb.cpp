@@ -20,6 +20,7 @@
 #include <sources/morphhb.h>
 #include <database/morphhb.h>
 #include <filter/string.h>
+#include <filter/passage.h>
 #include <pugixml/pugixml.hpp>
 
 
@@ -37,8 +38,11 @@ void sources_morphhb_parse_w_element (Database_MorphHb * database_morphhb, int b
 
 void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml_node node)
 {
-  cerr << "Unhandled node " << node.name () << " at " << book << " " << chapter << ":" << verse << endl;
+  string passage = filter_passage_display (book, chapter, convert_to_string (verse));
+  string text = node.child_value ();
+  cerr << "Unhandled " << node.name () << " at " << passage << ": " << text << endl;
 }
+
 
 void sources_morphhb_parse ()
 {
@@ -89,8 +93,6 @@ void sources_morphhb_parse ()
   };
 
   for (size_t bk = 0; bk < books.size (); bk++) {
-    
-    if (books[bk] != "Ruth") continue; // Todo
     
     string file = "sources/morphhb/" + books[bk] + ".xml";
     cout << file << endl;
