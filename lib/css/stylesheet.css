@@ -2,6 +2,7 @@ html {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-size: 100%;
 }
 
 *, *:before, *:after {
@@ -16,54 +17,12 @@ body {
   padding: 0;
 }
 
-/* smartphones, iPhone, portrait 480x320 phones */
-@media (min-width:320px) {
-body {
-  font-size: 3.2vw;
-}
-}
-
-/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-@media (min-width:481px) {
-body {
-  font-size: 2.7vw;
-}
-}
-
-/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-@media (min-width:641px) {
-body {
-  font-size: 2.3vw;
-}
-}
-
-/* tablet, landscape iPad, lo-res laptops ands desktops */
-@media (min-width:961px) {
-body {
-  font-size: 1.7vw;
-}
-}
-
-/* big landscape tablets, laptops, and desktops */
-@media (min-width:1025px) {
-body {
-  font-size: 1.3vw;
-}
-}
-
-/* hi-res laptops and desktops */
-@media (min-width:1281px) {
-body {
-  font-size: 1.0vw;
-}
-}
-
 label {
-  font-size: 100%;
+  font-size: 1em;
 }
 
 input {
-  font-size: 100%;
+  font-size: 1em;
 }
 
 p {
@@ -200,7 +159,6 @@ textarea {
   appearance: button;
   -moz-appearance: button;
   -webkit-appearance: button;
-  font-size: 100%;
   text-decoration: none!important;
   border-style: solid;
 }
