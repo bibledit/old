@@ -3160,12 +3160,12 @@
 /* Begin PBXLegacyTarget section */
 		CAB29AC51A4480CC00139BD7 /* bibledit */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION) --jobs=4";
+			buildArgumentsString = "$(ACTION) --jobs=24";
 			buildConfigurationList = CAB29AC81A4480CC00139BD7 /* Build configuration list for PBXLegacyTarget "bibledit" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/teus/Documents/dev/bibledit/lib;
+			buildWorkingDirectory = /Users/teus/dev/bibledit/lib;
 			dependencies = (
 			);
 			name = bibledit;

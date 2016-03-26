@@ -473,7 +473,7 @@ cd $BIBLEDITIOS/ios
 # This gives a better user experience.
 pushd ../lib
 ./configure
-make --jobs=4
+make --jobs=`sysctl -n hw.ncpu`
 ./generate . locale
 ./generate . mappings
 ./generate . versifications
