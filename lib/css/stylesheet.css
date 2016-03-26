@@ -176,10 +176,6 @@ textarea {
   clear: both;
 }
 
-#topbar {
-  margin: 0;
-}
-
 #topbar:hover {
   background-color: #f9f9f9;
 }
@@ -188,9 +184,15 @@ textarea {
   color: #000000;
 }
 
+#breadcrumbs:not(:empty) {
+  margin: 0.2em 0;
+  padding: 0.2em 0;
+  border-top: 1px dotted #CCC;
+}
+
 .menu-basic,
 .menu-advanced {
-  padding: 0.2em;
+  padding: 0.3em;
 }
 
 .menu-basic a {
