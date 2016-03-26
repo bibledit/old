@@ -278,10 +278,16 @@ textarea {
   padding: 1em;
 }
 
+#workbenches {
+  width: calc(100% + 2em);
+  height: calc(100% + 2em);
+  margin: -1em;
+  overflow-y: auto;
+}
+
 #topbar + #workspacewrapper {
   top: 4em;
   border-top: 2px inset;
-  padding: 0;
 }
 
 #workspacewrapper h2:first-child {
