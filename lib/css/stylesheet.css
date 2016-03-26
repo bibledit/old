@@ -285,3 +285,11 @@ textarea {
   background-position: center center;
   background-size: contain;
 }
+
+#workspacewrapper > table {
+  width: 100%
+}
+
+:focus {
+  outline: none;
+}
