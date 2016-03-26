@@ -298,17 +298,15 @@ textarea {
 }
 
 .splash {
-  height: 97%;
-  width: 99%;
-  background: radial-gradient(red, yellow, white);
-  position: absolute;
-  z-index: -1;
-  opacity: 0.15;
+  height: 100%;
+  width: 100%;
+  background: radial-gradient(#FDD, #FFD, #FFF);
+  padding: 5%;
 }
 
 .centerbible {
   width: 100%;
-  height: 100%;
+  height: 90%;
   background-image: url(/pix/bible.svg);
   background-repeat: no-repeat;
   background-position: center center;
