@@ -61,8 +61,8 @@ string Assets_Page::footer ()
 {
   string page;
   Assets_View view;
-  page += view.render ("assets", "workspacewrapper_finish");
   page += view.render ("assets", "footer");
+  view = Assets_View ();
   page += view.render ("assets", "xhtml_finish");
   return page;
 }
