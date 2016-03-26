@@ -277,6 +277,8 @@ textarea {
 
 .iframewrapper {
   flex: 1;
+  flex-shrink: 1;
+  height: 1em;
   display: flex;
   flex-direction: row;
   border-top: 2px inset;
@@ -284,7 +286,9 @@ textarea {
 }
 
 .iframewrapper iframe {
-  flex: 1;
+  width: 1em;
+  flex-shrink: 1;
+  flex-grow: 2;
   border: none;
 }
 

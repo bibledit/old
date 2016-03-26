@@ -90,32 +90,32 @@ map <int, string> workbench_get_default_widths (int id)
   map <int, string> widths;
   switch (id) {
     case 1:
-      widths [0] = "100%";
-      widths [5] = "100%";
+      widths [0] = "1";
+      widths [5] = "1";
       break;
     case 2:
-      widths [0] = "75%";
-      widths [1] = "20%";
+      widths [0] = "3";
+      widths [1] = "1";
       break;
     case 3:
-      widths [0] = "32%";
-      widths [1] = "42%";
-      widths [2] = "22%";
+      widths [0] = "3";
+      widths [1] = "4";
+      widths [2] = "2";
       break;
     case 4:
-      widths [0] = "45%";
-      widths [1] = "50%";
+      widths [0] = "1";
+      widths [1] = "1";
       break;
     case 5:
-      widths [0] = "52%";
-      widths [1] = "42%";
-      widths [5] = "66%";
+      widths [0] = "1";
+      widths [1] = "1";
+      widths [5] = "1";
       break;
     default:
-      widths [0] = "24%";
-      widths [1] = "24%";
-      widths [2] = "24%";
-      widths [3] = "24%";
+      widths [0] = "1";
+      widths [1] = "1";
+      widths [2] = "1";
+      widths [3] = "1";
       break;
   }
   return widths;
@@ -127,20 +127,20 @@ map <int, string> workbench_get_default_heights (int id)
   map <int, string> heights;
   switch (id) {
     case 1:
-      heights [0] = "25%";
-      heights [1] = "65%";
+      heights [0] = "1";
+      heights [1] = "3";
       break;
     case 2:
     case 3:
     case 4:
-      heights [0] = "80%";
+      heights [0] = "1";
       break;
     case 5:
-      heights [0] = "92%";
-      heights [1] = "24%";
+      heights [0] = "9";
+      heights [1] = "1";
       break;
     default:
-      heights [0] = "90%";
+      heights [0] = "1";
       break;
   }
   return heights;
@@ -183,22 +183,13 @@ string workbench_get_active_name (void * webserver_request)
 // This function processes the units for a $length value.
 string workbench_process_units (string length)
 {
-  // If no unit is found, add %.
+  // If a size factor is found, great, otherwise default to 1
   if (length == convert_to_string (convert_to_int (length))) {
-    return length + "%";
-  }
-  // If % is found, clean the value up.
-  if (length.find ("%") != string::npos) {
-    length = convert_to_string (convert_to_int (length)) + "%";
+    return length;
+  } else {
+    string length = "1";
     return length;
   }
-  // If px is found, clean the value up.
-  if (length.find ("px") != string::npos) {
-    length = convert_to_string (convert_to_int (length)) + "px";
-    return length;
-  }
-  // Pass the length through.
-  return length;
 }
 
 
