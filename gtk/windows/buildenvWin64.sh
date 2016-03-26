@@ -51,6 +51,8 @@ pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-sqlite3 msys/libsqlite-devel
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtksourceview2 $MINGWDIR/mingw-w64-$PLATFORM-gtksourceviewmm3
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-webkitgtk2 $MINGWDIR/mingw-w64-$PLATFORM-webkitgtk3
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-emacs
+pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-icu-debug-libs
+
 # The next also installs liblzma-devel-5.2.1-1  libreadline-devel-6.3.008-7
 # ncurses-devel-6.0.20160220-1  zlib-devel-1.2.8-3
 pacman -S --noconfirm msys/libxml2-devel

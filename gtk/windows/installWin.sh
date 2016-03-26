@@ -168,6 +168,13 @@ cp $DLLS/libhunspell-1.3-0.dll "$BIN"
 cp $DLLS/libpng-config "$BIN"
 cp $DLLS/libpng16-16.dll "$BIN"
 cp $DLLS/libpng16-config "$BIN"
+cp $DLLS/libicuuc56.dll "$BIN"
+cp $DLLS/libicutu56.dll "$BIN"
+cp $DLLS/libicutest56.dll "$BIN"
+cp $DLLS/libiculx56.dll "$BIN"
+cp $DLLS/libicule56.dll "$BIN"
+cp $DLLS/libicuio56.dll "$BIN"
+cp $DLLS/icu-config "$BIN"
 # Above added 3/25/2016
 
 echo "Copying various executables to $BIN"
@@ -237,6 +244,10 @@ cp $MINGWBIN/unxz.exe "$BIN"
 cp $MINGWBIN/xz.exe "$BIN"
 cp $MINGWBIN/xzcat.exe "$BIN"
 cp $MINGWBIN/xzdec.exe "$BIN"
+# Below added 3/25/2016
+cp $USRBIN/msys-icudata56.dll "$BIN"
+cp $USRBIN/msys-icui18n56.dll "$BIN"
+# Above added 3/25/2016
 
 # The DLL ieshims.dll is a special case. depends.exe says we need it, but we don't.
 
@@ -258,7 +269,7 @@ cp -R doc/retrieval.pl "$SHARE/bibledit"
 cp -R doc/style.css "$SHARE/bibledit"
 cp -R doc/site.xml "$SHARE/bibledit"
 
-echo "Fetching bwoutpost.exe..."
+echo "Fetching bwoutpost.exe and installing to $BIN"
 wget http://fbcaa.org/bibledit/bwoutpost.exe
 mv -f bwoutpost.exe "$BIN"
 
