@@ -7165,7 +7165,7 @@ msgstr ""
 msgid "Incorrect caret position in percents"
 msgstr ""
 
-msgid "Please enter a fade out delay between 1 and 10 seconds"
+msgid "Please enter a fade out delay between 1 and 100 seconds or 0 to disable"
 msgstr ""
 
 msgid "Incorrect fade out delay in seconds"
