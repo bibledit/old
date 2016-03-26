@@ -196,14 +196,11 @@ textarea {
 }
 
 .menu-basic a {
-  padding-left: 0.3em;
-  padding-right: 0.3em;
+  padding: 0 0.4em;
   appearance: button;
   -moz-appearance: button;
   -webkit-appearance: button;
   font-size: 100%;
-  padding-top: 0.7em;
-  text-align: center;
   text-decoration: none!important;
   border-style: solid;
 }
