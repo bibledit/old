@@ -188,6 +188,12 @@ textarea {
   color: #000000;
 }
 
+#breadcrumbs {
+  margin: 0.2em 0;
+  padding: 0.2em 0;
+  border-top: 1px dotted #CCC;
+}
+
 .menu-basic,
 .menu-advanced {
   padding: 0.2em;
