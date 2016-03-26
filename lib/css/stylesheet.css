@@ -275,12 +275,13 @@ textarea {
   right: 0;
   bottom: 0;
   overflow-y: auto;
-  padding: 0.5em;
-  border-top: 2px inset;
+  padding: 1em;
 }
 
 #topbar + #workspacewrapper {
   top: 4em;
+  border-top: 2px inset;
+  padding: 0;
 }
 
 #workspacewrapper h2:first-child {
@@ -290,14 +291,27 @@ textarea {
 .iframewrapper {
   width: 100%;
   border-bottom: 2px inset;
+  border-top: 2px inset;
+}
+
+.iframewrapper:first-child {
+  border-top: none;
+}
+
+.iframewrapper:last-child {
+  border: none;
 }
 
 .iframewrapper iframe {
   display: block;
   float: left;
   height: 100%;
-  padding: 0.2em;
   border: none;
+  border-right: 2px inset;
+}
+
+.iframewrapper iframe:last-child {
+  border-right: none;
 }
 
 .iframewrapper iframe + iframe {
