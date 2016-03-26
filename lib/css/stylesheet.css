@@ -237,6 +237,15 @@ textarea {
 }
 
 @media print {
+  body,
+  #workspacewrapper,
+  #workbenches,
+  .iframewrapper,
+  .iframewrapper iframe {
+    display: block !important;
+    width: 100% !important;
+    height: inherit !important;
+  }
   #topbar { display : none; }
 }
 
