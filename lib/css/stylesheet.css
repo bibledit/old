@@ -216,8 +216,13 @@ textarea {
 }
 
 .menu-advanced span {
-  padding-left: 0.3em;
-  padding-right: 0.3em;
+  margin-right: 0.2em;
+}
+
+.menu-advanced span.nowrap + span:before {
+  content: "|";
+  color: #CCC;
+  margin-right: 0.4em;
 }
 
 .nowrap {
