@@ -26,6 +26,20 @@
 using namespace pugi;
 
 
+void sources_morphhb_parse_w_element (Database_MorphHb * database_morphhb, int book, int chapter, int verse, xml_node node)
+{
+  string lemma = node.attribute ("lemma").value ();
+  string word = node.child_value ();
+  word = filter_string_str_replace ("/", "", word);
+  database_morphhb->store (book, chapter, verse, lemma, word);
+}
+
+
+void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml_node node)
+{
+  cerr << "Unhandled node " << node.name () << " at " << book << " " << chapter << ":" << verse << endl;
+}
+
 void sources_morphhb_parse ()
 {
   cout << "Starting" << endl;
@@ -109,64 +123,39 @@ void sources_morphhb_parse ()
           string node_name = node.name ();
 
           if (node_name == "w") {
-            string lemma = node.attribute ("lemma").value ();
-            string word = node.child_value ();
-            word = filter_string_str_replace ("/", "", word);
-            database_morphhb.store (book, chapter, verse, lemma, word);
+            sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
           }
           
-          if (node_name == "seg") {
+          else if (node_name == "seg") {
             string word = node.child_value ();
             database_morphhb.store (book, chapter, verse, "", word);            
+          }
+          
+          else if (node_name == "note") {
+            for (xml_node variant_node : node.children ()) {
+              string node_name = variant_node.name ();
+              if (node_name == "catchWord") {
+                sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
+              } else if (node_name == "rdg") {
+                for (xml_node w_node : variant_node.children ()) {
+                  database_morphhb.store (book, chapter, verse, "", "/");
+                  sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
+                }
+              } else {
+                sources_morphhb_parse_unhandled_node (book, chapter, verse, node);
+              }
+            }
+          }
+          
+          else {
+            sources_morphhb_parse_unhandled_node (book, chapter, verse, node);
           }
           
           word_stored = true;
         }
         
       }
-      
-      bool in_note = false;
-      bool in_rdg = false;
-      
-
-      
     }
-
-  /* To redo this with pugixml
-
-
-   
-    while ((xmlTextReaderRead(reader) == 1)) {
-      switch (xmlTextReaderNodeType (reader)) {
-        case XML_READER_TYPE_ELEMENT:
-        {
-          string element = (char *) xmlTextReaderName (reader);
-          if (element == "note") {
-            in_note = true;
-          }
-          if (element == "rdg") {
-            in_rdg = true;
-            database_morphhb.store (book, chapter, verse, "", "/");
-          }
-          break;
-        }
-        }
-        }
-        case XML_READER_TYPE_END_ELEMENT:
-        {
-          string element = (char *) xmlTextReaderName (reader);
-          if (element == "note") {
-            in_note = false;
-          }
-          if (element == "rdg") {
-            in_rdg = false;
-          }
-          break;
-        }
-      }
-    }
-   */
-    
   }
 
   database_morphhb.optimize ();
