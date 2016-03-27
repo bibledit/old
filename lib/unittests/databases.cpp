@@ -1009,10 +1009,9 @@ void test_database_morphhb ()
   
   Database_MorphHb database_morphhb = Database_MorphHb ();
 
+  // Job 3:2.
   vector <string> data = database_morphhb.getVerse (18, 3, 2);
   vector <string> standard = {
-    " "
-    ,
     "וַיַּ֥עַן"
     ,
     " "
@@ -1023,14 +1022,12 @@ void test_database_morphhb ()
     ,
     "וַיֹּאמַֽר"
     ,
+    " "
+    ,
     "׃"
-    ,
-    " "
-    ,
-    " "
   };
   evaluate (__LINE__, __func__, standard, data);
-
+  
   vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
 
@@ -1042,11 +1039,12 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, 3,    passages[1].chapter);
   evaluate (__LINE__, __func__, "10", passages[1].verse);
 
+  // Job 3:2.
   vector <int> items = database_morphhb.rowids (18, 3, 2);
-  evaluate (__LINE__, __func__, 9, (int)items.size());
+  evaluate (__LINE__, __func__, 7, (int)items.size());
   
-  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[1]));
-  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[3]));
+  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[0]));
+  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[2]));
 }
 
 
