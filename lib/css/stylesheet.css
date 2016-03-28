@@ -355,7 +355,3 @@ textarea {
 #workspacewrapper > table {
   width: 100%
 }
-
-:focus {
-  outline: none;
-}
