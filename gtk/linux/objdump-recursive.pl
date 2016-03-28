@@ -9,7 +9,7 @@
 # Modified by Matt Postiff (postiffm@umich.edu)
 # Version 1.1 on March 28, 2016 for bibledit
 # Original: https://gist.github.com/Tomonobu3110/963cfc63d8a3b94b55cf
-# Usage example: ~/objdump-recursive.pl --uniq "/c/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe" 
+# Usage example: linux/objdump-recursive.pl --uniq "/c/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe" | sort
 #
 # This program performs recursive objdump checks for binaries and libraries
 # It recurses through entire objdump tree for every listed binary and library
@@ -165,7 +165,15 @@ if($print_vars) {
 
 &recurseLibs($inputs[0], 0);
 delete $uniq{$inputs[0]};
-print join("\n", keys(%uniq))."\n" if $uniq;
+my $k;
+foreach $k (keys %uniq) {
+     if ($uniq{$k} == -1) { print "Not found $k\n"; }
+  elsif ($uniq{$k} == 1 ) { print "Found     $k\n"; }
+  else                    { print "????????? $k\n"; }
+}
+# This is a more concise way to print, but doesn't take into account
+# the coding I added 
+#print join("\n", keys(%uniq))."\n" if $uniq;
 
 print "\n";
 
@@ -208,7 +216,6 @@ sub recurseLibs
                         next;
                 }
 
-
                 # Split and recurse on libraries (third value is the lib path):
                 my @newlibs = split(/\s+/,$line);
                 print Dumper(\@newlibs) if $debug;
@@ -216,15 +223,14 @@ sub recurseLibs
                 # find lib file from $root. $root may have spaces in Windows land, so 
 				# needs to be quoted carefully.
                 chomp(my @realfile = `/usr/bin/find \"$root\" -name $newlibs[2]`);
-				print @realfile if $debug;
+
                 # Skip if no mapped or directly linked
                 # Sane output comes with four elements
                 if (scalar(@realfile) < 1) {
                         print "$sep"x$depth if not $uniq;
-                        print $newlibs[2] . " (not found)\n"; # if not $uniq;
-                        $uniq{$newlibs[2]} = 1;
-						# Make sure to print libs that are not found. These are the most important.
-						next;
+                        print $newlibs[2] . " (not found)\n" if not $uniq;
+                        $uniq{$newlibs[2]} = -1; #-1 indicates not found
+                        next;
                 }
 
                 print "\nRecursive library search on $realfile[0].\n\n" if $debug;
