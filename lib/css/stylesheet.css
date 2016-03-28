@@ -299,6 +299,8 @@ textarea {
   font-family: Cardo;
   /* font-size: normal; : dynamically generated */
 }
+#oneeditor,
+span[contenteditable=true],
 .focusedverse {
   background: lightyellow;
 }
