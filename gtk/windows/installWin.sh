@@ -122,7 +122,7 @@ cp $DLLS/libgstpbutils-1.0-0.dll "$BIN"
 cp $DLLS/libgstreamer-1.0-0.dll "$BIN"
 cp $DLLS/libgstvideo-1.0-0.dll "$BIN"
 cp $DLLS/libharfbuzz-0.dll "$BIN"
-cp $DLLS/libharfbuzz-ICU-0.dll "$BIN"
+cp $DLLS/libharfbuzz-icu-0.dll "$BIN"
 cp $DLLS/libiconv-2.dll "$BIN"
 # The next file is a must have
 cp $DLLS/libicuin56.dll "$BIN"
