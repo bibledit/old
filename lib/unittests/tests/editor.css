@@ -16,10 +16,22 @@
   font-style: italic;
 }
 .c {
-  margin-bottom: -3mm;
+  display: block;
+  float: left;
+  margin-top: 0.3em;
+  padding: 0 0.1em 0 0;
+  vertical-align: text-top;
   font-weight: bold;
-  font-size: 250%;
+  font-size: 2.2em;
 }
+.c + p {
+  text-indent: 0;
+}
+/* (Optinal way to hide verse marker at start of chapter)
+.c + p > .v {
+  display: none;
+}
+*/
 .cd {
   margin-top: 8mm;
   margin-bottom: 4mm;
