@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/sheets.h>
 #include <styles/logic.h>
 #include <menu/logic.h>
+#include <access/logic.h>
 
 
 string personalize_index_url ()
@@ -66,7 +67,7 @@ string personalize_index (void * webserver_request)
   }
   
 
-  // Breadcrumbs: Before displaying page, so the page does the correct thing with the bread crumbs.
+  // Breadcrumbs: Before displaying the page, so the page does the correct thing with the bread crumbs.
   if (request->query.count ("breadcrumbs")) {
     bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
     request->database_config_user ()->setDisplayBreadcrumbs (!state);
@@ -248,6 +249,11 @@ string personalize_index (void * webserver_request)
   // Whether to keep the main menu always visible.
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMainMenuAlwaysVisible ());
   view.set_variable ("menuvisible", on_off);
+  
+  
+  // Enable the sections with settings relevant to the roles and privileges of the user.
+  bool resources = access_logic_privilege_view_resources (webserver_request);
+  if (resources) view.enable_zone ("resources");
   
 
   view.set_variable ("success", success);
