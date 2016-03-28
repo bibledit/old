@@ -498,6 +498,9 @@ span[contenteditable=true],
   background-size: contain;
   background-repeat: no-repeat;
 }
+span[contenteditable=true] {
+  padding-right: 0.5em;
+}
 #workspacewrapper > table.editor {
   width: 100%;
 }
