@@ -176,6 +176,14 @@ body {
   font-family: serif;
   line-height: 1.3em;
 }
+body,
+#editorheader,
+#editorinnerheader {
+  background-color: #F3F3F3;
+}
+.bibleeditor {
+  background: #FFF;
+}
 h1,
 h2,
 h3,
@@ -296,9 +304,6 @@ textarea {
 }
 .clearfix {
   clear: both;
-}
-#topbar:hover {
-  background-color: #F9F9F9;
 }
 #topbar a {
   color: #000;
