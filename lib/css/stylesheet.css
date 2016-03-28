@@ -181,10 +181,22 @@ h2,
 h3,
 h4,
 h5,
+h6,
+#name1,
+#name2,
+#name3,
+#topbar,
+#editorinnerheader {
+  font-family: sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
 h6 {
   margin: 0.5em 0;
   font-weight: bold;
-  font-family: sans-serif;
 }
 h1 {
   font-size: 2em;
