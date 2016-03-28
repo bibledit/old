@@ -2,6 +2,8 @@ This is a description of how to install bibledit-gtk on Windows.
 It assumes you have already gone through the BUILDING process.
 Written by Matt Postiff, postiffm@umich.edu, 3/21/2016
 
+Step #1
+---------------------------------------------------------------------------
 As Administrator, run the MINGW Shell of your choice (32 or 64)
 
 cd 32bit/bibledit/gtk
@@ -26,3 +28,37 @@ You can execute bibledit-gtk from editor\bin\bibledit-gtk.exe
 
 Create an icon on your desktop or in your Start Menu and you are good
 to go!
+
+Optional Step #2
+---------------------------------------------------------------------------
+Download the texlive-xetex package from
+
+http://mirror.ctan.org/systems/texlive/tlnet/install-tl-windows.exe
+
+1. Install it in the default directory. It will add an entry to your Windows 
+PATH environment variable which is important for Bibledit-gtk. 
+
+2. Depending on the options you select, this will install up to 4 GB (that's 
+right, gigabytes) of packages to use in tex.
+
+Optional Step #3
+---------------------------------------------------------------------------
+Download the php-cli package and install it.
+
+1. It is probably best to get it directly from
+	http://windows.php.net/downloads/releases/php-5.6.19-Win32-VC11-x86.zip
+	I chose php 5.6.19, latest in the 5 series, not to go to version 7.0.
+	I chose the thread-safe version since we have threading going on in bibledit-gtk.
+	So I chose VC11 x86 Thread Safe (2016-Mar-03 05:51:49)
+	I did NOT choose x64 builds because they were listed as experimental.
+
+2. To install, all you have to do is to unpack the archive into C:\php
+
+3. Add C:\php to your path. To do this, right click My Computer, select 
+	Properties, Click Advanced System Settings on the left, click Environment 
+	Variables button in the lower right, select Path, edit, and add the 
+	following text to the end of the line:              ;C:\php
+	Note the semicolon.
+	Also, if you want to move that farther ahead in the PATH, that is 
+	fine too, just be careful!
+	Hit OK about 3 times.
