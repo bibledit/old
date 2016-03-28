@@ -182,6 +182,7 @@ h3,
 h4,
 h5,
 h6 {
+  margin: 0.5em 0;
   font-weight: bold;
   font-family: sans-serif;
 }
