@@ -32,6 +32,7 @@ public:
   void assignees (string user, vector <string> assignees);
   vector <string> assignees (string user);
   bool exists (string user, string assignee);
+  void remove (string user);
 private:
   string path (string user);
 };
