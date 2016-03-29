@@ -3427,6 +3427,14 @@ msgstr ""
 msgid "Follow the steps below to start Bibledit."
 msgstr ""
 
+msgid "Note:"
+msgstr ""
+
+msgid ""
+"To see the commands to install Bibledit manually, run the downloaded script "
+"as follows:"
+msgstr ""
+
 msgid "Install Bibledit on OSX"
 msgstr ""
 
