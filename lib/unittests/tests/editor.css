@@ -356,7 +356,7 @@
   text-align: justify;
 }
 .nd {
-  text-decoration: underline;
+  font-variant: small-caps;
 }
 .ord {
   vertical-align: super;
