@@ -261,7 +261,12 @@ cp $USRBIN/msys-icui18n56.dll "$BIN"
 echo "Copying all-important font configuration..."
 mkdir -v -p "$ETC/fonts"
 cp -R "/$MINGWDIR/etc/fonts/fonts.conf" "$ETC/fonts"
-cp -R "/$MINGWDIR/etc/fonts/conf.d" "$ETC/fonts"
+# We could do the following...
+#cp -R "/$MINGWDIR/etc/fonts/conf.d" "$ETC/fonts"
+# ...but the following has a larger selection of fonts
+cp -R "/$MINGWDIR/share/fontconfig/conf.avail/" "$ETC/fonts/"
+# Match the directory name to what is already in the fonts.conf file
+mv -f "$ETC/fonts/conf.avail" "$ETC/fonts/conf.d"
 # Above added 3/29/2016
 
 # The DLL ieshims.dll is a special case. depends.exe says we need it, but we don't.
