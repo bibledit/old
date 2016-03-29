@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+#include <access/bible.h>
 
 
 string personalize_index_url ()
@@ -254,6 +255,11 @@ string personalize_index (void * webserver_request)
   // Enable the sections with settings relevant to the roles and privileges of the user.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");
+  bool bibles = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  bool read, write;
+  access_a_bible (webserver_request, read, write);
+  if (read || write) bibles = true;
+  if (bibles) view.enable_zone ("bibles");
   
 
   view.set_variable ("success", success);
