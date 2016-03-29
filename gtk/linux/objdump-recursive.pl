@@ -116,9 +116,6 @@ my $print_vars;
 my $uniq;
 my %uniq;
 
-### (saito) Root directory for finding xxx.so
-my $root = "/c/Program Files (x86)/Bibledit-4.9.3/editor/bin";
-
 #############################################
 #############################################
 ###                                       ###
@@ -163,6 +160,10 @@ if($print_vars) {
         print "\$LD_PRELOAD = '".$ENV{LD_PRELOAD}."'\n\n";
 }
 
+### (saito) Root directory for finding xxx.so
+### (postiffm) Set using dirname of executable passed
+my $root = dirname($inputs[0]);
+print $root, "\n" if $debug;
 &recurseLibs($inputs[0], 0);
 delete $uniq{$inputs[0]};
 my $k;

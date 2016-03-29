@@ -46,6 +46,7 @@ fi
 BIN="/c/$PROGRAMFILES/Bibledit-$VERSION/editor/bin"
 SHARE="/c/$PROGRAMFILES/Bibledit-$VERSION/editor/share"
 LIB="/c/$PROGRAMFILES/Bibledit-$VERSION/editor/lib"
+ETC="/c/$PROGRAMFILES/Bibledit-$VERSION/editor/etc"
 # Take note: this is the 64-bit version of stuff
 DLLS="/$MINGWDIR/bin"
 THEMES="/$MINGWDIR/share/themes"
@@ -188,7 +189,11 @@ cp $USRBIN/date.exe "$BIN"
 cp $USRBIN/diff.exe "$BIN"
 cp $USRBIN/diff3.exe "$BIN"
 cp $USRBIN/echo.exe "$BIN"
+# Doesn't exist in msys2
+#cp $USRBIN/egrep.exe "$BIN"
 cp $USRBIN/false.exe "$BIN"
+# Doesn't exist in msys2
+#cp $USRBIN/fgrep.exe "$BIN"
 cp $USRBIN/find.exe "$BIN"
 cp $USRBIN/flex.exe "$BIN"
 cp $USRBIN/gawk.exe "$BIN"
@@ -249,6 +254,15 @@ cp $MINGWBIN/xzdec.exe "$BIN"
 cp $USRBIN/msys-icudata56.dll "$BIN"
 cp $USRBIN/msys-icui18n56.dll "$BIN"
 # Above added 3/25/2016
+
+# Below added 3/29/2016. This is critical for crash-free operation,
+# for example, when opening Related Verses or References windows that
+# use libwebkit.
+echo "Copying all-important font configuration..."
+mkdir -v -p "$ETC/fonts"
+cp -R "/$MINGWDIR/etc/fonts/fonts.conf" "$ETC/fonts"
+cp -R "/$MINGWDIR/etc/fonts/conf.d" "$ETC/fonts"
+# Above added 3/29/2016
 
 # The DLL ieshims.dll is a special case. depends.exe says we need it, but we don't.
 
