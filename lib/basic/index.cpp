@@ -91,6 +91,8 @@ string basic_index (void * webserver_request)
     if (client_logic_client_enabled ()) {
       view.enable_zone ("connected");
     }
+  } else {
+    view.enable_zone ("cloud");
   }
   
   
