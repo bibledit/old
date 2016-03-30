@@ -69,13 +69,13 @@ string bible_css (void * webserver_request)
     
     string font = request->post ["font"];
     font = filter_string_trim (font);
-    if (config_logic_client_prepared ()) {
-      // Bibledit client storage.
-      Database_Config_Bible::setTextFontClient (bible, font);
-    } else {
-      // Bibledit Cloud storage.
-      Database_Config_Bible::setTextFont (bible, font);
-    }
+#ifdef CLIENT_PREPARED
+    // Bibledit client storage.
+    Database_Config_Bible::setTextFontClient (bible, font);
+#else
+    // Bibledit Cloud storage.
+    Database_Config_Bible::setTextFont (bible, font);
+#endif
     
     string s_direction = request->post ["direction"];
     int i_direction = Filter_Css::directionValue (s_direction);
@@ -99,9 +99,9 @@ string bible_css (void * webserver_request)
     
   }
 
-  if (config_logic_client_prepared ()) {
-    view.enable_zone ("client");
-  }
+#ifdef CLIENT_PREPARED
+  view.enable_zone ("client");
+#endif
   
   string font = Fonts_Logic::getTextFont (bible);
   view.set_variable ("font", font);

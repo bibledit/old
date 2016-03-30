@@ -4296,11 +4296,15 @@ void test_filter_url ()
     // Test http GET and POST
     string result, error;
     result = filter_url_http_get ("http://localhost/none", error);
-    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#ifndef CLIENT_PREPARED
+    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#endif
     evaluate (__LINE__, __func__, "", result);
     map <string, string> values = {make_pair ("a", "value1"), make_pair ("b", "value2")};
     result = filter_url_http_post ("http://localhost/none", values, error);
-    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#ifndef CLIENT_PREPARED
+    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#endif
     evaluate (__LINE__, __func__, "", result);
   }
   {

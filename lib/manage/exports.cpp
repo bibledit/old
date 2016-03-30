@@ -365,12 +365,12 @@ string manage_exports (void * webserver_request)
   }
  
   
-  if (config_logic_client_prepared ()) {
-    view.enable_zone ("client");
-    view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud to submit the Bible there")));
-  } else {
-    view.enable_zone ("cloud");
-  }
+#ifdef CLIENT_PREPARED
+  view.enable_zone ("client");
+  view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud to submit the Bible there")));
+#else
+  view.enable_zone ("cloud");
+#endif
 
   
   bool zip = true;
