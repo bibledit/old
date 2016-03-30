@@ -17,7 +17,7 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 # This gives a better user experience.
 pushd ../lib
 ./configure
-make --jobs=4
+make --jobs=12
 ./generate . locale
 ./generate . mappings
 ./generate . versifications
