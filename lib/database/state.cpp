@@ -46,9 +46,14 @@ void Database_State::create ()
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
   
+  // On Android, this gives an error:
+  // VACUUM notes; Unable to open database file.
+  // Therefore disable this on a client device: It only vacuums in the Cloud.
+#ifndef CLIENT_PREPARED
   sql = "VACUUM notes;";
   database_sqlite_exec (db, sql);
-  
+#endif
+
   sql =
     "CREATE TABLE IF NOT EXISTS export ("
     " bible text,"
