@@ -508,16 +508,21 @@ void workbench_copy (void * webserver_request, string source, string destination
 // Store updated workbench settings for sending to the cloud.
 void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights)
 {
-  if (config_logic_client_prepared ()) {
-    // For a client, store the setting for sending to the server.
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
-    if (urls)
-      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls);
-    if (widths)
-      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths);
-    if (heights)
-      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
-  }
+#ifdef CLIENT_PREPARED
+  // For a client, store the setting for sending to the server.
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  if (urls)
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_urls);
+  if (widths)
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_widths);
+  if (heights)
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workbench_heights);
+#else
+  (void) webserver_request;
+  (void) urls;
+  (void) widths;
+  (void) heights;
+#endif
 }
 
 

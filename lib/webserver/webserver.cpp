@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <config/globals.h>
 #include <database/logs.h>
-#include <config.h>
 #include <config/logic.h>
 #include <webserver/io.h>
 #include <filter/string.h>
@@ -186,7 +185,11 @@ void webserver_process_request (int connfd, string clientaddress)
 void webserver ()
 {
   // Setup server behaviour.
-  config_globals_client_prepared = config_logic_client_prepared ();
+#ifdef CLIENT_PREPARED
+  config_globals_client_prepared = true; // Todo
+#else
+  config_globals_client_prepared = false;
+#endif
   if (strcmp (DEMO, "yes") == 0) config_globals_open_installation = true;
 
   // Create a listening socket.

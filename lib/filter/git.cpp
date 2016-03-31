@@ -26,7 +26,6 @@
 #include <database/books.h>
 #include <database/jobs.h>
 #include <database/config/general.h>
-#include <config.h>
 #ifdef HAVE_GIT
 #include <git2.h>
 #endif

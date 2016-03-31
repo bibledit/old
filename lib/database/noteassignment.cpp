@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Data is stored in multiple text files.
 
 
-string Database_NoteAssignment::path (string user) // Todo
+string Database_NoteAssignment::path (string user)
 {
   return filter_url_create_root_path ("databases", "client", "noteassignment_" + user + ".txt");
 }

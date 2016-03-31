@@ -100,6 +100,9 @@ msgid ""
 "Once in advanced mode, return to basic mode via menu Settings / Basic mode."
 msgstr ""
 
+msgid "Logout."
+msgstr ""
+
 msgid "Abbreviations"
 msgstr ""
 

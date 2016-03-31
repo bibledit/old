@@ -17,8 +17,9 @@
  */
 
 
-#include <library/locks.h>
+// Config.h to be included.
 #include <config.h>
+#include <library/locks.h>
 #ifndef CLIENT_PREPARED
 #include <openssl/crypto.h>
 #include <pthread.h>

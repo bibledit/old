@@ -94,12 +94,12 @@ string editusfm_save (void * webserver_request)
                 // Safely store the chapter.
                 string message = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
                 if (message.empty()) {
+#ifndef CLIENT_PREPARED
                   // Server configuration: Store details for the user's changes.
-                  if (!config_logic_client_prepared ()) {
-                    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-                    Database_Modifications database_modifications;
-                    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
-                  }
+                  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+                  Database_Modifications database_modifications;
+                  database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+#endif
                   // Store a copy of the USFM loaded in the editor for later reference.
                   storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
                   return locale_logic_text_saved ();

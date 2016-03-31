@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/config/general.h>
 #include <database/config/user.h>
-#include <config.h>
 #include <cstdlib>
 #include <webserver/request.h>
 
@@ -40,16 +39,6 @@ const char * config_logic_version ()
 const char * config_logic_network_port ()
 {
   return NETWORK_PORT;
-}
-
-
-// Returns whether client mode is enabled during configure.
-bool config_logic_client_prepared () // Todo
-{
-#ifdef CLIENT_PREPARED
-  return true;
-#endif
-  return false;
 }
 
 

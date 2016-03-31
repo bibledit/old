@@ -35,7 +35,9 @@
 // Returns whether Client mode is enabled.
 bool client_logic_client_enabled ()
 {
-  if (!config_logic_client_prepared ()) return false;
+#ifndef CLIENT_PREPARED
+  return false;
+#endif
   return Database_Config_General::getClientMode ();
 }
 

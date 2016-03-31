@@ -248,15 +248,16 @@ string Database_Config_General::getSiteURL ()
   // The site URL is set upon login, normally.
   // In a client setup, there is never a login.
   // Consequently the site URL is never set.
+#ifdef CLIENT_PREPARED
   // In case of a client, return a predefined URL.
-  if (config_logic_client_prepared ()) {
-    string url = "http://localhost:";
-    url.append (config_logic_network_port ());
-    url.append ("/");
-    return url;
-  }
+  string url = "http://localhost:";
+  url.append (config_logic_network_port ());
+  url.append ("/");
+  return url;
+#else
   // Get the URL that was set upon login.
   return getValue ("site-url", "");
+#endif
 }
 void Database_Config_General::setSiteURL (string value)
 {

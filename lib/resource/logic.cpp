@@ -136,15 +136,15 @@ string resource_logic_get_html (void * webserver_request,
   // Lists of the various types of resources.
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> usfms;
-  if (config_logic_client_prepared ()) {
-    usfms = client_logic_usfm_resources_get ();
-    // As from February 2016 a client no longer automatically downloads USFM resources off the server.
-    // But a client takes in account existing USFM resources it has downloaded before.
-    vector <string> old_usfms = database_usfmresources.getResources ();
-    usfms.insert (usfms.end (), old_usfms.begin (), old_usfms.end ());
-  } else {
-    usfms = database_usfmresources.getResources ();
-  }
+#ifdef CLIENT_PREPARED
+  usfms = client_logic_usfm_resources_get ();
+  // As from February 2016 a client no longer automatically downloads USFM resources from the server.
+  // A client still takes in account existing USFM resources it has downloaded before.
+  vector <string> old_usfms = database_usfmresources.getResources ();
+  usfms.insert (usfms.end (), old_usfms.begin (), old_usfms.end ());
+#else
+  usfms = database_usfmresources.getResources ();
+#endif
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
@@ -233,9 +233,9 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> local_usfms = database_usfmresources.getResources ();
   vector <string> remote_usfms;
-  if (config_logic_client_prepared ()) {
-    remote_usfms = client_logic_usfm_resources_get ();
-  }
+#ifdef CLIENT_PREPARED
+  remote_usfms = client_logic_usfm_resources_get ();
+#endif
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
@@ -267,21 +267,21 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   } else if (isRemoteUsfm) {
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
-    if (config_logic_client_prepared ()) {
-      // A client fetches it from the cache or from the Cloud,
-      // or, for older versions, from the offline resources database.
-      // As of 12 December 2015, the offline resources database is not needed anymore.
-      // It can be removed after a year or so.
-      Database_OfflineResources database_offlineresources;
-      if (database_offlineresources.exists (resource, book, chapter, verse)) {
-        data = database_offlineresources.get (resource, book, chapter, verse);
-      } else {
-        data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
-      }
+#ifdef CLIENT_PREPARED
+    // A client fetches it from the cache or from the Cloud,
+    // or, for older versions, from the offline resources database.
+    // As of 12 December 2015, the offline resources database is not needed anymore.
+    // It can be removed after a year or so.
+    Database_OfflineResources database_offlineresources;
+    if (database_offlineresources.exists (resource, book, chapter, verse)) {
+      data = database_offlineresources.get (resource, book, chapter, verse);
     } else {
-      // The server fetches it from the web, via the http cache.
-      data.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
+      data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
     }
+#else
+    // The server fetches it from the web, via the http cache.
+    data.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
+#endif
     
   } else if (isImage) {
     vector <string> images = database_imageresources.get (resource, book, chapter, verse);
@@ -524,12 +524,12 @@ string resource_logic_get_divider (string resource)
 // It fetches existing content from the cache, and caches new content.
 string resource_logic_web_cache_get (string url, string & error)
 {
+#ifndef CLIENT_PREPARED
   // On the Cloud, check if the URL is in the cache.
-  if (!config_logic_client_prepared ()) {
-    if (database_filebased_cache_exists (url)) {
-      return database_filebased_cache_get (url);
-    }
+  if (database_filebased_cache_exists (url)) {
+    return database_filebased_cache_get (url);
   }
+#endif
   // Fetch the URL from the network.
   // Do not cache the response in an error situation.
   error.clear ();
@@ -537,10 +537,10 @@ string resource_logic_web_cache_get (string url, string & error)
   if (!error.empty ()) {
     return html;
   }
+#ifndef CLIENT_PREPARED
   // In the Cloud, cache the response.
-  if (!config_logic_client_prepared ()) {
-    database_filebased_cache_put (url, html);
-  }
+  database_filebased_cache_put (url, html);
+#endif
   // Done.
   return html;
 }

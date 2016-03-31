@@ -86,14 +86,14 @@ string basic_index (void * webserver_request)
   view.set_variable ("bible", bible);
   
   
-  if (config_logic_client_prepared ()) {
-    view.enable_zone ("client");
-    if (client_logic_client_enabled ()) {
-      view.enable_zone ("connected");
-    }
-  } else {
-    view.enable_zone ("cloud");
+#ifdef CLIENT_PREPARED
+  view.enable_zone ("client");
+  if (client_logic_client_enabled ()) {
+    view.enable_zone ("connected");
   }
+#else
+  view.enable_zone ("cloud");
+#endif
   
   
   page += view.render ("basic", "index");

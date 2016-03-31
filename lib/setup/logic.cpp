@@ -79,8 +79,10 @@ void setup_conditionally (const char * package)
       Database_Logs::log (message, Filter_Roles::admin());
     }
     
+#ifndef CLIENT_PREPARED
     // Cloud updates the available SWORD modules.
-    if (!config_logic_client_prepared ()) tasks_logic_queue (REFRESHSWORDMODULES);
+    tasks_logic_queue (REFRESHSWORDMODULES);
+#endif
     
     // Update installed version.
     Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
@@ -89,7 +91,9 @@ void setup_conditionally (const char * package)
   if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) {
     
     // In client mode or in demo mode do not display the page for entering the admin's details.
-    if (config_logic_client_prepared ()) setup_complete_gui ();
+#ifdef CLIENT_PREPARED
+    setup_complete_gui ();
+#endif
     if (config_logic_demo_enabled ()) setup_complete_gui ();
     
     // When the admin's credentials are configured, enter them, and do not display them in the setup page.
@@ -114,8 +118,10 @@ void setup_conditionally (const char * package)
   // Once the tasks are really complete, they will clear the flag.
   tasks_logic_queue (REINDEXBIBLES);
   tasks_logic_queue (REINDEXNOTES);
+#ifdef CLIENT_PREPARED
   // Same for the resource downloader, for the client.
-  if (config_logic_client_prepared ()) tasks_logic_queue (SYNCRESOURCES);
+  tasks_logic_queue (SYNCRESOURCES);
+#endif
 }
 
 

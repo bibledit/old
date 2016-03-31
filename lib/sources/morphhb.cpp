@@ -141,7 +141,7 @@ void sources_morphhb_parse ()
               } else if (node_name == "rdg") {
                 for (xml_node w_node : variant_node.children ()) {
                   database_morphhb.store (book, chapter, verse, "", "/");
-                  sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
+                  sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, w_node); // Todo create new database due to the change to w_node.
                 }
               } else {
                 sources_morphhb_parse_unhandled_node (book, chapter, verse, node);

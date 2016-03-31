@@ -24,7 +24,6 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/logic.h>
-#include <config.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>

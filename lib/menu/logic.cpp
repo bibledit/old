@@ -208,14 +208,14 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   // When a user is not logged in, or a guest,
   // put the public feedback into the main menu, rather than in a sub menu.
-  if (!config_logic_client_prepared ()) {
-    if (menu_logic_public_or_guest (webserver_request)) {
-      if (!public_logic_bibles (webserver_request).empty ()) {
-        html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
-        tooltipbits.push_back (menu_logic_public_feedback_text ());
-      }
+#ifndef CLIENT_PREPARED
+  if (menu_logic_public_or_guest (webserver_request)) {
+    if (!public_logic_bibles (webserver_request).empty ()) {
+      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+      tooltipbits.push_back (menu_logic_public_feedback_text ());
     }
   }
+#endif
 
   // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
   if (request->session_logic ()->loggedIn ()) {
@@ -357,16 +357,16 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
 
   // When a user is logged in, but not a guest,
   // put the public feedback into this sub menu, rather than in the main menu.
-  if (!config_logic_client_prepared ()) {
-    if (!request->session_logic ()->currentUser ().empty ()) {
-      if (!menu_logic_public_or_guest (webserver_request)) {
-        if (!public_logic_bibles (webserver_request).empty ()) {
-          html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
-          labels.push_back (menu_logic_public_feedback_text ());
-        }
+#ifndef CLIENT_PREPARED
+  if (!request->session_logic ()->currentUser ().empty ()) {
+    if (!menu_logic_public_or_guest (webserver_request)) {
+      if (!public_logic_bibles (webserver_request).empty ()) {
+        html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+        labels.push_back (menu_logic_public_feedback_text ());
       }
     }
   }
+#endif
   
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_translate_text () + ": ");
@@ -497,31 +497,31 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
 
     if (label == print) {
-      if (!config_logic_client_prepared ()) {
-        if (resource_print_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (resource_print_url (), label, true));
-          tiplabels.push_back (label);
-        }
+#ifndef CLIENT_PREPARED
+      if (resource_print_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (resource_print_url (), label, true));
+        tiplabels.push_back (label);
       }
+#endif
     }
     
     if (label == changes) {
       // Downloading revisions only on server, not on client.
-      if (!config_logic_client_prepared ()) {
-        if (index_listing_acl (webserver_request, "revisions")) {
-          html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true));
-          tiplabels.push_back (menu_logic_changes_text ());
-        }
+#ifndef CLIENT_PREPARED
+      if (index_listing_acl (webserver_request, "revisions")) {
+        html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true));
+        tiplabels.push_back (menu_logic_changes_text ());
       }
+#endif
     }
     
     if (label == planning) {
-      if (!config_logic_client_prepared ()) {
-        if (sprint_index_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (sprint_index_url (), label, true));
-          tiplabels.push_back (label);
-        }
+#ifndef CLIENT_PREPARED
+      if (sprint_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (sprint_index_url (), label, true));
+        tiplabels.push_back (label);
       }
+#endif
     }
     
     if (label == send_receive) {
@@ -664,25 +664,26 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         html.push_back (menu_logic_create_item (menu_logic_settings_resources_menu (), menu_logic_resources_text (), false));
         tiplabels.push_back (menu_logic_resources_text ());
       }
-      if (config_logic_client_prepared ()) {
-        // Only client can cache resources.
-        // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
-        // Many Cloud instances run on one server, and if the Cloud were to cache resources, it was going to use a huge amount of disk space.
-        if (resource_cache_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true));
-          tiplabels.push_back (menu_logic_resources_text ());
-        }
+#ifdef CLIENT_PREPARED
+      // Only client can cache resources.
+      // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
+      // Many Cloud instances may run on one server, and if the Cloud were to cache resources,
+      /// it was going to use a huge amount of disk space.
+      if (resource_cache_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true));
+        tiplabels.push_back (menu_logic_resources_text ());
       }
+#endif
     }
     
     if (label == changes) {
+#ifndef CLIENT_PREPARED
       // Managing change notifications only on server, not on client.
-      if (!config_logic_client_prepared ()) {
-        if (changes_manage_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true));
-          tiplabels.push_back (menu_logic_changes_text ());
-        }
+      if (changes_manage_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true));
+        tiplabels.push_back (menu_logic_changes_text ());
       }
+#endif
     }
     
     if (label == personalize) {
@@ -693,12 +694,12 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == users) {
-      if (!config_logic_client_prepared ()) {
-        if (manage_users_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true));
-          tiplabels.push_back (menu_logic_manage_users_text ());
-        }
+#ifndef CLIENT_PREPARED
+      if (manage_users_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true));
+        tiplabels.push_back (menu_logic_manage_users_text ());
       }
+#endif
     }
     
     if (label == indexes_fonts) {
@@ -729,12 +730,12 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == mail) {
-      if (!config_logic_client_prepared ()) {
-        if (email_index_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (email_index_url (), label, true));
-          tiplabels.push_back (label);
-        }
+#ifndef CLIENT_PREPARED
+      if (email_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (email_index_url (), label, true));
+        tiplabels.push_back (label);
       }
+#endif
     }
     
     if (label == styles) {
@@ -759,21 +760,23 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == collaboration) {
-      if (!config_logic_client_prepared ()) {
-        if (collaboration_index_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
-          tiplabels.push_back (label);
-        }
+#ifndef CLIENT_PREPARED
+      if (collaboration_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
+        tiplabels.push_back (label);
       }
+#endif
     }
     
     if (label == cloud) {
-      // If the installation is not prepared for Client mode, disable the client menu.
+      // If the installation is not prepared for Client mode, disable the Cloud menu item.
       // But keep the menu item in an open installation.
-      bool client_menu = client_index_acl (webserver_request);
-      if (!config_logic_client_prepared ()) client_menu = false;
-      if (config_logic_demo_enabled ()) client_menu = true;
-      if (client_menu) {
+      bool cloud_menu = client_index_acl (webserver_request);
+#ifndef CLIENT_PREPARED
+      cloud_menu = false;
+#endif
+      if (config_logic_demo_enabled ()) cloud_menu = true;
+      if (cloud_menu) {
         if (client_index_acl (webserver_request)) {
           html.push_back (menu_logic_create_item (client_index_url (), label, true));
           tiplabels.push_back (client_index_url ());
@@ -844,23 +847,23 @@ string menu_logic_settings_resources_category (void * webserver_request)
 {
   vector <string> html;
   
-  if (!config_logic_client_prepared ()) {
-    if (resource_manage_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM resources"), true));
-    }
+#ifndef CLIENT_PREPARED
+  if (resource_manage_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM resources"), true));
   }
+#endif
   
-  if (!config_logic_client_prepared ()) {
-    if (resource_images_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
-    }
+#ifndef CLIENT_PREPARED
+  if (resource_images_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
   }
+#endif
   
-  if (!config_logic_client_prepared ()) {
-    if (resource_sword_acl (webserver_request)) {
-      html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD resources"), true));
-    }
+#ifndef CLIENT_PREPARED
+  if (resource_sword_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD resources"), true));
   }
+#endif
   
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_resources_text () + ": ");

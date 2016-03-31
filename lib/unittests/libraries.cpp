@@ -47,7 +47,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/usfm.h>
 #include <checks/verses.h>
 #include <manage/hyphenate.h>
-#include <config.h>
 #include <search/logic.h>
 #include <jsonxx/jsonxx.h>
 
@@ -2016,7 +2015,9 @@ void test_client_logic ()
     // When a client is disabled in config.h, it remains disabled, no matter the setting in the database.
     // It means that this unit test depends on client mode to be off in ./configure.
     enabled = client_logic_client_enabled ();
-    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, false, enabled);
+#ifndef CLIENT_PREPARED
+    evaluate (__LINE__, __func__, false, enabled);
+#endif
     client_logic_enable_client (false);
     enabled = client_logic_client_enabled ();
     evaluate (__LINE__, __func__, false, enabled);
