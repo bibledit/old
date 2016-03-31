@@ -288,6 +288,7 @@ public class MainActivity extends Activity
                             OutputStream out = new FileOutputStream (outFile);
                             out.write (buffer, 0, size);
                             out.flush ();
+                            out.close ();
                             outFile = null;
                             out = null;
                             //Log.i (filename, webroot);
