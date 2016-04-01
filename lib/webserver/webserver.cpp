@@ -186,7 +186,7 @@ void webserver ()
 {
   // Setup server behaviour.
 #ifdef CLIENT_PREPARED
-  config_globals_client_prepared = true; // Todo
+  config_globals_client_prepared = true;
 #else
   config_globals_client_prepared = false;
 #endif
