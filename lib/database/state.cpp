@@ -46,8 +46,8 @@ void Database_State::create ()
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
   
-  // Todo fix the root cause: too many open files after installation.
-  sql = "VACUUM notes;";
+  // Todo error message in journal: Fix that.
+  sql = "VACUUM;";
   database_sqlite_exec (db, sql);
 
   sql =
