@@ -29,6 +29,14 @@ You can execute bibledit-gtk from editor\bin\bibledit-gtk.exe
 Create an icon on your desktop or in your Start Menu and you are good
 to go!
 
+If you are in a repeated edit-build-install cycle, it will be quicker to
+use 
+
+./windows/installWin.sh --quick 
+
+because that will only copy the main .exe files and not all the supporting 
+libraries.
+
 Optional Step #2
 ---------------------------------------------------------------------------
 Download the texlive-xetex package from

@@ -44,7 +44,8 @@ void gw_mkdir_with_parents (const ustring& directory);
 class GwSpawn
 {
 public:
-  GwSpawn (const char * program);
+  //  GwSpawn (const char * program);
+  GwSpawn(const ustring &program);
   ~GwSpawn ();
   void workingdirectory (ustring directory);
   void arg (ustring value);
@@ -62,7 +63,8 @@ public:
   vector <ustring> standardout;
   vector <ustring> standarderr;
 private:
-  const char * myprogram;
+  //const char * myprogram;
+  ustring myprogram;
   ustring myworkingdirectory;
   bool myasync;
   bool mydevnull;

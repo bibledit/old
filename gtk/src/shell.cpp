@@ -87,8 +87,7 @@ ustring shell_quote_space(const ustring & filename)
     quotedname = " \"" + filename + "\" ";
   else
     quotedname = " " + filename + " ";
-#endif
-#ifndef WIN32
+#else
   quotedname = " '" + filename + "' ";
 #endif
   return quotedname;

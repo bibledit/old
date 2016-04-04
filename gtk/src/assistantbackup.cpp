@@ -235,11 +235,11 @@ BackupAssistant::BackupAssistant(int dummy) :
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new (_("Backup was made"));
+  label_summary = gtk_label_new (_("Backup is done"));
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("Ready"));
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, _("The backup was completed successfully."));
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
@@ -290,6 +290,13 @@ void BackupAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, !filename.empty());
   }
+  
+  // Page for summary.
+  if (page == label_summary) {
+    ustring finalmsg = _("The backup is in ") + filename + _("\nFinished!");
+    gtk_label_set_text (GTK_LABEL (label_summary), finalmsg.c_str());
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
+  }
 }
 
 
@@ -330,7 +337,8 @@ void BackupAssistant::on_assistant_apply ()
   }
 
   // Show summary.
-  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
+  //gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
+  // The forward_function logic handles which page is next; don't be setting it ourselves here!
 }
 
 
@@ -374,12 +382,17 @@ gint BackupAssistant::assistant_forward (gint current_page)
   forward_sequence.insert (page_number_confirm);
   forward_sequence.insert (summary_page_number);
   
-  // Take the next page in the forward sequence.
-  do {
+  // Take the next page in the forward sequence if there's one available.
+/*   do {
     current_page++;
     if (current_page > (gint) summary_page_number) break;
   } while (forward_sequence.find (current_page) == forward_sequence.end());
-    if (current_page > (gint) summary_page_number) current_page = summary_page_number;
+    if (current_page > (gint) summary_page_number) current_page = summary_page_number; */
+  if (current_page < summary_page_number) {
+    do {
+      current_page++;
+    } while (forward_sequence.find (current_page) == forward_sequence.end());
+  }
   return current_page;
 }
 

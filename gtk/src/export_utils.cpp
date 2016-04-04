@@ -101,11 +101,23 @@ void export_to_usfm (const ustring& project, ustring location, bool zip)
     write_lines(filename, lines);
   }
 
-  // Zip them?
+  // Compress them?
   if (zip) {
-    if (!g_str_has_suffix(location.c_str(), ".zip"))
-      location.append(".zip");
-    unlink(location.c_str());
+    if (!g_str_has_suffix(location.c_str(), ".tar.gz")) {
+		location.append(".tar.gz");
+	}
+    unix_unlink(location);
+	GwSpawn spawn (Directories->get_tar());
+    spawn.read(); // save output for examination
+    spawn.arg ("--force-local"); // to permit : in filename (like C:\Users\...)
+    spawn.arg ("-czf");
+    spawn.arg (location);
+    spawn.arg (".");
+    spawn.workingdirectory (tempdir);
+    spawn.progress (_("Compressing USFM export"), false);
+    spawn.run ();
+	
+/* OLD CODE - above replaces this; leaving here for potential future use MAP 4/3/2016
 #ifdef WIN32
     ustring command = "cd" + shell_quote_space(tempdir) + " && zip -r zip.zip *.usfm && move zip.zip" + shell_quote_space(location);
 #else
@@ -116,6 +128,7 @@ void export_to_usfm (const ustring& project, ustring location, bool zip)
       cerr << "System call for zip and move returned " << ret << endl;
       cerr << "-1 indicates error; return status of the command otherwise" << endl;
     } 
+ */  
   }
 }
 
@@ -884,6 +897,3 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
     gtkw_dialog_error (NULL, _("There was an error producing the Go Bible.\nPlease check the system log for more information."));
   }  
 }
-
-
-

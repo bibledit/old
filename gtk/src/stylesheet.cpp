@@ -29,6 +29,8 @@
 
 Stylesheet::Stylesheet(const ustring & name_in)
 {
+  gw_message("Creating Stylesheet called '" + name_in + "'");
+  
   // Save the sheet's name.
   name = name_in;
 

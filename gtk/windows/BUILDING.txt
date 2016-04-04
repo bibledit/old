@@ -1,5 +1,4 @@
-This is a description of how to build bibledit-gtk on Windows.
-It assumes you are starting from scratch.
+This is a description of how to build bibledit-gtk on Windows from scratch.
 Written by Matt Postiff, postiffm@umich.edu, 3/21/2016
 
 Revised: 3/24/2016

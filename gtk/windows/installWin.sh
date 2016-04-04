@@ -1,12 +1,44 @@
 #!/bin/bash
 # Copy all necessary files from git repo to Windows to make a "nice" installation.
 # Run this from the bibledit/gtk build directory
+
+VERSION="4.9.3"
+
+full=
+quick=
+function usage
+{
+	echo "Usage: installWin.sh [-h|--help] [-q|--quick] [-f|--full]"
+	echo ""
+	echo "Copy files to C:\Program Files or C:\Program Files (x86) to make a full"
+	echo "running environment for Bibledit"
+	echo ""
+	echo "       --full | -f   Install everything (default behavior)"
+	echo "       --quick | -q  Only install bibledit binaries; not all libraries "
+	echo "                     or other support files."
+}
+
+# Process command-line arguments
+while [ "$1" != "" ]; do
+    case $1 in
+        -q | --quick )          quick=1
+                                ;;
+        -f | --full )           full=1
+                                ;;
+
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+    esac
+    shift
+done
+
 echo "I assume you are running this from your-home/bibledit/gtk."
 echo "I also assume this shell is running in elevated/administrator mode!"
 echo "If not, hit Ctrl-C now and correct those problems!"
 sleep 3
-
-VERSION="4.9.3"
 
 #------------------------------------------------------------------------------------------
 # Figure out if we are in a 32-bit or 64-bit environment and target Windows accordingly
@@ -61,6 +93,11 @@ cp ./src/.libs/bibledit-rdwrt.exe "$BIN"
 cp ./git/bibledit-git.exe "$BIN"
 cp ./shutdown/bibledit-shutdown.exe "$BIN"
 cp -R ./windows/bibledit.ico "$BIN"
+
+# If we are in --quick mode, then quit now, don't do more work
+if [ "$quick" = "1" ]; then
+    exit 0;
+fi
 
 #which: no egrep.exe in (/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Program Files (x86)/Intel/iCLS Client:/c/Program Files/Intel/iCLS Client:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/c/Program Files/Intel/Intel(R) Management Engine Components/IPT:/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/IPT:/c/Program Files (x86)/ATI Technologies/ATI.ACE/Core-Static:/c/Program Files/Lame3.99.5-64:/c/Program Files (x86)/GNU/GnuPG/pub:/c/Strawberry/c/bin:/c/Strawberry/perl/site/bin:/c/Strawberry/perl/bin:/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit:/c/Program Files (x86)/AMD/ATI.ACE/Core-Static:/c/Program Files/Intel/WiFi/bin:/c/Program Files/Common Files/Intel/WirelessCommon:/c/Program Files (x86)/Skype/Phone:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl)
 #which: no fgrep.exe in (/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Program Files (x86)/Intel/iCLS Client:/c/Program Files/Intel/iCLS Client:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/c/Program Files/Intel/Intel(R) Management Engine Components/IPT:/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/IPT:/c/Program Files (x86)/ATI Technologies/ATI.ACE/Core-Static:/c/Program Files/Lame3.99.5-64:/c/Program Files (x86)/GNU/GnuPG/pub:/c/Strawberry/c/bin:/c/Strawberry/perl/site/bin:/c/Strawberry/perl/bin:/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit:/c/Program Files (x86)/AMD/ATI.ACE/Core-Static:/c/Program Files/Intel/WiFi/bin:/c/Program Files/Common Files/Intel/WirelessCommon:/c/Program Files (x86)/Skype/Phone:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl)

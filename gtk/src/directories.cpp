@@ -123,8 +123,182 @@ directories::directories(char *argv0)
   restore = fix_slashes(restore);
 }
 
+void directories::find_utilities(void)
+{
+  // Find some utilities that we need to use (cp, rm, tar, zip, etc.)
+
+  //---------------------------------------------
+  // Copy
+  //---------------------------------------------
+  {
+  // Check for cp (Unix)
+  GwSpawn spawn("cp");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a cp command. Use it.
+	copy = "cp";
+  }
+  else {
+	// Check for copy (Windows/DOS through cmd.exe)
+	GwSpawn spawn("copy");
+    spawn.arg("/?");
+	if (spawn.exitstatus == 0) { copy = "copy"; }
+	else {
+		// Check for cp.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\cp.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { copy = rundir + "\\cp.exe"; }
+		else { gw_message("Cannot find a suitable copy utility"); }
+	}
+  }
+  }
+  
+  //---------------------------------------------
+  // Move
+  //---------------------------------------------
+  {
+  // Check for mv (Unix)
+  GwSpawn spawn("mv");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a mv command. Use it.
+	move = "mv";
+  }
+  else {
+	// Check for move (Windows/DOS through cmd.exe)
+	GwSpawn spawn("move");
+    spawn.arg("/?");
+	if (spawn.exitstatus == 0) { move = "move"; }
+	else {
+		// Check for mv.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\mv.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { move = rundir + "\\mv.exe"; }
+		else { gw_message("Cannot find a suitable move utility"); }
+	}
+  }
+  }
+  
+  //---------------------------------------------
+  // Zip
+  //---------------------------------------------
+  {
+  // Check for gzip (Unix)
+  GwSpawn spawn("gzip");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a gzip command. Use it.
+	zip = "gzip";
+  }
+  else {
+	// Check for gzip.exe in the rundir (Windows directly through msys2/mingw binary)
+	GwSpawn spawn(rundir + "\\gzip.exe");
+	spawn.arg("--version");
+	if (spawn.exitstatus == 0) { zip = rundir + "\\gzip.exe"; }
+	else { gw_message("Cannot find a suitable zip utility"); }
+  }
+  }
+  
+  //---------------------------------------------
+  // Tar
+  //---------------------------------------------
+  {
+  // Check for tar (Unix)
+  GwSpawn spawn("tar");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a tar command. Use it.
+	tar = "tar";
+  }
+  else {
+	// Check for tar.exe in the rundir (Windows directly through msys2/mingw binary)
+	GwSpawn spawn(rundir + "\\tar.exe");
+    spawn.arg("--version");
+	if (spawn.exitstatus == 0) { tar = rundir + "\\tar.exe"; }
+	else { gw_message("Cannot find a suitable tar utility"); }
+  }
+  }
+  
+  //---------------------------------------------
+  // Rm
+  //---------------------------------------------
+  {
+  // Check for rm (Unix)
+  GwSpawn spawn("rm");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a rm command. Use it.
+	rm = "rm";
+  }
+  else {
+	// Check for del (Windows/DOS through cmd.exe)
+	GwSpawn spawn("del");
+    spawn.arg("/?");
+	if (spawn.exitstatus == 0) { rm = "del"; }
+	else {
+		// Check for rm.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\rm.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { rm = rundir + "\\rm.exe"; }
+		else { gw_message("Cannot find a suitable rm/del utility"); }
+	}
+  }
+  }
+}
+
 directories::~directories()
 {
+}
+
+void directories::print()
+{
+  gw_message("List of directories and other paths we know about:");
+  gw_message("Run directory: \t" + rundir);
+  gw_message("Executable name: \t" + exename);
+  gw_message("Package data: \t" + package_data);
+  gw_message("Root: \t" + root);
+  gw_message("Projects: \t" + projects);
+  gw_message("Notes: \t" + notes);
+  gw_message("Stylesheets: \t" + stylesheets);
+  gw_message("Configuration: \t" + configuration);
+  gw_message("Pictures: \t" + pictures);
+  gw_message("Resources: \t" + resources);
+  gw_message("Scripts: \t" + scripts);
+  gw_message("Temp: \t" + temp);
+  gw_message("Templates: \t" + templates);
+  gw_message("User templates: \t" + templates_user);
+  gw_message("Restore: \t" + restore);
+  gw_message("Copy util: \t" + copy);
+  
+  gw_message("Copy recursive: \t" + copy_recursive);
+  gw_message("Move util:   \t" + move);
+  gw_message("Remove util: \t" + rm);
+  gw_message("Rmdir util:  \t" + rmdir);
+  gw_message("Mkdir:       \t" + mkdir);
+  gw_message("Tar util:    \t" + tar);
+  gw_message("Zip util:    \t" + zip);
+  gw_message("Unzip util:  \t" + unzip);
+  gw_message("Git:         \t" + git);
+  gw_message("bibledit_git \t" + bibledit_git);
+  gw_message("Curl util:   \t" + curl);
+  gw_message("gobiblecreator:\t" + gobiblecreator);
+  gw_message("bibledit_shutdown:\t" + bibledit_shutdown);
+  gw_message("php-cli:      \t" + php);
+  gw_message("texlive-xetex:\t" + xetex); 
+  gw_message("teckit_compile:\t" + teckit_compile);
+  gw_message("head:         \t" + head);
+  gw_message("touch:        \t" + touch);
+  gw_message("osis2mod:     \t" + osis2mod);
+  gw_message("cmdshell:     \t" + cmdshell);
+  // what about helpcommand?
+  gw_message("tasklist:     \t" + tasklist);
+  gw_message("merge:        \t" + merge);
+  // what about bwoutpost?  
 }
 
 void directories::check_structure()
@@ -216,15 +390,32 @@ ustring directories::get_templates_user()
   return templates_user;
 }
 
-ustring directories::get_package_data()
-// Gives the package data directory, cross platform.
-{
-  return package_data; // already did fix_slashes
-}
+ustring directories::get_package_data()       { return package_data; }
+ustring directories::get_restore ()           { return restore; }
 
-ustring directories::get_restore ()
-{
-  // The directory, if found, to restore from.
-  return restore;
-}
-
+// Utility programs
+ustring directories::get_copy ()              { return copy;     }
+ustring directories::get_copy_recursive ()    { return copy_recursive; }
+ustring directories::get_move ()              { return move; }
+ustring directories::get_rm ()                { return rm; }
+ustring directories::get_rmdir ()             { return rmdir; }
+ustring directories::get_mkdir ()             { return mkdir; }
+ustring directories::get_tar ()               { return tar; }
+ustring directories::get_zip ()               { return zip; }
+ustring directories::get_unzip ()             { return unzip; }
+ustring directories::get_git ()               { return git; }
+ustring directories::get_bibledit_git ()      { return bibledit_git; }
+ustring directories::get_curl ()              { return curl; }
+ustring directories::get_gobiblecreator ()    { return gobiblecreator; }
+ustring directories::get_bibledit_shutdown () { return bibledit_shutdown; }
+ustring directories::get_php ()               { return php; }
+ustring directories::get_xetex ()             { return xetex; }
+ustring directories::get_teckit_compile ()    { return teckit_compile; }
+ustring directories::get_head ()              { return head; }
+ustring directories::get_touch ()             { return touch; }
+ustring directories::get_osis2mod ()          { return osis2mod; }
+ustring directories::get_cmdshell ()          { return cmdshell; }
+// what about helpcommand?
+ustring directories::get_tasklist ()          { return tasklist; }
+ustring directories::get_merge ()             { return merge; }
+// what about bwoutpost?

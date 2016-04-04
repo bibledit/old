@@ -62,7 +62,7 @@ void XeTeX::create_work_area ()
 
 void XeTeX::place_ptx2pdf_macros ()
 {
-  GwSpawn spawn ("tar");
+  GwSpawn spawn (Directories->get_tar());
   spawn.workingdirectory (working_directory);
   spawn.arg ("zxf");
   spawn.arg (gw_build_filename (Directories->get_package_data (), "ptx2pdf.tar.gz"));

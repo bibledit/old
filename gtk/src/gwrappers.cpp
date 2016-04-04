@@ -65,6 +65,7 @@ ustring gw_build_filename(const ustring & part1, const ustring & part2, const us
   return filename;
 }
 
+// This writes to the temp\bibledit.log and is available in Help|System Log
 void gw_message(const ustring & message)
 {
   if (write(1, message.c_str(), strlen(message.c_str()))) ;
@@ -73,16 +74,19 @@ void gw_message(const ustring & message)
 
 void gw_warning(const ustring & warning)
 {
+  gw_message("WARNING:  " + warning);
   g_warning("%s", warning.c_str());
 }
 
 void gw_critical(const ustring & critical)
 {
+  gw_message("CRITICAL: " + critical);
   g_critical("%s", critical.c_str());
 }
 
 void gw_error(const ustring & error)
 {
+  gw_message("ERROR:    " + error);
   g_error("%s", error.c_str());
 }
 
@@ -157,9 +161,16 @@ void gw_mkdir_with_parents(const ustring & directory)
   spawn.run();
 }
 
-GwSpawn::GwSpawn(const char *program)
+// Same as above, but takes ustring
+GwSpawn::GwSpawn(const ustring &program)
 {
-  myprogram = program;
+#ifdef WIN32
+  // Quote the command in case it has path like 
+  // C:\Program Files\... with a space in it.
+  myprogram = shell_quote_space(program);
+#else 
+	myprogram = program;
+#endif
   myasync = false;
   mydevnull = false;
   myread = false;
@@ -244,17 +255,22 @@ void GwSpawn::describe ()
     description.append ("; ");
   }
   description.append (myprogram);
+  if (myprogram.find("|") != ustring::npos) {
+	  gw_message("This is a strange name for a program!");
+  }
+
   for (unsigned int i = 0; i < myarguments.size(); i++) {
     description.append (" ");
     description.append (myarguments[i]);
   }
-  gw_message (description);
+  gw_message ("Shell command: " + description);
 }
 
 
 #ifndef WIN32
 void GwSpawn::run()
 {
+  describe();
   // Working directory.
   const gchar *workingdirectory = NULL;
   if (!myworkingdirectory.empty())
@@ -366,6 +382,7 @@ Therefore this version of run() uses Windows specific system calls.
 These calls allow one to hide the console window.
 */
 {
+  describe();
   // Working directory.
   const gchar *workingdirectory = NULL;
   if (!myworkingdirectory.empty())
@@ -397,7 +414,9 @@ These calls allow one to hide the console window.
 
   // Environment.
   char *pEnvCMD = NULL;
-  char *pDefaultCMD = "CMD.EXE";
+  char const *pDefaultCMD = "CMD.EXE";
+  // gwrappers.cpp: In member function 'void GwSpawn::run()':
+  // gwrappers.cpp:420:23: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
   pEnvCMD = getenv("COMSPEC");
 
   if (pEnvCMD) {
@@ -409,7 +428,7 @@ These calls allow one to hide the console window.
   // The "/c" option - Do the command then terminate the command window.
   strcat(Args, " /c ");
   // The application you would like to run from the command window.
-  strcat(Args, myprogram);
+  strcat(Args, myprogram.c_str());
   // The parameters passed to the application being run from the command window.
   // The arguments have been quoted and spaced already.
   for (unsigned int i = 0; i < myarguments.size(); i++) {

@@ -6,10 +6,10 @@
     <property name="height_request">480</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">System log</property>
-    <property name="resizable">False</property>
+    <property name="resizable">True</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
-    <property name="default_width">640</property>
+    <property name="default_width">750</property>
     <property name="default_height">480</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>

@@ -214,6 +214,7 @@ void WindowsOutpost::thread_main()
           g_usleep(3000000);
         }
         // Decide on next stage.
+	// TO DO: Don't poll in such an inefficient manner.
         if (program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE)) {
           stage = STAGE_CONNECT;
         } else {

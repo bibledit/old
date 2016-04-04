@@ -69,7 +69,7 @@ SystemlogDialog::SystemlogDialog(int dummy)
   dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
 
   textview = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "textview"));
-  gtk_widget_grab_focus(textview);
+  //gtk_widget_grab_focus(textview); // omitting this doesn't seem to change the modality of the window
 
   checkbutton_session = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_session"));
   shortcuts.button (checkbutton_session);

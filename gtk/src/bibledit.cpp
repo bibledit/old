@@ -88,8 +88,8 @@ int main(int argc, char *argv[])
 
   books_init(); // TEMP - MAP
 
-  // Check on required directory structure.
-  Directories->check_structure();
+  Directories->check_structure(); // Check on required directory structure.
+  Directories->find_utilities();  // Find core utilities like copy, rm, etc.
 
   // Move logfile for shutdown program.
   move_log_file (lftShutdown);
@@ -109,6 +109,14 @@ int main(int argc, char *argv[])
     if (dup(1));
   }
 
+#ifdef WIN32
+  gw_message("WIN32 WAS defined in this build");
+#else
+  gw_message("WIN32 was NOT defined in this build");
+#endif
+    
+  Directories->print(); // called after the stdout/stderr redirects above
+  
   // Check on runtime requirements.
   runtime_initialize ();
   // Initialize the xml library.
@@ -121,6 +129,7 @@ int main(int argc, char *argv[])
   settings = new Settings(true);
   // LocalizedBooks object.
   booklocalizations = new BookLocalizations(0);
+  gw_message("Finished booklocalizations");
   // Versifications object.
   versifications = new Versifications(0);
   // Verse mappings object.
@@ -131,6 +140,7 @@ int main(int argc, char *argv[])
   vcs = new VCS(0);
   // URLTransport object.
   urltransport = new URLTransport(0);
+  gw_message("Finished URLTransport");
   /*
   We used a trick to get Bibledit to operate as a true activity on OLPC. 
   The problem is that any regular X11 program that is started, 
@@ -163,6 +173,7 @@ int main(int argc, char *argv[])
   gtk_window_set_default_icon_from_file(gw_build_filename(Directories->get_package_data(), "bibledit.xpm").c_str(), NULL);
   // Start the gui.
   MainWindow *mainwindow = new MainWindow(xembed, accelerator_group, settings, urltransport, vcs);
+  gw_message("Finished initialization");
   gtk_main();
   delete mainwindow;
 

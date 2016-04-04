@@ -24,7 +24,7 @@
 #include "gwrappers.h"
 #include "utilities.h"
 #include "tiny_utilities.h"
-
+#include "directories.h"
 
 bool unix_fnmatch(const char *pattern, const ustring & text)
 // This is a wrapper for the fnmatch function on Unix, as this is not available
@@ -37,11 +37,12 @@ bool unix_fnmatch(const char *pattern, const ustring & text)
 void unix_cp(const ustring & from, const ustring & to)
 // This is a wrapper for the cp function on Unix, as Windows uses another one.
 {
-#ifdef WIN32
-  GwSpawn spawn("copy");
-#else
-  GwSpawn spawn("cp");
-#endif
+//#ifdef WIN32
+//  GwSpawn spawn("copy");
+//#else
+//  GwSpawn spawn("cp");
+//#endif
+  GwSpawn spawn(Directories->get_copy());
   spawn.arg(from);
   spawn.arg(to);
   spawn.run();
@@ -68,12 +69,11 @@ void unix_cp_r(const ustring & from, const ustring & to)
 void unix_mv(const ustring & from, const ustring & to, bool force)
 // This is a wrapper for the mv function on Unix, which is move on Windows.
 {
+  GwSpawn spawn(Directories->get_move());
 #ifdef WIN32
-  GwSpawn spawn("move");
   if (force)
 	  spawn.arg ("/Y");
 #else
-  GwSpawn spawn("mv");
   if (force)
   	  spawn.arg ("-f");
 #endif
@@ -83,6 +83,18 @@ void unix_mv(const ustring & from, const ustring & to, bool force)
   spawn.run();
 }
 
+void unix_rm(const ustring &location)
+{
+  GwSpawn spawn(Directories->get_rm());
+  spawn.arg(location);
+  spawn.run();
+}
+
+// Can't vouch for the portability of this...
+void unix_unlink(const ustring &location)
+{
+  unlink(location.c_str());
+}
 
 void unix_rmdir(const ustring & dir)
 {
