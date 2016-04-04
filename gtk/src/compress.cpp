@@ -20,6 +20,7 @@
 
 #include "compress.h"
 #include "utilities.h"
+#include "directories.h"
 #include "gwrappers.h"
 #include <glib/gi18n.h>
 
@@ -108,12 +109,17 @@ bool uncompress(const ustring & archive, const ustring & directory)
   // Do the uncompression.
   int result = -1;
   switch (uncompression_identifier) {
-  case 1:
+  case 0:
     {
-      GwSpawn spawn ("unzip");
-      spawn.arg ("-o");
+		gw_message("I'm not yet smart enough to handle the " + archive + " file type");
+		break;
+    }
+  case 1:
+    { // If you have a zip utility installed in Windows, etc.
+      GwSpawn spawn (Directories->get_unzip());
+      spawn.arg ("-o"); // overwrite without prompting
       if (!directory.empty ()) {
-        spawn.arg ("-d");
+        spawn.arg ("-d"); // extract files into exdir
         spawn.arg (directory);
       }
       spawn.arg (archive);
@@ -124,8 +130,9 @@ bool uncompress(const ustring & archive, const ustring & directory)
     }
   case 2:
     {
-      GwSpawn spawn("tar");
-      spawn.arg("-zxf");
+      GwSpawn spawn(Directories->get_tar());
+	  spawn.arg ("--force-local"); // to permit : in filename (like C:\Users\...)
+      spawn.arg("-xzf"); // x=eXtract, z=gunZip, f=Filename to extract
       if (!directory.empty()) {
         spawn.workingdirectory(directory);
       }

@@ -128,8 +128,8 @@ ustring script_filter(const ustring & scriptname, bool straightthrough, const us
  */
 {
   // Remove any previous output.
-  unlink(outputfile.c_str());
-  unlink(script_temporal_error_file().c_str());
+  unix_unlink(outputfile.c_str());
+  unix_unlink(script_temporal_error_file().c_str());
 
   // Handle straight through.
   if (straightthrough) {

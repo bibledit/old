@@ -23,6 +23,7 @@
 #include "dialoginsertnote.h"
 #include "utilities.h"
 #include "directories.h"
+#include "unixwrappers.h"
 #include "combobox.h"
 #include "dialogentry.h"
 #include "gwrappers.h"
@@ -788,7 +789,7 @@ void InsertNoteDialog::on_button_template_delete_clicked(GtkButton * button, gpo
 void InsertNoteDialog::on_button_template_delete()
 {
   ustring filename = gw_build_filename(Directories->get_configuration(), template_filename_get(combobox_get_active_string(combobox_templates)));
-  unlink(filename.c_str());
+  unix_unlink(filename.c_str());
   templates_load("", true);
 }
 

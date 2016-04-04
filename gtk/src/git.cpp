@@ -54,7 +54,7 @@ void git_upgrade ()
       ustring index_lock = gw_build_filename (git_directory, "index.lock");
       if (g_file_test (index_lock.c_str(), G_FILE_TEST_IS_REGULAR)) {
         gw_message (_("Cleaning out index lock ") + index_lock);
-        unlink (index_lock.c_str());
+        unix_unlink (index_lock.c_str());
       }
       // Get the data directory for the project
       ustring datadirectory = tiny_project_data_directory_project(projects[i]);

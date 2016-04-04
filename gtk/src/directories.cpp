@@ -28,6 +28,7 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 #include "restore.h"
+#include <glib/gi18n.h>
 
 // Change forward slash to backslash on WIN32, else there are major
 // problems with system calls to the file system (unix_rmdir, for instance).
@@ -176,7 +177,7 @@ void directories::find_utilities(void)
 		GwSpawn spawn(rundir + "\\mv.exe");
 		spawn.arg("--version");
 		if (spawn.exitstatus == 0) { move = rundir + "\\mv.exe"; }
-		else { gw_message("Cannot find a suitable move utility"); }
+		else { gw_message(_("Cannot find a suitable move utility")); }
 	}
   }
   }
@@ -198,7 +199,7 @@ void directories::find_utilities(void)
 	GwSpawn spawn(rundir + "\\gzip.exe");
 	spawn.arg("--version");
 	if (spawn.exitstatus == 0) { zip = rundir + "\\gzip.exe"; }
-	else { gw_message("Cannot find a suitable zip utility"); }
+	else { gw_message(_("Cannot find a suitable zip utility")); }
   }
   }
   
@@ -219,7 +220,7 @@ void directories::find_utilities(void)
 	GwSpawn spawn(rundir + "\\tar.exe");
     spawn.arg("--version");
 	if (spawn.exitstatus == 0) { tar = rundir + "\\tar.exe"; }
-	else { gw_message("Cannot find a suitable tar utility"); }
+	else { gw_message(_("Cannot find a suitable tar utility")); }
   }
   }
   
@@ -245,7 +246,90 @@ void directories::find_utilities(void)
 		GwSpawn spawn(rundir + "\\rm.exe");
 		spawn.arg("--version");
 		if (spawn.exitstatus == 0) { rm = rundir + "\\rm.exe"; }
-		else { gw_message("Cannot find a suitable rm/del utility"); }
+		else { gw_message(_("Cannot find a suitable rm/del utility")); }
+	}
+  }
+  }
+  
+  //---------------------------------------------
+  // Rmdir
+  //---------------------------------------------
+  {
+  // Check for rm (Unix)
+  GwSpawn spawn("rm");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a rm command. Use it.
+	rmdir = "rm";
+	rmdir_args = "-rf";
+  }
+  else {
+	// Check for rmdir (Windows/DOS through cmd.exe)
+	GwSpawn spawn("rmdir");
+    spawn.arg("/?");
+	if (spawn.exitstatus == 0) { rmdir = "rmdir"; rmdir_args = "/s/q"; }
+	else {
+		// Check for rm.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\rm.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { rmdir = rundir + "\\rm.exe"; rmdir_args = "-rf"; }
+		// We have rmdir.exe, but it only works if the directories are empty
+		else { gw_message(_("Cannot find a suitable rmdir utility")); }
+	}
+  }
+  }
+  
+  //---------------------------------------------
+  // Zip
+  //---------------------------------------------
+  {
+  // Check for zip (Unix)
+  GwSpawn spawn("zip");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a zip command. Use it.
+	zip = "zip";
+  }
+  else {
+	// Check for zip.exe (Windows/DOS through cmd.exe)
+	GwSpawn spawn("zip.exe");
+    spawn.arg("--version"); // This is not standard for Windows, but in zip 3.0 by Info-ZIP that's what works
+	if (spawn.exitstatus == 0) { zip = "zip.exe"; }
+	else {
+		// Check for zip.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\zip.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { zip = rundir + "\\zip.exe"; }
+		else { gw_message(_("Cannot find a suitable zip utility")); }
+	}
+  }
+  }
+
+  //---------------------------------------------
+  // Unzip
+  //---------------------------------------------
+  {
+  // Check for unzip (Unix)
+  GwSpawn spawn("unzip");
+  spawn.arg("--version");  // unzip.exe on Windows (on my system at least) returns 10 even though it is present and runs --version because it doesn't know the --version flag
+  spawn.run();
+  if (spawn.exitstatus == 0) {
+	// We have an unzip command. Use it.
+	unzip = "unzip";
+  }
+  else {
+	  	// Check for zip.exe (Windows/DOS through cmd.exe)
+	GwSpawn spawn("unzip.exe");
+    spawn.arg("--version"); // This is not standard for Windows, but in unzip 6.0 by Info-ZIP that's what works
+	if (spawn.exitstatus == 0) { unzip = "unzip.exe"; }
+	else {
+		// Check for unzip.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\unzip.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { unzip = rundir + "\\unzip.exe"; }
+		else { gw_message(_("Cannot find a suitable unzip utility")); }
 	}
   }
   }
@@ -257,7 +341,7 @@ directories::~directories()
 
 void directories::print()
 {
-  gw_message("List of directories and other paths we know about:");
+  gw_message(_("List of directories and other paths we know about:"));
   gw_message("Run directory: \t" + rundir);
   gw_message("Executable name: \t" + exename);
   gw_message("Package data: \t" + package_data);
@@ -278,7 +362,7 @@ void directories::print()
   gw_message("Copy recursive: \t" + copy_recursive);
   gw_message("Move util:   \t" + move);
   gw_message("Remove util: \t" + rm);
-  gw_message("Rmdir util:  \t" + rmdir);
+  gw_message("Rmdir util:  \t" + rmdir + " " + rmdir_args);
   gw_message("Mkdir:       \t" + mkdir);
   gw_message("Tar util:    \t" + tar);
   gw_message("Zip util:    \t" + zip);
@@ -317,88 +401,28 @@ void directories::check_structure()
   gw_mkdir_with_parents(get_templates_user());
 }
 
-
-ustring directories::get_root()
-// Returns the root directory of all data.
-{
-  return root;
-}
-
-
-ustring directories::get_projects()
-{
-  // This returns the directory with all the projects.
-  return projects;
-}
-
-
-ustring directories::get_notes()
-{
-  // This returns the directory with the notes
-  return notes;
-}
-
-
-ustring directories::get_stylesheets()
-{
-  // This returns the directory with the stylesheets
-  return stylesheets;
-}
-
-
-ustring directories::get_configuration()
-{
-  // This returns the directory with the configuration
-  return configuration;
-}
-
-
-ustring directories::get_pictures()
-{
-  // This returns the directory with the pictures
-  return pictures;
-}
-
-ustring directories::get_resources()
-{
-  // This returns the directory with the resources.
-  return resources;
-}
-
-ustring directories::get_scripts()
-{
-  // This returns the directory with the scripts.
-  return scripts;
-}
-
-
-ustring directories::get_temp()
-{
-  // Returns the temporal directory bibledit uses.
-  return temp;
-}
-
-ustring directories::get_templates()
-{
-  // This returns the directory with the templates
-  return templates;
-}
-
-ustring directories::get_templates_user()
-{
-  // This returns the directory with the User's custom raw templates
-  return templates_user;
-}
-
+// Important directories in the user's home/.bibledit or temp
+ustring directories::get_root()               { return root; }
+ustring directories::get_projects()           { return projects; }
+ustring directories::get_notes()              { return notes; }
+ustring directories::get_stylesheets()        { return stylesheets; }
+ustring directories::get_configuration()      { return configuration; }
+ustring directories::get_pictures()           { return pictures; }
+ustring directories::get_resources()          { return resources; }
+ustring directories::get_scripts()            { return scripts; }
+ustring directories::get_temp()               { return temp; }
+ustring directories::get_templates()          { return templates; }
+ustring directories::get_templates_user()     { return templates_user; }
 ustring directories::get_package_data()       { return package_data; }
 ustring directories::get_restore ()           { return restore; }
 
-// Utility programs
+// File utility programs
 ustring directories::get_copy ()              { return copy;     }
 ustring directories::get_copy_recursive ()    { return copy_recursive; }
 ustring directories::get_move ()              { return move; }
 ustring directories::get_rm ()                { return rm; }
 ustring directories::get_rmdir ()             { return rmdir; }
+ustring directories::get_rmdir_args ()        { return rmdir_args; }
 ustring directories::get_mkdir ()             { return mkdir; }
 ustring directories::get_tar ()               { return tar; }
 ustring directories::get_zip ()               { return zip; }

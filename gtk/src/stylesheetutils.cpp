@@ -119,7 +119,7 @@ void stylesheet_delete(const ustring & name)
 // Deletes a stylesheet from disk.
 // Note that it continues to live in memory once it's there, till after restart.
 {
-  unlink(stylesheet_xml_filename(name).c_str());
+  unix_unlink(stylesheet_xml_filename(name).c_str());
 }
 
 
@@ -347,7 +347,7 @@ void stylesheets_upgrade()
       gw_message(_("Updating stylesheet: ") + filename);
       ReadText rt (filename, true, false);
       stylesheet_upgrade_value (rt.lines, "r", "subtype", "2");
-      unlink (filename.c_str());
+      unix_unlink (filename.c_str());
       ustring newfilename(filename);
       newfilename.replace(newfilename.length() - 1, 1, "2");
       write_lines (newfilename, rt.lines);

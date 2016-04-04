@@ -195,7 +195,7 @@ ImportNotesDialog::ImportNotesDialog(int dummy)
 ImportNotesDialog::~ImportNotesDialog()
 {
   // Clean up temporary file.
-  unlink(temporary_file(TEMP_FILE).c_str());
+  unix_unlink(temporary_file(TEMP_FILE).c_str());
   gtk_widget_destroy(importnotesdialog);
 }
 

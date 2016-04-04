@@ -70,6 +70,7 @@ void unix_mv(const ustring & from, const ustring & to, bool force)
 // This is a wrapper for the mv function on Unix, which is move on Windows.
 {
   GwSpawn spawn(Directories->get_move());
+  // To do: I don't think I need the force business
 #ifdef WIN32
   if (force)
 	  spawn.arg ("/Y");
@@ -90,7 +91,7 @@ void unix_rm(const ustring &location)
   spawn.run();
 }
 
-// Can't vouch for the portability of this...
+// Can't vouch for the portability of this but it seems to work on Linux and Windows
 void unix_unlink(const ustring &location)
 {
   unlink(location.c_str());
@@ -98,7 +99,9 @@ void unix_unlink(const ustring &location)
 
 void unix_rmdir(const ustring & dir)
 {
-#ifdef WIN32
+	GwSpawn spawn(Directories->get_rmdir());
+	spawn.arg(Directories->get_rmdir_args());
+/* #ifdef WIN32
   GwSpawn spawn("rmdir");
   spawn.arg("/s");
   spawn.arg("/q");
@@ -106,6 +109,7 @@ void unix_rmdir(const ustring & dir)
   GwSpawn spawn("rm");
   spawn.arg("-rf");
 #endif
+ */
   spawn.arg(dir);
   spawn.run();
 }

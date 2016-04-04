@@ -54,12 +54,13 @@ class directories {
 
   ustring fix_slashes(ustring &tofix);
   
-  // Directory path to various utility programs we use. 3/2016 MAP
+  // Directory path to various file utility programs we use. 3/2016 MAP
   ustring copy;
   ustring copy_recursive;
   ustring move;
   ustring rm;
   ustring rmdir;
+  ustring rmdir_args;
   ustring tar;
   ustring zip;
   ustring unzip;
@@ -94,19 +95,19 @@ class directories {
      void check_structure ();
 	 
   // These should hold the correct platform path, with right style slashes
-  ustring get_root ();
-  ustring get_projects ();
-  ustring get_notes ();
-  ustring get_stylesheets ();
-  ustring get_configuration ();
-  ustring get_pictures ();
-  ustring get_resources ();
-  ustring get_scripts ();
-  ustring get_temp ();
-  ustring get_templates ();
-  ustring get_templates_user ();
-  ustring get_package_data ();       // gives the package data directory
-  ustring get_restore ();            // the directory to restore from
+  ustring get_root ();            // Returns the root directory of all data
+  ustring get_projects ();        // Returns the directory with all the projects
+  ustring get_notes ();           // Returns the directory with the notes
+  ustring get_stylesheets ();     // Returns the directory with the stylesheets
+  ustring get_configuration ();   // Returns the directory with the configuration
+  ustring get_pictures ();        // Returns the directory with the pictures
+  ustring get_resources ();       // Returns the directory with the resources
+  ustring get_scripts ();         // Returns the directory with the scripts
+  ustring get_temp ();            // Returns the temporary directory bibledit uses
+  ustring get_templates ();       // Returns the directory with the templates
+  ustring get_templates_user ();  // Returns the directory with the user's custom raw templates
+  ustring get_package_data ();    // Returns the package data directory
+  ustring get_restore ();         // Returns the directory to restore from
   
   // To do: integrate runtime.h/.cpp with this stuff, perhaps in a Utilities object or similar.
   ustring get_copy ();
@@ -114,6 +115,7 @@ class directories {
   ustring get_move ();
   ustring get_rm ();
   ustring get_rmdir ();
+  ustring get_rmdir_args ();
   ustring get_mkdir ();
   ustring get_tar ();
   ustring get_zip ();

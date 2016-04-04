@@ -849,7 +849,7 @@ void keyterms_delete_collection (const ustring& collection)
   
   // If there are no categories left, revert to the package database.
   if (keyterms_get_categories ().empty ()) {
-    unlink (keyterms_get_user_filename().c_str());
+    unix_unlink (keyterms_get_user_filename().c_str());
   }
 }
 

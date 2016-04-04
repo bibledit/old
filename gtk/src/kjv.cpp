@@ -158,7 +158,7 @@ void kjv_import_sword (const ustring& textfile, const ustring& database)
     return;
 
   // Create the database, put it in fast mode.
-  unlink (database.c_str());
+  unix_unlink (database.c_str());
   sqlite3 *db;
   sqlite3_open(database.c_str(), &db);
   sqlite3_exec(db, "create table kjv (book integer, chapter integer, verse integer, item integer, fragment text, lemma text);", NULL, NULL, NULL);

@@ -107,6 +107,7 @@ void export_to_usfm (const ustring& project, ustring location, bool zip)
 		location.append(".tar.gz");
 	}
     unix_unlink(location);
+	// To do: package below code into unix_tar (or eventually fileutil::tar)
 	GwSpawn spawn (Directories->get_tar());
     spawn.read(); // save output for examination
     spawn.arg ("--force-local"); // to permit : in filename (like C:\Users\...)
@@ -226,7 +227,7 @@ void export_to_osis_recommended (const ustring& project, const ustring& filename
 {
   ProgressWindow progresswindow(_("Exporting project"), true);
 
-  unlink(filename.c_str());
+  unix_unlink(filename.c_str());
   
   Usfm2Osis usfm2osis (filename);
 
@@ -268,7 +269,7 @@ void export_to_osis_old (const ustring& project, const ustring& filename)
     UsfmInlineMarkers usfm_inline_markers(usfm);
 
     // Write to OSIS file.
-    unlink(filename.c_str());
+    unix_unlink(filename.c_str());
     WriteText wt(filename);
 
     // Write out xml headers.
@@ -604,7 +605,7 @@ directory: Where to put the module.
 
   // Osis file name.
   ustring osisfile = gw_build_filename(Directories->get_temp(), "osis-from-usfm.xml");
-  unlink(osisfile.c_str());
+  unix_unlink(osisfile.c_str());
   
   // OSIS to USFM converter.
   {
@@ -665,7 +666,7 @@ directory: Where to put the module.
   // Compress and save the module.
   ustring command;
   ustring zipfile = temporary_file(projectconfig->sword_name_get()) + ".zip";
-  unlink(zipfile.c_str());
+  unix_unlink(zipfile.c_str());
   command = "cd" + shell_quote_space(base_directory) + " && ";
   command.append("zip -r" + shell_quote_space(zipfile) + "*");
   if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
@@ -814,6 +815,7 @@ void export_to_usfm_changes (const ustring& project, int time_from, ustring comm
         write_lines(usfmfilename, lines[books[i]]);
       }
     }
+	// TO Do: Fix this to look like export_to_usfm tar.gz code
     // Zip them.
 #ifdef WIN32
     ustring command = "cd" + shell_quote_space(workingdirectory) + " && zip -r " + gw_path_get_basename(filename) + " *.usfm && del *.usfm";

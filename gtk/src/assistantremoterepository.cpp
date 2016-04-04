@@ -936,7 +936,7 @@ void RemoteRepositoryAssistant::test_write_access ()
 
   // Remove the temporal file again from the remote repository.
   progresswindow.set_fraction (0.8);
-  unlink(gw_build_filename(persistent_clone_directory, filename).c_str());
+  unix_unlink(gw_build_filename(persistent_clone_directory, filename).c_str());
   if (write_access_granted) {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);
@@ -1003,7 +1003,7 @@ This makes the remote repository to have an exact copy of our data.
     }
     ReadFiles rf (persistent_clone_directory, "", "");
     for (unsigned int i = 0; i < rf.files.size(); i++) {
-      unlink (gw_build_filename (persistent_clone_directory, rf.files[i]).c_str());
+      unix_unlink (gw_build_filename (persistent_clone_directory, rf.files[i]).c_str());
     }
   }
   

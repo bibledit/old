@@ -20,6 +20,7 @@
 #include "statistics.h"
 #include "projectutils.h"
 #include "directories.h"
+#include "unixwrappers.h"
 #include "gwrappers.h"
 #include <sqlite3.h>
 #include "date_time_utils.h"
@@ -70,7 +71,7 @@ void statistics_initial_check_project(const ustring & project, bool gui)
   // Since the system is out of order, remove any old database.
   if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
     gw_message (_("Removing Statistics Database for project ") + project);
-    unlink (filename.c_str());
+    unix_unlink (filename.c_str());
   }
   return;
 
