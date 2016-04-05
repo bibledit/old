@@ -80,6 +80,8 @@ class directories {
   // what about helpcommand?
   ustring tasklist; // aka ps in unix
   ustring merge;
+  ustring bwoutpost;         // full path to the bwoutpost.exe executable
+  ustring bwoutpost_exeonly; // just bwoutpost.exe
   
  public: 
   // Must initialize this class with argv[0] so it knows where the
@@ -135,7 +137,8 @@ class directories {
   // what about helpcommand?
   ustring get_tasklist (); // aka ps in unix
   ustring get_merge ();
-  // what about bwoutpost?  
+  ustring get_bwoutpost ();
+  ustring get_bwoutpost_exeonly ();
 };
 
 // Declared in bibledit.cpp and bibledit-rdwrt.cpp

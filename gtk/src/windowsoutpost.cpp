@@ -206,16 +206,16 @@ void WindowsOutpost::thread_main()
     case STAGE_START:
       {
         // Start Outpost if it does not already run.
-        if (!program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE)) {
+        if (!program_is_running(Directories->get_bwoutpost_exeonly())) {
           // Start Outpost and wait a few seconds till it settles. 
-          GwSpawn spawn(BIBLEDIT_WINDOWS_OUTPOST_EXE);
+          GwSpawn spawn(Directories->get_bwoutpost());
           spawn.async();
           spawn.run();
           g_usleep(3000000);
         }
         // Decide on next stage.
 	// TO DO: Don't poll in such an inefficient manner.
-        if (program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE)) {
+        if (program_is_running(Directories->get_bwoutpost_exeonly())) {
           stage = STAGE_CONNECT;
         } else {
           stage = STAGE_WAIT_RETRY;
@@ -581,16 +581,6 @@ bool windowsoutpost_telnet(const ustring & hostname)
   }
   return success;
 }
-
-
-ustring windowsoutpost_path ()
-// Gives the full path to the bwoutpost.exe
-{
-  ustring path;
-  path = gw_build_filename (Directories->get_package_data (), BIBLEDIT_WINDOWS_OUTPOST_EXE);
-  return path;
-}
-
 
 // Below are some files that show how the SantaFeFocus system works. 
 // They were kindly provided by Nathan Miles, Paratext programmer.

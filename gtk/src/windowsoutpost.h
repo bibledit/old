@@ -34,9 +34,7 @@
 #include <stdio.h>
 #include "reference.h"
 
-
 #define BIBLEDIT_WINDOWS_OUTPOST_EXE "bwoutpost.exe"
-
 
 class WindowsOutpost
 {
@@ -82,10 +80,7 @@ private:
   ustring get_reference_reply;
 };
 
-
 void windowsoutpost_open_url(const ustring& url);
 bool windowsoutpost_telnet(const ustring& hostname);
-ustring windowsoutpost_path ();
-
 
 #endif

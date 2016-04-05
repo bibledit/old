@@ -4,7 +4,7 @@
 
 VERSION="4.9.3"
 
-full=
+full=1
 quick=
 function usage
 {
@@ -314,6 +314,8 @@ cp -R $ENGINES/* "$LIB/gtk-2.0/"
 echo "Copying templates, etc. to $SHARE/bibledit..."
 mkdir -v -p "$SHARE/bibledit"
 cp -R templates/* "$SHARE/bibledit"
+# Added next line 4/4/2016
+cp -R kjv/kjv.sql "$SHARE/bibledit"
 cp -R pix/* "$SHARE/bibledit"
 cp -R usfm/usfm.sty "$SHARE/bibledit"
 cp -R doc/site "$SHARE/bibledit"

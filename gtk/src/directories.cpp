@@ -29,6 +29,7 @@
 #include "tiny_utilities.h"
 #include "restore.h"
 #include <glib/gi18n.h>
+#include "windowsoutpost.h"
 
 // Change forward slash to backslash on WIN32, else there are major
 // problems with system calls to the file system (unix_rmdir, for instance).
@@ -313,7 +314,7 @@ void directories::find_utilities(void)
   {
   // Check for unzip (Unix)
   GwSpawn spawn("unzip");
-  spawn.arg("--version");  // unzip.exe on Windows (on my system at least) returns 10 even though it is present and runs --version because it doesn't know the --version flag
+  spawn.arg("--version");  // unzip.exe on Windows and Linux (on my systems at least) returns 10 even though it is present and runs --version because it doesn't know the --version flag
   spawn.run();
   if (spawn.exitstatus == 0) {
 	// We have an unzip command. Use it.
@@ -333,6 +334,12 @@ void directories::find_utilities(void)
 	}
   }
   }
+  
+  //---------------------------------------------
+  // Bibleedit Outpost for Windows
+  //---------------------------------------------
+  bwoutpost = gw_build_filename (rundir, BIBLEDIT_WINDOWS_OUTPOST_EXE);
+  bwoutpost_exeonly = BIBLEDIT_WINDOWS_OUTPOST_EXE;
 }
 
 directories::~directories()
@@ -358,7 +365,7 @@ void directories::print()
   gw_message("User templates: \t" + templates_user);
   gw_message("Restore: \t" + restore);
   gw_message("Copy util: \t" + copy);
-  
+  gw_message("Any of these that are blank indicate that we have not worked on them yet!!!!!");
   gw_message("Copy recursive: \t" + copy_recursive);
   gw_message("Move util:   \t" + move);
   gw_message("Remove util: \t" + rm);
@@ -382,7 +389,7 @@ void directories::print()
   // what about helpcommand?
   gw_message("tasklist:     \t" + tasklist);
   gw_message("merge:        \t" + merge);
-  // what about bwoutpost?  
+  gw_message("bwoutpost:    \t" + bwoutpost);
 }
 
 void directories::check_structure()
@@ -442,4 +449,5 @@ ustring directories::get_cmdshell ()          { return cmdshell; }
 // what about helpcommand?
 ustring directories::get_tasklist ()          { return tasklist; }
 ustring directories::get_merge ()             { return merge; }
-// what about bwoutpost?
+ustring directories::get_bwoutpost ()         { return bwoutpost; }
+ustring directories::get_bwoutpost_exeonly () { return bwoutpost_exeonly; }
