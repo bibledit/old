@@ -63,7 +63,6 @@ public:
   vector <ustring> standardout;
   vector <ustring> standarderr;
 private:
-  //const char * myprogram;
   ustring myprogram;
   ustring myworkingdirectory;
   bool myasync;

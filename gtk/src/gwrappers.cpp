@@ -274,7 +274,8 @@ void GwSpawn::run()
     workingdirectory = myworkingdirectory.c_str();
   // Store arguments in argv.
   char *argv[myarguments.size() + 2];
-  argv[0] = (char *)myprogram;
+  // I know these casts are ugly. To do: figure out a better way.
+  argv[0] = (char *)myprogram.c_str();
   for (unsigned int i = 0; i < myarguments.size(); i++) {
     argv[i + 1] = (char *)myarguments[i].c_str();
   }
@@ -282,8 +283,9 @@ void GwSpawn::run()
   argv[myarguments.size() + 1] = NULL;
   // Spawn flags.
   int flags = G_SPAWN_SEARCH_PATH;
-  if (mydevnull)
+  if (mydevnull) {
     flags |= (G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL);
+  }
   // Possible pipes.
   gint standard_input_filedescriptor = 0;
   gint standard_output_filedescriptor;
@@ -341,8 +343,7 @@ void GwSpawn::run()
     }
     // Close pid.
     g_spawn_close_pid(pid);
-    if (progresswindow)
-      delete progresswindow;
+    if (progresswindow) { delete progresswindow; }
   }
   // Handle reading the output.
   if (myread) {
