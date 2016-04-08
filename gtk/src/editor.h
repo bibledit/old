@@ -76,6 +76,7 @@ private:
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   gboolean textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
   static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+  bool wait_for_key_release; // unused at the moment MAP
   void textview_key_release_event(GtkWidget *widget, GdkEventKey *event);
   bool textbuffer_delete_range_was_fired;
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);

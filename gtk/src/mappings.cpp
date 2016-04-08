@@ -49,7 +49,7 @@ MappingStore::MappingStore(const ustring & system_in, const ustring & filename)
         switch (xmlTextReaderNodeType(reader)) {
         case XML_READER_TYPE_ELEMENT:
           {
-            opening_element = (char *)xmlTextReaderName(reader);
+            opening_element = (char *)xmlTextReaderName(reader); // memory leak here
             if (!strcmp(opening_element, "map")) {
               myid = 0;
               mychapter = 0;

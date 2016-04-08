@@ -17,17 +17,13 @@
 **  
 */
 
-
 #ifndef INCLUDED_STARTUP_H
 #define INCLUDED_STARTUP_H
-
 
 #include "libraries.h"
 #include <glib.h>
 #include <gtk/gtk.h>
 
-
 bool check_bibledit_startup_okay (int argc, char *argv[]);
-
 
 #endif

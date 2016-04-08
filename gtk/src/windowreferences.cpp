@@ -49,6 +49,7 @@ WindowReferences::WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *acc
 // Window for showing the quick references.  
 {
   lower_boundary = 0;
+  upper_boundary = 0;
   active_entry = -1;
   references_management_on = reference_management_enabled;
   

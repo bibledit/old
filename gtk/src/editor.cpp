@@ -43,6 +43,7 @@
 #include "progresswindow.h"
 #include "merge_utils.h"
 #include <glib/gi18n.h>
+#include "debug.h"
 
 /*
 
@@ -162,6 +163,7 @@ current_reference(0, 1000, "")
   textview_button_press_event_id = 0;
 
   go_to_new_reference_highlight = false; // 3/22/2016 MAP
+  wait_for_key_release = false;
 
   // Tag for highlighting search words and current verse.
   // For convenience the GtkTextBuffer function is called. 
@@ -217,8 +219,10 @@ Editor2::~Editor2()
   g_object_unref(texttagtable);
 
   // Destroy possible highlight object.
-  if (highlight)
-    delete highlight;
+  if (highlight) { 
+	delete highlight;
+	highlight = NULL;
+  }
     
   // Destroy the editor actions.
   // This will also destroy any GtkTextViews these actions created.
@@ -1324,7 +1328,7 @@ void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter
     return;
   }
   disregard_text_buffer_signals++;
-
+  DEBUG("Delete range before - setting textbuffer_delete_range_was_fired")
   textbuffer_delete_range_was_fired = true;
 
   // Record the content that is about to be deleted.
@@ -1352,7 +1356,7 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
     return;
   }
   disregard_text_buffer_signals++;
-
+  DEBUG("Delete range after - about to delete text 'after'")
   // Delete the text.  
   if (focused_paragraph) {
     ustring text;
@@ -1674,8 +1678,10 @@ void Editor2::highlight_searchwords()
 // Highlights all the search words.
 {
   // Destroy optional previous object.
-  if (highlight)
-    delete highlight;
+  if (highlight) { 
+	delete highlight;
+	highlight = NULL;
+  }
 
   // Bail out if there's no focused paragraph.
   if (!focused_paragraph) {
@@ -1756,10 +1762,12 @@ void Editor2::highlight_thread_main()
 {
   // The time-consuming part of highlighting is to determine what bits of text
   // to highlight. Because it takes time, and the program should continue
-  // to respond, it is done in a thread. MAP: But there is a problem when you type
+  // to respond, it is done in a thread. MAP 2015: But there is a problem when you type
   // text, delete, then start typing again, the threaded-ness of this means that
   // sometimes, be starts overwriting text from the beginning of the verse instead
-  // of typing in the location where the cursor is.
+  // of typing in the location where the cursor is. MAP 4/7/2016: This routine may not
+  // actually be the problem. Keystroke press and release (like on Backspace) is not handled
+  // properly.
   if (highlight) {
     highlight->determine_locations();
   }
@@ -2094,6 +2102,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
 
     case eatDeleteText:
     {
+	  DEBUG("action DeleteText")
       EditorActionDeleteText * delete_action = static_cast <EditorActionDeleteText *> (action);
       switch (application) {
         case eaaInitial: delete_action->apply(widget_that_should_grab_focus); break;
@@ -2123,6 +2132,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
 
     case eatDeleteParagraph:
     {
+	  DEBUG("action DeleteParagraph")
       EditorActionDeleteParagraph * delete_action = static_cast <EditorActionDeleteParagraph *> (action);
       switch (application) {
         case eaaInitial: delete_action->apply(vbox_parking_lot, widget_that_should_grab_focus); break;
@@ -2767,9 +2777,35 @@ gboolean Editor2::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *ev
 
 gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
 {
+  // Fix for backspace may also have to do with if (disregard_text_buffer_signals) {
   // Clear flag for monitoring deletions from textbuffers.
-  textbuffer_delete_range_was_fired = false;
+  // MAP: WHY IS THIS HERE? messes up backspc and delete if random character is thrown in between press and release of backspace
+  // because it causes the program to forget it is in the midst of a backspacing delete. This flag should only be reset
+  // (set to false) when the delete range action is done. A random key press doesn't indicate that. This is probably here
+  // for some other reason. Not sure why 4/7/2016.
+  // textbuffer_delete_range_was_fired = false;
 
+  DEBUG(ustring(gdk_keyval_name (event->keyval)))
+/* 
+  bool specialkey = (event->keyval == GDK_BackSpace || event->keyval == GDK_Delete);
+  
+  if (!wait_for_key_release && specialkey) {
+	// MAP 4/7/2016: We have to handle backspace/delete carefully. While it is being held
+	// down, we cannot accept other keystrokes, other there will be confusion in
+	// what code runs after the key is released.
+	wait_for_key_release = true; // turn on the "wait for key release mode"
+  }
+  else if (wait_for_key_release && specialkey) {
+	// Let it pass through as normal  
+  }
+  else if (wait_for_key_release && !specialkey) {
+	return true; // eat the key
+  }
+  else if (!wait_for_key_release && !specialkey) {
+	// Let it pass through as normal
+  }
+   */
+	
   // Store data for paragraph crossing control.
   paragraph_crossing_textview_at_key_press = widget;
   GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
@@ -2778,7 +2814,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   // A GtkTextView has standard keybindings for clipboard operations.
   // It has been found that if the user presses, e.g. Ctrl-c, that
   // text is copied to the clipboard twice, or e.g. Ctrl-v, that it is
-  // pasted twice. This is probably a bug in Gtk2.
+  // pasted twice. This is probably a bug in Gtk2. MAP 4/7/2016: I believe it probably is that the key press and key release are triggering an action in our code.
   // The relevant key bindings for clipboard operations are blocked here.
   // The default bindings for copying to clipboard are Ctrl-c and Ctrl-Insert.
   // The default bindings for cutting to clipboard are Ctrl-x and Shift-Delete.
@@ -2820,11 +2856,14 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
 {
   // Handle pressing the Backspace key.
   if (keyboard_backspace_pressed (event)) {
+	DEBUG("Backspace released")
+	//wait_for_key_release = false;
     // Handle the case that the backspace key didn't delete text.
     // Do this only when the Editor is editable.
     if (!textbuffer_delete_range_was_fired && editable) {
       // Get the current and preceding paragraphs.
       // The preceding one may not be there.
+	  DEBUG("Combining paragraphs after backspace")
       EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
       EditorActionCreateParagraph * preceding_paragraph = widget2paragraph_action (editor_get_previous_textview (vbox_paragraphs, widget));
       if (current_paragraph && preceding_paragraph) {
@@ -2867,11 +2906,14 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
 
   // Handle pressing the Delete keys.
   if (keyboard_delete_pressed (event)) {
+	DEBUG("Delete released")
+	//wait_for_key_release = false;
     // Handle the case that the delete keys didn't delete text.
     // Do this only when the Editor is editable.
     if (!textbuffer_delete_range_was_fired && editable) {
       // Get the current and following paragraphs.
       // The following one may not be there.
+	  DEBUG("Combining paragraphs after delete")
       EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
       EditorActionCreateParagraph * following_paragraph = widget2paragraph_action (editor_get_next_textview (vbox_paragraphs, widget));
       if (current_paragraph && following_paragraph) {

@@ -76,8 +76,9 @@ void OTQuotations::read()
             quotation.reference.verse.clear();
             quotation.referents.clear();
             quotation.lxx = false;
+	    free(opening_element); opening_element = NULL; // not used next loop iteration
           }
-          if (!strcmp(opening_element, "nt") || !strcmp(opening_element, "ot")) {
+          else if (!strcmp(opening_element, "nt") || !strcmp(opening_element, "ot")) {
             Reference ref(0);
             char *attribute;
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "book");
@@ -103,17 +104,19 @@ void OTQuotations::read()
             if (!strcmp(opening_element, "ot")) {
               quotation.referents.push_back(ref);
             }
+			// cannot free(opening_element) because it will be used next loop iter in following switch case
           }
-          break;
+		  break;
         }
       case XML_READER_TYPE_TEXT:
         {
           char *text = (char *)xmlTextReaderValue(reader);
-          if (text) {
+          if (opening_element && text) {
             if (!strcmp(opening_element, "lxx")) {
               quotation.lxx = convert_to_bool(text);
             }
             free(text);
+			free(opening_element); opening_element = NULL;
           }
           break;
         }
@@ -123,6 +126,7 @@ void OTQuotations::read()
           if (!strcmp(closing_element, "set")) {
             quotations_nt_order.push_back(quotation);
           }
+		  free(closing_element);
           break;
         }
       }

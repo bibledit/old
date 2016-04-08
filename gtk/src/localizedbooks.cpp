@@ -50,17 +50,21 @@ BookLocalization::BookLocalization(const ustring & language_in, const ustring & 
         case XML_READER_TYPE_ELEMENT:
           {
             opening_element = (char *)xmlTextReaderName(reader);
-            if (!strcmp(opening_element, "book")) {
-              myid = 0;
-              mylocalization.clear();
-              myabbreviation.clear();
-            }
+			if (opening_element) {
+				if (!strcmp(opening_element, "book")) {
+					myid = 0;
+					mylocalization.clear();
+					myabbreviation.clear();
+				}
+				// Would like to free(opening_element) but it is used next loop iteration
+				// in the next case of the switch stmt.
+			}
             break;
           }
         case XML_READER_TYPE_TEXT:
           {
             char *text = (char *)xmlTextReaderValue(reader);
-            if (text) {
+            if (opening_element && text) {
               if (!strcmp(opening_element, "id")) {
                 myid = convert_to_int(text);
               }
@@ -71,25 +75,29 @@ BookLocalization::BookLocalization(const ustring & language_in, const ustring & 
                 myabbreviation = text;
               }
               free(text);
+			  free(opening_element); opening_element = NULL; // now we can free it, since we are done with it
             }
             break;
           }
         case XML_READER_TYPE_END_ELEMENT:
           {
             char *closing_element = (char *)xmlTextReaderName(reader);
-            if (!strcmp(closing_element, "book")) {
-              if (myid == 0)
-                break;
-              if (mylocalization.empty())
-                break;
-              if (myabbreviation.empty())
-                break;
-              id.push_back(myid);
-              name.push_back(mylocalization);
-              name_casefold.push_back(mylocalization.casefold());
-              abbreviation.push_back(myabbreviation);
-              abbreviation_casefold.push_back(myabbreviation.casefold());
-            }
+            if (closing_element) {
+				if (!strcmp(closing_element, "book")) {
+					if (myid == 0)
+						break;
+					if (mylocalization.empty())
+						break;
+					if (myabbreviation.empty())
+						break;
+					id.push_back(myid);
+					name.push_back(mylocalization);
+					name_casefold.push_back(mylocalization.casefold());
+					abbreviation.push_back(myabbreviation);
+					abbreviation_casefold.push_back(myabbreviation.casefold());
+				}
+				free(closing_element); closing_element = NULL;
+			}
             break;
           }
         }
@@ -102,6 +110,7 @@ BookLocalization::BookLocalization(const ustring & language_in, const ustring & 
     if (contents)
       g_free(contents);
   }
+
   // Add missing books, take values from English.
   vector < unsigned int >all_ids = books_type_to_ids(btUnknown);
   set < unsigned int >ids_done(id.begin(), id.end());

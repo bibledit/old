@@ -68,8 +68,15 @@ ustring gw_build_filename(const ustring & part1, const ustring & part2, const us
 // This writes to the temp\bibledit.log and is available in Help|System Log
 void gw_message(const ustring & message)
 {
-  if (write(1, message.c_str(), strlen(message.c_str()))) ;
-  if (write(1, "\n", 1)) ;
+  // tid = thread id, tmsg = thread id message
+  pthread_t tid = pthread_self();
+  ustring tmsg = ustring("T") + std::to_string(int(tid)) + " " + message + "\n";
+  write(1, tmsg.c_str(), strlen(tmsg.c_str()));
+}
+
+void gw_debug(const ustring & message, const char *file, int lineno, const char *func)
+{
+  gw_message("DEBUG: " + message + " " + func + ":" + file + ":" + std::to_string(lineno));
 }
 
 void gw_warning(const ustring & warning)

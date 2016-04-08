@@ -3,26 +3,52 @@ It assumes you have already gone through the BUILDING process
 and the INSTALLING process.
 Written by Matt Postiff, postiffm@umich.edu, 3/29/2016
 
+General Debugging
+----------------------------------------------------------------
+
+1. If you are a hardy soul, you can run gdb from the DOS command
+   line. It works. cd to the bibledit-gtk.exe directory, then 
+   run \msys64\mingw64\bin\gdb
+
+2. In the past I have preferred to use gdb from emacs. Run 
+   /mingw64/bin/emacs &
+   from an msys64 shell. Once in emacs, do M-x (Alt-X) and type
+   gud-gdb <enter>. Then type
+   gdb --fullname "C:/Program Files/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
+   This will start gdb and then you can use the commands n, p, 
+   l, etc, or the buttons at the top of the emacs window to step
+   and so forth.
+
+3. I like Notepad++ for editing source code, but compiling
+   (not to mention debugging) are not really strong points of
+   Notepad++.
+
+4. Eclipse. ?
+
 VERY INCOMPLETE. DR MEMORY HAS BROKEN FOR ME, SO I'M NOT DONE
 HERE.
 
 Memory Debugging
 ----------------------------------------------------------------
 I use Dr. Memory, from http://drmemory.org/
-The binary I downloaded is at https://github.com/DynamoRIO/drmemory/releases/download/release_1.10.0/DrMemory-Windows-1.10.0-2.msi
+The binary I downloaded is at 
+https://github.com/DynamoRIO/drmemory/releases/download/release_1.10.0/DrMemory-Windows-1.10.0-2.msi
 
 You can drag-and-drop the C:\Program Files\Bibledit-4.9.3\bibledit-gtk.exe
 file onto the Dr. Memory icon. It will run its memory checks. But then 
-the question is, where is the log file? It can be hard to locate.
+the question is, where is the log file? It should pop up when Dr. Memory
+finishes its analysis. Its files sit in C:\users\username\AppData\Roaming\Dr. Memory\*
 
-So I prefer to run from command line:
+I would prefer to run from command line:
 
 C:
 cd \Users\username
 mkdir DrMemLog
 drmemory -logdir C:\Users\postiffm\DrMemLog "C:\Program Files\Bibledit-4.9.3\editor\bin\bibledit-gtk.exe"
 
-If you see
+but then bibledit-gtk doesn't seem to run fully. Running as administrator doesnt' fix the problem.
+
+If the program doesn't seem to do anything, and you see a message after you quit:
 Dr. Memory failed to start the target application, perhaps due to
 interference from invasive security software.
 Try disabling other software or running in a virtual machine.

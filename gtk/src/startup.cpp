@@ -22,6 +22,9 @@
 #include "gtkwrappers.h"
 #include "shell.h"
 #include <glib/gi18n.h>
+#include "debug.h"
+
+int global_debug_level;
 
 bool check_bibledit_startup_okay (int argc, char *argv[])
 // Returns true if it is okay to start bibledit.
@@ -37,6 +40,9 @@ bool check_bibledit_startup_okay (int argc, char *argv[])
 
   // Check arguments whether to bypass the check on another instance of bibledit.  
   if (argc >= 2 && strcmp(argv[1], "--debug") == 0) {
+	// This is primitive argument checking, but I'll live with it for now.
+	global_debug_level = 1;
+	DEBUG("Debugging is turned on")
     return true;
   }
 
