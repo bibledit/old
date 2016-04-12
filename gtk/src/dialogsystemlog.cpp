@@ -69,7 +69,7 @@ SystemlogDialog::SystemlogDialog(int dummy)
   dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
   
   // Experimental - trying to make this window not modal, so it can float always to the side.
-  //gtk_window_set_modal(dialog, false);
+  gtk_window_set_modal(GTK_WINDOW(dialog), false);
   
   textview = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "textview"));
   //gtk_widget_grab_focus(textview); // omitting this doesn't seem to change the modality of the window
@@ -221,7 +221,7 @@ void SystemlogDialog::on_button_diagnostics()
   vector < ustring > labels;
   labels.push_back(_("General settings"));
   labels.push_back(_("Project settings"));
-  CheckbuttonDialog dialog(_("Diagnostics"), _("Tick the items to include in the diagnostics report"), labels, "11");
+  CheckbuttonDialog dialog(_("Diagnostics"), _("Check the items to include in the diagnostics report"), labels, "11");
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
 

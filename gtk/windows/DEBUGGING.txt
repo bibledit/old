@@ -7,17 +7,30 @@ General Debugging
 ----------------------------------------------------------------
 
 1. If you are a hardy soul, you can run gdb from the DOS command
-   line. It works. cd to the bibledit-gtk.exe directory, then 
-   run \msys64\mingw64\bin\gdb
-
+   line. It works. 
+   cd C:\Program Files\Bibledit-4.9.3\
+   \msys64\mingw64\bin\gdb editor\bin\bibledit-gtk.exe
+		or
+   cd C:\Program Files (x86)\Bibledit-4.9.3\ or 
+   \msys64\mingw32\bin\gdb editor\bin\bibledit-gtk.exe   
+   
 2. In the past I have preferred to use gdb from emacs. Run 
    /mingw64/bin/emacs &
    from an msys64 shell. Once in emacs, do M-x (Alt-X) and type
-   gud-gdb <enter>. Then type
+   gud-gdb <enter>. Then type for the 64-bit compiled version:
    gdb --fullname "C:/Program Files/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
+	or for 32-bit
+   gdb --fullname "C:/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
+   cd "C:/Program Files/Bibledit-4.9.3/" or whatever syntax works to get to that directory
    This will start gdb and then you can use the commands n, p, 
    l, etc, or the buttons at the top of the emacs window to step
    and so forth.
+   
+   // Following doesn't quite work for some reason - application doesn't start all the way.
+   Using Windows-native Emacs, I do the same, and run this:
+   \msys64\mingw32\bin\gdb --fullname "C:/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
+   cd "C:/Program Files (x86)/Bibledit-4.9.3/" or whatever syntax works to get to that directory
+   run
 
 3. I like Notepad++ for editing source code, but compiling
    (not to mention debugging) are not really strong points of
@@ -26,7 +39,7 @@ General Debugging
 4. Eclipse. ?
 
 VERY INCOMPLETE. DR MEMORY HAS BROKEN FOR ME, SO I'M NOT DONE
-HERE.
+HERE. 4/9/2016 I can fix this now. Just need time to do it.
 
 Memory Debugging
 ----------------------------------------------------------------
@@ -46,7 +59,7 @@ cd \Users\username
 mkdir DrMemLog
 drmemory -logdir C:\Users\postiffm\DrMemLog "C:\Program Files\Bibledit-4.9.3\editor\bin\bibledit-gtk.exe"
 
-but then bibledit-gtk doesn't seem to run fully. Running as administrator doesnt' fix the problem.
+but then bibledit-gtk doesn't seem to run fully. Running as administrator doesn't fix the problem.
 
 If the program doesn't seem to do anything, and you see a message after you quit:
 Dr. Memory failed to start the target application, perhaps due to

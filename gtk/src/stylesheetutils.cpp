@@ -38,6 +38,7 @@
 #include "styles.h"
 #include "paratext.h"
 #include <glib/gi18n.h>
+#include "debug.h"
 
 #define STYLESHEET_XML_SUFFIX ".xml2"
 const char *RECOGNIZED_SUFFIXES[] = { ".xml1", ".xml2" };
@@ -555,12 +556,14 @@ set <ustring> stylesheet_get_styles_of_type(StylesheetType stylesheettype)
 ustring stylesheet_get_actual ()
 // Gets the actual stylesheet.
 {
+  DEBUG("Getting stylesheet")
   // Get the stylesheet from the configuration, with a fallback.
   extern Settings * settings;
   ustring sheet = settings->genconfig.stylesheet_get();
   if (sheet.empty()) {
-    sheet = STANDARDSHEET;
+	sheet = STANDARDSHEET;
   }
+  DEBUG(sheet)
   
   // See whether it exists.
   vector < ustring > stylesheets;
