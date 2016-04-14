@@ -2,7 +2,11 @@
 
 echo "This script works on ubuntu Linux 14.04 LTS"
 
-sudo apt-get install git
+# I assume you have already done this:
+# sudo apt-get install git
+# cd ~
+# git clone https://github.com/teusbenschop/bibledit.git
+
 sudo apt-get install gitk
 sudo apt-get install build-essential 
 sudo apt-get install libgtk2.0-dev
@@ -20,5 +24,3 @@ sudo apt-get install curl
 sudo apt-get install intltool
 sudo apt-get install libtool
 sudo apt-get install autoconf-archive
-cd ~
-git clone https://github.com/teusbenschop/bibledit.git
