@@ -26,7 +26,7 @@
 #include "libraries.h"
 
 
-enum LogFileType {lftMain, lftDbus, lftVCS, lftShutdown};
+enum LogFileType {lftMain, lftDbus, lftVCS, lftShutdown, lftSettings};
 
 
 ustring log_file_name(LogFileType type, bool previous);
@@ -46,15 +46,18 @@ protected:
   GtkWidget *checkbutton_session;
   GtkWidget *radiobutton_main;
   GtkWidget *radiobutton_shutdown;
-  GtkWidget *button_diag;
+  //GtkWidget *button_diag;
+  GtkWidget *radiobutton_settings; // replaces old "Diagnostics" button
 private:
   guint event_source_id;
   static bool show_script_dialog_load(gpointer data);
   void load(bool force);
   ustring logfilename();
+  LogFileType currentLogFileType();
   static void on_checkbutton1_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_button_diagnostics_clicked(GtkButton *button, gpointer user_data);
-  void on_button_diagnostics();
+  //static void on_button_diagnostics_clicked(GtkButton *button, gpointer user_data);
+  //void on_button_diagnostics();
+  void writeSettings();
   static void on_radiobutton_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   void on_radiobutton (GtkToggleButton *togglebutton);
 };

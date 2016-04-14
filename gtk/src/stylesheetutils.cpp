@@ -556,14 +556,16 @@ set <ustring> stylesheet_get_styles_of_type(StylesheetType stylesheettype)
 ustring stylesheet_get_actual ()
 // Gets the actual stylesheet.
 {
-  DEBUG("Getting stylesheet")
+  // TO DO: This routine is called A LOT. Why not just cache the result as currStylesheet
+  // and only change it if the user changes it?
+  //DEBUG("Getting stylesheet")
   // Get the stylesheet from the configuration, with a fallback.
   extern Settings * settings;
   ustring sheet = settings->genconfig.stylesheet_get();
   if (sheet.empty()) {
 	sheet = STANDARDSHEET;
   }
-  DEBUG(sheet)
+  //DEBUG(sheet)
   
   // See whether it exists.
   vector < ustring > stylesheets;

@@ -87,18 +87,20 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_diag">
-                <property name="label" translatable="yes">Diagnostics</property>
+              <object class="GtkRadioButton" id="radiobutton_settings">
+                <property name="label" translatable="yes">Settings</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="image">image_diag</property>
+                <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="position">5</property>
               </packing>
             </child>
+
           </object>
           <packing>
             <property name="expand">False</property>

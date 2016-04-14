@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
 
   // Move logfile for shutdown program.
   move_log_file (lftShutdown);
+  move_log_file (lftSettings);
 
   // Redirect stdout and stderr to file.
   {
