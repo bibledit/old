@@ -180,6 +180,10 @@ PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(sqlite development vers
 AC_SUBST(SQLITE_CFLAGS)
 AC_SUBST(SQLITE_LIBS)
 
+PKG_CHECK_MODULES(GLIBMM, glibmm-2.4 giomm-2.4,,AC_MSG_ERROR(glibmm version 2.4.0 is needed.))
+AC_SUBST(GLIBMM_CFLAGS)
+AC_SUBST(GLIBMM_LIBS)
+
 
 AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this first.))
 

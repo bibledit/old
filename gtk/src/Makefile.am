@@ -20,7 +20,6 @@ bibledit_gtk_SOURCES = \
   usfm.cpp \
   dialogwait.cpp \
   directories.cpp \
-  ustring.cpp \
   dialogsearchspecial.cpp \
   referenceutils.cpp \
   pdfviewer.cpp \
@@ -295,7 +294,6 @@ bibledit_rdwrt_SOURCES = \
   usfm.cpp \
   dialogwait.cpp \
   directories.cpp \
-  ustring.cpp \
   referenceutils.cpp \
   pdfviewer.cpp \
   notes_utils.cpp \
@@ -497,6 +495,7 @@ AM_CXXFLAGS += $(GTHREAD_CFLAGS)
 AM_CXXFLAGS += $(GLIB_CFLAGS)
 AM_CXXFLAGS += $(GTK_CFLAGS)
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
+AM_CXXFLAGS += $(GLIBMM_CFLAGS)
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
 AM_CXXFLAGS += $(GTKSOURCEVIEW_CFLAGS)
 AM_CXXFLAGS += $(WEBKIT_CFLAGS)
@@ -514,6 +513,7 @@ LIBS += $(GTHREAD_LIBS)
 LIBS += $(GLIB_LIBS)
 LIBS += $(GTK_LIBS)
 LIBS += $(SQLITE_LIBS)
+LIBS += $(GLIBMM_LIBS)
 LIBS += $(ENCHANT_LIBS)
 LIBS += $(GTKSOURCEVIEW_LIBS)
 LIBS += $(WEBKIT_LIBS)

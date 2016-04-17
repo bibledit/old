@@ -3,8 +3,7 @@
 #------------------------------------------------------------------------------------------
 # Figure out if we are in a 32-bit or 64-bit environment and setup Windows build 
 # environment accordingly. I am assuming this is built on a 64-bit machine, i.e. that
-# you have installed msys2-x86_64...exe. In other words, the packages are always
-# $MINGWDIR/mingw-w64...
+# you have installed msys2-x86_64...exe.
 #------------------------------------------------------------------------------------------
 if [ -n "$MSYSTEM" ]
 then
