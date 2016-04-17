@@ -12,6 +12,7 @@ sudo apt-get install build-essential
 sudo apt-get install libgtk2.0-dev
 sudo apt-get install rcs
 sudo apt-get install sqlite3
+sudo apt-get install libglibmm-2.4-dev libglibmm-2.4
 sudo apt-get install libsqlite3-dev
 sudo apt-get install libxml2-dev
 sudo apt-get install libenchant-dev
