@@ -528,7 +528,7 @@ void ProjectDialog::on_book_add()
     }
   }
   books_standard_order(selectables);
-  SelectBooksDialog dialog(false);
+  SelectBooksDialog dialog(false, GTK_WINDOW(projectdialog));
   dialog.language(combobox_get_active_string(combobox_language));
   dialog.selectables(selectables);
   dialog.selection_set(selection);
@@ -594,7 +594,7 @@ void ProjectDialog::on_book_delete()
     }
   }
   books_standard_order(selectables);
-  SelectBooksDialog dialog(false);
+  SelectBooksDialog dialog(false, GTK_WINDOW(projectdialog));
   dialog.language(combobox_get_active_string(combobox_language));
   dialog.selectables(selectables);
   dialog.selection_set(selection);
