@@ -316,6 +316,7 @@ string Assets_Header::run ()
   
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");
+  page += view->render("assets", "workspacewrapper_start");
 
   return page;
 }

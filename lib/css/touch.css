@@ -1,20 +1,19 @@
 body {
   font-family: sans-serif;
 }
-
 .button {
-  font-size: 100%;
-  width: 50vw;
   margin-top: 0.5em;
-  margin-right: 0em;
+  margin-right: 0;
   margin-bottom: 0.5em;
-  margin-left: 0em;
+  margin-left: 0;
   padding-top: 0.7em;
   padding-right: 1em;
   padding-bottom: 0.7em;
   padding-left: 1em;
+  width: 50vw;
+  border-style: solid;
   text-align: center;
   text-decoration: none!important;
   font-weight: 700;
-  border-style: solid;
+  font-size: 100%;
 }
