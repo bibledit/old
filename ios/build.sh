@@ -160,6 +160,7 @@ manage/index.cpp
 manage/privileges.cpp
 administration/language.cpp
 administration/timezone.cpp
+administration/network.cpp
 collaboration/index.cpp
 collaboration/flash.cpp
 collaboration/open.cpp
