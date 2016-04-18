@@ -85,7 +85,7 @@ string search_all (void * webserver_request)
   Database_Notes database_notes = Database_Notes (request);
 
   
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = Database_Config_General::getSiteURL (); // Todo
 
   
   vector <string> bibles = access_bible_bibles (request);

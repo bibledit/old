@@ -47,6 +47,24 @@ msgstr ""
 msgid "Your translation will be included with the next Bibledit release."
 msgstr ""
 
+msgid "network"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Bibledit user-facing URL."
+msgstr ""
+
+msgid "Example:"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "If left empty, it will use this:"
+msgstr ""
+
 msgid "Timezone"
 msgstr ""
 
@@ -62,9 +80,6 @@ msgstr ""
 msgid ""
 "Set the timezone for Bibledit as an offset from UTC in whole hours from -12 "
 "till +14."
-msgstr ""
-
-msgid "Submit"
 msgstr ""
 
 msgid "Menu"
@@ -178,9 +193,6 @@ msgid "Font"
 msgstr ""
 
 msgid "Enter the name of a locally available font."
-msgstr ""
-
-msgid "Example:"
 msgstr ""
 
 msgid "Upload a font file."
