@@ -182,7 +182,7 @@ void checks_run (string bible)
   
   // Add a link to the online checking results.
   if (!emailBody.empty ()) {
-    string siteUrl = Database_Config_General::getSiteURL ();
+    string siteUrl = Database_Config_General::getSiteURL (); // Todo
     emailBody.push_back ("<p><a href=\"" + siteUrl + checks_index_url () + "\">" + translate("The checking results are also available online.") + "</a></p>");
   }
   

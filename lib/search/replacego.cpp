@@ -54,7 +54,7 @@ string search_replacego (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = Database_Config_General::getSiteURL (); // Todo
   
   
   // Get the action variables from the query.

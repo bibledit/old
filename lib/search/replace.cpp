@@ -52,7 +52,7 @@ string search_replace (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = Database_Config_General::getSiteURL (); // Todo
   
   string bible = request->database_config_user()->getBible ();
   if (request->query.count ("b")) {

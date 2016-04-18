@@ -40,6 +40,7 @@ bool config_logic_windows ();
 bool config_logic_android ();
 bool config_logic_ios ();
 bool config_logic_basic_mode (void * webserver_request);
+string config_logic_site_url ();
 
 
 #endif

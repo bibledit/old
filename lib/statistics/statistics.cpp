@@ -44,7 +44,7 @@ void statistics_statistics ()
   Database_Logs::log (translate("Sending statistics"), Filter_Roles::manager ());
 
   
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = Database_Config_General::getSiteURL (); // Todo
   
   
   vector <string> bibles = request.database_bibles()->getBibles ();

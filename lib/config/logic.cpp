@@ -167,3 +167,18 @@ bool config_logic_basic_mode (void * webserver_request)
   
   return basic_mode;
 }
+
+
+// This returns the URL of Bibledit Cloud that faces the user.
+string config_logic_site_url () // Todo
+{
+  string url = Database_Config_General::getSiteURL ();
+  string user_url = Database_Config_General::getManualUserFacingUrl ();
+  if (!user_url.empty ()) {
+    if (user_url.find_last_of ("/") != user_url.length () - 1) {
+      user_url.append ("/");
+    }
+    url = user_url;
+  }
+  return url;
+}

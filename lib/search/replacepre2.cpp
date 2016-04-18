@@ -49,7 +49,7 @@ string search_replacepre2 (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = Database_Config_General::getSiteURL (); // Todo
   
   
   // Get search variables from the query.

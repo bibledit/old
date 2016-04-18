@@ -57,7 +57,7 @@ string search_search2 (void * webserver_request)
   Database_Volatile database_volatile = Database_Volatile ();
   
 
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = Database_Config_General::getSiteURL (); // Todo
   
   
   string bible = request->database_config_user()->getBible ();

@@ -479,7 +479,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   contents.append ("<br>\n");
   contents.append ("<p>");
   contents.append ("<a href=\"");
-  string notelink = Database_Config_General::getSiteURL () + notes_note_url () + "?id=" + convert_to_string (identifier);
+  string notelink = Database_Config_General::getSiteURL () + notes_note_url () + "?id=" + convert_to_string (identifier); // Todo
   contents.append (notelink);
   contents.append ("\">");
   contents.append (translate ("View or respond online"));
@@ -487,7 +487,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   contents.append (" " + translate ("or") + " ");
 
   contents.append ("<a href=\"");
-  string desktoplink = Database_Config_General::getSiteURL () + workbench_index_url () + "?note=" + convert_to_string (identifier);
+  string desktoplink = Database_Config_General::getSiteURL () + workbench_index_url () + "?note=" + convert_to_string (identifier); // Todo
   contents.append (desktoplink);
   contents.append ("\">");
   contents.append (translate ("open the desktop online"));
