@@ -157,6 +157,34 @@ void directories::find_utilities(void)
   }
   
   //---------------------------------------------
+  // Copy recursive
+  //---------------------------------------------
+  {
+  // Check for cp (Unix)
+  GwSpawn spawn("cp");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a cp command. Use it.
+	copy_recursive = "cp";
+	copy_recursive_args = "-r";
+  }
+  else {
+	// Check for copy (Windows/DOS through cmd.exe)
+	GwSpawn spawn("xcopy");
+    spawn.arg("/?");
+	if (spawn.exitstatus == 0) { copy_recursive = "xcopy"; copy_recursive_args = "/E/I/Y"; }
+	else {
+		// Check for cp.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\cp.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { copy_recursive = rundir + "\\cp.exe"; copy_recursive_args = "-r"; }
+		else { gw_message("Cannot find a suitable recursive copy utility"); }
+	}
+  }
+  }
+  
+  //---------------------------------------------
   // Move
   //---------------------------------------------
   {
@@ -167,17 +195,18 @@ void directories::find_utilities(void)
   if (spawn.exitstatus == 0) { 
 	// We have a mv command. Use it.
 	move = "mv";
+	move_args = "-f";
   }
   else {
 	// Check for move (Windows/DOS through cmd.exe)
 	GwSpawn spawn("move");
     spawn.arg("/?");
-	if (spawn.exitstatus == 0) { move = "move"; }
+	if (spawn.exitstatus == 0) { move = "move"; move_args = "/Y"; }
 	else {
 		// Check for mv.exe in the rundir (Windows directly through msys2/mingw binary)
 		GwSpawn spawn(rundir + "\\mv.exe");
 		spawn.arg("--version");
-		if (spawn.exitstatus == 0) { move = rundir + "\\mv.exe"; }
+		if (spawn.exitstatus == 0) { move = rundir + "\\mv.exe"; move_args = "-f"; }
 		else { gw_message(_("Cannot find a suitable move utility")); }
 	}
   }
@@ -336,7 +365,7 @@ void directories::find_utilities(void)
   }
   
   //---------------------------------------------
-  // Bibleedit Outpost for Windows
+  // Bibledit Outpost for Windows
   //---------------------------------------------
   bwoutpost = gw_build_filename (rundir, BIBLEDIT_WINDOWS_OUTPOST_EXE);
   bwoutpost_exeonly = BIBLEDIT_WINDOWS_OUTPOST_EXE;
@@ -366,8 +395,8 @@ void directories::print()
   gw_message("Restore: \t" + restore);
   gw_message("Copy util: \t" + copy);
   gw_message("Any of these that are blank indicate that we have not worked on them yet!!!!!");
-  gw_message("Copy recursive: \t" + copy_recursive);
-  gw_message("Move util:   \t" + move);
+  gw_message("Copy recursive: \t" + copy_recursive + " " + copy_recursive_args);
+  gw_message("Move util:   \t" + move + " " + move_args);
   gw_message("Remove util: \t" + rm);
   gw_message("Rmdir util:  \t" + rmdir + " " + rmdir_args);
   gw_message("Mkdir:       \t" + mkdir);
@@ -426,7 +455,9 @@ ustring directories::get_restore ()           { return restore; }
 // File utility programs
 ustring directories::get_copy ()              { return copy;     }
 ustring directories::get_copy_recursive ()    { return copy_recursive; }
+ustring directories::get_copy_recursive_args(){ return copy_recursive_args; }
 ustring directories::get_move ()              { return move; }
+ustring directories::get_move_args ()         { return move_args; }
 ustring directories::get_rm ()                { return rm; }
 ustring directories::get_rmdir ()             { return rmdir; }
 ustring directories::get_rmdir_args ()        { return rmdir_args; }

@@ -52,7 +52,7 @@ void unix_cp(const ustring & from, const ustring & to)
 void unix_cp_r(const ustring & from, const ustring & to)
 // This is a wrapper for the recursive cp function on Unix, as Windows uses another one.
 {
-#ifdef WIN32
+/* #ifdef WIN32
   gw_mkdir_with_parents(to);
   GwSpawn spawn("xcopy");
   spawn.arg("/E /I /Y");
@@ -60,6 +60,9 @@ void unix_cp_r(const ustring & from, const ustring & to)
   GwSpawn spawn("cp");
   spawn.arg("-r");
 #endif
+ */
+  GwSpawn spawn(Directories->get_copy_recursive());
+  spawn.arg(Directories->get_copy_recursive_args());
   spawn.arg(from);
   spawn.arg(to);
   spawn.run();
@@ -70,15 +73,16 @@ void unix_mv(const ustring & from, const ustring & to, bool force)
 // This is a wrapper for the mv function on Unix, which is move on Windows.
 {
   GwSpawn spawn(Directories->get_move());
-  // To do: I don't think I need the force business
-#ifdef WIN32
+  spawn.arg(Directories->get_move_args());
+  // To do: I don't think I need the force business...I have it in the args by default.
+/* #ifdef WIN32
   if (force)
-	  spawn.arg ("/Y");
+	  spawn.arg("/Y");
 #else
   if (force)
   	  spawn.arg ("-f");
 #endif
-
+ */
   spawn.arg(from);
   spawn.arg(to);
   spawn.run();

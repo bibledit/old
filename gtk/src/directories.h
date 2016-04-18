@@ -57,7 +57,9 @@ class directories {
   // Directory path to various file utility programs we use. 3/2016 MAP
   ustring copy;
   ustring copy_recursive;
+  ustring copy_recursive_args;
   ustring move;
+  ustring move_args;
   ustring rm;
   ustring rmdir;
   ustring rmdir_args;
@@ -114,7 +116,9 @@ class directories {
   // To do: integrate runtime.h/.cpp with this stuff, perhaps in a Utilities object or similar.
   ustring get_copy ();
   ustring get_copy_recursive ();
+  ustring get_copy_recursive_args ();
   ustring get_move ();
+  ustring get_move_args ();
   ustring get_rm ();
   ustring get_rmdir ();
   ustring get_rmdir_args ();
